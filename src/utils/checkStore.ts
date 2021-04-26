@@ -1,14 +1,13 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import conformsTo from 'lodash/conformsTo'
-import isFunction from 'lodash/isFunction'
-import isObject from 'lodash/isObject'
-import invariant from 'invariant'
+import conformsTo from 'lodash/conformsTo';
+import isFunction from 'lodash/isFunction';
+import isObject from 'lodash/isObject';
+import invariant from 'invariant';
+import type { InjectedStore } from 'types';
 
 /**
  * Validate the shape of redux store
  */
-export default function checkStore(store) {
+export default function checkStore(store: Partial<InjectedStore>) {
   const shape = {
     dispatch: isFunction,
     subscribe: isFunction,

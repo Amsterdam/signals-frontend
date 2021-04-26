@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import invariant from 'invariant'
-import isEmpty from 'lodash.isempty'
-import isFunction from 'lodash.isfunction'
-import isString from 'lodash.isstring'
+import invariant from 'invariant';
+import isEmpty from 'lodash/isEmpty';
+import isFunction from 'lodash/isFunction';
+import isString from 'lodash/isString';
 
-import createReducer from '../reducers'
-import checkStore from './checkStore'
+import type { InjectedStore } from 'types';
+import type { Reducer } from 'redux';
+import createReducer from '../reducers';
+import checkStore from './checkStore';
 
-export function injectReducerFactory(store, isValid) {
-  return function injectReducer(key, reducer) {
-    if (!isValid) checkStore(store)
+export function injectReducerFactory(store: InjectedStore, isValid = false) {
+  return function injectReducer<T>(key: string, reducer: Reducer<T>) {
+    if (!isValid) checkStore(store);
 
     invariant(
       isString(key) && !isEmpty(key) && isFunction(reducer),
@@ -30,8 +32,8 @@ export function injectReducerFactory(store, isValid) {
   }
 }
 
-export default function getInjectors(store) {
-  checkStore(store)
+export function getInjectors(store: InjectedStore) {
+  checkStore(store);
 
   return {
     injectReducer: injectReducerFactory(store, true),

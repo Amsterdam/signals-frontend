@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import injectReducerModel from 'utils/injectReducerModel'
-import injectSagaModel from 'utils/injectSagaModel'
+import type { InjectedStore } from 'types';
+import injectReducerModel from 'utils/injectReducerModel';
+import injectSagaModel from 'utils/injectSagaModel';
 
 import reducer from './reducer'
 import saga from './saga'
@@ -15,8 +14,16 @@ jest.mock('./reducer')
 jest.mock('./saga')
 
 describe('containers/App/services', () => {
-  const store = { foo: 'bar', dispatch: jest.fn() }
-  let injectModelSpy: jest.Mock
+  const store = {
+    getState: jest.fn(),
+    dispatch: jest.fn(),
+    injectedReducers: {},
+    injectedSagas: {},
+    runSaga: jest.fn(),
+    subscribe: jest.fn(),
+    replaceReducer: jest.fn(),
+  } as unknown as InjectedStore;
+  let injectModelSpy: jest.Mock;
 
   beforeEach(() => {
     injectModelSpy = jest.fn()

@@ -37,6 +37,7 @@
     "sharing_allowed": "Nee"
   },
   "priority": "Normaal",
+  "process_time": "3x buiten de afhandeltermijn",
   "notes": [],
   "type": "Melding",
   "source": "online",

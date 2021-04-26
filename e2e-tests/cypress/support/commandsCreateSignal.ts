@@ -202,6 +202,8 @@ export const checkAllDetails = (json: signal.RootObject) => {
   cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
   checkRedTextStatus(json.status.state_display);
   cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelDoorlooptijd).should('have.text', 'Doorlooptijd').and('be.visible');
+  cy.get(SIGNAL_DETAILS.doorlooptijd).should('have.text', json.process_time).and('be.visible');
   cy.get(SIGNAL_DETAILS.type).should('have.text', json.type).and('be.visible');
   cy.get(SIGNAL_DETAILS.subCategory).should('contain', `${json.category.sub}`).and('be.visible');
   checkDepartments(json);

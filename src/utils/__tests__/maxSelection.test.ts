@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import MaxSelection from './maxSelection'
+import MaxSelection from '../maxSelection'
 
 describe('maxSelection', () => {
-  let selection
+  let selection: MaxSelection<number>
 
   beforeEach(() => {
     selection = new MaxSelection(3)
@@ -14,7 +14,7 @@ describe('maxSelection', () => {
   })
 
   it('should allow initial array', () => {
-    selection = new MaxSelection(3, [42])
+    selection = new MaxSelection<number>(3, [42])
     expect(selection.set).toEqual(new Set([42]))
   })
 

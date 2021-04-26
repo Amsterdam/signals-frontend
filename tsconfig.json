@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["react", "jest"],
+    "types": ["react", "jest", "webpack-env"],
     "baseUrl": "./src",
     "declaration": false,
     "emitDecoratorMetadata": true,

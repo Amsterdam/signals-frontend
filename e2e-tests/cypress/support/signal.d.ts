@@ -78,6 +78,7 @@ declare namespace signal {
     status: Status;
     reporter: Reporter;
     priority: string;
+    process_time: string;
     notes: Note[];
     type: string;
     source: string;
