@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  ReactElement,
+  cloneElement,
+} from 'react'
 import type { FunctionComponent } from 'react'
 import { useMapInstance } from '@amsterdam/react-maps'
 import { fetchWithAbort } from '@amsterdam/arm-core'
@@ -16,7 +23,7 @@ import { NO_DATA, WfsDataProvider } from './context'
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
 
 export interface WfsLayerProps {
-  children: React.ReactElement<DataLayerProps>
+  children: ReactElement<DataLayerProps>
   zoomLevel?: ZoomLevel
 }
 
@@ -95,7 +102,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     }
   }, [bbox, url, layerVisible, setMessage, wfsFilter])
 
-  const layer = React.cloneElement(children, {
+  const layer = cloneElement(children, {
     featureTypes: meta.featureTypes,
   })
   return <WfsDataProvider value={data}>{layer}</WfsDataProvider>

@@ -1,5 +1,5 @@
-import * as React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
+import { Component, ComponentType, useEffect } from 'react'
 import { useStore, ReactReduxContext } from 'react-redux'
 
 import type { InjectReducerParams, InjectedStore } from 'types'
@@ -17,11 +17,9 @@ export default function hocWithReducer<P>({
   key,
   reducer,
 }: InjectReducerParams) {
-  function wrap(
-    WrappedComponent: React.ComponentType<P>
-  ): React.ComponentType<P> {
+  function wrap(WrappedComponent: ComponentType<P>): ComponentType<P> {
     // dont wanna give access to HOC. Child only
-    class ReducerInjector extends React.Component<P> {
+    class ReducerInjector extends Component<P> {
       // eslint-disable-next-line react/static-property-placement
       public static contextType = ReactReduxContext
 
@@ -53,7 +51,7 @@ export default function hocWithReducer<P>({
 
 const useInjectReducer = ({ key, reducer }: InjectReducerParams) => {
   const store = useStore() as InjectedStore
-  React.useEffect(() => {
+  useEffect(() => {
     getInjectors(store).injectReducer(key as string, reducer)
   }, [key, reducer, store])
 }

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react'
+import { Fragment, ReactElement } from 'react'
 import type { FunctionComponent } from 'react'
 import { Heading } from '@amsterdam/asc-ui'
 import isString from 'lodash.isstring'
@@ -15,7 +15,7 @@ const renderText = (
   key: string,
   name: string,
   parent: Record<string, any>
-): React.ReactElement => {
+): ReactElement => {
   const replacedValue = get(parent, `meta.incidentContainer.${key}`) as string
   if (replacedValue) {
     return (

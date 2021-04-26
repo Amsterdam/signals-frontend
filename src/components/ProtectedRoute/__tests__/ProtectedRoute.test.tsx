@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, act, screen } from '@testing-library/react'
-import React from 'react'
 import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
 import { withAppContext, history } from 'test/utils'
 import ProtectedRoute, { NO_PAGE_ACCESS_MESSAGE } from '../ProtectedRoute'

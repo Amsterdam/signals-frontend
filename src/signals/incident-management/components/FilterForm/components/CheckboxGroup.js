@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { memo } from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import * as types from 'shared/types'

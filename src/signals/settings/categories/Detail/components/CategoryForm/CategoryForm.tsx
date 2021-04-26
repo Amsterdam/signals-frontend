@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useMemo } from 'react'
+import { ElementType, useMemo } from 'react'
 import type { FunctionComponent, MouseEvent } from 'react'
 import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -51,7 +51,7 @@ const StyledSelect = styled(Select)`
   height: 44px;
 `
 
-const StyledHistory = styled(History as React.ElementType)`
+const StyledHistory = styled(History as ElementType)`
   h2 {
     font-size: 16px;
   }

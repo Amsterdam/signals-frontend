@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { Fragment, useCallback, useMemo } from 'react'
+import {
+  Fragment,
+  useCallback,
+  useMemo,
+  KeyboardEvent,
+  ChangeEvent,
+} from 'react'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
@@ -87,7 +93,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   )
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         onClose()
       }
@@ -107,7 +113,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   }, [selectionOnMap, onChange])
 
   const updateUnregisteredContainer = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       /* istanbul ignore next */
       if (unregisteredContainer) {
         onChange([
@@ -134,7 +140,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   }, [unregisteredFeature, onChange, selectionOnMap])
 
   const toggleUnregisteredContainer = useCallback(
-    ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
+    ({ target: { checked } }: ChangeEvent<HTMLInputElement>) => {
       if (checked) {
         addContainerUnregistered()
       } else {
