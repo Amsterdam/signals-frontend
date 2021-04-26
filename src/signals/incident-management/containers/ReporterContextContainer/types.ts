@@ -1,11 +1,11 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 export type Feedback = {
-  is_satisfied: boolean
-  submitted_at: string
+  is_satisfied: boolean | null
+  submitted_at: string | null
 } | null
 
 export interface Result {
-  id: string
+  id: number
   created_at: string
   category: {
     sub: string
@@ -36,6 +36,6 @@ export interface Incident {
   reporter: {
     email: string
   }
-  id: string
+  id: number
   text: string
 }

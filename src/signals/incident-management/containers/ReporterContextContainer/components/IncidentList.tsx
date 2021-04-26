@@ -5,8 +5,8 @@ import IncidentListItem from './IncidentListItem'
 
 interface InterfaceListProps {
   list: Result[]
-  selectedIncidentId: string
-  setSelectedIncidentId: (id: string) => void
+  selectedIncidentId: number
+  setSelectedIncidentId: (id: number) => void
   className?: string
 }
 
