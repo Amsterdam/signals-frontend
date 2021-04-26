@@ -121,7 +121,9 @@ const MetaList = () => {
   >(makeSelectSubcategoriesGroupedByCategories)
 
   const hasChildren = useMemo(
-    () => incident && incident._links['sia:children']?.length > 0,
+    () =>
+      incident?._links['sia:children'] &&
+      incident._links['sia:children'].length > 0,
     [incident]
   )
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop()
