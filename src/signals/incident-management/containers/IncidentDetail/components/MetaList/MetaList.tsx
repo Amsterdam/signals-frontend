@@ -112,7 +112,7 @@ const MetaList = () => {
       !routingDepartmentCodes &&
       categoryDepartments?.map((department) => department?.code)
 
-    return routingDepartmentCodes ?? (categoryDepartmentCodes || [])
+    return routingDepartmentCodes || categoryDepartmentCodes || []
   }, [routingDepartments, categoryDepartments])
 
   const [subcategoryGroups, subcategoryOptions] = useSelector<
