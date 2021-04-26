@@ -20,6 +20,7 @@ export interface Result {
   }
   feedback: Feedback
   can_view_signal: boolean
+  has_children: boolean
 }
 
 export interface ReporterContext {
