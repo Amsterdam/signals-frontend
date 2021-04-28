@@ -17,6 +17,7 @@ export interface Incident {
 
 export interface ReporterIncident {
   id: number
+  canView: boolean
   category: string
   feedback: Feedback | null
   status: string

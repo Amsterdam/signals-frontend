@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import type { FunctionComponent } from 'react'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -8,7 +9,8 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
+import { useReporter, PAGE_SIZE } from './hooks'
+import IncidentDetail from './components/IncidentDetail'
 
 const Wrapper = styled.article`
   margin: ${themeSpacing(11)};
@@ -89,14 +91,7 @@ const ReporterContainer: FunctionComponent = () => {
             {pagination}
           </div>
 
-          {/* TODO SIG-3675 */}
-          <Incident>
-            {incident.data.id && (
-              <>
-                {incident.data.id} {incident.data.text}
-              </>
-            )}
-          </Incident>
+          <IncidentDetail incident={selectedIncident} />
         </Content>
       )}
 

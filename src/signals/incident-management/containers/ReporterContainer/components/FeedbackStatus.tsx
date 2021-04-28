@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { themeColor } from '@amsterdam/asc-ui'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { useMemo } from 'react'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
@@ -12,8 +12,11 @@ interface FeedbackStatusProps {
   className?: string
 }
 
-const Status = styled.span<{ feedback: Feedback | null; theme: Theme }>`
+const Status = styled.div<{ feedback: Feedback | null; theme: Theme }>`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: ${themeSpacing(1)};
   ${({ feedback, theme }) => {
     if (feedback === null || !feedback.submittedAt) return
 
