@@ -62,6 +62,12 @@ module.exports = (options) => ({
       },
       {
         test: /\.svg$/,
+        issuer: /\.tsx?$/,
+        use: ['@svgr/webpack'],
+      },
+      {
+        test: /\.svg$/,
+        issuer: /\.(jsx?|sass|scss|css)$/,
         use: [
           {
             loader: 'svg-url-loader',
