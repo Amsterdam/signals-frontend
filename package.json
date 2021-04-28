@@ -156,7 +156,7 @@
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-find-rules": "^3.6.1",
     "eslint-formatter-mo": "^1.0.0",
     "eslint-import-resolver-webpack": "^0.13.0",
