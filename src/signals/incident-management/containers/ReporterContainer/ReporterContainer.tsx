@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import type { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
+import Pagination from 'components/Pagination'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
 import { useFetchReporter } from './useFetchReporter'
@@ -25,7 +26,7 @@ const Content = styled.div`
 `
 
 const StyledIncidentList = styled(IncidentList)`
-  width: 50%;
+  width: 100%;
   margin: 0;
   padding: 0;
 `
@@ -38,7 +39,14 @@ const Incident = styled.div`
 const ReporterContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
 
-  const { incident, incidents, selectIncident } = useFetchReporter(id)
+  const {
+    incident,
+    incidents,
+    selectIncident,
+    totalPages,
+    currentPage,
+    setCurrentPage,
+  } = useFetchReporter(id)
 
   const header = incident.data?.email && incidents.data?.count && (
     <StyledHeader
@@ -52,17 +60,28 @@ const ReporterContainer: FunctionComponent = () => {
     <LoadingIndicator />
   )
 
+  const pagination = totalPages && (
+    <Pagination
+      totalPages={totalPages}
+      currentPage={currentPage}
+      onClick={setCurrentPage}
+    />
+  )
+
   return (
     <Wrapper data-testid="reporterContainer">
       {header}
 
       {incident.data?.id && incidents.data?.list && (
         <Content>
-          <StyledIncidentList
-            list={incidents.data.list}
-            selectedIncidentId={incident.data.id}
-            selectIncident={selectIncident}
-          />
+          <div>
+            <StyledIncidentList
+              list={incidents.data.list}
+              selectedIncidentId={incident.data.id}
+              selectIncident={selectIncident}
+            />
+            {pagination}
+          </div>
 
           {/* TODO SIG-3675 */}
           <Incident>
