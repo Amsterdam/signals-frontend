@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import ReporterContainer from '..'
-import { ReporterHook } from '../hooks'
+import { ReporterHook } from '../useReporter'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => ({
 
 let mockReporterHook = {} as ReporterHook
 
-jest.mock('../hooks', () => ({
+jest.mock('../useReporter', () => ({
   useReporter: () => mockReporterHook,
 }))
 

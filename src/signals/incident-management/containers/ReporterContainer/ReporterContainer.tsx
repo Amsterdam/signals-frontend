@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import LoadingIndicator from 'components/LoadingIndicator'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useReporter } from './hooks'
+import { useReporter } from './useReporter'
 
 const Wrapper = styled.article`
   margin: 0 ${themeSpacing(11)};
