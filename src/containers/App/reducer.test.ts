@@ -27,8 +27,8 @@ import type {
   GetSourcesSuccessAction,
   ResetSearchQueryAction,
   SetSearchQueryAction,
-} from './actions';
-import type { Source } from './types';
+} from './actions'
+import type { Source } from './types'
 
 describe('containers/App/reducer', () => {
   it('should return the initial state', () => {
@@ -263,7 +263,10 @@ describe('containers/App/reducer', () => {
   })
 
   it('should handle GET_SOURCES_SUCCESS', () => {
-    const sources: Source[] = [{ id: 1, name: 'Source1' }, { id: 2, name: 'Source2' }];
+    const sources: Source[] = [
+      { id: 1, name: 'Source1' },
+      { id: 2, name: 'Source2' },
+    ]
     const getSourcesSuccessAction: GetSourcesSuccessAction = {
       type: GET_SOURCES_SUCCESS,
       payload: sources,

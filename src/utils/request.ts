@@ -1,17 +1,17 @@
-import 'whatwg-fetch';
+import 'whatwg-fetch'
 
 // type JsonResponse = Response & { jsonBody: { message: string } | Record<string, any> };
-type JsonResponse = Response & { jsonBody?: unknown & { message: string } };
+type JsonResponse = Response & { jsonBody?: unknown & { message: string } }
 
 export class ResponseError extends Error {
-  public response: JsonResponse;
+  public response: JsonResponse
 
-  public message: string;
+  public message: string
 
   public constructor(response: JsonResponse, message = '') {
-    super(response.statusText);
-    this.response = response;
-    this.message = message;
+    super(response.statusText)
+    this.response = response
+    this.message = message
   }
 }
 
@@ -24,10 +24,10 @@ export class ResponseError extends Error {
  */
 function parseJSON(response: JsonResponse) {
   if (response.status === 204 || response.status === 205) {
-    return null;
+    return null
   }
 
-  return response.json();
+  return response.json()
 }
 
 /**
@@ -39,23 +39,25 @@ function parseJSON(response: JsonResponse) {
  */
 async function checkStatus(response: Response) {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return response
   }
 
   const jsonBody: {
-    message: string;
+    message: string
   } | null =
     response.headers.get('Content-Type') === 'application/json'
       ? await (response.json() as Promise<{
-        message: string;
-      }>)
-      : null;
-  if (jsonBody) { Object.defineProperty(response, 'jsonBody', {
-    value: jsonBody,
-    writable: false,
-  }); }
+          message: string
+        }>)
+      : null
+  if (jsonBody) {
+    Object.defineProperty(response, 'jsonBody', {
+      value: jsonBody,
+      writable: false,
+    })
+  }
 
-  throw new ResponseError(response);
+  throw new ResponseError(response)
 }
 
 /**
@@ -66,9 +68,12 @@ async function checkStatus(response: Response) {
  *
  * @return {object}           The response data
  */
-export default async function request(url: string, options?: RequestInit): Promise<unknown | { err: ResponseError }> {
-  const fetchResponse = await fetch(url, options);
+export default async function request(
+  url: string,
+  options?: RequestInit
+): Promise<unknown | { err: ResponseError }> {
+  const fetchResponse = await fetch(url, options)
 
-  const response = await checkStatus(fetchResponse);
-  return parseJSON(response);
+  const response = await checkStatus(fetchResponse)
+  return parseJSON(response)
 }

@@ -6,13 +6,15 @@
 
 import { put } from 'redux-saga/effects'
 
-import { InjectedStore } from 'types';
-import { createMemoryHistory } from 'history';
-import configureStore from '../../configureStore';
-import { getInjectors,
+import { InjectedStore } from 'types'
+import { createMemoryHistory } from 'history'
+import configureStore from '../../configureStore'
+import {
+  getInjectors,
   injectSagaFactory,
-  ejectSagaFactory } from '../sagaInjectors';
-import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from '../constants';
+  ejectSagaFactory,
+} from '../sagaInjectors'
+import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from '../constants'
 
 const memoryHistory = createMemoryHistory()
 
