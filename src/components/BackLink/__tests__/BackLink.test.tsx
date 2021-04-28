@@ -16,6 +16,6 @@ describe('src/components/BackLink', () => {
 
     const link = container.querySelector('a')
     expect(link).toBeInTheDocument()
-    expect(link.getAttribute('href')).toEqual(to)
+    expect(link?.getAttribute('href')).toEqual(to)
   })
 })
