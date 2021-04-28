@@ -50,6 +50,7 @@ const ReporterContainer: FunctionComponent = () => {
     incident,
     incidents,
     selectIncident,
+    totalPages,
     currentPage,
     setCurrentPage,
   } = useFetchReporter(id)
