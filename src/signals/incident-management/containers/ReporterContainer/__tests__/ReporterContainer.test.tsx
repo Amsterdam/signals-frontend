@@ -39,6 +39,8 @@ describe('ReporterContainer', () => {
           email: 'example@amsterdam.nl',
         },
       },
+      currentPage: 0,
+      setCurrentPage: jest.fn(),
       selectIncident: jest.fn(),
       incidents: {
         isLoading: false,
