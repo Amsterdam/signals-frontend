@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-import { Row, Column, themeColor } from '@amsterdam/asc-ui'
+import { Column, Row, themeColor } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
+import { FunctionComponent } from 'react'
+import styled, { css } from 'styled-components'
 
 export const FORM_FOOTER_HEIGHT = 66
 
-export const FooterWrapper = styled.footer`
+export const FooterWrapper = styled.footer<{ inline?: boolean }>`
   background: ${themeColor('tint', 'level1')};
   height: ${FORM_FOOTER_HEIGHT}px;
   padding: 10px 0;
@@ -53,14 +53,27 @@ export const CancelButton = styled(StyledButton).attrs({
   background-color: #b4b4b4;
 `
 
-const FormFooter = ({
+export interface FormFooterProps {
+  cancelBtnLabel?: string
+  className?: string
+  /** When true, the component is positioned relative without borders or padding */
+  inline?: boolean
+  onCancel?: () => void
+  onResetForm?: () => void
+  onSubmitForm?: () => void
+  canSubmitForm?: boolean
+  resetBtnLabel?: string
+  submitBtnLabel?: string
+}
+
+const FormFooter: FunctionComponent<FormFooterProps> = ({
   cancelBtnLabel,
   className,
   inline,
   onCancel,
   onResetForm,
   onSubmitForm,
-  canSubmitForm,
+  canSubmitForm = true,
   resetBtnLabel,
   submitBtnLabel,
 }) => (
@@ -102,30 +115,5 @@ const FormFooter = ({
     </Row>
   </FooterWrapper>
 )
-
-FormFooter.defaultProps = {
-  cancelBtnLabel: '',
-  className: '',
-  inline: false,
-  onCancel: null,
-  onResetForm: null,
-  onSubmitForm: null,
-  canSubmitForm: true,
-  resetBtnLabel: '',
-  submitBtnLabel: '',
-}
-
-FormFooter.propTypes = {
-  cancelBtnLabel: PropTypes.string,
-  className: PropTypes.string,
-  /** When true, the component is positioned relative without borders or padding */
-  inline: PropTypes.bool,
-  onCancel: PropTypes.func,
-  onResetForm: PropTypes.func,
-  onSubmitForm: PropTypes.func,
-  canSubmitForm: PropTypes.bool,
-  resetBtnLabel: PropTypes.string,
-  submitBtnLabel: PropTypes.string,
-}
 
 export default FormFooter
