@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import type { ReactNode, ReactPortal } from 'react'
 import ReactDOM from 'react-dom'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'

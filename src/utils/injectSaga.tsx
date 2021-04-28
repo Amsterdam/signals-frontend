@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component, ComponentType, useEffect } from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { ReactReduxContext, useStore } from 'react-redux'
 
@@ -18,11 +18,9 @@ import { getInjectors } from './sagaInjectors'
  *
  */
 export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
-  function wrap(
-    WrappedComponent: React.ComponentType<P>
-  ): React.ComponentType<P> {
+  function wrap(WrappedComponent: ComponentType<P>): ComponentType<P> {
     // dont wanna give access to HOC. Child only
-    class InjectSaga extends React.Component<P> {
+    class InjectSaga extends Component<P> {
       // eslint-disable-next-line react/static-property-placement
       public static displayName = `withSaga(${
         (WrappedComponent.displayName ?? WrappedComponent.name) || 'Component'
@@ -58,7 +56,7 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
 
 const useInjectSaga = ({ key, saga, mode }: InjectSagaParams) => {
   const store = useStore() as InjectedStore
-  React.useEffect(() => {
+  useEffect(() => {
     const injectors = getInjectors(store)
     injectors.injectSaga(key, { saga, mode })
 

@@ -7,7 +7,7 @@ import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
 
 import type { InjectedStore } from 'types'
-import type React from 'react'
+import type { ComponentProps } from 'react'
 import checkStore from './checkStore'
 import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants'
 
@@ -45,7 +45,7 @@ export function injectSagaFactory(store: InjectedStore, isValid = false) {
   return function injectSaga(
     key: string,
     descriptor: SagaDescriptor = {},
-    args?: React.ComponentProps<any>
+    args?: ComponentProps<any>
   ) {
     if (!isValid) {
       checkStore(store)

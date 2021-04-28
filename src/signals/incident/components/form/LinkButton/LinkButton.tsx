@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
+import { FunctionComponent } from 'react'
 import { Button, Heading } from '@amsterdam/asc-ui'
 
 interface ButtonProps {
@@ -11,7 +11,7 @@ interface ButtonProps {
   }
 }
 
-const LinkButton: React.FC<ButtonProps> = ({
+const LinkButton: FunctionComponent<ButtonProps> = ({
   meta: { label, href, title },
 }) => (
   <div>

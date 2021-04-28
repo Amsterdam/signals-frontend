@@ -4,7 +4,6 @@
 
 import { put } from 'redux-saga/effects'
 import { render } from '@testing-library/react'
-import React from 'react'
 import { Provider } from 'react-redux'
 
 import { createMemoryHistory } from 'history'

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 

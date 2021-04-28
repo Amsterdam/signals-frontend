@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
-// import Button from 'components/Button';
 import type { FormMeta } from 'types/reactive-form'
 
 import { withAppContext } from 'test/utils'

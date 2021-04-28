@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Spinner as AscSpinner } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'

@@ -1,3 +1,3 @@
-import MetaList from './MetaList';
+import MetaList from './MetaList'
 
-export default MetaList;
+export default MetaList

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import type { MouseEvent } from 'react'
 import type { IconOptions, LatLngExpression } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
 
 export type ClickEventHandler = (
-  event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
 ) => void
 
 export interface Item {
