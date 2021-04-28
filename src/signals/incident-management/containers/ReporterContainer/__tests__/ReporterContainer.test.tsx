@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
 import React from 'react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -5,7 +7,7 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import ReporterContainer from '..'
-import { ReporterHook } from '../hooks'
+import { ReporterHook } from '../useReporter'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -14,7 +16,7 @@ jest.mock('react-router-dom', () => ({
 
 let mockReporterHook = {} as ReporterHook
 
-jest.mock('../hooks', () => ({
+jest.mock('../useReporter', () => ({
   useReporter: () => mockReporterHook,
 }))
 
