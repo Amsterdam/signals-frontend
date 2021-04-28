@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import LoadingIndicator from 'components/LoadingIndicator'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
 import { useReporter } from './hooks'
+import IncidentDetail from './components/IncidentDetail'
 
 const Wrapper = styled.article`
   margin: 0 ${themeSpacing(11)};
@@ -28,12 +29,7 @@ const StyledIncidentList = styled(IncidentList)`
   padding: 0;
 `
 
-const Incident = styled.div`
-  width: 50%;
-  border-left: 1px solid ${themeColor('tint', 'level3')};
-`
-
-const ReporterContainer: React.FunctionComponent = () => {
+const ReporterContainer: FunctionComponent = () => {
   const {
     reporter,
     isLoading,
@@ -60,14 +56,7 @@ const ReporterContainer: React.FunctionComponent = () => {
             setSelectedIncidentId={setSelectedIncidentId}
           />
 
-          {/* TODO SIG-3675 */}
-          <Incident>
-            {selectedIncidentId === selectedIncident?.id && (
-              <>
-                {selectedIncident?.id} {selectedIncident?.text}
-              </>
-            )}
-          </Incident>
+          <IncidentDetail incident={selectedIncident} />
         </Content>
       )}
 

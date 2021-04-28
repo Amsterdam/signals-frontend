@@ -35,9 +35,18 @@ export interface Reporter {
 
 // TODO replace with Incident type added by https://github.com/Amsterdam/signals-frontend/pull/1541
 export interface Incident {
+  id: number
+  created_at: string
+  category: {
+    sub: string
+    sub_slug: string
+  }
+  status: {
+    state: string
+    state_display: string
+  }
   reporter: {
     email: string
   }
-  id: number
   text: string
 }

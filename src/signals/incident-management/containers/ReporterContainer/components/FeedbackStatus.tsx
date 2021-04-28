@@ -1,5 +1,5 @@
 // Copyright (C) 2021 Gemeente Amsterdam
-import { themeColor } from '@amsterdam/asc-ui'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { Theme } from 'types/theme'
@@ -10,7 +10,11 @@ interface FeedbackStatusProps {
   className?: string
 }
 
-const Status = styled.span<{ feedback: Feedback; theme: Theme }>`
+const Status = styled.div<{ feedback: Feedback; theme: Theme }>`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: ${themeSpacing(1)};
   ${({ feedback, theme }) => {
     if (feedback === null || !feedback.submitted_at) return
 
