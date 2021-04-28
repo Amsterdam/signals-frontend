@@ -3,7 +3,7 @@
 export type Feedback = {
   is_satisfied: boolean | null
   submitted_at: string | null
-} | null
+}
 
 export interface Result {
   id: number
@@ -19,7 +19,7 @@ export interface Result {
     state: string
     state_display: string
   }
-  feedback: Feedback
+  feedback: Feedback | null
   can_view_signal: boolean
   has_children: boolean
 }

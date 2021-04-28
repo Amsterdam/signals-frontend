@@ -7,11 +7,11 @@ import { Theme } from 'types/theme'
 import { Feedback } from '../types'
 
 interface FeedbackStatusProps {
-  feedback: Feedback
+  feedback: Feedback | null
   className?: string
 }
 
-const Status = styled.span<{ feedback: Feedback; theme: Theme }>`
+const Status = styled.span<{ feedback: Feedback | null; theme: Theme }>`
   ${({ feedback, theme }) => {
     if (feedback === null || !feedback.submitted_at) return
 

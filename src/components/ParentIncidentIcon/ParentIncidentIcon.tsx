@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { Play } from '@amsterdam/asc-assets'
 import { Icon } from '@amsterdam/asc-ui'
