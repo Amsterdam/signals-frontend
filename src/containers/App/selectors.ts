@@ -19,17 +19,19 @@ export const makeSelectUser = createSelector(
  *
  * @returns {Object[]} - All permissions from assigned roles combined with extra permissions
  */
-export const makeSelectUserPermissions = createSelector(makeSelectUser, (user?: User) => {
-  const permissionMap = new Map<number, Role>();
+export const makeSelectUserPermissions = createSelector(
+  makeSelectUser,
+  (user?: User) => {
+    const permissionMap = new Map<number, Role>()
 
-  user?.roles
-    ?.flatMap<Role | undefined>(role => role.permissions)
-    .concat(user.permissions)
-    .forEach(permission => {
-      if (permission) {
-        permissionMap.set(permission.id, permission);
-      }
-    });
+    user?.roles
+      ?.flatMap<Role | undefined>((role) => role.permissions)
+      .concat(user.permissions)
+      .forEach((permission) => {
+        if (permission) {
+          permissionMap.set(permission.id, permission)
+        }
+      })
 
     return [...permissionMap.values()]
   }
@@ -54,15 +56,17 @@ export const makeSelectUserPermissionCodeNames = createSelector(
 export const makeSelectUserCan = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   (user, permissions) => {
-    const is_superuser = user?.is_superuser ?? false;
+    const is_superuser = user?.is_superuser ?? false
     /**
      * @param   {String} capability - The permission to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     return (capability: string): boolean | undefined =>
-      is_superuser ? is_superuser : Boolean(permissions.find(codename => codename === capability));
+      is_superuser
+        ? is_superuser
+        : Boolean(permissions.find((codename) => codename === capability))
   }
-);
+)
 
 /**
  * Selector that queries a subset of the user's permissions. Useful for determining
@@ -73,14 +77,14 @@ export const makeSelectUserCan = createSelector(
 export const makeSelectUserCanAccess = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   (user, permissions) => {
-    const is_superuser = user?.is_superuser ?? false;
+    const is_superuser = user?.is_superuser ?? false
     /**
      * @param   {String} section - The set of permissions to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     return (section: string): boolean | undefined => {
       if (is_superuser) {
-        return is_superuser;
+        return is_superuser
       }
 
       const groups = ['view_group', 'add_group', 'change_group']
@@ -120,10 +124,10 @@ export const makeSelectUserCanAccess = createSelector(
           // from each set, require at least one permission
           sectionPerms.some((perm: string) => permissions.includes(perm))
         )
-      );
-    };
+      )
+    }
   }
-);
+)
 
 export const makeSelectLoading = () =>
   createSelector(selectGlobal, (globalState) => globalState?.loading)
@@ -139,7 +143,7 @@ export const makeSelectSearchQuery = createSelector(
   (globalState) => globalState?.searchQuery
 )
 
-export const makeSelectSources = createSelector(selectGlobal, globalState =>
+export const makeSelectSources = createSelector(selectGlobal, (globalState) =>
   globalState?.sources?.length
     ? globalState.sources.map(
         ({ name }): KeyValuePair<string> => ({

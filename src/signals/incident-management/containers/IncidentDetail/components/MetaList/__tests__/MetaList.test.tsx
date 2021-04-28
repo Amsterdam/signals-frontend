@@ -22,12 +22,12 @@ import { fetchCategoriesSuccess } from 'models/categories/actions'
 import * as departmentsSelectors from 'models/departments/selectors'
 import * as categoriesSelectors from 'models/categories/selectors'
 
-import IncidentDetailContext from '../../context'
+import IncidentDetailContext from '../../../context'
 import {
   mockGet,
   fetchMock,
-} from '../../../../../../../internals/testing/msw-server'
-import MetaList from '.'
+} from '../../../../../../../../internals/testing/msw-server'
+import MetaList from '../MetaList'
 
 fetchMock.disableMocks()
 jest.mock('shared/services/configuration/configuration')
@@ -58,7 +58,10 @@ const {
 const plainLinks = Object.keys(incidentFixture._links)
   .filter((link) => !['sia:children', 'sia:parent'].includes(link))
   .reduce(
-    (acc, key) => ({ ...acc, [key]: { ...incidentFixture._links[key] } }),
+    (acc, key) => ({
+      ...acc,
+      [key]: { ...(incidentFixture as any)._links[key] },
+    }),
     {}
   )
 
@@ -69,7 +72,7 @@ const childIncident = {
   _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } },
 }
 
-const renderWithContext = (incident = parentIncident) =>
+const renderWithContext = (incident: any = parentIncident) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, edit }}>
       <MetaList />
@@ -80,8 +83,9 @@ describe('MetaList', () => {
   beforeEach(() => {
     update.mockReset()
     edit.mockReset()
-    string2date.mockImplementation(() => '21-07-1970')
-    string2time.mockImplementation(() => '11:56')
+    ;(string2date as jest.Mock<any>).mockImplementation(() => '21-07-1970')
+    ;(string2time as jest.Mock<any>).mockImplementation(() => '11:56')
+
     jest
       .spyOn(departmentsSelectors, 'makeSelectDepartments')
       .mockImplementation(() => departments)
@@ -93,9 +97,7 @@ describe('MetaList', () => {
       .mockImplementation(() => handlingTimesBySlug)
   })
 
-  afterEach(() => {
-    configuration.__reset()
-  })
+  afterEach(() => ((configuration as unknown) as any).__reset())
 
   describe('rendering', () => {
     it('should render correctly a plain incident', () => {
@@ -267,10 +269,10 @@ describe('MetaList', () => {
     const { rerender } = render(renderWithContext())
 
     expect(screen.queryByText('Hoog')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value').className).toBe(
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
       'alert'
     )
-    expect(screen.queryByTestId('meta-list-priority-value').className).toBe('')
+    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe('')
 
     rerender(
       renderWithContext({
@@ -280,10 +282,10 @@ describe('MetaList', () => {
     )
 
     expect(screen.queryByText('Hoog')).toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value').className).toBe(
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
       'alert'
     )
-    expect(screen.queryByTestId('meta-list-priority-value').className).toBe(
+    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe(
       'alert'
     )
   })
@@ -355,9 +357,9 @@ describe('MetaList', () => {
     expect(
       screen.queryByTestId('meta-list-process-time-value')
     ).toHaveTextContent(/^Buiten de afhandeltermijn$/)
-    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe(
-      'alert'
-    )
+    expect(
+      screen.queryByTestId('meta-list-process-time-value')?.className
+    ).toBe('alert')
 
     rerender(
       renderWithContext({
@@ -371,9 +373,9 @@ describe('MetaList', () => {
     expect(
       screen.queryByTestId('meta-list-process-time-value')
     ).toHaveTextContent(/^Binnen de afhandeltermijn$/)
-    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe(
-      ''
-    )
+    expect(
+      screen.queryByTestId('meta-list-process-time-value')?.className
+    ).toBe('')
 
     rerender(
       renderWithContext({
@@ -387,9 +389,9 @@ describe('MetaList', () => {
     expect(
       screen.queryByTestId('meta-list-process-time-value')
     ).toHaveTextContent(/^3x buiten de afhandeltermijn$/)
-    expect(screen.queryByTestId('meta-list-process-time-value').className).toBe(
-      'alert'
-    )
+    expect(
+      screen.queryByTestId('meta-list-process-time-value')?.className
+    ).toBe('alert')
   })
 
   it('should call edit', () => {
@@ -397,7 +399,11 @@ describe('MetaList', () => {
 
     expect(edit).not.toHaveBeenCalled()
 
-    fireEvent.click(screen.queryByTestId('editStatusButton'))
+    const button = screen.queryByTestId('editStatusButton')
+
+    if (button) {
+      fireEvent.click(button)
+    }
 
     expect(edit).toHaveBeenCalled()
   })
@@ -1206,7 +1212,7 @@ describe('MetaList', () => {
 
       const { id } = departments.list.find(
         (department) => department.code === 'ASC'
-      )
+      ) as any
 
       fireEvent.click(editButtons[0])
 
@@ -1264,7 +1270,7 @@ describe('MetaList', () => {
       })
     })
 
-    it('should update for directing department to empty if code unknown', async () => {
+    it('should update for directing department to empty if code unknown', () => {
       jest
         .spyOn(departmentsSelectors, 'makeSelectDepartments')
         .mockImplementation(() => null)
@@ -1298,7 +1304,7 @@ describe('MetaList', () => {
       })
     })
 
-    it('should update for directing department to empty if no departments defined', async () => {
+    it('should update for directing department to empty if no departments defined', () => {
       jest
         .spyOn(departmentsSelectors, 'makeSelectDepartments')
         .mockImplementation(() => null)

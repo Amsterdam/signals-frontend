@@ -1,8 +1,8 @@
-import conformsTo from 'lodash/conformsTo';
-import isFunction from 'lodash/isFunction';
-import isObject from 'lodash/isObject';
-import invariant from 'invariant';
-import type { InjectedStore } from 'types';
+import conformsTo from 'lodash/conformsTo'
+import isFunction from 'lodash/isFunction'
+import isObject from 'lodash/isObject'
+import invariant from 'invariant'
+import type { InjectedStore } from 'types'
 
 /**
  * Validate the shape of redux store

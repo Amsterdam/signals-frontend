@@ -1,8 +1,8 @@
-import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants';
-import type { Reducer } from 'redux';
-import { APPLY_FILTER } from 'signals/incident-management/constants';
-import type { Action } from 'types';
-import type { AppActionTypes } from './actions';
+import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants'
+import type { Reducer } from 'redux'
+import { APPLY_FILTER } from 'signals/incident-management/constants'
+import type { Action } from 'types'
+import type { AppActionTypes } from './actions'
 import {
   LOGIN_FAILED,
   LOGOUT_FAILED,
@@ -18,8 +18,8 @@ import {
   GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
-} from './constants';
-import type { AppState, User } from './types';
+} from './constants'
+import type { AppState, User } from './types'
 
 export type ApplyFilterActionType = Action<typeof APPLY_FILTER, never>
 
@@ -28,10 +28,10 @@ export const initialState: AppState = {
   loading: false,
   error: false,
   upload: {},
-  user: {
+  user: ({
     permissions: [],
     roles: [],
-  } as unknown as User,
+  } as unknown) as User,
   notification: {
     message: '',
     title: '',
@@ -42,9 +42,12 @@ export const initialState: AppState = {
   sources: [],
 }
 
-export type ReducerActionTypes = AppActionTypes | ApplyFilterActionType | Action<null, never>;
+export type ReducerActionTypes =
+  | AppActionTypes
+  | ApplyFilterActionType
+  | Action<null, never>
 
-export type AppReducer = Reducer<AppState, ReducerActionTypes>;
+export type AppReducer = Reducer<AppState, ReducerActionTypes>
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
 const appReducer: AppReducer = (state = initialState, action) => {
@@ -92,7 +95,7 @@ const appReducer: AppReducer = (state = initialState, action) => {
       return {
         ...state,
         user: undefined,
-      };
+      }
 
     case SET_SEARCH_QUERY:
       return {
@@ -134,6 +137,6 @@ const appReducer: AppReducer = (state = initialState, action) => {
     default:
       return state
   }
-};
+}
 
 export default appReducer

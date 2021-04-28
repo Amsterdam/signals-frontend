@@ -31,7 +31,6 @@ describe('request', () => {
       request('/thisurliscorrect')
         .catch(done)
         .then((json) => {
-
           expect((json as typeof resultData).hello).toBe('world')
           done()
         })
@@ -83,7 +82,7 @@ describe('request', () => {
   })
 
   describe('stubbing error json response', () => {
-    const responseData= {"message":"too late"};
+    const responseData = { message: 'too late' }
     // Before each test, pretend we got an unsuccessful response
     beforeEach(() => {
       const res = new Response(JSON.stringify(responseData), {
