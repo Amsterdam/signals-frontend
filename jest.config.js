@@ -21,8 +21,8 @@ module.exports = {
     global: {
       statements: 99.58,
       branches: 95.57,
-      functions: 98.69,
-      lines: 99.65,
+      lines: 99.66,
+      functions: 98.79,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],

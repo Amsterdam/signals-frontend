@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
+import { FunctionComponent } from 'react'
+import styled from 'styled-components'
 
 const Bar = styled.div`
   & > * + * {
@@ -10,20 +10,16 @@ const Bar = styled.div`
   }
 `
 
+export interface ButtonBarProps {
+  className?: string
+}
+
 /**
  * Button container that merely adds margin between children
  */
-const ButtonBar = ({ className, children }) => (
-  <Bar className={className}>{children}</Bar>
-)
-
-ButtonBar.defaultProps = {
-  className: '',
-}
-
-ButtonBar.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-}
+const ButtonBar: FunctionComponent<ButtonBarProps> = ({
+  className,
+  children,
+}) => <Bar className={className}>{children}</Bar>
 
 export default ButtonBar
