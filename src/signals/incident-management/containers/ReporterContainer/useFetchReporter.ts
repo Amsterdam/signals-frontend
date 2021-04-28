@@ -10,13 +10,12 @@ import Reporter from 'types/api/reporter'
 import type { Incident as IncidentType } from '../IncidentDetail/types'
 import { Incident, Incidents } from './types'
 
-const PAGE_SIZE = 10
+export const PAGE_SIZE = 10
 
 export interface FetchReporterHook {
   selectIncident: (id: number) => void
   incident: Incident
   incidents: Incidents
-  totalPages?: number
   currentPage: number
   setCurrentPage: (page: number) => void
 }
@@ -110,7 +109,6 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     selectIncident: setSelectedIncidentId,
     incident,
     incidents,
-    totalPages: 0,
     currentPage,
     setCurrentPage,
   }

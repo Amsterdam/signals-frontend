@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import type { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
-import Pagination from 'components/Pagination'
+import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useFetchReporter } from './useFetchReporter'
+import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 
 const Wrapper = styled.article`
   margin: ${themeSpacing(11)};
@@ -43,7 +43,6 @@ const ReporterContainer: FunctionComponent = () => {
     incident,
     incidents,
     selectIncident,
-    totalPages,
     currentPage,
     setCurrentPage,
   } = useFetchReporter(id)
@@ -60,11 +59,12 @@ const ReporterContainer: FunctionComponent = () => {
     <LoadingIndicator />
   )
 
-  const pagination = totalPages && (
-    <Pagination
-      totalPages={totalPages}
-      currentPage={currentPage}
-      onClick={setCurrentPage}
+  const pagination = incidents?.data?.count && (
+    <CompactPager
+      collectionSize={incidents.data.count}
+      pageSize={PAGE_SIZE}
+      page={currentPage}
+      onPageChange={setCurrentPage}
     />
   )
 
