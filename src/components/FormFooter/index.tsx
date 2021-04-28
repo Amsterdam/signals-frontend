@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Column, Row, themeColor } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, MouseEventHandler } from 'react'
 import styled, { css } from 'styled-components'
 
 export const FORM_FOOTER_HEIGHT = 66
@@ -60,7 +60,7 @@ export interface FormFooterProps {
   inline?: boolean
   onCancel?: () => void
   onResetForm?: () => void
-  onSubmitForm?: () => void
+  onSubmitForm?: MouseEventHandler
   canSubmitForm?: boolean
   resetBtnLabel?: string
   submitBtnLabel?: string
