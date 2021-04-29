@@ -15,8 +15,8 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import { useDispatch, useSelector } from 'react-redux'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
-import { Feedback, Incident } from '../types'
-import FeedbackStatus from './FeedbackStatus'
+import { Incident } from '../types'
+import Description from './Description'
 
 interface IncidentDetailProps {
   incident: Incident
@@ -35,10 +35,6 @@ const headerMapper: Record<string, string> = {
   ['Feedback van melder ontvangen']: 'Feedback',
   ['Status gewijzigd naar: Afgehandeld']: 'Toelichting bij Afgehandeld',
   ['Status gewijzigd naar: Heropened']: 'Toelichting bij Heropened',
-}
-
-const historyStatus = {
-  RECEIVE_FEEDBACK: 'RECEIVE_FEEDBACK',
 }
 
 const Box = styled.div`
@@ -73,29 +69,6 @@ const StyledLink = styled(Link)`
     }
   }
 `
-const Description: FunctionComponent<{ what: string; description: string }> = ({
-  what,
-  description,
-}) => {
-  if (what === historyStatus.RECEIVE_FEEDBACK) {
-    const descriptionList = description.split('\n')
-    const feedback: Feedback = {
-      submitted_at: '-',
-      is_satisfied: descriptionList[0].startsWith('Ja'),
-    }
-    return (
-      <>
-        <FeedbackStatus feedback={feedback} />
-        <DescriptionStyle>
-          {descriptionList.slice(1).join('\n')}
-        </DescriptionStyle>
-      </>
-    )
-  }
-
-  return <DescriptionStyle>{description}</DescriptionStyle>
-}
-
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
@@ -175,7 +148,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
               <Heading as="h3" styleAs="h4">
                 Omschriving
               </Heading>
-              <div>{description}</div>
+              <Description description={description} />
             </Box>
           </div>
           {history && (
@@ -191,10 +164,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
                       <Heading as="h3" styleAs="h4">
                         {headerMapper[action]}
                       </Heading>
-                      <Description
-                        what={what}
-                        description={description}
-                      ></Description>
+                      <Description what={what} description={description} />
                     </Box>
                   )
                 })}
