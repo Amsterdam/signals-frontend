@@ -4,12 +4,14 @@ import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
-import Footer from '.'
+import Footer from '..'
 
 jest.mock('shared/services/configuration/configuration')
 
 describe('<Footer />', () => {
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.__reset()
   })
 
