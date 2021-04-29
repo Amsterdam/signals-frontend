@@ -1,54 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ReporterIncident } from '../../types'
 
 import IncidentList from '../IncidentList'
 
 describe('IncidentList', () => {
-  const list = [
+  const list: ReporterIncident[] = [
     {
       id: 7744,
-      created_at: '2021-04-22T15:22:43.882134+02:00',
-      category: {
-        sub: 'Overig afval',
-        sub_slug: 'overig-afval',
-        departments: 'ASC, AEG, STW',
-        main: 'Afval',
-        main_slug: 'afval',
-      },
-      status: {
-        state: 'reopen requested',
-        state_display: 'Verzoek tot heropenen',
-      },
+      createdAt: '2021-04-22T15:22:43.882134+02:00',
+      category: 'Overig afval',
+      status: 'Verzoek tot heropenen',
       feedback: {
-        is_satisfied: false,
-        submitted_at: '2021-04-22T13:27:12.942554Z',
+        isSatisfied: false,
+        submittedAt: '2021-04-22T13:27:12.942554Z',
       },
-      can_view_signal: true,
-      has_children: false,
+      hasChildren: false,
     },
     {
       id: 7743,
-      created_at: '2021-04-22T15:13:15.254123+02:00',
-      category: {
-        sub: 'Container papier vol',
-        sub_slug: 'container-voor-papier-is-vol',
-        departments: 'ASC, AEG',
-        main: 'Afval',
-        main_slug: 'afval',
-      },
-      status: {
-        state: 'o',
-        state_display: 'Afgehandeld',
-      },
+      createdAt: '2021-04-22T15:13:15.254123+02:00',
+      category: 'Container papier vol',
+      status: 'Afgehandeld',
       feedback: {
-        is_satisfied: null,
-        submitted_at: null,
+        isSatisfied: null,
+        submittedAt: null,
       },
-      can_view_signal: true,
-      has_children: false,
+      hasChildren: false,
     },
   ]
 
@@ -57,7 +37,7 @@ describe('IncidentList', () => {
       <IncidentList
         list={list}
         selectedIncidentId={list[1].id}
-        setSelectedIncidentId={() => {}}
+        selectIncident={() => {}}
       />
     )
 
@@ -73,7 +53,7 @@ describe('IncidentList', () => {
       <IncidentList
         list={list}
         selectedIncidentId={oldId}
-        setSelectedIncidentId={setSelectedIncidentIdSpy}
+        selectIncident={setSelectedIncidentIdSpy}
       />
     )
     userEvent.click(screen.getAllByRole('listitem')[1])

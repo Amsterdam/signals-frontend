@@ -1,34 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import 'jest-styled-components'
 
 import { screen, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import IncidentListItem from '../IncidentListItem'
+import { ReporterIncident } from '../../types'
 
 describe('IncidentListItem', () => {
-  const incident = {
+  const incident: ReporterIncident = {
     id: 7744,
-    created_at: '2021-04-22T15:22:43.882134+02:00',
-    category: {
-      sub: 'Overig afval',
-      sub_slug: 'overig-afval',
-      departments: 'ASC, AEG, STW',
-      main: 'Afval',
-      main_slug: 'afval',
-    },
-    status: {
-      state: 'reopen requested',
-      state_display: 'Verzoek tot heropenen',
-    },
+    createdAt: '2021-04-22T15:22:43.882134+02:00',
+    category: 'Overig afval',
+    status: 'Verzoek tot heropenen',
     feedback: {
-      is_satisfied: false,
-      submitted_at: '2021-04-22T13:27:12.942554Z',
+      isSatisfied: false,
+      submittedAt: '2021-04-22T13:27:12.942554Z',
     },
-    can_view_signal: true,
-    has_children: false,
+    hasChildren: false,
   }
 
   it('renders a list item', () => {
@@ -70,7 +60,7 @@ describe('IncidentListItem', () => {
     render(
       withAppContext(
         <IncidentListItem
-          incident={{ ...incident, has_children: true }}
+          incident={{ ...incident, hasChildren: true }}
           onClick={jest.fn()}
           isSelected
         />

@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import { format } from 'date-fns'
 import styled from 'styled-components'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { Theme } from 'types/theme'
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
+import type { FunctionComponent } from 'react'
+import { ReporterIncident } from '../types'
 
-import { Result } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
 const Info = styled.span`
@@ -65,25 +65,25 @@ const DateTime = styled.p`
 `
 
 interface IncidentListItemProps {
-  incident: Result
+  incident: ReporterIncident
   isSelected: boolean
   onClick: () => void
 }
 
-const IncidentListItem: React.FunctionComponent<IncidentListItemProps> = ({
-  incident: { category, feedback, id, status, created_at, has_children },
+const IncidentListItem: FunctionComponent<IncidentListItemProps> = ({
+  incident: { category, feedback, id, status, createdAt, hasChildren },
   isSelected,
   onClick,
 }) => (
   <ListItem onClick={onClick} isSelected={isSelected}>
-    {has_children ? <StyledParentIncidentIcon /> : <Spacing />}
+    {hasChildren ? <StyledParentIncidentIcon /> : <Spacing />}
     <Wrapper>
       <Info>
-        {id} {category.sub}
+        {id} {category}
       </Info>
-      <span>{status.state_display}</span>
+      <span>{status}</span>
       <StyledFeedbackStatus feedback={feedback} />
-      <DateTime>{format(new Date(created_at), 'dd-MM-yyyy HH:mm')}</DateTime>
+      <DateTime>{format(new Date(createdAt), 'dd-MM-yyyy HH:mm')}</DateTime>
     </Wrapper>
   </ListItem>
 )

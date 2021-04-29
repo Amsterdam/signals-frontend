@@ -1,23 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import * as reactRouterDom from 'react-router-dom'
-
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import ReporterContainer from '..'
-import { ReporterHook } from '../useReporter'
+import { FetchReporterHook } from '../useFetchReporter'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }))
 
-let mockReporterHook = {} as ReporterHook
+let mockFetchReporterHook = {} as FetchReporterHook
+
+const INCIDENT_ID = '4440'
 
 jest.mock('../useReporter', () => ({
-  useReporter: () => mockReporterHook,
+  useFetchReporter: () => mockFetchReporterHook,
 }))
 
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -26,57 +26,46 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
 
 describe('ReporterContainer', () => {
   beforeEach(() => {
-    mockReporterHook = {
-      selectedIncident: {
-        id: 123,
-        reporter: {
-          email: '',
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      id: INCIDENT_ID,
+    }))
+
+    mockFetchReporterHook = {
+      incident: {
+        isLoading: false,
+        data: {
+          id: 4440,
+          text: 'Incident text',
+          email: 'example@amsterdam.nl',
         },
-        text: 'Mock text',
       },
-      selectedIncidentId: 123,
-      setSelectedIncidentId: jest.fn(),
-      isLoading: false,
-      reporter: {
-        originalIncidentId: '987',
-        email: 'example@amsterdam.nl',
-        incidents: {
-          results: [
+      selectIncident: jest.fn(),
+      incidents: {
+        isLoading: false,
+        data: {
+          count: 1,
+          list: [
             {
-              id: 7744,
-              created_at: '2021-04-22T15:22:43.882134+02:00',
-              category: {
-                sub: 'Overig afval',
-                sub_slug: 'overig-afval',
-                departments: 'ASC, AEG, STW',
-                main: 'Afval',
-                main_slug: 'afval',
-              },
-              status: {
-                state: 'reopen requested',
-                state_display: 'Verzoek tot heropenen',
-              },
+              id: 4440,
+              createdAt: '2021-04-22T15:22:43.882134+02:00',
+              category: 'Overig afval',
+              status: 'Verzoek tot heropenen',
               feedback: {
-                is_satisfied: false,
-                submitted_at: '2021-04-22T13:27:12.942554Z',
+                isSatisfied: false,
+                submittedAt: '2021-04-22T13:27:12.942554Z',
               },
-              can_view_signal: true,
-              has_children: false,
+              hasChildren: false,
             },
           ],
-          count: 10,
-          _links: {
-            next: 'foo',
-            previous: 'bar',
-            self: 'baz',
-          },
         },
       },
     }
   })
 
   it('renders loading indicator', () => {
-    mockReporterHook.isLoading = true
+    if (mockFetchReporterHook.incident) {
+      mockFetchReporterHook.incident.isLoading = true
+    }
     render(withAppContext(<ReporterContainer />))
 
     expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
@@ -91,7 +80,7 @@ describe('ReporterContainer', () => {
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {
-        name: 'Meldingen van example@amsterdam.nl (10)',
+        name: 'Meldingen van example@amsterdam.nl (1)',
       })
     ).toBeInTheDocument()
     expect(screen.getByRole('list')).toBeInTheDocument()

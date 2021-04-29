@@ -2,7 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Provider } from 'react-redux'
-import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
@@ -13,7 +12,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
-import { useReporter } from '../useReporter'
+import { FetchReporterHook, useFetchReporter } from '../useFetchReporter'
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
@@ -27,49 +26,50 @@ jest.mock('react-router-dom', () => ({
 
 const INCIDENT_ID = '4440'
 
-describe('Reporter hook', () => {
-  beforeEach(() => {
-    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
-      id: INCIDENT_ID,
-    }))
-  })
-
-  it('returns reporter data', async () => {
-    const FIRST = {
-      isLoading: true,
-      reporter: {
-        email: undefined,
-        incidents: undefined,
-        originalIncidentId: INCIDENT_ID,
+describe('Fetch Reporter hook', () => {
+  it('returns incident(s) data', async () => {
+    const FIRST: Partial<FetchReporterHook> = {
+      incident: {
+        isLoading: false,
+        data: undefined,
       },
-      selectedIncident: undefined,
-      selectedIncidentId: undefined,
+      incidents: {
+        isLoading: true,
+        data: undefined,
+      },
     }
 
-    const SECOND = {
+    const SECOND: Partial<FetchReporterHook> = {
       ...FIRST,
-      isLoading: false,
-      reporter: expect.objectContaining({
-        email: 'me@email.com',
-        incidents: expect.objectContaining({
+      incident: {
+        isLoading: true,
+        data: undefined,
+      },
+      incidents: {
+        isLoading: false,
+        data: expect.objectContaining({
           count: 2,
         }),
-        originalIncidentId: INCIDENT_ID,
-      }),
-      selectedIncidentId: Number(INCIDENT_ID),
+      },
     }
 
-    const THIRD = {
+    const THIRD: Partial<FetchReporterHook> = {
       ...SECOND,
-      selectedIncident: expect.objectContaining({
-        id: Number(INCIDENT_ID),
-      }),
+      incident: {
+        isLoading: false,
+        data: expect.objectContaining({
+          id: Number(INCIDENT_ID),
+        }),
+      },
     }
 
-    const { result, waitForNextUpdate } = renderHook(() => useReporter(), {
-      wrapper: Provider,
-      initialProps: { store },
-    })
+    const { result, waitForNextUpdate } = renderHook(
+      () => useFetchReporter(INCIDENT_ID),
+      {
+        wrapper: Provider,
+        initialProps: { store },
+      }
+    )
 
     // Expect loading
     expect(result.current).toEqual(expect.objectContaining(FIRST))
@@ -85,11 +85,14 @@ describe('Reporter hook', () => {
     expect(result.current).toEqual(expect.objectContaining(THIRD))
   })
 
-  it('supports changing selected incident', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useReporter(), {
-      wrapper: Provider,
-      initialProps: { store },
-    })
+  it('supports selecting an incident', async () => {
+    const { result, waitForNextUpdate } = renderHook(
+      () => useFetchReporter(INCIDENT_ID),
+      {
+        wrapper: Provider,
+        initialProps: { store },
+      }
+    )
 
     await waitForNextUpdate()
     await waitForNextUpdate()
@@ -102,12 +105,12 @@ describe('Reporter hook', () => {
     })
 
     act(() => {
-      result.current.setSelectedIncidentId(1234)
+      result.current.selectIncident(1234)
     })
 
     await waitForNextUpdate()
 
-    expect(result.current.selectedIncident?.id).toBe(12345)
+    expect(result.current.incident?.data?.id).toBe(12345)
   })
 
   it('handles errors', async () => {
@@ -116,10 +119,13 @@ describe('Reporter hook', () => {
       body: 'Something went wrong',
     })
 
-    const { waitForNextUpdate } = renderHook(() => useReporter(), {
-      wrapper: Provider,
-      initialProps: { store },
-    })
+    const { waitForNextUpdate } = renderHook(
+      () => useFetchReporter(INCIDENT_ID),
+      {
+        wrapper: Provider,
+        initialProps: { store },
+      }
+    )
 
     await act(async () => {
       await waitForNextUpdate()
