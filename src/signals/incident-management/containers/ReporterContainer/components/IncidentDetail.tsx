@@ -18,6 +18,44 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { Feedback, Incident } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
+interface IncidentDetailProps {
+  incident: Incident
+}
+
+interface History {
+  identifier: string
+  what: string
+  when: Date
+  who: string
+  action: string
+  description: string
+}
+
+const headerMapper: Record<string, string> = {
+  ['Feedback van melder ontvangen']: 'Feedback',
+  ['Status gewijzigd naar: Afgehandeld']: 'Toelichting bij Afgehandeld',
+  ['Status gewijzigd naar: Heropened']: 'Toelichting bij Heropened',
+}
+
+const historyStatus = {
+  RECEIVE_FEEDBACK: 'RECEIVE_FEEDBACK',
+}
+
+const Box = styled.div`
+  margin-bottom: ${themeSpacing(6)};
+  white-space: pre-line;
+`
+const DescriptionStyle = styled(Paragraph)`
+  font-size: 16px;
+  line-height: ${themeSpacing(6)};
+`
+const InfoStyle = styled(DescriptionStyle)`
+  color: ${themeColor('tint', 'level5')};
+  display: grid;
+  grid: auto-flow / 1fr 1fr;
+  grid-gap: ${themeSpacing(1)};
+  width: 100%;
+`
 const IncidentStyle = styled.div`
   width: 50%;
   border-left: 1px solid ${themeColor('tint', 'level3')};
@@ -35,36 +73,11 @@ const StyledLink = styled(Link)`
     }
   }
 `
-
-const headerMapper: Record<string, string> = {
-  ['Feedback van melder ontvangen']: 'Feedback',
-  ['Status gewijzigd naar: Afgehandeld']: 'Toelichting bij Afgehandeld',
-  ['Status gewijzigd naar: Heropened']: 'Toelichting bij Heropened',
-}
-
-const Box = styled.div`
-  margin-bottom: ${themeSpacing(6)};
-  white-space: pre-line;
-`
-
-const DescriptionStyle = styled(Paragraph)`
-  font-size: 16px;
-  line-height: ${themeSpacing(6)};
-`
-
-const InfoStyle = styled(DescriptionStyle)`
-  color: ${themeColor('tint', 'level5')};
-  display: grid;
-  grid: auto-flow / 1fr 1fr;
-  grid-gap: ${themeSpacing(1)};
-  width: 100%;
-`
-
 const Description: FunctionComponent<{ what: string; description: string }> = ({
   what,
   description,
 }) => {
-  if (what === 'RECEIVE_FEEDBACK') {
+  if (what === historyStatus.RECEIVE_FEEDBACK) {
     const descriptionList = description.split('\n')
     const feedback: Feedback = {
       submitted_at: '-',
@@ -81,19 +94,6 @@ const Description: FunctionComponent<{ what: string; description: string }> = ({
   }
 
   return <DescriptionStyle>{description}</DescriptionStyle>
-}
-
-interface IncidentDetailProps {
-  incident: Incident
-}
-
-interface History {
-  identifier: string
-  what: string
-  when: Date
-  who: string
-  action: string
-  description: string
 }
 
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
