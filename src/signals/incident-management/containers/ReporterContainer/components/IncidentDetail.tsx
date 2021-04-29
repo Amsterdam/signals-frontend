@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import {
   Heading,
   Link,
@@ -15,11 +15,11 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import { useDispatch, useSelector } from 'react-redux'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
-import { Incident } from '../types'
+import type { Incident as IncidentType } from '../../IncidentDetail/types'
 import Description from './Description'
 
 interface IncidentDetailProps {
-  incident: Incident
+  incident: IncidentType
 }
 
 interface History {

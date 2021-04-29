@@ -54,10 +54,10 @@ const ReporterContainer: FunctionComponent = () => {
     setCurrentPage,
   } = useFetchReporter(id)
 
-  const header = incident.data?.email && incidents.data?.count && (
+  const header = incident?.data?.reporter.email && incidents?.data?.count && (
     <StyledHeader
       id={id}
-      email={incident.data.email}
+      email={incident.data.reporter.email}
       count={incidents.data.count}
     />
   )
@@ -91,7 +91,7 @@ const ReporterContainer: FunctionComponent = () => {
             {pagination}
           </div>
 
-          <IncidentDetail incident={selectedIncident} />
+          <IncidentDetail incident={incident.data} />
         </Content>
       )}
 
