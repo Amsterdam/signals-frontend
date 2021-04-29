@@ -16,7 +16,7 @@ let mockFetchReporterHook = {} as FetchReporterHook
 
 const INCIDENT_ID = '4440'
 
-jest.mock('../useReporter', () => ({
+jest.mock('../useFetchReporter', () => ({
   useFetchReporter: () => mockFetchReporterHook,
 }))
 
@@ -63,8 +63,12 @@ describe('ReporterContainer', () => {
   })
 
   it('renders loading indicator', () => {
-    if (mockFetchReporterHook.incident) {
+    if (mockFetchReporterHook) {
       mockFetchReporterHook.incident.isLoading = true
+      mockFetchReporterHook.incident.data = undefined
+
+      mockFetchReporterHook.incidents.isLoading = true
+      mockFetchReporterHook.incidents.data = undefined
     }
     render(withAppContext(<ReporterContainer />))
 

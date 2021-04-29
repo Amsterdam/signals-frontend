@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
+
 // /signals/v1/private/signals/{id}/context/reporter/
 export default interface Reporter {
   _links: {

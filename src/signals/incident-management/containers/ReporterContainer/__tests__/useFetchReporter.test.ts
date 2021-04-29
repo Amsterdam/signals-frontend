@@ -76,12 +76,12 @@ describe('Fetch Reporter hook', () => {
 
     await waitForNextUpdate()
 
-    // Expect reporter request and incident request data
+    // Expect incidents result
     expect(result.current).toEqual(expect.objectContaining(SECOND))
 
     await waitForNextUpdate()
 
-    // Expect selected incident request data
+    // Expect incident request data
     expect(result.current).toEqual(expect.objectContaining(THIRD))
   })
 
