@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { rest, MockedRequest } from 'msw'
+import { rest, MockedRequest, ResponseResolver } from 'msw'
 import { setupServer } from 'msw/node'
 import fetchMock from 'jest-fetch-mock'
 
@@ -62,7 +62,7 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results
 }
 
-const handleNotImplemented = (req: any, res: any, ctx: any) => {
+const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
   const message = `Msw - not implemented: ${req.method} to ${req.url.href}`
 
   console.error(message)

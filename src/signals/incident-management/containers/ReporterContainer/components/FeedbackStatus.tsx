@@ -7,7 +7,7 @@ import { Theme } from 'types/theme'
 import { Feedback } from '../types'
 
 interface FeedbackStatusProps {
-  feedback: Feedback
+  feedback: Feedback | null
   className?: string
 }
 
