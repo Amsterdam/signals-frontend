@@ -11,7 +11,7 @@ interface FeedbackStatusProps {
   className?: string
 }
 
-const Status = styled.div<{ feedback: Feedback; theme: Theme }>`
+const Status = styled.div<{ feedback: Feedback | null; theme: Theme }>`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
