@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React, { Fragment, useContext } from 'react'
+import { Fragment, FunctionComponent, useContext } from 'react'
 import type { ReactNode } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
@@ -40,7 +40,7 @@ const StyledViewerContainer = styled(
   transition: height 0.3s ease-in-out;
 `
 
-const ViewerContainer: React.FC<ViewerContainerProps> = (props) => {
+const ViewerContainer: FunctionComponent<ViewerContainerProps> = (props) => {
   const { drawerPosition, variant } = useContext(MapPanelContext)
   const isDrawerVariant = variant === 'panel'
 

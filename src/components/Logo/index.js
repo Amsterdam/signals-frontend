@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui'

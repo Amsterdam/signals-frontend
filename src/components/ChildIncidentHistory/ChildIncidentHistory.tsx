@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState, MouseEvent } from 'react'
 import type { FunctionComponent } from 'react'
 import type { History } from 'types/history'
 import HistoryList from 'components/HistoryList'
@@ -87,7 +87,7 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
   const shownHistory = showAllHistory ? history : recentHistory
   const showToggle = history.length !== recentHistory.length
 
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
     setShowAllhistory(!showAllHistory)
   }

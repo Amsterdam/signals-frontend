@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { withAppContext } from 'test/utils'
 import FilterForm from 'signals/incident-management/components/FilterForm'

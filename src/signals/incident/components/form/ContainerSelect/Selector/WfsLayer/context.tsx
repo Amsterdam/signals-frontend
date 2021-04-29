@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import React from 'react'
+import { createContext } from 'react'
 import type { FeatureCollection } from 'geojson'
 
 export const NO_DATA: FeatureCollection = {
@@ -11,7 +11,7 @@ export const NO_DATA: FeatureCollection = {
 
 const initialValue: FeatureCollection = NO_DATA
 
-const WfsDataContext = React.createContext(initialValue)
+const WfsDataContext = createContext(initialValue)
 
 interface WfsDataProviderProps {
   value: FeatureCollection

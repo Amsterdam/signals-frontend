@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react'
 import { render, act, fireEvent } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 

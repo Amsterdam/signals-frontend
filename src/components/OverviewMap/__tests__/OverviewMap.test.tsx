@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import fetchMock from 'jest-fetch-mock'
-import React from 'react'
 import { render, act } from '@testing-library/react'
 
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'

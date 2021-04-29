@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'

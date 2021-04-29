@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import { KeyboardEvent } from 'react'
 import type { FunctionComponent } from 'react'
-import React from 'react'
 import styled from 'styled-components'
 import map from 'lodash.map'
 
@@ -14,7 +14,7 @@ import FormField from '../FormField'
 
 const allowedChars = /[\d,.;]+/
 
-const filterInvalidKeys = (event: React.KeyboardEvent<HTMLInputElement>) => {
+const filterInvalidKeys = (event: KeyboardEvent<HTMLInputElement>) => {
   if (!allowedChars.test(event.key)) {
     // Swallow invalid character inputs.
     event.preventDefault()

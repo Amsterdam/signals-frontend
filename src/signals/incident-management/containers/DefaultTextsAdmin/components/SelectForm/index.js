@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useEffect, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FormBuilder, FieldGroup } from 'react-reactive-form'
 

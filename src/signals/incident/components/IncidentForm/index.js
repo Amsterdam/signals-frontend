@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react'
+import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { FormGenerator } from 'react-reactive-form'
@@ -66,7 +66,7 @@ export const Fieldset = styled.fieldset`
   }
 `
 
-class IncidentForm extends React.Component {
+class IncidentForm extends Component {
   constructor(props) {
     super(props)
 
@@ -76,7 +76,7 @@ class IncidentForm extends React.Component {
       formAction: '',
       next: null,
     }
-    this.formRef = React.createRef()
+    this.formRef = createRef()
 
     this.setForm = this.setForm.bind(this)
     this.setValues = this.setValues.bind(this)

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash.isequal'
 import sortBy from 'lodash.sortby'
@@ -26,7 +26,7 @@ const formatValues = (props) => {
     : props.values
 }
 
-class FieldControlWrapper extends React.Component {
+class FieldControlWrapper extends Component {
   constructor(props) {
     super(props)
 
