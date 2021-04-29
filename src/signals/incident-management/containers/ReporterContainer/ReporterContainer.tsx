@@ -35,6 +35,11 @@ const Incident = styled.div`
   border-left: 1px solid ${themeColor('tint', 'level3')};
 `
 
+const StyledCompactPager = styled(CompactPager)`
+  max-width: 180px;
+  margin-top: ${themeSpacing(6)};
+`
+
 const ReporterContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
 
@@ -59,7 +64,7 @@ const ReporterContainer: FunctionComponent = () => {
   )
 
   const pagination = incidents?.data?.count && (
-    <CompactPager
+    <StyledCompactPager
       collectionSize={incidents.data.count}
       pageSize={PAGE_SIZE}
       page={currentPage}
