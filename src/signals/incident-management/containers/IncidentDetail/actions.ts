@@ -1,5 +1,6 @@
 import type { Action } from 'types'
 import type { FetchError } from 'hooks/useFetch'
+import Context from 'types/context'
 import type {
   Incident,
   State,
@@ -22,6 +23,7 @@ import type {
   PATCH_SUCCESS,
   PREVIEW,
   EDIT,
+  SET_CONTEXT,
 } from './constants'
 
 export type ResetAction = Action<typeof RESET, void>
@@ -43,6 +45,7 @@ export type SetChildrenHistoryAction = Action<
   typeof SET_CHILDREN_HISTORY,
   HistoryEntry[][]
 >
+export type SetContextAction = Action<typeof SET_CONTEXT, Context>
 export type SetDefaultTextsAction = Action<typeof SET_DEFAULT_TEXTS, string[]>
 export type SetIncidentAction = Action<typeof SET_INCIDENT, Incident>
 export type PatchStartAction = Action<typeof PATCH_START, string>
@@ -55,6 +58,7 @@ export type IncidentDetailAction =
   | CloseAllAction
   | SetErrorAction
   | SetAttachmentsAction
+  | SetContextAction
   | SetHistoryAction
   | SetChildrenAction
   | SetChildrenHistoryAction

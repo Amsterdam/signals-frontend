@@ -21,10 +21,10 @@ const departmentAegCode = departmentsFixture.results[1].code
 const departmentThoCode = departmentsFixture.results[11].code
 
 interface MockRequestHandlerArgs {
-  status: number
+  status?: number
   body: any
-  url: string | RegExp
-  method: 'get' | 'patch' | 'post'
+  url?: string | RegExp
+  method?: 'get' | 'patch' | 'post'
 }
 
 export const mockRequestHandler = ({

@@ -1,4 +1,5 @@
 import type { FetchError } from 'hooks/useFetch'
+import type ContextType from 'types/context'
 
 export interface Context {
   incident?: Incident
@@ -14,6 +15,7 @@ export interface State {
   children?: Result<IncidentChild>
   childrenHistory?: HistoryEntry[][]
   history?: HistoryEntry[]
+  context?: ContextType
   error?: boolean | FetchError
   attachmentHref?: string
   patching?: string
