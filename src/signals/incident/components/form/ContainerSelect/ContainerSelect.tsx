@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import type { Incident } from 'types/incident'
 import type { LatLngExpression } from 'leaflet'
 import { ContainerSelectProvider } from './context'

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import type { Reducer } from 'react'
 import {
   CLOSE_ALL,
   EDIT,
@@ -17,7 +18,10 @@ import {
   SET_INCIDENT,
 } from './constants'
 
-export const initialState = {
+import type { IncidentDetailAction as Action } from './actions'
+import type { State } from './types'
+
+export const initialState: State = {
   attachmentHref: undefined,
   attachments: undefined,
   children: undefined,
@@ -37,7 +41,7 @@ export const closedState = {
   attachmentHref: '',
 }
 
-const reducer = (state, action) => {
+const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case CLOSE_ALL:
       return { ...state, ...closedState }
@@ -58,7 +62,7 @@ const reducer = (state, action) => {
       return { ...state, childrenHistory: action.payload }
 
     case SET_CONTEXT:
-      return { ...state, context: action.payload };
+      return { ...state, context: action.payload }
 
     case SET_DEFAULT_TEXTS:
       return { ...state, defaultTexts: action.payload }
@@ -77,7 +81,7 @@ const reducer = (state, action) => {
         ...state,
         edit: undefined,
         ...action.payload,
-        preview: action.payload.preview,
+        preview: action.payload?.preview,
       }
 
     case EDIT:
@@ -85,7 +89,7 @@ const reducer = (state, action) => {
         ...state,
         preview: undefined,
         ...action.payload,
-        edit: action.payload.edit,
+        edit: action.payload?.edit,
       }
 
     case RESET:

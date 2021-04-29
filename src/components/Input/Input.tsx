@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { forwardRef } from 'react'
+import { forwardRef, ReactNode } from 'react'
 import styled, { css } from 'styled-components'
 import {
   Input as AscInput,
@@ -72,7 +72,7 @@ const Wrapper = styled.div<{ showError: boolean }>`
 
 interface InputProps extends Omit<AscInputProps, 'error'> {
   id?: string
-  label?: React.ReactNode
+  label?: ReactNode
   error?: string
   hint?: string
 }

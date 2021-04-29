@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useEffect, useCallback, useMemo } from 'react'
+import { Fragment, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { FormBuilder, FieldGroup } from 'react-reactive-form'
 import { Button, themeColor } from '@amsterdam/asc-ui'

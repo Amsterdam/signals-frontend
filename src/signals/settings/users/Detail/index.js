@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useCallback, useEffect } from 'react'
+import { Fragment, useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
 import isEqual from 'lodash.isequal'

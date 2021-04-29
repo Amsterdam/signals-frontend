@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
+import { FunctionComponent } from 'react'
 import { MapPanelContent } from '@amsterdam/arm-core'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
@@ -11,7 +11,7 @@ export interface LegendPanelProps {
   onClose: () => void
 }
 
-const LegendPanel: React.FC<LegendPanelProps> = ({
+const LegendPanel: FunctionComponent<LegendPanelProps> = ({
   items,
   variant,
   onClose,

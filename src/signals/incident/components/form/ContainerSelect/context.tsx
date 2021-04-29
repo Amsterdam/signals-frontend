@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import React from 'react'
+import { createContext } from 'react'
 import type { ContainerSelectValue } from './types'
 
 export const initialValue: ContainerSelectValue = {
@@ -15,7 +15,7 @@ export const initialValue: ContainerSelectValue = {
   setMessage: /* istanbul ignore next */ () => {},
 }
 
-const ContainerSelectContext = React.createContext(initialValue)
+const ContainerSelectContext = createContext(initialValue)
 
 interface ContainerSelectProviderProps {
   value: ContainerSelectValue

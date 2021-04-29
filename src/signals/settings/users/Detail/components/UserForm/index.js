@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useCallback } from 'react'
+import { useReducer, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
@@ -83,7 +83,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
       ?.map((role) => inputRoles.find(({ name }) => name === role.name))
       .filter(Boolean) || []
 
-  const [state, dispatch] = React.useReducer(reducer, {
+  const [state, dispatch] = useReducer(reducer, {
     username: data.username,
     first_name: data.first_name,
     last_name: data.last_name,

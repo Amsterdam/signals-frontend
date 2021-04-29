@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
-import React from 'react'
+import type {
+  ForwardRefExoticComponent,
+  FunctionComponent,
+  RefAttributes,
+} from 'react'
 
 import Select from 'components/Select'
 
@@ -11,8 +14,8 @@ import FormField from '../FormField'
 export type SelectInputProps = FormInputProps<{ id: string } | undefined>
 
 // This types will be obsolete when the components/Select will be converted to typescript
-type SelectType = React.ForwardRefExoticComponent<
-  React.RefAttributes<any> & Record<string, any>
+type SelectType = ForwardRefExoticComponent<
+  RefAttributes<any> & Record<string, any>
 >
 const TypedSelect = Select as SelectType
 export interface SelectChangeEventType {

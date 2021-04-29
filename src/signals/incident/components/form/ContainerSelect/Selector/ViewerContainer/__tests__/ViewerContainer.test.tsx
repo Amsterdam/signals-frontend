@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'

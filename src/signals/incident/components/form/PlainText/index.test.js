@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 /* eslint-disable  react/prop-types */
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 

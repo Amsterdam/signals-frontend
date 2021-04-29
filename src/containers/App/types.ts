@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 export interface User {
-  _links?: Links;
-  _display?: string;
-  id: number;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  is_active: boolean;
-  is_staff: boolean;
-  is_superuser: boolean;
-  roles: Role[];
-  permissions: Role[];
-  profile: Profile;
+  _links?: Links
+  _display?: string
+  id: number
+  username: string
+  email: string
+  first_name: string
+  last_name: string
+  is_active: boolean
+  is_staff: boolean
+  is_superuser: boolean
+  roles: Role[]
+  permissions: Role[]
+  profile: Profile
 }
 
 export interface Links {
@@ -69,13 +69,13 @@ export interface Upload {
 }
 
 export interface AppState {
-  readonly loading: boolean;
-  readonly error?: boolean | string;
-  readonly upload: Upload;
-  readonly user?: User;
-  readonly notification?: GlobalNotification;
-  readonly searchQuery?: string;
-  readonly sources?: Source[];
+  readonly loading: boolean
+  readonly error?: boolean | string
+  readonly upload: Upload
+  readonly user?: User
+  readonly notification?: GlobalNotification
+  readonly searchQuery?: string
+  readonly sources?: Source[]
 }
 
 export interface DataResult<ResultType> {

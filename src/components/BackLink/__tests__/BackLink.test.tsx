@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react'
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import BackLink from '..'
@@ -17,6 +16,6 @@ describe('src/components/BackLink', () => {
 
     const link = container.querySelector('a')
     expect(link).toBeInTheDocument()
-    expect(link.getAttribute('href')).toEqual(to)
+    expect(link?.getAttribute('href')).toEqual(to)
   })
 })

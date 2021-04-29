@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react'
+import { forwardRef, Fragment } from 'react'
 import styled from 'styled-components'
 import { Input } from '@amsterdam/asc-ui'
 import { Calendar } from '@amsterdam/asc-assets'
@@ -28,7 +28,7 @@ interface CustomInputProps {
   label: string
 }
 
-const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
+const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   ({ id, label, ...rest }, ref) => (
     <Fragment>
       <Label htmlFor={id}>{label}</Label>
