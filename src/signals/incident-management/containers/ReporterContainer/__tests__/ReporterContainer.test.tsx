@@ -3,6 +3,7 @@
 import * as reactRouterDom from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import type { Incident as IncidentType } from '../../IncidentDetail/types'
 
 import ReporterContainer from '..'
 import { FetchReporterHook } from '../useFetchReporter'
@@ -16,7 +17,7 @@ let mockFetchReporterHook = {} as FetchReporterHook
 
 const INCIDENT_ID = '4440'
 
-jest.mock('../useReporter', () => ({
+jest.mock('../useFetchReporter', () => ({
   useFetchReporter: () => mockFetchReporterHook,
 }))
 
@@ -36,8 +37,8 @@ describe('ReporterContainer', () => {
         data: {
           id: 4440,
           text: 'Incident text',
-          email: 'example@amsterdam.nl',
-        },
+          reporter: { email: 'example@amsterdam.nl' },
+        } as IncidentType,
       },
       selectIncident: jest.fn(),
       incidents: {
