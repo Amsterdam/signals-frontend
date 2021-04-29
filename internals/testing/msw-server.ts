@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { rest, MockedRequest } from 'msw'
+import { rest, MockedRequest, ResponseResolver } from 'msw'
 import { setupServer } from 'msw/node'
 import fetchMock from 'jest-fetch-mock'
 
@@ -10,6 +10,7 @@ import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.jso
 import incidentContextFixture from '../mocks/fixtures/context.json'
 import incidentAttachmentsFixture from '../mocks/fixtures/attachments.json'
 import incidentChildrenFixture from '../mocks/fixtures/children.json'
+import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import usersFixture from '../mocks/fixtures/users.json'
 import departmentsFixture from '../mocks/fixtures/departments.json'
 import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json'
@@ -59,6 +60,13 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
     return []
   }
   return usersFixture.results
+}
+
+const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
+  const message = `Msw - not implemented: ${req.method} to ${req.url.href}`
+
+  console.error(message)
+  res(ctx.status(500, message))
 }
 
 const handlers = [
@@ -123,6 +131,11 @@ const handlers = [
   ),
 
   rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context/reporter`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentReporterFixture))
+  ),
+
+  rest.get(
     `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context`,
     (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentContextFixture))
   ),
@@ -136,6 +149,13 @@ const handlers = [
     `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}`,
     (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
   ),
+
+  // FALLBACK
+  rest.get('*', handleNotImplemented),
+  rest.patch('*', handleNotImplemented),
+  rest.post('*', handleNotImplemented),
+  rest.put('*', handleNotImplemented),
+  rest.delete('*', handleNotImplemented),
 ]
 
 const server = setupServer(...handlers)

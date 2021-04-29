@@ -14,6 +14,7 @@ import { getListValueByKey } from 'shared/services/list-helper/list-helper'
 import * as types from 'shared/types'
 import configuration from 'shared/services/configuration/configuration'
 import { statusList } from 'signals/incident-management/definitions'
+import ParentIncidentIcon from 'components/ParentIncidentIcon'
 
 import IncidentManagementContext from '../../../../context'
 
@@ -94,28 +95,11 @@ Td.propTypes = {
   children: PropTypes.node,
 }
 
-const ParentIconStyle = styled.span`
-  & span:nth-child(2) {
-    margin-left: -5px; // specific value. Ensures the parent icon composition icons are near each other.
-  }
-`
-
 const StyledIcon = styled(Icon)`
   & svg {
     fill: ${themeColor('tint', 'level4')};
   }
 `
-
-const ParentIcon = () => (
-  <ParentIconStyle role="img" aria-label="Hoofdmelding">
-    <Icon size={14}>
-      <Play />
-    </Icon>
-    <Icon size={14}>
-      <Play />
-    </Icon>
-  </ParentIconStyle>
-)
 
 const ChildIcon = () => (
   <StyledIcon size={14} role="img" aria-label="Deelmelding">
@@ -229,7 +213,7 @@ const List = ({
             return (
               <tr key={incident.id}>
                 <Td detailLink={detailLink}>
-                  {incident.has_children && <ParentIcon />}
+                  {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
