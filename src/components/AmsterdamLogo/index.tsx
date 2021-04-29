@@ -4,6 +4,7 @@ import { LogoShort } from '@amsterdam/asc-assets'
 import styled, { css } from 'styled-components'
 import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import configuration from 'shared/services/configuration/configuration'
+import { FunctionComponent } from 'react'
 
 export const LogoStyle = styled(LogoShort)`
   display: block;
@@ -11,7 +12,11 @@ export const LogoStyle = styled(LogoShort)`
   width: 100%;
 `
 
-const AmsterdamLogoStyle = styled.a`
+export interface AmsterdamLogoProps {
+  tall?: boolean
+}
+
+const AmsterdamLogoStyle = styled.a<AmsterdamLogoProps>`
   display: inline-block;
   height: 30px;
   width: 68px;
@@ -33,7 +38,9 @@ const AmsterdamLogoStyle = styled.a`
     `};
 `
 
-const AmsterdamLogo = ({ ...otherProps }) => (
+const AmsterdamLogo: FunctionComponent<AmsterdamLogoProps> = ({
+  ...otherProps
+}) => (
   <AmsterdamLogoStyle {...otherProps}>
     <LogoStyle
       role="image"
