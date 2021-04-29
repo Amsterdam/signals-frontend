@@ -9,6 +9,7 @@ interface CheckboxProps {
 }
 
 const StyledCheckbox = styled(AscCheckbox)`
+  z-index: 0;
   & > * {
     margin-left: -4px;
   }

@@ -76,8 +76,6 @@ export const DatesWrapper = styled.div`
 `
 
 export const FormFooterWrapper = styled(FormFooter)`
-  z-index: 2;
-
   button[type='reset'] {
     order: 1;
   }
