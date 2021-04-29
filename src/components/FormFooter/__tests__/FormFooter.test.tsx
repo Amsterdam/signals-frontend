@@ -29,7 +29,7 @@ describe('src/components/FormFooter', () => {
 
     expect(queryByTestId('resetBtn')).not.toBeNull()
     expect(getByText('Reset')).toBeInTheDocument()
-    expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset')
+    expect(queryByTestId('resetBtn')).toHaveAttribute('type', 'reset')
 
     rerender(
       withAppContext(
@@ -39,13 +39,13 @@ describe('src/components/FormFooter', () => {
 
     expect(queryByTestId('resetBtn')).not.toBeNull()
     expect(getByText('Reset')).toBeInTheDocument()
-    expect(queryByTestId('resetBtn').getAttribute('type')).toEqual('reset')
+    expect(queryByTestId('resetBtn')).toHaveAttribute('type', 'reset')
 
     rerender(withAppContext(<FormFooter cancelBtnLabel="Cancel" />))
 
     expect(queryByTestId('cancelBtn')).not.toBeNull()
     expect(getByText('Cancel')).toBeInTheDocument()
-    expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button')
+    expect(queryByTestId('cancelBtn')).toHaveAttribute('type', 'button')
 
     rerender(
       withAppContext(<FormFooter onCancel={() => {}} cancelBtnLabel="Cancel" />)
@@ -53,13 +53,13 @@ describe('src/components/FormFooter', () => {
 
     expect(queryByTestId('cancelBtn')).not.toBeNull()
     expect(getByText('Cancel')).toBeInTheDocument()
-    expect(queryByTestId('cancelBtn').getAttribute('type')).toEqual('button')
+    expect(queryByTestId('cancelBtn')).toHaveAttribute('type', 'button')
 
     rerender(withAppContext(<FormFooter submitBtnLabel="Submit" />))
 
     expect(queryByTestId('submitBtn')).not.toBeNull()
     expect(getByText('Submit')).toBeInTheDocument()
-    expect(queryByTestId('submitBtn').getAttribute('type')).toEqual('submit')
+    expect(queryByTestId('submitBtn')).toHaveAttribute('type', 'submit')
 
     rerender(
       withAppContext(
@@ -69,7 +69,7 @@ describe('src/components/FormFooter', () => {
 
     expect(queryByTestId('submitBtn')).not.toBeNull()
     expect(getByText('Submit')).toBeInTheDocument()
-    expect(queryByTestId('submitBtn').getAttribute('type')).toEqual('submit')
+    expect(queryByTestId('submitBtn')).toHaveAttribute('type', 'submit')
   })
 
   it('should render the buttons in the correct order', () => {
@@ -96,7 +96,7 @@ describe('src/components/FormFooter', () => {
     const onResetForm = jest.fn()
     const onSubmitForm = jest.fn()
 
-    const { queryByTestId } = render(
+    const { getByTestId } = render(
       withAppContext(
         <FormFooter
           onResetForm={onResetForm}
@@ -109,13 +109,13 @@ describe('src/components/FormFooter', () => {
       )
     )
 
-    fireEvent.click(queryByTestId('cancelBtn'))
+    fireEvent.click(getByTestId('cancelBtn'))
     expect(onCancel).toHaveBeenCalled()
 
-    fireEvent.click(queryByTestId('resetBtn'))
+    fireEvent.click(getByTestId('resetBtn'))
     expect(onResetForm).toHaveBeenCalled()
 
-    fireEvent.click(queryByTestId('submitBtn'))
+    fireEvent.click(getByTestId('submitBtn'))
     expect(onSubmitForm).toHaveBeenCalled()
   })
 })
