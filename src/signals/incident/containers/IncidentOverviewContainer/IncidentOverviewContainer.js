@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { Row, Column } from '@amsterdam/asc-ui'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports

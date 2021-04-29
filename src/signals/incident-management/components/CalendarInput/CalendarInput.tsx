@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FunctionComponent, SyntheticEvent } from 'react'
-import React, { Fragment, useCallback, useRef } from 'react'
+import { Fragment, useCallback, useRef } from 'react'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import { dateToString } from 'shared/services/date-utils'
 import nl from 'date-fns/locale/nl'

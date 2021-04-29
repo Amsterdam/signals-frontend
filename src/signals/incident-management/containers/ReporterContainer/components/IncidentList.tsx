@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
-import { Result } from '../types'
+import type { FunctionComponent } from 'react'
+import { ReporterIncident } from '../types'
 import IncidentListItem from './IncidentListItem'
 
 interface InterfaceListProps {
-  list: Result[]
+  list: ReporterIncident[]
   selectedIncidentId: number
-  setSelectedIncidentId: (id: number) => void
+  selectIncident: (id: number) => void
   className?: string
 }
 
-const IncidentList: React.FunctionComponent<InterfaceListProps> = ({
+const IncidentList: FunctionComponent<InterfaceListProps> = ({
   list,
   selectedIncidentId,
-  setSelectedIncidentId,
+  selectIncident,
   className,
 }) => (
   <ul className={className}>
@@ -23,7 +23,7 @@ const IncidentList: React.FunctionComponent<InterfaceListProps> = ({
         key={incident.id}
         incident={incident}
         isSelected={incident.id === selectedIncidentId}
-        onClick={() => setSelectedIncidentId(incident.id)}
+        onClick={() => selectIncident(incident.id)}
       />
     ))}
   </ul>

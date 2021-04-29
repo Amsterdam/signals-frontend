@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import {
   Link as AscLink,
   Icon,
@@ -12,6 +10,7 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import { ChevronLeft } from '@amsterdam/asc-assets'
+import { FunctionComponent } from 'react'
 
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',
@@ -52,7 +51,11 @@ const StyledIcon = styled(Icon)`
  * Component that renders a Link with a left chevron
  * To be used on detail pages for navigating back to its corresponding overview page
  */
-const BackLink = ({ className, children, to }) => (
+const BackLink: FunctionComponent<LinkProps> = ({
+  className,
+  children,
+  to,
+}) => (
   <StyledLink
     className={className}
     forwardedAs={Link}
@@ -65,24 +68,5 @@ const BackLink = ({ className, children, to }) => (
     <LinkLabel>{children}</LinkLabel>
   </StyledLink>
 )
-
-BackLink.defaultProps = {
-  className: '',
-}
-
-BackLink.propTypes = {
-  /** The BackLink label contents */
-  children: PropTypes.node.isRequired,
-  /** @ignore */
-  className: PropTypes.string,
-  /** Route indicator */
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      pathname: PropTypes.string,
-      state: PropTypes.shape({}),
-    }),
-  ]).isRequired,
-}
 
 export default BackLink

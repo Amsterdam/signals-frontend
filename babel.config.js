@@ -32,7 +32,12 @@ module.exports = (api) => {
     ],
     presets: [
       presetEnv,
-      '@babel/preset-react',
+      [
+        '@babel/preset-react',
+        {
+          runtime: 'automatic',
+        },
+      ],
       '@babel/preset-typescript',
     ].filter(Boolean),
     env: {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
+import { createContext } from 'react'
 import type { KeyValuePair } from './types'
 
 interface AppContextValue {
@@ -10,6 +10,6 @@ interface AppContextValue {
 
 const initialContext: AppContextValue = { loading: false, sources: null }
 
-const AppContext = React.createContext(initialContext)
+const AppContext = createContext(initialContext)
 
 export default AppContext

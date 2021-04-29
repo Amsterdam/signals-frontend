@@ -69,6 +69,17 @@ module.exports = {
     ],
     'jsx-a11y/aria-role': 'off',
     'jsx-a11y/no-autofocus': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'react',
+            importNames: ['default'],
+          },
+        ],
+      },
+    ],
     'no-undef': 'off',
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
@@ -78,6 +89,8 @@ module.exports = {
     'react/prop-types': 'off',
     'redux-saga/no-unhandled-errors': 'off',
     'require-yield': 'off',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
   settings: {
     react: {

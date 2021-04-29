@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import 'jest-styled-components'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
@@ -13,8 +12,8 @@ describe('FeedbackStatus', () => {
       withAppContext(
         <FeedbackStatus
           feedback={{
-            is_satisfied: true,
-            submitted_at: '2021-04-22T11:48:07.452326Z',
+            isSatisfied: true,
+            submittedAt: '2021-04-22T11:48:07.452326Z',
           }}
         />
       )
@@ -32,8 +31,8 @@ describe('FeedbackStatus', () => {
       withAppContext(
         <FeedbackStatus
           feedback={{
-            is_satisfied: false,
-            submitted_at: '2021-04-22T11:48:07.452326Z',
+            isSatisfied: false,
+            submittedAt: '2021-04-22T11:48:07.452326Z',
           }}
         />
       )
@@ -61,8 +60,8 @@ describe('FeedbackStatus', () => {
       withAppContext(
         <FeedbackStatus
           feedback={{
-            is_satisfied: null,
-            submitted_at: null,
+            isSatisfied: null,
+            submittedAt: null,
           }}
         />
       )

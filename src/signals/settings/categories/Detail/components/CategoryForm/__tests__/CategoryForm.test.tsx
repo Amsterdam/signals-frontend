@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
+import { MouseEvent } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
@@ -38,7 +38,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     },
     history: [],
     onCancel: jest.fn(),
-    onSubmitForm: jest.fn((event: React.MouseEvent) => {
+    onSubmitForm: jest.fn((event: MouseEvent) => {
       event.preventDefault()
     }),
     readOnly: false,

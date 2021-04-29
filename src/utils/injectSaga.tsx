@@ -1,9 +1,9 @@
-import React from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ReactReduxContext, useStore } from 'react-redux';
+import { Component, ComponentType, useEffect } from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import { ReactReduxContext, useStore } from 'react-redux'
 
-import type { InjectedStore, InjectSagaParams } from 'types';
-import { getInjectors } from './sagaInjectors';
+import type { InjectedStore, InjectSagaParams } from 'types'
+import { getInjectors } from './sagaInjectors'
 
 /**
  * Dynamically injects a saga, passes component's props as saga arguments
@@ -18,9 +18,9 @@ import { getInjectors } from './sagaInjectors';
  *
  */
 export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
-  function wrap(WrappedComponent: React.ComponentType<P>): React.ComponentType<P> {
+  function wrap(WrappedComponent: ComponentType<P>): ComponentType<P> {
     // dont wanna give access to HOC. Child only
-    class InjectSaga extends React.Component<P> {
+    class InjectSaga extends Component<P> {
       // eslint-disable-next-line react/static-property-placement
       public static displayName = `withSaga(${
         (WrappedComponent.displayName ?? WrappedComponent.name) || 'Component'
@@ -49,21 +49,21 @@ export default function hocWithSaga<P>({ key, saga, mode }: InjectSagaParams) {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return hoistNonReactStatics(InjectSaga, WrappedComponent) as any;
+    return hoistNonReactStatics(InjectSaga, WrappedComponent) as any
   }
-  return wrap;
+  return wrap
 }
 
 const useInjectSaga = ({ key, saga, mode }: InjectSagaParams) => {
-  const store = useStore() as InjectedStore;
-  React.useEffect(() => {
-    const injectors = getInjectors(store);
-    injectors.injectSaga(key, { saga, mode });
+  const store = useStore() as InjectedStore
+  useEffect(() => {
+    const injectors = getInjectors(store)
+    injectors.injectSaga(key, { saga, mode })
 
     return () => {
-      injectors.ejectSaga(key);
-    };
-  }, [key, mode, saga, store]);
-};
+      injectors.ejectSaga(key)
+    }
+  }, [key, mode, saga, store])
+}
 
-export { useInjectSaga };
+export { useInjectSaga }
