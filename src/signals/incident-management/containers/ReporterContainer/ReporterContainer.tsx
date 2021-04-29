@@ -39,7 +39,7 @@ const ReporterContainer: FunctionComponent = () => {
 
   const { incident, incidents, selectIncident } = useFetchReporter(id)
 
-  const header = incident?.data?.email && incidents?.data?.count && (
+  const header = incident.data?.email && incidents.data?.count && (
     <StyledHeader
       id={id}
       email={incident.data.email}
@@ -47,7 +47,7 @@ const ReporterContainer: FunctionComponent = () => {
     />
   )
 
-  const loadingIncidator = (incident?.isLoading || incidents?.isLoading) && (
+  const loadingIncidator = (incident.isLoading || incidents.isLoading) && (
     <LoadingIndicator />
   )
 
@@ -55,7 +55,7 @@ const ReporterContainer: FunctionComponent = () => {
     <Wrapper data-testid="reporterContainer">
       {header}
 
-      {incident?.data?.id && incidents?.data?.list && (
+      {incident.data?.id && incidents.data?.list && (
         <Content>
           <StyledIncidentList
             list={incidents.data.list}
