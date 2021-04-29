@@ -15,8 +15,6 @@ Install the dependencies:
 npm install
 ```
 
-Note: If the installation fails this might be because some dependencies might need to be [compiled](https://github.com/Automattic/node-canvas#compiling).
-
 And start the watch server:
 
 ```bash
