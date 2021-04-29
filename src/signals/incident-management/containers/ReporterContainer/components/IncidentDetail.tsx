@@ -1,5 +1,11 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
-import { Heading, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Heading,
+  Link,
+  Paragraph,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 import configuration from 'shared/services/configuration/configuration'
@@ -15,6 +21,17 @@ const IncidentStyle = styled.div`
   border-left: 1px solid ${themeColor('tint', 'level3')};
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
+`
+const StyledLink = styled(Link)`
+  margin-bottom: ${themeSpacing(4)};
+  text-decoration: underline;
+
+  :hover {
+    cursor: pointer;
+    & > * {
+      color: ${themeColor('secondary')};
+    }
+  }
 `
 
 const headerMapper: Record<string, string> = {
@@ -91,7 +108,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       category: { sub_slug },
       status: { state_display: status },
     } = incident
-    const subcategory = subcategories.find((s: any) => s.slug === sub_slug)
+    const subcategory = subcategories?.find((s: any) => s.slug === sub_slug)
       .extendedName
 
     return { id, description, date, status, subcategory }
@@ -112,9 +129,13 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       {incident && (
         <>
           <div>
-            <Box>Header Melding: {id}</Box>
+            <StyledLink href={`/manage/incident/${id}`}>
+              <Heading as="h2" styleAs="h3">
+                Standaardmelding: {id}
+              </Heading>
+            </StyledLink>
             <InfoStyle>
-              <span>Gemeld op: Melding</span>
+              <span>Gemeld op</span>
               <span>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</span>
               <span>Subcategorie (verantwoordelijke afdeling) </span>
               <span>{subcategory}</span>
@@ -122,7 +143,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
               <span>{status}</span>
             </InfoStyle>
             <Box>
-              <Heading as="h2" styleAs="h3">
+              <Heading as="h3" styleAs="h4">
                 Omschriving
               </Heading>
               <div>{description}</div>
@@ -138,7 +159,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
                 .map(({ description, identifier, action, what }) => {
                   return (
                     <Box key={identifier}>
-                      <Heading as="h2" styleAs="h3">
+                      <Heading as="h3" styleAs="h4">
                         {headerMapper[action]}
                       </Heading>
                       <Description
