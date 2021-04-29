@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import BackLink from 'components/BackLink'
 import styled from 'styled-components'
+import type { FunctionComponent } from 'react'
 
 const StyledHeading = styled(Heading)`
   padding-top: ${themeSpacing(6)};
@@ -17,7 +17,7 @@ interface HeaderProps {
   className?: string
 }
 
-const Header: React.FunctionComponent<HeaderProps> = ({
+const Header: FunctionComponent<HeaderProps> = ({
   id,
   count,
   email,

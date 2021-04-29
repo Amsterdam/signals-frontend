@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { Play } from '@amsterdam/asc-assets'
 import { Icon } from '@amsterdam/asc-ui'
-import React from 'react'
+import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.span`
@@ -16,7 +16,7 @@ interface ParentIncidentIconProps {
   className?: string
 }
 
-const ParentIncidentIcon: React.FunctionComponent<ParentIncidentIconProps> = ({
+const ParentIncidentIcon: FunctionComponent<ParentIncidentIconProps> = ({
   className,
 }) => (
   <Wrapper

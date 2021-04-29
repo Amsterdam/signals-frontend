@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+import type { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useReporter } from './useReporter'
+import { useFetchReporter } from './useFetchReporter'
 
 const Wrapper = styled.article`
   margin: 0 ${themeSpacing(11)};
@@ -33,45 +34,47 @@ const Incident = styled.div`
   border-left: 1px solid ${themeColor('tint', 'level3')};
 `
 
-const ReporterContainer: React.FunctionComponent = () => {
-  const {
-    reporter,
-    isLoading,
-    selectedIncident,
-    selectedIncidentId,
-    setSelectedIncidentId,
-  } = useReporter()
+const ReporterContainer: FunctionComponent = () => {
+  const { id } = useParams<{ id: string }>()
+
+  const { incident, incidents, selectIncident } = useFetchReporter(id)
+
+  const header = incident?.data?.email && incidents?.data?.count && (
+    <StyledHeader
+      id={id}
+      email={incident.data.email}
+      count={incidents.data.count}
+    />
+  )
+
+  const loadingIncidator = (incident?.isLoading || incidents?.isLoading) && (
+    <LoadingIndicator />
+  )
 
   return (
     <Wrapper data-testid="reporterContainer">
-      {reporter.email && reporter.incidents && (
-        <StyledHeader
-          id={reporter.originalIncidentId}
-          email={reporter.email}
-          count={reporter.incidents.count}
-        />
-      )}
+      {header}
 
-      {selectedIncident && reporter.incidents && selectedIncidentId && (
+      {incident?.data?.id && incidents?.data?.list && (
         <Content>
           <StyledIncidentList
-            list={reporter.incidents.results}
-            selectedIncidentId={selectedIncidentId}
-            setSelectedIncidentId={setSelectedIncidentId}
+            list={incidents.data.list}
+            selectedIncidentId={incident.data.id}
+            selectIncident={selectIncident}
           />
 
           {/* TODO SIG-3675 */}
           <Incident>
-            {selectedIncidentId === selectedIncident?.id && (
+            {incident.data.id && (
               <>
-                {selectedIncident?.id} {selectedIncident?.text}
+                {incident.data.id} {incident.data.text}
               </>
             )}
           </Incident>
         </Content>
       )}
 
-      {isLoading && <LoadingIndicator />}
+      {loadingIncidator}
     </Wrapper>
   )
 }

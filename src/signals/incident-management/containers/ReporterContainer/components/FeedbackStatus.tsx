@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { themeColor } from '@amsterdam/asc-ui'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { Theme } from 'types/theme'
-import { Feedback } from '../types'
+import type { Feedback } from '../types'
 
 interface FeedbackStatusProps {
   feedback: Feedback | null
@@ -13,24 +14,24 @@ interface FeedbackStatusProps {
 
 const Status = styled.span<{ feedback: Feedback | null; theme: Theme }>`
   ${({ feedback, theme }) => {
-    if (feedback === null || !feedback.submitted_at) return
+    if (feedback === null || !feedback.submittedAt) return
 
     return `color: ${themeColor(
       'support',
-      feedback.is_satisfied ? 'valid' : 'invalid'
+      feedback.isSatisfied ? 'valid' : 'invalid'
     )({ theme })}`
   }}
 `
 
-const FeedbackStatus: React.FunctionComponent<FeedbackStatusProps> = ({
+const FeedbackStatus: FunctionComponent<FeedbackStatusProps> = ({
   feedback,
   className,
 }) => {
   const text = useMemo(() => {
     if (!feedback) return '-'
-    if (!feedback.submitted_at) return 'Niet ontvangen'
+    if (!feedback.submittedAt) return 'Niet ontvangen'
 
-    return feedback.is_satisfied ? 'Tevreden' : 'Niet tevreden'
+    return feedback.isSatisfied ? 'Tevreden' : 'Niet tevreden'
   }, [feedback])
 
   return (
