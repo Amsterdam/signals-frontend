@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-
+import type { Incident as IncidentType } from '../IncidentDetail/types'
 export interface Feedback {
   isSatisfied: boolean | null
   submittedAt: string | null
@@ -8,11 +8,7 @@ export interface Feedback {
 
 export interface Incident {
   isLoading: boolean
-  data?: {
-    email?: string | null
-    id: number
-    text: string | null
-  }
+  data?: IncidentType
 }
 
 export interface ReporterIncident {
@@ -24,23 +20,6 @@ export interface ReporterIncident {
   hasChildren: boolean
 }
 
-export interface Incident {
-  id: number
-  created_at: string
-  category: {
-    sub: string
-    sub_slug: string
-  }
-  status: {
-    state: string
-    state_display: string
-  }
-  reporter: {
-    email: string
-  }
-  text: string
-  _links: Record<string, string>
-}
 export interface Incidents {
   isLoading: boolean
   data?: {
