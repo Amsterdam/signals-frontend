@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { Feedback } from '../types'
@@ -18,8 +18,8 @@ const Description: FunctionComponent<{
   if (what === RECEIVE_FEEDBACK) {
     const descriptionList = description.split('\n')
     const feedback: Feedback = {
-      submitted_at: '-',
-      is_satisfied: descriptionList[0].startsWith('Ja'),
+      submittedAt: '-',
+      isSatisfied: descriptionList[0].startsWith('Ja'),
     }
     return (
       <>

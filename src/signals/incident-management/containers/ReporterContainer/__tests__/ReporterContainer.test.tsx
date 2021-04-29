@@ -3,6 +3,7 @@
 import * as reactRouterDom from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import type { Incident as IncidentType } from '../../IncidentDetail/types'
 
 import ReporterContainer from '..'
 import { FetchReporterHook } from '../useFetchReporter'
@@ -36,8 +37,8 @@ describe('ReporterContainer', () => {
         data: {
           id: 4440,
           text: 'Incident text',
-          email: 'example@amsterdam.nl',
-        },
+          reporter: { email: 'example@amsterdam.nl' },
+        } as IncidentType,
       },
       currentPage: 0,
       setCurrentPage: jest.fn(),
