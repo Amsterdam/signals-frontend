@@ -12,7 +12,9 @@ import configuration from 'shared/services/configuration/configuration'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { showGlobalNotification } from 'containers/App/actions'
 import { Feedback, Incident } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
@@ -97,7 +99,8 @@ interface History {
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
-  const { get, isLoading, isSuccess, data } = useFetch<History[]>()
+  const storeDispatch = useDispatch()
+  const { get, isLoading, isSuccess, data, error } = useFetch<History[]>()
   const subcategories = useSelector(makeSelectSubCategories)
   const {
     id,
@@ -136,6 +139,19 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
     if (!data) return
     setHistory(data)
   }, [isSuccess, data, history, setHistory])
+
+  useEffect(() => {
+    if (error) {
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'De data kon niet opgehaald worden. probeer het later nog eens.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    }
+  }, [error, storeDispatch])
 
   return (
     <IncidentStyle>
