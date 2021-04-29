@@ -50,4 +50,5 @@ export interface Incident {
     email: string
   }
   text: string
+  _links: Record<string, string>
 }

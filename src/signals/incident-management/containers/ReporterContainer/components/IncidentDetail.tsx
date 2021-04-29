@@ -92,7 +92,6 @@ interface History {
   who: string
   action: string
   description: string
-  _signal: number
 }
 
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
@@ -100,7 +99,14 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
 }) => {
   const { get, isLoading, isSuccess, data } = useFetch<History[]>()
   const subcategories = useSelector(makeSelectSubCategories)
-  const { id, description, date, status, subcategory } = useMemo(() => {
+  const {
+    id,
+    description,
+    date,
+    status,
+    subcategory,
+    isParent,
+  } = useMemo(() => {
     const {
       id,
       created_at: date,
@@ -111,7 +117,14 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
     const subcategory = subcategories?.find((s: any) => s.slug === sub_slug)
       .extendedName
 
-    return { id, description, date, status, subcategory }
+    return {
+      id,
+      description,
+      date,
+      status,
+      subcategory,
+      isParent: !!incident._links?.['sia:children'],
+    }
   }, [incident, subcategories])
   const [history, setHistory] = useState<History[]>()
 
@@ -131,7 +144,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
           <div>
             <StyledLink href={`/manage/incident/${id}`}>
               <Heading as="h2" styleAs="h3">
-                Standaardmelding: {id}
+                {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
               </Heading>
             </StyledLink>
             <InfoStyle>

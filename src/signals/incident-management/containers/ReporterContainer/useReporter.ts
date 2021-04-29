@@ -56,7 +56,7 @@ export const useReporter = (): ReporterHook => {
 
   useEffect(() => {
     setSelectedIncidentId(reporter?.results[0]?.id)
-  }, [reporter])
+  }, [reporter, setSelectedIncidentId])
 
   useEffect(() => {
     if (selectedIncidentId) {
