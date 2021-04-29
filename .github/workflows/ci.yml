@@ -29,9 +29,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
-      # See: https://github.com/Automattic/node-canvas#compiling
       - name: Install required libraries
-        run: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+        run: sudo apt-get install libgif-dev
 
       - name: Setup Node 16
         uses: actions/setup-node@v2
