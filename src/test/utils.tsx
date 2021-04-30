@@ -9,6 +9,7 @@ import isObject from 'lodash.isobject'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 import loadModels from 'models'
 import MapContext from 'containers/MapContext'
+import type { ReactNode } from 'react'
 
 import configureStore from '../configureStore'
 
@@ -25,7 +26,11 @@ Object.defineProperty(global.window, 'matchMedia', {
   writable: true,
 })
 
-export const testActionCreator = (action, actionType, payload) => {
+export const testActionCreator = (
+  action: (payload: any) => { type: string; payload?: any },
+  actionType: string,
+  payload?: any
+) => {
   const expected = {
     type: actionType,
     payload,
@@ -33,7 +38,7 @@ export const testActionCreator = (action, actionType, payload) => {
   expect(action(payload)).toEqual(expected)
 }
 
-export const getContext = (state) => {
+export const getContext = (state: any) => {
   const store = {
     dispatch: jest.fn(),
     getState: () => state,
@@ -51,7 +56,7 @@ export const store = configureStore({}, history)
 
 loadModels(store)
 
-export const withAppContext = (Component) => (
+export const withAppContext = (Component: ReactNode) => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>{Component}</ConnectedRouter>
@@ -60,7 +65,7 @@ export const withAppContext = (Component) => (
 )
 
 // eslint-disable-next-line
-export const withCustomAppContext = (Component) => ({
+export const withCustomAppContext = (Component: ReactNode) => ({
   themeCfg = {},
   storeCfg = {},
   routerCfg = {},
@@ -77,22 +82,20 @@ export const withCustomAppContext = (Component) => ({
 /**
  * Get a list of users from JSON data that is coming from the API endpoint
  * Invalid keys are filtered out of the return value.
- *
- * @param {Object} users
  */
 export const userObjects = (users = usersJSON) =>
   users.results.map((item) =>
     Object.keys(item)
       .filter((key) => !key.startsWith('_'))
-      .filter((key) => !isObject(item[key]))
+      .filter((key) => !isObject((item as any)[key]))
       .reduce((rawObj, key) => {
-        const obj = { ...rawObj }
+        const obj: any = { ...rawObj }
 
-        obj[key] = item[key]
+        obj[key] = (item as any)[key]
 
         return obj
       }, {})
   )
 
-export const withMapContext = (Component) =>
+export const withMapContext = (Component: ReactNode) =>
   withAppContext(<MapContext>{Component}</MapContext>)
