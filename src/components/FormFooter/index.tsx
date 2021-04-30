@@ -22,7 +22,6 @@ export const FooterWrapper = styled.footer<{ inline?: boolean }>`
       width: 100%;
       left: 50%;
       transform: translate(-50%);
-      z-index: 1;
     `}
 `
 
