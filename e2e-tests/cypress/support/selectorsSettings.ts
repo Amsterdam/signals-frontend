@@ -10,6 +10,7 @@ export const CATEGORIES = {
   inputDescription: '#description',
   inputMessage: '#handling_message',
   inputName: '#name',
+  notification: '[data-testid="notification"]',
   radioButtonNietActief: '[data-testid="is_active-false"]',
   verantwoordelijkeAfdeling: '[data-testid=responsible_departments]',
 };
