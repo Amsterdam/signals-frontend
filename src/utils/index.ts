@@ -9,5 +9,5 @@ export const isArray = (value: unknown): boolean =>
 /**
  * Date detector
  */
-export const isDate = (value: unknown) =>
+export const isDate = (value: unknown): boolean =>
   !!value && !isArray(value) && !Number.isNaN(Date.parse(value as string))
