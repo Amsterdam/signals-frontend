@@ -8,9 +8,13 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { store } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import configuration from 'shared/services/configuration/configuration'
+import type { Result } from 'types/api/reporter'
 import {
   fetchMock,
   mockRequestHandler,
+  rest,
+  server,
 } from '../../../../../../internals/testing/msw-server'
 import { FetchReporterHook, useFetchReporter } from '../useFetchReporter'
 
@@ -26,7 +30,69 @@ jest.mock('react-router-dom', () => ({
 
 const INCIDENT_ID = '4440'
 
+const REPORTER_MOCK: Result = {
+  id: 0,
+  created_at: new Date(0).toISOString(),
+  category: {
+    sub: 'foo',
+    sub_slug: 'foo',
+    main: 'foo',
+    main_slug: 'foo',
+    departments: 'foo',
+  },
+  status: {
+    state: 'foo',
+    state_display: 'foo',
+  },
+  feedback: null,
+  can_view_signal: false,
+  has_children: false,
+}
+
 describe('Fetch Reporter hook', () => {
+  it('correctly implements pagination', async () => {
+    server.use(
+      rest.get(
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${INCIDENT_ID}/context/reporter`,
+        async (req, res, ctx) => {
+          const query = req.url.searchParams
+          const page = query.get('page')
+          return res(
+            ctx.status(200),
+            ctx.json({
+              count: 8,
+              results: [{ ...REPORTER_MOCK, id: Number(page) }],
+            })
+          )
+        }
+      )
+    )
+
+    const { result, waitForNextUpdate } = renderHook(
+      () => useFetchReporter(INCIDENT_ID),
+      {
+        wrapper: Provider,
+        initialProps: { store },
+      }
+    )
+
+    await waitForNextUpdate()
+    await waitForNextUpdate()
+
+    expect(result.current.incidents.data?.list[0].id).toEqual(1)
+    expect(result.current.currentPage).toEqual(1)
+
+    act(() => {
+      result.current.setCurrentPage(2)
+    })
+
+    await waitForNextUpdate()
+    await waitForNextUpdate()
+
+    expect(result.current.incidents.data?.list[0].id).toEqual(2)
+    expect(result.current.currentPage).toEqual(2)
+  })
+
   it('returns incident(s) data', async () => {
     const FIRST: Partial<FetchReporterHook> = {
       incident: {
