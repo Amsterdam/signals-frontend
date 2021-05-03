@@ -73,7 +73,6 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }),
     [getReporterData, getReporterLoading]
   )
-
   useEffect(() => {
     getReporter(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page=${currentPage}&page_size=${PAGE_SIZE}`

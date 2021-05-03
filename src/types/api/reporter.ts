@@ -9,7 +9,7 @@ export default interface Reporter {
   results: Array<Result>
 }
 
-interface Result {
+export interface Result {
   id: number
   created_at: string
   category: {
