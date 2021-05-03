@@ -161,6 +161,10 @@ describe('containers/App/selectors', () => {
       const doSomething = userJson.permissions[0].codename
       const cannotDoSomething = `${userJson.permissions[0].codename}97ysadfysd87f`
 
+      it('should return undefined initially', () => {
+        expect(makeSelectUserCan(state)(doSomething)).toBeUndefined()
+      })
+
       it('should always allow for superuser', () => {
         const superUserCan = makeSelectUserCan(mockedState)
 
@@ -185,6 +189,10 @@ describe('containers/App/selectors', () => {
 
       const superUserCanAccess = makeSelectUserCanAccess(mockedState)
       const regularUserCanAccess = makeSelectUserCanAccess(regularUserState)
+
+      it('should return undefined initially', () => {
+        expect(makeSelectUserCanAccess(state)(settings)).toBeUndefined()
+      })
 
       it('should always allow for superuser', () => {
         expect(superUserCanAccess(settings)).toEqual(true)

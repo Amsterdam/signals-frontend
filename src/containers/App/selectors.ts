@@ -56,13 +56,13 @@ export const makeSelectUserPermissionCodeNames = createSelector(
 export const makeSelectUserCan = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   (user, permissions) => {
-    const is_superuser = user?.is_superuser ?? false
+    const is_superuser = user?.is_superuser
     /**
      * @param   {String} capability - The permission to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     return (capability: string): boolean | undefined =>
-      is_superuser
+      is_superuser !== false
         ? is_superuser
         : Boolean(permissions.find((codename) => codename === capability))
   }
@@ -77,13 +77,13 @@ export const makeSelectUserCan = createSelector(
 export const makeSelectUserCanAccess = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   (user, permissions) => {
-    const is_superuser = user?.is_superuser ?? false
+    const is_superuser = user?.is_superuser
     /**
      * @param   {String} section - The set of permissions to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
      */
     return (section: string): boolean | undefined => {
-      if (is_superuser) {
+      if (is_superuser !== false) {
         return is_superuser
       }
 
