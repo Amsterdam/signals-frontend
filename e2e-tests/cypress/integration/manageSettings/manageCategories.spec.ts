@@ -50,13 +50,16 @@ describe('Manage categories', () => {
       cy.wait('@patchCategory');
       cy.wait('@getCategories');
 
+      cy.get(CATEGORIES.notification).should('contain', 'Subcategorie bijgewerkt');
+
       // Check if Subcategorieën page opens again
       cy.url().should('include', '/instellingen/categorieen/page/1');
-      // Load page again, because page refresh is very slow and test fails
-      cy.visit('/instellingen/categorieen/page/1');
+      cy.contains('Asbest / accu').should('have.length', 1);
+      cy.contains('Afgewaterde brug').should('have.length', 1);
+
       general.checkHeaderText('Subcategorieën');
-      cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(0).should('contain', 'Afgewaterde brug');
-      cy.get(CATEGORIES.categoryValue, { timeout: 10000 }).eq(1).should('contain', '4 dagen');
+      cy.get(CATEGORIES.categoryValue).eq(0).should('contain', 'Afgewaterde brug');
+      cy.get(CATEGORIES.categoryValue).eq(1).should('contain', '4 dagen');
 
       cy.contains('Afgewaterde brug').click();
       cy.url().should('include', 'instellingen/categorie/');
