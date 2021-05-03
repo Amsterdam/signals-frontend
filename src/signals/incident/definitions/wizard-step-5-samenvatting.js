@@ -15,6 +15,7 @@ import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-w
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import afvalControls from './wizard-step-2-vulaan/afval'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
+import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -98,6 +99,9 @@ const getExtraQuestions = (category, subcategory, questions) => {
   switch (category) {
     case 'afval':
       return summary(afvalControls)
+
+    case 'civiele-constructies':
+      return summary(civieleConstructies)
 
     case 'overlast-bedrijven-en-horeca':
       return summary(overlastBedrijvenEnHorecaControls)
