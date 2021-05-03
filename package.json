@@ -45,7 +45,7 @@
     "@amsterdam/react-maps": "^0.11.0",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@datapunt/matomo-tracker-js": "^0.4.0",
-    "@sentry/browser": "^6.3.3",
+    "@sentry/browser": "^6.3.5",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.9.1",
     "date-fns": "^2.19.0",
