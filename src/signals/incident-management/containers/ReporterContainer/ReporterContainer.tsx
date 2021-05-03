@@ -10,7 +10,8 @@ import Header from './components/Header'
 import { useFetchReporter } from './useFetchReporter'
 
 const Wrapper = styled.article`
-  margin: 0 ${themeSpacing(11)};
+  margin: ${themeSpacing(11)};
+  margin-top: 0;
 `
 
 const StyledHeader = styled(Header)`
