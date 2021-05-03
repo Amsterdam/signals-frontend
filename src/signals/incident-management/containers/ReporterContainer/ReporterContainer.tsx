@@ -20,7 +20,7 @@ const StyledHeader = styled(Header)`
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
   display: flex;
-  border-top: 1px solid ${themeColor('tint', 'level3')};
+  border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledIncidentList = styled(IncidentList)`
@@ -31,7 +31,7 @@ const StyledIncidentList = styled(IncidentList)`
 
 const Incident = styled.div`
   width: 50%;
-  border-left: 1px solid ${themeColor('tint', 'level3')};
+  border-left: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const ReporterContainer: FunctionComponent = () => {

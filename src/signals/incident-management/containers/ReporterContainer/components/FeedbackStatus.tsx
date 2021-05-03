@@ -13,6 +13,7 @@ interface FeedbackStatusProps {
 }
 
 const Status = styled.span<{ feedback: Feedback | null; theme: Theme }>`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   ${({ feedback, theme }) => {
     if (feedback === null || !feedback.submittedAt) return
 
