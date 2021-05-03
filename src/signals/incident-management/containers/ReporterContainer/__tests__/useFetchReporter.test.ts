@@ -51,13 +51,6 @@ const REPORTER_MOCK: Result = {
 
 describe('Fetch Reporter hook', () => {
   it('correctly implements pagination', async () => {
-    mockRequestHandler({
-      body: {
-        ...incidentFixture,
-        id: 12345,
-      },
-    })
-
     server.use(
       rest.get(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${INCIDENT_ID}/context/reporter`,
