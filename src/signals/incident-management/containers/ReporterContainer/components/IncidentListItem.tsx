@@ -11,8 +11,13 @@ import { ReporterIncident } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
 const Info = styled.span`
-  font-weight: bold;
-  display: flex;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+`
+
+const InfoWrapper = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `
 
 const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
@@ -78,12 +83,14 @@ const IncidentListItem: FunctionComponent<IncidentListItemProps> = ({
   <ListItem onClick={onClick} isSelected={isSelected}>
     {hasChildren ? <StyledParentIncidentIcon /> : <Spacing />}
     <Wrapper>
-      <Info>
-        {id} {category}
-      </Info>
+      <InfoWrapper>
+        <Info>
+          {id} {category}
+        </Info>
+        <DateTime>{format(new Date(createdAt), 'dd-MM-yyyy HH:mm')}</DateTime>
+      </InfoWrapper>
       <span>{status}</span>
       <StyledFeedbackStatus feedback={feedback} />
-      <DateTime>{format(new Date(createdAt), 'dd-MM-yyyy HH:mm')}</DateTime>
     </Wrapper>
   </ListItem>
 )

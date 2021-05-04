@@ -10,7 +10,8 @@ import Header from './components/Header'
 import { useFetchReporter } from './useFetchReporter'
 
 const Wrapper = styled.article`
-  margin: 0 ${themeSpacing(11)};
+  margin: ${themeSpacing(11)};
+  margin-top: 0;
 `
 
 const StyledHeader = styled(Header)`
@@ -20,7 +21,7 @@ const StyledHeader = styled(Header)`
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
   display: flex;
-  border-top: 1px solid ${themeColor('tint', 'level3')};
+  border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledIncidentList = styled(IncidentList)`
@@ -31,7 +32,7 @@ const StyledIncidentList = styled(IncidentList)`
 
 const Incident = styled.div`
   width: 50%;
-  border-left: 1px solid ${themeColor('tint', 'level3')};
+  border-left: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const ReporterContainer: FunctionComponent = () => {
