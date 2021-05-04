@@ -51,14 +51,14 @@ export function* callAuthorize(action: AuthenticateUserAction) {
     const accessToken = action.payload?.accessToken
 
     if (accessToken) {
-      const user: unknown = yield call(
+      const user: User = yield call(
         authCall,
         configuration.AUTH_ME_ENDPOINT,
         null,
         accessToken
       )
 
-      yield put(authorizeUser(user as User))
+      yield put(authorizeUser(user))
     }
   } catch (error: unknown) {
     const { response } = error as ApiError

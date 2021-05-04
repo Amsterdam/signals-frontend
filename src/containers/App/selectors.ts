@@ -25,7 +25,7 @@ export const makeSelectUserPermissions = createSelector(
     const permissionMap = new Map<number, Role>()
 
     user?.roles
-      ?.flatMap<Role | undefined>((role) => role.permissions)
+      ?.flatMap((role) => role.permissions)
       .concat(user.permissions)
       .forEach((permission) => {
         if (permission) {
