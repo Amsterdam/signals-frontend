@@ -64,14 +64,15 @@ const ReporterContainer: FunctionComponent = () => {
     <LoadingIndicator />
   )
 
-  const pagination = incidents?.data?.count && (
-    <StyledCompactPager
-      collectionSize={incidents.data.count}
-      pageSize={PAGE_SIZE}
-      page={currentPage}
-      onPageChange={setCurrentPage}
-    />
-  )
+  const pagination = incidents?.data?.count &&
+    incidents.data.count / PAGE_SIZE > 1 && (
+      <StyledCompactPager
+        collectionSize={incidents.data.count}
+        pageSize={PAGE_SIZE}
+        page={currentPage}
+        onPageChange={setCurrentPage}
+      />
+    )
 
   return (
     <Wrapper data-testid="reporterContainer">
