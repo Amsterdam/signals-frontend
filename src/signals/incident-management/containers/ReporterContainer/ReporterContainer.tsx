@@ -3,7 +3,7 @@
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import type { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
@@ -30,11 +30,18 @@ const Content = styled.div`
 const StyledIncidentList = styled(IncidentList)`
   margin: 0;
   padding: 0;
+  border-right: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledCompactPager = styled(CompactPager)`
   max-width: 180px;
   margin-top: ${themeSpacing(6)};
+`
+
+const NotPermittedMessage = styled.p`
+  background-color: ${themeColor('tint', 'level3')};
+  margin: ${themeSpacing(6)} ${themeSpacing(8)} auto;
+  padding: ${themeSpacing(4)};
 `
 
 const ReporterContainer: FunctionComponent = () => {
@@ -74,20 +81,29 @@ const ReporterContainer: FunctionComponent = () => {
     <Wrapper data-testid="reporterContainer">
       {header}
 
-      {incident.data && incidents.data && (
-        <Content>
+      <Content>
+        {incidents.data && incident.id && (
           <div>
             <StyledIncidentList
               list={incidents.data.list}
-              selectedIncidentId={incident.data.id}
+              selectedIncidentId={incident.id}
               selectIncident={selectIncident}
             />
             {pagination}
           </div>
+        )}
 
+        {incident.canView && incident.data && (
           <IncidentDetail incident={incident.data} />
-        </Content>
-      )}
+        )}
+
+        {incident.canView === false && (
+          <NotPermittedMessage>
+            Je hebt geen toestemming om meldingen in deze subcategorie te
+            bekijken
+          </NotPermittedMessage>
+        )}
+      </Content>
 
       {loadingIncidator}
     </Wrapper>
