@@ -146,7 +146,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
             </InfoStyle>
             <Box>
               <Heading as="h3" styleAs="h4">
-                Omschriving
+                Omschrijving
               </Heading>
               <Description description={description} />
             </Box>
