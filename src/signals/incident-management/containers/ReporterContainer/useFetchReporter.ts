@@ -10,17 +10,20 @@ import Reporter from 'types/api/reporter'
 import type { Incident as IncidentType } from '../IncidentDetail/types'
 import { Incident, Incidents } from './types'
 
-const PAGE_SIZE = 10
+export const PAGE_SIZE = 10
 
 export interface FetchReporterHook {
   selectIncident: (id: number) => void
   incident: Incident
   incidents: Incidents
+  currentPage: number
+  setCurrentPage: (page: number) => void
 }
 
 export const useFetchReporter = (id: string): FetchReporterHook => {
   const storeDispatch = useDispatch()
   const [selectedIncidentId, setSelectedIncidentId] = useState<number>()
+  const [currentPage, setCurrentPage] = useState(1)
 
   const {
     get: getReporter,
@@ -66,12 +69,11 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }),
     [getReporterData, getReporterLoading]
   )
-
   useEffect(() => {
     getReporter(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page_size=${PAGE_SIZE}`
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page=${currentPage}&page_size=${PAGE_SIZE}`
     )
-  }, [getReporter, id])
+  }, [getReporter, id, currentPage])
 
   useEffect(() => {
     setSelectedIncidentId(getReporterData?.results[0]?.id)
@@ -102,5 +104,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     selectIncident: setSelectedIncidentId,
     incident,
     incidents,
+    currentPage,
+    setCurrentPage,
   }
 }

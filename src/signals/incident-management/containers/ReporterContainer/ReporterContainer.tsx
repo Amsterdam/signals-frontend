@@ -5,10 +5,11 @@ import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import type { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
+import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
 import IncidentDetail from './components/IncidentDetail'
-import { useFetchReporter } from './useFetchReporter'
+import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 
 const Wrapper = styled.article`
   margin: ${themeSpacing(11)};
@@ -26,15 +27,26 @@ const Content = styled.div`
 `
 
 const StyledIncidentList = styled(IncidentList)`
-  width: 50%;
+  width: 100%;
   margin: 0;
   padding: 0;
+`
+
+const StyledCompactPager = styled(CompactPager)`
+  max-width: 180px;
+  margin-top: ${themeSpacing(6)};
 `
 
 const ReporterContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
 
-  const { incident, incidents, selectIncident } = useFetchReporter(id)
+  const {
+    incident,
+    incidents,
+    selectIncident,
+    currentPage,
+    setCurrentPage,
+  } = useFetchReporter(id)
 
   const header = incident.data?.reporter?.email && incidents.data?.count && (
     <StyledHeader
@@ -48,17 +60,30 @@ const ReporterContainer: FunctionComponent = () => {
     <LoadingIndicator />
   )
 
+  const pagination = incidents?.data?.count &&
+    incidents.data.count / PAGE_SIZE > 1 && (
+      <StyledCompactPager
+        collectionSize={incidents.data.count}
+        pageSize={PAGE_SIZE}
+        page={currentPage}
+        onPageChange={setCurrentPage}
+      />
+    )
+
   return (
     <Wrapper data-testid="reporterContainer">
       {header}
 
       {incident.data?.id && incidents.data?.list && (
         <Content>
-          <StyledIncidentList
-            list={incidents.data.list}
-            selectedIncidentId={incident.data.id}
-            selectIncident={selectIncident}
-          />
+          <div>
+            <StyledIncidentList
+              list={incidents.data.list}
+              selectedIncidentId={incident.data.id}
+              selectIncident={selectIncident}
+            />
+            {pagination}
+          </div>
 
           <IncidentDetail incident={incident.data} />
         </Content>
