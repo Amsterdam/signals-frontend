@@ -39,7 +39,13 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   const incident = useMemo<Incident>(
     () => ({
       isLoading: getSelectedIncidentLoading,
-      data: getSelectedIncidentData,
+      data:
+        getSelectedIncidentData &&
+        (({
+          id: getSelectedIncidentData.id,
+          text: getSelectedIncidentData.text,
+          email: getSelectedIncidentData.reporter.email,
+        } as unknown) as IncidentType),
     }),
     [getSelectedIncidentData, getSelectedIncidentLoading]
   )
@@ -54,8 +60,8 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
           category: result.category.sub,
           feedback: result.feedback
             ? {
-                isSatisfied: result.feedback?.is_satisfied,
-                submittedAt: result.feedback?.submitted_at,
+                isSatisfied: result.feedback.is_satisfied,
+                submittedAt: result.feedback.submitted_at,
               }
             : null,
           createdAt: result.created_at,

@@ -11,7 +11,8 @@ import IncidentDetail from './components/IncidentDetail'
 import { useFetchReporter } from './useFetchReporter'
 
 const Wrapper = styled.article`
-  margin: 0 ${themeSpacing(11)};
+  margin: ${themeSpacing(11)};
+  margin-top: 0;
 `
 
 const StyledHeader = styled(Header)`
@@ -21,7 +22,7 @@ const StyledHeader = styled(Header)`
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
   display: flex;
-  border-top: 1px solid ${themeColor('tint', 'level3')};
+  border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledIncidentList = styled(IncidentList)`
@@ -35,7 +36,7 @@ const ReporterContainer: FunctionComponent = () => {
 
   const { incident, incidents, selectIncident } = useFetchReporter(id)
 
-  const header = incident?.data?.reporter.email && incidents?.data?.count && (
+  const header = incident.data?.reporter.email && incidents.data?.count && (
     <StyledHeader
       id={id}
       email={incident.data.reporter.email}
@@ -43,7 +44,7 @@ const ReporterContainer: FunctionComponent = () => {
     />
   )
 
-  const loadingIncidator = (incident?.isLoading || incidents?.isLoading) && (
+  const loadingIncidator = (incident.isLoading || incidents.isLoading) && (
     <LoadingIndicator />
   )
 
@@ -51,7 +52,7 @@ const ReporterContainer: FunctionComponent = () => {
     <Wrapper data-testid="reporterContainer">
       {header}
 
-      {incident?.data?.id && incidents?.data?.list && (
+      {incident.data?.id && incidents.data?.list && (
         <Content>
           <StyledIncidentList
             list={incidents.data.list}
