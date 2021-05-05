@@ -155,7 +155,6 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
             <Description description={description} />
           </Box>
         </div>
-        {isLoading && <LoadingIndicator />}
         {history && !isLoading && (
           <>
             {history
@@ -174,6 +173,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
               })}
           </>
         )}
+        {isLoading && <LoadingIndicator />}
       </>
     </IncidentStyle>
   )
