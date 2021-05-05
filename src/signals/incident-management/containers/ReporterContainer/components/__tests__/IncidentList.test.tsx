@@ -18,6 +18,7 @@ describe('IncidentList', () => {
         submittedAt: '2021-04-22T13:27:12.942554Z',
       },
       hasChildren: false,
+      canView: true,
     },
     {
       id: 7743,
@@ -29,6 +30,7 @@ describe('IncidentList', () => {
         submittedAt: null,
       },
       hasChildren: false,
+      canView: true,
     },
   ]
 

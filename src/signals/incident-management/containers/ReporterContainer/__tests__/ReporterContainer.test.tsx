@@ -58,6 +58,7 @@ describe('ReporterContainer', () => {
                 submittedAt: '2021-04-22T13:27:12.942554Z',
               },
               hasChildren: false,
+              canView: true,
             },
           ],
         },
