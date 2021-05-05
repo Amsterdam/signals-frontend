@@ -35,7 +35,7 @@ interface History {
 const headerMapper: Record<string, string> = {
   ['Feedback van melder ontvangen']: 'Feedback',
   ['Status gewijzigd naar: Afgehandeld']: 'Toelichting bij Afgehandeld',
-  ['Status gewijzigd naar: Heropened']: 'Toelichting bij Heropened',
+  ['Status gewijzigd naar: Heropend']: 'Toelichting bij Heropend',
 }
 
 const Box = styled.div`
