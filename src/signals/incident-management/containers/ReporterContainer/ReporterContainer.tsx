@@ -22,12 +22,12 @@ const StyledHeader = styled(Header)`
 
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledIncidentList = styled(IncidentList)`
-  width: 100%;
   margin: 0;
   padding: 0;
 `
@@ -74,7 +74,7 @@ const ReporterContainer: FunctionComponent = () => {
     <Wrapper data-testid="reporterContainer">
       {header}
 
-      {incident.data?.id && incidents.data?.list && (
+      {incident.data && incidents.data && (
         <Content>
           <div>
             <StyledIncidentList
