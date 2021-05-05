@@ -55,7 +55,6 @@ const InfoStyle = styled(DescriptionStyle)`
   width: 100%;
 `
 const IncidentStyle = styled.div`
-  border-left: 1px solid ${themeColor('tint', 'level4')};
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
 `
@@ -79,7 +78,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
   const storeDispatch = useDispatch()
-  const { get, isLoading, isSuccess, data, error } = useFetch<History[]>()
+  const { get, isSuccess, isLoading, data, error } = useFetch<History[]>()
   const subcategories = useSelector(makeSelectSubCategories)
   const {
     id,
@@ -156,9 +155,9 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
             <Description description={description} />
           </Box>
         </div>
-        {history && (
+        {isLoading && <LoadingIndicator />}
+        {history && !isLoading && (
           <>
-            {isLoading && <LoadingIndicator />}
             {history
               .filter(({ action }) => {
                 return Object.keys(headerMapper).includes(action)

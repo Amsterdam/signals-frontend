@@ -9,6 +9,8 @@ export interface Feedback {
 export interface Incident {
   isLoading: boolean
   data?: IncidentType
+  id?: number
+  canView?: boolean
 }
 
 export interface ReporterIncident {
