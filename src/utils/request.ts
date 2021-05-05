@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import 'whatwg-fetch'
 
-// type JsonResponse = Response & { jsonBody: { message: string } | Record<string, any> };
 type JsonResponse = Response & { jsonBody?: unknown & { message: string } }
 
 export class ResponseError extends Error {

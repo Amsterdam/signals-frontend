@@ -31,12 +31,6 @@ import type {
 import type { Source } from './types'
 
 describe('containers/App/reducer', () => {
-  it('should return the initial state', () => {
-    expect(appReducer(undefined, { type: null, payload: undefined })).toEqual(
-      initialState
-    )
-  })
-
   describe('AUTHORIZE_USER', () => {
     it('sets user name, scopes and access token', () => {
       expect(

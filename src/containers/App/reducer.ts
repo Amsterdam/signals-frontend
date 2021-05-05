@@ -19,7 +19,7 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants'
-import type { AppState, User } from './types'
+import type { AppState } from './types'
 
 export type ApplyFilterActionType = Action<typeof APPLY_FILTER, never>
 
@@ -28,10 +28,6 @@ export const initialState: AppState = {
   loading: false,
   error: false,
   upload: {},
-  user: ({
-    permissions: [],
-    roles: [],
-  } as unknown) as User,
   notification: {
     message: '',
     title: '',
@@ -42,14 +38,10 @@ export const initialState: AppState = {
   sources: [],
 }
 
-export type ReducerActionTypes =
-  | AppActionTypes
-  | ApplyFilterActionType
-  | Action<null, never>
+export type ReducerActionTypes = AppActionTypes | ApplyFilterActionType
 
 export type AppReducer = Reducer<AppState, ReducerActionTypes>
 
-// eslint-disable-next-line @typescript-eslint/default-param-last
 const appReducer: AppReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTHORIZE_USER:
