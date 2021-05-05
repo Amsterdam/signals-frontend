@@ -50,11 +50,12 @@ const InfoStyle = styled(DescriptionStyle)`
   color: ${themeColor('tint', 'level5')};
   display: grid;
   grid: auto-flow / 1fr 1fr;
-  grid-gap: ${themeSpacing(1)};
+  grid-gap: ${themeSpacing(5)};
+  row-gap: ${themeSpacing(4)};
   width: 100%;
 `
 const IncidentStyle = styled.div`
-  border-left: 1px solid ${themeColor('tint', 'level3')};
+  border-left: 1px solid ${themeColor('tint', 'level4')};
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
 `
@@ -69,6 +70,11 @@ const StyledLink = styled(AscLink)`
     }
   }
 `
+
+const Value = styled.span`
+  color: ${themeColor('tint', 'level7')};
+`
+
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
@@ -130,18 +136,18 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
     <IncidentStyle>
       <>
         <div>
-          <StyledLink as={Link} to={`/manage/incident/${id}`}>
+          <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
             <Heading as="h2" styleAs="h3">
               {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
             </Heading>
           </StyledLink>
           <InfoStyle>
             <span>Gemeld op</span>
-            <span>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</span>
+            <Value>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</Value>
             <span>Subcategorie (verantwoordelijke afdeling) </span>
-            <span>{subcategory}</span>
+            <Value>{subcategory}</Value>
             <span>Status </span>
-            <span>{status}</span>
+            <Value>{status}</Value>
           </InfoStyle>
           <Box>
             <Heading as="h3" styleAs="h4">
