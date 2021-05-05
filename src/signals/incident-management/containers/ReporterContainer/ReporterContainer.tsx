@@ -23,7 +23,7 @@ const StyledHeader = styled(Header)`
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 49fr 51fr;
   border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
