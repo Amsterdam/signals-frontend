@@ -36,7 +36,7 @@ const ReporterContainer: FunctionComponent = () => {
 
   const { incident, incidents, selectIncident } = useFetchReporter(id)
 
-  const header = incident.data?.reporter.email && incidents.data?.count && (
+  const header = incident.data?.reporter?.email && incidents.data?.count && (
     <StyledHeader
       id={id}
       email={incident.data.reporter.email}

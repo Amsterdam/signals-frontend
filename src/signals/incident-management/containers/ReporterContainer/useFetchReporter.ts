@@ -39,13 +39,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   const incident = useMemo<Incident>(
     () => ({
       isLoading: getSelectedIncidentLoading,
-      data:
-        getSelectedIncidentData &&
-        (({
-          id: getSelectedIncidentData.id,
-          text: getSelectedIncidentData.text,
-          email: getSelectedIncidentData.reporter.email,
-        } as unknown) as IncidentType),
+      data: getSelectedIncidentData,
     }),
     [getSelectedIncidentData, getSelectedIncidentLoading]
   )
