@@ -53,7 +53,6 @@ const InfoStyle = styled(DescriptionStyle)`
   width: 100%;
 `
 const IncidentStyle = styled.div`
-  width: 50%;
   border-left: 1px solid ${themeColor('tint', 'level3')};
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
@@ -128,50 +127,48 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
 
   return (
     <IncidentStyle>
-      {incident && (
-        <>
-          <div>
-            <StyledLink href={`/manage/incident/${id}`}>
-              <Heading as="h2" styleAs="h3">
-                {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
-              </Heading>
-            </StyledLink>
-            <InfoStyle>
-              <span>Gemeld op</span>
-              <span>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</span>
-              <span>Subcategorie (verantwoordelijke afdeling) </span>
-              <span>{subcategory}</span>
-              <span>Status </span>
-              <span>{status}</span>
-            </InfoStyle>
-            <Box>
-              <Heading as="h3" styleAs="h4">
-                Omschrijving
-              </Heading>
-              <Description description={description} />
-            </Box>
-          </div>
-          {history && (
-            <>
-              {isLoading && <LoadingIndicator />}
-              {history
-                .filter(({ action }) => {
-                  return Object.keys(headerMapper).includes(action)
-                })
-                .map(({ description, identifier, action, what }) => {
-                  return (
-                    <Box key={identifier}>
-                      <Heading as="h3" styleAs="h4">
-                        {headerMapper[action]}
-                      </Heading>
-                      <Description what={what} description={description} />
-                    </Box>
-                  )
-                })}
-            </>
-          )}
-        </>
-      )}
+      <>
+        <div>
+          <StyledLink href={`/manage/incident/${id}`}>
+            <Heading as="h2" styleAs="h3">
+              {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
+            </Heading>
+          </StyledLink>
+          <InfoStyle>
+            <span>Gemeld op</span>
+            <span>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</span>
+            <span>Subcategorie (verantwoordelijke afdeling) </span>
+            <span>{subcategory}</span>
+            <span>Status </span>
+            <span>{status}</span>
+          </InfoStyle>
+          <Box>
+            <Heading as="h3" styleAs="h4">
+              Omschrijving
+            </Heading>
+            <Description description={description} />
+          </Box>
+        </div>
+        {history && (
+          <>
+            {isLoading && <LoadingIndicator />}
+            {history
+              .filter(({ action }) => {
+                return Object.keys(headerMapper).includes(action)
+              })
+              .map(({ description, identifier, action, what }) => {
+                return (
+                  <Box key={identifier}>
+                    <Heading as="h3" styleAs="h4">
+                      {headerMapper[action]}
+                    </Heading>
+                    <Description what={what} description={description} />
+                  </Box>
+                )
+              })}
+          </>
+        )}
+      </>
     </IncidentStyle>
   )
 }
