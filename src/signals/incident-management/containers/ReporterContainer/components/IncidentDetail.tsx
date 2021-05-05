@@ -1,7 +1,8 @@
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Heading,
-  Link,
+  Link as AscLink,
   Paragraph,
   themeColor,
   themeSpacing,
@@ -57,7 +58,7 @@ const IncidentStyle = styled.div`
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
 `
-const StyledLink = styled(Link)`
+const StyledLink = styled(AscLink)`
   margin-bottom: ${themeSpacing(4)};
   text-decoration: underline;
 
@@ -129,7 +130,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
     <IncidentStyle>
       <>
         <div>
-          <StyledLink href={`/manage/incident/${id}`}>
+          <StyledLink as={Link} to={`/manage/incident/${id}`}>
             <Heading as="h2" styleAs="h3">
               {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
             </Heading>
