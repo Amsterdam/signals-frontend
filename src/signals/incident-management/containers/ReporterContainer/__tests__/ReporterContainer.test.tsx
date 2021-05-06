@@ -38,6 +38,7 @@ describe('ReporterContainer', () => {
         id: 4440,
         data: {
           id: 4440,
+          _links: {},
           text: 'Incident text',
           category: { sub_slug: 'sub_slug' },
           reporter: { email: 'example@amsterdam.nl' },
