@@ -16,128 +16,98 @@
     "sia:pdf": {
       "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/pdf"
     },
-    "sia:children": [
-      {
-        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5319"
-      },
-      {
-        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5320"
-      },
-      {
-        "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5321"
-      }
-    ]
+    "sia:context": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/context"
+    }
+  },
+  "_display": "4440 - m - A00c - 2020-02-06T08:50:15.634692+01:00",
+  "category": {
+    "sub": "Container is kapot",
+    "sub_slug": "container-is-kapot",
+    "main": "Afval",
+    "main_slug": "afval",
+    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
+    "departments": "ASC, AEG",
+    "created_by": null,
+    "text": "Afhandeltermijn uitgerekend.",
+    "deadline": "2020-02-11T08:50:15.634692+01:00",
+    "deadline_factor_3": "2020-02-19T08:50:15.634692+01:00"
   },
   "id": 4440,
-  "signal_id": "6acdb051-41aa-4984-b7f3-e2177036bf92",
-  "source": "online",
-  "image": null,
-  "text": "De container lijkt stuk",
-  "text_extra": "",
+  "has_attachments": false,
+  "location": {
+    "id": 4803,
+    "stadsdeel": "A",
+    "buurt_code": "A00c",
+    "area_type_code": null,
+    "area_code": null,
+    "address": {
+      "postcode": "1012BN",
+      "huisletter": "E",
+      "huisnummer": "128",
+      "woonplaats": "Amsterdam",
+      "openbare_ruimte": "Geldersekade",
+      "huisnummer_toevoeging": ""
+    },
+    "address_text": "Geldersekade 128E 1012BN Amsterdam",
+    "geometrie": {
+      "type": "Point",
+      "coordinates": [
+        4.900631904602052,
+        52.37324119761923
+      ]
+    },
+    "extra_properties": null,
+    "created_by": null,
+    "bag_validated": false
+  },
   "status": {
     "text": null,
     "user": null,
     "state": "m",
     "state_display": "Gemeld",
+    "target_api": null,
     "extra_properties": {},
+    "send_email": false,
     "created_at": "2020-02-06T08:50:15.656433+01:00"
-  },
-  "location": {
-    "extra_properties": {
-      "original_address": {
-        "postcode": "",
-        "huisletter": "D",
-        "huisnummer": "342",
-        "woonplaats": "Amsterdam",
-        "openbare_ruimte": "Marnixstraat",
-        "huisnummer_toevoeging": ""
-      }
-    },
-    "geometrie": {
-      "type": "Point",
-      "coordinates": [4.879088401794434, 52.3670312505349]
-    },
-    "buurt_code": "A06j",
-    "created_by": "steve@apple.com",
-    "address": {
-      "postcode": "",
-      "huisletter": "D",
-      "huisnummer": 342,
-      "woonplaats": "Amsterdam",
-      "openbare_ruimte": "Marnixstraat",
-      "huisnummer_toevoeging": ""
-    },
-    "area_code": "north",
-    "stadsdeel": "A",
-    "bag_validated": true,
-    "address_text": "Marnixstraat 342D Amsterdam",
-    "id": 3566
-  },
-  "category": {
-    "category_url": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu",
-    "sub": "Astbest accu",
-    "sub_slug": "asbest-accu",
-    "main": "Afval",
-    "main_slug": "afval",
-    "departments": "AEG, CCA",
-    "deadline": "1970-01-01T00:00:00.000Z",
-    "deadline_factor_3": "1970-01-01T00:00:00.000Z"
   },
   "reporter": {
     "email": "me@email.com",
-    "phone": "14020"
+    "phone": "14020",
+    "sharing_allowed": false
   },
   "priority": {
-    "priority": "normal"
+    "priority": "normal",
+    "created_by": null
   },
   "notes": [],
   "type": {
-    "code": "QUE",
-    "created_at": "2020-03-13T11:23:17.932429+01:00",
-    "created_by": "me@email.com"
+    "code": "SIG",
+    "created_at": "2020-03-05T13:58:29.900872+01:00",
+    "created_by": null
   },
-  "created_at": "2020-02-06T08:50:15.634692+01:00",
-  "updated_at": "2020-02-06T08:50:15.667022+01:00",
-  "incident_date_start": "2020-02-06T08:50:15+01:00",
-  "incident_date_end": null,
-  "operational_date": null,
+  "source": "online",
+  "text": "De container lijkt stuk",
+  "text_extra": "",
   "extra_properties": [
     {
       "id": "extra_container_kind",
       "label": "Weet u om wat voor soort container (papier, plastic, glas, restafval) het gaat?",
-      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
-      "answer": "Glas, papier, plastic"
+      "answer": "Glas, papier, plastic",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot"
     },
     {
       "id": "extra_container_number",
       "label": "Weet u het nummer van de container?",
-      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot",
-      "answer": "E789687687A.0"
+      "answer": "E789687687A.0",
+      "category_url": "/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot"
     }
   ],
-  "attachments": [
-    {
-      "_display": "Attachment object (774)",
-      "_links": {
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments"
-        }
-      },
-      "location": "https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/jasper_pepper_klein.jpg?temp_url_sig=e5d22e71096db94a86e6d3d64e6bcca2b896b1f9&temp_url_expires=1569491557",
-      "is_image": true,
-      "created_at": "2019-09-25T16: 35: 59.107661+02: 00"
-    },
-    {
-      "_display": "Attachment object (773)",
-      "_links": {
-        "self": {
-          "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/3254/attachments"
-        }
-      },
-      "location": "https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/attachments/2019/09/25/landscape_te_klein.jpg?temp_url_sig=870025b81672f36cd0eff62d3dc78595242ba07a&temp_url_expires=1569491557",
-      "is_image": true,
-      "created_at": "2019-09-25T16: 35: 59.113090+02: 00"
-    }
-  ],
-  "directing_departments": []
+  "created_at": "2020-02-06T08:50:15.634692+01:00",
+  "updated_at": "2021-03-23T12:13:56.306016+01:00",
+  "incident_date_start": "2020-02-06T08:50:15+01:00",
+  "incident_date_end": null,
+  "routing_departments": null,
+  "attachments": [],
+  "assigned_user_email": null
 }
