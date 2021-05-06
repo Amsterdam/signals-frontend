@@ -3,6 +3,7 @@
 import * as reactRouterDom from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import type { Incident as IncidentType } from '../../IncidentDetail/types'
 
 import ReporterContainer from '..'
 import { FetchReporterHook } from '../useFetchReporter'
@@ -33,11 +34,17 @@ describe('ReporterContainer', () => {
     mockFetchReporterHook = {
       incident: {
         isLoading: false,
+        canView: true,
+        id: 4440,
         data: {
           id: 4440,
+          _links: {},
           text: 'Incident text',
-          email: 'example@amsterdam.nl',
-        },
+          category: { sub_slug: 'sub_slug' },
+          reporter: { email: 'example@amsterdam.nl' },
+          status: { state_display: 'Gemeld' },
+          created_at: '2021-04-22T15:22:43.882134+02:00',
+        } as IncidentType,
       },
       currentPage: 0,
       setCurrentPage: jest.fn(),
@@ -57,6 +64,7 @@ describe('ReporterContainer', () => {
                 submittedAt: '2021-04-22T13:27:12.942554Z',
               },
               hasChildren: false,
+              canView: true,
             },
           ],
         },

@@ -3,11 +3,12 @@
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import type { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
+import IncidentDetail from './components/IncidentDetail'
 import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 
 const Wrapper = styled.article`
@@ -21,7 +22,8 @@ const StyledHeader = styled(Header)`
 
 const Content = styled.div`
   margin-top: ${themeSpacing(6)};
-  display: flex;
+  display: grid;
+  grid-template-columns: 49fr 51fr;
   border-top: 1px solid ${themeColor('tint', 'level4')};
 `
 
@@ -29,11 +31,13 @@ const StyledIncidentList = styled(IncidentList)`
   width: 100%;
   margin: 0;
   padding: 0;
+  border-right: 1px solid ${themeColor('tint', 'level4')};
 `
 
-const Incident = styled.div`
-  width: 50%;
-  border-left: 1px solid ${themeColor('tint', 'level4')};
+const NotPermittedMessage = styled.p`
+  background-color: ${themeColor('tint', 'level3')};
+  margin: ${themeSpacing(6)} ${themeSpacing(8)} auto;
+  padding: ${themeSpacing(4)};
 `
 
 const StyledCompactPager = styled(CompactPager)`
@@ -52,10 +56,10 @@ const ReporterContainer: FunctionComponent = () => {
     setCurrentPage,
   } = useFetchReporter(id)
 
-  const header = incident.data?.email && incidents.data?.count && (
+  const header = incident.data?.reporter?.email && incidents.data?.count && (
     <StyledHeader
       id={id}
-      email={incident.data.email}
+      email={incident.data.reporter.email}
       count={incidents.data.count}
     />
   )
@@ -78,27 +82,29 @@ const ReporterContainer: FunctionComponent = () => {
     <Wrapper data-testid="reporterContainer">
       {header}
 
-      {incident.data?.id && incidents.data?.list && (
-        <Content>
+      <Content>
+        {incidents.data && incident.id && (
           <div>
             <StyledIncidentList
               list={incidents.data.list}
-              selectedIncidentId={incident.data.id}
+              selectedIncidentId={incident.id}
               selectIncident={selectIncident}
             />
             {pagination}
           </div>
+        )}
 
-          {/* TODO SIG-3675 */}
-          <Incident>
-            {incident.data.id && (
-              <>
-                {incident.data.id} {incident.data.text}
-              </>
-            )}
-          </Incident>
-        </Content>
-      )}
+        {incident.canView && incident.data && (
+          <IncidentDetail incident={incident.data} />
+        )}
+
+        {incident.canView === false && (
+          <NotPermittedMessage>
+            Je hebt geen toestemming om meldingen in deze subcategorie te
+            bekijken
+          </NotPermittedMessage>
+        )}
+      </Content>
 
       {loadingIncidator}
     </Wrapper>

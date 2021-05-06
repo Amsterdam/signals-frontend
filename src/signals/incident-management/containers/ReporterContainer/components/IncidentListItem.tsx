@@ -22,9 +22,12 @@ const InfoWrapper = styled.div`
 
 const ListItem = styled.li<{ isSelected: boolean; theme: Theme }>`
   display: flex;
-  padding: ${themeSpacing(2)};
-  padding-right: ${themeSpacing(4)};
-  border-bottom: 1px solid ${themeColor('tint', 'level3')};
+  // Separate lines to prevent wrapping due to max line width
+  padding-top: ${themeSpacing(3)};
+  padding-right: ${themeSpacing(6)};
+  padding-bottom: ${themeSpacing(3)};
+  padding-left: ${themeSpacing(2)};
+  border-bottom: 1px solid ${themeColor('tint', 'level4')};
 
   :hover {
     cursor: pointer;

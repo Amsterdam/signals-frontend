@@ -39,18 +39,6 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     data: getSelectedIncidentData,
   } = useFetch<IncidentType>()
 
-  const incident = useMemo<Incident>(
-    () => ({
-      isLoading: getSelectedIncidentLoading,
-      data: getSelectedIncidentData && {
-        id: getSelectedIncidentData.id,
-        text: getSelectedIncidentData.text,
-        email: getSelectedIncidentData.reporter.email,
-      },
-    }),
-    [getSelectedIncidentData, getSelectedIncidentLoading]
-  )
-
   const incidents = useMemo<Incidents>(
     () => ({
       isLoading: getReporterLoading,
@@ -58,6 +46,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
         count: getReporterData.count,
         list: getReporterData.results.map((result) => ({
           id: result.id,
+          canView: result.can_view_signal,
           category: result.category.sub,
           feedback: result.feedback
             ? {
@@ -73,6 +62,24 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }),
     [getReporterData, getReporterLoading]
   )
+
+  const incident = useMemo<Incident>(
+    () => ({
+      isLoading: getSelectedIncidentLoading,
+      data: getSelectedIncidentData,
+      id: selectedIncidentId,
+      canView: incidents.data?.list.find(
+        (item) => item.id === selectedIncidentId
+      )?.canView,
+    }),
+    [
+      getSelectedIncidentData,
+      getSelectedIncidentLoading,
+      incidents.data?.list,
+      selectedIncidentId,
+    ]
+  )
+
   useEffect(() => {
     getReporter(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page=${currentPage}&page_size=${PAGE_SIZE}`
@@ -84,12 +91,12 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   }, [getReporterData])
 
   useEffect(() => {
-    if (selectedIncidentId) {
+    if (incident.id && incident.canView) {
       getSelectedIncident(
-        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${selectedIncidentId}`
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incident.id}`
       )
     }
-  }, [getSelectedIncident, selectedIncidentId])
+  }, [getSelectedIncident, incident.canView, incident.id])
 
   useEffect(() => {
     if (getReporterError || getSelectedIncidentError) {

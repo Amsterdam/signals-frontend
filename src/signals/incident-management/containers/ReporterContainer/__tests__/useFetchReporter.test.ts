@@ -29,6 +29,8 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const INCIDENT_ID = '4440'
+const INCIDENT_ID_2 = '4441'
+const INCIDENT_ID_3 = '4442'
 
 const REPORTER_MOCK: Result = {
   id: 0,
@@ -84,7 +86,6 @@ describe('Fetch Reporter hook', () => {
     )
 
     await waitForNextUpdate()
-    await waitForNextUpdate()
 
     expect(result.current.incidents.data?.list[0].id).toEqual(1)
     expect(result.current.currentPage).toEqual(1)
@@ -93,7 +94,6 @@ describe('Fetch Reporter hook', () => {
       result.current.setCurrentPage(2)
     })
 
-    await waitForNextUpdate()
     await waitForNextUpdate()
 
     expect(result.current.incidents.data?.list[0].id).toEqual(2)
@@ -117,6 +117,8 @@ describe('Fetch Reporter hook', () => {
       incident: {
         isLoading: true,
         data: undefined,
+        canView: true,
+        id: Number(INCIDENT_ID),
       },
       incidents: {
         isLoading: false,
@@ -133,6 +135,8 @@ describe('Fetch Reporter hook', () => {
         data: expect.objectContaining({
           id: Number(INCIDENT_ID),
         }),
+        canView: true,
+        id: Number(INCIDENT_ID),
       },
     }
 
@@ -168,22 +172,49 @@ describe('Fetch Reporter hook', () => {
     )
 
     await waitForNextUpdate()
-    await waitForNextUpdate()
 
     mockRequestHandler({
       body: {
         ...incidentFixture,
-        id: 12345,
+        id: Number(INCIDENT_ID_2),
       },
     })
 
     act(() => {
-      result.current.selectIncident(1234)
+      result.current.selectIncident(Number(INCIDENT_ID_2))
     })
 
     await waitForNextUpdate()
+    await waitForNextUpdate()
 
-    expect(result.current.incident?.data?.id).toBe(12345)
+    expect(result.current.incident?.id).toBe(Number(INCIDENT_ID_2))
+    expect(result.current.incident?.data?.id).toBe(Number(INCIDENT_ID_2))
+  })
+
+  it('does not fetch incident for which the user has no permission', async () => {
+    const { result, waitForNextUpdate } = renderHook(
+      () => useFetchReporter(INCIDENT_ID),
+      {
+        wrapper: Provider,
+        initialProps: { store },
+      }
+    )
+
+    await waitForNextUpdate()
+    await waitForNextUpdate()
+
+    // User has no permission to view incident data for incident with id={INCIDENT_ID_3}
+    expect(
+      result.current.incidents.data?.list.find(
+        ({ id }) => id === Number(INCIDENT_ID_3)
+      )?.canView
+    ).toBe(false)
+
+    act(() => {
+      result.current.selectIncident(Number(INCIDENT_ID_3))
+    })
+
+    expect(result.current.incident.isLoading).toBe(false)
   })
 
   it('handles errors', async () => {
@@ -200,9 +231,7 @@ describe('Fetch Reporter hook', () => {
       }
     )
 
-    await act(async () => {
-      await waitForNextUpdate()
-    })
+    await waitForNextUpdate()
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification(
