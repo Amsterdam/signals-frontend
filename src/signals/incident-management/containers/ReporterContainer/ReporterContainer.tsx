@@ -28,20 +28,21 @@ const Content = styled.div`
 `
 
 const StyledIncidentList = styled(IncidentList)`
+  width: 100%;
   margin: 0;
   padding: 0;
   border-right: 1px solid ${themeColor('tint', 'level4')};
-`
-
-const StyledCompactPager = styled(CompactPager)`
-  max-width: 180px;
-  margin-top: ${themeSpacing(6)};
 `
 
 const NotPermittedMessage = styled.p`
   background-color: ${themeColor('tint', 'level3')};
   margin: ${themeSpacing(6)} ${themeSpacing(8)} auto;
   padding: ${themeSpacing(4)};
+`
+
+const StyledCompactPager = styled(CompactPager)`
+  max-width: 180px;
+  margin-top: ${themeSpacing(6)};
 `
 
 const ReporterContainer: FunctionComponent = () => {
