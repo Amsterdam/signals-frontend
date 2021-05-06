@@ -34,10 +34,15 @@ describe('ReporterContainer', () => {
     mockFetchReporterHook = {
       incident: {
         isLoading: false,
+        canView: true,
+        id: 4440,
         data: {
           id: 4440,
           text: 'Incident text',
+          category: { sub_slug: 'sub_slug' },
           reporter: { email: 'example@amsterdam.nl' },
+          status: { state_display: 'Gemeld' },
+          created_at: '2021-04-22T15:22:43.882134+02:00',
         } as IncidentType,
       },
       currentPage: 0,
