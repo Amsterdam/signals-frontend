@@ -113,7 +113,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       date,
       status,
       subcategory,
-      isParent: !!incident._links?.['sia:children'],
+      isParent: !!incident._links['sia:children'],
     }
   }, [incident, subcategories])
   const [history, setHistory] = useState<History[]>()
@@ -141,7 +141,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   }, [error, storeDispatch])
 
   return (
-    <IncidentStyle data-testid="incident-detail">
+    <IncidentStyle>
       <>
         <div>
           <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
@@ -172,11 +172,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
               })
               .map(({ description, identifier, action, what }) => {
                 return (
-                  <Box
-                    key={identifier}
-                    data-testid="detail-history-item"
-                    as="li"
-                  >
+                  <Box key={identifier} as="li">
                     <Heading as="h3" styleAs="h4">
                       {headerMapper[action]}
                     </Heading>
