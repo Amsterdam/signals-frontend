@@ -236,6 +236,14 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </MenuItem>
       )}
 
+      {
+        <MenuItem element="span">
+          <StyledMenuButton forwardedAs={NavLink} to="/instellingen/">
+            Instellingen
+          </StyledMenuButton>
+        </MenuItem>
+      }
+
       {showItems.settings && (
         <StyledMenuFlyout label="Instellingen" forwardedAs="span">
           {showItems.users && (
