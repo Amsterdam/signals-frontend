@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor /*waitFor*/ } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext, history } from 'test/utils'
 import * as reactRedux from 'react-redux'
@@ -8,12 +8,14 @@ import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-// import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json'
+import { showGlobalNotification } from 'containers/App/actions'
 import type { Incident as IncidentType } from '../../../IncidentDetail/types'
+import {
+  fetchMock,
+  mockRequestHandler,
+} from '../../../../../../../internals/testing/msw-server'
 
 import IncidentDetail from '../IncidentDetail'
-
-fetchMock.disableMocks()
 
 const incident: IncidentType = {
   _links: {
@@ -133,11 +135,14 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
 describe('IncidentDetail', () => {
+  beforeAll(() => {
+    fetchMock.disableMocks()
+  })
+
   beforeEach(() => {
-    dispatch.mockReset()
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
     jest
       .spyOn(catgorySelectors, 'makeSelectSubCategories')
       .mockImplementation(() => [...subCategories])
@@ -148,7 +153,8 @@ describe('IncidentDetail', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    jest.resetAllMocks()
+    dispatch.mockReset()
   })
 
   it('should render a standaard incident', async () => {
@@ -177,7 +183,7 @@ describe('IncidentDetail', () => {
     expect(historyElements).toHaveLength(2)
   })
 
-  it('should navigate to the incident when clicked on the link', () => {
+  it('should navigate to the incident when clicked on the link', async () => {
     render(
       withAppContext(
         <IncidentDetail
@@ -186,11 +192,37 @@ describe('IncidentDetail', () => {
       )
     )
 
-    expect(history.location.pathname).toEqual('/')
+    await waitFor(() => expect(history.location.pathname).toEqual('/'))
 
     userEvent.click(screen.getByRole('link'))
-    expect(history.location.pathname).toEqual('/manage/incident/4440')
+    await waitFor(() =>
+      expect(history.location.pathname).toEqual('/manage/incident/4440')
+    )
   })
 
-  it('should show an error when api call fails', () => {})
+  it('should show an error when api call fails', async () => {
+    mockRequestHandler({
+      status: 500,
+      body: 'Something went wrong',
+    })
+
+    render(
+      withAppContext(
+        <IncidentDetail
+          incident={(incidentFixture as unknown) as IncidentType}
+        />
+      )
+    )
+
+    await waitFor(() =>
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification(
+          expect.objectContaining({
+            title:
+              'De data kon niet opgehaald worden. probeer het later nog eens.',
+          })
+        )
+      )
+    )
+  })
 })
