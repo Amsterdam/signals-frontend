@@ -62,6 +62,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }),
     [getReporterData, getReporterLoading]
   )
+
   const incident = useMemo<Incident>(
     () => ({
       isLoading: getSelectedIncidentLoading,
@@ -74,7 +75,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     [
       getSelectedIncidentData,
       getSelectedIncidentLoading,
-      incidents?.data?.list,
+      incidents.data?.list,
       selectedIncidentId,
     ]
   )
@@ -90,12 +91,12 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   }, [getReporterData])
 
   useEffect(() => {
-    if (incident.id && incident?.canView) {
+    if (incident.id && incident.canView) {
       getSelectedIncident(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incident.id}`
       )
     }
-  }, [getSelectedIncident, incident?.canView, incident?.id])
+  }, [getSelectedIncident, incident.canView, incident.id])
 
   useEffect(() => {
     if (getReporterError || getSelectedIncidentError) {

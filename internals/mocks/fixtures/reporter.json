@@ -40,6 +40,21 @@
       },
       "status": { "state": "b", "state_display": "In behandeling" },
       "feedback": null,
+      "can_view_signal": true,
+      "has_children": true
+    },
+    {
+      "id": 4442,
+      "created_at": "2021-04-23T19:11:22.741716+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": { "state": "b", "state_display": "In behandeling" },
+      "feedback": null,
       "can_view_signal": false,
       "has_children": true
     }
