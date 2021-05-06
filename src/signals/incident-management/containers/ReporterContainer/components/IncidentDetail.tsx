@@ -42,10 +42,12 @@ const Box = styled.div`
   margin-bottom: ${themeSpacing(6)};
   white-space: pre-line;
 `
+
 const DescriptionStyle = styled(Paragraph)`
   font-size: 16px;
   line-height: ${themeSpacing(6)};
 `
+
 const InfoStyle = styled(DescriptionStyle)`
   color: ${themeColor('tint', 'level5')};
   display: grid;
@@ -54,10 +56,12 @@ const InfoStyle = styled(DescriptionStyle)`
   row-gap: ${themeSpacing(4)};
   width: 100%;
 `
+
 const IncidentStyle = styled.div`
   padding-top: ${themeSpacing(5)};
   padding-left: ${themeSpacing(8)};
 `
+
 const StyledLink = styled(AscLink)`
   margin-bottom: ${themeSpacing(4)};
   text-decoration: underline;
@@ -72,6 +76,11 @@ const StyledLink = styled(AscLink)`
 
 const Value = styled.span`
   color: ${themeColor('tint', 'level7')};
+`
+
+const HistoryStyle = styled.ul`
+  margin: 0;
+  padding: 0;
 `
 
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
@@ -132,7 +141,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   }, [error, storeDispatch])
 
   return (
-    <IncidentStyle>
+    <IncidentStyle data-testid="incident-detail">
       <>
         <div>
           <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
@@ -156,14 +165,18 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
           </Box>
         </div>
         {history && !isLoading && (
-          <>
+          <HistoryStyle>
             {history
               .filter(({ action }) => {
                 return Object.keys(headerMapper).includes(action)
               })
               .map(({ description, identifier, action, what }) => {
                 return (
-                  <Box key={identifier}>
+                  <Box
+                    key={identifier}
+                    data-testid="detail-history-item"
+                    as="li"
+                  >
                     <Heading as="h3" styleAs="h4">
                       {headerMapper[action]}
                     </Heading>
@@ -171,7 +184,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
                   </Box>
                 )
               })}
-          </>
+          </HistoryStyle>
         )}
         {isLoading && <LoadingIndicator />}
       </>

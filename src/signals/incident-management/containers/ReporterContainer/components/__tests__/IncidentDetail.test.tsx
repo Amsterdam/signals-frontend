@@ -8,9 +8,12 @@ import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+// import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json'
 import type { Incident as IncidentType } from '../../../IncidentDetail/types'
 
 import IncidentDetail from '../IncidentDetail'
+
+fetchMock.disableMocks()
 
 const incident: IncidentType = {
   _links: {
@@ -129,7 +132,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }))
 
-// mock msw
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
@@ -149,10 +151,30 @@ describe('IncidentDetail', () => {
     jest.restoreAllMocks()
   })
 
-  it.only('should render when incident provided', () => {
+  it('should render a standaard incident', async () => {
     render(withAppContext(<IncidentDetail incident={incident} />))
 
-    screen.debug()
+    expect(
+      await screen.findByText('Standaardmelding', { exact: false })
+    ).toBeInTheDocument()
+
+    await screen.findByRole('list')
+    const historyElements = screen.getAllByRole('listitem')
+    expect(historyElements).toHaveLength(2)
+  })
+
+  it('should render a parent incident', async () => {
+    const parentIncident = { ...incident }
+    parentIncident._links['sia:children'] = [{ href: '' }]
+    render(withAppContext(<IncidentDetail incident={parentIncident} />))
+
+    expect(
+      await screen.findByText('Hoofdmelding', { exact: false })
+    ).toBeInTheDocument()
+
+    await screen.findByRole('list')
+    const historyElements = screen.getAllByRole('listitem')
+    expect(historyElements).toHaveLength(2)
   })
 
   it('should navigate to the incident when clicked on the link', () => {
@@ -169,4 +191,6 @@ describe('IncidentDetail', () => {
     userEvent.click(screen.getByRole('link'))
     expect(history.location.pathname).toEqual('/manage/incident/4440')
   })
+
+  it('should show an error when api call fails', () => {})
 })
