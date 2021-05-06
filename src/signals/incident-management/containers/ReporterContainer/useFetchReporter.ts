@@ -62,7 +62,6 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }),
     [getReporterData, getReporterLoading]
   )
-
   const incident = useMemo<Incident>(
     () => ({
       isLoading: getSelectedIncidentLoading,
