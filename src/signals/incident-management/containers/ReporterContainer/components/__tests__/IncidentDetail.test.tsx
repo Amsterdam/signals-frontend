@@ -2,7 +2,9 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
+import { withAppContext, history } from 'test/utils'
+import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -122,35 +124,49 @@ const incident: IncidentType = {
   assigned_user_email: null,
 }
 
-// mock dispatch
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
+
 // mock msw
-// mock selector
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
 describe('IncidentDetail', () => {
   beforeEach(() => {
+    dispatch.mockReset()
     jest
       .spyOn(catgorySelectors, 'makeSelectSubCategories')
       .mockImplementation(() => [...subCategories])
+
+    jest
+      .spyOn(reactRouterDom, 'useParams')
+      .mockImplementation(() => ({ id: '7740' }))
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
   })
-  it('should render when incident provided', () => {
+
+  it.only('should render when incident provided', () => {
     render(withAppContext(<IncidentDetail incident={incident} />))
 
     screen.debug()
   })
 
-  it.only('should navigate to the incident when clicked on the link', () => {
+  it('should navigate to the incident when clicked on the link', () => {
     render(
       withAppContext(
-        <IncidentDetail incident={incidentFixture as IncidentType} />
+        <IncidentDetail
+          incident={(incidentFixture as unknown) as IncidentType}
+        />
       )
     )
 
-    screen.debug()
-    userEvent.click(screen.getAllByRole('link')[0])
-    // expect(true).toBe(true)
+    expect(history.location.pathname).toEqual('/')
+
+    userEvent.click(screen.getByRole('link'))
+    expect(history.location.pathname).toEqual('/manage/incident/4440')
   })
 })
