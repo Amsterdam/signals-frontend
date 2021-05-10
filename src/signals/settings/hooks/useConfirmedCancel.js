@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 
-export const confirmationMessage = 'Niet opgeslagen gegevens gaan verloren. Doorgaan?';
+export const confirmationMessage =
+  'Niet opgeslagen gegevens gaan verloren. Doorgaan?'
 
 /**
  * Custom hook useConfirmedCancel
@@ -12,23 +13,19 @@ export const confirmationMessage = 'Niet opgeslagen gegevens gaan verloren. Door
  * @param {String} redirectURL - key/value
  * @returns {Function}
  */
-const useConfirmedCancel = redirectURL => {
-  const history = useHistory();
+const useConfirmedCancel = (redirectURL) => {
+  const history = useHistory()
 
   /**
    * redirect function
    *
    * @param {Boolean} isPristine - Flag indicating if the form data has changed
    */
-  return isPristine => {
-    if (
-      isPristine ||
-      (!isPristine &&
-        global.confirm(confirmationMessage))
-    ) {
-      history.push(redirectURL);
+  return (isPristine) => {
+    if (isPristine || (!isPristine && global.confirm(confirmationMessage))) {
+      history.push(redirectURL)
     }
-  };
-};
+  }
+}
 
-export default useConfirmedCancel;
+export default useConfirmedCancel

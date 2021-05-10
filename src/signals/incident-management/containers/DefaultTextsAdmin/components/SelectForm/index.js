@@ -1,78 +1,82 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { FormBuilder, FieldGroup } from 'react-reactive-form';
+import { useEffect, useCallback } from 'react'
+import PropTypes from 'prop-types'
+import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
-import { dataListType } from 'shared/types';
-import { reCategory } from 'shared/services/resolveClassification';
+import { dataListType } from 'shared/types'
+import { reCategory } from 'shared/services/resolveClassification'
 
-import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper';
-import SelectInput from 'signals/incident-management/components/SelectInput';
-import RadioInput from 'signals/incident-management/components/RadioInput';
-import { useSelector } from 'react-redux';
-import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors';
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper'
+import SelectInput from 'signals/incident-management/components/SelectInput'
+import RadioInput from 'signals/incident-management/components/RadioInput'
+import { useSelector } from 'react-redux'
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
 
 const form = FormBuilder.group({
   category_url: null,
   state: 'o',
   sub_slug: null,
   main_slug: null,
-});
+})
 
 const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
-  const [subcategoryGroups, subcategoryOptions] = useSelector(makeSelectSubcategoriesGroupedByCategories);
+  const [subcategoryGroups, subcategoryOptions] = useSelector(
+    makeSelectSubcategoriesGroupedByCategories
+  )
 
   const handleChange = useCallback(
-    changed => {
+    (changed) => {
       const newValues = {
         ...form.value,
         ...changed,
-      };
+      }
 
-      onFetchDefaultTexts(newValues);
+      onFetchDefaultTexts(newValues)
     },
     [onFetchDefaultTexts]
-  );
+  )
 
   useEffect(() => {
-    form.controls.category_url.valueChanges.subscribe(category_url => {
-      const found = category_url && subcategoryOptions.find(sub => sub?.key === category_url);
+    form.controls.category_url.valueChanges.subscribe((category_url) => {
+      const found =
+        category_url &&
+        subcategoryOptions.find((sub) => sub?.key === category_url)
 
       /* istanbul ignore else */
       if (found) {
-        const [, main_slug, sub_slug] = found.key.match(reCategory);
+        const [, main_slug, sub_slug] = found.key.match(reCategory)
 
         form.patchValue({
           sub_slug,
           main_slug,
-        });
+        })
 
-        handleChange({ category_url });
+        handleChange({ category_url })
       }
-    });
+    })
 
-    form.controls.state.valueChanges.subscribe(state => {
-      if (!form.value.category_url) return;
-      handleChange({ state });
-    });
+    form.controls.state.valueChanges.subscribe((state) => {
+      if (!form.value.category_url) return
+      handleChange({ state })
+    })
 
-    const firstCategoryUrl = subcategoryOptions[0]?.key;
+    const firstCategoryUrl = subcategoryOptions[0]?.key
     if (firstCategoryUrl) {
       form.patchValue({
         category_url: firstCategoryUrl,
-      });
+      })
     }
 
     return () => {
-      form.controls.category_url.valueChanges.unsubscribe();
-      form.controls.state.valueChanges.unsubscribe();
-    };
-  }, [handleChange, subcategoryOptions]);
+      form.controls.category_url.valueChanges.unsubscribe()
+      form.controls.state.valueChanges.unsubscribe()
+    }
+  }, [handleChange, subcategoryOptions])
 
   useEffect(() => {
-    form.updateValueAndValidity();
-  }, [subcategoryOptions]);
+    form.updateValueAndValidity()
+  }, [subcategoryOptions])
 
   return (
     <FieldGroup
@@ -97,13 +101,13 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
         </form>
       )}
     />
-  );
-};
+  )
+}
 
 SelectForm.propTypes = {
   defaultTextsOptionList: dataListType.isRequired,
 
   onFetchDefaultTexts: PropTypes.func.isRequired,
-};
+}
 
-export default SelectForm;
+export default SelectForm

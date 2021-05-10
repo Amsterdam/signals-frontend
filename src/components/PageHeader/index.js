@@ -1,31 +1,28 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Heading, Row, Paragraph, themeSpacing } from '@amsterdam/asc-ui';
+import { Heading, Row, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 
 const StyledSection = styled.section`
   background-color: #f3f3f3;
   padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(2)};
   margin-bottom: ${themeSpacing(5)};
-`;
+`
 
 const StyledHeading = styled(Heading)`
   font-weight: 400;
   margin: 0;
   line-height: ${themeSpacing(6)};
-`;
+`
 
 const SubTitle = styled(Paragraph)`
   margin-bottom: 0;
-`;
+`
 
-const PageHeader = ({
-  className, children, subTitle, title,
-}) => (
+const PageHeader = ({ className, children, subTitle, title }) => (
   <StyledSection className={className}>
     <Row>
       <div>
@@ -36,13 +33,13 @@ const PageHeader = ({
       {children}
     </Row>
   </StyledSection>
-);
+)
 
 PageHeader.defaultProps = {
   className: '',
   children: null,
   subTitle: '',
-};
+}
 
 PageHeader.propTypes = {
   filter: PropTypes.shape({
@@ -53,6 +50,6 @@ PageHeader.propTypes = {
   className: PropTypes.string,
   subTitle: PropTypes.string,
   title: PropTypes.node.isRequired,
-};
+}
 
-export default PageHeader;
+export default PageHeader

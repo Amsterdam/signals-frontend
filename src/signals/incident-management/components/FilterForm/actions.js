@@ -11,53 +11,53 @@ import {
   SET_NAME,
   SET_NOTE_KEYWORD,
   SET_REFRESH,
-} from './constants';
+} from './constants'
 
 export const reset = () => ({
   type: RESET,
-});
+})
 
-export const setAddress = payload => ({
+export const setAddress = (payload) => ({
   type: SET_ADDRESS,
   payload,
-});
+})
 
-export const setNoteKeyword = payload => ({
+export const setNoteKeyword = (payload) => ({
   type: SET_NOTE_KEYWORD,
   payload,
-});
+})
 
-export const setSaveButtonLabel = payload => ({
+export const setSaveButtonLabel = (payload) => ({
   type: SET_SAVE_BUTTON_LABEL,
   payload,
-});
+})
 
-export const setCategories = payload => ({
+export const setCategories = (payload) => ({
   type: SET_CATEGORIES,
   payload,
-});
+})
 
-export const setDate = payload => ({
+export const setDate = (payload) => ({
   type: SET_DATE,
   payload,
-});
+})
 
-export const setGroupOptions = payload => ({
+export const setGroupOptions = (payload) => ({
   type: SET_GROUP_OPTIONS,
   payload,
-});
+})
 
-export const setMainCategory = payload => ({
+export const setMainCategory = (payload) => ({
   type: SET_MAIN_CATEGORY,
   payload,
-});
+})
 
-export const setName = payload => ({
+export const setName = (payload) => ({
   type: SET_NAME,
   payload,
-});
+})
 
-export const setRefresh = payload => ({
+export const setRefresh = (payload) => ({
   type: SET_REFRESH,
   payload,
-});
+})

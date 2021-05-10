@@ -1,32 +1,31 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react';
-import React from 'react';
-import styled from 'styled-components';
-import { Row, Column, Heading, themeSpacing } from '@amsterdam/asc-ui';
+import type { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import { Row, Column, Heading, themeSpacing } from '@amsterdam/asc-ui'
 
 const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(5)} 0;
-`;
+`
 
-export const DEFAULT_MESSAGE = 'Pagina niet gevonden';
+export const DEFAULT_MESSAGE = 'Pagina niet gevonden'
 
 interface NotFoundPageProps {
-  message?: string;
+  message?: string
 }
 
-const NotFoundPage: FunctionComponent<NotFoundPageProps> = ({ message = DEFAULT_MESSAGE }) =>
-  (<div className="container" data-testid="notFoundPage">
+const NotFoundPage: FunctionComponent<NotFoundPageProps> = ({
+  message = DEFAULT_MESSAGE,
+}) => (
+  <div className="container" data-testid="notFoundPage">
     <Row>
       <Column span={12}>
         <article>
-          <StyledHeading>
-            {message}
-          </StyledHeading>
+          <StyledHeading>{message}</StyledHeading>
         </article>
       </Column>
     </Row>
   </div>
-  );
+)
 
-export default NotFoundPage;
+export default NotFoundPage

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
+import { createContext } from 'react'
 
-import { initialState } from './reducer';
+import { initialState } from './reducer'
 
-export default React.createContext(initialState);
+export default createContext(initialState)

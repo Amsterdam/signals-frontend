@@ -1,20 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import styled from 'styled-components';
-import { Row, Column, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import configuration from 'shared/services/configuration/configuration';
+import styled from 'styled-components'
+import {
+  Row,
+  Column,
+  Paragraph,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
+import configuration from 'shared/services/configuration/configuration'
 
-import { login } from 'shared/services/auth/auth';
+import { login } from 'shared/services/auth/auth'
 
-import Button from 'components/Button';
-import ButtonBar from 'components/ButtonBar';
+import Button from 'components/Button'
+import ButtonBar from 'components/ButtonBar'
 
 const Notification = styled.div`
   border-left: 3px solid ${themeColor('secondary')};
   margin: ${themeSpacing(6)} 0;
   padding-left: ${themeSpacing(5)};
-`;
+`
 
 const LoginPage = () => (
   <Row data-testid="loginPage">
@@ -26,7 +31,7 @@ const LoginPage = () => (
           <Button
             variant="secondary"
             onClick={() => {
-              login('datapunt');
+              login('datapunt')
             }}
             type="button"
           >
@@ -37,7 +42,7 @@ const LoginPage = () => (
             <Button
               variant="secondary"
               onClick={() => {
-                login('keycloak');
+                login('keycloak')
               }}
               type="button"
             >
@@ -48,6 +53,6 @@ const LoginPage = () => (
       </Notification>
     </Column>
   </Row>
-);
+)
 
-export default LoginPage;
+export default LoginPage

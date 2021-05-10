@@ -68,54 +68,34 @@
   },
   "highlighting": {
     "adr-62109009954d9e9fb3524922e0f89208": {
-      "suggest": [
-        "<b>Weesperzijde</b> 42A-H, 1091EE Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 42A-H, 1091EE Amsterdam"]
     },
     "adr-f5df4e14e91f62c02cc7e92045cb5ebd": {
-      "suggest": [
-        "<b>Weesperzijde</b> 78A-H, 1091EJ Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 78A-H, 1091EJ Amsterdam"]
     },
     "adr-b9d1a591cf62d58cb2f71e1875fff2ec": {
-      "suggest": [
-        "<b>Weesperzijde</b> 23A-1, 1091EC Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 23A-1, 1091EC Amsterdam"]
     },
     "adr-3946b6e1ef043465f4e90efe0423ba8f": {
-      "suggest": [
-        "<b>Weesperzijde</b> 23A-2, 1091EC Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 23A-2, 1091EC Amsterdam"]
     },
     "adr-3c0284cb778992be5e54d495b18d9d30": {
-      "suggest": [
-        "<b>Weesperzijde</b> 23A-3, 1091EC Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 23A-3, 1091EC Amsterdam"]
     },
     "adr-ae9c39247076a4ad1f380b263532cb21": {
-      "suggest": [
-        "<b>Weesperzijde</b> 42A-1, 1091EE Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 42A-1, 1091EE Amsterdam"]
     },
     "adr-382cd79078fb0115b944eab5c7c7c8a2": {
-      "suggest": [
-        "<b>Weesperzijde</b> 42A-2, 1091EE Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 42A-2, 1091EE Amsterdam"]
     },
     "adr-a31c176d14fdcbcca6a413aa238b9ec0": {
-      "suggest": [
-        "<b>Weesperzijde</b> 42A-3, 1091EE Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 42A-3, 1091EE Amsterdam"]
     },
     "adr-cc1f2f899cfd3d725478a8f6daa16269": {
-      "suggest": [
-        "<b>Weesperzijde</b> 78A-2, 1091EJ Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 78A-2, 1091EJ Amsterdam"]
     },
     "adr-dc63c9678b01b74a70ff47529841e5f4": {
-      "suggest": [
-        "<b>Weesperzijde</b> 2A, 1091EA Amsterdam"
-      ]
+      "suggest": ["<b>Weesperzijde</b> 2A, 1091EA Amsterdam"]
     }
   },
   "spellcheck": {

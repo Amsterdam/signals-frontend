@@ -1,84 +1,110 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { pointWithinBounds } from 'shared/services/map-location';
-import Button from 'components/Button';
-import LoadingIndicator from 'components/LoadingIndicator';
+import { pointWithinBounds } from 'shared/services/map-location'
+import Button from 'components/Button'
+import LoadingIndicator from 'components/LoadingIndicator'
 
-import GPS from '../../shared/images/icon-gps.svg';
+import GPS from '../../shared/images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-`;
+`
 
 const GPSIcon = styled(GPS)`
   display: inline-block;
-`;
+`
 
-const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationError, onLocationOutOfBounds }) => {
-  const [loading, setLoading] = useState(false);
-  const [toggled, setToggled] = useState(false);
-  const shouldWatch = typeof onLocationChange === 'function';
-  const successCallbackFunc = shouldWatch ? onLocationChange : onLocationSuccess;
+const GPSButton = ({
+  className,
+  onLocationChange,
+  onLocationSuccess,
+  onLocationError,
+  onLocationOutOfBounds,
+}) => {
+  const [loading, setLoading] = useState(false)
+  const [toggled, setToggled] = useState(false)
+  const shouldWatch = typeof onLocationChange === 'function'
+  const successCallbackFunc = shouldWatch ? onLocationChange : onLocationSuccess
 
   if (!shouldWatch && typeof onLocationSuccess !== 'function') {
-    throw new Error('Either one of onLocationChange or onLocationSuccess is required');
+    throw new Error(
+      'Either one of onLocationChange or onLocationSuccess is required'
+    )
   }
 
   const onClick = useCallback(
-    event => {
-      event.preventDefault();
+    (event) => {
+      event.preventDefault()
 
-      if (loading) return;
+      if (loading) return
 
       if (toggled) {
-        successCallbackFunc({ toggled: false });
-        setToggled(false);
-        return;
+        successCallbackFunc({ toggled: false })
+        setToggled(false)
+        return
       }
 
       const onSuccess = ({ coords }) => {
-        const { accuracy, latitude, longitude } = coords;
+        const { accuracy, latitude, longitude } = coords
 
         if (pointWithinBounds([latitude, longitude])) {
-          successCallbackFunc({ accuracy, latitude, longitude, toggled: !toggled });
-          setToggled(!toggled);
+          successCallbackFunc({
+            accuracy,
+            latitude,
+            longitude,
+            toggled: !toggled,
+          })
+          setToggled(!toggled)
         } else {
           if (typeof onLocationOutOfBounds === 'function') {
-            onLocationOutOfBounds();
+            onLocationOutOfBounds()
           }
 
-          setToggled(false);
+          setToggled(false)
         }
 
-        setLoading(false);
-      };
+        setLoading(false)
+      }
 
       const onError = ({ code, message }) => {
-        onLocationError({ code, message });
-        setToggled(false);
-        setLoading(false);
-      };
+        onLocationError({ code, message })
+        setToggled(false)
+        setLoading(false)
+      }
 
-      setLoading(true);
+      setLoading(true)
 
       if (shouldWatch) {
-        global.navigator.geolocation.watchPosition(onSuccess, onError);
+        global.navigator.geolocation.watchPosition(onSuccess, onError)
       } else {
-        global.navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
       }
     },
-    [onLocationError, onLocationOutOfBounds, successCallbackFunc, shouldWatch, toggled, loading]
-  );
+    [
+      onLocationError,
+      onLocationOutOfBounds,
+      successCallbackFunc,
+      shouldWatch,
+      toggled,
+      loading,
+    ]
+  )
 
   return (
     <StyledButton
       className={className}
       data-testid="gpsButton"
-      icon={loading ? <LoadingIndicator color="black" /> : <GPSIcon fill={toggled ? '#009de6' : 'black'} />}
+      icon={
+        loading ? (
+          <LoadingIndicator color="black" />
+        ) : (
+          <GPSIcon fill={toggled ? '#009de6' : 'black'} />
+        )
+      }
       aria-label="Huidige locatie"
       iconSize={20}
       onClick={onClick}
@@ -86,12 +112,12 @@ const GPSButton = ({ className, onLocationChange, onLocationSuccess, onLocationE
       variant="blank"
       type="button"
     />
-  );
-};
+  )
+}
 
 GPSButton.defaultProps = {
   className: '',
-};
+}
 
 GPSButton.propTypes = {
   className: PropTypes.string,
@@ -99,6 +125,6 @@ GPSButton.propTypes = {
   onLocationError: PropTypes.func,
   onLocationOutOfBounds: PropTypes.func,
   onLocationSuccess: PropTypes.func,
-};
+}
 
-export default GPSButton;
+export default GPSButton

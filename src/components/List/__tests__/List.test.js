@@ -1,71 +1,72 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { withAppContext, userObjects } from 'test/utils';
+import { render, fireEvent } from '@testing-library/react'
+import { withAppContext, userObjects } from 'test/utils'
 
-import List from '..';
+import List from '..'
 
-const users = userObjects();
+const users = userObjects()
 
 // temp disabled
 describe('components/List', () => {
   it('returns null when there are no items to render', () => {
-    const { container, rerender } = render(withAppContext(<List items={[]} />));
+    const { container, rerender } = render(withAppContext(<List items={[]} />))
 
-    expect(container.querySelector('table')).not.toBeInTheDocument();
+    expect(container.querySelector('table')).not.toBeInTheDocument()
 
-    rerender(withAppContext(<List items={users} />));
+    rerender(withAppContext(<List items={users} />))
 
-    expect(container.querySelector('table')).toBeInTheDocument();
-  });
+    expect(container.querySelector('table')).toBeInTheDocument()
+  })
 
   it('renders column in the correct order', () => {
-    const columnOrder = ['roles', 'username', 'id', 'is_active'];
+    const columnOrder = ['roles', 'username', 'id', 'is_active']
     const { container } = render(
       withAppContext(<List items={users} columnOrder={columnOrder} />)
-    );
+    )
 
     expect(
-      [...container.querySelectorAll('th')].map(header => header.textContent)
-    ).toEqual(columnOrder);
-  });
+      [...container.querySelectorAll('th')].map((header) => header.textContent)
+    ).toEqual(columnOrder)
+  })
 
   it('does not render columns marked as invisible', () => {
     const { container } = render(
       withAppContext(<List items={users} invisibleColumns={['id']} />)
-    );
+    )
 
-    container.querySelectorAll('thead td').forEach(element => {
-      expect(element.textContent).not.toEqual('id');
-    });
-  });
+    container.querySelectorAll('thead td').forEach((element) => {
+      expect(element.textContent).not.toEqual('id')
+    })
+  })
 
   it('should set data-itemid', () => {
-    const primaryKeyColumn = 'id';
-    const randomUser = users[Math.floor(Math.random() * users.length)];
+    const primaryKeyColumn = 'id'
+    const randomUser = users[Math.floor(Math.random() * users.length)]
 
     const { container } = render(
       withAppContext(<List items={users} primaryKeyColumn={primaryKeyColumn} />)
-    );
-    expect(container.querySelector(`[data-item-id="${randomUser.id}"]`)).toBeInTheDocument();
-  });
+    )
+    expect(
+      container.querySelector(`[data-item-id="${randomUser.id}"]`)
+    ).toBeInTheDocument()
+  })
 
   it('handles callback on row click', () => {
-    const onItemClick = jest.fn();
+    const onItemClick = jest.fn()
 
     const { container } = render(
       withAppContext(<List items={users} onItemClick={onItemClick} />)
-    );
+    )
 
-    expect(onItemClick).toHaveBeenCalledTimes(0);
+    expect(onItemClick).toHaveBeenCalledTimes(0)
 
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'));
+    fireEvent.click(container.querySelector('tbody > tr:nth-child(10)'))
 
-    expect(onItemClick).toHaveBeenCalledTimes(1);
+    expect(onItemClick).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(4)'));
+    fireEvent.click(container.querySelector('tbody > tr:nth-child(4)'))
 
-    expect(onItemClick).toHaveBeenCalledTimes(2);
-  });
-});
+    expect(onItemClick).toHaveBeenCalledTimes(2)
+  })
+})

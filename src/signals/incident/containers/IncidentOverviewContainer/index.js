@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import IncidentOverviewContainer from './IncidentOverviewContainer';
+import IncidentOverviewContainer from './IncidentOverviewContainer'
 
-export default IncidentOverviewContainer;
+export default IncidentOverviewContainer

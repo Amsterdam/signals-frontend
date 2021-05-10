@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CircularDependencyPlugin = require('circular-dependency-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const webpackBase = require('./webpack.base.babel');
-const template = require('./template');
-const { default: createStyledComponentsTransformer } = require('typescript-plugin-styled-components');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const {
+  default: createStyledComponentsTransformer,
+} = require('typescript-plugin-styled-components')
+const webpackBase = require('./webpack.base.babel')
+const template = require('./template')
 
 // 2. create a transformer;
 // the factory additionally accepts an options object which described below
-const styledComponentsTransformer = createStyledComponentsTransformer();
+const styledComponentsTransformer = createStyledComponentsTransformer()
 
 module.exports = webpackBase({
   mode: 'development',
@@ -53,7 +55,10 @@ module.exports = webpackBase({
     new CopyPlugin({
       patterns: [
         { from: path.join(process.cwd(), 'src/sw-proxy.js') },
-        { from: path.join(process.cwd(), 'src/sw-proxy-config.js'), force: true },
+        {
+          from: path.join(process.cwd(), 'src/sw-proxy-config.js'),
+          force: true,
+        },
       ],
     }),
   ],
@@ -80,4 +85,4 @@ module.exports = webpackBase({
   performance: {
     hints: false,
   },
-});
+})

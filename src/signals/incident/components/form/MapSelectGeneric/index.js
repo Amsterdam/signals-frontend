@@ -1,45 +1,54 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeSpacing } from '@amsterdam/asc-ui';
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { themeSpacing } from '@amsterdam/asc-ui'
 
-import MapSelectComponent from 'components/MapSelectGeneric';
-import configuration from 'shared/services/configuration/configuration';
+import MapSelectComponent from 'components/MapSelectGeneric'
+import configuration from 'shared/services/configuration/configuration'
 
-import FormField from '../FormField';
+import FormField from '../FormField'
 
-export const getLatlng = meta =>
+export const getLatlng = (meta) =>
   meta?.incidentContainer?.incident?.location?.geometrie?.coordinates
     ? {
-      latitude: meta.incidentContainer.incident.location.geometrie.coordinates[1],
-      longitude: meta.incidentContainer.incident.location.geometrie.coordinates[0],
-    }
+        latitude:
+          meta.incidentContainer.incident.location.geometrie.coordinates[1],
+        longitude:
+          meta.incidentContainer.incident.location.geometrie.coordinates[0],
+      }
     : {
-      latitude: configuration.map.options.center[0],
-      longitude: configuration.map.options.center[1],
-    };
+        latitude: configuration.map.options.center[0],
+        longitude: configuration.map.options.center[1],
+      }
 
 const Selection = styled.span`
   display: inline-block;
   margin-top: ${themeSpacing(3)};
-`;
+`
 
-const MapSelectGeneric = ({ handler, touched, hasError = () => {}, meta, parent, getError, validatorsOrOpts }) => {
-  const onSelectionChange = selection => {
-    const value = [...selection.set.values()];
-    parent.meta.updateIncident({ [meta.name]: value });
-  };
+const MapSelectGeneric = ({
+  handler,
+  touched,
+  hasError = () => {},
+  meta,
+  parent,
+  getError,
+  validatorsOrOpts,
+}) => {
+  const onSelectionChange = (selection) => {
+    const value = [...selection.set.values()]
+    parent.meta.updateIncident({ [meta.name]: value })
+  }
 
-  const latlng = getLatlng(parent.meta);
-  const url = meta.endpoint;
+  const latlng = getLatlng(parent.meta)
+  const url = meta.endpoint
 
   // Get selection array from "handler".
   // the value is not always an array (it's a string on load).
   // So make sure selection is array:
-  const value = handler().value;
-  const selection = Array.isArray(value) ? value : [];
+  const value = handler().value
+  const selection = Array.isArray(value) ? value : []
 
   return (
     meta?.isVisible && (
@@ -65,13 +74,14 @@ const MapSelectGeneric = ({ handler, touched, hasError = () => {}, meta, parent,
         />
         {selection.length > 0 && (
           <Selection>
-            Het gaat om{meta.selectionLabel ? ` ${meta.selectionLabel}` : ''}: {selection.join('; ')}
+            Het gaat om{meta.selectionLabel ? ` ${meta.selectionLabel}` : ''}:{' '}
+            {selection.join('; ')}
           </Selection>
         )}
       </FormField>
     )
-  );
-};
+  )
+}
 
 MapSelectGeneric.propTypes = {
   handler: PropTypes.func.isRequired,
@@ -90,6 +100,6 @@ MapSelectGeneric.propTypes = {
   parent: PropTypes.object,
   getError: PropTypes.func,
   validatorsOrOpts: PropTypes.object,
-};
+}
 
-export default MapSelectGeneric;
+export default MapSelectGeneric

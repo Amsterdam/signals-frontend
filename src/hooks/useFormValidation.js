@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback } from 'react'
 
 /**
  * useFormValidation hook
@@ -14,61 +14,61 @@ import { useRef, useState, useCallback } from 'react';
  *
  * @param {HTMLFormElement} formRef - Reference to the form node of which the fields should be validated
  */
-const useFormValidation = formRef => {
+const useFormValidation = (formRef) => {
   // Use a ref to internally keep track of which errors have been set; useState is asynchronous and will not
   // have the set of values at the time it is needed in this hook
-  const errorsRef = useRef({});
-  const [event, setEvent] = useState();
-  const [isValid, setIsValid] = useState();
-  const [errors, setErrors] = useState({});
+  const errorsRef = useRef({})
+  const [event, setEvent] = useState()
+  const [isValid, setIsValid] = useState()
+  const [errors, setErrors] = useState({})
 
   const validate = useCallback(
-    e => {
-      e.persist();
-      const { elements, noValidate } = formRef.current;
+    (e) => {
+      e.persist()
+      const { elements, noValidate } = formRef.current
 
       if (noValidate) {
         // Prevent the form from being submitted when the noValidate attribute has been set on the form
         // When noValidate has not been set, the form won't submit because of HTML5 validation taking over
-        e.preventDefault();
+        e.preventDefault()
       }
 
-      [...elements].forEach(element => {
+      ;[...elements].forEach((element) => {
         const {
           name,
           validity: { valid, valueMissing, typeMismatch, patternMismatch },
           required,
-        } = element;
-        let error;
+        } = element
+        let error
 
         if (!valid) {
           if (required && valueMissing) {
-            error = 'Dit veld is verplicht';
+            error = 'Dit veld is verplicht'
           }
 
           if (typeMismatch || patternMismatch) {
             switch (element.type) {
               case 'email':
-                error = 'Het veld moet een geldig e-mailadres bevatten';
-                break;
+                error = 'Het veld moet een geldig e-mailadres bevatten'
+                break
               case 'date':
-                error = 'Het veld moet een geldige datumnotatie bevatten';
-                break;
+                error = 'Het veld moet een geldige datumnotatie bevatten'
+                break
               case 'number':
-                error = 'Het veld mag alleen nummers bevatten';
-                break;
+                error = 'Het veld mag alleen nummers bevatten'
+                break
               case 'tel':
-                error = 'Het veld moet een geldig telefoonnummer bevatten';
-                break;
+                error = 'Het veld moet een geldig telefoonnummer bevatten'
+                break
               case 'time':
-                error = 'Het veld moet een geldige tijdnotatie bevatten';
-                break;
+                error = 'Het veld moet een geldige tijdnotatie bevatten'
+                break
               case 'url':
-                error = 'Het veld moet een geldig url bevatten';
-                break;
+                error = 'Het veld moet een geldig url bevatten'
+                break
               default:
-                error = 'De waarde van het veld voldoet niet';
-                break;
+                error = 'De waarde van het veld voldoet niet'
+                break
             }
           }
         }
@@ -76,22 +76,22 @@ const useFormValidation = formRef => {
         errorsRef.current = {
           ...errorsRef.current,
           [name]: error,
-        };
+        }
 
-        setErrors(state => ({
+        setErrors((state) => ({
           ...state,
           [name]: error,
-        }));
-      });
+        }))
+      })
 
       const hasErrors =
-        Object.values(errorsRef.current).filter(Boolean).length > 0;
+        Object.values(errorsRef.current).filter(Boolean).length > 0
 
-      setIsValid(!hasErrors);
-      setEvent(e);
+      setIsValid(!hasErrors)
+      setEvent(e)
     },
     [formRef]
-  );
+  )
 
   /**
    * @typedef {Object}
@@ -100,7 +100,7 @@ const useFormValidation = formRef => {
    * @property {Object} errors - Key/value pairs of field names and error messages
    * @property {Event} event - The initial form submission event
    */
-  return { validate, isValid, errors, event };
-};
+  return { validate, isValid, errors, event }
+}
 
-export default useFormValidation;
+export default useFormValidation

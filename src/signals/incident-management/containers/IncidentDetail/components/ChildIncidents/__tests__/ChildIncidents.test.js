@@ -1,72 +1,99 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils';
-import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json';
-import history from 'utils/__tests__/fixtures/incidentHistory.json';
+import { withAppContext } from 'test/utils'
+import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
+import history from 'utils/__tests__/fixtures/incidentHistory.json'
 
-import ChildIncidents from '..';
-import IncidentDetailContext from '../../../context';
+import ChildIncidents from '..'
+import IncidentDetailContext from '../../../context'
 
-const update = jest.fn();
+const update = jest.fn()
 
-const renderWithContext = Component =>
+const renderWithContext = (Component) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ update }}>
       {Component}
     </IncidentDetailContext.Provider>
-  );
+  )
 
 describe('IncidentDetail/components/ChildIncidents', () => {
   beforeEach(() => {
-    update.mockReset();
-  });
+    update.mockReset()
+  })
 
   it('should not render anything', () => {
-    const childIncidents = [];
-    const parent = { updated_at: null };
-    const { queryByText, queryByTestId } = render(withAppContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />)
-    );
+    const childIncidents = []
+    const parent = { updated_at: null }
+    const { queryByText, queryByTestId } = render(
+      withAppContext(
+        <ChildIncidents
+          incidents={childIncidents}
+          parent={parent}
+          history={[history]}
+        />
+      )
+    )
 
-    expect(queryByText('Deelmelding')).not.toBeInTheDocument();
-    expect(queryByTestId('childIncidents')).not.toBeInTheDocument();
-    expect(queryByTestId('noActionButton')).not.toBeInTheDocument();
-  });
+    expect(queryByText('Deelmelding')).not.toBeInTheDocument()
+    expect(queryByTestId('childIncidents')).not.toBeInTheDocument()
+    expect(queryByTestId('noActionButton')).not.toBeInTheDocument()
+  })
 
   it('should render correctly', () => {
-    const childIncidents = childIncidentsFixture.results;
-    const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
+    const childIncidents = childIncidentsFixture.results
+    const parent = { updated_at: childIncidentsFixture.results[0].updated_at }
 
-    const { queryByText, queryByTestId, rerender } = render(renderWithContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />
-    ));
+    const { queryByText, queryByTestId, rerender } = render(
+      renderWithContext(
+        <ChildIncidents
+          incidents={childIncidents}
+          parent={parent}
+          history={[history]}
+        />
+      )
+    )
 
-    expect(queryByText('Deelmelding')).toBeInTheDocument();
-    expect(queryByTestId('childIncidents')).toBeInTheDocument();
-    expect(queryByTestId('noActionButton')).toBeInTheDocument();
+    expect(queryByText('Deelmelding')).toBeInTheDocument()
+    expect(queryByTestId('childIncidents')).toBeInTheDocument()
+    expect(queryByTestId('noActionButton')).toBeInTheDocument()
 
-    const updatedParent = { updated_at: new Date().toISOString() };
-    rerender(renderWithContext(<ChildIncidents incidents={childIncidents} parent={updatedParent} history={[history]} />));
+    const updatedParent = { updated_at: new Date().toISOString() }
+    rerender(
+      renderWithContext(
+        <ChildIncidents
+          incidents={childIncidents}
+          parent={updatedParent}
+          history={[history]}
+        />
+      )
+    )
 
-    expect(queryByText('Deelmelding')).toBeInTheDocument();
-    expect(queryByTestId('childIncidents')).toBeInTheDocument();
-    expect(queryByTestId('noActionButton')).not.toBeInTheDocument();
-  });
+    expect(queryByText('Deelmelding')).toBeInTheDocument()
+    expect(queryByTestId('childIncidents')).toBeInTheDocument()
+    expect(queryByTestId('noActionButton')).not.toBeInTheDocument()
+  })
 
   it('should reset the incident state ', async () => {
-    const childIncidents = childIncidentsFixture.results;
-    const parent = { updated_at: childIncidentsFixture.results[0].updated_at };
+    const childIncidents = childIncidentsFixture.results
+    const parent = { updated_at: childIncidentsFixture.results[0].updated_at }
 
-    const { findByTestId } = render(withAppContext(renderWithContext(
-      <ChildIncidents incidents={childIncidents} parent={parent} history={[history]} />
-    )));
+    const { findByTestId } = render(
+      withAppContext(
+        renderWithContext(
+          <ChildIncidents
+            incidents={childIncidents}
+            parent={parent}
+            history={[history]}
+          />
+        )
+      )
+    )
 
-    const button = await findByTestId('noActionButton');
-    fireEvent.click(button);
-    await findByTestId('noActionButton');
-    expect(update).toHaveBeenCalledTimes(1);
-  });
-});
+    const button = await findByTestId('noActionButton')
+    fireEvent.click(button)
+    await findByTestId('noActionButton')
+    expect(update).toHaveBeenCalledTimes(1)
+  })
+})

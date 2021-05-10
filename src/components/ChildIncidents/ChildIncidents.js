@@ -1,33 +1,40 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { breakpoint, List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import ChildIncidentHistory from 'components/ChildIncidentHistory';
-import { historyType } from 'shared/types';
+import { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
+import {
+  breakpoint,
+  List,
+  ListItem,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
+import ChildIncidentHistory from 'components/ChildIncidentHistory'
+import { historyType } from 'shared/types'
 
-export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE';
-export const STATUS_RESPONSE_REQUIRED = 'components/ChildIncidents/STATUS_RESPONSE_REQUIRED';
+export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE'
+export const STATUS_RESPONSE_REQUIRED =
+  'components/ChildIncidents/STATUS_RESPONSE_REQUIRED'
 
 // Fixed width for the child element attributes
-const HANDLING_TIME_VALUE_WIDTH = 110;
+const HANDLING_TIME_VALUE_WIDTH = 110
 
 const DisplayValue = styled.span`
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
   margin-top: ${themeSpacing(3)};
-`;
+`
 
 const StyledList = styled(List)`
   margin-bottom: 0;
-`;
+`
 
 const Li = styled(ListItem)`
   display: flex;
@@ -54,11 +61,11 @@ const Li = styled(ListItem)`
             width: ${themeSpacing(1.5)};
             top: 0;
           }
-        `;
+        `
 
       case STATUS_NONE:
       default:
-        return null;
+        return null
     }
   }}
 
@@ -111,38 +118,54 @@ const Li = styled(ListItem)`
         padding-left: ${themeSpacing(2)};
       }
     `}
-`;
+`
 
 const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
   <StyledList className={className} data-testid="childIncidents">
-    {incidents.map(incident => {
+    {incidents.map((incident) => {
       const valueEntries = (
         <Fragment>
-          <DisplayValue key="id" title={incident.values.id}>{incident.values.id}</DisplayValue>
+          <DisplayValue key="id" title={incident.values.id}>
+            {incident.values.id}
+          </DisplayValue>
 
-          <DisplayValue key="category-and-status" title={`${incident.values.category} - ${incident.values.status}`}>
+          <DisplayValue
+            key="category-and-status"
+            title={`${incident.values.category} - ${incident.values.status}`}
+          >
             {incident.values.category}
             <br />
             {incident.values.status}
           </DisplayValue>
 
-          <DisplayValue key="handling-time" title={incident.values.handlingTime}>
+          <DisplayValue
+            key="handling-time"
+            title={incident.values.handlingTime}
+          >
             {incident.values.handlingTime}
           </DisplayValue>
         </Fragment>
-      );
+      )
 
       return (
         <Fragment key={incident.href}>
           <Li status={incident.status} changed={incident.changed}>
-            {incident.href ? <Link to={incident.href}>{valueEntries}</Link> : <div>{valueEntries}</div>}
+            {incident.href ? (
+              <Link to={incident.href}>{valueEntries}</Link>
+            ) : (
+              <div>{valueEntries}</div>
+            )}
           </Li>
-          <StyledChildIncidentHistory canView={incident.canView} history={incident.history} parentUpdatedAt={parentUpdatedAt} />
+          <StyledChildIncidentHistory
+            canView={incident.canView}
+            history={incident.history}
+            parentUpdatedAt={parentUpdatedAt}
+          />
         </Fragment>
-      );
+      )
     })}
   </StyledList>
-);
+)
 
 ChildIncidents.propTypes = {
   /** @ignore */
@@ -162,6 +185,6 @@ ChildIncidents.propTypes = {
       history: historyType,
     })
   ),
-};
+}
 
-export default ChildIncidents;
+export default ChildIncidents

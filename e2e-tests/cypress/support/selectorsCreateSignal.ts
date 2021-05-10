@@ -20,20 +20,20 @@ export const CREATE_SIGNAL = {
   errorItem: '[data-testid$="-required"]',
   errorLocation: '[data-testid="location-required"]',
   errorMail: '[data-testid="invalid-mail"]',
-  footerPrivacyLink: '[class*=Footer__StyledLink]',
   imageAddressMarker: 'div[class="leaflet-pane leaflet-marker-pane"]',
   infoText: '[data-testid="infoText"]',
   inputPhoneNumber: '#phone',
   inputEmail: '#email',
   imageFileUpload: '[class*=Image__ImageContainer]',
   labelQuestion: 'label',
-  logoAmsterdam: '[class*=AmsterdamLogo__AmsterdamLogoStyle]',
   mapContainer: '.leaflet-container',
   mapStaticImage: '[data-testid=mapStaticImage]',
   mapStaticMarker: '[data-testid=mapStaticMarker]',
   mapPreview: '[data-testid=map-preview]',
   radioButtonTijdstipNu: '#datetime-Nu',
   radioButtonTijdstipEerder: '#datetime-Eerder',
+  siteFooter: '[data-testid="siteFooter"]',
+  siteHeader: '[data-testid="siteHeader"]',
 };
 
 export const BEDRIJVEN_HORECA = {
@@ -70,6 +70,10 @@ export const BOTEN = {
   radioButtonPlezierVaart: '#extra_boten_snelheid_typeboot-pleziervaart',
   radioButtonRondvaartboot: '#extra_boten_snelheid_typeboot-rondvaartboot_of_salonboot',
   radioButtonVrachtschip: '#extra_boten_snelheid_typeboot-vrachtschip_of_binnenvaartschip',
+};
+
+export const BRUGGEN = {
+  inputBrugId: '#extra_brug',
 };
 
 export const CONTAINERS = {

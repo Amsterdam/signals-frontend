@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import type { FunctionComponent } from 'react';
-import { ThemeProvider as ASCThemeProvider } from '@amsterdam/asc-ui';
+import type { FunctionComponent } from 'react'
+import { ThemeProvider as ASCThemeProvider } from '@amsterdam/asc-ui'
 
-import { isAuthenticated } from 'shared/services/auth/auth';
-import configuration from 'shared/services/configuration/configuration';
-import type { Theme } from 'types/theme';
-import type { RecursivePartial } from 'types/helpers';
+import { isAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import type { Theme } from 'types/theme'
+import type { RecursivePartial } from 'types/helpers'
 
-export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (defaultConfig = {}) => {
-  const config = { ...defaultConfig };
+export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (
+  defaultConfig = {}
+) => {
+  const config = { ...defaultConfig }
 
   if (!isAuthenticated()) {
-    config.maxGridWidth = 960;
+    config.maxGridWidth = 960
     config.layouts = {
       small: {
         columns: 2,
@@ -47,16 +48,20 @@ export const getConfig: (theme?: RecursivePartial<Theme>) => Theme = (defaultCon
         margin: 10,
         min: 1430,
       },
-    };
+    }
   }
 
-  return config as Theme;
-};
+  return config as Theme
+}
 
 const ThemeProvider: FunctionComponent = ({ children }) => (
-  <ASCThemeProvider overrides={getConfig((configuration as Partial<{ theme?: RecursivePartial<Theme> }>).theme)}>
+  <ASCThemeProvider
+    overrides={getConfig(
+      (configuration as Partial<{ theme?: RecursivePartial<Theme> }>).theme
+    )}
+  >
     {children}
   </ASCThemeProvider>
-);
+)
 
-export default ThemeProvider;
+export default ThemeProvider

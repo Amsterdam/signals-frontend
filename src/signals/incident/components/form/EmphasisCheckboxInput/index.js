@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import { FormGroup } from 'react-reactive-form';
-import CheckboxInput from '../CheckboxInput';
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { FormGroup } from 'react-reactive-form'
+import CheckboxInput from '../CheckboxInput'
 
 const Emphasis = styled.div`
   background-color: ${themeColor('tint', 'level3')};
@@ -19,13 +18,13 @@ const Emphasis = styled.div`
       margin: 0;
     }
   }
-`;
+`
 
-const EmphasisCheckboxInput = props => (
+const EmphasisCheckboxInput = (props) => (
   <Emphasis>
     <CheckboxInput {...props} parent={props?._parent} />
   </Emphasis>
-);
+)
 
 EmphasisCheckboxInput.propTypes = {
   /**
@@ -34,6 +33,6 @@ EmphasisCheckboxInput.propTypes = {
    * as 'parent' prop to make the damn thing work.
    */
   _parent: PropTypes.objectOf(FormGroup).isRequired,
-};
+}
 
-export default EmphasisCheckboxInput;
+export default EmphasisCheckboxInput

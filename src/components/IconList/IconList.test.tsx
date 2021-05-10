@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render, screen } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import IconList, { IconListItem } from './IconList';
+import IconList, { IconListItem } from './IconList'
 
 describe('IconList', () => {
   it('should render', () => {
@@ -14,16 +13,16 @@ describe('IconList', () => {
           <IconListItem iconUrl="">Icon</IconListItem>
         </IconList>
       )
-    );
+    )
 
-    expect(screen.getByRole('list')).toBeInTheDocument();
-    expect(screen.getAllByRole('listitem').length).toBe(1);
-  });
+    expect(screen.getByRole('list')).toBeInTheDocument()
+    expect(screen.getAllByRole('listitem').length).toBe(1)
+  })
 
   it('should render an empty list', () => {
-    render(withAppContext(<IconList />));
+    render(withAppContext(<IconList />))
 
-    expect(screen.getByRole('list')).toBeInTheDocument();
-    expect(screen.queryAllByRole('listitem').length).toBe(0);
-  });
-});
+    expect(screen.getByRole('list')).toBeInTheDocument()
+    expect(screen.queryAllByRole('listitem').length).toBe(0)
+  })
+})

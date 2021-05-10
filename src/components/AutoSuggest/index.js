@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { useCallback, useEffect, useState, useRef } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import useDebounce from 'hooks/useDebounce';
-import useFetch from 'hooks/useFetch';
-import Input from 'components/Input';
-import SuggestList from './components/SuggestList';
+import useDebounce from 'hooks/useDebounce'
+import useFetch from 'hooks/useFetch'
+import Input from 'components/Input'
+import SuggestList from './components/SuggestList'
 
-export const INPUT_DELAY = 350;
+export const INPUT_DELAY = 350
 
 const Wrapper = styled.div`
   position: relative;
-`;
+`
 
 const StyledInput = styled(Input)`
   outline: 2px solid rgb(0, 0, 0, 0.1);
@@ -21,14 +21,14 @@ const StyledInput = styled(Input)`
   & > * {
     margin: 0;
   }
-`;
+`
 
 const AbsoluteList = styled(SuggestList)`
   position: absolute;
   width: 100%;
   background-color: white;
   z-index: 2;
-`;
+`
 
 /**
  * Autosuggest component that renders a text box and a list with suggestions after text input
@@ -56,185 +56,190 @@ const AutoSuggest = ({
   id = '',
   ...rest
 }) => {
-  const { get, data } = useFetch();
-  const [initialRender, setInitialRender] = useState(false);
-  const [showList, setShowList] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const wrapperRef = useRef(null);
-  const inputRef = useRef(null);
-  const options = data && formatResponse(data);
-  const activeId = options && options[activeIndex]?.id;
+  const { get, data } = useFetch()
+  const [initialRender, setInitialRender] = useState(false)
+  const [showList, setShowList] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const wrapperRef = useRef(null)
+  const inputRef = useRef(null)
+  const options = data && formatResponse(data)
+  const activeId = options && options[activeIndex]?.id
 
-  const handleInputKeyDown = useCallback(event => {
+  const handleInputKeyDown = useCallback((event) => {
     switch (event.key) {
       case 'Enter':
-        event.preventDefault();
-        break;
+        event.preventDefault()
+        break
 
       default:
-        break;
+        break
     }
-  }, []);
+  }, [])
 
   const handleKeyDown = useCallback(
-    event => {
-      if (!showList) return;
+    (event) => {
+      if (!showList) return
 
-      const numberOfOptions = numOptionsDeterminer(data);
+      const numberOfOptions = numOptionsDeterminer(data)
 
       switch (event.key) {
         case 'Up':
         case 'ArrowUp':
-          event.preventDefault();
+          event.preventDefault()
 
-          setActiveIndex(state => {
-            const indexOfActive = state - 1;
-            const topReached = indexOfActive < 0;
+          setActiveIndex((state) => {
+            const indexOfActive = state - 1
+            const topReached = indexOfActive < 0
 
-            return topReached ? numberOfOptions - 1 : indexOfActive;
-          });
+            return topReached ? numberOfOptions - 1 : indexOfActive
+          })
 
-          break;
+          break
 
         case 'Down':
         case 'ArrowDown':
-          event.preventDefault();
+          event.preventDefault()
 
-          setActiveIndex(state => {
-            const indexOfActive = state + 1;
-            const endReached = indexOfActive === numberOfOptions;
+          setActiveIndex((state) => {
+            const indexOfActive = state + 1
+            const endReached = indexOfActive === numberOfOptions
 
-            return endReached ? 0 : indexOfActive;
-          });
+            return endReached ? 0 : indexOfActive
+          })
 
-          break;
+          break
 
         case 'Esc':
         case 'Escape':
-          inputRef.current.value = '';
-          setActiveIndex(-1);
-          setShowList(false);
-          if (onClear) onClear();
-          break;
+          inputRef.current.value = ''
+          setActiveIndex(-1)
+          setShowList(false)
+          if (onClear) onClear()
+          break
 
         case 'Home':
-          event.preventDefault();
+          event.preventDefault()
 
-          inputRef.current.focus();
-          inputRef.current.setSelectionRange(0, 0);
-          setActiveIndex(-1);
-          break;
+          inputRef.current.focus()
+          inputRef.current.setSelectionRange(0, 0)
+          setActiveIndex(-1)
+          break
 
         case 'End':
-          event.preventDefault();
+          event.preventDefault()
 
-          inputRef.current.focus();
-          inputRef.current.setSelectionRange(9999, 9999);
-          setActiveIndex(-1);
-          break;
+          inputRef.current.focus()
+          inputRef.current.setSelectionRange(9999, 9999)
+          setActiveIndex(-1)
+          break
 
         default:
-          setActiveIndex(-1);
-          break;
+          setActiveIndex(-1)
+          break
       }
     },
     [data, numOptionsDeterminer, showList, onClear]
-  );
+  )
 
   useEffect(() => {
-    setInitialRender(true);
-  }, []);
+    setInitialRender(true)
+  }, [])
 
   /**
    * Subscribe to activeIndex changes which happen after keyboard input
    */
   useEffect(() => {
-    if (!initialRender) return;
+    if (!initialRender) return
 
     if (activeIndex === -1) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
     // only respond to changed in activeIndex; disabling linter
     // eslint-disable-next-line
-  }, [activeIndex]);
+  }, [activeIndex])
 
   /**
    * Register and unregister listeners
    */
   useEffect(() => {
-    const wrapper = wrapperRef.current;
-    const input = inputRef.current;
+    const wrapper = wrapperRef.current
+    const input = inputRef.current
 
-    wrapper.addEventListener('keydown', handleKeyDown);
-    input.addEventListener('focusout', handleFocusOut);
-    input.addEventListener('keydown', handleInputKeyDown);
+    wrapper.addEventListener('keydown', handleKeyDown)
+    input.addEventListener('focusout', handleFocusOut)
+    input.addEventListener('keydown', handleInputKeyDown)
 
     return () => {
-      wrapper.removeEventListener('keydown', handleKeyDown);
-      input.removeEventListener('focusout', handleFocusOut);
-      input.removeEventListener('keydown', handleInputKeyDown);
-    };
-  }, [handleKeyDown, handleFocusOut, handleInputKeyDown]);
+      wrapper.removeEventListener('keydown', handleKeyDown)
+      input.removeEventListener('focusout', handleFocusOut)
+      input.removeEventListener('keydown', handleInputKeyDown)
+    }
+  }, [handleKeyDown, handleFocusOut, handleInputKeyDown])
 
   /**
    * Subscribe to changes in fetched data
    */
   useEffect(() => {
-    const hasResults = numOptionsDeterminer(data) > 0;
+    const hasResults = numOptionsDeterminer(data) > 0
 
-    setShowList(hasResults);
-  }, [data, numOptionsDeterminer]);
+    setShowList(hasResults)
+  }, [data, numOptionsDeterminer])
 
-  const handleFocusOut = useCallback(event => {
-    if (wrapperRef.current.contains(event.relatedTarget)) return;
+  const handleFocusOut = useCallback((event) => {
+    if (wrapperRef.current.contains(event.relatedTarget)) return
 
-    setActiveIndex(-1);
-    setShowList(false);
-  }, []);
+    setActiveIndex(-1)
+    setShowList(false)
+  }, [])
 
   const serviceRequest = useCallback(
-    inputValue => {
+    (inputValue) => {
       if (inputValue.length >= 3) {
-        get(`${url}${encodeURIComponent(inputValue)}`);
+        get(`${url}${encodeURIComponent(inputValue)}`)
       } else {
-        setShowList(false);
+        setShowList(false)
 
         if (inputValue.length === 0 && onClear) {
-          onClear();
+          onClear()
         }
       }
     },
     [get, onClear, url]
-  );
+  )
 
-  const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY);
+  const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)
 
   const onChange = useCallback(
-    event => {
-      event.persist();
-      debouncedServiceRequest(event.target.value);
+    (event) => {
+      event.persist()
+      debouncedServiceRequest(event.target.value)
     },
     [debouncedServiceRequest]
-  );
+  )
 
   const onSelectOption = useCallback(
-    option => {
-      setActiveIndex(-1);
-      setShowList(false);
+    (option) => {
+      setActiveIndex(-1)
+      setShowList(false)
 
-      inputRef.current.value = option.value;
-      onSelect(option);
+      inputRef.current.value = option.value
+      onSelect(option)
     },
     [onSelect]
-  );
+  )
 
   useEffect(() => {
-    inputRef.current.value = value;
-  }, [value]);
+    inputRef.current.value = value
+  }, [value])
 
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
-      <div role="combobox" aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox">
+      <div
+        role="combobox"
+        aria-controls="as-listbox"
+        aria-expanded={showList}
+        aria-haspopup="listbox"
+      >
         <StyledInput
           aria-activedescendant={activeId}
           aria-autocomplete="list"
@@ -258,14 +263,14 @@ const AutoSuggest = ({
         />
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 AutoSuggest.defaultProps = {
   className: '',
   placeholder: '',
   value: '',
-};
+}
 
 AutoSuggest.propTypes = {
   /** @ignore */
@@ -303,6 +308,6 @@ AutoSuggest.propTypes = {
   url: PropTypes.string.isRequired,
   /** defaultValue for the input field */
   value: PropTypes.string,
-};
+}
 
-export default AutoSuggest;
+export default AutoSuggest

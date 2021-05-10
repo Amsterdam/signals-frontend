@@ -1,21 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import configuration from 'shared/services/configuration/configuration';
-import * as auth from 'shared/services/auth/auth';
-import incidentJson from 'utils/__tests__/fixtures/incident.json';
+import { render } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
+import configuration from 'shared/services/configuration/configuration'
+import * as auth from 'shared/services/auth/auth'
+import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import AppContext from '../../../../containers/App/context';
-import IncidentWizard from '.';
+import AppContext from '../../../../containers/App/context'
+import IncidentWizard from '.'
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),
-}));
-jest.mock('shared/services/configuration/configuration');
-jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false);
+}))
+jest.mock('shared/services/configuration/configuration')
+jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
 
 const sources = [
   {
@@ -26,9 +25,13 @@ const sources = [
     key: 2,
     value: 'Source 2',
   },
-];
+]
 const withContext = (Component, actualSources = null, loading = false) =>
-  withAppContext(<AppContext.Provider value={{ sources: actualSources, loading }}>{Component}</AppContext.Provider>);
+  withAppContext(
+    <AppContext.Provider value={{ sources: actualSources, loading }}>
+      {Component}
+    </AppContext.Provider>
+  )
 
 describe('<IncidentWizard />', () => {
   const props = {
@@ -39,11 +42,11 @@ describe('<IncidentWizard />', () => {
     incidentContainer: {
       loading: false,
     },
-  };
+  }
 
   afterEach(() => {
-    configuration.__reset();
-  });
+    configuration.__reset()
+  })
 
   it('expect to render form correctly', () => {
     const propsWithForm = {
@@ -55,14 +58,16 @@ describe('<IncidentWizard />', () => {
           },
         },
       },
-    };
+    }
 
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithForm} />));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithForm} />)
+    )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+  })
 
   it('should not render without any form or preview', () => {
     const propsWithout = {
@@ -70,14 +75,16 @@ describe('<IncidentWizard />', () => {
       wizardDefinition: {
         beschrijf: {},
       },
-    };
+    }
 
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithout} />));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithout} />)
+    )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+  })
 
   it('expect to render form factory correctly', () => {
     const propsWithFormFactory = {
@@ -89,14 +96,16 @@ describe('<IncidentWizard />', () => {
           }),
         },
       },
-    };
+    }
 
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithFormFactory} />));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithFormFactory} />)
+    )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+  })
 
   it('expect to render preview factory correctly', () => {
     const propsWithPreviewFactory = {
@@ -116,16 +125,21 @@ describe('<IncidentWizard />', () => {
           }),
         },
       },
-    };
+    }
 
     const { queryByTestId } = render(
-      withContext(<IncidentWizard {...propsWithPreviewFactory} incidentContainer={{ incident: incidentJson }} />)
-    );
+      withContext(
+        <IncidentWizard
+          {...propsWithPreviewFactory}
+          incidentContainer={{ incident: incidentJson }}
+        />
+      )
+    )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+  })
 
   it('expect to render loading correctly', () => {
     const propsWithPreview = {
@@ -133,22 +147,26 @@ describe('<IncidentWizard />', () => {
       incidentContainer: {
         loading: true,
       },
-    };
+    }
 
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithPreview} />));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithPreview} />)
+    )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+  })
 
   it('should render loading when App loading', () => {
-    const { queryByTestId } = render(withContext(<IncidentWizard {...props} />, null, true));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...props} />, null, true)
+    )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+  })
 
   it('should work without sources (not authorized)', () => {
     const propsWithForm = {
@@ -160,17 +178,19 @@ describe('<IncidentWizard />', () => {
           },
         },
       },
-    };
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithForm} />));
+    }
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithForm} />)
+    )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-  });
+    expect(queryByTestId('incidentForm')).toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+  })
 
   it('should pass the sources to the formFactory', () => {
-    const formFactory = jest.fn();
-    const incident = {};
+    const formFactory = jest.fn()
+    const incident = {}
     const propsWithFormFactory = {
       ...props,
       incidentContainer: {
@@ -181,13 +201,15 @@ describe('<IncidentWizard />', () => {
           formFactory,
         },
       },
-    };
+    }
 
-    const { queryByTestId } = render(withContext(<IncidentWizard {...propsWithFormFactory} />, sources));
+    const { queryByTestId } = render(
+      withContext(<IncidentWizard {...propsWithFormFactory} />, sources)
+    )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument();
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument();
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument();
-    expect(formFactory).toHaveBeenCalledWith(incident, sources);
-  });
-});
+    expect(queryByTestId('incidentForm')).toBeInTheDocument()
+    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
+    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(formFactory).toHaveBeenCalledWith(incident, sources)
+  })
+})

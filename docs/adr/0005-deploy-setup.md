@@ -47,7 +47,7 @@ Schema validation at Docker runtime should be taken out.
 
 A single `Jenkinsfile` in the [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository will tie the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository and the separate 'packages' together. This will prevent having race conditions.
 
-A merge into the `develop` branch of the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will trigger a build in the `Amsterdam/signalen` Jenkins job. That also goes for a merge into the `develop` branch of the [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository. A merge into the `master` branch of any of the repositories will __NOT__ trigger a build.
+A merge into the `develop` branch of the [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) repository will trigger a build in the `Amsterdam/signalen` Jenkins job. That also goes for a merge into the `develop` branch of the [Amsterdam/signalen](https://github.com/Amsterdam/signalen) repository. A merge into the `master` branch of any of the repositories will **NOT** trigger a build.
 
 The `Amsterdam/signalen` Jenkins job will be a parameterized job where both an [Amsterdam/signalen](https://github.com/Amsterdam/signalen) tag and [Amsterdam/signals-frontend](https://github.com/Amsterdam/signals-frontend) tag can be set for deployment. By default the latest tags should be set. Selecting tags instead of deploying from the `master` branch will allow for rollbacks, whenever necessary.
 

@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context';
-import type { LatLngExpression } from 'leaflet';
-import { withAppContext } from 'test/utils';
-import type { ContainerSelectValue } from '../../types';
+import { fireEvent, render, screen } from '@testing-library/react'
+import { ContainerSelectProvider } from 'signals/incident/components/form/ContainerSelect/context'
+import type { LatLngExpression } from 'leaflet'
+import { withAppContext } from 'test/utils'
+import type { ContainerSelectValue } from '../../types'
 
-import Summary from '../Summary';
+import Summary from '../Summary'
 
 const contextValue: ContainerSelectValue = {
   selection: [
@@ -37,30 +36,34 @@ const contextValue: ContainerSelectValue = {
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
-};
+}
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>
-  withAppContext(<ContainerSelectProvider value={context}>{Component}</ContainerSelectProvider>);
+  withAppContext(
+    <ContainerSelectProvider value={context}>
+      {Component}
+    </ContainerSelectProvider>
+  )
 
 describe('signals/incident/components/form/ContainerSelect/Summary', () => {
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render ', () => {
-    render(withContext(<Summary />));
+    render(withContext(<Summary />))
 
-    expect(screen.getByTestId('containerSelectSummary')).toBeInTheDocument();
-    expect(screen.getByTestId('containerList')).toBeInTheDocument();
-    expect(screen.getByText(/wijzigen/i)).toBeInTheDocument();
-  });
+    expect(screen.getByTestId('containerSelectSummary')).toBeInTheDocument()
+    expect(screen.getByTestId('containerList')).toBeInTheDocument()
+    expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+  })
 
   it('should call edit', () => {
-    render(withContext(<Summary />));
-    expect(contextValue.edit).not.toHaveBeenCalled();
+    render(withContext(<Summary />))
+    expect(contextValue.edit).not.toHaveBeenCalled()
 
-    const element = screen.getByText(/wijzigen/i);
-    fireEvent.click(element);
-    expect(contextValue.edit).toHaveBeenCalled();
-  });
-});
+    const element = screen.getByText(/wijzigen/i)
+    fireEvent.click(element)
+    expect(contextValue.edit).toHaveBeenCalled()
+  })
+})

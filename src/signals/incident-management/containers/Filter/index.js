@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose, bindActionCreators } from 'redux';
+import { useCallback, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { compose, bindActionCreators } from 'redux'
 
-import { makeSelectEditFilter } from 'signals/incident-management/selectors';
-import FilterForm from 'signals/incident-management/components/FilterForm';
-import { filterType } from 'shared/types';
+import { makeSelectEditFilter } from 'signals/incident-management/selectors'
+import FilterForm from 'signals/incident-management/components/FilterForm'
+import { filterType } from 'shared/types'
 
 import {
   applyFilter,
@@ -16,7 +16,7 @@ import {
   filterEditCanceled,
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
-} from 'signals/incident-management/actions';
+} from 'signals/incident-management/actions'
 
 export const FilterContainerComponent = ({
   onApplyFilter,
@@ -26,23 +26,30 @@ export const FilterContainerComponent = ({
   filter,
   ...rest
 }) => {
-  const editFilter = useMemo(() => filter, [filter]);
+  const editFilter = useMemo(() => filter, [filter])
 
   const onFormSubmit = useCallback(
     (event, filterData) => {
-      onApplyFilter(filterData);
-      onSubmit(event);
+      onApplyFilter(filterData)
+      onSubmit(event)
     },
     [onApplyFilter, onSubmit]
-  );
+  )
 
   const onEditCancel = useCallback(() => {
-    onFilterEditCancel();
-    onCancel();
-  }, [onFilterEditCancel, onCancel]);
+    onFilterEditCancel()
+    onCancel()
+  }, [onFilterEditCancel, onCancel])
 
-  return <FilterForm {...rest} filter={editFilter} onCancel={onEditCancel} onSubmit={onFormSubmit} />;
-};
+  return (
+    <FilterForm
+      {...rest}
+      filter={editFilter}
+      onCancel={onEditCancel}
+      onSubmit={onFormSubmit}
+    />
+  )
+}
 
 FilterContainerComponent.propTypes = {
   filter: filterType.isRequired,
@@ -53,14 +60,14 @@ FilterContainerComponent.propTypes = {
   onSaveFilter: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onUpdateFilter: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = () =>
   createStructuredSelector({
     filter: makeSelectEditFilter,
-  });
+  })
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onApplyFilter: applyFilter,
@@ -70,8 +77,8 @@ const mapDispatchToProps = dispatch =>
       onUpdateFilter,
     },
     dispatch
-  );
+  )
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps)
 
-export default compose(withConnect)(FilterContainerComponent);
+export default compose(withConnect)(FilterContainerComponent)

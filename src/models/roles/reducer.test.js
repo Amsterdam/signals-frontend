@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { fromJS } from 'immutable';
-import rolesReducer, { initialState } from './reducer';
+import { fromJS } from 'immutable'
+import rolesReducer, { initialState } from './reducer'
 
 import {
   FETCH_ROLES,
@@ -17,13 +17,12 @@ import {
   PATCH_ROLE_SUCCESS,
   PATCH_ROLE_ERROR,
   RESET_RESPONSE,
-}
-  from './constants';
+} from './constants'
 
 describe('rolesReducer', () => {
   it('returns the initial state', () => {
-    expect(rolesReducer(undefined, {})).toEqual(fromJS(initialState));
-  });
+    expect(rolesReducer(undefined, {})).toEqual(fromJS(initialState))
+  })
 
   it('FETCH_ROLES', () => {
     expect(
@@ -40,11 +39,11 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('FETCH_ROLES_SUCCESS', () => {
-    const payload = [{ id: 42 }];
+    const payload = [{ id: 42 }]
     expect(
       rolesReducer(undefined, {
         type: FETCH_ROLES_SUCCESS,
@@ -60,8 +59,8 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('FETCH_ROLES_ERROR', () => {
     expect(
@@ -78,8 +77,8 @@ describe('rolesReducer', () => {
       error: true,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('FETCH_PERMISSIONS', () => {
     expect(
@@ -96,11 +95,11 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('FETCH_PERMISSIONS_SUCCESS', () => {
-    const payload = [{ id: 142 }];
+    const payload = [{ id: 142 }]
     expect(
       rolesReducer(undefined, {
         type: FETCH_PERMISSIONS_SUCCESS,
@@ -116,8 +115,8 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('FETCH_PERMISSIONS_ERROR', () => {
     expect(
@@ -134,8 +133,8 @@ describe('rolesReducer', () => {
       error: true,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('SAVE_ROLE', () => {
     expect(
@@ -152,8 +151,8 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('SAVE_ROLE_SUCCESS', () => {
     expect(
@@ -166,8 +165,8 @@ describe('rolesReducer', () => {
       saving: false,
       responseSuccess: true,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('SAVE_ROLE_ERROR', () => {
     expect(
@@ -184,8 +183,8 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: true,
-    });
-  });
+    })
+  })
 
   it('PATCH_ROLE', () => {
     expect(
@@ -202,22 +201,25 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('PATCH_ROLE_SUCCESS with matching id', () => {
     expect(
-      rolesReducer(fromJS({ list: [{ id: 41 }, { id: 42, name: 'foo' }, { id: 43 }] }), {
-        type: PATCH_ROLE_SUCCESS,
-        payload: { id: 42, name: 'bar' },
-      }).toJS()
+      rolesReducer(
+        fromJS({ list: [{ id: 41 }, { id: 42, name: 'foo' }, { id: 43 }] }),
+        {
+          type: PATCH_ROLE_SUCCESS,
+          payload: { id: 42, name: 'bar' },
+        }
+      ).toJS()
     ).toEqual({
       list: [{ id: 41 }, { id: 42, name: 'bar' }, { id: 43 }],
       patching: false,
       responseSuccess: true,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('PATCH_ROLE_SUCCESS with non matching id', () => {
     expect(
@@ -230,8 +232,8 @@ describe('rolesReducer', () => {
       patching: false,
       responseSuccess: true,
       responseError: false,
-    });
-  });
+    })
+  })
 
   it('PATCH_ROLE_ERROR', () => {
     expect(
@@ -248,8 +250,8 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: true,
-    });
-  });
+    })
+  })
 
   it('RESET_RESPONSE', () => {
     expect(
@@ -266,6 +268,6 @@ describe('rolesReducer', () => {
       error: false,
       responseSuccess: false,
       responseError: false,
-    });
-  });
-});
+    })
+  })
+})

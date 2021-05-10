@@ -6,38 +6,38 @@ const ZoomMessageControl = L.Control.extend({
   },
 
   initialize(options) {
-    L.setOptions(this, options);
+    L.setOptions(this, options)
   },
 
   onAdd(map) {
-    const div = L.DomUtil.create('div', 'zoom-control');
-    div.innerText = 'Zoom in om de objecten te zien';
+    const div = L.DomUtil.create('div', 'zoom-control')
+    div.innerText = 'Zoom in om de objecten te zien'
 
-    this.setVisibility(div, map.getZoom());
+    this.setVisibility(div, map.getZoom())
 
-    map.on('zoomend', this.onZoomEnd, this);
+    map.on('zoomend', this.onZoomEnd, this)
 
-    return div;
+    return div
   },
 
   onRemove(map) {
-    map.off('zoomend', this.onZoomEnd, this);
+    map.off('zoomend', this.onZoomEnd, this)
   },
 
   //
   // Custom methods
   //
   onZoomEnd() {
-    this.setVisibility(this._container, this._map.getZoom());
+    this.setVisibility(this._container, this._map.getZoom())
   },
 
   setVisibility(element, zoomLevel) {
     if (zoomLevel >= this.options.zoomMin) {
-      L.DomUtil.addClass(element, 'hide');
+      L.DomUtil.addClass(element, 'hide')
     } else {
-      L.DomUtil.removeClass(element, 'hide');
+      L.DomUtil.removeClass(element, 'hide')
     }
   },
-});
+})
 
-export default ZoomMessageControl;
+export default ZoomMessageControl

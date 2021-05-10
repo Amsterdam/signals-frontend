@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { withAppContext } from 'test/utils';
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { withAppContext } from 'test/utils'
 
-import MapSelectGeneric from '.';
+import MapSelectGeneric from '.'
 
 const jsonResponse = {
   type: 'FeatureCollection',
@@ -14,49 +13,69 @@ const jsonResponse = {
   features: [
     {
       type: 'Feature',
-      properties: { ogc_fid: '1845', type_id: '5', type_name: 'Grachtmast', objectnummer: '002635' },
+      properties: {
+        ogc_fid: '1845',
+        type_id: '5',
+        type_name: 'Grachtmast',
+        objectnummer: '002635',
+      },
       geometry: { type: 'Point', coordinates: [4.896506, 52.370984] },
     },
     {
       type: 'Feature',
-      properties: { ogc_fid: '1882', type_id: '5', type_name: 'Grachtmast', objectnummer: '147329' },
+      properties: {
+        ogc_fid: '1882',
+        type_id: '5',
+        type_name: 'Grachtmast',
+        objectnummer: '147329',
+      },
       geometry: { type: 'Point', coordinates: [4.895565, 52.371467] },
     },
   ],
-};
+}
 
 describe('signals/incident/components/form/MapSelectGeneric', () => {
   const parent = {
     meta: {
       updateIncident: jest.fn(),
     },
-  };
+  }
 
   const meta = {
     name: 'my_question',
     isVisible: true,
     endpoint: 'foo/bar?',
     idField: 'objectnummer',
-  };
+  }
 
-  const handler = () => ({ value: 'foo' });
+  const handler = () => ({ value: 'foo' })
 
   describe('rendering', () => {
     it('should render the map component', () => {
       const { container, queryByTestId, rerender } = render(
-        withAppContext(<MapSelectGeneric parent={parent} meta={meta} handler={handler} />)
-      );
+        withAppContext(
+          <MapSelectGeneric parent={parent} meta={meta} handler={handler} />
+        )
+      )
 
-      expect(queryByTestId('mapSelectGeneric')).toBeInTheDocument();
-      expect(queryByTestId('gpsButton')).toBeInTheDocument();
-      expect(container.firstChild.classList.contains('mapSelectGeneric')).toBeTruthy();
+      expect(queryByTestId('mapSelectGeneric')).toBeInTheDocument()
+      expect(queryByTestId('gpsButton')).toBeInTheDocument()
+      expect(
+        container.firstChild.classList.contains('mapSelectGeneric')
+      ).toBeTruthy()
 
       rerender(
-        withAppContext(<MapSelectGeneric parent={parent} meta={{ ...meta, isVisible: false }} handler={handler} />)
-      );
+        withAppContext(
+          <MapSelectGeneric
+            parent={parent}
+            meta={{ ...meta, isVisible: false }}
+            handler={handler}
+          />
+        )
+      )
 
-      expect(queryByTestId('mapSelectGeneric')).not.toBeInTheDocument();
-    });
+      expect(queryByTestId('mapSelectGeneric')).not.toBeInTheDocument()
+    })
 
     it('should render with incident coordinates', () => {
       const parentWithCoordinates = {
@@ -73,21 +92,33 @@ describe('signals/incident/components/form/MapSelectGeneric', () => {
             },
           },
         },
-      };
-      render(withAppContext(<MapSelectGeneric parent={parentWithCoordinates} meta={meta} handler={handler} />));
+      }
+      render(
+        withAppContext(
+          <MapSelectGeneric
+            parent={parentWithCoordinates}
+            meta={meta}
+            handler={handler}
+          />
+        )
+      )
 
-      expect(screen.getByTestId('mapSelectGeneric')).toBeInTheDocument();
-    });
+      expect(screen.getByTestId('mapSelectGeneric')).toBeInTheDocument()
+    })
 
     it('should render selected item numbers', () => {
       const { getByText } = render(
         withAppContext(
-          <MapSelectGeneric parent={parent} meta={meta} handler={() => ({ value: ['9673465', '808435'] })} />
+          <MapSelectGeneric
+            parent={parent}
+            meta={meta}
+            handler={() => ({ value: ['9673465', '808435'] })}
+          />
         )
-      );
+      )
 
-      expect(getByText('Het gaat om: 9673465; 808435')).toBeInTheDocument();
-    });
+      expect(getByText('Het gaat om: 9673465; 808435')).toBeInTheDocument()
+    })
 
     it('should render selected item numbers with custom label', () => {
       const { getByText } = render(
@@ -101,26 +132,38 @@ describe('signals/incident/components/form/MapSelectGeneric', () => {
             handler={() => ({ value: ['9673465', '808435'] })}
           />
         )
-      );
+      )
 
-      expect(getByText('Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435')).toBeInTheDocument();
-    });
+      expect(
+        getByText(
+          'Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435'
+        )
+      ).toBeInTheDocument()
+    })
 
     it('should call parent.meta.updateIncident', async () => {
-      fetch.mockResponse(JSON.stringify(jsonResponse));
+      fetch.mockResponse(JSON.stringify(jsonResponse))
 
-      const value = ['002635', '147329'];
+      const value = ['002635', '147329']
       const { findByTestId } = render(
-        withAppContext(<MapSelectGeneric parent={parent} meta={meta} handler={() => ({ value })} />)
-      );
+        withAppContext(
+          <MapSelectGeneric
+            parent={parent}
+            meta={meta}
+            handler={() => ({ value })}
+          />
+        )
+      )
 
-      await findByTestId('mapSelectGeneric');
+      await findByTestId('mapSelectGeneric')
 
-      expect(parent.meta.updateIncident).not.toHaveBeenCalled();
+      expect(parent.meta.updateIncident).not.toHaveBeenCalled()
 
-      userEvent.click(screen.getByRole('img', { name: value[0] }));
+      userEvent.click(screen.getByRole('img', { name: value[0] }))
 
-      expect(parent.meta.updateIncident).toHaveBeenCalledWith({ [meta.name]: [value[1]] });
-    });
-  });
-});
+      expect(parent.meta.updateIncident).toHaveBeenCalledWith({
+        [meta.name]: [value[1]],
+      })
+    })
+  })
+})

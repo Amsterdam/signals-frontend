@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import proj4 from 'proj4';
+import proj4 from 'proj4'
 
 const config = {
   rd: {
@@ -41,7 +41,7 @@ const config = {
     projection: '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs',
   },
   earthRadius: 6378137, // The radius in meters
-};
+}
 
 /**
  * Converts the given WGS84 coordinates (lat, lon) to RD coordinates.
@@ -53,14 +53,17 @@ const config = {
  *
  * @returns {Object.<string, number>} RD coordinates with keys `x` and `y`.
  */
-export const wgs84ToRd = wgs84Coordinates => {
-  const rdCoordinates = proj4(config.rd.projection, [wgs84Coordinates.lng, wgs84Coordinates.lat]);
+export const wgs84ToRd = (wgs84Coordinates) => {
+  const rdCoordinates = proj4(config.rd.projection, [
+    wgs84Coordinates.lng,
+    wgs84Coordinates.lat,
+  ])
 
   return {
     x: rdCoordinates[0],
     y: rdCoordinates[1],
-  };
-};
+  }
+}
 
 /**
  * Converts the given RD coordinates to WGS84 coordinates (lat, lon).
@@ -72,10 +75,14 @@ export const wgs84ToRd = wgs84Coordinates => {
  * @returns {Object.<string, number>} WGS84 coordinates with keys `latitude`
  * and `longitude`.
  */
-export const rdToWgs84 = rdCoordinates => {
-  const wgs84Coordinates = proj4(config.rd.projection, config.wgs84.projection, [rdCoordinates.x, rdCoordinates.y]);
+export const rdToWgs84 = (rdCoordinates) => {
+  const wgs84Coordinates = proj4(
+    config.rd.projection,
+    config.wgs84.projection,
+    [rdCoordinates.x, rdCoordinates.y]
+  )
   return {
     lat: wgs84Coordinates[1],
     lng: wgs84Coordinates[0],
-  };
-};
+  }
+}

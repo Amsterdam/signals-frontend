@@ -77,10 +77,10 @@ export const checkFlashingYellow = () => {
  * @example cy.checkHeaderFooter();
 */
 export const checkHeaderFooter = () => {
-  cy.get(CREATE_SIGNAL.logoAmsterdam).should('have.attr', 'href', `${appConfig.links.home}`).and('be.visible');
-  cy.get(`${CREATE_SIGNAL.disclaimer} h2`).should('have.text', 'Lukt het niet om een melding te doen?');
-  cy.contains(appConfig.language.footer2);
-  cy.get(CREATE_SIGNAL.footerPrivacyLink).should('have.attr', 'href', `${appConfig.links.privacy}`).and('be.visible');
+  cy.get(CREATE_SIGNAL.siteHeader).find('a').should('have.attr', 'href', `${appConfig.links.home}`).and('be.visible');
+  cy.get(`${CREATE_SIGNAL.disclaimer} h2`).should('have.text', 'Lukt het niet om een melding te doen?').and('be.visible');
+  cy.contains(appConfig.language.footer2).should('be.visible');
+  cy.get(CREATE_SIGNAL.siteFooter).find('a').eq(1).should('have.attr', 'href', `${appConfig.links.privacy}`).and('be.visible');
 };
 
 /**
@@ -202,6 +202,8 @@ export const checkAllDetails = (json: signal.RootObject) => {
   cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
   checkRedTextStatus(json.status.state_display);
   cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
+  cy.get(SIGNAL_DETAILS.labelDoorlooptijd).should('have.text', 'Doorlooptijd').and('be.visible');
+  cy.get(SIGNAL_DETAILS.doorlooptijd).should('have.text', json.process_time).and('be.visible');
   cy.get(SIGNAL_DETAILS.type).should('have.text', json.type).and('be.visible');
   cy.get(SIGNAL_DETAILS.subCategory).should('contain', `${json.category.sub}`).and('be.visible');
   checkDepartments(json);
@@ -381,7 +383,7 @@ export const selectSource = (index: number) => {
 export const setAddress = (json: signal.RootObject) => {
   routes.stubAddress(json.fixtures.address);
   const address = json.address.huisnummer_toevoeging ? `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}-${json.address.huisnummer_toevoeging}, ${json.address.postcode} ${json.address.woonplaats}` : `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}, ${json.address.postcode} ${json.address.woonplaats}`;
-  searchAddress(`${json.address.postcode} ${json.address.huisnummer}`);
+  searchAddress(`${json.address.postcode} ${json.address.huisnummer} ${json.address.huisletter}`);
   selectAddress(address);
 };
 

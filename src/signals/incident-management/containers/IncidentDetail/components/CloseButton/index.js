@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { themeSpacing } from '@amsterdam/asc-ui';
-import { Close as CloseIcon } from '@amsterdam/asc-assets';
-import styled from 'styled-components';
+import { useContext } from 'react'
+import PropTypes from 'prop-types'
+import { themeSpacing } from '@amsterdam/asc-ui'
+import { Close as CloseIcon } from '@amsterdam/asc-assets'
+import styled from 'styled-components'
 
-import Button from 'components/Button';
-import IncidentDetailContext from '../../context';
+import Button from 'components/Button'
+import IncidentDetailContext from '../../context'
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -31,10 +31,10 @@ const StyledButton = styled(Button)`
   @media (min-width: ${({ theme }) => theme.layouts.xLarge.min}px) {
     right: ${({ theme }) => theme.layouts.xLarge.margin}px;
   }
-`;
+`
 
 const CloseButton = ({ className }) => {
-  const { close } = useContext(IncidentDetailContext);
+  const { close } = useContext(IncidentDetailContext)
   return (
     <StyledButton
       className={className}
@@ -45,15 +45,15 @@ const CloseButton = ({ className }) => {
       size={32}
       variant="application"
     />
-  );
-};
+  )
+}
 
 CloseButton.defaultProps = {
   className: '',
-};
+}
 
 CloseButton.propTypes = {
   className: PropTypes.string,
-};
+}
 
-export default CloseButton;
+export default CloseButton

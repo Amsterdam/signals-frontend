@@ -1,9 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { forwardRef } from 'react';
-import styled, { css } from 'styled-components';
-import { Input as AscInput, Label, themeColor, Typography, themeSpacing } from '@amsterdam/asc-ui';
-import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input';
+import { forwardRef, ReactNode } from 'react'
+import styled, { css } from 'styled-components'
+import {
+  Input as AscInput,
+  Label,
+  themeColor,
+  Typography,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
+import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input'
 
 const Hint = styled(Typography).attrs({
   forwardedAs: 'span',
@@ -13,7 +19,7 @@ const Hint = styled(Typography).attrs({
   margin-bottom: ${themeSpacing(2)};
   font-size: 16px;
   line-height: 22px;
-`;
+`
 
 const StyledInput = styled(AscInput)<{ showError: boolean }>`
   font-family: inherit;
@@ -34,7 +40,7 @@ const StyledInput = styled(AscInput)<{ showError: boolean }>`
         border: 2px solid ${themeColor('secondary')};
       }
     `}
-`;
+`
 
 const Error = styled(Typography).attrs({
   forwardedAs: 'h6',
@@ -43,7 +49,7 @@ const Error = styled(Typography).attrs({
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-weight: normal;
   margin: ${themeSpacing(2)} 0;
-`;
+`
 
 export const StyledLabel = styled(Label)<{ hasHint: boolean }>`
   display: block;
@@ -53,7 +59,7 @@ export const StyledLabel = styled(Label)<{ hasHint: boolean }>`
     css`
       margin-bottom: ${themeSpacing(2)};
     `}
-`;
+`
 
 const Wrapper = styled.div<{ showError: boolean }>`
   ${({ showError }) =>
@@ -62,24 +68,26 @@ const Wrapper = styled.div<{ showError: boolean }>`
       border-left: 2px solid ${themeColor('secondary')};
       padding-left: ${themeSpacing(4)};
     `}
-`;
+`
 
 interface InputProps extends Omit<AscInputProps, 'error'> {
-  id?: string;
-  label?: React.ReactNode;
-  error?: string;
-  hint?: string;
+  id?: string
+  label?: ReactNode
+  error?: string
+  hint?: string
 }
 
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, hint, label, id, error, ...rest }, ref) => (
+    <Wrapper className={className} showError={Boolean(error)}>
+      {label && (
+        <StyledLabel hasHint={Boolean(hint)} htmlFor={id} label={label} />
+      )}
+      {hint && <Hint>{hint}</Hint>}
+      {error && <Error>{error}</Error>}
+      <StyledInput id={id} showError={Boolean(error)} ref={ref} {...rest} />
+    </Wrapper>
+  )
+)
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ className, hint, label, id, error, ...rest }, ref) => (
-  <Wrapper className={className} showError={Boolean(error)}>
-    {label && <StyledLabel hasHint={Boolean(hint)} htmlFor={id} label={label} />}
-    {hint && <Hint>{hint}</Hint>}
-    {error && <Error>{error}</Error>}
-    <StyledInput id={id} showError={Boolean(error)} ref={ref} {...rest} />
-  </Wrapper>
-));
-
-
-export default Input;
+export default Input

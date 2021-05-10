@@ -1,18 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Row, Column, themeSpacing, themeColor, Heading } from '@amsterdam/asc-ui';
-import { Link } from 'react-router-dom';
+import { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import {
+  Row,
+  Column,
+  themeSpacing,
+  themeColor,
+  Heading,
+} from '@amsterdam/asc-ui'
+import { Link } from 'react-router-dom'
 
-import configuration from 'shared/services/configuration/configuration';
+import configuration from 'shared/services/configuration/configuration'
 
-import { MAP_URL, INCIDENTS_URL } from '../../../../routes';
+import { MAP_URL, INCIDENTS_URL } from '../../../../routes'
 
 export const Wrapper = styled(Row)`
   margin-bottom: ${themeSpacing(5)};
-`;
+`
 
 export const MapHeading = styled(Heading).attrs({
   forwardedAs: 'h2',
@@ -21,7 +27,7 @@ export const MapHeading = styled(Heading).attrs({
   font-size: 16px;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-weight: 400;
-`;
+`
 
 export const TabContainer = styled.div`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
@@ -31,7 +37,7 @@ export const TabContainer = styled.div`
   a {
     text-decoration: none;
   }
-`;
+`
 
 export const Tab = styled.span`
   line-height: 24px;
@@ -55,13 +61,13 @@ export const Tab = styled.span`
   & + & {
     margin-left: ${themeSpacing(7)};
   }
-`;
+`
 
 export const TabWrapper = styled(Column)`
   justify-content: flex-end;
   align-items: center;
   height: ${themeSpacing(8)};
-`;
+`
 
 const SubNav = ({ showsMap }) => (
   <Wrapper data-testid="subNav">
@@ -95,14 +101,14 @@ const SubNav = ({ showsMap }) => (
       </TabContainer>
     </TabWrapper>
   </Wrapper>
-);
+)
 
 SubNav.defaultProps = {
   showsMap: false,
-};
+}
 
 SubNav.propTypes = {
   showsMap: PropTypes.bool,
-};
+}
 
-export default SubNav;
+export default SubNav

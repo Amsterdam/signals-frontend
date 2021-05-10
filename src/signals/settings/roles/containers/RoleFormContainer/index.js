@@ -1,30 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
-import { bindActionCreators } from 'redux';
-import { Row, Column } from '@amsterdam/asc-ui';
+import { Fragment, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { useParams, useHistory, useLocation } from 'react-router-dom'
+import { createStructuredSelector } from 'reselect'
+import { bindActionCreators } from 'redux'
+import { Row, Column } from '@amsterdam/asc-ui'
 
-import routes from 'signals/settings/routes';
-import PageHeader from 'signals/settings/components/PageHeader';
-import LoadingIndicator from 'components/LoadingIndicator';
-import BackLink from 'components/BackLink';
-import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions';
-import {
-  VARIANT_SUCCESS,
-  TYPE_LOCAL,
-} from 'containers/Notification/constants';
-import {
-  makeSelectUserCan,
-} from 'containers/App/selectors';
+import routes from 'signals/settings/routes'
+import PageHeader from 'signals/settings/components/PageHeader'
+import LoadingIndicator from 'components/LoadingIndicator'
+import BackLink from 'components/BackLink'
+import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions'
+import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
+import { makeSelectUserCan } from 'containers/App/selectors'
 
-import { rolesModelSelector } from 'models/roles/selectors';
-import { patchRole, saveRole, resetResponse } from 'models/roles/actions';
+import { rolesModelSelector } from 'models/roles/selectors'
+import { patchRole, saveRole, resetResponse } from 'models/roles/actions'
 
-import RoleForm from './components/RoleForm';
+import RoleForm from './components/RoleForm'
 
 export const RoleFormContainer = ({
   roles: {
@@ -41,31 +36,31 @@ export const RoleFormContainer = ({
   onResetResponse,
   userCan,
 }) => {
-  const { roleId } = useParams();
-  const location = useLocation();
-  const history = useHistory();
-  const role = list.find(item => item.id === roleId * 1);
-  const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`;
-  const redirectURL = location.referrer || routes.roles;
+  const { roleId } = useParams()
+  const location = useLocation()
+  const history = useHistory()
+  const role = list.find((item) => item.id === roleId * 1)
+  const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`
+  const redirectURL = location.referrer || routes.roles
 
   useEffect(() => {
-    let message;
+    let message
 
     if (responseSuccess) {
-      message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd';
+      message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd'
     }
 
-    onResetResponse();
+    onResetResponse()
 
-    if (!message) return;
+    if (!message) return
 
     showGlobalNotification({
       variant: VARIANT_SUCCESS,
       title: message,
       type: TYPE_LOCAL,
-    });
+    })
 
-    history.push(redirectURL);
+    history.push(redirectURL)
   }, [
     history,
     onResetResponse,
@@ -74,7 +69,7 @@ export const RoleFormContainer = ({
     responseSuccess,
     roleId,
     showGlobalNotification,
-  ]);
+  ])
 
   return (
     <Fragment>
@@ -84,30 +79,29 @@ export const RoleFormContainer = ({
       />
       <Row>
         <Column span={12}>
-          {loading || loadingPermissions ?
-            <LoadingIndicator /> :
-            (
-              <RoleForm
-                role={role}
-                permissions={permissions}
-                onPatchRole={onPatchRole}
-                onSaveRole={onSaveRole}
-                readOnly={!userCan('change_group')}
-              />
-            )
-          }
+          {loading || loadingPermissions ? (
+            <LoadingIndicator />
+          ) : (
+            <RoleForm
+              role={role}
+              permissions={permissions}
+              onPatchRole={onPatchRole}
+              onSaveRole={onSaveRole}
+              readOnly={!userCan('change_group')}
+            />
+          )}
         </Column>
       </Row>
     </Fragment>
-  );
-};
+  )
+}
 
 RoleFormContainer.defaultProps = {
   roles: {
     list: [],
     loading: false,
   },
-};
+}
 
 RoleFormContainer.propTypes = {
   roles: PropTypes.shape({
@@ -133,20 +127,24 @@ RoleFormContainer.propTypes = {
   onSaveRole: PropTypes.func.isRequired,
   onResetResponse: PropTypes.func.isRequired,
   userCan: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = createStructuredSelector({
   roles: rolesModelSelector,
   userCan: makeSelectUserCan,
-});
+})
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  showGlobalNotification: showGlobalNotificationAction,
-  onResetResponse: resetResponse,
-  onPatchRole: patchRole,
-  onSaveRole: saveRole,
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      showGlobalNotification: showGlobalNotificationAction,
+      onResetResponse: resetResponse,
+      onPatchRole: patchRole,
+      onSaveRole: saveRole,
+    },
+    dispatch
+  )
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps)
 
-export default withConnect(RoleFormContainer);
+export default withConnect(RoleFormContainer)

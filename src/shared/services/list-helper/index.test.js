@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { getListValueByKey } from './list-helper';
+import { getListValueByKey } from './list-helper'
 
 describe('The list helper service', () => {
   const list = [
@@ -40,26 +40,26 @@ describe('The list helper service', () => {
       key: 'F',
       value: 'Nieuw-West',
     },
-  ];
+  ]
 
   it('by default should return false', () => {
-    expect(getListValueByKey()).toEqual(false);
-  });
+    expect(getListValueByKey()).toEqual(false)
+  })
 
   it('should return the correct value whem it exists', () => {
-    expect(getListValueByKey(list, 'M')).toEqual('Oost');
-    expect(getListValueByKey(list, 'F')).toEqual('Nieuw-West');
-  });
+    expect(getListValueByKey(list, 'M')).toEqual('Oost')
+    expect(getListValueByKey(list, 'F')).toEqual('Nieuw-West')
+  })
 
   it('should return not found value whem it does not exist', () => {
-    expect(getListValueByKey(list, 'NOT_FOUND')).toEqual('Niet gevonden');
-  });
+    expect(getListValueByKey(list, 'NOT_FOUND')).toEqual('Niet gevonden')
+  })
 
   it('should be able to handle null keys with any falsy key parameter', () => {
-    expect(getListValueByKey(list)).toEqual('null');
-    expect(getListValueByKey(list, null)).toEqual('null');
-    expect(getListValueByKey(list, false)).toEqual('null');
-    expect(getListValueByKey(list, 0)).toEqual('null');
-    expect(getListValueByKey(list, '')).toEqual('null');
-  });
-});
+    expect(getListValueByKey(list)).toEqual('null')
+    expect(getListValueByKey(list, null)).toEqual('null')
+    expect(getListValueByKey(list, false)).toEqual('null')
+    expect(getListValueByKey(list, 0)).toEqual('null')
+    expect(getListValueByKey(list, '')).toEqual('null')
+  })
+})

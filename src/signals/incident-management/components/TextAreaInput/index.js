@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import TextArea from 'components/TextArea';
+import PropTypes from 'prop-types'
+import TextArea from 'components/TextArea'
 
-import Label from 'components/Label';
+import Label from 'components/Label'
 
-import './style.scss';
+import './style.scss'
 
-const TextAreaInput = props => {
-  const { name, display, placeholder, rows, maxLength } = props;
+const TextAreaInput = (props) => {
+  const { name, display, placeholder, rows, maxLength } = props
   const render = ({ handler, value }) => (
     <div className="text-area-input">
       <div className="mode_input text rij_verplicht">
@@ -24,18 +23,21 @@ const TextAreaInput = props => {
             {...handler()}
             placeholder={placeholder}
             rows={rows}
-            infoText={maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`}
+            infoText={
+              maxLength > 0 &&
+              `${value ? value.length : '0'}/${maxLength} tekens`
+            }
           />
         </div>
       </div>
     </div>
-  );
+  )
 
   render.defaultProps = {
     touched: false,
     placeholder: '',
     rows: 4,
-  };
+  }
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
@@ -44,8 +46,8 @@ const TextAreaInput = props => {
     touched: PropTypes.bool,
     value: PropTypes.string,
     maxLength: PropTypes.number,
-  };
-  return render;
-};
+  }
+  return render
+}
 
-export default TextAreaInput;
+export default TextAreaInput

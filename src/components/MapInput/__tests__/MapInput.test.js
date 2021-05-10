@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react'
 
-import context from 'containers/MapContext/context';
+import context from 'containers/MapContext/context'
 
-import { INPUT_DELAY } from 'components/AutoSuggest';
-import { withAppContext, withMapContext } from 'test/utils';
-import MAP_OPTIONS from 'shared/services/configuration/map-options';
-import { markerIcon } from 'shared/services/configuration/map-markers';
-import * as actions from 'containers/MapContext/actions';
-import { CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick';
+import { INPUT_DELAY } from 'components/AutoSuggest'
+import { withAppContext, withMapContext } from 'test/utils'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import * as actions from 'containers/MapContext/actions'
+import { CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick'
 
-import MapInput from '..';
+import MapInput from '..'
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
@@ -20,19 +19,19 @@ jest.mock('containers/MapContext/actions', () => ({
   resetLocationAction: jest.fn(() => ({
     type: 'type',
   })),
-  setLocationAction: jest.fn(payload => ({
+  setLocationAction: jest.fn((payload) => ({
     type: 'type',
     payload,
   })),
-  setValuesAction: jest.fn(payload => ({
+  setValuesAction: jest.fn((payload) => ({
     type: 'type',
     payload,
   })),
-}));
+}))
 
-const setValuesSpy = jest.spyOn(actions, 'setValuesAction');
-const setLocationSpy = jest.spyOn(actions, 'setLocationAction');
-const resetLocationSpy = jest.spyOn(actions, 'resetLocationAction');
+const setValuesSpy = jest.spyOn(actions, 'setValuesAction')
+const setLocationSpy = jest.spyOn(actions, 'setLocationAction')
+const resetLocationSpy = jest.spyOn(actions, 'resetLocationAction')
 
 const geocoderResponse = {
   response: {
@@ -51,112 +50,128 @@ const geocoderResponse = {
       },
     ],
   },
-};
+}
 
 describe('components/MapInput', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
-  });
+    jest.useFakeTimers()
+  })
 
   afterEach(() => {
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+    fetch.resetMocks()
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse))
 
-    setValuesSpy.mockClear();
-    setLocationSpy.mockClear();
-    resetLocationSpy.mockClear();
+    setValuesSpy.mockClear()
+    setLocationSpy.mockClear()
+    resetLocationSpy.mockClear()
 
-    jest.useRealTimers();
-  });
+    jest.useRealTimers()
+  })
 
   const testLocation = {
     location: {
       lat: 52.36279769502027,
       lng: 4.796855450052992,
     },
-  };
+  }
 
   it('should render the map and the autosuggest', () => {
-    const { getByTestId } = render(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+    const { getByTestId } = render(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+    )
 
-    expect(getByTestId('mapInput')).toBeInTheDocument();
-    expect(getByTestId('autoSuggest')).toBeInTheDocument();
-  });
+    expect(getByTestId('mapInput')).toBeInTheDocument()
+    expect(getByTestId('autoSuggest')).toBeInTheDocument()
+  })
 
   it('should dispatch setValuesAction', () => {
-    const { rerender } = render(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={{}} />));
+    const { rerender } = render(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={{}} />)
+    )
 
-    expect(setValuesSpy).not.toHaveBeenCalled();
+    expect(setValuesSpy).not.toHaveBeenCalled()
 
-    const value = { addressText: 'Foo', ...testLocation };
+    const value = { addressText: 'Foo', ...testLocation }
 
-    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />));
+    rerender(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />)
+    )
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(setValuesSpy).toHaveBeenCalledWith(value);
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
+    expect(setValuesSpy).toHaveBeenCalledWith(value)
 
-    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+    rerender(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+    )
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(2);
-    expect(setValuesSpy).toHaveBeenCalledWith(testLocation);
+    expect(setValuesSpy).toHaveBeenCalledTimes(2)
+    expect(setValuesSpy).toHaveBeenCalledWith(testLocation)
 
-    setValuesSpy.mockClear();
-    setLocationSpy.mockClear();
+    setValuesSpy.mockClear()
+    setLocationSpy.mockClear()
 
-    rerender(withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />));
+    rerender(
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+    )
 
-    expect(setValuesSpy).not.toHaveBeenCalled();
-  });
+    expect(setValuesSpy).not.toHaveBeenCalled()
+  })
 
   it('should handle click', async () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn()
     const { findByTestId } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
-    );
+      withMapContext(
+        <MapInput
+          mapOptions={MAP_OPTIONS}
+          value={testLocation}
+          onChange={onChange}
+        />
+      )
+    )
 
-    const map = await findByTestId('mapInput');
+    const map = await findByTestId('mapInput')
 
-    expect(setLocationSpy).not.toHaveBeenCalled();
-    expect(onChange).not.toHaveBeenCalled();
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-
-    act(() => {
-      fireEvent.click(map, { clientX: 100, clientY: 100 });
-    });
-
-    await findByTestId('mapInput');
-
-    expect(setLocationSpy).not.toHaveBeenCalled();
-    expect(onChange).not.toHaveBeenCalled();
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
+    expect(setLocationSpy).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
 
     act(() => {
-      jest.advanceTimersByTime(CLICK_TIMEOUT);
-    });
+      fireEvent.click(map, { clientX: 100, clientY: 100 })
+    })
 
-    await findByTestId('mapInput');
+    await findByTestId('mapInput')
 
-    expect(setLocationSpy).toHaveBeenCalledTimes(1);
+    expect(setLocationSpy).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      jest.advanceTimersByTime(CLICK_TIMEOUT)
+    })
+
+    await findByTestId('mapInput')
+
+    expect(setLocationSpy).toHaveBeenCalledTimes(1)
     expect(setLocationSpy).toHaveBeenCalledWith({
       lat: expect.any(Number),
       lng: expect.any(Number),
-    });
+    })
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenCalledTimes(2)
     expect(setValuesSpy).toHaveBeenLastCalledWith({
       addressText: expect.stringMatching(/.+/),
       address: expect.any(Object),
-    });
+    })
 
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({
       geometrie: expect.any(Object),
       address: expect.any(Object),
-    });
-  });
+    })
+  })
 
   it('should handle click when a location has no address', async () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn()
     const noneFoundResponse = {
       response: {
         numFound: 0,
@@ -164,48 +179,59 @@ describe('components/MapInput', () => {
         maxScore: 0.0,
         docs: [],
       },
-    };
+    }
 
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(noneFoundResponse)).mockResponseOnce(JSON.stringify(geocoderResponse));
+    fetch.resetMocks()
+    fetch
+      .mockResponseOnce(JSON.stringify(noneFoundResponse))
+      .mockResponseOnce(JSON.stringify(geocoderResponse))
 
     const { getByTestId, findByTestId } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />)
-    );
-    const map = getByTestId('mapInput');
+      withMapContext(
+        <MapInput
+          mapOptions={MAP_OPTIONS}
+          value={testLocation}
+          onChange={onChange}
+        />
+      )
+    )
+    const map = getByTestId('mapInput')
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(map, { clientX: 100, clientY: 100 });
-    });
-
-    await findByTestId('mapInput');
-
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
 
     act(() => {
-      jest.advanceTimersByTime(CLICK_TIMEOUT);
-    });
+      fireEvent.click(map, { clientX: 100, clientY: 100 })
+    })
 
-    await findByTestId('mapInput');
+    await findByTestId('mapInput')
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(2);
-    expect(setValuesSpy).toHaveBeenLastCalledWith({ addressText: '', address: '' });
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
 
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith({ geometrie: expect.any(Object) });
-  });
+    act(() => {
+      jest.advanceTimersByTime(CLICK_TIMEOUT)
+    })
+
+    await findByTestId('mapInput')
+
+    expect(setValuesSpy).toHaveBeenCalledTimes(2)
+    expect(setValuesSpy).toHaveBeenLastCalledWith({
+      addressText: '',
+      address: '',
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({ geometrie: expect.any(Object) })
+  })
 
   it('should render marker and center the map', async () => {
     const location = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
-    };
+    }
 
-    const mapMoveSpy = jest.fn();
+    const mapMoveSpy = jest.fn()
 
     const { container, findByTestId, rerender } = render(
       withAppContext(
@@ -219,12 +245,14 @@ describe('components/MapInput', () => {
           />
         </context.Provider>
       )
-    );
+    )
 
-    await findByTestId('mapInput');
+    await findByTestId('mapInput')
 
-    expect(container.querySelector(`.${markerIcon.options.className}`)).not.toBeInTheDocument();
-    expect(mapMoveSpy).not.toHaveBeenCalled();
+    expect(
+      container.querySelector(`.${markerIcon.options.className}`)
+    ).not.toBeInTheDocument()
+    expect(mapMoveSpy).not.toHaveBeenCalled()
 
     rerender(
       withAppContext(
@@ -238,111 +266,128 @@ describe('components/MapInput', () => {
           />
         </context.Provider>
       )
-    );
+    )
 
-    await findByTestId('mapInput');
+    await findByTestId('mapInput')
 
-    expect(container.querySelector(`.${markerIcon.options.className}`)).toBeInTheDocument();
-    expect(mapMoveSpy).toHaveBeenCalledTimes(1);
-  });
+    expect(
+      container.querySelector(`.${markerIcon.options.className}`)
+    ).toBeInTheDocument()
+    expect(mapMoveSpy).toHaveBeenCalledTimes(1)
+  })
 
   it('should handle onSelect', async () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn()
     const { getByTestId, findByTestId } = render(
       withAppContext(
-        <context.Provider value={{ state: { lat: 51, lng: 4 }, dispatch: () => {} }}>
-          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} onChange={onChange} />
+        <context.Provider
+          value={{ state: { lat: 51, lng: 4 }, dispatch: () => {} }}
+        >
+          <MapInput
+            mapOptions={MAP_OPTIONS}
+            value={testLocation}
+            onChange={onChange}
+          />
         </context.Provider>
       )
-    );
+    )
 
     // provide input with value
-    const input = getByTestId('autoSuggest').querySelector('input');
-    const value = 'Midden';
+    const input = getByTestId('autoSuggest').querySelector('input')
+    const value = 'Midden'
 
     act(() => {
-      input.focus();
-    });
+      input.focus()
+    })
 
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+    fetch.resetMocks()
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse))
 
     act(() => {
-      fireEvent.change(input, { target: { value } });
-    });
+      fireEvent.change(input, { target: { value } })
+    })
 
-    const suggestList = await findByTestId('suggestList');
+    const suggestList = await findByTestId('suggestList')
 
-    const firstElement = suggestList.querySelector('li:nth-of-type(1)');
+    const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
+    expect(setValuesSpy).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
 
     // mock the geosearch response
-    fetch.resetMocks();
-    fetch.mockResponseOnce(JSON.stringify(geocoderResponse));
+    fetch.resetMocks()
+    fetch.mockResponseOnce(JSON.stringify(geocoderResponse))
 
     // click option in list
     act(() => {
-      fireEvent.click(firstElement);
-    });
+      fireEvent.click(firstElement)
+    })
 
-    await findByTestId('mapInput');
+    await findByTestId('mapInput')
 
-    expect(setValuesSpy).toHaveBeenCalledTimes(2);
+    expect(setValuesSpy).toHaveBeenCalledTimes(2)
     expect(setValuesSpy).toHaveBeenLastCalledWith(
-      expect.objectContaining({ location: expect.any(Object), address: expect.any(Object), addressText: input.value })
-    );
+      expect.objectContaining({
+        location: expect.any(Object),
+        address: expect.any(Object),
+        addressText: input.value,
+      })
+    )
 
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ geometrie: expect.any(Object), address: expect.any(Object) })
-    );
-  });
+      expect.objectContaining({
+        geometrie: expect.any(Object),
+        address: expect.any(Object),
+      })
+    )
+  })
 
   it('should clear location and not render marker', async () => {
     const location = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
-    };
-    const addressText = 'Foo bar street 10';
+    }
+    const addressText = 'Foo bar street 10'
 
     const { findByTestId } = render(
       withAppContext(
-        <context.Provider value={{ state: { location, addressText }, dispatch: () => {} }}>
+        <context.Provider
+          value={{ state: { location, addressText }, dispatch: () => {} }}
+        >
           <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
         </context.Provider>
       )
-    );
-    const autoSuggest = await findByTestId('autoSuggest');
-    const input = autoSuggest.querySelector('input');
+    )
+    const autoSuggest = await findByTestId('autoSuggest')
+    const input = autoSuggest.querySelector('input')
 
-    expect(resetLocationSpy).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.change(input, { target: { value: addressText } });
-    });
-
-    await findByTestId('autoSuggest');
+    expect(resetLocationSpy).not.toHaveBeenCalled()
 
     act(() => {
-      jest.advanceTimersByTime(INPUT_DELAY);
-    });
+      fireEvent.change(input, { target: { value: addressText } })
+    })
 
-    expect(resetLocationSpy).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.change(input, { target: { value: '' } });
-    });
-
-    await findByTestId('autoSuggest');
-
-    expect(resetLocationSpy).not.toHaveBeenCalled();
+    await findByTestId('autoSuggest')
 
     act(() => {
-      jest.advanceTimersByTime(INPUT_DELAY);
-    });
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
 
-    expect(resetLocationSpy).toHaveBeenCalled();
-  });
-});
+    expect(resetLocationSpy).not.toHaveBeenCalled()
+
+    act(() => {
+      fireEvent.change(input, { target: { value: '' } })
+    })
+
+    await findByTestId('autoSuggest')
+
+    expect(resetLocationSpy).not.toHaveBeenCalled()
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
+
+    expect(resetLocationSpy).toHaveBeenCalled()
+  })
+})

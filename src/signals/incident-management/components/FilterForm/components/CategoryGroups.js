@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
+import { memo } from 'react'
+import PropTypes from 'prop-types'
 
-import * as types from 'shared/types';
-import Label from 'components/Label';
-import CheckboxList from '../../CheckboxList';
+import * as types from 'shared/types'
+import Label from 'components/Label'
+import CheckboxList from '../../CheckboxList'
 
-const CategoryGroups = ({ categories, filterSlugs, onChange, onToggle, onSubmit }) =>
+const CategoryGroups = ({
+  categories,
+  filterSlugs,
+  onChange,
+  onToggle,
+  onSubmit,
+}) =>
   Object.entries(categories).map(([slug, { name, sub, key }]) => {
     const defaultValue = filterSlugs.filter(({ _links: { self }, id }) =>
       new RegExp(`/terms/categories/${slug}`).test(self.public || id)
-    );
+    )
 
     return (
       <CheckboxList
@@ -28,12 +34,12 @@ const CategoryGroups = ({ categories, filterSlugs, onChange, onToggle, onSubmit 
         options={sub}
         title={<Label as="span">{name}</Label>}
       />
-    );
-  });
+    )
+  })
 
 CategoryGroups.defaultProps = {
   filterSlugs: [],
-};
+}
 
 CategoryGroups.propTypes = {
   categories: types.categoriesType.isRequired,
@@ -41,6 +47,6 @@ CategoryGroups.propTypes = {
   onChange: PropTypes.func,
   onToggle: PropTypes.func,
   onSubmit: PropTypes.func,
-};
+}
 
-export default memo(CategoryGroups);
+export default memo(CategoryGroups)

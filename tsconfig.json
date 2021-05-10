@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["react", "jest"],
+    "types": ["react", "jest", "webpack-env"],
     "baseUrl": "./src",
     "declaration": false,
     "emitDecoratorMetadata": true,
@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "ES5"],
     "module": "commonjs",
     "moduleResolution": "node",

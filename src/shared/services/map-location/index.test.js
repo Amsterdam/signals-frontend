@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json';
+import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
   mapLocation,
   formatAddress,
@@ -11,7 +11,7 @@ import {
   serviceResultToAddress,
   formatPDOKResponse,
   pointWithinBounds,
-} from '.';
+} from '.'
 
 const testAddress = {
   openbare_ruimte: 'Keizersgracht',
@@ -20,26 +20,26 @@ const testAddress = {
   huisnummer_toevoeging: 3,
   postcode: '1016EJ',
   woonplaats: 'Amsterdam',
-};
+}
 
-const testLocation = { lng: 4, lat: 52 };
+const testLocation = { lng: 4, lat: 52 }
 
 const testFeature = {
   type: 'Point',
   coordinates: [4, 52],
-};
+}
 
 describe('locationToFeature', () => {
   it('should convert', () => {
-    expect(locationTofeature(testLocation)).toEqual(testFeature);
-  });
-});
+    expect(locationTofeature(testLocation)).toEqual(testFeature)
+  })
+})
 
 describe('featureTolocation', () => {
   it('should convert', () => {
-    expect(featureTolocation(testFeature)).toEqual(testLocation);
-  });
-});
+    expect(featureTolocation(testFeature)).toEqual(testLocation)
+  })
+})
 
 describe('mapLocation', () => {
   it('should map geometry', () => {
@@ -55,8 +55,8 @@ describe('mapLocation', () => {
         type: 'Point',
         coordinates: [4, 52],
       },
-    });
-  });
+    })
+  })
 
   it('should map omgevingsinfo', () => {
     expect(
@@ -67,8 +67,8 @@ describe('mapLocation', () => {
     ).toEqual({
       buurtcode: 'A02d',
       stadsdeel: 'A',
-    });
-  });
+    })
+  })
 
   it('should map address', () => {
     expect(
@@ -89,48 +89,52 @@ describe('mapLocation', () => {
         huisnummer_toevoeging: '3',
         postcode: '1016EJ',
       },
-    });
-  });
-});
+    })
+  })
+})
 
 describe('formatAddress', () => {
   it('should return an empty string when no data', () => {
-    expect(formatAddress({})).toEqual('');
-  });
+    expect(formatAddress({})).toEqual('')
+  })
 
   it('should render the address name', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
-  });
+    expect(formatAddress(testAddress)).toEqual(
+      'Keizersgracht 666D3, 1016EJ Amsterdam'
+    )
+  })
 
   it('should render the address without toevoeging', () => {
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D3, 1016EJ Amsterdam');
-    expect(formatAddress({ ...testAddress, huisnummer_toevoeging: null })).toEqual(
-      'Keizersgracht 666D, 1016EJ Amsterdam'
-    );
-  });
-});
+    expect(formatAddress(testAddress)).toEqual(
+      'Keizersgracht 666D3, 1016EJ Amsterdam'
+    )
+    expect(
+      formatAddress({ ...testAddress, huisnummer_toevoeging: null })
+    ).toEqual('Keizersgracht 666D, 1016EJ Amsterdam')
+  })
+})
 
 describe('wktPointToLocation', () => {
   it('should convert a WKT point to latlon location ', () => {
     expect(wktPointToLocation('POINT(4.90225668 52.36150435)')).toEqual({
       lat: 52.36150435,
       lng: 4.90225668,
-    });
-  });
+    })
+  })
 
   it('should throw an error', () => {
     expect(() => {
-      wktPointToLocation('POLYGON(4.90225668 52.36150435)');
-    }).toThrow();
-  });
-});
+      wktPointToLocation('POLYGON(4.90225668 52.36150435)')
+    }).toThrow()
+  })
+})
 
 describe('formatMapLocation', () => {
   it('should convert the sia location to map format location ', () => {
     const loc = {
       geometrie: testFeature,
       address: testAddress,
-    };
+    }
 
     const result = {
       location: { lat: 52, lng: 4 },
@@ -143,10 +147,10 @@ describe('formatMapLocation', () => {
         postcode: '1016EJ',
         woonplaats: 'Amsterdam',
       },
-    };
+    }
 
-    expect(formatMapLocation(loc)).toEqual(result);
-  });
+    expect(formatMapLocation(loc)).toEqual(result)
+  })
 
   it('should disregard empty values', () => {
     const location = {
@@ -159,16 +163,16 @@ describe('formatMapLocation', () => {
         postcode: null,
         woonplaats: 'Amsterdam',
       },
-    };
+    }
 
     const result = {
       location: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666, Amsterdam',
       address: location.address,
-    };
+    }
 
-    expect(formatMapLocation(location)).toEqual(result);
-  });
+    expect(formatMapLocation(location)).toEqual(result)
+  })
 
   it('should not return geometrie', () => {
     const location = {
@@ -180,28 +184,28 @@ describe('formatMapLocation', () => {
         postcode: null,
         woonplaats: 'Amsterdam',
       },
-    };
+    }
 
     const result = {
       addressText: 'Keizersgracht 666, Amsterdam',
       address: location.address,
-    };
+    }
 
-    expect(formatMapLocation(location)).toEqual(result);
-  });
+    expect(formatMapLocation(location)).toEqual(result)
+  })
 
   it('should not return address', () => {
     const location = {
       geometrie: testFeature,
-    };
+    }
 
     const result = {
       location: { lat: 52, lng: 4 },
-    };
+    }
 
-    expect(formatMapLocation(location)).toEqual(result);
-  });
-});
+    expect(formatMapLocation(location)).toEqual(result)
+  })
+})
 
 describe('serviceResultToAddress', () => {
   it('should convert PDOK address result sia format ', () => {
@@ -213,19 +217,19 @@ describe('serviceResultToAddress', () => {
       id: 'adr-e26dbf16d329474aa79276d93db9bebd',
       postcode: '1017WN',
       centroide_ll: 'POINT(4.90225668 52.36150435)',
-    };
+    }
     expect(serviceResultToAddress(data)).toEqual({
       openbare_ruimte: 'Achtergracht',
       huisnummer: '43G',
       postcode: '1017WN',
       woonplaats: 'Amsterdam',
-    });
-  });
-});
+    })
+  })
+})
 
 describe('formatPDOKResponse', () => {
   it('should convert PDOK response to address list ', () => {
-    const data = PDOKResponseJson;
+    const data = PDOKResponseJson
     expect(formatPDOKResponse(data)).toEqual([
       {
         id: 'adr-7e22b4ee3640202eff3203e63610c76e',
@@ -253,36 +257,39 @@ describe('formatPDOKResponse', () => {
           },
         },
       },
-    ]);
-  });
+    ])
+  })
 
   it('return an empty array', () => {
-    expect(formatPDOKResponse({})).toEqual([]);
-    expect(formatPDOKResponse(undefined)).toEqual([]);
-    expect(formatPDOKResponse(null)).toEqual([]);
-  });
-});
+    expect(formatPDOKResponse({})).toEqual([])
+    expect(formatPDOKResponse(undefined)).toEqual([])
+    expect(formatPDOKResponse(null)).toEqual([])
+  })
+})
 
 describe('pointWithinBounds', () => {
   it('returns a boolean', () => {
-    const minLat = 2;
-    const maxLat = 7;
+    const minLat = 2
+    const maxLat = 7
 
-    const minLng = 2;
-    const maxLng = 9;
+    const minLng = 2
+    const maxLng = 9
 
-    const bounds = [[minLat, minLng], [maxLat, maxLng]];
+    const bounds = [
+      [minLat, minLng],
+      [maxLat, maxLng],
+    ]
 
-    const middle = [5, 6];
-    const outsideLeft = [1, 6];
-    const outsideRight = [5, 10];
-    const outsideTop = [5, 1];
-    const outsideBottom = [5, 10];
+    const middle = [5, 6]
+    const outsideLeft = [1, 6]
+    const outsideRight = [5, 10]
+    const outsideTop = [5, 1]
+    const outsideBottom = [5, 10]
 
-    expect(pointWithinBounds(middle, bounds)).toEqual(true);
-    expect(pointWithinBounds(outsideLeft, bounds)).toEqual(false);
-    expect(pointWithinBounds(outsideRight, bounds)).toEqual(false);
-    expect(pointWithinBounds(outsideTop, bounds)).toEqual(false);
-    expect(pointWithinBounds(outsideBottom, bounds)).toEqual(false);
-  });
-});
+    expect(pointWithinBounds(middle, bounds)).toEqual(true)
+    expect(pointWithinBounds(outsideLeft, bounds)).toEqual(false)
+    expect(pointWithinBounds(outsideRight, bounds)).toEqual(false)
+    expect(pointWithinBounds(outsideTop, bounds)).toEqual(false)
+    expect(pointWithinBounds(outsideBottom, bounds)).toEqual(false)
+  })
+})

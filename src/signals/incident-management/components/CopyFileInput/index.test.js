@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow } from 'enzyme'
 
-import CopyFileInput from '.';
+import CopyFileInput from '.'
 
 describe('<CopyFileInput />', () => {
-  let wrapper;
-  let props;
+  let wrapper
+  let props
 
   beforeEach(() => {
     props = {
@@ -19,19 +18,17 @@ describe('<CopyFileInput />', () => {
         { location: 'item1' },
         { location: 'item2' },
       ],
-    };
-  });
+    }
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render correctly', () => {
-    const CopyFileInputRender = CopyFileInput(props);
-    wrapper = shallow(
-      <CopyFileInputRender {...props} />
-    );
+    const CopyFileInputRender = CopyFileInput(props)
+    wrapper = shallow(<CopyFileInputRender {...props} />)
 
-    expect(wrapper).toMatchSnapshot();
-  });
-});
+    expect(wrapper).toMatchSnapshot()
+  })
+})

@@ -30,21 +30,21 @@ It does provide us with the following benefits:
 We would like to update how we develop forms. The following requirements are
 important to us:
 
-- *Should have* low footprint, few dependencies.
-- *Should be* easy to customize, or use custom components, validation, localization.
-- *Should have* no re-rendering on changes to form fields
-- *Must have* integration with React hooks.
-- *Must have* validation.
+- _Should have_ low footprint, few dependencies.
+- _Should be_ easy to customize, or use custom components, validation, localization.
+- _Should have_ no re-rendering on changes to form fields
+- _Must have_ integration with React hooks.
+- _Must have_ validation.
 
-| Package                                                               | No run-time deps. | < 10 kB | Hooks | Custom comps | Validation | Custom val. | i18n | No re-render | Stargazers | Updated        |
-| --------------------------------------------------------------------- | ----------------- | ------- | ----- | ------------ | ---------- | ----------- | ---- | ------------ | ---------- | -------------- |
-| [formik](https://github.com/jaredpalmer/formik)                       | ❌                | ❌        | ❌      | ❌          | ✅*          | ✅           | ✅    | ❌            | 24.5k      | 2 months ago   |
-| [react-hook-form](https://github.com/react-hook-form/react-hook-form) | ✅                | ✅        | ✅      | ✅          | ✅**         | ✅           | ✅    | ✅            | 14.1k      | recently       |
-| plain HTML                                                            | ✅                | ✅        | ❌      | ✅          | ✅           | ✅           | ✅    | ✅            | –          | –              |
-| [react-reactive-form](https://github.com/bietkul/react-reactive-form) | ✅                | ✅        | ❌      | ✅          | ✅           | ✅           | ❌    | ❌            | 250        | 25 months ago  |
+| Package                                                               | No run-time deps. | < 10 kB | Hooks | Custom comps | Validation | Custom val. | i18n | No re-render | Stargazers | Updated       |
+| --------------------------------------------------------------------- | ----------------- | ------- | ----- | ------------ | ---------- | ----------- | ---- | ------------ | ---------- | ------------- |
+| [formik](https://github.com/jaredpalmer/formik)                       | ❌                | ❌      | ❌    | ❌           | ✅\*       | ✅          | ✅   | ❌           | 24.5k      | 2 months ago  |
+| [react-hook-form](https://github.com/react-hook-form/react-hook-form) | ✅                | ✅      | ✅    | ✅           | ✅\*\*     | ✅          | ✅   | ✅           | 14.1k      | recently      |
+| plain HTML                                                            | ✅                | ✅      | ❌    | ✅           | ✅         | ✅          | ✅   | ✅           | –          | –             |
+| [react-reactive-form](https://github.com/bietkul/react-reactive-form) | ✅                | ✅      | ❌    | ✅           | ✅         | ✅          | ❌   | ❌           | 250        | 25 months ago |
 
 \* Only support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup).\
-** Integrated validation follows the [HTML standard for form validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation). Support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup) [Joi](https://github.com/hapijs/joi) and [Superstruct](https://github.com/ianstormtaylor/superstruct).
+\*\* Integrated validation follows the [HTML standard for form validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation). Support for 3rd party validation, integrated support for [Yup](https://github.com/jquense/yup) [Joi](https://github.com/hapijs/joi) and [Superstruct](https://github.com/ianstormtaylor/superstruct).
 
 ## Decision
 
@@ -55,7 +55,6 @@ Generating a form based on a definition coming from the back end can easily be d
 ## Consequences
 
 These libraries can exist side by side in the code base. New forms can be built using the new [react-hook-form](https://github.com/react-hook-form/react-hook-form) while existing forms still use [react-reactive-form](https://github.com/bietkul/react-reactive-form). Existing forms can be re-written when we decide it would be worth the effort.
-
 
 ### Incident form
 
@@ -104,8 +103,10 @@ The incident detail location form with the location input component.
 - [IncidentDetail/components/LocationForm/components/LocationInput/index.js](../../src/signals/incident-management/containers/IncidentDetail/components/LocationForm/components/LocationInput/index.js)
 
 The incident detail meta list form with the change value component.
+
 - [IncidentDetail/components/MetaList/components/ChangeValue/index.js](../../src/signals/incident-management/containers/IncidentDetail/components/MetaList/components/ChangeValue/index.js)
 
 The incident split form and incident part.
+
 - [LegacyIncidentSplitContainer/components/SplitForm/index.js](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/SplitForm/index.js)
 - [LegacyIncidentSplitContainer/components/IncidentPart/index.js](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/IncidentPart/index.js)

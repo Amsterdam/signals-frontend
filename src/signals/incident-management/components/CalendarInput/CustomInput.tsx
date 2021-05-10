@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import { Input } from '@amsterdam/asc-ui';
-import { Calendar } from '@amsterdam/asc-assets';
+import { forwardRef, Fragment } from 'react'
+import styled from 'styled-components'
+import { Input } from '@amsterdam/asc-ui'
+import { Calendar } from '@amsterdam/asc-assets'
 
-import Label from 'components/Label';
+import Label from 'components/Label'
 
 const InputWrapper = styled.div`
   position: relative;
@@ -16,27 +16,29 @@ const InputWrapper = styled.div`
     right: 10px;
     pointer-events: none;
   }
-`;
+`
 
 interface CustomInputProps {
   /** the rest props */
-  [restProp: string]: unknown;
+  [restProp: string]: unknown
 
   /** HTMLInputElement id attribute; used for referencing with an HTMLLabelElement */
-  id: string;
+  id: string
   /** HTMLLabelElement text label */
-  label: string;
+  label: string
 }
 
-const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(({ id, label, ...rest }, ref) =>
-  <Fragment>
-    <Label htmlFor={id}>{label}</Label>
+const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
+  ({ id, label, ...rest }, ref) => (
+    <Fragment>
+      <Label htmlFor={id}>{label}</Label>
 
-    <InputWrapper data-testid="calendarCustomInputElement">
-      <Input id={id} {...rest} ref={ref} />
-      <Calendar width={24} height={24} />
-    </InputWrapper>
-  </Fragment>
-);
+      <InputWrapper data-testid="calendarCustomInputElement">
+        <Input id={id} {...rest} ref={ref} />
+        <Calendar width={24} height={24} />
+      </InputWrapper>
+    </Fragment>
+  )
+)
 
-export default CustomInput;
+export default CustomInput

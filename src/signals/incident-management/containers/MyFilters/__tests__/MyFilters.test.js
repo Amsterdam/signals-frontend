@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { mount } from 'enzyme';
-import { createEvent, fireEvent, render } from '@testing-library/react';
-import * as definitions from 'signals/incident-management/definitions';
+import { mount } from 'enzyme'
+import { createEvent, fireEvent, render } from '@testing-library/react'
+import * as definitions from 'signals/incident-management/definitions'
 
-import { withAppContext } from 'test/utils';
-import MyFilters, { MyFiltersComponent } from '..';
+import { withAppContext } from 'test/utils'
+import MyFilters, { MyFiltersComponent } from '..'
 
 jest.mock('signals/shared/filter/parse', () => {
-  const actual = jest.requireActual('signals/shared/filter/parse');
+  const actual = jest.requireActual('signals/shared/filter/parse')
 
   return {
     __esModule: true,
     ...actual,
-    parseToAPIData: data => data,
-  };
-});
+    parseToAPIData: (data) => data,
+  }
+})
 
 describe('signals/incident-management/containers/MyFilters', () => {
   const filter1 = {
@@ -38,7 +37,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
         },
       ],
     },
-  };
+  }
   const filter2 = {
     id: 1235,
     name: 'Bar bar baz',
@@ -58,20 +57,20 @@ describe('signals/incident-management/containers/MyFilters', () => {
         },
       ],
     },
-  };
-  const sortSpy = jest.spyOn(Array.prototype, 'sort');
-  const filters = [filter1, filter2];
+  }
+  const sortSpy = jest.spyOn(Array.prototype, 'sort')
+  const filters = [filter1, filter2]
 
   it('should have props from structured selector', () => {
-    const tree = mount(withAppContext(<MyFilters onClose={() => {}} />));
+    const tree = mount(withAppContext(<MyFilters onClose={() => {}} />))
 
-    const props = tree.find(MyFiltersComponent).props();
+    const props = tree.find(MyFiltersComponent).props()
 
-    expect(props.filters).not.toBeUndefined();
-    expect(props.onApplyFilter).not.toBeUndefined();
-    expect(props.onEditFilter).not.toBeUndefined();
-    expect(props.onRemoveFilter).not.toBeUndefined();
-  });
+    expect(props.filters).not.toBeUndefined()
+    expect(props.onApplyFilter).not.toBeUndefined()
+    expect(props.onEditFilter).not.toBeUndefined()
+    expect(props.onRemoveFilter).not.toBeUndefined()
+  })
 
   it('should show a message when there are no filters', () => {
     const { container } = render(
@@ -85,10 +84,10 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onRequestIncidents={() => {}}
         />
       )
-    );
+    )
 
-    expect(container.querySelector('.my-filters--empty')).toBeTruthy();
-  });
+    expect(container.querySelector('.my-filters--empty')).toBeTruthy()
+  })
 
   it('should sort filters by name', () => {
     const { getByText } = render(
@@ -102,19 +101,21 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onRequestIncidents={() => {}}
         />
       )
-    );
+    )
 
-    expect(sortSpy).toHaveBeenCalled();
+    expect(sortSpy).toHaveBeenCalled()
 
-    const firstFilter = getByText(filter1.name).closest('.filter-item');
-    const secondFilter = getByText(filter2.name).closest('.filter-item');
-    const myFilterChildNodes = [...document.querySelector('.my-filters').childNodes];
+    const firstFilter = getByText(filter1.name).closest('.filter-item')
+    const secondFilter = getByText(filter2.name).closest('.filter-item')
+    const myFilterChildNodes = [
+      ...document.querySelector('.my-filters').childNodes,
+    ]
 
-    const firstIndex = myFilterChildNodes.indexOf(firstFilter);
-    const secondIndex = myFilterChildNodes.indexOf(secondFilter);
+    const firstIndex = myFilterChildNodes.indexOf(firstFilter)
+    const secondIndex = myFilterChildNodes.indexOf(secondFilter)
 
-    expect(firstIndex).toBeGreaterThan(secondIndex);
-  });
+    expect(firstIndex).toBeGreaterThan(secondIndex)
+  })
 
   describe('action handling', () => {
     const props = {
@@ -124,70 +125,70 @@ describe('signals/incident-management/containers/MyFilters', () => {
       onRemoveFilter: () => {},
       onRequestIncidents: () => {},
       filters,
-    };
+    }
 
     it('should handle applyFilter', () => {
-      const onApplyFilter = jest.fn();
-      const onEditFilter = jest.fn();
-      const onRequestIncidents = jest.fn();
+      const onApplyFilter = jest.fn()
+      const onEditFilter = jest.fn()
+      const onRequestIncidents = jest.fn()
 
       const { getAllByTestId } = render(
-        withAppContext(<MyFiltersComponent {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }} />)
-      );
+        withAppContext(
+          <MyFiltersComponent
+            {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }}
+          />
+        )
+      )
 
       const handleApplyFilterButton = getAllByTestId(
         'handleApplyFilterButton'
-      )[0];
+      )[0]
 
-      const event = createEvent.click(handleApplyFilterButton, { button: 1 });
+      const event = createEvent.click(handleApplyFilterButton, { button: 1 })
 
-      fireEvent(handleApplyFilterButton, event);
+      fireEvent(handleApplyFilterButton, event)
 
-      expect(onApplyFilter).toHaveBeenCalled();
-    });
+      expect(onApplyFilter).toHaveBeenCalled()
+    })
 
     it('should handle editFilter', () => {
-      const createEventSpy = jest.spyOn(document, 'createEvent');
-      const onEditFilter = jest.fn();
+      const createEventSpy = jest.spyOn(document, 'createEvent')
+      const onEditFilter = jest.fn()
 
       const { getAllByTestId } = render(
         withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
-      );
+      )
 
-      const handleEditFilterButton = getAllByTestId(
-        'handleEditFilterButton'
-      )[0];
-      const event = createEvent.click(handleEditFilterButton, { button: 1 });
-      event.preventDefault = jest.fn();
+      const handleEditFilterButton = getAllByTestId('handleEditFilterButton')[0]
+      const event = createEvent.click(handleEditFilterButton, { button: 1 })
+      event.preventDefault = jest.fn()
 
-      fireEvent(handleEditFilterButton, event);
+      fireEvent(handleEditFilterButton, event)
 
-      expect(onEditFilter).toHaveBeenCalled();
-      expect(createEventSpy).toHaveBeenCalled();
-    });
+      expect(onEditFilter).toHaveBeenCalled()
+      expect(createEventSpy).toHaveBeenCalled()
+    })
 
     it('should have a fallback for event creation', () => {
-      const Event = global.Event;
-      global.Event = null;
-      const createEventSpy = jest.spyOn(document, 'createEvent');
-      const onEditFilter = jest.fn();
+      const Event = global.Event
+      global.Event = null
+      const createEventSpy = jest.spyOn(document, 'createEvent')
+      const onEditFilter = jest.fn()
 
       const { getAllByTestId } = render(
         withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
-      );
+      )
 
-      const handleEditFilterButton = getAllByTestId(
-        'handleEditFilterButton'
-      )[0];
-      const event = createEvent.click(handleEditFilterButton, { button: 1 });
-      event.preventDefault = jest.fn();
+      const handleEditFilterButton = getAllByTestId('handleEditFilterButton')[0]
+      const event = createEvent.click(handleEditFilterButton, { button: 1 })
+      event.preventDefault = jest.fn()
 
-      fireEvent(handleEditFilterButton, event);
+      fireEvent(handleEditFilterButton, event)
 
-      expect(onEditFilter).toHaveBeenCalled();
-      expect(createEventSpy).toHaveBeenCalled();
+      expect(onEditFilter).toHaveBeenCalled()
+      expect(createEventSpy).toHaveBeenCalled()
 
-      global.Event = Event;
-    });
-  });
-});
+      global.Event = Event
+    })
+  })
+})

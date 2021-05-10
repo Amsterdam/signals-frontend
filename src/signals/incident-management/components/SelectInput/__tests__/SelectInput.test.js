@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import SelectInput from '..';
+import SelectInput from '..'
 
 describe('<SelectInput />', () => {
-  let props;
+  let props
 
   beforeEach(() => {
     props = {
@@ -21,112 +20,145 @@ describe('<SelectInput />', () => {
       ],
       multiple: false,
       size: 4,
-    };
-  });
+    }
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   it('should render correctly', () => {
-    const SelectInputRender = SelectInput(props);
-    const { container, queryByTestId } = render(withAppContext(<SelectInputRender {...props} />));
+    const SelectInputRender = SelectInput(props)
+    const { container, queryByTestId } = render(
+      withAppContext(<SelectInputRender {...props} />)
+    )
 
-    const options = container.firstChild.querySelectorAll('option');
-    expect(options).toHaveLength(props.values.length);
-    expect(options[0].textContent).toEqual('none');
-    expect(queryByTestId(props.name)).not.toBeNull();
-  });
+    const options = container.firstChild.querySelectorAll('option')
+    expect(options).toHaveLength(props.values.length)
+    expect(options[0].textContent).toEqual('none')
+    expect(queryByTestId(props.name)).not.toBeNull()
+  })
 
   it('should render correctly with empty option select', () => {
-    const emptyOption = { key: '', name: 'All the things!!1!', value: '', group: '' };
-    const SelectInputRender = SelectInput({ ...props, emptyOption });
-    const { container } = render(withAppContext(<SelectInputRender {...props} />));
+    const emptyOption = {
+      key: '',
+      name: 'All the things!!1!',
+      value: '',
+      group: '',
+    }
+    const SelectInputRender = SelectInput({ ...props, emptyOption })
+    const { container } = render(
+      withAppContext(<SelectInputRender {...props} />)
+    )
 
-    const options = container.firstChild.querySelectorAll('option');
-    expect(options).toHaveLength(props.values.length + 1);
-    expect(options[0].textContent).toEqual(emptyOption.name);
-  });
+    const options = container.firstChild.querySelectorAll('option')
+    expect(options).toHaveLength(props.values.length + 1)
+    expect(options[0].textContent).toEqual(emptyOption.name)
+  })
 
   it('should render correctly with using slugs', () => {
-    const useSlug = true;
-    const SelectInputRender = SelectInput({ ...props, useSlug });
-    const { container } = render(withAppContext(<SelectInputRender {...props} />));
+    const useSlug = true
+    const SelectInputRender = SelectInput({ ...props, useSlug })
+    const { container } = render(
+      withAppContext(<SelectInputRender {...props} />)
+    )
 
-    const options = container.firstChild.querySelectorAll('option');
+    const options = container.firstChild.querySelectorAll('option')
     options.forEach((option, index) => {
       if (!index === 0) {
-        expect(option.textContent).toEqual(props.values[index].slug);
+        expect(option.textContent).toEqual(props.values[index].slug)
       }
-    });
-  });
+    })
+  })
 
   describe('falsy keys', () => {
     it('should render correctly with empty string', () => {
-      const SelectInputRender = SelectInput(props);
-      const { container } = render(withAppContext(<SelectInputRender {...props} />));
+      const SelectInputRender = SelectInput(props)
+      const { container } = render(
+        withAppContext(<SelectInputRender {...props} />)
+      )
 
-      const options = container.firstChild.querySelectorAll('option');
-      expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('none');
-      expect(options[1].textContent).toEqual('item1');
-      expect(options[2].textContent).toEqual('item2');
-    });
+      const options = container.firstChild.querySelectorAll('option')
+      expect(options).toHaveLength(props.values.length)
+      expect(options[0].textContent).toEqual('none')
+      expect(options[1].textContent).toEqual('item1')
+      expect(options[2].textContent).toEqual('item2')
+    })
 
     it('should render correctly with undefined', () => {
       const SelectInputRender = SelectInput({
         ...props,
-        values: [{ value: 'none', slug: '', _display: '' }, ...props.values.slice(1)],
-      });
-      const { container } = render(withAppContext(<SelectInputRender {...props} />));
+        values: [
+          { value: 'none', slug: '', _display: '' },
+          ...props.values.slice(1),
+        ],
+      })
+      const { container } = render(
+        withAppContext(<SelectInputRender {...props} />)
+      )
 
-      const options = container.firstChild.querySelectorAll('option');
-      expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('none');
-      expect(options[1].textContent).toEqual('item1');
-      expect(options[2].textContent).toEqual('item2');
-    });
+      const options = container.firstChild.querySelectorAll('option')
+      expect(options).toHaveLength(props.values.length)
+      expect(options[0].textContent).toEqual('none')
+      expect(options[1].textContent).toEqual('item1')
+      expect(options[2].textContent).toEqual('item2')
+    })
 
     it('should render correctly with null', () => {
       const SelectInputRender = SelectInput({
         ...props,
-        values: [{ key: null, value: 'none', slug: '', _display: '' }, ...props.values.slice(1)],
-      });
-      const { container } = render(withAppContext(<SelectInputRender {...props} />));
+        values: [
+          { key: null, value: 'none', slug: '', _display: '' },
+          ...props.values.slice(1),
+        ],
+      })
+      const { container } = render(
+        withAppContext(<SelectInputRender {...props} />)
+      )
 
-      const options = container.firstChild.querySelectorAll('option');
-      expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('none');
-      expect(options[1].textContent).toEqual('item1');
-      expect(options[2].textContent).toEqual('item2');
-    });
+      const options = container.firstChild.querySelectorAll('option')
+      expect(options).toHaveLength(props.values.length)
+      expect(options[0].textContent).toEqual('none')
+      expect(options[1].textContent).toEqual('item1')
+      expect(options[2].textContent).toEqual('item2')
+    })
 
     it('should render correctly with false', () => {
       const SelectInputRender = SelectInput({
         ...props,
-        values: [{ key: false, value: 'none', slug: '', _display: '' }, ...props.values.slice(1)],
-      });
-      const { container } = render(withAppContext(<SelectInputRender {...props} />));
+        values: [
+          { key: false, value: 'none', slug: '', _display: '' },
+          ...props.values.slice(1),
+        ],
+      })
+      const { container } = render(
+        withAppContext(<SelectInputRender {...props} />)
+      )
 
-      const options = container.firstChild.querySelectorAll('option');
-      expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('none');
-      expect(options[1].textContent).toEqual('item1');
-      expect(options[2].textContent).toEqual('item2');
-    });
+      const options = container.firstChild.querySelectorAll('option')
+      expect(options).toHaveLength(props.values.length)
+      expect(options[0].textContent).toEqual('none')
+      expect(options[1].textContent).toEqual('item1')
+      expect(options[2].textContent).toEqual('item2')
+    })
 
     it('should render correctly with zero', () => {
       const SelectInputRender = SelectInput({
         ...props,
-        values: [{ key: 0, value: 'none', slug: '', _display: '' }, ...props.values.slice(1)],
-      });
-      const { container } = render(withAppContext(<SelectInputRender {...props} />));
+        values: [
+          { key: 0, value: 'none', slug: '', _display: '' },
+          ...props.values.slice(1),
+        ],
+      })
+      const { container } = render(
+        withAppContext(<SelectInputRender {...props} />)
+      )
 
-      const options = container.firstChild.querySelectorAll('option');
-      expect(options).toHaveLength(props.values.length);
-      expect(options[0].textContent).toEqual('none');
-      expect(options[1].textContent).toEqual('item1');
-      expect(options[2].textContent).toEqual('item2');
-    });
-  });
-});
+      const options = container.firstChild.querySelectorAll('option')
+      expect(options).toHaveLength(props.values.length)
+      expect(options[0].textContent).toEqual('none')
+      expect(options[1].textContent).toEqual('item1')
+      expect(options[2].textContent).toEqual('item2')
+    })
+  })
+})

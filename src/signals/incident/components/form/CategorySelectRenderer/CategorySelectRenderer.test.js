@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
-import { isAuthenticated } from 'shared/services/auth/auth';
+import { render } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
+import { isAuthenticated } from 'shared/services/auth/auth'
 
-import CategorySelectRenderer from './CategorySelectRenderer';
+import CategorySelectRenderer from './CategorySelectRenderer'
 
-jest.mock('shared/services/auth/auth');
-jest.mock('signals/incident/components/form/CategorySelect', () => () => <div data-testid="descriptionInput"></div>);
+jest.mock('shared/services/auth/auth')
+jest.mock('signals/incident/components/form/CategorySelect', () => () => (
+  <div data-testid="descriptionInput"></div>
+))
 
 describe('signals/incident/components/form/CategorySelectRenderer', () => {
   const props = {
@@ -30,42 +31,54 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
       controls: {},
     },
     validatorsOrOpts: {},
-  };
+  }
 
   const meta = {
     label: 'Subcategorie',
     path: 'category',
     name: 'category',
     isVisible: true,
-  };
+  }
 
   beforeEach(() => {
-    isAuthenticated.mockImplementation(() => true);
-  });
+    isAuthenticated.mockImplementation(() => true)
+  })
 
   describe('rendering', () => {
     it('should render correctly', async () => {
-      const { queryByTestId } = render(withAppContext(<CategorySelectRenderer {...props} meta={meta} />));
+      const { queryByTestId } = render(
+        withAppContext(<CategorySelectRenderer {...props} meta={meta} />)
+      )
 
-      const element = queryByTestId('descriptionInput');
-      expect(element).toBeInTheDocument();
-    });
+      const element = queryByTestId('descriptionInput')
+      expect(element).toBeInTheDocument()
+    })
 
     it('should NOT render when not visible', () => {
       const { queryByTestId } = render(
-        withAppContext(<CategorySelectRenderer {...props} meta={{ ...meta, isVisible: false }} />)
-      );
+        withAppContext(
+          <CategorySelectRenderer
+            {...props}
+            meta={{ ...meta, isVisible: false }}
+          />
+        )
+      )
 
-      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument();
-    });
+      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument()
+    })
 
     it('should NOT render when not authenticated', () => {
-      isAuthenticated.mockImplementation(() => false);
+      isAuthenticated.mockImplementation(() => false)
       const { queryByTestId } = render(
-        withAppContext(<CategorySelectRenderer {...props} meta={{ ...meta, isVisible: true }} />)
-      );
+        withAppContext(
+          <CategorySelectRenderer
+            {...props}
+            meta={{ ...meta, isVisible: true }}
+          />
+        )
+      )
 
-      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument();
-    });
-  });
-});
+      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument()
+    })
+  })
+})

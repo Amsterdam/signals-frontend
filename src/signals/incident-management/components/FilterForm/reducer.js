@@ -13,7 +13,7 @@ import {
   SET_NOTE_KEYWORD,
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
-} from './constants';
+} from './constants'
 
 export const initialState = {
   submitBtnLabel: DEFAULT_SUBMIT_BUTTON_LABEL,
@@ -39,7 +39,7 @@ export const initialState = {
     has_changed_children: [],
     assigned_user_email: '',
   },
-};
+}
 
 /**
  * State init function
@@ -60,12 +60,12 @@ export const init = ({ options, ...filter }) => ({
     ...initialState.options,
     ...options,
   },
-});
+})
 
 export default (state, action) => {
   switch (action.type) {
     case RESET:
-      return initialState;
+      return initialState
 
     case SET_ADDRESS:
       return {
@@ -74,7 +74,7 @@ export default (state, action) => {
           ...state.options,
           address_text: action.payload,
         },
-      };
+      }
 
     case SET_NOTE_KEYWORD:
       return {
@@ -83,7 +83,7 @@ export default (state, action) => {
           ...state.options,
           note_keyword: action.payload,
         },
-      };
+      }
 
     case SET_NAME:
       return {
@@ -92,7 +92,7 @@ export default (state, action) => {
           ...state.filter,
           name: action.payload,
         },
-      };
+      }
 
     case SET_REFRESH:
       return {
@@ -101,7 +101,7 @@ export default (state, action) => {
           ...state.filter,
           refresh: action.payload,
         },
-      };
+      }
 
     case SET_DATE:
     case SET_GROUP_OPTIONS:
@@ -111,13 +111,15 @@ export default (state, action) => {
           ...state.options,
           ...action.payload,
         },
-      };
+      }
 
     case SET_SAVE_BUTTON_LABEL:
       return {
         ...state,
-        submitBtnLabel: action.payload ? SAVE_SUBMIT_BUTTON_LABEL : DEFAULT_SUBMIT_BUTTON_LABEL,
-      };
+        submitBtnLabel: action.payload
+          ? SAVE_SUBMIT_BUTTON_LABEL
+          : DEFAULT_SUBMIT_BUTTON_LABEL,
+      }
 
     case SET_MAIN_CATEGORY:
       return {
@@ -125,14 +127,17 @@ export default (state, action) => {
         options: {
           ...state.options,
           category_slug: state.options.category_slug.filter(
-            ({ _links }) => _links['sia:parent'].public.endsWith(action.payload.category.slug) === false
+            ({ _links }) =>
+              _links['sia:parent'].public.endsWith(
+                action.payload.category.slug
+              ) === false
           ),
           maincategory_slug: state.options.maincategory_slug
             .filter(({ slug }) => slug !== action.payload.category.slug)
             .concat(action.payload.isToggled && action.payload.category)
             .filter(Boolean),
         },
-      };
+      }
 
     case SET_CATEGORIES:
       return {
@@ -140,16 +145,21 @@ export default (state, action) => {
         options: {
           ...state.options,
           category_slug: state.options.category_slug
-            .filter(({ _links }) => _links['sia:parent'].public.endsWith(action.payload.slug) === false)
+            .filter(
+              ({ _links }) =>
+                _links['sia:parent'].public.endsWith(action.payload.slug) ===
+                false
+            )
             .concat(action.payload.subCategories)
             .filter(Boolean),
           maincategory_slug: state.options.maincategory_slug.filter(
-            ({ _links }) => _links.self.public.endsWith(action.payload.slug) === false
+            ({ _links }) =>
+              _links.self.public.endsWith(action.payload.slug) === false
           ),
         },
-      };
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}

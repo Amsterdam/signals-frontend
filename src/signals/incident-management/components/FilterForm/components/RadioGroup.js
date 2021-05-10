@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import * as types from 'shared/types';
-import Label from 'components/Label';
-import RadioButtonList from '../../RadioButtonList';
-import { FilterGroup } from '../styled';
+import * as types from 'shared/types'
+import Label from 'components/Label'
+import RadioButtonList from '../../RadioButtonList'
+import { FilterGroup } from '../styled'
 
 const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
   Array.isArray(options) &&
@@ -22,11 +21,11 @@ const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
         options={options}
       />
     </FilterGroup>
-  );
+  )
 
 RadioGroup.defaultProps = {
   defaultValue: '',
-};
+}
 
 RadioGroup.propTypes = {
   defaultValue: PropTypes.string,
@@ -34,6 +33,6 @@ RadioGroup.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   options: types.dataListType.isRequired,
-};
+}
 
-export default RadioGroup;
+export default RadioGroup

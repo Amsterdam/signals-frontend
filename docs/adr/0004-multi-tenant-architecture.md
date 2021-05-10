@@ -2,11 +2,9 @@
 
 Date: 2020-06-03
 
-
 ## Status
 
 Accepted
-
 
 ## Context
 
@@ -40,11 +38,9 @@ In turn, a merge to either `develop` or `master` in the `signals-amsterdam` repo
 
 The flow for merging in the `signals-frontend` repository is the following (for the `develop` branch):
 
-
 ### Merge flow `signals-frontend`
 
 <img src="./img/diagram-signals-frontend-merge-develop.svg" />
-
 
 ### Merge flow `signals-amsterdam`
 
@@ -57,7 +53,6 @@ All separate instances use the same API for storing and retrieving data. In the 
 For the foreseeable future, the plan is to set up a total of three repositories: `signals-amsterdam`, `signals-weesp` and `signals-amsterdamsebos`:
 
 <img src="./img/diagram-architecture.svg" />
-
 
 ## Challenges
 

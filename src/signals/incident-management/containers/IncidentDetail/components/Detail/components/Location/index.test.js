@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react'
 
-import configuration from 'shared/services/configuration/configuration';
-import { withAppContext } from 'test/utils';
-import districts from 'utils/__tests__/fixtures/districts.json';
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+import districts from 'utils/__tests__/fixtures/districts.json'
 
-import IncidentDetailContext from '../../../../context';
-import IncidentManagementContext from '../../../../../../context';
+import IncidentDetailContext from '../../../../context'
+import IncidentManagementContext from '../../../../../../context'
 
-import Location from '.';
+import Location from '.'
 
-jest.mock('shared/services/configuration/configuration');
+jest.mock('shared/services/configuration/configuration')
 
 const props = {
   location: {
@@ -38,10 +37,10 @@ const props = {
     id: 3372,
   },
   districts,
-};
+}
 
-const preview = jest.fn();
-const edit = jest.fn();
+const preview = jest.fn()
+const edit = jest.fn()
 
 const renderWithContext = (locationProps = props) =>
   withAppContext(
@@ -50,62 +49,72 @@ const renderWithContext = (locationProps = props) =>
         <Location {...locationProps} />
       </IncidentDetailContext.Provider>
     </IncidentManagementContext.Provider>
-  );
+  )
 
 describe('<Location />', () => {
   beforeEach(() => {
-    preview.mockReset();
-    edit.mockReset();
-  });
+    preview.mockReset()
+    edit.mockReset()
+  })
 
   afterEach(() => {
-    configuration.__reset();
-  });
+    configuration.__reset()
+  })
 
   describe('rendering', () => {
     it('should render correctly', async () => {
-      const { findByText, queryByTestId, getByTestId } = render(renderWithContext());
+      const { findByText, queryByTestId, getByTestId } = render(
+        renderWithContext()
+      )
 
-      await findByText('Locatie');
+      await findByText('Locatie')
 
-      expect(queryByTestId('location-value-address-district')).toHaveTextContent(/^Stadsdeel: Centrum$/);
-      expect(queryByTestId('location-value-address-street')).toHaveTextContent(/^Rokin 123A-H$/);
-      expect(queryByTestId('location-value-address-city')).toHaveTextContent(/^1012KP Amsterdam$/);
-      expect(getByTestId('previewLocationButton')).toBeInTheDocument();
-    });
+      expect(
+        queryByTestId('location-value-address-district')
+      ).toHaveTextContent(/^Stadsdeel: Centrum$/)
+      expect(queryByTestId('location-value-address-street')).toHaveTextContent(
+        /^Rokin 123A-H$/
+      )
+      expect(queryByTestId('location-value-address-city')).toHaveTextContent(
+        /^1012KP Amsterdam$/
+      )
+      expect(getByTestId('previewLocationButton')).toBeInTheDocument()
+    })
 
     it('should render correctly with fetchDistrictsFromBackend', async () => {
-      configuration.featureFlags.fetchDistrictsFromBackend = true;
-      configuration.language.district = 'District';
+      configuration.featureFlags.fetchDistrictsFromBackend = true
+      configuration.language.district = 'District'
 
-      const { findByText, queryByTestId } = render(renderWithContext());
+      const { findByText, queryByTestId } = render(renderWithContext())
 
-      await findByText('Locatie');
+      await findByText('Locatie')
 
-      expect(queryByTestId('location-value-address-district')).toHaveTextContent(/^District: North/);
-    });
+      expect(
+        queryByTestId('location-value-address-district')
+      ).toHaveTextContent(/^District: North/)
+    })
 
     describe('location preview', () => {
       it('should render static map image with useStaticMapServer enabled', async () => {
-        configuration.featureFlags.useStaticMapServer = true;
+        configuration.featureFlags.useStaticMapServer = true
 
-        const { findByText, queryByTestId } = render(renderWithContext());
+        const { findByText, queryByTestId } = render(renderWithContext())
 
-        await findByText('Locatie');
+        await findByText('Locatie')
 
-        expect(queryByTestId('mapStaticImage')).toBeInTheDocument();
-        expect(queryByTestId('map-base')).not.toBeInTheDocument();
-      });
+        expect(queryByTestId('mapStaticImage')).toBeInTheDocument()
+        expect(queryByTestId('map-base')).not.toBeInTheDocument()
+      })
 
       it('should render normal map with useStaticMapServer disabled', async () => {
-        const { findByText, queryByTestId } = render(renderWithContext());
+        const { findByText, queryByTestId } = render(renderWithContext())
 
-        await findByText('Locatie');
+        await findByText('Locatie')
 
-        expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument();
-        expect(queryByTestId('mapDetail')).toBeInTheDocument();
-      });
-    });
+        expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument()
+        expect(queryByTestId('mapDetail')).toBeInTheDocument()
+      })
+    })
 
     it('should render correctly without huisnummer_toevoeging', async () => {
       const noToevoeging = {
@@ -117,13 +126,13 @@ describe('<Location />', () => {
             huisnummer_toevoeging: undefined,
           },
         },
-      };
-      const { findByTestId } = render(renderWithContext(noToevoeging));
+      }
+      const { findByTestId } = render(renderWithContext(noToevoeging))
 
-      const locAddress = await findByTestId('location-value-address-street');
+      const locAddress = await findByTestId('location-value-address-street')
 
-      expect(locAddress).toHaveTextContent(/^Rokin 123A$/);
-    });
+      expect(locAddress).toHaveTextContent(/^Rokin 123A$/)
+    })
 
     it('should render correctly without address', async () => {
       const noAdressText = {
@@ -132,47 +141,55 @@ describe('<Location />', () => {
           ...props.location,
           address_text: undefined,
         },
-      };
-      const { findByTestId, queryByTestId } = render(renderWithContext(noAdressText));
+      }
+      const { findByTestId, queryByTestId } = render(
+        renderWithContext(noAdressText)
+      )
 
-      const pinned = await findByTestId('location-value-pinned');
+      const pinned = await findByTestId('location-value-pinned')
 
-      expect(pinned).toHaveTextContent(/^Locatie is gepind op de kaart$/);
-      expect(queryByTestId('location-value-address-district')).toBeInTheDocument();
-      expect(queryByTestId('location-value-address-street')).not.toBeInTheDocument();
-      expect(queryByTestId('location-value-address-city')).not.toBeInTheDocument();
-    });
-  });
+      expect(pinned).toHaveTextContent(/^Locatie is gepind op de kaart$/)
+      expect(
+        queryByTestId('location-value-address-district')
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId('location-value-address-street')
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId('location-value-address-city')
+      ).not.toBeInTheDocument()
+    })
+  })
 
   describe('events', () => {
     it('clicking the map should trigger showing the location', async () => {
-      const { queryByTestId, findByTestId } = render(renderWithContext());
+      const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('previewLocationButton');
+      await findByTestId('previewLocationButton')
 
-      expect(preview).not.toHaveBeenCalledTimes(1);
+      expect(preview).not.toHaveBeenCalledTimes(1)
 
       act(() => {
-        fireEvent.click(queryByTestId('previewLocationButton'));
-      });
+        fireEvent.click(queryByTestId('previewLocationButton'))
+      })
 
-      await findByTestId('detail-location');
+      await findByTestId('detail-location')
 
-      expect(preview).toHaveBeenCalledWith('location');
-    });
+      expect(preview).toHaveBeenCalledWith('location')
+    })
 
     it('clicking the edit button should trigger edit the location', async () => {
-      const { queryByTestId, findByTestId } = render(renderWithContext());
+      const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('editLocationButton');
+      await findByTestId('editLocationButton')
 
-      expect(edit).not.toHaveBeenCalled();
+      expect(edit).not.toHaveBeenCalled()
 
       act(() => {
-        fireEvent.click(queryByTestId('editLocationButton'));
-      });
+        fireEvent.click(queryByTestId('editLocationButton'))
+      })
 
-      expect(edit).toHaveBeenCalledWith('location');
-    });
-  });
-});
+      expect(edit).toHaveBeenCalledWith('location')
+    })
+  })
+})

@@ -1,31 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { isAuthenticated } from 'shared/services/auth/auth';
-import ThemeProvider, { getConfig } from '..';
+import { render } from '@testing-library/react'
+import { isAuthenticated } from 'shared/services/auth/auth'
+import ThemeProvider, { getConfig } from '..'
 
-const mockIsAuthenticated = isAuthenticated as jest.Mock;
+const mockIsAuthenticated = isAuthenticated as jest.Mock
 
-jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/auth/auth')
 
 describe('<ThemeProvider />', () => {
   describe('rendering', () => {
     it('should render children', () => {
       const { queryByTestId } = render(
-        <ThemeProvider><div data-testid="themeProviderChildren"></div></ThemeProvider>
-      );
+        <ThemeProvider>
+          <div data-testid="themeProviderChildren"></div>
+        </ThemeProvider>
+      )
 
-      expect(queryByTestId('themeProviderChildren')).not.toBeNull();
-    });
+      expect(queryByTestId('themeProviderChildren')).not.toBeNull()
+    })
 
     it('should use theme provider settings for authenticated', () => {
-      mockIsAuthenticated.mockImplementation(() => true);
-      expect(getConfig()).toEqual({});
-    });
+      mockIsAuthenticated.mockImplementation(() => true)
+      expect(getConfig()).toEqual({})
+    })
 
     it('should use theme provider settings for not authenticated', () => {
-      mockIsAuthenticated.mockImplementation(() => false);
+      mockIsAuthenticated.mockImplementation(() => false)
       expect(getConfig()).toEqual({
         maxGridWidth: 960,
         layouts: {
@@ -62,7 +63,7 @@ describe('<ThemeProvider />', () => {
             min: 1430,
           },
         },
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

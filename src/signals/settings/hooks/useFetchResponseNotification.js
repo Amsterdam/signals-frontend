@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useDispatch } from 'react-redux';
-import { useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { useCallback, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
-import { TYPE_LOCAL, VARIANT_ERROR, VARIANT_SUCCESS } from 'containers/Notification/constants';
-import { showGlobalNotification } from 'containers/App/actions';
+import {
+  TYPE_LOCAL,
+  VARIANT_ERROR,
+  VARIANT_SUCCESS,
+} from 'containers/Notification/constants'
+import { showGlobalNotification } from 'containers/App/actions'
 
 /**
  * Custom hook useConfirmedCancel
@@ -21,9 +25,16 @@ import { showGlobalNotification } from 'containers/App/actions';
  * @param {String} options.redirectURL - URL to which the push should be directed when isSuccess is truthy
  * @returns {void}
  */
-const useFetchResponseNotification = ({ entityName, error, isExisting, isLoading, isSuccess, redirectURL }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+const useFetchResponseNotification = ({
+  entityName,
+  error,
+  isExisting,
+  isLoading,
+  isSuccess,
+  redirectURL,
+}) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
   const showNotification = useCallback(
     (variant, title) =>
       dispatch(
@@ -34,34 +45,36 @@ const useFetchResponseNotification = ({ entityName, error, isExisting, isLoading
         })
       ),
     [dispatch]
-  );
+  )
 
   useEffect(() => {
-    if (isLoading || !(error || isSuccess)) return;
+    if (isLoading || !(error || isSuccess)) return
 
-    let message;
-    let variant = VARIANT_SUCCESS;
+    let message
+    let variant = VARIANT_SUCCESS
 
     if (error) {
-      ({ message } = error);
-      variant = VARIANT_ERROR;
+      ;({ message } = error)
+      variant = VARIANT_ERROR
     }
 
     if (isSuccess) {
-      const entityLabel = entityName || 'Gegevens';
-      message = isExisting ? `${entityLabel} bijgewerkt` : `${entityLabel} toegevoegd`;
+      const entityLabel = entityName || 'Gegevens'
+      message = isExisting
+        ? `${entityLabel} bijgewerkt`
+        : `${entityLabel} toegevoegd`
     }
 
-    showNotification(variant, message);
-  }, [entityName, error, isExisting, isLoading, isSuccess, showNotification]);
+    showNotification(variant, message)
+  }, [entityName, error, isExisting, isLoading, isSuccess, showNotification])
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) return
 
     if (isSuccess && redirectURL) {
-      history.push(redirectURL);
+      history.push(redirectURL)
     }
-  }, [history, isSuccess, redirectURL, isLoading]);
-};
+  }, [history, isSuccess, redirectURL, isLoading])
+}
 
-export default useFetchResponseNotification;
+export default useFetchResponseNotification

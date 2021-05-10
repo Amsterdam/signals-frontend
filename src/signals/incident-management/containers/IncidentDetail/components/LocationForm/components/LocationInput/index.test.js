@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { FormBuilder } from 'react-reactive-form';
-import { render } from '@testing-library/react';
-import { withMapContext, withAppContext } from 'test/utils';
-import context from 'containers/MapContext/context';
+import { FormBuilder } from 'react-reactive-form'
+import { render } from '@testing-library/react'
+import { withMapContext, withAppContext } from 'test/utils'
+import context from 'containers/MapContext/context'
 
-import LocationInput from '.';
+import LocationInput from '.'
 
 const form = FormBuilder.group({
   location: {},
-});
+})
 
 describe('incident-management/containers/IncidentDetail/components/LocationForm/components/LocationInput', () => {
   it('should render the location input control', () => {
@@ -23,18 +22,20 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm/
           onQueryResult={() => {}}
         />
       )
-    );
+    )
 
-    expect(getByTestId('locationForm')).toBeInTheDocument();
-    expect(getByTestId('mapInput')).toBeInTheDocument();
-    expect(getByTestId('submitBtn')).toBeInTheDocument();
-    expect(getByTestId('cancelBtn')).toBeInTheDocument();
-  });
+    expect(getByTestId('locationForm')).toBeInTheDocument()
+    expect(getByTestId('mapInput')).toBeInTheDocument()
+    expect(getByTestId('submitBtn')).toBeInTheDocument()
+    expect(getByTestId('cancelBtn')).toBeInTheDocument()
+  })
 
   it('should disable submit button when loading the map location', async () => {
     const { findByTestId, queryByTestId, rerender } = render(
       withAppContext(
-        <context.Provider value={{ state: { loading: false }, dispatch: () => {} }}>
+        <context.Provider
+          value={{ state: { loading: false }, dispatch: () => {} }}
+        >
           <LocationInput
             locationControl={form.get('location')}
             handleSubmit={() => {}}
@@ -43,14 +44,18 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm/
           />
         </context.Provider>
       )
-    );
+    )
 
-    await findByTestId('locationForm');
-    expect(queryByTestId('submitBtn').getAttribute('disabled')).not.toBeUndefined();
+    await findByTestId('locationForm')
+    expect(
+      queryByTestId('submitBtn').getAttribute('disabled')
+    ).not.toBeUndefined()
 
     rerender(
       withAppContext(
-        <context.Provider value={{ state: { loading: true }, dispatch: () => {} }}>
+        <context.Provider
+          value={{ state: { loading: true }, dispatch: () => {} }}
+        >
           <LocationInput
             locationControl={form.get('location')}
             handleSubmit={() => {}}
@@ -59,9 +64,11 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm/
           />
         </context.Provider>
       )
-    );
+    )
 
-    await findByTestId('locationForm');
-    expect(queryByTestId('submitBtn').getAttribute('disabled')).not.toBeUndefined();
-  });
-});
+    await findByTestId('locationForm')
+    expect(
+      queryByTestId('submitBtn').getAttribute('disabled')
+    ).not.toBeUndefined()
+  })
+})

@@ -1,36 +1,46 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { useCallback, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const StyledTH = styled.th`
   text-align: left;
-`;
+`
 
 const StyledTD = styled.td`
   cursor: pointer;
-`;
+`
 
-const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyColumn, className }) => {
-  const filterVisibleColumns = useCallback(colHeader => invisibleColumns.includes(colHeader) === false, [
-    invisibleColumns,
-  ]);
+const List = ({
+  columnOrder,
+  invisibleColumns,
+  items,
+  onItemClick,
+  primaryKeyColumn,
+  className,
+}) => {
+  const filterVisibleColumns = useCallback(
+    (colHeader) => invisibleColumns.includes(colHeader) === false,
+    [invisibleColumns]
+  )
 
   const colHeaders = useMemo(
-    () => (columnOrder.length && columnOrder) || Object.keys(items[0] || []).filter(filterVisibleColumns),
+    () =>
+      (columnOrder.length && columnOrder) ||
+      Object.keys(items[0] || []).filter(filterVisibleColumns),
     [columnOrder, filterVisibleColumns, items]
-  );
+  )
 
   if (!items.length) {
-    return null;
+    return null
   }
 
   return (
     <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
       <thead>
         <tr>
-          {colHeaders.map(colHeader => (
+          {colHeaders.map((colHeader) => (
             <StyledTH key={colHeader}>{colHeader}</StyledTH>
           ))}
         </tr>
@@ -43,7 +53,7 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
             onClick={onItemClick}
           >
-            {colHeaders.filter(filterVisibleColumns).map(col => (
+            {colHeaders.filter(filterVisibleColumns).map((col) => (
               // eslint-disable-next-line react/no-array-index-key
               <StyledTD key={JSON.stringify(col)}>{row[col]}</StyledTD>
             ))}
@@ -51,15 +61,15 @@ const List = ({ columnOrder, invisibleColumns, items, onItemClick, primaryKeyCol
         ))}
       </tbody>
     </table>
-  );
-};
+  )
+}
 
 List.defaultProps = {
   columnOrder: [],
   invisibleColumns: [],
   onItemClick: null,
   primaryKeyColumn: undefined,
-};
+}
 
 List.propTypes = {
   className: PropTypes.string,
@@ -73,6 +83,6 @@ List.propTypes = {
   onItemClick: PropTypes.func,
   /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
   primaryKeyColumn: PropTypes.string,
-};
+}
 
-export default List;
+export default List

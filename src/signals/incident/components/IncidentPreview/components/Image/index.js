@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { themeSpacing } from '@amsterdam/asc-ui';
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { themeSpacing } from '@amsterdam/asc-ui'
 
 const ImageContainer = styled.div`
   display: flex;
-`;
+`
 
 const Thumbnail = styled.img`
   flex: 1 0 auto;
@@ -19,18 +18,18 @@ const Thumbnail = styled.img`
   & + & {
     margin-left: ${themeSpacing(2)};
   }
-`;
+`
 
 const Image = ({ value }) => (
   <ImageContainer>
-    {value?.map(image => (
+    {value?.map((image) => (
       <Thumbnail key={image} src={image} alt="" />
     ))}
   </ImageContainer>
-);
+)
 
 Image.propTypes = {
   value: PropTypes.arrayOf(PropTypes.string),
-};
+}
 
-export default Image;
+export default Image

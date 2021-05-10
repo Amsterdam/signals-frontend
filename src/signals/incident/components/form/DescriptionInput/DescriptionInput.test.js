@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render, fireEvent, act } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import DescriptionInput from '.';
+import DescriptionInput from '.'
 
 describe('signals/incident/components/form/DescriptionInput', () => {
   const metaFields = {
     name: 'input-field-name',
     isVisible: true,
-  };
+  }
 
   const props = {
     handler: jest.fn(),
@@ -27,7 +26,7 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         },
       },
     },
-  };
+  }
 
   describe('rendering', () => {
     it('should render correctly', () => {
@@ -41,14 +40,14 @@ describe('signals/incident/components/form/DescriptionInput', () => {
             }}
           />
         )
-      );
+      )
 
-      expect(getByTestId('descriptionInput')).toBeInTheDocument();
-      expect(getByTestId('descriptionInfo')).toBeInTheDocument();
-    });
+      expect(getByTestId('descriptionInput')).toBeInTheDocument()
+      expect(getByTestId('descriptionInfo')).toBeInTheDocument()
+    })
 
     it('should render with a character counter with value correctly', () => {
-      const description = 'the-description';
+      const description = 'the-description'
       const { getByTestId } = render(
         withAppContext(
           <DescriptionInput
@@ -60,22 +59,23 @@ describe('signals/incident/components/form/DescriptionInput', () => {
             value={description}
           />
         )
-      );
+      )
 
-      expect(getByTestId('descriptionInfo')).toBeInTheDocument();
-      expect(getByTestId('descriptionInfo').textContent).toEqual(`${description.length}/100 tekens`);
-    });
-  });
+      expect(getByTestId('descriptionInfo')).toBeInTheDocument()
+      expect(getByTestId('descriptionInfo').textContent).toEqual(
+        `${description.length}/100 tekens`
+      )
+    })
+  })
 
   describe('events', () => {
-    const event = { target: { value: 'diabolo' } };
+    const event = { target: { value: 'diabolo' } }
 
-    beforeEach(() => {
-    });
+    beforeEach(() => {})
 
     afterEach(() => {
-      jest.resetAllMocks();
-    });
+      jest.resetAllMocks()
+    })
 
     it('sets incident when value changes', async () => {
       const { getByTestId, findByTestId } = render(
@@ -88,23 +88,25 @@ describe('signals/incident/components/form/DescriptionInput', () => {
             }}
           />
         )
-      );
+      )
 
-      const element = getByTestId('descriptionInput');
-      element.focus();
+      const element = getByTestId('descriptionInput')
+      element.focus()
       act(() => {
-        fireEvent.change(element, event);
-        element.blur();
-      });
+        fireEvent.change(element, event)
+        element.blur()
+      })
 
-      await findByTestId('descriptionInput');
-      expect(props.parent.meta.getClassification).toHaveBeenCalledWith('diabolo');
+      await findByTestId('descriptionInput')
+      expect(props.parent.meta.getClassification).toHaveBeenCalledWith(
+        'diabolo'
+      )
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo',
-      });
-    });
+      })
+    })
 
-    it('doesn\'t call the predictions for empty values', async () => {
+    it("doesn't call the predictions for empty values", async () => {
       const { getByTestId, findByTestId } = render(
         withAppContext(
           <DescriptionInput
@@ -116,31 +118,31 @@ describe('signals/incident/components/form/DescriptionInput', () => {
             value="the-value"
           />
         )
-      );
+      )
 
-      const element = getByTestId('descriptionInput');
-      element.focus();
+      const element = getByTestId('descriptionInput')
+      element.focus()
       act(() => {
-        fireEvent.change(element, { target: { value: '' } });
-        element.blur();
-      });
+        fireEvent.change(element, { target: { value: '' } })
+        element.blur()
+      })
 
-      await findByTestId('descriptionInput');
+      await findByTestId('descriptionInput')
 
-      expect(props.parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(props.parent.meta.getClassification).not.toHaveBeenCalled()
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': '',
-      });
-    });
+      })
+    })
 
-    it('doesn\'t call the predictions when they are disabled', async () => {
+    it("doesn't call the predictions when they are disabled", async () => {
       const parent = {
         ...props.parent,
         meta: {
           ...props.parent.meta,
           incidentContainer: { usePredictions: false },
         },
-      };
+      }
 
       const { getByTestId, findByTestId } = render(
         withAppContext(
@@ -153,21 +155,21 @@ describe('signals/incident/components/form/DescriptionInput', () => {
             parent={parent}
           />
         )
-      );
+      )
 
-      const element = getByTestId('descriptionInput');
-      element.focus();
+      const element = getByTestId('descriptionInput')
+      element.focus()
       act(() => {
-        fireEvent.change(element, event);
-        element.blur();
-      });
+        fireEvent.change(element, event)
+        element.blur()
+      })
 
-      await findByTestId('descriptionInput');
+      await findByTestId('descriptionInput')
 
-      expect(parent.meta.getClassification).not.toHaveBeenCalled();
+      expect(parent.meta.getClassification).not.toHaveBeenCalled()
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
         'input-field-name': 'diabolo',
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

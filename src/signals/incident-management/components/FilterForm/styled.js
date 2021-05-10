@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import FormFooter from 'components/FormFooter';
+import FormFooter from 'components/FormFooter'
 
-import styled, { css } from 'styled-components';
-import { themeSpacing, themeColor } from '@amsterdam/asc-ui';
+import styled, { css } from 'styled-components'
+import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 
 export const Form = styled.form`
   column-count: 2;
@@ -18,19 +18,19 @@ export const Form = styled.form`
   @media (max-width: 600px) {
     column-count: 1;
   }
-`;
+`
 
 export const ControlsWrapper = styled.div`
   break-inside: avoid;
   margin-bottom: 50px;
   padding-bottom: 1px; // Prevents flickering on Safari when hovering checkbox element in filter modal.
-`;
+`
 
 export const FilterGroup = styled.div`
   & + & {
     margin-top: 30px;
   }
-`;
+`
 
 export const Fieldset = styled.fieldset`
   border: 0;
@@ -66,18 +66,16 @@ export const Fieldset = styled.fieldset`
       background-color: ${themeColor('tint', 'level2')};
       padding: 15px 21px;
     `}
-`;
+`
 
 export const DatesWrapper = styled.div`
   display: flex;
   & > :first-child {
     margin-right: ${themeSpacing(5)};
   }
-`;
+`
 
 export const FormFooterWrapper = styled(FormFooter)`
-  z-index: 2;
-
   button[type='reset'] {
     order: 1;
   }
@@ -88,4 +86,4 @@ export const FormFooterWrapper = styled(FormFooter)`
   button[type='button'] {
     order: 2;
   }
-`;
+`

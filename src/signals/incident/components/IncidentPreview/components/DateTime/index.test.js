@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow } from 'enzyme'
 
-import DateTime from '.';
+import DateTime from '.'
 
 describe('Preview component <DateTime />', () => {
-  let wrapper;
+  let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<DateTime />);
-  });
+    wrapper = shallow(<DateTime />)
+  })
 
   it('should render now correctly', () => {
     wrapper.setProps({
@@ -19,10 +18,10 @@ describe('Preview component <DateTime />', () => {
         id: 'Nu',
         label: 'Nu',
       },
-    });
+    })
 
-    expect(wrapper).toMatchSnapshot();
-  });
+    expect(wrapper).toMatchSnapshot()
+  })
 
   it('should render earlier today correctly', () => {
     wrapper.setProps({
@@ -36,10 +35,10 @@ describe('Preview component <DateTime />', () => {
         incident_time_hours: 13,
         incident_time_minutes: 45,
       },
-    });
+    })
 
-    expect(wrapper).toMatchSnapshot();
-  });
+    expect(wrapper).toMatchSnapshot()
+  })
 
   it('should render earlier date correctly', () => {
     wrapper.setProps({
@@ -53,8 +52,8 @@ describe('Preview component <DateTime />', () => {
         incident_time_hours: 6,
         incident_time_minutes: 6,
       },
-    });
+    })
 
-    expect(wrapper).toMatchSnapshot();
-  });
-});
+    expect(wrapper).toMatchSnapshot()
+  })
+})

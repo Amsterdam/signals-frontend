@@ -1,25 +1,33 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import type { Reducer } from 'react';
-import { useCallback, useEffect, useReducer, useMemo } from 'react';
-import { getAuthHeaders } from 'shared/services/auth/auth';
-import { getErrorMessage } from 'shared/services/api/api';
+import type { Reducer } from 'react'
+import { useCallback, useEffect, useReducer, useMemo } from 'react'
+import { getAuthHeaders } from 'shared/services/auth/auth'
+import { getErrorMessage } from 'shared/services/api/api'
 
-type Data = Record<string, unknown>;
-export type FetchError = (Response | Error) & { message: string };
+type Data = Record<string, unknown>
+export type FetchError = (Response | Error) & { message: string }
 
 interface State<T> {
-  data?: T;
-  error?: boolean | FetchError;
-  isLoading: boolean;
-  isSuccess?: boolean;
+  data?: T
+  error?: boolean | FetchError
+  isLoading: boolean
+  isSuccess?: boolean
 }
 
 interface FetchResponse<T> extends State<T> {
-  get: (url: string, params?: Data, requestOptions?: Data) => Promise<void>;
-  patch: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>;
-  post: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>;
-  put: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>;
+  get: (url: string, params?: Data, requestOptions?: Data) => Promise<void>
+  patch: (
+    url: string,
+    modifiedData: Data,
+    requestOptions?: Data
+  ) => Promise<void>
+  post: (
+    url: string,
+    modifiedData: Data,
+    requestOptions?: Data
+  ) => Promise<void>
+  put: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>
 }
 
 /**
@@ -32,8 +40,8 @@ interface FetchResponse<T> extends State<T> {
  */
 const useFetch = <T>(): FetchResponse<T> => {
   interface Action {
-    payload: boolean | Data | FetchError;
-    type: string;
+    payload: boolean | Data | FetchError
+    type: string
   }
 
   const initialState: State<T> = {
@@ -41,32 +49,51 @@ const useFetch = <T>(): FetchResponse<T> => {
     error: undefined,
     isLoading: false,
     isSuccess: undefined,
-  };
+  }
 
   const reducer = (state: State<T>, action: Action): State<T> => {
     switch (action.type) {
       case 'SET_LOADING':
-        return { ...state, isLoading: action.payload as boolean, error: false };
+        return { ...state, isLoading: action.payload as boolean, error: false }
 
       case 'SET_GET_DATA':
-        return { ...state, data: action.payload as T, isLoading: false, error: false };
+        return {
+          ...state,
+          data: action.payload as T,
+          isLoading: false,
+          error: false,
+        }
 
       case 'SET_MODIFY_DATA':
-        return { ...state, data: action.payload as T, isLoading: false, error: false, isSuccess: true };
+        return {
+          ...state,
+          data: action.payload as T,
+          isLoading: false,
+          error: false,
+          isSuccess: true,
+        }
 
       case 'SET_ERROR':
-        return { ...state, isLoading: false, isSuccess: false, error: action.payload as FetchError };
+        return {
+          ...state,
+          isLoading: false,
+          isSuccess: false,
+          error: action.payload as FetchError,
+        }
 
       /* istanbul ignore next */
       default:
-        return state;
+        return state
     }
-  };
+  }
 
-  const [state, dispatch] = useReducer<Reducer<State<T>, Action>>(reducer, initialState);
+  const [state, dispatch] = useReducer<Reducer<State<T>, Action>>(
+    reducer,
+    initialState
+  )
 
-  const controller = useMemo(() => new AbortController(), []);
-  const { signal } = controller;
+  const controller = useMemo(() => new AbortController(), [])
+  const { signal } = controller
   const requestHeaders = useCallback(
     () => ({
       ...getAuthHeaders(),
@@ -74,29 +101,31 @@ const useFetch = <T>(): FetchResponse<T> => {
       Accept: 'application/json',
     }),
     []
-  );
+  )
 
   useEffect(
     () => () => {
-      controller.abort();
+      controller.abort()
     },
     [controller]
-  );
+  )
 
   const get = useCallback(
     async (url, params = {}, requestOptions: Data = {}) => {
-      dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_LOADING', payload: true })
 
       const arrayParams = Object.entries(params)
         .filter(([, value]) => Array.isArray(value))
-        .flatMap(([key, value]) => (value as string[]).flatMap((val: string) => `${key}=${val}`));
+        .flatMap(([key, value]) =>
+          (value as string[]).flatMap((val: string) => `${key}=${val}`)
+        )
 
       const scalarParams = Object.entries(params)
         .filter(([, value]) => Boolean(value) && !Array.isArray(value))
-        .flatMap(([key, value]) => `${key}=${value}`);
+        .flatMap(([key, value]) => `${key}=${value}`)
 
-      const queryParams = arrayParams.concat(scalarParams).join('&');
-      const requestURL = [url, queryParams].filter(Boolean).join('?');
+      const queryParams = arrayParams.concat(scalarParams).join('&')
+      const requestURL = [url, queryParams].filter(Boolean).join('?')
 
       try {
         const fetchResponse = await fetch(requestURL, {
@@ -104,37 +133,41 @@ const useFetch = <T>(): FetchResponse<T> => {
           method: 'GET',
           signal,
           ...requestOptions,
-        });
+        })
 
         if (fetchResponse.ok) {
           const responseData = (requestOptions.responseType === 'blob'
             ? await fetchResponse.blob()
-            : await fetchResponse.json()) as Data;
+            : await fetchResponse.json()) as Data
 
-          dispatch({ type: 'SET_GET_DATA', payload: responseData });
+          dispatch({ type: 'SET_GET_DATA', payload: responseData })
         } else {
           Object.defineProperty(fetchResponse, 'message', {
             value: getErrorMessage(fetchResponse),
             writable: false,
-          });
+          })
 
-          dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError });
+          dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError })
         }
       } catch (exception: unknown) {
         Object.defineProperty(exception, 'message', {
           value: getErrorMessage(exception),
           writable: false,
-        });
+        })
 
-        dispatch({ type: 'SET_ERROR', payload: exception as FetchError });
+        dispatch({ type: 'SET_ERROR', payload: exception as FetchError })
       }
     },
     [requestHeaders, signal]
-  );
+  )
 
   const modify = useCallback(
-    (method: string) => async (url: RequestInfo, modifiedData: Data, requestOptions: Data = {}) => {
-      dispatch({ type: 'SET_LOADING', payload: true });
+    (method: string) => async (
+      url: RequestInfo,
+      modifiedData: Data,
+      requestOptions: Data = {}
+    ) => {
+      dispatch({ type: 'SET_LOADING', payload: true })
 
       try {
         const modifyResponse = await fetch(url, {
@@ -143,37 +176,37 @@ const useFetch = <T>(): FetchResponse<T> => {
           signal,
           body: JSON.stringify(modifiedData),
           ...requestOptions,
-        });
+        })
 
         if (modifyResponse.ok) {
           const responseData = (requestOptions.responseType === 'blob'
             ? await modifyResponse.blob()
-            : await modifyResponse.json()) as Data;
+            : await modifyResponse.json()) as Data
 
-          dispatch({ type: 'SET_MODIFY_DATA', payload: responseData });
+          dispatch({ type: 'SET_MODIFY_DATA', payload: responseData })
         } else {
           Object.defineProperty(modifyResponse, 'message', {
             value: getErrorMessage(modifyResponse),
             writable: false,
-          });
+          })
 
-          dispatch({ type: 'SET_ERROR', payload: modifyResponse as FetchError });
+          dispatch({ type: 'SET_ERROR', payload: modifyResponse as FetchError })
         }
       } catch (exception: unknown) {
         Object.defineProperty(exception, 'message', {
           value: getErrorMessage(exception),
           writable: false,
-        });
+        })
 
-        dispatch({ type: 'SET_ERROR', payload: exception as FetchError });
+        dispatch({ type: 'SET_ERROR', payload: exception as FetchError })
       }
     },
     [requestHeaders, signal]
-  );
+  )
 
-  const post = useMemo(() => modify('POST'), [modify]);
-  const patch = useMemo(() => modify('PATCH'), [modify]);
-  const put = useMemo(() => modify('PUT'), [modify]);
+  const post = useMemo(() => modify('POST'), [modify])
+  const patch = useMemo(() => modify('PATCH'), [modify])
+  const put = useMemo(() => modify('PUT'), [modify])
 
   /**
    * @typedef {Object} FetchResponse
@@ -191,7 +224,7 @@ const useFetch = <T>(): FetchResponse<T> => {
     post,
     put,
     ...state,
-  };
-};
+  }
+}
 
-export default useFetch;
+export default useFetch

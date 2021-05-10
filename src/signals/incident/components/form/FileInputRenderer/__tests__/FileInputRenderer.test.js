@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { render } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import FileInputRenderer from '..';
+import FileInputRenderer from '..'
 
 describe('Form component <FileInputRenderer />', () => {
   const parentControls = {
     'input-field-name': {
       updateValueAndValidity: jest.fn(),
     },
-  };
+  }
 
   const props = {
     handler: jest.fn(),
@@ -25,7 +24,7 @@ describe('Form component <FileInputRenderer />', () => {
       value: jest.fn(),
       controls: parentControls,
     },
-  };
+  }
 
   describe('rendering', () => {
     it('should render upload field correctly', () => {
@@ -38,10 +37,10 @@ describe('Form component <FileInputRenderer />', () => {
             }}
           />
         )
-      );
+      )
 
-      expect(queryByTestId('fileInput')).toBeInTheDocument();
-    });
+      expect(queryByTestId('fileInput')).toBeInTheDocument()
+    })
 
     it('should render no upload field when not visible', () => {
       const { queryByTestId } = render(
@@ -53,9 +52,9 @@ describe('Form component <FileInputRenderer />', () => {
             }}
           />
         )
-      );
+      )
 
-      expect(queryByTestId('fileInput')).not.toBeInTheDocument();
-    });
-  });
-});
+      expect(queryByTestId('fileInput')).not.toBeInTheDocument()
+    })
+  })
+})

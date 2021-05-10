@@ -1,42 +1,58 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React from 'react';
-import * as reactRedux from 'react-redux';
-import { render, fireEvent, act } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import * as reactRedux from 'react-redux'
+import { render, fireEvent, act } from '@testing-library/react'
+import { withAppContext } from 'test/utils'
 
-import { resetExtraState, updateIncident } from 'signals/incident/containers/IncidentContainer/actions';
+import {
+  resetExtraState,
+  updateIncident,
+} from 'signals/incident/containers/IncidentContainer/actions'
 
-import RadioInput from '..';
+import RadioInput from '..'
 
-const dispatch = jest.fn();
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
 describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () => {
   beforeEach(() => {
-    dispatch.mockReset();
-  });
+    dispatch.mockReset()
+  })
 
   it('renders an input element', () => {
-    const idAttr = 'FooBar';
-    render(withAppContext(<RadioInput id="fooBrrr" idAttr={idAttr} label="Label" name="Zork" />));
+    const idAttr = 'FooBar'
+    render(
+      withAppContext(
+        <RadioInput id="fooBrrr" idAttr={idAttr} label="Label" name="Zork" />
+      )
+    )
 
-    expect(document.getElementById(idAttr)).toBeInTheDocument();
-  });
+    expect(document.getElementById(idAttr)).toBeInTheDocument()
+  })
 
   it('dispatches updateIncident', () => {
-    const name = 'Zork';
-    const id = 'fooBrrr';
-    const label = 'Label';
-    const info = 'info text';
+    const name = 'Zork'
+    const id = 'fooBrrr'
+    const label = 'Label'
+    const info = 'info text'
 
-    render(withAppContext(<RadioInput id={id} idAttr="FooBar" label={label} name={name} info={info} />));
+    render(
+      withAppContext(
+        <RadioInput
+          id={id}
+          idAttr="FooBar"
+          label={label}
+          name={name}
+          info={info}
+        />
+      )
+    )
 
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(dispatch).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(document.querySelector('input[type=radio]'));
-    });
+      fireEvent.click(document.querySelector('input[type=radio]'))
+    })
 
     expect(dispatch).toHaveBeenCalledWith(
       updateIncident({
@@ -46,26 +62,40 @@ describe('signals/incident/components/form/RadioInput/InputUsingDispatch', () =>
           info,
         },
       })
-    );
-  });
+    )
+  })
 
   it('dispatches resetExtraState', () => {
-    const { rerender } = render(withAppContext(<RadioInput id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" />));
+    const { rerender } = render(
+      withAppContext(
+        <RadioInput id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" />
+      )
+    )
 
-    expect(dispatch).not.toHaveBeenCalled();
-
-    act(() => {
-      fireEvent.click(document.querySelector('input[type=radio]'));
-    });
-
-    expect(dispatch).not.toHaveBeenCalledWith(resetExtraState());
-
-    rerender(withAppContext(<RadioInput id="fooBrrr" idAttr="FooBar" label="Label" name="Zork" resetsStateOnChange />));
+    expect(dispatch).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(document.querySelector('input[type=radio]'));
-    });
+      fireEvent.click(document.querySelector('input[type=radio]'))
+    })
 
-    expect(dispatch).toHaveBeenCalledWith(resetExtraState());
-  });
-});
+    expect(dispatch).not.toHaveBeenCalledWith(resetExtraState())
+
+    rerender(
+      withAppContext(
+        <RadioInput
+          id="fooBrrr"
+          idAttr="FooBar"
+          label="Label"
+          name="Zork"
+          resetsStateOnChange
+        />
+      )
+    )
+
+    act(() => {
+      fireEvent.click(document.querySelector('input[type=radio]'))
+    })
+
+    expect(dispatch).toHaveBeenCalledWith(resetExtraState())
+  })
+})

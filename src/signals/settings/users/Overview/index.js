@@ -1,35 +1,42 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
-import { useParams, useHistory, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
+import { useParams, useHistory, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-import { Row, Column, themeSpacing, Button, SearchBar, styles } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import {
+  Row,
+  Column,
+  themeSpacing,
+  Button,
+  SearchBar,
+  styles,
+} from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
-import useDebounce from 'hooks/useDebounce';
-import { PAGE_SIZE } from 'containers/App/constants';
-import LoadingIndicator from 'components/LoadingIndicator';
-import Pagination from 'components/Pagination';
-import PageHeader from 'signals/settings/components/PageHeader';
-import DataView from 'components/DataView';
-import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes';
-import SettingsContext from 'signals/settings/context';
-import { setUserFilters } from 'signals/settings/actions';
-import { inputSelectRolesSelector } from 'models/roles/selectors';
-import { makeSelectUserCan } from 'containers/App/selectors';
-import Select from 'components/Select';
-import useFetchUsers from './hooks/useFetchUsers';
+import useDebounce from 'hooks/useDebounce'
+import { PAGE_SIZE } from 'containers/App/constants'
+import LoadingIndicator from 'components/LoadingIndicator'
+import Pagination from 'components/Pagination'
+import PageHeader from 'signals/settings/components/PageHeader'
+import DataView from 'components/DataView'
+import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
+import SettingsContext from 'signals/settings/context'
+import { setUserFilters } from 'signals/settings/actions'
+import { inputSelectRolesSelector } from 'models/roles/selectors'
+import { makeSelectUserCan } from 'containers/App/selectors'
+import Select from 'components/Select'
+import useFetchUsers from './hooks/useFetchUsers'
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
-`;
+`
 
 const HeaderButton = styled(Button)`
   &:hover {
     color: white;
   }
-`;
+`
 
 const StyledSearchbar = styled(SearchBar)`
   ${styles.TextFieldStyle} > ${styles.InputStyle} {
@@ -39,112 +46,112 @@ const StyledSearchbar = styled(SearchBar)`
   > button {
     display: none;
   }
-`;
+`
 
 const StyledDataView = styled(DataView)`
   th:first-child {
     width: 50%;
   }
-`;
+`
 
 const selectUserActive = [
   { key: 'all', name: 'Alles', value: '*' },
   { key: 'active', name: 'Actief', value: true },
   { key: 'inactive', name: 'Niet actief', value: false },
-];
+]
 
 const UsersOverviewContainer = () => {
-  const history = useHistory();
-  const { pageNum } = useParams();
-  const [page, setPage] = useState(1);
-  const { state, dispatch } = useContext(SettingsContext);
-  const { filters } = state.users;
+  const history = useHistory()
+  const { pageNum } = useParams()
+  const [page, setPage] = useState(1)
+  const { state, dispatch } = useContext(SettingsContext)
+  const { filters } = state.users
   const {
     isLoading,
     users: { list: data, count },
-  } = useFetchUsers({ page, filters });
-  const userCan = useSelector(makeSelectUserCan);
-  const selectRoles = useSelector(inputSelectRolesSelector);
+  } = useFetchUsers({ page, filters })
+  const userCan = useSelector(makeSelectUserCan)
+  const selectRoles = useSelector(inputSelectRolesSelector)
 
   /**
    * Get page number value from URL query string
    *
    * @returns {number|undefined}
    */
-  const pageNumFromQueryString = pageNum && Number.parseInt(pageNum, 10);
+  const pageNumFromQueryString = pageNum && Number.parseInt(pageNum, 10)
 
   // subscribe to param changes
   useEffect(() => {
     if (pageNumFromQueryString && pageNumFromQueryString !== page) {
-      setPage(pageNumFromQueryString);
+      setPage(pageNumFromQueryString)
     }
-  }, [pageNumFromQueryString, page]);
+  }, [pageNumFromQueryString, page])
 
   const setUsernameFilter = useCallback(
-    value => {
-      dispatch(setUserFilters({ username: value }));
-      setPage(1);
-      history.push(`${USERS_PAGED_URL}/1`);
+    (value) => {
+      dispatch(setUserFilters({ username: value }))
+      setPage(1)
+      history.push(`${USERS_PAGED_URL}/1`)
     },
     [dispatch, history]
-  );
+  )
 
   const createOnChangeFilter = useCallback(
-    event => {
-      const { value } = event.target;
+    (event) => {
+      const { value } = event.target
 
-      setUsernameFilter(value);
+      setUsernameFilter(value)
     },
     [setUsernameFilter]
-  );
+  )
 
-  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250);
+  const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250)
 
   const selectUserActiveOnChange = useCallback(
-    event => {
-      event.preventDefault();
-      dispatch(setUserFilters({ is_active: event.target.value }));
+    (event) => {
+      event.preventDefault()
+      dispatch(setUserFilters({ is_active: event.target.value }))
     },
     [dispatch]
-  );
+  )
 
   const selectRoleOnChange = useCallback(
-    event => {
-      event.preventDefault();
-      dispatch(setUserFilters({ role: event.target.value }));
+    (event) => {
+      event.preventDefault()
+      dispatch(setUserFilters({ role: event.target.value }))
     },
     [dispatch]
-  );
+  )
 
   const onItemClick = useCallback(
-    event => {
+    (event) => {
       if (userCan('change_user') === false) {
-        event.preventDefault();
-        return;
+        event.preventDefault()
+        return
       }
 
       const {
         currentTarget: {
           dataset: { itemId },
         },
-      } = event;
+      } = event
 
       if (itemId) {
-        history.push(`${USER_URL}/${itemId}`);
+        history.push(`${USER_URL}/${itemId}`)
       }
     },
     [history, userCan]
-  );
+  )
 
   const onPaginationClick = useCallback(
-    pageToNavigateTo => {
-      global.window.scrollTo(0, 0);
-      history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`);
+    (pageToNavigateTo) => {
+      global.window.scrollTo(0, 0)
+      history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`)
     },
     [history]
-  );
+  )
 
-  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status'];
+  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status']
 
   return (
     <Fragment>
@@ -166,9 +173,9 @@ const UsersOverviewContainer = () => {
               filters={[
                 <StyledSearchbar
                   placeholder=""
-                  onChange={event => {
-                    event.persist();
-                    debouncedOnChangeFilter(event);
+                  onChange={(event) => {
+                    event.persist()
+                    debouncedOnChangeFilter(event)
                   }}
                   onClear={() => setUsernameFilter('')}
                   value={filters.username}
@@ -213,7 +220,7 @@ const UsersOverviewContainer = () => {
         </Column>
       </Row>
     </Fragment>
-  );
-};
+  )
+}
 
-export default UsersOverviewContainer;
+export default UsersOverviewContainer

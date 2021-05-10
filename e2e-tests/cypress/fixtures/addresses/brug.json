@@ -1,0 +1,60 @@
+{
+  "response": {
+    "numFound": 4,
+    "start": 0,
+    "maxScore": 21.587852,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10N",
+        "weergavenaam": "Koningsplein 10N, 1017BB Amsterdam",
+        "id": "adr-78eb65583960e71ba196b26ba61171bb",
+        "postcode": "1017BB",
+        "centroide_ll": "POINT(4.88881497 52.36711847)",
+        "straatnaam": "Koningsplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10N-1",
+        "weergavenaam": "Koningsplein 10N-1, 1017BB Amsterdam",
+        "id": "adr-56f5807e3be2c6c24dad0bef380f3268",
+        "postcode": "1017BB",
+        "centroide_ll": "POINT(4.88859059 52.36700755)",
+        "straatnaam": "Koningsplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10N-2",
+        "weergavenaam": "Koningsplein 10N-2, 1017BB Amsterdam",
+        "id": "adr-b978df728f6b20beedb0d1f396cca253",
+        "postcode": "1017BB",
+        "centroide_ll": "POINT(4.88852422 52.3669896)",
+        "straatnaam": "Koningsplein"
+      },
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "10N-3",
+        "weergavenaam": "Koningsplein 10N-3, 1017BB Amsterdam",
+        "id": "adr-ae6070ee96b15c7daebd704568481872",
+        "postcode": "1017BB",
+        "centroide_ll": "POINT(4.88840472 52.36699719)",
+        "straatnaam": "Koningsplein"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-78eb65583960e71ba196b26ba61171bb": {
+      "suggest": ["Koningsplein <b>10N</b>, <b>1017BB</b> Amsterdam"]
+    },
+    "adr-56f5807e3be2c6c24dad0bef380f3268": {
+      "suggest": ["Koningsplein <b>10N</b>-1, <b>1017BB</b> Amsterdam"]
+    },
+    "adr-b978df728f6b20beedb0d1f396cca253": {
+      "suggest": ["Koningsplein <b>10N</b>-2, <b>1017BB</b> Amsterdam"]
+    },
+    "adr-ae6070ee96b15c7daebd704568481872": {
+      "suggest": ["Koningsplein <b>10N</b>-3, <b>1017BB</b> Amsterdam"]
+    }
+  },
+  "spellcheck": {"suggestions": [], "collations": []}
+}

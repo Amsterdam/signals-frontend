@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled from 'styled-components';
-import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui';
-import Button from 'components/Button';
+import styled from 'styled-components'
+import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
+import Button from 'components/Button'
 
 const FileInputStyle = styled.div`
   display: flex;
   flex-wrap: wrap;
-`;
+`
 
 export const FileInputPreviewBox = styled.div`
   width: ${themeSpacing(23)};
   height: ${themeSpacing(23)};
   margin-right: ${themeSpacing(2)};
   margin-bottom: ${themeSpacing(2)};
-`;
+`
 
 export const FileInputEmptyBox = styled.div`
   width: ${themeSpacing(23)};
@@ -22,12 +22,12 @@ export const FileInputEmptyBox = styled.div`
   border: 1px dashed ${themeColor('tint', 'level5')};
   margin-right: ${themeSpacing(2)};
   margin-bottom: ${themeSpacing(2)};
-`;
+`
 
 export const FileInputError = styled.div`
   color: ${themeColor('secondary')};
   margin: ${themeSpacing(4, 0, 0)};
-`;
+`
 
 export const FileInputUploadButton = styled(FileInputEmptyBox)`
   input[type='file'] {
@@ -48,7 +48,7 @@ export const FileInputUploadButton = styled(FileInputEmptyBox)`
     height: 100%;
     width: 100%;
   }
-`;
+`
 
 export const DeleteButton = styled(Button)`
   position: absolute;
@@ -65,7 +65,7 @@ export const DeleteButton = styled(Button)`
   &:hover {
     background-color: black;
   }
-`;
+`
 
 export const AddButton = styled.div`
   position: absolute;
@@ -84,13 +84,13 @@ export const AddButton = styled.div`
     border-width: 2px;
     padding: 2px;
   }
-`;
+`
 
 export const AddIcon = styled(Icon)`
   svg > path {
     fill: ${themeColor('primary')};
   }
-`;
+`
 
 export const FilePreview = styled.div`
   position: relative;
@@ -98,13 +98,13 @@ export const FilePreview = styled.div`
   height: 100%;
   width: 100%;
   background-image: ${({ preview }) => `URL(${preview})`};
-`;
+`
 
 export const FileLoading = styled.div`
   position: relative;
   height: 100%;
   top: ${themeSpacing(9)};
   left: ${themeSpacing(5)};
-`;
+`
 
-export default FileInputStyle;
+export default FileInputStyle

@@ -36,6 +36,7 @@
     "sharing_allowed": "Ja"
   },
   "priority": "Normaal",
+  "process_time": "Binnen de afhandeltermijn",
   "notes": [],
   "type": "Melding",
   "source": "online",

@@ -1,20 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils';
-import ZoomMessageControl from './control/ZoomMessageControl';
-import LegendControl from './control/LegendControl';
-import LoadingControl from './control/LoadingControl';
-import ErrorControl from './control/ErrorControl';
+import { withAppContext } from 'test/utils'
+import ZoomMessageControl from './control/ZoomMessageControl'
+import LegendControl from './control/LegendControl'
+import LoadingControl from './control/LoadingControl'
+import ErrorControl from './control/ErrorControl'
 
-import MapSelect from '.';
+import MapSelect from '.'
 
-jest.mock('./control/ZoomMessageControl');
-jest.mock('./control/LegendControl');
-jest.mock('./control/LoadingControl');
-jest.mock('./control/ErrorControl');
+jest.mock('./control/ZoomMessageControl')
+jest.mock('./control/LegendControl')
+jest.mock('./control/LoadingControl')
+jest.mock('./control/ErrorControl')
 
 const fetchResponse = {
   type: 'FeatureCollection',
@@ -23,40 +22,50 @@ const fetchResponse = {
   features: [
     {
       type: 'Feature',
-      properties: { ogc_fid: '48634', type_id: '1', type_name: 'Klok', objectnummer: '065121' },
+      properties: {
+        ogc_fid: '48634',
+        type_id: '1',
+        type_name: 'Klok',
+        objectnummer: '065121',
+      },
       geometry: { type: 'Point', coordinates: [4.883614, 52.37855] },
     },
     {
       type: 'Feature',
-      properties: { ogc_fid: '93331', type_id: '1', type_name: 'Klok', objectnummer: '017431' },
+      properties: {
+        ogc_fid: '93331',
+        type_id: '1',
+        type_name: 'Klok',
+        objectnummer: '017431',
+      },
       geometry: { type: 'Point', coordinates: [4.877793, 52.379065] },
     },
   ],
-};
+}
 
-fetch.mockResponse(JSON.stringify(fetchResponse));
+fetch.mockResponse(JSON.stringify(fetchResponse))
 
 describe('<MapSelect />', () => {
-  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }];
-  const onSelectionChange = jest.fn();
-  const url = 'foo/geo.json?';
+  const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }]
+  const onSelectionChange = jest.fn()
+  const url = 'foo/geo.json?'
   const getIcon = (type, isSelected) => {
     if (isSelected) {
-      return L.divIcon({ className: 'my-div-icon-select' });
+      return L.divIcon({ className: 'my-div-icon-select' })
     }
 
-    return L.divIcon({ className: 'my-div-icon' });
-  };
+    return L.divIcon({ className: 'my-div-icon' })
+  }
 
   const latlng = {
     latitude: 4,
     longitude: 52,
-  };
+  }
 
   beforeEach(() => {
-    jest.resetAllMocks();
-    fetch.resetMocks();
-  });
+    jest.resetAllMocks()
+    fetch.resetMocks()
+  })
 
   it('should render correctly', async () => {
     const { findByTestId, getByTestId } = render(
@@ -71,16 +80,16 @@ describe('<MapSelect />', () => {
           hasGPSControl
         />
       )
-    );
+    )
 
-    await findByTestId('mapSelect');
+    await findByTestId('mapSelect')
 
-    expect(getByTestId('gpsButton')).toBeInTheDocument();
-    expect(LegendControl).not.toHaveBeenCalled();
-    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled();
-    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled();
-  });
+    expect(getByTestId('gpsButton')).toBeInTheDocument()
+    expect(LegendControl).not.toHaveBeenCalled()
+    expect(ZoomMessageControl.mock.instances[0].addTo).toHaveBeenCalled()
+    expect(ErrorControl.mock.instances[0].addTo).toHaveBeenCalled()
+    expect(LoadingControl.mock.instances[0].addTo).toHaveBeenCalled()
+  })
 
   it('should render legend', async () => {
     const { findByTestId } = render(
@@ -95,15 +104,15 @@ describe('<MapSelect />', () => {
           idField="objectnummer"
         />
       )
-    );
+    )
 
-    await findByTestId('mapSelect');
+    await findByTestId('mapSelect')
 
-    expect(LegendControl).toHaveBeenCalled();
-  });
+    expect(LegendControl).toHaveBeenCalled()
+  })
 
   it('should do bbox fetch', async () => {
-    expect(fetch).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalled()
 
     const { findByTestId } = render(
       withAppContext(
@@ -117,11 +126,14 @@ describe('<MapSelect />', () => {
           idField="objectnummer"
         />
       )
-    );
+    )
 
-    await findByTestId('mapSelect');
+    await findByTestId('mapSelect')
 
-    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/;
-    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(bboxRegex), undefined);
-  });
-});
+    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringMatching(bboxRegex),
+      undefined
+    )
+  })
+})

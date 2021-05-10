@@ -26,14 +26,10 @@
   },
   "highlighting": {
     "adr-7e22b4ee3640202eff3203e63610c76e": {
-      "suggest": [
-        "<b>Achtergracht</b> <b>43</b>, 1017WN Amsterdam"
-      ]
+      "suggest": ["<b>Achtergracht</b> <b>43</b>, 1017WN Amsterdam"]
     },
     "adr-e26dbf16d329474aa79276d93db9bebd": {
-      "suggest": [
-        "<b>Achtergracht</b> <b>43G</b>, 1017WN Amsterdam"
-      ]
+      "suggest": ["<b>Achtergracht</b> <b>43G</b>, 1017WN Amsterdam"]
     }
   },
   "spellcheck": {
@@ -43,10 +39,7 @@
         "numFound": 2,
         "startOffset": 0,
         "endOffset": 8,
-        "suggestion": [
-          "achterbr",
-          "achtergra"
-        ]
+        "suggestion": ["achterbr", "achtergra"]
       }
     ],
     "collations": [
@@ -54,12 +47,7 @@
       {
         "collationQuery": "achtergra 43",
         "hits": 2,
-        "misspellingsAndCorrections": [
-          "achtergr",
-          "achtergra",
-          "43",
-          "43"
-        ]
+        "misspellingsAndCorrections": ["achtergr", "achtergra", "43", "43"]
       }
     ]
   }

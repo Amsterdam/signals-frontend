@@ -1,39 +1,51 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
-import { Wizard, Steps, Step } from 'react-albus';
-import { Heading, themeSpacing } from '@amsterdam/asc-ui';
-import styled from 'styled-components';
+import { useContext, useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
+import { Wizard, Steps, Step } from 'react-albus'
+import { Heading, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
-import LoadingIndicator from 'components/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator'
 
-import AppContext from '../../../../containers/App/context';
-import IncidentForm from '../IncidentForm';
-import IncidentPreview from '../IncidentPreview';
-import onNext from './services/on-next';
+import AppContext from '../../../../containers/App/context'
+import IncidentForm from '../IncidentForm'
+import IncidentPreview from '../IncidentPreview'
+import onNext from './services/on-next'
 
 const StyledH1 = styled(Heading)`
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(5)};
-`;
+`
 
-const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, createIncident, removeQuestionData, incidentContainer }) => {
-  const appContext = useContext(AppContext);
-  const sources = appContext.sources;
-  const incident = useMemo(() => incidentContainer.incident, [incidentContainer.incident]);
+const IncidentWizard = ({
+  wizardDefinition,
+  getClassification,
+  updateIncident,
+  createIncident,
+  removeQuestionData,
+  incidentContainer,
+}) => {
+  const appContext = useContext(AppContext)
+  const sources = appContext.sources
+  const incident = useMemo(() => incidentContainer.incident, [
+    incidentContainer.incident,
+  ])
 
   return (
     <div className="incident-wizard">
       <Route
         render={({ history }) => (
-          <Wizard history={history} onNext={wiz => onNext(wizardDefinition, wiz, incident)}>
+          <Wizard
+            history={history}
+            onNext={(wiz) => onNext(wizardDefinition, wiz, incident)}
+          >
             {incidentContainer.loading || appContext.loading ? (
               <LoadingIndicator />
             ) : (
               <Steps>
-                {Object.keys(wizardDefinition).map(key => (
+                {Object.keys(wizardDefinition).map((key) => (
                   <Step
                     key={key}
                     id={`incident/${key}`}
@@ -45,7 +57,7 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
                         postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
-                      } = wizardDefinition[key];
+                      } = wizardDefinition[key]
 
                       return previewFactory || form || formFactory ? (
                         <article>
@@ -63,18 +75,22 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
 
                           {(form || formFactory) && (
                             <IncidentForm
-                              fieldConfig={form || formFactory(incident, sources)}
+                              fieldConfig={
+                                form || formFactory(incident, sources)
+                              }
                               incidentContainer={incidentContainer}
                               getClassification={getClassification}
                               removeQuestionData={removeQuestionData}
                               updateIncident={updateIncident}
                               createIncident={createIncident}
                               wizard={wizardDefinition}
-                              postponeSubmitWhenLoading={postponeSubmitWhenLoading}
+                              postponeSubmitWhenLoading={
+                                postponeSubmitWhenLoading
+                              }
                             />
                           )}
                         </article>
-                      ) : null;
+                      ) : null
                     }}
                   />
                 ))}
@@ -84,8 +100,8 @@ const IncidentWizard = ({ wizardDefinition, getClassification, updateIncident, c
         )}
       />
     </div>
-  );
-};
+  )
+}
 
 IncidentWizard.propTypes = {
   incidentContainer: PropTypes.object.isRequired,
@@ -94,6 +110,6 @@ IncidentWizard.propTypes = {
   removeQuestionData: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-};
+}
 
-export default IncidentWizard;
+export default IncidentWizard

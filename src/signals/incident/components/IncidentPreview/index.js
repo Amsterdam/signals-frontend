@@ -1,13 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Heading, Link as AscLink, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui';
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
+import {
+  Heading,
+  Link as AscLink,
+  themeSpacing,
+  themeColor,
+  breakpoint,
+} from '@amsterdam/asc-ui'
 
-import { incidentType } from 'shared/types';
-import { isAuthenticated } from 'shared/services/auth/auth';
+import { incidentType } from 'shared/types'
+import { isAuthenticated } from 'shared/services/auth/auth'
 
 const Section = styled.section`
   position: relative;
@@ -27,7 +32,7 @@ const Section = styled.section`
         padding-bottom: ${themeSpacing(3)};
       }
     `}
-`;
+`
 
 const Header = styled.header`
   display: grid;
@@ -42,7 +47,7 @@ const Header = styled.header`
         grid-template-columns: 4fr 6fr 2fr;
       }
     `}
-`;
+`
 
 const LinkContainer = styled.div`
   padding-top: ${themeSpacing(5)};
@@ -56,14 +61,14 @@ const LinkContainer = styled.div`
       right: 0;
     }
   }
-`;
+`
 
 const Dl = styled.dl`
   display: grid;
   grid-row-gap: ${themeSpacing(4)};
   margin: 0;
   padding: 0;
-`;
+`
 
 const DefinitionsWrapper = styled.div`
   display: grid;
@@ -85,34 +90,36 @@ const DefinitionsWrapper = styled.div`
   dt {
     color: ${themeColor('tint', 'level5')};
   }
-`;
+`
 
 const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(8)};
   word-break: break-word;
-`;
+`
 
 const IncidentPreview = ({ incident, preview, sectionLabels }) => (
   <Wrapper data-testid="incidentPreview">
     {Object.entries(preview).map(([section, value]) => {
-      const editLinkLabel = sectionLabels.edit[section];
-      const sectionHeadingLabel = sectionLabels.heading[section];
-      const hasHeading = Boolean(sectionHeadingLabel);
-      const visibleEntries = Object.entries(value).filter(([entryKey, { optional, authenticated }]) => {
-        if (authenticated && !isAuthenticated()) {
-          return false;
-        }
+      const editLinkLabel = sectionLabels.edit[section]
+      const sectionHeadingLabel = sectionLabels.heading[section]
+      const hasHeading = Boolean(sectionHeadingLabel)
+      const visibleEntries = Object.entries(value).filter(
+        ([entryKey, { optional, authenticated }]) => {
+          if (authenticated && !isAuthenticated()) {
+            return false
+          }
 
-        if (!optional) {
-          return true;
-        }
+          if (!optional) {
+            return true
+          }
 
-        if (Array.isArray(incident[entryKey])) {
-          return incident[entryKey].length > 0;
-        }
+          if (Array.isArray(incident[entryKey])) {
+            return incident[entryKey].length > 0
+          }
 
-        return Boolean(incident[entryKey]);
-      });
+          return Boolean(incident[entryKey])
+        }
+      )
 
       return (
         visibleEntries.length > 0 && (
@@ -147,10 +154,10 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
             </LinkContainer>
           </Section>
         )
-      );
+      )
     })}
   </Wrapper>
-);
+)
 
 IncidentPreview.propTypes = {
   incident: incidentType.isRequired,
@@ -159,6 +166,6 @@ IncidentPreview.propTypes = {
     heading: PropTypes.object,
     edit: PropTypes.object,
   }),
-};
+}
 
-export default IncidentPreview;
+export default IncidentPreview

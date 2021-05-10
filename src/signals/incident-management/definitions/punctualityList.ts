@@ -13,6 +13,6 @@ const punctualityList = [
     key: 'late_factor_3',
     value: '3x buiten de afhandeltermijn',
   },
-];
+]
 
-export default punctualityList;
+export default punctualityList

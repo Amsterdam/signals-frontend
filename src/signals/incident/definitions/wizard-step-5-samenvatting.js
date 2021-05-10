@@ -1,58 +1,63 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize'
 
-import configuration from 'shared/services/configuration/configuration';
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants';
+import configuration from 'shared/services/configuration/configuration'
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import IncidentNavigation from '../components/IncidentNavigation';
-import PreviewComponents from '../components/IncidentPreview/components';
-import { controls as wonenControls } from './wizard-step-2-vulaan/wonen';
-import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca';
-import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte';
-import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water';
-import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair';
-import afvalControls from './wizard-step-2-vulaan/afval';
-import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen';
-import FormComponents from '../components/form';
+import IncidentNavigation from '../components/IncidentNavigation'
+import PreviewComponents from '../components/IncidentPreview/components'
+import FormComponents from '../components/form'
+import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
+import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
+import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
+import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
+import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import afvalControls from './wizard-step-2-vulaan/afval'
+import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
+import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 
-export const ObjectLabel = ({ value }) => value?.label;
-export const Label = ({ value }) => value;
-export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ');
-export const Null = () => null;
+export const ObjectLabel = ({ value }) => value?.label
+export const Label = ({ value }) => value
+export const SCSVLabel = ({ value }) => value.filter(Boolean).join('; ')
+export const Null = () => null
 
 export const renderPreview = ({ render, meta }) => {
   switch (render) {
     case FIELD_TYPE_MAP.radio_input:
     case FIELD_TYPE_MAP.select_input:
-      return ObjectLabel;
+      return ObjectLabel
 
     case FIELD_TYPE_MAP.checkbox_input:
       if (meta?.values) {
-        return PreviewComponents.ListObjectValue;
+        return PreviewComponents.ListObjectValue
       }
 
-      return () => 'Ja';
+      return () => 'Ja'
 
     case FIELD_TYPE_MAP.multi_text_input:
-      return SCSVLabel;
+      return SCSVLabel
 
     case FIELD_TYPE_MAP.map_select:
-      return props => PreviewComponents.MapSelectPreview({ ...props, meta });
+      return (props) => PreviewComponents.MapSelectPreview({ ...props, meta })
 
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
-      return Label;
+      return Label
 
     case FIELD_TYPE_MAP.container_select:
-      return props => PreviewComponents.ContainerListPreview({ ...props, featureTypes: meta.featureTypes });
+      return (props) =>
+        PreviewComponents.ContainerListPreview({
+          ...props,
+          featureTypes: meta.featureTypes,
+        })
 
     default:
-      return Null;
+      return Null
   }
-};
+}
 
-export const summary = controls =>
+export const summary = (controls) =>
   Object.entries(controls).reduce(
     (acc, [key, val]) => ({
       ...acc,
@@ -63,57 +68,63 @@ export const summary = controls =>
       },
     }),
     {}
-  );
+  )
 
 const expandQuestions = memoize(
-  questions =>
+  (questions) =>
     Object.entries(questions).reduce(
       (acc, [key, question]) => ({
         ...acc,
         [key]: {
           label: question.meta.label || question.meta.shortLabel,
           optional: !question.required,
-          render: renderPreview({ render: question.render, meta: question.meta }),
+          render: renderPreview({
+            render: question.render,
+            meta: question.meta,
+          }),
         },
       }),
       {}
     ),
   (questions, category, subcategory) => `${category}${subcategory}`
-);
+)
 
 const getExtraQuestions = (category, subcategory, questions) => {
-  if (!configuration?.featureFlags.showVulaanControls) return {};
+  if (!configuration?.featureFlags.showVulaanControls) return {}
 
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
-    return expandQuestions(questions || {}, category, subcategory);
+    return expandQuestions(questions || {}, category, subcategory)
   }
 
   switch (category) {
     case 'afval':
-      return summary(afvalControls);
+      return summary(afvalControls)
+
+    case 'civiele-constructies':
+      return summary(civieleConstructies)
 
     case 'overlast-bedrijven-en-horeca':
-      return summary(overlastBedrijvenEnHorecaControls);
+      return summary(overlastBedrijvenEnHorecaControls)
 
     case 'overlast-in-de-openbare-ruimte':
-      return summary(overlastInDeOpenbareRuimteControls);
+      return summary(overlastInDeOpenbareRuimteControls)
 
     case 'overlast-op-het-water':
-      return summary(overlastOpHetWaterControls);
+      return summary(overlastOpHetWaterControls)
 
     case 'overlast-van-en-door-personen-of-groepen':
-      return summary(overlastPersonenEnGroepenControls);
+      return summary(overlastPersonenEnGroepenControls)
 
     case 'wegen-verkeer-straatmeubilair':
-      return summary(wegenVerkeerStraatmeubilairControls);
+      return summary(wegenVerkeerStraatmeubilairControls)
 
     case 'wonen':
-      return summary(wonenControls);
+      return summary(wonenControls)
 
     default:
-      return {};
+      return {}
   }
-};
+}
 
 export default {
   label: 'Controleer uw gegevens',
@@ -187,7 +198,7 @@ export default {
         render: PreviewComponents.DateTime,
       },
       images_previews: {
-        label: 'Foto\'s toevoegen',
+        label: "Foto's toevoegen",
         render: PreviewComponents.Image,
         optional: true,
       },
@@ -211,4 +222,4 @@ export default {
       },
     },
   }),
-};
+}

@@ -1,32 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import TextArea from 'components/TextArea';
-import DescriptionInfo from '../DescriptionInfo';
+import { useCallback } from 'react'
+import PropTypes from 'prop-types'
+import TextArea from 'components/TextArea'
+import DescriptionInfo from '../DescriptionInfo'
 
 const DescriptionInput = ({ handler, value, meta, parent }) => {
   const getCharactersInfo = useCallback(
-    () => meta.maxLength > 0 && `${value ? value.length : '0'}/${meta.maxLength} tekens`,
+    () =>
+      meta.maxLength > 0 &&
+      `${value ? value.length : '0'}/${meta.maxLength} tekens`,
     [value, meta.maxLength]
-  );
+  )
 
   const handleBlur = useCallback(
-    event => {
+    (event) => {
       const {
         getClassification,
         updateIncident,
         incidentContainer: { usePredictions },
-      } = parent.meta;
+      } = parent.meta
 
       if (usePredictions && event.target.value) {
-        getClassification(event.target.value);
+        getClassification(event.target.value)
       }
 
-      updateIncident({ [meta.name]: event.target.value });
+      updateIncident({ [meta.name]: event.target.value })
     },
     [meta, parent]
-  );
+  )
 
   return (
     <div>
@@ -41,14 +43,14 @@ const DescriptionInput = ({ handler, value, meta, parent }) => {
         infoText={<DescriptionInfo info={getCharactersInfo()} />}
       />
     </div>
-  );
-};
+  )
+}
 
 DescriptionInput.propTypes = {
   handler: PropTypes.func,
   value: PropTypes.string,
   meta: PropTypes.object,
   parent: PropTypes.object,
-};
+}
 
-export default DescriptionInput;
+export default DescriptionInput

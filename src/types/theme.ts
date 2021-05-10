@@ -1,3 +1,3 @@
-import type { ascDefaultTheme } from '@amsterdam/asc-ui';
+import type { ascDefaultTheme } from '@amsterdam/asc-ui'
 
-export type Theme = typeof ascDefaultTheme;
+export type Theme = typeof ascDefaultTheme

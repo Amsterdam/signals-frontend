@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
+import { forwardRef } from 'react'
+import PropTypes from 'prop-types'
 
-import { Select as AscSelect } from '@amsterdam/asc-ui';
+import { Select as AscSelect } from '@amsterdam/asc-ui'
 
 const SelectOptions = ({ name, options, optionKey, optionName, optionValue }) =>
-  options.map(option => (
+  options.map((option) => (
     <option key={`${name}-${option[optionKey]}`} value={option[optionValue]}>
       {option[optionName]}
     </option>
-  ));
+  ))
 
 const Select = forwardRef(
   (
@@ -30,19 +30,31 @@ const Select = forwardRef(
     },
     ref
   ) => (
-    <AscSelect value={value} onChange={onChange} data-testid={name} label={label} name={name} ref={ref} id={id} {...rest}>
+    <AscSelect
+      value={value}
+      onChange={onChange}
+      data-testid={name}
+      label={label}
+      name={name}
+      ref={ref}
+      id={id}
+      {...rest}
+    >
       {emptyOption && (
-        <option key={`${name}-${emptyOption[optionKey]}`} value={emptyOption[optionValue]}>
+        <option
+          key={`${name}-${emptyOption[optionKey]}`}
+          value={emptyOption[optionValue]}
+        >
           {emptyOption[optionName]}
         </option>
       )}
 
       {groups?.length > 1 ? (
-        groups.map(group => (
+        groups.map((group) => (
           <optgroup key={group.name} label={group.name}>
             <SelectOptions
               name={name}
-              options={options.filter(option => option.group === group.value)}
+              options={options.filter((option) => option.group === group.value)}
               optionKey={optionKey}
               optionValue={optionValue}
               optionName={optionName}
@@ -60,15 +72,19 @@ const Select = forwardRef(
       )}
     </AscSelect>
   )
-);
+)
 
 const optionType = PropTypes.shape({
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   slug: PropTypes.string,
   group: PropTypes.string,
-});
+})
 
 Select.propTypes = {
   id: PropTypes.string.isRequired,
@@ -87,6 +103,6 @@ Select.propTypes = {
     })
   ),
   emptyOption: optionType,
-};
+}
 
-export default Select;
+export default Select

@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import 'jest-styled-components';
+import { render, screen } from '@testing-library/react'
+import 'jest-styled-components'
 
-import { isAuthenticated } from 'shared/services/auth/auth';
-import { withAppContext } from 'test/utils';
+import { isAuthenticated } from 'shared/services/auth/auth'
+import { withAppContext } from 'test/utils'
 
-import PreviewComponents from './components';
-import IncidentPreview from '.';
+import PreviewComponents from './components'
+import IncidentPreview from '.'
 
-jest.mock('shared/services/auth/auth');
+jest.mock('shared/services/auth/auth')
 
 describe('<IncidentPreview />', () => {
-  let props;
+  let props
 
   beforeEach(() => {
-    isAuthenticated.mockImplementation(() => false);
+    isAuthenticated.mockImplementation(() => false)
 
     props = {
       incident: {
@@ -75,87 +74,113 @@ describe('<IncidentPreview />', () => {
           some_other_section: 'Wijzig bar baz qux',
         },
       },
-    };
-  });
+    }
+  })
 
   afterEach(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   describe('rendering', () => {
     it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...props} />));
+      const { queryByText, findByTestId } = render(
+        withAppContext(<IncidentPreview {...props} />)
+      )
 
-      await findByTestId('incidentPreview');
+      await findByTestId('incidentPreview')
 
-      expect(queryByText(props.incident.phone)).toBeInTheDocument();
-      expect(queryByText(props.preview.beschrijf.phone.label)).toBeInTheDocument();
+      expect(queryByText(props.incident.phone)).toBeInTheDocument()
+      expect(
+        queryByText(props.preview.beschrijf.phone.label)
+      ).toBeInTheDocument()
 
-      expect(queryByText(props.incident.email)).toBeInTheDocument();
-      expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument();
+      expect(queryByText(props.incident.email)).toBeInTheDocument()
+      expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument()
 
-      expect(queryByText(props.incident.other_prop)).not.toBeInTheDocument();
-      expect(queryByText(props.preview.beschrijf.other_prop.label)).not.toBeInTheDocument();
+      expect(queryByText(props.incident.other_prop)).not.toBeInTheDocument()
+      expect(
+        queryByText(props.preview.beschrijf.other_prop.label)
+      ).not.toBeInTheDocument()
 
       // optional prop without value should not be in the DOM
-      expect(queryByText(props.preview.beschrijf.optional_prop.label)).not.toBeInTheDocument();
-      expect(queryByText(props.preview.beschrijf.optional_array_prop.label)).not.toBeInTheDocument();
+      expect(
+        queryByText(props.preview.beschrijf.optional_prop.label)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByText(props.preview.beschrijf.optional_array_prop.label)
+      ).not.toBeInTheDocument()
 
       // required prop without value should be in the DOM
-      expect(queryByText(props.preview.beschrijf.required_prop.label)).toBeInTheDocument();
-    });
+      expect(
+        queryByText(props.preview.beschrijf.required_prop.label)
+      ).toBeInTheDocument()
+    })
 
     it('expect to render correctly for authenticated users', async () => {
-      isAuthenticated.mockImplementation(() => true);
+      isAuthenticated.mockImplementation(() => true)
 
-      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...props} />));
+      const { queryByText, findByTestId } = render(
+        withAppContext(<IncidentPreview {...props} />)
+      )
 
-      await findByTestId('incidentPreview');
+      await findByTestId('incidentPreview')
 
-      expect(queryByText(props.incident.other_prop)).toBeInTheDocument();
-      expect(queryByText(props.preview.beschrijf.other_prop.label)).toBeInTheDocument();
-    });
-  });
+      expect(queryByText(props.incident.other_prop)).toBeInTheDocument()
+      expect(
+        queryByText(props.preview.beschrijf.other_prop.label)
+      ).toBeInTheDocument()
+    })
+  })
 
   it('should have links', async () => {
-    const { container, findByTestId } = render(withAppContext(<IncidentPreview {...props} />));
+    const { container, findByTestId } = render(
+      withAppContext(<IncidentPreview {...props} />)
+    )
 
-    await findByTestId('incidentPreview');
+    await findByTestId('incidentPreview')
 
-    const sectionRe = new RegExp(Object.keys(props.preview).join('|'));
+    const sectionRe = new RegExp(Object.keys(props.preview).join('|'))
 
-    expect(screen.getByText(props.sectionLabels.edit.beschrijf)).toBeInTheDocument();
-    expect(screen.getByText(props.sectionLabels.edit.vulaan)).toBeInTheDocument();
-    expect(screen.getByText(props.sectionLabels.edit.some_other_section)).toBeInTheDocument();
+    expect(
+      screen.getByText(props.sectionLabels.edit.beschrijf)
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(props.sectionLabels.edit.vulaan)
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(props.sectionLabels.edit.some_other_section)
+    ).toBeInTheDocument()
 
-    container.querySelectorAll('a').forEach(element => {
-      expect(element.href).toEqual(expect.stringMatching(sectionRe));
-    });
-  });
+    container.querySelectorAll('a').forEach((element) => {
+      expect(element.href).toEqual(expect.stringMatching(sectionRe))
+    })
+  })
 
   it('should have the correct layout for authenticated users', async () => {
-    isAuthenticated.mockImplementation(() => false);
+    isAuthenticated.mockImplementation(() => false)
 
-    const { container, findByTestId, rerender } = render(withAppContext(<IncidentPreview {...props} />));
+    const { container, findByTestId, rerender } = render(
+      withAppContext(<IncidentPreview {...props} />)
+    )
 
-    await findByTestId('incidentPreview');
+    await findByTestId('incidentPreview')
 
-    container.querySelectorAll('header').forEach(element => {
-      expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr');
-    });
+    container.querySelectorAll('header').forEach((element) => {
+      expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr')
+    })
 
-    isAuthenticated.mockImplementation(() => true);
+    isAuthenticated.mockImplementation(() => true)
 
-    rerender(withAppContext(<IncidentPreview {...props} />));
+    rerender(withAppContext(<IncidentPreview {...props} />))
 
-    await findByTestId('incidentPreview');
+    await findByTestId('incidentPreview')
 
-    container.querySelectorAll('header').forEach(element => {
+    container.querySelectorAll('header').forEach((element) => {
       expect(element).toHaveStyleRule('grid-template-columns', '4fr 6fr 2fr', {
         media: '(min-width:1024px)',
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('rendering of all value types', () => {
     const allTypesProps = {
@@ -229,27 +254,29 @@ describe('<IncidentPreview />', () => {
           },
         },
       },
-    };
+    }
 
     it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(withAppContext(<IncidentPreview {...allTypesProps} />));
+      const { queryByText, findByTestId } = render(
+        withAppContext(<IncidentPreview {...allTypesProps} />)
+      )
 
-      await findByTestId('incidentPreview');
+      await findByTestId('incidentPreview')
 
-      const { incident } = allTypesProps;
-      const step = allTypesProps.preview.beschrijf;
+      const { incident } = allTypesProps
+      const step = allTypesProps.preview.beschrijf
 
-      expect(queryByText(step.plain_text.label)).toBeInTheDocument();
-      expect(queryByText(incident.plain_text)).toBeInTheDocument();
+      expect(queryByText(step.plain_text.label)).toBeInTheDocument()
+      expect(queryByText(incident.plain_text)).toBeInTheDocument()
 
-      expect(queryByText(step.objectValue.label)).toBeInTheDocument();
-      expect(queryByText(incident.objectValue.label)).toBeInTheDocument();
+      expect(queryByText(step.objectValue.label)).toBeInTheDocument()
+      expect(queryByText(incident.objectValue.label)).toBeInTheDocument()
 
-      expect(queryByText(incident.listObjectValue[0].label)).toBeInTheDocument();
-      expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument();
+      expect(queryByText(incident.listObjectValue[0].label)).toBeInTheDocument()
+      expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument()
 
-      expect(queryByText(incident.datetime.label)).toBeInTheDocument();
-      expect(queryByText(incident.location.address_text)).toBeInTheDocument();
-    });
-  });
-});
+      expect(queryByText(incident.datetime.label)).toBeInTheDocument()
+      expect(queryByText(incident.location.address_text)).toBeInTheDocument()
+    })
+  })
+})

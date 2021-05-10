@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-module.exports = api => {
+module.exports = (api) => {
   const presetEnv =
     api.env() === 'lint'
       ? ''
       : [
-        '@babel/preset-env',
-        {
-          modules: false,
-          useBuiltIns: 'usage',
-          targets: {
-            esmodules: true,
-            chrome: 42,
-            firefox: 68,
+          '@babel/preset-env',
+          {
+            modules: false,
+            useBuiltIns: 'usage',
+            targets: {
+              esmodules: true,
+              chrome: 42,
+              firefox: 68,
+            },
+            corejs: 3,
           },
-          corejs: 3,
-        },
-      ];
+        ]
 
   return {
     plugins: [
@@ -30,7 +30,16 @@ module.exports = api => {
       ],
       '@babel/plugin-syntax-dynamic-import',
     ],
-    presets: [presetEnv, '@babel/preset-react', '@babel/preset-typescript'].filter(Boolean),
+    presets: [
+      presetEnv,
+      [
+        '@babel/preset-react',
+        {
+          runtime: 'automatic',
+        },
+      ],
+      '@babel/preset-typescript',
+    ].filter(Boolean),
     env: {
       production: {
         only: ['src'],
@@ -44,9 +53,12 @@ module.exports = api => {
         plugins: [
           '@babel/plugin-transform-modules-commonjs',
           'dynamic-import-node',
-          ['babel-plugin-styled-components', { ssr: false, displayName: false, namespace: 'sc' }],
+          [
+            'babel-plugin-styled-components',
+            { ssr: false, displayName: false, namespace: 'sc' },
+          ],
         ],
       },
     },
-  };
-};
+  }
+}
