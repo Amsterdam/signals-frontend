@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import { FunctionComponent, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Heading,
@@ -9,38 +9,24 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { format } from 'date-fns'
-import configuration from 'shared/services/configuration/configuration'
 import { makeSelectSubCategories } from 'models/categories/selectors'
-import { useFetch } from 'hooks'
-import LoadingIndicator from 'components/LoadingIndicator'
-import { useDispatch, useSelector } from 'react-redux'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
-import { showGlobalNotification } from 'containers/App/actions'
+import { useSelector } from 'react-redux'
 import type { Incident as IncidentType } from '../../IncidentDetail/types'
-import Description from './Description'
+import ContactHistory from './ContactHistory'
 
 interface IncidentDetailProps {
   incident: IncidentType
 }
 
-interface History {
-  identifier: string
-  what: string
-  when: Date
-  who: string
-  action: string
-  description: string
-}
+const Text = styled(Paragraph)`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-size: 18px;
+  margin-bottom: ${themeSpacing(2)};
+`
 
-const headerMapper: Record<string, string> = {
-  ['Feedback van melder ontvangen']: 'Feedback',
-  ['Status gewijzigd naar: Afgehandeld']: 'Toelichting bij Afgehandeld',
-  ['Status gewijzigd naar: Heropend']: 'Toelichting bij Heropend',
-}
-
-const Box = styled.div`
-  margin-bottom: ${themeSpacing(6)};
-  white-space: pre-line;
+const IncidentDescription = styled(Text)`
+  margin-top: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(3)};
 `
 
 const DescriptionStyle = styled(Paragraph)`
@@ -78,16 +64,9 @@ const Value = styled.span`
   color: ${themeColor('tint', 'level7')};
 `
 
-const HistoryStyle = styled.ul`
-  margin: 0;
-  padding: 0;
-`
-
 const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
-  const storeDispatch = useDispatch()
-  const { get, isSuccess, isLoading, data, error } = useFetch<History[]>()
   const subcategories = useSelector(makeSelectSubCategories)
   const {
     id,
@@ -116,74 +95,25 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       isParent: !!incident._links['sia:children'],
     }
   }, [incident, subcategories])
-  const [history, setHistory] = useState<History[]>()
-
-  useEffect(() => {
-    get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
-  }, [id, get])
-
-  useEffect(() => {
-    if (!data) return
-    setHistory(data)
-  }, [isSuccess, data, history, setHistory])
-
-  useEffect(() => {
-    if (error) {
-      storeDispatch(
-        showGlobalNotification({
-          title:
-            'De data kon niet opgehaald worden. probeer het later nog eens.',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        })
-      )
-    }
-  }, [error, storeDispatch])
 
   return (
     <IncidentStyle>
-      <>
-        <div>
-          <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
-            <Heading as="h2" styleAs="h3">
-              {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
-            </Heading>
-          </StyledLink>
-          <InfoStyle>
-            <span>Gemeld op</span>
-            <Value>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</Value>
-            <span>Subcategorie (verantwoordelijke afdeling) </span>
-            <Value>{subcategory}</Value>
-            <span>Status </span>
-            <Value>{status}</Value>
-          </InfoStyle>
-          <Box>
-            <Heading as="h3" styleAs="h4">
-              Omschrijving
-            </Heading>
-            <Description description={description} />
-          </Box>
-        </div>
-        {history && !isLoading && (
-          <HistoryStyle>
-            {history
-              .filter(({ action }) => {
-                return Object.keys(headerMapper).includes(action)
-              })
-              .map(({ description, identifier, action, what }) => {
-                return (
-                  <Box key={identifier} as="li">
-                    <Heading as="h3" styleAs="h4">
-                      {headerMapper[action]}
-                    </Heading>
-                    <Description what={what} description={description} />
-                  </Box>
-                )
-              })}
-          </HistoryStyle>
-        )}
-        {isLoading && <LoadingIndicator />}
-      </>
+      <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
+        <Heading as="h2" styleAs="h6">
+          {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
+        </Heading>
+      </StyledLink>
+      <IncidentDescription>{description}</IncidentDescription>
+      <InfoStyle>
+        <span>Gemeld op</span>
+        <Value>{format(new Date(date), 'dd-MM-yyyy HH:mm')}</Value>
+        <span>Subcategorie (verantwoordelijke afdeling) </span>
+        <Value>{subcategory}</Value>
+        <span>Status </span>
+        <Value>{status}</Value>
+      </InfoStyle>
+      <Text>Contactgeschiedenis</Text>
+      <ContactHistory id={id} />
     </IncidentStyle>
   )
 }
