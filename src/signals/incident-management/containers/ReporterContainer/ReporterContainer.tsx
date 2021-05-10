@@ -4,12 +4,11 @@ import type { FunctionComponent } from 'react'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { FunctionComponent } from 'react'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { CompactPager } from '@amsterdam/asc-ui'
 import IncidentList from './components/IncidentList'
 import Header from './components/Header'
-import { useReporter, PAGE_SIZE } from './hooks'
+import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 import IncidentDetail from './components/IncidentDetail'
 
 const Wrapper = styled.article`
@@ -32,11 +31,6 @@ const StyledIncidentList = styled(IncidentList)`
   margin: 0;
   padding: 0;
   border-right: 1px solid ${themeColor('tint', 'level4')};
-`
-
-const Incident = styled.div`
-  width: 50%;
-  border-left: 1px solid ${themeColor('tint', 'level4')};
 `
 
 const StyledCompactPager = styled(CompactPager)`

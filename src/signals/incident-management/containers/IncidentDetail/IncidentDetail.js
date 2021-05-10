@@ -87,6 +87,7 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch()
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
   const { get: getContext, data: context } = useFetch()
+  const { get: getChildIncidents, data: childIncidents } = useFetchAll()
   const [editingStatus, setEditingStatus] = useState(false)
 
   const subcategories = useSelector(makeSelectSubCategories)

@@ -49,7 +49,6 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
-  const users = useFetch()
   const contextValue = useMemo(() => ({ districts }), [districts])
 
   useEffect(() => {

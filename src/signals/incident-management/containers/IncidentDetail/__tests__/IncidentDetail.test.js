@@ -320,8 +320,6 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       })
 
       await screen.findByTestId('incidentDetail')
-
-      fetch.resetMocks()
     })
 
     it('should handle generic', async () => {
