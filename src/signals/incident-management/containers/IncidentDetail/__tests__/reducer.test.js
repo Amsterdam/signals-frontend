@@ -10,6 +10,7 @@ import {
   SET_ATTACHMENTS,
   SET_CHILDREN,
   SET_CHILDREN_HISTORY,
+  SET_CHILD_INCIDENTS,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -66,6 +67,13 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
     expect(
       reducer(state, { type: SET_CHILDREN_HISTORY, payload: childrenHistory })
     ).toEqual({ ...state, childrenHistory })
+  })
+
+  it('should handle SET_CHILD_INCIDENTS', () => {
+    const childIncidents = [[{ foo: 'bar' }, { bar: 'baz' }]]
+    expect(
+      reducer(state, { type: SET_CHILD_INCIDENTS, payload: childIncidents })
+    ).toEqual({ ...state, childIncidents })
   })
 
   it('should handle SET_DEFAULT_TEXTS', () => {

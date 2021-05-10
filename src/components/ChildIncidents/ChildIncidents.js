@@ -4,28 +4,31 @@ import { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
-import {
-  breakpoint,
-  List,
-  ListItem,
-  themeColor,
-  themeSpacing,
-} from '@amsterdam/asc-ui'
+import { List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import ChildIncidentHistory from 'components/ChildIncidentHistory'
+import ChildIncidentDescription from 'components/ChildIncidentDescription'
 import { historyType } from 'shared/types'
 
 export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE'
 export const STATUS_RESPONSE_REQUIRED =
   'components/ChildIncidents/STATUS_RESPONSE_REQUIRED'
 
-// Fixed width for the child element attributes
-const HANDLING_TIME_VALUE_WIDTH = 110
-
 const DisplayValue = styled.span`
-  display: inline-block;
+  word-break: normal;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+`
+
+const IDDisplayValue = styled(DisplayValue)`
+  padding-right: ${themeSpacing(1)};
+`
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const StyledChildIncidentDescription = styled(ChildIncidentDescription)`
+  padding-right: ${themeSpacing(2)};
 `
 
 const StyledChildIncidentHistory = styled(ChildIncidentHistory)`
@@ -69,8 +72,8 @@ const Li = styled(ListItem)`
     }
   }}
 
-  & > a {
-    &:hover > :first-child {
+  :hover {
+    ${IDDisplayValue} {
       color: ${themeColor('secondary')};
       text-decoration: underline;
     }
@@ -78,34 +81,10 @@ const Li = styled(ListItem)`
 
   & > * {
     padding: ${themeSpacing(3, 5, 3, 4)};
-    display: flex;
     width: 100%;
     text-decoration: none;
     color: black;
     align-items: stretch;
-
-    @media screen and ${breakpoint('max-width', 'laptop')} {
-      flex-wrap: wrap;
-    }
-
-    & > * {
-      margin-right: ${themeSpacing(4)};
-
-      :first-child {
-        flex: 0 1 auto;
-      }
-
-      :nth-child(2) {
-        flex: 1 0;
-        text-align: left;
-      }
-
-      :nth-child(3) {
-        flex: 0 0 ${HANDLING_TIME_VALUE_WIDTH}px;
-        text-align: right;
-        margin-right: 0;
-      }
-    }
   }
 
   ${({ changed }) =>
@@ -124,27 +103,35 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
   <StyledList className={className} data-testid="childIncidents">
     {incidents.map((incident) => {
       const valueEntries = (
-        <Fragment>
-          <DisplayValue key="id" title={incident.values.id}>
-            {incident.values.id}
-          </DisplayValue>
-
-          <DisplayValue
-            key="category-and-status"
-            title={`${incident.values.category} - ${incident.values.status}`}
-          >
-            {incident.values.category}
-            <br />
-            {incident.values.status}
-          </DisplayValue>
-
-          <DisplayValue
-            key="handling-time"
-            title={incident.values.handlingTime}
-          >
-            {incident.values.handlingTime}
-          </DisplayValue>
-        </Fragment>
+        <>
+          <Row>
+            <div>
+              <IDDisplayValue key="id" title={incident.values.id}>
+                {incident.values.id}
+              </IDDisplayValue>
+              <DisplayValue key="category" title={incident.values.category}>
+                {incident.values.category}
+              </DisplayValue>
+            </div>
+            <DisplayValue key="status" title={incident.values.status}>
+              {incident.values.status}
+            </DisplayValue>
+          </Row>
+          <Row>
+            <DisplayValue>
+              <StyledChildIncidentDescription
+                canView={incident.canView}
+                text={incident.text}
+              />
+            </DisplayValue>
+            <DisplayValue
+              key="handling-time"
+              title={incident.values.handlingTime}
+            >
+              {incident.values.handlingTime}
+            </DisplayValue>
+          </Row>
+        </>
       )
 
       return (
@@ -183,6 +170,7 @@ ChildIncidents.propTypes = {
       changed: PropTypes.bool.isRequired,
       canView: PropTypes.bool.isRequired,
       history: historyType,
+      text: PropTypes.string,
     })
   ),
 }

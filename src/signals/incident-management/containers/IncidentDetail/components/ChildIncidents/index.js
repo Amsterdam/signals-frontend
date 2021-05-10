@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { themeSpacing, Heading } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
 
-import { childIncidentType, historyType } from 'shared/types'
+import { childIncidentType, historyType, incidentType } from 'shared/types'
 import ChildIncidentsList from 'components/ChildIncidents'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
@@ -27,13 +27,18 @@ const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
 `
 
-const ChildIncidents = ({ incidents, parent, history }) => {
+const ChildIncidents = ({
+  childrenList,
+  parent,
+  history = [],
+  childIncidents = [],
+}) => {
   const { update } = useContext(IncidentDetailContext)
   const handlingTimesBySlug = useSelector(makeSelectHandlingTimesBySlug)
 
   const children = useMemo(
     () =>
-      Object.values(incidents).map(
+      Object.values(childrenList).map(
         ({ status, category, id, updated_at, can_view_signal }) => ({
           href: `${INCIDENT_URL}/${id}`,
           values: {
@@ -45,15 +50,22 @@ const ChildIncidents = ({ incidents, parent, history }) => {
           changed: isChildChanged(updated_at, parent.updated_at),
           canView: can_view_signal,
           history: history.find((entry) => entry[0]._signal === id),
+          text: childIncidents.find((incident) => incident.id === id)?.text,
         })
       ),
-    [handlingTimesBySlug, incidents, parent.updated_at, history]
+    [
+      childrenList,
+      handlingTimesBySlug,
+      parent.updated_at,
+      history,
+      childIncidents,
+    ]
   )
 
-  const canReset = useMemo(
-    () => children.some(({ changed }) => changed),
-    [children]
-  )
+  const canReset = useMemo(() => children.some(({ changed }) => changed), [
+    children,
+  ])
+
   const resetAction = useCallback(() => {
     update({
       type: PATCH_TYPE_NOTES,
@@ -95,9 +107,10 @@ const ChildIncidents = ({ incidents, parent, history }) => {
 }
 
 ChildIncidents.propTypes = {
-  incidents: PropTypes.arrayOf(childIncidentType).isRequired,
+  childrenList: PropTypes.arrayOf(childIncidentType).isRequired,
+  childIncidents: PropTypes.arrayOf(incidentType),
   parent: PropTypes.shape({ updated_at: PropTypes.string }).isRequired,
-  history: PropTypes.arrayOf(historyType).isRequired,
+  history: PropTypes.arrayOf(historyType),
 }
 
 export default ChildIncidents

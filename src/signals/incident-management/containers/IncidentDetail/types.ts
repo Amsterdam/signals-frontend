@@ -13,6 +13,7 @@ export interface State {
   attachments?: Result<Attachment>
   children?: Result<IncidentChild>
   childrenHistory?: HistoryEntry[][]
+  childIncidents?: Incident[]
   history?: HistoryEntry[]
   error?: boolean | FetchError
   attachmentHref?: string
