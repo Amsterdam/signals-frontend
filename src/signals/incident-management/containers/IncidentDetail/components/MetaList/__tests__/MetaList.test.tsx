@@ -97,7 +97,7 @@ describe('MetaList', () => {
       .mockImplementation(() => handlingTimesBySlug)
   })
 
-  afterEach(() => ((configuration as unknown) as any).__reset())
+  afterEach(() => (configuration as unknown as any).__reset())
 
   describe('rendering', () => {
     it('should render correctly a plain incident', () => {

@@ -44,8 +44,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
     source: [sources[0]],
     category_slug: [
       {
-        key:
-          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
         value: 'Asbest / accu',
         slug: 'asbest-accu',
       },
@@ -122,8 +121,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
   describe('tags list', () => {
     const maincategory_slug = [
       {
-        key:
-          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+        key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
         value: 'Afval',
         slug: 'afval',
       },

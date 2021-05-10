@@ -50,9 +50,10 @@ const ChildIncidents = ({ incidents, parent, history }) => {
     [handlingTimesBySlug, incidents, parent.updated_at, history]
   )
 
-  const canReset = useMemo(() => children.some(({ changed }) => changed), [
-    children,
-  ])
+  const canReset = useMemo(
+    () => children.some(({ changed }) => changed),
+    [children]
+  )
   const resetAction = useCallback(() => {
     update({
       type: PATCH_TYPE_NOTES,

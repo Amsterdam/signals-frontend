@@ -29,9 +29,10 @@ const IncidentWizard = ({
 }) => {
   const appContext = useContext(AppContext)
   const sources = appContext.sources
-  const incident = useMemo(() => incidentContainer.incident, [
-    incidentContainer.incident,
-  ])
+  const incident = useMemo(
+    () => incidentContainer.incident,
+    [incidentContainer.incident]
+  )
 
   return (
     <div className="incident-wizard">

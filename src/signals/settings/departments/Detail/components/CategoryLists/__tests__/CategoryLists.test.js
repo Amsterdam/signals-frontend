@@ -144,9 +144,8 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       '[data-testid="checkboxList"]'
     )
     const numBoxes = checkboxListIsResponsible.querySelectorAll('input').length
-    const numTickedIsResponsible = checkboxListIsResponsible.querySelectorAll(
-      ':checked'
-    ).length
+    const numTickedIsResponsible =
+      checkboxListIsResponsible.querySelectorAll(':checked').length
 
     const canViewFieldset = getByText('Toegang tot categorie').closest(
       'fieldset'
@@ -157,8 +156,8 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       'Alles selecteren'
     )[0].closest('[data-testid="checkboxList"]')
 
-    const numTickedCanView = checkboxListCanView.querySelectorAll(':checked')
-      .length
+    const numTickedCanView =
+      checkboxListCanView.querySelectorAll(':checked').length
 
     expect(container.querySelectorAll('input:checked')).toHaveLength(
       totalChecked

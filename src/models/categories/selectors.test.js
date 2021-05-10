@@ -188,16 +188,15 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectSubcategoriesGroupedByCategories', () => {
-    const subcategoriesGroupedByCategories = makeSelectSubcategoriesGroupedByCategories.resultFunc(
-      mainCategoriesFixture,
-      subCategoriesFixture
-    )
+    const subcategoriesGroupedByCategories =
+      makeSelectSubcategoriesGroupedByCategories.resultFunc(
+        mainCategoriesFixture,
+        subCategoriesFixture
+      )
 
     expect(Object.keys(subcategoriesGroupedByCategories)).toHaveLength(2)
-    const [
-      subcategoryGroups,
-      subcategoryOptions,
-    ] = subcategoriesGroupedByCategories
+    const [subcategoryGroups, subcategoryOptions] =
+      subcategoriesGroupedByCategories
     expect(subcategoryGroups.length).toEqual(mainCategoriesFixture.length)
     expect(subcategoryOptions.length).toEqual(subCategoriesFixture.length)
     subcategoryOptions.forEach(
@@ -210,9 +209,8 @@ describe('models/categories/selectors', () => {
   })
 
   test('handlingTimesBySlug', () => {
-    const handlingTimesBySlug = makeSelectHandlingTimesBySlug.resultFunc(
-      subCategoriesFixture
-    )
+    const handlingTimesBySlug =
+      makeSelectHandlingTimesBySlug.resultFunc(subCategoriesFixture)
 
     expect(handlingTimesBySlug['afwatering-brug']).toBe('5 werkdagen')
     expect(handlingTimesBySlug['auto-scooter-bromfietswrak']).toBe('21 dagen')

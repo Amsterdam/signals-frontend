@@ -195,8 +195,7 @@ Whenever a group has a named toggle, providing `groupName`, `groupId` and `group
 <CheckboxList
   defaultValue={[
     {
-      key:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
+      key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
       value: 'Afval',
     },
   ]}
@@ -207,20 +206,17 @@ Whenever a group has a named toggle, providing `groupName`, `groupId` and `group
   name="category_slug"
   options={[
     {
-      id:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+      id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
       value: 'Asbest / accu',
       slug: 'asbest-accu',
     },
     {
-      id:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
+      id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
       value: 'Container is kapot',
       slug: 'container-is-kapot',
     },
     {
-      id:
-        'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
+      id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
       value: 'Container is vol',
       slug: 'container-is-vol',
     },

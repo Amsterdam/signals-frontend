@@ -185,9 +185,9 @@ describe('signals/settings/departments/Detail/components/CategoryLists/reducer',
       const expected = {
         ...intermediateState,
         can_view: {
-          [payload.slug]: intermediateState.is_responsible[
-            payload.slug
-          ].map((category) => ({ ...category, disabled: true })),
+          [payload.slug]: intermediateState.is_responsible[payload.slug].map(
+            (category) => ({ ...category, disabled: true })
+          ),
         },
       }
 

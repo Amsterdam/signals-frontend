@@ -39,7 +39,7 @@ describe('getMarkerByZoomLevel', () => {
 
 describe('shouldSpiderfy', () => {
   it('should spiderfy when maxZoom', () => {
-    const cluster = ({
+    const cluster = {
       _zoom: 14,
       _childCount: 3,
       _childClusters: [
@@ -49,12 +49,12 @@ describe('shouldSpiderfy', () => {
           _childClusters: [],
         },
       ],
-    } as unknown) as ClusterMarker
+    } as unknown as ClusterMarker
     expect(shouldSpiderfy(cluster, 15)).toBeTruthy()
   })
 
   it('should not spiderfy when can zoomed', () => {
-    const cluster = ({
+    const cluster = {
       _zoom: 13,
       _childCount: 4,
       _childClusters: [
@@ -70,7 +70,7 @@ describe('shouldSpiderfy', () => {
           ],
         },
       ],
-    } as unknown) as ClusterMarker
+    } as unknown as ClusterMarker
     expect(shouldSpiderfy(cluster, 14)).toBeFalsy()
   })
 })

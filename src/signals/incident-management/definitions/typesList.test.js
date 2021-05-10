@@ -8,8 +8,8 @@ describe('Types list', () => {
   })
 
   it("should contain 'Projecten' with useProjectenSignalType enabled", () => {
-    const configuration = require('shared/services/configuration/configuration')
-      .default
+    const configuration =
+      require('shared/services/configuration/configuration').default
     configuration.featureFlags.useProjectenSignalType = true
     const typesList = require('./typesList').default
 

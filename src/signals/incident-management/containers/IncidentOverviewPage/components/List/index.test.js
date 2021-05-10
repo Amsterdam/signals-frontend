@@ -256,8 +256,9 @@ describe('List', () => {
     it('should render an icon for each child incident', () => {
       const incidentWithChildren = { ...props.incidents[0], has_parent: true }
       const incidentList = [incidentWithChildren, ...props.incidents.slice(1)]
-      const childCount = incidentList.filter((incident) => incident.has_parent)
-        .length
+      const childCount = incidentList.filter(
+        (incident) => incident.has_parent
+      ).length
 
       render(withContext(<List {...props} incidents={incidentList} />))
 

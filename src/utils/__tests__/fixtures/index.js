@@ -47,10 +47,11 @@ export const directingDepartments = makeSelectDirectingDepartments.resultFunc(
   makeSelectDepartments.resultFunc(fromJS(departments))
 )
 
-export const subcategoriesGroupedByCategories = makeSelectSubcategoriesGroupedByCategories.resultFunc(
-  mainCategories,
-  subCategories
-)
+export const subcategoriesGroupedByCategories =
+  makeSelectSubcategoriesGroupedByCategories.resultFunc(
+    mainCategories,
+    subCategories
+  )
 
 export const handlingTimesBySlug = {
   ...makeSelectHandlingTimesBySlug.resultFunc(subCategories),

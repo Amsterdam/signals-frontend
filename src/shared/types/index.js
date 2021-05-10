@@ -3,7 +3,8 @@
 import PropTypes from 'prop-types'
 import { isDate } from 'utils'
 
-const dateTypeFactory = (isRequired) =>
+const dateTypeFactory =
+  (isRequired) =>
   /**
    * @param  {Object} props - component props
    * @param  {String} propName - component prop name to validate

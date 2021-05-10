@@ -66,8 +66,7 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
     const state = {
       afval: [
         {
-          id:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
+          id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
           value: 'Container is vol',
           _links: {
             self: {
@@ -77,13 +76,11 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
           },
         },
         {
-          id:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+          id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
           value: 'Huisafval',
           _links: {
             self: {
-              href:
-                'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+              href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
             },
           },
           disabled: true,
@@ -93,8 +90,7 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
       ],
       'openbaar-groen-en-water': [
         {
-          id:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom',
+          id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom',
           value: 'Boom - dood',
           _links: {
             self: {

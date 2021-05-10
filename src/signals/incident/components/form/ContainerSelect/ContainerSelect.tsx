@@ -30,9 +30,8 @@ const ContainerSelect: FunctionComponent<ContainerSelectProps> = ({
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
 
-  const {
-    coordinates,
-  } = parent.meta.incidentContainer.incident.location.geometrie
+  const { coordinates } =
+    parent.meta.incidentContainer.incident.location.geometrie
   const location: LatLngExpression = [coordinates[1], coordinates[0]]
 
   /* istanbul ignore next */
