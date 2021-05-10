@@ -60,4 +60,14 @@ describe('ContactHistory', () => {
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
   })
+
+  it('handles empty contact history', async () => {
+    mockRequestHandler({ body: [] })
+    render(withAppContext(<ContactHistory id={4440} />))
+
+    expect(
+      await screen.findByText('Er is nog geen contact geweest met deze melder')
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('list')).not.toBeInTheDocument()
+  })
 })
