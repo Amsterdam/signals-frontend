@@ -28,10 +28,12 @@ describe('components/GPSButton', () => {
       .mockImplementation(
         (success) =>
           new Promise((resolve) =>
-            setTimeout(() => resolve(success({ coords }), 0))
+            setTimeout(() => resolve(success({ coords })))
           )
       )
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     global.navigator.geolocation = { getCurrentPosition }
 
     const onLocationSuccess = jest.fn()
@@ -78,6 +80,8 @@ describe('components/GPSButton', () => {
       ),
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     global.navigator.geolocation = mockGeolocation
 
     const onLocationSuccess = jest.fn()
@@ -122,6 +126,8 @@ describe('components/GPSButton', () => {
       ),
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     global.navigator.geolocation = mockGeolocation
 
     const onLocationChange = jest.fn()
@@ -154,7 +160,7 @@ describe('components/GPSButton', () => {
     const code = 1
     const message = 'User denied geolocation'
     const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success, error) =>
+      getCurrentPosition: jest.fn().mockImplementation((_, error) =>
         Promise.resolve(
           error({
             code,
@@ -164,6 +170,8 @@ describe('components/GPSButton', () => {
       ),
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     global.navigator.geolocation = mockGeolocation
 
     const onLocationError = jest.fn()
@@ -206,18 +214,15 @@ describe('components/GPSButton', () => {
       ),
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     global.navigator.geolocation = mockGeolocation
 
     const onLocationOutOfBounds = jest.fn()
     const onLocationSuccess = jest.fn()
 
     const { getByTestId, rerender, unmount } = render(
-      withAppContext(
-        <GPSButton
-          onLocationSuccess={onLocationSuccess}
-          onLocationOutOfBounds={null}
-        />
-      )
+      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
     )
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
@@ -249,20 +254,18 @@ describe('components/GPSButton', () => {
   })
 
   it('should throw an error', () => {
-    global.console.error = jest.fn()
+    const logErrorMock = jest
+      .spyOn(global.console, 'error')
+      .mockImplementation(jest.fn())
 
     expect(() => {
       render(withAppContext(<GPSButton />))
     }).toThrow()
 
     expect(() => {
-      render(withAppContext(<GPSButton onLocationSuccess={null} />))
-    }).toThrow()
-
-    expect(() => {
       render(withAppContext(<GPSButton onLocationChange={() => {}} />))
     }).not.toThrow()
 
-    global.console.error.mockRestore()
+    logErrorMock.mockRestore()
   })
 })
