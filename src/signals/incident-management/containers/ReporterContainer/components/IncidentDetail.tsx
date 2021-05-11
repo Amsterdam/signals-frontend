@@ -37,8 +37,8 @@ const DescriptionStyle = styled(Paragraph)`
 const InfoStyle = styled(DescriptionStyle)`
   color: ${themeColor('tint', 'level5')};
   display: grid;
-  grid: auto-flow / 1fr 1fr;
-  grid-gap: ${themeSpacing(5)};
+  grid: auto-flow / 3fr 4fr;
+  grid-gap: ${themeSpacing(6)};
   row-gap: ${themeSpacing(4)};
   width: 100%;
 `
@@ -68,37 +68,36 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   incident,
 }) => {
   const subcategories = useSelector(makeSelectSubCategories)
-  const {
-    id,
-    description,
-    date,
-    status,
-    subcategory,
-    isParent,
-  } = useMemo(() => {
-    const {
-      id,
-      created_at: date,
-      text: description,
-      category: { sub_slug },
-      status: { state_display: status },
-    } = incident
-    const subcategory = subcategories?.find((s: any) => s.slug === sub_slug)
-      .extendedName
+  const { id, description, date, status, subcategory, isParent } =
+    useMemo(() => {
+      const {
+        id,
+        created_at: date,
+        text: description,
+        category: { sub_slug },
+        status: { state_display: status },
+      } = incident
+      const subcategory = subcategories?.find(
+        (s: any) => s.slug === sub_slug
+      ).extendedName
 
-    return {
-      id,
-      description,
-      date,
-      status,
-      subcategory,
-      isParent: !!incident._links['sia:children'],
-    }
-  }, [incident, subcategories])
+      return {
+        id,
+        description,
+        date,
+        status,
+        subcategory,
+        isParent: !!incident._links['sia:children'],
+      }
+    }, [incident, subcategories])
 
   return (
     <IncidentStyle>
-      <StyledLink forwardedAs={Link} to={`/manage/incident/${id}`}>
+      <StyledLink
+        forwardedAs={Link}
+        to={`/manage/incident/${id}`}
+        target="_blank"
+      >
         <Heading as="h2" styleAs="h6">
           {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
         </Heading>
@@ -112,7 +111,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
         <span>Status </span>
         <Value>{status}</Value>
       </InfoStyle>
-      <Text>Contactgeschiedenis</Text>
+      <Text>Contactgeschiedenis vanaf afgehandeld</Text>
       <ContactHistory id={id} />
     </IncidentStyle>
   )
