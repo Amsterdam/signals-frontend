@@ -8,9 +8,9 @@ export default function () {
   return (
     <Overview
       showItems={{
+        settings: userCanAccess('settings'),
         departments: userCanAccess('departments'),
         groups: userCanAccess('groups'),
-        settings: userCanAccess('settings'),
         users: userCanAccess('userForm'),
         categories: userCanAccess('categories'),
       }}

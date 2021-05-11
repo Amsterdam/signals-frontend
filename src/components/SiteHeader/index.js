@@ -10,7 +10,6 @@ import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 
 import {
   Header as HeaderComponent,
-  MenuFlyOut,
   MenuButton,
   MenuInline,
   MenuItem,
@@ -72,17 +71,6 @@ const StyledMenuButton = styled(MenuButton)`
   font-family: inherit;
   font-weight: 400;
   color: ${themeColor('tint', 'level6')};
-`
-
-const StyledMenuFlyout = styled(MenuFlyOut)`
-  & span,
-  & button {
-    font-family: inherit;
-    font-weight: normal;
-    font-size: 16px;
-    font-weight: normal;
-    color: ${themeColor('tint', 'level6')};
-  }
 `
 
 const SearchBarMenuItem = styled(MenuItem)`
@@ -236,49 +224,12 @@ const MenuItems = ({ onLogOut, showItems }) => {
         </MenuItem>
       )}
 
-      {
+      {showItems.settings && (
         <MenuItem element="span">
           <StyledMenuButton forwardedAs={NavLink} to="/instellingen/">
             Instellingen
           </StyledMenuButton>
         </MenuItem>
-      }
-
-      {showItems.settings && (
-        <StyledMenuFlyout label="Instellingen" forwardedAs="span">
-          {showItems.users && (
-            <StyledMenuButton
-              forwardedAs={NavLink}
-              to="/instellingen/gebruikers"
-            >
-              Gebruikers
-            </StyledMenuButton>
-          )}
-
-          {showItems.groups && (
-            <StyledMenuButton forwardedAs={NavLink} to="/instellingen/rollen">
-              Rollen
-            </StyledMenuButton>
-          )}
-
-          {showItems.departments && (
-            <StyledMenuButton
-              forwardedAs={NavLink}
-              to="/instellingen/afdelingen"
-            >
-              Afdelingen
-            </StyledMenuButton>
-          )}
-
-          {showItems.categories && (
-            <StyledMenuButton
-              forwardedAs={NavLink}
-              to="/instellingen/categorieen"
-            >
-              Subcategorieën
-            </StyledMenuButton>
-          )}
-        </StyledMenuFlyout>
       )}
 
       {showLogout && (

@@ -40,6 +40,10 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `
 
+const StyledTopTaskLink = styled(TopTaskLink)`
+  min-height: 132px;
+`
+
 const Overview: FunctionComponent<Props> = ({ showItems }) => {
   if (!showItems.settings) {
     return null
@@ -51,13 +55,9 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
       <Row>
         <Wrapper>
           {showItems.users && (
-            <Item>
+            <Item data-testid="users">
               <StyledNavLink to="/instellingen/gebruikers">
-                <TopTaskLink
-                  icon={PersonalLogin}
-                  title="Gebruikers"
-                  style={{ minHeight: 132 }}
-                />
+                <StyledTopTaskLink icon={PersonalLogin} title="Gebruikers" />
               </StyledNavLink>
               <Paragraph>
                 Om toegang te krijgen tot de applicatie Signalen is het
@@ -73,13 +73,9 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
             </Item>
           )}
           {showItems.groups && (
-            <Item>
+            <Item data-testid="groups">
               <StyledNavLink to="/instellingen/rollen">
-                <TopTaskLink
-                  icon={Student}
-                  title="Rollen"
-                  style={{ minHeight: 132 }}
-                />
+                <StyledTopTaskLink icon={Student} title="Rollen" />
               </StyledNavLink>
               <Paragraph>
                 De applicatie Signalen kent verscheidene rollen. In het
@@ -92,13 +88,9 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
             </Item>
           )}
           {showItems.departments && (
-            <Item>
+            <Item data-testid="departments">
               <StyledNavLink to="/instellingen/afdelingen">
-                <TopTaskLink
-                  icon={Buildings}
-                  title="Afdelingen"
-                  style={{ minHeight: 132 }}
-                />
+                <StyledTopTaskLink icon={Buildings} title="Afdelingen" />
               </StyledNavLink>
               <Paragraph>
                 De applicatie Signalen maakt gebruik van afdelingen. Per
@@ -119,12 +111,11 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
             </Item>
           )}
           {showItems.categories && (
-            <Item>
+            <Item data-testid="categories">
               <StyledNavLink to="/instellingen/categorieen">
-                <TopTaskLink
+                <StyledTopTaskLink
                   icon={ThumbnailResults}
                   title="Subcategorieën"
-                  style={{ minHeight: 132 }}
                 />
               </StyledNavLink>
               <Paragraph>
