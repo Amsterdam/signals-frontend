@@ -111,12 +111,8 @@ export default (state = initialState, action) => {
     }
 
     case GET_CLASSIFICATION_ERROR: {
-      const {
-        category,
-        subcategory,
-        handling_message,
-        classification,
-      } = action.payload
+      const { category, subcategory, handling_message, classification } =
+        action.payload
       return state
         .set('loadingClassification', false)
         .set(
@@ -135,12 +131,8 @@ export default (state = initialState, action) => {
     }
 
     case SET_CLASSIFICATION: {
-      const {
-        category,
-        subcategory,
-        handling_message,
-        classification,
-      } = action.payload
+      const { category, subcategory, handling_message, classification } =
+        action.payload
       return state
         .set(
           'incident',

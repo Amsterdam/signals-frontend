@@ -25,8 +25,7 @@ describe('<DefaultTexts />', () => {
             },
             {
               title: 'Asbest',
-              text:
-                'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
+              text: 'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
             },
           ],
         },

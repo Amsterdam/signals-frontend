@@ -5,8 +5,9 @@ import type endpointType from 'shared/services/configuration/endpoint-definition
 import type configurationType from '../../../../app.base.json'
 import { prefixEndpoints } from './endpoints'
 
-const windowConfig = (window as Window &
-  typeof globalThis & { CONFIG: typeof configurationType }).CONFIG
+const windowConfig = (
+  window as Window & typeof globalThis & { CONFIG: typeof configurationType }
+).CONFIG
 const applicationConfig = windowConfig
   ? {
       ...windowConfig,

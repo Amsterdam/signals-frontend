@@ -54,8 +54,7 @@ const statusMessageTemplates = [
       },
       {
         title: 'Zes wekenregeling',
-        text:
-          'Dit gebied valt onder de zes wekenregeling en het fietswrak zal worden opgeruimd volgens schema.',
+        text: 'Dit gebied valt onder de zes wekenregeling en het fietswrak zal worden opgeruimd volgens schema.',
       },
       {
         title: 'Gestickerd',
@@ -73,8 +72,7 @@ const statusMessageTemplates = [
 const attachments = {
   _links: {
     self: {
-      href:
-        'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments',
+      href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments',
     },
     next: { href: null },
     previous: { href: null },
@@ -85,8 +83,7 @@ const attachments = {
       _display: 'Attachment object (980)',
       _links: {
         self: {
-          href:
-            'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments',
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/999999/attachments',
         },
       },
       location: 'https://ae70d54aca324d0480ca01934240c78f.jpg',
@@ -170,9 +167,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   it('should get handling times from subcategories', () => {
-    const handlingTimes = categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
-      subCategories
-    )
+    const handlingTimes =
+      categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
+        subCategories
+      )
 
     expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen')
     expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen')

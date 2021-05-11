@@ -24,9 +24,10 @@ const FileInput = ({ handler, parent, meta }) => {
     [meta]
   )
 
-  const checkMaxFileSize = useCallback((file) => file.size < meta.maxFileSize, [
-    meta,
-  ])
+  const checkMaxFileSize = useCallback(
+    (file) => file.size < meta.maxFileSize,
+    [meta]
+  )
 
   const checkFileType = useCallback(
     (file) => meta.allowedFileTypes.includes(file.type),

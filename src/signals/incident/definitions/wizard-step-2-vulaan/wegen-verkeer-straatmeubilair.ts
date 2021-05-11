@@ -5,7 +5,7 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 import appConfiguration from 'shared/services/configuration/configuration'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
-const configuration = (appConfiguration as unknown) as typeof ConfigurationType
+const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const wegenVerkeerStraatmeubilair = {
   // This element will be enabled each year near the christmass.

@@ -421,8 +421,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       _links: {
         ...incidentFixture._links,
         'sia:parent': {
-          href:
-            'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
           public:
             'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
         },

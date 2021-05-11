@@ -9,9 +9,10 @@ const config: Record<string, unknown> = {}
 
 const reset = () => {
   const windowConfig =
-    (window as Window &
-      typeof globalThis & { CONFIG?: Record<string, unknown> }).CONFIG ??
-    ({} as Record<string, unknown>)
+    (
+      window as Window &
+        typeof globalThis & { CONFIG?: Record<string, unknown> }
+    ).CONFIG ?? ({} as Record<string, unknown>)
   const newConfig: Record<string, unknown> = JSON.parse(
     JSON.stringify({
       ...windowConfig,

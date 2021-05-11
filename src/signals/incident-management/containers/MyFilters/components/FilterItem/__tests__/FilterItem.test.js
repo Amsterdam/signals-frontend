@@ -29,8 +29,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       incident_date: '2019-09-17',
       category_slug: [
         {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca',
+          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca',
           slug: 'overlast-bedrijven-en-horeca',
           value: 'Overlast Bedrijven en Horeca',
         },

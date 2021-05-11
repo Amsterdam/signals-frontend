@@ -35,13 +35,11 @@ const initialState = {
 export const renderSections = {
   TOO_LATE: {
     title: 'Helaas, de mogelijkheid om feedback te geven is verlopen',
-    body:
-      'Na het afhandelen van uw melding heeft u 2 weken de gelegenheid om feedback te geven.',
+    body: 'Na het afhandelen van uw melding heeft u 2 weken de gelegenheid om feedback te geven.',
   },
   FILLED_OUT: {
     title: 'Er is al feedback gegeven voor deze melding',
-    body:
-      'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+    body: 'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
   },
   NOT_FOUND: {
     title: 'Het feedback formulier voor deze melding kon niet gevonden worden',

@@ -20,7 +20,10 @@ const handleActivate = () => {
 const delayResponse = (time, response) =>
   new Promise((resolve) => setTimeout(() => resolve(response), time))
 
-const compose = (...fns) => (x) => fns.reduce((res, f) => res || f(x), false)
+const compose =
+  (...fns) =>
+  (x) =>
+    fns.reduce((res, f) => res || f(x), false)
 
 const getProxyConfig = ({ url, method }) => {
   const exactUrlMatch = ({ request }) =>

@@ -18,8 +18,7 @@ describe('signals/settings/departments/Detail/components', () => {
             href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
           },
           self: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob',
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob',
           },
         },
         _display: 'Boom - boomstob (Openbaar groen en water)',
@@ -51,8 +50,7 @@ describe('signals/settings/departments/Detail/components', () => {
             href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
           },
           self: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot',
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot',
           },
         },
         _display: 'Container glas kapot (Afval)',
@@ -84,8 +82,7 @@ describe('signals/settings/departments/Detail/components', () => {
             href: 'https://acc.api.data.amsterdam.nl/signals/v1/relations',
           },
           self: {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol',
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol',
           },
         },
         _display: 'Container glas vol (Afval)',
