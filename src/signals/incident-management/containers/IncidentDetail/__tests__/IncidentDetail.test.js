@@ -115,7 +115,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       [JSON.stringify(attachments), { status: 200 }],
       [JSON.stringify(childIncidentFixture), { status: 200 }],
       [JSON.stringify(incidentHistoryFixture), { status: 200 }],
-      [JSON.stringify(incidentHistoryFixture), { status: 200 }]
+      [JSON.stringify(incidentHistoryFixture), { status: 200 }],
+      [JSON.stringify(incidentFixture), { status: 200 }],
+      [JSON.stringify(incidentFixture), { status: 200 }],
+      [JSON.stringify(incidentFixture), { status: 200 }]
     )
   })
 
@@ -176,18 +179,18 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen')
   })
 
-  it('should retrieve default texts and attachments only once', async () => {
+  it('should retrieve data only once', async () => {
     const { rerender } = render(withAppContext(<IncidentDetail />))
 
     await screen.findByTestId('incidentDetail')
 
-    expect(fetch).toHaveBeenCalledTimes(7)
+    expect(fetch).toHaveBeenCalledTimes(9)
 
     rerender(withAppContext(<IncidentDetail />))
 
     await screen.findByTestId('incidentDetail')
 
-    expect(fetch).toHaveBeenCalledTimes(7)
+    expect(fetch).toHaveBeenCalledTimes(9)
   })
 
   it('should not get child incidents', async () => {
@@ -219,14 +222,14 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await screen.findByTestId('incidentDetail')
 
-    expect(fetch).toHaveBeenCalledTimes(7)
+    expect(fetch).toHaveBeenCalledTimes(9)
 
     fetch.mockResponses(
       [JSON.stringify(incidentFixture), { status: 200 }],
       [JSON.stringify(statusMessageTemplates), { status: 200 }],
       [JSON.stringify(incidentHistoryFixture), { status: 200 }],
-      [JSON.stringify(attachments), { status: 200 }],
-      [JSON.stringify(childIncidentFixture), { status: 200 }]
+      [JSON.stringify(childIncidentFixture), { status: 200 }],
+      [JSON.stringify(attachments), { status: 200 }]
     )
 
     reactRouterDom.useParams.mockImplementation(() => ({
@@ -239,7 +242,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await screen.findByTestId('incidentDetail')
 
-    expect(fetch).toHaveBeenCalledTimes(14)
+    expect(fetch).toHaveBeenCalledTimes(18)
   })
 
   it('should render correctly', async () => {
@@ -480,21 +483,21 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
 
     expect(fetch).toHaveBeenNthCalledWith(
-      8,
+      10,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`,
       expect.objectContaining({ method: 'PATCH' })
     )
 
     // after successful patch should request the defaults texts
     expect(fetch).toHaveBeenNthCalledWith(
-      9,
+      11,
       `${configuration.TERMS_ENDPOINT}afval/sub_categories/asbest-accu/status-message-templates`,
       expect.objectContaining({ method: 'GET' })
     )
 
     // after successful patch should request history
     expect(fetch).toHaveBeenNthCalledWith(
-      10,
+      12,
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`,
       expect.objectContaining({ method: 'GET' })
     )
@@ -517,6 +520,8 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       })
 
       await screen.findByTestId('incidentDetail')
+
+      fetch.resetMocks()
     })
 
     it('should handle generic', async () => {

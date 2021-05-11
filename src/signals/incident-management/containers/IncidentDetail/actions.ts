@@ -22,6 +22,7 @@ import type {
   PATCH_SUCCESS,
   PREVIEW,
   EDIT,
+  SET_CHILD_INCIDENTS,
 } from './constants'
 
 export type ResetAction = Action<typeof RESET, void>
@@ -43,6 +44,10 @@ export type SetChildrenHistoryAction = Action<
   typeof SET_CHILDREN_HISTORY,
   HistoryEntry[][]
 >
+export type SetChildrenIncidentsAction = Action<
+  typeof SET_CHILD_INCIDENTS,
+  Incident[]
+>
 export type SetDefaultTextsAction = Action<typeof SET_DEFAULT_TEXTS, string[]>
 export type SetIncidentAction = Action<typeof SET_INCIDENT, Incident>
 export type PatchStartAction = Action<typeof PATCH_START, string>
@@ -58,6 +63,7 @@ export type IncidentDetailAction =
   | SetHistoryAction
   | SetChildrenAction
   | SetChildrenHistoryAction
+  | SetChildrenIncidentsAction
   | SetDefaultTextsAction
   | SetIncidentAction
   | PatchStartAction
