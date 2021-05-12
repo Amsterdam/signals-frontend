@@ -29,6 +29,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
       ],
       description: 'Mock description',
       handling_message: 'Mock handling message',
+      note: 'Mock note',
       is_active: true,
       name: 'Mock name',
       sla: {
@@ -56,6 +57,9 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     )
     expect(screen.getByRole('textbox', { name: 'Omschrijving' })).toHaveValue(
       'Mock description'
+    )
+    expect(screen.getByRole('textbox', { name: 'Notitie' })).toHaveValue(
+      'Mock note'
     )
     expect(screen.getByRole('spinbutton')).toHaveValue(5)
     expect(screen.getByRole('combobox')).toHaveValue('0')
