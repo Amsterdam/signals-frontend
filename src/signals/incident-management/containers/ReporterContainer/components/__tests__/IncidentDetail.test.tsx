@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen, waitFor /*waitFor*/ } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { withAppContext, history } from 'test/utils'
+import { withAppContext } from 'test/utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
@@ -27,20 +26,16 @@ const incident: IncidentType = {
       href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859',
     },
     archives: {
-      href:
-        'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/history',
+      href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/history',
     },
     'sia:attachments': {
-      href:
-        'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/attachments',
+      href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/attachments',
     },
     'sia:pdf': {
-      href:
-        'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/pdf',
+      href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/pdf',
     },
     'sia:context': {
-      href:
-        'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/context',
+      href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7859/context',
     },
     'sia:parent': {
       href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/7741',
@@ -183,21 +178,16 @@ describe('IncidentDetail', () => {
     expect(historyElements).toHaveLength(2)
   })
 
-  it('should navigate to the incident when clicked on the link', async () => {
+  it('should show the correct url to navigate to the incident on the link', async () => {
     render(
       withAppContext(
-        <IncidentDetail
-          incident={(incidentFixture as unknown) as IncidentType}
-        />
+        <IncidentDetail incident={incidentFixture as unknown as IncidentType} />
       )
     )
 
-    await waitFor(() => expect(history.location.pathname).toEqual('/'))
+    const link = screen.getByRole('link')
 
-    userEvent.click(screen.getByRole('link'))
-    await waitFor(() =>
-      expect(history.location.pathname).toEqual('/manage/incident/4440')
-    )
+    expect(link).toHaveAttribute('href', '/manage/incident/4440')
   })
 
   it('should show an error when api call fails', async () => {
@@ -208,9 +198,7 @@ describe('IncidentDetail', () => {
 
     render(
       withAppContext(
-        <IncidentDetail
-          incident={(incidentFixture as unknown) as IncidentType}
-        />
+        <IncidentDetail incident={incidentFixture as unknown as IncidentType} />
       )
     )
 
