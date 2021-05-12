@@ -41,6 +41,8 @@ const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'))
 const IncidentSplitContainer = lazy(() =>
   import('./containers/IncidentSplitContainer')
 )
+// istanbul ignore next
+const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 
 const IncidentManagement = () => {
   const location = useLocationReferrer()
@@ -82,6 +84,9 @@ const IncidentManagement = () => {
           />
           <Route exact path={routes.incident} component={IncidentDetail} />
           <Route exact path={routes.split} component={IncidentSplitContainer} />
+          {configuration.featureFlags.enableReporter && (
+            <Route exact path={routes.reporter} component={ReporterContainer} />
+          )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
           <Route component={IncidentOverviewPage} />
         </Switch>

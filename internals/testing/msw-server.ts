@@ -1,21 +1,41 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { rest, MockedRequest } from 'msw'
+import { rest, MockedRequest, ResponseResolver } from 'msw'
 import { setupServer } from 'msw/node'
 import fetchMock from 'jest-fetch-mock'
 
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json'
+
+import incidentContextFixture from '../mocks/fixtures/context.json'
+import incidentAttachmentsFixture from '../mocks/fixtures/attachments.json'
+import incidentChildrenFixture from '../mocks/fixtures/children.json'
+import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import usersFixture from '../mocks/fixtures/users.json'
 import departmentsFixture from '../mocks/fixtures/departments.json'
 import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json'
+import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code
 const departmentAegCode = departmentsFixture.results[1].code
 const departmentThoCode = departmentsFixture.results[11].code
 
-export const mockGet = <T>(status: number, body: T) => {
+interface MockRequestHandlerArgs {
+  status?: number
+  body: any
+  url?: string | RegExp
+  method?: 'get' | 'patch' | 'post'
+}
+
+export const mockRequestHandler = ({
+  status = 200,
+  url = /localhost/,
+  method = 'get',
+  body,
+}: MockRequestHandlerArgs) => {
   server.use(
-    rest.get(/localhost/, async (_req, res, ctx) =>
+    rest[method](url, async (_req, res, ctx) =>
       res(ctx.status(status), ctx.json(body))
     )
   )
@@ -42,7 +62,15 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results
 }
 
+const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
+  const message = `Msw - not implemented: ${req.method} to ${req.url.href}`
+
+  console.error(message)
+  res(ctx.status(500, message))
+}
+
 const handlers = [
+  // GET
   rest.get(
     `${apiBaseUrl}/signals/v1/private/autocomplete/usernames`,
     (req, res, ctx) => {
@@ -80,6 +108,54 @@ const handlers = [
 
     return res(ctx.status(200), ctx.json(response))
   }),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}/attachments`,
+    (_req, res, ctx) =>
+      res(ctx.status(200), ctx.json(incidentAttachmentsFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}/children`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentChildrenFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/history`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentHistoryFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context/reporter`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentReporterFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentContextFixture))
+  ),
+
+  rest.get(/status-message-templates/, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
+  ),
+
+  // PATCH
+  rest.patch(
+    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}`,
+    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
+  ),
+
+  // FALLBACK
+  rest.get('*', handleNotImplemented),
+  rest.patch('*', handleNotImplemented),
+  rest.post('*', handleNotImplemented),
+  rest.put('*', handleNotImplemented),
+  rest.delete('*', handleNotImplemented),
 ]
 
 const server = setupServer(...handlers)

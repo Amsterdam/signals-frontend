@@ -12,6 +12,7 @@ import {
   SET_CHILDREN,
   SET_CHILDREN_HISTORY,
   SET_CHILD_INCIDENTS,
+  SET_CONTEXT,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -27,6 +28,7 @@ export const initialState: State = {
   children: undefined,
   childrenHistory: undefined,
   childIncidents: undefined,
+  context: undefined,
   error: undefined,
   history: undefined,
   incident: undefined,
@@ -63,6 +65,9 @@ const reducer: Reducer<State, Action> = (state, action) => {
 
     case SET_CHILD_INCIDENTS:
       return { ...state, childIncidents: action.payload }
+
+    case SET_CONTEXT:
+      return { ...state, context: action.payload }
 
     case SET_DEFAULT_TEXTS:
       return { ...state, defaultTexts: action.payload }

@@ -1,0 +1,62 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/context/reporter?page_size=10"
+    },
+    "next": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/signals/4440/context/reporter?page=2&page_size=10"
+    },
+    "previous": { "href": null }
+  },
+  "count": 2,
+  "results": [
+    {
+      "id": 4440,
+      "created_at": "2021-04-26T11:50:28.864584+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": { "state": "b", "state_display": "In behandeling" },
+      "feedback": {
+        "is_satisfied": true,
+        "submitted_at": "2021-04-29:11:22.741716+02:00"
+      },
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 4441,
+      "created_at": "2021-04-23T19:11:22.741716+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": { "state": "b", "state_display": "In behandeling" },
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": true
+    },
+    {
+      "id": 4442,
+      "created_at": "2021-04-23T19:11:22.741716+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": { "state": "b", "state_display": "In behandeling" },
+      "feedback": null,
+      "can_view_signal": false,
+      "has_children": true
+    }
+  ]
+}

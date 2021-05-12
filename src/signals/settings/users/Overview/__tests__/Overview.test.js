@@ -22,7 +22,7 @@ import * as rolesSelectors from 'models/roles/selectors'
 
 import {
   fetchMock,
-  mockGet,
+  mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
 
 import UsersOverview from '..'
@@ -165,7 +165,7 @@ describe('signals/settings/users/containers/Overview', () => {
   })
 
   it('should render title and data view with headers only when no data', async () => {
-    mockGet(200, {})
+    mockRequestHandler({ body: {} })
     render(usersOverviewWithAppContext())
 
     await waitForElementToBeRemoved(() =>

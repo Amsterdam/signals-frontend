@@ -23,6 +23,8 @@ export const SET_CHILDREN_HISTORY =
   'sia/incidentManagement/containers/IncidentDetail/SET_CHILDREN_HISTORY'
 export const SET_CHILD_INCIDENTS =
   'sia/incidentManagement/containers/IncidentDetail/SET_CHILD_INCIDENTS'
+export const SET_CONTEXT =
+  'sia/incidentManagement/containers/IncidentDetail/SET_CONTEXT'
 export const SET_DEFAULT_TEXTS =
   'sia/incidentManagement/containers/IncidentDetail/SET_DEFAULT_TEXTS'
 export const SET_INCIDENT =
