@@ -45,9 +45,10 @@ export const PageHeaderContainerComponent = ({
     )
   }, [filter, incidentsCount])
 
-  const subTitle = useMemo(() => query && `Zoekresultaten voor "${query}"`, [
-    query,
-  ])
+  const subTitle = useMemo(
+    () => query && `Zoekresultaten voor "${query}"`,
+    [query]
+  )
 
   return (
     <PageHeader title={headerTitle} subTitle={subTitle}>

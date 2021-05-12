@@ -65,10 +65,10 @@ const MapStatic = ({
 }) => {
   const { data, error, get, isLoading } = useFetch()
   const [src, setSrc] = useState()
-  const { x, y } = useMemo(() => wgs84ToRd({ lat: latitude, lng: longitude }), [
-    latitude,
-    longitude,
-  ])
+  const { x, y } = useMemo(
+    () => wgs84ToRd({ lat: latitude, lng: longitude }),
+    [latitude, longitude]
+  )
   const params = useMemo(
     () => ({
       bbox: [

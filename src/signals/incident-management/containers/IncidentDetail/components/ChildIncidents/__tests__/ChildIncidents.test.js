@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import history from 'utils/__tests__/fixtures/incidentHistory.json'
 
 import ChildIncidents from '..'
@@ -26,64 +27,67 @@ describe('IncidentDetail/components/ChildIncidents', () => {
   it('should not render anything', () => {
     const childIncidents = []
     const parent = { updated_at: null }
-    const { queryByText, queryByTestId } = render(
+    render(
       withAppContext(
         <ChildIncidents
-          incidents={childIncidents}
+          childrenList={childIncidents}
           parent={parent}
           history={[history]}
         />
       )
     )
 
-    expect(queryByText('Deelmelding')).not.toBeInTheDocument()
-    expect(queryByTestId('childIncidents')).not.toBeInTheDocument()
-    expect(queryByTestId('noActionButton')).not.toBeInTheDocument()
+    expect(screen.queryByText('Deelmelding')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('childIncidents')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('noActionButton')).not.toBeInTheDocument()
   })
 
   it('should render correctly', () => {
-    const childIncidents = childIncidentsFixture.results
+    const childrenList = childIncidentsFixture.results
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at }
+    const childIncidents = [{ ...incidentFixture, id: childrenList[0].id }]
 
-    const { queryByText, queryByTestId, rerender } = render(
+    const { rerender } = render(
       renderWithContext(
         <ChildIncidents
-          incidents={childIncidents}
+          childrenList={childrenList}
           parent={parent}
           history={[history]}
+          childIncidents={childIncidents}
         />
       )
     )
 
-    expect(queryByText('Deelmelding')).toBeInTheDocument()
-    expect(queryByTestId('childIncidents')).toBeInTheDocument()
-    expect(queryByTestId('noActionButton')).toBeInTheDocument()
+    expect(screen.queryByText('Deelmelding')).toBeInTheDocument()
+    expect(screen.queryByTestId('childIncidents')).toBeInTheDocument()
+    expect(screen.queryByTestId('noActionButton')).toBeInTheDocument()
 
     const updatedParent = { updated_at: new Date().toISOString() }
     rerender(
       renderWithContext(
         <ChildIncidents
-          incidents={childIncidents}
+          childrenList={childrenList}
           parent={updatedParent}
           history={[history]}
+          childIncidents={childIncidents}
         />
       )
     )
 
-    expect(queryByText('Deelmelding')).toBeInTheDocument()
-    expect(queryByTestId('childIncidents')).toBeInTheDocument()
-    expect(queryByTestId('noActionButton')).not.toBeInTheDocument()
+    expect(screen.queryByText('Deelmelding')).toBeInTheDocument()
+    expect(screen.queryByTestId('childIncidents')).toBeInTheDocument()
+    expect(screen.queryByTestId('noActionButton')).not.toBeInTheDocument()
   })
 
   it('should reset the incident state ', async () => {
-    const childIncidents = childIncidentsFixture.results
+    const childrenList = childIncidentsFixture.results
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at }
 
-    const { findByTestId } = render(
+    render(
       withAppContext(
         renderWithContext(
           <ChildIncidents
-            incidents={childIncidents}
+            childrenList={childrenList}
             parent={parent}
             history={[history]}
           />
@@ -91,9 +95,9 @@ describe('IncidentDetail/components/ChildIncidents', () => {
       )
     )
 
-    const button = await findByTestId('noActionButton')
+    const button = await screen.findByTestId('noActionButton')
     fireEvent.click(button)
-    await findByTestId('noActionButton')
+    await screen.findByTestId('noActionButton')
     expect(update).toHaveBeenCalledTimes(1)
   })
 })

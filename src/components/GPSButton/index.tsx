@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import { FunctionComponent, useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 import { pointWithinBounds } from 'shared/services/map-location'
@@ -18,7 +17,22 @@ const GPSIcon = styled(GPS)`
   display: inline-block;
 `
 
-const GPSButton = ({
+export interface LocationResult
+  extends Partial<
+    Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
+  > {
+  toggled: boolean
+}
+
+export interface GPSButtonProps {
+  className?: string
+  onLocationChange?: (result: LocationResult) => void
+  onLocationSuccess?: (result: LocationResult) => void
+  onLocationError?: (error: GeolocationPositionError) => void
+  onLocationOutOfBounds?: () => void
+}
+
+const GPSButton: FunctionComponent<GPSButtonProps> = ({
   className,
   onLocationChange,
   onLocationSuccess,
@@ -43,16 +57,16 @@ const GPSButton = ({
       if (loading) return
 
       if (toggled) {
-        successCallbackFunc({ toggled: false })
+        successCallbackFunc?.({ toggled: false })
         setToggled(false)
         return
       }
 
-      const onSuccess = ({ coords }) => {
+      const onSuccess: PositionCallback = ({ coords }) => {
         const { accuracy, latitude, longitude } = coords
 
         if (pointWithinBounds([latitude, longitude])) {
-          successCallbackFunc({
+          successCallbackFunc?.({
             accuracy,
             latitude,
             longitude,
@@ -70,8 +84,8 @@ const GPSButton = ({
         setLoading(false)
       }
 
-      const onError = ({ code, message }) => {
-        onLocationError({ code, message })
+      const onError: PositionErrorCallback = (error) => {
+        onLocationError?.(error)
         setToggled(false)
         setLoading(false)
       }
@@ -113,18 +127,6 @@ const GPSButton = ({
       type="button"
     />
   )
-}
-
-GPSButton.defaultProps = {
-  className: '',
-}
-
-GPSButton.propTypes = {
-  className: PropTypes.string,
-  onLocationChange: PropTypes.func,
-  onLocationError: PropTypes.func,
-  onLocationOutOfBounds: PropTypes.func,
-  onLocationSuccess: PropTypes.func,
 }
 
 export default GPSButton

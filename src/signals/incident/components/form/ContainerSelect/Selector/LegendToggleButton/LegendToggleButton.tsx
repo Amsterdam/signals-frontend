@@ -25,9 +25,8 @@ const LegendToggleButton: FunctionComponent<LegendToggleButtonProps> = ({
   onClick,
   isRenderingLegendPanel,
 }) => {
-  const { setPositionFromSnapPoint, matchPositionWithSnapPoint } = useContext(
-    MapPanelContext
-  )
+  const { setPositionFromSnapPoint, matchPositionWithSnapPoint } =
+    useContext(MapPanelContext)
 
   const isDrawerOpen = !matchPositionWithSnapPoint(SnapPoint.Closed)
   const isLegendPanelOpen = isDrawerOpen && isRenderingLegendPanel

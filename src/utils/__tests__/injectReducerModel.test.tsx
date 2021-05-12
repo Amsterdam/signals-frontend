@@ -20,7 +20,7 @@ describe('injectReducerModel', () => {
     injectors = {
       injectReducer: jest.fn(),
     }
-    const mockedGetInjectors = (getInjectors as unknown) as jest.Mock<
+    const mockedGetInjectors = getInjectors as unknown as jest.Mock<
       typeof getInjectors
     > // compiler doesn't know that it's mocked. So manually cast it.
     mockedGetInjectors.mockImplementation(() => injectors)

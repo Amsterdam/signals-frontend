@@ -84,12 +84,8 @@ const MapSelectGeneric = ({
 
   const fetchRequest = useCallback(
     (bboxStringLngLat) => {
-      const [
-        longitude1,
-        latitude1,
-        longitude2,
-        latitude2,
-      ] = bboxStringLngLat.split(',')
+      const [longitude1, latitude1, longitude2, latitude2] =
+        bboxStringLngLat.split(',')
       const bboxStringLatLng = [
         latitude1,
         longitude1,

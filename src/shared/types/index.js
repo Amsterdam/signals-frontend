@@ -3,7 +3,8 @@
 import PropTypes from 'prop-types'
 import { isDate } from 'utils'
 
-const dateTypeFactory = (isRequired) =>
+const dateTypeFactory =
+  (isRequired) =>
   /**
    * @param  {Object} props - component props
    * @param  {String} propName - component prop name to validate
@@ -194,6 +195,15 @@ export const attachmentsType = PropTypes.arrayOf(
     location: PropTypes.string,
   })
 )
+
+export const contextType = PropTypes.shape({
+  reporter: PropTypes.shape({
+    negative_count: PropTypes.number,
+    open_count: PropTypes.number,
+    positive_count: PropTypes.number,
+    signal_count: PropTypes.number,
+  }),
+});
 
 export const defaultTextsType = PropTypes.arrayOf(
   PropTypes.shape({

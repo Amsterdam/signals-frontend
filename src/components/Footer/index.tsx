@@ -77,10 +77,8 @@ const Footer = () => (
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: stringFormatter(configuration.language.footer1, {
-                '##GENERAL_PHONE_NUMBER_FORMATTED##': configuration.language.phoneNumber.replace(
-                  ' ',
-                  ''
-                ),
+                '##GENERAL_PHONE_NUMBER_FORMATTED##':
+                  configuration.language.phoneNumber.replace(' ', ''),
                 '##GENERAL_PHONE_NUMBER##': configuration.language.phoneNumber,
               }),
             }}

@@ -14,7 +14,7 @@ jest.mock('./reducer')
 jest.mock('./saga')
 
 describe('containers/App/services', () => {
-  const store = ({
+  const store = {
     getState: jest.fn(),
     dispatch: jest.fn(),
     injectedReducers: {},
@@ -22,7 +22,7 @@ describe('containers/App/services', () => {
     runSaga: jest.fn(),
     subscribe: jest.fn(),
     replaceReducer: jest.fn(),
-  } as unknown) as InjectedStore
+  } as unknown as InjectedStore
   let injectModelSpy: jest.Mock
 
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe('containers/App/services', () => {
   })
 
   it('should inject reducer', () => {
-    const mockedInjectReducerModel = (injectReducerModel as unknown) as jest.Mock<
+    const mockedInjectReducerModel = injectReducerModel as unknown as jest.Mock<
       typeof injectReducerModel
     >
     mockedInjectReducerModel.mockImplementation(injectModelSpy)
@@ -44,7 +44,7 @@ describe('containers/App/services', () => {
   })
 
   it('should inject saga', () => {
-    const mockedInjectSagaModel = (injectSagaModel as unknown) as jest.Mock<
+    const mockedInjectSagaModel = injectSagaModel as unknown as jest.Mock<
       typeof injectSagaModel
     >
     mockedInjectSagaModel.mockImplementation(injectModelSpy)

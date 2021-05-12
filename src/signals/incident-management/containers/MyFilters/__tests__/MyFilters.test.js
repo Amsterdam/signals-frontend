@@ -30,8 +30,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
       incident_date: '2019-09-17',
       category_slug: [
         {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
           value: 'Asbest / accu',
           slug: 'asbest-accu',
         },
@@ -50,8 +49,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
       incident_date: '2019-09-17',
       category_slug: [
         {
-          key:
-            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+          key: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
           value: 'Asbest / accu',
           slug: 'asbest-accu',
         },

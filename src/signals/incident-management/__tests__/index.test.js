@@ -3,7 +3,7 @@
 import { Suspense } from 'react'
 import { createMemoryHistory } from 'history'
 import { withAppContext } from 'test/utils'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { isAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
@@ -55,16 +55,16 @@ describe('signals/incident-management', () => {
   describe('not authenticated', () => {
     it('should redirect to the login page', async () => {
       isAuthenticated.mockImplementation(() => false)
-      const { findByTestId } = render(withSuspense())
-      const loginPage = await findByTestId('loginPage')
+      render(withSuspense())
+      const loginPage = await screen.findByTestId('loginPage')
 
       expect(loginPage).toBeInTheDocument()
     })
 
     it('should not fetch anything', async () => {
       isAuthenticated.mockImplementation(() => false)
-      const { findByTestId } = render(withSuspense())
-      await findByTestId('loginPage')
+      render(withSuspense())
+      await screen.findByTestId('loginPage')
 
       expect(actions.getDistricts).not.toHaveBeenCalled()
       expect(actions.getFilters).not.toHaveBeenCalled()
@@ -77,16 +77,16 @@ describe('signals/incident-management', () => {
   describe('login page', () => {
     it('should redirect when not authenticated', async () => {
       isAuthenticated.mockImplementation(() => false)
-      const { findByTestId } = render(withSuspense())
-      const loginPage = await findByTestId('loginPage')
+      render(withSuspense())
+      const loginPage = await screen.findByTestId('loginPage')
 
       expect(loginPage).toBeInTheDocument()
     })
 
     it('should not redirect when authenticated', async () => {
       isAuthenticated.mockImplementation(() => true)
-      const { findByTestId } = render(withSuspense())
-      const incidentManagementOverviewPage = await findByTestId(
+      render(withSuspense())
+      const incidentManagementOverviewPage = await screen.findByTestId(
         'incidentManagementOverviewPage'
       )
 
@@ -99,16 +99,16 @@ describe('signals/incident-management', () => {
       describe('with fetchDistrictsFromBackend disabled', () => {
         it('should not fetch when not authenticated', async () => {
           isAuthenticated.mockImplementation(() => false)
-          const { findByTestId } = render(withSuspense())
-          await findByTestId('loginPage')
+          render(withSuspense())
+          await screen.findByTestId('loginPage')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
 
         it('should not fetch when authenticated', async () => {
           isAuthenticated.mockImplementation(() => true)
-          const { findByTestId } = render(withSuspense())
-          await findByTestId('incidentManagementOverviewPage')
+          render(withSuspense())
+          await screen.findByTestId('incidentManagementOverviewPage')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
@@ -117,8 +117,8 @@ describe('signals/incident-management', () => {
         it('should not fetch when not authenticated', async () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
           isAuthenticated.mockImplementation(() => false)
-          const { findByTestId } = render(withSuspense())
-          await findByTestId('loginPage')
+          render(withSuspense())
+          await screen.findByTestId('loginPage')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
@@ -126,8 +126,8 @@ describe('signals/incident-management', () => {
         it('should fetch when authenticated', async () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
           isAuthenticated.mockImplementation(() => true)
-          const { findByTestId } = render(withSuspense())
-          await findByTestId('incidentManagementOverviewPage')
+          render(withSuspense())
+          await screen.findByTestId('incidentManagementOverviewPage')
 
           expect(actions.getDistricts).toHaveBeenCalledTimes(1)
         })
@@ -137,16 +137,16 @@ describe('signals/incident-management', () => {
     describe('filters', () => {
       it('should not fetch when not authenticated', async () => {
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
         expect(actions.getFilters).not.toHaveBeenCalled()
       })
 
       it('should fetch when authenticated', async () => {
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
         expect(actions.getFilters).toHaveBeenCalledTimes(1)
       })
@@ -155,32 +155,32 @@ describe('signals/incident-management', () => {
     describe('incidents', () => {
       it('should not fetch when not authenticated', async () => {
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
         expect(actions.requestIncidents).not.toHaveBeenCalled()
       })
 
       it('should fetch when authenticated', async () => {
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
         expect(actions.requestIncidents).toHaveBeenCalledTimes(1)
       })
 
       it('should not search when not authenticated', async () => {
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
         expect(actions.searchIncidents).not.toHaveBeenCalled()
       })
 
       it('should not search without search query', async () => {
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
         expect(actions.searchIncidents).not.toHaveBeenCalled()
       })
@@ -191,8 +191,8 @@ describe('signals/incident-management', () => {
         jest
           .spyOn(appSelectors, 'makeSelectSearchQuery')
           .mockImplementation(() => searchQuery)
-        const { findByTestId } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
         expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery)
       })
@@ -206,19 +206,19 @@ describe('signals/incident-management', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incidents')
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
-        expect(queryByText(loginText)).not.toBeNull()
+        expect(screen.queryByText(loginText)).not.toBeNull()
       })
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incidents')
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
-        expect(queryByText(loginText)).toBeNull()
+        expect(screen.queryByText(loginText)).toBeNull()
       })
     })
 
@@ -226,19 +226,19 @@ describe('signals/incident-management', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incident/1101')
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
-        expect(queryByText(loginText)).not.toBeNull()
+        expect(screen.queryByText(loginText)).not.toBeNull()
       })
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incident/1101')
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
-        expect(queryByText(loginText)).toBeNull()
+        expect(screen.queryByText(loginText)).toBeNull()
       })
     })
 
@@ -246,31 +246,55 @@ describe('signals/incident-management', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incident/1101/split')
         isAuthenticated.mockImplementation(() => false)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('loginPage')
+        render(withSuspense())
+        await screen.findByTestId('loginPage')
 
-        expect(queryByText(loginText)).not.toBeNull()
+        expect(screen.queryByText(loginText)).not.toBeNull()
       })
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incident/1101/split')
         isAuthenticated.mockImplementation(() => true)
-        const { findByTestId, queryByText } = render(withSuspense())
-        await findByTestId('incidentManagementOverviewPage')
+        render(withSuspense())
+        await screen.findByTestId('incidentManagementOverviewPage')
 
-        expect(queryByText(loginText)).toBeNull()
+        expect(screen.queryByText(loginText)).toBeNull()
+      })
+    })
+
+    describe('incident reporter', () => {
+      it('should show warning when not authenticated', async () => {
+        configuration.featureFlags.enableReporter = true
+        history.push('/manage/incident/1101/melder')
+        isAuthenticated.mockImplementation(() => false)
+        render(withSuspense())
+
+        expect(await screen.findByTestId('loginPage')).toBeInTheDocument()
+        expect(screen.queryByText(loginText)).not.toBeNull()
+      })
+
+      it('should not show warning when authenticated', async () => {
+        configuration.featureFlags.enableReporter = true
+        history.push('/manage/incident/1101/melder')
+        isAuthenticated.mockImplementation(() => true)
+        render(withSuspense())
+
+        expect(
+          await screen.findByTestId('incidentManagementOverviewPage')
+        ).toBeInTheDocument()
+        expect(screen.queryByText(loginText)).not.toBeInTheDocument()
       })
     })
 
     it('will use overview page as routing fallback', async () => {
       isAuthenticated.mockImplementation(() => true)
-      const { findByTestId } = render(withSuspense())
-      await findByTestId('incidentManagementOverviewPage')
+      render(withSuspense())
+      await screen.findByTestId('incidentManagementOverviewPage')
 
       history.push('/manage/this-url-definitely-does-not-exist')
 
       expect(
-        await findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incidentManagementOverviewPage')
       ).toBeInTheDocument()
     })
   })

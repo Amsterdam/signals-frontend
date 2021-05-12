@@ -102,9 +102,7 @@ const useFetchAll = <T>(): FetchResponse<T> => {
 
         if (!fetchResponse.some((response) => !response.ok)) {
           const responseData = await Promise.all(
-            fetchResponse.map(
-              (response) => (response.json() as unknown) as Data
-            )
+            fetchResponse.map((response) => response.json() as unknown as Data)
           )
 
           dispatch({ type: 'SET_GET_DATA', payload: responseData })

@@ -8,14 +8,14 @@ import { StyledTHead } from 'components/DataView/styled'
 import DataViewHeaderRow from './components/DataViewHeaderRow'
 
 const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
-  const headersMissing = useMemo(() => numberOfColumns - headers.length, [
-    numberOfColumns,
-    headers.length,
-  ])
-  const filtersMissing = useMemo(() => numberOfColumns - filters.length, [
-    numberOfColumns,
-    filters.length,
-  ])
+  const headersMissing = useMemo(
+    () => numberOfColumns - headers.length,
+    [numberOfColumns, headers.length]
+  )
+  const filtersMissing = useMemo(
+    () => numberOfColumns - filters.length,
+    [numberOfColumns, filters.length]
+  )
 
   return (
     <StyledTHead data-testid="dataViewHeader">

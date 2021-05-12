@@ -149,8 +149,9 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) =>
-        section === 'departmentForm' || section === 'departments'
+      .mockImplementation(
+        () => (section) =>
+          section === 'departmentForm' || section === 'departments'
       )
 
     render(withSuspense())
@@ -187,8 +188,9 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) =>
-        section === 'categories' || section === 'categoryForm'
+      .mockImplementation(
+        () => (section) =>
+          section === 'categories' || section === 'categoryForm'
       )
 
     render(withSuspense())
@@ -232,8 +234,8 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) =>
-        section === 'users' || section === 'userForm'
+      .mockImplementation(
+        () => (section) => section === 'users' || section === 'userForm'
       )
 
     render(withSuspense())
@@ -280,8 +282,8 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) =>
-        section === 'groups' || section === 'settings'
+      .mockImplementation(
+        () => (section) => section === 'groups' || section === 'settings'
       )
     jest
       .spyOn(appSelectors, 'makeSelectUserCan')

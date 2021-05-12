@@ -136,9 +136,11 @@ const useFetch = <T>(): FetchResponse<T> => {
         })
 
         if (fetchResponse.ok) {
-          const responseData = (requestOptions.responseType === 'blob'
-            ? await fetchResponse.blob()
-            : await fetchResponse.json()) as Data
+          const responseData = (
+            requestOptions.responseType === 'blob'
+              ? await fetchResponse.blob()
+              : await fetchResponse.json()
+          ) as Data
 
           dispatch({ type: 'SET_GET_DATA', payload: responseData })
         } else {
@@ -162,45 +164,51 @@ const useFetch = <T>(): FetchResponse<T> => {
   )
 
   const modify = useCallback(
-    (method: string) => async (
-      url: RequestInfo,
-      modifiedData: Data,
-      requestOptions: Data = {}
-    ) => {
-      dispatch({ type: 'SET_LOADING', payload: true })
+    (method: string) =>
+      async (
+        url: RequestInfo,
+        modifiedData: Data,
+        requestOptions: Data = {}
+      ) => {
+        dispatch({ type: 'SET_LOADING', payload: true })
 
-      try {
-        const modifyResponse = await fetch(url, {
-          headers: requestHeaders(),
-          method,
-          signal,
-          body: JSON.stringify(modifiedData),
-          ...requestOptions,
-        })
+        try {
+          const modifyResponse = await fetch(url, {
+            headers: requestHeaders(),
+            method,
+            signal,
+            body: JSON.stringify(modifiedData),
+            ...requestOptions,
+          })
 
-        if (modifyResponse.ok) {
-          const responseData = (requestOptions.responseType === 'blob'
-            ? await modifyResponse.blob()
-            : await modifyResponse.json()) as Data
+          if (modifyResponse.ok) {
+            const responseData = (
+              requestOptions.responseType === 'blob'
+                ? await modifyResponse.blob()
+                : await modifyResponse.json()
+            ) as Data
 
-          dispatch({ type: 'SET_MODIFY_DATA', payload: responseData })
-        } else {
-          Object.defineProperty(modifyResponse, 'message', {
-            value: getErrorMessage(modifyResponse),
+            dispatch({ type: 'SET_MODIFY_DATA', payload: responseData })
+          } else {
+            Object.defineProperty(modifyResponse, 'message', {
+              value: getErrorMessage(modifyResponse),
+              writable: false,
+            })
+
+            dispatch({
+              type: 'SET_ERROR',
+              payload: modifyResponse as FetchError,
+            })
+          }
+        } catch (exception: unknown) {
+          Object.defineProperty(exception, 'message', {
+            value: getErrorMessage(exception),
             writable: false,
           })
 
-          dispatch({ type: 'SET_ERROR', payload: modifyResponse as FetchError })
+          dispatch({ type: 'SET_ERROR', payload: exception as FetchError })
         }
-      } catch (exception: unknown) {
-        Object.defineProperty(exception, 'message', {
-          value: getErrorMessage(exception),
-          writable: false,
-        })
-
-        dispatch({ type: 'SET_ERROR', payload: exception as FetchError })
-      }
-    },
+      },
     [requestHeaders, signal]
   )
 

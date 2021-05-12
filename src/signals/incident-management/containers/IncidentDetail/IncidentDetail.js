@@ -38,6 +38,8 @@ import {
   SET_ATTACHMENTS,
   SET_CHILDREN,
   SET_CHILDREN_HISTORY,
+  SET_CHILD_INCIDENTS,
+  SET_CONTEXT,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
   SET_HISTORY,
@@ -84,6 +86,8 @@ const IncidentDetail = () => {
   const { get: getDefaultTexts, data: defaultTexts } = useFetch()
   const { get: getChildren, data: children } = useFetch()
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
+  const { get: getContext, data: context } = useFetch()
+  const { get: getChildIncidents, data: childIncidents } = useFetchAll()
   const [editingStatus, setEditingStatus] = useState(false)
 
   const subcategories = useSelector(makeSelectSubCategories)
@@ -143,7 +147,7 @@ const IncidentDetail = () => {
   useEffect(() => {
     if (!attachments) return
 
-    dispatch({ type: SET_ATTACHMENTS, payload: attachments?.results })
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments.results })
   }, [attachments])
 
   useEffect(() => {
@@ -172,6 +176,18 @@ const IncidentDetail = () => {
 
     dispatch({ type: SET_CHILDREN_HISTORY, payload: childrenHistory })
   }, [childrenHistory])
+
+  useEffect(() => {
+    if (!childIncidents) return
+
+    dispatch({ type: SET_CHILD_INCIDENTS, payload: childIncidents })
+  }, [childIncidents])
+
+  useEffect(() => {
+    if (!context) return
+
+    dispatch({ type: SET_CONTEXT, payload: context })
+  }, [context])
 
   useEffect(() => {
     if (!id) return
@@ -206,15 +222,24 @@ const IncidentDetail = () => {
     }
 
     // retrieve children only when an incident has children
-    const hasChildren = incident?._links['sia:children']?.length > 0
+    const hasChildren = incident._links['sia:children']?.length > 0
 
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
+    }
+
+    const isSplitIncident = incident._links?.['sia:parent']?.href
+      ?.split('/')
+      .pop()
+
+    if (incident.reporter.email && !isSplitIncident) {
+      getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
     }
   }, [
     getAttachments,
     getChildren,
     getHistory,
+    getContext,
     id,
     incident?._links,
     state.attachments,
@@ -222,15 +247,23 @@ const IncidentDetail = () => {
 
   useEffect(() => {
     if (children?.results.length > 0) {
-      const urls = children.results
-        .filter((result) => result.can_view_signal)
-        .map(
-          ({ id: childId }) =>
-            `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}/history`
-        )
-      getChildrenHistory(urls)
+      const viewableResults = children.results.filter(
+        (result) => result.can_view_signal
+      )
+
+      const childIncidentUrls = viewableResults.map(
+        ({ id: childId }) =>
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}`
+      )
+      const childrenHistoryUrls = viewableResults.map(
+        ({ id: childId }) =>
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}/history`
+      )
+
+      getChildrenHistory(childrenHistoryUrls)
+      getChildIncidents(childIncidentUrls)
     }
-  }, [children, getChildrenHistory])
+  }, [children, getChildrenHistory, getChildIncidents])
 
   const handleKeyUp = useCallback(
     (event) => {
@@ -290,18 +323,16 @@ const IncidentDetail = () => {
         <DetailContainer
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
-          <Detail attachments={state.attachments} />
-
+          <Detail attachments={state.attachments} context={state.context} />
           <AddNote />
-
-          {state.children && state.childrenHistory && (
+          {state.children?.results && state.childrenHistory && (
             <ChildIncidents
-              incidents={state.children.results}
+              childrenList={state.children.results}
               parent={state.incident}
               history={state.childrenHistory}
+              childIncidents={state.childIncidents}
             />
           )}
-
           {state.history && <History list={state.history} />}
         </DetailContainer>
 

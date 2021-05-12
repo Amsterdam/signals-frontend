@@ -75,9 +75,8 @@ export const makeSelectAllFilters = createSelector(
     const filters = stateMap.get('filters').toJS()
     return filters.map((filter) => {
       const { priority } = filter.options
-      const converted = (Array.isArray(priority)
-        ? priority
-        : [priority]
+      const converted = (
+        Array.isArray(priority) ? priority : [priority]
       ).filter(Boolean)
       const fltr = {
         ...filter,

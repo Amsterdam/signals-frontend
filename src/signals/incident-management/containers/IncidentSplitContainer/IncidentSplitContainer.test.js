@@ -104,17 +104,19 @@ const renderAwait = async (
 }
 
 // eslint-disable-next-line
-const Form = (formData = submittedFormData) => ({ onSubmit, ...props }) => {
-  const handleSubmit = () => {
-    onSubmit(formData)
-  }
+const Form =
+  (formData = submittedFormData) =>
+  ({ onSubmit, ...props }) => {
+    const handleSubmit = () => {
+      onSubmit(formData)
+    }
 
-  return (
-    <form onSubmit={handleSubmit} {...props}>
-      <input type="submit" value="Submit" />
-    </form>
-  )
-}
+    return (
+      <form onSubmit={handleSubmit} {...props}>
+        <input type="submit" value="Submit" />
+      </form>
+    )
+  }
 const formComponentMock = { render: Form() }
 
 describe('signals/incident-management/containers/IncidentSplitContainer', () => {
@@ -252,12 +254,8 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       expect.objectContaining({ method: 'POST' })
     )
 
-    const {
-      stadsdeel,
-      buurt_code,
-      address,
-      geometrie,
-    } = incidentFixture.location
+    const { stadsdeel, buurt_code, address, geometrie } =
+      incidentFixture.location
 
     const parentData = {
       attachments: incidentFixture.attachments,
@@ -271,14 +269,15 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       parent: incidentFixture.id,
     }
 
-    const expectedTransformedBecauseOfReasonsUnknownToManValues = submittedFormData.incidents.map(
-      ({ subcategory, description, type, priority }) => ({
-        category: { category_url: subcategory },
-        priority: { priority },
-        text: description,
-        type: { code: type },
-      })
-    )
+    const expectedTransformedBecauseOfReasonsUnknownToManValues =
+      submittedFormData.incidents.map(
+        ({ subcategory, description, type, priority }) => ({
+          category: { category_url: subcategory },
+          priority: { priority },
+          text: description,
+          type: { code: type },
+        })
+      )
 
     JSON.parse(fetch.mock.calls[1][1].body).forEach(
       (partialIncidentData, index) => {

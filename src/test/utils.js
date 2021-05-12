@@ -60,19 +60,18 @@ export const withAppContext = (Component) => (
 )
 
 // eslint-disable-next-line
-export const withCustomAppContext = (Component) => ({
-  themeCfg = {},
-  storeCfg = {},
-  routerCfg = {},
-}) => (
-  <ThemeProvider {...themeCfg}>
-    <Provider store={store} {...storeCfg}>
-      <ConnectedRouter history={history} {...routerCfg}>
-        {Component}
-      </ConnectedRouter>
-    </Provider>
-  </ThemeProvider>
-)
+export const withCustomAppContext =
+  (Component) =>
+  ({ themeCfg = {}, storeCfg = {}, routerCfg = {} }) =>
+    (
+      <ThemeProvider {...themeCfg}>
+        <Provider store={store} {...storeCfg}>
+          <ConnectedRouter history={history} {...routerCfg}>
+            {Component}
+          </ConnectedRouter>
+        </Provider>
+      </ThemeProvider>
+    )
 
 /**
  * Get a list of users from JSON data that is coming from the API endpoint

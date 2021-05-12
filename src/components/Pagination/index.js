@@ -58,10 +58,10 @@ const Pagination = ({
   shouldPushToHistory,
   totalPages,
 }) => {
-  const pagesInRange = useMemo(() => pageNumbersList(currentPage, totalPages), [
-    currentPage,
-    totalPages,
-  ])
+  const pagesInRange = useMemo(
+    () => pageNumbersList(currentPage, totalPages),
+    [currentPage, totalPages]
+  )
 
   const items = useMemo(
     () =>

@@ -468,15 +468,19 @@ describe('DataView with data', () => {
   it('should render correct number of columns and in correct column order', () => {
     const alphabetic = [...headers].sort(sortAlphabetic)
     const alphabeticReversed = [...headers].sort(sortAlphabeticReversed)
-    const expectOrder = (order, negate = false) => (row, rowIDX) =>
-      row.childNodes.forEach((column, idx) => {
-        const expectObj = negate ? expect(column).not : expect(column)
-        const check =
-          data[rowIDX][order[idx]] === undefined ? '' : data[rowIDX][order[idx]]
-        const negativeCheck = data[rowIDX][order[idx]]
+    const expectOrder =
+      (order, negate = false) =>
+      (row, rowIDX) =>
+        row.childNodes.forEach((column, idx) => {
+          const expectObj = negate ? expect(column).not : expect(column)
+          const check =
+            data[rowIDX][order[idx]] === undefined
+              ? ''
+              : data[rowIDX][order[idx]]
+          const negativeCheck = data[rowIDX][order[idx]]
 
-        expectObj.toHaveTextContent(negate ? negativeCheck : check)
-      })
+          expectObj.toHaveTextContent(negate ? negativeCheck : check)
+        })
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }))
 
     const allDataRows = [...queryAllByTestId('dataViewBodyRow')]

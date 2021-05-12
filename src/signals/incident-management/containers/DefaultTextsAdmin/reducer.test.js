@@ -16,18 +16,15 @@ import {
 describe('defaultTextsAdminReducer', () => {
   const text1 = {
     title: 'Asbest',
-    text:
-      'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
+    text: 'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
   }
   const text2 = {
     title: 'Bbest',
-    text:
-      'Er is bsbest gevonden en dit zal misschien binnen 3 eeuwen worden opgeruimd.',
+    text: 'Er is bsbest gevonden en dit zal misschien binnen 3 eeuwen worden opgeruimd.',
   }
   const text3 = {
     title: 'Cbest',
-    text:
-      'Er is csbest gevonden en dit zal misschien binnen 3 eeuwen worden opgeruimd.',
+    text: 'Er is csbest gevonden en dit zal misschien binnen 3 eeuwen worden opgeruimd.',
   }
 
   const defaultTexts = [text1]

@@ -22,9 +22,10 @@ const typesValuesList = typesList.reduce(
   {}
 )
 const reduceSources = (sources) =>
-  sources.reduce((acc, { value }) => [...acc, { [value]: value }], [
-    { '': 'Vul bron in' },
-  ])
+  sources.reduce(
+    (acc, { value }) => [...acc, { [value]: value }],
+    [{ '': 'Vul bron in' }]
+  )
 
 const getControls = memoize(
   (sources) => ({
