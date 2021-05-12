@@ -93,9 +93,11 @@ const ReporterContainer: FunctionComponent = () => {
           </div>
         )}
 
-        {incident.canView && incident.data && (
-          <IncidentDetail incident={incident.data} />
-        )}
+        {incident.canView &&
+          incident.data &&
+          incident.data.id === incident.id && (
+            <IncidentDetail incident={incident.data} />
+          )}
 
         {incident.canView === false && (
           <NotPermittedMessage>
