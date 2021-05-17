@@ -56,6 +56,7 @@ describe('Samenhang meldingen', () => {
     cy.get(SAMENHANG.feedbackStatus).eq(0).should('contain', 'Tevreden').and('be.visible').and('have.css', 'color', 'rgb(0, 160, 60)');
     cy.get(SAMENHANG.feedbackStatus).eq(2).should('contain', '-').and('be.visible');
     cy.get(SAMENHANG.feedbackStatus).eq(3).should('contain', 'Niet tevreden').and('be.visible').and('have.css', 'color', 'rgb(236, 0, 0)');
+    cy.get(SAMENHANG.feedbackStatus).eq(4).should('contain', 'Niet ontvangen').and('be.visible');
 
     // Check signal statuses
     cy.get(SAMENHANG.incidentStatus).eq(1).should('contain', 'Gemeld').and('be.visible');
@@ -86,7 +87,7 @@ describe('Samenhang meldingen', () => {
     cy.get(SAMENHANG.labelStatus).should('contain', 'Status');
     cy.get(SAMENHANG.valueStatus).should('contain', signal_7979.status.state_display);
 
-    // History shows feeback and status actions in chronological order
+    // History shows feedback and status actions in chronological order
     cy.get(SAMENHANG.labelHistory).should('contain', 'Contactgeschiedenis vanaf afgehandeld').and('be.visible');
     cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 5);
     cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 5);

@@ -87,7 +87,7 @@
         "main_slug": "afval"
       },
       "status": {"state": "m", "state_display": "Gemeld"},
-      "feedback": null,
+      "feedback":  {"is_satisfied": null, "submitted_at": null},
       "can_view_signal": false,
       "has_children": false
     },
