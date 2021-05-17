@@ -39,6 +39,11 @@ export const MESSAGES = {
     'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
 };
 
+export const SAMENHANG_TEXT = {
+  nocontact: 'Er is nog geen contact geweest met deze melder',
+  notAuthorized: 'Je hebt geen toestemming om meldingen in deze subcategorie te bekijken',
+};
+
 export const TYPE_TEXT = {
   aanvraag: 'Aanvraag: Een verzoek om iets structureels te veranderen',
   grootOnderhoud:
