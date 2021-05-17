@@ -1,0 +1,176 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/context/reporter?page=1&page_size=10"
+    },
+    "next": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/context/reporter?page=2&page_size=10"
+    },
+    "previous": {"href": null}
+  },
+  "count": 11,
+  "results": [
+    {
+      "id": 7979,
+      "created_at": "2021-05-05T10:30:55.919912+02:00",
+      "category": {
+        "sub": "Onderhoud stoep, straat en fietspad",
+        "sub_slug": "onderhoud-stoep-straat-en-fietspad",
+        "departments": "STW",
+        "main": "Wegen, verkeer, straatmeubilair",
+        "main_slug": "wegen-verkeer-straatmeubilair"
+      },
+      "status": {"state": "o", "state_display": "Afgehandeld"},
+      "feedback": {
+        "is_satisfied": true,
+        "submitted_at": "2021-05-05T08:33:22.467225Z"
+      },
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 7976,
+      "created_at": "2021-05-05T09:25:39.385290+02:00",
+      "category": {
+        "sub": "Dode dieren",
+        "sub_slug": "dode-dieren",
+        "departments": "GGD",
+        "main": "Overlast van dieren",
+        "main_slug": "overlast-van-dieren"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 7974,
+      "created_at": "2021-05-06T15:02:55.687629+02:00",
+      "category": {
+        "sub": "Fietswrak",
+        "sub_slug": "fietswrak",
+        "departments": "THO",
+        "main": "Overlast in de openbare ruimte",
+        "main_slug": "overlast-in-de-openbare-ruimte"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": true
+    },
+    {
+      "id": 7973,
+      "created_at": "2021-05-05T09:00:21.976776+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": {"state": "m", "state_display": "Heropend"},
+      "feedback": {
+        "is_satisfied": false,
+        "submitted_at": "2021-05-05T07:04:23.723160Z"
+      },
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 7972,
+      "created_at": "2021-05-05T09:00:21.976776+02:00",
+      "category": {
+        "sub": "Grofvuil",
+        "sub_slug": "grofvuil",
+        "departments": "ASC, AEG, VIS",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": false,
+      "has_children": false
+    },
+    {
+      "id": 7971,
+      "created_at": "2021-05-05T08:02:29.251692+02:00",
+      "category": {
+        "sub": "Container is vol",
+        "sub_slug": "container-is-vol",
+        "departments": "ASC, AEG",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": {"state": "o", "state_display": "Afgehandeld"},
+      "feedback": {
+        "is_satisfied": true,
+        "submitted_at": "2021-05-05T07:04:23.723160Z"
+      },
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 7577,
+      "created_at": "2021-04-08T18:02:34.796706+02:00",
+      "category": {
+        "sub": "Onderhoud stoep, straat en fietspad",
+        "sub_slug": "onderhoud-stoep-straat-en-fietspad",
+        "departments": "STW",
+        "main": "Wegen, verkeer, straatmeubilair",
+        "main_slug": "wegen-verkeer-straatmeubilair"
+      },
+      "status": {"state": "o", "state_display": "Afgehandeld"},
+      "feedback": {
+        "is_satisfied": true,
+        "submitted_at": "2021-04-08T16:04:30.423649Z"
+      },
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 6328,
+      "created_at": "2020-10-19T15:00:10.541564+02:00",
+      "category": {
+        "sub": "Container is kapot",
+        "sub_slug": "container-is-kapot",
+        "departments": "ASC, AEG",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 5965,
+      "created_at": "2020-09-14T09:29:02.990429+02:00",
+      "category": {
+        "sub": "Daklozen / bedelen",
+        "sub_slug": "daklozen-bedelen",
+        "departments": "ASC, THO",
+        "main": "Overlast van en door personen of groepen",
+        "main_slug": "overlast-van-en-door-personen-of-groepen"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": false
+    },
+    {
+      "id": 5964,
+      "created_at": "2020-09-14T09:16:39.119039+02:00",
+      "category": {
+        "sub": "Container is vol",
+        "sub_slug": "container-is-vol",
+        "departments": "ASC, AEG",
+        "main": "Afval",
+        "main_slug": "afval"
+      },
+      "status": {"state": "s", "state_display": "Gesplitst"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": true
+    }
+  ]
+}

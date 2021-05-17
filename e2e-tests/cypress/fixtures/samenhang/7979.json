@@ -1,0 +1,123 @@
+{
+  "_links": {
+    "curies": {
+      "name": "sia",
+      "href": "http://localhost:8000/signals/v1/relations"
+    },
+    "self": {"href": "http://localhost:8000/signals/v1/private/signals/7979"},
+    "archives": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/history"
+    },
+    "sia:attachments": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/attachments"
+    },
+    "sia:pdf": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/pdf"
+    },
+    "sia:context": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/context"
+    }
+  },
+  "_display": "7979 - o - None - 2021-05-05T10:30:55.919912+02:00",
+  "category": {
+    "sub": "Onderhoud stoep, straat en fietspad",
+    "sub_slug": "onderhoud-stoep-straat-en-fietspad",
+    "main": "Wegen, verkeer, straatmeubilair",
+    "main_slug": "wegen-verkeer-straatmeubilair",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad",
+    "departments": "STW",
+    "created_by": "siahangsamen@sia.nl",
+    "text": null,
+    "deadline": "2021-05-10T10:30:55.919912+02:00",
+    "deadline_factor_3": "2021-05-18T10:30:55.919912+02:00"
+  },
+  "id": 7979,
+  "has_attachments": false,
+  "location": {
+    "id": 8782,
+    "stadsdeel": "A",
+    "buurt_code": null,
+    "area_type_code": null,
+    "area_code": null,
+    "address": {
+      "postcode": "1012AB",
+      "huisletter": "",
+      "huisnummer": 5,
+      "woonplaats": "Amsterdam",
+      "openbare_ruimte": "Stationsplein",
+      "huisnummer_toevoeging": ""
+    },
+    "address_text": "Stationsplein 5 1012AB Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.90258436, 52.37756933]},
+    "extra_properties": {
+      "original_address": {
+        "postcode": "1012AB",
+        "huisnummer": "5",
+        "woonplaats": "Amsterdam",
+        "openbare_ruimte": "Stationsplein"
+      }
+    },
+    "created_by": "siahangsamen@sia.nl",
+    "bag_validated": true
+  },
+  "status": {
+    "text": "afgehandeld",
+    "user": "siahangsamen@sia.nl",
+    "state": "o",
+    "state_display": "Afgehandeld",
+    "target_api": null,
+    "extra_properties": null,
+    "send_email": true,
+    "created_at": "2021-05-05T10:33:03.693283+02:00"
+  },
+  "reporter": {
+    "email": "siahangsamen@sia.nl",
+    "phone": "1234512345",
+    "sharing_allowed": false
+  },
+  "priority": {
+    "priority": "normal",
+    "created_by": "siahangsamen@sia.nl"
+  },
+  "notes": [
+    {
+      "text": "Automatische e-mail bij afhandelen is verzonden aan de melder.",
+      "created_by": null
+    },
+    {
+      "text": "Automatische e-mail bij heropenen is verzonden aan de melder.",
+      "created_by": null
+    },
+    {
+      "text": "Automatische e-mail bij afhandelen is verzonden aan de melder.",
+      "created_by": null
+    },
+    {
+      "text": "Automatische e-mail bij registratie van de melding is verzonden aan de melder.",
+      "created_by": null
+    }
+  ],
+  "type": {
+    "code": "SIG",
+    "created_at": "2021-05-05T10:30",
+    "created_by": "siahangsamen@sia.nl"
+  },
+  "source": "Interne melding",
+  "text": "Dit is de beschrijving van een samenhangende melding",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_onderhoud_stoep_straat_en_fietspad",
+      "label": "Soort wegdek",
+      "answer": "Een heel vies wegdek",
+      "category_url": "/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad"
+    }
+  ],
+  "created_at": "2021-05-05T10:30:55.919912+02:00",
+  "updated_at": "2021-05-05T10:33:03.806171+02:00",
+  "incident_date_start": "2021-05-05T10:30:55+02:00",
+  "incident_date_end": null,
+  "routing_departments": null,
+  "attachments": [],
+  "assigned_user_email": null
+}

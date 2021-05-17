@@ -20,6 +20,7 @@ const IncidentList: FunctionComponent<InterfaceListProps> = ({
   <ul className={className}>
     {list.map((incident) => (
       <IncidentListItem
+        data-testid="IncidentListItem"
         key={incident.id}
         incident={incident}
         isSelected={incident.id === selectedIncidentId}

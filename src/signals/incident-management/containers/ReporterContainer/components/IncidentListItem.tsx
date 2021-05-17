@@ -87,12 +87,14 @@ const IncidentListItem: FunctionComponent<IncidentListItemProps> = ({
     {hasChildren ? <StyledParentIncidentIcon /> : <Spacing />}
     <Wrapper>
       <InfoWrapper>
-        <Info>
+        <Info data-testid="incidentInfo">
           {id} {category}
         </Info>
-        <DateTime>{format(new Date(createdAt), 'dd-MM-yyyy HH:mm')}</DateTime>
+        <DateTime data-testid="dateTime">
+          {format(new Date(createdAt), 'dd-MM-yyyy HH:mm')}
+        </DateTime>
       </InfoWrapper>
-      <span>{status}</span>
+      <span data-testid="incidentStatus">{status}</span>
       <StyledFeedbackStatus feedback={feedback} />
     </Wrapper>
   </ListItem>

@@ -61,7 +61,11 @@ const ContactHistory: FunctionComponent<ContactHistoryProps> = ({ id }) => {
   if (isLoading) return <LoadingIndicator />
 
   if (!contactHistory || contactHistory.length === 0)
-    return <Text>Er is nog geen contact geweest met deze melder</Text>
+    return (
+      <Text data-testid="noContactHistory">
+        Er is nog geen contact geweest met deze melder
+      </Text>
+    )
 
   return <HistoryList list={contactHistory} />
 }
