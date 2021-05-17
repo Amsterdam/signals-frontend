@@ -40,7 +40,7 @@ const FeedbackStatus: FunctionComponent<FeedbackStatusProps> = ({
 
   return (
     <Status
-      data-testid="feedbackStatus"
+      data-testid="feedback-status"
       className={className}
       feedback={feedback}
     >

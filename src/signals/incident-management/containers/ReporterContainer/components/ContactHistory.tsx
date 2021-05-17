@@ -62,7 +62,7 @@ const ContactHistory: FunctionComponent<ContactHistoryProps> = ({ id }) => {
 
   if (!contactHistory || contactHistory.length === 0)
     return (
-      <Text data-testid="noContactHistory">
+      <Text data-testid="no-contact-history">
         Er is nog geen contact geweest met deze melder
       </Text>
     )

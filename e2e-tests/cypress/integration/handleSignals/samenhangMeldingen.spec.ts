@@ -12,7 +12,7 @@ import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { SAMENHANG } from '../../support/selectorsSamenhang';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 
-describe('Testdata', () => {
+describe('Setup testdata', () => {
   it('Should setup the testdata', () => {
     requests.createSignalSamenhang();
     requests.createSignalSamenhang();
@@ -23,7 +23,7 @@ describe('Samenhang meldingen', () => {
   beforeEach(() => {
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
-  it('Should show the amount of reported signals in details of a signal', () => {
+  it('Should show the amount of reported signals in the details of a signal', () => {
     routes.getManageSignalsRoutes();
     cy.visit('/manage/incidents/');
     routes.waitForManageSignalsRoutes();

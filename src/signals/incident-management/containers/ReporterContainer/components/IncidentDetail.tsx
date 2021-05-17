@@ -98,26 +98,26 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
         to={`/manage/incident/${id}`}
         target="_blank"
       >
-        <Heading data-testid="incidentHeading" as="h2" styleAs="h6">
+        <Heading data-testid="incident-heading" as="h2" styleAs="h6">
           {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
         </Heading>
       </StyledLink>
-      <IncidentDescription data-testid="incidentDescription">
+      <IncidentDescription data-testid="incident-description">
         {description}
       </IncidentDescription>
       <InfoStyle>
-        <span data-testid="labelDateDefinition">Gemeld op</span>
-        <Value data-testid="valueDateDefinition">
+        <span data-testid="label-date-definition">Gemeld op</span>
+        <Value data-testid="value-date-definition">
           {format(new Date(date), 'dd-MM-yyyy HH:mm')}
         </Value>
-        <span data-testid="labelSubcategory">
+        <span data-testid="label-subcategory">
           Subcategorie (verantwoordelijke afdeling){' '}
         </span>
-        <Value data-testid="valueSubcategory">{subcategory}</Value>
-        <span data-testid="labelStatus">Status </span>
-        <Value data-testid="valueStatus">{status}</Value>
+        <Value data-testid="value-subcategory">{subcategory}</Value>
+        <span data-testid="label-status">Status </span>
+        <Value data-testid="value-status">{status}</Value>
       </InfoStyle>
-      <Text data-testid="labelHistory">
+      <Text data-testid="label-history">
         Contactgeschiedenis vanaf afgehandeld
       </Text>
       <ContactHistory id={id} />
