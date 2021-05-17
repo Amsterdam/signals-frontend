@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import Overview from '../Overview'
 
@@ -18,7 +18,7 @@ describe('Overview component', () => {
   })
 
   it('should show all settings when allowed all', () => {
-    const { queryByTestId } = render(
+    render(
       withAppContext(
         <Overview
           showItems={{
@@ -32,14 +32,14 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).toBeInTheDocument()
-    expect(queryByTestId('groups')).toBeInTheDocument()
-    expect(queryByTestId('departments')).toBeInTheDocument()
-    expect(queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.queryByTestId('users')).toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).toBeInTheDocument()
   })
 
   it('should show specific settings based on props', () => {
-    const { rerender, queryByTestId, unmount } = render(
+    const { rerender, unmount } = render(
       withAppContext(
         <Overview
           showItems={{
@@ -53,10 +53,10 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).not.toBeInTheDocument()
-    expect(queryByTestId('groups')).not.toBeInTheDocument()
-    expect(queryByTestId('departments')).not.toBeInTheDocument()
-    expect(queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('users')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
 
     unmount()
 
@@ -74,10 +74,10 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).not.toBeInTheDocument()
-    expect(queryByTestId('groups')).not.toBeInTheDocument()
-    expect(queryByTestId('departments')).not.toBeInTheDocument()
-    expect(queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('users')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
 
     unmount()
 
@@ -95,10 +95,10 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).not.toBeInTheDocument()
-    expect(queryByTestId('groups')).toBeInTheDocument()
-    expect(queryByTestId('departments')).toBeInTheDocument()
-    expect(queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('users')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
 
     unmount()
 
@@ -116,10 +116,10 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).toBeInTheDocument()
-    expect(queryByTestId('groups')).not.toBeInTheDocument()
-    expect(queryByTestId('departments')).not.toBeInTheDocument()
-    expect(queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.queryByTestId('users')).toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).toBeInTheDocument()
 
     unmount()
 
@@ -137,9 +137,9 @@ describe('Overview component', () => {
       )
     )
 
-    expect(queryByTestId('users')).toBeInTheDocument()
-    expect(queryByTestId('groups')).toBeInTheDocument()
-    expect(queryByTestId('departments')).toBeInTheDocument()
-    expect(queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.queryByTestId('users')).toBeInTheDocument()
+    expect(screen.queryByTestId('groups')).toBeInTheDocument()
+    expect(screen.queryByTestId('departments')).toBeInTheDocument()
+    expect(screen.queryByTestId('categories')).toBeInTheDocument()
   })
 })

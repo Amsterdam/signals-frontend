@@ -15,6 +15,12 @@ import {
   themeSpacing,
   Row,
 } from '@amsterdam/asc-ui'
+import {
+  USERS_URL,
+  ROLES_URL,
+  DEPARTMENTS_URL,
+  CATEGORIES_URL,
+} from 'signals/settings/routes'
 
 type Keys = 'departments' | 'groups' | 'settings' | 'users' | 'categories'
 
@@ -56,7 +62,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
         <Wrapper>
           {showItems.users && (
             <Item data-testid="users">
-              <StyledNavLink to="/instellingen/gebruikers">
+              <StyledNavLink to={USERS_URL}>
                 <StyledTopTaskLink icon={PersonalLogin} title="Gebruikers" />
               </StyledNavLink>
               <Paragraph>
@@ -74,7 +80,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.groups && (
             <Item data-testid="groups">
-              <StyledNavLink to="/instellingen/rollen">
+              <StyledNavLink to={ROLES_URL}>
                 <StyledTopTaskLink icon={Student} title="Rollen" />
               </StyledNavLink>
               <Paragraph>
@@ -89,7 +95,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.departments && (
             <Item data-testid="departments">
-              <StyledNavLink to="/instellingen/afdelingen">
+              <StyledNavLink to={DEPARTMENTS_URL}>
                 <StyledTopTaskLink icon={Buildings} title="Afdelingen" />
               </StyledNavLink>
               <Paragraph>
@@ -112,7 +118,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.categories && (
             <Item data-testid="categories">
-              <StyledNavLink to="/instellingen/categorieen">
+              <StyledNavLink to={CATEGORIES_URL}>
                 <StyledTopTaskLink
                   icon={ThumbnailResults}
                   title="Subcategorieën"
