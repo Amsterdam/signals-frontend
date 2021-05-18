@@ -23,8 +23,6 @@ describe('Manage categories', () => {
     it('Should change the attributes of the category and shows changes in history', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      // close menu
-      general.openMenu();
       cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
@@ -73,8 +71,6 @@ describe('Manage categories', () => {
     it('Should change the status of a category to inactive', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      // close menu
-      general.openMenu();
       cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
@@ -181,8 +177,6 @@ describe('Manage categories', () => {
     it('Change back servicebelofte of category', () => {
       general.openMenu();
       cy.contains('Instellingen').click();
-      // close menu
-      general.openMenu();
       cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();

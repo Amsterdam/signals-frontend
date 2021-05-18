@@ -22,8 +22,6 @@ describe('Create signal and choose other subcategory than proposed', () => {
       routes.waitForManageSignalsRoutes();
       general.openMenu();
       cy.contains('Instellingen').click();
-      // close the menu
-      general.openMenu();
       cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
@@ -188,7 +188,7 @@ const HeaderWrapper = styled.div`
     `}
 `
 
-const MenuItems = ({ onLogOut, showItems }) => {
+const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
   const showLogout = isAuthenticated()
 
   return (
@@ -200,7 +200,11 @@ const MenuItems = ({ onLogOut, showItems }) => {
           </SearchBarMenuItem>
 
           <MenuItem element="span">
-            <StyledMenuButton forwardedAs={NavLink} to="/manage/incidents">
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/incidents"
+            >
               Afhandelen
             </StyledMenuButton>
           </MenuItem>
@@ -208,7 +212,11 @@ const MenuItems = ({ onLogOut, showItems }) => {
       )}
       <MenuItem element="span">
         {/* Full page load to trigger refresh of incident form data */}
-        <StyledMenuButton forwardedAs="a" href="/incident/beschrijf">
+        <StyledMenuButton
+          onClick={onLinkClick}
+          forwardedAs="a"
+          href="/incident/beschrijf"
+        >
           Melden
         </StyledMenuButton>
       </MenuItem>
@@ -216,6 +224,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
       {showItems.defaultTexts && (
         <MenuItem element="span">
           <StyledMenuButton
+            onClick={onLinkClick}
             forwardedAs={NavLink}
             to="/manage/standaard/teksten"
           >
@@ -226,7 +235,11 @@ const MenuItems = ({ onLogOut, showItems }) => {
 
       {showItems.settings && (
         <MenuItem element="span">
-          <StyledMenuButton forwardedAs={NavLink} to="/instellingen/">
+          <StyledMenuButton
+            onClick={onLinkClick}
+            forwardedAs={NavLink}
+            to="/instellingen/"
+          >
             Instellingen
           </StyledMenuButton>
         </MenuItem>
@@ -237,6 +250,7 @@ const MenuItems = ({ onLogOut, showItems }) => {
           {configuration.links?.help && (
             <MenuItem>
               <StyledMenuButton
+                onClick={onLinkClick}
                 forwardedAs="a"
                 href={configuration.links?.help}
                 target="_blank"
@@ -248,7 +262,10 @@ const MenuItems = ({ onLogOut, showItems }) => {
           <MenuItem
             element="button"
             data-testid="logout-button"
-            onClick={onLogOut}
+            onClick={() => {
+              onLinkClick()
+              onLogOut()
+            }}
           >
             <StyledMenuButton
               iconSize={16}
@@ -270,14 +287,15 @@ export const SiteHeader = (props) => {
     ? configuration.language.headerTitle
     : configuration.language.smallHeaderTitle
   const homeLink = tall ? configuration.links.home : '/'
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const navigation = useMemo(
     () => (
       <Media query={`(max-width: ${menuBreakpoint}px)`}>
         {(matches) =>
           matches ? (
-            <MenuToggle align="right">
-              <MenuItems {...props} />
+            <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+              <MenuItems {...props} onLinkClick={() => setMenuOpen(false)} />
             </MenuToggle>
           ) : (
             <MenuInline>
@@ -287,7 +305,7 @@ export const SiteHeader = (props) => {
         }
       </Media>
     ),
-    [props]
+    [props, menuOpen]
   )
 
   return (
