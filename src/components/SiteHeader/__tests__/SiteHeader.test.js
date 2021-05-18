@@ -334,4 +334,38 @@ describe('components/SiteHeader', () => {
 
     expect(onLogOut).toHaveBeenCalled()
   })
+
+  it('should hide the menu when clicking a link', () => {
+    // narrow window toggle
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
+
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+
+    render(
+      withAppContext(
+        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
+      )
+    )
+
+    const toggle = screen.queryByRole('button', { name: 'Menu' })
+
+    expect(
+      screen.queryByRole('link', { name: 'Instellingen' })
+    ).not.toBeInTheDocument()
+
+    act(() => {
+      fireEvent(toggle, new MouseEvent('click', { bubbles: true }))
+    })
+
+    const link = screen.queryByRole('link', { name: 'Instellingen' })
+    expect(link).toBeInTheDocument()
+
+    act(() => {
+      fireEvent(link, new MouseEvent('click', { bubbles: true }))
+    })
+
+    expect(
+      screen.queryByRole('link', { name: 'Instellingen' })
+    ).not.toBeInTheDocument()
+  })
 })

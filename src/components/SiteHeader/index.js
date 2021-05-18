@@ -263,7 +263,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
             element="button"
             data-testid="logout-button"
             onClick={() => {
-              onLinkClick()
+              onLinkClick && onLinkClick()
               onLogOut()
             }}
           >
