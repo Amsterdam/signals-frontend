@@ -50,7 +50,7 @@ const MapSelect = ({
 
   const latlng = getLatlng(parent.meta)
   const url = meta.endpoint
-  const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items)
+  const filtered_legend = filter_legend(LEGEND_ITEMS, meta.items)
 
   // Get selection array from "handler".
   // the value is not always an array (it's a string on load).
@@ -75,7 +75,7 @@ const MapSelect = ({
           geojsonUrl={url}
           getIcon={getOVLIcon}
           hasGPSControl
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
           latlng={latlng}
           legend={filtered_legend}

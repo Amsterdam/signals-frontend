@@ -149,8 +149,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       endpoint: configuration.map.layers?.verlichting,
       zoomMin: 18,
-      legend_items: [
-        'lichtmast',
+      items: [
         'grachtmast',
         'overspanning',
         'gevel_armatuur',
@@ -291,7 +290,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
       endpoint: configuration.map.layers?.klokken,
-      legend_items: ['klok'],
+      items: ['klok'],
       zoomMin: 14,
       pathMerge: 'extra_properties',
     },

@@ -75,10 +75,18 @@ const MapSelect = ({
   )
 
   const fetchRequest = useCallback(
-    (bbox_str) =>
-      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
+    (bbox_str) => {
+      const [EAST, SOUTH, WEST, NORTH] = bbox_str.split(',')
+      const requestUrl = geojsonUrl
+        .replace('{EAST}', EAST)
+        .replace('{WEST}', WEST)
+        .replace('{NORTH}', NORTH)
+        .replace('{SOUTH}', SOUTH)
+
+      return request(requestUrl).catch(() => {
         errorControl.show()
-      }),
+      })
+    },
     [errorControl, geojsonUrl]
   )
 
