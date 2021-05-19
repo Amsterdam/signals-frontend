@@ -1,0 +1,29 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/context/reporter?page=2&page_size=10"
+    },
+    "next": {"href": null},
+    "previous": {
+      "href": "http://localhost:8000/signals/v1/private/signals/7979/context/reporter?page=1&page_size=10"
+    }
+  },
+  "count": 11,
+  "results": [
+    {
+      "id": 5963,
+      "created_at": "2020-09-14T09:29:02.944624+02:00",
+      "category": {
+        "sub": "Overig",
+        "sub_slug": "overig",
+        "departments": "ASC",
+        "main": "Overig",
+        "main_slug": "overig"
+      },
+      "status": {"state": "m", "state_display": "Gemeld"},
+      "feedback": null,
+      "can_view_signal": true,
+      "has_children": false
+    }
+  ]
+}

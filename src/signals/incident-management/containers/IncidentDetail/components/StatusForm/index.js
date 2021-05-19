@@ -173,7 +173,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 name="text"
                 onChange={onTextChange}
                 required={state.text.required}
-                rows="4"
+                rows="9"
                 value={state.text.value || state.text.defaultValue}
               />
 

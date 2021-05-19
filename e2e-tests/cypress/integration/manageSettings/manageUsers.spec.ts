@@ -20,7 +20,6 @@ describe('Manage users', () => {
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.wait('@getUser');
-    cy.get('[aria-label="Menu"]').click();
 
     cy.url().should('include', '/instellingen/gebruikers/page/1');
   });
