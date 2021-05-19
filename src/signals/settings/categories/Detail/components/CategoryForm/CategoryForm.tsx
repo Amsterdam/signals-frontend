@@ -121,7 +121,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                 label={<strong>Omschrijving</strong>}
                 name="description"
                 readOnly={readOnly}
-                rows={8}
+                rows={6}
               />
             </FieldGroup>
 
@@ -171,7 +171,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                 label={<strong>Servicebelofte</strong>}
                 name="handling_message"
                 readOnly={readOnly}
-                rows={8}
+                rows={6}
               />
             </FieldGroup>
 
@@ -195,6 +195,17 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
         <StyledColumn
           span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}
         >
+          <Column span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
+            <TextArea
+              defaultValue={data?.note || ''}
+              disabled={readOnly}
+              readOnly={readOnly}
+              id="note"
+              label={<strong>Notitie</strong>}
+              name="note"
+              rows={6}
+            />
+          </Column>
           {history && <StyledHistory list={history} />}
         </StyledColumn>
 

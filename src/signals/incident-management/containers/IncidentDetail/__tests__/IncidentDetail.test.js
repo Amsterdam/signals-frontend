@@ -95,9 +95,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   it('should get handling times from subcategories', () => {
-    const handlingTimes = categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
-      subCategories
-    )
+    const handlingTimes =
+      categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
+        subCategories
+      )
 
     expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen')
     expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen')
@@ -130,8 +131,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
         _links: {
           ...incidentFixture._links,
           'sia:parent': {
-            href:
-              'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5319',
+            href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/signals/5319',
           },
         },
       },

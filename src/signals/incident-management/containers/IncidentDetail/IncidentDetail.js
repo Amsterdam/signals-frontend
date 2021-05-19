@@ -236,13 +236,14 @@ const IncidentDetail = () => {
       getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
     }
   }, [
+    getHistory,
+    id,
+    state.attachments,
+    incident?._links,
+    incident?.reporter.email,
     getAttachments,
     getChildren,
-    getHistory,
     getContext,
-    id,
-    incident?._links,
-    state.attachments,
   ])
 
   useEffect(() => {
