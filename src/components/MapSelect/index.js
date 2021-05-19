@@ -28,6 +28,8 @@ import './style.scss'
 
 const SELECTION_MAX_COUNT = 30
 
+const zoomMin = 13
+
 const Wrapper = styled.div`
   position: relative;
 `
@@ -37,6 +39,70 @@ const StyledMap = styled(Map)`
   width: 100%;
   font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `
+const createBboxGeojsonLayer = (
+  fetchRequest,
+  getIcon,
+  iconField,
+  idField,
+  onSelectionChange,
+  selection,
+  selectionOnly
+) =>
+  BboxGeojsonLayer(
+    { fetchRequest },
+    {
+      zoomMin,
+      zoomMax: 15,
+
+      /**
+       * Function that will be used to decide whether to include a feature or not. The default is to include all
+       * features.
+       *
+       * Note that this behaviour is difficult to test, hence the istanbul ignore
+       */
+      filter: /* istanbul ignore next */ (feature) =>
+        selectionOnly
+          ? selection.current.has(feature.properties[idField])
+          : true,
+
+      /**
+       * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
+       * passing the GeoJSON point feature and its LatLng.
+       * Return value overridden to have it return a marker with a specific icon
+       *
+       * Note that this behaviour is difficult to test, hence the istanbul ignore
+       */
+      pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
+        L.marker(latlong, {
+          icon: getIcon(
+            feature.properties[iconField],
+            selection.current.has(feature.properties[idField])
+          ),
+          alt: feature.properties.objectnummer,
+        }),
+
+      /**
+       * Function called once for each created Feature, after it has been created and styled.
+       * Attaches click handler to markers that are rendered on the map
+       *
+       * Note that this behaviour is difficult to test, hence the istanbul ignore
+       */
+      onEachFeature: /* istanbul ignore next */ (feature, layer) => {
+        if (onSelectionChange) {
+          // Check that the component is in write mode
+          layer.on({
+            click: (e) => {
+              const _layer = e.target
+              const id = _layer.feature.properties[idField]
+              selection.current.toggle(id)
+
+              onSelectionChange(selection.current)
+            },
+          })
+        }
+      },
+    }
+  )
 
 const MapSelect = ({
   geojsonUrl,
@@ -51,8 +117,8 @@ const MapSelect = ({
   value,
   ...rest
 }) => {
-  const zoomMin = 13
   const featuresLayer = useRef()
+  const extraFeaturesLayer = useRef()
   const [mapInstance, setMapInstance] = useState()
   const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value))
   const mapOptions = {
@@ -82,68 +148,49 @@ const MapSelect = ({
     [errorControl, geojsonUrl]
   )
 
+  const extraFetchRequest = useCallback(
+    (bbox_str) =>
+      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
+        errorControl.show()
+      }),
+    [errorControl, geojsonUrl]
+  )
+
   const bboxGeoJsonLayer = useMemo(
     () =>
-      BboxGeojsonLayer(
-        {
-          fetchRequest,
-        },
-        {
-          zoomMin,
-
-          zoomMax: 15,
-
-          /**
-           * Function that will be used to decide whether to include a feature or not. The default is to include all
-           * features.
-           *
-           * Note that this behaviour is difficult to test, hence the istanbul ignore
-           */
-          filter: /* istanbul ignore next */ (feature) =>
-            selectionOnly
-              ? selection.current.has(feature.properties[idField])
-              : true,
-
-          /**
-           * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
-           * passing the GeoJSON point feature and its LatLng.
-           * Return value overridden to have it return a marker with a specific icon
-           *
-           * Note that this behaviour is difficult to test, hence the istanbul ignore
-           */
-          pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
-            L.marker(latlong, {
-              icon: getIcon(
-                feature.properties[iconField],
-                selection.current.has(feature.properties[idField])
-              ),
-              alt: feature.properties.objectnummer,
-            }),
-
-          /**
-           * Function called once for each created Feature, after it has been created and styled.
-           * Attaches click handler to markers that are rendered on the map
-           *
-           * Note that this behaviour is difficult to test, hence the istanbul ignore
-           */
-          onEachFeature: /* istanbul ignore next */ (feature, layer) => {
-            if (onSelectionChange) {
-              // Check that the component is in write mode
-              layer.on({
-                click: (e) => {
-                  const _layer = e.target
-                  const id = _layer.feature.properties[idField]
-                  selection.current.toggle(id)
-
-                  onSelectionChange(selection.current)
-                },
-              })
-            }
-          },
-        }
+      createBboxGeojsonLayer(
+        fetchRequest,
+        getIcon,
+        iconField,
+        idField,
+        onSelectionChange,
+        selection,
+        selectionOnly
       ),
     [
       fetchRequest,
+      getIcon,
+      iconField,
+      idField,
+      onSelectionChange,
+      selection,
+      selectionOnly,
+    ]
+  )
+
+  const extraBboxGeoJsonLayer = useMemo(
+    () =>
+      createBboxGeojsonLayer(
+        fetchRequest,
+        getIcon,
+        iconField,
+        idField,
+        onSelectionChange,
+        selection,
+        selectionOnly
+      ),
+    [
+      extraFetchRequest,
       getIcon,
       iconField,
       idField,
@@ -158,6 +205,7 @@ const MapSelect = ({
    */
   useLayoutEffect(() => {
     featuresLayer.current = bboxGeoJsonLayer
+    extraFeaturesLayer.current = extraBboxGeoJsonLayer
     // only execute on mount; disabling linter
     // eslint-disable-next-line
   }, [])
@@ -169,6 +217,7 @@ const MapSelect = ({
     if (!mapInstance) return undefined
 
     featuresLayer.current.addTo(mapInstance)
+    extraFeaturesLayer.current.addTo(mapInstance)
 
     const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
