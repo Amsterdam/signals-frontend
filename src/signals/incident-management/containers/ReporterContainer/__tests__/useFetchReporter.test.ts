@@ -65,7 +65,7 @@ describe('Fetch Reporter hook', () => {
     server.use(
       rest.get(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${INCIDENT_ID}/context/reporter`,
-        async (req, res, ctx) => {
+        (req, res, ctx) => {
           const query = req.url.searchParams
           const page = query.get('page')
           return res(
