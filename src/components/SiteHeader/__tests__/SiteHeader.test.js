@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'match-media-mock'
 import 'jest-styled-components'
 
@@ -324,12 +325,7 @@ describe('components/SiteHeader', () => {
     expect(onLogOut).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent(
-        logOutButton,
-        new MouseEvent('click', {
-          bubbles: true,
-        })
-      )
+      userEvent.click(logOutButton)
     })
 
     expect(onLogOut).toHaveBeenCalled()
@@ -353,16 +349,12 @@ describe('components/SiteHeader', () => {
       screen.queryByRole('link', { name: 'Instellingen' })
     ).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent(toggle, new MouseEvent('click', { bubbles: true }))
-    })
+    userEvent.click(toggle)
 
     const link = screen.queryByRole('link', { name: 'Instellingen' })
     expect(link).toBeInTheDocument()
 
-    act(() => {
-      fireEvent(link, new MouseEvent('click', { bubbles: true }))
-    })
+    userEvent.click(link)
 
     expect(
       screen.queryByRole('link', { name: 'Instellingen' })
