@@ -21,6 +21,7 @@ const Form = styled.form`
 
 const StyledColumn = styled(Column)`
   flex-direction: column;
+  justify-content: flex-start;
 `
 
 const FieldGroup = styled.div`
