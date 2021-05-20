@@ -18,29 +18,36 @@ const defaultOptions = {
   iconSize: [32, 32],
 }
 
+const KLOK = 1
+const OVERSPANNING = 2
+const GEVEL_ARMATUUR = 3
+const GRACHTMAST = 5
+const OVERIG = 4
+const SCHIJNWERPER = 10
+
 // Maps object type field ('objecttype') to the corresponding icon.
 export const OVL_MAPPING = {
-  1: {
+  [KLOK]: {
     default: L.icon({ ...defaultOptions, iconUrl: KlokIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: KlokSelectIcon }),
   },
-  2: {
+  [OVERSPANNING]: {
     default: L.icon({ ...defaultOptions, iconUrl: OverspanningIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: OverspanningSelectIcon }),
   },
-  3: {
+  [GEVEL_ARMATUUR]: {
     default: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurSelectIcon }),
   },
-  5: {
+  [GRACHTMAST]: {
     default: L.icon({ ...defaultOptions, iconUrl: GrachtmastIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: GrachtmastSelectIcon }),
   },
-  4: {
+  [OVERIG]: {
     default: L.icon({ ...defaultOptions, iconUrl: OverigIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: OverigSelectIcon }),
   },
-  10: {
+  [SCHIJNWERPER]: {
     default: L.icon({ ...defaultOptions, iconUrl: SchijnwerperIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: SchijnwerperSelectIcon }),
   },
