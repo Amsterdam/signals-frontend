@@ -1118,13 +1118,12 @@ describe('signals/incident-management/components/FilterForm', () => {
     })
 
     it('should handle submit for existing filter', () => {
-      jest.spyOn(window, 'alert').mockImplementation(() => {})
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),
       }
 
-      const { container } = render(
+      render(
         withContext(
           <FilterForm
             {...{ ...formProps, ...handlers }}
@@ -1139,39 +1138,37 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
 
       act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
+        userEvent.click(screen.getByRole('button', { name: 'Filteren' }))
       })
 
       // values haven't changed, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
 
-      const nameField = container.querySelector(
-        'input[type="text"][name="name"]'
-      )
+      const nameField = screen.getByLabelText('Filternaam')
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: ' ' } })
+        userEvent.type(nameField, ' ')
       })
 
       act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
+        userEvent.click(screen.getByRole('button', { name: 'Filteren' }))
       })
 
       // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
-      expect(window.alert).toHaveBeenCalled()
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: 'My changed filter' } })
+        userEvent.type(nameField, 'My changed filter')
       })
 
       act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
+        userEvent.click(
+          screen.getByRole('button', { name: 'Opslaan en filteren' })
+        )
       })
 
       expect(handlers.onUpdateFilter).toHaveBeenCalled()
-
-      window.alert.mockRestore()
+      expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
     })
   })
 })
