@@ -1,0 +1,50 @@
+publiccodeYmlVersion: "0.2"
+name: Signalen frontend
+url: "https://github.com/signalen/frontend"
+softwareVersion: "1"
+releaseDate: "2021-05-06"
+platforms:
+  - web
+categories:
+  - it-development
+usedBy:
+  - Gemeente Amsterdam
+developmentStatus: development
+softwareType: standalone/web
+description:
+  nl:
+    localisedName: Signalen frontend
+    genericName: Signalen frontend
+    shortDescription: >-
+      This project provides a web frontend for Signalen, an application that helps cities manage and prioritize nuisance reports.
+    longDescription: >-
+      This project provides a web frontend for Signalen, an application that helps cities manage and prioritize nuisance reports.
+    documentation: "https://github.com/Signalen/frontend/blob/develop/README.md"
+    features:
+    - Meldingen classificeren
+    - Meldingen routeren
+    - Meldingen behandelen
+    - Rapporteren
+legal:
+  license: EUPL-1.2
+  mainCopyrightOwner: Signalen
+  repoOwner: Signalen
+maintenance:
+  type: external
+  contacts:
+    - name: Jacco Brouwer
+      email: jacco.brouwer@vng.nl
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - nl
+    - en
+dependsOn:
+  open:
+    - name: nodeJS
+      version: 16
+    - name: npm
+      version: 7.10.0
+    - name: signalen/frontend
+    - name: signalen/classification
+    - name: signalen/backend
