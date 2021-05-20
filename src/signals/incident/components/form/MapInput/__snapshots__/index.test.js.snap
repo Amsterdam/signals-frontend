@@ -65,6 +65,14 @@ exports[`Form component <MapInput /> rendering should render map field correctly
               "zoom": [Function],
             },
             "dragging": true,
+            "gestureHandling": true,
+            "gestureHandlingOptions": Object {
+              "text": Object {
+                "scroll": "Gebruik Ctrl + scrollen om in- en uit te zoomen op de kaart",
+                "scrollMac": "Gebruik ⌘ + scrollen om in en uit te zoomen op de kaart",
+                "touch": "Gebruik twee vingers om de kaart te verplaatsen",
+              },
+            },
             "maxBounds": Array [
               Array [
                 52.25168,
