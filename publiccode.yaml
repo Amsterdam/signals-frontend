@@ -1,44 +1,49 @@
 publiccodeYmlVersion: "0.2"
 name: Signalen frontend
 url: "https://github.com/signalen/frontend"
+landingURL: "https://signalen.org/"
 softwareVersion: "1"
 releaseDate: "2021-05-06"
 platforms:
   - web
 categories:
-  - it-development
+  - workflow-management
+  - task-management
+  - communcations
 usedBy:
   - Gemeente Amsterdam
-developmentStatus: development
+  - Gemeente 's-Hertogenbosch
+developmentStatus: stable
 softwareType: standalone/web
 description:
   nl:
     localisedName: Signalen frontend
     genericName: Signalen frontend
     shortDescription: >-
-      This project provides a web frontend for Signalen, an application that helps cities manage and prioritize nuisance reports.
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
     longDescription: >-
-      This project provides a web frontend for Signalen, an application that helps cities manage and prioritize nuisance reports.
-    documentation: "https://github.com/Signalen/frontend/blob/develop/README.md"
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
+    documentation: "https://docs.signalen.org/"
     features:
     - Meldingen classificeren
     - Meldingen routeren
     - Meldingen behandelen
     - Rapporteren
 legal:
-  license: EUPL-1.2
+  license: MPLv2
   mainCopyrightOwner: Signalen
-  repoOwner: Signalen
+  repoOwner: Gemeente Amsterdam
 maintenance:
-  type: external
+  type: community
   contacts:
-    - name: Jacco Brouwer
-      email: jacco.brouwer@vng.nl
+    - name: Amy van Someren
+      email: a.vansomeren@s-hertogenbosch.nl
+    - name: René van Sprang
+      email: r.van.sprang@amsterdam.nl
 localisation:
-  localisationReady: true
+  localisationReady: false
   availableLanguages:
     - nl
-    - en
 dependsOn:
   open:
     - name: nodeJS
