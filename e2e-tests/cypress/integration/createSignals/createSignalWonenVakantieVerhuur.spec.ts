@@ -117,7 +117,7 @@ describe('Create signal "Wonen vakantie verhuur" and check signal details', () =
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });

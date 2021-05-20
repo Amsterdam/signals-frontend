@@ -5,8 +5,10 @@ import { CONTAINERS } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/containerOnMap.json';
+import signalDeelmelding01 from '../../fixtures/signals/containerOnMapDeelmelding01.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
+import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 
 describe('Create signal "Container" and check signal details, container is on the map', () => {
   describe('Check legend and zoom functionality', () => {
@@ -73,6 +75,9 @@ describe('Create signal "Container" and check signal details, container is on th
       cy.contains('Volgende').click();
       cy.get(CONTAINERS.buttonKiesOpKaart).click();
 
+      cy.get(CONTAINERS.checkBoxContainerNietopKaart).click();
+      cy.get(CONTAINERS.inputContainerNummer).type('44Af-1');
+
       cy.get(CONTAINERS.containerRestafval).should('not.exist');
       cy.get(CONTAINERS.containerPapier).should('not.exist');
       cy.get(CONTAINERS.containerPlastic).should('not.exist');
@@ -99,6 +104,7 @@ describe('Create signal "Container" and check signal details, container is on th
 
       cy.get(CONTAINERS.buttonMeldDezeContainer).click();
 
+      cy.contains('De container staat niet op de kaart - 44Af-1').should('be.visible');
       cy.get(CONTAINERS.containerListItem).should('contain', 'Papier container');
       cy.get(CONTAINERS.containerListItem).should('contain', 'Restafval container');
 
@@ -143,12 +149,19 @@ describe('Create signal "Container" and check signal details, container is on th
       routes.waitForManageSignalsRoutes();
     });
 
-    it('Should show the signal details', () => {
+    it('Should show the details of the hoofdmelding and the details of a deelmelding', () => {
       routes.stubPreviewMap();
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
+
+      // Check if deelmeldingen are visible
+      cy.get(SIGNAL_DETAILS.titleDeelmelding).should('have.text', 'Deelmelding').and('be.visible');
+      cy.get(SIGNAL_DETAILS.deelmeldingBlock).should('have.length', 3).and('be.visible');
+      cy.get(SIGNAL_DETAILS.deelmeldingId).eq(0).click();
+      // Check deelmelding details
+      createSignal.checkAllDetails(signalDeelmelding01, 'deelmelding');
     });
   });
 });

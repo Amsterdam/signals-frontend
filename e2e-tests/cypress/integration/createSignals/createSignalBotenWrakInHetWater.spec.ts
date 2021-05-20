@@ -58,7 +58,7 @@ describe('Create signal category boten "Wrak in het water"', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });

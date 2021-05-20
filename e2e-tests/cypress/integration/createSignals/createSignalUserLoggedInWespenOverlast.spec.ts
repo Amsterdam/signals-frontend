@@ -75,7 +75,7 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });

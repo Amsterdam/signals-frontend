@@ -179,10 +179,24 @@ export const checkSource = (source: string) => {
  * Custom command to check all the details of a signal.
  * @example cy.checkAllDetails('../fixtures/signals/fietsNietje.json');
 */
-export const checkAllDetails = (json: signal.RootObject) => {
-  cy.readFile('./cypress/fixtures/tempSignalId.json').then(jsonSignal => {
-    cy.url().should('include', `/manage/incident/${jsonSignal.signalId}`);
-  });
+export const checkAllDetails = (json: signal.RootObject, signalType: string) => {
+  if (signalType === 'deelmelding') {
+    cy.get(SIGNAL_DETAILS.addressStreet).should('not.exist');
+    cy.get(SIGNAL_DETAILS.addressCity).should('not.exist');
+    cy.get(SIGNAL_DETAILS.email).should('have.text', '').and('be.visible');
+    cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', '').and('be.visible');
+  }
+  else {
+    cy.readFile('./cypress/fixtures/tempSignalId.json').then(jsonSignal => {
+      cy.url().should('include', `/manage/incident/${jsonSignal.signalId}`);
+    });
+    const address = json.address.huisnummer_toevoeging ? `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}-${json.address.huisnummer_toevoeging}` : `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}`;
+    cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', address).and('be.visible');
+    cy.get(SIGNAL_DETAILS.addressCity).should('have.text', `${json.address.postcode} ${json.address.woonplaats}`).and('be.visible');
+    cy.get(SIGNAL_DETAILS.email).should('have.text', json.reporter.email).and('be.visible');
+    cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
+  }
+
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.get(SIGNAL_DETAILS.labelEmail).should('have.text', 'E-mail melder').and('be.visible');
@@ -190,13 +204,8 @@ export const checkAllDetails = (json: signal.RootObject) => {
   cy.get(SIGNAL_DETAILS.labelOverlast).should('have.text', 'Overlast').and('be.visible');
   cy.get(SIGNAL_DETAILS.labelTelefoon).should('have.text', 'Telefoon melder').and('be.visible');
   cy.get(SIGNAL_DETAILS.labelToestemming).should('have.text', 'Toestemming contactgegevens delen').and('be.visible');
-  const address = json.address.huisnummer_toevoeging ? `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}-${json.address.huisnummer_toevoeging}` : `${json.address.openbare_ruimte} ${json.address.huisnummer}${json.address.huisletter}`;
   cy.contains(json.text).should('be.visible');
   cy.get(SIGNAL_DETAILS.stadsdeel).should('have.text', `Stadsdeel: ${json.address.stadsdeel}`).and('be.visible');
-  cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', address).and('be.visible');
-  cy.get(SIGNAL_DETAILS.addressCity).should('have.text', `${json.address.postcode} ${json.address.woonplaats}`).and('be.visible');
-  cy.get(SIGNAL_DETAILS.email).should('have.text', json.reporter.email).and('be.visible');
-  cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
   cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', json.reporter.sharing_allowed).and('be.visible');
   cy.get(SIGNAL_DETAILS.creationDate).should('contain', commandsGeneral.getTodaysDate());
   cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
@@ -210,9 +219,11 @@ export const checkAllDetails = (json: signal.RootObject) => {
   cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', json.category.main).and('be.visible');
   checkSource(json.source);
   if (json.fixtures.attachments) {
-    cy.get(SIGNAL_DETAILS.photo).should('be.visible').click();
-    cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
-    cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
+    cy.get(SIGNAL_DETAILS.photo).each(($el) => {
+      cy.wrap($el).should('be.visible').click();
+      cy.get(SIGNAL_DETAILS.photoViewerImage).should('be.visible');
+      cy.get(SIGNAL_DETAILS.buttonCloseImageViewer).click();
+    });
   }
   checkQuestions(json, 'short');
 };

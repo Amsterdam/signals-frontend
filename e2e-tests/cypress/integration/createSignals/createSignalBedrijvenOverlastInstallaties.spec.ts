@@ -77,7 +77,7 @@ describe('Create signal "Bedrijven overlast installaties" and check signal detai
         createSignal.openCreatedSignal();
         routes.waitForSignalDetailsRoutes();
 
-        createSignal.checkAllDetails(signal);
+        createSignal.checkAllDetails(signal, 'standaardmelding');
       });
     });
   });

@@ -108,7 +108,7 @@ describe('Change a signal before submit and check signal details', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal04);
+      createSignal.checkAllDetails(signal04, 'standaardmelding');
     });
   });
 });

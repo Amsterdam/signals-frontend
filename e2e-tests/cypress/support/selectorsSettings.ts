@@ -9,6 +9,7 @@ export const CATEGORIES = {
   inputDays: '#n_days',
   inputDescription: '#description',
   inputMessage: '#handling_message',
+  inputNote: '#note',
   inputName: '#name',
   notification: '[data-testid="notification"]',
   radioButtonNietActief: '[data-testid="is_active-false"]',

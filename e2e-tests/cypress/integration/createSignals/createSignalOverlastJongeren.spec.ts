@@ -63,7 +63,7 @@ describe('Create signal overlast "Jongeren" and check signal details', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });
