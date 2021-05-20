@@ -55,6 +55,7 @@
     "invariant": "^2.2.4",
     "keycloak-js": "^12.0.4",
     "leaflet": "^1.7.1",
+    "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.5.0",
     "lodash.conformsto": "^4.15.0",
     "lodash.foreach": "^4.5.0",
