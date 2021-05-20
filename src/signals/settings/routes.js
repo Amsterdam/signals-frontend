@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 export const BASE_URL = '/instellingen'
+export const OVERVIEW_URL = `${BASE_URL}`
 export const USERS_URL = `${BASE_URL}/gebruikers`
 export const USERS_PAGED_URL = `${USERS_URL}/page`
 export const USER_URL = `${BASE_URL}/gebruiker`
@@ -13,6 +14,7 @@ export const CATEGORIES_URL = `${BASE_URL}/categorieen`
 export const CATEGORIES_PAGED_URL = `${CATEGORIES_URL}/page`
 
 const routes = {
+  overview: OVERVIEW_URL,
   users: USERS_URL,
   usersPaged: `${USERS_PAGED_URL}/:pageNum(\\d+)`,
   user: `${USER_URL}/:userId(\\d+)`,

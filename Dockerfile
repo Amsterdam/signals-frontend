@@ -10,8 +10,6 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
   git \
   netcat \
-  # See: https://github.com/Automattic/node-canvas#compiling
-  build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # Change git URL because network is blocking git protocol...

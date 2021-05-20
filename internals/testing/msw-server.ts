@@ -110,18 +110,18 @@ const handlers = [
   }),
 
   rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}`,
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId`,
     (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
   rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}/attachments`,
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/attachments`,
     (_req, res, ctx) =>
       res(ctx.status(200), ctx.json(incidentAttachmentsFixture))
   ),
 
   rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}/children`,
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/children`,
     (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentChildrenFixture))
   ),
 

@@ -30,6 +30,8 @@ import reducer, { initialState } from './reducer'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
+const OverviewContainer = lazy(() => import('./components/Overview'))
+// istanbul ignore next
 const LoginPage = lazy(() => import('components/LoginPage'))
 // istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
@@ -84,6 +86,12 @@ const SettingsModule = () => {
     <SettingsContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
+          <ProtectedRoute
+            exact
+            path={routes.overview}
+            component={OverviewContainer}
+            roleGroup="groups"
+          />
           <ProtectedRoute
             exact
             path={routes.roles}

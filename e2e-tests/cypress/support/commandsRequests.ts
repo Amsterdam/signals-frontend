@@ -232,3 +232,51 @@ export const createSignalKTO = () => {
     cy.log(id);
   });
 };
+
+export const createSignalSamenhang = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.90314992, 52.37847329] },
+        address: {
+          openbare_ruimte: 'Oudezijds Achterburgwal',
+          huisnummer: '175-1',
+          postcode: '1012DJ',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/wildplassen-poepen-overgeven',
+      },
+      reporter: {
+        phone: '06112',
+        email: 'siahangsamen@sia.nl',
+        sharing_allowed: false,
+      },
+      incident_date_start: '2021-03-09T14:06:31+02:00',
+      text: 'Er gebeuren hier erg vieze dingen...',
+      extra_properties: [
+        {
+          id: 'extra_personen_overig',
+          label: 'Aantal personen',
+          category_url: '/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/wildplassen-poepen-overgeven',
+          answer: {id: '7_of_meer', label: '7 of meer', info: ''}
+        },
+        {
+          id: 'extra_personen_overig_vaker',
+          label: 'Vaker',
+          category_url: '/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/wildplassen-poepen-overgeven',
+          answer: {id: 'nee', label: 'Nee', info: ''}
+        }
+      ]
+    },
+  }).its('body').then(body => {
+    const id = body.id as string;
+    cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
+    cy.log(id);
+  });
+};

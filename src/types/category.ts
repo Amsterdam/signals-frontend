@@ -21,4 +21,5 @@ export interface Category {
     use_calendar_days: boolean
   }
   departments: CategoryDepartment[]
+  note: string | null
 }

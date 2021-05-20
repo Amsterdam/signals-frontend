@@ -19,6 +19,7 @@ const ErrorMessage = styled(AscErrorMessage).attrs(() => ({
 export default ErrorMessage
 
 export const ErrorWrapper = styled.div<{ invalid: boolean }>`
+  width: 100%;
   ${({ invalid }) =>
     invalid &&
     css`

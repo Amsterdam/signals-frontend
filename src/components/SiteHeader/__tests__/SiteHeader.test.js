@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'match-media-mock'
 import 'jest-styled-components'
 
@@ -79,9 +80,7 @@ describe('components/SiteHeader', () => {
     // menu items
     expect(queryByText('Melden')).toBeInTheDocument()
     expect(queryByText('Help')).toBeInTheDocument()
-
-    // inline menu should be visible, with a dropdown for instellingen
-    expect(container.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(1)
+    expect(queryByText('Instellingen')).toBeInTheDocument()
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2')
 
@@ -99,9 +98,6 @@ describe('components/SiteHeader', () => {
         <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
       )
     )
-
-    // toggle menu should be visible
-    expect(document.querySelectorAll('ul[aria-hidden="true"]')).toHaveLength(2)
   })
 
   it('should render the Amsterdam logo by default', () => {
@@ -294,28 +290,6 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Standaard teksten')).toBeInTheDocument()
   })
 
-  it('should show settings buttons', () => {
-    const { queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          showItems={{
-            settings: true,
-            users: true,
-            groups: true,
-            departments: true,
-            categories: true,
-          }}
-          location={{ pathname: '/incident/beschrijf' }}
-        />
-      )
-    )
-
-    expect(queryByText('Gebruikers')).toBeInTheDocument()
-    expect(queryByText('Rollen')).toBeInTheDocument()
-    expect(queryByText('Afdelingen')).toBeInTheDocument()
-    expect(queryByText('Subcategorieën')).toBeInTheDocument()
-  })
-
   it('should render correctly when logged in', () => {
     jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
 
@@ -351,100 +325,39 @@ describe('components/SiteHeader', () => {
     expect(onLogOut).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent(
-        logOutButton,
-        new MouseEvent('click', {
-          bubbles: true,
-        })
-      )
+      userEvent.click(logOutButton)
     })
 
     expect(onLogOut).toHaveBeenCalled()
   })
 
-  it('should show items', () => {
-    const { rerender, queryByText, unmount } = render(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: false, users: true, groups: true }}
-        />
-      )
-    )
+  it('should hide the menu when clicking a link', () => {
+    // narrow window toggle
+    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
 
-    expect(queryByText('Instellingen')).not.toBeInTheDocument()
-    expect(queryByText('Gebruikers')).not.toBeInTheDocument()
-    expect(queryByText('Rollen')).not.toBeInTheDocument()
+    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
 
-    unmount()
-
-    rerender(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: true, users: false, groups: false }}
-        />
-      )
-    )
-
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).not.toBeInTheDocument()
-    expect(queryByText('Rollen')).not.toBeInTheDocument()
-
-    unmount()
-
-    rerender(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: true, users: true, groups: false }}
-        />
-      )
-    )
-
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).toBeInTheDocument()
-    expect(queryByText('Rollen')).not.toBeInTheDocument()
-
-    unmount()
-
-    rerender(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: true, users: false, groups: true }}
-        />
-      )
-    )
-
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).not.toBeInTheDocument()
-    expect(queryByText('Rollen')).toBeInTheDocument()
-
-    unmount()
-
-    rerender(
+    render(
       withAppContext(
         <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
       )
     )
 
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).toBeInTheDocument()
-    expect(queryByText('Rollen')).toBeInTheDocument()
-    expect(queryByText('Afdelingen')).not.toBeInTheDocument()
-    expect(queryByText('Subcategorieën')).not.toBeInTheDocument()
+    const toggle = screen.queryByRole('button', { name: 'Menu' })
 
-    unmount()
+    expect(
+      screen.queryByRole('link', { name: 'Instellingen' })
+    ).not.toBeInTheDocument()
 
-    rerender(
-      withAppContext(
-        <SiteHeader
-          showItems={{ settings: true, departments: true, categories: true }}
-        />
-      )
-    )
+    userEvent.click(toggle)
 
-    expect(queryByText('Instellingen')).toBeInTheDocument()
-    expect(queryByText('Gebruikers')).not.toBeInTheDocument()
-    expect(queryByText('Rollen')).not.toBeInTheDocument()
-    expect(queryByText('Afdelingen')).toBeInTheDocument()
-    expect(queryByText('Subcategorieën')).toBeInTheDocument()
+    const link = screen.queryByRole('link', { name: 'Instellingen' })
+    expect(link).toBeInTheDocument()
+
+    userEvent.click(link)
+
+    expect(
+      screen.queryByRole('link', { name: 'Instellingen' })
+    ).not.toBeInTheDocument()
   })
 })
