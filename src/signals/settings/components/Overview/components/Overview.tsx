@@ -11,7 +11,6 @@ import {
 import {
   TopTaskLink,
   CompactThemeProvider,
-  Paragraph,
   themeSpacing,
   Row,
 } from '@amsterdam/asc-ui'
@@ -48,6 +47,7 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledTopTaskLink = styled(TopTaskLink)`
   min-height: 132px;
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
 `
 
 const Overview: FunctionComponent<Props> = ({ showItems }) => {
@@ -65,7 +65,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
               <StyledNavLink to={USERS_URL}>
                 <StyledTopTaskLink icon={PersonalLogin} title="Gebruikers" />
               </StyledNavLink>
-              <Paragraph>
+              <p>
                 Om toegang te krijgen tot de applicatie Signalen is het
                 noodzakelijk dat een medewerker is toegevoegd, waarbij het
                 emailadres gelijk is aan het inlogaccount. Het wachtwoord kan
@@ -75,7 +75,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 instellingenscherm een medewerker rechten te geven om gebruikers
                 aan te maken of te muteren, deze zogenaamde superrol kan enkel
                 worden aangemaakt in Django door de functioneel beheerder.
-              </Paragraph>
+              </p>
             </Item>
           )}
           {showItems.groups && (
@@ -83,14 +83,14 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
               <StyledNavLink to={ROLES_URL}>
                 <StyledTopTaskLink icon={Student} title="Rollen" />
               </StyledNavLink>
-              <Paragraph>
+              <p>
                 De applicatie Signalen kent verscheidene rollen. In het
                 instellingenscherm is het mogelijk om de rechten per rol aan te
                 passen. Te denken valt aan enkel leesrechten, het wijzingen van
                 statussen, een notitie toevoegen of het kunnen gebruiken van de
                 THOR knop. Wijzigingen in een rol worden van toepassing op alle
                 gebruikers met deze betreffende rol.
-              </Paragraph>
+              </p>
             </Item>
           )}
           {showItems.departments && (
@@ -98,7 +98,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
               <StyledNavLink to={DEPARTMENTS_URL}>
                 <StyledTopTaskLink icon={Buildings} title="Afdelingen" />
               </StyledNavLink>
-              <Paragraph>
+              <p>
                 De applicatie Signalen maakt gebruik van afdelingen. Per
                 afdeling is het mogelijk om in te stellen welke subcategorieën
                 ingezien mogen worden. Door het geven van toegang aan een
@@ -113,7 +113,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 in de maandrapportages. Het toekennen van deze
                 verantwoordelijkheid heeft automatisch tot gevolg dat er toegang
                 is toegekend aan deze subcategorie.
-              </Paragraph>
+              </p>
             </Item>
           )}
           {showItems.categories && (
@@ -124,7 +124,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                   title="Subcategorieën"
                 />
               </StyledNavLink>
-              <Paragraph>
+              <p>
                 Elke melding in de applicatie Signalen wordt bij het aanmaken
                 door een machinelearning tool toegekend aan een subcategorie.
                 Elke subcategorie heeft een omschrijving, die enkel gebruikt
@@ -137,7 +137,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 bedoeld om intern te sturen op de afhandeling van meldingen. In
                 deze instellingspagina is het mogelijk om de gegevens per
                 subcategorie aan te passen.
-              </Paragraph>
+              </p>
             </Item>
           )}
         </Wrapper>
