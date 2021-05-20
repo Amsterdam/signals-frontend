@@ -63,7 +63,12 @@ describe('Sorting', () => {
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Aaf Bouberstraat');
+    cy.get(MANAGE_SIGNALS.firstSignalAdres).then(address => {
+      expect(address.text()).to.be.oneOf([
+        "",
+        "Aaf Bouberstraat 1 1065LP Amsterdam"
+      ]);
+    });
 
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedDESC');
