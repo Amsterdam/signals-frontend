@@ -50,7 +50,7 @@ const MapSelect = ({
 
   const latlng = getLatlng(parent.meta)
   const url = meta.endpoint
-  const filtered_legend = filter_legend(LEGEND_ITEMS, meta.items)
+  const filtered_legend = filter_legend(LEGEND_ITEMS, meta.legend_items)
 
   // Get selection array from "handler".
   // the value is not always an array (it's a string on load).

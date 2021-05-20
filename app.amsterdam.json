@@ -71,8 +71,8 @@
     },
     "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
-      "klokken": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={EAST}&lengtegraad[lte]={WEST}&breedtegraad[gte]={SOUTH}&breedtegraad[lte]={NORTH}&objecttypeOmschrijving=Klok",
-      "verlichting": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={EAST}&lengtegraad[lte]={WEST}&breedtegraad[gte]={SOUTH}&breedtegraad[lte]={NORTH}&objecttypeOmschrijving[not]=Klok"
+      "klokken": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={{east}}&lengtegraad[lte]={{west}}&breedtegraad[gte]={{south}}&breedtegraad[lte]={{north}}&objecttypeOmschrijving=Klok",
+      "verlichting": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={{east}}&lengtegraad[lte]={{west}}&breedtegraad[gte]={{south}}&breedtegraad[lte]={{north}}&objecttypeOmschrijving[not]=Klok"
     }
   },
   "matomo": {

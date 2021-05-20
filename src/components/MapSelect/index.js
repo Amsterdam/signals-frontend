@@ -78,10 +78,10 @@ const MapSelect = ({
     (bbox_str) => {
       const [EAST, SOUTH, WEST, NORTH] = bbox_str.split(',')
       const requestUrl = geojsonUrl
-        .replace('{EAST}', EAST)
-        .replace('{WEST}', WEST)
-        .replace('{NORTH}', NORTH)
-        .replace('{SOUTH}', SOUTH)
+        .replace('{{east}}', EAST)
+        .replace('{{west}}', WEST)
+        .replace('{{north}}', NORTH)
+        .replace('{{south}}', SOUTH)
 
       return request(requestUrl).catch(() => {
         errorControl.show()
