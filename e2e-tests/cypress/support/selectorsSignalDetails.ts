@@ -98,6 +98,7 @@ export const SIGNAL_DETAILS = {
   deelmeldingBlock: '[data-testid="childIncidents"] > li',
   deelmeldingBlockValue: '[class*="ChildIncidents__DisplayValue"]',
   deelmeldingen: '[data-testid="childIncidents"]',
+  deelmeldingId: '[class*="ChildIncidents__IDDisplayValue"]',
   descriptionText: '[data-testid="detail-title"]',
   directingDepartment: '[data-testid="meta-list-directing_departments-value"]',
   doorlooptijd: '[data-testid=meta-list-process-time-value]',

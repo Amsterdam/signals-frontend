@@ -44,6 +44,7 @@ describe('Manage categories', () => {
       cy.get(CATEGORIES.inputMessage)
         .clear()
         .type('Ik beoordeel deze melding niet, het lijkt me namelijk allemaal onzin');
+      cy.get(CATEGORIES.inputNote).clear().type('Naamloze notities noteren, oftwel nnn.');
       cy.get(CATEGORIES.buttonOpslaan).click();
 
       // Wait for saving the data
@@ -63,6 +64,7 @@ describe('Manage categories', () => {
 
       cy.contains('Afgewaterde brug').click();
       cy.url().should('include', 'instellingen/categorie/');
+      cy.get(CATEGORIES.inputNote).should('have.text', 'Naamloze notities noteren, oftwel nnn.').and('be.visible');
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Afhandeltermijn gewijzigd naar').and('contain', '4 weekdagen');
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Naam gewijzigd naar:').and('contain', 'Afgewaterde brug');
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Servicebelofte gewijzigd naar:').and('contain', 'Ik beoordeel deze melding niet, het lijkt me namelijk allemaal onzin');
@@ -93,6 +95,7 @@ describe('Manage categories', () => {
       cy.url().should('include', '/instellingen/categorieen/page/1');
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
       cy.contains('Beplanting').click();
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Status gewijzigd naar:').and('contain', 'Inactief');

@@ -107,7 +107,7 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });
