@@ -6,8 +6,6 @@ import OverspanningIcon from '!!file-loader!../../../../../shared/images/openbar
 import OverspanningSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overspanning_select-marker.svg'
 import GevelArmatuurIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_GevelArmatuur-marker.svg'
 import GevelArmatuurSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_GevelArmatuur_select-marker.svg'
-import LichtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Lichtmast-marker.svg'
-import LichtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Lichtmast_select-marker.svg'
 import GrachtmastIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast-marker.svg'
 import GrachtmastSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Grachtmast_select-marker.svg'
 import SchijnwerperIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper-marker.svg'
@@ -20,32 +18,36 @@ const defaultOptions = {
   iconSize: [32, 32],
 }
 
+const KLOK = 1
+const OVERSPANNING = 2
+const GEVEL_ARMATUUR = 3
+const GRACHTMAST = 5
+const OVERIG = 4
+const SCHIJNWERPER = 10
+
+// Maps object type field ('objecttype') to the corresponding icon.
 export const OVL_MAPPING = {
-  Klok: {
+  [KLOK]: {
     default: L.icon({ ...defaultOptions, iconUrl: KlokIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: KlokSelectIcon }),
   },
-  Overspanning: {
+  [OVERSPANNING]: {
     default: L.icon({ ...defaultOptions, iconUrl: OverspanningIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: OverspanningSelectIcon }),
   },
-  Gevel_Armatuur: {
+  [GEVEL_ARMATUUR]: {
     default: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: GevelArmatuurSelectIcon }),
   },
-  Lichtmast: {
-    default: L.icon({ ...defaultOptions, iconUrl: LichtmastIcon }),
-    selected: L.icon({ ...defaultOptions, iconUrl: LichtmastSelectIcon }),
-  },
-  Grachtmast: {
+  [GRACHTMAST]: {
     default: L.icon({ ...defaultOptions, iconUrl: GrachtmastIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: GrachtmastSelectIcon }),
   },
-  Overig_lichtpunt: {
+  [OVERIG]: {
     default: L.icon({ ...defaultOptions, iconUrl: OverigIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: OverigSelectIcon }),
   },
-  Schijnwerpers: {
+  [SCHIJNWERPER]: {
     default: L.icon({ ...defaultOptions, iconUrl: SchijnwerperIcon }),
     selected: L.icon({ ...defaultOptions, iconUrl: SchijnwerperSelectIcon }),
   },
@@ -67,7 +69,6 @@ export const getOVLIcon = (typeName, isSelected) => {
 
 export const LEGEND_ITEMS = [
   { key: 'klok', label: 'Klok', iconUrl: KlokIcon },
-  { key: 'lichtmast', label: 'Lantaarnpaal', iconUrl: LichtmastIcon },
   { key: 'grachtmast', label: 'Grachtmast', iconUrl: GrachtmastIcon },
   { key: 'overspanning', label: 'Lamp aan kabel', iconUrl: OverspanningIcon },
   {
