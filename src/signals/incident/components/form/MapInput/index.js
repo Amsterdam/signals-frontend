@@ -9,6 +9,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatMapLocation } from 'shared/services/map-location'
 
 import FormField from '../FormField'
+import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 
 const MapInput = ({
   handler,
@@ -23,6 +24,7 @@ const MapInput = ({
   const { lat, lng } = value?.location || {}
   const mapOptions = {
     ...MAP_OPTIONS,
+    ...TOUCH_GESTURE_MESSAGE_OPTION,
     center: lat && lng ? [lat, lng] : [...MAP_OPTIONS.center],
   }
 
