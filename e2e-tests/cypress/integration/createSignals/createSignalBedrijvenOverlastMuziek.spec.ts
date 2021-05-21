@@ -83,7 +83,7 @@ describe('Create signal "Bedrijven overlast muziek" and check signal details', (
         createSignal.openCreatedSignal();
         routes.waitForSignalDetailsRoutes();
 
-        createSignal.checkAllDetails(signal);
+        createSignal.checkAllDetails(signal, 'standaardmelding');
       });
     });
   });

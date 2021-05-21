@@ -95,7 +95,7 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
     });
   });
 });

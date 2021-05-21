@@ -34,7 +34,7 @@
     "start:tunnel": "cross-env BABEL_ENV=production NODE_ENV=production ENABLE_TUNNEL=true node server",
     "start": "cross-env NODE_ENV=development BABEL_ENV=development node server -- --port=3001",
     "test:clean": "rimraf ./coverage",
-    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn jest --coverage --maxWorkers=75%",
+    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn jest --coverage --runInBand",
     "validate-config": "node ./internals/scripts/validate-config.js",
     "validate-base-config": "node ./internals/scripts/validate-base-config.js"
   },
@@ -55,6 +55,7 @@
     "invariant": "^2.2.4",
     "keycloak-js": "^12.0.4",
     "leaflet": "^1.7.1",
+    "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.5.0",
     "lodash.conformsto": "^4.15.0",
     "lodash.foreach": "^4.5.0",

@@ -1,0 +1,55 @@
+publiccodeYmlVersion: "0.2"
+name: Signalen frontend
+url: "https://github.com/signalen/frontend"
+landingURL: "https://signalen.org/"
+softwareVersion: "v1.49.0"
+releaseDate: "2021-05-20"
+platforms:
+  - web
+categories:
+  - workflow-management
+  - task-management
+  - communications
+usedBy:
+  - Gemeente Amsterdam
+  - Gemeente 's-Hertogenbosch
+developmentStatus: stable
+softwareType: standalone/web
+description:
+  nl:
+    localisedName: Signalen frontend
+    genericName: Signalen frontend
+    shortDescription: >-
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
+    longDescription: >-
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
+    documentation: "https://docs.signalen.org/"
+    features:
+    - Meldingen classificeren
+    - Meldingen routeren
+    - Meldingen behandelen
+    - Rapporteren
+legal:
+  license: MPLv2
+  mainCopyrightOwner: Signalen
+  repoOwner: Gemeente Amsterdam
+maintenance:
+  type: community
+  contacts:
+    - name: Amy van Someren
+      email: a.vansomeren@s-hertogenbosch.nl
+    - name: René van Sprang
+      email: r.van.sprang@amsterdam.nl
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - nl
+dependsOn:
+  open:
+    - name: nodeJS
+      version: 16
+    - name: npm
+      version: 7.10.0
+    - name: signalen/frontend
+    - name: signalen/classification
+    - name: signalen/backend

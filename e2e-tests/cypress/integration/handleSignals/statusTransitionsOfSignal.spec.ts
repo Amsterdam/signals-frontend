@@ -38,11 +38,11 @@ describe('All status transitions of a signal', () => {
     it("Should change status from 'Gemeld' to 'Ingepland'", () => {
       createSignal.changeSignalStatus('Gemeld', 'Ingepland', CHANGE_STATUS.radioButtonIngepland);
     });
-    it("Should change status from 'Ingepland' to 'Extern: verzoek tot afhandeling'", () => {
+    it("Should change status from 'Ingepland' to 'Verzoek tot afhandeling'", () => {
       createSignal.changeSignalStatus('Ingepland', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
-    it("Should change status from 'Extern: verzoek tot afhandeling' to 'Afgehandeld'", () => {
-      createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'Afgehandeld', CHANGE_STATUS.radioButtonAfgehandeld);
+    it("Should change status from 'Verzoek tot afhandeling' to 'Afgehandeld'", () => {
+      createSignal.changeSignalStatus('Verzoek tot afhandeling', 'Afgehandeld', CHANGE_STATUS.radioButtonAfgehandeld);
     });
     it("Should change status from 'Afgehandeld' to 'Heropend'", () => {
       createSignal.changeSignalStatus('Afgehandeld', 'Heropend', CHANGE_STATUS.radioButtonHeropend);
@@ -56,11 +56,11 @@ describe('All status transitions of a signal', () => {
     it("Should change status from 'Ingepland' to 'In behandeling'", () => {
       createSignal.changeSignalStatus('Ingepland', 'In behandeling', CHANGE_STATUS.radioButtonInBehandeling);
     });
-    it("Should change status from 'In behandeling' to 'Extern: verzoek tot afhandeling'", () => {
+    it("Should change status from 'In behandeling' to 'Verzoek tot afhandeling'", () => {
       createSignal.changeSignalStatus('In behandeling', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
-    it("Should change status from 'Extern: verzoek tot afhandeling' to 'In behandeling'", () => {
-      createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'In behandeling', CHANGE_STATUS.radioButtonInBehandeling);
+    it("Should change status from 'Verzoek tot afhandeling' to 'In behandeling'", () => {
+      createSignal.changeSignalStatus('Verzoek tot afhandeling', 'In behandeling', CHANGE_STATUS.radioButtonInBehandeling);
     });
     it("Should change status from 'In behandeling' to 'Afgehandeld'", () => {
       createSignal.changeSignalStatus('In behandeling', 'Afgehandeld', CHANGE_STATUS.radioButtonAfgehandeld);
@@ -122,11 +122,11 @@ describe('All status transitions of a signal', () => {
     it("Should change status from 'In afwachting van behandeling' to 'Ingepland'", () => {
       createSignal.changeSignalStatus('In afwachting van behandeling', 'Ingepland', CHANGE_STATUS.radioButtonIngepland);
     });
-    it("Should change status from 'Ingepland' to 'Extern: verzoek tot afhandeling'", () => {
+    it("Should change status from 'Ingepland' to 'Verzoek tot afhandeling'", () => {
       createSignal.changeSignalStatus('Ingepland', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
-    it("Should change status from 'Extern: verzoek tot afhandeling' to 'Geannuleerd'", () => {
-      createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'Geannuleerd', CHANGE_STATUS.radioButtonGeannuleerd);
+    it("Should change status from 'Verzoek tot afhandeling' to 'Geannuleerd'", () => {
+      createSignal.changeSignalStatus('Verzoek tot afhandeling', 'Geannuleerd', CHANGE_STATUS.radioButtonGeannuleerd);
     });
   });
   describe('Setup data set 04', () => {

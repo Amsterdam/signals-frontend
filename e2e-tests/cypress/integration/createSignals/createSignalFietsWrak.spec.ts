@@ -68,7 +68,7 @@ describe('Create signal "Fietswrak" and check signal details', () => {
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal);
+      createSignal.checkAllDetails(signal, 'standaardmelding');
       cy.clock().then(clock => {
         clock.restore();
       });

@@ -150,7 +150,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       endpoint: configuration.map.layers?.verlichting,
       zoomMin: 18,
       legend_items: [
-        'lichtmast',
         'grachtmast',
         'overspanning',
         'gevel_armatuur',

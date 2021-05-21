@@ -80,7 +80,7 @@ describe('Create signal "Bedrijven overlast bezoekers" and check signal details'
         createSignal.openCreatedSignal();
         routes.waitForSignalDetailsRoutes();
 
-        createSignal.checkAllDetails(signal);
+        createSignal.checkAllDetails(signal, 'standaardmelding');
       });
     });
   });

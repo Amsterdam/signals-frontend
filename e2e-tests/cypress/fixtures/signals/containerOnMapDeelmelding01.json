@@ -1,6 +1,6 @@
 {
   "category": {
-    "sub": "Container is kapot",
+    "sub": "Container is vol",
     "sub_slug": "container-is-kapot",
     "main": "Afval",
     "main_slug": "afval",
@@ -14,13 +14,13 @@
   "has_attachments": true,
   "address": {
     "stadsdeel": "Oost",
-    "postcode": "1019LT",
+    "postcode": "",
     "huisletter": "",
-    "huisnummer": 810,
-    "woonplaats": "Amsterdam",
-    "openbare_ruimte": "KNSM-laan",
+    "huisnummer": null,
+    "woonplaats": "",
+    "openbare_ruimte": "",
     "huisnummer_toevoeging": "",
-    "address_text": "KNSM-laan 810 1019LT Amsterdam",
+    "address_text": "",
     "geometrie": {"type": "Point", "coordinates": [4.94641537,52.37678099]}
   },
   "status": {
@@ -31,7 +31,11 @@
     "send_email": true,
     "created_at": "2020-10-29T16:27:54.488819+01:00"
   },
-  "reporter": {"email": "sia@siamail.com", "phone": "0611", "sharing_allowed": "Nee"},
+  "reporter": {
+    "email": "",
+    "phone": "",
+    "sharing_allowed": "Nee"
+  },
   "priority": "Normaal",
   "process_time": "Binnen de afhandeltermijn",
   "notes": [],
@@ -44,8 +48,7 @@
       "label": "Kies de container waar het om gaat",
       "shortLabel": "Container(s)",
       "answer": [
-        {"label": "Restafval container"},
-        {"label": "Glas container"}
+        {"label": "De container staat niet op de kaart - 44Af-1"}
       ]
     }
   ],
@@ -59,7 +62,7 @@
   ],
   "fixtures": {
     "address": "containerOnMap.json",
-    "attachments": ["images/logo.png", "images/logo2.png"],
+    "attachments": null,
     "prediction": "containerOnMap.json"
   }
 }
