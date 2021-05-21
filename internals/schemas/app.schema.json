@@ -329,12 +329,12 @@
             "klokken": {
               "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
               "type": "string",
-              "format": "uri"
+              "format": "uri-template"
             },
             "verlichting": {
               "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
               "type": "string",
-              "format": "uri"
+              "format": "uri-template"
             }
           }
         }
