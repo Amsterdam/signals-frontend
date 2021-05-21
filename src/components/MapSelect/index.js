@@ -39,70 +39,6 @@ const StyledMap = styled(Map)`
   width: 100%;
   font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `
-const createBboxGeojsonLayer = (
-  fetchRequest,
-  getIcon,
-  iconField,
-  idField,
-  onSelectionChange,
-  selection,
-  selectionOnly
-) =>
-  BboxGeojsonLayer(
-    { fetchRequest },
-    {
-      zoomMin: ZOOM_MIN,
-      zoomMax: ZOOM_MAX,
-
-      /**
-       * Function that will be used to decide whether to include a feature or not. The default is to include all
-       * features.
-       *
-       * Note that this behaviour is difficult to test, hence the istanbul ignore
-       */
-      filter: /* istanbul ignore next */ (feature) =>
-        selectionOnly
-          ? selection.current.has(feature.properties[idField])
-          : true,
-
-      /**
-       * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
-       * passing the GeoJSON point feature and its LatLng.
-       * Return value overridden to have it return a marker with a specific icon
-       *
-       * Note that this behaviour is difficult to test, hence the istanbul ignore
-       */
-      pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
-        L.marker(latlong, {
-          icon: getIcon(
-            feature.properties[iconField],
-            selection.current.has(feature.properties[idField])
-          ),
-          alt: feature.properties.objectnummer,
-        }),
-
-      /**
-       * Function called once for each created Feature, after it has been created and styled.
-       * Attaches click handler to markers that are rendered on the map
-       *
-       * Note that this behaviour is difficult to test, hence the istanbul ignore
-       */
-      onEachFeature: /* istanbul ignore next */ (feature, layer) => {
-        if (onSelectionChange) {
-          // Check that the component is in write mode
-          layer.on({
-            click: (e) => {
-              const _layer = e.target
-              const id = _layer.feature.properties[idField]
-              selection.current.toggle(id)
-
-              onSelectionChange(selection.current)
-            },
-          })
-        }
-      },
-    }
-  )
 
 const MapSelect = ({
   geojsonUrl,
@@ -158,14 +94,60 @@ const MapSelect = ({
 
   const bboxGeoJsonLayer = useMemo(
     () =>
-      createBboxGeojsonLayer(
-        fetchRequest,
-        getIcon,
-        iconField,
-        idField,
-        onSelectionChange,
-        selection,
-        selectionOnly
+      BboxGeojsonLayer(
+        { fetchRequest },
+        {
+          zoomMin: ZOOM_MIN,
+          zoomMax: ZOOM_MAX,
+
+          /**
+           * Function that will be used to decide whether to include a feature or not. The default is to include all
+           * features.
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
+          filter: /* istanbul ignore next */ (feature) =>
+            selectionOnly
+              ? selection.current.has(feature.properties[idField])
+              : true,
+
+          /**
+           * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
+           * passing the GeoJSON point feature and its LatLng.
+           * Return value overridden to have it return a marker with a specific icon
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
+          pointToLayer: /* istanbul ignore next */ (feature, latlong) =>
+            L.marker(latlong, {
+              icon: getIcon(
+                feature.properties[iconField],
+                selection.current.has(feature.properties[idField])
+              ),
+              alt: feature.properties.objectnummer,
+            }),
+
+          /**
+           * Function called once for each created Feature, after it has been created and styled.
+           * Attaches click handler to markers that are rendered on the map
+           *
+           * Note that this behaviour is difficult to test, hence the istanbul ignore
+           */
+          onEachFeature: /* istanbul ignore next */ (feature, layer) => {
+            if (onSelectionChange) {
+              // Check that the component is in write mode
+              layer.on({
+                click: (e) => {
+                  const _layer = e.target
+                  const id = _layer.feature.properties[idField]
+                  selection.current.toggle(id)
+
+                  onSelectionChange(selection.current)
+                },
+              })
+            }
+          },
+        }
       ),
     [
       fetchRequest,
