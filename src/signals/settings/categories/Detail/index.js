@@ -103,6 +103,11 @@ const CategoryDetail = () => {
           key,
           typeof val === 'string' ? val.replace(/\r\n/g, '\n') : val,
         ])
+        // Prevent updating null values with empty string
+        .map(([key, val]) => [
+          key,
+          val === '' && data[key] === null ? null : val,
+        ])
         // reduce the entries() array to an object, merging it with the initial data
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data })
 
@@ -124,9 +129,10 @@ const CategoryDetail = () => {
   const onCancel = useCallback(
     (event) => {
       const formData = getFormData(event)
-      const initialData = Object.entries(data)
-        .map(([key, value]) => [key, value === null ? '' : value])
-        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { ...data })
+      const initialData = Object.entries(data).reduce(
+        (acc, [key, value]) => ({ ...acc, [key]: value }),
+        { ...data }
+      )
       const combinedData = { ...initialData, ...formData }
       const isPristine = isEqual(initialData, combinedData)
 
