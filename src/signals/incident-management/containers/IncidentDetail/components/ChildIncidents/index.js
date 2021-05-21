@@ -3,7 +3,7 @@
 import { Fragment, useMemo, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeSpacing, Heading } from '@amsterdam/asc-ui'
+import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
 
 import { childIncidentType, historyType, incidentType } from 'shared/types'
@@ -25,6 +25,11 @@ const Section = styled.section`
 const Title = styled(Heading)`
   font-weight: 400;
   margin: ${themeSpacing(4)} 0;
+`
+
+const StyledChildIncidentsList = styled(ChildIncidentsList)`
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  margin-bottom: ${themeSpacing(4)};
 `
 
 const ChildIncidents = ({
@@ -62,9 +67,10 @@ const ChildIncidents = ({
     ]
   )
 
-  const canReset = useMemo(() => children.some(({ changed }) => changed), [
-    children,
-  ])
+  const canReset = useMemo(
+    () => children.some(({ changed }) => changed),
+    [children]
+  )
 
   const resetAction = useCallback(() => {
     update({
@@ -85,7 +91,7 @@ const ChildIncidents = ({
         Deelmelding
       </Title>
 
-      <ChildIncidentsList
+      <StyledChildIncidentsList
         incidents={children}
         parentUpdatedAt={parent.updated_at}
       />
