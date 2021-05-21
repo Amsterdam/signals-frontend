@@ -23,12 +23,12 @@ import ZoomMessageControl from './control/ZoomMessageControl'
 import LegendControl from './control/LegendControl'
 import LoadingControl from './control/LoadingControl'
 import ErrorControl from './control/ErrorControl'
+import { getIsReportedLayer } from './ReportedLayer/reportedLayer'
+import { ZOOM_MIN, ZOOM_MAX } from './constants'
 
 import './style.scss'
 
 const SELECTION_MAX_COUNT = 30
-
-const zoomMin = 13
 
 const Wrapper = styled.div`
   position: relative;
@@ -51,8 +51,8 @@ const createBboxGeojsonLayer = (
   BboxGeojsonLayer(
     { fetchRequest },
     {
-      zoomMin,
-      zoomMax: 15,
+      zoomMin: ZOOM_MIN,
+      zoomMax: ZOOM_MAX,
 
       /**
        * Function that will be used to decide whether to include a feature or not. The default is to include all
@@ -118,7 +118,7 @@ const MapSelect = ({
   ...rest
 }) => {
   const featuresLayer = useRef()
-  const extraFeaturesLayer = useRef()
+  const isReportedLayer = useRef()
   const [mapInstance, setMapInstance] = useState()
   const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value))
   const mapOptions = {
@@ -156,14 +156,6 @@ const MapSelect = ({
     [errorControl, geojsonUrl]
   )
 
-  const extraFetchRequest = useCallback(
-    (bbox_str) =>
-      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
-        errorControl.show()
-      }),
-    [errorControl, geojsonUrl]
-  )
-
   const bboxGeoJsonLayer = useMemo(
     () =>
       createBboxGeojsonLayer(
@@ -186,26 +178,9 @@ const MapSelect = ({
     ]
   )
 
-  const extraBboxGeoJsonLayer = useMemo(
-    () =>
-      createBboxGeojsonLayer(
-        fetchRequest,
-        getIcon,
-        iconField,
-        idField,
-        onSelectionChange,
-        selection,
-        selectionOnly
-      ),
-    [
-      extraFetchRequest,
-      getIcon,
-      iconField,
-      idField,
-      onSelectionChange,
-      selection,
-      selectionOnly,
-    ]
+  const isReportedGeoJsonLayer = useMemo(
+    () => getIsReportedLayer(fetchRequest),
+    [fetchRequest]
   )
 
   /**
@@ -213,7 +188,7 @@ const MapSelect = ({
    */
   useLayoutEffect(() => {
     featuresLayer.current = bboxGeoJsonLayer
-    extraFeaturesLayer.current = extraBboxGeoJsonLayer
+    isReportedLayer.current = isReportedGeoJsonLayer
     // only execute on mount; disabling linter
     // eslint-disable-next-line
   }, [])
@@ -225,11 +200,11 @@ const MapSelect = ({
     if (!mapInstance) return undefined
 
     featuresLayer.current.addTo(mapInstance)
-    extraFeaturesLayer.current.addTo(mapInstance)
+    isReportedLayer.current.addTo(mapInstance)
 
     const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
-      zoomMin,
+      zoomMin: ZOOM_MIN,
     })
 
     zoomMessageControl.addTo(mapInstance)
@@ -238,7 +213,7 @@ const MapSelect = ({
       // only show if legend items are provided
       const legendControl = new LegendControl({
         position: 'topright',
-        zoomMin,
+        zoomMin: ZOOM_MIN,
         elements: legend,
       })
 

@@ -13,3 +13,5 @@ declare module '*.png'
 interface URLSearchParams {
   keys: () => string[]
 }
+
+declare module '@datapunt/leaflet-geojson-bbox-layer'
