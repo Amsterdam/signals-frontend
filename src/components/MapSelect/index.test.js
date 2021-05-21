@@ -48,7 +48,7 @@ fetch.mockResponse(JSON.stringify(fetchResponse))
 describe('<MapSelect />', () => {
   const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }]
   const onSelectionChange = jest.fn()
-  const url = 'foo/geo.json?coordinates={{north}}{{east}}{{south}}{{west}}'
+  const url = 'foo/geo.json?coordinates={north}{east}{south}{west}'
   const getIcon = (type, isSelected) => {
     if (isSelected) {
       return L.divIcon({ className: 'my-div-icon-select' })
