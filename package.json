@@ -53,7 +53,7 @@
     "hoist-non-react-statics": "^3.3.2",
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
-    "keycloak-js": "^12.0.4",
+    "keycloak-js": "^13.0.0",
     "leaflet": "^1.7.1",
     "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.5.0",
