@@ -193,7 +193,7 @@
     "match-media-mock": "^0.1.1",
     "mini-css-extract-plugin": "^1.6.0",
     "minimist": "^1.2.5",
-    "msw": "^0.28.0",
+    "msw": "^0.29.0",
     "mutationobserver-shim": "^0.3.7",
     "node-plop": "^0.26.2",
     "npm-run-all": "^4.1.3",
