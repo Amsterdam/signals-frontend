@@ -32,11 +32,11 @@
     "logoDescription": "Logo gemeente Amsterdam, naar amsterdam.nl",
     "mapDescription": "Weet u het adres niet, bel dan 14 020 om telefonisch de melding te maken.",
     "phoneNumber": "14 020",
-    "shortTitle": "SIA",
+    "shortTitle": "Meldingen",
     "siteAddress": "meldingen.amsterdam.nl",
-    "siteTitle": "SIA - Signalen Informatievoorziening Amsterdam",
-    "smallHeaderTitle": "SIA",
-    "title": "Signalen Informatievoorziening Amsterdam",
+    "siteTitle": "Meldingen",
+    "smallHeaderTitle": "Signalen",
+    "title": "Meldingen",
     "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen met 14 020."
   },
   "links": {
