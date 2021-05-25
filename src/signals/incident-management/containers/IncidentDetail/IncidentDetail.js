@@ -89,6 +89,11 @@ const IncidentDetail = () => {
   const { get: getContext, data: context } = useFetch()
   const { get: getChildIncidents, data: childIncidents } = useFetchAll()
   const [editingStatus, setEditingStatus] = useState(false)
+  const { get: getGeography, data: geography } = useFetch()
+
+  useEffect(() => {
+    getGeography(`${configuration.INCIDENT_PRIVATE_ENDPOINT}geography`)
+  }, [getGeography, id])
 
   const subcategories = useSelector(makeSelectSubCategories)
 
@@ -324,7 +329,11 @@ const IncidentDetail = () => {
         <DetailContainer
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
-          <Detail attachments={state.attachments} context={state.context} />
+          <Detail
+            attachments={state.attachments}
+            context={state.context}
+            areaCount={geography?.features.length}
+          />
           <AddNote />
           {state.children?.results && state.childrenHistory && (
             <ChildIncidents
