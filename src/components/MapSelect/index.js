@@ -76,26 +76,29 @@ const MapSelect = ({
     []
   )
 
-  const fetchRequest = useCallback(
-    (bbox_str) => {
-      const [EAST, SOUTH, WEST, NORTH] = bbox_str.split(',')
-      const requestUrl = geojsonUrl
-        .replace('{east}', EAST)
-        .replace('{west}', WEST)
-        .replace('{north}', NORTH)
-        .replace('{south}', SOUTH)
+  const getFetchRequest = useCallback(
+    ({ filterReported }) =>
+      async (bbox) => {
+        const [EAST, SOUTH, WEST, NORTH] = bbox.split(',')
 
-      return request(requestUrl).catch(() => {
-        errorControl.show()
-      })
-    },
+        const requestUrl = geojsonUrl
+          .replace('{east}', EAST)
+          .replace('{west}', WEST)
+          .replace('{north}', NORTH)
+          .replace('{south}', SOUTH)
+          .concat(filterReported ? '&meldingstatus=1' : '')
+
+        return request(requestUrl).catch(() => {
+          errorControl.show()
+        })
+      },
     [errorControl, geojsonUrl]
   )
 
   const bboxGeoJsonLayer = useMemo(
     () =>
       BboxGeojsonLayer(
-        { fetchRequest },
+        { fetchRequest: getFetchRequest({ filterReported: false }) },
         {
           zoomMin: ZOOM_MIN,
           zoomMax: ZOOM_MAX,
@@ -150,7 +153,7 @@ const MapSelect = ({
         }
       ),
     [
-      fetchRequest,
+      getFetchRequest,
       getIcon,
       iconField,
       idField,
@@ -160,9 +163,8 @@ const MapSelect = ({
     ]
   )
 
-  const isReportedGeoJsonLayer = useMemo(
-    () => getIsReportedLayer(fetchRequest),
-    [fetchRequest]
+  const isReportedGeoJsonLayer = getIsReportedLayer(
+    getFetchRequest({ filterReported: true })
   )
 
   /**

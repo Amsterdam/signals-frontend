@@ -75,7 +75,7 @@ describe('<MapSelect />', () => {
           onSelectionChange={onSelectionChange}
           getIcon={getIcon}
           geojsonUrl={url}
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
           hasGPSControl
         />
@@ -100,7 +100,7 @@ describe('<MapSelect />', () => {
           getIcon={getIcon}
           geojsonUrl={url}
           legend={legend}
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
         />
       )
@@ -122,7 +122,7 @@ describe('<MapSelect />', () => {
           getIcon={getIcon}
           legend={legend}
           geojsonUrl={url}
-          iconField="type_name"
+          iconField="objectnummer"
           idField="objectnummer"
         />
       )
