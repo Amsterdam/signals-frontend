@@ -69,12 +69,12 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
       cy.get(LANTAARNPAAL.legendHeader).should('have.text', 'Legenda').and('be.visible');
       cy.get(LANTAARNPAAL.legendContentText).should('be.visible');
-      cy.contains('Lantaarnpaal').should('be.visible');
       cy.contains('Grachtmast').should('be.visible');
       cy.contains('Lamp aan kabel').should('be.visible');
       cy.contains('Lamp aan gevel').should('be.visible');
       cy.contains('Schijnwerper').should('be.visible');
       cy.contains('Overig lichtpunt').should('be.visible');
+      cy.contains('Is gemeld').should('be.visible');
 
       cy.contains('Volgende').click();
 
