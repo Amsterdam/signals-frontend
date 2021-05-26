@@ -84,13 +84,6 @@ const StyledMap = styled(Map)`
   }
 `
 
-// Added also to `arm` in #1108. Will be removed here when the next version of `arm` is released
-const StyledMapPanelDrawer = styled(MapPanelDrawer)`
-  & > :first-child {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-`
-
 const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
@@ -131,7 +124,7 @@ const Selector = () => {
     () =>
       desktopView
         ? { Panel: MapPanel, panelVariant: 'panel' }
-        : { Panel: StyledMapPanelDrawer, panelVariant: 'drawer' },
+        : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
     [desktopView]
   )
 
