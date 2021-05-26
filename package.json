@@ -18,7 +18,6 @@
     "build:netlify": "cross-env BABEL_ENV=production NODE_ENV=netlify webpack --config internals/webpack/webpack.prod.babel.js --color --mode production --progress",
     "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
     "clean": "shjs ./internals/scripts/clean.js",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "format": "prettier --write .",
     "lint:eslint": "NODE_ENV=production eslint",
     "lint:js": "npm run lint:eslint -- . ",

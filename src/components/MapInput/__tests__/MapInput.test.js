@@ -77,7 +77,9 @@ describe('components/MapInput', () => {
 
   it('should render the map and the autosuggest', () => {
     const { getByTestId } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+      withMapContext(
+        <MapInput mapOptions={MAP_OPTIONS} value={testLocation} id="test" />
+      )
     )
 
     expect(getByTestId('mapInput')).toBeInTheDocument()
