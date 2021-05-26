@@ -13,6 +13,7 @@ import {
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
+import { StatusCode } from 'signals/incident-management/definitions/statusList'
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -392,6 +393,29 @@ describe('MetaList', () => {
     expect(
       screen.queryByTestId('meta-list-process-time-value')?.className
     ).toBe('alert')
+  })
+
+  it('should render process time copy based on the deadline and current status', () => {
+    const statusChangeDate = new Date(1990)
+    const after = new Date(statusChangeDate.getTime() + 100)
+
+    render(
+      renderWithContext({
+        ...plainIncident,
+        category: {
+          deadline_factor_3: after.toISOString(),
+        },
+        status: {
+          ...plainIncident.status,
+          state: StatusCode.Afgehandeld,
+          created_at: statusChangeDate.toISOString(),
+        },
+      })
+    )
+
+    expect(
+      screen.queryByTestId('meta-list-process-time-value')
+    ).toHaveTextContent(/^Binnen de afhandeltermijn$/)
   })
 
   it('should call edit', () => {
