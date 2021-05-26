@@ -62,7 +62,8 @@ describe('Create signal "Klok" which is on the map and check signal details', ()
       // Check options in legend
       cy.get(KLOK.mapSelectKlok).should('be.visible');
       cy.get(KLOK.legendHeader).should('have.text', 'Legenda').and('be.visible');
-      cy.get(KLOK.legendContentText).should('have.text', 'Klok').and('be.visible');
+      cy.get(KLOK.legendContentText).should('contain', 'Klok').and('be.visible');
+      cy.get(KLOK.legendContentText).should('contain', 'Is gemeld').and('be.visible');
 
       cy.contains('Volgende').click();
 
