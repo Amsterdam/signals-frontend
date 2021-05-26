@@ -91,10 +91,6 @@ const IncidentDetail = () => {
   const [editingStatus, setEditingStatus] = useState(false)
   const { get: getGeography, data: geography } = useFetch()
 
-  useEffect(() => {
-    getGeography(`${configuration.INCIDENT_PRIVATE_ENDPOINT}geography`)
-  }, [getGeography, id])
-
   const subcategories = useSelector(makeSelectSubCategories)
 
   useEffect(() => {
@@ -217,6 +213,10 @@ const IncidentDetail = () => {
   }, [incident, retrieveUnderlyingData])
 
   const retrieveUnderlyingData = useCallback(() => {
+    getGeography(
+      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/near/geography`
+    )
+
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
 
     // retrieve attachments only once per page load
@@ -249,6 +249,7 @@ const IncidentDetail = () => {
     getAttachments,
     getChildren,
     getContext,
+    getGeography,
   ])
 
   useEffect(() => {
@@ -332,7 +333,7 @@ const IncidentDetail = () => {
           <Detail
             attachments={state.attachments}
             context={state.context}
-            areaCount={geography?.features.length}
+            areaCount={geography?.features?.length}
           />
           <AddNote />
           {state.children?.results && state.childrenHistory && (
