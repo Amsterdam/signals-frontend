@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 
@@ -12,6 +13,7 @@ import Location from './components/Location'
 import Attachments from './components/Attachments'
 import ExtraProperties from './components/ExtraProperties'
 import Context from './components/Context'
+import Area from './components/Area'
 
 const Wrapper = styled.article`
   position: relative;
@@ -56,7 +58,7 @@ const DefinitionList = styled.dl`
   }
 `
 
-const Detail = ({ attachments, context }) => {
+const Detail = ({ attachments, context, areaCount }) => {
   const { incident } = useContext(IncidentDetailContext)
   const memoIncident = useMemo(() => incident, [incident])
   const memoAttachments = useMemo(() => attachments, [attachments])
@@ -76,6 +78,8 @@ const Detail = ({ attachments, context }) => {
         </dd>
 
         <Location location={location} />
+
+        {areaCount && <Area count={areaCount} id={incident.id} />}
 
         {memoAttachments && <Attachments attachments={memoAttachments} />}
 
@@ -109,6 +113,7 @@ const Detail = ({ attachments, context }) => {
 Detail.propTypes = {
   attachments: attachmentsType,
   context: contextType,
+  areaCount: PropTypes.number,
 }
 
 export default Detail
