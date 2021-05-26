@@ -12,7 +12,10 @@ const icon = L.icon({
   iconAnchor: [X_OFFSET, Y_OFFSET],
 })
 
-export const getIsReportedLayer = (fetchRequest: () => Promise<unknown>) =>
+export const getIsReportedLayer = (
+  fetchRequest: () => Promise<unknown>,
+  filter: (feature: unknown) => boolean
+) =>
   BboxGeojsonLayer(
     {
       fetchRequest,
@@ -25,5 +28,6 @@ export const getIsReportedLayer = (fetchRequest: () => Promise<unknown>) =>
           icon,
           alt: 'Dit object heeft een openstaande melding',
         }),
+      filter,
     }
   )

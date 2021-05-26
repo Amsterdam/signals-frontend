@@ -95,6 +95,15 @@ const MapSelect = ({
     [errorControl, geojsonUrl]
   )
 
+  const filter = useCallback(
+    (feature) => {
+      return selectionOnly
+        ? selection.current.has(feature.properties[idField])
+        : true
+    },
+    [idField, selectionOnly, selection]
+  )
+
   const bboxGeoJsonLayer = useMemo(
     () =>
       BboxGeojsonLayer(
@@ -106,13 +115,8 @@ const MapSelect = ({
           /**
            * Function that will be used to decide whether to include a feature or not. The default is to include all
            * features.
-           *
-           * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-          filter: /* istanbul ignore next */ (feature) =>
-            selectionOnly
-              ? selection.current.has(feature.properties[idField])
-              : true,
+          filter,
 
           /**
            * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
@@ -153,18 +157,19 @@ const MapSelect = ({
         }
       ),
     [
+      filter,
       getFetchRequest,
       getIcon,
       iconField,
       idField,
       onSelectionChange,
       selection,
-      selectionOnly,
     ]
   )
 
   const isReportedGeoJsonLayer = getIsReportedLayer(
-    getFetchRequest({ filterReported: true })
+    getFetchRequest({ filterReported: true }),
+    filter
   )
 
   /**
