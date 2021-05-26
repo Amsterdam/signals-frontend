@@ -32,7 +32,7 @@ const MapSelectPreview = ({ value, meta, incident }) => (
     <MapSelect
       geojsonUrl={meta.endpoint}
       getIcon={getOVLIcon}
-      iconField="type_name"
+      iconField="objecttype"
       idField="objectnummer"
       latlng={getLatlng(incident.location)}
       selectionOnly
