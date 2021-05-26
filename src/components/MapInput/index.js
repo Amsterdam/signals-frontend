@@ -41,6 +41,7 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
+  text-align: center;
 `
 
 const StyledViewerContainer = styled(ViewerContainer)`
