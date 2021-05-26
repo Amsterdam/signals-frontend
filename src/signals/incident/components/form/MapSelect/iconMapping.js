@@ -12,6 +12,7 @@ import SchijnwerperIcon from '!!file-loader!../../../../../shared/images/openbar
 import SchijnwerperSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Schijnwerper_select-marker.svg'
 import OverigSelectIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig_select-marker.svg'
 import OverigIcon from '!!file-loader!../../../../../shared/images/openbare_verlichting/Icon_32_Overig-marker.svg'
+import IsReportedIcon from '!!file-loader!../../../../../shared/images/icon-reported-marker.svg'
 
 const defaultOptions = {
   className: 'object-marker',
@@ -78,4 +79,5 @@ export const LEGEND_ITEMS = [
   },
   { key: 'schijnwerper', label: 'Schijnwerper', iconUrl: SchijnwerperIcon },
   { key: 'overig_lichtpunt', label: 'Overig lichtpunt', iconUrl: OverigIcon },
+  { key: 'is_gemeld', label: 'Is gemeld', iconUrl: IsReportedIcon },
 ]
