@@ -39,6 +39,7 @@ describe('<IncidentWizard />', () => {
     getClassification: jest.fn(),
     updateIncident: jest.fn(),
     createIncident: jest.fn(),
+    removeQuestionData: jest.fn(),
     incidentContainer: {
       loading: false,
     },

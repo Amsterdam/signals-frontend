@@ -135,7 +135,7 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
       )
 
       return (
-        <Fragment key={incident.href}>
+        <Fragment key={incident.values.id}>
           <Li status={incident.status} changed={incident.changed}>
             {incident.href ? (
               <Link to={incident.href}>{valueEntries}</Link>

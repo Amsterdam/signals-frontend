@@ -6,11 +6,11 @@ const KLOK = 1
 
 describe('getOVLIcon', () => {
   it('should get default icon', () => {
-    expect(getOVLIcon('Klok', false)).toBe(OVL_MAPPING[KLOK].default)
+    expect(getOVLIcon(KLOK, false)).toBe(OVL_MAPPING[KLOK].default)
   })
 
   it('should get select icon', () => {
-    expect(getOVLIcon('Klok', true)).toBe(OVL_MAPPING[KLOK].selected)
+    expect(getOVLIcon(KLOK, true)).toBe(OVL_MAPPING[KLOK].selected)
   })
 
   it('should default to first icon if missing', () => {
