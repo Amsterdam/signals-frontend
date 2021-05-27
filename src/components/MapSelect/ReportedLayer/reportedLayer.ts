@@ -27,6 +27,7 @@ export const getIsReportedLayer = (
         L.marker(latlong, {
           icon,
           alt: 'Dit object heeft een openstaande melding',
+          zIndexOffset: 1,
         }),
       filter,
     }

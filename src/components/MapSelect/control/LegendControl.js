@@ -31,7 +31,12 @@ const LegendControl = L.Control.extend({
     const content = L.DomUtil.create('div', 'legend-content', div)
     this.options.elements.forEach((element) => {
       const item = L.DomUtil.create('div', 'legend-content-item', content)
-      const icon = L.DomUtil.create('img', 'legend-content-icon', item)
+      const iconWrapper = L.DomUtil.create(
+        'div',
+        'legend-content-icon-wrapper',
+        item
+      )
+      const icon = L.DomUtil.create('img', 'legend-content-icon', iconWrapper)
       icon.src = element.iconUrl
       const text = L.DomUtil.create('span', 'legend-content-text', item)
       text.innerText = element.label
