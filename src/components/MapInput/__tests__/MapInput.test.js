@@ -88,7 +88,7 @@ describe('components/MapInput', () => {
 
   it('should dispatch setValuesAction', () => {
     const { rerender } = render(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={{}} />)
+      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={{}} id="test" />)
     )
 
     expect(setValuesSpy).not.toHaveBeenCalled()
@@ -96,14 +96,18 @@ describe('components/MapInput', () => {
     const value = { addressText: 'Foo', ...testLocation }
 
     rerender(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={value} />)
+      withMapContext(
+        <MapInput mapOptions={MAP_OPTIONS} value={value} id="test" />
+      )
     )
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1)
     expect(setValuesSpy).toHaveBeenCalledWith(value)
 
     rerender(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+      withMapContext(
+        <MapInput mapOptions={MAP_OPTIONS} value={testLocation} id="test" />
+      )
     )
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2)
@@ -113,7 +117,9 @@ describe('components/MapInput', () => {
     setLocationSpy.mockClear()
 
     rerender(
-      withMapContext(<MapInput mapOptions={MAP_OPTIONS} value={testLocation} />)
+      withMapContext(
+        <MapInput mapOptions={MAP_OPTIONS} value={testLocation} id="test" />
+      )
     )
 
     expect(setValuesSpy).not.toHaveBeenCalled()
@@ -127,6 +133,7 @@ describe('components/MapInput', () => {
           mapOptions={MAP_OPTIONS}
           value={testLocation}
           onChange={onChange}
+          id="test"
         />
       )
     )
@@ -191,6 +198,7 @@ describe('components/MapInput', () => {
     const { getByTestId, findByTestId } = render(
       withMapContext(
         <MapInput
+          id="test"
           mapOptions={MAP_OPTIONS}
           value={testLocation}
           onChange={onChange}
@@ -239,6 +247,7 @@ describe('components/MapInput', () => {
       withAppContext(
         <context.Provider value={{ state: {}, dispatch: () => {} }}>
           <MapInput
+            id="test"
             mapOptions={MAP_OPTIONS}
             value={testLocation}
             events={{
@@ -260,6 +269,7 @@ describe('components/MapInput', () => {
       withAppContext(
         <context.Provider value={{ state: { location }, dispatch: () => {} }}>
           <MapInput
+            id="test"
             mapOptions={MAP_OPTIONS}
             value={testLocation}
             events={{
@@ -286,6 +296,7 @@ describe('components/MapInput', () => {
           value={{ state: { lat: 51, lng: 4 }, dispatch: () => {} }}
         >
           <MapInput
+            id="test"
             mapOptions={MAP_OPTIONS}
             value={testLocation}
             onChange={onChange}
@@ -357,7 +368,7 @@ describe('components/MapInput', () => {
         <context.Provider
           value={{ state: { location, addressText }, dispatch: () => {} }}
         >
-          <MapInput mapOptions={MAP_OPTIONS} value={testLocation} />
+          <MapInput id="test" mapOptions={MAP_OPTIONS} value={testLocation} />
         </context.Provider>
       )
     )
