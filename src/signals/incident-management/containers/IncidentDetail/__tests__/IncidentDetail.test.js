@@ -75,7 +75,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('attachmentsDefinition')
     ).toBeInTheDocument()
     expect(
-      await screen.findByTestId('detail-context-value')
+      await screen.findByTestId('detail-reporter-value')
     ).toBeInTheDocument()
     expect(await screen.findByTestId('detail-location')).toBeInTheDocument()
     expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()

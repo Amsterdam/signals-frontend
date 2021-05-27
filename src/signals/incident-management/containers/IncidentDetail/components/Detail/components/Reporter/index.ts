@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import Context from './Context'
+import Reporter from './Reporter'
 
-export default Context
+export default Reporter
