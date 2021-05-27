@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 
@@ -12,7 +11,7 @@ import IncidentDetailContext from '../../context'
 import Location from './components/Location'
 import Attachments from './components/Attachments'
 import ExtraProperties from './components/ExtraProperties'
-import Context from './components/Context'
+import Reporter from './components/Reporter'
 import Area from './components/Area'
 
 const Wrapper = styled.article`
@@ -58,7 +57,7 @@ const DefinitionList = styled.dl`
   }
 `
 
-const Detail = ({ attachments, context, areaCount }) => {
+const Detail = ({ attachments, context }) => {
   const { incident } = useContext(IncidentDetailContext)
   const memoIncident = useMemo(() => incident, [incident])
   const memoAttachments = useMemo(() => attachments, [attachments])
@@ -79,7 +78,9 @@ const Detail = ({ attachments, context, areaCount }) => {
 
         <Location location={location} />
 
-        {areaCount && <Area count={areaCount} id={incident.id} />}
+        {context?.near?.signal_count && (
+          <Area count={context.near.signal_count} id={incident.id} />
+        )}
 
         {memoAttachments && <Attachments attachments={memoAttachments} />}
 
@@ -104,7 +105,9 @@ const Detail = ({ attachments, context, areaCount }) => {
           {incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}
         </dd>
 
-        {context && <Context context={context} id={incident.id} />}
+        {context?.reporter && (
+          <Reporter reporter={context.reporter} id={incident.id} />
+        )}
       </DefinitionList>
     </Wrapper>
   )
@@ -113,7 +116,6 @@ const Detail = ({ attachments, context, areaCount }) => {
 Detail.propTypes = {
   attachments: attachmentsType,
   context: contextType,
-  areaCount: PropTypes.number,
 }
 
 export default Detail
