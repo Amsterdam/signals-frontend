@@ -21,7 +21,7 @@ import DownloadButton from './components/DownloadButton'
 const Header = styled.header`
   display: grid;
   padding: ${themeSpacing(2, 0)};
-  border-bottom: 1px solid ${themeColor('tint', 'level3')};
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
   width: 100%;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
