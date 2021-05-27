@@ -234,7 +234,6 @@ const IncidentDetail = () => {
     id,
     state.attachments,
     incident?._links,
-    incident?.reporter.email,
     getAttachments,
     getChildren,
     getContext,
