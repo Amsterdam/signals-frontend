@@ -10,6 +10,7 @@ describe('<Select />', () => {
 
   beforeEach(() => {
     props = {
+      id: 'selectTest',
       name: 'select',
       onChange: jest.fn(),
       options: [

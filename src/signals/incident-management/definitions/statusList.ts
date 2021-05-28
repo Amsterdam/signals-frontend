@@ -154,7 +154,14 @@ export const changeStatusOptionList = [
   GEANNULEERD,
 ]
 
-export const isStatusClosed = (status: StatusCode) =>
-  status === StatusCode.Afgehandeld || status === StatusCode.Geannuleerd
+export const isStatusEnd = (status: StatusCode): boolean =>
+  [
+    StatusCode.Afgehandeld,
+    StatusCode.Geannuleerd,
+    StatusCode.Gesplitst,
+  ].includes(status)
+
+export const isStatusClosed = (status: StatusCode): boolean =>
+  [StatusCode.Afgehandeld, StatusCode.Geannuleerd].includes(status)
 
 export const defaultTextsOptionList = [...changeStatusOptionList]

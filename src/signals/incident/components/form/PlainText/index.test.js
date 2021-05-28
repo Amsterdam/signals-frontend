@@ -142,6 +142,23 @@ describe('Form component <PlainText />', () => {
       expect(element).toHaveStyleRule('background-color', '#E6E6E6')
     })
 
+    it('should render plain text info correctly', () => {
+      const props = getProps({
+        ...metaProps,
+        type: 'info',
+      })
+
+      render(withAppContext(<PlainText {...props} />))
+
+      expect(screen.getByTestId('plainText')).toBeInTheDocument()
+      expect(screen.getByText(props.meta.value)).toBeInTheDocument()
+
+      const element = screen.getByTestId('plainText')
+      expect(element).toHaveStyleRule('padding', '20px')
+      expect(element).toHaveStyleRule('background-color', '#004699')
+      expect(element).toHaveStyleRule('color', '#ffffff')
+    })
+
     it('should render plain text caution correctly', () => {
       const props = getProps({
         ...metaProps,

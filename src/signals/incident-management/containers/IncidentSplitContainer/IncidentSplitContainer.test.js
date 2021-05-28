@@ -103,7 +103,6 @@ const renderAwait = async (
   return renderResult
 }
 
-// eslint-disable-next-line
 const Form =
   (formData = submittedFormData) =>
   ({ onSubmit, ...props }) => {

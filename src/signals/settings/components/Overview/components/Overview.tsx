@@ -63,7 +63,11 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           {showItems.users && (
             <Item data-testid="users">
               <StyledNavLink to={USERS_URL}>
-                <StyledTopTaskLink icon={PersonalLogin} title="Gebruikers" />
+                <StyledTopTaskLink
+                  forwardedAs="div"
+                  icon={PersonalLogin}
+                  title="Gebruikers"
+                />
               </StyledNavLink>
               <p>
                 Om toegang te krijgen tot de applicatie Signalen is het
@@ -81,7 +85,11 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           {showItems.groups && (
             <Item data-testid="groups">
               <StyledNavLink to={ROLES_URL}>
-                <StyledTopTaskLink icon={Student} title="Rollen" />
+                <StyledTopTaskLink
+                  forwardedAs="div"
+                  icon={Student}
+                  title="Rollen"
+                />
               </StyledNavLink>
               <p>
                 De applicatie Signalen kent verscheidene rollen. In het
@@ -96,7 +104,11 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           {showItems.departments && (
             <Item data-testid="departments">
               <StyledNavLink to={DEPARTMENTS_URL}>
-                <StyledTopTaskLink icon={Buildings} title="Afdelingen" />
+                <StyledTopTaskLink
+                  forwardedAs="div"
+                  icon={Buildings}
+                  title="Afdelingen"
+                />
               </StyledNavLink>
               <p>
                 De applicatie Signalen maakt gebruik van afdelingen. Per
@@ -120,6 +132,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
             <Item data-testid="categories">
               <StyledNavLink to={CATEGORIES_URL}>
                 <StyledTopTaskLink
+                  forwardedAs="div"
                   icon={ThumbnailResults}
                   title="Subcategorieën"
                 />

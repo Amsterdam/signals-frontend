@@ -27,6 +27,12 @@ const getStyle = (type) => {
         padding: ${themeSpacing(2, 5)};
         font-family: Avenir Next LT W01 Demi;
       `
+    case 'info':
+      return css`
+        background-color: ${themeColor('primary')};
+        color: ${themeColor('tint', 'level1')};
+        padding: ${themeSpacing(5)};
+      `
     case 'citation':
     case 'disclaimer':
       return css`

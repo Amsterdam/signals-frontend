@@ -17,7 +17,7 @@ const jsonResponse = {
       type: 'Feature',
       properties: {
         ogc_fid: '1845',
-        type_id: '5',
+        objecttype: '5',
         type_name: 'Grachtmast',
         objectnummer: '002635',
       },
@@ -27,7 +27,7 @@ const jsonResponse = {
       type: 'Feature',
       properties: {
         ogc_fid: '1882',
-        type_id: '5',
+        objecttype: '5',
         type_name: 'Grachtmast',
         objectnummer: '147329',
       },

@@ -13,10 +13,14 @@ exports[`Leaflet legend control should render correctly with legend closed 1`] =
     <div
       class="legend-content-item"
     >
-      <img
-        class="legend-content-icon"
-        src="foo/bar.svg"
-      />
+      <div
+        class="legend-content-icon-wrapper"
+      >
+        <img
+          class="legend-content-icon"
+          src="foo/bar.svg"
+        />
+      </div>
       <span
         class="legend-content-text"
       />
@@ -38,10 +42,14 @@ exports[`Leaflet legend control should render correctly with legend open 1`] = `
     <div
       class="legend-content-item"
     >
-      <img
-        class="legend-content-icon"
-        src="foo/bar.svg"
-      />
+      <div
+        class="legend-content-icon-wrapper"
+      >
+        <img
+          class="legend-content-icon"
+          src="foo/bar.svg"
+        />
+      </div>
       <span
         class="legend-content-text"
       />

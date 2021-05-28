@@ -23,6 +23,7 @@ import {
   priorityList,
 } from 'signals/incident-management/definitions'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
+import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -184,18 +185,22 @@ const MetaList = () => {
   )
 
   const [processTimeText, processTimeClass] = useMemo(() => {
-    const now = new Date()
+    if (!incident?.category) return []
+
+    const compareDate = isStatusEnd(incident.status.state)
+      ? new Date(incident.status.created_at)
+      : new Date()
 
     if (
-      incident?.category?.deadline_factor_3 &&
-      now > new Date(incident.category?.deadline_factor_3)
+      incident.category.deadline_factor_3 &&
+      compareDate > new Date(incident.category.deadline_factor_3)
     ) {
       return ['3x buiten de afhandeltermijn', 'alert']
     }
 
     if (
-      incident?.category?.deadline &&
-      now > new Date(incident.category?.deadline)
+      incident.category.deadline &&
+      compareDate > new Date(incident.category.deadline)
     ) {
       return ['Buiten de afhandeltermijn', 'alert']
     }
@@ -263,13 +268,17 @@ const MetaList = () => {
         </Fragment>
       )}
 
-      <dt data-testid="meta-list-process-time-definition">Doorlooptijd</dt>
-      <dd
-        className={processTimeClass}
-        data-testid="meta-list-process-time-value"
-      >
-        {processTimeText}
-      </dd>
+      {processTimeText && (
+        <>
+          <dt data-testid="meta-list-process-time-definition">Doorlooptijd</dt>
+          <dd
+            className={processTimeClass}
+            data-testid="meta-list-process-time-value"
+          >
+            {processTimeText}
+          </dd>
+        </>
+      )}
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">

@@ -104,6 +104,17 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     },
     render: FIELD_TYPE_MAP.radio_input,
   },
+  extra_straatverlichting_drie_of_meer_message: {
+    meta: {
+      ifOneOf: {
+        extra_straatverlichting: 'drie_of_meer_kapot',
+      },
+      type: 'info',
+      value:
+        'Let op: u hoeft maar 1 lamp of lantaarnpaal aan te klikken. Het is niet nodig alle kapotte lampen of lantaarnpalen aan te klikken.',
+    },
+    render: FIELD_TYPE_MAP.plain_text,
+  },
   extra_straatverlichting_gevaar: {
     meta: {
       ifAllOf: {
@@ -133,7 +144,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   extra_straatverlichting_nummer: {
     meta: {
       label: 'Kies de lamp of lantaarnpaal waar het om gaat',
-      subtitle: 'U kunt meer dan een keuze maken',
+      subtitle:
+        'U kunt meer dan één keuze maken. Lampen met een uitroepteken zijn al gemeld.',
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
