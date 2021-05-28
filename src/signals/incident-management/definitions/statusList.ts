@@ -91,35 +91,35 @@ export const HEROPEND = {
 
 export const TE_VERZENDEN = {
   key: StatusCode.TeVerzenden,
-  value: 'Te verzenden naar extern systeem',
+  value: 'Extern: te verzenden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 
 export const VERZONDEN = {
   key: StatusCode.Verzonden,
-  value: 'Verzonden naar extern systeem',
+  value: 'Extern: verzonden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 
 export const VERZENDEN_MISLUKT = {
   key: StatusCode.VerzendenMislukt,
-  value: 'Verzending naar extern systeem mislukt',
+  value: 'Extern: mislukt',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 
 export const VERZOEK_TOT_AFHANDELING = {
   key: StatusCode.VerzoekTotAfhandeling,
-  value: 'Verzoek tot afhandeling',
+  value: 'Extern: verzoek tot afhandeling',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 
 export const AFGEHANDELD_EXTERN = {
   key: StatusCode.AfgehandeldExtern,
-  value: 'Melding is afgehandeld in extern systeem',
+  value: 'Extern: afgehandeld',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
