@@ -144,7 +144,8 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   extra_straatverlichting_nummer: {
     meta: {
       label: 'Kies de lamp of lantaarnpaal waar het om gaat',
-      subtitle: 'U kunt meer dan een keuze maken',
+      subtitle:
+        'U kunt meer dan één keuze maken. Lampen met een uitroepteken zijn al gemeld.',
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
