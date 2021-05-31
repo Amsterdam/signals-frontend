@@ -177,7 +177,7 @@
     "fork-ts-checker-webpack-plugin": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
-    "http-proxy-middleware": "^1.0.6",
+    "http-proxy-middleware": "^2.0.0",
     "husky": "^4.3.8",
     "image-webpack-loader": "^7.0.1",
     "imports-loader": "^2.0.0",
