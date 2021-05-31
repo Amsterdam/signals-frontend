@@ -23,7 +23,9 @@ import {
   priorityList,
 } from 'signals/incident-management/definitions'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
+import statusList, {
+  isStatusEnd,
+} from 'signals/incident-management/definitions/statusList'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -184,6 +186,12 @@ const MetaList = () => {
     [handlingTimesBySlug, incident]
   )
 
+  const statusText = useMemo(
+    () =>
+      statusList.find((status) => status.key === incident?.status.state)?.value,
+    [incident?.status.state]
+  )
+
   const [processTimeText, processTimeClass] = useMemo(() => {
     if (!incident?.category) return []
 
@@ -293,7 +301,7 @@ const MetaList = () => {
           Status
         </dt>
         <dd className="alert" data-testid="meta-list-status-value">
-          {incident?.status.state_display}
+          {statusText}
         </dd>
       </Highlight>
 
