@@ -9,6 +9,9 @@ import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
 
 describe('Manage departments', () => {
+  beforeEach(() => {
+    general.setResolution([1980, 1080]);
+  });
   describe('Visit department page', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
@@ -18,12 +21,10 @@ describe('Manage departments', () => {
       routes.waitForManageSignalsRoutes();
     });
     it('Should visit the manage department page by menu', () => {
-      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Afdelingen').click();
 
       routes.waitForCategoriesRoutes();
-      cy.get(MENU.buttonMenu).click();
       cy.url().should('include', '/instellingen/afdelingen');
       general.checkHeaderText('Afdelingen');
       cy.get('th').eq(0).should('have.text', 'Naam').and('be.visible');

@@ -11,6 +11,9 @@ import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
 
 describe('Standaardteksten', () => {
+  beforeEach(() => {
+    general.setResolution([1024,768]);
+  });
   describe('Create standaardteksten', () => {
     beforeEach(() => {
       routes.getManageSignalsRoutes();

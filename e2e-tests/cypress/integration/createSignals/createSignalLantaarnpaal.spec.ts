@@ -12,8 +12,9 @@ import * as createSignal from '../../support/commandsCreateSignal';
 describe('Create signal "Lantaarnpaal" and check signal details', () => {
   describe('Create signal lantaarnpaal', () => {
     before(() => {
+      cy.intercept('**/v1/openbareverlichting/openbareverlichting/**Klok', { fixture: 'lantaarnpalen/lantaarnpalenData' }).as('stubLantaarnpalenData');
+      cy.intercept('**/v1/openbareverlichting/openbareverlichting/**meldingstatus=1', { fixture: 'lantaarnpalen/lantaarnpalenMetMelding' }).as('stubLantaarnpalenMetMelding');
       routes.postSignalRoutePublic();
-      routes.getOpenbareVerlichtingRoute();
       routes.stubPreviewMap();
       routes.stubMap();
       cy.visit('incident/beschrijf');
@@ -43,7 +44,6 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
       cy.get(LANTAARNPAAL.radioButtonProbleemOverig).check({ force: true }).should('be.checked').and('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting.label).should('be.visible');
-      cy.wait('@getOpenbareVerlichting');
 
       // Check on visibility of the message to make a phone call directly after selecting one of the first four options
       cy.get(LANTAARNPAAL.radioButtonGevaarlijk3OfMeerKapot).check({ force: true }).should('be.checked');
@@ -61,6 +61,10 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
 
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.label).should('be.visible');
       cy.contains(questions.wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer.subtitle).should('be.visible');
+
+      // Check if 2 lamps are marked as already reported
+      cy.get(LANTAARNPAAL.iconAlreadyReported).should('have.length', 2).and('be.visible');
+
       // Click on lamp based on coordinate
       createSignal.selectLampByCoordinate(414, 135);
       cy.contains('Het gaat om lamp of lantaarnpaal met nummer: 034575').should('be.visible');

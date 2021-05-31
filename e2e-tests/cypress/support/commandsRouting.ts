@@ -325,7 +325,7 @@ export const postSignalRoutePrivate = () => {
  * @example cy.stubAddress('changeAddressPencil');
 */
 export const stubAddress = (fixture: string) => {
-  cy.intercept('GET', '/locatieserver/v3', { fixture: `addresses/${fixture}` }).as('getAddress');
+  cy.intercept('GET', '/locatieserver/v3/**', { fixture: `addresses/${fixture}` }).as('getAddress');
 };
 
 /**

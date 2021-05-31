@@ -138,6 +138,7 @@ export const KLOK = {
 
 export const LANTAARNPAAL = {
   checkBoxNietOpKaart: '#extra_straatverlichting_niet_op_kaart',
+  iconAlreadyReported: '[alt="Dit object heeft een openstaande melding"]',
   inputLampNummer1: '#extra_straatverlichting_niet_op_kaart_nummer',
   inputLampNummer2: '#extra_straatverlichting_niet_op_kaart_nummer-2',
   labelMandatoryField: '[data-testid="extra_straatverlichting_probleem-required"]',

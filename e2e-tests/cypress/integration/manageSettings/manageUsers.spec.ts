@@ -7,6 +7,7 @@ import * as general from '../../support/commandsGeneral';
 
 describe('Manage users', () => {
   beforeEach(() => {
+    general.setResolution([1980, 1080]);
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
 
@@ -16,7 +17,6 @@ describe('Manage users', () => {
     cy.visit('/manage/incidents/');
     routes.waitForManageSignalsRoutes();
 
-    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.wait('@getUser');
@@ -95,10 +95,8 @@ describe('Manage users', () => {
     cy.visit('/manage/incidents/');
     routes.waitForManageSignalsRoutes();
 
-    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
-    cy.get('[aria-label="Menu"]').click();
     cy.wait('@getUser');
 
     cy.url().should('include', '/instellingen/gebruikers/page/1');

@@ -13,6 +13,7 @@ import * as general from '../../support/commandsGeneral';
 describe('Manage categories', () => {
   describe('Change category ', () => {
     beforeEach(() => {
+      general.setResolution([1024,768]);
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       routes.getManageSignalsRoutes();
       routes.getCategoriesRoutes();
