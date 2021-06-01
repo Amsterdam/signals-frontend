@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="32px" viewBox="0 0 24 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <path d="M12,32 C4,23.5761882 0,16.945373 0,12.1075544 C0,5.42073675 5.372583,0 12,0 C18.627417,0 24,5.42073675 24,12.1075544 C24,16.8271601 20,23.4579753 12,32 Z" id="Path-Copy" fill="#00A03C"></path>
+            <rect id="Rectangle" fill="#FFFFFF" x="7" y="10" width="10" height="4"></rect>
+        </g>
+    </g>
+</svg>
