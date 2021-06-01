@@ -63,7 +63,18 @@ module.exports = (options) => ({
       {
         test: /\.svg$/,
         issuer: /\.tsx?$/,
-        use: ['@svgr/webpack'],
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgoConfig: {
+                plugins: {
+                  removeViewBox: false,
+                },
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.svg$/,
