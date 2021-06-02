@@ -8,8 +8,9 @@ import signal from '../../fixtures/signals/bedrijvenMuziek.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
+import { SIZES } from '../../support/viewports';
 
-const sizes = [[414, 896], [1280, 720]];
+const sizes = [SIZES.mobileL, SIZES.laptopS];
 
 describe('Create signal "Bedrijven overlast muziek" and check signal details', () => {
   sizes.forEach(size => {
