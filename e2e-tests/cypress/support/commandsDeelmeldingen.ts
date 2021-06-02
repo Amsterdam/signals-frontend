@@ -5,17 +5,43 @@ import { MANAGE_SIGNALS, FILTER } from './selectorsManageIncidents';
 
 /**
  * Custom command to check if all general information of a deelmelding is visible.
- * @example cy.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen');
+ * @example cy.checkDeelmelding('1', 'Snel varen', 'Gemeld', '3 werkdagen', 'Omschrijving');
 */
-export const checkDeelmelding = (deelmeldingNumber: number, subcategory: string, status: string, handlingTime: string) => {
+export const checkDeelmelding = (deelmeldingNumber: number, subcategory: string, status: string, handlingTime: string, description: string) => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
     const deelMeldingId = Number.parseInt(json.signalId, 10) + deelmeldingNumber;
     cy.log(deelMeldingId.toString());
 
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(0).should('have.text', deelMeldingId);
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(1).should('contain', subcategory).and('be.visible');
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(2).should('contain', status).and('be.visible');
-    cy.get(SIGNAL_DETAILS.deelmeldingBlock).eq(deelmeldingNumber - 1).find(SIGNAL_DETAILS.deelmeldingBlockValue).eq(4).should('have.text', handlingTime).and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock)
+      .eq(deelmeldingNumber - 1)
+      .find(SIGNAL_DETAILS.deelmeldingBlockValue)
+      .eq(0)
+      .should('have.text', deelMeldingId)
+      .and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock)
+      .eq(deelmeldingNumber - 1)
+      .find(SIGNAL_DETAILS.deelmeldingBlockValue)
+      .eq(1)
+      .should('contain', subcategory)
+      .and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock)
+      .eq(deelmeldingNumber - 1)
+      .find(SIGNAL_DETAILS.deelmeldingBlockValue)
+      .eq(2)
+      .should('contain', status)
+      .and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock)
+      .eq(deelmeldingNumber - 1)
+      .find(SIGNAL_DETAILS.deelmeldingBlockValue)
+      .eq(3)
+      .should('have.text', description)
+      .and('be.visible');
+    cy.get(SIGNAL_DETAILS.deelmeldingBlock)
+      .eq(deelmeldingNumber - 1)
+      .find(SIGNAL_DETAILS.deelmeldingBlockValue)
+      .eq(4)
+      .should('have.text', handlingTime)
+      .and('be.visible');
   });
 };
 

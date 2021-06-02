@@ -7,6 +7,7 @@ import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import { StatusCode } from 'signals/incident-management/definitions/statusList'
 import { showGlobalNotification } from 'containers/App/actions'
 import type { Incident as IncidentType } from '../../../IncidentDetail/types'
 import {
@@ -92,7 +93,7 @@ const incident: IncidentType = {
   status: {
     text: 'In behandeling via HNW app',
     user: 'rob@apptimize.nl',
-    state: 'i',
+    state: 'i' as StatusCode,
     state_display: 'In afwachting van behandeling',
     target_api: null,
     extra_properties: null,

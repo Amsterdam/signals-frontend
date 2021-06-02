@@ -133,8 +133,8 @@ const FilterForm = ({
 
   const valuesHaveChanged = useMemo(
     () =>
-      (!isNewFilter && !isEqual(currentState, initialState)) ||
-      (isNewFilter && state.filter.name),
+      ((!isNewFilter && !isEqual(currentState, initialState)) || isNewFilter) &&
+      state.filter.name.trim(),
     [currentState, initialState, state.filter.name, isNewFilter]
   )
 
@@ -167,12 +167,6 @@ const FilterForm = ({
       }
 
       if (!isNewFilter && valuesHaveChanged) {
-        if (formData.name.trim() === '') {
-          event.preventDefault()
-          global.window.alert('Filter naam mag niet leeg zijn')
-          return
-        }
-
         onUpdateFilter(formData)
       }
 
@@ -540,7 +534,7 @@ const FilterForm = ({
 
           <RadioGroup
             defaultValue={state.options.punctuality}
-            label="Afhandeltermijn"
+            label="Doorlooptijd"
             name="punctuality"
             onChange={onRadioChange}
             options={dataLists.punctuality}

@@ -149,7 +149,7 @@ export const getManageSignalsRoutes = () => {
  * @example cy.getOpenbareVerlichtingRoute();
 */
 export const getOpenbareVerlichtingRoute = () => {
-  cy.intercept('**/maps/openbare_verlichting?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/*').as('getOpenbareVerlichting');
+  cy.intercept('**/v1/openbareverlichting/openbareverlichting/*').as('getOpenbareVerlichting');
 };
 
 /**

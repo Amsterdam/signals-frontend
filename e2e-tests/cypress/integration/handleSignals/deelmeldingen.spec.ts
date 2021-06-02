@@ -144,9 +144,9 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(4).contains('Deelmelding toegevoegd').should('be.visible');
 
-        deelmeldingen.checkDeelmelding(1, 'Snel varen', 'Gemeld', '3 werkdagen');
-        deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen');
-        deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen');
+        deelmeldingen.checkDeelmelding(1, 'Snel varen', 'Gemeld', '3 werkdagen', 'Er vaart iemand te hard onder de Berlagebrug door.');
+        deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen', 'De Berlagebrug is stuk.');
+        deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
 
         // Open, check and close history deelmelding
         cy.contains('Categorie gewijzigd naar: Olie op het water').should('not.exist');

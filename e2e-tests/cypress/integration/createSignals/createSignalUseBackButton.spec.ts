@@ -98,7 +98,7 @@ describe('Create signal and use back button to create a new one, data should not
       createSignal.openCreatedSignal();
       routes.waitForSignalDetailsRoutes();
 
-      createSignal.checkAllDetails(signal02);
+      createSignal.checkAllDetails(signal02, 'standaardmelding');
     });
   });
 });

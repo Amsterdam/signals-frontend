@@ -2,18 +2,20 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { OVL_MAPPING, getOVLIcon, LEGEND_ITEMS } from './iconMapping'
 
+const KLOK = 1
+
 describe('getOVLIcon', () => {
   it('should get default icon', () => {
-    expect(getOVLIcon('Klok', false)).toBe(OVL_MAPPING.Klok.default)
+    expect(getOVLIcon(KLOK, false)).toBe(OVL_MAPPING[KLOK].default)
   })
 
   it('should get select icon', () => {
-    expect(getOVLIcon('Klok', true)).toBe(OVL_MAPPING.Klok.selected)
+    expect(getOVLIcon(KLOK, true)).toBe(OVL_MAPPING[KLOK].selected)
   })
 
   it('should default to first icon if missing', () => {
     jest.spyOn(global.console, 'error').mockImplementation(() => {})
-    expect(getOVLIcon('missing', false)).toBe(OVL_MAPPING.Klok.default)
+    expect(getOVLIcon('missing', false)).toBe(OVL_MAPPING[KLOK].default)
     expect(global.console.error).toHaveBeenCalledWith(
       'icon missing for type, using default. Type is: missing'
     )

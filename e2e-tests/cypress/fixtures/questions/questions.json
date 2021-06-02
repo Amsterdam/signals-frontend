@@ -424,7 +424,7 @@
       "answers": "Bel direct 14 020. U hoeft dit formulier niet meer verder in te vullen."
     },
     "extra_straatverlichting_nummer": {
-      "subtitle": "U kunt meer dan een keuze maken",
+      "subtitle": "U kunt meer dan één keuze maken. Lampen met een uitroepteken zijn al gemeld.",
       "label": "Kies de lamp of lantaarnpaal waar het om gaat",
       "shortLabel": "Lichtpunt(en) op kaart"
     },

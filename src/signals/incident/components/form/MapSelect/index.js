@@ -75,7 +75,7 @@ const MapSelect = ({
           geojsonUrl={url}
           getIcon={getOVLIcon}
           hasGPSControl
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
           latlng={latlng}
           legend={filtered_legend}

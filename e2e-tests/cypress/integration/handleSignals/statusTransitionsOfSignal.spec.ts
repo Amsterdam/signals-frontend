@@ -39,7 +39,7 @@ describe('All status transitions of a signal', () => {
       createSignal.changeSignalStatus('Gemeld', 'Ingepland', CHANGE_STATUS.radioButtonIngepland);
     });
     it("Should change status from 'Ingepland' to 'Extern: verzoek tot afhandeling'", () => {
-      createSignal.changeSignalStatus('Ingepland', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
+      createSignal.changeSignalStatus('Ingepland', 'Extern: verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
     it("Should change status from 'Extern: verzoek tot afhandeling' to 'Afgehandeld'", () => {
       createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'Afgehandeld', CHANGE_STATUS.radioButtonAfgehandeld);
@@ -57,7 +57,7 @@ describe('All status transitions of a signal', () => {
       createSignal.changeSignalStatus('Ingepland', 'In behandeling', CHANGE_STATUS.radioButtonInBehandeling);
     });
     it("Should change status from 'In behandeling' to 'Extern: verzoek tot afhandeling'", () => {
-      createSignal.changeSignalStatus('In behandeling', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
+      createSignal.changeSignalStatus('In behandeling', 'Extern: verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
     it("Should change status from 'Extern: verzoek tot afhandeling' to 'In behandeling'", () => {
       createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'In behandeling', CHANGE_STATUS.radioButtonInBehandeling);
@@ -123,7 +123,7 @@ describe('All status transitions of a signal', () => {
       createSignal.changeSignalStatus('In afwachting van behandeling', 'Ingepland', CHANGE_STATUS.radioButtonIngepland);
     });
     it("Should change status from 'Ingepland' to 'Extern: verzoek tot afhandeling'", () => {
-      createSignal.changeSignalStatus('Ingepland', 'Verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
+      createSignal.changeSignalStatus('Ingepland', 'Extern: verzoek tot afhandeling', CHANGE_STATUS.radioButtonExtern);
     });
     it("Should change status from 'Extern: verzoek tot afhandeling' to 'Geannuleerd'", () => {
       createSignal.changeSignalStatus('Extern: verzoek tot afhandeling', 'Geannuleerd', CHANGE_STATUS.radioButtonGeannuleerd);
@@ -176,7 +176,7 @@ describe('All status transitions of a signal', () => {
       routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.buttonTHOR).click();
       cy.get(SIGNAL_DETAILS.status)
-        .should('contain', 'naar extern systeem')
+        .should('contain', 'Extern:')
         .and('be.visible')
         .and($labels => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');

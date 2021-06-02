@@ -36,6 +36,7 @@ services:
     image: signalen/backend:latest
     environment:
       - INITIALIZE_WITH_DUMMY_DATA=1
+      - AUTOMATICALLY_CREATE_CHILD_SIGNALS_PER_CONTAINER=True
       - API_VALIDATE_SOURCE_AGAINST_SOURCE_MODEL=False
       - API_FILTER_EXTRA_PROPERTIES=False
       - DJANGO_SETTINGS_MODULE=signals.settings.testing

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import ZoomMessageControl from './control/ZoomMessageControl'
@@ -48,7 +48,7 @@ fetch.mockResponse(JSON.stringify(fetchResponse))
 describe('<MapSelect />', () => {
   const legend = [{ key: 'klok', label: 'Klok', iconUrl: 'foo/bar/icon.svg' }]
   const onSelectionChange = jest.fn()
-  const url = 'foo/geo.json?'
+  const url = 'foo/geo.json?coordinates={north}{east}{south}{west}'
   const getIcon = (type, isSelected) => {
     if (isSelected) {
       return L.divIcon({ className: 'my-div-icon-select' })
@@ -75,7 +75,7 @@ describe('<MapSelect />', () => {
           onSelectionChange={onSelectionChange}
           getIcon={getIcon}
           geojsonUrl={url}
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
           hasGPSControl
         />
@@ -100,7 +100,7 @@ describe('<MapSelect />', () => {
           getIcon={getIcon}
           geojsonUrl={url}
           legend={legend}
-          iconField="type_name"
+          iconField="objecttype"
           idField="objectnummer"
         />
       )
@@ -114,7 +114,7 @@ describe('<MapSelect />', () => {
   it('should do bbox fetch', async () => {
     expect(fetch).not.toHaveBeenCalled()
 
-    const { findByTestId } = render(
+    render(
       withAppContext(
         <MapSelect
           latlng={latlng}
@@ -122,17 +122,17 @@ describe('<MapSelect />', () => {
           getIcon={getIcon}
           legend={legend}
           geojsonUrl={url}
-          iconField="type_name"
+          iconField="objectnummer"
           idField="objectnummer"
         />
       )
     )
 
-    await findByTestId('mapSelect')
+    await screen.findByTestId('mapSelect')
 
-    const bboxRegex = /bbox=(\d{1,2}\.\d{1,16},?){4}$/
+    const coordinatesRegex = /coordinates=(\d{1,2}\.\d{1,16},?){4}$/
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringMatching(bboxRegex),
+      expect.stringMatching(coordinatesRegex),
       undefined
     )
   })

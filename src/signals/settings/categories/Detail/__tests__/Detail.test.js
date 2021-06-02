@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import routes from 'signals/settings/routes'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
@@ -178,6 +179,36 @@ describe('signals/settings/categories/Detail', () => {
 
     expect(confirmedCancel).toHaveBeenCalledTimes(3)
     expect(confirmedCancel).toHaveBeenLastCalledWith(false)
+  })
+
+  it('should not update NULL values with empty string', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: 10101,
+    }))
+    fetch.resetMocks()
+    fetch.mockResponses(
+      [
+        JSON.stringify({
+          ...categoryJSON,
+          description: null,
+        }),
+        { status: 200 },
+      ],
+      [JSON.stringify(historyJSON), { status: 200 }]
+    )
+
+    render(withAppContext(<CategoryDetailContainer />))
+
+    await screen.findByTestId('detailCategoryForm')
+
+    userEvent.click(screen.getByTestId('submitBtn'))
+
+    const actualRequestBody = JSON.parse(
+      fetch.mock.calls[fetch.mock.calls.length - 1][1].body
+    )
+    expect(actualRequestBody).toEqual(
+      expect.objectContaining({ description: null })
+    )
   })
 
   it('should call confirmedCancel when data has NULL values', async () => {

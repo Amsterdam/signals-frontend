@@ -23,6 +23,8 @@ import ZoomMessageControl from './control/ZoomMessageControl'
 import LegendControl from './control/LegendControl'
 import LoadingControl from './control/LoadingControl'
 import ErrorControl from './control/ErrorControl'
+import { getIsReportedLayer } from './ReportedLayer/reportedLayer'
+import { ZOOM_MIN, ZOOM_MAX } from './constants'
 
 import './style.scss'
 
@@ -51,8 +53,8 @@ const MapSelect = ({
   value,
   ...rest
 }) => {
-  const zoomMin = 13
   const featuresLayer = useRef()
+  const isReportedLayer = useRef()
   const [mapInstance, setMapInstance] = useState()
   const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value))
   const mapOptions = {
@@ -74,35 +76,47 @@ const MapSelect = ({
     []
   )
 
-  const fetchRequest = useCallback(
-    (bbox_str) =>
-      request(`${geojsonUrl}&bbox=${bbox_str}`).catch(() => {
-        errorControl.show()
-      }),
+  const getFetchRequest = useCallback(
+    ({ filterReported }) =>
+      async (bbox) => {
+        const [EAST, SOUTH, WEST, NORTH] = bbox.split(',')
+
+        const requestUrl = geojsonUrl
+          .replace('{east}', EAST)
+          .replace('{west}', WEST)
+          .replace('{north}', NORTH)
+          .replace('{south}', SOUTH)
+          .concat(filterReported ? '&meldingstatus=1' : '')
+
+        return request(requestUrl).catch(() => {
+          errorControl.show()
+        })
+      },
     [errorControl, geojsonUrl]
+  )
+
+  const filter = useCallback(
+    (feature) => {
+      return selectionOnly
+        ? selection.current.has(feature.properties[idField])
+        : true
+    },
+    [idField, selectionOnly, selection]
   )
 
   const bboxGeoJsonLayer = useMemo(
     () =>
       BboxGeojsonLayer(
+        { fetchRequest: getFetchRequest({ filterReported: false }) },
         {
-          fetchRequest,
-        },
-        {
-          zoomMin,
-
-          zoomMax: 15,
+          zoomMin: ZOOM_MIN,
+          zoomMax: ZOOM_MAX,
 
           /**
            * Function that will be used to decide whether to include a feature or not. The default is to include all
            * features.
-           *
-           * Note that this behaviour is difficult to test, hence the istanbul ignore
            */
-          filter: /* istanbul ignore next */ (feature) =>
-            selectionOnly
-              ? selection.current.has(feature.properties[idField])
-              : true,
+          filter,
 
           /**
            * Function defining how GeoJSON points spawn Leaflet layers. It is internally called when data is added,
@@ -143,14 +157,19 @@ const MapSelect = ({
         }
       ),
     [
-      fetchRequest,
+      filter,
+      getFetchRequest,
       getIcon,
       iconField,
       idField,
       onSelectionChange,
       selection,
-      selectionOnly,
     ]
+  )
+
+  const isReportedGeoJsonLayer = getIsReportedLayer(
+    getFetchRequest({ filterReported: true }),
+    filter
   )
 
   /**
@@ -158,6 +177,7 @@ const MapSelect = ({
    */
   useLayoutEffect(() => {
     featuresLayer.current = bboxGeoJsonLayer
+    isReportedLayer.current = isReportedGeoJsonLayer
     // only execute on mount; disabling linter
     // eslint-disable-next-line
   }, [])
@@ -169,10 +189,11 @@ const MapSelect = ({
     if (!mapInstance) return undefined
 
     featuresLayer.current.addTo(mapInstance)
+    isReportedLayer.current.addTo(mapInstance)
 
     const zoomMessageControl = new ZoomMessageControl({
       position: 'topleft',
-      zoomMin,
+      zoomMin: ZOOM_MIN,
     })
 
     zoomMessageControl.addTo(mapInstance)
@@ -181,7 +202,7 @@ const MapSelect = ({
       // only show if legend items are provided
       const legendControl = new LegendControl({
         position: 'topright',
-        zoomMin,
+        zoomMin: ZOOM_MIN,
         elements: legend,
       })
 

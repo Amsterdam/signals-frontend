@@ -1,4 +1,5 @@
 import type { FetchError } from 'hooks/useFetch'
+import { StatusCode } from 'signals/incident-management/definitions/statusList'
 import type ContextType from 'types/context'
 
 export interface Context {
@@ -47,7 +48,7 @@ export interface Incident {
     'sia:context': { href: string }
   }
   _display: string
-  category: {
+  category?: {
     sub: string
     sub_slug: string
     main: string
@@ -80,7 +81,7 @@ export interface Incident {
   status: {
     text: string | null
     user?: string | null
-    state: string
+    state: StatusCode
     state_display: string
     target_api: string | null
     created_by?: string | null

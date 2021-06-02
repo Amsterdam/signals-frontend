@@ -82,6 +82,12 @@
     margin: 10px 0;
   }
 
+  .legend-content-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    min-width: 32px;
+  }
+
   .legend-content-text {
     margin-left: 8px;
   }
