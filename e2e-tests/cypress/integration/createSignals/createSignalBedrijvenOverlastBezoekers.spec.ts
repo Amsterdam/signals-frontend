@@ -8,9 +8,8 @@ import signal from '../../fixtures/signals/bedrijvenBezoekers.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
-import { SIZES } from '../../support/viewports';
 
-const sizes = [SIZES.mobileM, SIZES.laptopL];
+const sizes = [[375, 812], [1536, 864]];
 
 describe('Create signal "Bedrijven overlast bezoekers" and check signal details', () => {
   sizes.forEach(size => {

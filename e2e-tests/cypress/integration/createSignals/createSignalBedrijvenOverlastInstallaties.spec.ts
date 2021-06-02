@@ -8,9 +8,8 @@ import signal from '../../fixtures/signals/bedrijvenInstallaties.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
-import { SIZES } from '../../support/viewports';
 
-const sizes = [SIZES.mobileS, SIZES.desktop];
+const sizes = [[375, 667], [1920, 1080]];
 
 describe('Create signal "Bedrijven overlast installaties" and check signal details', () => {
   sizes.forEach(size => {

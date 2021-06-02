@@ -4,11 +4,10 @@ import { USERS } from '../../support/selectorsSettings';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as general from '../../support/commandsGeneral';
-import { SIZES } from '../../support/viewports';
 
 describe('Manage users', () => {
   beforeEach(() => {
-    general.setResolution(SIZES.desktop);
+    general.setResolution([1980, 1080]);
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
 

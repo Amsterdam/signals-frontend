@@ -7,9 +7,8 @@ import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
-import { SIZES } from '../../support/viewports';
 
-const sizes = [SIZES.mobileS, SIZES.laptopM];
+const sizes = ['iphone-6', 'macbook-15'] as Cypress.ViewportPreset[];
 
 sizes.forEach(size => {
   describe(`Adding notes to signal, resolution is: ${size}`, () => {

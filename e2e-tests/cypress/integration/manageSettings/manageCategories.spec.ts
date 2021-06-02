@@ -9,12 +9,11 @@ import signal from '../../fixtures/signals/signalForManageCategories.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
-import { SIZES } from '../../support/viewports';
 
 describe('Manage categories', () => {
   describe('Change category ', () => {
     beforeEach(() => {
-      general.setResolution(SIZES.laptopXS);
+      general.setResolution([1024,768]);
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
       routes.getManageSignalsRoutes();
       routes.getCategoriesRoutes();
