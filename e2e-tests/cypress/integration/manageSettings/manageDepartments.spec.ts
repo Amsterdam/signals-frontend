@@ -7,10 +7,12 @@ import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
+import { SIZES } from '../../support/viewports';
+import { SIZES } from '../../support/viewports';
 
 describe('Manage departments', () => {
   beforeEach(() => {
-    general.setResolution([1980, 1080]);
+    general.setResolution(SIZES.desktop);
   });
   describe('Visit department page', () => {
     before(() => {

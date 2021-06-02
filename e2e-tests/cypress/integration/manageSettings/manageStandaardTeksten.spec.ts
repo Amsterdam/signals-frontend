@@ -9,10 +9,11 @@ import signal from '../../fixtures/signals/signalForStandaardteksten.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
+import { SIZES } from '../../support/viewports';
 
 describe('Standaardteksten', () => {
   beforeEach(() => {
-    general.setResolution([1024,768]);
+    general.setResolution(SIZES.laptopXS);
   });
   describe('Create standaardteksten', () => {
     beforeEach(() => {
