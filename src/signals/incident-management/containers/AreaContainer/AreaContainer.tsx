@@ -28,10 +28,10 @@ export const AreaContainer: FunctionComponent = () => {
     )
   }, [getArea, getIncident, id])
 
-  const handleClose = useCallback(
-    () => history.push(`${INCIDENT_URL}/${id}`),
-    [history, id]
-  )
+  const handleClose = useCallback(() => history.push(`${INCIDENT_URL}/${id}`), [
+    history,
+    id,
+  ])
 
   if (!area?.features || !incident) return null
 
