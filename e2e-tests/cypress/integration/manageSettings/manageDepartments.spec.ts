@@ -7,8 +7,12 @@ import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
+import { SIZES } from '../../support/viewports';
 
 describe('Manage departments', () => {
+  beforeEach(() => {
+    general.setResolution(SIZES.desktop);
+  });
   describe('Visit department page', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
@@ -18,12 +22,10 @@ describe('Manage departments', () => {
       routes.waitForManageSignalsRoutes();
     });
     it('Should visit the manage department page by menu', () => {
-      general.openMenu();
       cy.contains('Instellingen').click();
       cy.contains('Afdelingen').click();
 
       routes.waitForCategoriesRoutes();
-      cy.get(MENU.buttonMenu).click();
       cy.url().should('include', '/instellingen/afdelingen');
       general.checkHeaderText('Afdelingen');
       cy.get('th').eq(0).should('have.text', 'Naam').and('be.visible');

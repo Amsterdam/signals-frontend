@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::4326"}},
+  "features": [
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.41799",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.870181999824221, 52.341549006092585]
+      },
+      "properties": {
+        "id": 41799,
+        "objectId": "48467",
+        "objecttype": "4",
+        "lengtegraad": 4.87018185605056,
+        "breedtegraad": 52.3415492445779,
+        "objectnummer": "056564",
+        "meldingstatus": 1,
+        "storingstatus": 1,
+        "objecttypeOmschrijving": "LSD Objecten"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.9500",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.86929099982335, 52.341581006092625]
+      },
+      "properties": {
+        "id": 9500,
+        "objectId": "10734",
+        "objecttype": "4",
+        "lengtegraad": 4.86929135472053,
+        "breedtegraad": 52.3415806728118,
+        "objectnummer": "012659",
+        "meldingstatus": 1,
+        "storingstatus": 1,
+        "objecttypeOmschrijving": "LSD Objecten"
+      }
+    }
+  ],
+  "_links": []
+}
