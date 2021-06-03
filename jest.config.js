@@ -22,7 +22,7 @@ module.exports = {
       statements: 99.5,
       branches: 95.35,
       lines: 99.56,
-      functions: 98.76,
+      functions: 98.64,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
