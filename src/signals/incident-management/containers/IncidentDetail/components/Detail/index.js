@@ -78,7 +78,7 @@ const Detail = ({ attachments, context }) => {
 
         <Location location={location} />
 
-        {context?.near?.signal_count && (
+        {context?.near?.signal_count >= 1 && (
           <Area count={context.near.signal_count} id={incident.id} />
         )}
 

@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux'
 import format from 'date-fns/format'
 import subDays from 'date-fns/addDays'
 import L from 'leaflet'
-import { ViewerContainer, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { ViewerContainer, themeSpacing } from '@amsterdam/asc-ui'
 
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
@@ -59,7 +59,7 @@ interface Data {
   features: Feature[]
 }
 
-export const POLLING_INTERVAL = 5000
+export const POLLING_INTERVAL = 50000000
 
 const StyledViewerContainer = styled(ViewerContainer)`
   flex-direction: row;
@@ -78,24 +78,6 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 600px;
   width: 100%;
-
-  .marker-cluster {
-    color: ${themeColor('tint', 'level1')};
-    background-color: ${themeColor('tint', 'level1')};
-    box-shadow: 1px 1px 1px #666666;
-
-    div {
-      width: 32px;
-      height: 32px;
-      margin-top: 4px;
-      margin-left: 4px;
-      background-color: #004699;
-    }
-
-    span {
-      line-height: 34px;
-    }
-  }
 `
 
 const Autosuggest = styled(PDOKAutoSuggest)`
@@ -108,27 +90,8 @@ const Autosuggest = styled(PDOKAutoSuggest)`
 
 /* istanbul ignore next */
 const clusterLayerOptions = {
-  showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
-  iconCreateFunction: (cluster: { getChildCount: () => number }) => {
-    const childCount = cluster.getChildCount()
-    let c = ' marker-cluster-'
-
-    if (childCount < 10) {
-      c += 'small'
-    } else if (childCount < 100) {
-      c += 'medium'
-    } else {
-      c += 'large'
-    }
-
-    return new L.DivIcon({
-      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-      className: `marker-cluster ${c}`,
-      iconSize: new L.Point(40, 40),
-    })
-  },
 }
 
 const OverviewMap = ({ isPublic = false, ...rest }) => {

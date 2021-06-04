@@ -15,6 +15,7 @@ import usersFixture from '../mocks/fixtures/users.json'
 import departmentsFixture from '../mocks/fixtures/departments.json'
 import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json'
 import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
+import incidentContextNearGeographyFixture from '../mocks/fixtures/incident-context-near-geography.json'
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code
@@ -128,6 +129,12 @@ const handlers = [
   rest.get(
     `${apiBaseUrl}/signals/v1/private/signals/:incidentId/history`,
     (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentHistoryFixture))
+  ),
+
+  rest.get(
+    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context/near/geography`,
+    (_req, res, ctx) =>
+      res(ctx.status(200), ctx.json(incidentContextNearGeographyFixture))
   ),
 
   rest.get(
