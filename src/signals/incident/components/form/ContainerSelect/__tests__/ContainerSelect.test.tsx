@@ -62,7 +62,7 @@ describe('ContainerSelect', () => {
     userEvent.click(screen.getByText(/kies op kaart/i))
     expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('selectorClose'))
+    userEvent.click(screen.getByTestId('mapCloseButton'))
     expect(
       screen.queryByTestId('containerSelectSelector')
     ).not.toBeInTheDocument()

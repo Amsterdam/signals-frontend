@@ -6,16 +6,15 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import type { MapOptions } from 'leaflet'
 
-import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
-import { Close } from '@amsterdam/asc-assets'
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 
-import Button from 'components/Button'
 import Map from 'components/Map'
+import MapCloseButton from 'components/MapCloseButton'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import ContainerSelectContext from 'signals/incident/components/form/ContainerSelect/context'
@@ -44,10 +43,6 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 12,
 }
 
-const MapButton = styled(Button)`
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-`
-
 const Wrapper = styled.div`
   position: absolute;
   top: 0;
@@ -60,28 +55,6 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
-
-  .marker-cluster {
-    color: ${themeColor('tint', 'level1')};
-    background-color: ${themeColor('tint', 'level1')};
-    box-shadow: 1px 1px 1px #666666;
-
-    div {
-      width: 32px;
-      height: 32px;
-      margin-top: 4px;
-      margin-left: 4px;
-      background-color: ${themeColor('primary')};
-    }
-
-    span {
-      line-height: 34px;
-    }
-
-    &--selected > div {
-      background-color: ${themeColor('secondary')};
-    }
-  }
 `
 
 const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
@@ -174,13 +147,7 @@ const Selector = () => {
             }
             topRight={
               <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-                <MapButton
-                  data-testid="selectorClose"
-                  variant="blank"
-                  onClick={close}
-                  size={44}
-                  icon={<Close />}
-                />
+                <MapCloseButton onClick={close} />
               </ButtonBar>
             }
           />
