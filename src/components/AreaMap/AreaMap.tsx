@@ -12,7 +12,7 @@ import type { Point, Position } from 'geojson'
 import L, { LatLng } from 'leaflet'
 import type { MapOptions, LatLngExpression } from 'leaflet'
 import styled from 'styled-components'
-import { ViewerContainer } from '@amsterdam/arm-core'
+import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 
 import Map from 'components/Map'
 import MarkerCluster from 'components/MarkerCluster'
@@ -22,6 +22,7 @@ import {
   closedIncidentIcon,
   openIncidentIcon,
   pointerSelectIcon,
+  currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
 import MapCloseButton from 'components/MapCloseButton'
 
@@ -62,6 +63,10 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   const [markers, setMarkers] = useState<L.GeoJSON<Point>>()
   const [map, setMap] = useState<L.Map>()
   const selectedFeatureId = useRef<number>()
+  const centerLatLng = useMemo<LatLng>(
+    () => new LatLng(center[1], center[0]),
+    [center]
+  )
 
   useEffect(() => {
     selectedFeatureId.current = selectedFeature?.properties.id
@@ -107,7 +112,6 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   useEffect(() => {
     if (map) {
       // Although the zoom level provides an approximation to the desired bounds, the bounds need to be manually set
-      const centerLatLng = new LatLng(center[1], center[0])
       const bounds = centerLatLng.toBounds(DEFAULT_BOUNDS)
       map.fitBounds(bounds)
 
@@ -122,7 +126,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           },
       })
     }
-  }, [center, map, onClick])
+  }, [center, centerLatLng, map, onClick])
 
   // Render markers
   useEffect(() => {
@@ -150,6 +154,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   return (
     <Wrapper>
       <StyledMap hasZoomControls mapOptions={mapOptions} setInstance={setMap}>
+        <Marker latLng={centerLatLng} options={{ icon: currentIncidentIcon }} />
         <MarkerCluster
           setInstance={setMarkers}
           getIsSelectedCluster={getIsSelectedCluster}
