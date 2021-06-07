@@ -86,12 +86,7 @@ const SettingsModule = () => {
     <SettingsContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
-          <ProtectedRoute
-            exact
-            path={routes.overview}
-            component={OverviewContainer}
-            roleGroup="groups"
-          />
+          <Route exact path={routes.overview} component={OverviewContainer} />
           <ProtectedRoute
             exact
             path={routes.roles}
