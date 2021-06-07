@@ -4,9 +4,11 @@ import { USERS } from '../../support/selectorsSettings';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as general from '../../support/commandsGeneral';
+import { SIZES } from '../../support/viewports';
 
 describe('Manage users', () => {
   beforeEach(() => {
+    general.setResolution(SIZES.desktop);
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
 
@@ -16,7 +18,6 @@ describe('Manage users', () => {
     cy.visit('/manage/incidents/');
     routes.waitForManageSignalsRoutes();
 
-    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
     cy.wait('@getUser');
@@ -95,10 +96,8 @@ describe('Manage users', () => {
     cy.visit('/manage/incidents/');
     routes.waitForManageSignalsRoutes();
 
-    general.openMenu();
     cy.contains('Instellingen').click();
     cy.contains('Gebruikers').click();
-    cy.get('[aria-label="Menu"]').click();
     cy.wait('@getUser');
 
     cy.url().should('include', '/instellingen/gebruikers/page/1');

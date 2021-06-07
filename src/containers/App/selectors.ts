@@ -78,6 +78,7 @@ export const makeSelectUserCanAccess = createSelector(
   [makeSelectUser, makeSelectUserPermissionCodeNames],
   (user, permissions) => {
     const is_superuser = user?.is_superuser
+
     /**
      * @param   {String} section - The set of permissions to check for
      * @returns {(Boolean|undefined)} - is_superuser can be one of undefined, true or false
@@ -100,31 +101,23 @@ export const makeSelectUserCanAccess = createSelector(
       const categories = ['view_category', 'add_category', 'change_category']
       const categoryForm = ['add_category', 'change_category']
 
-      const requiredPerms = {
-        settings: [[...groups, ...userForm, ...departments, ...categories]],
-        groups: [groups],
-        groupForm: [groupForm],
-        users: [users],
-        userForm: [userForm],
-        departments: [departments],
-        departmentForm: [departmentForm],
-        categories: [categories],
-        categoryForm: [categoryForm],
+      const requiredPerms: Record<string, string[]> = {
+        settings: [...groups, ...userForm, ...departments, ...categories],
+        groups,
+        groupForm,
+        users,
+        userForm,
+        departments,
+        departmentForm,
+        categories,
+        categoryForm,
       }
 
       if (!Object.keys(requiredPerms).includes(section)) {
         return false
       }
-      const sectionPermissions: string[][] =
-        requiredPerms[section as keyof typeof requiredPerms]
 
-      // require all sets of permissions
-      return Boolean(
-        sectionPermissions.every((sectionPerms: string[]) =>
-          // from each set, require at least one permission
-          sectionPerms.some((perm: string) => permissions.includes(perm))
-        )
-      )
+      return requiredPerms[section].some((perm) => permissions.includes(perm))
     }
   }
 )
