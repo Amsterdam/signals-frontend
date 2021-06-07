@@ -24,6 +24,8 @@ const Field = styled.div`
 const StyledIcon = styled(Icon)`
   display: inline-block;
   margin-right: ${themeSpacing(4)};
+  position: relative;
+  top: 4px;
 `
 
 const Filter: React.FC<FilterProps> = (props) => {
@@ -35,7 +37,7 @@ const Filter: React.FC<FilterProps> = (props) => {
         <Heading forwardedAs="h4">
           Subcategorie (verantwoordelijke afdeling)
         </Heading>
-        <Paragraph>{props.subcategory}</Paragraph>
+        <Paragraph data-testid="subcategory">{props.subcategory}</Paragraph>
       </Field>
 
       <Field>
@@ -54,7 +56,7 @@ const Filter: React.FC<FilterProps> = (props) => {
 
       <Field>
         <Heading forwardedAs="h4">Periode</Heading>
-        <Paragraph>
+        <Paragraph data-testid="period">
           Van {dateToString(new Date(props.startDate))} t/m NU
         </Paragraph>
       </Field>
