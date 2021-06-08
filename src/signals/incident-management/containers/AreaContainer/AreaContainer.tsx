@@ -12,7 +12,7 @@ import type {
   AreaFeature,
   AreaFeatureCollection,
 } from 'components/AreaMap/types'
-import type { Incident } from 'types/incident'
+import type { Incident } from 'signals/incident-management/containers/IncidentDetail/types'
 import Filter from './components/Filter'
 
 const Wrapper = styled.div`
@@ -51,7 +51,7 @@ export const AreaContainer: FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <Filter startDate={startDate} subcategory={incident.subcategory} />
+      <Filter startDate={startDate} subcategory={incident.category?.sub} />
       <MapWrapper>
         <AreaMap
           geoData={area}
