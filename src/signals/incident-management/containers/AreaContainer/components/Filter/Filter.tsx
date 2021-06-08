@@ -1,10 +1,10 @@
 import { Heading, Paragraph, Icon, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { dateToString } from 'shared/services/date-utils'
-import IconPin from '../../../../../../shared/images/area-map/icon-pin.svg'
-import IconPinGreen from '../../../../../../shared/images/area-map/icon-pin-green.svg'
-import IconCrossSmall from '../../../../../../shared/images/area-map/icon-cross-small.svg'
-import IconRadius from '../../../../../../shared/images/area-map/icon-radius.svg'
+import { ReactComponent as IconPin } from '../../../../../../shared/images/area-map/icon-pin.svg'
+import { ReactComponent as IconPinGreen } from '../../../../../../shared/images/area-map/icon-pin-green.svg'
+import { ReactComponent as IconCrossSmall } from '../../../../../../shared/images/area-map/icon-cross-small.svg'
+import { ReactComponent as IconRadius } from '../../../../../../shared/images/area-map/icon-radius.svg'
 
 interface FilterProps {
   subcategory: string
