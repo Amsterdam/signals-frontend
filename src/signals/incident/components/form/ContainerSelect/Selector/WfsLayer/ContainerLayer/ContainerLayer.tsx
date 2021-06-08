@@ -126,7 +126,6 @@ export const ContainerLayer: FunctionComponent<DataLayerProps> = ({
 
   const clusterOptions = useMemo(
     () => ({
-      showCoverageOnHover: false,
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),

@@ -74,6 +74,7 @@ module.exports = (options) => ({
               },
             },
           },
+          'url-loader',
         ],
       },
       {

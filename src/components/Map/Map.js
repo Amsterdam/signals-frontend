@@ -58,11 +58,12 @@ const Map = ({
       : mapOptions.center
 
     return {
-      ...{ ...mapOptions, center },
       maxZoom,
       minZoom,
       tap: false,
       scrollWheelZoom: false,
+      center,
+      ...{ ...mapOptions },
     }
   }, [mapOptions, geolocation, maxZoom, minZoom])
 

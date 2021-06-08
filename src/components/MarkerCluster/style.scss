@@ -1,0 +1,23 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* Copyright (C) 2021 Gemeente Amsterdam */
+.marker-cluster {
+  color: #ffffff;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px #666666;
+
+  div {
+    width: 32px;
+    height: 32px;
+    margin-top: 4px;
+    margin-left: 4px;
+    background-color: #004699;
+  }
+
+  span {
+    line-height: 34px;
+  }
+
+  &--selected > div {
+    background-color: #ec0000;
+  }
+}
