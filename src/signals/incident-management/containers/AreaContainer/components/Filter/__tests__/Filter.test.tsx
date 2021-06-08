@@ -42,4 +42,10 @@ describe('Filter', () => {
 
     expect(screen.getByTestId('subcategory').textContent).toEqual('bar')
   })
+
+  it('should not show the subcategory if it is not in the props', () => {
+    render(<Filter startDate={new Date().toISOString()} />)
+
+    expect(screen.queryByTestId('subcategory')).not.toBeInTheDocument()
+  })
 })

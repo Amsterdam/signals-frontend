@@ -7,7 +7,7 @@ import { ReactComponent as IconCrossSmall } from '../../../../../../shared/image
 import { ReactComponent as IconRadius } from '../../../../../../shared/images/area-map/icon-radius.svg'
 
 interface FilterProps {
-  subcategory: string
+  subcategory?: string
   startDate: string
 }
 
@@ -29,17 +29,19 @@ const StyledIcon = styled(Icon)`
 `
 
 const Filter: React.FC<FilterProps> = (props) => {
+  const subcategory = props.subcategory ? (
+    <Field>
+      <Heading forwardedAs="h4">
+        Subcategorie (verantwoordelijke afdeling)
+      </Heading>
+      <Paragraph data-testid="subcategory">{props.subcategory}</Paragraph>
+    </Field>
+  ) : null
+
   return (
     <Wrapper>
       <Heading>Filter</Heading>
-
-      <Field>
-        <Heading forwardedAs="h4">
-          Subcategorie (verantwoordelijke afdeling)
-        </Heading>
-        <Paragraph data-testid="subcategory">{props.subcategory}</Paragraph>
-      </Field>
-
+      {subcategory}
       <Field>
         <Heading forwardedAs="h4">Status</Heading>
         <Paragraph>

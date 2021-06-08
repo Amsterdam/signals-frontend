@@ -48,7 +48,7 @@ export interface Incident {
     'sia:context': { href: string }
   }
   _display: string
-  category?: {
+  category: {
     sub: string
     sub_slug: string
     main: string
@@ -59,7 +59,7 @@ export interface Incident {
     text: string | null
     deadline: string | null
     deadline_factor_3: string | null
-  }
+  } | null
   id: number
   has_attachments: boolean
   location: {
