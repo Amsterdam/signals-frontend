@@ -14,6 +14,7 @@ import type {
 } from 'components/AreaMap/types'
 import type { Incident } from 'signals/incident-management/containers/IncidentDetail/types'
 import Filter from './components/Filter'
+import IncidentDetail from './components/IncidentDetail'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,26 +28,46 @@ export const AreaContainer: FunctionComponent = () => {
 
   const { data: area, get: getArea } = useFetch<AreaFeatureCollection>()
   const { data: incident, get: getIncident } = useFetch<Incident>()
+  const {
+    data: selectedIncident,
+    get: getSelectedIncident,
+  } = useFetch<Incident>()
 
   useEffect(() => {
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
     getArea(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/near/geography`
     )
-  }, [getArea, getIncident, id])
 
-  const handleClose = useCallback(
-    () => history.push(`${INCIDENT_URL}/${id}`),
-    [history, id]
-  )
+    if (selection) {
+      getSelectedIncident(
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${selection.properties.id}`
+      )
+    }
+  }, [getArea, getIncident, id, selection, getSelectedIncident])
+
+  const handleClose = useCallback(() => history.push(`${INCIDENT_URL}/${id}`), [
+    history,
+    id,
+  ])
 
   const startDate = subDays(new Date(), 56).toISOString()
 
   if (!area?.features || !incident) return null
 
+  const sidebar =
+    selection && selectedIncident ? (
+      <IncidentDetail
+        incident={selectedIncident}
+        onBack={() => setSelection(null)}
+      />
+    ) : (
+      <Filter startDate={startDate} subcategory={incident.category?.sub} />
+    )
+
   return (
     <Wrapper>
-      <Filter startDate={startDate} subcategory={incident.category?.sub} />
+      {sidebar}
       <AreaMap
         geoData={area}
         onClose={handleClose}
