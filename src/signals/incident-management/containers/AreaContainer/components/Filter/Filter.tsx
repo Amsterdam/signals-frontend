@@ -1,4 +1,4 @@
-import { Heading, Paragraph, Icon, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, Icon, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { dateToString } from 'shared/services/date-utils'
 import { ReactComponent as IconPin } from '../../../../../../shared/images/area-map/icon-pin.svg'
@@ -34,7 +34,7 @@ const Filter: React.FC<FilterProps> = (props) => {
       <Heading forwardedAs="h4">
         Subcategorie (verantwoordelijke afdeling)
       </Heading>
-      <Paragraph data-testid="subcategory">{props.subcategory}</Paragraph>
+      <p data-testid="subcategory">{props.subcategory}</p>
     </Field>
   ) : null
 
@@ -44,7 +44,7 @@ const Filter: React.FC<FilterProps> = (props) => {
       {subcategory}
       <Field>
         <Heading forwardedAs="h4">Status</Heading>
-        <Paragraph>
+        <p>
           <StyledIcon size={ICON_SIZE}>
             <IconPin />
           </StyledIcon>
@@ -53,19 +53,19 @@ const Filter: React.FC<FilterProps> = (props) => {
             <IconPinGreen />
           </StyledIcon>
           Afgehandeld
-        </Paragraph>
+        </p>
       </Field>
 
       <Field>
         <Heading forwardedAs="h4">Periode</Heading>
-        <Paragraph data-testid="period">
+        <p data-testid="period">
           Van {dateToString(new Date(props.startDate))} t/m NU
-        </Paragraph>
+        </p>
       </Field>
 
       <Field>
         <Heading forwardedAs="h4">Omgeving</Heading>
-        <Paragraph>
+        <p>
           <StyledIcon size={ICON_SIZE}>
             <IconCrossSmall />
           </StyledIcon>
@@ -74,15 +74,15 @@ const Filter: React.FC<FilterProps> = (props) => {
             <IconRadius />
           </StyledIcon>
           Straal 250m
-        </Paragraph>
+        </p>
       </Field>
 
       <Field>
         <Heading forwardedAs="h4">Soort</Heading>
-        <Paragraph>
+        <p>
           Standaardmelding <br />
           Deelmelding
-        </Paragraph>
+        </p>
       </Field>
     </Wrapper>
   )
