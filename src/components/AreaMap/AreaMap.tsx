@@ -29,7 +29,7 @@ import MapCloseButton from 'components/MapCloseButton'
 import { AreaFeature, AreaFeatureCollection, Property } from './types'
 
 const DEFAULT_ZOOM = 13
-const DEFAULT_RADIUS = 250 // Meter
+const FOCUS_RADIUS_METERS = 250
 
 const AREA_MAP_OPTIONS: MapOptions = {
   ...MAP_OPTIONS,
@@ -112,7 +112,8 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   useEffect(() => {
     if (map) {
       // Although the zoom level provides an approximation to the desired bounds, the bounds need to be manually set
-      const bounds = centerLatLng.toBounds(DEFAULT_RADIUS * 2)
+      // Set map bounds to approximately twice the size of the focus circle radius
+      const bounds = centerLatLng.toBounds(FOCUS_RADIUS_METERS * 2)
       map.fitBounds(bounds)
 
       // Deselect marker by clicking on map
@@ -128,47 +129,42 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
     }
   }, [center, centerLatLng, map, onClick])
 
-  // Render SVG after zoom
+  // Render focus circle
   useEffect(() => {
     if (map) {
-      const PAD = 6
+      // Padding factor used to compute size of grey background
+      const PAD_FACTOR = 6
+      const BACKGROUND_OPACITY = 0.2
       const SVG_SQUARE_SIZE = 200
 
-      const bounds = map.getBounds().pad(PAD)
+      // SVG bounds
+      const svgBounds = map.getBounds().pad(PAD_FACTOR)
 
-      const container = document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        'svg'
-      )
-      container.setAttribute(
-        'viewBox',
-        `0 0 ${SVG_SQUARE_SIZE} ${SVG_SQUARE_SIZE}`
-      )
-      container.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+      // Create SVG element
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      svg.setAttribute('viewBox', `0 0 ${SVG_SQUARE_SIZE} ${SVG_SQUARE_SIZE}`)
 
-      const fromPoint = bounds.getNorthEast()
-
-      // Compute map width and height in pixels
-      const pixelBounds = map.getPixelBounds()
-      const widthInPx = pixelBounds!.max!.x - pixelBounds!.min!.x
-      const heightInPx = pixelBounds!.max!.y - pixelBounds!.min!.y
-
+      // Compute SVG width in meters
+      const { x, y } = map.getSize()
       const toPoint =
-        widthInPx > heightInPx ? bounds.getSouthEast() : bounds.getNorthWest()
-      const widthInMeters = map.distance(fromPoint, toPoint)
-      const r = (DEFAULT_RADIUS / widthInMeters) * 200
+        x > y ? svgBounds.getSouthEast() : svgBounds.getNorthWest()
+      const fromPoint = svgBounds.getNorthEast()
+      const svgSideLengthInMeters = map.distance(fromPoint, toPoint)
 
-      container.innerHTML = `
+      // Compute radius length relative to the SVG viewBox
+      const r = (FOCUS_RADIUS_METERS / svgSideLengthInMeters) * SVG_SQUARE_SIZE
+
+      svg.innerHTML = `
         <rect width="100%" height="100%" mask="url(#areaMapMask)"/>
         <mask id="areaMapMask">
-            <rect x="0" y="0" width="100%" height="100%" fill="white" opacity="0.2"/>
+            <rect x="0" y="0" width="100%" height="100%" fill="white" opacity="${BACKGROUND_OPACITY}"/>
             <circle r="${r}" cx="100" cy="100" fill="black"/>
         </mask>
       `
 
-      L.svgOverlay(container, bounds).addTo(map)
+      L.svgOverlay(svg, svgBounds).addTo(map)
     }
-  }, [centerLatLng, map])
+  }, [map])
 
   // Render markers
   useEffect(() => {
