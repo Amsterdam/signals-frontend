@@ -8,6 +8,7 @@ import IncidentIcon from '../../../shared/images/icon-incident-marker.svg'
 import IconPinRed from '../../../shared/images/area-map/icon-pin-red.svg'
 import IconPinGreen from '../../../shared/images/area-map/icon-pin-green.svg'
 import IconPin from '../../../shared/images/area-map/icon-pin.svg'
+import IconCross from '../../../shared/images/area-map/icon-cross.svg'
 
 export const smallMarkerIcon = L.icon({
   iconUrl: SelectIcon,
@@ -45,4 +46,9 @@ export const openIncidentIcon = L.icon({
 export const closedIncidentIcon = L.icon({
   iconUrl: IconPinGreen,
   iconAnchor: ANCHOR,
+})
+
+export const currentIncidentIcon = L.icon({
+  iconUrl: IconCross,
+  iconAnchor: [48, 48],
 })
