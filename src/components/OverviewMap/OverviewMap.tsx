@@ -59,7 +59,7 @@ interface Data {
   features: Feature[]
 }
 
-export const POLLING_INTERVAL = 50000000
+export const POLLING_INTERVAL = 5000
 
 const StyledViewerContainer = styled(ViewerContainer)`
   flex-direction: row;
