@@ -29,6 +29,7 @@ export const AreaContainer: FunctionComponent = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [selection, setSelection] = useState<AreaFeature | null>(null)
+  // console.log(selection)
 
   const { data: area, get: getArea } = useFetch<AreaFeatureCollection>()
   const { data: incident, get: getIncident } = useFetch<Incident>()

@@ -28,13 +28,13 @@ import MapCloseButton from 'components/MapCloseButton'
 
 import { AreaFeature, AreaFeatureCollection, Property } from './types'
 
+const DEFAULT_ZOOM = 13
+const DEFAULT_RADIUS = 250 // Meter
+
 const AREA_MAP_OPTIONS: MapOptions = {
   ...MAP_OPTIONS,
   scrollWheelZoom: true,
 }
-
-const DEFAULT_ZOOM = 13
-const DEFAULT_BOUNDS = 250 // Meter
 
 const Wrapper = styled.div`
   height: 100%;
@@ -112,7 +112,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   useEffect(() => {
     if (map) {
       // Although the zoom level provides an approximation to the desired bounds, the bounds need to be manually set
-      const bounds = centerLatLng.toBounds(DEFAULT_BOUNDS)
+      const bounds = centerLatLng.toBounds(DEFAULT_RADIUS * 2)
       map.fitBounds(bounds)
 
       // Deselect marker by clicking on map
@@ -127,6 +127,48 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
       })
     }
   }, [center, centerLatLng, map, onClick])
+
+  // Render SVG after zoom
+  useEffect(() => {
+    if (map) {
+      const PAD = 6
+      const SVG_SQUARE_SIZE = 200
+
+      const bounds = map.getBounds().pad(PAD)
+
+      const container = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      )
+      container.setAttribute(
+        'viewBox',
+        `0 0 ${SVG_SQUARE_SIZE} ${SVG_SQUARE_SIZE}`
+      )
+      container.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+
+      const fromPoint = bounds.getNorthEast()
+
+      // Compute map width and height in pixels
+      const pixelBounds = map.getPixelBounds()
+      const widthInPx = pixelBounds!.max!.x - pixelBounds!.min!.x
+      const heightInPx = pixelBounds!.max!.y - pixelBounds!.min!.y
+
+      const toPoint =
+        widthInPx > heightInPx ? bounds.getSouthEast() : bounds.getNorthWest()
+      const widthInMeters = map.distance(fromPoint, toPoint)
+      const r = (DEFAULT_RADIUS / widthInMeters) * 200
+
+      container.innerHTML = `
+        <rect width="100%" height="100%" mask="url(#areaMapMask)"/>
+        <mask id="areaMapMask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" opacity="0.2"/>
+            <circle r="${r}" cx="100" cy="100" fill="black"/>
+        </mask>
+      `
+
+      L.svgOverlay(container, bounds).addTo(map)
+    }
+  }, [centerLatLng, map])
 
   // Render markers
   useEffect(() => {
@@ -154,7 +196,14 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   return (
     <Wrapper>
       <StyledMap hasZoomControls mapOptions={mapOptions} setInstance={setMap}>
-        <Marker latLng={centerLatLng} options={{ icon: currentIncidentIcon }} />
+        <Marker
+          latLng={centerLatLng}
+          options={{
+            icon: currentIncidentIcon,
+            interactive: false,
+            zIndexOffset: -100,
+          }}
+        />
         <MarkerCluster
           setInstance={setMarkers}
           getIsSelectedCluster={getIsSelectedCluster}
