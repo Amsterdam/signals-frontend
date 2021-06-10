@@ -116,7 +116,7 @@ const IncidentSplitForm = ({
             onClick={onCancel}
             disabled={isSubmitting}
           >
-            Annuleren
+            Annuleer
           </Button>
         </div>
       </StyledForm>

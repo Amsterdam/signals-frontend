@@ -45,7 +45,7 @@ describe('Signal overview Map', () => {
     it('Should not show signals if filtered out', () => {
       routes.defineMapRoutes();
 
-      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(MANAGE_SIGNALS.buttonFilter).click();
       cy.get('[value=japanse-duizendknoop]').click();
       cy.get(FILTER.buttonSubmitFilter).click();
       cy.wait('@getSignals');
@@ -56,7 +56,7 @@ describe('Signal overview Map', () => {
     it('Should show signals again', () => {
       routes.defineMapRoutes();
 
-      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(MANAGE_SIGNALS.buttonFilter).click();
       cy.get(FILTER.buttonNieuwFilter).click();
       cy.get(FILTER.buttonSubmitFilter).click();
       cy.wait('@getSignals');

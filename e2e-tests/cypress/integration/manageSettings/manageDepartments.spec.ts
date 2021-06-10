@@ -75,7 +75,7 @@ describe('Manage departments', () => {
       cy.get('tr').eq(2).click();
       cy.wait('@getDepartment');
       cy.get(DEPARTMENTS.checkboxWildplassenPoepen).check({ force: true }).should('be.checked');
-      cy.get(DEPARTMENTS.buttonAnnuleren).click();
+      cy.get(DEPARTMENTS.buttonAnnuleer).click();
       // Because page doesn't refresh automatically, page is reloaded
       cy.visit('/instellingen/afdelingen');
       cy.get('td').eq(3).should('not.contain', 'Wildplassen / poepen / overgeven');

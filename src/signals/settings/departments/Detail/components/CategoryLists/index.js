@@ -132,7 +132,7 @@ const CategoryLists = ({ onCancel, onSubmit }) => {
         </ControlsWrapper>
 
         <FormFooter
-          cancelBtnLabel="Annuleren"
+          cancelBtnLabel="Annuleer"
           onCancel={onCancelForm}
           onSubmitForm={onSubmitForm}
           submitBtnLabel="Opslaan"

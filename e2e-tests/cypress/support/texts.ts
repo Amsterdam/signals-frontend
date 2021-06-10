@@ -9,7 +9,7 @@ export const ERROR_MESSAGES = {
 };
 
 export const FILTERS = {
-  helpText: 'Ga naar ‘Filteren’ en voer een naam in om een filterinstelling op te slaan.',
+  helpText: 'Ga naar ‘Filter’ en voer een naam in om een filterinstelling op te slaan.',
   noSavedFilter: 'U heeft geen eigen filter opgeslagen.',
 };
 

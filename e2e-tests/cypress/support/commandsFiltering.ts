@@ -25,7 +25,7 @@ export const filterCategory = (selector: string, category: string) => {
 export const filterByCategorySlug = (category_slug: string, category: string) => {
   routes.getSortedByTimeRoutes();
   routes.getSortedRoutes();
-  cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+  cy.get(MANAGE_SIGNALS.buttonFilter).click();
 
   cy.get(`[data-testid*="sub_categories/${category_slug}"]`).check();
 

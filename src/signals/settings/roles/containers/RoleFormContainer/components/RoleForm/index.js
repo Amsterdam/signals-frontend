@@ -134,7 +134,7 @@ export const RoleForm = ({
 
         {!readOnly && (
           <FormFooter
-            cancelBtnLabel="Annuleren"
+            cancelBtnLabel="Annuleer"
             onCancel={handleCancel}
             onSubmitForm={validate}
             submitBtnLabel="Opslaan"

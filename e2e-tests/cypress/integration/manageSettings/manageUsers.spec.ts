@@ -58,7 +58,7 @@ describe('Manage users', () => {
       .click();
     cy.wait('@getUser');
     cy.get(USERS.historyAction).first().should('have.text', 'Voornaam gewijzigd:\n Test\nAchternaam gewijzigd:\n Cees');
-    cy.get(USERS.buttonAnnuleren).click();
+    cy.get(USERS.buttonAnnuleer).click();
   });
 
   it('Should add a department to a user', () => {

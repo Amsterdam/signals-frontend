@@ -1138,7 +1138,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
 
       act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filteren' }))
+        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
       })
 
       // values haven't changed, update should not be called
@@ -1151,7 +1151,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       })
 
       act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filteren' }))
+        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
       })
 
       // trimmed field value is empty, update should not be called
