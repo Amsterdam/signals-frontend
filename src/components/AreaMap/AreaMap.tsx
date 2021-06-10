@@ -30,6 +30,7 @@ import { AreaFeature, AreaFeatureCollection, Property } from './types'
 
 const DEFAULT_ZOOM = 13
 const FOCUS_RADIUS_METERS = 250
+const CURRENT_INCIDENT_MARKER_Z = -100 // Show below incident markers
 
 const AREA_MAP_OPTIONS: MapOptions = {
   ...MAP_OPTIONS,
@@ -132,10 +133,13 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   // Render focus circle
   useEffect(() => {
     if (map) {
-      // Padding factor used to compute size of grey background
-      const PAD_FACTOR = 6
+      // Padding factor used to increase size of grey background
+      // Setting it too high will decrease the reliability of the radius calculation
+      const PAD_FACTOR = 3
       const BACKGROUND_OPACITY = 0.2
-      const SVG_SQUARE_SIZE = 200
+      const SVG_SQUARE_SIZE = 1000
+      const CIRCLE_X = SVG_SQUARE_SIZE / 2
+      const CIRCLE_Y = SVG_SQUARE_SIZE / 2
 
       // SVG bounds
       const svgBounds = map.getBounds().pad(PAD_FACTOR)
@@ -144,21 +148,23 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
       svg.setAttribute('viewBox', `0 0 ${SVG_SQUARE_SIZE} ${SVG_SQUARE_SIZE}`)
 
-      // Compute SVG width in meters
+      // Compute SVG side length in meters
       const { x, y } = map.getSize()
       const toPoint =
         x > y ? svgBounds.getSouthEast() : svgBounds.getNorthWest()
       const fromPoint = svgBounds.getNorthEast()
       const svgSideLengthInMeters = map.distance(fromPoint, toPoint)
 
-      // Compute radius length relative to the SVG viewBox
-      const r = (FOCUS_RADIUS_METERS / svgSideLengthInMeters) * SVG_SQUARE_SIZE
+      // Compute circle radius in SVG viewBox coordinate units
+      const circleRadius = Math.floor(
+        (FOCUS_RADIUS_METERS / svgSideLengthInMeters) * SVG_SQUARE_SIZE
+      )
 
       svg.innerHTML = `
         <rect width="100%" height="100%" mask="url(#areaMapMask)"/>
         <mask id="areaMapMask">
             <rect x="0" y="0" width="100%" height="100%" fill="white" opacity="${BACKGROUND_OPACITY}"/>
-            <circle r="${r}" cx="100" cy="100" fill="black"/>
+            <circle r="${circleRadius}" cx=${CIRCLE_X} cy=${CIRCLE_Y} fill="black"/>
         </mask>
       `
 
@@ -197,7 +203,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           options={{
             icon: currentIncidentIcon,
             interactive: false,
-            zIndexOffset: -100,
+            zIndexOffset: CURRENT_INCIDENT_MARKER_Z,
           }}
         />
         <MarkerCluster
