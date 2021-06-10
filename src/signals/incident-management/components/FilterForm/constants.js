@@ -15,4 +15,4 @@ export const SET_NOTE_KEYWORD =
 export const SET_GROUP_OPTIONS =
   'sia/incidentManagement/FilterForm/SET_GROUP_OPTIONS'
 export const DEFAULT_SUBMIT_BUTTON_LABEL = 'Filter'
-export const SAVE_SUBMIT_BUTTON_LABEL = 'Opslaan en filteren'
+export const SAVE_SUBMIT_BUTTON_LABEL = 'Opslaan en filter'
