@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import configuration from 'shared/services/configuration/configuration'
 import Reporter from 'types/api/reporter'
-import type { Incident as IncidentType } from '../IncidentDetail/types'
+import type { Incident as IncidentType } from 'types/api/incident'
 import { Incident, Incidents } from './types'
 
 export const PAGE_SIZE = 10
