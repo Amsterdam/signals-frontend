@@ -337,7 +337,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   describe('routing_department', () => {
     const label = 'Afdeling'
-    const submitLabel = /filteren/i
+    const submitLabel = 'Filter'
     const notName = departmentOptions[0].value
     const ascName = departmentOptions[1].value
     const aegName = departmentOptions[2].value
@@ -489,7 +489,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   describe('assigned_user_email', () => {
     const label = /toegewezen aan/i
     const notAssignedLabel = 'Niet toegewezen'
-    const submitLabel = /filteren/i
+    const submitLabel = 'Filter'
     const username = autocompleteUsernames.results[0].username
 
     const selectUser = async (input) => {
@@ -1163,7 +1163,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       act(() => {
         userEvent.click(
-          screen.getByRole('button', { name: 'Opslaan en filteren' })
+          screen.getByRole('button', { name: 'Opslaan en filter' })
         )
       })
 
