@@ -17,12 +17,7 @@ import Filter from './components/Filter'
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: stretch;
   height: 100%;
-`
-
-const MapWrapper = styled.div`
-  width: 100%;
 `
 
 export const AreaContainer: FunctionComponent = () => {
@@ -52,15 +47,13 @@ export const AreaContainer: FunctionComponent = () => {
   return (
     <Wrapper>
       <Filter startDate={startDate} subcategory={incident.category?.sub} />
-      <MapWrapper>
-        <AreaMap
-          geoData={area}
-          onClose={handleClose}
-          center={incident.location.geometrie.coordinates}
-          selectedFeature={selection}
-          onClick={setSelection}
-        />
-      </MapWrapper>
+      <AreaMap
+        geoData={area}
+        onClose={handleClose}
+        center={incident.location.geometrie.coordinates}
+        selectedFeature={selection}
+        onClick={setSelection}
+      />
     </Wrapper>
   )
 }

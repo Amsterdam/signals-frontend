@@ -3,9 +3,9 @@
 import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { ViewerContainer } from '@amsterdam/asc-ui'
-import { Zoom } from '@amsterdam/arm-core'
+import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import styled from 'styled-components'
-import { Map as MapComponent, TileLayer } from '@amsterdam/react-maps'
+import { TileLayer } from '@amsterdam/react-maps'
 import { useDispatch } from 'react-redux'
 
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
@@ -42,6 +42,7 @@ const Map = ({
   events = null,
   hasGPSControl = false,
   hasZoomControls = false,
+  fullScreen = false,
   mapOptions,
   setInstance = null,
 }) => {
@@ -96,6 +97,7 @@ const Map = ({
       events={events}
       options={options}
       setInstance={captureInstance}
+      fullScreen={fullScreen}
     >
       {children}
 
@@ -168,6 +170,7 @@ Map.propTypes = {
     maxZoom: PropTypes.number,
     minZoom: PropTypes.number,
   }).isRequired,
+  fullScreen: PropTypes.bool,
   /**
    * useState function that sets a reference to the map instance
    */
