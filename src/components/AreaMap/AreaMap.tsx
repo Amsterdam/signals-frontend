@@ -10,7 +10,7 @@ import {
 } from 'react'
 import type { Point, Position } from 'geojson'
 import L, { LatLng } from 'leaflet'
-import type { MapOptions, LatLngExpression } from 'leaflet'
+import type { MapOptions } from 'leaflet'
 import styled from 'styled-components'
 import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 
@@ -38,12 +38,8 @@ const AREA_MAP_OPTIONS: MapOptions = {
 }
 
 const Wrapper = styled.div`
-  height: 100%;
   position: relative;
-`
-
-const StyledMap = styled(Map)`
-  height: 100%;
+  width: 100%;
 `
 
 export interface AreaMapProps {
@@ -73,10 +69,10 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
     selectedFeatureId.current = selectedFeature?.properties.id
   }, [selectedFeature?.properties.id])
 
-  const mapOptions: MapOptions = useMemo(
+  const mapOptions = useMemo(
     () => ({
       ...AREA_MAP_OPTIONS,
-      center: center as LatLngExpression,
+      center: center,
       zoom: DEFAULT_ZOOM,
     }),
     [center]
@@ -197,7 +193,12 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
 
   return (
     <Wrapper>
-      <StyledMap hasZoomControls mapOptions={mapOptions} setInstance={setMap}>
+      <Map
+        hasZoomControls
+        fullScreen
+        mapOptions={mapOptions}
+        setInstance={setMap}
+      >
         <Marker
           latLng={centerLatLng}
           options={{
@@ -211,7 +212,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           getIsSelectedCluster={getIsSelectedCluster}
         />
         <ViewerContainer topRight={<MapCloseButton onClick={onClose} />} />
-      </StyledMap>
+      </Map>
     </Wrapper>
   )
 }
