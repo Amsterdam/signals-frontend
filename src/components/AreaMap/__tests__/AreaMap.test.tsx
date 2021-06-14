@@ -4,12 +4,13 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { StatusCode } from 'signals/incident-management/definitions/statusList'
 import { withAppContext } from 'test/utils'
+import { Geography } from 'types/api/geography'
 
 import AreaMap from '..'
 import { AreaMapProps } from '../AreaMap'
-import { AreaFeature } from '../types'
+import { Feature } from '../types'
 
-const features: AreaFeature[] = [
+const features: Feature[] = [
   {
     type: 'Feature',
     geometry: {
@@ -42,6 +43,11 @@ const features: AreaFeature[] = [
   },
 ]
 
+const geoData: Geography = {
+  type: 'FeatureCollection',
+  features,
+}
+
 describe('<AreaMap />', () => {
   let props: AreaMapProps
 
@@ -51,10 +57,7 @@ describe('<AreaMap />', () => {
       onClick: jest.fn(),
       onClose: jest.fn(),
       selectedFeature: features[0],
-      geoData: {
-        type: 'FeatureCollection',
-        features,
-      },
+      geoData,
     }
   })
 
