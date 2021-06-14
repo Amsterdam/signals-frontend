@@ -2,12 +2,10 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
-import useFetch from 'hooks/useFetch'
 import { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import configuration from 'shared/services/configuration/configuration'
-import Reporter from 'types/api/reporter'
-import type { Incident as IncidentType } from 'types/api/incident'
+import useGetContextReporter from 'hooks/api/useGetContextReporter'
+import useGetIncident from 'hooks/api/useGetIncident'
 import { Incident, Incidents } from './types'
 
 export const PAGE_SIZE = 10
@@ -26,18 +24,13 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const {
-    get: getReporter,
     data: getReporterData,
     error: getReporterError,
     isLoading: getReporterLoading,
-  } = useFetch<Reporter>()
-
-  const {
-    get: getSelectedIncident,
-    error: getSelectedIncidentError,
-    isLoading: getSelectedIncidentLoading,
-    data: getSelectedIncidentData,
-  } = useFetch<IncidentType>()
+  } = useGetContextReporter(Number(id), {
+    page: currentPage,
+    pageSize: PAGE_SIZE,
+  })
 
   const incidents = useMemo<Incidents>(
     () => ({
@@ -63,40 +56,37 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     [getReporterData, getReporterLoading]
   )
 
+  const canView = useMemo(
+    () =>
+      incidents.data?.list.find((item) => item.id === selectedIncidentId)
+        ?.canView,
+    [incidents.data?.list, selectedIncidentId]
+  )
+
+  const {
+    error: getSelectedIncidentError,
+    isLoading: getSelectedIncidentLoading,
+    data: getSelectedIncidentData,
+  } = useGetIncident(canView ? selectedIncidentId : undefined)
+
   const incident = useMemo<Incident>(
     () => ({
       isLoading: getSelectedIncidentLoading,
       data: getSelectedIncidentData,
       id: selectedIncidentId,
-      canView: incidents.data?.list.find(
-        (item) => item.id === selectedIncidentId
-      )?.canView,
+      canView,
     }),
     [
+      canView,
       getSelectedIncidentData,
       getSelectedIncidentLoading,
-      incidents.data?.list,
       selectedIncidentId,
     ]
   )
 
   useEffect(() => {
-    getReporter(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter?page=${currentPage}&page_size=${PAGE_SIZE}`
-    )
-  }, [getReporter, id, currentPage])
-
-  useEffect(() => {
     setSelectedIncidentId(getReporterData?.results[0]?.id)
   }, [getReporterData])
-
-  useEffect(() => {
-    if (incident.id && incident.canView) {
-      getSelectedIncident(
-        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incident.id}`
-      )
-    }
-  }, [getSelectedIncident, incident.canView, incident.id])
 
   useEffect(() => {
     if (getReporterError || getSelectedIncidentError) {

@@ -8,7 +8,7 @@ import { getErrorMessage } from 'shared/services/api/api'
 type Data = Record<string, unknown>
 export type FetchError = (Response | Error) & { message: string }
 
-interface State<T> {
+export interface State<T> {
   data?: T
   error?: boolean | FetchError
   isLoading: boolean
