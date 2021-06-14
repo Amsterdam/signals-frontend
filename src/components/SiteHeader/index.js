@@ -205,7 +205,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
               forwardedAs={NavLink}
               to="/manage/incidents"
             >
-              Afhandelen
+              Overzicht
             </StyledMenuButton>
           </MenuItem>
         </Fragment>
