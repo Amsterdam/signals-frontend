@@ -8,6 +8,7 @@ import signal from '../../fixtures/signals/brug.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
+import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 
 describe('Create signal "Brug" and check signal details', () => {
   describe('Create signal Brug', () => {
@@ -60,6 +61,33 @@ describe('Create signal "Brug" and check signal details', () => {
       routes.waitForSignalDetailsRoutes();
 
       createSignal.checkAllDetails(signal, 'standaardmelding');
+
+      // Change status to Afgehandeld to test handling time period
+      createSignal.changeSignalStatus('Gemeld', 'Afgehandeld', CHANGE_STATUS.radioButtonAfgehandeld);
+
+      cy.clock().then(clock => {
+        clock.restore();
+      });
+    });
+  });
+  describe('Check if created signal is still within handling time period', () => {
+    before(() => {
+      // Set date on today + 55 to check handling time
+      const futureDate = general.getFutureDate(55);
+      cy.clock(futureDate);
+      localStorage.setItem('accessToken', generateTokenDate(futureDate, 'Admin', 'signals.admin@example.com'));
+      routes.getManageSignalsRoutes();
+      routes.getSignalDetailsRoutesById();
+      cy.visit('/manage/incidents/');
+      routes.waitForManageSignalsRoutes();
+    });
+    it('Should show the signal details', () => {
+      routes.stubPreviewMap();
+      createSignal.openCreatedSignal();
+      routes.waitForSignalDetailsRoutes();
+
+      cy.get(SIGNAL_DETAILS.doorlooptijd).should('have.text', 'Binnen de afhandeltermijn').and('be.visible');
+
       cy.clock().then(clock => {
         clock.restore();
       });

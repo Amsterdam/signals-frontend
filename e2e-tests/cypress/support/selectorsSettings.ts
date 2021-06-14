@@ -32,6 +32,15 @@ export const MENU = {
   buttonMenu: '[aria-label="Menu"]',
 };
 
+export const ROLES = {
+  backlink: '[data-testid="backlink"]',
+  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonOpslaan: '[data-testid="submitBtn"]',
+  buttonToevoegen: 'a:contains("Rol toevoegen")',
+  inputNaam: '[data-testid="rolesFormFieldName"]',
+  listRoles: '[data-testid="rolesList"]',
+  notification: '[data-testid="notification"]',
+}
 export const STANDAARDTEKSTEN = {
   buttonCloseNotification: '[data-testid=notificationClose]',
   buttonGebruikDezeTekst: '[data-testid="defaultTextsItemButton"]',
