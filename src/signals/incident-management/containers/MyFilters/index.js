@@ -70,7 +70,7 @@ export const MyFiltersComponent = ({
         <div className="my-filters--empty">
           <p>U heeft geen eigen filter opgeslagen.</p>
           <p>
-            Ga naar &lsquo;Filteren&rsquo; en voer een naam in om een
+            Ga naar &lsquo;Filter&rsquo; en voer een naam in om een
             filterinstelling op te slaan.
           </p>
         </div>

@@ -30,12 +30,12 @@ const LocationInput = ({
       />
 
       <FormFooter
-        cancelBtnLabel="Annuleren"
+        cancelBtnLabel="Annuleer"
         inline
         onCancel={onClose}
         onSubmitForm={handleSubmit}
         canSubmitForm={!loading}
-        submitBtnLabel="Locatie opslaan"
+        submitBtnLabel="Opslaan"
       />
     </form>
   )

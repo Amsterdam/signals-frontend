@@ -212,7 +212,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
 
         {!readOnly && (
           <StyledFormFooter
-            cancelBtnLabel="Annuleren"
+            cancelBtnLabel="Annuleer"
             onCancel={onCancel}
             submitBtnLabel="Opslaan"
             onSubmitForm={onSubmitForm}

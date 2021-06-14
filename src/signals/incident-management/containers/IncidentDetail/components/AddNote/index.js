@@ -116,7 +116,7 @@ const AddNote = () => {
           type="button"
           onClick={() => setShowForm(false)}
         >
-          Annuleren
+          Annuleer
         </NoteButton>
       </form>
     </Section>

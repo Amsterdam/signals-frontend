@@ -76,7 +76,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     )
 
-    expect(getByText('Filteren').tagName).toEqual('BUTTON')
+    expect(getByText('Filter').tagName).toEqual('BUTTON')
     expect(getByText('Mijn filters').tagName).toEqual('BUTTON')
   })
 

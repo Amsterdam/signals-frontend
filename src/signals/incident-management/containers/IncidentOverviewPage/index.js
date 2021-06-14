@@ -132,7 +132,7 @@ export const IncidentOverviewPageContainerComponent = ({
             color="primary"
             onClick={openFilterModal}
           >
-            Filteren
+            Filter
           </StyledButton>
         </div>
 

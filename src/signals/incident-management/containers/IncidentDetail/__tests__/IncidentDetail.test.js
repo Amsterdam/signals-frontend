@@ -192,9 +192,9 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(await screen.findByTestId('previewLocationButton'))
     userEvent.click(screen.getByText('Locatie wijzigen'))
 
-    expect(screen.getByText('Locatie opslaan')).toBeInTheDocument()
+    expect(screen.getByText('Opslaan')).toBeInTheDocument()
     userEvent.type(container, '{esc}')
-    expect(screen.queryByText('Locatie opslaan')).not.toBeInTheDocument()
+    expect(screen.queryByText('Opslaan')).not.toBeInTheDocument()
 
     await screen.findByTestId('incidentDetail')
   })
@@ -204,9 +204,9 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(await screen.findByTestId('previewLocationButton'))
     userEvent.click(screen.getByText('Locatie wijzigen'))
 
-    expect(screen.getByText('Locatie opslaan')).toBeInTheDocument()
+    expect(screen.getByText('Opslaan')).toBeInTheDocument()
     userEvent.type(container, 'Some other keys')
-    expect(screen.queryByText('Locatie opslaan')).toBeInTheDocument()
+    expect(screen.queryByText('Opslaan')).toBeInTheDocument()
 
     await screen.findByTestId('incidentDetail')
   })

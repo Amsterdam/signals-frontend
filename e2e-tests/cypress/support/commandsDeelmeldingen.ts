@@ -109,7 +109,7 @@ export const checkSignalType = (type: string) => {
  * @example cy.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
 */
 export const filterSignalOnType = (type: string, selector: string) => {
-  cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+  cy.get(MANAGE_SIGNALS.buttonFilter).click();
   cy.get(selector).check().should('be.checked');
   cy.get(FILTER.buttonSubmitFilter).click();
   cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', type).and('be.visible');

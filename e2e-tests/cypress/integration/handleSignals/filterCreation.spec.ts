@@ -35,7 +35,7 @@ describe('Filtering', () => {
 
   it('Should create a filter and filter results', () => {
     routes.getSortedRoutes();
-    cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).should('be.visible').click();
 
     cy.get(FILTER.inputFilterName).type('Status Gemeld Westpoort');
     cy.get(FILTER.checkboxRefresh).should('be.visible').check();
@@ -78,7 +78,7 @@ describe('Filtering', () => {
   });
 
   it('Should create a new filter and reset to default values', () => {
-    cy.get(MANAGE_SIGNALS.buttonFilteren).should('be.visible').click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).should('be.visible').click();
     cy.get(FILTER.inputFilterName).type('Reset to default');
     cy.get(FILTER.checkboxRefresh).should('be.visible').check();
 
@@ -93,7 +93,7 @@ describe('Filtering', () => {
   it('Should filter by address and date without saving the filter', () => {
     const todaysDate = general.getTodaysDate();
     routes.getFilterByAddressRoute();
-    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).click();
     cy.get(FILTER.inputFilterAddres).type('Ruigoord 36');
     cy.get(FILTER.inputFilterDayFrom).type(todaysDate);
     cy.get(FILTER.inputFilterDayBefore).type(todaysDate);
@@ -109,7 +109,7 @@ describe('Filtering', () => {
   it('Should filter by urgentie hoog', () => {
     routes.getFilterByUrgencyRoute();
     routes.getSortedRoutes();
-    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).click();
 
     cy.get(FILTER.checkboxUrgentieHoog).check();
 
@@ -131,7 +131,7 @@ describe('Filtering', () => {
     routes.getSignalDetailsRoutes();
     routes.getFilterByTypeRoute();
     routes.getSortedRoutes();
-    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).click();
 
     cy.get(FILTER.checkboxTypeKlacht).check();
 

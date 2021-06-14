@@ -25,7 +25,7 @@ describe.skip('Filtering', () => {
     requests.createPrivateSignalForFilters();
   });
   it('Should check and uncheck all checkboxes', () => {
-    cy.get(MANAGE_SIGNALS.buttonFilteren)
+    cy.get(MANAGE_SIGNALS.buttonFilter)
       .should('be.visible')
       .click();
     cy.get('[type="checkbox"]').each($el => {
@@ -39,7 +39,7 @@ describe.skip('Filtering', () => {
     });
   });
   it('Should check checkboxes per category', () => {
-    cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+    cy.get(MANAGE_SIGNALS.buttonFilter).click();
     filters.filterCategory(FILTER_ALL_ITEMS.selectAllStatus, 'status');
     filters.filterCategory(FILTER_ALL_ITEMS.selectAllStadsdelen, 'stadsdeel');
     filters.filterCategory(FILTER_ALL_ITEMS.selectAllSource, 'source');

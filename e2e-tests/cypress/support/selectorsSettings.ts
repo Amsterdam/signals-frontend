@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 export const CATEGORIES = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid=submitBtn]',
   categoryValue: '[data-testid=dataViewBody] > [data-testid=dataViewBodyRow] > [data-testid="dataViewBodyRowValue"]',
   dropdownTypeOfDays: '#use_calendar_days',
@@ -17,7 +17,7 @@ export const CATEGORIES = {
 };
 
 export const DEPARTMENTS = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
   categoryLists: '[data-testid="categoryLists"]',
   checkboxAsbestAccu: '[data-testid*="asbest-accu"]',
@@ -72,7 +72,7 @@ export const STANDAARDTEKSTEN = {
 };
 
 export const USERS = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
   historyAction: '[data-testid="history-list-item-action"]',
   inputAchternaam: '#last_name',

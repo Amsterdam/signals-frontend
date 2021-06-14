@@ -198,7 +198,7 @@ describe('Deelmeldingen', () => {
         routes.getSortedRoutes();
 
         // Filter on deelmelding not modified, signal is visible
-        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(MANAGE_SIGNALS.buttonFilter).click();
         cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).check().should('be.checked');
         cy.get(FILTER.buttonSubmitFilter).click();
         cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoofdmelding zonder wijziging in deelmelding').and('be.visible');
@@ -213,7 +213,7 @@ describe('Deelmeldingen', () => {
         });
 
         // Filter on deelmelding modified, signal is not visible
-        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(MANAGE_SIGNALS.buttonFilter).click();
         cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).uncheck().should('not.be.checked');
         cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).check().should('be.checked');
         cy.get(FILTER.buttonSubmitFilter).click();
@@ -244,7 +244,7 @@ describe('Deelmeldingen', () => {
         routes.getSortedRoutes();
 
         // Filter on deelmelding modified, signal is visible
-        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(MANAGE_SIGNALS.buttonFilter).click();
         cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).check().should('be.checked');
         cy.get(FILTER.buttonSubmitFilter).click();
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
@@ -260,7 +260,7 @@ describe('Deelmeldingen', () => {
         });
 
         // Filter on deelmelding not modified, signal is not visible
-        cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+        cy.get(MANAGE_SIGNALS.buttonFilter).click();
         cy.get(FILTER.checkboxHoofdmeldingWijzigingDeelmelding).uncheck().should('not.be.checked');
         cy.get(FILTER.checkboxHoofdmeldingGeenWijzigingDeelmelding).check().should('be.checked');
         cy.get(FILTER.buttonSubmitFilter).click();
@@ -516,7 +516,7 @@ describe('Deelmeldingen', () => {
       deelmeldingen.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
     });
     it('Should filter on verantwoordelijke afdeling', () => {
-      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(MANAGE_SIGNALS.buttonFilter).click();
       cy.get(FILTER.checkboxVerantwoordelijkeAfdeling).click();
       cy.get(FILTER.buttonSubmitFilter).click();
       cy.wait('@submitDirectingDepartmentFilter');
@@ -534,7 +534,7 @@ describe('Deelmeldingen', () => {
       cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
     });
     it('Should filter on ASC', () => {
-      cy.get(MANAGE_SIGNALS.buttonFilteren).click();
+      cy.get(MANAGE_SIGNALS.buttonFilter).click();
       cy.get(FILTER.checkboxASC).click();
       cy.get(FILTER.buttonSubmitFilter).click();
       cy.wait('@submitDirectingDepartmentFilter');
