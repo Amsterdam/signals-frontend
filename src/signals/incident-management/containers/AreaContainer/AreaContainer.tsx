@@ -5,6 +5,7 @@ import { subDays } from 'date-fns'
 import { useFetch } from 'hooks'
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import LoadingIndicator from 'components/LoadingIndicator'
 import configuration from 'shared/services/configuration/configuration'
 import AreaMap from 'components/AreaMap'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
@@ -12,13 +13,18 @@ import type {
   AreaFeature,
   AreaFeatureCollection,
 } from 'components/AreaMap/types'
-import type { Incident } from 'signals/incident-management/containers/IncidentDetail/types'
+import type { Incident } from 'types/api/incident'
 import Filter from './components/Filter'
 import IncidentDetail from './components/IncidentDetail'
 
 const Wrapper = styled.div`
   display: flex;
   height: 100%;
+`
+
+const Sidebar = styled.div`
+  width: 540px;
+  position: relative;
 `
 
 export const AreaContainer: FunctionComponent = () => {
@@ -31,6 +37,7 @@ export const AreaContainer: FunctionComponent = () => {
   const {
     data: selectedIncident,
     get: getSelectedIncident,
+    isLoading: isLoadingSelectedIncident,
   } = useFetch<Incident>()
 
   useEffect(() => {
@@ -38,36 +45,48 @@ export const AreaContainer: FunctionComponent = () => {
     getArea(
       `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/near/geography`
     )
+  }, [getArea, getIncident, id])
 
+  useEffect(() => {
     if (selection) {
       getSelectedIncident(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${selection.properties.id}`
       )
     }
-  }, [getArea, getIncident, id, selection, getSelectedIncident])
+  }, [id, selection, getSelectedIncident])
 
-  const handleClose = useCallback(() => history.push(`${INCIDENT_URL}/${id}`), [
-    history,
-    id,
-  ])
+  const handleClose = useCallback(
+    () => history.push(`${INCIDENT_URL}/${id}`),
+    [history, id]
+  )
 
   const startDate = subDays(new Date(), 56).toISOString()
 
   if (!area?.features || !incident) return null
 
-  const sidebar =
-    selection && selectedIncident ? (
+  const incidentSidebar =
+    selection && selectedIncident && !isLoadingSelectedIncident ? (
       <IncidentDetail
         incident={selectedIncident}
         onBack={() => setSelection(null)}
       />
     ) : (
-      <Filter startDate={startDate} subcategory={incident.category?.sub} />
+      <LoadingIndicator />
     )
+
+  const sidebar = selection ? (
+    incidentSidebar
+  ) : (
+    <Filter
+      startDate={startDate}
+      subcategory={incident.category?.sub}
+      departments={incident.category?.departments}
+    />
+  )
 
   return (
     <Wrapper>
-      {sidebar}
+      <Sidebar>{sidebar}</Sidebar>
       <AreaMap
         geoData={area}
         onClose={handleClose}

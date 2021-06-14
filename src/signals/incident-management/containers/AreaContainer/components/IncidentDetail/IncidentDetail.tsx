@@ -43,8 +43,13 @@ const SectionTitle = styled.div`
 
 const Status = styled.div<{ isEnded: boolean }>`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  color: ${(p) => themeColor('support', p.isEnded ? 'valid' : 'invalid')};
+  color: ${({ isEnded }) =>
+    themeColor('support', isEnded ? 'valid' : 'invalid')};
 `
+
+const formatDate = (date: string): string => {
+  return `${string2date(date)} ${string2time(date)}`
+}
 
 const IncidentDetail: React.FC<IncidentDetailProps> = ({
   onBack,
@@ -56,7 +61,6 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
     <Wrapper>
       <Section>
         <BackLink to="#" onClick={() => onBack()}>
-          {' '}
           Terug naar filter
         </BackLink>
       </Section>
@@ -72,28 +76,35 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         </StyledLink>
       </Section>
       <Section>
-        <Heading as="h2" styleAs="h3">
+        <Heading as="h2" styleAs="h3" data-testid="text">
           {incident.text}
         </Heading>
       </Section>
       <Section>
         <SectionTitle>Locatie</SectionTitle>
-        {incident.location?.address_text || 'Locatie is gepind op de kaart'}
+        <span data-testid="location">
+          {incident.location?.address_text || 'Locatie is gepind op de kaart'}
+        </span>
       </Section>
       <Section>
         <SectionTitle>Gemeld op</SectionTitle>
-        {string2date(incident.incident_date_start)}{' '}
-        {string2time(incident.incident_date_start)}&nbsp;
+        <span data-testid="date">
+          {incident.incident_date_start &&
+            formatDate(incident.incident_date_start)}
+        </span>
       </Section>
       <Section>
         <SectionTitle>Status</SectionTitle>
         <Status isEnded={isStatusEnd(incident.status.state)}>
-          {incident?.status.state_display}
+          <span data-testid="status">{incident?.status.state_display}</span>
         </Status>
       </Section>
       <Section>
         <SectionTitle>Subcategorie (verantwoordelijke afdeling)</SectionTitle>
-        {incident.category?.sub}
+        <span data-testid="subcategory">{incident.category?.sub} </span>
+        <span data-testid="departments">
+          ({incident.category?.departments})
+        </span>
       </Section>
     </Wrapper>
   )

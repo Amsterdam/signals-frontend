@@ -8,6 +8,7 @@ import { ReactComponent as IconRadius } from '../../../../../../shared/images/ar
 
 interface FilterProps {
   subcategory?: string
+  departments?: string
   startDate: string
 }
 
@@ -34,7 +35,10 @@ const Filter: React.FC<FilterProps> = (props) => {
       <Heading forwardedAs="h4">
         Subcategorie (verantwoordelijke afdeling)
       </Heading>
-      <p data-testid="subcategory">{props.subcategory}</p>
+      <p>
+        <span data-testid="subcategory">{props.subcategory} </span>
+        <span data-testid="departments">({props.departments})</span>
+      </p>
     </Field>
   ) : null
 
