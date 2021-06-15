@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import styled from 'styled-components'
-import { subDays } from 'date-fns'
+import { subMonths } from 'date-fns'
 import { useFetch } from 'hooks'
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
@@ -60,7 +60,7 @@ export const AreaContainer: FunctionComponent = () => {
     [history, id]
   )
 
-  const startDate = subDays(new Date(), 56).toISOString()
+  const startDate = subMonths(new Date(), 3).toISOString()
 
   if (!area?.features || !incident) return null
 
