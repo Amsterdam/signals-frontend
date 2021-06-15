@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-opacity="0.3">
-        <rect id="Rectangle" stroke="#FFFFFF" stroke-width="2" fill="#000000" x="45" y="-1" width="6" height="34"></rect>
-        <rect id="Rectangle-Copy-2" stroke="#FFFFFF" stroke-width="2" fill="#000000" transform="translate(16.000000, 46.000000) rotate(90.000000) translate(-16.000000, -46.000000) " x="13" y="29" width="6" height="34"></rect>
-        <rect id="Rectangle-Copy-3" stroke="#FFFFFF" stroke-width="2" fill="#000000" transform="translate(80.000000, 46.000000) rotate(90.000000) translate(-80.000000, -46.000000) " x="77" y="29" width="6" height="34"></rect>
-        <rect id="Rectangle-Copy" stroke="#FFFFFF" stroke-width="2" fill="#000000" x="45" y="63" width="6" height="34"></rect>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/locatie kruis</title>
+    <g id="icon/locatie-kruis" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" fill="#FFFFFF" fill-opacity="0.3">
+            <rect id="Rectangle" x="46" y="0" width="8" height="36"></rect>
+            <rect id="Rectangle-Copy-2" transform="translate(18.000000, 48.000000) rotate(90.000000) translate(-18.000000, -48.000000) " x="14" y="30" width="8" height="36"></rect>
+            <rect id="Rectangle-Copy-3" transform="translate(82.000000, 48.000000) rotate(90.000000) translate(-82.000000, -48.000000) " x="78" y="30" width="8" height="36"></rect>
+            <rect id="Rectangle-Copy" x="46" y="64" width="8" height="36"></rect>
+        </g>
+        <g id="Group-Copy" transform="translate(2.000000, 2.000000)" fill="#000000">
+            <rect id="Rectangle" x="46" y="0" width="4" height="32"></rect>
+            <rect id="Rectangle-Copy-2" transform="translate(16.000000, 46.000000) rotate(90.000000) translate(-16.000000, -46.000000) " x="14" y="30" width="4" height="32"></rect>
+            <rect id="Rectangle-Copy-3" transform="translate(80.000000, 46.000000) rotate(90.000000) translate(-80.000000, -46.000000) " x="78" y="30" width="4" height="32"></rect>
+            <rect id="Rectangle-Copy" x="46" y="64" width="4" height="32"></rect>
+        </g>
     </g>
 </svg>
