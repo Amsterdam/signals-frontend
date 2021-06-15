@@ -53,12 +53,25 @@ const formatDate = (date: string): string => {
   return `${string2date(date)} ${string2time(date)}`
 }
 
+const getIncidentTitlePrefix = (incident: Incident) => {
+  const parentId = incident._links?.['sia:parent']?.href?.split('/').pop()
+  const hasChildren = incident._links?.['sia:children']?.length
+
+  if (hasChildren) {
+    return 'Hoofd'
+  }
+
+  if (parentId) {
+    return 'Deel'
+  }
+
+  return 'Standaard'
+}
+
 const IncidentDetail: React.FC<IncidentDetailProps> = ({
   onBack,
   incident,
 }) => {
-  const isParent = Boolean(incident._links['sia:children'])
-
   return (
     <Wrapper>
       <Section>
@@ -73,7 +86,7 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
           target="_blank"
         >
           <Heading data-testid="incident-heading" as="h2" styleAs="h6">
-            {`${isParent ? 'Hoofd' : 'Standaard'}melding ${incident.id}`}
+            {`${getIncidentTitlePrefix(incident)}melding ${incident.id}`}
           </Heading>
         </StyledLink>
       </Section>

@@ -99,7 +99,7 @@ describe('IncidentDetail', () => {
     const mainIncident = mockIncident({
       _links: {
         ...defaults._links,
-        'sia:children': [],
+        'sia:children': [{ href: 'foo' }],
       },
       id: 1234,
     })
@@ -112,6 +112,14 @@ describe('IncidentDetail', () => {
       id: 4321,
     })
 
+    const partialIncident = mockIncident({
+      _links: {
+        ...defaults._links,
+        'sia:parent': { href: 'foo' },
+      },
+      id: 5678,
+    })
+
     const { rerender, unmount } = render(
       withAppContext(
         <IncidentDetail incident={mainIncident} onBack={jest.fn()} />
@@ -120,6 +128,9 @@ describe('IncidentDetail', () => {
 
     expect(
       screen.queryByRole('link', { name: 'Standaardmelding 1234' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: 'Deelmelding 1234' })
     ).not.toBeInTheDocument()
     expect(
       screen.queryByRole('link', { name: 'Hoofdmelding 1234' })
@@ -137,7 +148,26 @@ describe('IncidentDetail', () => {
       screen.queryByRole('link', { name: 'Standaardmelding 4321' })
     ).toBeInTheDocument()
     expect(
+      screen.queryByRole('link', { name: 'Deelmelding 4321' })
+    ).not.toBeInTheDocument()
+    expect(
       screen.queryByRole('link', { name: 'Hoofdmelding 4321' })
+    ).not.toBeInTheDocument()
+
+    rerender(
+      withAppContext(
+        <IncidentDetail incident={partialIncident} onBack={jest.fn()} />
+      )
+    )
+
+    expect(
+      screen.queryByRole('link', { name: 'Standaardmelding 5678' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: 'Deelmelding 5678' })
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: 'Hoofdmelding 5678' })
     ).not.toBeInTheDocument()
   })
 })
