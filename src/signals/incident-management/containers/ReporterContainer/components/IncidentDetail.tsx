@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { format } from 'date-fns'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 import { useSelector } from 'react-redux'
-import type { Incident as IncidentType } from '../../IncidentDetail/types'
+import type { Incident as IncidentType } from 'types/api/incident'
 import ContactHistory from './ContactHistory'
 
 interface IncidentDetailProps {

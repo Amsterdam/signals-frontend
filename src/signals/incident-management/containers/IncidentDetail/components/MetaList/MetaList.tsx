@@ -26,10 +26,11 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
+import { Department } from 'types/api/incident'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
-import type { Result, User, Department } from '../../types'
+import type { Result, User } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon-edit.svg'
