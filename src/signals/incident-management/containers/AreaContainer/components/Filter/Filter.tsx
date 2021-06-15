@@ -1,4 +1,4 @@
-import { Heading, Icon, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, Icon, themeSpacing, List, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { dateToString } from 'shared/services/date-utils'
 import { ReactComponent as IconPin } from '../../../../../../shared/images/area-map/icon-pin.svg'
@@ -22,6 +22,11 @@ const Field = styled.div`
   margin-top: ${themeSpacing(4)};
 `
 
+const Title = styled.div`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  margin-bottom: ${themeSpacing(2)};
+`
+
 const StyledIcon = styled(Icon)`
   display: inline-block;
   margin-right: ${themeSpacing(4)};
@@ -32,13 +37,13 @@ const StyledIcon = styled(Icon)`
 const Filter: React.FC<FilterProps> = (props) => {
   const subcategory = props.subcategory ? (
     <Field>
-      <Heading forwardedAs="h4">
-        Subcategorie (verantwoordelijke afdeling)
-      </Heading>
-      <p>
-        <span data-testid="subcategory">{props.subcategory} </span>
-        <span data-testid="departments">({props.departments})</span>
-      </p>
+      <Title>Subcategorie (verantwoordelijke afdeling)</Title>
+      <List>
+        <ListItem>
+          <span data-testid="subcategory">{props.subcategory} </span>
+          <span data-testid="departments">({props.departments})</span>
+        </ListItem>
+      </List>
     </Field>
   ) : null
 
@@ -47,46 +52,55 @@ const Filter: React.FC<FilterProps> = (props) => {
       <Heading>Filter</Heading>
       {subcategory}
       <Field>
-        <Heading forwardedAs="h4">Status</Heading>
-        <p>
-          <StyledIcon size={ICON_SIZE}>
-            <IconPin />
-          </StyledIcon>
-          Openstaand <br />
-          <StyledIcon size={ICON_SIZE}>
-            <IconPinGreen />
-          </StyledIcon>
-          Afgehandeld
-        </p>
+        <Title>Status</Title>
+        <List>
+          <ListItem>
+            <StyledIcon size={ICON_SIZE}>
+              <IconPin />
+            </StyledIcon>
+            Openstaand
+          </ListItem>
+          <ListItem>
+            <StyledIcon size={ICON_SIZE}>
+              <IconPinGreen />
+            </StyledIcon>
+            Afgehandeld
+          </ListItem>
+        </List>
       </Field>
 
       <Field>
-        <Heading forwardedAs="h4">Periode</Heading>
-        <p data-testid="period">
-          Van {dateToString(new Date(props.startDate))} t/m NU
-        </p>
+        <Title>Periode</Title>
+        <List>
+          <ListItem data-testid="period">
+            Van {dateToString(new Date(props.startDate))} t/m NU
+          </ListItem>
+        </List>
       </Field>
 
       <Field>
-        <Heading forwardedAs="h4">Omgeving</Heading>
-        <p>
-          <StyledIcon size={ICON_SIZE}>
-            <IconCrossSmall />
-          </StyledIcon>
-          Locatie huidige melding <br />
-          <StyledIcon size={ICON_SIZE}>
-            <IconRadius />
-          </StyledIcon>
-          Straal 250m
-        </p>
+        <Title>Omgeving</Title>
+        <List>
+          <ListItem>
+            <StyledIcon size={ICON_SIZE}>
+              <IconCrossSmall />
+            </StyledIcon>
+            Locatie huidige melding
+          </ListItem>
+          <ListItem>
+            <StyledIcon size={ICON_SIZE}>
+              <IconRadius />
+            </StyledIcon>
+            Straal 250m
+          </ListItem>
+        </List>
       </Field>
-
       <Field>
-        <Heading forwardedAs="h4">Soort</Heading>
-        <p>
-          Standaardmelding <br />
-          Deelmelding
-        </p>
+        <Title forwardedAs="h4">Soort</Title>
+        <List>
+          <ListItem>Standaardmelding</ListItem>
+          <ListItem>Deelmelding</ListItem>
+        </List>
       </Field>
     </Wrapper>
   )

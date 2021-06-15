@@ -37,9 +37,11 @@ const Section = styled.div`
   margin-top: ${themeSpacing(4)};
 `
 
-const SectionTitle = styled.div`
+const SectionTerm = styled.dt`
   color: ${themeColor('tint', 'level5')};
 `
+
+const SectionDescription = styled.dd``
 
 const Status = styled.div<{ isEnded: boolean }>`
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -81,30 +83,38 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         </Heading>
       </Section>
       <Section>
-        <SectionTitle>Locatie</SectionTitle>
-        <span data-testid="location">
-          {incident.location?.address_text || 'Locatie is gepind op de kaart'}
-        </span>
+        <SectionTerm>Locatie</SectionTerm>
+        <SectionDescription>
+          <span data-testid="location">
+            {incident.location?.address_text || 'Locatie is gepind op de kaart'}
+          </span>
+        </SectionDescription>
       </Section>
       <Section>
-        <SectionTitle>Gemeld op</SectionTitle>
-        <span data-testid="date">
-          {incident.incident_date_start &&
-            formatDate(incident.incident_date_start)}
-        </span>
+        <SectionTerm>Gemeld op</SectionTerm>
+        <SectionDescription>
+          <span data-testid="date">
+            {incident.incident_date_start &&
+              formatDate(incident.incident_date_start)}
+          </span>
+        </SectionDescription>
       </Section>
       <Section>
-        <SectionTitle>Status</SectionTitle>
-        <Status isEnded={isStatusEnd(incident.status.state)}>
-          <span data-testid="status">{incident?.status.state_display}</span>
-        </Status>
+        <SectionTerm>Status</SectionTerm>
+        <SectionDescription>
+          <Status isEnded={isStatusEnd(incident.status.state)}>
+            <span data-testid="status">{incident?.status.state_display}</span>
+          </Status>
+        </SectionDescription>
       </Section>
       <Section>
-        <SectionTitle>Subcategorie (verantwoordelijke afdeling)</SectionTitle>
-        <span data-testid="subcategory">{incident.category?.sub} </span>
-        <span data-testid="departments">
-          ({incident.category?.departments})
-        </span>
+        <SectionTerm>Subcategorie (verantwoordelijke afdeling)</SectionTerm>
+        <SectionDescription>
+          <span data-testid="subcategory">{incident.category?.sub} </span>
+          <span data-testid="departments">
+            ({incident.category?.departments})
+          </span>
+        </SectionDescription>
       </Section>
     </Wrapper>
   )
