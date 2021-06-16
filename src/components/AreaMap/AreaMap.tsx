@@ -72,7 +72,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   const mapOptions = useMemo(
     () => ({
       ...AREA_MAP_OPTIONS,
-      center: center,
+      center: center.reverse(), // center is [lat, long] instead of [long, lag],
       zoom: DEFAULT_ZOOM,
     }),
     [center]
@@ -108,11 +108,6 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
 
   useEffect(() => {
     if (map) {
-      // Although the zoom level provides an approximation to the desired bounds, the bounds need to be manually set
-      // Set map bounds to approximately twice the size of the focus circle radius
-      const bounds = centerLatLng.toBounds(FOCUS_RADIUS_METERS * 2)
-      map.fitBounds(bounds)
-
       // Deselect marker by clicking on map
       map.on({
         click:
