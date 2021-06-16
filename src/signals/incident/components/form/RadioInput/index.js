@@ -26,11 +26,6 @@ const StyledLabel = styled(Label)`
   }
 `
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const RadioInput = ({
   checked,
   id,
@@ -59,17 +54,15 @@ const RadioInput = ({
   }, [dispatch, id, info, label, name, resetsStateOnChange])
 
   return (
-    <Wrapper onClick={onChange} aria-checked={checked}>
+    <StyledLabel inline htmlFor={idAttr} label={label}>
       <Radio
         checked={checked}
         data-testid="inputUsingDispatch"
         id={idAttr}
-        onClick={onChange}
         onChange={onChange}
         type="radio"
       />
-      <StyledLabel onClick={onChange} inline htmlFor={idAttr} label={label} />
-    </Wrapper>
+    </StyledLabel>
   )
 }
 
