@@ -59,7 +59,7 @@ const RadioInput = ({
   }, [dispatch, id, info, label, name, resetsStateOnChange])
 
   return (
-    <Wrapper onClick={onChange} role="radio" aria-checked={checked}>
+    <Wrapper onClick={onChange} aria-checked={checked}>
       <Radio
         checked={checked}
         data-testid="inputUsingDispatch"
