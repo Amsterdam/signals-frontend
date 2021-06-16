@@ -107,8 +107,7 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         <SectionTerm>Gemeld op</SectionTerm>
         <SectionDescription>
           <span data-testid="date">
-            {incident.incident_date_start &&
-              formatDate(incident.incident_date_start)}
+            {incident.created_at && formatDate(incident.created_at)}
           </span>
         </SectionDescription>
       </Section>

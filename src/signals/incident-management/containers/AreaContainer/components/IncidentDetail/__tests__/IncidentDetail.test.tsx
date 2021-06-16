@@ -17,7 +17,7 @@ describe('IncidentDetail', () => {
   it('should show the correct incident properties', () => {
     const incident = mockIncident({
       text: 'incident text',
-      incident_date_start: new Date(0).toISOString(),
+      created_at: new Date(0).toISOString(),
       location: {
         ...defaults.location,
         address_text: '124 Conch St., Bikini Bottom',
