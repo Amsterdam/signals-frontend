@@ -195,7 +195,7 @@ const ChangeValue = ({
               type="button"
               onClick={handleCancel}
             >
-              Annuleren
+              Annuleer
             </Button>
           </ButtonBar>
         </form>
