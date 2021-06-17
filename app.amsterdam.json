@@ -6,6 +6,7 @@
     "assignSignalToEmployee": false,
     "enablePublicSignalMap": false,
     "enableReporter": true,
+    "enableNearIncidents": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,

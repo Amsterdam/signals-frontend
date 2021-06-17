@@ -228,19 +228,12 @@ const IncidentDetail = () => {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
-    const isSplitIncident = incident._links?.['sia:parent']?.href
-      ?.split('/')
-      .pop()
-
-    if (incident.reporter.email && !isSplitIncident) {
-      getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
-    }
+    getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
   }, [
     getHistory,
     id,
     state.attachments,
     incident?._links,
-    incident?.reporter.email,
     getAttachments,
     getChildren,
     getContext,

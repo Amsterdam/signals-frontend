@@ -210,7 +210,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     render(withAppContext(<CategoryForm {...defaultProps} />))
 
     expect(defaultProps.onCancel).not.toHaveBeenCalled()
-    userEvent.click(screen.getByRole('button', { name: 'Annuleren' }))
+    userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
     expect(defaultProps.onCancel).toHaveBeenCalled()
   })
 

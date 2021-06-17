@@ -7,7 +7,7 @@ import { pointWithinBounds } from 'shared/services/map-location'
 import Button from 'components/Button'
 import LoadingIndicator from 'components/LoadingIndicator'
 
-import GPS from '../../shared/images/icon-gps.svg'
+import { ReactComponent as GPS } from '../../shared/images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);

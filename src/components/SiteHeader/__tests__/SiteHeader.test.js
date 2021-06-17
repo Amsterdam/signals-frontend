@@ -297,8 +297,8 @@ describe('components/SiteHeader', () => {
       withAppContext(<SiteHeader location={{ pathname: '/' }} />)
     )
 
-    // afhandelen menu item
-    expect(queryByText('Afhandelen')).toBeInTheDocument()
+    // Overzicht menu item
+    expect(queryByText('Overzicht')).toBeInTheDocument()
 
     // search field
     expect(container.querySelector('input')).toBeInTheDocument()

@@ -215,7 +215,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 type="submit"
                 variant="secondary"
               >
-                Status opslaan
+                Opslaan
               </StyledButton>
 
               <StyledButton
@@ -223,7 +223,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 variant="tertiary"
                 onClick={close}
               >
-                Annuleren
+                Annuleer
               </StyledButton>
             </div>
           </FormArea>

@@ -3,7 +3,7 @@
 export const MANAGE_SIGNALS = {
   buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
   buttonCloseMijnFilters: '[data-testid=closeBtn]',
-  buttonFilteren: '[data-testid=filterModalBtn]',
+  buttonFilter: '[data-testid=filterModalBtn]',
   clearSearchTerm: '[aria-label="Close"]',
   firstSignalAdres: 'tbody > :nth-child(1) > :nth-child(9) > span > a',
   firstSignalDag: '[data-testid="incidentDaysOpen"] > span > a',

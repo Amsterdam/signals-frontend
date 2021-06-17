@@ -105,7 +105,7 @@ sizes.forEach(size => {
       cy.visit('/manage/incidents/');
       routes.waitForManageSignalsRoutes();
 
-      cy.get(MANAGE_SIGNALS.buttonFilteren)
+      cy.get(MANAGE_SIGNALS.buttonFilter)
         .should('be.visible')
         .click();
 

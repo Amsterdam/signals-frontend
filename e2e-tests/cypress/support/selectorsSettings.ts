@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 export const CATEGORIES = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid=submitBtn]',
   categoryValue: '[data-testid=dataViewBody] > [data-testid=dataViewBodyRow] > [data-testid="dataViewBodyRowValue"]',
   dropdownTypeOfDays: '#use_calendar_days',
@@ -17,7 +17,7 @@ export const CATEGORIES = {
 };
 
 export const DEPARTMENTS = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
   categoryLists: '[data-testid="categoryLists"]',
   checkboxAsbestAccu: '[data-testid*="asbest-accu"]',
@@ -32,6 +32,15 @@ export const MENU = {
   buttonMenu: '[aria-label="Menu"]',
 };
 
+export const ROLES = {
+  backlink: '[data-testid="backlink"]',
+  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonOpslaan: '[data-testid="submitBtn"]',
+  buttonToevoegen: 'a:contains("Rol toevoegen")',
+  inputNaam: '[data-testid="rolesFormFieldName"]',
+  listRoles: '[data-testid="rolesList"]',
+  notification: '[data-testid="notification"]',
+}
 export const STANDAARDTEKSTEN = {
   buttonCloseNotification: '[data-testid=notificationClose]',
   buttonGebruikDezeTekst: '[data-testid="defaultTextsItemButton"]',
@@ -63,7 +72,7 @@ export const STANDAARDTEKSTEN = {
 };
 
 export const USERS = {
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
+  buttonAnnuleer: '[data-testid="cancelBtn"]',
   buttonOpslaan: '[data-testid="submitBtn"]',
   historyAction: '[data-testid="history-list-item-action"]',
   inputAchternaam: '#last_name',

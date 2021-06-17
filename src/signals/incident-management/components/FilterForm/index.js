@@ -695,7 +695,7 @@ const FilterForm = ({
       </ControlsWrapper>
 
       <FormFooterWrapper
-        cancelBtnLabel="Annuleren"
+        cancelBtnLabel="Annuleer"
         onCancel={onCancel}
         onResetForm={onResetForm}
         onSubmitForm={onSubmitForm}

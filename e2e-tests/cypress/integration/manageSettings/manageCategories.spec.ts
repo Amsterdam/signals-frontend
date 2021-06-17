@@ -101,7 +101,7 @@ describe('Manage categories', () => {
 
       cy.contains('Beplanting').click();
       cy.get(CATEGORIES.historyAction).eq(0).should('contain', 'Status gewijzigd naar:').and('contain', 'Inactief');
-      cy.get(CATEGORIES.buttonAnnuleren).click();
+      cy.get(CATEGORIES.buttonAnnuleer).click();
 
       // Load page again, because page refresh is very slow and test fails
       cy.visit('/instellingen/categorieen/page/1');

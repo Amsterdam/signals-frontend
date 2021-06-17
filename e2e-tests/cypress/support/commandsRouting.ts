@@ -161,6 +161,15 @@ export const getSearchResultsRoute = () => {
 };
 
 /**
+ * Custom command to define routes for settings functionality.
+ * @example cy.getSettingsRoutes();
+*/
+export const getSettingsRoutes = () => {
+  cy.intercept('**/private/roles/').as('getRoles');
+  cy.intercept('**/private/permissions/').as('getPermissions');
+};
+
+/**
  * Custom command to define routes for getting the signal details without id.
  * @example cy.getSignalDetailsRoutes();
 */
@@ -273,6 +282,14 @@ export const getUserRoute = () => {
 };
 
 /**
+ * Custom command to define routes for patching a role.
+ * @example cy.patchRoleRoute();
+*/
+export const patchRoleRoute = () => {
+  cy.intercept('PATCH', '**/signals/v1/private/roles/**').as('patchRole');
+};
+
+/**
  * Custom command to define routes for patching a signal.
  * @example cy.patchSignalRoute();
 */
@@ -302,6 +319,14 @@ export const postDeelmeldingenRoute = () => {
 */
 export const postFilterRoute = () => {
   cy.intercept('POST', '**/me/filters/').as('postFilter');
+};
+
+/**
+ * Custom command to define routes for creating a role as a logged in user.
+ * @example cy.postRoleRoute();
+*/
+export const postRoleRoute = () => {
+  cy.intercept('POST', '**/signals/v1/private/roles/').as('postRole');
 };
 
 /**

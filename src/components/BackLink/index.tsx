@@ -51,21 +51,14 @@ const StyledIcon = styled(Icon)`
  * Component that renders a Link with a left chevron
  * To be used on detail pages for navigating back to its corresponding overview page
  */
-const BackLink: FunctionComponent<LinkProps> = ({
-  className,
-  children,
-  to,
-}) => (
-  <StyledLink
-    className={className}
-    forwardedAs={Link}
-    to={to}
-    data-testid="backlink"
-  >
+const BackLink: FunctionComponent<
+  LinkProps & { onClick?: (e: MouseEvent) => void }
+> = (props) => (
+  <StyledLink {...props} data-testid="backlink" forwardedAs={Link}>
     <StyledIcon size={12}>
       <Chevron />
     </StyledIcon>
-    <LinkLabel>{children}</LinkLabel>
+    <LinkLabel>{props.children}</LinkLabel>
   </StyledLink>
 )
 
