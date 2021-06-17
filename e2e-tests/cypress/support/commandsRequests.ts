@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import { SAMENHANG_TEXT } from './texts';
+
 export const createSignalOverviewMap = () => {
   cy.request({
     method: 'POST',
@@ -278,5 +280,169 @@ export const createSignalSamenhang = () => {
     const id = body.id as string;
     cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
     cy.log(id);
+  });
+};
+
+export const createSignalSameAreaAfgehandeld = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.88303202, 52.3689874] },
+        address: {
+          openbare_ruimte: 'Runstraat',
+          huisnummer: '32',
+          postcode: '1016GK',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: SAMENHANG_TEXT.descriptionText,
+    },
+  }).its('body').then(body => {
+    const id = body.id as string;
+    cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
+    cy.log(id);
+  });
+};
+
+export const patchLatestSignalStatus = () => {
+  cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
+    cy.request({
+      method: 'PATCH',
+      url: `http://localhost:8000/signals/v1/private/signals/${json.signalId}`,
+      headers: { 'Content-Type': 'application/json' },
+      body: {"status": {"state": "o", "text": "Klaar", "send_email": false}},
+    });
+      cy.log(json.signalId);
+    });
+    
+
+};
+
+export const createSignalSameAreaSingle = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.8830155, 52.36939] },
+        address: {
+          openbare_ruimte: 'Prinsengracht',
+          huisnummer: "495-3A",
+          postcode: '1016HR',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: SAMENHANG_TEXT.descriptionText,
+    },
+  })
+  .its('body').then(body => {
+    const id = body.id as string;
+    cy.writeFile('./cypress/fixtures/tempSignalId.json', { signalId: `${id}` }, { flag: 'w' });
+    cy.log(id);
+  });
+};
+
+export const createSignalSameAreaOtherCategory = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.88227759, 52.36947851] },
+        address: {
+          openbare_ruimte: 'Prinsengracht',
+          huisnummer: "312-1",
+          postcode: '1016HX',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/onderhoud-stoep-straat-en-fietspad',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: SAMENHANG_TEXT.descriptionText,
+    },
+  })
+};
+
+export const createSignalSameAreaCluster = (number, coordinates: Array<number>) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: coordinates },
+        address: {
+          openbare_ruimte: 'Runstraat',
+          huisnummer: `${number}`,
+          postcode: '1016GK',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: SAMENHANG_TEXT.descriptionText,
+    },
+  })
+};
+
+export const createSignalSameAreaDeelmelding = () => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:8000/signals/v1/public/signals/',
+    headers: { 'Content-Type': 'application/json' },
+    body: {
+      location: {
+        geometrie: { type: 'Point', coordinates: [4.88162827, 52.36976335] },
+        address: {
+          openbare_ruimte: 'Elandsgracht',
+          huisnummer: '17-1',
+          postcode: '1016TM',
+          woonplaats: 'Amsterdam',
+        },
+        stadsdeel: 'A',
+      },
+      category: {
+        sub_category: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+      },
+      reporter: {},
+      incident_date_start: '2020-04-16T14:06:31+02:00',
+      text: SAMENHANG_TEXT.descriptionText,
+      extra_properties: [
+        {
+          id: 'extra_container',
+          label: 'Container(s)',
+          category_url: 'http://localhost:8000/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+          answer: [
+            {id: 'PAA00114', type: 'Papier', description: 'Papier container'},
+            {id: 'GLA00106', type: 'Glas', description: 'Glas container'}
+          ]
+        }
+      ]
+    },
   });
 };
