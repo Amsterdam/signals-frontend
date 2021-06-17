@@ -88,7 +88,9 @@ const IncidentManagement = () => {
           {configuration.featureFlags.enableReporter && (
             <Route exact path={routes.reporter} component={ReporterContainer} />
           )}
-          <Route exact path={routes.area} component={AreaContainer} />
+          {configuration.featureFlags.enableNearIncidents && (
+            <Route exact path={routes.area} component={AreaContainer} />
+          )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
           <Route component={IncidentOverviewPage} />
         </Switch>

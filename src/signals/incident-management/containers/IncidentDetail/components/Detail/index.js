@@ -6,6 +6,7 @@ import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 
 import { attachmentsType, contextType } from 'shared/types'
 import { string2date, string2time } from 'shared/services/string-parser'
+import configuration from 'shared/services/configuration/configuration'
 
 import IncidentDetailContext from '../../context'
 import Location from './components/Location'
@@ -62,6 +63,14 @@ const Detail = ({ attachments, context }) => {
   const memoIncident = useMemo(() => incident, [incident])
   const memoAttachments = useMemo(() => attachments, [attachments])
   const location = useMemo(() => incident.location, [incident.location])
+  const showArea = useMemo(
+    () =>
+      Boolean(
+        configuration.featureFlags.enableNearIncidents &&
+          typeof context?.near?.signal_count === 'number'
+      ),
+    [context?.near?.signal_count]
+  )
 
   return (
     <Wrapper data-testid="incidentDetailDetail">
@@ -78,7 +87,7 @@ const Detail = ({ attachments, context }) => {
 
         <Location location={location} />
 
-        {typeof context?.near?.signal_count === 'number' && (
+        {showArea && (
           <Area count={context.near.signal_count} id={incident.id} />
         )}
 
