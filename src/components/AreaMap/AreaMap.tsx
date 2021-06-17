@@ -126,7 +126,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
     if (map) {
       // Padding factor used to increase size of grey background
       // Setting it too high will decrease the reliability of the radius calculation
-      const PAD_FACTOR = 3
+      const PAD_FACTOR = 15
       const BACKGROUND_OPACITY = 0.2
       const SVG_SQUARE_SIZE = 1000
       const CIRCLE_X = SVG_SQUARE_SIZE / 2
