@@ -80,6 +80,9 @@
         "enableReporter": {
           "description": "Feature switch to enable showing incident reporter context, like other incidents reported by the given reporter or feedback results. Needs to have the feature flags 'API_SIGNAL_CONTEXT' and 'API_SIGNAL_CONTEXT_REPORTER' enabled in the backend."
         },
+        "enableNearIncidents": {
+          "description": "Feature switch to enable showing incidents based on proximity to a reference incident. Needs to have the feature flags 'API_SIGNAL_CONTEXT' and 'API_SIGNAL_CONTEXT_NEAR' enabled in the backend."
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -114,6 +117,7 @@
         "assignSignalToEmployee",
         "enablePublicSignalMap",
         "enableReporter",
+        "enableNearIncidents",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { Incident as IncidentType } from '../IncidentDetail/types'
+import type { Incident as IncidentType } from 'types/api/incident'
+
 export interface Feedback {
   isSatisfied: boolean | null
   submittedAt: string | null

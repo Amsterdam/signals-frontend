@@ -5,22 +5,20 @@ import { Link } from 'react-router-dom'
 import { Link as AscLink } from '@amsterdam/asc-ui'
 
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import type ContextType from 'types/context'
+import type { Reporter as ReporterType } from 'types/context'
 
-export interface ContextProps {
-  context: ContextType
+export interface ReporterProps {
+  reporter: ReporterType
   id: number
 }
 
-const Context: React.FC<ContextProps> = ({
-  context: {
-    reporter: { signal_count, open_count, negative_count },
-  },
+const Reporter: React.FC<ReporterProps> = ({
+  reporter: { signal_count, open_count, negative_count },
   id,
 }) => (
   <Fragment>
-    <dt data-testid="detail-context-definition">Meldingen van deze melder</dt>
-    <dd data-testid="detail-context-value">
+    <dt data-testid="detail-reporter-definition">Meldingen van deze melder</dt>
+    <dd data-testid="detail-reporter-value">
       <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${id}/melder`}>
         {signal_count} {signal_count === 1 ? 'melding' : 'meldingen'}
       </AscLink>
@@ -31,4 +29,4 @@ const Context: React.FC<ContextProps> = ({
   </Fragment>
 )
 
-export default Context
+export default Reporter

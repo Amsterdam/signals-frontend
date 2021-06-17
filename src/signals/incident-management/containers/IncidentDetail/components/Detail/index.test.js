@@ -3,12 +3,24 @@
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import configuration from 'shared/services/configuration/configuration'
 
 import IncidentDetailContext from '../../context'
 import Detail from '.'
 
+jest.mock('shared/services/configuration/configuration')
+
 describe('<Detail />', () => {
+  afterEach(() => {
+    configuration.__reset()
+  })
+
   const props = {
+    context: {
+      near: {
+        signal_count: 12,
+      },
+    },
     attachments: [
       {
         _display: 'Attachment object (946)',
@@ -28,6 +40,7 @@ describe('<Detail />', () => {
   }
 
   it('should render correctly', async () => {
+    configuration.featureFlags.enableNearIncidents = true
     const { getByTestId, getByText, findByTestId } = render(
       withAppContext(
         <IncidentDetailContext.Provider value={{ incident: incidentFixture }}>
@@ -68,6 +81,7 @@ describe('<Detail />', () => {
   })
 
   it('should only render elements that have data', async () => {
+    configuration.featureFlags.enableNearIncidents = true
     const reporterNoPhone = {
       reporter: {
         email: 'foo@bar.com',
@@ -111,5 +125,27 @@ describe('<Detail />', () => {
 
     expect(queryByTestId('detail-phone-definition')).toBeInTheDocument()
     expect(queryByTestId('detail-email-definition')).toBeInTheDocument()
+
+    unmount()
+
+    const contextNoNearSignals = {
+      near: {
+        signal_count: null,
+      },
+    }
+
+    rerender(
+      withAppContext(
+        <IncidentDetailContext.Provider
+          value={{ incident: { ...incidentFixture } }}
+        >
+          <Detail {...props} context={contextNoNearSignals} />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    await findByTestId('detail-title')
+
+    expect(queryByTestId('detail-area-definition')).not.toBeInTheDocument()
   })
 })
