@@ -37,6 +37,10 @@ const StyledLink = styled(AscLink)`
   }
 `
 
+const DefinitionList = styled.div`
+  margin-top: ${themeSpacing(4)};
+`
+
 const SectionTerm = styled.dt`
   color: ${themeColor('tint', 'level5')};
   margin-bottom: ${themeSpacing(1)};
@@ -92,31 +96,33 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
       <Heading as="h2" styleAs="h3" data-testid="text">
         {incident.text}
       </Heading>
-      <SectionTerm>Locatie</SectionTerm>
-      <SectionDescription>
-        <span data-testid="location">
-          {incident.location?.address_text || 'Locatie is gepind op de kaart'}
-        </span>
-      </SectionDescription>
-      <SectionTerm>Gemeld op</SectionTerm>
-      <SectionDescription>
-        <span data-testid="date">
-          {incident.created_at && formatDate(incident.created_at)}
-        </span>
-      </SectionDescription>
-      <SectionTerm>Status</SectionTerm>
-      <SectionDescription>
-        <Status isEnded={isStatusEnd(incident.status.state)}>
-          <span data-testid="status">{incident?.status.state_display}</span>
-        </Status>
-      </SectionDescription>
-      <SectionTerm>Subcategorie (verantwoordelijke afdeling)</SectionTerm>
-      <SectionDescription>
-        <span data-testid="subcategory">{incident.category?.sub} </span>
-        <span data-testid="departments">
-          ({incident.category?.departments})
-        </span>
-      </SectionDescription>
+      <DefinitionList>
+        <SectionTerm>Locatie</SectionTerm>
+        <SectionDescription>
+          <span data-testid="location">
+            {incident.location?.address_text || 'Locatie is gepind op de kaart'}
+          </span>
+        </SectionDescription>
+        <SectionTerm>Gemeld op</SectionTerm>
+        <SectionDescription>
+          <span data-testid="date">
+            {incident.created_at && formatDate(incident.created_at)}
+          </span>
+        </SectionDescription>
+        <SectionTerm>Status</SectionTerm>
+        <SectionDescription>
+          <Status isEnded={isStatusEnd(incident.status.state)}>
+            <span data-testid="status">{incident?.status.state_display}</span>
+          </Status>
+        </SectionDescription>
+        <SectionTerm>Subcategorie (verantwoordelijke afdeling)</SectionTerm>
+        <SectionDescription>
+          <span data-testid="subcategory">{incident.category?.sub} </span>
+          <span data-testid="departments">
+            ({incident.category?.departments})
+          </span>
+        </SectionDescription>
+      </DefinitionList>
     </Wrapper>
   )
 }
