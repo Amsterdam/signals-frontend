@@ -40,6 +40,7 @@ export const MESSAGES = {
 };
 
 export const SAMENHANG_TEXT = {
+  descriptionText: 'Iedereen in de buurt meldt hetzelfde.',
   nocontact: 'Er is nog geen contact geweest met deze melder',
   notAuthorized: 'Je hebt geen toestemming om meldingen in deze subcategorie te bekijken',
 };

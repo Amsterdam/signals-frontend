@@ -139,7 +139,7 @@ const MapStatic = ({
             <img
               data-testid="mapStaticMarker"
               src={selectIconSrc}
-              alt="Gepinde locatie"
+              alt=""
               width={markerSize}
               height={markerSize}
               tabIndex="-1"

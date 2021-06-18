@@ -3,7 +3,7 @@
 import * as reactRouterDom from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
-import type { Incident as IncidentType } from '../../IncidentDetail/types'
+import type { Incident as IncidentType } from 'types/api/incident'
 
 import ReporterContainer from '..'
 import { FetchReporterHook } from '../useFetchReporter'

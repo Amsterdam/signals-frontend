@@ -2,24 +2,22 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
-import Context from '..'
+import Reporter from '..'
 
-import type { ContextProps } from '../Context'
+import type { ReporterProps } from '../Reporter'
 
-describe('<Context />', () => {
+describe('<Reporter />', () => {
   it('should render with one incident', () => {
-    const props: ContextProps = {
+    const props: ReporterProps = {
       id: 1234,
-      context: {
-        reporter: {
-          negative_count: 0,
-          open_count: 1,
-          positive_count: 0,
-          signal_count: 1,
-        },
+      reporter: {
+        negative_count: 0,
+        open_count: 1,
+        positive_count: 0,
+        signal_count: 1,
       },
     }
-    render(withAppContext(<Context {...props} />))
+    render(withAppContext(<Reporter {...props} />))
 
     expect(screen.getByRole('link', { name: '1 melding' })).toBeInTheDocument()
     expect(
@@ -28,18 +26,16 @@ describe('<Context />', () => {
   })
 
   it('should render with many incidents', () => {
-    const props: ContextProps = {
+    const props: ReporterProps = {
       id: 1234,
-      context: {
-        reporter: {
-          negative_count: 1000,
-          open_count: 2000,
-          positive_count: 3000,
-          signal_count: 4000,
-        },
+      reporter: {
+        negative_count: 1000,
+        open_count: 2000,
+        positive_count: 3000,
+        signal_count: 4000,
       },
     }
-    render(withAppContext(<Context {...props} />))
+    render(withAppContext(<Reporter {...props} />))
 
     expect(
       screen.getByRole('link', { name: '4000 meldingen' })

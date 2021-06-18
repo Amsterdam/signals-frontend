@@ -19,10 +19,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.5,
+      statements: 99.49,
       branches: 95.35,
       lines: 99.56,
-      functions: 98.76,
+      functions: 98.6,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
@@ -35,8 +35,9 @@ module.exports = {
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
   moduleNameMapper: {
     '.*\\.(css|less|styl|scss|sass)$': '<rootDir>/internals/mocks/cssModule.js',
-    '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/internals/mocks/image.js',
+    '.*\\.svg$': '<rootDir>/internals/mocks/svg.ts',
+    '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/internals/mocks/image.ts',
   },
   setupFilesAfterEnv: [
     '<rootDir>/internals/testing/test-bundler.ts',

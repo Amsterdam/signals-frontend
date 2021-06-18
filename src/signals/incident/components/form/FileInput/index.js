@@ -243,7 +243,7 @@ const FileInput = ({ handler, parent, meta }) => {
 
       {errors?.length > 0 &&
         errors.map((error) => (
-          <FileInputError key={error} data-testid="fileInputError">
+          <FileInputError role="alert" key={error} data-testid="fileInputError">
             {error}
           </FileInputError>
         ))}

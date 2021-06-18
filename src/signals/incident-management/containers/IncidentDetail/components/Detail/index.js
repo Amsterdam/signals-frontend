@@ -6,12 +6,14 @@ import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 
 import { attachmentsType, contextType } from 'shared/types'
 import { string2date, string2time } from 'shared/services/string-parser'
+import configuration from 'shared/services/configuration/configuration'
 
 import IncidentDetailContext from '../../context'
 import Location from './components/Location'
 import Attachments from './components/Attachments'
 import ExtraProperties from './components/ExtraProperties'
-import Context from './components/Context'
+import Reporter from './components/Reporter'
+import Area from './components/Area'
 
 const Wrapper = styled.article`
   position: relative;
@@ -61,6 +63,14 @@ const Detail = ({ attachments, context }) => {
   const memoIncident = useMemo(() => incident, [incident])
   const memoAttachments = useMemo(() => attachments, [attachments])
   const location = useMemo(() => incident.location, [incident.location])
+  const showArea = useMemo(
+    () =>
+      Boolean(
+        configuration.featureFlags.enableNearIncidents &&
+          typeof context?.near?.signal_count === 'number'
+      ),
+    [context?.near?.signal_count]
+  )
 
   return (
     <Wrapper data-testid="incidentDetailDetail">
@@ -76,6 +86,10 @@ const Detail = ({ attachments, context }) => {
         </dd>
 
         <Location location={location} />
+
+        {showArea && (
+          <Area count={context.near.signal_count} id={incident.id} />
+        )}
 
         {memoAttachments && <Attachments attachments={memoAttachments} />}
 
@@ -100,7 +114,9 @@ const Detail = ({ attachments, context }) => {
           {incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}
         </dd>
 
-        {context && <Context context={context} id={incident.id} />}
+        {context?.reporter && (
+          <Reporter reporter={context.reporter} id={incident.id} />
+        )}
       </DefinitionList>
     </Wrapper>
   )

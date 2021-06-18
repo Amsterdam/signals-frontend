@@ -1,28 +1,65 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C)  - 2021 Gemeente Amsterdam
-import type L from 'leaflet'
-import type { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import * as L from 'leaflet'
+import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { createLeafletComponent } from '@amsterdam/react-maps'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import './style.scss'
 
 import 'leaflet.markercluster'
 
+const SELECTED_CLASS_MODIFIER = '--selected'
+const CLUSTER_ICON_SIZE = 40
 const MarkerClusterGroup = createLeafletComponent('markerClusterGroup')
 
 interface MarkerClusterProps {
-  clusterOptions: L.MarkerClusterGroupOptions
   setInstance: Dispatch<SetStateAction<L.GeoJSON | undefined>>
+  clusterOptions?: L.MarkerClusterGroupOptions
+  getIsSelectedCluster?: (cluster: L.MarkerCluster) => boolean
 }
 
 const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
   clusterOptions,
   setInstance,
-}) =>
-  (
+  getIsSelectedCluster,
+}) => {
+  const options: L.MarkerClusterGroupOptions = {
+    showCoverageOnHover: false,
+    iconCreateFunction: /* istanbul ignore next */ (cluster) => {
+      let className = 'marker-cluster'
+
+      if (getIsSelectedCluster) {
+        const isSelectedCluster = getIsSelectedCluster(cluster)
+
+        if (isSelectedCluster) {
+          className += ` ${className}${SELECTED_CLASS_MODIFIER}`
+        }
+
+        cluster.on({
+          add: () => {
+            // When selecting a marker in a cluster, re-render the cluster in spiderfied state
+            if (isSelectedCluster) {
+              ;(cluster as any)?.spiderfy()
+            }
+          },
+        })
+      }
+
+      return new L.DivIcon({
+        html: `<div><span>${cluster.getChildCount()}</span></div>`,
+        className,
+        iconSize: new L.Point(CLUSTER_ICON_SIZE, CLUSTER_ICON_SIZE),
+      })
+    },
+    ...clusterOptions,
+  }
+
+  return (
     <MarkerClusterGroup
       setInstance={setInstance as Dispatch<SetStateAction<unknown>>}
-      options={clusterOptions}
+      options={options}
     />
-  ) || null
+  )
+}
 
 export default MarkerCluster
