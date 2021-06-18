@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-export const SAMENHANG = {
+export const SAME_REPORTER = {
   buttonPaginationNext: '[data-testid=nextbutton]',
   buttonPaginationPrevious: '[data-testid=prevbutton]',
   dateTime: '[data-testid=date-time]',
@@ -20,4 +20,30 @@ export const SAMENHANG = {
   valueGemeldOp: '[data-testid=value-date-definition]',
   valueStatus: '[data-testid=value-status]',
   valueSubcategory: '[data-testid=value-subcategory]',
+};
+
+export const SAME_AREA = {
+  areaLabel: '[data-testid="area-label"]',
+  backToFilterLink: '[data-testid="backlink"]',
+  buttonCloseMap: '[data-testid="mapCloseButton"]',
+  buttonZoomIn: '[title="Inzoomen"]',
+  buttonZoomOut: '[title="Uitzoomen"]',
+  clustericon: '.marker-cluster',
+  dateLabel: '[data-testid="date-label"]',
+  icon: '.leaflet-marker-icon',
+  kindLabel: '[data-testid="kind-label"]',
+  locationLabel: '[data-testid="location-label"]',
+  map: '[data-testid="map-base"]',
+  period: '[data-testid="period"]',
+  periodLabel: '[data-testid="period-label"]',
+  statusLabel: '[data-testid="status-label"]',
+  signalDate: '[data-testid="date"]',
+  signalDepartments: '[data-testid="departments"]',
+  signalLabel: 'a:contains("melding")',
+  signalLocation: '[data-testid="location"]',
+  signalStatus: '[data-testid="status"]',
+  signalText: '[data-testid="text"]',
+  signalSubcategory: '[data-testid="subcategory"]',
+  subcategoryLabel: '[data-testid="subcategory-label"]',
+  zoomButtons: '[data-testid="mapZoom"]',
 };
