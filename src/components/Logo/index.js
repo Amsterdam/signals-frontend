@@ -59,8 +59,7 @@ export const Logo = ({ tall, ...props }) => (
   >
     <StyledLogo
       data-testid="logo"
-      alt="Logo"
-      role="image"
+      role="img"
       aria-label={configuration.language.logoDescription}
       tall={tall}
       src={configuration.logo.url}

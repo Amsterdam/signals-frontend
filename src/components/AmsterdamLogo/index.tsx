@@ -42,10 +42,7 @@ const AmsterdamLogo: FunctionComponent<AmsterdamLogoProps> = ({
   ...otherProps
 }) => (
   <AmsterdamLogoStyle {...otherProps}>
-    <LogoStyle
-      role="image"
-      aria-label={configuration.language.logoDescription}
-    />
+    <LogoStyle role="img" aria-label={configuration.language.logoDescription} />
   </AmsterdamLogoStyle>
 )
 
