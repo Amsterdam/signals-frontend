@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import format from 'date-fns/format'
+
 /**
  * Custom command to set the resolution for the test.
  * @example cy.setResolution([375, 812]);
@@ -22,6 +24,12 @@ export const checkHeaderText = (header: string) => {
     .should('be.visible')
     .and('contain', header);
 };
+
+/**
+ * Custom command to convert a date to String format.
+ * @example cy.dateToString(date);
+*/
+export const dateToString = (date) => date && format(date, 'dd-MM-yyyy', date)
 
 /**
   * Custom command to get the Iframe body
