@@ -97,25 +97,25 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         {incident.text}
       </Heading>
       <DefinitionList>
-        <SectionTerm>Locatie</SectionTerm>
+        <SectionTerm data-testid="location-label">Locatie</SectionTerm>
         <SectionDescription>
           <span data-testid="location">
             {incident.location?.address_text || 'Locatie is gepind op de kaart'}
           </span>
         </SectionDescription>
-        <SectionTerm>Gemeld op</SectionTerm>
+        <SectionTerm data-testid="date-label">Gemeld op</SectionTerm>
         <SectionDescription>
           <span data-testid="date">
             {incident.created_at && formatDate(incident.created_at)}
           </span>
         </SectionDescription>
-        <SectionTerm>Status</SectionTerm>
+        <SectionTerm data-testid="status-label">Status</SectionTerm>
         <SectionDescription>
           <Status isEnded={isStatusEnd(incident.status.state)}>
             <span data-testid="status">{incident?.status.state_display}</span>
           </Status>
         </SectionDescription>
-        <SectionTerm>Subcategorie (verantwoordelijke afdeling)</SectionTerm>
+        <SectionTerm data-testid="subcategory-label">Subcategorie (verantwoordelijke afdeling)</SectionTerm>
         <SectionDescription>
           <span data-testid="subcategory">{incident.category?.sub} </span>
           <span data-testid="departments">

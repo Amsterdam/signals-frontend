@@ -9,7 +9,7 @@ import signal_5964 from '../../fixtures/samenhang/5964.json';
 import history_7979 from '../../fixtures/samenhang/history_7979.json';
 import { SAMENHANG_TEXT } from '../../support/texts';
 import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
-import { SAMENHANG } from '../../support/selectorsSamenhang';
+import { SAME_REPORTER } from '../../support/selectorsSamenhang';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 
 describe('Setup testdata', () => {
@@ -48,22 +48,22 @@ describe('Samenhang meldingen', () => {
     cy.contains('Meldingen van siahangsamen@sia.nl (11)').should('be.visible');
 
     // Check signal info
-    cy.get(SAMENHANG.incidentInfo).eq(0).should('contain', signal_7979.category.sub).and('be.visible');
-    cy.get(SAMENHANG.incidentStatus).eq(0).should('contain', signal_7979.status.state_display).and('be.visible');
-    cy.get(SAMENHANG.dateTime).eq(0).should('contain', '05-05-2021 10:30').and('be.visible');
+    cy.get(SAME_REPORTER.incidentInfo).eq(0).should('contain', signal_7979.category.sub).and('be.visible');
+    cy.get(SAME_REPORTER.incidentStatus).eq(0).should('contain', signal_7979.status.state_display).and('be.visible');
+    cy.get(SAME_REPORTER.dateTime).eq(0).should('contain', '05-05-2021 10:30').and('be.visible');
 
     // Check KTO statuses
-    cy.get(SAMENHANG.feedbackStatus).eq(0).should('contain', 'Tevreden').and('be.visible').and('have.css', 'color', 'rgb(0, 160, 60)');
-    cy.get(SAMENHANG.feedbackStatus).eq(2).should('contain', '-').and('be.visible');
-    cy.get(SAMENHANG.feedbackStatus).eq(3).should('contain', 'Niet tevreden').and('be.visible').and('have.css', 'color', 'rgb(236, 0, 0)');
-    cy.get(SAMENHANG.feedbackStatus).eq(4).should('contain', 'Niet ontvangen').and('be.visible');
+    cy.get(SAME_REPORTER.feedbackStatus).eq(0).should('contain', 'Tevreden').and('be.visible').and('have.css', 'color', 'rgb(0, 160, 60)');
+    cy.get(SAME_REPORTER.feedbackStatus).eq(2).should('contain', '-').and('be.visible');
+    cy.get(SAME_REPORTER.feedbackStatus).eq(3).should('contain', 'Niet tevreden').and('be.visible').and('have.css', 'color', 'rgb(236, 0, 0)');
+    cy.get(SAME_REPORTER.feedbackStatus).eq(4).should('contain', 'Niet ontvangen').and('be.visible');
 
-    // Check signal statuses
-    cy.get(SAMENHANG.incidentStatus).eq(1).should('contain', 'Gemeld').and('be.visible');
-    cy.get(SAMENHANG.incidentStatus).eq(3).should('contain', 'Heropend').and('be.visible');
+    // Check SAME_REPORTER statuses
+    cy.get(SAME_REPORTER.incidentStatus).eq(1).should('contain', 'Gemeld').and('be.visible');
+    cy.get(SAME_REPORTER.incidentStatus).eq(3).should('contain', 'Heropend').and('be.visible');
 
 
-    cy.get(SAMENHANG.linkBackToSignal).click();
+    cy.get(SAME_REPORTER.linkBackToSignal).click();
     cy.get(SIGNAL_DETAILS.labelMeldigenMelder).should('have.text', 'Meldingen van deze melder').and('be.visible');
   });
   it('Should show the details of a signal', () => {
@@ -75,20 +75,20 @@ describe('Samenhang meldingen', () => {
       cy.visit(`manage/incident/${json.signalId}/melder`);
     });
     // Check signal details
-    cy.get(SAMENHANG.incidentHeading).should('contain', 'Standaardmelding 7979').and('be.visible');
-    cy.get(SAMENHANG.incidentDescription).should('contain', signal_7979.text);
+    cy.get(SAME_REPORTER.incidentHeading).should('contain', 'Standaardmelding 7979').and('be.visible');
+    cy.get(SAME_REPORTER.incidentDescription).should('contain', signal_7979.text);
     
-    cy.get(SAMENHANG.labelGemeldOp).should('contain', 'Gemeld op');
-    cy.get(SAMENHANG.valueGemeldOp).should('contain', '05-05-2021 10:30');
+    cy.get(SAME_REPORTER.labelGemeldOp).should('contain', 'Gemeld op');
+    cy.get(SAME_REPORTER.valueGemeldOp).should('contain', '05-05-2021 10:30');
 
-    cy.get(SAMENHANG.labelSubcategory).should('contain', 'Subcategorie (verantwoordelijke afdeling)');
-    cy.get(SAMENHANG.valueSubcategory).should('contain', signal_7979.category.sub);
+    cy.get(SAME_REPORTER.labelSubcategory).should('contain', 'Subcategorie (verantwoordelijke afdeling)');
+    cy.get(SAME_REPORTER.valueSubcategory).should('contain', signal_7979.category.sub);
 
-    cy.get(SAMENHANG.labelStatus).should('contain', 'Status');
-    cy.get(SAMENHANG.valueStatus).should('contain', signal_7979.status.state_display);
+    cy.get(SAME_REPORTER.labelStatus).should('contain', 'Status');
+    cy.get(SAME_REPORTER.valueStatus).should('contain', signal_7979.status.state_display);
 
     // History shows feedback and status actions in chronological order
-    cy.get(SAMENHANG.labelHistory).should('contain', 'Contactgeschiedenis vanaf afgehandeld').and('be.visible');
+    cy.get(SAME_REPORTER.labelHistory).should('contain', 'Contactgeschiedenis vanaf afgehandeld').and('be.visible');
     cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 5);
     cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 5);
     cy.get(SIGNAL_DETAILS.historyAction).eq(0).should('contain', history_7979[0].action);
@@ -126,11 +126,11 @@ describe('Samenhang meldingen', () => {
     });
 
     cy.contains('5964').click();
-    cy.get(SAMENHANG.incidentHeading).should('contain', 'Hoofdmelding 5964').and('be.visible');
-    cy.get(`:nth-child(10) > ${SAMENHANG.iconHoofdmelding}`).should('be.visible');
-    cy.get(SAMENHANG.labelStatus).should('contain', 'Status');
-    cy.get(SAMENHANG.valueStatus).should('contain', signal_5964.status.state_display);
-    cy.get(SAMENHANG.textNoContactHistory).should('contain', SAMENHANG_TEXT.nocontact).and('be.visible');
+    cy.get(SAME_REPORTER.incidentHeading).should('contain', 'Hoofdmelding 5964').and('be.visible');
+    cy.get(`:nth-child(10) > ${SAME_REPORTER.iconHoofdmelding}`).should('be.visible');
+    cy.get(SAME_REPORTER.labelStatus).should('contain', 'Status');
+    cy.get(SAME_REPORTER.valueStatus).should('contain', signal_5964.status.state_display);
+    cy.get(SAME_REPORTER.textNoContactHistory).should('contain', SAMENHANG_TEXT.nocontact).and('be.visible');
   });
   it('Should use the pagination buttons', () => {
     cy.intercept('signals/v1/private/signals/*/context/reporter?page=1**', { fixture: 'samenhang/getReporter01.json' }).as('getReporterPage1');
@@ -144,10 +144,10 @@ describe('Samenhang meldingen', () => {
       cy.visit(`manage/incident/${json.signalId}/melder`);
     });
 
-    cy.get(SAMENHANG.incidentInfo).should('have.length', 10);
-    cy.get(SAMENHANG.buttonPaginationNext).click();
-    cy.get(SAMENHANG.incidentInfo).should('have.length', 1);
-    cy.get(SAMENHANG.buttonPaginationPrevious).click();
+    cy.get(SAME_REPORTER.incidentInfo).should('have.length', 10);
+    cy.get(SAME_REPORTER.buttonPaginationNext).click();
+    cy.get(SAME_REPORTER.incidentInfo).should('have.length', 1);
+    cy.get(SAME_REPORTER.buttonPaginationPrevious).click();
   });
   it('Should open a signal when clicking on signal details header', () => {
     cy.intercept('signals/v1/private/signals/*/context/reporter?page=1**', { fixture: 'samenhang/getReporter01.json' }).as('getReporterPage1');
