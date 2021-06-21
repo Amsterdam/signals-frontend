@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { subWeeks } from 'date-fns'
-import { dateToString } from '../../../../src/shared/services/date-utils'
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
@@ -44,7 +43,7 @@ describe('Signals in same area', () => {
     routes.waitForManageSignalsRoutes();
 
     // Startdate of the period is today - 12 week
-    const startDate = dateToString(new Date(subWeeks(new Date(), 12).toISOString()));
+    const startDate = general.dateToString(new Date(subWeeks(new Date(), 12).toISOString()));
     const todaysDate = general.getTodaysDate();
 
     createSignal.openCreatedSignal();
