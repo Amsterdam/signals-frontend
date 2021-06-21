@@ -290,11 +290,11 @@ export const createSignalSameAreaAfgehandeld = () => {
     headers: { 'Content-Type': 'application/json' },
     body: {
       location: {
-        geometrie: { type: 'Point', coordinates: [4.88303202, 52.3689874] },
+        geometrie: { type: 'Point', coordinates: [4.8812919, 52.36964507] },
         address: {
-          openbare_ruimte: 'Runstraat',
-          huisnummer: '32',
-          postcode: '1016GK',
+          openbare_ruimte: 'Elandsgracht',
+          huisnummer: '31',
+          postcode: '1016TM',
           woonplaats: 'Amsterdam',
         },
         stadsdeel: 'A',
@@ -323,8 +323,6 @@ export const patchLatestSignalStatus = () => {
     });
       cy.log(json.signalId);
     });
-    
-
 };
 
 export const createSignalSameAreaSingle = () => {
@@ -334,11 +332,11 @@ export const createSignalSameAreaSingle = () => {
     headers: { 'Content-Type': 'application/json' },
     body: {
       location: {
-        geometrie: { type: 'Point', coordinates: [4.8830155, 52.36939] },
+        geometrie: { type: 'Point', coordinates: [4.88154048, 52.36973601]},
         address: {
-          openbare_ruimte: 'Prinsengracht',
-          huisnummer: "495-3A",
-          postcode: '1016HR',
+          openbare_ruimte: 'Elandsgracht',
+          huisnummer: "19-2",
+          postcode: '1016TM',
           woonplaats: 'Amsterdam',
         },
         stadsdeel: 'A',
@@ -365,11 +363,11 @@ export const createSignalSameAreaOtherCategory = () => {
     headers: { 'Content-Type': 'application/json' },
     body: {
       location: {
-        geometrie: { type: 'Point', coordinates: [4.88227759, 52.36947851] },
+        geometrie: { type: 'Point', coordinates: [4.88209649, 52.36990915] },
         address: {
-          openbare_ruimte: 'Prinsengracht',
-          huisnummer: "312-1",
-          postcode: '1016HX',
+          openbare_ruimte: 'Elandsgracht',
+          huisnummer: "3-3",
+          postcode: '1016TM',
           woonplaats: 'Amsterdam',
         },
         stadsdeel: 'A',
@@ -384,18 +382,18 @@ export const createSignalSameAreaOtherCategory = () => {
   })
 };
 
-export const createSignalSameAreaCluster = (number, coordinates: Array<number>) => {
+export const createSignalSameAreaCluster = (number: String) => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/signals/v1/public/signals/',
     headers: { 'Content-Type': 'application/json' },
     body: {
       location: {
-        geometrie: { type: 'Point', coordinates: coordinates },
+        geometrie: { type: 'Point', coordinates: [4.88152201, 52.37006848] },
         address: {
-          openbare_ruimte: 'Runstraat',
+          openbare_ruimte: 'Elandsgracht',
           huisnummer: `${number}`,
-          postcode: '1016GK',
+          postcode: '1016TW',
           woonplaats: 'Amsterdam',
         },
         stadsdeel: 'A',
