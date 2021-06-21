@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://localhost:3001",
   "defaultCommandTimeOut": 5000,
-  "projectId": "xdzm5k",
+  "projectId": "b6phb4",
   "ignoreTestFiles": "**/_localRun/*.ts",
   "requestTimeout": 15000,
   "responseTimeout": 15000,
