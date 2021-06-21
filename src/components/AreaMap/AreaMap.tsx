@@ -29,12 +29,15 @@ import MapCloseButton from 'components/MapCloseButton'
 import { AreaFeature, AreaFeatureCollection, Property } from './types'
 
 const DEFAULT_ZOOM = 14
-const FOCUS_RADIUS_METERS = 250
+const MAX_ZOOM = 15
+const FOCUS_RADIUS_METERS = 50
 const CURRENT_INCIDENT_MARKER_Z = -100 // Show below incident markers
 
 const AREA_MAP_OPTIONS: MapOptions = {
   ...MAP_OPTIONS,
   scrollWheelZoom: true,
+  zoom: DEFAULT_ZOOM,
+  maxZoom: MAX_ZOOM,
 }
 
 const Wrapper = styled.div`
@@ -73,7 +76,6 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
     () => ({
       ...AREA_MAP_OPTIONS,
       center: center.reverse(), // center is [lat, long] instead of [long, lag],
-      zoom: DEFAULT_ZOOM,
     }),
     [center]
   )

@@ -37,7 +37,9 @@ const StyledIcon = styled(Icon)`
 const Filter: React.FC<FilterProps> = (props) => {
   const subcategory = props.subcategory ? (
     <Field>
-      <Title data-testid="subcategory-label">Subcategorie (verantwoordelijke afdeling)</Title>
+      <Title data-testid="subcategory-label">
+        Subcategorie (verantwoordelijke afdeling)
+      </Title>
       <List>
         <ListItem>
           <span data-testid="subcategory">{props.subcategory} </span>
@@ -91,12 +93,14 @@ const Filter: React.FC<FilterProps> = (props) => {
             <StyledIcon size={ICON_SIZE}>
               <IconRadius />
             </StyledIcon>
-            Straal 250m
+            Straal 50m
           </ListItem>
         </List>
       </Field>
       <Field>
-        <Title forwardedAs="h4" data-testid="kind-label">Soort</Title>
+        <Title forwardedAs="h4" data-testid="kind-label">
+          Soort
+        </Title>
         <List>
           <ListItem>Standaardmelding</ListItem>
           <ListItem>Deelmelding</ListItem>
