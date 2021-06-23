@@ -78,6 +78,7 @@ export const AddButton = styled.div`
   left: ${themeSpacing(6)};
   border-radius: 50%;
   border: 1px solid ${themeColor('primary')};
+
   &:hover {
     background-color: ${themeColor('tint', 'level1')};
     border-width: 2px;

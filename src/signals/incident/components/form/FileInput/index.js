@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import styled from 'styled-components'
 import { Fragment, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { TrashBin, Enlarge } from '@amsterdam/asc-assets'
@@ -15,6 +16,16 @@ import FileInputStyle, {
   FilePreview,
   FileLoading,
 } from './styles'
+
+const ScreenReaderOnly = styled.span`
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`
 
 const FileInput = ({ handler, parent, meta }) => {
   const [errors, setErrors] = useState()
@@ -221,6 +232,7 @@ const FileInput = ({ handler, parent, meta }) => {
             />
             <label htmlFor="formUpload">
               <AddButton as="span">
+                <ScreenReaderOnly>Toevoegen foto</ScreenReaderOnly>
                 <AddIcon size={22}>
                   <Enlarge />
                 </AddIcon>
