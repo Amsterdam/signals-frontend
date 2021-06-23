@@ -143,7 +143,7 @@ const MapSelectGeneric = ({
               icon: selection.current.has(feature.properties[idField])
                 ? LeafletDotSelectedIcon
                 : LeafletDotIcon,
-              alt: feature.properties[idField],
+              alt: selectionOnly ? '' : feature.properties[idField],
             }),
 
           /**

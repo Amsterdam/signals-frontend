@@ -131,7 +131,7 @@ const MapSelect = ({
                 feature.properties[iconField],
                 selection.current.has(feature.properties[idField])
               ),
-              alt: feature.properties.objectnummer,
+              alt: selectionOnly ? '' : feature.properties.objectnummer,
             }),
 
           /**
