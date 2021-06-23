@@ -29,8 +29,6 @@ const placeholders = {
   $SIGNALS_FAVICON: config.head.favicon,
   $SIGNALS_IOS_ICON: config.head.iosIcon,
   $SIGNALS_MATOMO: matomo,
-  $SIGNALS_PWA_SHORT_TITLE: config.language.shortTitle,
-  $SIGNALS_PWA_TITLE: config.language.title,
   $SIGNALS_SITE_TITLE: config.language.siteTitle,
   $SIGNALS_STATUS_BAR_STYLE: config.head.statusBarStyle,
   $SIGNALS_THEME_COLOR: config.head.themeColor,

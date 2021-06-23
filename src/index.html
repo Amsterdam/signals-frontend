@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="apple-mobile-web-app-title" content="$SIGNALS_PWA_TITLE" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="$SIGNALS_STATUS_BAR_STYLE"
-    />
-    <meta name="theme-color" content="$SIGNALS_THEME_COLOR" />
-    <link rel="icon" href="$SIGNALS_FAVICON" />
-    <link rel="apple-touch-icon" sizes="180x180" href="$SIGNALS_IOS_ICON" />
-    <link rel="manifest" href="manifest.json" />
-    <title>$SIGNALS_SITE_TITLE</title>
-    <script>
-      window.CONFIG = $SIGNALS_CONFIG
-    </script>
-  </head>
 
-  <body>
-    <div id="app">
-      <noscript>
-        <p>
-          Deze website werkt helaas niet zonder javascript. Sta het uitvoeren
-          van javascript toe in uw browser om $SIGNALS_PWA_TITLE te kunnen
-          bekijken
-        </p>
-      </noscript>
-    </div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="$SIGNALS_THEME_COLOR" />
+  <link rel="icon" href="$SIGNALS_FAVICON" />
+  <link rel="apple-touch-icon" sizes="180x180" href="$SIGNALS_IOS_ICON" />
+  <title>$SIGNALS_SITE_TITLE</title>
+  <script>
+    window.CONFIG = $SIGNALS_CONFIG
+  </script>
+</head>
 
-  $SIGNALS_MATOMO
+<body>
+  <div id="app">
+    <noscript>
+      <p>
+        Deze website werkt helaas niet zonder javascript. Sta het uitvoeren
+        van javascript toe in uw browser om de website te kunnen
+        bekijken
+      </p>
+    </noscript>
+  </div>
+</body>
+
+$SIGNALS_MATOMO
+
 </html>

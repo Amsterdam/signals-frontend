@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 const path = require('path')
-const pkgDir = require('pkg-dir')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 
 const template = require('./template')
-
-const __rootdir = pkgDir.sync()
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -92,15 +88,6 @@ module.exports = require('./webpack.base.babel')({
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0.8,
-    }),
-
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__rootdir, 'src', 'manifest.json'),
-          to: path.resolve(__rootdir, 'build', 'manifest.json'),
-        },
-      ],
     }),
   ].filter(Boolean),
 
