@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 
 import configuration from 'shared/services/configuration/configuration'
 
@@ -32,9 +32,10 @@ const StyledA = styled.a`
   margin-right: ${themeSpacing(3)};
 
   &&:focus {
-    outline-color: ${themeColor('support', 'focus')};
+    outline-color: Highlight;
+    outline-color: -webkit-focus-ring-color;
     outline-style: solid;
-    outline-offset: 0px;
+    outline-offset: 4px;
     outline-width: 3px;
   }
 
@@ -59,8 +60,7 @@ export const Logo = ({ tall, ...props }) => (
   >
     <StyledLogo
       data-testid="logo"
-      role="img"
-      aria-label={configuration.language.logoDescription}
+      alt={configuration.language.logoDescription}
       tall={tall}
       src={configuration.logo.url}
       {...props}
