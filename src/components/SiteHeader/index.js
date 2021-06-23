@@ -25,7 +25,6 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import Notification from 'containers/Notification'
 import Logo from 'components/Logo'
 import configuration from 'shared/services/configuration/configuration'
-import AmsterdamLogo from 'components/AmsterdamLogo'
 
 export const menuBreakpoint = 1200
 
@@ -323,7 +322,7 @@ export const SiteHeader = (props) => {
           tall={tall}
           fullWidth={false}
           navigation={tall ? null : navigation}
-          logo={configuration.logo?.url ? Logo : AmsterdamLogo}
+          logo={Logo}
           headerLogoTextAs="div"
         />
         {!tall && <Notification />}
