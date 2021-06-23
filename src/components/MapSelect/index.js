@@ -163,7 +163,7 @@ const MapSelect = ({
       iconField,
       idField,
       onSelectionChange,
-      selection,
+      selectionOnly,
     ]
   )
 
