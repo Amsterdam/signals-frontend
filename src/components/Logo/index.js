@@ -31,14 +31,6 @@ const StyledA = styled.a`
     tall ? configuration.logo.height : configuration.logo.smallHeight};
   margin-right: ${themeSpacing(3)};
 
-  &&:focus {
-    outline-color: Highlight;
-    outline-color: -webkit-focus-ring-color;
-    outline-style: solid;
-    outline-offset: 4px;
-    outline-width: 3px;
-  }
-
   ${({ tall }) =>
     tall &&
     css`
