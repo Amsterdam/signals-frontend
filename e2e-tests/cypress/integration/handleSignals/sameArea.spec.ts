@@ -37,6 +37,7 @@ describe('Signals in same area', () => {
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
   it('Should show signals in the same area on map', () => {
+    cy.intercept('**/context/near/geography').as('getGeography');
     routes.getManageSignalsRoutes();
     routes.getSignalDetailsRoutes();
     cy.visit('/manage/incidents/');
@@ -48,6 +49,8 @@ describe('Signals in same area', () => {
 
     createSignal.openCreatedSignal();
     cy.get(SIGNAL_DETAILS.linkMeldingenOmgeving).should('be.visible').click();
+    cy.wait('@getGeography');
+    cy.wait('@getSignal');
     cy.url().should('include', '/omgeving');
 
     // Filter
@@ -66,7 +69,7 @@ describe('Signals in same area', () => {
     
     // Map
     cy.get(SAME_AREA.map).should('be.visible');
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
+    cy.get(SAME_AREA.icon).should('have.length', 4);
 
     // Zoom in and zoom out, waits needed
     cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomIn).click();
