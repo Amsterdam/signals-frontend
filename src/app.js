@@ -72,26 +72,6 @@ const render = () => {
   )
 }
 
-const installServiceWorker = () => {
-  // Install ServiceWorker and AppCache at the end since
-  // it's not most important operation and if main code fails,
-  // we do not want it installed
-  if (
-    'serviceWorker' in navigator &&
-    process.env.ENABLE_SERVICEWORKER === '1'
-  ) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-    })
-  }
-}
-
-const registerServiceWorkerProxy = () => {
-  if ('serviceWorker' in navigator && process.env.PROXY) {
-    navigator.serviceWorker.register('/sw-proxy.js')
-  }
-}
-
 if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
@@ -105,10 +85,5 @@ if (module.hot) {
 // Authenticate and start the authorization process
 authenticate()
   .then((credentials) => store.dispatch(authenticateUser(credentials)))
-  .finally(() => {
-    render()
-
-    installServiceWorker()
-    registerServiceWorkerProxy()
-  })
+  .finally(render)
   .catch(() => {})

@@ -15,7 +15,6 @@ module.exports = {
     '!src/global-styles.{js,jsx,ts,tsx}',
     '!src/**/definitions/*',
     '!src/**/.*',
-    '!src/sw-proxy*.{js,jsx,ts,tsx}',
   ],
   coverageThreshold: {
     global: {

@@ -7,7 +7,6 @@ const TerserPlugin = require('terser-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const { GenerateSW } = require('workbox-webpack-plugin')
 
 const template = require('./template')
 
@@ -94,27 +93,6 @@ module.exports = require('./webpack.base.babel')({
       threshold: 10240,
       minRatio: 0.8,
     }),
-
-    // Put it in the end to capture all the HtmlWebpackPlugin's
-    // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    process.env.ENABLE_SERVICEWORKER === '1'
-      ? new GenerateSW({
-          mode: 'production',
-          swDest: 'sw.js',
-          clientsClaim: true,
-          skipWaiting: true,
-          sourcemap: true,
-          inlineWorkboxRuntime: true,
-          exclude: [
-            // Don't pre-cache any font files or images; we need a more fine-grained caching strategy (see below in runtimeCaching)
-            /.+\.(?:woff|woff2|eot|ttf)$/,
-            /.+\.(?:png|jpg|jpeg|svg|webp)$/,
-            /.*\.(?:html|map|txt|htaccess)$/,
-          ],
-          cleanupOutdatedCaches: true,
-          maximumFileSizeToCacheInBytes: 2.4 * 1000 * 1024,
-        })
-      : null,
 
     new CopyPlugin({
       patterns: [
