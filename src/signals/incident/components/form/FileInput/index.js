@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Fragment, useState, useCallback, useRef } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { TrashBin, Enlarge } from '@amsterdam/asc-assets'
 import fileSize from '../../../services/file-size'
 import FileInputStyle, {
-  ButtonWrapper,
   FileInputPreviewBox,
   FileInputEmptyBox,
   FileInputUploadButton,
@@ -18,7 +17,6 @@ import FileInputStyle, {
 } from './styles'
 
 const FileInput = ({ handler, parent, meta }) => {
-  const inputFile = useRef(null)
   const [errors, setErrors] = useState()
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3
   const checkMinFileSize = useCallback(
@@ -86,10 +84,6 @@ const FileInput = ({ handler, parent, meta }) => {
       maxNumberOfFiles,
     ]
   )
-
-  const handleFileUploadClick = () => {
-    inputFile?.current?.click()
-  }
 
   const handleChange = useCallback(
     (event) => {
@@ -224,15 +218,14 @@ const FileInput = ({ handler, parent, meta }) => {
               onChange={handleChange}
               multiple
               aria-label="Toevoegen foto"
-              ref={inputFile}
             />
-            <ButtonWrapper onClick={handleFileUploadClick}>
-              <AddButton aria-label="Toevoegen foto">
+            <label htmlFor="formUpload">
+              <AddButton as="span">
                 <AddIcon size={22}>
                   <Enlarge />
                 </AddIcon>
               </AddButton>
-            </ButtonWrapper>
+            </label>
           </FileInputUploadButton>
         )}
 

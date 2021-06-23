@@ -29,40 +29,19 @@ export const FileInputError = styled.div`
   margin: ${themeSpacing(4, 0, 0)};
 `
 
-export const AddButton = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: ${themeSpacing(11)};
-  height: ${themeSpacing(11)};
-  top: ${themeSpacing(6)};
-  left: ${themeSpacing(6)};
-  border-radius: 50%;
-  border: 1px solid ${themeColor('primary')};
-`
-
-export const ButtonWrapper = styled.span`
-  &:hover > ${AddButton} {
-    background-color: ${themeColor('tint', 'level1')};
-    border-width: 2px;
-    padding: 2px;
-  }
-`
-
 export const FileInputUploadButton = styled(FileInputEmptyBox)`
   input[type='file'] {
     opacity: 0;
     width: 0;
     height: 0;
 
-    &:focus + ${ButtonWrapper} {
+    &:focus + label {
       outline: 5px auto Highlight; // Firefox outline
       outline: 5px auto -webkit-focus-ring-color; // Safari / Chrome outline
     }
   }
 
-  & > ${ButtonWrapper} {
+  & > label {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -85,6 +64,24 @@ export const DeleteButton = styled(Button)`
 
   &:hover {
     background-color: black;
+  }
+`
+
+export const AddButton = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${themeSpacing(11)};
+  height: ${themeSpacing(11)};
+  top: ${themeSpacing(6)};
+  left: ${themeSpacing(6)};
+  border-radius: 50%;
+  border: 1px solid ${themeColor('primary')};
+  &:hover {
+    background-color: ${themeColor('tint', 'level1')};
+    border-width: 2px;
+    padding: 2px;
   }
 `
 
