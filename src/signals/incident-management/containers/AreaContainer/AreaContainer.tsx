@@ -2,18 +2,14 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import { subWeeks } from 'date-fns'
-import { useFetch } from 'hooks'
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FunctionComponent, useCallback, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import LoadingIndicator from 'components/LoadingIndicator'
-import configuration from 'shared/services/configuration/configuration'
 import AreaMap from 'components/AreaMap'
+import { Feature } from 'components/AreaMap/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import type {
-  AreaFeature,
-  AreaFeatureCollection,
-} from 'components/AreaMap/types'
-import type { Incident } from 'types/api/incident'
+import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
+import useGetIncident from 'hooks/api/useGetIncident'
 import Filter from './components/Filter'
 import IncidentDetail from './components/IncidentDetail'
 
@@ -30,30 +26,12 @@ const Sidebar = styled.div`
 export const AreaContainer: FunctionComponent = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
-  const [selection, setSelection] = useState<AreaFeature | null>(null)
+  const [selection, setSelection] = useState<Feature | null>(null)
 
-  const { data: area, get: getArea } = useFetch<AreaFeatureCollection>()
-  const { data: incident, get: getIncident } = useFetch<Incident>()
-  const {
-    data: selectedIncident,
-    get: getSelectedIncident,
-    isLoading: isLoadingSelectedIncident,
-  } = useFetch<Incident>()
-
-  useEffect(() => {
-    getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
-    getArea(
-      `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/near/geography`
-    )
-  }, [getArea, getIncident, id])
-
-  useEffect(() => {
-    if (selection) {
-      getSelectedIncident(
-        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${selection.properties.id}`
-      )
-    }
-  }, [id, selection, getSelectedIncident])
+  const { data: area } = useGetIncidentContextGeography(Number(id))
+  const { data: incident } = useGetIncident(Number(id))
+  const { data: selectedIncident, isLoading: isLoadingSelectedIncident } =
+    useGetIncident(selection?.properties.id)
 
   const handleClose = useCallback(
     () => history.push(`${INCIDENT_URL}/${id}`),

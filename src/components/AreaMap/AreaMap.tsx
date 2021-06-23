@@ -25,8 +25,8 @@ import {
   currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
 import MapCloseButton from 'components/MapCloseButton'
-
-import { AreaFeature, AreaFeatureCollection, Property } from './types'
+import { Geography, Property } from 'types/api/geography'
+import { Feature } from './types'
 
 const DEFAULT_ZOOM = 14
 const MAX_ZOOM = 15
@@ -46,10 +46,10 @@ const Wrapper = styled.div`
 `
 
 export interface AreaMapProps {
-  geoData: AreaFeatureCollection
-  selectedFeature: AreaFeature | null
+  geoData: Geography
+  selectedFeature: Feature | null
   onClose: () => void
-  onClick: (feature: AreaFeature | null) => void
+  onClick: (feature: Feature | null) => void
   center: Position
 }
 
@@ -81,7 +81,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   )
 
   const getIncidentIcon = useCallback(
-    (feature: AreaFeature): L.Icon => {
+    (feature: Feature): L.Icon => {
       // selected
       if (feature.properties.id === selectedFeature?.properties.id)
         return pointerSelectIcon
@@ -102,7 +102,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
       cluster
         .getAllChildMarkers()
         .some(
-          (child: L.Marker<AreaFeature>) =>
+          (child: L.Marker<Feature>) =>
             child.feature?.properties.id === selectedFeatureId.current
         ),
     []
