@@ -2,7 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
 import styled from 'styled-components'
-import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
+import {
+  themeColor,
+  themeSpacing,
+  Heading,
+  Link as AscLink,
+} from '@amsterdam/asc-ui'
 
 import { attachmentsType, contextType } from 'shared/types'
 import { string2date, string2time } from 'shared/services/string-parser'
@@ -58,6 +63,10 @@ const DefinitionList = styled.dl`
   }
 `
 
+const StyledLink = styled(AscLink)`
+  font-size: inherit;
+`
+
 const Detail = ({ attachments, context }) => {
   const { incident } = useContext(IncidentDetailContext)
   const memoIncident = useMemo(() => incident, [incident])
@@ -99,7 +108,14 @@ const Detail = ({ attachments, context }) => {
 
         <Fragment>
           <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-          <dd data-testid="detail-phone-value">{incident.reporter.phone}</dd>
+          <dd data-testid="detail-phone-value">
+            <StyledLink
+              variant="inline"
+              href={`tel:${incident.reporter.phone}`}
+            >
+              {incident.reporter.phone}
+            </StyledLink>
+          </dd>
         </Fragment>
 
         <Fragment>
