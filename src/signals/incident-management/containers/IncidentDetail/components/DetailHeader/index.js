@@ -165,7 +165,7 @@ const DetailHeader = () => {
         <DownloadButton
           label="PDF"
           url={downloadLink}
-          filename={`${configuration.language.siteTitle}-${incident.id}.pdf`}
+          filename={`${configuration.language.shortTitle}-${incident.id}.pdf`}
           data-testid="detail-header-button-download"
         />
       </ButtonContainer>

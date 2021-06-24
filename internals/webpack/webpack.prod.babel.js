@@ -89,6 +89,15 @@ module.exports = require('./webpack.base.babel')({
       threshold: 10240,
       minRatio: 0.8,
     }),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__rootdir, 'src', 'manifest.json'),
+          to: path.resolve(__rootdir, 'build', 'manifest.json'),
+        },
+      ],
+    }),
   ].filter(Boolean),
 
   performance: {

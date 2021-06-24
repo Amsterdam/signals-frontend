@@ -30,6 +30,8 @@ const placeholders = {
   $SIGNALS_IOS_ICON: config.head.iosIcon,
   $SIGNALS_MATOMO: matomo,
   $SIGNALS_SITE_TITLE: config.language.siteTitle,
+  $SIGNALS_PWA_SHORT_TITLE: config.language.shortTitle,
+  $SIGNALS_PWA_TITLE: config.language.title,
   $SIGNALS_STATUS_BAR_STYLE: config.head.statusBarStyle,
   $SIGNALS_THEME_COLOR: config.head.themeColor,
 }
