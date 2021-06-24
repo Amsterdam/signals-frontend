@@ -25,7 +25,7 @@
   },
   "language": {
     "avgDisclaimer": "De gemeente Amsterdam verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
-    "consentToContactSharing": "Ja, ik geef gemeente Amsterdam en gemeente Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
+    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding met contactgegevens te delen met andere organisaties, zoals de Politie of de Dierenambulance, als de melding niet voor de gemeente is bestemd.",
     "district": "Stadsdeel",
     "footer1": "Bel het telefoonnummer <a href='tel:##GENERAL_PHONE_NUMBER_FORMATTED##'>##GENERAL_PHONE_NUMBER##</a>",
     "footer2": "maandag tot en met vrijdag van 08.00 tot 18.00 uur.",
