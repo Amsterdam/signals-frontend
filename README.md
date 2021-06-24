@@ -65,14 +65,6 @@ It is possible to login manually on http://localhost:3001/manage with the follow
 - E-mail: signals.admin@example.com
 - Password: password
 
-## Service Worker
-
-The production build uses a [Service Worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) that requires HTTPS. Start a HTTPS server with the production build as follows:
-
-```bash
-HTTPS=true npm run start:prod
-```
-
 ## Deployment
 
 We provide [Helm charts](https://github.com/signalen/helm-charts) for production deployments of the Signalen stack on Kubernetes.

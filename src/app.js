@@ -72,6 +72,12 @@ const render = () => {
   )
 }
 
+const registerServiceWorkerProxy = () => {
+  if ('serviceWorker' in navigator && process.env.PROXY) {
+    navigator.serviceWorker.register('/sw-proxy.js')
+  }
+}
+
 if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
@@ -85,5 +91,9 @@ if (module.hot) {
 // Authenticate and start the authorization process
 authenticate()
   .then((credentials) => store.dispatch(authenticateUser(credentials)))
-  .finally(render)
+  .finally(() => {
+    render()
+
+    registerServiceWorkerProxy()
+  })
   .catch(() => {})

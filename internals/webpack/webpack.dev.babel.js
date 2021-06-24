@@ -4,6 +4,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const {
   default: createStyledComponentsTransformer,
 } = require('typescript-plugin-styled-components')
@@ -50,6 +51,15 @@ module.exports = webpackBase({
     new CircularDependencyPlugin({
       exclude: /a\.js|node_modules/, // exclude node_modules
       failOnError: false, // show a warning when there is a circular dependency
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: path.join(process.cwd(), 'src/sw-proxy.js') },
+        {
+          from: path.join(process.cwd(), 'src/sw-proxy-config.js'),
+          force: true,
+        },
+      ],
     }),
   ],
 
