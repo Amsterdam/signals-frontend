@@ -9,6 +9,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'production') {
   const { inject } = require('../scripts/helpers/config')
 
   const indexFile = path.join(__dirname, '..', '..', 'src', 'index.html')
+  const manifestFile = path.join(__dirname, '..', '..', 'src', 'manifest.json')
   const [indexContent, manifestContent] = inject([indexFile, manifestFile])
 
   template.templateContent = indexContent
