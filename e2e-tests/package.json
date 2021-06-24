@@ -2,7 +2,7 @@
   "name": "@signalen/e2e-tests",
   "private": true,
   "dependencies": {
-    "cypress": "^7.5.0",
+    "cypress": "^7.6.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
@@ -15,7 +15,7 @@
     "lint:nibble": "NODE_ENV=production eslint-nibble --cache --ext js cypress"
   },
   "devDependencies": {
-    "@cypress/webpack-preprocessor": "^5.5.0",
+    "@cypress/webpack-preprocessor": "^5.9.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "cypress-file-upload": "^5.0.2",
     "date-fns": "^2.19.0",
