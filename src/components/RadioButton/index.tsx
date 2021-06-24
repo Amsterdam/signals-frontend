@@ -4,7 +4,7 @@ import type { FunctionComponent, InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 import { Radio, themeSpacing } from '@amsterdam/asc-ui'
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   position: relative;
   z-index: 0;
 

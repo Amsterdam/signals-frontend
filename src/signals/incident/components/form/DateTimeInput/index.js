@@ -118,7 +118,7 @@ const DateTimeInput = ({
             <div>
               <StyledSelect
                 id="hours"
-                aria-describedby="uur"
+                aria-labelledby="uur"
                 name="hours"
                 data-testid="selectHours"
                 value={`${parent.value.incident_time_hours}`}

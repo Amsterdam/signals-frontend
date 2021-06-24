@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
 import { Marker } from '@amsterdam/react-maps'
-import { ViewerContainer } from '@amsterdam/asc-ui'
+import { ViewerContainer } from '@amsterdam/arm-core'
 import 'leaflet/dist/leaflet.css'
 
 import { markerIcon } from 'shared/services/configuration/map-markers'

@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { ViewerContainer } from '@amsterdam/asc-ui'
+import { ViewerContainer } from '@amsterdam/arm-core'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import styled from 'styled-components'
 import { TileLayer } from '@amsterdam/react-maps'
