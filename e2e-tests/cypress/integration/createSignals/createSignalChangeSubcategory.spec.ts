@@ -44,21 +44,20 @@ describe('Create signal and choose other subcategory than proposed', () => {
     });
   });
   describe('Create signal animals', () => {
-    beforeEach(() => {
+    before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
-    it('Should initiate create signal from manage', () => {
+    it('Should create signal when logged in', () => {
       routes.stubMap();
       routes.getManageSignalsRoutes();
+      routes.stubPreviewMap();
+      routes.postSignalRoutePrivate();
+
       cy.visit('/manage/incidents/');
       routes.waitForManageSignalsRoutes();
       general.openMenu();
       cy.contains('Melden').click();
       general.checkHeaderText('Beschrijf uw melding');
-    });
-    it('Should create the signal', () => {
-      routes.stubPreviewMap();
-      routes.postSignalRoutePrivate();
 
       createSignal.setDescriptionPage(signal);
       cy.get(CREATE_SIGNAL.dropdownSubcategory).select('Container is kapot (AEG)');

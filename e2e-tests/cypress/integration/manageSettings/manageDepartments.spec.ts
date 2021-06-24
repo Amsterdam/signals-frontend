@@ -3,6 +3,7 @@
 import * as requests from '../../support/commandsRequests';
 import { DEPARTMENTS, MENU } from '../../support/selectorsSettings';
 import { CHANGE_CATEGORY, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
+import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
@@ -20,6 +21,7 @@ describe('Manage departments', () => {
       routes.getCategoriesRoutes();
       cy.visit('/manage/incidents/');
       routes.waitForManageSignalsRoutes();
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
     });
     it('Should visit the manage department page by menu', () => {
       cy.contains('Instellingen').click();
