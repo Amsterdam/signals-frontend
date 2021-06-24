@@ -100,6 +100,7 @@ export const AppContainer = () => {
       <AppContext.Provider value={contextValue}>
         <Fragment>
           <SiteHeaderContainer />
+
           <ContentContainer headerIsTall={headerIsTall}>
             <Suspense fallback={<LoadingIndicator />}>
               <Switch>
@@ -125,6 +126,7 @@ export const AppContainer = () => {
               </Switch>
             </Suspense>
           </ContentContainer>
+
           {!isAuthenticated() && (
             <FooterContainer>
               <Footer />
