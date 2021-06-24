@@ -17,10 +17,6 @@ const StyledLabel = styled(Label)`
   width: 100%;
   align-self: baseline;
 
-  & > span {
-    width: 100%;
-  }
-
   & > * {
     font-weight: 400 !important;
   }

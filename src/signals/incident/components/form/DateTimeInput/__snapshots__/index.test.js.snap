@@ -73,7 +73,7 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
       <styled.div>
         <div>
           <Styled(Component)
-            aria-describedby="uur"
+            aria-labelledby="uur"
             data-testid="selectHours"
             id="hours"
             name="hours"
