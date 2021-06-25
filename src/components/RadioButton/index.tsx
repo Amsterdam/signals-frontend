@@ -13,17 +13,6 @@ const Wrapper = styled.span`
   }
 `
 
-const StyledRadio = styled(Radio)`
-  & > input:focus {
-    outline: none;
-  }
-
-  & > input:focus-visible + * {
-    box-shadow: 0 0 0 1pt Highlight;
-    box-shadow: 0 0 0 1pt -webkit-focus-ring-color;
-  }
-`
-
 interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   id: string
@@ -35,7 +24,7 @@ const RadioButton: FunctionComponent<RadioButtonProps> = ({
   ...props
 }) => (
   <Wrapper className={className}>
-    <StyledRadio {...props} />
+    <Radio {...props} />
   </Wrapper>
 )
 
