@@ -16,7 +16,7 @@ describe('containers/SiteHeader', () => {
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => () => true)
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
   })
   afterEach(() => {
     jest.resetAllMocks()

@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import CategorySelectRenderer from './CategorySelectRenderer'
 
@@ -41,7 +41,7 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
   }
 
   beforeEach(() => {
-    isAuthenticated.mockImplementation(() => true)
+    getIsAuthenticated.mockImplementation(() => true)
   })
 
   describe('rendering', () => {
@@ -68,7 +68,7 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
     })
 
     it('should NOT render when not authenticated', () => {
-      isAuthenticated.mockImplementation(() => false)
+      getIsAuthenticated.mockImplementation(() => false)
       const { queryByTestId } = render(
         withAppContext(
           <CategorySelectRenderer

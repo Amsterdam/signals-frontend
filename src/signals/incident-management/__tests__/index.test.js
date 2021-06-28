@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history'
 import { withAppContext } from 'test/utils'
 import { render, screen } from '@testing-library/react'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import * as appSelectors from 'containers/App/selectors'
 
@@ -54,7 +54,7 @@ describe('signals/incident-management', () => {
 
   describe('not authenticated', () => {
     it('should redirect to the login page', async () => {
-      isAuthenticated.mockImplementation(() => false)
+      getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
       const loginPage = await screen.findByTestId('loginPage')
 
@@ -62,7 +62,7 @@ describe('signals/incident-management', () => {
     })
 
     it('should not fetch anything', async () => {
-      isAuthenticated.mockImplementation(() => false)
+      getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
       await screen.findByTestId('loginPage')
 
@@ -76,7 +76,7 @@ describe('signals/incident-management', () => {
 
   describe('login page', () => {
     it('should redirect when not authenticated', async () => {
-      isAuthenticated.mockImplementation(() => false)
+      getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
       const loginPage = await screen.findByTestId('loginPage')
 
@@ -84,7 +84,7 @@ describe('signals/incident-management', () => {
     })
 
     it('should not redirect when authenticated', async () => {
-      isAuthenticated.mockImplementation(() => true)
+      getIsAuthenticated.mockImplementation(() => true)
       render(withSuspense())
       const incidentManagementOverviewPage = await screen.findByTestId(
         'incidentManagementOverviewPage'
@@ -98,7 +98,7 @@ describe('signals/incident-management', () => {
     describe('districts', () => {
       describe('with fetchDistrictsFromBackend disabled', () => {
         it('should not fetch when not authenticated', async () => {
-          isAuthenticated.mockImplementation(() => false)
+          getIsAuthenticated.mockImplementation(() => false)
           render(withSuspense())
           await screen.findByTestId('loginPage')
 
@@ -106,7 +106,7 @@ describe('signals/incident-management', () => {
         })
 
         it('should not fetch when authenticated', async () => {
-          isAuthenticated.mockImplementation(() => true)
+          getIsAuthenticated.mockImplementation(() => true)
           render(withSuspense())
           await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -116,7 +116,7 @@ describe('signals/incident-management', () => {
       describe('with fetchDistrictsFromBackend enabled', () => {
         it('should not fetch when not authenticated', async () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
-          isAuthenticated.mockImplementation(() => false)
+          getIsAuthenticated.mockImplementation(() => false)
           render(withSuspense())
           await screen.findByTestId('loginPage')
 
@@ -125,7 +125,7 @@ describe('signals/incident-management', () => {
 
         it('should fetch when authenticated', async () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
-          isAuthenticated.mockImplementation(() => true)
+          getIsAuthenticated.mockImplementation(() => true)
           render(withSuspense())
           await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -136,7 +136,7 @@ describe('signals/incident-management', () => {
 
     describe('filters', () => {
       it('should not fetch when not authenticated', async () => {
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -144,7 +144,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should fetch when authenticated', async () => {
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -154,7 +154,7 @@ describe('signals/incident-management', () => {
 
     describe('incidents', () => {
       it('should not fetch when not authenticated', async () => {
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -162,7 +162,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should fetch when authenticated', async () => {
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -170,7 +170,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should not search when not authenticated', async () => {
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -178,7 +178,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should not search without search query', async () => {
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -186,7 +186,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should search with search query when authenticated', async () => {
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         const searchQuery = 'stoeptegels'
         jest
           .spyOn(appSelectors, 'makeSelectSearchQuery')
@@ -205,7 +205,7 @@ describe('signals/incident-management', () => {
     describe('incident list', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incidents')
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -214,7 +214,7 @@ describe('signals/incident-management', () => {
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incidents')
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -225,7 +225,7 @@ describe('signals/incident-management', () => {
     describe('incident detail', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incident/1101')
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -234,7 +234,7 @@ describe('signals/incident-management', () => {
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incident/1101')
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -245,7 +245,7 @@ describe('signals/incident-management', () => {
     describe('incident split', () => {
       it('should show warning when not authenticated', async () => {
         history.push('/manage/incident/1101/split')
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('loginPage')
 
@@ -254,7 +254,7 @@ describe('signals/incident-management', () => {
 
       it('should not show warning when authenticated', async () => {
         history.push('/manage/incident/1101/split')
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incidentManagementOverviewPage')
 
@@ -266,7 +266,7 @@ describe('signals/incident-management', () => {
       it('should show warning when not authenticated', async () => {
         configuration.featureFlags.enableReporter = true
         history.push('/manage/incident/1101/melder')
-        isAuthenticated.mockImplementation(() => false)
+        getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
 
         expect(await screen.findByTestId('loginPage')).toBeInTheDocument()
@@ -276,7 +276,7 @@ describe('signals/incident-management', () => {
       it('should not show warning when authenticated', async () => {
         configuration.featureFlags.enableReporter = true
         history.push('/manage/incident/1101/melder')
-        isAuthenticated.mockImplementation(() => true)
+        getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
 
         expect(
@@ -287,7 +287,7 @@ describe('signals/incident-management', () => {
     })
 
     it('will use overview page as routing fallback', async () => {
-      isAuthenticated.mockImplementation(() => true)
+      getIsAuthenticated.mockImplementation(() => true)
       render(withSuspense())
       await screen.findByTestId('incidentManagementOverviewPage')
 

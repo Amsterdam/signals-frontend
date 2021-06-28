@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import isEqual from 'lodash.isequal'
 import isObject from 'lodash.isobject'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
   (!Array.isArray(value) && isEqual(value, objToCompareTo[key])) ||
@@ -70,7 +70,7 @@ const checkVisibility = (control, objToCompareTo) => {
   const isVisible = evaluateConditions(control.meta, objToCompareTo)
 
   if (control.authenticated) {
-    return isVisible && isAuthenticated()
+    return isVisible && getIsAuthenticated()
   }
 
   return isVisible

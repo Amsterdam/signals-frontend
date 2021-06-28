@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 import get from 'lodash.get'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
 
 const injectParent = (value, parent) =>
@@ -77,7 +77,7 @@ const Wrapper = styled.div`
 `
 
 const PlainText = ({ className, meta, parent }) => {
-  const valueAuthenticated = isAuthenticated() && meta?.valueAuthenticated
+  const valueAuthenticated = getIsAuthenticated() && meta?.valueAuthenticated
   const value = !valueAuthenticated && meta?.value
 
   return meta?.isVisible ? (

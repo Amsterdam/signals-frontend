@@ -51,7 +51,7 @@ class Keycloak {
       })
     }
 
-    if (this.isAuthenticated()) {
+    if (this.getIsAuthenticated()) {
       const accessToken = this.getAccessToken()
       const { name, scopes } = parseAccessToken(accessToken)
 
@@ -65,7 +65,7 @@ class Keycloak {
     return null
   }
 
-  isAuthenticated() {
+  getIsAuthenticated() {
     return this.keycloak.authenticated && !this.keycloak.isTokenExpired()
   }
 
