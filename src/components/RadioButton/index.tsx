@@ -4,23 +4,22 @@ import type { FunctionComponent, InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 import { Radio, themeSpacing } from '@amsterdam/asc-ui'
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   position: relative;
   z-index: 0;
 
+  // Safari does not pick up the focus ring implemented in amsterdam-styled-components
+  // Add radio button focus color with contrast of 4.11 (requirement is 3+)
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) {
+      input:focus + * {
+        box-shadow: 0 0 0 3px #3477f6;
+      }
+    }
+  }
+
   & > * {
     margin-left: ${themeSpacing(-1)};
-  }
-`
-
-const StyledRadio = styled(Radio)`
-  & > input:focus {
-    outline: none;
-  }
-
-  & > input:focus-visible + * {
-    box-shadow: 0 0 0 1pt Highlight;
-    box-shadow: 0 0 0 1pt -webkit-focus-ring-color;
   }
 `
 
@@ -35,7 +34,7 @@ const RadioButton: FunctionComponent<RadioButtonProps> = ({
   ...props
 }) => (
   <Wrapper className={className}>
-    <StyledRadio {...props} />
+    <Radio {...props} />
   </Wrapper>
 )
 

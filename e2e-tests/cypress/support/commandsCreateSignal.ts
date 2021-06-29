@@ -254,7 +254,7 @@ export const checkSummaryPage = (json: signal.RootObject) => {
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');
   cy.get(CREATE_SIGNAL.mapStaticMarker).should('be.visible');
   cy.contains(
-    'Ja, ik geef gemeente Amsterdam en gemeente Weesp toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.'
+    'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding met contactgegevens te delen met andere organisaties, zoals de Politie of de Dierenambulance, als de melding niet voor de gemeente is bestemd.'
   ).should('be.visible');
   cy.get('body').then($body => {
     if ($body.find(`${CREATE_SIGNAL.disclaimer}`).length > 0) {

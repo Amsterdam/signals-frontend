@@ -18,9 +18,9 @@ describe('Setup testdata', () => {
     requests.patchLatestSignalStatus();
 
     // Create cluster of signals
-    requests.createSignalSameAreaCluster('2A', [4.88399404, 52.36895635]);
-    requests.createSignalSameAreaCluster('2B', [4.88399404, 52.36895635]);
-    requests.createSignalSameAreaCluster('4-H', [4.88392817, 52.36894628]);
+    requests.createSignalSameAreaCluster('36-1');
+    requests.createSignalSameAreaCluster('36-4');
+    requests.createSignalSameAreaCluster('36-H');
 
     // Create single signal with state 'Gemeld'
     requests.createSignalSameAreaSingle();
@@ -37,6 +37,7 @@ describe('Signals in same area', () => {
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
   it('Should show signals in the same area on map', () => {
+    cy.intercept('**/context/near/geography').as('getGeography');
     routes.getManageSignalsRoutes();
     routes.getSignalDetailsRoutes();
     cy.visit('/manage/incidents/');
@@ -48,6 +49,8 @@ describe('Signals in same area', () => {
 
     createSignal.openCreatedSignal();
     cy.get(SIGNAL_DETAILS.linkMeldingenOmgeving).should('be.visible').click();
+    cy.wait('@getGeography');
+    cy.wait('@getSignal');
     cy.url().should('include', '/omgeving');
 
     // Filter
@@ -60,15 +63,13 @@ describe('Signals in same area', () => {
     cy.get(SAME_AREA.periodLabel).should('have.text', 'Periode').and('be.visible');
     cy.get(SAME_AREA.period).should('contain', `${startDate} t/m NU`).and('be.visible');
     cy.get(SAME_AREA.areaLabel).should('have.text', 'Omgeving').and('be.visible');
-    cy.get(SAME_AREA.areaLabel).siblings('ul').should('contain', 'Locatie huidige melding').and('contain', 'Straal 250m').and('be.visible');
+    cy.get(SAME_AREA.areaLabel).siblings('ul').should('contain', 'Locatie huidige melding').and('contain', 'Straal 50m').and('be.visible');
     cy.get(SAME_AREA.kindLabel).should('have.text', 'Soort').and('be.visible');
     cy.get(SAME_AREA.kindLabel).siblings('ul').should('contain', 'Standaardmelding').and('contain', 'Deelmelding').and('be.visible');
     
     // Map
     cy.get(SAME_AREA.map).should('be.visible');
-    cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomOut).click();
-    cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
+    cy.get(SAME_AREA.icon).should('have.length', 4);
 
     // Zoom in and zoom out, waits needed
     cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomIn).click();
@@ -86,7 +87,7 @@ describe('Signals in same area', () => {
     cy.get(SAME_AREA.map).click();
     cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
 
-    cy.get(SAME_AREA.icon).eq(1).click();
+    cy.get(SAME_AREA.icon).eq(2).click();
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
 
     // Check Signal data
@@ -110,8 +111,8 @@ describe('Signals in same area', () => {
     // Open map again and open nearby signal
     cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomOut).click();
     cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
-    cy.get(SAME_AREA.icon).eq(2).click();
+    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 3);
+    cy.get(SAME_AREA.icon).eq(1).click();
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
     cy.get(SAME_AREA.signalLabel).invoke('removeAttr', 'target').click();
     routes.waitForSignalDetailsRoutes();
