@@ -18,10 +18,6 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // artifacts, we use it instead
   const fs = middleware.context.outputFileSystem
 
-  app.get('/sw.js', (req, res) => {
-    res.sendFile(path.join(compiler.outputPath, 'sw.js'))
-  })
-
   app.get('*', (req, res) => {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
       if (err) {

@@ -72,20 +72,6 @@ const render = () => {
   )
 }
 
-const installServiceWorker = () => {
-  // Install ServiceWorker and AppCache at the end since
-  // it's not most important operation and if main code fails,
-  // we do not want it installed
-  if (
-    'serviceWorker' in navigator &&
-    process.env.ENABLE_SERVICEWORKER === '1'
-  ) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-    })
-  }
-}
-
 const registerServiceWorkerProxy = () => {
   if ('serviceWorker' in navigator && process.env.PROXY) {
     navigator.serviceWorker.register('/sw-proxy.js')
@@ -108,7 +94,6 @@ authenticate()
   .finally(() => {
     render()
 
-    installServiceWorker()
     registerServiceWorkerProxy()
   })
   .catch(() => {})
