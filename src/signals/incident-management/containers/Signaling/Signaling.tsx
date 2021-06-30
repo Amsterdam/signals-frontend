@@ -50,26 +50,27 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
 
     return report.results.map(({ category, signal_count }) => {
       const item = {
-        title: `${category.name}`,
+        description: `${category.name}`,
         value: signal_count,
       }
 
       if (category.departments.length > 0) {
-        item.title = `${category.name} (${category.departments.join(', ')})`
+        item.description = `${category.name} (${category.departments.join(
+          ', '
+        )})`
       }
 
       return item
     })
   }, [])
 
-  const graphDataOpen = useMemo(
-    () => getGraphDataFromReport(openData),
-    [getGraphDataFromReport, openData]
-  )
-  const totalOpen = useMemo(
-    () => openData?.total_signal_count || 0,
-    [openData?.total_signal_count]
-  )
+  const graphDataOpen = useMemo(() => getGraphDataFromReport(openData), [
+    getGraphDataFromReport,
+    openData,
+  ])
+  const totalOpen = useMemo(() => openData?.total_signal_count || 0, [
+    openData?.total_signal_count,
+  ])
 
   const graphDataReopenRequested = useMemo(
     () => getGraphDataFromReport(reopenRequestedData),

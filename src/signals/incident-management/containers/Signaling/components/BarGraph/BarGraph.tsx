@@ -10,7 +10,7 @@ export enum Color {
 }
 
 interface Data {
-  title: string
+  description: string
   value: number
 }
 
@@ -92,10 +92,17 @@ const BarGraph = (props: Props) => {
 
       return (
         <ValueWrapper>
-          <Description>{data.title}</Description>
+          <Description data-testid="description">
+            {data.description}
+          </Description>
           <BarWrapper>
-            <Bar c={props.color} outOfBounds={outOfBounds} style={{ width }}>
-              <Value>{data.value}</Value>
+            <Bar
+              data-testid="bar"
+              c={props.color}
+              outOfBounds={outOfBounds}
+              style={{ width }}
+            >
+              <Value data-testid="value">{data.value}</Value>
             </Bar>
           </BarWrapper>
         </ValueWrapper>
