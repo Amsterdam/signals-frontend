@@ -81,7 +81,7 @@ const Value = styled.strong`
 
 const BarGraph = (props: Props) => {
   const maxValue = props.data.reduce((max, x) => Math.max(max, x.value), 0)
-  const graphMaxValue = Math.min(props.maxValue || maxValue, maxValue)
+  const graphMaxValue = props.maxValue || maxValue
 
   const bars = props.data
     .sort(({ value: x }, { value: y }) => y - x)
@@ -91,7 +91,7 @@ const BarGraph = (props: Props) => {
       const width = `${ratio * 100}%`
 
       return (
-        <ValueWrapper>
+        <ValueWrapper key={data.description}>
           <Description data-testid="description">
             {data.description}
           </Description>
