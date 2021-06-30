@@ -6,6 +6,7 @@ import styled from 'styled-components'
 const GRAPH_DESCRIPTION_COLOR = themeColor('tint', 'level3')
 
 const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { Color as GraphColor } from './components/BarGraph/BarGraph'
 import BarGraph from './components/BarGraph'
 import GraphDescription from './components/GraphDescription'
+import GraphEmpty from './components/GraphEmpty'
 
 const StyledHeading = styled(Heading)`
   margin-bottom: ${themeSpacing(8)};
@@ -13,6 +14,12 @@ const StyledHeading = styled(Heading)`
 
 const StyledColumn = styled(Column)`
   height: 100%;
+  border-bottom: 2px solid;
+  padding-bottom: ${themeSpacing(8)};
+
+  @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
+    margin-bottom: ${themeSpacing(8)};
+  }
 `
 
 const Signaling: FunctionComponent<RouteComponentProps> = () => {
@@ -30,7 +37,8 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
 
   const titlePrimary = `Openstaande meldingen tot en met 2020`
   const descriptionPrimary = `Alle openstaande meldingen die tot en met 31-12-2020 zijn gemaakt waarbij de doorlooptijd 3x buiten de afhandeltermijn is.`
-  const totalPrimary = 7234
+  const totalPrimary = 0
+  const emptyPrimary = `Alle meldingen t/m 2020 zijn afgehandeld`
 
   const dataSecondary = [
     { title: 'Boom - dood', value: 1024 },
@@ -61,11 +69,15 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
             description={descriptionPrimary}
             total={totalPrimary}
           />
-          <BarGraph
-            maxValue={1000}
-            data={dataPrimary}
-            color={GraphColor.Blue}
-          />
+          {totalPrimary === 0 ? (
+            <GraphEmpty text={emptyPrimary} />
+          ) : (
+            <BarGraph
+              maxValue={1000}
+              data={dataPrimary}
+              color={GraphColor.Blue}
+            />
+          )}
         </StyledColumn>
         <StyledColumn span={6} wrap>
           <GraphDescription
