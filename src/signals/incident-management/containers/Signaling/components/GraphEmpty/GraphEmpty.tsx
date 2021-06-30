@@ -11,6 +11,11 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
+const StyledIcon = styled(Icon).attrs(() => ({
+  color: 'white',
+  size: 32,
+}))``
+
 const IconWrapper = styled.div`
   height: ${themeSpacing(14)};
   width: ${themeSpacing(14)};
@@ -34,9 +39,9 @@ const GraphEmpty: FunctionComponent<GraphEmptyProps> = ({ text }) => {
   return (
     <Wrapper>
       <IconWrapper>
-        <Icon size={32} color="white">
+        <StyledIcon>
           <Checkmark />
-        </Icon>
+        </StyledIcon>
       </IconWrapper>
       <Paragraph>
         <strong>{text}</strong>
