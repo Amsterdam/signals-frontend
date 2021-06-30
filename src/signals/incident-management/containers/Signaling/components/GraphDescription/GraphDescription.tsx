@@ -5,12 +5,6 @@ import styled from 'styled-components'
 
 const GRAPH_DESCRIPTION_COLOR = themeColor('tint', 'level3')
 
-interface GraphDescriptionProps {
-  title: string
-  subtitle: string
-  total: number
-}
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,16 +37,22 @@ const Triangle = styled.div`
   border-top: 24px solid ${GRAPH_DESCRIPTION_COLOR};
 `
 
+interface GraphDescriptionProps {
+  title: string
+  description: string
+  total: number
+}
+
 const GraphDescription: FunctionComponent<GraphDescriptionProps> = ({
   title,
-  subtitle,
+  description,
   total,
 }) => (
   <Wrapper>
     <DescriptionWrapper>
       <div>
         <Title as="h3">{title}</Title>
-        <Paragraph>{subtitle}</Paragraph>
+        <Paragraph>{description}</Paragraph>
       </div>
       <Total>{total.toLocaleString()}</Total>
     </DescriptionWrapper>

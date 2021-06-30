@@ -29,7 +29,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
   ]
 
   const titlePrimary = `Openstaande meldingen tot en met 2020`
-  const subtitlePrimary = `Alle openstaande meldingen die tot en met 31-12-2020 zijn gemaakt waarbij de doorlooptijd 3x buiten de afhandeltermijn is.`
+  const descriptionPrimary = `Alle openstaande meldingen die tot en met 31-12-2020 zijn gemaakt waarbij de doorlooptijd 3x buiten de afhandeltermijn is.`
   const totalPrimary = 7234
 
   const dataSecondary = [
@@ -46,7 +46,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
   ]
 
   const titleSecondary = `Verzoek tot heropenen tot en met Q1 2021`
-  const subtitleSecondary = `Meldingen waarbij de melder voor 01-04-2021 een "verzoek tot heropenen" heeft gedaan.`
+  const descriptionSecondary = `Meldingen waarbij de melder voor 01-04-2021 een "verzoek tot heropenen" heeft gedaan.`
   const totalSecondary = 2355
 
   return (
@@ -58,7 +58,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
         <StyledColumn span={6} wrap>
           <GraphDescription
             title={titlePrimary}
-            subtitle={subtitlePrimary}
+            description={descriptionPrimary}
             total={totalPrimary}
           />
           <BarGraph
@@ -70,7 +70,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
         <StyledColumn span={6} wrap>
           <GraphDescription
             title={titleSecondary}
-            subtitle={subtitleSecondary}
+            description={descriptionSecondary}
             total={totalSecondary}
           />
           <BarGraph
