@@ -28,16 +28,22 @@ const StyledColumn = styled(Column)`
 `
 
 const Signaling: FunctionComponent<RouteComponentProps> = () => {
+  const endOpen = useMemo(() => new Date('2020-12-31').toISOString(), [])
   const {
     isLoading: openLoading,
     data: openData,
     error: errorOpen,
-  } = useGetReportOpen()
+  } = useGetReportOpen({ end: endOpen })
+
+  const endReopenRequested = useMemo(
+    () => new Date('2021-04-01').toISOString(),
+    []
+  )
   const {
     isLoading: reopenRequestedLoading,
     data: reopenRequestedData,
     error: errorReopenRequested,
-  } = useGetReportReopenRequested()
+  } = useGetReportReopenRequested({ end: endReopenRequested })
 
   const getGraphDataFromReport = useCallback((report?: Report) => {
     if (!report) return
