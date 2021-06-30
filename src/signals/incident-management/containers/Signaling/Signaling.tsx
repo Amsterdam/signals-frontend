@@ -129,7 +129,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
             <BarGraph
               maxValue={1000}
               data={graphDataOpen}
-              color={GraphColor.Blue}
+              color={GraphColor.Red}
             />
           )}
         </StyledColumn>
@@ -148,7 +148,7 @@ const Signaling: FunctionComponent<RouteComponentProps> = () => {
             <BarGraph
               maxValue={1000}
               data={graphDataReopenRequested}
-              color={GraphColor.Red}
+              color={GraphColor.Blue}
             />
           )}
         </StyledColumn>

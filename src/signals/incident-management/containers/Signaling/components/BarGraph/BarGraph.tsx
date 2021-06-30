@@ -41,6 +41,7 @@ const ValueWrapper = styled.div`
 
 const Description = styled.div`
   margin-bottom: ${themeSpacing(2)};
+  color: ${themeColor('tint', 'level6')};
 `
 
 const BarWrapper = styled.div`

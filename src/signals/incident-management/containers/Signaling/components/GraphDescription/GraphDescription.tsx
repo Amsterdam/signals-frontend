@@ -26,7 +26,7 @@ const DescriptionWrapper = styled.section`
 `
 
 const Total = styled(Heading)`
-  margin-left: ${themeSpacing(4)};
+  margin-left: ${themeSpacing(12)};
 `
 
 const Triangle = styled.div`
