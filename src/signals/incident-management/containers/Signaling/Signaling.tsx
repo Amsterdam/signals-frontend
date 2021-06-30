@@ -1,7 +1,12 @@
 import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
+import useGetReportOpen from 'hooks/api/useGetReportOpen'
+import useGetReportReopenRequested from 'hooks/api/useGetReportReopenRequested'
+import { Report } from 'types/api/report'
+import LoadingIndicator from 'components/LoadingIndicator'
+import Notification from 'components/Notification'
 import { Color as GraphColor } from './components/BarGraph/BarGraph'
 import BarGraph from './components/BarGraph'
 import GraphDescription from './components/GraphDescription'
@@ -23,73 +28,123 @@ const StyledColumn = styled(Column)`
 `
 
 const Signaling: FunctionComponent<RouteComponentProps> = () => {
-  const dataPrimary = [
-    { title: 'Boom - dood', value: 500 },
-    { title: 'Put', value: 100 },
-    { title: 'Geluidsoverlast', value: 750 },
-    { title: 'Verkeerssituaties', value: 1000 },
-    { title: 'Bouw/sloop', value: 900 },
-    { title: 'over de max', value: 1400 },
-    { title: 'Fietswrak', value: 250 },
-    { title: 'Onderhuur', value: 10 },
-    { title: 'afval', value: 1 },
-  ]
+  const {
+    isLoading: openLoading,
+    data: openData,
+    error: errorOpen,
+  } = useGetReportOpen()
+  const {
+    isLoading: reopenRequestedLoading,
+    data: reopenRequestedData,
+    error: errorReopenRequested,
+  } = useGetReportReopenRequested()
 
-  const titlePrimary = `Openstaande meldingen tot en met 2020`
-  const descriptionPrimary = `Alle openstaande meldingen die tot en met 31-12-2020 zijn gemaakt waarbij de doorlooptijd 3x buiten de afhandeltermijn is.`
-  const totalPrimary = 0
-  const emptyPrimary = `Alle meldingen t/m 2020 zijn afgehandeld`
+  const getGraphDataFromReport = useCallback((report?: Report) => {
+    if (!report) return
 
-  const dataSecondary = [
-    { title: 'Boom - dood', value: 1024 },
-    { title: 'Put', value: 140 },
-    { title: 'Geluidsoverlast', value: 750 },
-    { title: 'Verkeerssituaties', value: 1400 },
-    { title: 'Bouw/sloop', value: 1900 },
-    { title: 'over de max', value: 1550 },
-    { title: 'Fietswrak', value: 550 },
-    { title: 'Onderhuur', value: 190 },
-    { title: 'afval', value: 40 },
-    { title: 'Overig groen / water', value: 999 },
-  ]
+    return report.results.map(({ category, signal_count }) => {
+      const item = {
+        title: `${category.name}`,
+        value: signal_count,
+      }
 
-  const titleSecondary = `Verzoek tot heropenen tot en met Q1 2021`
-  const descriptionSecondary = `Meldingen waarbij de melder voor 01-04-2021 een "verzoek tot heropenen" heeft gedaan.`
-  const totalSecondary = 2355
+      if (category.departments.length > 0) {
+        item.title = `${category.name} (${category.departments.join(', ')})`
+      }
+
+      return item
+    })
+  }, [])
+
+  const graphDataOpen = useMemo(
+    () => getGraphDataFromReport(openData),
+    [getGraphDataFromReport, openData]
+  )
+  const totalOpen = useMemo(
+    () => openData?.total_signal_count || 0,
+    [openData?.total_signal_count]
+  )
+
+  const graphDataReopenRequested = useMemo(
+    () => getGraphDataFromReport(reopenRequestedData),
+    [getGraphDataFromReport, reopenRequestedData]
+  )
+  const totalReopenRequested = useMemo(
+    () => reopenRequestedData?.total_signal_count || 0,
+    [reopenRequestedData?.total_signal_count]
+  )
+
+  const heading = (
+    <Row>
+      <StyledHeading>Signalering</StyledHeading>
+    </Row>
+  )
+
+  if (errorOpen || errorReopenRequested) {
+    return (
+      <Notification
+        title="Er is iets misgegaan"
+        message="De data kon niet worden opgehaald"
+        variant="error"
+      />
+    )
+  }
+
+  if (openLoading || reopenRequestedLoading) {
+    return (
+      <>
+        {heading}
+        <LoadingIndicator />
+      </>
+    )
+  }
+
+  if (!graphDataOpen || !graphDataReopenRequested) {
+    return null
+  }
 
   return (
     <>
-      <Row>
-        <StyledHeading>Signalering</StyledHeading>
-      </Row>
+      {heading}
       <Row>
         <StyledColumn span={6} wrap>
           <GraphDescription
-            title={titlePrimary}
-            description={descriptionPrimary}
-            total={totalPrimary}
+            title={`Openstaande meldingen tot en met 2020`}
+            description={`
+              Alle openstaande meldingen die 
+              tot en met 31-12-2020 zijn gemaakt 
+              waarbij de doorlooptijd 3x buiten de afhandeltermijn is.
+            `}
+            total={totalOpen}
           />
-          {totalPrimary === 0 ? (
-            <GraphEmpty text={emptyPrimary} />
+          {totalOpen === 0 ? (
+            <GraphEmpty text={`Alle meldingen t/m 2020 zijn afgehandeld`} />
           ) : (
             <BarGraph
               maxValue={1000}
-              data={dataPrimary}
+              data={graphDataOpen}
               color={GraphColor.Blue}
             />
           )}
         </StyledColumn>
         <StyledColumn span={6} wrap>
           <GraphDescription
-            title={titleSecondary}
-            description={descriptionSecondary}
-            total={totalSecondary}
+            title={`Verzoek tot heropenen tot en met Q1 2021`}
+            description={`
+              Meldingen waarbij de melder voor 01-04-2021 
+              een "verzoek tot heropenen" heeft gedaan.
+            `}
+            total={totalReopenRequested}
           />
-          <BarGraph
-            maxValue={1000}
-            data={dataSecondary}
-            color={GraphColor.Red}
-          />
+          {totalReopenRequested === 0 ? (
+            <GraphEmpty text={`Geen meldingen`} />
+          ) : (
+            <BarGraph
+              maxValue={1000}
+              data={graphDataReopenRequested}
+              color={GraphColor.Red}
+            />
+          )}
         </StyledColumn>
       </Row>
     </>

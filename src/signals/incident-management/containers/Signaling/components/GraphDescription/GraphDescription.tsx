@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: ${themeSpacing(1)};
 `
 
 const Title = styled(Heading)`
