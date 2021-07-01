@@ -9,7 +9,7 @@ import isEqual from 'lodash.isequal'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import isObject from 'lodash.isobject'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import formatConditionalForm from '../../services/format-conditional-form'
 
 export const Form = styled.form`
@@ -52,7 +52,7 @@ export const Fieldset = styled.fieldset`
         }
 
         ${() =>
-          isAuthenticated() &&
+          getIsAuthenticated() &&
           css`
             @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
               grid-template-columns: 4fr 6fr 2fr;

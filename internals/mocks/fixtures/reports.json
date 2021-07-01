@@ -1,0 +1,20 @@
+{
+  "total_signal_count": 13000,
+  "results": [
+    {
+      "category": { "name": "Straatverlichting", "departments": ["VOR"] },
+      "signal_count": 1100
+    },
+    {
+      "category": { "name": "Overig", "departments": [] },
+      "signal_count": 100
+    },
+    {
+      "category": {
+        "name": "Allerlei afval",
+        "departments": ["AEG", "ASC", "STW"]
+      },
+      "signal_count": 1
+    }
+  ]
+}

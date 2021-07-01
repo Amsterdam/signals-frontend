@@ -7,7 +7,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setClassification } from 'signals/incident/containers/IncidentContainer/actions'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors'
 
@@ -18,7 +18,7 @@ const IncidentClassification = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    if (getIsAuthenticated()) {
       history.replace('/')
     } else {
       get(

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import FormField from '../FormField'
 import CategorySelect from '../CategorySelect'
 
@@ -15,7 +15,7 @@ const CategorySelectRenderer = ({
   validatorsOrOpts,
 }) =>
   meta?.isVisible &&
-  isAuthenticated() && (
+  getIsAuthenticated() && (
     <FormField
       meta={meta}
       options={validatorsOrOpts}

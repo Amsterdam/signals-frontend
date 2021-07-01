@@ -11,7 +11,7 @@ import {
 import { Close } from '@amsterdam/asc-assets'
 import { Link } from 'react-router-dom'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { statusList } from 'signals/incident-management/definitions'
@@ -81,7 +81,7 @@ const DetailPanel: FunctionComponent<DetailPanelProps> = ({
 }) => (
   <Panel data-testid="mapDetailPanel">
     <PanelHeader>
-      {isAuthenticated() ? (
+      {getIsAuthenticated() ? (
         <AscLink
           as={Link}
           variant="inline"

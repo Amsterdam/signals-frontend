@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
@@ -64,7 +64,7 @@ export const AppContainer = () => {
   const history = useHistory()
   const location = useLocationReferrer() as { referrer: string }
   const isFrontOffice = useIsFrontOffice()
-  const headerIsTall = isFrontOffice && !isAuthenticated()
+  const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export const AppContainer = () => {
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
     // when the current session has not been authenticated
-    if (!isAuthenticated()) return
+    if (!getIsAuthenticated()) return
 
     dispatch(fetchCategoriesAction())
     dispatch(fetchDepartmentsAction())
@@ -127,7 +127,7 @@ export const AppContainer = () => {
             </Suspense>
           </ContentContainer>
 
-          {!isAuthenticated() && (
+          {!getIsAuthenticated() && (
             <FooterContainer>
               <Footer />
             </FooterContainer>

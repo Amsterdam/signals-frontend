@@ -14,7 +14,7 @@ jest.mock('shared/services/auth/auth', () => ({
   ...jest.requireActual('shared/services/auth/auth'),
 }))
 jest.mock('shared/services/configuration/configuration')
-jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
 const sources = [
   {

@@ -85,4 +85,6 @@ export default {
   USERS_ENDPOINT: '/signals/v1/private/users/',
   // Private. Used to `GET` autocomplete results for username input.
   AUTOCOMPLETE_USERNAME_ENDPOINT: '/signals/v1/private/autocomplete/usernames/',
+  // Private. Used to `GET` incidents for a given time span.
+  REPORTS_ENDPOINT: '/signals/v1/private/reports/signals/',
 }

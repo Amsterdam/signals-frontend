@@ -5,8 +5,6 @@ services:
     build:
       context: .
       target: base
-      args:
-        - ENABLE_SERVICEWORKER=0
     volumes:
       - ./e2e-tests/app.json:/app/app.json
       - ./app.amsterdam.json:/app/app.base.json
@@ -22,8 +20,6 @@ services:
   frontend:
     build:
       context: .
-      args:
-        - ENABLE_SERVICEWORKER=0
     volumes:
       - ./e2e-tests/app.json:/app.json
       - ./app.amsterdam.json:/app.base.json

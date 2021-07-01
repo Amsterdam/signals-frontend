@@ -19,7 +19,7 @@ import {
   VARIANT_NOTICE,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
 
 import { Wrapper, Title, Message, CloseButton } from './styled'
@@ -40,7 +40,7 @@ const Notification = ({
   const [hasFocus, setHasFocus] = useState(false)
   const [shouldHide, setShouldHide] = useState(false)
   const isFrontOffice = useIsFrontOffice()
-  const tall = isFrontOffice && !isAuthenticated()
+  const tall = isFrontOffice && !getIsAuthenticated()
   const history = useHistory()
 
   // persisting timeout IDs across renders
