@@ -35,20 +35,21 @@ services:
   backend:
     image: signalen/backend:latest
     environment:
-      - INITIALIZE_WITH_DUMMY_DATA=1
-      - AUTOMATICALLY_CREATE_CHILD_SIGNALS_PER_CONTAINER=True
-      - API_VALIDATE_SOURCE_AGAINST_SOURCE_MODEL=False
-      - API_FILTER_EXTRA_PROPERTIES=False
-      - DJANGO_SETTINGS_MODULE=signals.settings.testing
       - ALLOWED_HOSTS=localhost
-      - SECRET_KEY=insecure
+      - ALWAYS_OK=True
+      - API_FILTER_EXTRA_PROPERTIES=False
+      - API_VALIDATE_SOURCE_AGAINST_SOURCE_MODEL=False
+      - AUTOMATICALLY_CREATE_CHILD_SIGNALS_PER_CONTAINER=True
       - DATABASE_HOST_OVERRIDE=database
       - DATABASE_PORT_OVERRIDE=5432
       - DB_NAME=signals
       - DB_PASSWORD=insecure
-      - ALWAYS_OK=True
+      - DJANGO_SETTINGS_MODULE=signals.settings.testing
       - ELASTICSEARCH_HOST=localhost:8000
       - ELASTICSEARCH_INDEX=unknown
+      - FRONTEND_URL=http://localhost:3001
+      - INITIALIZE_WITH_DUMMY_DATA=1
+      - SECRET_KEY=insecure
     command:
       - /initialize-backend.sh
     volumes:
