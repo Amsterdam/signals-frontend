@@ -14,7 +14,16 @@ const dispatch: Dispatch<typeof action> = (param) => param
 
 describe('injectSagaModel', () => {
   const mockSaga = jest.fn()
-  let store: Omit<InjectedStore, '[Symbol.observable]'>
+  let store: Pick<
+    InjectedStore,
+    | 'dispatch'
+    | 'getState'
+    | 'injectedReducers'
+    | 'injectedSagas'
+    | 'replaceReducer'
+    | 'runSaga'
+    | 'subscribe'
+  >
   let injectors: any
 
   beforeAll(() => {
