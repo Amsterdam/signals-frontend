@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { statusList } from 'signals/incident-management/definitions'
 import { withAppContext } from 'test/utils'
 
@@ -10,8 +10,8 @@ import DetailPanel from '..'
 
 jest.mock('shared/services/auth/auth')
 
-const mockIsAuthenticated = isAuthenticated as jest.MockedFunction<
-  typeof isAuthenticated
+const mockIsAuthenticated = getIsAuthenticated as jest.MockedFunction<
+  typeof getIsAuthenticated
 >
 
 describe('signals/incident-management/containes/IncidentOverviewPage/components/DetailPanel', () => {

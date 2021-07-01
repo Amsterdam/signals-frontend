@@ -102,7 +102,7 @@ describe('<App />', () => {
   })
 
   it('should render correctly', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { getByTestId, queryByTestId, rerender, unmount } = render(
       withAppContext(<App />)
@@ -111,7 +111,7 @@ describe('<App />', () => {
     expect(getByTestId('siteFooter')).toBeInTheDocument()
     expect(getByTestId('siteHeader')).toBeInTheDocument()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     unmount()
 
@@ -132,7 +132,7 @@ describe('<App />', () => {
     })
 
     it('should redirect from "/login" to "/manage/incidents"', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       const { rerender, unmount } = render(withAppContext(<App />))
 
@@ -144,7 +144,7 @@ describe('<App />', () => {
 
       unmount()
 
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       rerender(withAppContext(<App />))
 
@@ -156,7 +156,7 @@ describe('<App />', () => {
     })
 
     it('should redirect from "/manage" to "/manage/incidents"', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       const { rerender, unmount } = render(withAppContext(<App />))
 
@@ -168,7 +168,7 @@ describe('<App />', () => {
 
       unmount()
 
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       rerender(withAppContext(<App />))
 
@@ -205,13 +205,13 @@ describe('<App />', () => {
 
   describe('fetching', () => {
     it('should request sources on mount', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       render(withAppContext(<AppContainer {...props} />))
 
       expect(dispatch).not.toHaveBeenCalledWith(getSources())
 
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       render(withAppContext(<AppContainer {...props} />))
 
@@ -219,14 +219,14 @@ describe('<App />', () => {
     })
 
     it('should request subcategories on mount for authenticated users', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       render(withAppContext(<AppContainer {...props} />))
 
       expect(dispatch).not.toHaveBeenCalledWith(fetchCategoriesAction())
       expect(dispatch).not.toHaveBeenCalledWith(fetchDepartmentsAction())
 
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       render(withAppContext(<AppContainer {...props} />))
 

@@ -64,7 +64,7 @@ describe('signals/settings', () => {
   })
 
   it('should initiate fetches on mount', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     expect(dispatch).not.toHaveBeenCalled()
 
@@ -75,7 +75,7 @@ describe('signals/settings', () => {
   })
 
   it('should NOT initiate fetches on mount when session has not been authenticated', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     expect(dispatch).not.toHaveBeenCalled()
 
@@ -85,13 +85,13 @@ describe('signals/settings', () => {
   })
 
   it('should render login page', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { queryByTestId, getByTestId, rerender } = render(withSuspense())
 
     expect(getByTestId('loginPage')).toBeInTheDocument()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     rerender(withSuspense())
 
@@ -102,7 +102,7 @@ describe('signals/settings', () => {
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => () => false)
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     render(withSuspense())
 
@@ -112,7 +112,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to departments page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => (section) => section === 'departments')
@@ -129,7 +129,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to users pages', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => (section) => section === 'departments')
@@ -146,7 +146,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to department page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(
@@ -168,7 +168,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to categories page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => (section) => section === 'categories')
@@ -185,7 +185,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to individual category page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(
@@ -207,7 +207,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to users page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => (section) => section === 'users')
@@ -231,7 +231,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to individual user page', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(
@@ -252,7 +252,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to groups pages', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(() => (section) => section !== 'users')
@@ -279,7 +279,7 @@ describe('signals/settings', () => {
   })
 
   it('should allow routing to group form', async () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
       .mockImplementation(

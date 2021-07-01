@@ -31,7 +31,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('should render correctly when not authenticated', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     act(() => {
       history.push('/')
@@ -65,7 +65,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('should render correctly when authenticated', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     act(() => {
       history.push('/')
@@ -104,7 +104,7 @@ describe('components/SiteHeader', () => {
     const homeLink = 'https://home'
     configuration.links.home = homeLink
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { container, rerender, unmount } = render(
       withAppContext(
@@ -116,7 +116,7 @@ describe('components/SiteHeader', () => {
       container.querySelector(`div a[href="${homeLink}"]`)
     ).toBeInTheDocument()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     unmount()
 
@@ -148,7 +148,7 @@ describe('components/SiteHeader', () => {
     configuration.language.headerTitle = title
     configuration.language.smallHeaderTitle = authTitle
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     act(() => {
       history.push('/')
@@ -162,7 +162,7 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     act(() => {
       history.push('/')
@@ -176,7 +176,7 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     act(() => {
       history.push('/manage')
@@ -190,7 +190,7 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     rerender(withAppContext(<SiteHeader />))
 
@@ -200,7 +200,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('should render a tall header', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     act(() => {
       history.push('/')
@@ -216,7 +216,7 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     rerender(withAppContext(<SiteHeader />))
 
@@ -230,7 +230,7 @@ describe('components/SiteHeader', () => {
       history.push('/manage')
     })
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     rerender(withAppContext(<SiteHeader />))
 
@@ -240,7 +240,7 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     rerender(withAppContext(<SiteHeader />))
 
@@ -263,7 +263,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('should render correctly when logged in', () => {
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     const { container, queryByText } = render(
       withAppContext(<SiteHeader location={{ pathname: '/' }} />)
@@ -284,7 +284,7 @@ describe('components/SiteHeader', () => {
       history.push('/')
     })
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     const onLogOut = jest.fn()
 
@@ -307,7 +307,7 @@ describe('components/SiteHeader', () => {
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
 
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     render(
       withAppContext(

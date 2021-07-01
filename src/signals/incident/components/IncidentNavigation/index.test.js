@@ -14,7 +14,7 @@ jest.mock('shared/services/auth/auth', () => ({
   ...jest.requireActual('shared/services/auth/auth'),
 }))
 
-jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
 const steps = Object.keys(wizardDefinition)
   .filter((key) => key !== 'opslaan')

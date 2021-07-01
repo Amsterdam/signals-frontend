@@ -12,7 +12,7 @@ import {
 } from '@amsterdam/asc-ui'
 
 import { incidentType } from 'shared/types'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 const Section = styled.section`
   position: relative;
@@ -41,7 +41,7 @@ const Header = styled.header`
   grid-template-columns: 8fr 4fr;
 
   ${() =>
-    isAuthenticated() &&
+    getIsAuthenticated() &&
     css`
       @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
         grid-template-columns: 4fr 6fr 2fr;
@@ -80,7 +80,7 @@ const DefinitionsWrapper = styled.div`
   }
 
   ${() =>
-    isAuthenticated() &&
+    getIsAuthenticated() &&
     css`
       @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
         grid-template-columns: 4fr 6fr 2fr;
@@ -105,7 +105,7 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
       const hasHeading = Boolean(sectionHeadingLabel)
       const visibleEntries = Object.entries(value).filter(
         ([entryKey, { optional, authenticated }]) => {
-          if (authenticated && !isAuthenticated()) {
+          if (authenticated && !getIsAuthenticated()) {
             return false
           }
 

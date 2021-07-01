@@ -3,7 +3,7 @@
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { withAppContext } from 'test/utils'
 
 import PreviewComponents from './components'
@@ -15,7 +15,7 @@ describe('<IncidentPreview />', () => {
   let props
 
   beforeEach(() => {
-    isAuthenticated.mockImplementation(() => false)
+    getIsAuthenticated.mockImplementation(() => false)
 
     props = {
       incident: {
@@ -117,7 +117,7 @@ describe('<IncidentPreview />', () => {
     })
 
     it('expect to render correctly for authenticated users', async () => {
-      isAuthenticated.mockImplementation(() => true)
+      getIsAuthenticated.mockImplementation(() => true)
 
       const { queryByText, findByTestId } = render(
         withAppContext(<IncidentPreview {...props} />)
@@ -157,7 +157,7 @@ describe('<IncidentPreview />', () => {
   })
 
   it('should have the correct layout for authenticated users', async () => {
-    isAuthenticated.mockImplementation(() => false)
+    getIsAuthenticated.mockImplementation(() => false)
 
     const { container, findByTestId, rerender } = render(
       withAppContext(<IncidentPreview {...props} />)
@@ -169,7 +169,7 @@ describe('<IncidentPreview />', () => {
       expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr')
     })
 
-    isAuthenticated.mockImplementation(() => true)
+    getIsAuthenticated.mockImplementation(() => true)
 
     rerender(withAppContext(<IncidentPreview {...props} />))
 

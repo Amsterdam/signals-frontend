@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect'
 import { compose, bindActionCreators } from 'redux'
 import { Row, Column } from '@amsterdam/asc-ui'
 
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import injectSaga from 'utils/injectSaga'
 import injectReducer from 'utils/injectReducer'
 
@@ -53,7 +53,7 @@ export const IncidentContainerComponent = ({
               createIncident={createIncidentAction}
               incidentContainer={incidentContainer}
               removeQuestionData={removeQuestionDataAction}
-              isAuthenticated={isAuthenticated()}
+              getIsAuthenticated={getIsAuthenticated()}
             />
           </Suspense>
         )}

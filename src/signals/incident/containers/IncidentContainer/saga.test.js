@@ -382,7 +382,7 @@ describe('IncidentContainer saga', () => {
 
   describe('postIncident', () => {
     it('should perform postCall', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       return expectSaga(postIncidentSaga, postIncident)
         .provide([[matchers.call.fn(postCall), incident]])
@@ -392,7 +392,7 @@ describe('IncidentContainer saga', () => {
     })
 
     it('should perform authPostCall', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       return expectSaga(postIncidentSaga, postIncident)
         .provide([[matchers.call.fn(authPostCall), incident]])
@@ -408,7 +408,7 @@ describe('IncidentContainer saga', () => {
 
   describe('getPostData', () => {
     it('returns data that is valid', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       const description = 'description'
       const datetime = 'datetime'
@@ -432,7 +432,7 @@ describe('IncidentContainer saga', () => {
     })
 
     it('returns data for unauthenticated users', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
       const postData = {
         text: payloadIncident.text,
@@ -447,7 +447,7 @@ describe('IncidentContainer saga', () => {
     })
 
     it('returns data for authenticated users', () => {
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       const postData = {
         text: payloadIncident.text,
@@ -481,7 +481,7 @@ describe('IncidentContainer saga', () => {
       jest
         .spyOn(mapControlsToParams, 'default')
         .mockImplementation(() => mapControlsToParamsResponse)
-      jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
       const postData = {
         text: payloadIncident.text,

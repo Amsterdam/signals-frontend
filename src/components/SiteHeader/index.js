@@ -20,7 +20,7 @@ import {
   styles,
 } from '@amsterdam/asc-ui'
 import SearchBar from 'containers/SearchBar'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import Notification from 'containers/Notification'
 import Logo from 'components/Logo'
@@ -188,11 +188,11 @@ const HeaderWrapper = styled.div`
 `
 
 const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
-  const showLogout = isAuthenticated()
+  const isAuthenticated = getIsAuthenticated()
 
   return (
     <Fragment>
-      {isAuthenticated() && (
+      {getIsAuthenticated() && (
         <Fragment>
           <SearchBarMenuItem>
             <StyledSearchBar />
@@ -209,6 +209,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
           </MenuItem>
         </Fragment>
       )}
+
       <MenuItem element="span">
         {/* Full page load to trigger refresh of incident form data */}
         <StyledMenuButton
@@ -219,6 +220,18 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
           Melden
         </StyledMenuButton>
       </MenuItem>
+
+      {isAuthenticated && (
+        <MenuItem element="span">
+          <StyledMenuButton
+            onClick={onLinkClick}
+            forwardedAs={NavLink}
+            to="/manage/signalering"
+          >
+            Signalering
+          </StyledMenuButton>
+        </MenuItem>
+      )}
 
       {showItems.defaultTexts && (
         <MenuItem element="span">
@@ -244,7 +257,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </MenuItem>
       )}
 
-      {showLogout && (
+      {isAuthenticated && (
         <Fragment>
           {configuration.links?.help && (
             <MenuItem>
@@ -281,7 +294,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
 
 export const SiteHeader = (props) => {
   const isFrontOffice = useIsFrontOffice()
-  const tall = isFrontOffice && !isAuthenticated()
+  const tall = isFrontOffice && !getIsAuthenticated()
   const title = tall
     ? configuration.language.headerTitle
     : configuration.language.smallHeaderTitle

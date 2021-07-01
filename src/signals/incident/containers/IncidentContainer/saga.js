@@ -9,7 +9,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { uploadFile } from 'containers/App/saga'
 import resolveClassification from 'shared/services/resolveClassification'
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import {
   getClassificationData,
   makeSelectIncidentContainer,
@@ -125,7 +125,7 @@ export function* createIncident(action) {
  * @returns {Object} The post response, containing the newly created incident
  */
 export function* postIncident(postData) {
-  if (isAuthenticated()) {
+  if (getIsAuthenticated()) {
     return yield call(
       authPostCall,
       configuration.INCIDENT_PRIVATE_ENDPOINT,
@@ -186,8 +186,8 @@ export function* getPostData(action) {
 
   // function to filter out values that are not supported by the public API endpoint
   const filterSupportedFields = ([key]) =>
-    isAuthenticated() ||
-    (!isAuthenticated() && !authenticatedOnlyFields.includes(key))
+    getIsAuthenticated() ||
+    (!getIsAuthenticated() && !authenticatedOnlyFields.includes(key))
 
   const filterValidFields = ([key]) => validFields.includes(key)
 

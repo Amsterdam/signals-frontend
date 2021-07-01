@@ -45,7 +45,7 @@ const testUnhappyWorkflow = async (setFetchResult) => {
 describe('signals/incident/components/IncidentClassification', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     fetch.resetMocks()
     dispatch.mockReset()
@@ -136,7 +136,7 @@ describe('signals/incident/components/IncidentClassification', () => {
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ category: 'foo', subcategory: 'bar' }))
-    jest.spyOn(auth, 'isAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     fetch.mockResponseOnce(JSON.stringify({ is_active: true }))
 

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import ThemeProvider, { getConfig } from '..'
 
-const mockIsAuthenticated = isAuthenticated as jest.Mock
+const mockIsAuthenticated = getIsAuthenticated as jest.Mock
 
 jest.mock('shared/services/auth/auth')
 

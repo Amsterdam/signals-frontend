@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import { Route, Switch } from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
-import { isAuthenticated } from 'shared/services/auth/auth'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import useLocationReferrer from 'hooks/useLocationReferrer'
@@ -44,6 +44,7 @@ const IncidentSplitContainer = lazy(() =>
 // istanbul ignore next
 const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 const AreaContainer = lazy(() => import('./containers/AreaContainer'))
+const SignalingContainer = lazy(() => import('./containers/Signaling'))
 
 const IncidentManagement = () => {
   const location = useLocationReferrer()
@@ -55,7 +56,7 @@ const IncidentManagement = () => {
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
     // when the current session has not been authenticated
-    if (!isAuthenticated()) return
+    if (!getIsAuthenticated()) return
 
     if (searchQuery) {
       dispatch(searchIncidents(searchQuery))
@@ -70,7 +71,7 @@ const IncidentManagement = () => {
     dispatch(getFilters())
   }, [dispatch, searchQuery])
 
-  if (!isAuthenticated()) {
+  if (!getIsAuthenticated()) {
     return <Route component={LoginPage} />
   }
 
@@ -92,6 +93,7 @@ const IncidentManagement = () => {
             <Route exact path={routes.area} component={AreaContainer} />
           )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+          <Route exact path={routes.signaling} component={SignalingContainer} />
           <Route component={IncidentOverviewPage} />
         </Switch>
       </Suspense>

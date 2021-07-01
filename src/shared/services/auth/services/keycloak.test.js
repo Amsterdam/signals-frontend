@@ -123,14 +123,14 @@ describe('Keycloak authorization', () => {
       })
     })
 
-    describe('isAuthenticated', () => {
+    describe('getIsAuthenticated', () => {
       it('returns true if user is authenticated', () => {
         keycloak.keycloak.authenticated = true
         const isTokenExpiredMock = jest
           .spyOn(keycloak.keycloak, 'isTokenExpired')
           .mockReturnValue(false)
 
-        expect(keycloak.isAuthenticated()).toBe(true)
+        expect(keycloak.getIsAuthenticated()).toBe(true)
         expect(isTokenExpiredMock).toHaveBeenCalledTimes(1)
       })
 
@@ -140,7 +140,7 @@ describe('Keycloak authorization', () => {
           .spyOn(keycloak.keycloak, 'isTokenExpired')
           .mockReturnValue(true)
 
-        expect(keycloak.isAuthenticated()).toBe(false)
+        expect(keycloak.getIsAuthenticated()).toBe(false)
         expect(isTokenExpiredMock).toHaveBeenCalledTimes(1)
       })
 
@@ -150,7 +150,7 @@ describe('Keycloak authorization', () => {
           .spyOn(keycloak.keycloak, 'isTokenExpired')
           .mockReturnValue(false)
 
-        expect(keycloak.isAuthenticated()).toBe(true)
+        expect(keycloak.getIsAuthenticated()).toBe(true)
         expect(isTokenExpiredMock).toHaveBeenCalledTimes(1)
       })
     })
