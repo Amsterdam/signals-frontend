@@ -121,7 +121,7 @@ const Signaling: FunctionComponent = () => {
             total={totalOpen}
           />
           {totalOpen === 0 ? (
-            <GraphEmpty text={`Alle meldingen t/m 2020 zijn afgehandeld`} />
+            <GraphEmpty text={'Hier is niks meer te signaleren'} />
           ) : (
             <BarGraph
               maxValue={1000}
@@ -140,7 +140,7 @@ const Signaling: FunctionComponent = () => {
             total={totalReopenRequested}
           />
           {totalReopenRequested === 0 ? (
-            <GraphEmpty text={`Geen meldingen`} />
+            <GraphEmpty text={'Hier is niks meer te signaleren'} />
           ) : (
             <BarGraph
               maxValue={1000}
