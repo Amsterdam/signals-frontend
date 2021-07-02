@@ -1,9 +1,11 @@
 import styled from 'styled-components'
-import { Paragraph as AscParagraph } from '@amsterdam/asc-ui'
+import { Paragraph as AscParagraph, themeColor } from '@amsterdam/asc-ui'
 
-const Paragraph = styled(AscParagraph)`
+const Paragraph = styled(AscParagraph)<{ light?: boolean }>`
   font-size: 16px;
   margin-bottom: 0;
+  color: ${({ light = false }) =>
+    light ? themeColor('tint', 'level5') : 'inherit'};
 `
 
 export default Paragraph

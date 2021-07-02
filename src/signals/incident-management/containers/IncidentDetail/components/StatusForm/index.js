@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useCallback, useReducer, useContext, useMemo } from 'react'
+import { useCallback, useReducer, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Label, Alert, Heading, Paragraph } from '@amsterdam/asc-ui'
+import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
 import { defaultTextsType } from 'shared/types'
 import statusList, {
@@ -10,6 +10,7 @@ import statusList, {
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
 
+import Paragraph from 'components/Paragraph'
 import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
 
@@ -21,11 +22,10 @@ import {
   Form,
   FormArea,
   HeaderArea,
-  Notification,
   OptionsArea,
+  QuestionLabel,
   StyledButton,
   StyledColumn,
-  StyledErrorMessage,
   StyledH4,
   TextsArea,
   Wrapper,
@@ -33,13 +33,9 @@ import {
 import * as constants from './constants'
 import reducer, { init } from './reducer'
 
-const StatusForm = ({ defaultTexts, childIncidents }) => {
+const StatusForm = ({ defaultTexts, childIncidents, hasEmail }) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
   const [state, dispatch] = useReducer(reducer, incident, init)
-  const isDeelmelding = useMemo(
-    () => incident?._links?.['sia:parent'] !== undefined,
-    [incident]
-  )
   const currentStatus = useMemo(
     () => statusList.find(({ key }) => key === incident.status.state),
     [incident]
@@ -66,6 +62,16 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
         dispatch({
           type: 'SET_ERRORS',
           payload: { text: 'Dit veld is verplicht' },
+        })
+        return
+      }
+
+      if (textValue.length > constants.DEFAULT_MESSAGE_MAX_LENGTH) {
+        dispatch({
+          type: 'SET_ERRORS',
+          payload: {
+            text: `Je hebt meer dan de maximale ${constants.DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`,
+          },
         })
         return
       }
@@ -146,7 +152,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
               </Alert>
             )}
 
-            {isDeelmelding && (
+            {state.isSplitIncident && (
               <Alert data-testid="statusExplanation" level="info">
                 {constants.DEELMELDING_EXPLANATION}
               </Alert>
@@ -154,60 +160,58 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
           </OptionsArea>
 
           <FormArea>
+            {state.warning && (
+              <Alert data-testid="statusWarning">{state.warning}</Alert>
+            )}
+
+            {!state.isSplitIncident && (
+              <div>
+                <QuestionLabel>
+                  <strong>Versturen</strong>
+                </QuestionLabel>
+
+                {hasEmail ? (
+                  <Label
+                    disabled={state.check.disabled}
+                    htmlFor="send_email"
+                    label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                    noActiveState
+                  >
+                    <Checkbox
+                      checked={state.check.checked}
+                      data-testid="sendEmailCheckbox"
+                      disabled={state.check.disabled}
+                      id="send_email"
+                      name="send_email"
+                      onClick={onCheck}
+                    />
+                  </Label>
+                ) : (
+                  <Alert>{constants.NO_REPORTER_EMAIL}</Alert>
+                )}
+              </div>
+            )}
+
             <div>
-              <Label
-                as="span"
-                htmlFor="status"
-                label={
-                  <Fragment>
-                    <strong>Toelichting</strong>
-                    {!state.text.required && (
-                      <span>&nbsp;(niet verplicht)</span>
-                    )}
-                  </Fragment>
-                }
-              />
+              <QuestionLabel>
+                <strong>Toelichting</strong>
+                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
+                {state.text.required && state.check.checked && (
+                  <Paragraph light>{constants.MAIL_EXPLANATION}</Paragraph>
+                )}
+              </QuestionLabel>
               <TextArea
                 data-testid="text"
-                error={state.errors?.text}
+                error={Boolean(state.errors?.text)}
+                errorMessage={state.errors?.text}
+                infoText={`${state.text.value.length}/${constants.DEFAULT_MESSAGE_MAX_LENGTH} tekens`}
                 name="text"
                 onChange={onTextChange}
                 required={state.text.required}
                 rows="9"
                 value={state.text.value || state.text.defaultValue}
               />
-
-              {state.errors?.text && (
-                <StyledErrorMessage
-                  data-testid="statusError"
-                  message={state.errors.text}
-                />
-              )}
             </div>
-
-            {state.warning && (
-              <Notification warning data-testid="statusWarning">
-                {state.warning}
-              </Notification>
-            )}
-
-            {!isDeelmelding && (
-              <Label
-                disabled={state.check.disabled}
-                htmlFor="send_email"
-                label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                noActiveState
-              >
-                <Checkbox
-                  checked={state.check.checked}
-                  data-testid="sendEmailCheckbox"
-                  disabled={state.check.disabled}
-                  id="send_email"
-                  name="send_email"
-                  onClick={onCheck}
-                />
-              </Label>
-            )}
 
             <div>
               <StyledButton
@@ -215,7 +219,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 type="submit"
                 variant="secondary"
               >
-                Opslaan
+                Status opslaan
               </StyledButton>
 
               <StyledButton
@@ -244,6 +248,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
   childIncidents: PropTypes.arrayOf(PropTypes.shape({})),
+  hasEmail: PropTypes.bool,
 }
 
 export default StatusForm

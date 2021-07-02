@@ -19,7 +19,6 @@ import {
   MELDING_CHECKBOX_DESCRIPTION,
   HEROPENED_EXPLANATION,
   AFGEHANDELD_EXPLANATION,
-  GEANNULEERD_EXPLANATION,
   DEELMELDING_EXPLANATION,
   DEELMELDINGEN_STILL_OPEN_HEADING,
   DEELMELDINGEN_STILL_OPEN_CONTENT,
@@ -376,16 +375,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(queryByText(HEROPENED_EXPLANATION)).not.toBeInTheDocument()
 
-    // select status 'reopened'
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="reopened"]'))
-    })
-
-    // verify that warning with text HEROPENED_EXPLANATION is visible
-    expect(getByTestId('statusWarning').textContent).toEqual(
-      HEROPENED_EXPLANATION
-    )
-
     // select status 'o'
     act(() => {
       fireEvent.click(container.querySelector('input[value="o"]'))
@@ -394,16 +383,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that warning with text AFGEHANDELD_EXPLANATION is visible
     expect(getByTestId('statusWarning').textContent).toEqual(
       AFGEHANDELD_EXPLANATION
-    )
-
-    // select status 'a'
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="a"]'))
-    })
-
-    // verify that warning with text GEANNULEERD_EXPLANATION is visible
-    expect(getByTestId('statusWarning').textContent).toEqual(
-      GEANNULEERD_EXPLANATION
     )
 
     // select a status that is none of the above
