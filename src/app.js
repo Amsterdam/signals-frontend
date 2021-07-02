@@ -78,6 +78,17 @@ const registerServiceWorkerProxy = () => {
   }
 }
 
+const unregisterServiceWorkers = () => {
+  // Removes legacy service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+      for (let registration of registrations) {
+        registration.unregister()
+      }
+    })
+  }
+}
+
 if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
@@ -94,6 +105,7 @@ authenticate()
   .finally(() => {
     render()
 
+    unregisterServiceWorkers()
     registerServiceWorkerProxy()
   })
   .catch(() => {})
