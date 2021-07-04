@@ -9,6 +9,7 @@ import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
+import openbaarGroenEnWater from './wizard-step-2-vulaan/openbaarGroenEnWater'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
@@ -81,6 +82,9 @@ export default {
     }
 
     switch (category) {
+      case 'openbaar-groen-en-water':
+        return expandQuestions(openbaarGroenEnWater, category, subcategory)
+
       case 'afval':
         return expandQuestions(afval, category, subcategory)
 
