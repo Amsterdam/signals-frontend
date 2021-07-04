@@ -19,17 +19,14 @@ import type {
   FeatureCollection,
 } from 'geojson'
 import type { FunctionComponent } from 'react'
-import type {
-  DataLayerProps,
-  Item,
-  Feature,
-} from 'signals/incident/components/form/MapSelectors/Container/types'
+import type { Item } from 'signals/incident/components/form/MapSelectors/Container/types'
 
 import ContainerSelectContext from 'signals/incident/components/form/MapSelectors/Container/context'
 import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import WfsDataContext from '../context'
+import { DataLayerProps, Feature } from '../../../../types'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 

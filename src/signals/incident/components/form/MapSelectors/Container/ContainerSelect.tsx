@@ -4,11 +4,12 @@ import type { FunctionComponent } from 'react'
 import { useCallback, useState } from 'react'
 import type { Incident } from 'types/incident'
 import type { LatLngExpression } from 'leaflet'
+import { ClickEventHandler } from '../types'
 import { ContainerSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
 import Summary from './Summary'
-import type { ClickEventHandler, Item, Meta } from './types'
+import type { Item, Meta } from './types'
 
 export interface ContainerSelectProps {
   handler: () => { value: Item[] }

@@ -12,7 +12,7 @@ const contextValue: SelectValue = {
   selection: [
     {
       id: 'REE01013',
-      type: 'plastic',
+      type: 'Eikenboom',
       description: 'Eikenboom',
     },
   ],
@@ -24,10 +24,10 @@ const contextValue: SelectValue = {
     endpoint: '',
     featureTypes: [
       {
-        label: 'Plastic',
-        description: 'Plastic caterpillar',
+        label: 'Eikenboom',
+        description: 'Eikenboom',
         idField: 'id_nummer',
-        typeValue: 'Plastic',
+        typeValue: 'Eikenboom',
         iconId: 'iconId',
         iconIsReportedId: 'iconIsReportedId',
         isReportedField: 'isReportedField',
@@ -45,7 +45,7 @@ const contextValue: SelectValue = {
 export const withContext = (Component: JSX.Element, context = contextValue) =>
   withAppContext(<SelectProvider value={context}>{Component}</SelectProvider>)
 
-describe('signals/incident/components/form/CaterpillarSelect/Summary', () => {
+describe('signals/incident/components/form/MapSelector/Caterpillar/Summary', () => {
   afterEach(() => {
     jest.resetAllMocks()
   })

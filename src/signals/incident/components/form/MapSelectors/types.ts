@@ -38,21 +38,10 @@ export interface WfsFilter {
   value: string
 }
 
-export interface Meta extends Record<string, unknown> {
-  endpoint: string
-  featureTypes: FeatureType[]
-  wfsFilter?: string
-}
-
-// export interface SelectValue {
-//   selection: Item[]
-//   location: LatLngExpression
-//   meta: Meta
-//   message?: string
-//   update: (items: Item[]) => void
-//   edit: ClickEventHandler
-//   close: () => void
-//   setMessage: (message?: string) => void
+// export interface Meta extends Record<string, unknown> {
+//   endpoint: string
+//   featureTypes: FeatureType[]
+//   wfsFilter?: string
 // }
 
 export interface DataLayerProps {

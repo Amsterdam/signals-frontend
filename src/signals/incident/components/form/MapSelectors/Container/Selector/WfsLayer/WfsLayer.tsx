@@ -13,11 +13,11 @@ import { useMapInstance } from '@amsterdam/react-maps'
 import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
-import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/Container/types'
 import type { Map as MapType } from 'leaflet'
 
 import ContainerSelectContext from 'signals/incident/components/form/MapSelectors/Container/context'
 import useLayerVisible from '../../../hooks/useLayerVisible'
+import type { DataLayerProps } from '../../../types'
 import { NO_DATA, WfsDataProvider } from './context'
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'

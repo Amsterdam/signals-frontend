@@ -8,7 +8,7 @@ import { render, screen } from '@testing-library/react'
 
 import { Map } from '@amsterdam/react-maps'
 
-import CaterpillarsJson from 'utils/__tests__/fixtures/Caterpillars.json'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
 import { WfsDataProvider } from '../../../../components/DataContext/context'
@@ -27,7 +27,7 @@ describe('CaterpillarLayer', () => {
 
   it('should render the caterpillar layer in the map', () => {
     const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={CaterpillarsJson as FeatureCollection}>
+      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
         <CaterpillarLayer />;
       </WfsDataProvider>
     )
@@ -48,7 +48,7 @@ describe('CaterpillarLayer', () => {
 
   it('should handle selecting a tree', async () => {
     const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={CaterpillarsJson as FeatureCollection}>
+      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
         <CaterpillarLayer />;
       </WfsDataProvider>
     )
@@ -79,7 +79,7 @@ describe('CaterpillarLayer', () => {
 
   it('should handle deselecting a tree', () => {
     const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={CaterpillarsJson as FeatureCollection}>
+      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
         <CaterpillarLayer />;
       </WfsDataProvider>
     )

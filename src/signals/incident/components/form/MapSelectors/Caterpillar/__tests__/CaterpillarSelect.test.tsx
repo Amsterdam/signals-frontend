@@ -44,7 +44,7 @@ describe('CaterpillarSelect', () => {
       screen.queryByTestId('caterpillarSelectSelector')
     ).not.toBeInTheDocument()
     expect(
-      screen.queryByTestId('CaterpillarSelectSummary')
+      screen.queryByTestId('caterpillarSelectSummary')
     ).not.toBeInTheDocument()
   })
 
@@ -82,7 +82,7 @@ describe('CaterpillarSelect', () => {
               value: [
                 {
                   id: 'REE01013',
-                  type: 'plastic',
+                  type: 'Eikenboom',
                   description: 'Eikenboom',
                   iconUrl: '',
                 },

@@ -20,7 +20,6 @@ export const CaterpillarLayer: FunctionComponent = () => {
     meta,
     update,
   } = useContext(SelectContext)
-  const featureTypes = meta.featureTypes
   const selection = useRef<Item[]>([])
 
   selection.current = useMemo(() => selectionContext, [selectionContext])
@@ -30,8 +29,8 @@ export const CaterpillarLayer: FunctionComponent = () => {
       const feature = feat as Feature
 
       const [lng, lat] = feature.geometry.coordinates
-      // Caterpillar layer has only a single marker featureType
-      const featureType = featureTypes[0]
+      // Caterpillar layer renders only a single feature type (oak tree)
+      const featureType = meta.featureTypes[0]
 
       const isSelected =
         Array.isArray(selectionContext) &&
@@ -98,7 +97,13 @@ export const CaterpillarLayer: FunctionComponent = () => {
         />
       )
     },
-    [featureTypes, meta.icons, selectionContext, update]
+    [
+      meta.extraProperties,
+      meta.featureTypes,
+      meta.icons,
+      selectionContext,
+      update,
+    ]
   )
 
   return <>{features.map(getMarker)}</>

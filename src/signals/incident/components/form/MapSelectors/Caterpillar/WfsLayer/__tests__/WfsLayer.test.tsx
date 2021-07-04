@@ -10,10 +10,9 @@ import type { FetchMock } from 'jest-fetch-mock'
 import type { FeatureCollection } from 'geojson'
 
 import { Map } from '@amsterdam/react-maps'
-import CaterpillarsJson from 'utils/__tests__/fixtures/Caterpillars.json'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { SelectValue } from '../../types'
-import type { DataLayerProps } from '../../../types'
 import WfsDataContext, {
   INITIAL_STATE,
 } from '../../../components/DataContext/context'
@@ -37,7 +36,7 @@ const withMapCaterpillar = (Component: ReactNode) => (
 
 describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer', () => {
   const setContextData = jest.fn()
-  const TestLayer: FunctionComponent<DataLayerProps> = () => {
+  const TestLayer: FunctionComponent = () => {
     const data = useContext<FeatureCollection>(WfsDataContext)
     setContextData(data)
 
@@ -54,14 +53,14 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
   })
 
   it('should not render when outside zoom level does not allow it', () => {
-    fetchMock.mockResponseOnce(JSON.stringify(CaterpillarsJson), {
+    fetchMock.mockResponseOnce(JSON.stringify(caterpillarsJson), {
       status: 200,
     })
     jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false)
     render(
       withMapCaterpillar(
         <WfsLayer zoomLevel={{ max: 15 }}>
-          <TestLayer featureTypes={[]} desktopView />
+          <TestLayer />
         </WfsLayer>
       )
     )
@@ -70,21 +69,21 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
-  it('should render the wfs layer in the map', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(CaterpillarsJson), {
+  it.only('should render the wfs layer in the map', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(caterpillarsJson), {
       status: 200,
     })
 
     render(
       withMapCaterpillar(
         <WfsLayer zoomLevel={{ max: 12 }}>
-          <TestLayer featureTypes={[]} desktopView />
+          <TestLayer />
         </WfsLayer>
       )
     )
 
     await screen.findByTestId('map-test')
-    expect(setContextData).toHaveBeenCalledWith(CaterpillarsJson)
+    expect(setContextData).toHaveBeenCalledWith(caterpillarsJson)
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
@@ -95,7 +94,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     render(
       withMapCaterpillar(
         <WfsLayer>
-          <TestLayer featureTypes={[]} desktopView />
+          <TestLayer />
         </WfsLayer>
       )
     )
@@ -112,7 +111,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     render(
       withMapCaterpillar(
         <WfsLayer>
-          <TestLayer featureTypes={[]} desktopView />
+          <TestLayer />
         </WfsLayer>
       )
     )
@@ -124,7 +123,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
   })
 
   it('supports additional wfs filters', () => {
-    fetchMock.mockResponse(JSON.stringify(CaterpillarsJson), { status: 200 })
+    fetchMock.mockResponse(JSON.stringify(caterpillarsJson), { status: 200 })
     const filterValue =
       '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>'
     const endpoint = '/endpoint'
@@ -153,7 +152,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
       withMapCaterpillar(
         <SelectProvider value={SelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </SelectProvider>
       )
@@ -170,7 +169,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
       withMapCaterpillar(
         <SelectProvider value={SelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </SelectProvider>
       )

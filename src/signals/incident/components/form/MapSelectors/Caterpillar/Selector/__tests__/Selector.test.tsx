@@ -3,7 +3,7 @@
 import 'jest-styled-components'
 import { render, screen } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
-import CaterpillarsJson from 'utils/__tests__/fixtures/Caterpillars.json'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import {
   contextValue,
   withSelectContext,
@@ -22,10 +22,10 @@ jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
   useMatchMedia: () => [showDesktopVariant],
 }))
 
-describe('signals/incident/components/form/CaterpillarSelect/Selector', () => {
+describe('signals/incident/components/form/MapSelectors/Caterpillar/Selector', () => {
   beforeEach(() => {
     fetchMock.resetMocks()
-    fetchMock.mockResponseOnce(JSON.stringify(CaterpillarsJson), {
+    fetchMock.mockResponseOnce(JSON.stringify(caterpillarsJson), {
       status: 200,
     })
     showDesktopVariant = false
@@ -43,14 +43,14 @@ describe('signals/incident/components/form/CaterpillarSelect/Selector', () => {
     ).toBeInTheDocument()
   })
 
-  it('should call update when removing Caterpillar', async () => {
+  it('should call update when removing item', async () => {
     render(withSelectContext(<Selector />))
     expect(contextValue.update).not.toHaveBeenCalled()
 
-    const removeCaterpillarsButton = await screen.findAllByTestId(
+    const removeSelectionButton = await screen.findAllByTestId(
       /selectionListRemove/
     )
-    userEvent.click(removeCaterpillarsButton[0])
+    userEvent.click(removeSelectionButton[0])
     expect(contextValue.update).toHaveBeenCalled()
   })
 

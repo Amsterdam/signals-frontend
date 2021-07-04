@@ -20,11 +20,11 @@ const ItemTextWrapper = styled.div<{ reported?: boolean }>`
 `
 
 const ItemText = styled.span`
-  height: 24px;
+  height: ${themeSpacing(6)};
 `
 
 const ItemSubText = styled.span`
-  height: 24px;
+  height: ${themeSpacing(6)};
   color: ${themeColor('secondary')};
 `
 

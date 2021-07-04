@@ -50,6 +50,7 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
+  z-index: 3; // Render on top of header (logged-in)
 `
 
 const StyledMap = styled(Map)`

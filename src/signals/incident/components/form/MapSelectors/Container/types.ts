@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { MouseEvent } from 'react'
 import type { IconOptions, LatLngExpression } from 'leaflet'
-import type { Point, Feature as GeoJSONFeature } from 'geojson'
-
-export type ClickEventHandler = (
-  event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-) => void
+import { ClickEventHandler } from '../types'
 
 export interface Item {
   id: string
@@ -34,10 +29,6 @@ export interface Options {
   iconSize: number[]
 }
 
-export interface WfsFilter {
-  value: string
-}
-
 export interface Meta extends Record<string, unknown> {
   endpoint: string
   featureTypes: FeatureType[]
@@ -54,11 +45,3 @@ export interface ContainerSelectValue {
   close: () => void
   setMessage: (message?: string) => void
 }
-
-export interface DataLayerProps {
-  featureTypes: FeatureType[]
-  desktopView: boolean
-}
-
-export type FeatureProps = Record<string, string | undefined>
-export type Feature = GeoJSONFeature<Point, FeatureProps>

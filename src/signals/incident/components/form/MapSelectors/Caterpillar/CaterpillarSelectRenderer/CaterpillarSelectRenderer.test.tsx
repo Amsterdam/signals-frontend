@@ -6,7 +6,7 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { Meta } from '../types'
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
 
-describe('signals/incident/components/form/CaterpillarSelectRenderer', () => {
+describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarSelectRenderer', () => {
   const props = {
     handler: jest.fn(() => ({
       value: [],
