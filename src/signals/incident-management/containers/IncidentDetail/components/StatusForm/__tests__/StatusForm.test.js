@@ -17,7 +17,6 @@ import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
-  HEROPENED_EXPLANATION,
   AFGEHANDELD_EXPLANATION,
   DEELMELDING_EXPLANATION,
   DEELMELDINGEN_STILL_OPEN_HEADING,
@@ -62,13 +61,13 @@ const renderWithContext = (
     </IncidentDetailContext.Provider>
   )
 
-const statusSendsEmailWhenSet = changeStatusOptionList
-  .filter(({ email_sent_when_set }) => email_sent_when_set)
-  .sort(() => 0.5 - Math.random())[0]
+const statusSendsEmailWhenSet = changeStatusOptionList.filter(
+  ({ email_sent_when_set }) => email_sent_when_set
+)[0]
 
-const statusDoesNotSendEmailWhenSet = changeStatusOptionList
-  .filter(({ email_sent_when_set }) => !email_sent_when_set)
-  .sort(() => 0.5 - Math.random())[0]
+const statusDoesNotSendEmailWhenSet = changeStatusOptionList.filter(
+  ({ email_sent_when_set }) => !email_sent_when_set
+)[0]
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   beforeEach(() => {
@@ -373,11 +372,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('shows a warning that is specific to certain statuses', () => {
     // render component
-    const { container, getByTestId, queryByTestId, queryByText } = render(
-      renderWithContext()
-    )
+    const { container } = render(renderWithContext())
 
-    expect(queryByText(HEROPENED_EXPLANATION)).not.toBeInTheDocument()
+    expect(screen.queryByText(AFGEHANDELD_EXPLANATION)).not.toBeInTheDocument()
 
     // select status 'o'
     act(() => {
@@ -385,7 +382,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     })
 
     // verify that warning with text AFGEHANDELD_EXPLANATION is visible
-    expect(getByTestId('statusWarning').textContent).toEqual(
+    expect(screen.getByTestId('statusWarning').textContent).toEqual(
       AFGEHANDELD_EXPLANATION
     )
 
@@ -395,7 +392,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     })
 
     // verify that no warning is shown
-    expect(queryByTestId('statusWarning')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
   })
 
   it('shows a warning that is specific to a deelmelding', () => {
@@ -412,24 +409,22 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container, queryByTestId, getByTestId } = render(
-      renderWithContext(deelmelding)
-    )
+    const { container } = render(renderWithContext(deelmelding))
 
     // verify that warning with text DEELMELDING_EXPLANATION is visible
-    expect(getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-    expect(queryByTestId('statusWarning')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
 
     // select a status that will show a warning (see: )
     fireEvent.click(container.querySelector('input[value="reopened"]'))
 
     // verify that statusExplanation is visible
-    expect(getByTestId('statusExplanation')).toBeInTheDocument()
+    expect(screen.getByTestId('statusExplanation')).toBeInTheDocument()
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
-    expect(getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
   })
@@ -438,34 +433,38 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const childIncidents = [GEMELD, INGEPLAND].map(({ key }) => ({
       status: { state: key },
     }))
-    const { container, queryByTestId, getByTestId } = render(
+    const { container } = render(
       renderWithContext(incidentFixture, childIncidents)
     )
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${AFGEHANDELD.key}"]`)
     )
 
-    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(
+    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
       DEELMELDINGEN_STILL_OPEN_HEADING
     )
-    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(
+    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
       DEELMELDINGEN_STILL_OPEN_CONTENT
     )
 
     fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`))
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${GEANNULEERD.key}"]`)
     )
-    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(
+    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
       DEELMELDINGEN_STILL_OPEN_CONTENT
     )
-    expect(getByTestId('statusHasChildrenOpen').textContent).toContain(
+    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
       DEELMELDINGEN_STILL_OPEN_HEADING
     )
   })
@@ -475,26 +474,34 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       status: { state: key },
     }))
 
-    const { container, queryByTestId } = render(
+    const { container } = render(
       renderWithContext(incidentFixture, childIncidents)
     )
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${AFGEHANDELD.key}"]`)
     )
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`))
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${GEANNULEERD.key}"]`)
     )
 
-    expect(queryByTestId('statusHasChildrenOpen')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
   })
 })
