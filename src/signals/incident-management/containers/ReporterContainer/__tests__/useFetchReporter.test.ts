@@ -52,7 +52,7 @@ const REPORTER_MOCK: Result = {
 }
 
 describe('Fetch Reporter hook', () => {
-  beforeEach(() => server.resetHandlers())
+  afterEach(() => server.resetHandlers())
 
   it('correctly implements pagination', async () => {
     mockRequestHandler({
