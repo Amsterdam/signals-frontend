@@ -135,9 +135,7 @@ describe('signals/incident/components/form/MapSelectGeneric', () => {
       )
 
       expect(
-        getByText(
-          'Het gaat om lamp of lantaarnpaal met nummer: 9673465; 808435'
-        )
+        getByText('Gekozen op de kaart: 9673465; 808435')
       ).toBeInTheDocument()
     })
 

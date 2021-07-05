@@ -84,9 +84,7 @@ const MapSelect = ({
           zoomMin={meta.zoomMin}
         />
         {selection.length > 0 && (
-          <Selection>
-            Het gaat om lamp of lantaarnpaal met nummer: {selection.join('; ')}
-          </Selection>
+          <Selection>Gekozen op de kaart: {selection.join('; ')}</Selection>
         )}
       </FormField>
     )
