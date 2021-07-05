@@ -68,8 +68,8 @@ const Signaling: FunctionComponent = () => {
     [getGraphDataFromReport, openData]
   )
   const totalOpen = useMemo(
-    () => openData?.total_signal_count || null,
-    [openData?.total_signal_count]
+    () => (openData ? openData.total_signal_count : null),
+    [openData]
   )
 
   const graphDataReopenRequested = useMemo(
@@ -77,8 +77,8 @@ const Signaling: FunctionComponent = () => {
     [getGraphDataFromReport, reopenRequestedData]
   )
   const totalReopenRequested = useMemo(
-    () => reopenRequestedData?.total_signal_count || null,
-    [reopenRequestedData?.total_signal_count]
+    () => (reopenRequestedData ? reopenRequestedData.total_signal_count : null),
+    [reopenRequestedData]
   )
 
   const heading = (
