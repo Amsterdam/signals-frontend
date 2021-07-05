@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -47,10 +47,18 @@ const defaultTexts = [
 const close = jest.fn()
 const update = jest.fn()
 
-const renderWithContext = (incident = incidentFixture, childIncidents) =>
+const renderWithContext = (
+  incident = incidentFixture,
+  childIncidents,
+  hasEmail = true
+) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, close }}>
-      <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
+      <StatusForm
+        defaultTexts={defaultTexts}
+        childIncidents={childIncidents}
+        hasEmail={hasEmail}
+      />
     </IncidentDetailContext.Provider>
   )
 
@@ -69,20 +77,18 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('renders correctly', () => {
-    const { container, getByTestId, getByLabelText, getByText } = render(
-      renderWithContext()
-    )
+    const { container } = render(renderWithContext())
 
     expect(container.querySelector('textarea')).toBeInTheDocument()
-    expect(getByTestId('statusFormSubmitButton')).toBeInTheDocument()
-    expect(getByTestId('statusFormCancelButton')).toBeInTheDocument()
+    expect(screen.getByTestId('statusFormSubmitButton')).toBeInTheDocument()
+    expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
 
     Object.values(changeStatusOptionList).forEach(({ value }) => {
-      expect(getByLabelText(value)).toBeInTheDocument()
+      expect(screen.getByLabelText(value)).toBeInTheDocument()
     })
 
-    expect(getByTestId('sendEmailCheckbox')).toBeInTheDocument()
-    expect(getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
+    expect(screen.getByTestId('sendEmailCheckbox')).toBeInTheDocument()
+    expect(screen.getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
   })
 
   it('renders a disabled checkbox', () => {
@@ -279,29 +285,27 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('shows an error when the text field contains specific characters', async () => {
     // render component
-    const { container, getByTestId, queryByTestId, findByTestId } = render(
-      renderWithContext()
-    )
+    render(renderWithContext())
 
     // fire onChange event on textarea with special characters '{{' and '}}'
-    const textarea = container.querySelector('textarea')
+    const textarea = screen.getByRole('textbox')
     const value = 'Foo {{bar}} baz'
     act(() => {
       fireEvent.change(textarea, { target: { value } })
     })
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('statusError')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     // submit the form
     act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'))
+      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
     })
 
-    await findByTestId('statusForm')
+    await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(getByTestId('statusError')).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toBeInTheDocument()
 
     // verify that 'update' and 'close' have NOT been called
     expect(update).not.toHaveBeenCalled()
@@ -315,10 +319,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // submit the form
     act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'))
+      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
     })
 
-    await findByTestId('statusForm')
+    await screen.findByTestId('statusForm')
 
     // verify that 'update' and 'close' have been called
     expect(update).toHaveBeenCalledWith(
@@ -334,37 +338,37 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('clears the error message when another status is selected', async () => {
     // render component with incident status that will disable the checkbox
-    const { container, getByTestId, queryByTestId, findByTestId } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
+        // TODO handle case with -> ingepland
         status: { state: statusSendsEmailWhenSet.key },
       })
     )
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('statusError')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     // submit the form
     act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'))
+      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
     })
 
-    await findByTestId('statusForm')
+    await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(getByTestId('statusError')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
 
     // select another status
+    const otherStatus = screen.getByRole('radio', {
+      name: changeStatusOptionList[3].value,
+    })
     act(() => {
-      fireEvent.click(
-        container.querySelector(
-          `input[value="${changeStatusOptionList[3].key}"]`
-        )
-      )
+      fireEvent.click(otherStatus)
     })
 
     // verify that an error message is NOT shown
-    expect(queryByTestId('statusError')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('statusError')).not.toBeInTheDocument()
   })
 
   it('shows a warning that is specific to certain statuses', () => {
