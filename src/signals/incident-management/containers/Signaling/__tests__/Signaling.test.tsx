@@ -14,7 +14,7 @@ describe('<Signaling />', () => {
     render(withAppContext(<Signaling />))
 
     // Loading
-    expect(screen.queryByTestId('graphDescription')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
     expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Signalering' })
@@ -24,7 +24,7 @@ describe('<Signaling />', () => {
     expect(await screen.findAllByText('13,000')).toHaveLength(2)
     expect(screen.getAllByText('Overig')).toHaveLength(2)
     expect(screen.getAllByText('Straatverlichting (VOR)')).toHaveLength(2)
-    expect(screen.getAllByTestId('graphDescription')).toHaveLength(2)
+    expect(screen.getAllByTestId('graph-description')).toHaveLength(2)
   })
 
   it('should render error notification', async () => {
@@ -35,7 +35,7 @@ describe('<Signaling />', () => {
     render(withAppContext(<Signaling />))
 
     // Loading
-    expect(screen.queryByTestId('graphDescription')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
     expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Signalering' })
