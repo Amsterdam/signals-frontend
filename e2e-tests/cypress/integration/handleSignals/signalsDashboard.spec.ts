@@ -33,7 +33,7 @@ describe('Signals dashbaord', () => {
 
       // Dashboard requested to reopen signals
       cy.get(DASHBOARD.graphTitle).eq(1).should('contain', DASHBOARD_TEXT.titleDashboardReopen).and('be.visible');
-      cy.get(DASHBOARD.graphDescription).eq(1).should('contain', DASHBOARD_TEXT.descriptionDashboardReOpen).and('be.visible');
+      cy.get(DASHBOARD.graphDescription).eq(2).should('contain', DASHBOARD_TEXT.descriptionDashboardReOpen).and('be.visible');
       cy.get(DASHBOARD.graphTotalSignals).eq(1).should('have.text', '0').and('be.visible');
 
       cy.get(DASHBOARD.emptyText).should('contain', DASHBOARD_TEXT.noSignals).and('have.length', 2).and('be.visible');
