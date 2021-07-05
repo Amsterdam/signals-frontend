@@ -3,7 +3,6 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import { useContext } from 'react'
 import type { MapOptions } from 'leaflet'
-import { LatLng } from 'leaflet'
 
 import { render, screen } from '@testing-library/react'
 import type { FetchMock } from 'jest-fetch-mock'
@@ -12,13 +11,11 @@ import type { FeatureCollection } from 'geojson'
 import { Map } from '@amsterdam/react-maps'
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { SelectValue } from '../../types'
 import WfsDataContext, {
   INITIAL_STATE,
 } from '../../../components/DataContext/context'
 import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
-import { SelectProvider } from '../../context/context'
 
 const fetchMock = fetch as FetchMock
 
@@ -69,7 +66,7 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
-  it.only('should render the wfs layer in the map', async () => {
+  it('should render the wfs layer in the map', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(caterpillarsJson), {
       status: 200,
     })
@@ -120,64 +117,5 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     expect(consoleErrorSpy).toHaveBeenCalled()
     consoleErrorSpy.mockClear()
     expect(fetchMock).toHaveBeenCalledTimes(1)
-  })
-
-  it('supports additional wfs filters', () => {
-    fetchMock.mockResponse(JSON.stringify(caterpillarsJson), { status: 200 })
-    const filterValue =
-      '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>'
-    const endpoint = '/endpoint'
-    const SelectProviderValue: SelectValue = {
-      selection: [],
-      location: new LatLng(0, 0),
-      meta: {
-        endpoint,
-        featureTypes: [],
-        wfsFilter: filterValue,
-        name: 'Wfs',
-        icons: [],
-        legendItems: [],
-        extraProperties: [],
-      },
-      update: jest.fn(),
-      edit: jest.fn(),
-      close: jest.fn(),
-      setMessage: jest.fn(),
-    }
-
-    const urlWithFilter = `${endpoint}&Filter=<Filter><And>${filterValue}<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></And></Filter>`
-    const urlWithoutFilter = `${endpoint}&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`
-
-    const { rerender } = render(
-      withMapCaterpillar(
-        <SelectProvider value={SelectProviderValue}>
-          <WfsLayer>
-            <TestLayer />
-          </WfsLayer>
-        </SelectProvider>
-      )
-    )
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      urlWithFilter,
-      expect.objectContaining({})
-    )
-
-    delete SelectProviderValue.meta.wfsFilter
-
-    rerender(
-      withMapCaterpillar(
-        <SelectProvider value={SelectProviderValue}>
-          <WfsLayer>
-            <TestLayer />
-          </WfsLayer>
-        </SelectProvider>
-      )
-    )
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      urlWithoutFilter,
-      expect.objectContaining({})
-    )
   })
 })
