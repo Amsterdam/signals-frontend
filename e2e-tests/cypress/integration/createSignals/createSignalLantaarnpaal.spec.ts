@@ -67,7 +67,7 @@ describe('Create signal "Lantaarnpaal" and check signal details', () => {
 
       // Click on lamp based on coordinate
       createSignal.selectLampByCoordinate(414, 135);
-      cy.contains('Het gaat om lamp of lantaarnpaal met nummer: 034575').should('be.visible');
+      cy.contains('Gekozen op de kaart: 034575').should('be.visible');
 
       // Check options in legend
       cy.get(LANTAARNPAAL.mapSelectLamp).should('be.visible');
