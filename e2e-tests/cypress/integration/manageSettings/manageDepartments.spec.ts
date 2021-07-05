@@ -11,19 +11,17 @@ import * as general from '../../support/commandsGeneral';
 import { SIZES } from '../../support/viewports';
 
 describe('Manage departments', () => {
-  beforeEach(() => {
-    general.setResolution(SIZES.desktop);
-  });
   describe('Visit department page', () => {
     before(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      general.setResolution(SIZES.desktop);
       routes.getManageSignalsRoutes();
       routes.getCategoriesRoutes();
       cy.visit('/manage/incidents/');
       routes.waitForManageSignalsRoutes();
-      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
     });
     it('Should visit the manage department page by menu', () => {
+      cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
       cy.contains('Instellingen').click();
       cy.contains('Afdelingen').click();
 
@@ -37,6 +35,7 @@ describe('Manage departments', () => {
   describe('Edit department', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+      general.setResolution(SIZES.desktop);
       routes.defineDepartmentRoutes();
       cy.visit('/instellingen/afdelingen');
     });
@@ -92,6 +91,7 @@ describe('Manage departments', () => {
     describe('Change signal category', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        general.setResolution(SIZES.desktop);
         routes.stubPreviewMap();
         routes.getManageSignalsRoutes();
         routes.getSignalDetailsRoutesById();
@@ -112,6 +112,7 @@ describe('Manage departments', () => {
     describe('Change responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        general.setResolution(SIZES.desktop);
         routes.defineDepartmentRoutes();
         cy.visit('/instellingen/afdelingen');
       });
@@ -125,6 +126,7 @@ describe('Manage departments', () => {
     describe('Should change signal again and check responsible department', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        general.setResolution(SIZES.desktop);
         routes.stubPreviewMap();
         routes.getManageSignalsRoutes();
         routes.getSignalDetailsRoutesById();
@@ -140,6 +142,7 @@ describe('Manage departments', () => {
     describe('Change responsible department to initial state', () => {
       before(() => {
         localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+        general.setResolution(SIZES.desktop);
         routes.defineDepartmentRoutes();
         cy.visit('/instellingen/afdelingen');
       });

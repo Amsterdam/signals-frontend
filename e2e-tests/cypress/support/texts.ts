@@ -1,11 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+export const DASHBOARD_TEXT = {
+  descriptionDashboardOpen: 'Alle openstaande meldingen die',
+  descriptionDashboardReOpen: 'een "verzoek tot heropenen" heeft gedaan.',
+  noSignals: 'Hier is niks meer te signaleren',
+  titleDashboardOpen: 'Openstaande meldingen tot en met',
+  titleDashboardReopen: 'Verzoek tot heropenen tot en met',
+};
+
 export const ERROR_MESSAGES = {
   email: 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl',
   location: 'Kies een locatie op de kaart of vul een adres in',
   mandatoryField: 'Dit is een verplicht veld',
   mandatoryFields: 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.',
   mandatoryFieldKTO: 'Dit veld is verplicht',
+  smallFile: 'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.',
 };
 
 export const FILTERS = {

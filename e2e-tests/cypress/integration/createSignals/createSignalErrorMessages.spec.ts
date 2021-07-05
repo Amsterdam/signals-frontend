@@ -27,7 +27,10 @@ describe('Check field validations when creating a signal', () => {
       expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
     });
     createSignal.setDescriptionPage(signal);
-
+    cy.get(CREATE_SIGNAL.buttonUploadFile).attachFile('images/small.png');
+    cy.get(CREATE_SIGNAL.errorSmallFile).should('have.text', ERROR_MESSAGES.smallFile).and('be.visible').and($labels => {
+      expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
+    });
     cy.contains('Volgende').click();
     createSignal.setPhonenumber(signal);
     cy.contains('Volgende').click();

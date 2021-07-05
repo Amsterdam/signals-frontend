@@ -12,6 +12,8 @@ import * as createSignal from '../../support/commandsCreateSignal';
 describe('Create signal "Klok" which is on the map and check signal details', () => {
   describe('Create signal klok on the map', () => {
     before(() => {
+      cy.intercept('**/v1/openbareverlichting/openbareverlichting/**Klok', { fixture: 'klokken/klokData' }).as('stubKlokData');
+      cy.intercept('**/v1/openbareverlichting/openbareverlichting/**meldingstatus=1', { fixture: 'klokken/klokkenMetMelding' }).as('stubKlokMetMelding');
       routes.postSignalRoutePublic();
       routes.stubPreviewMap();
       routes.stubMap();
