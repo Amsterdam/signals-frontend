@@ -14,7 +14,6 @@ import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
-import type { Map as MapType } from 'leaflet'
 
 import useLayerVisible from '../../hooks/useLayerVisible'
 import {
@@ -22,8 +21,6 @@ import {
   WfsDataProvider,
 } from '../../components/DataContext/context'
 import SelectContext from '../context/context'
-
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
 
 export interface WfsLayerProps {
   children: ReactElement<DataLayerProps>
@@ -39,29 +36,24 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   const url = meta.endpoint
   const layerVisible = useLayerVisible(zoomLevel)
 
-  const getBbox = (map: MapType): string => {
-    const bounds = map.getBounds()
+  const [bounds, setBounds] = useState(mapInstance.getBounds())
 
-    return `<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="${SRS_NAME}"><lowerCorner>${bounds.getWest()} ${bounds.getSouth()}</lowerCorner><upperCorner>${bounds.getEast()} ${bounds.getNorth()}</upperCorner></gml:Envelope></BBOX>`
-  }
+  const requestUrl = useMemo(() => {
+    return url
+      .replace('{east}', bounds.getEast().toString())
+      .replace('{west}', bounds.getWest().toString())
+      .replace('{north}', bounds.getNorth().toString())
+      .replace('{south}', bounds.getSouth().toString())
+  }, [bounds, url])
 
-  const [bbox, setBbox] = useState('')
   const [data, setData] = useState<FeatureCollection>(INITIAL_STATE)
-  const wfsFilter = useMemo<string>(
-    () =>
-      `&Filter=<Filter>${
-        meta.wfsFilter ? `<And>${meta.wfsFilter}${bbox}</And>` : bbox
-      }</Filter>`,
-    [meta.wfsFilter, bbox]
-  )
 
   /* istanbul ignore next */
   useEffect(() => {
-    setBbox(getBbox(mapInstance))
+    setBounds(mapInstance.getBounds())
 
     function onMoveEnd() {
-      // TODO uncomment
-      // setBbox(getBbox(mapInstance))
+      setBounds(mapInstance.getBounds())
     }
 
     mapInstance.on('moveend', onMoveEnd)
@@ -78,16 +70,11 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       return
     }
 
-    if (!bbox) return
-
-    const [request, controller] = fetchWithAbort(`${url}${wfsFilter}`)
+    const [request, controller] = fetchWithAbort(`${requestUrl}`)
 
     request
       .then(async (result) => result.json())
       .then((result) => {
-        // TODO remove - result set is too large to render (10.000 items)
-        // spliced set contains reported trees in Vondelpark
-        ;(result.features as []).splice(0, 8000).splice(750, 1250)
         setData(result)
         return null
       })
@@ -106,7 +93,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, url, layerVisible, setMessage, wfsFilter])
+  }, [url, layerVisible, setMessage, requestUrl])
 
   const layer = cloneElement(children, {
     featureTypes: meta.featureTypes,
