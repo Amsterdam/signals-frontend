@@ -38,12 +38,6 @@ export interface WfsFilter {
   value: string
 }
 
-// export interface Meta extends Record<string, unknown> {
-//   endpoint: string
-//   featureTypes: FeatureType[]
-//   wfsFilter?: string
-// }
-
 export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
