@@ -22,13 +22,19 @@ import {
 
 import Notification from '..'
 
-jest.useFakeTimers()
-
 jest.mock('shared/services/auth/auth')
 
-let listenSpy
-
 describe('components/Notification', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  let listenSpy
+
   beforeEach(() => {
     listenSpy = jest.spyOn(history, 'listen')
   })
