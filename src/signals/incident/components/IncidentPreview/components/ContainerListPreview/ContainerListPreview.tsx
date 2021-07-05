@@ -3,17 +3,22 @@
 import type {
   FeatureType,
   Item,
-} from 'signals/incident/components/form/ContainerSelect/types'
-import ContainerList from 'signals/incident/components/form/ContainerSelect/ContainerList'
+} from 'signals/incident/components/form/MapSelectors/Container/types'
+import ContainerList from 'signals/incident/components/form/MapSelectors/Container/ContainerList'
 import { FunctionComponent } from 'react'
+import styled from 'styled-components'
 
 export interface ContainerListPreviewProps {
   value: Item[]
   featureTypes: FeatureType[]
 }
 
+const StyledContainerList = styled(ContainerList)`
+  margin-bottom: 0;
+`
+
 const ContainerListPreview: FunctionComponent<ContainerListPreviewProps> = ({
   value,
   featureTypes,
-}) => <ContainerList selection={value} featureTypes={featureTypes} />
+}) => <StyledContainerList selection={value} featureTypes={featureTypes} />
 export default ContainerListPreview

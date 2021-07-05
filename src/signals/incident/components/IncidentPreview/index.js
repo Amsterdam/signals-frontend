@@ -38,7 +38,7 @@ const Header = styled.header`
   display: grid;
   position: relative;
   column-gap: ${themeSpacing(5)};
-  grid-template-columns: 8fr 4fr;
+  grid-template-columns: 12fr;
 
   ${() =>
     getIsAuthenticated() &&

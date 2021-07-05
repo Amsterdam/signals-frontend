@@ -16,6 +16,7 @@ import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-ve
 import afvalControls from './wizard-step-2-vulaan/afval'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
+import openbaarGroenEnWaterControls from './wizard-step-2-vulaan/openbaarGroenEnWater'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -44,6 +45,13 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
       return Label
+
+    case FIELD_TYPE_MAP.caterpillar_select:
+      return (props) =>
+        PreviewComponents.CaterpillarListPreview({
+          ...props,
+          meta,
+        })
 
     case FIELD_TYPE_MAP.container_select:
       return (props) =>
@@ -120,6 +128,9 @@ const getExtraQuestions = (category, subcategory, questions) => {
 
     case 'wonen':
       return summary(wonenControls)
+
+    case 'openbaar-groen-en-water':
+      return summary(openbaarGroenEnWaterControls)
 
     default:
       return {}

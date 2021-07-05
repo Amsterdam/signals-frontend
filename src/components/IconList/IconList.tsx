@@ -12,6 +12,8 @@ const StyledListItem = styled(ListItem)`
 const StyledIcon = styled(Icon)`
   margin-right: ${themeSpacing(2)};
   flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: center;
 `
 
 interface IconListItemProps {
