@@ -668,7 +668,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       await selectUser(input)
       userEvent.clear(input)
       await act(async () => {
-        jest.advanceTimersByTime(INPUT_DELAY)
+        jest.runOnlyPendingTimers()
       })
       userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledWith(
