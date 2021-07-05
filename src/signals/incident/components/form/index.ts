@@ -18,7 +18,8 @@ import TextareaInput from './TextareaInput'
 import MapInput from './MapInput'
 import MapSelect from './MapSelect'
 import CategorySelectRenderer from './CategorySelectRenderer'
-import ContainerSelectRenderer from './ContainerSelectRenderer'
+import ContainerSelectRenderer from './MapSelectors/Container/ContainerSelectRenderer'
+import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 
 export default {
   CheckboxInput,
@@ -40,4 +41,5 @@ export default {
   TextareaInput,
   CategorySelectRenderer,
   ContainerSelectRenderer,
+  CaterpillarSelectRenderer,
 }

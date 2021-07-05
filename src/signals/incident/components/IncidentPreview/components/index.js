@@ -6,6 +6,7 @@ import Map from './Map'
 import MapSelectPreview from './MapSelect'
 import ListObjectValue from './ListObjectValue'
 import ContainerListPreview from './ContainerListPreview'
+import CaterpillarListPreview from './CaterpillarListPreview'
 
 export default {
   DateTime,
@@ -14,4 +15,5 @@ export default {
   Map,
   MapSelectPreview,
   ContainerListPreview,
+  CaterpillarListPreview,
 }

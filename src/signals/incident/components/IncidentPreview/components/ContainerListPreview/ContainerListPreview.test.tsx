@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-import ContainerList from 'signals/incident/components/form/ContainerSelect/ContainerList'
-import type { FeatureType } from 'signals/incident/components/form/ContainerSelect/types'
+import ContainerList from 'signals/incident/components/form/MapSelectors/Container/ContainerList'
+import type { FeatureType } from 'signals/incident/components/form/MapSelectors/Container/types'
 
 import ContainerListPreview from './ContainerListPreview'
 import type { ContainerListPreviewProps } from './ContainerListPreview'
 
 jest.mock(
-  'signals/incident/components/form/ContainerSelect/ContainerList',
+  'signals/incident/components/form/MapSelectors/Container/ContainerList',
   () => jest.fn().mockImplementation(() => null)
 )
 
@@ -34,7 +34,10 @@ describe('ContainerListPreview', () => {
       />
     )
     expect(ContainerList).toHaveBeenCalledWith(
-      { selection: props.value, featureTypes: props.featureTypes },
+      expect.objectContaining({
+        selection: props.value,
+        featureTypes: props.featureTypes,
+      }),
       {}
     )
   })
