@@ -9,6 +9,7 @@ export enum StatusCode {
   Geannuleerd = 'a',
   Gesplitst = 's',
   VerzoekTotHeropenen = 'reopen requested',
+  ReactieGevraagd = 'reaction requested',
   Heropend = 'reopened',
   TeVerzenden = 'ready to send',
   Verzonden = 'sent',
@@ -70,6 +71,14 @@ export const GEANNULEERD = {
   value: 'Geannuleerd',
   color: 'darkgrey',
   email_sent_when_set: false,
+  shows_remaining_sla_days: false,
+}
+
+export const REACTIE_GEVRAAGD = {
+  key: StatusCode.ReactieGevraagd,
+  value: 'Reactie Gevraagd',
+  color: 'orange',
+  email_sent_when_set: true,
   shows_remaining_sla_days: false,
 }
 
@@ -139,6 +148,7 @@ const statusList = [
   VERZENDEN_MISLUKT,
   VERZOEK_TOT_AFHANDELING,
   AFGEHANDELD_EXTERN,
+  REACTIE_GEVRAAGD,
 ]
 
 export default statusList
@@ -146,6 +156,7 @@ export default statusList
 export const changeStatusOptionList = [
   GEMELD,
   AFWACHTING,
+  REACTIE_GEVRAAGD,
   INGEPLAND,
   BEHANDELING,
   VERZOEK_TOT_AFHANDELING,
