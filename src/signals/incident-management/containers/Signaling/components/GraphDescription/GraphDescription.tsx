@@ -50,7 +50,7 @@ const GraphDescription: FunctionComponent<GraphDescriptionProps> = ({
   description,
   total,
 }) => (
-  <Wrapper data-testid="graph-description">
+  <Wrapper>
     <DescriptionWrapper>
       <div>
         <Title as="h3" data-testid="graph-title" >{title}</Title>
