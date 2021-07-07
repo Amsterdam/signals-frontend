@@ -1,23 +1,11 @@
-import { useFetch } from 'hooks'
-import { useEffect } from 'react'
 import configuration from 'shared/services/configuration/configuration'
 import { Session } from 'types/api/qa/session'
+import { useBuildGetter } from '../useBuildGetter'
 
-const useGetSession = (uuid: string) => {
-  const { data, get, isLoading, error, isSuccess } = useFetch<Session>()
-
-  useEffect(() => {
-    if (uuid) {
-      get(`${configuration.QA_SESSIONS_ENDPOINT}${uuid}`)
-    }
-  }, [get, uuid])
-
-  return {
-    data,
-    isLoading,
-    error,
-    isSuccess,
-  }
-}
+const useGetSession = () =>
+  useBuildGetter<Session>((uuid: string) => [
+    `${configuration.QA_SESSIONS_ENDPOINT}${uuid}`,
+    {},
+  ])
 
 export default useGetSession
