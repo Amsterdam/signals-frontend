@@ -5,7 +5,6 @@ import { useBuildGetter } from '../useBuildGetter'
 const useGetSession = () =>
   useBuildGetter<Session>((uuid: string) => [
     `${configuration.QA_SESSIONS_ENDPOINT}${uuid}`,
-    {},
   ])
 
 export default useGetSession

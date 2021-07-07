@@ -99,7 +99,7 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
         pageSize: PAGE_SIZE,
       })
     }
-  }, [getContextReporter, id, currentPage, PAGE_SIZE])
+  }, [getContextReporter, id, currentPage])
 
   useEffect(() => {
     if (getReporterError || getSelectedIncidentError) {

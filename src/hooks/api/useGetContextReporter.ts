@@ -21,7 +21,6 @@ const useGetContextReporter = () =>
 
       return [
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter${params}`,
-        {},
       ]
     }
   )
