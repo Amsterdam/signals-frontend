@@ -100,7 +100,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012CA Amsterdam').should('be.visible');
 
 
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 3);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Centrum')
@@ -131,7 +131,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.addressStreet).should('have.text', 'Noordhollandschkanaaldijk 114').should('be.visible');
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1034NW Amsterdam').should('be.visible');
 
-      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 4);
+      cy.get(SIGNAL_DETAILS.historyListItem).should('have.length', 5);
       cy.get(SIGNAL_DETAILS.historyListItem)
         .first()
         .should('contain', 'Stadsdeel: Noord')
@@ -201,7 +201,7 @@ describe('Change signal after submit', () => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
 
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 9);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
       cy.get(SIGNAL_DETAILS.historyAction)
         .first()
         .should('contain', 'Status gewijzigd naar: In behandeling')
@@ -246,7 +246,7 @@ describe('Change signal after submit', () => {
           expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
         });
 
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 10);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 11);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Urgentie gewijzigd naar: Hoog').should('be.visible');
     });
 
@@ -282,7 +282,7 @@ describe('Change signal after submit', () => {
       cy.wait('@getSignals');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Groot onderhoud').and('be.visible');
 
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 11);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 12);
       cy.get(SIGNAL_DETAILS.historyAction).contains('Type gewijzigd naar: Groot onderhoud').should('be.visible');
     });
 
@@ -309,7 +309,7 @@ describe('Change signal after submit', () => {
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
       cy.get(SIGNAL_DETAILS.mainCategory).should('have.text', 'Overlast in de openbare ruimte').and('be.visible');
 
-      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 13);
+      cy.get(SIGNAL_DETAILS.historyAction).should('have.length', 14);
       cy.get(SIGNAL_DETAILS.historyAction)
         .contains('Categorie gewijzigd naar: Overig openbare ruimte')
         .should('be.visible');

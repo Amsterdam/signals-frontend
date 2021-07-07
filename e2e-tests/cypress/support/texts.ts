@@ -36,7 +36,7 @@ export const NOTIFICATONS = {
 
 export const MESSAGES = {
   sendMailText:
-    'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
+    'Stuur dit bericht aan de melder',
 };
 
 export const SAMENHANG_TEXT = {
