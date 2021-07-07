@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import { CHANGE_STATUS } from '../../support/selectorsSignalDetails';
 import { WEGDEK } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import questions from '../../fixtures/questions/questions.json';
@@ -7,6 +8,7 @@ import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/wegdek.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
+import { STATUS_TEXT } from '../../support/texts';
 
 describe('Create signal "Wegdek kapot" and check signal details', () => {
   describe('Create signal wegdek kapot', () => {
@@ -59,6 +61,10 @@ describe('Create signal "Wegdek kapot" and check signal details', () => {
       routes.waitForSignalDetailsRoutes();
 
       createSignal.checkAllDetails(signal, 'standaardmelding');
+
+      // It should not be possible to send mail because there is no emailaddress known
+      cy.get(CHANGE_STATUS.buttonEdit).click();
+      cy.contains(STATUS_TEXT.noMailAddress).should('be.visible');
     });
   });
 });

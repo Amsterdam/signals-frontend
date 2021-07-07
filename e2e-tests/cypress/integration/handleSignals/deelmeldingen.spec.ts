@@ -5,7 +5,7 @@ import { CREATE_SIGNAL, BOTEN } from '../../support/selectorsCreateSignal';
 import { CHANGE_STATUS, CHANGE_URGENCY, DEELMELDING, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { FILTER, MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import {DJANGO} from '../../support/selectorsDjangoAdmin';
-import { ERROR_MESSAGES, NOTIFICATONS } from '../../support/texts';
+import { ERROR_MESSAGES, NOTIFICATONS, STATUS_TEXT } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
 import signal01 from '../../fixtures/signals/deelmelding01.json';
 import signal02 from '../../fixtures/signals/deelmelding02.json';
@@ -232,6 +232,12 @@ describe('Deelmeldingen', () => {
         // Used a wait because sometimes the edit button is not clicked
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(500);
+
+        // Check if there is a message that no mail will be sent to client
+        cy.get(CHANGE_STATUS.buttonEdit).click();
+        cy.get(CHANGE_STATUS.alertNoEmail).contains(STATUS_TEXT.noMailToReporter);
+        cy.get(CHANGE_STATUS.buttonCancel).click();
+
         cy.get(CHANGE_URGENCY.buttonEdit).click();
         cy.get(CHANGE_URGENCY.radioButtonNormaal).should('be.checked');
         cy.get(CHANGE_URGENCY.radioButtonHoog).click({ force: true });

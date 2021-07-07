@@ -9,7 +9,7 @@ import {
   SIGNAL_DETAILS,
 } from '../../support/selectorsSignalDetails';
 import { MANAGE_SIGNALS, OVERVIEW_MAP } from '../../support/selectorsManageIncidents';
-import { MESSAGES, TYPE_TEXT, URGENCY_TEXT } from '../../support/texts';
+import { MESSAGES, STATUS_TEXT, TYPE_TEXT, URGENCY_TEXT } from '../../support/texts';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/graffiti.json';
 import * as routes from '../../support/commandsRouting';
@@ -157,6 +157,8 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.buttonEdit).click();
       cy.contains('Status wijzigen').should('be.visible');
 
+      cy.get(CHANGE_STATUS.inputToelichting).siblings().contains('0/3000 tekens').should('be.visible');
+
       cy.get(CHANGE_STATUS.radioButtonGemeld).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
@@ -169,6 +171,7 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
       cy.contains('Toelichting (niet verplicht)').should('not.exist');
+      cy.contains(STATUS_TEXT.explanation).should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonExtern).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
@@ -177,10 +180,13 @@ describe('Change signal after submit', () => {
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
       cy.contains('Toelichting (niet verplicht)').should('not.exist');
+      cy.get(CHANGE_STATUS.statusWarning).contains(STATUS_TEXT.statusAfgehandeld).should('be.visible');
+      cy.contains(STATUS_TEXT.explanation).should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonHeropend).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('be.checked').and('be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
       cy.contains('Toelichting (niet verplicht)').should('not.exist');
+      cy.contains(STATUS_TEXT.explanation).should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonGeannuleerd).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.checkboxSendEmail).should('be.visible').and('not.be.checked').and('not.be.disabled');
       cy.contains(MESSAGES.sendMailText).should('be.visible');
@@ -188,6 +194,7 @@ describe('Change signal after submit', () => {
 
       cy.get(CHANGE_STATUS.radioButtonInBehandeling).check({ force: true }).should('be.checked');
       cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben uw zinloze melding toch maar in behandeling genomen');
+      cy.get(CHANGE_STATUS.inputToelichting).siblings().contains('62/3000 tekens').should('be.visible');
       cy.get(CHANGE_STATUS.buttonSubmit).click();
 
       createSignal.checkFlashingYellow();

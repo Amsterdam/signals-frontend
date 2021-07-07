@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { CREATE_SIGNAL } from '../../support/selectorsCreateSignal';
-import { ERROR_MESSAGES } from '../../support/texts';
+import { ERROR_MESSAGES, STATUS_TEXT } from '../../support/texts';
+import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { CHANGE_STATUS } from '../../support/selectorsSignalDetails';
+import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/afval.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
@@ -41,5 +44,33 @@ describe('Check field validations when creating a signal', () => {
 
     cy.contains('Volgende').click();
     createSignal.checkSummaryPage(signal);
+    cy.contains('Verstuur').click();
+    cy.wait('@postSignalPublic');
+    cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+
+    createSignal.checkThanksPage();
+    createSignal.saveSignalId();
+  });
+});
+describe('Check data created signal', () => {
+  before(() => {
+    localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
+    routes.getManageSignalsRoutes();
+    routes.getSignalDetailsRoutesById();
+    cy.visit('/manage/incidents/');
+    routes.waitForManageSignalsRoutes();
+  });
+
+  it('Should show the signal details', () => {
+    routes.stubPreviewMap();
+    createSignal.openCreatedSignal();
+    routes.waitForSignalDetailsRoutes();
+
+    cy.get(CHANGE_STATUS.buttonEdit).click();
+    cy.get(CHANGE_STATUS.inputToelichting).invoke('val', STATUS_TEXT.longText).type('a');
+    cy.get(CHANGE_STATUS.buttonSubmit).click();
+    cy.contains(ERROR_MESSAGES.tooManyCharacter).should('be.visible').and($labels => {
+      expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
+    });
   });
 });
