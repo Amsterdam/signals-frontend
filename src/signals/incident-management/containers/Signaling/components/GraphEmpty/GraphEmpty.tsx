@@ -40,10 +40,10 @@ const GraphEmpty: FunctionComponent<GraphEmptyProps> = ({ text }) => {
     <Wrapper>
       <IconWrapper>
         <StyledIcon>
-          <Checkmark />
+          <Checkmark data-testid="checkmark"/>
         </StyledIcon>
       </IconWrapper>
-      <Paragraph>
+      <Paragraph data-testid="empty-text">
         <strong>{text}</strong>
       </Paragraph>
     </Wrapper>

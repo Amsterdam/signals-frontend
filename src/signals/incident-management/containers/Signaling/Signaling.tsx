@@ -83,7 +83,7 @@ const Signaling: FunctionComponent = () => {
 
   const heading = (
     <Row>
-      <StyledHeading>Signalering</StyledHeading>
+      <StyledHeading data-testid="heading">Signalering</StyledHeading>
     </Row>
   )
 

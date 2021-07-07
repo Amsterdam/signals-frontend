@@ -125,6 +125,7 @@ export const SIGNAL_DETAILS = {
   linkTerugNaarOverzicht: '[data-testid=backlink]',
   mainCategory: '[data-testid="meta-list-main-category-value"]',
   phoneNumber: '[data-testid="detail-phone-value"]',
+  phoneNumberLink: '[data-testid=detail-phone-value] a',
   photo: '[data-testid="attachmentsValueButton"]',
   photoViewerImage: '[data-testid="attachment-viewer-image"]',
   regie: '[data-testid=meta-list-directing_departments-value] > [data-testid=valuePath]',

@@ -16,6 +16,7 @@ export const CREATE_SIGNAL = {
   dropdownSubcategory: '[data-testid="subcategory"]',
   errorDateTime: '[data-testid="datetime-required"]',
   errorDescription: '[data-testid="description-required"]',
+  errorSmallFile: '[data-testid=fileInputError]',
   errorGlobal: '[class*="GlobalError__ErrorItem"]',
   errorItem: '[data-testid$="-required"]',
   errorLocation: '[data-testid="location-required"]',

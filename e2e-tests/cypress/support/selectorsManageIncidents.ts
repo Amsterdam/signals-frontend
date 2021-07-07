@@ -1,28 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-export const MANAGE_SIGNALS = {
-  buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
-  buttonCloseMijnFilters: '[data-testid=closeBtn]',
-  buttonFilter: '[data-testid=filterModalBtn]',
-  clearSearchTerm: '[aria-label="Close"]',
-  firstSignalAdres: 'tbody > :nth-child(1) > :nth-child(9) > span > a',
-  firstSignalDag: '[data-testid="incidentDaysOpen"] > span > a',
-  firstSignalDatumTijd: 'tbody > :nth-child(1) > :nth-child(4) > span > a',
-  firstSignalIcon: 'tbody > :nth-child(1) > :nth-child(1) > span > a > span',
-  firstSignalId: 'tbody > :nth-child(1) > :nth-child(2) > span > a',
-  firstSignalStadsdeelName: 'tbody > :nth-child(1) > :nth-child(5) > span > a',
-  firstSignalStatus: 'tbody > :nth-child(1) > :nth-child(7) > span > a',
-  firstSignalSubcategorie: 'tbody > :nth-child(1) > :nth-child(6) > span > a',
-  firstSignalUrgentie: 'tbody > :nth-child(1) > :nth-child(8) > span > a',
-  filterTagList: '[data-testid=filterTagListTag]',
-  labelHoofmelding: '[aria-label="Hoofdmelding"]',
-  linkSignal: '[href*="/manage/incident/"]',
-  paginationPages: '[data-testid="pagination"] > ul > li',
-  refreshIcon: '[class*=PageHeader__RefreshIcon]',
-  searchBar: '[data-testid="searchBar"]',
-  searchResultsTag: '[class*=PageHeader__SubTitle]',
-  spinner: '[data-testid="loadingIndicator"]',
-  stadsdeelFromSignal: 'tr td:nth-child(4)',
+
+export const DASHBOARD = {
+  bar: '[data-testid=bar]',
+  barSignalcount: '[data-testid=value]',
+  barSubcategory: '[data-testid=description]',
+  checkmarkIcon: '[data-testid=checkmark]',
+  graphDescription: '[data-testid=graph-description]',
+  graphTitle: '[data-testid=graph-title]',
+  graphTotalSignals: '[data-testid=total-open]',
+  emptyText: '[data-testid=empty-text]',
+  heading: '[data-testid=heading]',
+  noSignalsText: '[data-testid=empty-text]',
 };
 
 export const FILTER = {
@@ -67,6 +56,31 @@ export const FILTER_ALL_ITEMS = {
   selectAllClean: '[class*=CheckboxList__Toggle] > [data-id*=schoon]',
   selectAllRoadsTraffic: '[class*=CheckboxList__Toggle] > [data-id*=wegen-verkeer-straatmeubilair]',
   selectAllLiving: '[class*=CheckboxList__Toggle] > [data-id*=wonen]',
+};
+
+export const MANAGE_SIGNALS = {
+  buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
+  buttonCloseMijnFilters: '[data-testid=closeBtn]',
+  buttonFilter: '[data-testid=filterModalBtn]',
+  clearSearchTerm: '[aria-label="Close"]',
+  firstSignalAdres: 'tbody > :nth-child(1) > :nth-child(9) > span > a',
+  firstSignalDag: '[data-testid="incidentDaysOpen"] > span > a',
+  firstSignalDatumTijd: 'tbody > :nth-child(1) > :nth-child(4) > span > a',
+  firstSignalIcon: 'tbody > :nth-child(1) > :nth-child(1) > span > a > span',
+  firstSignalId: 'tbody > :nth-child(1) > :nth-child(2) > span > a',
+  firstSignalStadsdeelName: 'tbody > :nth-child(1) > :nth-child(5) > span > a',
+  firstSignalStatus: 'tbody > :nth-child(1) > :nth-child(7) > span > a',
+  firstSignalSubcategorie: 'tbody > :nth-child(1) > :nth-child(6) > span > a',
+  firstSignalUrgentie: 'tbody > :nth-child(1) > :nth-child(8) > span > a',
+  filterTagList: '[data-testid=filterTagListTag]',
+  labelHoofmelding: '[aria-label="Hoofdmelding"]',
+  linkSignal: '[href*="/manage/incident/"]',
+  paginationPages: '[data-testid="pagination"] > ul > li',
+  refreshIcon: '[class*=PageHeader__RefreshIcon]',
+  searchBar: '[data-testid="searchBar"]',
+  searchResultsTag: '[class*=PageHeader__SubTitle]',
+  spinner: '[data-testid="loadingIndicator"]',
+  stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
 export const MY_FILTERS = {
