@@ -1,10 +1,17 @@
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useGetQuestionnaire from 'hooks/api/qa/useGetQuestionnaire'
 
 const IncidentReplyContainer = () => {
   const { uuid } = useParams<{ uuid: string }>()
 
-  const { data, error } = useGetQuestionnaire(uuid)
+  const { data, error, get } = useGetQuestionnaire()
+
+  useEffect(() => {
+    if (uuid) {
+      get(uuid)
+    }
+  }, [get, uuid])
 
   return (
     <h1>
