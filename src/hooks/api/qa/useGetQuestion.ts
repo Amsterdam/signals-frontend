@@ -1,23 +1,10 @@
-import { useFetch } from 'hooks'
-import { useEffect } from 'react'
 import configuration from 'shared/services/configuration/configuration'
 import { Question } from 'types/api/qa/question'
+import { useBuildGetter } from '../useBuildGetter'
 
-const useGetQuestion = (uuid: string) => {
-  const { data, get, isLoading, error, isSuccess } = useFetch<Question>()
-
-  useEffect(() => {
-    if (uuid) {
-      get(`${configuration.QA_QUESTIONS_ENDPOINT}${uuid}`)
-    }
-  }, [get, uuid])
-
-  return {
-    data,
-    isLoading,
-    error,
-    isSuccess,
-  }
-}
+const useGetQuestion = () =>
+  useBuildGetter<Question>((uuid: string) => [
+    `${configuration.QA_QUESTIONS_ENDPOINT}${uuid}`,
+  ])
 
 export default useGetQuestion
