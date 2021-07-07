@@ -343,7 +343,6 @@ const IncidentDetail = () => {
               <StatusForm
                 defaultTexts={state.defaultTexts}
                 childIncidents={state.children?.results}
-                hasEmail={Boolean(state.incident.reporter.email)}
               />
             )}
 

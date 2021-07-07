@@ -33,7 +33,7 @@ import {
 import * as constants from './constants'
 import reducer, { init } from './reducer'
 
-const StatusForm = ({ defaultTexts, childIncidents, hasEmail }) => {
+const StatusForm = ({ defaultTexts, childIncidents }) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
   const [state, dispatch] = useReducer(reducer, incident, init)
   const currentStatus = useMemo(
@@ -46,6 +46,10 @@ const StatusForm = ({ defaultTexts, childIncidents, hasEmail }) => {
         ?.map((child) => !isStatusClosed(child.status.state))
         .some((v) => v === true),
     [childIncidents]
+  )
+  const hasEmail = useMemo(
+    () => Boolean(incident.reporter.email),
+    [incident.reporter.email]
   )
 
   const onRadioChange = useCallback((name, selectedStatus) => {
@@ -196,14 +200,14 @@ const StatusForm = ({ defaultTexts, childIncidents, hasEmail }) => {
               <QuestionLabel>
                 <strong>Toelichting</strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-                {state.text.required && state.check.checked && (
+                {state.text.required && state.check.checked && hasEmail && (
                   <Paragraph light>{constants.MAIL_EXPLANATION}</Paragraph>
                 )}
               </QuestionLabel>
               <TextArea
                 data-testid="text"
-                error={Boolean(state.errors?.text)}
-                errorMessage={state.errors?.text}
+                error={Boolean(state.errors.text)}
+                errorMessage={state.errors.text}
                 infoText={`${state.text.value.length}/${constants.DEFAULT_MESSAGE_MAX_LENGTH} tekens`}
                 name="text"
                 onChange={onTextChange}
@@ -248,7 +252,6 @@ const StatusForm = ({ defaultTexts, childIncidents, hasEmail }) => {
 StatusForm.propTypes = {
   defaultTexts: defaultTextsType.isRequired,
   childIncidents: PropTypes.arrayOf(PropTypes.shape({})),
-  hasEmail: PropTypes.bool,
 }
 
 export default StatusForm
