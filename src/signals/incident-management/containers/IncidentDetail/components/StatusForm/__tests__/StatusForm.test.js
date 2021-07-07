@@ -10,8 +10,10 @@ import {
   INGEPLAND,
   AFGEHANDELD,
   GEANNULEERD,
+  StatusCode,
 } from 'signals/incident-management/definitions/statusList'
 
+import userEvent from '@testing-library/user-event'
 import { PATCH_TYPE_STATUS } from '../../../constants'
 import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
@@ -21,6 +23,9 @@ import {
   DEELMELDING_EXPLANATION,
   DEELMELDINGEN_STILL_OPEN_HEADING,
   DEELMELDINGEN_STILL_OPEN_CONTENT,
+  NO_REPORTER_EMAIL,
+  MAIL_EXPLANATION,
+  DEFAULT_MESSAGE_MAX_LENGTH,
 } from '../constants'
 
 const defaultTexts = [
@@ -46,18 +51,10 @@ const defaultTexts = [
 const close = jest.fn()
 const update = jest.fn()
 
-const renderWithContext = (
-  incident = incidentFixture,
-  childIncidents,
-  hasEmail = true
-) =>
+const renderWithContext = (incident = incidentFixture, childIncidents) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, close }}>
-      <StatusForm
-        defaultTexts={defaultTexts}
-        childIncidents={childIncidents}
-        hasEmail={hasEmail}
-      />
+      <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
     </IncidentDetailContext.Provider>
   )
 
@@ -122,6 +119,31 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // verify that the label '(niet verplicht)' is in the document
     expect(queryByText('(niet verplicht)')).toBeInTheDocument()
+  })
+
+  it('renders a disabled checkbox when changing from verzoek tot heropenen to afgehandeld', () => {
+    // render status verzoek tot heropenen
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        status: {
+          ...incidentFixture.status,
+          state: StatusCode.VerzoekTotHeropenen,
+        },
+      })
+    )
+
+    userEvent.click(screen.getByText('Heropend'))
+
+    const checkbox = screen.getByTestId('sendEmailCheckbox')
+
+    expect(checkbox.checked).toEqual(true)
+    expect(checkbox.disabled).toEqual(true)
+
+    userEvent.click(screen.getByText('Afgehandeld'))
+
+    expect(checkbox.checked).toEqual(false)
+    expect(checkbox.disabled).toEqual(false)
   })
 
   it('requires a text value when the checkbox is selected', async () => {
@@ -282,6 +304,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(textarea.value).toEqual(value)
   })
 
+  it('shows an error when typing too many characters in the text field', async () => {
+    render(renderWithContext())
+
+    const textarea = screen.getByRole('textbox')
+
+    userEvent.type(textarea, 'A'.repeat(DEFAULT_MESSAGE_MAX_LENGTH + 1))
+
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+
+    expect(screen.getByRole('alert').textContent).toBe(
+      `Je hebt meer dan de maximale ${DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`
+    )
+  })
+
   it('shows an error when the text field contains specific characters', async () => {
     // render component
     render(renderWithContext())
@@ -393,6 +429,28 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // verify that no warning is shown
     expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
+  })
+
+  it('shows a warning when reporter has no email address', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        reporter: {
+          ...incidentFixture.reporter,
+          email: null,
+        },
+      })
+    )
+
+    expect(screen.queryByText(NO_REPORTER_EMAIL)).toBeInTheDocument()
+  })
+
+  it('shows an explanation text when email will be sent', () => {
+    render(renderWithContext())
+
+    userEvent.click(screen.getByText('Afgehandeld'))
+
+    expect(screen.queryByText(MAIL_EXPLANATION)).toBeInTheDocument()
   })
 
   it('shows a warning that is specific to a deelmelding', () => {
