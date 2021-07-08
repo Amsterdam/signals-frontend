@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import statusList, {
   changeStatusOptionList,
+  isStatusClosed,
   StatusCode,
 } from 'signals/incident-management/definitions/statusList'
 import * as constants from './constants'
@@ -27,22 +28,116 @@ const emailSentWhenStatusChangedTo = (
   )
 }
 
-const determineWarning = (selectedStatusKey, isSplitIncident) => {
-  if (isSplitIncident) return ''
-  if (selectedStatusKey === 'o') return constants.AFGEHANDELD_EXPLANATION
-  return ''
+const determineWarnings = ({
+  originalStatus,
+  toStatus,
+  isSplitIncident,
+  hasEmail,
+  hasOpenChildren,
+}) => {
+  const warnings = []
+
+  if (isSplitIncident)
+    if (toStatus === StatusCode.ReactieGevraagd) {
+      return [
+        {
+          key: 'split-incident-reply-warning',
+          level: 'info',
+          content: constants.REPLY_DEELMELDING_EXPLANATION,
+        },
+      ]
+    } else {
+      return [
+        {
+          key: 'split-incident-warning',
+          level: 'info',
+          content: constants.DEELMELDING_EXPLANATION,
+        },
+      ]
+    }
+
+  if (isStatusClosed(toStatus) && hasOpenChildren) {
+    warnings.push({
+      key: 'has-open-child-incidents-warning',
+      heading: constants.DEELMELDINGEN_STILL_OPEN_HEADING,
+      content: constants.DEELMELDINGEN_STILL_OPEN_CONTENT,
+      level: 'info',
+    })
+  }
+
+  if (originalStatus === StatusCode.ReactieGevraagd && hasEmail) {
+    warnings.push({
+      key: 'has-open-reply-request-warning',
+      heading: constants.REPLY_CHANGE_STATUS_HEADING,
+      content: constants.REPLY_CHANGE_STATUS_CONTENT,
+      level: 'info',
+    })
+  }
+
+  if (toStatus === StatusCode.Afgehandeld)
+    warnings.push({
+      key: 'end-status-warning',
+      content: constants.AFGEHANDELD_CONTENT,
+      level: 'neutral',
+    })
+
+  if (toStatus === StatusCode.ReactieGevraagd && !hasEmail) {
+    warnings.push({
+      key: 'has-no-email-reply-warning',
+      heading: constants.REPLY_NO_MAIL_HEADING,
+      content: constants.REPLY_NO_MAIL_CONTENT,
+      level: 'error',
+    })
+  }
+
+  if (
+    originalStatus === StatusCode.Verzonden &&
+    toStatus === StatusCode.ReactieGevraagd
+  ) {
+    warnings.push({
+      key: 'external-reply-warning',
+      content: constants.REPLY_EXTERNAL_CONTENT,
+      level: 'error',
+    })
+  }
+
+  return warnings
 }
 
-export const init = (incident) => {
+const getTextConfig = (statusCode) => {
+  return statusCode === StatusCode.ReactieGevraagd
+    ? {
+        label: constants.REPLY_MAIL_LABEL,
+        subtitle: constants.REPLY_MAIL_SUBTITLE,
+        maxLength: constants.REPLY_MAIL_MAX_LENGTH,
+        rows: 5,
+      }
+    : {
+        label: constants.DEFAULT_TEXT_LABEL,
+        subtitle: constants.DEFAULT_TEXT_SUBTITLE,
+        maxLength: constants.DEFAULT_TEXT_MAX_LENGTH,
+        rows: 9,
+      }
+}
+
+export const init = ({ incident, childIncidents }) => {
   const incidentStatus = statusList.find(
     ({ key }) => key === incident.status.state
   )
-  const isSplitIncident = incident?._links?.['sia:parent'] !== undefined
+  const isSplitIncident = incident._links?.['sia:parent'] !== undefined
 
   const initialEmailSentState = emailSentWhenStatusChangedTo(
     incidentStatus.key,
     incidentStatus.key,
     isSplitIncident
+  )
+
+  const hasEmail = Boolean(incident.reporter.email)
+
+  const hasOpenChildren = Boolean(
+    childIncidents
+      ?.map((child) => !isStatusClosed(child.status.state))
+      .some((v) => v === true)
   )
 
   return {
@@ -54,12 +149,23 @@ export const init = (incident) => {
     },
     errors: {},
     text: {
+      ...getTextConfig(incidentStatus.key),
       defaultValue: '',
       value: '',
       required: initialEmailSentState,
     },
-    isSplitIncident,
-    warning: determineWarning(incidentStatus.key, isSplitIncident),
+    flags: {
+      isSplitIncident,
+      hasEmail,
+      hasOpenChildren,
+    },
+    warnings: determineWarnings({
+      hasEmail,
+      isSplitIncident,
+      hasOpenChildren,
+      fromStatus: incidentStatus.key,
+      toStatus: incidentStatus.key,
+    }),
   }
 }
 
@@ -69,7 +175,7 @@ const reducer = (state, action) => {
       const checkboxIsChecked = emailSentWhenStatusChangedTo(
         action.payload.key,
         state.originalStatus.key,
-        state.isSplitIncident
+        state.flags.isSplitIncident
       )
 
       return {
@@ -80,8 +186,19 @@ const reducer = (state, action) => {
         },
         errors: { ...state.errors, text: undefined },
         status: action.payload,
-        text: { ...state.text, defaultValue: '', required: checkboxIsChecked },
-        warning: determineWarning(action.payload.key, state.isSplitIncident),
+        text: {
+          ...state.text,
+          ...getTextConfig(action.payload.key),
+          defaultValue: '',
+          required: checkboxIsChecked,
+        },
+        warnings: determineWarnings({
+          isSplitIncident: state.flags.isSplitIncident,
+          hasEmail: state.flags.hasEmail,
+          hasOpenChildren: state.flags.hasOpenChildren,
+          toStatus: action.payload.key,
+          originalStatus: state.originalStatus.key,
+        }),
       }
     }
 
@@ -91,9 +208,6 @@ const reducer = (state, action) => {
         check: { ...state.check, checked: !state.check.checked },
         text: { ...state.text, required: !state.check.checked },
       }
-
-    case 'SET_WARNING':
-      return { ...state, warning: action.payload }
 
     case 'SET_DEFAULT_TEXT':
       return {

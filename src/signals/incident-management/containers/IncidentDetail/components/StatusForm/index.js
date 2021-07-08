@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useReducer, useContext, useMemo } from 'react'
+import { useCallback, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
 import { defaultTextsType } from 'shared/types'
-import statusList, {
-  changeStatusOptionList,
-  isStatusClosed,
-} from 'signals/incident-management/definitions/statusList'
+import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
 import TextArea from 'components/TextArea'
@@ -35,21 +32,14 @@ import reducer, { init } from './reducer'
 
 const StatusForm = ({ defaultTexts, childIncidents }) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
-  const [state, dispatch] = useReducer(reducer, incident, init)
-  const currentStatus = useMemo(
-    () => statusList.find(({ key }) => key === incident.status.state),
-    [incident]
+  const [state, dispatch] = useReducer(
+    reducer,
+    { incident, childIncidents },
+    init
   )
-  const hasOpenChildren = useMemo(
-    () =>
-      childIncidents
-        ?.map((child) => !isStatusClosed(child.status.state))
-        .some((v) => v === true),
-    [childIncidents]
-  )
-  const hasEmail = useMemo(
-    () => Boolean(incident.reporter.email),
-    [incident.reporter.email]
+
+  const disableSubmit = Boolean(
+    state.warnings.some(({ level }) => level === 'error')
   )
 
   const onRadioChange = useCallback((name, selectedStatus) => {
@@ -70,11 +60,11 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
         return
       }
 
-      if (textValue.length > constants.DEFAULT_MESSAGE_MAX_LENGTH) {
+      if (textValue.length > state.text.maxLength) {
         dispatch({
           type: 'SET_ERRORS',
           payload: {
-            text: `Je hebt meer dan de maximale ${constants.DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`,
+            text: `Je hebt meer dan de maximale ${state.text.maxLength} tekens ingevoerd.`,
           },
         })
         return
@@ -103,7 +93,16 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
 
       close()
     },
-    [close, update, state.text, state.check.checked, state.status.key]
+    [
+      state.text.value,
+      state.text.defaultValue,
+      state.text.required,
+      state.text.maxLength,
+      state.status.key,
+      state.check.checked,
+      update,
+      close,
+    ]
   )
 
   const setDefaultText = useCallback((event, text) => {
@@ -125,16 +124,20 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
           <HeaderArea>
             <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-            <div data-testid="currentStatus">
+            <div data-testid="original-status">
               <Label as="strong" label="Huidige status" />
-              <div>{currentStatus.value}</div>
+              <div>{state.originalStatus.value}</div>
             </div>
           </HeaderArea>
 
           <OptionsArea>
             <div>
               <Label as="strong" htmlFor="status" label="Nieuwe status" />
-              <input type="hidden" name="status" value={currentStatus.key} />
+              <input
+                type="hidden"
+                name="status"
+                value={state.originalStatus.key}
+              />
               <RadioButtonList
                 defaultValue={state.status.key}
                 groupName="status"
@@ -144,37 +147,30 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 options={changeStatusOptionList}
               />
             </div>
-
-            {isStatusClosed(state.status.key) && hasOpenChildren && (
-              <Alert level="info" data-testid="statusHasChildrenOpen">
-                <Heading forwardedAs="h3">
-                  {constants.DEELMELDINGEN_STILL_OPEN_HEADING}
-                </Heading>
-                <Paragraph>
-                  {constants.DEELMELDINGEN_STILL_OPEN_CONTENT}
-                </Paragraph>
-              </Alert>
-            )}
-
-            {state.isSplitIncident && (
-              <Alert data-testid="statusExplanation" level="info">
-                {constants.DEELMELDING_EXPLANATION}
-              </Alert>
-            )}
           </OptionsArea>
 
           <FormArea>
-            {state.warning && (
-              <Alert data-testid="statusWarning">{state.warning}</Alert>
-            )}
+            {state.warnings.length > 0 &&
+              state.warnings.map((warning) => (
+                <Alert
+                  key={warning.key}
+                  data-testid={warning.key}
+                  level={warning.level}
+                >
+                  {warning.heading && (
+                    <Heading as="h3">{warning.heading}</Heading>
+                  )}
+                  {warning.content && <Paragraph>{warning.content}</Paragraph>}
+                </Alert>
+              ))}
 
-            {!state.isSplitIncident && (
+            {!state.flags.isSplitIncident && (
               <div>
                 <QuestionLabel>
                   <strong>Versturen</strong>
                 </QuestionLabel>
 
-                {hasEmail ? (
+                {state.flags.hasEmail ? (
                   <Label
                     disabled={state.check.disabled}
                     htmlFor="send_email"
@@ -191,28 +187,32 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                     />
                   </Label>
                 ) : (
-                  <Alert>{constants.NO_REPORTER_EMAIL}</Alert>
+                  <Alert data-testid="no-email-warning">
+                    {constants.NO_REPORTER_EMAIL}
+                  </Alert>
                 )}
               </div>
             )}
 
             <div>
               <QuestionLabel>
-                <strong>Toelichting</strong>
+                <strong>{state.text.label}</strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-                {state.text.required && state.check.checked && hasEmail && (
-                  <Paragraph light>{constants.MAIL_EXPLANATION}</Paragraph>
-                )}
+                {state.text.required &&
+                  state.check.checked &&
+                  state.flags.hasEmail && (
+                    <Paragraph light>{state.text.subtitle}</Paragraph>
+                  )}
               </QuestionLabel>
               <TextArea
                 data-testid="text"
                 error={Boolean(state.errors.text)}
                 errorMessage={state.errors.text}
-                infoText={`${state.text.value.length}/${constants.DEFAULT_MESSAGE_MAX_LENGTH} tekens`}
+                infoText={`${state.text.value.length}/${state.text.maxLength} tekens`}
                 name="text"
                 onChange={onTextChange}
                 required={state.text.required}
-                rows="9"
+                rows={state.text.rows}
                 value={state.text.value || state.text.defaultValue}
               />
             </div>
@@ -222,6 +222,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 data-testid="statusFormSubmitButton"
                 type="submit"
                 variant="secondary"
+                disabled={disableSubmit}
               >
                 Status opslaan
               </StyledButton>
@@ -235,7 +236,6 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
               </StyledButton>
             </div>
           </FormArea>
-
           <TextsArea>
             <DefaultTexts
               defaultTexts={defaultTexts}
