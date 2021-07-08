@@ -10,6 +10,7 @@ import {
   INGEPLAND,
   AFGEHANDELD,
   GEANNULEERD,
+  REACTIE_GEVRAAGD,
   StatusCode,
 } from 'signals/incident-management/definitions/statusList'
 
@@ -19,13 +20,11 @@ import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
-  AFGEHANDELD_EXPLANATION,
   DEELMELDING_EXPLANATION,
   DEELMELDINGEN_STILL_OPEN_HEADING,
   DEELMELDINGEN_STILL_OPEN_CONTENT,
-  NO_REPORTER_EMAIL,
-  MAIL_EXPLANATION,
-  DEFAULT_MESSAGE_MAX_LENGTH,
+  DEFAULT_TEXT_LABEL,
+  DEFAULT_TEXT_MAX_LENGTH,
 } from '../constants'
 
 const defaultTexts = [
@@ -309,12 +308,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     const textarea = screen.getByRole('textbox')
 
-    userEvent.type(textarea, 'A'.repeat(DEFAULT_MESSAGE_MAX_LENGTH + 1))
+    userEvent.type(textarea, 'A'.repeat(DEFAULT_TEXT_MAX_LENGTH + 1))
 
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.getByRole('alert').textContent).toBe(
-      `Je hebt meer dan de maximale ${DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`
+      `Je hebt meer dan de maximale ${DEFAULT_TEXT_MAX_LENGTH} tekens ingevoerd.`
     )
   })
 
@@ -406,43 +405,51 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByTestId('statusError')).not.toBeInTheDocument()
   })
 
-  it('shows a warning that is specific to certain statuses', () => {
-    // render component
-    const { container } = render(renderWithContext())
+  it('shows a warning that is specific to certain statuses', async () => {
+    render(renderWithContext())
 
-    expect(screen.queryByText(AFGEHANDELD_EXPLANATION)).not.toBeInTheDocument()
-
-    // select status 'o'
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="o"]'))
-    })
-
-    // verify that warning with text AFGEHANDELD_EXPLANATION is visible
-    expect(screen.getByTestId('statusWarning').textContent).toEqual(
-      AFGEHANDELD_EXPLANATION
-    )
-
-    // select a status that is none of the above
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="b"]'))
-    })
-
-    // verify that no warning is shown
-    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('end-status-warning')).not.toBeInTheDocument()
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    expect(screen.getByTestId('end-status-warning')).toBeInTheDocument()
   })
 
-  it('shows a warning when reporter has no email address', () => {
+  it('shows a warning when user has no email', () => {
     render(
       renderWithContext({
         ...incidentFixture,
-        reporter: {
-          ...incidentFixture.reporter,
-          email: null,
+        reporter: { ...incidentFixture.reporter, email: null },
+      })
+    )
+
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
+  })
+
+  it('shows a warning when current status is Extern: verzonden and the new status is Reactie gevraagd', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        status: {
+          ...incidentFixture.status,
+          state: StatusCode.Verzonden,
         },
       })
     )
 
-    expect(screen.queryByText(NO_REPORTER_EMAIL)).toBeInTheDocument()
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(screen.getByTestId('external-reply-warning')).toBeInTheDocument()
+  })
+
+  it('shows a warning when switching to reply status user has no email', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        reporter: { ...incidentFixture.reporter, email: null },
+      })
+    )
+
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
   })
 
   it('shows an explanation text when email will be sent', () => {
@@ -450,7 +457,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     userEvent.click(screen.getByText('Afgehandeld'))
 
-    expect(screen.queryByText(MAIL_EXPLANATION)).toBeInTheDocument()
+    expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
   })
 
   it('shows a warning that is specific to a deelmelding', () => {
@@ -470,21 +477,22 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const { container } = render(renderWithContext(deelmelding))
 
     // verify that warning with text DEELMELDING_EXPLANATION is visible
-    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
 
     // select a status that will show a warning (see: )
     fireEvent.click(container.querySelector('input[value="reopened"]'))
 
-    // verify that statusExplanation is visible
-    expect(screen.getByTestId('statusExplanation')).toBeInTheDocument()
-
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
-    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
+
+    userEvent.click(screen.getByText(REACTIE_GEVRAAGD.value))
+    expect(
+      screen.getByTestId('split-incident-reply-warning')
+    ).toBeInTheDocument()
   })
 
   it('shows a warning when there are child incidents still open', async () => {
@@ -496,35 +504,35 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${AFGEHANDELD.key}"]`)
     )
 
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_HEADING
-    )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_CONTENT
-    )
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_HEADING)
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
 
     fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`))
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
     fireEvent.click(
       container.querySelector(`input[value="${GEANNULEERD.key}"]`)
     )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_CONTENT
-    )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_HEADING
-    )
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_HEADING)
   })
 
   it('shows NO warning when the child incidents are closed', async () => {
@@ -561,5 +569,23 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
+  })
+
+  it('is not possible to submit a status when an notification has level "error"', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        reporter: {
+          ...incidentFixture.reporter,
+          email: null,
+        },
+      })
+    )
+
+    const submitButton = screen.getByRole('button', { name: 'Status opslaan' })
+
+    expect(submitButton).not.toBeDisabled()
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(submitButton).toBeDisabled()
   })
 })

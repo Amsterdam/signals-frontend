@@ -4,10 +4,11 @@ import statusList, {
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import * as constants from '../constants'
 
 import reducer, { init } from '../reducer'
 
-const initialisedState = init(incidentFixture)
+const initialisedState = init({ incident: incidentFixture })
 const state = {
   foo: 'bar',
 }
@@ -25,13 +26,21 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         disabled: false,
       },
       errors: {},
-      isSplitIncident: false,
+      flags: {
+        hasEmail: true,
+        hasOpenChildren: false,
+        isSplitIncident: false,
+      },
       text: {
         defaultValue: '',
         value: '',
         required: false,
+        label: constants.DEFAULT_TEXT_LABEL,
+        subtitle: constants.DEFAULT_TEXT_SUBTITLE,
+        maxLength: constants.DEFAULT_TEXT_MAX_LENGTH,
+        rows: 9,
       },
-      warning: '',
+      warnings: [],
       originalStatus: status,
     })
   })
@@ -49,16 +58,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       },
       errors: { someOther: 'This be required', text: 'Whoops' },
       text: {
-        required: false,
+        ...initialisedState.text,
         defaultValue: 'Some default value',
         value: 'A previously set value',
       },
     }
 
-    const statusSendsEmailWhenSet = changeStatusOptionList
-      .filter(({ email_sent_when_set }) => email_sent_when_set)
-      .sort(() => 0.5 - Math.random())[0]
-
+    const statusSendsEmailWhenSet = changeStatusOptionList.find(
+      ({ email_sent_when_set }) => email_sent_when_set
+    )
     const expectedState = {
       ...intermediateState,
       check: {
@@ -67,8 +75,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       },
       errors: { ...intermediateState.errors, text: undefined },
       status: statusSendsEmailWhenSet,
-      text: { ...intermediateState.text, defaultValue: '', required: true },
-      warning: expect.any(String),
+      text: {
+        ...intermediateState.text,
+        defaultValue: '',
+        required: true,
+        label: constants.REPLY_MAIL_LABEL,
+        subtitle: constants.REPLY_MAIL_SUBTITLE,
+        maxLength: constants.REPLY_MAIL_MAX_LENGTH,
+        rows: 5,
+      },
     }
 
     expect(
@@ -90,16 +105,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(reducer(afterToggle, { type: 'TOGGLE_CHECK' })).toEqual(
       initialisedState
-    )
-  })
-
-  it('should handle SET_WARNING', () => {
-    const payload = 'Here be dragons'
-    expect(reducer(initialisedState, { type: 'SET_WARNING', payload })).toEqual(
-      {
-        ...initialisedState,
-        warning: payload,
-      }
     )
   })
 

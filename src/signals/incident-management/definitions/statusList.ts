@@ -76,8 +76,7 @@ export const GEANNULEERD = {
 
 export const REACTIE_GEVRAAGD = {
   key: StatusCode.ReactieGevraagd,
-  value: 'Reactie Gevraagd',
-  color: 'orange',
+  value: 'Reactie gevraagd',
   email_sent_when_set: true,
   shows_remaining_sla_days: false,
 }
