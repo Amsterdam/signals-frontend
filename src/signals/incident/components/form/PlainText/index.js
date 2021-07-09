@@ -30,8 +30,12 @@ const getStyle = (type) => {
     case 'info':
       return css`
         background-color: ${themeColor('primary')};
-        color: ${themeColor('tint', 'level1')};
         padding: ${themeSpacing(5)};
+
+        * {
+          // Make sure links contrast with blue background
+          color: ${themeColor('tint', 'level1')};
+        }
       `
     case 'citation':
     case 'disclaimer':
