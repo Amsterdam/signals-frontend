@@ -10,6 +10,7 @@ export enum StatusCode {
   Gesplitst = 's',
   VerzoekTotHeropenen = 'reopen requested',
   ReactieGevraagd = 'reaction requested',
+  ReactieOntvangen = 'reaction received',
   Heropend = 'reopened',
   TeVerzenden = 'ready to send',
   Verzonden = 'sent',
@@ -89,6 +90,13 @@ export const REACTIE_GEVRAAGD = {
   shows_remaining_sla_days: false,
 }
 
+export const REACTIE_ONTVANGEN = {
+  key: StatusCode.ReactieOntvangen,
+  value: 'Reactie ontvangen',
+  email_sent_when_set: false,
+  shows_remaining_sla_days: false,
+}
+
 export const VERZOEK_TOT_HEROPENEN = {
   key: StatusCode.VerzoekTotHeropenen,
   value: 'Verzoek tot heropenen',
@@ -144,6 +152,8 @@ const statusList: Status[] = [
   GEMELD,
   AFWACHTING,
   BEHANDELING,
+  REACTIE_GEVRAAGD,
+  REACTIE_ONTVANGEN,
   AFGEHANDELD,
   INGEPLAND,
   GEANNULEERD,
@@ -155,7 +165,6 @@ const statusList: Status[] = [
   VERZENDEN_MISLUKT,
   VERZOEK_TOT_AFHANDELING,
   AFGEHANDELD_EXTERN,
-  REACTIE_GEVRAAGD,
 ]
 
 export default statusList
