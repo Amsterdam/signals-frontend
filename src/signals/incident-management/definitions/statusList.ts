@@ -18,6 +18,14 @@ export enum StatusCode {
   AfgehandeldExtern = 'done external',
 }
 
+export type Status = {
+  color?: string
+  key: StatusCode
+  value: string
+  email_sent_when_set: boolean
+  shows_remaining_sla_days: boolean
+}
+
 export const GEMELD = {
   key: StatusCode.Gemeld,
   value: 'Gemeld',
@@ -132,7 +140,7 @@ export const AFGEHANDELD_EXTERN = {
   shows_remaining_sla_days: true,
 }
 
-const statusList = [
+const statusList: Status[] = [
   GEMELD,
   AFWACHTING,
   BEHANDELING,

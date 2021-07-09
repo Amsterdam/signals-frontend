@@ -1,24 +1,33 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useReducer, useContext } from 'react'
-import PropTypes from 'prop-types'
-import { Label, Alert, Heading } from '@amsterdam/asc-ui'
+import {
+  useCallback,
+  useReducer,
+  useContext,
+  FunctionComponent,
+  Reducer,
+} from 'react'
+import { Alert, Heading } from '@amsterdam/asc-ui'
 
-import { defaultTextsType } from 'shared/types'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
 import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
 
+import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
+
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import { Incident } from 'types/api/incident'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
+import { IncidentChild } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   Form,
   FormArea,
   HeaderArea,
+  StyledLabel,
   OptionsArea,
   QuestionLabel,
   StyledButton,
@@ -28,21 +37,31 @@ import {
   Wrapper,
 } from './styled'
 import * as constants from './constants'
-import reducer, { init } from './reducer'
+import reducer, { init, State } from './reducer'
+import { StatusFormActions } from './actions'
 
-const StatusForm = ({ defaultTexts, childIncidents }) => {
+interface StatusFormProps {
+  defaultTexts: DefaultTextsType
+  childIncidents: IncidentChild[]
+}
+
+const StatusForm: FunctionComponent<StatusFormProps> = ({
+  defaultTexts,
+  childIncidents,
+}) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
-  const [state, dispatch] = useReducer(
-    reducer,
-    { incident, childIncidents },
-    init
-  )
+  const mockIncident = incident as Incident
+
+  const [state, dispatch] = useReducer<
+    Reducer<State, StatusFormActions>,
+    { incident: Incident; childIncidents: IncidentChild[] }
+  >(reducer, { incident: mockIncident, childIncidents }, init)
 
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
   )
 
-  const onRadioChange = useCallback((name, selectedStatus) => {
+  const onRadioChange = useCallback((_name, selectedStatus) => {
     dispatch({ type: 'SET_STATUS', payload: selectedStatus })
   }, [])
 
@@ -80,18 +99,22 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
         return
       }
 
-      update({
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: {
-            state: state.status.key,
-            text: textValue,
-            send_email: state.check.checked,
+      if (update) {
+        update({
+          type: PATCH_TYPE_STATUS,
+          patch: {
+            status: {
+              state: state.status.key,
+              text: textValue,
+              send_email: state.check.checked,
+            },
           },
-        },
-      })
+        })
+      }
 
-      close()
+      if (close) {
+        close()
+      }
     },
     [
       state.text.value,
@@ -105,12 +128,12 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
     ]
   )
 
-  const setDefaultText = useCallback((event, text) => {
+  const setDefaultText = useCallback((_event, text) => {
     dispatch({ type: 'SET_DEFAULT_TEXT', payload: text })
   }, [])
 
   const onCheck = useCallback(() => {
-    dispatch({ type: 'TOGGLE_CHECK' })
+    dispatch({ type: 'TOGGLE_CHECK', payload: undefined })
   }, [])
 
   const onTextChange = useCallback((event) => {
@@ -125,14 +148,14 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
             <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
             <div data-testid="original-status">
-              <Label as="strong" label="Huidige status" />
+              <StyledLabel label="Huidige status" />
               <div>{state.originalStatus.value}</div>
             </div>
           </HeaderArea>
 
           <OptionsArea>
             <div>
-              <Label as="strong" htmlFor="status" label="Nieuwe status" />
+              <StyledLabel htmlFor="status" label="Nieuwe status" />
               <input
                 type="hidden"
                 name="status"
@@ -142,7 +165,6 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 defaultValue={state.status.key}
                 groupName="status"
                 hasEmptySelectionButton={false}
-                name="status"
                 onChange={onRadioChange}
                 options={changeStatusOptionList}
               />
@@ -171,7 +193,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 </QuestionLabel>
 
                 {state.flags.hasEmail ? (
-                  <Label
+                  <StyledLabel
                     disabled={state.check.disabled}
                     htmlFor="send_email"
                     label={constants.MELDING_CHECKBOX_DESCRIPTION}
@@ -182,10 +204,9 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                       data-testid="sendEmailCheckbox"
                       disabled={state.check.disabled}
                       id="send_email"
-                      name="send_email"
                       onClick={onCheck}
                     />
-                  </Label>
+                  </StyledLabel>
                 ) : (
                   <Alert data-testid="no-email-warning">
                     {constants.NO_REPORTER_EMAIL}
@@ -247,11 +268,6 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
       </StyledColumn>
     </Wrapper>
   )
-}
-
-StatusForm.propTypes = {
-  defaultTexts: defaultTextsType.isRequired,
-  childIncidents: PropTypes.arrayOf(PropTypes.shape({})),
 }
 
 export default StatusForm
