@@ -7,7 +7,7 @@ import {
   FunctionComponent,
   Reducer,
 } from 'react'
-import { Alert, Heading } from '@amsterdam/asc-ui'
+import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -193,7 +193,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 </QuestionLabel>
 
                 {state.flags.hasEmail ? (
-                  <StyledLabel
+                  <Label
                     disabled={state.check.disabled}
                     htmlFor="send_email"
                     label={constants.MELDING_CHECKBOX_DESCRIPTION}
@@ -206,7 +206,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                       id="send_email"
                       onClick={onCheck}
                     />
-                  </StyledLabel>
+                  </Label>
                 ) : (
                   <Alert data-testid="no-email-warning">
                     {constants.NO_REPORTER_EMAIL}
