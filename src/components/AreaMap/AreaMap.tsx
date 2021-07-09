@@ -28,7 +28,7 @@ import MapCloseButton from 'components/MapCloseButton'
 import { Geography, Property } from 'types/api/geography'
 import { Feature } from './types'
 
-const DEFAULT_ZOOM = 14
+export const DEFAULT_ZOOM = 14
 const MAX_ZOOM = 15
 const FOCUS_RADIUS_METERS = 50
 const CURRENT_INCIDENT_MARKER_Z = -100 // Show below incident markers
