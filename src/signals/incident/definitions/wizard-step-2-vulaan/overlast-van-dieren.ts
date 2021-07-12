@@ -5,6 +5,10 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 const overlastVanDieren = {
   extra_dieren_welk_dier: {
     meta: {
+      ifAllOf: {
+        category: 'overlast-van-dieren',
+        subcategory: 'overig-dieren',
+      },
       label: 'Waarover gaat de melding?',
       shortLabel: 'Waarover',
       pathMerge: 'extra_properties',
@@ -25,6 +29,7 @@ const overlastVanDieren = {
     meta: {
       ifOneOf: {
         extra_dieren_welk_dier: 'wespen',
+        subcategory: 'wespen',
       },
       label: 'Waar veroorzaken de wespen overlast?',
       shortLabel: 'Waar',
@@ -43,6 +48,7 @@ const overlastVanDieren = {
     meta: {
       ifOneOf: {
         extra_dieren_welk_dier: 'dode_dieren',
+        subcategory: 'dode-dieren',
       },
       label: 'Om wat voor dode of zieke dieren gaat het?',
       shortLabel: 'Waar',
@@ -61,13 +67,14 @@ const overlastVanDieren = {
     },
     render: FIELD_TYPE_MAP.radio_input,
   },
+
   extra_dieren_waar_dode_dieren_woning: {
     meta: {
       ifOneOf: {
         extra_dieren_waar_dode_dieren: 'woning_tuin',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
@@ -94,6 +101,60 @@ const overlastVanDieren = {
     },
     render: FIELD_TYPE_MAP.plain_text,
   },
+  extra_dieren_waar_duiven: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'duiven',
+      },
+      label: 'Waar veroorzaken de duiven overlast?',
+      shortLabel: 'Waar',
+      pathMerge: 'extra_properties',
+      values: {
+        woning: 'In of bij de woning',
+        openbaar: 'In de openbare ruimte, zoals een park of straat',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: FIELD_TYPE_MAP.radio_input,
+  },
+  extra_dieren_waar_meeuwen: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'meeuwen',
+      },
+      label: 'Waar veroorzaken de meeuwen overlast?',
+      shortLabel: 'Waar',
+      pathMerge: 'extra_properties',
+      values: {
+        woning: 'In of bij de woning',
+        openbaar: 'In de openbare ruimte, zoals een park of straat',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: FIELD_TYPE_MAP.radio_input,
+  },
+  extra_dieren_waar_ganzen: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'ganzen',
+      },
+      label: 'Waar veroorzaken de ganzen overlast?',
+      shortLabel: 'Waar',
+      pathMerge: 'extra_properties',
+      values: {
+        woning: 'In of bij de woning',
+        openbaar: 'In de openbare ruimte, zoals een park of straat',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: FIELD_TYPE_MAP.radio_input,
+  },
   extra_dieren_waar_duiven_meeuwen_ganzen: {
     meta: {
       ifOneOf: {
@@ -116,9 +177,12 @@ const overlastVanDieren = {
     meta: {
       ifOneOf: {
         extra_dieren_waar_duiven_meeuwen_ganzen: 'woning',
+        extra_dieren_waar_duiven: 'woning',
+        extra_dieren_waar_ganzen: 'woning',
+        extra_dieren_waar_meeuwen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
@@ -127,6 +191,7 @@ const overlastVanDieren = {
     meta: {
       ifOneOf: {
         extra_dieren_welk_dier: 'ratten',
+        subcategory: ['ratten-in-en-rond-woning', 'ratten'],
       },
       label: 'Waar denkt u dat de ratten zitten?',
       shortLabel: 'Waar',
