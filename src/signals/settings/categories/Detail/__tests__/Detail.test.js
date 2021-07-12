@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
 import userEvent from '@testing-library/user-event'
@@ -59,7 +59,7 @@ describe('signals/settings/categories/Detail', () => {
   })
 
   afterEach(() => {
-    fetch.resetMocks()
+    fetch.mockClear()
   })
 
   it('should render a backlink', async () => {
@@ -185,16 +185,15 @@ describe('signals/settings/categories/Detail', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 10101,
     }))
+    const categoryData = {
+      ...categoryJSON,
+      description: null,
+    }
     fetch.resetMocks()
     fetch.mockResponses(
-      [
-        JSON.stringify({
-          ...categoryJSON,
-          description: null,
-        }),
-        { status: 200 },
-      ],
-      [JSON.stringify(historyJSON), { status: 200 }]
+      [JSON.stringify(categoryData), { status: 200 }],
+      [JSON.stringify(historyJSON), { status: 200 }],
+      [JSON.stringify(categoryData), { status: 200 }]
     )
 
     render(withAppContext(<CategoryDetailContainer />))
@@ -209,6 +208,10 @@ describe('signals/settings/categories/Detail', () => {
     expect(actualRequestBody).toEqual(
       expect.objectContaining({ description: null })
     )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    })
   })
 
   it('should call confirmedCancel when data has NULL values', async () => {

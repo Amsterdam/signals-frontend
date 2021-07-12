@@ -26,14 +26,12 @@ describe('hooks/useFetchAll', () => {
 
   describe('get', () => {
     it('should request from URLs on mount', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toBeUndefined()
 
-      act(() => {
-        result.current.get([URL1, URL2])
-      })
+      const get = result.current.get([URL1, URL2])
 
       expect(result.current.isLoading).toEqual(true)
 
@@ -45,7 +43,7 @@ describe('hooks/useFetchAll', () => {
       )
       expect(fetchMock).toHaveBeenCalledTimes(2)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toEqual([JSONresponse, JSONresponse])
@@ -55,9 +53,7 @@ describe('hooks/useFetchAll', () => {
       const { result } = renderHook(() => useFetchAll())
       const authHeader = { Authorization: 'Bearer token' }
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(fetchMock).not.toHaveBeenCalledWith(
         URL1,
@@ -71,9 +67,7 @@ describe('hooks/useFetchAll', () => {
 
       mockGetAuthHeaders.mockImplementation(() => authHeader)
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(fetchMock).toHaveBeenLastCalledWith(
         URL1,
@@ -91,16 +85,14 @@ describe('hooks/useFetchAll', () => {
       const message = getErrorMessage(error)
       fetchMock.mockRejectOnce(error)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
-      act(() => {
-        result.current.get([URL1])
-      })
+      const get = act(() => result.current.get([URL1]))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(error)
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -112,9 +104,7 @@ describe('hooks/useFetchAll', () => {
 
       const { result, unmount } = renderHook(() => useFetchAll())
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(abortSpy).not.toHaveBeenCalled()
 
@@ -129,16 +119,14 @@ describe('hooks/useFetchAll', () => {
 
       fetchMock.mockResponse('', response)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
-      act(() => {
-        result.current.get([URL1])
-      })
+      const get = act(() => result.current.get([URL1]))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(expect.objectContaining(response))
       expect((result.current.error as FetchError).message).toEqual(message)
