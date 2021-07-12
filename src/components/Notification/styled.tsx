@@ -17,8 +17,14 @@ import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
+import { Theme } from 'types/theme'
+import { Variant } from 'containers/Notification/types'
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{
+  top?: number
+  variant?: Variant
+  theme: Theme
+}>`
   background-color: ${({ theme, variant }) => {
     switch (variant) {
       case VARIANT_ERROR:
@@ -83,7 +89,7 @@ export const Title = styled(Heading).attrs({
   color: white;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
   font-weight: normal;
-  margin: ${({ hasMargin }) =>
+  margin: ${({ hasMargin = false }: { hasMargin?: boolean }) =>
     hasMargin
       ? css`
           ${themeSpacing(2)} 0 0
@@ -101,8 +107,8 @@ export const Message = styled(Paragraph)`
   font-size: 16px;
 `
 
-export const CloseButton = styled(Button)`
-  ${({ alignTop }) =>
+export const CloseButton = styled(Button)<{ alignTop?: boolean }>`
+  ${({ alignTop = false }) =>
     alignTop
       ? css`
           margin-top: ${themeSpacing(2)};

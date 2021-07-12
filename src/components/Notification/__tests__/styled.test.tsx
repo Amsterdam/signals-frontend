@@ -81,7 +81,7 @@ describe('components/Notification/styled', () => {
 
       expect(container.firstChild).toHaveStyleRule('align-self', 'center')
 
-      rerender(withAppContext(<Title alignTop />))
+      rerender(withAppContext(<CloseButton />))
 
       expect(container.firstChild).not.toHaveStyleRule('margin-top')
     })
