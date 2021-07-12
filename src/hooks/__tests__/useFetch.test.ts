@@ -133,12 +133,27 @@ describe('hooks/useFetch', () => {
       expect(result.current.isLoading).toEqual(false)
     })
 
-    it('should abort request on unmount', async () => {
+    it('should abort get request on unmount', async () => {
       const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort')
 
       const { result, unmount } = renderHook(() => useFetch())
 
       await act(() => result.current.get(URL))
+
+      expect(abortSpy).not.toHaveBeenCalled()
+
+      unmount()
+
+      expect(abortSpy).toHaveBeenCalled()
+      abortSpy.mockReset()
+    })
+
+    it('should abort modify request on unmount', async () => {
+      const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort')
+
+      const { result, unmount } = renderHook(() => useFetch())
+
+      await act(() => result.current.patch(URL, {}))
 
       expect(abortSpy).not.toHaveBeenCalled()
 

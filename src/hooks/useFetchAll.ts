@@ -99,7 +99,6 @@ const useFetchAll = <T>(): FetchResponse<T> => {
 
       try {
         const fetchResponse = await Promise.all(requests)
-        if (signal.aborted) return
 
         if (!fetchResponse.some((response) => !response.ok)) {
           const responseData = await Promise.all(

@@ -135,8 +135,6 @@ const useFetch = <T>(): FetchResponse<T> => {
           ...requestOptions,
         })
 
-        if (signal.aborted) return
-
         if (fetchResponse.ok) {
           const responseData = (
             requestOptions.responseType === 'blob'
@@ -184,8 +182,6 @@ const useFetch = <T>(): FetchResponse<T> => {
             body: JSON.stringify(modifiedData),
             ...requestOptions,
           })
-
-          if (signal.aborted) return
 
           if (modifyResponse.ok) {
             const responseData = (
