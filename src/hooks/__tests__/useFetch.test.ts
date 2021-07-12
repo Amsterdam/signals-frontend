@@ -5,28 +5,23 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
+import { mocked } from 'ts-jest/utils'
 
 import type { FetchError } from '../useFetch'
 import useFetch from '../useFetch'
 
 jest.mock('shared/services/auth/auth')
 
-const mockGetAuthHeaders = getAuthHeaders as jest.MockedFunction<
-  typeof getAuthHeaders
->
+const mockGetAuthHeaders = mocked(getAuthHeaders)
 const URL = 'https://here-is-my.api/someId/6'
 
 describe('hooks/useFetch', () => {
-  let promise: undefined | Promise<void>
-
   beforeEach(() => {
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
-    promise = undefined
   })
 
   afterEach(async () => {
     fetchMock.resetMocks()
-    if (promise) await promise
   })
 
   describe('get', () => {
@@ -37,7 +32,7 @@ describe('hooks/useFetch', () => {
       expect(result.current.data).toBeUndefined()
 
       act(() => {
-        promise = result.current.get(URL)
+        result.current.get(URL)
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -99,7 +94,7 @@ describe('hooks/useFetch', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetch())
 
       act(() => {
-        promise = result.current.get(URL, params)
+        result.current.get(URL, params)
       })
 
       await waitForNextUpdate()
@@ -122,7 +117,7 @@ describe('hooks/useFetch', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetch())
 
       act(() => {
-        promise = result.current.get(URL, params)
+        result.current.get(URL, params)
       })
 
       await waitForNextUpdate()
@@ -143,7 +138,7 @@ describe('hooks/useFetch', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetch())
 
       act(() => {
-        promise = result.current.get(URL)
+        result.current.get(URL)
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -181,7 +176,7 @@ describe('hooks/useFetch', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetch())
 
       act(() => {
-        promise = result.current.get(URL)
+        result.current.get(URL)
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -200,7 +195,7 @@ describe('hooks/useFetch', () => {
       const requestOptions = { responseType: 'blob' }
 
       act(() => {
-        promise = result.current.get(URL, params, requestOptions)
+        result.current.get(URL, params, requestOptions)
       })
 
       await waitForNextUpdate()
@@ -239,7 +234,7 @@ describe('hooks/useFetch', () => {
       expect(fetchMock).not.toHaveBeenLastCalledWith(...expectRequest)
 
       act(() => {
-        promise = result.current.patch(URL, formData)
+        result.current.patch(URL, formData)
       })
 
       await waitForNextUpdate()
@@ -259,7 +254,7 @@ describe('hooks/useFetch', () => {
       fetchMock.mockResponseOnce('', response)
 
       act(() => {
-        promise = result.current.patch(URL, formData)
+        result.current.patch(URL, formData)
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -283,7 +278,7 @@ describe('hooks/useFetch', () => {
       const requestOptions = { responseType: 'blob' }
 
       act(() => {
-        promise = result.current.patch(URL, formData, requestOptions)
+        result.current.patch(URL, formData, requestOptions)
       })
 
       await waitForNextUpdate()
@@ -321,7 +316,7 @@ describe('hooks/useFetch', () => {
       expect(fetchMock).not.toHaveBeenCalledWith(...expectRequest)
 
       act(() => {
-        promise = result.current.post(URL, formData)
+        result.current.post(URL, formData)
       })
 
       expect(result.current.isSuccess).not.toEqual(true)
@@ -343,7 +338,7 @@ describe('hooks/useFetch', () => {
       fetchMock.mockResponseOnce('', response)
 
       act(() => {
-        promise = result.current.post(URL, formData)
+        result.current.post(URL, formData)
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -366,7 +361,7 @@ describe('hooks/useFetch', () => {
       const requestOptions = { responseType: 'blob' }
 
       act(() => {
-        promise = result.current.post(URL, formData, requestOptions)
+        result.current.post(URL, formData, requestOptions)
       })
 
       await waitForNextUpdate()
