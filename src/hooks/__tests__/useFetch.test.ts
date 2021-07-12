@@ -22,14 +22,12 @@ describe('hooks/useFetch', () => {
 
   describe('get', () => {
     it('should request from URL on mount', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result, unmount } = renderHook(() => useFetch())
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toBeUndefined()
 
-      act(() => {
-        result.current.get(URL)
-      })
+      const get = result.current.get(URL)
 
       expect(result.current.isLoading).toEqual(true)
 
@@ -40,19 +38,19 @@ describe('hooks/useFetch', () => {
         })
       )
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toEqual(JSONresponse)
+
+      unmount()
     })
 
     it('should use correct request headers', async () => {
       const { result } = renderHook(() => useFetch())
       const authHeader = { Authorization: 'Bearer token' }
 
-      await act(async () => {
-        await result.current.get(URL)
-      })
+      await act(() => result.current.get(URL))
 
       expect(fetchMock).not.toHaveBeenCalledWith(
         URL,
@@ -66,9 +64,7 @@ describe('hooks/useFetch', () => {
 
       mockGetAuthHeaders.mockImplementation(() => authHeader)
 
-      await act(async () => {
-        await result.current.get(URL)
-      })
+      await act(() => result.current.get(URL))
 
       expect(fetchMock).toHaveBeenLastCalledWith(
         URL,
@@ -87,13 +83,9 @@ describe('hooks/useFetch', () => {
         qux: 'zork',
       }
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
-      act(() => {
-        result.current.get(URL, params)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.get(URL, params))
 
       expect(fetchMock).toHaveBeenCalledWith(
         `${URL}?foo=bar&qux=zork`,
@@ -110,13 +102,9 @@ describe('hooks/useFetch', () => {
         category: ['a', 'b', 'c'],
       }
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
-      act(() => {
-        result.current.get(URL, params)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.get(URL, params))
 
       expect(fetchMock).toHaveBeenCalledWith(
         `${URL}?category=a&category=b&category=c&foo=bar&qux=zork`,
@@ -131,16 +119,14 @@ describe('hooks/useFetch', () => {
       const message = getErrorMessage(error)
       fetchMock.mockRejectOnce(error)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
-      act(() => {
-        result.current.get(URL)
-      })
+      const get = act(() => result.current.get(URL))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(error)
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -152,9 +138,7 @@ describe('hooks/useFetch', () => {
 
       const { result, unmount } = renderHook(() => useFetch())
 
-      await act(async () => {
-        await result.current.get(URL)
-      })
+      await act(() => result.current.get(URL))
 
       expect(abortSpy).not.toHaveBeenCalled()
 
@@ -169,16 +153,14 @@ describe('hooks/useFetch', () => {
 
       fetchMock.mockResponseOnce('', response)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
-      act(() => {
-        result.current.get(URL)
-      })
+      const get = act(() => result.current.get(URL))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(expect.objectContaining(response))
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -186,15 +168,11 @@ describe('hooks/useFetch', () => {
     })
 
     it('should apply request options', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
       const params = {}
       const requestOptions = { responseType: 'blob' }
 
-      act(() => {
-        result.current.get(URL, params, requestOptions)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.get(URL, params, requestOptions))
 
       expect(fetchMock).toHaveBeenCalledWith(
         URL,
@@ -210,7 +188,7 @@ describe('hooks/useFetch', () => {
     it('should send PATCH request', async () => {
       fetchMock.mockResponse(JSON.stringify(JSONresponse))
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
       const formData = { ...JSONresponse, is_active: false }
 
@@ -229,11 +207,7 @@ describe('hooks/useFetch', () => {
 
       expect(fetchMock).not.toHaveBeenLastCalledWith(...expectRequest)
 
-      act(() => {
-        result.current.patch(URL, formData)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.patch(URL, formData))
 
       expect(fetchMock).toHaveBeenLastCalledWith(...expectRequest)
 
@@ -245,13 +219,11 @@ describe('hooks/useFetch', () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' }
       const message = getErrorMessage(response)
       const formData = { ...JSONresponse, is_active: false }
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
       fetchMock.mockResponseOnce('', response)
 
-      act(() => {
-        result.current.patch(URL, formData)
-      })
+      const patch = act(() => result.current.patch(URL, formData))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).not.toEqual(
@@ -260,7 +232,7 @@ describe('hooks/useFetch', () => {
       // value of isSuccess can be one of `undefined`, `false`, or `true`
       expect(result.current.isSuccess).not.toEqual(false)
 
-      await waitForNextUpdate()
+      await patch
 
       expect(result.current.error).toEqual(expect.objectContaining(response))
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -269,15 +241,11 @@ describe('hooks/useFetch', () => {
     })
 
     it('should apply request options', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
       const formData = {}
       const requestOptions = { responseType: 'blob' }
 
-      act(() => {
-        result.current.patch(URL, formData, requestOptions)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.patch(URL, formData, requestOptions))
 
       expect(fetchMock).toHaveBeenCalledWith(
         URL,
@@ -291,7 +259,7 @@ describe('hooks/useFetch', () => {
 
   describe('post', () => {
     it('should send POST request', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
       const formData = {
         first_name: JSONresponse.first_name,
@@ -311,13 +279,11 @@ describe('hooks/useFetch', () => {
 
       expect(fetchMock).not.toHaveBeenCalledWith(...expectRequest)
 
-      act(() => {
-        result.current.post(URL, formData)
-      })
+      const post = act(() => result.current.post(URL, formData))
 
       expect(result.current.isSuccess).not.toEqual(true)
 
-      await waitForNextUpdate()
+      await post
 
       expect(fetchMock).toHaveBeenCalledWith(...expectRequest)
 
@@ -329,13 +295,11 @@ describe('hooks/useFetch', () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' }
       const message = getErrorMessage(response)
       const formData = { ...JSONresponse, is_active: false }
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
 
       fetchMock.mockResponseOnce('', response)
 
-      act(() => {
-        result.current.post(URL, formData)
-      })
+      const post = act(() => result.current.post(URL, formData))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).not.toEqual(
@@ -343,7 +307,7 @@ describe('hooks/useFetch', () => {
       )
       expect(result.current.isSuccess).not.toEqual(false)
 
-      await waitForNextUpdate()
+      await post
 
       expect(result.current.error).toEqual(expect.objectContaining(response))
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -352,15 +316,11 @@ describe('hooks/useFetch', () => {
     })
 
     it('should apply request options', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetch())
+      const { result } = renderHook(() => useFetch())
       const formData = {}
       const requestOptions = { responseType: 'blob' }
 
-      act(() => {
-        result.current.post(URL, formData, requestOptions)
-      })
-
-      await waitForNextUpdate()
+      await act(() => result.current.post(URL, formData, requestOptions))
 
       expect(fetchMock).toHaveBeenCalledWith(
         URL,
