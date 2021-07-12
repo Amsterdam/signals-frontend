@@ -16,12 +16,8 @@ const mockGetAuthHeaders = mocked(getAuthHeaders)
 const URL = 'https://here-is-my.api/someId/6'
 
 describe('hooks/useFetch', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
-  })
-
-  afterEach(async () => {
-    fetchMock.resetMocks()
   })
 
   describe('get', () => {
