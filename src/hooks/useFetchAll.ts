@@ -99,6 +99,7 @@ const useFetchAll = <T>(): FetchResponse<T> => {
 
       try {
         const fetchResponse = await Promise.all(requests)
+        if (signal.aborted) return
 
         if (!fetchResponse.some((response) => !response.ok)) {
           const responseData = await Promise.all(
@@ -117,6 +118,7 @@ const useFetchAll = <T>(): FetchResponse<T> => {
           dispatch({ type: 'SET_ERROR', payload: errorResponse as FetchError })
         }
       } catch (exception: unknown) {
+        if (signal.aborted) return
         Object.defineProperty(exception, 'message', {
           value: getErrorMessage(exception),
           writable: false,

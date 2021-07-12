@@ -135,6 +135,8 @@ const useFetch = <T>(): FetchResponse<T> => {
           ...requestOptions,
         })
 
+        if (signal.aborted) return
+
         if (fetchResponse.ok) {
           const responseData = (
             requestOptions.responseType === 'blob'
@@ -152,6 +154,8 @@ const useFetch = <T>(): FetchResponse<T> => {
           dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError })
         }
       } catch (exception: unknown) {
+        if (signal.aborted) return
+
         Object.defineProperty(exception, 'message', {
           value: getErrorMessage(exception),
           writable: false,
@@ -181,6 +185,8 @@ const useFetch = <T>(): FetchResponse<T> => {
             ...requestOptions,
           })
 
+          if (signal.aborted) return
+
           if (modifyResponse.ok) {
             const responseData = (
               requestOptions.responseType === 'blob'
@@ -201,6 +207,7 @@ const useFetch = <T>(): FetchResponse<T> => {
             })
           }
         } catch (exception: unknown) {
+          if (signal.aborted) return
           Object.defineProperty(exception, 'message', {
             value: getErrorMessage(exception),
             writable: false,
