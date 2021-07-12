@@ -1,8 +1,8 @@
 import fetchMock from 'jest-fetch-mock'
+import { mocked } from 'ts-jest/utils'
 import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 
-// import type { FetchError } from '../useFetch';
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
 import type { FetchError } from 'hooks/useFetch'
@@ -10,24 +10,18 @@ import useFetchAll from '../useFetchAll'
 
 jest.mock('shared/services/auth/auth')
 
-const mockGetAuthHeaders = getAuthHeaders as jest.MockedFunction<
-  typeof getAuthHeaders
->
+const mockGetAuthHeaders = mocked(getAuthHeaders)
 const URL1 = 'https://here-is-my.api/someId/6'
 const URL2 = 'https://here-is-my.api/someId/7'
 
 describe('hooks/useFetchAll', () => {
-  let promise: undefined | Promise<void>
-
   beforeEach(() => {
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
-    promise = undefined
   })
 
-  afterEach(async () => {
+  afterEach(() => {
     fetchMock.resetMocks()
-    if (promise) await promise
   })
 
   describe('get', () => {
@@ -38,7 +32,7 @@ describe('hooks/useFetchAll', () => {
       expect(result.current.data).toBeUndefined()
 
       act(() => {
-        promise = result.current.get([URL1, URL2])
+        result.current.get([URL1, URL2])
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -100,7 +94,7 @@ describe('hooks/useFetchAll', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
 
       act(() => {
-        promise = result.current.get([URL1])
+        result.current.get([URL1])
       })
 
       expect(result.current.isLoading).toEqual(true)
@@ -138,7 +132,7 @@ describe('hooks/useFetchAll', () => {
       const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
 
       act(() => {
-        promise = result.current.get([URL1])
+        result.current.get([URL1])
       })
 
       expect(result.current.isLoading).toEqual(true)

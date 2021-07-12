@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useEffect, useState, useCallback, useRef } from 'react'
-import PropTypes from 'prop-types'
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  FunctionComponent,
+} from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 import { useHistory } from 'react-router-dom'
@@ -17,25 +22,34 @@ import {
   TYPE_LOCAL,
   VARIANT_ERROR,
   VARIANT_NOTICE,
-  VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import { Type, Variant } from 'containers/Notification/types'
 
 import { Wrapper, Title, Message, CloseButton } from './styled'
+
+interface NotificationProps {
+  className?: string
+  message?: string
+  onClose?: () => void
+  title: string
+  type?: Type
+  variant?: Variant
+}
 
 /**
  * Component that shows a title, a close button and, optionally, a message in a full-width bar with
  * a coloured background. The component slides up automatically after eight seconds, but only when
  * its variant is not VARIANT_ERROR and its type is not TYPE_GLOBAL.
  */
-const Notification = ({
+const Notification: FunctionComponent<NotificationProps> = ({
   title,
-  message,
+  message = '',
   onClose,
   className,
-  type,
-  variant,
+  type = TYPE_LOCAL,
+  variant = VARIANT_NOTICE,
 }) => {
   const [hasFocus, setHasFocus] = useState(false)
   const [shouldHide, setShouldHide] = useState(false)
@@ -44,8 +58,8 @@ const Notification = ({
   const history = useHistory()
 
   // persisting timeout IDs across renders
-  const onCloseTimeoutRef = useRef()
-  const slideUpTimeoutRef = useRef()
+  const onCloseTimeoutRef = useRef<number>()
+  const slideUpTimeoutRef = useRef<number>()
 
   /**
    * Subscribe to history changes
@@ -76,19 +90,19 @@ const Notification = ({
     }
 
     if (hasFocus) {
-      global.clearTimeout(onCloseTimeoutRef.current)
-      global.clearTimeout(slideUpTimeoutRef.current)
+      window.clearTimeout(onCloseTimeoutRef.current)
+      window.clearTimeout(slideUpTimeoutRef.current)
     } else {
-      const slideUpTimeoutId = global.setTimeout(() => {
-        global.clearTimeout(slideUpTimeoutRef.current)
+      const slideUpTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(slideUpTimeoutRef.current)
 
         setShouldHide(true)
       }, SLIDEUP_TIMEOUT)
 
       slideUpTimeoutRef.current = slideUpTimeoutId
 
-      const onCloseTimeoutId = global.setTimeout(() => {
-        global.clearTimeout(onCloseTimeoutRef.current)
+      const onCloseTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(onCloseTimeoutRef.current)
 
         onClose()
       }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT)
@@ -97,16 +111,16 @@ const Notification = ({
     }
 
     return () => {
-      global.clearTimeout(onCloseTimeoutRef.current)
-      global.clearTimeout(slideUpTimeoutRef.current)
+      window.clearTimeout(onCloseTimeoutRef.current)
+      window.clearTimeout(slideUpTimeoutRef.current)
     }
   }, [hasFocus, onClose, type, variant])
 
   const onCloseNotification = useCallback(() => {
     setShouldHide(true)
 
-    const slideUpTimeoutId = global.setTimeout(() => {
-      global.clearTimeout(slideUpTimeoutRef.current)
+    const slideUpTimeoutId = window.setTimeout(() => {
+      window.clearTimeout(slideUpTimeoutRef.current)
 
       /* istanbul ignore else */
       if (typeof onClose === 'function') {
@@ -126,7 +140,6 @@ const Notification = ({
       onMouseEnter={() => setHasFocus(true)}
       onMouseLeave={() => setHasFocus(false)}
       top={tall ? SITE_HEADER_HEIGHT_TALL : SITE_HEADER_HEIGHT_SHORT}
-      type={type}
       variant={variant}
     >
       <Row>
@@ -148,29 +161,6 @@ const Notification = ({
       </Row>
     </Wrapper>
   )
-}
-
-Notification.defaultProps = {
-  className: '',
-  message: '',
-  onClose: null,
-  type: TYPE_LOCAL,
-  variant: VARIANT_NOTICE,
-}
-
-Notification.propTypes = {
-  /** @ignore */
-  className: PropTypes.string,
-  /** Optional notifaction description */
-  message: PropTypes.string,
-  /** Close button callback handler */
-  onClose: PropTypes.func,
-  /** Short, descriptive notice */
-  title: PropTypes.string.isRequired,
-  /** One of two possible scopes */
-  type: PropTypes.oneOf([TYPE_GLOBAL, TYPE_LOCAL]),
-  /** One of three possible appearance variants */
-  variant: PropTypes.oneOf([VARIANT_ERROR, VARIANT_NOTICE, VARIANT_SUCCESS]),
 }
 
 export default Notification

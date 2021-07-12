@@ -12,7 +12,7 @@ import useFetch from '../useFetch'
 
 jest.mock('shared/services/auth/auth')
 
-const mockGetAuthHeaders = mocked(getAuthHeaders, true)
+const mockGetAuthHeaders = mocked(getAuthHeaders)
 const URL = 'https://here-is-my.api/someId/6'
 
 describe('hooks/useFetch', () => {
