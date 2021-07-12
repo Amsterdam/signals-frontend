@@ -61,18 +61,6 @@ describe('signals/incident/components/form/ContainerSelect/Selector', () => {
     expect(contextValue.close).toHaveBeenCalled()
   })
 
-  it('should handle close button on legend panel', async () => {
-    showDesktopVariant = true
-    render(withContainerSelectContext(<Selector />))
-
-    userEvent.click(await screen.findByText('Legenda'))
-    expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
-
-    userEvent.click(screen.getByTitle('Sluit'))
-    expect(screen.queryByTestId('legendPanel')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('selectionPanel')).toBeInTheDocument()
-  })
-
   it('should render legend panel', async () => {
     showDesktopVariant = true
     render(withContainerSelectContext(<Selector />))

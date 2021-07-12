@@ -99,7 +99,7 @@ const MultiTextInput: FunctionComponent<MultiTextInputProps> = ({
                       parent
                     )
                   }}
-                  onKeyPress={(event) => {
+                  onKeyDown={(event) => {
                     filterInvalidKeys(event)
                   }}
                   pattern="[0-9.,;]+"
