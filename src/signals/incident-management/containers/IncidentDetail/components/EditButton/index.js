@@ -2,9 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeSpacing } from '@amsterdam/asc-ui'
-
-import Button from 'components/Button'
+import { themeSpacing, Button } from '@amsterdam/asc-ui'
 
 import IconEdit from '../../../../../../shared/images/icon-edit.svg'
 
