@@ -67,7 +67,7 @@ const overlastVanDieren = {
         extra_dieren_waar_dode_dieren: 'woning_tuin',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier verwijderen of verzorgen. U hoeft dit formulier niet verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
@@ -118,7 +118,7 @@ const overlastVanDieren = {
         extra_dieren_waar_duiven_meeuwen_ganzen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning moet de overlast verminderen. U vindt de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
