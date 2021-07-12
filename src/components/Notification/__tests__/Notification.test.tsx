@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, act, screen } from '@testing-library/react'
 import { history, withAppContext } from 'test/utils'
 import { ascDefaultTheme as theme } from '@amsterdam/asc-ui'
 import 'jest-styled-components'
+import { mocked } from 'ts-jest/utils'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
@@ -20,31 +21,30 @@ import {
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants'
 
+import userEvent from '@testing-library/user-event'
 import Notification from '..'
 
 jest.mock('shared/services/auth/auth')
+const mockedGetIsAuthenticated = mocked(getIsAuthenticated, true)
 
 describe('components/Notification', () => {
+  let listenSpy: jest.SpyInstance
+
   beforeAll(() => {
     jest.useFakeTimers()
+    listenSpy = jest.spyOn(history, 'listen')
   })
 
   afterAll(() => {
     jest.useRealTimers()
   })
 
-  let listenSpy
-
-  beforeEach(() => {
-    listenSpy = jest.spyOn(history, 'listen')
-  })
-
   afterEach(() => {
-    listenSpy.mockRestore()
+    listenSpy.mockClear()
   })
 
   it('renders correctly when not logged in', () => {
-    getIsAuthenticated.mockImplementation(() => false)
+    mockedGetIsAuthenticated.mockImplementation(() => false)
 
     const title = 'Here be dragons'
     const message = 'hic sunt dracones'
@@ -70,7 +70,7 @@ describe('components/Notification', () => {
   })
 
   it('renders correctly when logged in', () => {
-    getIsAuthenticated.mockImplementation(() => true)
+    mockedGetIsAuthenticated.mockImplementation(() => true)
 
     const { container } = render(
       withAppContext(<Notification title="Foo bar" />)
@@ -259,7 +259,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    expect(container.firstChild.classList.contains('slideup')).toEqual(false)
+    expect(container.firstChild).not.toHaveClass('slideup')
 
     act(() => {
       jest.advanceTimersByTime(SLIDEUP_TIMEOUT)
@@ -273,7 +273,7 @@ describe('components/Notification', () => {
 
     expect(onClose).toHaveBeenCalled()
 
-    expect(container.firstChild.classList.contains('slideup')).toEqual(true)
+    expect(container.firstChild).toHaveClass('slideup')
   })
 
   it('clears timeouts on unmount', () => {
@@ -301,9 +301,7 @@ describe('components/Notification', () => {
   it('clears the timer when the component receives a mouse enter event', () => {
     const onClose = jest.fn()
 
-    const { getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    )
+    render(withAppContext(<Notification title="Foo bar" onClose={onClose} />))
 
     expect(onClose).not.toHaveBeenCalled()
 
@@ -313,9 +311,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.mouseOver(getByTestId('notification'))
-    })
+    userEvent.hover(screen.getByTestId('notification'))
 
     act(() => {
       jest.advanceTimersByTime(SLIDEUP_TIMEOUT)
@@ -327,9 +323,7 @@ describe('components/Notification', () => {
   it('restarts the timer when the component receives a mouse out event', () => {
     const onClose = jest.fn()
 
-    const { getByTestId } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    )
+    render(withAppContext(<Notification title="Foo bar" onClose={onClose} />))
 
     expect(onClose).not.toHaveBeenCalled()
 
@@ -339,9 +333,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.mouseOver(getByTestId('notification'))
-    })
+    userEvent.hover(screen.getByTestId('notification'))
 
     act(() => {
       jest.advanceTimersByTime(SLIDEUP_TIMEOUT / 2)
@@ -349,9 +341,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.mouseOut(getByTestId('notification'))
-    })
+    userEvent.unhover(screen.getByTestId('notification'))
 
     act(() => {
       jest.advanceTimersByTime(ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT)
@@ -361,53 +351,45 @@ describe('components/Notification', () => {
   })
 
   it('slides up when the close button is clicked', () => {
-    getIsAuthenticated.mockImplementation(() => true)
+    mockedGetIsAuthenticated.mockImplementation(() => true)
 
     const onClose = jest.fn()
 
-    const { container, getByTestId } = render(
+    const { container } = render(
       withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     )
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('notificationClose'))
-    })
+    userEvent.click(screen.getByTestId('notificationClose'))
 
-    expect(container.firstChild.classList.contains('slideup')).toEqual(true)
+    expect(container.firstChild).toHaveClass('slideup')
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
-    })
+    jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('fades out up when the close button is clicked', () => {
-    getIsAuthenticated.mockImplementation(() => false)
+    mockedGetIsAuthenticated.mockImplementation(() => false)
 
     const onClose = jest.fn()
 
-    const { container, getByTestId } = render(
+    const { container } = render(
       withAppContext(<Notification title="Foo bar" onClose={onClose} />)
     )
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('notificationClose'))
-    })
+    userEvent.click(screen.getByTestId('notificationClose'))
 
-    expect(container.firstChild.classList.contains('fadeout')).toEqual(true)
+    expect(container.firstChild).toHaveClass('fadeout')
 
     expect(onClose).not.toHaveBeenCalled()
 
-    act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
-    })
+    jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
 
     expect(onClose).toHaveBeenCalledTimes(1)
   })
@@ -431,7 +413,7 @@ describe('components/Notification', () => {
   })
 
   it('should NOT reset notification on history change when onClose is not a function', () => {
-    render(withAppContext(<Notification onClose={null} title="Foo bar" />))
+    render(withAppContext(<Notification title="Foo bar" />))
 
     const callsToHistoryListen = [...listenSpy.mock.calls]
 
