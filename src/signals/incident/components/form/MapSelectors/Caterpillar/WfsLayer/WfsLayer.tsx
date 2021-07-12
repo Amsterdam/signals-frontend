@@ -7,6 +7,7 @@ import {
   useState,
   ReactElement,
   cloneElement,
+  useCallback,
 } from 'react'
 import type { FunctionComponent } from 'react'
 import { useMapInstance } from '@amsterdam/react-maps'
@@ -15,6 +16,7 @@ import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
+import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
 import useLayerVisible from '../../hooks/useLayerVisible'
 import {
   INITIAL_STATE,
@@ -36,7 +38,13 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   const url = meta.endpoint
   const layerVisible = useLayerVisible(zoomLevel)
 
-  const [bounds, setBounds] = useState(mapInstance.getBounds())
+  const getBounds = useCallback(() => {
+    const zoomLevel = mapInstance.getZoom()
+
+    return mapInstance.getBounds().pad(zoomLevel >= DEFAULT_ZOOM ? 1 : 0)
+  }, [mapInstance])
+
+  const [bounds, setBounds] = useState(getBounds())
 
   const requestUrl = useMemo(() => {
     return url
@@ -50,10 +58,10 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
   /* istanbul ignore next */
   useEffect(() => {
-    setBounds(mapInstance.getBounds())
+    setBounds(getBounds())
 
     function onMoveEnd() {
-      setBounds(mapInstance.getBounds())
+      setBounds(getBounds())
     }
 
     mapInstance.on('moveend', onMoveEnd)
@@ -61,7 +69,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       mapInstance.off('moveend', onMoveEnd)
     }
-  }, [mapInstance])
+  }, [getBounds, mapInstance])
 
   useEffect(() => {
     setMessage(undefined)
