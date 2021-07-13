@@ -47,6 +47,7 @@ const StyledButton = styled(Button).attrs(() => ({
   flex-shrink: 0;
   align-self: start;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  min-width: auto;
 `
 
 export interface SelectionListProps {
