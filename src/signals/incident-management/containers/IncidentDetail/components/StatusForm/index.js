@@ -168,12 +168,12 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
               <Alert data-testid="statusWarning">{state.warning}</Alert>
             )}
 
+            <QuestionLabel>
+              <strong>Versturen</strong>
+            </QuestionLabel>
+
             {!state.isSplitIncident && (
               <div>
-                <QuestionLabel>
-                  <strong>Versturen</strong>
-                </QuestionLabel>
-
                 {hasEmail ? (
                   <Label
                     disabled={state.check.disabled}
