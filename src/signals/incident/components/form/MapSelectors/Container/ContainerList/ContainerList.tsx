@@ -18,6 +18,7 @@ const StyledButton = styled(Button).attrs(() => ({
   margin-left: 8px;
   flex-shrink: 0;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  min-width: auto;
 `
 
 const ItemWrapper = styled.div`
