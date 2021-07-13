@@ -311,7 +311,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     userEvent.type(textarea, 'A'.repeat(DEFAULT_MESSAGE_MAX_LENGTH + 1))
 
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.getByRole('alert').textContent).toBe(
       `Je hebt meer dan de maximale ${DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`

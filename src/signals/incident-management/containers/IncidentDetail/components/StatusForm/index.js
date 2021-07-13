@@ -223,7 +223,7 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
                 type="submit"
                 variant="secondary"
               >
-                Status opslaan
+                Opslaan
               </StyledButton>
 
               <StyledButton
