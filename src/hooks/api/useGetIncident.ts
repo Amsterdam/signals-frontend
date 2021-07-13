@@ -1,4 +1,3 @@
-// import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { Incident } from 'types/api/incident'
 import { useBuildGetter } from './useBuildGetter'
