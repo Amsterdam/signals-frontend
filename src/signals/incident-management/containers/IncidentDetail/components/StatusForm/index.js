@@ -164,13 +164,13 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
           </OptionsArea>
 
           <FormArea>
-            {state.warning && (
-              <Alert data-testid="statusWarning">{state.warning}</Alert>
-            )}
-
             <QuestionLabel>
               <strong>Versturen</strong>
             </QuestionLabel>
+
+            {state.warning && (
+              <Alert data-testid="statusWarning">{state.warning}</Alert>
+            )}
 
             {!state.isSplitIncident && (
               <div>
