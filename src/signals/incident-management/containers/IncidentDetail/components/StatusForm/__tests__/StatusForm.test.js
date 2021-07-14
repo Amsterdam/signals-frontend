@@ -382,21 +382,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
   })
 
-  it('shows a warning when current status is Extern: verzonden and the new status is Reactie gevraagd', () => {
-    render(
-      renderWithContext({
-        ...incidentFixture,
-        status: {
-          ...incidentFixture.status,
-          state: StatusCode.Verzonden,
-        },
-      })
-    )
-
-    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
-    expect(screen.getByTestId('external-reply-warning')).toBeInTheDocument()
-  })
-
   it('shows a warning when switching to reply status user has no email', () => {
     render(
       renderWithContext({

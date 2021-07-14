@@ -27,4 +27,3 @@ export const REPLY_CHANGE_STATUS_HEADING = `Let op, er staat een vraag uit bij d
 export const REPLY_CHANGE_STATUS_CONTENT = `Als je de status nu wijzigt, kan de melder niet meer reageren.`
 export const REPLY_DEELMELDING_EXPLANATION =
   'Deze vraag is voor de collega die de hoofdmelding afhandelt. De melder ontvangt deze toelichting niet.'
-export const REPLY_EXTERNAL_CONTENT = `Het is niet mogelijk een vraag aan de melder te stellen.`
