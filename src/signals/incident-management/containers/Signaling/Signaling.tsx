@@ -68,8 +68,8 @@ const Signaling: FunctionComponent = () => {
     [getGraphDataFromReport, openData]
   )
   const totalOpen = useMemo(
-    () => openData?.total_signal_count || 0,
-    [openData?.total_signal_count]
+    () => (openData ? openData.total_signal_count : null),
+    [openData]
   )
 
   const graphDataReopenRequested = useMemo(
@@ -77,13 +77,13 @@ const Signaling: FunctionComponent = () => {
     [getGraphDataFromReport, reopenRequestedData]
   )
   const totalReopenRequested = useMemo(
-    () => reopenRequestedData?.total_signal_count || 0,
-    [reopenRequestedData?.total_signal_count]
+    () => (reopenRequestedData ? reopenRequestedData.total_signal_count : null),
+    [reopenRequestedData]
   )
 
   const heading = (
     <Row>
-      <StyledHeading>Signalering</StyledHeading>
+      <StyledHeading data-testid="heading">Signalering</StyledHeading>
     </Row>
   )
 
@@ -111,15 +111,18 @@ const Signaling: FunctionComponent = () => {
       {heading}
       <Row>
         <StyledColumn span={6} wrap>
-          <GraphDescription
-            title={`Openstaande meldingen tot en met 2020`}
-            description={`
+          {totalOpen !== null ? (
+            <GraphDescription
+              title={`Openstaande meldingen tot en met 2020`}
+              description={`
               Alle openstaande meldingen die 
               tot en met 31-12-2020 zijn gemaakt 
               waarbij de doorlooptijd 3x buiten de afhandeltermijn is.
             `}
-            total={totalOpen}
-          />
+              total={totalOpen}
+            />
+          ) : null}
+
           {totalOpen === 0 ? (
             <GraphEmpty text={'Hier is niks meer te signaleren'} />
           ) : (
@@ -131,14 +134,17 @@ const Signaling: FunctionComponent = () => {
           )}
         </StyledColumn>
         <StyledColumn span={6} wrap>
-          <GraphDescription
-            title={`Verzoek tot heropenen tot en met Q1 2021`}
-            description={`
+          {totalReopenRequested !== null ? (
+            <GraphDescription
+              title={`Verzoek tot heropenen tot en met Q1 2021`}
+              description={`
               Meldingen waarbij de melder voor 01-04-2021 
               een "verzoek tot heropenen" heeft gedaan.
             `}
-            total={totalReopenRequested}
-          />
+              total={totalReopenRequested}
+            />
+          ) : null}
+
           {totalReopenRequested === 0 ? (
             <GraphEmpty text={'Hier is niks meer te signaleren'} />
           ) : (

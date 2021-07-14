@@ -166,7 +166,7 @@ describe('<IncidentPreview />', () => {
     await findByTestId('incidentPreview')
 
     container.querySelectorAll('header').forEach((element) => {
-      expect(element).toHaveStyleRule('grid-template-columns', '8fr 4fr')
+      expect(element).toHaveStyleRule('grid-template-columns', '12fr')
     })
 
     getIsAuthenticated.mockImplementation(() => true)

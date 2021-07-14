@@ -1,0 +1,256 @@
+{
+  "total_signal_count": 2754,
+  "results": [
+    {
+      "category": {
+        "name": "Onderhoud stoep, rijweg en parkeerplaats",
+        "departments": ["STW"]
+      },
+      "signal_count": 500
+    },
+    {
+      "category": {
+        "name": "Overig Wegen, verkeer, straatmeubilair",
+        "departments": ["STW"]
+      },
+      "signal_count": 368
+    },
+    {
+      "category": {"name": "Overig bedrijven / horeca", "departments": ["VTH"]},
+      "signal_count": 334
+    },
+    {
+      "category": {"name": "Bouw- / sloopoverlast", "departments": ["VTH"]},
+      "signal_count": 304
+    },
+    {
+      "category": {"name": "Overlast terrassen", "departments": ["VTH"]},
+      "signal_count": 165
+    },
+    {
+      "category": {"name": "Geluidsoverlast muziek", "departments": ["VTH"]},
+      "signal_count": 149
+    },
+    {
+      "category": {"name": "Overig groen en water", "departments": ["STW"]},
+      "signal_count": 134
+    },
+    {
+      "category": {"name": "Stankoverlast", "departments": ["VTH"]},
+      "signal_count": 78
+    },
+    {
+      "category": {
+        "name": "Geluidsoverlast installaties",
+        "departments": ["VTH"]
+      },
+      "signal_count": 74
+    },
+    {
+      "category": {"name": "Fietsrek / nietje", "departments": ["STW"]},
+      "signal_count": 67
+    },
+    {
+      "category": {"name": "Wegsleep", "departments": ["THO"]},
+      "signal_count": 61
+    },
+    {
+      "category": {"name": "Snoeien", "departments": ["STW"]},
+      "signal_count": 57
+    },
+    {
+      "category": {"name": "Maaien", "departments": ["STW"]},
+      "signal_count": 53
+    },
+    {
+      "category": {"name": "Verkeersbord", "departments": ["STW"]},
+      "signal_count": 51
+    },
+    {
+      "category": {
+        "name": "Boom - gevaarlijke situatie",
+        "departments": ["STW", "VOR"]
+      },
+      "signal_count": 37
+    },
+    {
+      "category": {"name": "Boom - dood", "departments": ["VOR"]},
+      "signal_count": 28
+    },
+    {
+      "category": {"name": "Straatmeubilair", "departments": ["STW"]},
+      "signal_count": 27
+    },
+    {
+      "category": {"name": "Verkeerssituaties", "departments": ["VOR"]},
+      "signal_count": 24
+    },
+    {
+      "category": {"name": "Speelplaats", "departments": ["STW"]},
+      "signal_count": 23
+    },
+    {
+      "category": {"name": "Boom - overig", "departments": ["STW"]},
+      "signal_count": 22
+    },
+    {
+      "category": {"name": "Beplanting", "departments": ["VOR"]},
+      "signal_count": 19
+    },
+    {
+      "category": {
+        "name": "Drijfvuil bevaarbaar water",
+        "departments": ["WAT"]
+      },
+      "signal_count": 19
+    },
+    {
+      "category": {"name": "Boom - ontbreekt", "departments": ["VOR"]},
+      "signal_count": 18
+    },
+    {
+      "category": {"name": "Woningkwaliteit", "departments": ["VTW", "WON"]},
+      "signal_count": 17
+    },
+    {
+      "category": {
+        "name": "Onderhuur en adreskwaliteit",
+        "departments": ["WON"]
+      },
+      "signal_count": 16
+    },
+    {
+      "category": {"name": "Eikenprocessierups", "departments": ["STW"]},
+      "signal_count": 16
+    },
+    {
+      "category": {"name": "Prullenbak is kapot", "departments": ["STW"]},
+      "signal_count": 13
+    },
+    {
+      "category": {
+        "name": "Tijdelijke Verkeersmaatregelen",
+        "departments": ["STW"]
+      },
+      "signal_count": 10
+    },
+    {
+      "category": {"name": "Belijning", "departments": ["STW"]},
+      "signal_count": 9
+    },
+    {
+      "category": {"name": "Parkeeroverlast", "departments": ["ASC", "THO"]},
+      "signal_count": 9
+    },
+    {
+      "category": {"name": "Onkruid in het groen", "departments": ["STW"]},
+      "signal_count": 9
+    },
+    {
+      "category": {
+        "name": "Woningdelen / spookburgers",
+        "departments": ["WON"]
+      },
+      "signal_count": 8
+    },
+    {
+      "category": {
+        "name": "Overig openbare ruimte",
+        "departments": ["ASC", "THO"]
+      },
+      "signal_count": 5
+    },
+    {
+      "category": {"name": "Put / riolering verstopt", "departments": ["STW"]},
+      "signal_count": 3
+    },
+    {
+      "category": {"name": "Boom - verzoek inspectie", "departments": ["VOR"]},
+      "signal_count": 3
+    },
+    {
+      "category": {"name": "Sportvoorziening", "departments": ["STW"]},
+      "signal_count": 2
+    },
+    {
+      "category": {"name": "Container is vol", "departments": ["AEG"]},
+      "signal_count": 2
+    },
+    {
+      "category": {"name": "Leegstand", "departments": ["WON"]},
+      "signal_count": 2
+    },
+    {
+      "category": {"name": "Watergangen", "departments": ["STW", "VOR"]},
+      "signal_count": 2
+    },
+    {
+      "category": {"name": "Fietswrak", "departments": ["THO"]},
+      "signal_count": 2
+    },
+    {
+      "category": {
+        "name": "Hinderlijk geplaatst object",
+        "departments": ["ASC", "THO"]
+      },
+      "signal_count": 2
+    },
+    {
+      "category": {"name": "Boom - ziekten en plagen", "departments": ["VOR"]},
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Jongerenoverlast", "departments": ["ASC", "THO"]},
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Boom - stormschade", "departments": ["VOR"]},
+      "signal_count": 1
+    },
+    {
+      "category": {
+        "name": "Overige overlast door personen",
+        "departments": ["ASC", "THO"]
+      },
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Put / Riool kapot", "departments": ["STW"]},
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Beweegbare brug", "departments": ["WAT"]},
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Kademuren", "departments": ["STW", "VOR"]},
+      "signal_count": 1
+    },
+    {
+      "category": {
+        "name": "Boom - plastic en overig afval",
+        "departments": ["STW"]
+      },
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Grofvuil", "departments": ["AEG"]},
+      "signal_count": 1
+    },
+    {
+      "category": {
+        "name": "Oppervlaktewaterverontreiniging",
+        "departments": ["ASC", "WAT"]
+      },
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Vermoeden", "departments": ["OOV"]},
+      "signal_count": 1
+    },
+    {
+      "category": {"name": "Vaste brug", "departments": ["STW", "VOR", "WAT"]},
+      "signal_count": 1
+    }
+  ]
+}

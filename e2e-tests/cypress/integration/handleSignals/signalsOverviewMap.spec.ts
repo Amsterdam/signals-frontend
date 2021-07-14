@@ -50,6 +50,7 @@ describe('Signal overview Map', () => {
       cy.get(FILTER.buttonSubmitFilter).click();
       cy.wait('@getSignals');
       cy.wait('@getGeography');
+      cy.wait(1000);
       cy.get(OVERVIEW_MAP.markerCluster).should('not.exist');
     });
 

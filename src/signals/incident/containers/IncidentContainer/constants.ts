@@ -26,6 +26,7 @@ export const GET_QUESTIONS_ERROR = 'sia/IncidentContainer/GET_QUESTIONS_ERROR'
 
 export const FIELD_TYPE_MAP = {
   checkbox_input: 'CheckboxInput',
+  caterpillar_select: 'CaterpillarSelectRenderer',
   container_select: 'ContainerSelectRenderer',
   date_time_input: 'DateTimeInput',
   description_with_classification_input: 'DescriptionInputRenderer',

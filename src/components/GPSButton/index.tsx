@@ -4,9 +4,9 @@ import { FunctionComponent, useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 import { pointWithinBounds } from 'shared/services/map-location'
-import Button from 'components/Button'
 import LoadingIndicator from 'components/LoadingIndicator'
 
+import { Button } from '@amsterdam/asc-ui'
 import { ReactComponent as GPS } from '../../shared/images/icon-gps.svg'
 
 const StyledButton = styled(Button)`

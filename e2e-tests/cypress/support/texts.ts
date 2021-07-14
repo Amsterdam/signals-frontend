@@ -1,11 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+export const DASHBOARD_TEXT = {
+  descriptionDashboardOpen: 'Alle openstaande meldingen die',
+  descriptionDashboardReOpen: 'een "verzoek tot heropenen" heeft gedaan.',
+  noSignals: 'Hier is niks meer te signaleren',
+  titleDashboardOpen: 'Openstaande meldingen tot en met',
+  titleDashboardReopen: 'Verzoek tot heropenen tot en met',
+};
+
 export const ERROR_MESSAGES = {
   email: 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl',
   location: 'Kies een locatie op de kaart of vul een adres in',
+  tooManyCharacter: 'Je hebt meer dan de maximale 3000 tekens ingevoerd.',
   mandatoryField: 'Dit is een verplicht veld',
   mandatoryFields: 'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.',
   mandatoryFieldKTO: 'Dit veld is verplicht',
+  smallFile: 'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.',
 };
 
 export const FILTERS = {
@@ -36,13 +46,21 @@ export const NOTIFICATONS = {
 
 export const MESSAGES = {
   sendMailText:
-    'Stuur deze toelichting naar de melder. Let dus op de schrijfstijl. De e-mail bevat al een aanhef en afsluiting.',
+    'Stuur dit bericht aan de melder',
 };
 
 export const SAMENHANG_TEXT = {
   descriptionText: 'Iedereen in de buurt meldt hetzelfde.',
   nocontact: 'Er is nog geen contact geweest met deze melder',
   notAuthorized: 'Je hebt geen toestemming om meldingen in deze subcategorie te bekijken',
+};
+
+export const STATUS_TEXT = {
+  noMailAddress: 'De melder heeft geen e-mailadres opgegeven, er wordt geen bericht verstuurd.',
+  noMailToReporter: 'Deze toelichting is voor de collega die de hoofdmelding afhandelt. De melder ontvangt deze toelichting niet.',
+  explanation: 'Het bericht aan de melder bevat al een aanhef en afsluiting',
+  statusAfgehandeld: 'Gebruik deze status alleen als de melding ook echt is afgehandeld, gebruik anders de status Ingepland. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.',
+  longText: 'LongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLungLongLongLongLongLangLangLangLangLingLingLingLingLengLengLengLengLengLungLungLungLung',
 };
 
 export const TYPE_TEXT = {

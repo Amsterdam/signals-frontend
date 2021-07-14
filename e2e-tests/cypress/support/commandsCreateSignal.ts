@@ -195,6 +195,7 @@ export const checkAllDetails = (json: signal.RootObject, signalType: string) => 
     cy.get(SIGNAL_DETAILS.addressCity).should('have.text', `${json.address.postcode} ${json.address.woonplaats}`).and('be.visible');
     cy.get(SIGNAL_DETAILS.email).should('have.text', json.reporter.email).and('be.visible');
     cy.get(SIGNAL_DETAILS.phoneNumber).should('have.text', json.reporter.phone).and('be.visible');
+    cy.get(SIGNAL_DETAILS.phoneNumberLink).should('have.attr', 'href');
   }
 
   cy.get(CREATE_SIGNAL.mapStaticImage).should('be.visible');

@@ -117,6 +117,7 @@ const useFetchAll = <T>(): FetchResponse<T> => {
           dispatch({ type: 'SET_ERROR', payload: errorResponse as FetchError })
         }
       } catch (exception: unknown) {
+        if (signal.aborted) return
         Object.defineProperty(exception, 'message', {
           value: getErrorMessage(exception),
           writable: false,

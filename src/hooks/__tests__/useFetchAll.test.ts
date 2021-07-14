@@ -1,8 +1,8 @@
 import fetchMock from 'jest-fetch-mock'
+import { mocked } from 'ts-jest/utils'
 import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 
-// import type { FetchError } from '../useFetch';
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
 import type { FetchError } from 'hooks/useFetch'
@@ -10,36 +10,28 @@ import useFetchAll from '../useFetchAll'
 
 jest.mock('shared/services/auth/auth')
 
-const mockGetAuthHeaders = getAuthHeaders as jest.MockedFunction<
-  typeof getAuthHeaders
->
+const mockGetAuthHeaders = mocked(getAuthHeaders)
 const URL1 = 'https://here-is-my.api/someId/6'
 const URL2 = 'https://here-is-my.api/someId/7'
 
 describe('hooks/useFetchAll', () => {
-  let promise: undefined | Promise<void>
-
   beforeEach(() => {
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
     fetchMock.mockResponse(JSON.stringify(JSONresponse))
-    promise = undefined
   })
 
-  afterEach(async () => {
+  afterEach(() => {
     fetchMock.resetMocks()
-    if (promise) await promise
   })
 
   describe('get', () => {
     it('should request from URLs on mount', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toBeUndefined()
 
-      act(() => {
-        promise = result.current.get([URL1, URL2])
-      })
+      const get = result.current.get([URL1, URL2])
 
       expect(result.current.isLoading).toEqual(true)
 
@@ -51,7 +43,7 @@ describe('hooks/useFetchAll', () => {
       )
       expect(fetchMock).toHaveBeenCalledTimes(2)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toEqual([JSONresponse, JSONresponse])
@@ -61,9 +53,7 @@ describe('hooks/useFetchAll', () => {
       const { result } = renderHook(() => useFetchAll())
       const authHeader = { Authorization: 'Bearer token' }
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(fetchMock).not.toHaveBeenCalledWith(
         URL1,
@@ -77,9 +67,7 @@ describe('hooks/useFetchAll', () => {
 
       mockGetAuthHeaders.mockImplementation(() => authHeader)
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(fetchMock).toHaveBeenLastCalledWith(
         URL1,
@@ -97,16 +85,14 @@ describe('hooks/useFetchAll', () => {
       const message = getErrorMessage(error)
       fetchMock.mockRejectOnce(error)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
-      act(() => {
-        promise = result.current.get([URL1])
-      })
+      const get = act(() => result.current.get([URL1]))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(error)
       expect((result.current.error as FetchError).message).toEqual(message)
@@ -118,9 +104,7 @@ describe('hooks/useFetchAll', () => {
 
       const { result, unmount } = renderHook(() => useFetchAll())
 
-      await act(async () => {
-        await result.current.get([URL1])
-      })
+      await act(() => result.current.get([URL1]))
 
       expect(abortSpy).not.toHaveBeenCalled()
 
@@ -135,16 +119,14 @@ describe('hooks/useFetchAll', () => {
 
       fetchMock.mockResponse('', response)
 
-      const { result, waitForNextUpdate } = renderHook(() => useFetchAll())
+      const { result } = renderHook(() => useFetchAll())
 
-      act(() => {
-        promise = result.current.get([URL1])
-      })
+      const get = act(() => result.current.get([URL1]))
 
       expect(result.current.isLoading).toEqual(true)
       expect(result.current.error).toEqual(false)
 
-      await waitForNextUpdate()
+      await get
 
       expect(result.current.error).toEqual(expect.objectContaining(response))
       expect((result.current.error as FetchError).message).toEqual(message)

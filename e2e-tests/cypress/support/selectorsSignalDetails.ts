@@ -16,6 +16,7 @@ export const CHANGE_LOCATION = {
 };
 
 export const CHANGE_STATUS = {
+  alertNoEmail: '[data-testid=statusExplanation]',
   buttonCancel: '[data-testid=statusFormCancelButton]',
   buttonEdit: '[data-testid=editStatusButton]',
   buttonSubmit: '[data-testid=statusFormSubmitButton]',
@@ -31,6 +32,7 @@ export const CHANGE_STATUS = {
   radioButtonHeropend: '[data-testid=status-reopened]',
   radioButtonGeannuleerd: '[data-testid=status-a]',
   statusNotification: '[data-testid="statusFormToelichting"]',
+  statusWarning: '[data-testid=statusWarning]',
   warningDeelmeldingenOpen: '[data-testid="statusHasChildrenOpen"]',
 };
 
@@ -125,6 +127,7 @@ export const SIGNAL_DETAILS = {
   linkTerugNaarOverzicht: '[data-testid=backlink]',
   mainCategory: '[data-testid="meta-list-main-category-value"]',
   phoneNumber: '[data-testid="detail-phone-value"]',
+  phoneNumberLink: '[data-testid=detail-phone-value] a',
   photo: '[data-testid="attachmentsValueButton"]',
   photoViewerImage: '[data-testid="attachment-viewer-image"]',
   regie: '[data-testid=meta-list-directing_departments-value] > [data-testid=valuePath]',

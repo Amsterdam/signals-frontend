@@ -2,21 +2,34 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import statusList, {
   changeStatusOptionList,
+  StatusCode,
 } from 'signals/incident-management/definitions/statusList'
 import * as constants from './constants'
 
-const emailSentWhenStatusChangedTo = (status) =>
-  Boolean(
+const emailSentWhenStatusChangedTo = (
+  toStatus,
+  fromStatus,
+  isSplitIncident
+) => {
+  if (isSplitIncident) return false
+
+  if (
+    fromStatus === StatusCode.VerzoekTotHeropenen &&
+    toStatus === StatusCode.Afgehandeld
+  ) {
+    return false
+  }
+
+  return Boolean(
     changeStatusOptionList.find(
-      ({ email_sent_when_set, key }) => email_sent_when_set && status === key
+      ({ email_sent_when_set, key }) => email_sent_when_set && toStatus === key
     )
   )
+}
 
 const determineWarning = (selectedStatusKey, isSplitIncident) => {
   if (isSplitIncident) return ''
-  if (selectedStatusKey === 'reopened') return constants.HEROPENED_EXPLANATION
   if (selectedStatusKey === 'o') return constants.AFGEHANDELD_EXPLANATION
-  if (selectedStatusKey === 'a') return constants.GEANNULEERD_EXPLANATION
   return ''
 }
 
@@ -26,17 +39,24 @@ export const init = (incident) => {
   )
   const isSplitIncident = incident?._links?.['sia:parent'] !== undefined
 
+  const initialEmailSentState = emailSentWhenStatusChangedTo(
+    incidentStatus.key,
+    incidentStatus.key,
+    isSplitIncident
+  )
+
   return {
+    originalStatus: incidentStatus,
     status: incidentStatus,
     check: {
-      checked: emailSentWhenStatusChangedTo(incidentStatus.key),
-      disabled: emailSentWhenStatusChangedTo(incidentStatus.key),
+      checked: initialEmailSentState,
+      disabled: initialEmailSentState,
     },
     errors: {},
     text: {
       defaultValue: '',
       value: '',
-      required: emailSentWhenStatusChangedTo(incidentStatus.key),
+      required: initialEmailSentState,
     },
     isSplitIncident,
     warning: determineWarning(incidentStatus.key, isSplitIncident),
@@ -46,7 +66,11 @@ export const init = (incident) => {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_STATUS': {
-      const checkboxIsChecked = emailSentWhenStatusChangedTo(action.payload.key)
+      const checkboxIsChecked = emailSentWhenStatusChangedTo(
+        action.payload.key,
+        state.originalStatus.key,
+        state.isSplitIncident
+      )
 
       return {
         ...state,

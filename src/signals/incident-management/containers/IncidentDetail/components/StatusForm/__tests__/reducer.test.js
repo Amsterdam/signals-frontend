@@ -32,6 +32,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         required: false,
       },
       warning: '',
+      originalStatus: status,
     })
   })
 

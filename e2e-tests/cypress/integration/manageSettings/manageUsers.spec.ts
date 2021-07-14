@@ -35,7 +35,7 @@ describe('Manage users', () => {
       cy.visit('instellingen/gebruikers/page/1');
       cy.wait('@getUser');
     });
-    it('Should add a user', () => {
+    it('Should add an user', () => {
       const randomNumber = Math.random();
       cy.contains('Gebruiker toevoegen').click();
       cy.get(USERS.inputMail).type(`z${randomNumber}@fakemail.nl`);
