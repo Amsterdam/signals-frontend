@@ -222,13 +222,17 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(editStatusButton)
 
     expect(screen.queryByTestId('statusForm')).toBeInTheDocument()
-    expect(window.scrollTo).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(window.scrollTo).toHaveBeenCalledTimes(1)
+    })
 
     userEvent.click(await screen.findByTestId('statusFormCancelButton'))
     await screen.findByTestId('incidentDetail')
 
     expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
-    expect(window.scrollTo).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(window.scrollTo).toHaveBeenCalledTimes(2)
+    })
 
     await screen.findByTestId('editStatusButton')
     await screen.findByTestId('incidentDetail')

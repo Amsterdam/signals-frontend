@@ -492,10 +492,12 @@ describe('signals/incident-management/components/FilterForm', () => {
     const submitLabel = 'Filter'
     const username = autocompleteUsernames.results[0].username
 
-    const selectUser = async (input) => {
-      userEvent.type(input, 'asc')
-      await screen.findByText(username)
-      userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`)
+    const selectUser = (input) => {
+      return act(async () => {
+        userEvent.type(input, 'asc')
+        await screen.findByText(username)
+        userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`)
+      })
     }
 
     it('should not render a list of options with assignSignalToEmployee disabled', () => {
@@ -516,7 +518,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toBeInTheDocument()
 
       userEvent.type(input, 'aeg')
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(INPUT_DELAY * 2)
       })
       expect(screen.queryByText(username)).not.toBeInTheDocument()
@@ -542,7 +544,9 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       userEvent.type(input, username)
       await selectUser(input)
-      userEvent.click(submitButton)
+      act(() => {
+        userEvent.click(submitButton)
+      })
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
@@ -562,9 +566,11 @@ describe('signals/incident-management/components/FilterForm', () => {
       const submitButton = screen.getByRole('button', { name: submitLabel })
       const expected = { options: { assigned_user_email: expect.anything() } }
 
-      userEvent.type(input, username)
-      userEvent.click(clearButton)
-      userEvent.click(submitButton)
+      act(() => {
+        userEvent.type(input, username)
+        userEvent.click(clearButton)
+        userEvent.click(submitButton)
+      })
 
       expect(onSubmit).not.toHaveBeenCalledWith(
         expect.anything(),
@@ -620,7 +626,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       await selectUser(input)
 
       expect(input).toHaveValue(username)
-      userEvent.click(checkbox)
+      act(() => {
+        userEvent.click(checkbox)
+      })
       expect(input).not.toHaveValue()
       userEvent.click(checkbox)
       expect(input).toHaveValue(username)
@@ -638,25 +646,30 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toHaveValue(username)
       expect(checkbox).not.toBeChecked()
 
-      userEvent.click(clearButton)
+      act(() => {
+        userEvent.click(clearButton)
+      })
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
 
       await selectUser(input)
-      userEvent.click(checkbox)
+      act(() => {
+        userEvent.click(checkbox)
+      })
 
       expect(input).not.toHaveValue()
       expect(checkbox).toBeChecked()
 
-      userEvent.click(clearButton)
+      act(() => {
+        userEvent.click(clearButton)
+      })
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
     })
 
     it('should clear correctly when removing input value', async () => {
-      jest.useFakeTimers()
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
       const expected = { options: {} }
@@ -666,16 +679,22 @@ describe('signals/incident-management/components/FilterForm', () => {
       const submitButton = screen.getByRole('button', { name: submitLabel })
 
       await selectUser(input)
-      userEvent.clear(input)
-      act(jest.runOnlyPendingTimers)
+
+      act(() => {
+        userEvent.clear(input)
+        userEvent.tab()
+      })
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(notAssignedLabel)).toBeInTheDocument()
+      })
+
       userEvent.click(submitButton)
+
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
       )
-
-      jest.runOnlyPendingTimers()
-      jest.useRealTimers()
     })
   })
 

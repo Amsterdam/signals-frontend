@@ -9,7 +9,7 @@ jest.mock('./parse-access-token/parse-access-token')
 jest.mock('shared/services/configuration/configuration')
 
 describe('Keycloak authorization', () => {
-  const keycloak = new Keycloak()
+  let keycloak
   beforeEach(() => {
     configuration.keycloak = {
       authEndpoint: 'https://example.nl/auth',
@@ -17,10 +17,9 @@ describe('Keycloak authorization', () => {
       responseType: 'code',
       realm: 'auth-realm',
     }
-    jest.useFakeTimers()
+    keycloak = new Keycloak()
   })
   afterEach(() => {
-    jest.useRealTimers()
     jest.restoreAllMocks()
   })
 
@@ -79,16 +78,10 @@ describe('Keycloak authorization', () => {
       })
     })
     describe('init', () => {
-      it('calls keycloak-js init function', () => {
-        // suppress console error because of unimplemented navigation in JSDOM
-        // @see {@link https://github.com/jsdom/jsdom/issues/2112}
-        global.window.console.error = jest.fn()
-
+      it('calls keycloak-js init function', async () => {
         const initSpy = jest.spyOn(keycloak.keycloak, 'init')
 
-        keycloak.init()
-
-        global.window.console.error.mockRestore()
+        await keycloak.init()
 
         expect(initSpy).toHaveBeenCalled()
       })
@@ -209,6 +202,7 @@ describe('Keycloak authorization', () => {
 
     describe('startRefreshInterval', () => {
       it('starts interval that calls keycloak-js updateToken function', () => {
+        jest.useFakeTimers()
         const updateTokenSpy = jest
           .spyOn(keycloak.keycloak, 'updateToken')
           .mockImplementation(() => {})
@@ -223,15 +217,17 @@ describe('Keycloak authorization', () => {
         expect(updateTokenSpy).toHaveBeenCalled()
 
         jest.clearAllTimers()
+        jest.useRealTimers()
       })
     })
 
     describe('stopRefreshInterval', () => {
       it('removes refresh interval stored in keycloak instance', () => {
+        window.clearInterval = jest.fn()
         keycloak.startRefreshInterval()
         keycloak.stopRefreshInterval()
 
-        expect(clearInterval).toHaveBeenCalled()
+        expect(window.clearInterval).toHaveBeenCalled()
       })
     })
   })

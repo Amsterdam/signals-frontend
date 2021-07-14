@@ -19,7 +19,7 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.48,
+      statements: 99.47,
       branches: 95.33,
       lines: 99.55,
       functions: 98.51,
@@ -43,6 +43,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|ts(x?))$': [
       'ts-jest',
