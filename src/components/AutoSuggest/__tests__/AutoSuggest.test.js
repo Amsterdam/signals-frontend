@@ -31,8 +31,10 @@ describe('src/components/AutoSuggest', () => {
 
   afterEach(() => {
     fetch.resetMocks()
-
     jest.runOnlyPendingTimers()
+  })
+
+  afterAll(() => {
     jest.useRealTimers()
   })
 
@@ -165,7 +167,7 @@ describe('src/components/AutoSuggest', () => {
   })
 
   describe('keyboard navigation', () => {
-    test('ArrowUp key', async () => {
+    it('ArrowUp key', async () => {
       const { container, findByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -200,7 +202,7 @@ describe('src/components/AutoSuggest', () => {
         })
     })
 
-    test('ArrowDown key', async () => {
+    it('ArrowDown key', async () => {
       const { container, findByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -236,7 +238,7 @@ describe('src/components/AutoSuggest', () => {
       })
     })
 
-    test('ArrowUp and ArrowDown cycle', async () => {
+    it('ArrowUp and ArrowDown cycle', async () => {
       const { container, findByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -248,6 +250,7 @@ describe('src/components/AutoSuggest', () => {
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Weesp' } })
+        jest.advanceTimersByTime(INPUT_DELAY)
       })
 
       const suggestList = await findByTestId('suggestList')
@@ -282,7 +285,7 @@ describe('src/components/AutoSuggest', () => {
       expect(document.activeElement).toEqual(firstElement)
     })
 
-    test('Esc', async () => {
+    it('Esc', async () => {
       const onClear = jest.fn()
       const { container, findByTestId, queryByTestId } = render(
         withAppContext(<AutoSuggest {...props} onClear={onClear} />)
@@ -329,7 +332,7 @@ describe('src/components/AutoSuggest', () => {
       expect(queryByTestId('suggestList')).not.toBeInTheDocument()
     })
 
-    test('Esc without onClear defined', async () => {
+    it('Esc without onClear defined', async () => {
       const { container, findByTestId, queryByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -373,7 +376,7 @@ describe('src/components/AutoSuggest', () => {
       expect(queryByTestId('suggestList')).not.toBeInTheDocument()
     })
 
-    test('Home', async () => {
+    it('Home', async () => {
       const { container, findByTestId, getByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -411,7 +414,7 @@ describe('src/components/AutoSuggest', () => {
       expect(document.activeElement).toEqual(firstElement)
     })
 
-    test('End', async () => {
+    it('End', async () => {
       const { container, findByTestId, getByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
@@ -449,7 +452,7 @@ describe('src/components/AutoSuggest', () => {
       expect(document.activeElement).toEqual(firstElement)
     })
 
-    test('Tab', async () => {
+    it('Tab', async () => {
       const { container, findByTestId } = render(
         withAppContext(
           <Fragment>
@@ -485,7 +488,7 @@ describe('src/components/AutoSuggest', () => {
       expect(suggestList).not.toBeInTheDocument()
     })
 
-    test('Enter', async () => {
+    it('Enter', async () => {
       const mockedOnSubmit = jest.fn()
       const { container } = render(
         withAppContext(
@@ -509,7 +512,7 @@ describe('src/components/AutoSuggest', () => {
       expect(mockedOnSubmit).not.toHaveBeenCalled()
     })
 
-    test('Any key (yes, such a key exists)', async () => {
+    it('Any key (yes, such a key exists)', async () => {
       const { container, findByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )

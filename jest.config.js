@@ -43,6 +43,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|ts(x?))$': [
       'ts-jest',
