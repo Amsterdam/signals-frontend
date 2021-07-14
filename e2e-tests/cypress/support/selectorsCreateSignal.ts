@@ -162,8 +162,10 @@ export const LANTAARNPAAL = {
 };
 
 export const OVERLAST_DIEREN = {
-  radioButtonWoning: '#extra_dieren_waar_wespen-woning',
-  radioButtonOpenbareRuimte: '#extra_dieren_waar_wespen-openbaar',
+  radioButtonWoningWespen: '#extra_dieren_waar_wespen-woning',
+  radioButtonOpenbareRuimteWespen: '#extra_dieren_waar_wespen-openbaar',
+  radioButtonWoningDuiven: '#extra_dieren_waar_duiven-woning',
+  radioButtonOpenbareRuimteDuiven: '#extra_dieren_waar_duiven-openbaar',
 };
 
 export const STANK_OVERLAST = {

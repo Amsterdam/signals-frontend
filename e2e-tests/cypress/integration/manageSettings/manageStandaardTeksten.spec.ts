@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { STANDAARDTEKSTEN } from '../../support/selectorsSettings';
+import { OVERLAST_DIEREN } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { CHANGE_STATUS, SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/signalForStandaardteksten.json';
+import questions from '../../fixtures/questions/questions.json';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 import * as general from '../../support/commandsGeneral';
@@ -98,6 +100,10 @@ describe('Standaardteksten', () => {
       cy.contains('Volgende').click();
 
       createSignal.checkSpecificInformationPage(signal);
+
+      cy.contains(questions.overlastVanDieren.extra_dieren_waar_duiven.label).should('be.visible');
+      cy.get(OVERLAST_DIEREN.radioButtonWoningDuiven).check({ force: true }).should('be.checked');
+      cy.contains(questions.overlastVanDieren.extra_dieren_waar_duiven_meeuwen_ganzen_woning.value).should('be.visible');
       cy.contains('Volgende').click();
       createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();

@@ -82,14 +82,8 @@
     "extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang": {
       "label": "Gaan de ramen of deuren kort of lang open?",
       "shortLabel": "Ramen/deuren gaan",
-      "values": {
-        "kort": "Kort open",
-        "lang": "Lang open"
-      },
-      "answers": {
-        "kort": "Kort open",
-        "lang": "Lang open"
-      }
+      "values": {"kort": "Kort open", "lang": "Lang open"},
+      "answers": {"kort": "Kort open", "lang": "Lang open"}
     },
     "extra_bedrijven_horeca_muziek_evenement": {
       "label": "Heeft iemand van de organisatie u geïnformeerd?",
@@ -328,14 +322,26 @@
       ]
     },
     "extra_dieren_waar_wespen": {
-        "label": "Waar veroorzaken de wespen overlast?",
-        "shortLabel": "Waar",
-        "values": {
-          "woning": "In of bij de woning",
-          "openbaar": "In de openbare ruimte, zoals een park of straat"
-        }
-    }
-  },
+      "label": "Waar veroorzaken de wespen overlast?",
+      "shortLabel": "Waar",
+      "values": {
+        "woning": "In of bij de woning",
+        "openbaar": "In de openbare ruimte, zoals een park of straat"
+      }
+    },
+    "extra_dieren_waar_duiven": {
+      "label": "Waar veroorzaken de duiven overlast?",
+      "shortLabel": "Waar",
+      "values": {
+        "woning": "In of bij de woning",
+        "openbaar": "In de openbare ruimte, zoals een park of straat"
+      }
+    },
+    "extra_dieren_waar_duiven_meeuwen_ganzen_woning": {
+        "value":
+          "De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt de adressen op nvbp.org of kad.nl. U hoeft dit formulier niet meer verder in te vullen."
+      }
+    },
   "overlastPersonenEnGroepen": {
     "extra_jongeren_text": {
       "answers": "Weet u de naam van de jongere(n)? Gebruik dan het formulier Melding zorg en woonoverlast. Dan komt uw melding direct bij het juiste team terecht."
@@ -359,14 +365,8 @@
     "extra_personen_overig_vaker": {
       "label": "Gebeurt het vaker?",
       "shortLabel": "Vaker",
-      "values": {
-        "nee": "Nee",
-        "ja": "Ja, het gebeurt vaker:"
-      },
-      "answers": {
-        "nee": "Nee",
-        "ja": "Ja, het gebeurt vaker:"
-      }
+      "values": {"nee": "Nee", "ja": "Ja, het gebeurt vaker:"},
+      "answers": {"nee": "Nee", "ja": "Ja, het gebeurt vaker:"}
     },
     "extra_personen_overig_vaker_momenten": {
       "label": "Wanneer gebeurt het?",
@@ -963,14 +963,8 @@
       "subtitle": "Bijvoorbeeld: u ruikt een sterke gaslucht of er dreigt een schoorsteen of balkon in te storten",
       "label": "Denkt u dat er direct gevaar is?",
       "shortLabel": "Direct gevaar",
-      "values": {
-        "ja": "Ja, er is direct gevaar",
-        "nee": "Nee"
-      },
-      "answers": {
-        "ja": "Ja, er is direct gevaar",
-        "nee": "Nee"
-      }
+      "values": {"ja": "Ja, er is direct gevaar", "nee": "Nee"},
+      "answers": {"ja": "Ja, er is direct gevaar", "nee": "Nee"}
     },
     "extra_wonen_woonkwaliteit_direct_gevaar_alert": {
       "answers": "Bel 112 en vul dit formulier niet verder in"
@@ -978,14 +972,8 @@
     "extra_wonen_woonkwaliteit_gemeld_bij_eigenaar": {
       "label": "Hebt u de klacht al bij uw verhuurder, eigenaar of VvE gemeld?",
       "shortLabel": "Gemeld bij eigenaar",
-      "values": {
-        "ja": "Ja",
-        "nee": "Nee"
-      },
-      "answers": {
-        "ja": "Ja",
-        "nee": "Nee"
-      }
+      "values": {"ja": "Ja", "nee": "Nee"},
+      "answers": {"ja": "Ja", "nee": "Nee"}
     },
     "extra_wonen_woonkwaliteit_direct_gevaar_ja": {
       "answers": "Meld uw klacht eerst bij de verhuurder, eigenaar of VvE. Krijgt u geen antwoord of wordt de klacht niet verholpen, vul dan dit formulier in."
@@ -1005,14 +993,8 @@
     "extra_wonen_woonkwaliteit_namens_bewoner": {
       "label": "Doet u de melding namens de bewoner van het adres?",
       "shortLabel": "Namens bewoner",
-      "values": {
-        "ja": "Ja, ik doe de melding namens de bewoner",
-        "nee": "Nee"
-      },
-      "answers": {
-        "ja": "Ja, ik doe de melding namens de bewoner",
-        "nee": "Nee"
-      }
+      "values": {"ja": "Ja, ik doe de melding namens de bewoner", "nee": "Nee"},
+      "answers": {"ja": "Ja, ik doe de melding namens de bewoner", "nee": "Nee"}
     },
     "extra_wonen_woonkwaliteit_toestemming_contact": {
       "subtitle": "Om uw klacht goed te kunnen behandelen willen we vaak even komen kijken of met u overleggen",

@@ -41,9 +41,9 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       createSignal.checkSpecificInformationPage(signal);
 
       cy.contains(questions.overlastVanDieren.extra_dieren_waar_wespen.label).should('be.visible');
-      cy.get(OVERLAST_DIEREN.radioButtonWoning).check({ force: true }).should('be.checked');
-      cy.get(OVERLAST_DIEREN.radioButtonOpenbareRuimte).check({ force: true }).should('be.checked');
-      
+      cy.get(OVERLAST_DIEREN.radioButtonWoningWespen).check({ force: true }).should('be.checked');
+      cy.get(OVERLAST_DIEREN.radioButtonOpenbareRuimteWespen).check({ force: true }).should('be.checked');
+
       cy.contains('Volgende').click();
       createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();
