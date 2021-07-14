@@ -1,0 +1,95 @@
+{
+  "category": {
+    "sub": "Eikenprocessierups",
+    "sub_slug": "eikenprocessierups",
+    "main": "Openbaar groen en water",
+    "main_slug": "openbaar-groen-en-water",
+    "category_url": "http://localhost:8000/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups",
+    "departments": "STW",
+    "created_by": null,
+    "text": null,
+    "handling_time": "10 werkdagen"
+  },
+  "id": null,
+  "has_attachments": true,
+  "address": {
+    "stadsdeel": "Zuid",
+    "postcode": "1071EP",
+    "huisletter": "",
+    "huisnummer": 31,
+    "woonplaats": "Amsterdam",
+    "openbare_ruimte": "Van Eeghenlaan",
+    "huisnummer_toevoeging": "2",
+    "address_text": "Van Eeghenlaan 31-2 1071EP Amsterdam",
+    "geometrie": {"type": "Point", "coordinates": [4.87443569, 52.35812925]}
+  },
+  "status": {
+    "text": "",
+    "user": "",
+    "state": "m",
+    "state_display": "Gemeld",
+    "send_email": true,
+    "created_at": "2020-10-29T16:27:54.488819+01:00"
+  },
+  "reporter": {"email": "", "phone": "", "sharing_allowed": "Nee"},
+  "priority": "Normaal",
+  "process_time": "Binnen de afhandeltermijn",
+  "notes": [],
+  "type": "Melding",
+  "source": "online",
+  "text": "Eikenprocessierups gesignaleerd",
+  "text_extra": "",
+  "extra_properties": [
+    {
+      "id": "extra_eikenprocessierups",
+      "label": "Kies de boom waarin u de eikenprocessierupsen hebt gezien",
+      "shortLabel": "Boom",
+      "category_url": "/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups",
+      "answer": [
+        {
+          "id": 327693,
+          "type": "Eikenboom",
+          "label": "Eikenboom - 327693",
+          "isReported": false,
+          "GlobalID": "21dea3dd-06fb-42da-9b13-bf6af285f296"
+        },
+        {
+          "id": 311692,
+          "type": "Eikenboom",
+          "label": "Eikenboom - 311692",
+          "isReported": false,
+          "GlobalID": "15d5051f-5f48-4ecc-8ad9-16592ab60f84"
+        },
+        {
+          "id": "",
+          "type": "not-on-map",
+          "label": "De boom staat niet op de kaart"
+        }
+      ]
+    },
+    {
+      "id": "extra_nest_grootte",
+      "label": "Wat hebt u op de boom gezien?",
+      "shortLabel": "Op de boom gezien",
+      "category_url": "/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups",
+      "answer": {
+        "id": "klein",
+        "label": "Nest is zo groot als een tennisbal",
+        "info": ""
+      }
+    }
+  ],
+  "created_at": "2020-10-29T15:53:05.650429+01:00",
+  "updated_at": "2020-10-29T16:27:54.569883+01:00",
+  "incident_date_start": "2020-10-29T15:53:05+01:00",
+  "incident_date_end": null,
+  "time": "Nu",
+  "directing_departments": [
+    {"id": 4, "code": "STW", "name": "Stadswerken", "is_intern": true}
+  ],
+  "fixtures": {
+    "address": "eikenprocessierups.json",
+    "attachments": null,
+    "prediction": "eikenprocessierups.json"
+  }
+}

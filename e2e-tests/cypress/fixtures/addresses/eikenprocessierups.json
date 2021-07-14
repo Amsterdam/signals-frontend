@@ -1,0 +1,68 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 38.048794,
+    "docs": [
+      {
+        "woonplaatsnaam": "Amsterdam",
+        "huis_nlt": "31-2",
+        "weergavenaam": "Van Eeghenlaan 31-2, 1071EP Amsterdam",
+        "id": "adr-a0c6606147944758b7d80edf9028f45b",
+        "postcode": "1071EP",
+        "centroide_ll": "POINT(4.87443569 52.35812925)",
+        "straatnaam": "Van Eeghenlaan"
+      }
+    ]
+  },
+  "highlighting": {
+    "adr-a0c6606147944758b7d80edf9028f45b": {
+      "suggest": [
+        "<b>Van</b> <b>Eeghenlaan</b> <b>31</b>-<b>2</b>, <b>1071EP</b> <b>Amsterdam</b>"
+      ]
+    }
+  },
+  "spellcheck": {
+    "suggestions": [
+      "eeghenlaan",
+      {
+        "numFound": 2,
+        "startOffset": 4,
+        "endOffset": 14,
+        "suggestion": ["eeghenlaa", "eendenlaan"]
+      },
+      "1071ep",
+      {
+        "numFound": 5,
+        "startOffset": 21,
+        "endOffset": 27,
+        "suggestion": ["1051ep", "1071bp", "10710", "10711", "10713"]
+      }
+    ],
+    "collations": [
+      "collation",
+      {
+        "collationQuery": "von eeghenlaa 31-2, 1071ep amsterda",
+        "hits": 1,
+        "misspellingsAndCorrections": [
+          "von",
+          "von",
+          "v",
+          "v",
+          "van",
+          "van",
+          "eeghenlaan",
+          "eeghenlaa",
+          "31",
+          "31",
+          "2",
+          "2",
+          "1071ep",
+          "1071ep",
+          "amsterda",
+          "amsterda"
+        ]
+      }
+    ]
+  }
+}
