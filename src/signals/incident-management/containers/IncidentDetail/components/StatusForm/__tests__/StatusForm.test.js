@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -10,7 +10,10 @@ import {
   INGEPLAND,
   AFGEHANDELD,
   GEANNULEERD,
+  REACTIE_GEVRAAGD,
   StatusCode,
+  HEROPEND,
+  AFWACHTING,
 } from 'signals/incident-management/definitions/statusList'
 
 import userEvent from '@testing-library/user-event'
@@ -19,13 +22,11 @@ import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
-  AFGEHANDELD_EXPLANATION,
   DEELMELDING_EXPLANATION,
   DEELMELDINGEN_STILL_OPEN_HEADING,
   DEELMELDINGEN_STILL_OPEN_CONTENT,
-  NO_REPORTER_EMAIL,
-  MAIL_EXPLANATION,
-  DEFAULT_MESSAGE_MAX_LENGTH,
+  DEFAULT_TEXT_LABEL,
+  DEFAULT_TEXT_MAX_LENGTH,
 } from '../constants'
 
 const defaultTexts = [
@@ -58,9 +59,7 @@ const renderWithContext = (incident = incidentFixture, childIncidents) =>
     </IncidentDetailContext.Provider>
   )
 
-const statusSendsEmailWhenSet = changeStatusOptionList.filter(
-  ({ email_sent_when_set }) => email_sent_when_set
-)[0]
+const statusSendsEmailWhenSet = AFGEHANDELD
 
 const statusDoesNotSendEmailWhenSet = changeStatusOptionList.filter(
   ({ email_sent_when_set }) => !email_sent_when_set
@@ -73,10 +72,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('renders correctly', () => {
-    const { container } = render(renderWithContext())
+    render(renderWithContext())
 
-    expect(container.querySelector('textarea')).toBeInTheDocument()
-    expect(screen.getByTestId('statusFormSubmitButton')).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Status opslaan' })
+    ).toBeInTheDocument()
     expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
 
     Object.values(changeStatusOptionList).forEach(({ value }) => {
@@ -89,7 +90,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('renders a disabled checkbox', () => {
     // render component with incident status that will disable the checkbox
-    const { container, getByTestId, queryByText } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         status: { state: statusSendsEmailWhenSet.key },
@@ -97,28 +98,22 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     // verify that checkbox is checked and disabled
-    const checkbox = getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('sendEmailCheckbox')
     expect(checkbox.checked).toEqual(true)
     expect(checkbox.disabled).toEqual(true)
 
     // verify that the label '(niet verplicht)' is not in the document
-    expect(queryByText('(niet verplicht)')).not.toBeInTheDocument()
+    expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
 
     // select a status that will not disable the checkbox
-    act(() => {
-      fireEvent.click(
-        container.querySelector(
-          `input[value="${statusDoesNotSendEmailWhenSet.key}"]`
-        )
-      )
-    })
+    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
 
     // verify that checkbox is NOT checked and NOT disabled
     expect(checkbox.checked).toEqual(false)
     expect(checkbox.disabled).toEqual(false)
 
     // verify that the label '(niet verplicht)' is in the document
-    expect(queryByText('(niet verplicht)')).toBeInTheDocument()
+    expect(screen.queryByText('(niet verplicht)')).toBeInTheDocument()
   })
 
   it('renders a disabled checkbox when changing from verzoek tot heropenen to afgehandeld', () => {
@@ -148,7 +143,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('requires a text value when the checkbox is selected', async () => {
     // render component with incident status that will disable the checkbox
-    const { container, getByTestId, queryByText, findByTestId } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         status: { state: statusSendsEmailWhenSet.key },
@@ -156,40 +151,34 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     // verify that checkbox is checked and disabled
-    const checkbox = getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('sendEmailCheckbox')
     expect(checkbox.checked).toEqual(true)
     expect(checkbox.disabled).toEqual(true)
 
     // submit the form
-    act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
-    await findByTestId('statusForm')
+    await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(queryByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
     // verify that 'update' and 'close' have NOT been called
     expect(update).not.toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
 
-    // fire onChange event on textarea
-    const textarea = container.querySelector('textarea')
+    // type text in textarea
+    const textarea = screen.getByRole('textbox')
     const value = 'Foo bar baz'
-    act(() => {
-      fireEvent.change(textarea, { target: { value } })
-    })
+    userEvent.type(textarea, value)
 
     // verify that an error message is NOT shown
-    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
     // submit the form
-    act(() => {
-      fireEvent.click(getByTestId('statusFormSubmitButton'))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
-    await findByTestId('statusForm')
+    await screen.findByTestId('statusForm')
 
     // verify that 'update' and 'close' have been called
     expect(update).toHaveBeenCalledWith(
@@ -205,70 +194,58 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('toggles the requirement for the text field', () => {
     // render component
-    const { getByTestId, getByText, queryByText } = render(
+    render(
       renderWithContext({
         ...incidentFixture,
         status: { state: statusDoesNotSendEmailWhenSet.key },
       })
     )
 
-    const checkbox = getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('sendEmailCheckbox')
 
     expect(checkbox.checked).toEqual(false)
 
     // verify that the label '(niet verplicht)' is in the document
-    expect(getByText('(niet verplicht)')).toBeInTheDocument()
+    expect(screen.getByText('(niet verplicht)')).toBeInTheDocument()
 
     // check the box
-    act(() => {
-      fireEvent.click(checkbox)
-    })
+    userEvent.click(checkbox)
 
     expect(checkbox.checked).toEqual(true)
 
     // verify that the label '(niet verplicht)' is not in the document
-    expect(queryByText('(niet verplicht)')).not.toBeInTheDocument()
+    expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
 
     // toggle the box
-    act(() => {
-      fireEvent.click(checkbox)
-    })
+    userEvent.click(checkbox)
 
     // verify that the label '(niet verplicht)' is in the document
-    expect(getByText('(niet verplicht)')).toBeInTheDocument()
+    expect(screen.getByText('(niet verplicht)')).toBeInTheDocument()
   })
 
   it('clears the text field when a default text is selected', () => {
     // render component with incident status that will render default texts
     const texts = defaultTexts[0]
-    const { container, getByTestId, getAllByTestId } = render(
+    render(
       renderWithContext({ ...incidentFixture, status: { state: texts.state } })
     )
 
     // verify that there are default texts visible
-    expect(getByTestId('defaultTextsTitle')).toBeInTheDocument()
+    expect(screen.getByTestId('defaultTextsTitle')).toBeInTheDocument()
 
     // verify that the text field is empty
-    const textarea = container.querySelector('textarea')
+    const textarea = screen.getByRole('textbox')
     expect(textarea.value).toEqual('')
 
     // click a default text link
-    const link = getAllByTestId('defaultTextsItemButton')[0]
-    act(() => {
-      fireEvent.click(link)
-    })
+    const link = screen.getAllByTestId('defaultTextsItemButton')[0]
+    userEvent.click(link)
 
     // verify that the text field is NOT empty
     expect(textarea.value).toEqual(texts.templates[0].text)
 
     // select another status
-    act(() => {
-      fireEvent.click(
-        container.querySelector(
-          `input[value="${changeStatusOptionList[0].key}"]`
-        )
-      )
-    })
+    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
 
     // verify that the text field is empty again
     expect(textarea.value).toEqual('')
@@ -276,29 +253,21 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('does not clear the text field when text has been entered manually', () => {
     // render component
-    const { container } = render(renderWithContext())
+    render(renderWithContext())
 
     // verify that the text field is empty
-    const textarea = container.querySelector('textarea')
+    const textarea = screen.getByRole('textbox')
     expect(textarea.value).toEqual('')
 
-    // fire onChange event on textarea
+    // type in textarea
     const value = 'Foo bar baz'
-    act(() => {
-      fireEvent.change(textarea, { target: { value } })
-    })
+    userEvent.type(textarea, value)
 
     // verify that the text field is NOT empty
     expect(textarea.value).toEqual(value)
 
     // select another status
-    act(() => {
-      fireEvent.click(
-        container.querySelector(
-          `input[value="${changeStatusOptionList[1].key}"]`
-        )
-      )
-    })
+    userEvent.click(screen.getByRole('radio', { name: AFWACHTING.value }))
 
     // verify that the text field is NOT empty
     expect(textarea.value).toEqual(value)
@@ -309,12 +278,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     const textarea = screen.getByRole('textbox')
 
-    userEvent.type(textarea, 'A'.repeat(DEFAULT_MESSAGE_MAX_LENGTH + 1))
+    userEvent.type(textarea, 'A'.repeat(DEFAULT_TEXT_MAX_LENGTH + 1))
 
     userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
     expect(screen.getByRole('alert').textContent).toBe(
-      `Je hebt meer dan de maximale ${DEFAULT_MESSAGE_MAX_LENGTH} tekens ingevoerd.`
+      `Je hebt meer dan de maximale ${DEFAULT_TEXT_MAX_LENGTH} tekens ingevoerd.`
     )
   })
 
@@ -322,20 +291,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component
     render(renderWithContext())
 
-    // fire onChange event on textarea with special characters '{{' and '}}'
+    // type in textarea with special characters '{{' and '}}'
     const textarea = screen.getByRole('textbox')
     const value = 'Foo {{bar}} baz'
-    act(() => {
-      fireEvent.change(textarea, { target: { value } })
-    })
+    userEvent.type(textarea, value)
 
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     // submit the form
-    act(() => {
-      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -346,16 +311,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(update).not.toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
 
-    // fire onChange event on textarea
+    // clear textarea
+    const clearText = '{selectall}{backspace}'
+    userEvent.type(textarea, clearText)
+
+    // type in textarea
     const validValue = 'Foo bar baz'
-    act(() => {
-      fireEvent.change(textarea, { target: { value: validValue } })
-    })
+    userEvent.type(textarea, validValue)
 
     // submit the form
-    act(() => {
-      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -372,77 +337,76 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('clears the error message when another status is selected', async () => {
-    // render component with incident status that will disable the checkbox
-    render(
-      renderWithContext({
-        ...incidentFixture,
-        // TODO handle case with -> ingepland
-        status: { state: statusSendsEmailWhenSet.key },
-      })
-    )
+    render(renderWithContext())
 
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+
     // submit the form
-    act(() => {
-      fireEvent.click(screen.getByTestId('statusFormSubmitButton'))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
 
     await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
     // select another status
     const otherStatus = screen.getByRole('radio', {
-      name: changeStatusOptionList[3].value,
+      name: REACTIE_GEVRAAGD.value,
     })
-    act(() => {
-      fireEvent.click(otherStatus)
-    })
+    userEvent.click(otherStatus)
 
     // verify that an error message is NOT shown
-    expect(screen.queryByTestId('statusError')).not.toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
   })
 
-  it('shows a warning that is specific to certain statuses', () => {
-    // render component
-    const { container } = render(renderWithContext())
+  it('shows a warning that is specific to certain statuses', async () => {
+    render(renderWithContext())
 
-    expect(screen.queryByText(AFGEHANDELD_EXPLANATION)).not.toBeInTheDocument()
-
-    // select status 'o'
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="o"]'))
-    })
-
-    // verify that warning with text AFGEHANDELD_EXPLANATION is visible
-    expect(screen.getByTestId('statusWarning').textContent).toEqual(
-      AFGEHANDELD_EXPLANATION
-    )
-
-    // select a status that is none of the above
-    act(() => {
-      fireEvent.click(container.querySelector('input[value="b"]'))
-    })
-
-    // verify that no warning is shown
-    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('end-status-warning')).not.toBeInTheDocument()
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    expect(screen.getByTestId('end-status-warning')).toBeInTheDocument()
   })
 
-  it('shows a warning when reporter has no email address', () => {
+  it('shows a warning when user has no email', () => {
     render(
       renderWithContext({
         ...incidentFixture,
-        reporter: {
-          ...incidentFixture.reporter,
-          email: null,
+        reporter: { ...incidentFixture.reporter, email: null },
+      })
+    )
+
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
+  })
+
+  it('shows a warning when current status is Extern: verzonden and the new status is Reactie gevraagd', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        status: {
+          ...incidentFixture.status,
+          state: StatusCode.Verzonden,
         },
       })
     )
 
-    expect(screen.queryByText(NO_REPORTER_EMAIL)).toBeInTheDocument()
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(screen.getByTestId('external-reply-warning')).toBeInTheDocument()
+  })
+
+  it('shows a warning when switching to reply status user has no email', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        reporter: { ...incidentFixture.reporter, email: null },
+      })
+    )
+
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
   })
 
   it('shows an explanation text when email will be sent', () => {
@@ -450,7 +414,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     userEvent.click(screen.getByText('Afgehandeld'))
 
-    expect(screen.queryByText(MAIL_EXPLANATION)).toBeInTheDocument()
+    expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
   })
 
   it('shows a warning that is specific to a deelmelding', () => {
@@ -467,64 +431,59 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container } = render(renderWithContext(deelmelding))
+    render(renderWithContext(deelmelding))
 
     // verify that warning with text DEELMELDING_EXPLANATION is visible
-    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-    expect(screen.queryByTestId('statusWarning')).not.toBeInTheDocument()
 
-    // select a status that will show a warning (see: )
-    fireEvent.click(container.querySelector('input[value="reopened"]'))
-
-    // verify that statusExplanation is visible
-    expect(screen.getByTestId('statusExplanation')).toBeInTheDocument()
+    // select a status that will show a warning
+    userEvent.click(screen.getByRole('radio', { name: HEROPEND.value }))
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
-    expect(screen.getByTestId('statusExplanation').textContent).toEqual(
+    expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
+
+    userEvent.click(screen.getByText(REACTIE_GEVRAAGD.value))
+    expect(
+      screen.getByTestId('split-incident-reply-warning')
+    ).toBeInTheDocument()
   })
 
   it('shows a warning when there are child incidents still open', async () => {
     const childIncidents = [GEMELD, INGEPLAND].map(({ key }) => ({
       status: { state: key },
     }))
-    const { container } = render(
-      renderWithContext(incidentFixture, childIncidents)
-    )
+    render(renderWithContext(incidentFixture, childIncidents))
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(
-      container.querySelector(`input[value="${AFGEHANDELD.key}"]`)
-    )
-
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_HEADING
-    )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_CONTENT
-    )
-
-    fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`))
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_HEADING)
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
+
+    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+
+    expect(
+      screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(
-      container.querySelector(`input[value="${GEANNULEERD.key}"]`)
-    )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_CONTENT
-    )
-    expect(screen.getByTestId('statusHasChildrenOpen').textContent).toContain(
-      DEELMELDINGEN_STILL_OPEN_HEADING
-    )
+    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
+    expect(
+      screen.getByTestId('has-open-child-incidents-warning').textContent
+    ).toContain(DEELMELDINGEN_STILL_OPEN_HEADING)
   })
 
   it('shows NO warning when the child incidents are closed', async () => {
@@ -532,34 +491,46 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       status: { state: key },
     }))
 
-    const { container } = render(
-      renderWithContext(incidentFixture, childIncidents)
+    render(renderWithContext(incidentFixture, childIncidents))
+
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+
+    expect(
+      screen.queryByTestId('statusHasChildrenOpen')
+    ).not.toBeInTheDocument()
+  })
+
+  it('is not possible to submit a status when an notification has level "error"', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        reporter: {
+          ...incidentFixture.reporter,
+          email: null,
+        },
+      })
     )
 
-    expect(
-      screen.queryByTestId('statusHasChildrenOpen')
-    ).not.toBeInTheDocument()
+    const submitButton = screen.getByRole('button', { name: 'Status opslaan' })
 
-    fireEvent.click(
-      container.querySelector(`input[value="${AFGEHANDELD.key}"]`)
-    )
-
-    expect(
-      screen.queryByTestId('statusHasChildrenOpen')
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(container.querySelector(`input[value="${INGEPLAND.key}"]`))
-
-    expect(
-      screen.queryByTestId('statusHasChildrenOpen')
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(
-      container.querySelector(`input[value="${GEANNULEERD.key}"]`)
-    )
-
-    expect(
-      screen.queryByTestId('statusHasChildrenOpen')
-    ).not.toBeInTheDocument()
+    expect(submitButton).not.toBeDisabled()
+    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    expect(submitButton).toBeDisabled()
   })
 })

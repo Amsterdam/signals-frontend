@@ -135,7 +135,7 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
-      cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
+      cy.get(CHANGE_STATUS.original-status).contains('Gemeld').should('be.visible');
 
       cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonIngepland).click({ force: true }).should('be.checked');
@@ -168,7 +168,7 @@ describe('Standaardteksten', () => {
       cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
-      cy.get(CHANGE_STATUS.currentStatus).contains('Ingepland').should('be.visible');
+      cy.get(CHANGE_STATUS.original-status).contains('Ingepland').should('be.visible');
       cy.get(CHANGE_STATUS.radioButtonAfgehandeld).click({ force: true }).should('be.checked');
 
       cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible');
@@ -203,7 +203,7 @@ describe('Standaardteksten', () => {
 
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
-      cy.get(CHANGE_STATUS.currentStatus).contains('Afgehandeld').should('be.visible');
+      cy.get(CHANGE_STATUS.original-status).contains('Afgehandeld').should('be.visible');
 
       cy.get(CHANGE_STATUS.radioButtonHeropend).click({ force: true }).should('be.checked');
       cy.get(STANDAARDTEKSTEN.defaultTextTitle).should('be.visible');

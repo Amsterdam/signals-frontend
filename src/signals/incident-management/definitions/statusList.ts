@@ -10,12 +10,21 @@ export enum StatusCode {
   Gesplitst = 's',
   VerzoekTotHeropenen = 'reopen requested',
   ReactieGevraagd = 'reaction requested',
+  ReactieOntvangen = 'reaction received',
   Heropend = 'reopened',
   TeVerzenden = 'ready to send',
   Verzonden = 'sent',
   VerzendenMislukt = 'send failed',
   VerzoekTotAfhandeling = 'closure requested',
   AfgehandeldExtern = 'done external',
+}
+
+export type Status = {
+  color?: string
+  key: StatusCode
+  value: string
+  email_sent_when_set: boolean
+  shows_remaining_sla_days: boolean
 }
 
 export const GEMELD = {
@@ -76,9 +85,15 @@ export const GEANNULEERD = {
 
 export const REACTIE_GEVRAAGD = {
   key: StatusCode.ReactieGevraagd,
-  value: 'Reactie Gevraagd',
-  color: 'orange',
+  value: 'Reactie gevraagd',
   email_sent_when_set: true,
+  shows_remaining_sla_days: false,
+}
+
+export const REACTIE_ONTVANGEN = {
+  key: StatusCode.ReactieOntvangen,
+  value: 'Reactie ontvangen',
+  email_sent_when_set: false,
   shows_remaining_sla_days: false,
 }
 
@@ -133,10 +148,12 @@ export const AFGEHANDELD_EXTERN = {
   shows_remaining_sla_days: true,
 }
 
-const statusList = [
+const statusList: Status[] = [
   GEMELD,
   AFWACHTING,
   BEHANDELING,
+  REACTIE_GEVRAAGD,
+  REACTIE_ONTVANGEN,
   AFGEHANDELD,
   INGEPLAND,
   GEANNULEERD,
@@ -148,7 +165,6 @@ const statusList = [
   VERZENDEN_MISLUKT,
   VERZOEK_TOT_AFHANDELING,
   AFGEHANDELD_EXTERN,
-  REACTIE_GEVRAAGD,
 ]
 
 export default statusList
