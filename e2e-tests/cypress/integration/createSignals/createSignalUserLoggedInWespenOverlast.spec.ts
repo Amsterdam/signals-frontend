@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
+import { OVERLAST_DIEREN } from '../../support/selectorsCreateSignal';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/wespen.json';
 import questions from '../../fixtures/questions/questions.json';
@@ -39,12 +40,10 @@ describe('Create signal "Wespen" when logged in and check signal details', () =>
       cy.contains('Volgende').click();
       createSignal.checkSpecificInformationPage(signal);
 
-      Object.values(questions.overlastVanDieren.extra_dieren_text.answers).forEach((elementValue: string) => {
-        cy.contains(elementValue).should('be.visible');
-      });
-      cy.contains('Dierenambulance Amsterdam').should('have.attr', 'href').and('include', 'dierenambulance-amsterdam');
-      cy.contains('overlast van dieren').should('have.attr', 'href').and('include', 'veelgevraagd');
-
+      cy.contains(questions.overlastVanDieren.extra_dieren_waar_wespen.label).should('be.visible');
+      cy.get(OVERLAST_DIEREN.radioButtonWoning).check({ force: true }).should('be.checked');
+      cy.get(OVERLAST_DIEREN.radioButtonOpenbareRuimte).check({ force: true }).should('be.checked');
+      
       cy.contains('Volgende').click();
       createSignal.setPhonenumber(signal);
       cy.contains('Volgende').click();

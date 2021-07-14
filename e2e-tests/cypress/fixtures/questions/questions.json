@@ -326,6 +326,14 @@
         "Voor alle andere gevallen: bezoek onze pagina: ",
         "Melden van zieke, mishandelde en dode dieren, of overlast van dieren."
       ]
+    },
+    "extra_dieren_waar_wespen": {
+        "label": "Waar veroorzaken de wespen overlast?",
+        "shortLabel": "Waar",
+        "values": {
+          "woning": "In of bij de woning",
+          "openbaar": "In de openbare ruimte, zoals een park of straat"
+        }
     }
   },
   "overlastPersonenEnGroepen": {
