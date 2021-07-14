@@ -17,6 +17,7 @@ import afvalControls from './wizard-step-2-vulaan/afval'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import openbaarGroenEnWaterControls from './wizard-step-2-vulaan/openbaarGroenEnWater'
+import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -122,6 +123,9 @@ const getExtraQuestions = (category, subcategory, questions) => {
 
     case 'overlast-van-en-door-personen-of-groepen':
       return summary(overlastPersonenEnGroepenControls)
+
+    case 'overlast-van-dieren':
+      return summary(overlastVanDieren)
 
     case 'wegen-verkeer-straatmeubilair':
       return summary(wegenVerkeerStraatmeubilairControls)

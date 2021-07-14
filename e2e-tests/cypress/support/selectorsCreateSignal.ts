@@ -161,6 +161,13 @@ export const LANTAARNPAAL = {
   radioButtonNietGevaarlijk: '#extra_straatverlichting-niet_gevaarlijk',
 };
 
+export const OVERLAST_DIEREN = {
+  radioButtonWoningWespen: '#extra_dieren_waar_wespen-woning',
+  radioButtonOpenbareRuimteWespen: '#extra_dieren_waar_wespen-openbaar',
+  radioButtonWoningDuiven: '#extra_dieren_waar_duiven-woning',
+  radioButtonOpenbareRuimteDuiven: '#extra_dieren_waar_duiven-openbaar',
+};
+
 export const STANK_OVERLAST = {
   inputGeur: '#extra_bedrijven_horeca_stank',
   inputOorzaakGeur: '#extra_bedrijven_horeca_stank_oorzaak',
