@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
+import { render, act, screen, waitFor } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
 import userEvent from '@testing-library/user-event'
@@ -63,9 +63,9 @@ describe('signals/settings/categories/Detail', () => {
   })
 
   it('should render a backlink', async () => {
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    const backLink = await findByTestId('backlink')
+    const backLink = await screen.findByTestId('backlink')
 
     expect(backLink.getAttribute('href')).toEqual(routes.categories)
   })
@@ -77,17 +77,17 @@ describe('signals/settings/categories/Detail', () => {
       referrer,
     }))
 
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    const backLink = await findByTestId('backlink')
+    const backLink = await screen.findByTestId('backlink')
 
     expect(backLink.getAttribute('href')).toEqual(referrer)
   })
 
   it('should render the correct page title for a new category', async () => {
-    const { findByText } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    const title = await findByText('Subcategorie toevoegen')
+    const title = await screen.findByText('Subcategorie toevoegen')
     expect(title).toBeInTheDocument()
   })
 
@@ -96,27 +96,25 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: categoryJSON.id,
     }))
 
-    const { findByText } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    const title = await findByText('Subcategorie wijzigen')
+    const title = await screen.findByText('Subcategorie wijzigen')
     expect(title).toBeInTheDocument()
   })
 
-  it('should render a form for a new category', async () => {
+  it('should render a form for a new category', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: undefined,
     }))
 
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    const form = await findByTestId('detailCategoryForm')
+    const form = screen.getByTestId('detailCategoryForm')
     expect(form).toBeInTheDocument()
 
-    document
-      .querySelectorAll('input[type="text"], textarea')
-      .forEach((element) => {
-        expect(element.value).toEqual('')
-      })
+    screen.getAllByRole('textbox').forEach((element) => {
+      expect(element.value).toEqual('')
+    })
   })
 
   it('should render a form for an existing category', async () => {
@@ -124,9 +122,9 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: 123,
     }))
 
-    const { findByTestId } = render(withAppContext(<CategoryDetailContainer />))
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     expect(document.querySelector('#name').value).toEqual(categoryJSON.name)
     expect(document.querySelector('#description').value).toEqual(
@@ -139,18 +137,16 @@ describe('signals/settings/categories/Detail', () => {
       categoryId: 456,
     }))
 
-    const { container, getByTestId, findByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    )
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
-    const nameField = container.querySelector('#name')
-    const cancelButton = getByTestId('cancelBtn')
+    const nameField = screen.getByRole('textbox', { name: 'Naam' })
+    const cancelButton = screen.getByTestId('cancelBtn')
 
     act(() => {
       // no changes to data in form fields
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(1)
@@ -158,11 +154,12 @@ describe('signals/settings/categories/Detail', () => {
 
     act(() => {
       // changes made, but data remains the same
-      fireEvent.change(nameField, { target: { value: categoryJSON.name } })
+      userEvent.clear(nameField)
+      userEvent.type(nameField, categoryJSON.name)
     })
 
     act(() => {
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(2)
@@ -170,11 +167,11 @@ describe('signals/settings/categories/Detail', () => {
 
     act(() => {
       // changes made, data differs from initial API data
-      fireEvent.change(nameField, { target: { value: 'Some other value' } })
+      userEvent.type(nameField, 'Some other value')
     })
 
     act(() => {
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(3)
@@ -229,18 +226,18 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }))
 
-    const { container, getByTestId, findByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    )
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
-    const descriptionField = container.querySelector('#description')
-    const cancelButton = getByTestId('cancelBtn')
+    const descriptionField = screen.getByRole('textbox', {
+      name: 'Omschrijving',
+    })
+    const cancelButton = screen.getByTestId('cancelBtn')
 
     act(() => {
       // no changes to data in form fields
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(1)
@@ -248,13 +245,13 @@ describe('signals/settings/categories/Detail', () => {
 
     act(() => {
       // changes made, but data remains the same
-      fireEvent.change(descriptionField, { target: { value: '' } })
+      userEvent.clear(descriptionField)
     })
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     act(() => {
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(2)
@@ -262,15 +259,13 @@ describe('signals/settings/categories/Detail', () => {
 
     act(() => {
       // changes made, data differs from initial API data
-      fireEvent.change(descriptionField, {
-        target: { value: 'Here be a description' },
-      })
+      userEvent.type(descriptionField, 'Here be a description')
     })
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     act(() => {
-      fireEvent.click(cancelButton)
+      userEvent.click(cancelButton)
     })
 
     expect(confirmedCancel).toHaveBeenCalledTimes(3)
@@ -290,18 +285,16 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }))
 
-    const { getByTestId, findByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    )
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     expect(fetch).toHaveBeenCalledTimes(2)
 
-    const submitBtn = getByTestId('submitBtn')
+    const submitBtn = screen.getByTestId('submitBtn')
 
     act(() => {
-      fireEvent.click(submitBtn)
+      userEvent.click(submitBtn)
     })
 
     expect(dispatch).not.toHaveBeenCalled()
@@ -313,7 +306,7 @@ describe('signals/settings/categories/Detail', () => {
     )
 
     // on patch success, re-request all categories
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     expect(dispatch).toHaveBeenCalledWith(fetchCategories())
   })
@@ -331,23 +324,21 @@ describe('signals/settings/categories/Detail', () => {
       categoryId,
     }))
 
-    const { findByTestId, getByTestId } = render(
-      withAppContext(<CategoryDetailContainer />)
-    )
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
-    expect(getByTestId('detailCategoryForm')).toBeInTheDocument()
+    await screen.findByTestId('detailCategoryForm')
+    expect(screen.getByTestId('detailCategoryForm')).toBeInTheDocument()
 
-    const submitBtn = getByTestId('submitBtn')
+    const submitBtn = screen.getByTestId('submitBtn')
 
     act(() => {
-      fireEvent.click(submitBtn)
+      userEvent.click(submitBtn)
     })
 
     expect(dispatch).not.toHaveBeenCalled()
     expect(push).not.toHaveBeenCalled()
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification(expect.any(Object))
@@ -356,29 +347,27 @@ describe('signals/settings/categories/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1)
   })
 
-  it('should request history for existing category', async () => {
+  it('does not request history when category is not passed', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: undefined,
     }))
 
-    const { findByTestId, findByText, unmount } = render(
-      withAppContext(<CategoryDetailContainer />)
-    )
+    render(withAppContext(<CategoryDetailContainer />))
 
-    await findByText('Terug naar overzicht')
+    await screen.findByText('Terug naar overzicht')
 
     expect(fetch).not.toHaveBeenLastCalledWith(
       expect.stringContaining('/history'),
       expect.any(Object)
     )
+  })
 
+  it('requests history for existing category', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 900,
     }))
 
     fetch.resetMocks()
-
-    unmount()
 
     fetch
       .once(JSON.stringify(categoryJSON)) // GET response (category)
@@ -386,7 +375,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await findByTestId('detailCategoryForm')
+    await screen.findByTestId('detailCategoryForm')
 
     expect(fetch).toHaveBeenLastCalledWith(
       expect.stringContaining('/history'),
