@@ -9,6 +9,7 @@ import 'regenerator-runtime'
 import 'url-polyfill'
 import 'jest-localstorage-mock'
 
+import { configure } from '@testing-library/react'
 import { JSDOM } from 'jsdom'
 import faker from 'faker'
 import Enzyme from 'enzyme'
@@ -21,6 +22,11 @@ fetchMock.enableMocks()
 
 // set faker locale
 faker.locale = 'nl'
+
+configure({
+  showOriginalStackTrace: true,
+  asyncUtilTimeout: 10000,
+})
 
 // React Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() })

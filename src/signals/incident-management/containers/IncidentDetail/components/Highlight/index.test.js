@@ -78,7 +78,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/HighL
     expect(document.querySelector('.animate')).toBeInTheDocument()
 
     act(() => {
-      jest.runTimersToTime(HIGHLIGHT_TIMEOUT_INTERVAL)
+      jest.advanceTimersByTime(HIGHLIGHT_TIMEOUT_INTERVAL)
     })
 
     expect(document.querySelector('.animate')).toBeInTheDocument()

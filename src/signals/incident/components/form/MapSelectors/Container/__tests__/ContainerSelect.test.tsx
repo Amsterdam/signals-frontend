@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { withAppContext } from 'test/utils'
@@ -59,7 +59,9 @@ describe('ContainerSelect', () => {
   it('should close the selector component', () => {
     render(withContainerSelectContext(<ContainerSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    act(() => {
+      userEvent.click(screen.getByText(/kies op kaart/i))
+    })
     expect(screen.queryByTestId('containerSelectSelector')).toBeInTheDocument()
 
     userEvent.click(screen.getByTestId('mapCloseButton'))
