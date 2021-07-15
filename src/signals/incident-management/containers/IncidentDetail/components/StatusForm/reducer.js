@@ -33,6 +33,21 @@ const determineWarning = (selectedStatusKey, isSplitIncident) => {
   return ''
 }
 
+const textIsRequired = (toStatus, fromStatus, isSplitIncident) => {
+  if (isSplitIncident) {
+    if (
+      [
+        StatusCode.Afgehandeld,
+        StatusCode.Ingepland,
+        StatusCode.Heropend,
+      ].includes(toStatus)
+    ) {
+      return true
+    }
+  } else
+    return emailSentWhenStatusChangedTo(toStatus, fromStatus, isSplitIncident)
+}
+
 export const init = (incident) => {
   const incidentStatus = statusList.find(
     ({ key }) => key === incident.status.state
@@ -40,6 +55,12 @@ export const init = (incident) => {
   const isSplitIncident = incident?._links?.['sia:parent'] !== undefined
 
   const initialEmailSentState = emailSentWhenStatusChangedTo(
+    incidentStatus.key,
+    incidentStatus.key,
+    isSplitIncident
+  )
+
+  const textRequiredValue = textIsRequired(
     incidentStatus.key,
     incidentStatus.key,
     isSplitIncident
@@ -56,7 +77,7 @@ export const init = (incident) => {
     text: {
       defaultValue: '',
       value: '',
-      required: initialEmailSentState,
+      required: textRequiredValue,
     },
     isSplitIncident,
     warning: determineWarning(incidentStatus.key, isSplitIncident),
@@ -72,6 +93,12 @@ const reducer = (state, action) => {
         state.isSplitIncident
       )
 
+      const textRequiredValue = textIsRequired(
+        action.payload.key,
+        state.originalStatus.key,
+        state.isSplitIncident
+      )
+
       return {
         ...state,
         check: {
@@ -80,7 +107,7 @@ const reducer = (state, action) => {
         },
         errors: { ...state.errors, text: undefined },
         status: action.payload,
-        text: { ...state.text, defaultValue: '', required: checkboxIsChecked },
+        text: { ...state.text, defaultValue: '', required: textRequiredValue },
         warning: determineWarning(action.payload.key, state.isSplitIncident),
       }
     }

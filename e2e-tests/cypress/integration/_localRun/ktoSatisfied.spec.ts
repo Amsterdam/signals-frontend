@@ -68,7 +68,7 @@ describe('KTO form', () => {
     it('KTO satisfied send form', () => {
       cy.intercept('PUT', '/signals/v1/public/feedback/forms/*').as('putFeedback');
       cy.readFile('./cypress/fixtures/tempKTO.json').then(json => {
-        cy.visit(`${json.ktoLink}`);
+        cy.visit(`kto/${json.ktoLink}`);
       });
       general.checkHeaderText(KTO.formTitleTevreden);
       cy.get(KTO_FORM.questionLabel).eq(0).should('have.text', KTO.questionWaaromTevreden).and('be.visible');
@@ -100,7 +100,7 @@ describe('KTO form', () => {
     });
     it('KTO send form again', () => {
       cy.readFile('./cypress/fixtures/tempKTO.json').then(json => {
-        cy.visit(`${json.ktoLink}`);
+        cy.visit(`kto/${json.ktoLink}`);
       });
       general.checkHeaderText(KTO.formTitelIsAlFeedback);
       cy.contains(KTO.textNogmaalsBedankt).should('be.visible');

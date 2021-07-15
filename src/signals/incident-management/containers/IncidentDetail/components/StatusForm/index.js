@@ -156,45 +156,47 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
               </Alert>
             )}
 
-            {state.isSplitIncident && (
-              <Alert data-testid="statusExplanation" level="info">
-                {constants.DEELMELDING_EXPLANATION}
-              </Alert>
+            {state.warning && (
+              <Alert data-testid="statusWarning">{state.warning}</Alert>
             )}
           </OptionsArea>
 
           <FormArea>
-            {state.warning && (
-              <Alert data-testid="statusWarning">{state.warning}</Alert>
-            )}
+            <div>
+              <QuestionLabel>
+                <strong>Versturen</strong>
+              </QuestionLabel>
 
-            <QuestionLabel>
-              <strong>Versturen</strong>
-            </QuestionLabel>
+              {state.isSplitIncident && (
+                <Alert data-testid="statusExplanation" level="info">
+                  {constants.DEELMELDING_EXPLANATION}
+                </Alert>
+              )}
 
-            {!state.isSplitIncident && (
-              <div>
-                {hasEmail ? (
-                  <Label
-                    disabled={state.check.disabled}
-                    htmlFor="send_email"
-                    label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                    noActiveState
-                  >
-                    <Checkbox
-                      checked={state.check.checked}
-                      data-testid="sendEmailCheckbox"
+              {!state.isSplitIncident && (
+                <div>
+                  {hasEmail ? (
+                    <Label
                       disabled={state.check.disabled}
-                      id="send_email"
-                      name="send_email"
-                      onClick={onCheck}
-                    />
-                  </Label>
-                ) : (
-                  <Alert>{constants.NO_REPORTER_EMAIL}</Alert>
-                )}
-              </div>
-            )}
+                      htmlFor="send_email"
+                      label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                      noActiveState
+                    >
+                      <Checkbox
+                        checked={state.check.checked}
+                        data-testid="sendEmailCheckbox"
+                        disabled={state.check.disabled}
+                        id="send_email"
+                        name="send_email"
+                        onClick={onCheck}
+                      />
+                    </Label>
+                  ) : (
+                    <Alert>{constants.NO_REPORTER_EMAIL}</Alert>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div>
               <QuestionLabel>

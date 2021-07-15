@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { CONTAINERS } from '../../support/selectorsCreateSignal';
+import { CONTAINERS, GENERAL_MAP } from '../../support/selectorsCreateSignal';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 import { generateToken } from '../../support/jwt';
 import signal from '../../fixtures/signals/containerNotOnMap.json';
@@ -21,7 +21,7 @@ describe('Create signal "Container" and check signal details, container is not o
       cy.contains('Volgende').click();
 
       createSignal.checkSpecificInformationPage(signal);
-      cy.get(CONTAINERS.buttonKiesOpKaart).click();
+      cy.get(GENERAL_MAP.buttonKiesOpKaart).click();
       cy.get(CONTAINERS.checkBoxContainerNietopKaart).click();
       cy.get(CONTAINERS.inputContainerNummer).type('666');
       cy.get(CONTAINERS.buttonMeldDezeContainer).click();
