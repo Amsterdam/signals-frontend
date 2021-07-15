@@ -149,7 +149,7 @@ describe('Change signal after submit', () => {
 
       cy.contains('Status wijzigen').should('be.visible');
       cy.contains('Huidige status').should('be.visible');
-      cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
+      cy.get(CHANGE_STATUS.original-status).contains('Gemeld').should('be.visible');
 
       cy.get(CHANGE_STATUS.buttonCancel).click();
       cy.contains(Cypress.env('description')).should('be.visible');

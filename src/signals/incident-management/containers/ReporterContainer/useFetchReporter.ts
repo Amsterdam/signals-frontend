@@ -27,11 +27,8 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     data: getReporterData,
     error: getReporterError,
     isLoading: getReporterLoading,
-  } = useGetContextReporter(Number(id), {
-    page: currentPage,
-    pageSize: PAGE_SIZE,
-  })
-
+    get: getContextReporter,
+  } = useGetContextReporter()
   const incidents = useMemo<Incidents>(
     () => ({
       isLoading: getReporterLoading,
@@ -67,7 +64,14 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     error: getSelectedIncidentError,
     isLoading: getSelectedIncidentLoading,
     data: getSelectedIncidentData,
-  } = useGetIncident(canView ? selectedIncidentId : undefined)
+    get: getIncident,
+  } = useGetIncident()
+
+  useEffect(() => {
+    if (canView && selectedIncidentId) {
+      getIncident(selectedIncidentId)
+    }
+  }, [getIncident, canView, selectedIncidentId])
 
   const incident = useMemo<Incident>(
     () => ({
@@ -87,6 +91,15 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
   useEffect(() => {
     setSelectedIncidentId(getReporterData?.results[0]?.id)
   }, [getReporterData])
+
+  useEffect(() => {
+    if (id) {
+      getContextReporter(Number(id), {
+        page: currentPage,
+        pageSize: PAGE_SIZE,
+      })
+    }
+  }, [getContextReporter, id, currentPage])
 
   useEffect(() => {
     if (getReporterError || getSelectedIncidentError) {

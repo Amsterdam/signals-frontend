@@ -1,5 +1,5 @@
 import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
-import { FunctionComponent, useCallback, useMemo } from 'react'
+import { FunctionComponent, useCallback, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
 import useGetReportOpen from 'hooks/api/useGetReportOpen'
 import useGetReportReopenRequested from 'hooks/api/useGetReportReopenRequested'
@@ -32,7 +32,8 @@ const Signaling: FunctionComponent = () => {
     isLoading: openLoading,
     data: openData,
     error: errorOpen,
-  } = useGetReportOpen({ end: endOpen })
+    get: getReportOpen,
+  } = useGetReportOpen()
 
   const endReopenRequested = useMemo(
     () => new Date('2021-04-01').toISOString(),
@@ -42,7 +43,16 @@ const Signaling: FunctionComponent = () => {
     isLoading: reopenRequestedLoading,
     data: reopenRequestedData,
     error: errorReopenRequested,
-  } = useGetReportReopenRequested({ end: endReopenRequested })
+    get: getReportReopenRequested,
+  } = useGetReportReopenRequested()
+
+  useEffect(() => {
+    getReportOpen({ end: endOpen })
+  }, [endOpen, getReportOpen])
+
+  useEffect(() => {
+    getReportReopenRequested({ end: endReopenRequested })
+  }, [endReopenRequested, getReportReopenRequested])
 
   const getGraphDataFromReport = useCallback((report?: Report) => {
     if (!report) return []

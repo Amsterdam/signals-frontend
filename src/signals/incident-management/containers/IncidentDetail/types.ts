@@ -1,10 +1,12 @@
 import type { FetchError } from 'hooks/useFetch'
+import { AnyAction } from 'redux'
+import { StatusCode } from 'signals/incident-management/definitions/statusList'
 import type { Incident } from 'types/api/incident'
 import type ContextType from 'types/context'
 
 export interface Context {
   incident?: Incident
-  update?: (action: string) => void
+  update?: (action: AnyAction) => void
   preview?: (section: string, payload?: Partial<State>) => void
   edit?: (section: string, payload?: Partial<State>) => void
   close?: () => void
@@ -29,7 +31,7 @@ export interface IncidentChild {
   _links: { self: { href: string } }
   id: number
   status: {
-    state: string
+    state: StatusCode
     state_display: string
   }
   category: {
