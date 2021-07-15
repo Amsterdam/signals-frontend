@@ -182,7 +182,7 @@ const overlastVanDieren = {
         extra_dieren_waar_meeuwen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt van specialisten dierplaagbestrijding de adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
@@ -226,7 +226,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'ander_gebouw',
       },
       value:
-        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
+        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt van specialisten dierplaagbestrijding adressen op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
     render: FIELD_TYPE_MAP.plain_text,
