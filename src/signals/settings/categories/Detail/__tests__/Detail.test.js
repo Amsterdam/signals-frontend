@@ -49,7 +49,7 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
 const confirmedCancel = jest.fn()
 useConfirmedCancel.mockImplementation(() => confirmedCancel)
 
-describe('signals/settings/categories/Detail', () => {
+describe.skip('signals/settings/categories/Detail', () => {
   beforeEach(() => {
     fetch.once(JSON.stringify(categoryJSON)).once(JSON.stringify(historyJSON))
 
