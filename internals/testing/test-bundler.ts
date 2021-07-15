@@ -25,7 +25,7 @@ faker.locale = 'nl'
 
 configure({
   showOriginalStackTrace: true,
-  asyncUtilTimeout: 3000,
+  asyncUtilTimeout: 10000,
 })
 
 // React Enzyme adapter

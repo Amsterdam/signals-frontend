@@ -51,5 +51,6 @@ module.exports = {
     ],
   },
   testRegex: '.*\\.test\\.(js|ts(x?))$',
+  testTimeout: 10000,
   snapshotSerializers: ['enzyme-to-json/serializer'],
 }
