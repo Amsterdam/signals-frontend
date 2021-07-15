@@ -61,11 +61,11 @@ export default {
   // available.
   PREDICTION_ENDPOINT: '/signals/category/prediction',
   // Public. Used to `GET` questionnaire
-  QA_QUESTIONNAIRES_ENDPOINT: '/signals/v1/private/qa/questionnaires/',
+  QA_QUESTIONNAIRES_ENDPOINT: '/signals/v1/public/qa/questionnaires/',
   // Public. Used to `GET` questionnaire session
-  QA_SESSIONS_ENDPOINT: '/signals/v1/private/qa/sessions/',
+  QA_SESSIONS_ENDPOINT: '/signals/v1/public/qa/sessions/',
   // Public. Used to `GET` questionnaire question
-  QA_QUESTIONS_ENDPOINT: '/signals/v1/private/qa/questions/',
+  QA_QUESTIONS_ENDPOINT: '/signals/v1/public/qa/questions/',
   // Public. Used to `GET` question configuration based on the value of
   // featureFlags.fetchQuestionsFromBackend in the app configuration app.json.
   QUESTIONS_ENDPOINT: '/signals/v1/public/questions/',
