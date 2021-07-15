@@ -108,17 +108,6 @@ export const determineWarnings = ({
     })
   }
 
-  if (
-    originalStatus === StatusCode.Verzonden &&
-    toStatus === StatusCode.ReactieGevraagd
-  ) {
-    warnings.push({
-      key: 'external-reply-warning',
-      content: constants.REPLY_EXTERNAL_CONTENT,
-      level: 'error',
-    })
-  }
-
   return warnings
 }
 
