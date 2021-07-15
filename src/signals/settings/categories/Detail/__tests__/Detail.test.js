@@ -49,7 +49,7 @@ jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
 const confirmedCancel = jest.fn()
 useConfirmedCancel.mockImplementation(() => confirmedCancel)
 
-describe.skip('signals/settings/categories/Detail', () => {
+describe('signals/settings/categories/Detail', () => {
   beforeEach(() => {
     fetch.once(JSON.stringify(categoryJSON)).once(JSON.stringify(historyJSON))
 
@@ -178,7 +178,7 @@ describe.skip('signals/settings/categories/Detail', () => {
     expect(confirmedCancel).toHaveBeenLastCalledWith(false)
   })
 
-  it.skip('should not update NULL values with empty string', async () => {
+  it('should not update NULL values with empty string', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 10101,
     }))
