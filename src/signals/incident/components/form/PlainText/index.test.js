@@ -156,7 +156,6 @@ describe('Form component <PlainText />', () => {
       const element = screen.getByTestId('plainText')
       expect(element).toHaveStyleRule('padding', '20px')
       expect(element).toHaveStyleRule('background-color', '#004699')
-      expect(element).toHaveStyleRule('color', '#ffffff')
     })
 
     it('should render plain text caution correctly', () => {

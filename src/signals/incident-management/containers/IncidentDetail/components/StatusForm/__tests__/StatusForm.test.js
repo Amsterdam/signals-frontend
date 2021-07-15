@@ -75,9 +75,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     expect(screen.getByRole('textbox')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Status opslaan' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
     expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
 
     Object.values(changeStatusOptionList).forEach(({ value }) => {
@@ -156,7 +154,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(checkbox.disabled).toEqual(true)
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -176,7 +174,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -300,7 +298,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -320,7 +318,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.type(textarea, validValue)
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -345,7 +343,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Status opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     await screen.findByTestId('statusForm')
 
@@ -400,6 +398,50 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.click(screen.getByText('Afgehandeld'))
 
     expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
+  })
+
+  it('is not required to provide text when new status is not an end state of a split incident', () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    }
+
+    // render component with incident that has a parent
+    const { container } = render(renderWithContext(deelmelding))
+
+    userEvent.click(container.querySelector('input[value="i"]'))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+  })
+
+  it('is required to provide text new status is an end state of a split incident', () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    }
+
+    // render component with incident that has a parent
+    const { container } = render(renderWithContext(deelmelding))
+
+    userEvent.click(container.querySelector('input[value="o"]'))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument()
   })
 
   it('shows a warning that is specific to a deelmelding', () => {
@@ -512,7 +554,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       })
     )
 
-    const submitButton = screen.getByRole('button', { name: 'Status opslaan' })
+    const submitButton = screen.getByRole('button', { name: 'Opslaan' })
 
     expect(submitButton).not.toBeDisabled()
     userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))

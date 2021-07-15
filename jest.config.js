@@ -19,10 +19,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 99.29,
-      branches: 95.3,
-      lines: 99.38,
-      functions: 98.14,
+      statements: 98.77,
+      branches: 94.62,
+      lines: 99.02,
+      functions: 97.78,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
@@ -43,6 +43,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|ts(x?))$': [
       'ts-jest',
@@ -50,5 +51,6 @@ module.exports = {
     ],
   },
   testRegex: '.*\\.test\\.(js|ts(x?))$',
+  testTimeout: 10000,
   snapshotSerializers: ['enzyme-to-json/serializer'],
 }

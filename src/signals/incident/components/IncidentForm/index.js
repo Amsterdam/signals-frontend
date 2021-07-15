@@ -24,7 +24,7 @@ export const Fieldset = styled.fieldset`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: ${themeSpacing(8)};
-  word-break: break-word;
+  word-break: normal;
 
   & > * {
     grid-column-start: 1;

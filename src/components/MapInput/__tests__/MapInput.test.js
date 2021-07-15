@@ -54,7 +54,7 @@ const geocoderResponse = {
 
 describe('components/MapInput', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    jest.useFakeTimers('legacy')
   })
 
   afterEach(() => {

@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, act, screen } from '@testing-library/react'
+import {
+  render,
+  act,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'match-media-mock'
 import 'jest-styled-components'
@@ -303,7 +308,7 @@ describe('components/SiteHeader', () => {
     expect(onLogOut).toHaveBeenCalled()
   })
 
-  it('should hide the menu when clicking a link', () => {
+  it('should hide the menu when clicking a link', async () => {
     // narrow window toggle
     mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
 
@@ -328,8 +333,8 @@ describe('components/SiteHeader', () => {
 
     userEvent.click(link)
 
-    expect(
-      screen.queryByRole('link', { name: 'Instellingen' })
-    ).not.toBeInTheDocument()
+    await waitForElementToBeRemoved(() =>
+      screen.getByRole('link', { name: 'Instellingen' })
+    )
   })
 })

@@ -1,0 +1,1045 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 311756,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.8712810213838, 52.3600398461975]
+      },
+      "properties": {
+        "OBJECTID": 311756,
+        "GlobalID": "380918a8-e3d6-41bd-bac5-e98583610b0d",
+        "BoomID": "586429",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329755,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87460713306, 52.3594167903842]
+      },
+      "properties": {
+        "OBJECTID": 329755,
+        "GlobalID": "736778b1-500c-443a-acac-2db8e2b54273",
+        "BoomID": "586434",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 318686,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87451722943415, 52.3584695419017]
+      },
+      "properties": {
+        "OBJECTID": 318686,
+        "GlobalID": "785d9702-5e43-4695-a27f-4c76206c1f43",
+        "BoomID": "584697",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313754,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87344905705838, 52.3581464761855]
+      },
+      "properties": {
+        "OBJECTID": 313754,
+        "GlobalID": "079fa6d4-c86a-402a-9669-fae3d06ddf64",
+        "BoomID": "586454",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 310213,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87232683999798, 52.3593697778112]
+      },
+      "properties": {
+        "OBJECTID": 310213,
+        "GlobalID": "55290fb7-9639-4d86-b2d7-682b4f41873c",
+        "BoomID": "586214",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 314690,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87310662282239, 52.3598908601589]
+      },
+      "properties": {
+        "OBJECTID": 314690,
+        "GlobalID": "b924da34-185b-4d4d-8499-79909fc175f4",
+        "BoomID": "584698",
+        "Registratie": "Bestreden",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313691,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87479642702745, 52.3588263057673]
+      },
+      "properties": {
+        "OBJECTID": 313691,
+        "GlobalID": "09e46f87-437c-472b-b782-eef64c1366f8",
+        "BoomID": "584920",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 323752,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87341877491802, 52.3599244809872]
+      },
+      "properties": {
+        "OBJECTID": 323752,
+        "GlobalID": "b87b18ea-e7a3-455a-b9d7-ad946943eaeb",
+        "BoomID": "586460",
+        "Registratie": "Bestreden",
+        "PrioriteitRegistratie": "Urgent",
+        "AMS_Meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 311707,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87178512798791, 52.3580322009161]
+      },
+      "properties": {
+        "OBJECTID": 311707,
+        "GlobalID": "9967b130-fe7e-4972-9f9f-ab611d83a023",
+        "BoomID": "584999",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313751,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87184870151189, 52.3581070759628]
+      },
+      "properties": {
+        "OBJECTID": 313751,
+        "GlobalID": "6bfc89bb-e044-4dc2-a208-c1af28ab495b",
+        "BoomID": "586409",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 314747,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87448703871949, 52.3593796903134]
+      },
+      "properties": {
+        "OBJECTID": 314747,
+        "GlobalID": "2b2a2ff7-399f-4f21-a5ed-8ee7e1e350ba",
+        "BoomID": "586413",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329695,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87477981775156, 52.3584341883022]
+      },
+      "properties": {
+        "OBJECTID": 329695,
+        "GlobalID": "4957174c-b12c-45f4-a30d-e4e26d1e7e06",
+        "BoomID": "584701",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 325753,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87278334698784, 52.3579556520622]
+      },
+      "properties": {
+        "OBJECTID": 325753,
+        "GlobalID": "f3756b2c-2996-43fa-bda0-0c752790c257",
+        "BoomID": "586414",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 322753,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87436398293002, 52.3593067161813]
+      },
+      "properties": {
+        "OBJECTID": 322753,
+        "GlobalID": "2776f52f-8417-42f9-ac37-8f2c7c8b4986",
+        "BoomID": "586456",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328750,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87393818430547, 52.358775564817]
+      },
+      "properties": {
+        "OBJECTID": 328750,
+        "GlobalID": "80f9d815-160e-4a56-b7a2-a59584bc9a89",
+        "BoomID": "586421",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 321760,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87155132793745, 52.3580914009201]
+      },
+      "properties": {
+        "OBJECTID": 321760,
+        "GlobalID": "226bd114-a821-4c13-a1a7-12c5e3283661",
+        "BoomID": "586463",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313688,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87451982845225, 52.3584097846239]
+      },
+      "properties": {
+        "OBJECTID": 313688,
+        "GlobalID": "d2502f28-7843-4b97-8adc-cdf76e1df8d1",
+        "BoomID": "584707",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 312692,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87568579210533, 52.3597376438629]
+      },
+      "properties": {
+        "OBJECTID": 312692,
+        "GlobalID": "7f57c936-239c-419c-b299-3b5d9df31dbf",
+        "BoomID": "584702",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 326750,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87395476928381, 52.3594406581682]
+      },
+      "properties": {
+        "OBJECTID": 326750,
+        "GlobalID": "bbc6f191-fe98-4056-865b-fa928e4941cf",
+        "BoomID": "586443",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 317195,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87124565671057, 52.3578930578534]
+      },
+      "properties": {
+        "OBJECTID": 317195,
+        "GlobalID": "bf3ded21-6522-4c22-a677-687ee7aa8830",
+        "BoomID": "586244",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 315755,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87208426778902, 52.3584140440305]
+      },
+      "properties": {
+        "OBJECTID": 315755,
+        "GlobalID": "ba7a0fd5-d746-47cc-b0bb-e8d1fc82fbad",
+        "BoomID": "586453",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 311201,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87172986900594, 52.3582271743281]
+      },
+      "properties": {
+        "OBJECTID": 311201,
+        "GlobalID": "058bfeb8-be60-4176-a712-9952fb036932",
+        "BoomID": "587439",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329203,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87164638046521, 52.3601057897713]
+      },
+      "properties": {
+        "OBJECTID": 329203,
+        "GlobalID": "473f5bcc-d488-41c2-89d1-09735300edad",
+        "BoomID": "586519",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 625742,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87369721519813, 52.3583407029733]
+      },
+      "properties": {
+        "OBJECTID": 625742,
+        "GlobalID": "95c2c5f8-b595-43d6-904b-8265527ff890",
+        "BoomID": "NB_Amsterdam_20210614_1",
+        "Registratie": "Bestreden",
+        "PrioriteitRegistratie": "Urgent",
+        "AMS_Meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 325734,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87569028912068, 52.3597677722373]
+      },
+      "properties": {
+        "OBJECTID": 325734,
+        "GlobalID": "33348055-c2d0-4289-81d3-cbc9203d8e5c",
+        "BoomID": "585811",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 311759,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87330956996205, 52.3583011792204]
+      },
+      "properties": {
+        "OBJECTID": 311759,
+        "GlobalID": "aae5e960-8b33-47e5-9dec-6b214e47e761",
+        "BoomID": "586471",
+        "Registratie": "Registratie",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 326747,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87298655384255, 52.3582179883731]
+      },
+      "properties": {
+        "OBJECTID": 326747,
+        "GlobalID": "15d0cfc8-76ba-4204-8f94-e790b8f8ab0f",
+        "BoomID": "586425",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 323736,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87333631366022, 52.3584382685926]
+      },
+      "properties": {
+        "OBJECTID": 323736,
+        "GlobalID": "ff6b8e75-bd46-469d-b28c-d879230ef72c",
+        "BoomID": "585819",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328691,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87505155327428, 52.3585601139049]
+      },
+      "properties": {
+        "OBJECTID": 328691,
+        "GlobalID": "15d5051f-5f48-4ecc-8ad9-16592ab60f84",
+        "BoomID": "584700",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 330374,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87277643088989, 52.3579064590172]
+      },
+      "properties": {
+        "OBJECTID": 330374,
+        "GlobalID": "d8b21c28-4b01-48b2-8633-82a95110e9d0",
+        "BoomID": "586500",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 325757,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87340762368672, 52.3598859650448]
+      },
+      "properties": {
+        "OBJECTID": 325757,
+        "GlobalID": "ceda4348-ee6d-46e4-861d-6a3eb3fd248b",
+        "BoomID": "586493",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 324191,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87210377303067, 52.3580869747493]
+      },
+      "properties": {
+        "OBJECTID": 324191,
+        "GlobalID": "39d9e2ea-dd95-4127-9741-1fe6d6c405cf",
+        "BoomID": "586243",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329200,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87571106607861, 52.3600410894481]
+      },
+      "properties": {
+        "OBJECTID": 329200,
+        "GlobalID": "5451ff02-97e9-4430-9a02-86b44a8be39d",
+        "BoomID": "586015",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 316703,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87470273612685, 52.3584226200116]
+      },
+      "properties": {
+        "OBJECTID": 316703,
+        "GlobalID": "2c61f773-7841-468b-b413-8d5d3cfe9390",
+        "BoomID": "584704",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329753,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87166389265077, 52.3581822179695]
+      },
+      "properties": {
+        "OBJECTID": 329753,
+        "GlobalID": "a70048ac-2674-4241-96ee-0f1d046c3484",
+        "BoomID": "586419",
+        "Registratie": "Bestreden",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 324749,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87156110258569, 52.3587280458891]
+      },
+      "properties": {
+        "OBJECTID": 324749,
+        "GlobalID": "e77e2f7c-98a2-4d20-a9de-b872ef9cd089",
+        "BoomID": "585902",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 327703,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87396869076587, 52.3586815234144]
+      },
+      "properties": {
+        "OBJECTID": 327703,
+        "GlobalID": "ee3a70fa-02d7-4866-a639-723b57d3ff2d",
+        "BoomID": "584986",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 312747,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87458946143342, 52.3593326784467]
+      },
+      "properties": {
+        "OBJECTID": 312747,
+        "GlobalID": "bf8c39c3-a4c5-4a72-b71b-06dce842ded1",
+        "BoomID": "586497",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328757,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87286315645015, 52.3579217554312]
+      },
+      "properties": {
+        "OBJECTID": 328757,
+        "GlobalID": "ff4076fa-c7b8-4277-b17d-9025443a1a72",
+        "BoomID": "586501",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 323691,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87552411684038, 52.3593344740661]
+      },
+      "properties": {
+        "OBJECTID": 323691,
+        "GlobalID": "0e842ae8-40b7-4899-ad71-4ff6ed0f8e38",
+        "BoomID": "584705",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328749,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87103363532303, 52.3600166582213]
+      },
+      "properties": {
+        "OBJECTID": 328749,
+        "GlobalID": "df26e185-2546-4ac5-9003-af5c3cbde551",
+        "BoomID": "586415",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313695,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87282198599873, 52.3581807833227]
+      },
+      "properties": {
+        "OBJECTID": 313695,
+        "GlobalID": "cbcfe3ca-69e5-46cd-a4f6-405a01a6ac20",
+        "BoomID": "584992",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 325185,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87153637277844, 52.3600976711732]
+      },
+      "properties": {
+        "OBJECTID": 325185,
+        "GlobalID": "93cce73f-f7b6-4a4d-a6c4-a6582df7500e",
+        "BoomID": "586406",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 312693,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87572762287947, 52.3597510365436]
+      },
+      "properties": {
+        "OBJECTID": 312693,
+        "GlobalID": "cb774380-3d4a-4daf-b888-b86b7b3d6d7d",
+        "BoomID": "584703",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 309742,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87181439180937, 52.3593796819398]
+      },
+      "properties": {
+        "OBJECTID": 309742,
+        "GlobalID": "f94fa821-3277-4e2f-b164-df2d1307fa3d",
+        "BoomID": "585835",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 318687,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87544599242892, 52.3593240701699]
+      },
+      "properties": {
+        "OBJECTID": 318687,
+        "GlobalID": "587eb259-be66-4482-bcaa-87365039a615",
+        "BoomID": "584709",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 326728,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87526213724463, 52.3573069639036]
+      },
+      "properties": {
+        "OBJECTID": 326728,
+        "GlobalID": "ba21c4f4-78b1-4e09-b58c-ccd46d741a3d",
+        "BoomID": "585448",
+        "Registratie": "Inspecteren",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 326751,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87315780222188, 52.3585274611426]
+      },
+      "properties": {
+        "OBJECTID": 326751,
+        "GlobalID": "73faa88d-3fac-4ed3-a8c2-625e91d87660",
+        "BoomID": "586445",
+        "Registratie": "Registratie",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 330372,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87131321357287, 52.358231201798]
+      },
+      "properties": {
+        "OBJECTID": 330372,
+        "GlobalID": "31999e31-ab4b-4e2d-8667-ea411e44b637",
+        "BoomID": "586486",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 310755,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87371131827894, 52.3583421985779]
+      },
+      "properties": {
+        "OBJECTID": 310755,
+        "GlobalID": "3c466eea-0194-493c-87d0-f2748e57bb2c",
+        "BoomID": "586422",
+        "Registratie": "Bestreden",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 317700,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87591362452894, 52.3597506714206]
+      },
+      "properties": {
+        "OBJECTID": 317700,
+        "GlobalID": "118da30b-f5a2-4a9b-ae01-9ac36a09bd21",
+        "BoomID": "584699",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 330349,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87224223783026, 52.3594887402542]
+      },
+      "properties": {
+        "OBJECTID": 330349,
+        "GlobalID": "bdef5146-a493-4eda-8a39-351dd7bc3eb8",
+        "BoomID": "584984",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 316753,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87180885107794, 52.3581635253474]
+      },
+      "properties": {
+        "OBJECTID": 316753,
+        "GlobalID": "2169f845-065a-4935-9061-73b3a93b1960",
+        "BoomID": "586465",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328214,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87423048386623, 52.3598448634888]
+      },
+      "properties": {
+        "OBJECTID": 328214,
+        "GlobalID": "88a38295-e319-484c-b893-b0e995f18c2c",
+        "BoomID": "586242",
+        "Registratie": "Registratie",
+        "PrioriteitRegistratie": "Standaard",
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 316704,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87495801167404, 52.3586518336929]
+      },
+      "properties": {
+        "OBJECTID": 316704,
+        "GlobalID": "86bbac6f-5363-4106-8121-8a7bd38cf97f",
+        "BoomID": "584708",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329754,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87326900018037, 52.3581537837938]
+      },
+      "properties": {
+        "OBJECTID": 329754,
+        "GlobalID": "13d9093a-ab26-4269-a3d5-9959fc5d0b0e",
+        "BoomID": "586427",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 313687,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.8743704828795, 52.3583635700155]
+      },
+      "properties": {
+        "OBJECTID": 313687,
+        "GlobalID": "21dea3dd-06fb-42da-9b13-bf6af285f296",
+        "BoomID": "584694",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 327745,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87175677776895, 52.3580969690736]
+      },
+      "properties": {
+        "OBJECTID": 327745,
+        "GlobalID": "ad9fb283-9f28-4a78-91db-c7fa00150e70",
+        "BoomID": "586466",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 312748,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87153651539447, 52.3600980313042]
+      },
+      "properties": {
+        "OBJECTID": 312748,
+        "GlobalID": "49397f38-365f-427f-9396-930f23ca0404",
+        "BoomID": "586518",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 318748,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87346244171673, 52.3599440839795]
+      },
+      "properties": {
+        "OBJECTID": 318748,
+        "GlobalID": "8ebb53c5-9098-4310-a35b-a4b602e2fae5",
+        "BoomID": "586455",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 318685,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87581800010125, 52.3598065217718]
+      },
+      "properties": {
+        "OBJECTID": 318685,
+        "GlobalID": "fbbff9a6-4129-43be-9908-ce67602db100",
+        "BoomID": "584695",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 311692,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.8747415615809, 52.3584927127378]
+      },
+      "properties": {
+        "OBJECTID": 311692,
+        "GlobalID": "e99e0baf-ebad-4ec3-b1bf-6ba6d52ce002",
+        "BoomID": "584706",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 329737,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87129658562651, 52.3598881109398]
+      },
+      "properties": {
+        "OBJECTID": 329737,
+        "GlobalID": "386ec0d3-e585-44c2-afbe-9966f6077eb8",
+        "BoomID": "585817",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 328752,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87340711640938, 52.3585102980785]
+      },
+      "properties": {
+        "OBJECTID": 328752,
+        "GlobalID": "bfa6f4ba-7d94-4ff2-9741-8776fb279480",
+        "BoomID": "586446",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 327693,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87480407976799, 52.3585323496348]
+      },
+      "properties": {
+        "OBJECTID": 327693,
+        "GlobalID": "a202a93b-ebad-4de6-b4ae-a40d5dcd9af4",
+        "BoomID": "584693",
+        "Registratie": "Geen EPR",
+        "PrioriteitRegistratie": null,
+        "AMS_Meldingstatus": 0
+      }
+    }
+  ]
+}

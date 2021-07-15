@@ -12,6 +12,7 @@ import {
   determineWarnings,
   emailSentWhenStatusChangedTo,
   getTextConfig,
+  textIsRequired,
 } from './utils'
 
 export type State = {
@@ -84,7 +85,11 @@ export const init = ({
       ...getTextConfig(incidentStatus.key),
       defaultValue: '',
       value: '',
-      required: initialEmailSentState,
+      required: textIsRequired({
+        fromStatus: incidentStatus.key,
+        toStatus: incidentStatus.key,
+        isSplitIncident,
+      }),
     },
     flags: {
       isSplitIncident,
@@ -122,7 +127,11 @@ const reducer = (state: State, action: StatusFormActions): State => {
           ...state.text,
           ...getTextConfig(action.payload.key),
           defaultValue: '',
-          required: checkboxIsChecked,
+          required: textIsRequired({
+            toStatus: action.payload.key,
+            fromStatus: state.originalStatus.key,
+            isSplitIncident: state.flags.isSplitIncident,
+          }),
         },
         warnings: determineWarnings({
           isSplitIncident: state.flags.isSplitIncident,

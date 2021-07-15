@@ -78,22 +78,14 @@ export const BRUGGEN = {
 };
 
 export const CONTAINERS = {
-  buttonCloseLegenda: '[class*="CloseButton"]',
-  buttonCollapsePanel: '[title="Open legenda"]',
-  buttonInzoomen: '[title=Inzoomen]',
-  buttonKiesOpKaart: '[data-testid=chooseOnMap]',
-  buttonLegenda: 'button:contains("Legenda")',
   buttonMeldDezeContainer: 'button:contains("Meld deze container")',
   buttonRemoveContainer: '[data-testid*="containerListRemove"]',
-  buttonUitzoomen: '[title=Uitzoomen]',
   checkBoxContainerNietopKaart: '#unregisteredContainerCheckbox',
-  clusterIcon: '[data-testid=markerClusterIcon]',
   containerGlas: '[alt*="Glas"]',
   containerPapier: '[alt*="Papier"]',
   containerPlastic: '[alt*="Plastic"]',
   containerRestafval: '[alt*="Restafval"]',
   containerListItem: '[data-testid*="containerListItem"]',
-  icon: '.leaflet-marker-icon',
   inputContainerNummer: '#unregisteredContainerInput',
   legendaItemBrood: '[data-testid=legendPanelListItem-Brood]',
   legendaItemGlas: '[data-testid=legendPanelListItem-Glas]',
@@ -102,15 +94,41 @@ export const CONTAINERS = {
   legendaItemPlastic: '[data-testid=legendPanelListItem-Plastic]',
   legendaItemRestafval: '[data-testid=legendPanelListItem-Rest]',
   legendaItemTextiel: '[data-testid=legendPanelListItem-Textiel]',
-  map: '[data-testid=mapLocation]',
-  panelContainerInfo: '[data-testid=panelDesktop]',
-  panelLegend: '[data-testid=legendPanel]',
+};
+
+export const EIKENPROCESSIERUPS = {
+  buttonMeldDezeBoom: 'button:contains("Meld deze boom")',
+  buttonRemoveBoom: '[data-testid*="selectionListRemove"]',
+  boomListItem: '[data-testid*="selectionListItem"]',
+  checkBoxBoomNietOpKaart: '#unregisteredCaterpillarCheckbox',
+  legendaItemEik: '[data-testid=legendPanelListItem-oak]',
+  legendaItemIsGemeld: '[data-testid=legendPanelListItem-isReported]',
+  radioButtonGeenNest: '#extra_nest_grootte-geen_nest',
+  radioButtonNestDeken: '#extra_nest_grootte-deken',
+  radioButtonNestTennisbal: '#extra_nest_grootte-klein',
+  radiobuttonNestVoetbal: '#extra_nest_grootte-groot',
 };
 
 export const FIETSNIETJE = {
   inputFietsnietje: '[id*=extra_fietsrek_aanvraag]',
   radioButtonNieuwNietjeJa: '#extra_fietsrek_aanvragen-ja',
 };
+
+export const GENERAL_MAP = {
+  buttonCloseLegenda: '[class*="CloseButton"]',
+  buttonCloseMap: '[data-testid=mapCloseButton]',
+  buttonCollapsePanel: '[title="Open legenda"]',
+  buttonInzoomen: '[title=Inzoomen]',
+  buttonLegenda: 'button:contains("Legenda")',
+  buttonKiesOpKaart: '[data-testid=chooseOnMap]',
+  buttonUitzoomen: '[title=Uitzoomen]',
+  clusterIcon: '[data-testid=markerClusterIcon]',
+  icon: '.leaflet-marker-icon',
+  map: '[data-testid=mapLocation]',
+  panelInfo: '[data-testid=panelDesktop]',
+  panelLegend: '[data-testid=legendPanel]',
+};
+
 
 export const JONGEREN = {
   checkBoxVaker: '#extra_personen_overig_vaker-ja',
@@ -159,6 +177,13 @@ export const LANTAARNPAAL = {
   radioButtonGevaarlijkDeur: '#extra_straatverlichting-deurtje_weg_of_open',
   radioButtonGevaarlijkLosseKabels: '#extra_straatverlichting-losse_kabels_zichtbaar_of_lamp_los',
   radioButtonNietGevaarlijk: '#extra_straatverlichting-niet_gevaarlijk',
+};
+
+export const OVERLAST_DIEREN = {
+  radioButtonWoningWespen: '#extra_dieren_waar_wespen-woning',
+  radioButtonOpenbareRuimteWespen: '#extra_dieren_waar_wespen-openbaar',
+  radioButtonWoningDuiven: '#extra_dieren_waar_duiven-woning',
+  radioButtonOpenbareRuimteDuiven: '#extra_dieren_waar_duiven-openbaar',
 };
 
 export const STANK_OVERLAST = {

@@ -61,7 +61,7 @@ export const FormArea = styled.div`
 `
 
 export const QuestionLabel = styled.div`
-  margin-bottom: ${themeSpacing(2)};
+  margin: ${themeSpacing(2)} 0;
 `
 
 export const StyledH4 = styled(Heading)`

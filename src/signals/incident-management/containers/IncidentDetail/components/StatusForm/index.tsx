@@ -9,7 +9,10 @@ import {
 } from 'react'
 import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
-import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
+import {
+  changeStatusOptionList,
+  StatusCode,
+} from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
 import TextArea from 'components/TextArea'
@@ -185,35 +188,50 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   {warning.content && <Paragraph>{warning.content}</Paragraph>}
                 </Alert>
               ))}
+            <div>
+              <QuestionLabel>
+                <strong>Versturen</strong>
+              </QuestionLabel>
 
-            <QuestionLabel>
-              <strong>Versturen</strong>
-            </QuestionLabel>
-
-            {!state.flags.isSplitIncident && (
-              <div>
-                {state.flags.hasEmail ? (
-                  <Label
-                    disabled={state.check.disabled}
-                    htmlFor="send_email"
-                    label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                    noActiveState
+              {state.flags.isSplitIncident &&
+                (state.status.key === StatusCode.ReactieGevraagd ? (
+                  <Alert
+                    data-testid="split-incident-reply-warning"
+                    level="info"
                   >
-                    <Checkbox
-                      checked={state.check.checked}
-                      data-testid="sendEmailCheckbox"
-                      disabled={state.check.disabled}
-                      id="send_email"
-                      onClick={onCheck}
-                    />
-                  </Label>
-                ) : (
-                  <Alert data-testid="no-email-warning">
-                    {constants.NO_REPORTER_EMAIL}
+                    {constants.REPLY_DEELMELDING_EXPLANATION}
                   </Alert>
-                )}
-              </div>
-            )}
+                ) : (
+                  <Alert data-testid="split-incident-warning" level="info">
+                    {constants.DEELMELDING_EXPLANATION}
+                  </Alert>
+                ))}
+
+              {!state.flags.isSplitIncident && (
+                <div>
+                  {state.flags.hasEmail ? (
+                    <Label
+                      disabled={state.check.disabled}
+                      htmlFor="send_email"
+                      label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                      noActiveState
+                    >
+                      <Checkbox
+                        checked={state.check.checked}
+                        data-testid="sendEmailCheckbox"
+                        disabled={state.check.disabled}
+                        id="send_email"
+                        onClick={onCheck}
+                      />
+                    </Label>
+                  ) : (
+                    <Alert data-testid="no-email-warning">
+                      {constants.NO_REPORTER_EMAIL}
+                    </Alert>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div>
               <QuestionLabel>

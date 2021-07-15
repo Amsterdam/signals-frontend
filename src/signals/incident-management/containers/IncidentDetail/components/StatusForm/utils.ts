@@ -33,6 +33,31 @@ export const emailSentWhenStatusChangedTo = ({
   )
 }
 
+export const textIsRequired = ({
+  fromStatus,
+  toStatus,
+  isSplitIncident,
+}: {
+  fromStatus: StatusCode
+  toStatus: StatusCode
+  isSplitIncident: boolean
+}): boolean => {
+  if (isSplitIncident) {
+    return [
+      StatusCode.Afgehandeld,
+      StatusCode.Ingepland,
+      StatusCode.Heropend,
+      StatusCode.ReactieGevraagd,
+    ].includes(toStatus)
+  } else {
+    return emailSentWhenStatusChangedTo({
+      fromStatus,
+      toStatus,
+      isSplitIncident,
+    })
+  }
+}
+
 type Warning = {
   key: string
   level: AlertLevel
@@ -55,24 +80,7 @@ export const determineWarnings = ({
 }): Warning[] => {
   const warnings: Warning[] = []
 
-  if (isSplitIncident)
-    if (toStatus === StatusCode.ReactieGevraagd) {
-      return [
-        {
-          key: 'split-incident-reply-warning',
-          level: 'info',
-          content: constants.REPLY_DEELMELDING_EXPLANATION,
-        },
-      ]
-    } else {
-      return [
-        {
-          key: 'split-incident-warning',
-          level: 'info',
-          content: constants.DEELMELDING_EXPLANATION,
-        },
-      ]
-    }
+  if (isSplitIncident) return []
 
   if (isStatusClosed(toStatus) && hasOpenChildren) {
     warnings.push({
