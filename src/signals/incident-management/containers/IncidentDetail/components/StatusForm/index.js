@@ -145,6 +145,10 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
               />
             </div>
 
+            <QuestionLabel>
+              <strong>Versturen</strong>
+            </QuestionLabel>
+
             {isStatusClosed(state.status.key) && hasOpenChildren && (
               <Alert level="info" data-testid="statusHasChildrenOpen">
                 <Heading forwardedAs="h3">
@@ -164,10 +168,6 @@ const StatusForm = ({ defaultTexts, childIncidents }) => {
           </OptionsArea>
 
           <FormArea>
-            <QuestionLabel>
-              <strong>Versturen</strong>
-            </QuestionLabel>
-
             {state.warning && (
               <Alert data-testid="statusWarning">{state.warning}</Alert>
             )}
