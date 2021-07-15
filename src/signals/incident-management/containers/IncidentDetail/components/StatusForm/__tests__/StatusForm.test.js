@@ -453,6 +453,50 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText(MAIL_EXPLANATION)).toBeInTheDocument()
   })
 
+  it('is not required to provide text when new status is not an end state of a split incident', () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    }
+
+    // render component with incident that has a parent
+    const { container } = render(renderWithContext(deelmelding))
+
+    fireEvent.click(container.querySelector('input[value="i"]'))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+  })
+
+  it('is required to provide text new status is an end state of a split incident', () => {
+    const deelmelding = {
+      ...incidentFixture,
+      _links: {
+        ...incidentFixture._links,
+        'sia:parent': {
+          href: 'https://acc.api.data.amsterdam.nl/signals/v1/private/categories/106',
+          public:
+            'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
+        },
+      },
+    }
+
+    // render component with incident that has a parent
+    const { container } = render(renderWithContext(deelmelding))
+
+    fireEvent.click(container.querySelector('input[value="o"]'))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument()
+  })
+
   it('shows a warning that is specific to a deelmelding', () => {
     const deelmelding = {
       ...incidentFixture,
