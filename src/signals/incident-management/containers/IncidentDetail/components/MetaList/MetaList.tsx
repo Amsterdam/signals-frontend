@@ -4,7 +4,12 @@ import { Fragment, useCallback, useContext, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Button,
+  themeColor,
+  themeSpacing,
+  Link as AscLink,
+} from '@amsterdam/asc-ui'
 
 import {
   makeSelectHandlingTimesBySlug,
@@ -400,12 +405,14 @@ const MetaList = () => {
         <Fragment>
           <dt data-testid="meta-list-parent-definition">Hoofdmelding</dt>
           <dd data-testid="meta-list-parent-value">
-            <Link
+            <AscLink
+              variant="inline"
+              as={Link}
               data-testid="meta-list-parent-link"
               to={`${INCIDENT_URL}/${parentId}`}
             >
               {parentId}
-            </Link>
+            </AscLink>
           </dd>
         </Fragment>
       )}
