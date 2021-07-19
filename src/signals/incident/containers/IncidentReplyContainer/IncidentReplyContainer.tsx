@@ -1,14 +1,21 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import useGetQuestionnaire from 'hooks/api/qa/useGetQuestionnaire'
 import useGetSession from 'hooks/api/qa/useGetSession'
 import useGetPublicIncident from 'hooks/api/useGetPublicIncident'
 import Questionnaire from './components/Questionnaire'
+import Notice from './components/Notice/Notice'
+import * as constants from './constants'
 
 const IncidentReplyContainer = () => {
   const { uuid: sessionUuid } = useParams<{ uuid: string }>()
 
-  const { data: session, get: getSession } = useGetSession()
+  const {
+    data: session,
+    get: getSession,
+    error: sessionError,
+  } = useGetSession()
+
   const {
     data: questionnaire,
     isLoading: questionnaireIsLoading,
@@ -20,6 +27,14 @@ const IncidentReplyContainer = () => {
     isLoading: incidentIsLoading,
     get: getIncident,
   } = useGetPublicIncident()
+
+  const isExpired = useMemo(
+    () =>
+      sessionError &&
+      typeof sessionError !== 'boolean' &&
+      (sessionError as Response).status === constants.EXPIRED_STATUS,
+    [sessionError]
+  )
 
   useEffect(() => {
     if (sessionUuid) {
@@ -56,6 +71,14 @@ const IncidentReplyContainer = () => {
 
     getIncident(uuid)
   }, [session, getIncident])
+
+  if (isExpired)
+    return (
+      <Notice
+        title={constants.EXPIRED_TITLE}
+        content={constants.EXPIRED_CONTENT}
+      />
+    )
 
   if (incidentIsLoading || questionnaireIsLoading) {
     // loading
