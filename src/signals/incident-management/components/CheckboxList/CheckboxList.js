@@ -47,8 +47,6 @@ const Wrapper = styled.div`
   ${({ disabled }) =>
     disabled &&
     css`
-      opacity: 0.2;
-
       * {
         pointer-events: none;
       }
