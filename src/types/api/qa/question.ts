@@ -1,6 +1,7 @@
 export enum FieldType {
   PlainText = 'plain_text',
   Integer = 'integer',
+  Submit = 'submit',
 }
 
 export interface Question {

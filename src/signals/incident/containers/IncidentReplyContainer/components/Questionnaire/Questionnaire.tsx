@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Questionnaire } from 'types/api/qa/questionnaire'
 import { FieldType, Question } from 'types/api/qa/question'
 import TextArea from 'components/TextArea'
+import { Button } from '@amsterdam/asc-ui'
 
 interface FieldProps {
   onChange: (value: any) => void
@@ -19,6 +20,7 @@ const PlainTextQuestion = ({
   value,
 }: FieldProps) => {
   const infoText = `${value.length}/1000 tekens`
+
   return (
     <TextArea
       data-testid="plain-text"
@@ -50,10 +52,11 @@ const createState = (questions: Question[]): State => {
 const componentMap: Record<FieldType, (props: FieldProps) => JSX.Element> = {
   [FieldType.PlainText]: PlainTextQuestion,
   [FieldType.Integer]: () => <></>,
+  [FieldType.Submit]: () => <></>,
 }
 
 interface Props {
-  onSubmit: () => void
+  onSubmit: (state: { uuid: string; value: any }[]) => void
   questionnaire: Questionnaire
 }
 
@@ -68,39 +71,56 @@ interface State {
   [uuid: string]: QuestionState
 }
 
-const QuestionnaireComponent = ({ questionnaire }: Props) => {
+const QuestionnaireComponent = ({ questionnaire, onSubmit }: Props) => {
   const [state, setState] = useState<State>(
     createState([questionnaire.first_question])
   )
 
-  const updateValue = (uuid: string, value: any) => {
-    setState({
-      ...state,
-      [uuid]: { ...state[uuid], value },
-    })
-  }
+  const submit = useCallback(() => {
+    const answers = Object.entries(state).map(([uuid, { value }]) => ({
+      uuid,
+      value,
+    }))
+
+    onSubmit(answers)
+  }, [state, onSubmit])
+
+  const updateValue = useCallback(
+    (uuid: string, value: any) => {
+      setState({
+        ...state,
+        [uuid]: { ...state[uuid], value },
+      })
+    },
+    [state, setState]
+  )
 
   const questions = Object.entries(state).map(([uuid, q]) => {
     const Component = componentMap[q.data.field_type]
 
     return (
-      <>
-        <Component
-          key={uuid}
-          onChange={(value: any) => updateValue(uuid, value)}
-          required={q.data.required}
-          error={q.error}
-          errorMessage={q.errorMessage}
-          value={q.value}
-        />
-      </>
+      <Component
+        key={uuid}
+        onChange={(value: any) => updateValue(uuid, value)}
+        required={q.data.required}
+        error={q.error}
+        errorMessage={q.errorMessage}
+        value={q.value}
+      />
     )
   })
 
   return (
     <>
-      <strong>hi there</strong>
       {questions}
+      <Button
+        variant="secondary"
+        type="submit"
+        disabled={false}
+        onClick={submit}
+      >
+        Versturen
+      </Button>
     </>
   )
 }
