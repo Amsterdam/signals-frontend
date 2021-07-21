@@ -30,7 +30,7 @@ description:
     - Meldingen behandelen
     - Rapporteren
 legal:
-  license: MPLv2
+  license: MPL-2.0
   mainCopyrightOwner: Signalen
   repoOwner: Gemeente Amsterdam
 maintenance:
@@ -47,9 +47,9 @@ localisation:
 dependsOn:
   open:
     - name: nodeJS
-      version: 16
+      version: "16"
     - name: npm
-      version: 7.10.0
+      version: "7.10.0"
     - name: signalen/frontend
     - name: signalen/classification
     - name: signalen/backend
