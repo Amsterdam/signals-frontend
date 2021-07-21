@@ -1,9 +1,9 @@
-publiccodeYmlVersion: "0.2"
+publiccodeYmlVersion: '0.2'
 name: Signalen frontend
-url: "https://github.com/signalen/frontend"
-landingURL: "https://signalen.org/"
-softwareVersion: "v1.49.0"
-releaseDate: "2021-05-20"
+url: 'https://github.com/signalen/frontend'
+landingURL: 'https://signalen.org/'
+softwareVersion: 'v1.49.0'
+releaseDate: '2021-05-20'
 platforms:
   - web
 categories:
@@ -20,15 +20,19 @@ description:
     localisedName: Signalen frontend
     genericName: Signalen frontend
     shortDescription: >-
-      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
-    longDescription: >-
-      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert voor afhandeling door de juiste behandelaar.
-    documentation: "https://docs.signalen.org/"
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert.
+    longDescription: >
+      Signalen is een proces- en taaksysteem, ontwikkeld op initiatief van de gemeente Amsterdam voor het effectiever en klantvriendelijker afhandelen van meldingen over de openbare ruimte. 
+
+      Amsterdam krijgt per jaar zo’n 300.000 meldingen over de openbare ruimte te verwerken. Van huisraad bij de vuilnisbak tot en met verlaten sloepjes in de gracht. Ruim 1.400 ambtenaren werken 24/7 met het afhandelen van meldingen in Signalen. Sinds de invoering van Signalen is de klanttevredenheid over de afhandeling van meldingen in Amsterdam met ruim 30 procent gestegen. 
+
+      De Signalen software is open source ontwikkeld en kan vrij gebruikt worden door andere overheden en gemeenten.
+    documentation: 'https://docs.signalen.org/'
     features:
-    - Meldingen classificeren
-    - Meldingen routeren
-    - Meldingen behandelen
-    - Rapporteren
+      - Meldingen classificeren
+      - Meldingen routeren
+      - Meldingen behandelen
+      - Rapporteren
 legal:
   license: MPL-2.0
   mainCopyrightOwner: Signalen
@@ -47,9 +51,9 @@ localisation:
 dependsOn:
   open:
     - name: nodeJS
-      version: "16"
+      version: '16'
     - name: npm
-      version: "7.10.0"
+      version: '7.10.0'
     - name: signalen/frontend
     - name: signalen/classification
     - name: signalen/backend
