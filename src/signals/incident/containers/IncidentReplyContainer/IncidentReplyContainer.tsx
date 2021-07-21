@@ -54,12 +54,12 @@ const IncidentReplyContainer = () => {
 
       const data = await submitAnswer(questionnaire, answer.uuid, answer.value)
 
-      // assume this is the last question and we get the `submit` key back as response
       if (!data.next_question) {
         console.log('no next question')
         return
       }
 
+      // assume this is the last question and we get the `submit` key back as response
       if (data.next_question.field_type !== FieldType.Submit) {
         console.log('last question is not of type submit')
         return

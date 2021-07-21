@@ -5,6 +5,7 @@ import TextArea from 'components/TextArea'
 import { Button } from '@amsterdam/asc-ui'
 
 interface FieldProps {
+  data: Question
   onChange: (value: any) => void
   required: boolean
   error: boolean
@@ -13,6 +14,7 @@ interface FieldProps {
 }
 
 const PlainTextQuestion = ({
+  data,
   onChange,
   required,
   error,
@@ -27,6 +29,7 @@ const PlainTextQuestion = ({
       error={error}
       errorMessage={errorMessage}
       infoText={infoText}
+      label={<strong>{data.label}</strong>}
       name="text"
       onChange={(e) => onChange(e.target.value)}
       required={required}
@@ -101,6 +104,7 @@ const QuestionnaireComponent = ({ questionnaire, onSubmit }: Props) => {
     return (
       <Component
         key={uuid}
+        data={q.data}
         onChange={(value: any) => updateValue(uuid, value)}
         required={q.data.required}
         error={q.error}
