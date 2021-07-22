@@ -1,6 +1,6 @@
 publiccodeYmlVersion: '0.2'
 name: Signalen frontend
-url: 'https://github.com/signalen/frontend'
+url: 'https://github.com/Amsterdam/signals-frontend'
 landingURL: 'https://signalen.org/'
 softwareVersion: 'v1.49.0'
 releaseDate: '2021-05-20'
