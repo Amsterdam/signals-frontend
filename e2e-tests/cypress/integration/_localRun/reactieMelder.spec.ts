@@ -36,7 +36,7 @@ describe('Reactie Melder', () => {
     });
     it('Change status of the signal to reactie gevraagd', () => {
       createSignal.openCreatedSignal();
-      createSignal.changeSignalStatus('Gemeld', 'Reactie Gevraagd', CHANGE_STATUS.radioButtonReactieGevraagd);
+      createSignal.changeSignalStatus('Gemeld', 'Reactie gevraagd', CHANGE_STATUS.radioButtonReactieGevraagd);
     });
   });
   describe('Open mail and fetch link', () => {
