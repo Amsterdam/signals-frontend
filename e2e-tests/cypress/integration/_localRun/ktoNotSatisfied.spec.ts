@@ -8,6 +8,7 @@ import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
+import * as djangoAdmin from '../../support/commandsDjangoAdmin';
 import * as general from '../../support/commandsGeneral';
 
 describe('KTO form', () => {
@@ -21,20 +22,7 @@ describe('KTO form', () => {
       cy.contains('Aanmelden').click();
       cy.get(DJANGO.linkEmailTemplate).eq(1).click();
 
-      cy.get(DJANGO.templateList).then(list => {
-        if (list.find(DJANGO.checkboxTemplate).length > 0) {
-          cy.log('Template already exists');
-        }
-        else {
-          cy.log('No template');
-          cy.get(DJANGO.linkEmailTemplateAdd).eq(1).click();
-          cy.get(DJANGO.selectEmailKey).select('Send mail signal handled');
-          cy.get(DJANGO.inputEmailTitle).type('Uw melding {{ formatted_signal_id }}', { parseSpecialCharSequences: false });
-          cy.get(DJANGO.inputEmailBody).type(KTO.body, { parseSpecialCharSequences: false });
-          cy.get(DJANGO.buttonSave).click();
-        }
-      });
-
+      djangoAdmin.checkAndAddTemplate('Send mail signal handled', KTO.bodyMailTemplate);
       cy.get(DJANGO.linkLogout).click();
     });
   });

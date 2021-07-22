@@ -18,13 +18,18 @@ export const ERROR_MESSAGES = {
   smallFile: 'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.',
 };
 
+export const REACTIE_MELDER = {
+  bodyMailTemplate:
+  '[Stuur reactie]({{ reaction_url }})'
+};
+
 export const FILTERS = {
   helpText: 'Ga naar ‘Filter’ en voer een naam in om een filterinstelling op te slaan.',
   noSavedFilter: 'U heeft geen eigen filter opgeslagen.',
 };
 
 export const KTO = {
-  body:
+  bodyMailTemplate:
     '[Ja, ik ben tevreden]({{ positive_feedback_url }}) \n  [Nee, ik ben niet tevreden]({{ negative_feedback_url }})',
   formTitelIsAlFeedback: 'Er is al feedback gegeven voor deze melding',
   formTitleBedankt: 'Bedankt voor uw feedback!',

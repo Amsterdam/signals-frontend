@@ -11,5 +11,6 @@ export const DJANGO = {
   linkEmailTemplateAdd: 'a[href="/signals/admin/email_integrations/emailtemplate/add/"]',
   linkLogout: 'a[href="/signals/admin/logout/"]',
   templateList: '#changelist',
+  templateListItem: '.field-key > a', 
   selectEmailKey: '#id_key',
 };

@@ -25,6 +25,7 @@ export const CHANGE_STATUS = {
   originalStatus: '[data-testid="original-status"]',
   radioButtonGemeld: '[data-testid=status-m]',
   radioButtonInAfwachting: '[data-testid=status-i]',
+  radioButtonReactieGevraagd: '[data-testid="status-reaction requested"]',
   radioButtonIngepland: '[data-testid=status-ingepland]',
   radioButtonInBehandeling: '[data-testid=status-b]',
   radioButtonExtern: '[data-testid="status-closure requested"]',
