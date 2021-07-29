@@ -11,10 +11,10 @@ import {
 } from '@amsterdam/asc-ui'
 
 import Label from 'components/Label'
-
-import ErrorMessage, { ErrorWrapper } from '../ErrorMessage'
+import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 
 const lineHeight = 22
+const infoFontSize = 14
 
 const StyledErrorMessage = styled(ErrorMessage)`
   margin-bottom: ${themeSpacing(2)};
@@ -33,6 +33,7 @@ const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
 const InfoText = styled.div`
   color: ${themeColor('tint', 'level5')};
   margin-top: ${themeSpacing(2)};
+  font-size: ${infoFontSize}px;
 `
 
 interface TextAreaProps extends AscTextAreaProps {

@@ -7,6 +7,7 @@ import {
   Row,
   Column,
   themeColor,
+  Label,
 } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
@@ -36,6 +37,10 @@ export const Form = styled.form`
 
 export const HeaderArea = styled.div`
   grid-area: header;
+`
+
+export const StyledLabel = styled(Label)`
+  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
 `
 
 export const OptionsArea = styled.div`
