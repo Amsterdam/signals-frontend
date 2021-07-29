@@ -19,7 +19,6 @@ const QuestionsWrapper = styled.div`
 const componentMap: Record<FieldType, (props: any) => any> = {
   [FieldType.PlainText]: TextArea,
   [FieldType.FileInput]: FileInput,
-  [FieldType.Submit]: Submit,
 }
 
 interface QuestionnaireProps {
@@ -45,16 +44,12 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
       uuid: 'file-input',
       label: "Foto's toevoegen",
     } as Question,
-    { field_type: FieldType.Submit } as Question,
   ]
 
   const questions = questionnaireQuestions.map((question) => {
     const Component = componentMap[question.field_type]
-    if (FieldType.Submit === question.field_type) {
-      return <Component key={question.field_type} name={question.field_type} />
-    }
 
-    // Control can be used with useController? and register with control.register?
+    // TODO check if control is necessary
     return (
       <Component
         control={control}
@@ -71,6 +66,7 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       <QuestionsWrapper>{questions}</QuestionsWrapper>
+      <Submit />
     </form>
   )
 }
