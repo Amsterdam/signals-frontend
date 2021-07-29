@@ -7,10 +7,15 @@ export const Wrapper = styled.div`
 `
 
 export const Content = styled.div`
-  margin-bottom: ${themeSpacing(5)};
+  margin-bottom: ${themeSpacing(8)};
 `
 
 export const StyledHeading = styled(Heading)`
   margin-top: ${themeSpacing(10)};
   margin-bottom: ${themeSpacing(5)};
+`
+
+export const StyledSubHeading = styled(Heading)`
+  margin-bottom: ${themeSpacing(1)};
+  font-size: 18px;
 `

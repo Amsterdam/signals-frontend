@@ -11,18 +11,16 @@ const FileInputStyle = styled.div`
 `
 
 export const FileInputPreviewBox = styled.div`
-  width: ${themeSpacing(23)};
-  height: ${themeSpacing(23)};
+  width: ${themeSpacing(25)};
+  height: ${themeSpacing(25)};
   margin-right: ${themeSpacing(2)};
-  margin-bottom: ${themeSpacing(2)};
 `
 
 export const FileInputEmptyBox = styled.div`
-  width: ${themeSpacing(23)};
-  height: ${themeSpacing(23)};
+  width: ${themeSpacing(25)};
+  height: ${themeSpacing(25)};
   border: 1px dashed ${themeColor('tint', 'level5')};
   margin-right: ${themeSpacing(2)};
-  margin-bottom: ${themeSpacing(2)};
 `
 
 export const FileInputUploadButton = styled(FileInputEmptyBox)`
@@ -51,7 +49,7 @@ export const DeleteButton = styled(Button).attrs(() => ({
   iconSize: 22,
 }))`
   position: absolute;
-  width: 40px;
+  width: ${themeSpacing(25)};
   height: 40px;
   bottom: 0;
   right: 0;
@@ -71,10 +69,10 @@ export const AddButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${themeSpacing(11)};
-  height: ${themeSpacing(11)};
-  top: ${themeSpacing(6)};
-  left: ${themeSpacing(6)};
+  width: ${themeSpacing(10)};
+  height: ${themeSpacing(10)};
+  top: 29px;
+  left: 29px;
   border-radius: 50%;
   border: 1px solid ${themeColor('primary')};
 

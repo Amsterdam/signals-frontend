@@ -12,7 +12,7 @@ import Submit from './Submit'
 
 const QuestionsWrapper = styled.div`
   > *:not(:last-child) {
-    margin-bottom: ${themeSpacing(4)};
+    margin-bottom: ${themeSpacing(8)};
   }
 `
 

@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Column, Heading, Row } from '@amsterdam/asc-ui'
+import { Column, Row } from '@amsterdam/asc-ui'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import Paragraph from 'components/Paragraph'
@@ -18,7 +18,7 @@ import { format } from 'date-fns'
 import Notice from './components/Notice/Notice'
 import QuestionnaireComponent from './components/Questionnaire'
 
-import { Content, StyledHeading, Wrapper } from './styled'
+import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import * as constants from './constants'
 
 const submitAnswer = (
@@ -243,7 +243,7 @@ const IncidentReplyContainer = () => {
       <Column span={8}>
         <Wrapper>
           <StyledHeading>Aanvullende informatie</StyledHeading>
-          <Heading as="h3">Uw melding</Heading>
+          <StyledSubHeading as="h2">Uw melding</StyledSubHeading>
           <Content>
             <Paragraph>Nummer: {incident._display}</Paragraph>
             <Paragraph>Gemeld op: {formattedDate}</Paragraph>
