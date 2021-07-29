@@ -1,6 +1,5 @@
 export enum FieldType {
   PlainText = 'plain_text',
-  Submit = 'submit',
   FileInput = 'file_input',
 }
 

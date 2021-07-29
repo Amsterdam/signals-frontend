@@ -115,18 +115,7 @@ const IncidentReplyContainer = () => {
         return
       }
 
-      const data = await submitAnswer(sessionUuid, answer.uuid, answer.value)
-
-      if (!data.next_question) {
-        // console.log('no next question')
-        return
-      }
-
-      // assume this is the last question and we get the `submit` key back as response
-      if (data.next_question.field_type !== FieldType.Submit) {
-        // console.log('last question is not of type submit')
-        return
-      }
+      await submitAnswer(sessionUuid, answer.uuid, answer.value)
 
       await submitQuestionnaire(
         `${configuration.QA_SESSIONS_ENDPOINT}${session?.uuid}/submit`
