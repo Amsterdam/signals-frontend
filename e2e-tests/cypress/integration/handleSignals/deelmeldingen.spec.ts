@@ -300,9 +300,9 @@ describe('Deelmeldingen', () => {
         routes.patchSignalRoute();
         routes.getDeelmeldingenRoute();
         createSignal.openCreatedSignal();
-        // Used a wait because sometimes the edit button is not clicked
+        // Used a wait because the statusform requires all incident data to be loaded
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
+        cy.wait(1500);
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.get(CHANGE_STATUS.originalStatus).contains('Gemeld').should('be.visible');
