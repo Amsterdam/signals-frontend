@@ -21,38 +21,35 @@ const Notification = styled.div`
   padding-left: ${themeSpacing(5)};
 `
 
-const LoginPage = () => (
-  <Row data-testid="loginPage">
-    <Column span={12}>
-      <Notification>
-        <Paragraph>Om deze pagina te zien dient u ingelogd te zijn.</Paragraph>
+const LoginPage = () => {
+  const domain = configuration.keycloak ? 'keycloak' : 'datapunt'
 
-        <ButtonBar>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              login('datapunt')
-            }}
-            type="button"
-          >
-            <span className="value">Inloggen</span>
-          </Button>
+  return (
+    <Row data-testid="loginPage">
+      <Column span={12}>
+        <Notification>
+          <Paragraph>
+            Om deze pagina te zien dient u ingelogd te zijn.
+          </Paragraph>
 
-          {configuration.keycloak && (
+          <ButtonBar>
             <Button
               variant="secondary"
+              data-testid={`${domain}LoginButton`}
               onClick={() => {
-                login('keycloak')
+                login(domain)
               }}
               type="button"
             >
-              <span className="value">Inloggen ADW</span>
+              <span className="value">
+                {domain === 'keycloak' ? 'Inloggen ADW' : 'Inloggen'}
+              </span>
             </Button>
-          )}
-        </ButtonBar>
-      </Notification>
-    </Column>
-  </Row>
-)
+          </ButtonBar>
+        </Notification>
+      </Column>
+    </Row>
+  )
+}
 
 export default LoginPage
