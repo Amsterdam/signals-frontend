@@ -8,6 +8,7 @@ import {
   GET_DISTRICTS_FAILED,
   GET_DISTRICTS_SUCCESS,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
@@ -100,6 +101,13 @@ export default (state = initialState, action) => {
         .set('activeFilter', fromJS(action.payload))
         .set('editFilter', fromJS(action.payload))
         .set('ordering', initialState.get('ordering'))
+        .set('page', initialState.get('page'))
+        .set('loadingIncidents', true)
+
+    case CLEAR_FILTERS:
+      return state
+        .set('activeFilter', initialState.get('activeFilter'))
+        .set('editFilter', initialState.get('editFilter'))
         .set('page', initialState.get('page'))
         .set('loadingIncidents', true)
 

@@ -51,6 +51,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   GET_DISTRICTS,
   GET_FILTERS,
   ORDERING_CHANGED,
@@ -279,6 +280,7 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(
       [
         APPLY_FILTER,
+        CLEAR_FILTERS,
         SEARCH_INCIDENTS,
         REQUEST_INCIDENTS,
         SET_SEARCH_QUERY,
