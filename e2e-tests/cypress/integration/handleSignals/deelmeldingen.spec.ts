@@ -308,7 +308,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.originalStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
-        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!Als je de hoofdmelding nu afhandelt, worden de openstaande deelmeldingen geannuleerd. ').and('be.visible');
+        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!').and('be.visible');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@patchSignal');
         cy.wait('@getDeelmeldingen');
