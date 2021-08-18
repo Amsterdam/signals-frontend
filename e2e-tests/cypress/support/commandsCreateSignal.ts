@@ -30,7 +30,7 @@ export const changeSignalStatus = (initialStatus: string, newStatus: string, rad
   cy.wait(500);
   cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
   cy.contains('Status wijzigen').should('be.visible');
-  cy.get(CHANGE_STATUS.original-status).contains(initialStatus).should('be.visible');
+  cy.get(CHANGE_STATUS.originalStatus).contains(initialStatus).should('be.visible');
   cy.get(radioButton).click({ force: true }).should('be.checked');
   cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
   cy.get(CHANGE_STATUS.buttonSubmit).click();

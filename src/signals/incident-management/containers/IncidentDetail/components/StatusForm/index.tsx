@@ -150,7 +150,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           <HeaderArea>
             <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-            <div data-testid="original-status">
+            <div data-testid="originalStatus">
               <StyledLabel label="Huidige status" />
               <div>{state.originalStatus.value}</div>
             </div>

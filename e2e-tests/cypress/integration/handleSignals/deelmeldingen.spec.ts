@@ -305,7 +305,7 @@ describe('Deelmeldingen', () => {
         cy.wait(500);
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
-        cy.get(CHANGE_STATUS.original-status).contains('Gemeld').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
         cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!Als je de hoofdmelding nu afhandelt, worden de openstaande deelmeldingen geannuleerd. ').and('be.visible');
@@ -447,7 +447,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
-        cy.get(CHANGE_STATUS.original-status).contains('In behandeling').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('In behandeling').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonIngepland).check({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben de melding in behadeling genomen');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
@@ -480,7 +480,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
-        cy.get(CHANGE_STATUS.original-status).contains('Ingepland').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('Ingepland').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonAfgehandeld).check({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben de melding in afgehandeld');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
