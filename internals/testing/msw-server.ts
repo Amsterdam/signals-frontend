@@ -164,9 +164,9 @@ const handlers = [
       switch (req.params.uuid) {
         case 'locked-session':
           return res(
-            ctx.status(500),
+            ctx.status(410),
             ctx.json({
-              detail: 'Session locked-session is invalidated.',
+              detail: 'Already used!',
             })
           )
 

@@ -9,8 +9,8 @@ export const EXPIRED_DETAIL = 'Expired!'
 export const LOCKED_TITLE = 'U hebt onze vragen al eerder beantwoord'
 export const LOCKED_CONTENT =
   'Wij bedanken u nogmaals voor de extra informatie die u ons hebt gegeven.'
-export const LOCKED_STATUS = 500
-export const LOCKED_DETAIL = 'is invalidated'
+export const LOCKED_STATUS = 410
+export const LOCKED_DETAIL = 'Already used!'
 
 export const SUBMITTED_TITLE = 'Bedankt'
 export const SUBMITTED_CONTENT =
