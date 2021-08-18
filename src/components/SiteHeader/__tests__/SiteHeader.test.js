@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import {
-  render,
-  act,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { render, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'match-media-mock'
 import 'jest-styled-components'
@@ -320,7 +315,7 @@ describe('components/SiteHeader', () => {
       )
     )
 
-    const toggle = screen.queryByRole('button', { name: 'Menu' })
+    const toggle = screen.getByRole('button', { name: 'Menu' })
 
     expect(
       screen.queryByRole('link', { name: 'Instellingen' })
@@ -333,8 +328,10 @@ describe('components/SiteHeader', () => {
 
     userEvent.click(link)
 
-    await waitForElementToBeRemoved(() =>
-      screen.getByRole('link', { name: 'Instellingen' })
-    )
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('link', { name: 'Instellingen' })
+      ).not.toBeInTheDocument()
+    })
   })
 })

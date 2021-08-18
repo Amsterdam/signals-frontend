@@ -1,0 +1,33 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questionnaires/50f87d6e-2479-4358-bf59-f01c27191848"
+    }
+  },
+  "_display": "Questionnaire \"Reactie gevraagd\" ( active)",
+  "uuid": "50f87d6e-2479-4358-bf59-f01c27191848",
+  "name": "Reactie gevraagd",
+  "description": null,
+  "is_active": true,
+  "first_question": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/None"
+      },
+      "sia:uuid-self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/bbb5518e-0044-4bc7-89dd-b16a0dfbbf07"
+      },
+      "sia:post-answer": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/bbb5518e-0044-4bc7-89dd-b16a0dfbbf07/answer"
+      }
+    },
+    "_display": "bbb5518e-0044-4bc7-89dd-b16a0dfbbf07 (plain_text)",
+    "key": null,
+    "uuid": "bbb5518e-0044-4bc7-89dd-b16a0dfbbf07",
+    "label": "Wat voor kleur heeft de auto?",
+    "short_label": "Reactie melder",
+    "field_type": "plain_text",
+    "next_rules": null,
+    "required": true
+  }
+}

@@ -300,15 +300,15 @@ describe('Deelmeldingen', () => {
         routes.patchSignalRoute();
         routes.getDeelmeldingenRoute();
         createSignal.openCreatedSignal();
-        // Used a wait because sometimes the edit button is not clicked
+        // Used a wait because the statusform requires all incident data to be loaded
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500);
+        cy.wait(1500);
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
-        cy.get(CHANGE_STATUS.currentStatus).contains('Gemeld').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('Gemeld').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonGeannuleerd).click({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Toeterlichting');
-        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!Als je de hoofdmelding nu afhandelt, worden de openstaande deelmeldingen geannuleerd. ').and('be.visible');
+        cy.get(CHANGE_STATUS.warningDeelmeldingenOpen).should('contain', 'Let op, er staan nog deelmeldingen open!').and('be.visible');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
         cy.wait('@patchSignal');
         cy.wait('@getDeelmeldingen');
@@ -447,7 +447,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
-        cy.get(CHANGE_STATUS.currentStatus).contains('In behandeling').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('In behandeling').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonIngepland).check({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben de melding in behadeling genomen');
         cy.get(CHANGE_STATUS.buttonSubmit).click();
@@ -480,7 +480,7 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_STATUS.buttonEdit).click({ force: true });
         cy.contains('Status wijzigen').should('be.visible');
         cy.contains('Huidige status').should('be.visible');
-        cy.get(CHANGE_STATUS.currentStatus).contains('Ingepland').should('be.visible');
+        cy.get(CHANGE_STATUS.originalStatus).contains('Ingepland').should('be.visible');
         cy.get(CHANGE_STATUS.radioButtonAfgehandeld).check({ force: true }).should('be.checked');
         cy.get(CHANGE_STATUS.inputToelichting).type('Wij hebben de melding in afgehandeld');
         cy.get(CHANGE_STATUS.buttonSubmit).click();

@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import { subWeeks } from 'date-fns'
-import { FunctionComponent, useCallback, useState } from 'react'
+import { FunctionComponent, useCallback, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AreaMap from 'components/AreaMap'
@@ -28,10 +28,32 @@ export const AreaContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
   const [selection, setSelection] = useState<Feature | null>(null)
 
-  const { data: area } = useGetIncidentContextGeography(Number(id))
-  const { data: incident } = useGetIncident(Number(id))
-  const { data: selectedIncident, isLoading: isLoadingSelectedIncident } =
-    useGetIncident(selection?.properties.id)
+  const { data: incident, get: getIncident } = useGetIncident()
+  const { data: area, get: getIncidentContextGeography } =
+    useGetIncidentContextGeography()
+  const {
+    data: selectedIncident,
+    get: getSelectedIncident,
+    isLoading: isLoadingSelectedIncident,
+  } = useGetIncident()
+
+  useEffect(() => {
+    if (id) {
+      getIncident(Number(id))
+    }
+  }, [getIncident, id])
+
+  useEffect(() => {
+    if (selection) {
+      getSelectedIncident(selection.properties.id)
+    }
+  }, [getSelectedIncident, selection])
+
+  useEffect(() => {
+    if (id) {
+      getIncidentContextGeography(Number(id))
+    }
+  }, [getIncidentContextGeography, id])
 
   const handleClose = useCallback(
     () => history.push(`${INCIDENT_URL}/${id}`),

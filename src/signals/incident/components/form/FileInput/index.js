@@ -1,31 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import { Fragment, useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { TrashBin, Enlarge } from '@amsterdam/asc-assets'
+import FileInputComponent from 'components/FileInput'
 import fileSize from '../../../services/file-size'
-import FileInputStyle, {
-  FileInputPreviewBox,
-  FileInputEmptyBox,
-  FileInputUploadButton,
-  FileInputError,
-  DeleteButton,
-  AddButton,
-  AddIcon,
-  FilePreview,
-  FileLoading,
-} from './styles'
-
-const ScreenReaderOnly = styled.span`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-`
 
 const FileInput = ({ handler, parent, meta }) => {
   const [errors, setErrors] = useState()
@@ -97,53 +75,26 @@ const FileInput = ({ handler, parent, meta }) => {
   )
 
   const handleChange = useCallback(
-    (event) => {
-      if (!event?.target?.files?.length) return
-
+    (batchFiles) => {
       const minFileSizeFilter = meta.minFileSize ? checkMinFileSize : () => true
       const maxFileSizeFilter = meta.maxFileSize ? checkMaxFileSize : () => true
       const allowedFileTypesFilter = meta.allowedFileTypes
         ? checkFileType
         : () => true
       const maxNumberOfFilesFilter = checkNumberOfFiles
-      const existingFiles = handler().value || []
-      const existingPreviews =
-        (parent && parent.value && parent.value[`${meta.name}_previews`]) || []
-      const batchFiles = [...event.target.files]
 
-      const files = [...existingFiles, ...batchFiles]
+      const files = batchFiles
         .filter(minFileSizeFilter)
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter)
 
-      const previews = [
-        ...existingPreviews,
-        ...batchFiles.map(
-          () => `loading-${Math.trunc(Math.random() * 100000)}`
-        ),
-      ].slice(0, files.length)
-      setErrors(getErrorMessages([...existingFiles, ...batchFiles]))
+      setErrors(getErrorMessages(batchFiles))
       parent.meta.updateIncident({
         [meta.name]: files,
-        [`${meta.name}_previews`]: previews,
-      })
-
-      files.forEach((file, uploadBatchIndex) => {
-        const reader = new window.FileReader()
-        reader.addEventListener('load', () => {
-          previews[uploadBatchIndex] = window.URL.createObjectURL(
-            files[uploadBatchIndex]
-          )
-          parent.meta.updateIncident({
-            [`${meta.name}_previews`]: previews,
-          })
-
-          const control = meta && meta.name && parent.controls[meta.name]
-          control.updateValueAndValidity()
-        })
-
-        reader.readAsText(file)
+        [`${meta.name}_previews`]: files.map((file) =>
+          window.URL.createObjectURL(file)
+        ),
       })
     },
     [
@@ -152,107 +103,24 @@ const FileInput = ({ handler, parent, meta }) => {
       checkFileType,
       checkNumberOfFiles,
       getErrorMessages,
-      handler,
       meta,
       parent,
     ]
   )
 
-  const removeFile = (e, preview, previews, files) => {
-    e.preventDefault()
-
-    const key = previews.indexOf(preview)
-    /* istanbul ignore next */
-    if (key !== -1) {
-      window.URL.revokeObjectURL(preview)
-
-      files.splice(key, 1)
-      previews.splice(key, 1)
-
-      parent.meta.updateIncident({
-        [meta.name]: files,
-        [`${meta.name}_previews`]: previews,
-      })
-    }
-
-    const control = meta && meta.name && parent.controls[meta.name]
-    control.updateValueAndValidity()
-  }
-
-  const previews =
-    (parent && parent.value && parent.value[`${meta && meta.name}_previews`]) ||
-    []
-  const numberOfEmtpy = maxNumberOfFiles - previews.length - 1
-  const empty = numberOfEmtpy < 0 ? [] : [...Array(numberOfEmtpy).keys()]
+  const files = handler()?.value || []
 
   return (
-    <Fragment>
-      <FileInputStyle
-        className="file-input"
-        data-testid="fileInput"
-        id={meta.name}
-        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
-      >
-        {previews.length > 0 &&
-          previews.map((preview, index) => (
-            <FileInputPreviewBox
-              key={preview}
-              data-testid="fileInputPreviewBox"
-            >
-              {preview.includes('loading') ? (
-                <FileLoading>Laden...</FileLoading>
-              ) : (
-                <FilePreview preview={preview}>
-                  <DeleteButton
-                    size={40}
-                    variant="blank"
-                    iconSize={22}
-                    icon={<TrashBin />}
-                    aria-label={`Verwijder foto ${index + 1}`}
-                    onClick={(e) =>
-                      removeFile(e, preview, previews, handler().value)
-                    }
-                    data-testid="deleteFotoButton"
-                  />
-                </FilePreview>
-              )}
-            </FileInputPreviewBox>
-          ))}
-
-        {previews.length < maxNumberOfFiles && (
-          <FileInputUploadButton data-testid="fileInputUploadButton">
-            <input
-              type="file"
-              id="formUpload"
-              data-testid="fileInputUpload"
-              accept={meta.allowedFileTypes}
-              onChange={handleChange}
-              multiple
-              aria-label="Toevoegen foto"
-            />
-            <label htmlFor="formUpload">
-              <AddButton as="span">
-                <ScreenReaderOnly>Toevoegen foto</ScreenReaderOnly>
-                <AddIcon size={22}>
-                  <Enlarge />
-                </AddIcon>
-              </AddButton>
-            </label>
-          </FileInputUploadButton>
-        )}
-
-        {empty.map((item) => (
-          <FileInputEmptyBox key={item} data-testid="fileInputEmptyBox" />
-        ))}
-      </FileInputStyle>
-
-      {errors?.length > 0 &&
-        errors.map((error) => (
-          <FileInputError role="alert" key={error} data-testid="fileInputError">
-            {error}
-          </FileInputError>
-        ))}
-    </Fragment>
+    <FileInputComponent
+      errorMessages={errors}
+      name={meta.name}
+      onChange={handleChange}
+      files={files}
+      maxNumberOfFiles={maxNumberOfFiles}
+      maxFileSize={meta.maxFileSize}
+      minFileSize={meta.minFileSize}
+      allowedFileTypes={meta.allowedFileTypes}
+    />
   )
 }
 

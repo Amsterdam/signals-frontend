@@ -1,48 +1,28 @@
-import { useFetch } from 'hooks'
-import { useEffect, useMemo } from 'react'
 import configuration from 'shared/services/configuration/configuration'
 import Reporter from 'types/api/reporter'
-import { FetchHookResponse, QueryParameters } from './types'
+import { QueryParameters } from './types'
+import { useBuildGetter } from './useBuildGetter'
 
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_PAGE = 1
 
-type UseGetContextReporter = (
-  id: number,
-  params: QueryParameters
-) => FetchHookResponse<Reporter>
-
-const useGetContextReporter: UseGetContextReporter = (
-  id,
-  { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE }
-) => {
-  const { get, data, error, isLoading, isSuccess } = useFetch<Reporter>()
-
-  const searchParams = useMemo(
-    () =>
-      new URLSearchParams({
+const useGetContextReporter = () =>
+  useBuildGetter<Reporter>(
+    (
+      id: number,
+      { page = DEFAULT_PAGE, pageSize = DEFAULT_PAGE_SIZE }: QueryParameters
+    ) => {
+      const searchParams = new URLSearchParams({
         page: `${page}`,
         page_size: `${pageSize}`,
-      }).toString(),
-    [page, pageSize]
-  )
+      }).toString()
 
-  const params = searchParams ? `?${searchParams}` : ''
+      const params = searchParams ? `?${searchParams}` : ''
 
-  useEffect(() => {
-    if (id) {
-      get(
-        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter${params}`
-      )
+      return [
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context/reporter${params}`,
+      ]
     }
-  }, [get, id, params, searchParams])
-
-  return {
-    data,
-    isLoading,
-    error,
-    isSuccess,
-  }
-}
+  )
 
 export default useGetContextReporter
