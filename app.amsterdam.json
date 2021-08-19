@@ -2,8 +2,8 @@
   "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
-    "assignSignalToDepartment": false,
-    "assignSignalToEmployee": false,
+    "assignSignalToDepartment": true,
+    "assignSignalToEmployee": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
     "enableNearIncidents": true,
