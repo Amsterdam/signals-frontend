@@ -4,6 +4,7 @@ import { useContext, useMemo } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { Tag, themeSpacing } from '@amsterdam/asc-ui'
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
@@ -14,6 +15,7 @@ import {
 } from 'models/categories/selectors'
 import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
+import Button from 'components/Button'
 
 import {
   makeSelectDirectingDepartments,
@@ -22,18 +24,24 @@ import {
 import AppContext from '../../../../containers/App/context'
 import IncidentManagementContext from '../../context'
 
-const FilterWrapper = styled.div`
-  margin-top: ${themeSpacing(2)};
-  flex-basis: 100%;
-`
-
 const StyledTag = styled(Tag)`
   display: inline-block;
-  margin: ${themeSpacing(0, 2, 2, 0)};
   white-space: nowrap;
 
   :first-letter {
     text-transform: capitalize;
+  }
+`
+
+const FilterWrapper = styled.div`
+  margin-top: ${themeSpacing(2)};
+
+  ${StyledTag} {
+    margin: ${themeSpacing(0, 2, 2, 0)};
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 `
 
@@ -152,12 +160,23 @@ export const FilterTagListComponent = (props) => {
     tagsList.dateRange = dateRange
   }
 
+  const hasTags = Boolean(
+    Object.keys(tagsList).find((key) => tagsList[key].length > 0)
+  )
+
+  const showClearButton = props.onClear && hasTags
+
   return mainCategories && subCategories ? (
     <FilterWrapper>
       {Object.entries(tagsList).map(([tagKey, tag]) =>
         Array.isArray(tag)
           ? renderGroup(tag, mainCategories, map[tagKey], tagKey)
           : renderTag(tag, mainCategories, map[tagKey])
+      )}
+      {showClearButton && (
+        <Button variant="textButton" onClick={props.onClear}>
+          Wis filter
+        </Button>
       )}
     </FilterWrapper>
   ) : null
@@ -169,6 +188,7 @@ FilterTagListComponent.propTypes = {
   subCategories: dataListType,
   directingDepartments: dataListType,
   routingDepartments: dataListType,
+  onClear: PropTypes.func,
 }
 
 FilterTagListComponent.defaultProps = {

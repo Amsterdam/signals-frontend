@@ -8,6 +8,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
@@ -74,6 +75,10 @@ export const removeFilterSuccess = (payload) => ({
 export const removeFilterFailed = (payload) => ({
   type: REMOVE_FILTER_FAILED,
   payload,
+})
+
+export const clearFilters = () => ({
+  type: CLEAR_FILTERS,
 })
 
 export const applyFilter = (payload) => ({

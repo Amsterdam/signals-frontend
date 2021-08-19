@@ -25,3 +25,8 @@ export const MapWrapper = styled(Column).attrs({
 })`
   flex-direction: column;
 `
+
+export const ActiveFiltersWrapper = styled.div`
+  display: flex;
+  flex-basis: 100%;
+`

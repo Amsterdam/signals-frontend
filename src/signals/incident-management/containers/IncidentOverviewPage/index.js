@@ -14,6 +14,7 @@ import PageHeader from 'containers/PageHeader'
 import {
   orderingChanged,
   pageChanged,
+  clearFilters,
 } from 'signals/incident-management/actions'
 import Filter from 'signals/incident-management/containers/Filter'
 import Modal from 'components/Modal'
@@ -36,12 +37,19 @@ import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 import List from './components/List'
 import SubNav from './components/SubNav'
-import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled'
+import {
+  ActiveFiltersWrapper,
+  MapWrapper,
+  NoResults,
+  StyledButton,
+  StyledPagination,
+} from './styled'
 
 let lastActiveElement = null
 
 export const IncidentOverviewPageContainerComponent = ({
   activeFilter,
+  clearFiltersAction,
   incidents,
   ordering,
   orderingChangedAction,
@@ -135,7 +143,6 @@ export const IncidentOverviewPageContainerComponent = ({
             Filter
           </StyledButton>
         </div>
-
         {modalMyFiltersIsOpen && (
           <Modal
             data-testid="myFiltersModal"
@@ -146,7 +153,6 @@ export const IncidentOverviewPageContainerComponent = ({
             <MyFilters onClose={closeMyFiltersModal} />
           </Modal>
         )}
-
         {modalFilterIsOpen && (
           <Modal
             data-testid="filterModal"
@@ -157,8 +163,12 @@ export const IncidentOverviewPageContainerComponent = ({
             <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
           </Modal>
         )}
-
-        <FilterTagList tags={activeFilter.options} />
+        <ActiveFiltersWrapper>
+          <FilterTagList
+            tags={activeFilter.options}
+            onClear={clearFiltersAction}
+          />
+        </ActiveFiltersWrapper>
       </PageHeader>
 
       <SubNav showsMap={showsMap} />
@@ -219,6 +229,7 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
+  clearFiltersAction: PropTypes.func.isRequired,
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loadingIncidents: PropTypes.bool,
@@ -240,6 +251,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
+      clearFiltersAction: clearFilters,
       orderingChangedAction: orderingChanged,
       pageChangedAction: pageChanged,
     },
