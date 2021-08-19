@@ -18,11 +18,6 @@ describe('Form component <FileInput />', () => {
         updateIncident: jest.fn(),
       },
       value: jest.fn(),
-      controls: {
-        'input-field-name': {
-          updateValueAndValidity: jest.fn(),
-        },
-      },
     },
   }
 
@@ -45,42 +40,7 @@ describe('Form component <FileInput />', () => {
       expect(getAllByTestId('fileInputEmptyBox').length).toBe(2)
     })
 
-    it('should render upload field with one uploaded file and one loading correctly', () => {
-      const parentValue = {
-        'input-field-name_previews': [
-          'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c',
-          'loading-42',
-        ],
-      }
-
-      const { queryByTestId, getAllByTestId } = render(
-        withAppContext(
-          <FileInput
-            {...props}
-            parent={{
-              ...props.parent,
-              value: parentValue,
-            }}
-            meta={{
-              ...metaFields,
-              maxNumberOfFiles: 2,
-            }}
-          />
-        )
-      )
-
-      expect(getAllByTestId('fileInputPreviewBox').length).toBe(2)
-      expect(queryByTestId('fileInputUploadButton')).not.toBeInTheDocument()
-      expect(queryByTestId('fileInputEmptyBox')).not.toBeInTheDocument()
-    })
-
     describe('events', () => {
-      const parentControls = {
-        'input-field-name': {
-          updateValueAndValidity: jest.fn(),
-        },
-      }
-
       const minFileSize = 30 * 2 ** 10
       const maxFileSize = 8 * 2 ** 20
       let handler
@@ -113,9 +73,6 @@ describe('Form component <FileInput />', () => {
         type: 'image/jpeg',
       }
 
-      let readAsText
-      let addEventListener
-
       beforeEach(() => {
         handler = jest.fn()
         parent = {
@@ -123,17 +80,7 @@ describe('Form component <FileInput />', () => {
             updateIncident: jest.fn(),
           },
           value: jest.fn(),
-          controls: parentControls,
         }
-
-        readAsText = jest.fn()
-        addEventListener = jest.fn((_, evtHandler) => {
-          evtHandler()
-        })
-        window.FileReader = jest.fn(() => ({
-          addEventListener,
-          readAsText,
-        }))
 
         window.URL = {
           createObjectURL: jest.fn(),
@@ -146,67 +93,6 @@ describe('Form component <FileInput />', () => {
         jest.resetAllMocks()
       })
 
-      it('should do nothing when no files are provided', async () => {
-        handler.mockImplementation(() => ({ value: [] }))
-        const { findByTestId } = render(
-          withAppContext(
-            <FileInput
-              parent={parent}
-              handler={handler}
-              meta={{
-                ...metaFields,
-                maxNumberOfFiles: 3,
-              }}
-            />
-          )
-        )
-
-        const fileInputElement = await findByTestId('fileInputUpload')
-        expect(FileReader).not.toHaveBeenCalled()
-        act(() => {
-          fireEvent.change(fileInputElement, { target: { files: [] } })
-        })
-
-        await findByTestId('fileInputUpload')
-
-        expect(FileReader).not.toHaveBeenCalled()
-        expect(parent.meta.updateIncident).not.toHaveBeenCalled()
-      })
-
-      it('uploads a file and updates incident when file changes', async () => {
-        handler.mockImplementation(() => ({ value: [] }))
-        const { queryByTestId, findByTestId } = render(
-          withAppContext(
-            <FileInput
-              parent={parent}
-              handler={handler}
-              meta={{
-                ...metaFields,
-                maxNumberOfFiles: 3,
-              }}
-            />
-          )
-        )
-
-        const fileInputElement = queryByTestId('fileInputUpload')
-        act(() => {
-          fireEvent.change(fileInputElement, { target: { files: [file1] } })
-        })
-
-        await findByTestId('fileInputUpload')
-
-        expect(FileReader).toHaveBeenCalled()
-        expect(addEventListener).toHaveBeenCalledWith(
-          'load',
-          expect.any(Function)
-        )
-        expect(readAsText).toHaveBeenCalled()
-        expect(
-          parentControls['input-field-name'].updateValueAndValidity
-        ).toHaveBeenCalledTimes(1)
-        expect(parent.meta.updateIncident).toHaveBeenCalled()
-      })
-
       it('uploads already uploaded file and triggers multiple errors', async () => {
         handler.mockImplementation(() => ({ value: [file2, file3, file4] }))
         const { queryByTestId, findByTestId } = render(
@@ -216,7 +102,7 @@ describe('Form component <FileInput />', () => {
               handler={handler}
               meta={{
                 ...metaFields,
-                maxNumberOfFiles: 3,
+                maxNumberOfFiles: 4,
                 maxFileSize,
                 allowedFileTypes: ['image/jpeg'],
               }}
@@ -231,15 +117,6 @@ describe('Form component <FileInput />', () => {
 
         await findByTestId('fileInputUpload')
 
-        expect(FileReader).toHaveBeenCalled()
-        expect(addEventListener).toHaveBeenCalledWith(
-          'load',
-          expect.any(Function)
-        )
-        expect(readAsText).toHaveBeenCalled()
-        expect(
-          parentControls['input-field-name'].updateValueAndValidity
-        ).toHaveBeenCalledTimes(2)
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
           'input-field-name': [file4, file1],
@@ -271,15 +148,6 @@ describe('Form component <FileInput />', () => {
 
         await findByTestId('fileInputUpload')
 
-        expect(FileReader).toHaveBeenCalled()
-        expect(addEventListener).toHaveBeenCalledWith(
-          'load',
-          expect.any(Function)
-        )
-        expect(readAsText).toHaveBeenCalled()
-        expect(
-          parentControls['input-field-name'].updateValueAndValidity
-        ).toHaveBeenCalledTimes(1)
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
           'input-field-name': [file1],
@@ -287,7 +155,9 @@ describe('Form component <FileInput />', () => {
       })
 
       it('it removes 1 file when remove button was clicked', async () => {
+        const expectedBlob = 'blob'
         handler.mockImplementation(() => ({ value: [file1, file2] }))
+        window.URL.createObjectURL.mockImplementation(() => expectedBlob)
 
         const { queryAllByTestId, findByTestId } = render(
           withAppContext(
@@ -322,7 +192,7 @@ describe('Form component <FileInput />', () => {
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name': [file2],
-          'input-field-name_previews': ['blob:http://host/2'],
+          'input-field-name_previews': [expectedBlob],
         })
       })
 

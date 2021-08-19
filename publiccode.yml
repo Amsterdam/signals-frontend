@@ -1,0 +1,86 @@
+publiccodeYmlVersion: '0.2'
+name: Signalen frontend
+url: 'https://github.com/Amsterdam/signals-frontend'
+landingURL: 'https://signalen.org/'
+softwareVersion: 'v1.49.0'
+releaseDate: '2021-05-20'
+platforms:
+  - web
+categories:
+  - workflow-management
+  - task-management
+  - communications
+usedBy:
+  - Gemeente Amsterdam
+  - Gemeente 's-Hertogenbosch
+developmentStatus: stable
+softwareType: standalone/web
+description:
+  en:
+    localisedName: Signalen frontend
+    genericName: Signalen frontend
+    shortDescription: >-
+      Signalen is an open source process and task system for governments, that
+      categorizes and routes reports about public space.
+    longDescription: >
+      Signalen is an open source process and task system for governments, which
+      automatically categorizes and routes reports about public space for
+      processing by the appropriate handler.
+
+      The City of Amsterdam receives about 300000 reports about public space every year.
+      From furniture in the garbage to abandoned boats in the canals.
+      More than 1400 civil servants work 24/7 to handle reports in Signalen.
+
+      Since the introduction of Signalen, customer satisfaction with the handling
+      of reports in Amsterdam has increased by more than 30 percent.
+
+      Signalen software is open source and can be used freely by other governments
+      and municipalities.
+    documentation: 'https://docs.signalen.org/'
+    features:
+      - Notification classification
+      - Notification routing
+      - Notification handling
+      - Reports
+
+  nl:
+    localisedName: Signalen frontend
+    genericName: Signalen frontend
+    shortDescription: >-
+      Signalen is een open source proces- en taaksysteem voor overheden, dat meldingen over de openbare ruimte automatisch categoriseert en routeert.
+    longDescription: >
+      Signalen is een proces- en taaksysteem, ontwikkeld op initiatief van de gemeente Amsterdam voor het effectiever en klantvriendelijker afhandelen van meldingen over de openbare ruimte.
+
+      Amsterdam krijgt per jaar zo’n 300.000 meldingen over de openbare ruimte te verwerken. Van huisraad bij de vuilnisbak tot en met verlaten sloepjes in de gracht. Ruim 1.400 ambtenaren werken 24/7 met het afhandelen van meldingen in Signalen. Sinds de invoering van Signalen is de klanttevredenheid over de afhandeling van meldingen in Amsterdam met ruim 30 procent gestegen.
+
+      De Signalen software is open source ontwikkeld en kan vrij gebruikt worden door andere overheden en gemeenten.
+    documentation: 'https://docs.signalen.org/'
+    features:
+      - Meldingen classificeren
+      - Meldingen routeren
+      - Meldingen behandelen
+      - Rapporteren
+legal:
+  license: MPL-2.0
+  mainCopyrightOwner: Signalen
+  repoOwner: Gemeente Amsterdam
+maintenance:
+  type: community
+  contacts:
+    - name: Amy van Someren
+      email: a.vansomeren@s-hertogenbosch.nl
+    - name: René van Sprang
+      email: r.van.sprang@amsterdam.nl
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - nl
+dependsOn:
+  open:
+    - name: nodeJS
+      version: '16'
+    - name: npm
+      version: '7.10.0'
+    - name: signalen/frontend
+    - name: signalen/classification
+    - name: signalen/backend

@@ -15,6 +15,7 @@ import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
+import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
 
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
@@ -109,6 +110,10 @@ export const AppContainer = () => {
                 <Redirect exact from="/manage" to="/manage/incidents" />
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
+                <Route
+                  path="/incident/reactie/:uuid"
+                  component={IncidentReplyContainer}
+                />
                 <Route path="/incident" component={IncidentContainer} />
                 {configuration.featureFlags.enablePublicSignalMap && (
                   <Route path="/kaart" component={IncidentOverviewContainer} />

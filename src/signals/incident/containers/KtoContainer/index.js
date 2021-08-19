@@ -109,7 +109,7 @@ export const KtoContainer = () => {
     let payload = ''
 
     try {
-      const { detail } = await errorCheck.json()
+      const { detail } = errorCheck
 
       if (detail === 'filled out') {
         payload = 'FILLED_OUT'

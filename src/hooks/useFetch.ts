@@ -6,7 +6,10 @@ import { getAuthHeaders } from 'shared/services/auth/auth'
 import { getErrorMessage } from 'shared/services/api/api'
 
 type Data = Record<string, unknown>
-export type FetchError = (Response | Error) & { message: string }
+export type FetchError = (Response | Error) & {
+  message: string
+  detail?: string
+}
 
 export interface State<T> {
   data?: T
@@ -24,7 +27,7 @@ interface FetchResponse<T> extends State<T> {
   ) => Promise<void>
   post: (
     url: string,
-    modifiedData: Data,
+    modifiedData?: Data,
     requestOptions?: Data
   ) => Promise<void>
   put: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>
@@ -135,19 +138,26 @@ const useFetch = <T>(): FetchResponse<T> => {
           ...requestOptions,
         })
 
-        if (fetchResponse.ok) {
-          const responseData = (
-            requestOptions.responseType === 'blob'
-              ? await fetchResponse.blob()
-              : await fetchResponse.json()
-          ) as Data
+        const responseData = (
+          requestOptions.responseType === 'blob'
+            ? await fetchResponse.blob()
+            : await fetchResponse.json()
+        ) as Data
 
+        if (fetchResponse.ok) {
           dispatch({ type: 'SET_GET_DATA', payload: responseData })
         } else {
           Object.defineProperty(fetchResponse, 'message', {
             value: getErrorMessage(fetchResponse),
             writable: false,
           })
+
+          if (responseData.detail) {
+            Object.defineProperty(fetchResponse, 'detail', {
+              value: responseData.detail,
+              writable: false,
+            })
+          }
 
           dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError })
         }
@@ -169,7 +179,7 @@ const useFetch = <T>(): FetchResponse<T> => {
     (method: string) =>
       async (
         url: RequestInfo,
-        modifiedData: Data,
+        modifiedData: Data = {},
         requestOptions: Data = {}
       ) => {
         dispatch({ type: 'SET_LOADING', payload: true })
@@ -183,19 +193,26 @@ const useFetch = <T>(): FetchResponse<T> => {
             ...requestOptions,
           })
 
-          if (modifyResponse.ok) {
-            const responseData = (
-              requestOptions.responseType === 'blob'
-                ? await modifyResponse.blob()
-                : await modifyResponse.json()
-            ) as Data
+          const responseData = (
+            requestOptions.responseType === 'blob'
+              ? await modifyResponse.blob()
+              : await modifyResponse.json()
+          ) as Data
 
+          if (modifyResponse.ok) {
             dispatch({ type: 'SET_MODIFY_DATA', payload: responseData })
           } else {
             Object.defineProperty(modifyResponse, 'message', {
               value: getErrorMessage(modifyResponse),
               writable: false,
             })
+
+            if (responseData.detail) {
+              Object.defineProperty(modifyResponse, 'detail', {
+                value: responseData.detail,
+                writable: false,
+              })
+            }
 
             dispatch({
               type: 'SET_ERROR',

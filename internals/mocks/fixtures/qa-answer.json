@@ -1,0 +1,28 @@
+{
+  "_links": {},
+  "_display": "Answer object (72)",
+  "payload": "Dit is mijn antwoord",
+  "session": "1b97c793-963a-4c59-aa62-467dc3bc0366",
+  "created_at": "2021-07-29T16:43:51.998117+02:00",
+  "next_question": {
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/submit"
+      },
+      "sia:uuid-self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/fe2e367a-38f4-4e09-acca-ccd8bc939b59"
+      },
+      "sia:post-answer": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/v1/public/qa/questions/submit/answer"
+      }
+    },
+    "_display": "submit (submit)",
+    "key": "submit",
+    "uuid": "fe2e367a-38f4-4e09-acca-ccd8bc939b59",
+    "label": "Verstuur",
+    "short_label": "Verstuur",
+    "field_type": "submit",
+    "next_rules": null,
+    "required": true
+  }
+}

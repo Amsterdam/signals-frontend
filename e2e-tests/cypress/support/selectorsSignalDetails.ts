@@ -16,12 +16,12 @@ export const CHANGE_LOCATION = {
 };
 
 export const CHANGE_STATUS = {
-  alertNoEmail: '[data-testid=statusExplanation]',
+  alertNoEmail: '[data-testid=split-incident-warning]',
   buttonCancel: '[data-testid=statusFormCancelButton]',
   buttonEdit: '[data-testid=editStatusButton]',
   buttonSubmit: '[data-testid=statusFormSubmitButton]',
   checkboxSendEmail: '[data-testid="sendEmailCheckbox"]',
-  currentStatus: '[data-testid="currentStatus"]',
+  originalStatus: '[data-testid="originalStatus"]',
   inputToelichting: '[data-testid=text]',
   radioButtonGemeld: '[data-testid=status-m]',
   radioButtonInAfwachting: '[data-testid=status-i]',
@@ -32,8 +32,8 @@ export const CHANGE_STATUS = {
   radioButtonHeropend: '[data-testid=status-reopened]',
   radioButtonGeannuleerd: '[data-testid=status-a]',
   statusNotification: '[data-testid="statusFormToelichting"]',
-  statusWarning: '[data-testid=statusWarning]',
-  warningDeelmeldingenOpen: '[data-testid="statusHasChildrenOpen"]',
+  statusWarning: '[data-testid=end-status-warning]',
+  warningDeelmeldingenOpen: '[data-testid="has-open-child-incidents-warning"]',
 };
 
 export const CHANGE_TYPE = {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { render, screen, waitFor /*waitFor*/ } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'

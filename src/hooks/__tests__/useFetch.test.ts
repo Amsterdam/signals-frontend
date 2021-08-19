@@ -166,7 +166,10 @@ describe('hooks/useFetch', () => {
       const response = { status: 401, ok: false, statusText: 'Unauthorized' }
       const message = getErrorMessage(response)
 
-      fetchMock.mockResponseOnce('', response)
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ detail: 'invalid token' }),
+        response
+      )
 
       const { result } = renderHook(() => useFetch())
 
@@ -236,7 +239,10 @@ describe('hooks/useFetch', () => {
       const formData = { ...JSONresponse, is_active: false }
       const { result } = renderHook(() => useFetch())
 
-      fetchMock.mockResponseOnce('', response)
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ detail: 'invalid token' }),
+        response
+      )
 
       const patch = act(() => result.current.patch(URL, formData))
 
@@ -312,7 +318,10 @@ describe('hooks/useFetch', () => {
       const formData = { ...JSONresponse, is_active: false }
       const { result } = renderHook(() => useFetch())
 
-      fetchMock.mockResponseOnce('', response)
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ detail: 'invalid token' }),
+        response
+      )
 
       const post = act(() => result.current.post(URL, formData))
 

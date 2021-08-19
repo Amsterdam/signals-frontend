@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import SelectInput from 'signals/incident-management/components/SelectInput'
 import { withAppContext } from 'test/utils'
@@ -92,7 +93,7 @@ describe('ChangeValue', () => {
 
     await expectInitialState()
 
-    fireEvent.click(renderProps.getByTestId(editTestId))
+    userEvent.click(renderProps.getByTestId(editTestId))
 
     await expectEditState()
   })
@@ -137,8 +138,8 @@ describe('ChangeValue', () => {
     expect(screen.queryByText(derivedKeyValue)).not.toBeInTheDocument()
     expect(screen.queryByText(otherKeyValue)).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
-    fireEvent.click(screen.getByTestId(submitTestId))
+    userEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -159,7 +160,7 @@ describe('ChangeValue', () => {
       screen.queryByRole('option', { name: otherKeyValue })
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(
       screen.getByRole('option', { name: rawKeyValue })
@@ -175,7 +176,7 @@ describe('ChangeValue', () => {
   it('should call update', () => {
     render(renderWithContext())
     const editButton = screen.getByTestId(editTestId)
-    fireEvent.click(editButton)
+    userEvent.click(editButton)
 
     expect(update).not.toHaveBeenCalled()
 
@@ -183,7 +184,7 @@ describe('ChangeValue', () => {
     fireEvent.change(document.querySelector('select'), {
       target: { value: otherKey },
     })
-    fireEvent.click(submitButton)
+    userEvent.click(submitButton)
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -198,9 +199,9 @@ describe('ChangeValue', () => {
   it('should call update with extra props', () => {
     render(renderWithContext({ ...props, patch: { extraProp: true } }))
     const editButton = screen.getByTestId(editTestId)
-    fireEvent.click(editButton)
+    userEvent.click(editButton)
     const submitButton = screen.getByTestId(submitTestId)
-    fireEvent.click(submitButton)
+    userEvent.click(submitButton)
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -215,18 +216,18 @@ describe('ChangeValue', () => {
 
   it('should hide form on cancel', () => {
     render(renderWithContext())
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(cancelTestId))
+    userEvent.click(screen.getByTestId(cancelTestId))
 
     expect(screen.getByTestId(editTestId)).toBeInTheDocument()
   })
 
   it('should hide form on ESC', () => {
     render(renderWithContext())
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
@@ -238,7 +239,7 @@ describe('ChangeValue', () => {
 
     expect(screen.getByTestId(editTestId)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
 
@@ -249,7 +250,7 @@ describe('ChangeValue', () => {
 
   it('should render info text', () => {
     render(renderWithContext({ ...props, infoKey: 'description' }))
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId('infoText')).toBeInTheDocument()
     expect(screen.getByTestId('infoText').textContent).toEqual(description)
@@ -276,14 +277,14 @@ describe('ChangeValue', () => {
         infoKey: 'description',
       })
     )
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.queryByTestId('infoText')).not.toBeInTheDocument()
   })
 
   it('should render disabled edit button', () => {
     render(renderWithContext({ ...props, disabled: true }))
-    fireEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId(editTestId)).toBeInTheDocument()
   })
@@ -306,8 +307,8 @@ describe('ChangeValue', () => {
 
     expect(screen.getByText(nullValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
-    fireEvent.click(screen.getByTestId(submitTestId))
+    userEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -323,8 +324,8 @@ describe('ChangeValue', () => {
 
     expect(screen.getByText(derivedKeyValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
-    fireEvent.click(screen.getByTestId(submitTestId))
+    userEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -342,8 +343,8 @@ describe('ChangeValue', () => {
 
     expect(screen.getByText(rawKeyValue)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId(editTestId))
-    fireEvent.click(screen.getByTestId(submitTestId))
+    userEvent.click(screen.getByTestId(editTestId))
+    userEvent.click(screen.getByTestId(submitTestId))
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -369,7 +370,7 @@ describe('ChangeValue', () => {
 
     await expectInitialState()
 
-    fireEvent.click(renderProps.getByTestId(editTestId))
+    userEvent.click(renderProps.getByTestId(editTestId))
 
     await expectEditState()
 

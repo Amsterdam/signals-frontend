@@ -75,7 +75,6 @@ const usersOverviewWithAppContext = (
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
     constants.PAGE_SIZE = 5
-    jest.useFakeTimers()
 
     jest
       .spyOn(reactRouter, 'useParams')
@@ -97,9 +96,6 @@ describe('signals/settings/users/containers/Overview', () => {
 
   afterEach(() => {
     dispatch.mockReset()
-
-    jest.runOnlyPendingTimers()
-    jest.useRealTimers()
   })
 
   it('should render "add user" button', async () => {
@@ -343,6 +339,7 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loadingIndicator')
     )
+    jest.useFakeTimers()
 
     const filterByUserName = screen.getByTestId('filterUsersByUsername')
     const filterByUserNameInput = filterByUserName.querySelector('input')
@@ -366,6 +363,7 @@ describe('signals/settings/users/containers/Overview', () => {
     )
 
     await screen.findByTestId('filterUsersByUsername')
+    jest.useRealTimers()
   })
 
   it('should remove reset the filter when the search box is cleared ', async () => {
@@ -374,6 +372,8 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loadingIndicator')
     )
+
+    jest.useFakeTimers()
 
     const filterByUserName = screen.getByTestId('filterUsersByUsername')
     const filterByUserNameInput = filterByUserName.querySelector('input')
@@ -398,6 +398,7 @@ describe('signals/settings/users/containers/Overview', () => {
     await screen.findByTestId('filterUsersByUsername')
     expect(dispatch).toHaveBeenCalledTimes(2)
     expect(dispatch).toHaveBeenLastCalledWith(setUserFilters({ username: '' }))
+    jest.useRealTimers()
   })
 
   it('should not dispatch filter values when input value has not changed', async () => {
@@ -412,6 +413,8 @@ describe('signals/settings/users/containers/Overview', () => {
       screen.queryByTestId('loadingIndicator')
     )
 
+    jest.useFakeTimers()
+
     const filterByUserName = screen.getByTestId('filterUsersByUsername')
     const filterByUserNameInput = filterByUserName.querySelector('input')
 
@@ -423,6 +426,8 @@ describe('signals/settings/users/containers/Overview', () => {
       jest.advanceTimersByTime(250)
     })
 
+    jest.useRealTimers()
+
     expect(dispatch).toHaveBeenCalledTimes(1)
 
     unmount()
@@ -431,6 +436,8 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loadingIndicator')
     )
+
+    jest.useFakeTimers()
 
     userEvent.type(filterByUserNameInput, username)
 
@@ -443,6 +450,8 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(dispatch).toHaveBeenCalledTimes(1)
 
     await screen.findByTestId('filterUsersByUsername')
+
+    jest.useRealTimers()
   })
 
   it('should render a role filter', async () => {
