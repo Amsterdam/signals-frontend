@@ -37,7 +37,13 @@ import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 import List from './components/List'
 import SubNav from './components/SubNav'
-import { MapWrapper, NoResults, StyledButton, StyledPagination } from './styled'
+import {
+  ActiveFiltersWrapper,
+  MapWrapper,
+  NoResults,
+  StyledButton,
+  StyledPagination,
+} from './styled'
 
 let lastActiveElement = null
 
@@ -157,10 +163,12 @@ export const IncidentOverviewPageContainerComponent = ({
             <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
           </Modal>
         )}
-        <FilterTagList tags={activeFilter.options} />
-        <StyledButton variant="textButton" onClick={clearFiltersAction}>
-          Wis filter
-        </StyledButton>
+        <ActiveFiltersWrapper>
+          <FilterTagList
+            tags={activeFilter.options}
+            onClear={clearFiltersAction}
+          />
+        </ActiveFiltersWrapper>
       </PageHeader>
 
       <SubNav showsMap={showsMap} />

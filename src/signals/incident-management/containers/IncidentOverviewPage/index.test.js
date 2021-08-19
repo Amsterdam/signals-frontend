@@ -68,6 +68,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       categories: {},
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
+      clearFiltersAction: jest.fn(),
     }
   })
 
