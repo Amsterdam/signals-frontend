@@ -24,6 +24,7 @@ import {
   REQUEST_INCIDENTS_SUCCESS,
   SEARCH_INCIDENTS_SUCCESS,
   SEARCH_INCIDENTS_ERROR,
+  CLEAR_FILTERS,
 } from '../constants'
 import {
   RESET_SEARCH_QUERY,
@@ -205,6 +206,23 @@ describe('signals/incident-management/reducer', () => {
       applied(initialState)
     )
     expect(reducer(intermediateState, getFiltersFailed)).toEqual(
+      applied(intermediateState)
+    )
+  })
+
+  it('should handle CLEAR_FILTERS', () => {
+    const clearFilters = {
+      type: CLEAR_FILTERS,
+    }
+
+    const applied = (state) =>
+      state
+        .set('activeFilter', initialState.get('activeFilter'))
+        .set('editFilter', initialState.get('editFilter'))
+        .set('page', initialState.get('page'))
+        .set('loadingIncidents', true)
+
+    expect(reducer(intermediateState, clearFilters)).toEqual(
       applied(intermediateState)
     )
   })

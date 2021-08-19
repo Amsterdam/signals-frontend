@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { mount } from 'enzyme'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import * as definitions from 'signals/incident-management/definitions'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
@@ -227,6 +228,52 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
 
       expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(8)
+    })
+
+    it('renders clear filters button when tags are supplied', () => {
+      const onClearSpy = jest.fn()
+
+      render(
+        withContext(
+          <FilterTagListComponent
+            tags={tags}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+            onClear={onClearSpy}
+          />
+        )
+      )
+
+      const clearFiltersButton = screen.getByRole('button', {
+        name: 'Wis filter',
+      })
+
+      expect(clearFiltersButton).toBeInTheDocument()
+
+      userEvent.click(clearFiltersButton)
+
+      expect(onClearSpy).toHaveBeenCalled()
+    })
+
+    it('does not render clear filters button when tags list is empty', () => {
+      const onClearSpy = jest.fn()
+
+      render(
+        withContext(
+          <FilterTagListComponent
+            tags={{ priority: [] }}
+            subCategories={subCategories}
+            mainCategories={mainCategories}
+            onClear={onClearSpy}
+          />
+        )
+      )
+
+      const clearFiltersButton = screen.queryByRole('button', {
+        name: 'Wis filter',
+      })
+
+      expect(clearFiltersButton).not.toBeInTheDocument()
     })
 
     describe('users', () => {

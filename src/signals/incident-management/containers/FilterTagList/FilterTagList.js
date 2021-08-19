@@ -160,8 +160,9 @@ export const FilterTagListComponent = (props) => {
     tagsList.dateRange = dateRange
   }
 
-  const hasTags =
-    Object.keys(tagsList).length !== 1 || tagsList.priority.length !== 0
+  const hasTags = Boolean(
+    Object.keys(tagsList).find((key) => tagsList[key].length > 0)
+  )
 
   const showClearButton = props.onClear && hasTags
 
