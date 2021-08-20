@@ -38,6 +38,7 @@ const activeFilter = {
       href: 'https://signals/v1/private/me/filters/219',
     },
   },
+  id: 1,
   options: {
     maincategory_slug: ['i', 'o'],
   },
@@ -52,6 +53,7 @@ const filters = [
         href: 'https://signals/v1/private/me/filters/220',
       },
     },
+    id: 2,
     options: {
       maincategory_slug: ['i', 'o'],
     },
@@ -63,6 +65,7 @@ const filters = [
         href: 'https://signals/v1/private/me/filters/221',
       },
     },
+    id: 3,
     options: {
       maincategory_slug: ['i', 'o'],
     },
@@ -322,23 +325,35 @@ describe('signals/incident-management/reducer', () => {
   })
 
   it('should handle UPDATE_FILTER_SUCCESS', () => {
+    const newName = `${activeFilter.name} Baz`
     const filterUpdatedSuccess = {
       type: UPDATE_FILTER_SUCCESS,
-      payload: activeFilter,
+      payload: {
+        ...activeFilter,
+        name: newName,
+      },
     }
+
+    const intermediateStateWithFilters = fromJS({
+      ...intermediateState.toJS(),
+      filters,
+    })
 
     const applied = (state) =>
       state
         .set('loading', false)
         .set('error', false)
         .set('errorMessage', undefined)
-        .set('activeFilter', fromJS(filterUpdatedSuccess.payload))
+        .set(
+          'filters',
+          fromJS([
+            filterUpdatedSuccess.payload,
+            ...filters.filter((filter) => filter.id !== activeFilter.id),
+          ])
+        )
 
-    expect(reducer(initialState, filterUpdatedSuccess)).toEqual(
-      applied(initialState)
-    )
-    expect(reducer(intermediateState, filterUpdatedSuccess)).toEqual(
-      applied(intermediateState)
+    expect(reducer(intermediateStateWithFilters, filterUpdatedSuccess)).toEqual(
+      applied(intermediateStateWithFilters)
     )
   })
 

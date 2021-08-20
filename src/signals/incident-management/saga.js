@@ -226,7 +226,7 @@ export function* doSaveFilter({ payload }) {
 }
 
 export function* doUpdateFilter({ payload }) {
-  const { name, refresh, id } = payload
+  const { name, refresh, id, show_on_overview } = payload
   const options = mapFilterParams(payload.options)
 
   try {
@@ -237,6 +237,7 @@ export function* doUpdateFilter({ payload }) {
         name,
         refresh,
         options,
+        show_on_overview,
       }
     )
 

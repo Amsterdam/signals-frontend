@@ -102,6 +102,7 @@ export const filterType = PropTypes.shape({
     status: PropTypes.arrayOf(dataItemType),
   }),
   refresh: PropTypes.bool,
+  show_on_overview: PropTypes.bool,
 })
 
 export const locationType = PropTypes.shape({
@@ -203,7 +204,7 @@ export const contextType = PropTypes.shape({
     positive_count: PropTypes.number,
     signal_count: PropTypes.number,
   }),
-});
+})
 
 export const defaultTextsType = PropTypes.arrayOf(
   PropTypes.shape({

@@ -124,8 +124,22 @@ export default (state = initialState, action) => {
           .set('errorMessage', action.payload)
       )
 
+    case UPDATE_FILTER_SUCCESS: {
+      const filterIndex = state
+        .get('filters')
+        .toJS()
+        .findIndex(({ id }) => id === action.payload.id)
+
+      return updateLoading(
+        state
+          .setIn(['filters', filterIndex], fromJS(action.payload))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('loadingFilters', false)
+      )
+    }
+
     case SAVE_FILTER_SUCCESS:
-    case UPDATE_FILTER_SUCCESS:
       return updateLoading(
         state
           .set('activeFilter', fromJS(action.payload))
