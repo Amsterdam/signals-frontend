@@ -15,7 +15,7 @@ import typesList from 'signals/incident-management/definitions/typesList'
 import kindList from 'signals/incident-management/definitions/kindList'
 import dataLists from 'signals/incident-management/definitions'
 import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json'
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
+import mockCategories from 'utils/__tests__/fixtures/categories_structured.json'
 import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
@@ -34,8 +34,7 @@ jest.mock('shared/services/configuration/configuration')
 jest.mock('models/categories/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('models/categories/selectors'),
-  // eslint-disable-next-line
-  makeSelectStructuredCategories: () => categories,
+  makeSelectStructuredCategories: () => mockCategories,
 }))
 
 jest.spyOn(store, 'dispatch')
@@ -45,7 +44,7 @@ const mockResponse = JSON.stringify(autocompleteUsernames)
 const formProps = {
   onClearFilter: () => {},
   onSaveFilter: () => {},
-  categories,
+  categories: mockCategories,
   onSubmit: () => {},
 }
 

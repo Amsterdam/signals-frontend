@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { server } from './msw-server'
+const { server } = require('./msw-server')
 
 // Establish API mocking before all tests.
 beforeAll(() => {

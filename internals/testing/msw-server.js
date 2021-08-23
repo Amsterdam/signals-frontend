@@ -1,46 +1,45 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { rest, MockedRequest, ResponseResolver } from 'msw'
-import { setupServer } from 'msw/node'
-import fetchMock from 'jest-fetch-mock'
+const { rest, MockedRequest } = require('msw')
+const { setupServer } = require('msw/node')
+const fetchMock = require('jest-fetch-mock')
+const incidentFixture = require('utils/__tests__/fixtures/incident.json')
+const incidentHistoryFixture = require('utils/__tests__/fixtures/incidentHistory.json')
 
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json'
-
-import incidentContextFixture from '../mocks/fixtures/context.json'
-import incidentAttachmentsFixture from '../mocks/fixtures/attachments.json'
-import incidentChildrenFixture from '../mocks/fixtures/children.json'
-import incidentReporterFixture from '../mocks/fixtures/reporter.json'
-import usersFixture from '../mocks/fixtures/users.json'
-import departmentsFixture from '../mocks/fixtures/departments.json'
-import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json'
-import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
-import incidentContextNearGeographyFixture from '../mocks/fixtures/incident-context-near-geography.json'
-import reportsFixture from '../mocks/fixtures/reports.json'
-import qaSessionFixture from '../mocks/fixtures/qa-session.json'
-import qaQuestionnaireFixture from '../mocks/fixtures/qa-questionnaire.json'
-import qaAnswerFixture from '../mocks/fixtures/qa-answer.json'
-import qaSubmitFixture from '../mocks/fixtures/qa-submit.json'
-import publicIncidentFixture from '../mocks/fixtures/public-incident.json'
+const incidentContextFixture = require('../mocks/fixtures/context.json')
+const incidentAttachmentsFixture = require('../mocks/fixtures/attachments.json')
+const incidentChildrenFixture = require('../mocks/fixtures/children.json')
+const incidentReporterFixture = require('../mocks/fixtures/reporter.json')
+const usersFixture = require('../mocks/fixtures/users.json')
+const departmentsFixture = require('../mocks/fixtures/departments.json')
+const autocompleteUsernames = require('../mocks/fixtures/autocomplete-usernames.json')
+const statusMessageTemplatesFixture = require('../mocks/fixtures/status-message-templates.json')
+const incidentContextNearGeographyFixture = require('../mocks/fixtures/incident-context-near-geography.json')
+const reportsFixture = require('../mocks/fixtures/reports.json')
+const qaSessionFixture = require('../mocks/fixtures/qa-session.json')
+const qaQuestionnaireFixture = require('../mocks/fixtures/qa-questionnaire.json')
+const qaAnswerFixture = require('../mocks/fixtures/qa-answer.json')
+const qaSubmitFixture = require('../mocks/fixtures/qa-submit.json')
+const publicIncidentFixture = require('../mocks/fixtures/public-incident.json')
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code
 const departmentAegCode = departmentsFixture.results[1].code
 const departmentThoCode = departmentsFixture.results[11].code
 
-interface MockRequestHandlerArgs {
-  status?: number
-  body: any
-  url?: string | RegExp
-  method?: 'get' | 'patch' | 'post'
-}
+// interface MockRequestHandlerArgs {
+//   status?: number
+//   body: any
+//   url?: string | RegExp
+//   method?: 'get' | 'patch' | 'post'
+// }
 
-export const mockRequestHandler = ({
+const mockRequestHandler = ({
   status = 200,
   url = /localhost/,
   method = 'get',
   body,
-}: MockRequestHandlerArgs) => {
+}) => {
   server.use(
     rest[method](url, async (_req, res, ctx) =>
       res(ctx.status(status), ctx.json(body))
@@ -48,9 +47,9 @@ export const mockRequestHandler = ({
   )
 }
 
-export const apiBaseUrl = 'http://localhost:8000'
+const apiBaseUrl = 'http://localhost:8000'
 
-const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
+const getUsersFilteredByDepartmentCodes = (departmentCodes) => {
   if (
     JSON.stringify(departmentCodes) ===
     JSON.stringify([departmentAscCode, departmentAegCode])
@@ -69,7 +68,7 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results
 }
 
-const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
+const handleNotImplemented = (req, res, ctx) => {
   const message = `Msw - not implemented: ${req.method} to ${req.url.href}`
 
   console.error(message)
@@ -87,7 +86,7 @@ const handlers = [
       const results = autocompleteUsernames.results.filter(({ username }) =>
         departmentCodes.find((code) => username.includes(code.toLowerCase()))
       )
-      const data: typeof autocompleteUsernames = {
+      const data = {
         ...autocompleteUsernames,
         results,
         count: results.length,
@@ -230,4 +229,13 @@ const handlers = [
 
 const server = setupServer(...handlers)
 
-export { server, rest, MockedRequest, fetchMock }
+// export { server, rest, MockedRequest, fetchMock }
+
+module.exports = {
+  server,
+  rest,
+  MockedRequest,
+  fetchMock,
+  apiBaseUrl,
+  mockRequestHandler,
+}

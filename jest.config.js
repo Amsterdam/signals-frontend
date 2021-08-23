@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-const path = require('path')
-
 module.exports = {
   collectCoverageFrom: [
     'src/*.{js,jsx,ts,tsx}',
@@ -26,13 +24,14 @@ module.exports = {
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
-  },
-  moduleDirectories: ['node_modules', 'src'],
-  modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
+  // globals: {
+  //   'ts-jest': {
+  //     tsconfig: 'tsconfig.json',
+  //   },
+  // },
+  moduleDirectories: ['node_modules', 'src', '<rootDir>/internals/'],
+  // modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
   moduleNameMapper: {
     '.*\\.(css|less|styl|scss|sass)$': '<rootDir>/internals/mocks/cssModule.js',
     '.*\\.svg$': '<rootDir>/internals/mocks/svg.ts',
@@ -40,16 +39,20 @@ module.exports = {
       '<rootDir>/internals/mocks/image.ts',
   },
   setupFilesAfterEnv: [
-    '<rootDir>/internals/testing/test-bundler.ts',
-    '<rootDir>/internals/testing/jest-setup-msw.ts',
+    '<rootDir>/internals/testing/test-bundler.js',
+    '<rootDir>/internals/testing/jest-setup-msw.js',
   ],
   testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(js|ts(x?))$': [
-      'ts-jest',
-      { configFile: path.resolve(__dirname, 'babel.config.js') },
-    ],
-  },
+  // transform: {
+  // '^.+\\.(js|ts(x?))$': [
+  //   'esbuild-jest',
+  //   { configFile: path.resolve(__dirname, 'babel.config.js') },
+  // ],
+  // '^.+\\.(js|ts(x?))$': [
+  //   'ts-jest',
+  //   // { configFile: path.resolve(__dirname, 'babel.config.js') },
+  // ],
+  // },
   testRegex: '.*\\.test\\.(js|ts(x?))$',
   testTimeout: 10000,
   snapshotSerializers: ['enzyme-to-json/serializer'],

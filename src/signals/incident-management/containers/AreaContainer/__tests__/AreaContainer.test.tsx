@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { Feature } from 'components/AreaMap/types'
-import { StatusCode } from 'signals/incident-management/definitions/statusList'
+import { StatusCode as mockStatusCode } from 'signals/incident-management/definitions/statusList'
 import { fetchMock } from '../../../../../../internals/testing/msw-server'
 import AreaContainer from '..'
 
@@ -58,7 +58,7 @@ jest.mock(
         properties: {
           id: 1234,
           created_at: '',
-          status: { state: StatusCode.Gemeld, state_display: '' },
+          status: { state: mockStatusCode.Gemeld, state_display: '' },
         },
       }
 

@@ -1,27 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import '@testing-library/jest-dom'
-import '@testing-library/jest-dom/extend-expect'
+require('@testing-library/jest-dom')
+require('@testing-library/jest-dom/extend-expect')
 
-import L from 'leaflet'
-import 'core-js/stable'
-import 'regenerator-runtime'
-import 'url-polyfill'
-import 'jest-localstorage-mock'
+const L = require('leaflet')
+require('core-js/stable')
+require('regenerator-runtime')
+require('url-polyfill')
+require('jest-localstorage-mock')
 
-import { configure } from '@testing-library/react'
-import { JSDOM } from 'jsdom'
-import faker from 'faker'
-import Enzyme from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
-import fetchMock from 'jest-fetch-mock'
+const { configure } = require('@testing-library/react')
+const { JSDOM } = require('jsdom')
+const Enzyme = require('enzyme')
+const Adapter = require('@wojtekmaj/enzyme-adapter-react-17')
+const fetchMock = require('jest-fetch-mock')
 
-import { baseConfig } from '../scripts/helpers/config'
+const { baseConfig } = require('../scripts/helpers/config')
 
 fetchMock.enableMocks()
-
-// set faker locale
-faker.locale = 'nl'
 
 configure({
   showOriginalStackTrace: true,
@@ -31,7 +27,7 @@ configure({
 // React Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() })
 
-const globalAny = global as any
+const globalAny = global
 const { window } = new JSDOM('<!DOCTYPE html><p>Hello world</p>', {
   pretendToBeVisual: true,
   resources: 'usable',
@@ -40,16 +36,13 @@ globalAny.document = window.document
 globalAny.navigator.geolocation = {}
 
 globalAny.window = window
-globalAny.window.alert = (msg: string) => msg
+globalAny.window.alert = (msg) => msg
 globalAny.window.CONFIG = baseConfig
 
 // Monkey patch Leaflet
-const originalInit = (L.Map as any).prototype.initialize
-;(L.Map as any).prototype.initialize = function initialize(
-  id: any,
-  options: any
-) {
-  const extendedOptions = (L as any).extend(options || {}, {
+const originalInit = L.Map.prototype.initialize
+L.Map.prototype.initialize = function initialize(id, options) {
+  const extendedOptions = L.extend(options || {}, {
     fadeAnimation: false,
     zoomAnimation: false,
     markerZoomAnimation: false,
