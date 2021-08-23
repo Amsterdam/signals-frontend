@@ -490,8 +490,9 @@ describe('signals/incident-management/saga', () => {
         address_text: 'Weesperstraat 113-117',
       },
       refresh: true,
+      show_on_overview: false,
     }
-    const { name, id, refresh, options } = updatePayload
+    const { name, id, refresh, options, show_on_overview } = updatePayload
     const payload = {
       name: 'New name of my filter',
       options: {
@@ -510,6 +511,7 @@ describe('signals/incident-management/saga', () => {
           name,
           refresh,
           options,
+          show_on_overview,
         })
         .next(updatePayload)
         .put(filterUpdatedSuccess(updatePayload))
