@@ -5,8 +5,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Heading, Link, themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import * as types from 'shared/types'
-import { parseToAPIData } from 'signals/shared/filter/parse'
+import {
+  parseToAPIData,
+  parseOutputFormData,
+} from 'signals/shared/filter/parse'
 import FilterTagList from 'signals/incident-management/containers/FilterTagList'
+import { Checkbox, Label } from '@amsterdam/asc-ui'
 
 import Refresh from '../../../../../../shared/images/icon-refresh.svg'
 
@@ -35,11 +39,18 @@ const RefreshIcon = styled(Refresh).attrs({
   cursor: default;
 `
 
+const OverviewLabel = styled(Label)`
+  display: flex;
+  font-weight: 400;
+  margin-left: -6px;
+`
+
 const FilterItem = ({
   filter,
   onApplyFilter,
   onEditFilter,
   onRemoveFilter,
+  onUpdateFilter,
   onClose,
 }) => {
   const handleApplyFilter = useCallback(
@@ -79,6 +90,16 @@ const FilterItem = ({
     [filter.id, onRemoveFilter]
   )
 
+  const toggleShowFilterOnOverview = () => {
+    onUpdateFilter({
+      name: filter.name,
+      refresh: filter.refresh,
+      id: filter.id,
+      options: parseOutputFormData(filter.options),
+      show_on_overview: !filter.show_on_overview,
+    })
+  }
+
   return (
     <Wrapper className="filter-item">
       <StyledH4 forwardedAs="h4">
@@ -112,6 +133,13 @@ const FilterItem = ({
       >
         Verwijder
       </StyledLink>
+
+      <OverviewLabel label="Toon in het overzicht">
+        <Checkbox
+          onClick={toggleShowFilterOnOverview}
+          checked={filter.show_on_overview}
+        />
+      </OverviewLabel>
     </Wrapper>
   )
 }
@@ -122,6 +150,7 @@ FilterItem.propTypes = {
   onClose: PropTypes.func.isRequired,
   onEditFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
+  onUpdateFilter: PropTypes.func.isRequired,
 }
 
 export default FilterItem

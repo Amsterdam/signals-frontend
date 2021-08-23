@@ -9,12 +9,14 @@ import { compose, bindActionCreators } from 'redux'
 import { Row, Column } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
+import { parseToAPIData } from 'signals/shared/filter/parse'
 import MyFilters from 'signals/incident-management/containers/MyFilters'
 import PageHeader from 'containers/PageHeader'
 import {
   orderingChanged,
   pageChanged,
   clearFilters,
+  applyFilter,
 } from 'signals/incident-management/actions'
 import Filter from 'signals/incident-management/containers/Filter'
 import Modal from 'components/Modal'
@@ -27,6 +29,7 @@ import dataLists from 'signals/incident-management/definitions'
 import useEventEmitter from 'hooks/useEventEmitter'
 import {
   makeSelectActiveFilter,
+  makeSelectFiltersOnOverview,
   makeSelectIncidents,
   makeSelectOrdering,
   makeSelectPage,
@@ -37,8 +40,9 @@ import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 import List from './components/List'
 import SubNav from './components/SubNav'
+import QuickFilter from './components/QuickFilter'
 import {
-  ActiveFiltersWrapper,
+  PageHeaderItem,
   MapWrapper,
   NoResults,
   StyledButton,
@@ -48,8 +52,10 @@ import {
 let lastActiveElement = null
 
 export const IncidentOverviewPageContainerComponent = ({
+  applyFilterAction,
   activeFilter,
   clearFiltersAction,
+  filters,
   incidents,
   ordering,
   orderingChangedAction,
@@ -106,6 +112,10 @@ export const IncidentOverviewPageContainerComponent = ({
     [closeFilterModal, closeMyFiltersModal]
   )
 
+  const handleSetFilter = (filter) => {
+    applyFilterAction(parseToAPIData(filter))
+  }
+
   useEffect(() => {
     listenFor('keydown', escFunction)
     listenFor('openFilter', openFilterModal)
@@ -119,6 +129,14 @@ export const IncidentOverviewPageContainerComponent = ({
   const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count])
 
   const canRenderList = results && results.length > 0 && totalPages > 0
+
+  const hasActiveFilters = activeFilter.options
+    ? Boolean(
+        Object.keys(activeFilter.options).find(
+          (key) => activeFilter.options[key].length > 0
+        )
+      )
+    : false
 
   return (
     <div
@@ -143,6 +161,7 @@ export const IncidentOverviewPageContainerComponent = ({
             Filter
           </StyledButton>
         </div>
+
         {modalMyFiltersIsOpen && (
           <Modal
             data-testid="myFiltersModal"
@@ -153,6 +172,7 @@ export const IncidentOverviewPageContainerComponent = ({
             <MyFilters onClose={closeMyFiltersModal} />
           </Modal>
         )}
+
         {modalFilterIsOpen && (
           <Modal
             data-testid="filterModal"
@@ -163,12 +183,17 @@ export const IncidentOverviewPageContainerComponent = ({
             <Filter onSubmit={closeFilterModal} onCancel={closeFilterModal} />
           </Modal>
         )}
-        <ActiveFiltersWrapper>
-          <FilterTagList
-            tags={activeFilter.options}
-            onClear={clearFiltersAction}
-          />
-        </ActiveFiltersWrapper>
+
+        <QuickFilter filters={filters} setFilter={handleSetFilter} />
+
+        {hasActiveFilters && (
+          <PageHeaderItem>
+            <FilterTagList
+              tags={activeFilter.options}
+              onClear={clearFiltersAction}
+            />
+          </PageHeaderItem>
+        )}
       </PageHeader>
 
       <SubNav showsMap={showsMap} />
@@ -223,6 +248,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
 IncidentOverviewPageContainerComponent.defaultProps = {
   activeFilter: {},
+  filters: [],
   incidents: {},
   page: 1,
 }
@@ -230,6 +256,7 @@ IncidentOverviewPageContainerComponent.defaultProps = {
 IncidentOverviewPageContainerComponent.propTypes = {
   activeFilter: types.filterType,
   clearFiltersAction: PropTypes.func.isRequired,
+  filters: PropTypes.arrayOf(types.filterType),
   incidents: PropTypes.shape({
     count: PropTypes.number,
     loadingIncidents: PropTypes.bool,
@@ -243,6 +270,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
+  filters: makeSelectFiltersOnOverview,
   incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
   page: makeSelectPage,
@@ -251,6 +279,7 @@ const mapStateToProps = createStructuredSelector({
 export const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
+      applyFilterAction: applyFilter,
       clearFiltersAction: clearFilters,
       orderingChangedAction: orderingChanged,
       pageChangedAction: pageChanged,
