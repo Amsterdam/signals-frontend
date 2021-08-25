@@ -53,10 +53,12 @@ const GraphDescription: FunctionComponent<GraphDescriptionProps> = ({
   <Wrapper>
     <DescriptionWrapper>
       <div>
-        <Title as="h3" data-testid="graph-title" >{title}</Title>
+        <Title as="h3" data-testid="graph-title">
+          {title}
+        </Title>
         <Paragraph data-testid="graph-description">{description}</Paragraph>
       </div>
-      <Total data-testid="total-open">{total.toLocaleString()}</Total>
+      <Total data-testid="total-open">{total.toLocaleString('nl-NL')}</Total>
     </DescriptionWrapper>
     <Triangle />
   </Wrapper>

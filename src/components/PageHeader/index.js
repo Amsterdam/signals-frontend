@@ -18,7 +18,7 @@ const StyledHeading = styled(Heading)`
 `
 
 const SubTitle = styled(Paragraph)`
-  margin-bottom: 0;
+  margin: ${themeSpacing(3)} 0;
 `
 
 const PageHeader = ({ className, children, subTitle, title }) => (

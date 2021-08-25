@@ -16,7 +16,7 @@ describe('<GraphDescription />', () => {
     expect(
       screen.getByRole('heading', { name: props.title })
     ).toBeInTheDocument()
-    expect(screen.getByText('1,234')).toBeInTheDocument()
+    expect(screen.getByText('1.234')).toBeInTheDocument()
     expect(screen.getByText(props.description)).toBeInTheDocument()
   })
 })

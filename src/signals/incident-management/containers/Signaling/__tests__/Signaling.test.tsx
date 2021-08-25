@@ -21,7 +21,7 @@ describe('<Signaling />', () => {
     ).toBeInTheDocument()
 
     // Render data
-    expect(await screen.findAllByText('13,000')).toHaveLength(2)
+    expect(await screen.findAllByText('13.000')).toHaveLength(2)
     expect(screen.getAllByText('Overig')).toHaveLength(2)
     expect(screen.getAllByText('Straatverlichting (VOR)')).toHaveLength(2)
     expect(screen.getAllByTestId('graph-description')).toHaveLength(2)
@@ -45,6 +45,6 @@ describe('<Signaling />', () => {
     expect(await screen.findByTestId('notification')).toHaveTextContent(
       'Er is iets misgegaan'
     )
-    expect(screen.queryByText('13,000')).not.toBeInTheDocument()
+    expect(screen.queryByText('13.000')).not.toBeInTheDocument()
   })
 })
