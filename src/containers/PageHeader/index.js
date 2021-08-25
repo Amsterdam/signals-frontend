@@ -18,7 +18,7 @@ import { makeSelectSearchQuery } from 'containers/App/selectors'
 import Refresh from '../../shared/images/icon-refresh.svg'
 
 const RefreshIcon = styled(Refresh).attrs({
-  height: 18,
+  height: 30,
 })`
   display: inline-block;
   vertical-align: middle;
