@@ -43,6 +43,7 @@ import SubNav from './components/SubNav'
 import QuickFilter from './components/QuickFilter'
 import {
   PageHeaderItem,
+  PaginationWrapper,
   MapWrapper,
   NoResults,
   StyledButton,
@@ -138,6 +139,20 @@ export const IncidentOverviewPageContainerComponent = ({
       )
     : false
 
+  const pagination =
+    totalPages > 1 ? (
+      <StyledPagination
+        data-testid="pagination"
+        collectionSize={count}
+        pageSize={FILTER_PAGE_SIZE}
+        page={page}
+        onPageChange={(page) => {
+          global.window.scrollTo(0, 0)
+          pageChangedAction(page)
+        }}
+      />
+    ) : null
+
   return (
     <div
       className="incident-overview-page"
@@ -194,6 +209,8 @@ export const IncidentOverviewPageContainerComponent = ({
             />
           </PageHeaderItem>
         )}
+
+        {pagination}
       </PageHeader>
 
       <SubNav showsMap={showsMap} />
@@ -228,17 +245,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Column>
 
           <Column span={12}>
-            {canRenderList && (
-              <StyledPagination
-                currentPage={page}
-                hrefPrefix="/manage/incidents?page="
-                onClick={(pageToNavigateTo) => {
-                  global.window.scrollTo(0, 0)
-                  pageChangedAction(pageToNavigateTo)
-                }}
-                totalPages={totalPages}
-              />
-            )}
+            <PaginationWrapper>{pagination}</PaginationWrapper>
           </Column>
         </Row>
       )}
