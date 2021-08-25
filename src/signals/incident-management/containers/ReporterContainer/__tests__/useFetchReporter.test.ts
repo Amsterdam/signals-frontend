@@ -86,7 +86,7 @@ describe('Fetch Reporter hook', () => {
       }
     )
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     expect(result.current.incidents.data?.list[0].id).toEqual(1)
     expect(result.current.currentPage).toEqual(1)
@@ -95,7 +95,7 @@ describe('Fetch Reporter hook', () => {
       result.current.setCurrentPage(2)
     })
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     expect(result.current.incidents.data?.list[0].id).toEqual(2)
     expect(result.current.currentPage).toEqual(2)
@@ -152,12 +152,12 @@ describe('Fetch Reporter hook', () => {
     // Expect loading
     expect(result.current).toEqual(expect.objectContaining(FIRST))
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     // Expect incidents result
     expect(result.current).toEqual(expect.objectContaining(SECOND))
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     // Expect incident request data
     expect(result.current).toEqual(expect.objectContaining(THIRD))
@@ -172,7 +172,7 @@ describe('Fetch Reporter hook', () => {
       }
     )
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     mockRequestHandler({
       body: {
@@ -205,8 +205,8 @@ describe('Fetch Reporter hook', () => {
       }
     )
 
-    await waitForNextUpdate()
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
+    await waitForNextUpdate({ timeout: 10000 })
 
     // User has no permission to view incident data for incident with id={INCIDENT_ID_3}
     expect(
@@ -236,7 +236,7 @@ describe('Fetch Reporter hook', () => {
       }
     )
 
-    await waitForNextUpdate()
+    await waitForNextUpdate({ timeout: 10000 })
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification(
