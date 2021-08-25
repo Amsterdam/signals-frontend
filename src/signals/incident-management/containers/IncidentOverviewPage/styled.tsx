@@ -7,9 +7,9 @@ import {
   Paragraph as AscParagraph,
   themeColor,
   Link,
+  CompactPager,
 } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
-import Pagination from 'components/Pagination'
 import Paragraph from 'components/Paragraph'
 
 export const StyledButton = styled(Button)`
@@ -17,8 +17,12 @@ export const StyledButton = styled(Button)`
   margin-bottom: ${themeSpacing(2)};
 `
 
-export const StyledPagination = styled(Pagination)`
-  margin-top: ${themeSpacing(12)};
+export const StyledPagination = styled(CompactPager)`
+  background-color: ${themeColor('tint', 'level1')};
+`
+
+export const PaginationWrapper = styled.div`
+  margin-top: ${themeSpacing(5)};
 `
 
 export const StyledParagraph = styled(Paragraph)`

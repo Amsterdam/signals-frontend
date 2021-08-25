@@ -192,7 +192,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(screen.queryByTestId('pagination')).toBeInTheDocument()
+    expect(screen.queryAllByTestId('pagination')).toHaveLength(2)
   })
 
   it('should show notification when no results can be rendered', () => {
@@ -249,16 +249,15 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(props.pageChangedAction).not.toHaveBeenCalled()
 
-    const firstButton = screen
-      .getByTestId('pagination')
-      .querySelector('button:first-of-type')
-    const pagenum = Number.parseInt(firstButton.dataset.pagenum, 10)
+    const nextPageButton = screen.getAllByRole('button', {
+      name: 'Volgende pagina',
+    })[0]
 
     act(() => {
-      fireEvent.click(firstButton)
+      fireEvent.click(nextPageButton)
     })
 
-    expect(props.pageChangedAction).toHaveBeenCalledWith(pagenum)
+    expect(props.pageChangedAction).toHaveBeenCalledWith(props.page + 1)
   })
 
   it('should render a map', async () => {
