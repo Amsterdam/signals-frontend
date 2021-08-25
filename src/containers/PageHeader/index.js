@@ -34,7 +34,7 @@ export const PageHeaderContainerComponent = ({
   const headerTitle = useMemo(() => {
     let title = filter.name || 'Meldingen'
     const hasCount = incidentsCount !== null && incidentsCount >= 0
-    title += hasCount ? ` (${incidentsCount})` : ''
+    title += hasCount ? ` (${incidentsCount.toLocaleString('nl-NL')})` : ''
 
     return filter.refresh ? (
       <Fragment>

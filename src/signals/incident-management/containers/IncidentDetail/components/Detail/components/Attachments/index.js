@@ -25,6 +25,7 @@ const StyledValue = styled.dd`
 const StyledButton = styled(Button)`
   display: inline-block;
   margin-right: 10px;
+  margin-bottom: ${themeSpacing(2)};
   background-size: cover;
   border: 1px solid ${themeColor('tint', 'level3')} !important;
   background-image: url(${({ url }) => url});

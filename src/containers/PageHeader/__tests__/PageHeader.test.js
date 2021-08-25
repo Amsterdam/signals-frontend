@@ -73,13 +73,13 @@ describe('containers/PageHeader', () => {
       withAppContext(
         <PageHeaderContainerComponent
           filter={{ name: 'Foo bar !!1!' }}
-          incidentsCount={99}
+          incidentsCount={9999}
         />
       )
     )
 
     expect(container.firstChild.querySelector('h1').textContent).toEqual(
-      'Foo bar !!1! (99)'
+      'Foo bar !!1! (9.999)'
     )
 
     rerender(
