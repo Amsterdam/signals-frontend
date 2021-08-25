@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import type { Filter } from 'shared/types/filter'
 
-import { PageHeaderItem, StyledLink, StyledParagraph } from '../../styled'
+import { StyledPageHeaderItem, StyledLink, StyledParagraph } from '../../styled'
 
 interface QuickFilterProps {
   filters: Filter[]
@@ -13,7 +13,7 @@ const QuickFilter: FunctionComponent<QuickFilterProps> = ({
   setFilter,
 }) =>
   filters.length > 0 ? (
-    <PageHeaderItem>
+    <StyledPageHeaderItem>
       <StyledParagraph>
         <strong>Mijn filters:</strong>
       </StyledParagraph>
@@ -28,7 +28,7 @@ const QuickFilter: FunctionComponent<QuickFilterProps> = ({
           {filter.name}
         </StyledLink>
       ))}
-    </PageHeaderItem>
+    </StyledPageHeaderItem>
   ) : null
 
 export default QuickFilter

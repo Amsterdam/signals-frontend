@@ -14,6 +14,7 @@ import Paragraph from 'components/Paragraph'
 
 export const StyledButton = styled(Button)`
   margin-left: 10px;
+  margin-bottom: ${themeSpacing(2)};
 `
 
 export const StyledPagination = styled(Pagination)`
@@ -26,8 +27,7 @@ export const StyledParagraph = styled(Paragraph)`
 
 export const StyledLink = styled(Link)`
   display: block;
-  margin-bottom: ${themeSpacing(4)};
-  margin-right: ${themeSpacing(2)};
+  margin-right: ${themeSpacing(3)};
 
   text-decoration: underline;
   font-size: 16px;
@@ -56,4 +56,9 @@ export const MapWrapper = styled(Column).attrs({
 export const PageHeaderItem = styled.div`
   display: flex;
   flex-basis: 100%;
+  flex-wrap: wrap;
+`
+
+export const StyledPageHeaderItem = styled(PageHeaderItem)`
+  margin-bottom: ${themeSpacing(4)};
 `

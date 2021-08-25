@@ -34,8 +34,6 @@ const StyledTag = styled(Tag)`
 `
 
 const FilterWrapper = styled.div`
-  margin-top: ${themeSpacing(2)};
-
   ${StyledTag} {
     margin: ${themeSpacing(0, 2, 2, 0)};
 
