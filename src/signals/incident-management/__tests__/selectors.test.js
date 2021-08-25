@@ -22,6 +22,7 @@ import {
   makeSelectIncidents,
   makeSelectIncidentsCount,
   selectIncidentManagementDomain,
+  makeSelectFiltersOnOverview,
 } from '../selectors'
 import { FILTER_PAGE_SIZE } from '../constants'
 
@@ -41,6 +42,7 @@ const filters = [
       maincategory_slug: [maincategory_slug[0].slug],
     },
     name: 'Foo Bar',
+    show_on_overview: true,
   },
   {
     _links: {
@@ -53,6 +55,7 @@ const filters = [
       category_slug: [category_slug[0].slug],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -65,6 +68,7 @@ const filters = [
       stadsdeel: [dataLists.stadsdeel[1].key, dataLists.stadsdeel[2].key],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -77,6 +81,7 @@ const filters = [
       status: [dataLists.status[0].key],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -89,6 +94,7 @@ const filters = [
       area: [districts[0].key],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -101,6 +107,7 @@ const filters = [
       source: [sources[0].key],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -113,6 +120,7 @@ const filters = [
       directing_department: [directing_department[1].key],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
   {
     _links: {
@@ -125,6 +133,7 @@ const filters = [
       priority: ['high'],
     },
     name: 'Foo Bar',
+    show_on_overview: false,
   },
 ]
 
@@ -633,6 +642,19 @@ describe('signals/incident-management/selectors', () => {
       ...incidents,
       loadingIncidents: false,
     })
+  })
+
+  it('should select filters shown on overview', () => {
+    expect(
+      makeSelectFiltersOnOverview({
+        incidentManagement: fromJS({ ...initialState.toJS(), filters }),
+      })
+    ).toEqual([
+      expect.objectContaining({
+        id: filters[0].id,
+        name: filters[0].name,
+      }),
+    ])
   })
 
   it('should select incidents count', () => {

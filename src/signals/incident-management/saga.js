@@ -51,6 +51,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   GET_DISTRICTS,
   GET_FILTERS,
   ORDERING_CHANGED,
@@ -225,7 +226,7 @@ export function* doSaveFilter({ payload }) {
 }
 
 export function* doUpdateFilter({ payload }) {
-  const { name, refresh, id } = payload
+  const { name, refresh, id, show_on_overview } = payload
   const options = mapFilterParams(payload.options)
 
   try {
@@ -236,6 +237,7 @@ export function* doUpdateFilter({ payload }) {
         name,
         refresh,
         options,
+        show_on_overview,
       }
     )
 
@@ -279,6 +281,7 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(
       [
         APPLY_FILTER,
+        CLEAR_FILTERS,
         SEARCH_INCIDENTS,
         REQUEST_INCIDENTS,
         SET_SEARCH_QUERY,

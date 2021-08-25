@@ -33,6 +33,7 @@ import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   GET_DISTRICTS,
   GET_FILTERS,
   REMOVE_FILTER,
@@ -82,6 +83,7 @@ describe('signals/incident-management/saga', () => {
         takeLatest(
           [
             APPLY_FILTER,
+            CLEAR_FILTERS,
             SEARCH_INCIDENTS,
             REQUEST_INCIDENTS,
             SET_SEARCH_QUERY,
@@ -172,6 +174,16 @@ describe('signals/incident-management/saga', () => {
         .put(requestIncidentsError(message))
         .run()
     })
+
+    it('should fetch incidents clear filter', () =>
+      expectSaga(watchIncidentManagementSaga)
+        .provide([
+          [select(makeSelectActiveFilter), {}],
+          [matchers.call.fn(authCall), []],
+        ])
+        .put(requestIncidentsSuccess([]))
+        .dispatch({ type: CLEAR_FILTERS })
+        .silentRun())
 
     it('should fetch incidents after page change', () =>
       expectSaga(watchIncidentManagementSaga)
@@ -478,8 +490,9 @@ describe('signals/incident-management/saga', () => {
         address_text: 'Weesperstraat 113-117',
       },
       refresh: true,
+      show_on_overview: false,
     }
-    const { name, id, refresh, options } = updatePayload
+    const { name, id, refresh, options, show_on_overview } = updatePayload
     const payload = {
       name: 'New name of my filter',
       options: {
@@ -498,6 +511,7 @@ describe('signals/incident-management/saga', () => {
           name,
           refresh,
           options,
+          show_on_overview,
         })
         .next(updatePayload)
         .put(filterUpdatedSuccess(updatePayload))

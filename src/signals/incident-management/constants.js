@@ -6,6 +6,8 @@ export const GET_DISTRICTS_FAILED =
 export const GET_DISTRICTS_SUCCESS =
   'sia/incidentManagement/GET_DISTRICTS_SUCCESS'
 
+export const CLEAR_FILTERS = 'sia/incidentManagement/CLEAR_FILTERS'
+
 export const APPLY_FILTER = 'sia/incidentManagement/APPLY_FILTER'
 export const APPLY_FILTER_REFRESH =
   'sia/incidentManagement/APPLY_FILTER_REFRESH'

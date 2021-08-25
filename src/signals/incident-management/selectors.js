@@ -91,6 +91,11 @@ export const makeSelectAllFilters = createSelector(
   }
 )
 
+export const makeSelectFiltersOnOverview = createSelector(
+  [makeSelectAllFilters],
+  (filters) => filters.filter(({ show_on_overview }) => show_on_overview)
+)
+
 export const makeSelectActiveFilter = createSelector(
   [selectIncidentManagementDomain, makeSelectFixtures],
   (stateMap, fixtures) => {

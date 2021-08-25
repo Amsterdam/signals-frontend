@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { createEvent, fireEvent, render } from '@testing-library/react'
+import { createEvent, fireEvent, screen, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import * as definitions from 'signals/incident-management/definitions'
 import { parseToAPIData } from 'signals/shared/filter/parse'
@@ -20,6 +21,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
   const filter = {
     id: 1234,
     name: 'Foo bar baz',
+    show_on_overview: false,
     options: {
       status: [definitions.statusList[0]],
       feedback: '',
@@ -43,6 +45,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       onEditFilter: () => {},
       onClose: () => {},
       onRemoveFilter: () => {},
+      onUpdateFilter: () => {},
       filter,
     }
 
@@ -66,6 +69,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       onEditFilter: jest.fn(),
       onClose: jest.fn(),
       onRemoveFilter: () => {},
+      onUpdateFilter: () => {},
       filter,
     }
 
@@ -88,6 +92,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       onApplyFilter: jest.fn(),
       onClose: jest.fn(),
       onRemoveFilter: () => {},
+      onUpdateFilter: () => {},
       filter,
     }
 
@@ -104,12 +109,34 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
     expect(event.preventDefault).toHaveBeenCalled()
   })
 
+  it('should handle update filter', () => {
+    const props = {
+      onApplyFilter: () => {},
+      onEditFilter: () => {},
+      onClose: () => {},
+      onRemoveFilter: () => {},
+      onUpdateFilter: jest.fn(),
+      filter,
+    }
+    render(withAppContext(<FilterItem {...props} />))
+
+    const showOnOverviewCheckbox = screen.getByRole('checkbox', {
+      name: 'Toon in het overzicht',
+    })
+    userEvent.click(showOnOverviewCheckbox)
+
+    expect(props.onUpdateFilter).toHaveBeenCalledWith(
+      expect.objectContaining({ show_on_overview: !filter.show_on_overview })
+    )
+  })
+
   it('should handle remove filter', () => {
     const props = {
       onApplyFilter: () => {},
       onEditFilter: () => {},
       onClose: jest.fn(),
       onRemoveFilter: jest.fn(),
+      onUpdateFilter: () => {},
       filter,
     }
 
@@ -133,6 +160,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
       onEditFilter: () => {},
       onClose: jest.fn(),
       onRemoveFilter: jest.fn(),
+      onUpdateFilter: () => {},
       filter,
     }
 

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { mount } from 'enzyme'
-import { fireEvent, render, act } from '@testing-library/react'
+import { fireEvent, render, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
@@ -68,26 +69,27 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       categories: {},
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
+      clearFiltersAction: jest.fn(),
     }
   })
 
   it('should render modal buttons', () => {
-    const { getByText } = render(
+    render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     )
 
-    expect(getByText('Filter').tagName).toEqual('BUTTON')
-    expect(getByText('Mijn filters').tagName).toEqual('BUTTON')
+    expect(screen.getByText('Filter').tagName).toEqual('BUTTON')
+    expect(screen.getByText('Mijn filters').tagName).toEqual('BUTTON')
   })
 
   it('should render a list of incidents', () => {
-    const { queryByTestId, rerender } = render(
+    const { rerender } = render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     )
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('loadingIndicator')).toBeInTheDocument()
     expect(
-      queryByTestId('incidentOverviewListComponent')
+      screen.queryByTestId('incidentOverviewListComponent')
     ).not.toBeInTheDocument()
 
     const incidents = generateIncidents()
@@ -105,15 +107,45 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentOverviewListComponent')).toBeInTheDocument()
+    expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('incidentOverviewListComponent')
+    ).toBeInTheDocument()
+  })
+
+  it('should render quick filter links', () => {
+    const name = 'foo'
+    const applyFilterSpy = jest.fn()
+    const filters = [
+      {
+        id: 1,
+        show_on_overview: true,
+        name,
+      },
+    ]
+
+    render(
+      withAppContext(
+        <IncidentOverviewPageContainerComponent
+          {...props}
+          applyFilterAction={applyFilterSpy}
+          filters={filters}
+        />
+      )
+    )
+
+    userEvent.click(screen.getByRole('button', { name }))
+
+    expect(applyFilterSpy).toHaveBeenCalledWith(
+      expect.objectContaining(filters[0])
+    )
   })
 
   it('should render pagination controls', () => {
     constants.FILTER_PAGE_SIZE = 101
     const incidents = generateIncidents()
 
-    const { queryByTestId } = render(
+    render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -126,7 +158,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(queryByTestId('pagination')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
 
     constants.FILTER_PAGE_SIZE = 100
 
@@ -143,7 +175,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(queryByTestId('pagination')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
 
     constants.FILTER_PAGE_SIZE = 99
 
@@ -160,15 +192,15 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(queryByTestId('pagination')).toBeInTheDocument()
+    expect(screen.queryByTestId('pagination')).toBeInTheDocument()
   })
 
   it('should show notification when no results can be rendered', () => {
-    const { getByText } = render(
+    render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     )
 
-    expect(getByText('Geen meldingen')).toBeInTheDocument()
+    expect(screen.getByText('Geen meldingen')).toBeInTheDocument()
   })
 
   it('should have props from structured selector', () => {
@@ -202,7 +234,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     const incidents = generateIncidents()
 
-    const { getByTestId } = render(
+    render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -217,9 +249,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
 
     expect(props.pageChangedAction).not.toHaveBeenCalled()
 
-    const firstButton = getByTestId('pagination').querySelector(
-      'button:first-of-type'
-    )
+    const firstButton = screen
+      .getByTestId('pagination')
+      .querySelector('button:first-of-type')
     const pagenum = Number.parseInt(firstButton.dataset.pagenum, 10)
 
     act(() => {
@@ -232,7 +264,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should render a map', async () => {
     const incidents = generateIncidents()
 
-    const { queryByTestId, getByTestId, findByTestId, unmount } = render(
+    const { unmount } = render(
       withAppContext(
         <IncidentOverviewPageContainerComponent
           {...props}
@@ -245,115 +277,111 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(getByTestId('subNav')).toBeInTheDocument()
+    expect(screen.getByTestId('subNav')).toBeInTheDocument()
 
-    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument()
-    expect(queryByTestId('24HourMap')).not.toBeInTheDocument()
+    expect(
+      screen.getByTestId('incidentOverviewListComponent')
+    ).toBeInTheDocument()
+    expect(screen.queryByTestId('24HourMap')).not.toBeInTheDocument()
 
-    const subNavMapLink = await findByTestId('subNavMapLink')
+    const subNavMapLink = await screen.findByTestId('subNavMapLink')
 
     act(() => {
       fireEvent.click(subNavMapLink)
     })
 
-    const subNavListLink = await findByTestId('subNavListLink')
+    const subNavListLink = await screen.findByTestId('subNavListLink')
 
     expect(
-      queryByTestId('incidentOverviewListComponent')
+      screen.queryByTestId('incidentOverviewListComponent')
     ).not.toBeInTheDocument()
-    expect(getByTestId('24HourMap')).toBeInTheDocument()
+    expect(screen.getByTestId('24HourMap')).toBeInTheDocument()
 
     act(() => {
       fireEvent.click(subNavListLink)
     })
 
-    await findByTestId('subNavMapLink')
+    await screen.findByTestId('subNavMapLink')
 
-    expect(getByTestId('incidentOverviewListComponent')).toBeInTheDocument()
-    expect(queryByTestId('24HourMap')).not.toBeInTheDocument()
+    expect(
+      screen.getByTestId('incidentOverviewListComponent')
+    ).toBeInTheDocument()
+    expect(screen.queryByTestId('24HourMap')).not.toBeInTheDocument()
 
     unmount()
   })
 
   describe('filter modal', () => {
     it('opens filter modal', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      )
+      render(withAppContext(<IncidentOverviewPage />))
 
-      expect(queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filterModal')).toBeNull()
 
       fireEvent(
-        getByTestId('filterModalBtn'),
+        screen.getByTestId('filterModalBtn'),
         new MouseEvent('click', { bubbles: true })
       )
 
-      expect(queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filterModal')).not.toBeNull()
     })
 
     it('opens my filters modal', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      )
+      render(withAppContext(<IncidentOverviewPage />))
 
-      expect(queryByTestId('myFiltersModal')).toBeNull()
+      expect(screen.queryByTestId('myFiltersModal')).toBeNull()
 
       fireEvent(
-        getByTestId('myFiltersModalBtn'),
+        screen.getByTestId('myFiltersModalBtn'),
         new MouseEvent('click', { bubbles: true })
       )
 
-      expect(queryByTestId('myFiltersModal')).not.toBeNull()
+      expect(screen.queryByTestId('myFiltersModal')).not.toBeNull()
     })
 
     it('closes modal on ESC', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      )
+      render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        getByTestId('filterModalBtn'),
+        screen.getByTestId('filterModalBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
-      expect(queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filterModal')).not.toBeNull()
 
       fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 })
 
-      expect(queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filterModal')).toBeNull()
     })
 
     it('closes modal by means of close button', () => {
-      const { queryByTestId, getByTestId } = render(
-        withAppContext(<IncidentOverviewPage />)
-      )
+      render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        getByTestId('filterModalBtn'),
+        screen.getByTestId('filterModalBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
-      expect(queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filterModal')).not.toBeNull()
 
       fireEvent(
-        getByTestId('closeBtn'),
+        screen.getByTestId('closeBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
-      expect(queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filterModal')).toBeNull()
     })
 
     it('should disable page scroll', () => {
-      const { getByTestId } = render(withAppContext(<IncidentOverviewPage />))
+      render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        getByTestId('filterModalBtn'),
+        screen.getByTestId('filterModalBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })
@@ -363,17 +391,17 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     })
 
     it('should enable page scroll', () => {
-      const { getByTestId } = render(withAppContext(<IncidentOverviewPage />))
+      render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        getByTestId('filterModalBtn'),
+        screen.getByTestId('filterModalBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
       fireEvent(
-        getByTestId('closeBtn'),
+        screen.getByTestId('closeBtn'),
         new MouseEvent('click', {
           bubbles: true,
         })

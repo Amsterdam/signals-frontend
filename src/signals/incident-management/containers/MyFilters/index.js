@@ -10,6 +10,7 @@ import {
   applyFilter,
   editFilter,
   removeFilter,
+  filterUpdated,
 } from 'signals/incident-management/actions'
 import { makeSelectAllFilters } from 'signals/incident-management/selectors'
 import * as types from 'shared/types'
@@ -30,6 +31,7 @@ export const MyFiltersComponent = ({
   onApplyFilter,
   onEditFilter,
   onRemoveFilter,
+  onUpdateFilter,
   onClose,
 }) => {
   const { emit } = useEventEmitter()
@@ -63,6 +65,7 @@ export const MyFiltersComponent = ({
             onEditFilter={handleEditFilter}
             onApplyFilter={handleApplyFilter}
             onRemoveFilter={onRemoveFilter}
+            onUpdateFilter={onUpdateFilter}
             onClose={onClose}
           />
         ))
@@ -97,6 +100,7 @@ const mapDispatchToProps = (dispatch) =>
       onApplyFilter: applyFilter,
       onEditFilter: editFilter,
       onRemoveFilter: removeFilter,
+      onUpdateFilter: filterUpdated,
     },
     dispatch
   )

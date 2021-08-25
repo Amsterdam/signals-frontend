@@ -8,6 +8,7 @@ import {
   GET_DISTRICTS_FAILED,
   GET_DISTRICTS_SUCCESS,
   APPLY_FILTER,
+  CLEAR_FILTERS,
   CLEAR_EDIT_FILTER,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
@@ -103,6 +104,13 @@ export default (state = initialState, action) => {
         .set('page', initialState.get('page'))
         .set('loadingIncidents', true)
 
+    case CLEAR_FILTERS:
+      return state
+        .set('activeFilter', initialState.get('activeFilter'))
+        .set('editFilter', initialState.get('editFilter'))
+        .set('page', initialState.get('page'))
+        .set('loadingIncidents', true)
+
     case EDIT_FILTER:
       return state.set('editFilter', fromJS(action.payload))
 
@@ -116,8 +124,22 @@ export default (state = initialState, action) => {
           .set('errorMessage', action.payload)
       )
 
+    case UPDATE_FILTER_SUCCESS: {
+      const filterIndex = state
+        .get('filters')
+        .toJS()
+        .findIndex(({ id }) => id === action.payload.id)
+
+      return updateLoading(
+        state
+          .setIn(['filters', filterIndex], fromJS(action.payload))
+          .set('error', false)
+          .set('errorMessage', undefined)
+          .set('loadingFilters', false)
+      )
+    }
+
     case SAVE_FILTER_SUCCESS:
-    case UPDATE_FILTER_SUCCESS:
       return updateLoading(
         state
           .set('activeFilter', fromJS(action.payload))
