@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { Feature } from 'components/AreaMap/types'
 import { StatusCode as mockStatusCode } from 'signals/incident-management/definitions/statusList'
-import { fetchMock } from '../../../../../../internals/testing/msw-server'
+import fetchMock from 'jest-fetch-mock'
 import AreaContainer from '..'
 
 jest.mock('react-router-dom', () => ({

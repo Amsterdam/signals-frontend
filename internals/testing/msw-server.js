@@ -2,7 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 const { rest, MockedRequest } = require('msw')
 const { setupServer } = require('msw/node')
-const fetchMock = require('jest-fetch-mock')
 const incidentFixture = require('utils/__tests__/fixtures/incident.json')
 const incidentHistoryFixture = require('utils/__tests__/fixtures/incidentHistory.json')
 
@@ -229,13 +228,10 @@ const handlers = [
 
 const server = setupServer(...handlers)
 
-// export { server, rest, MockedRequest, fetchMock }
-
 module.exports = {
   server,
   rest,
   MockedRequest,
-  fetchMock,
   apiBaseUrl,
   mockRequestHandler,
 }

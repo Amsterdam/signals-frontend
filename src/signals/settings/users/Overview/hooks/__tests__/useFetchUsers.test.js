@@ -4,13 +4,13 @@ import { renderHook } from '@testing-library/react-hooks'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 import { getErrorMessage } from 'shared/services/api/api'
 import * as constants from 'containers/App/constants'
+import fetchMock from 'jest-fetch-mock'
 
 import useFetchUsers from '../useFetchUsers'
 import {
   rest,
   server,
   mockRequestHandler,
-  fetchMock,
 } from '../../../../../../../internals/testing/msw-server'
 
 jest.mock('containers/App/constants', () => ({

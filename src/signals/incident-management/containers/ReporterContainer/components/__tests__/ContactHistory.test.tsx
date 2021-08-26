@@ -2,13 +2,11 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
+import fetchMock from 'jest-fetch-mock'
 import { showGlobalNotification } from 'containers/App/actions'
 import { withAppContext } from 'test/utils'
 
-import {
-  fetchMock,
-  mockRequestHandler,
-} from '../../../../../../../internals/testing/msw-server'
+import { mockRequestHandler } from '../../../../../../../internals/testing/msw-server'
 
 import ContactHistory from '../ContactHistory'
 

@@ -7,11 +7,10 @@ import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
+import fetchMock from 'jest-fetch-mock'
 import * as constants from '../constants'
 import IncidentReplyContainer from '..'
-
 import {
-  fetchMock,
   mockRequestHandler,
   apiBaseUrl,
 } from '../../../../../../internals/testing/msw-server'
@@ -132,7 +131,7 @@ describe('IncidentReplyContainer', () => {
       mockRequestHandler({
         status: 500,
         method: 'post',
-        url: `${apiBaseUrl}/signals/v1/public/qa/questions/:uuid/answer`,
+        url: `${apiBaseUrl}/signals/v1/public/qa/questions/:uuid/answer` as any,
         body: {
           detail: 'Something went wrong',
         },

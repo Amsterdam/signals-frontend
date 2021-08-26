@@ -3,6 +3,7 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
+import fetchMock from 'jest-fetch-mock'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
@@ -12,7 +13,6 @@ import configuration from 'shared/services/configuration/configuration'
 import type { Result } from 'types/api/reporter'
 import { waitFor } from '@testing-library/react'
 import {
-  fetchMock,
   mockRequestHandler,
   rest,
   server,

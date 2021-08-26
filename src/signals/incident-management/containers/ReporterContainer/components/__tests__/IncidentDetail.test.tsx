@@ -2,6 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import fetchMock from 'jest-fetch-mock'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 import * as catgorySelectors from 'models/categories/selectors'
@@ -10,10 +11,7 @@ import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import { showGlobalNotification } from 'containers/App/actions'
 import type { Incident as IncidentType } from 'types/api/incident'
 import { mockIncident } from 'types/api/incident.mock'
-import {
-  fetchMock,
-  mockRequestHandler,
-} from '../../../../../../../internals/testing/msw-server'
+import { mockRequestHandler } from '../../../../../../../internals/testing/msw-server'
 
 import IncidentDetail from '../IncidentDetail'
 

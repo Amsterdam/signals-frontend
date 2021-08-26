@@ -1,11 +1,9 @@
 import { render, screen } from '@testing-library/react'
+import fetchMock from 'jest-fetch-mock'
 import { withAppContext } from 'test/utils'
 import Signaling from '..'
 
-import {
-  fetchMock,
-  mockRequestHandler,
-} from '../../../../../../internals/testing/msw-server'
+import { mockRequestHandler } from '../../../../../../internals/testing/msw-server'
 
 fetchMock.disableMocks()
 

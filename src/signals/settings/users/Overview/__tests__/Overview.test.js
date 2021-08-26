@@ -8,6 +8,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import fetchMock from 'jest-fetch-mock'
 import { history as memoryHistory, withCustomAppContext } from 'test/utils'
 
 import usersJSON from 'utils/__tests__/fixtures/users.json'
@@ -20,10 +21,7 @@ import { setUserFilters } from 'signals/settings/actions'
 import SettingsContext from 'signals/settings/context'
 import * as rolesSelectors from 'models/roles/selectors'
 
-import {
-  fetchMock,
-  mockRequestHandler,
-} from '../../../../../../internals/testing/msw-server'
+import { mockRequestHandler } from '../../../../../../internals/testing/msw-server'
 
 import UsersOverview from '..'
 fetchMock.disableMocks()

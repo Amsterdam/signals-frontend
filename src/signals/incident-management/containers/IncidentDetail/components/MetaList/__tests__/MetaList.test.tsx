@@ -3,6 +3,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import fetchMock from 'jest-fetch-mock'
 import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { store, withAppContext } from 'test/utils'
@@ -24,10 +25,7 @@ import * as departmentsSelectors from 'models/departments/selectors'
 import * as categoriesSelectors from 'models/categories/selectors'
 
 import IncidentDetailContext from '../../../context'
-import {
-  mockRequestHandler,
-  fetchMock,
-} from '../../../../../../../../internals/testing/msw-server'
+import { mockRequestHandler } from '../../../../../../../../internals/testing/msw-server'
 import MetaList from '../MetaList'
 
 fetchMock.disableMocks()
