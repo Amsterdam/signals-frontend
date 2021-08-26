@@ -30,6 +30,19 @@ const getDaysOpen = (incident) => {
   return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-'
 }
 
+const getAddressText = ({
+  openbare_ruimte,
+  huisletter,
+  huisnummer,
+  huisnummer_toevoeging,
+  postcode,
+  woonplaats,
+}) =>
+  `${openbare_ruimte} ${huisnummer}${huisletter}${
+    huisnummer_toevoeging ? `-${huisnummer_toevoeging}` : ''
+  }, ${postcode} ${woonplaats}
+  `
+
 const StyledList = styled.div`
   width: 100%;
   overflow: auto;
@@ -152,6 +165,12 @@ const List = ({
         <thead>
           <tr>
             <Th data-testid="parent"></Th>
+            <Th
+              data-testid="sortPriority"
+              onClick={onSort('priority,-created_at')}
+            >
+              Urgentie {renderChevron('priority')}
+            </Th>
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
@@ -160,6 +179,15 @@ const List = ({
             </Th>
             <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
+            </Th>
+            <Th
+              data-testid="sortSubcategory"
+              onClick={onSort('sub_category,-created_at')}
+            >
+              Subcategorie {renderChevron('sub_category')}
+            </Th>
+            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+              Status {renderChevron('status')}
             </Th>
             {configuration.featureFlags.fetchDistrictsFromBackend ? (
               <Th
@@ -176,21 +204,6 @@ const List = ({
                 Stadsdeel {renderChevron('stadsdeel')}
               </Th>
             )}
-            <Th
-              data-testid="sortSubcategory"
-              onClick={onSort('sub_category,-created_at')}
-            >
-              Subcategorie {renderChevron('sub_category')}
-            </Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
-              Status {renderChevron('status')}
-            </Th>
-            <Th
-              data-testid="sortPriority"
-              onClick={onSort('priority,-created_at')}
-            >
-              Urgentie {renderChevron('priority')}
-            </Th>
             <Th
               data-testid="sortAddress"
               onClick={onSort('address,-created_at')}
@@ -216,6 +229,12 @@ const List = ({
                   {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
                 </Td>
+                <Td detailLink={detailLink}>
+                  {getListValueByKey(
+                    priority,
+                    incident.priority && incident.priority.priority
+                  )}
+                </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
                   {getDaysOpen(incident)}
@@ -223,6 +242,15 @@ const List = ({
                 <Td detailLink={detailLink} noWrap>
                   {string2date(incident.created_at)}{' '}
                   {string2time(incident.created_at)}
+                </Td>
+                <Td detailLink={detailLink}>
+                  {incident.category && incident.category.sub}
+                </Td>
+                <Td detailLink={detailLink}>
+                  {getListValueByKey(
+                    status,
+                    incident.status && incident.status.state
+                  )}
                 </Td>
                 <Td detailLink={detailLink}>
                   {configuration.featureFlags.fetchDistrictsFromBackend
@@ -236,22 +264,8 @@ const List = ({
                       )}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {incident.category && incident.category.sub}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {getListValueByKey(
-                    status,
-                    incident.status && incident.status.state
-                  )}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {getListValueByKey(
-                    priority,
-                    incident.priority && incident.priority.priority
-                  )}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {incident.location && incident.location.address_text}
+                  {incident.location?.address &&
+                    `${getAddressText(incident.location.address)}`}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td detailLink={detailLink}>
