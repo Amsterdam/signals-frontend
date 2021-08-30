@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import configuration from 'shared/services/configuration/configuration'
 import {
   priorityList,
@@ -45,81 +46,52 @@ describe('List', () => {
   })
 
   it('should render correctly', () => {
-    const { container } = render(withContext(<List {...props} />))
+    render(withContext(<List {...props} />))
 
-    expect(container.querySelector('tr th:nth-child(1)')).toHaveTextContent(
-      /^$/
-    )
-    expect(container.querySelector('tr th:nth-child(2)')).toHaveTextContent(
-      /^Id$/
-    )
-    expect(container.querySelector('tr th:nth-child(3)')).toHaveTextContent(
-      /^Dag$/
-    )
-    expect(container.querySelector('tr th:nth-child(4)')).toHaveTextContent(
-      /^Datum en tijd$/
-    )
-    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(
-      /^Stadsdeel$/
-    )
-    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(
-      /^Subcategorie$/
-    )
-    expect(container.querySelector('tr th:nth-child(7)')).toHaveTextContent(
-      /^Status$/
-    )
-    expect(container.querySelector('tr th:nth-child(8)')).toHaveTextContent(
-      /^Urgentie$/
-    )
-    expect(container.querySelector('tr th:nth-child(9)')).toHaveTextContent(
-      /^Adres$/
-    )
+    const columnHeaders = [
+      /^$/,
+      /^Urgentie$/,
+      /^Id$/,
+      /^Dag$/,
+      /^Datum en tijd$/,
+      /^Subcategorie$/,
+      /^Status$/,
+      /^Stadsdeel$/,
+      /^Adres$/,
+    ]
 
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(2)')
-    ).toHaveTextContent(incidents[0].id)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(3)')
-    ).toHaveTextContent(/^-$/)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(4)')
-    ).toHaveTextContent(/^03-12-2018 10:41$/)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(5)')
-    ).toHaveTextContent(/^Centrum$/)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(6)')
-    ).toHaveTextContent(incidents[0].category.sub)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(7)')
-    ).toHaveTextContent(incidents[0].status.state_display)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(8)')
-    ).toHaveTextContent(/^Normaal$/)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(9)')
-    ).toHaveTextContent(incidents[0].location.address_text)
-  })
+    // Check presence of individual values
+    columnHeaders.forEach((name) => {
+      expect(screen.getByRole('columnheader', { name })).toBeInTheDocument()
+    })
 
-  it('should render nowrap correctly', () => {
-    const whiteSpace = 'nowrap'
-    const { container } = render(withContext(<List {...props} />))
+    const cells = [
+      'Normaal',
+      /^03-12-2018 10:41$/,
+      '-',
+      'Centrum',
+      'Staalstraat 3B, 1011JJ Amsterdam',
+      `${incidents[0].id}`,
+      incidents[0].category.sub,
+      incidents[0].status.state_display,
+      incidents[0].category.sub,
+    ]
 
+    cells.forEach((name) => {
+      expect(screen.getAllByRole('cell', { name })).toBeDefined()
+    })
+
+    // Check order of values
     expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(1)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
+      screen.getByRole('row', {
+        name: 'Urgentie Id Dag Datum en tijd Subcategorie Status Stadsdeel Adres',
+      })
+    ).toBeInTheDocument()
     expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(2)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(3)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(4)')
-    ).toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(5)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
+      screen.getByRole('row', {
+        name: 'Normaal 1668 - 03-12-2018 10:41 Wegsleep Afgehandeld Centrum Staalstraat 3B, 1011JJ Amsterdam',
+      })
+    ).toBeInTheDocument()
   })
 
   it('should render correctly when loading', () => {
@@ -141,56 +113,56 @@ describe('List', () => {
     configuration.featureFlags.fetchDistrictsFromBackend = true
     configuration.language.district = 'District'
 
-    const { container } = render(withContext(<List {...props} />))
+    render(withContext(<List {...props} />))
 
-    expect(container.querySelector('tr th:nth-child(5)')).toHaveTextContent(
-      /^District/
-    )
     expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(5)')
-    ).toHaveTextContent(/^North/)
-    expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(5)')
-    ).toHaveTextContent(/^South/)
+      screen.getByRole('columnheader', { name: 'District' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('cell', { name: 'North' })).toBeInTheDocument()
+    expect(screen.getByRole('cell', { name: 'South' })).toBeInTheDocument()
   })
 
   it('should render correctly with assignSignalToEmployee', () => {
     configuration.featureFlags.assignSignalToEmployee = true
 
-    const { container } = render(withContext(<List {...props} />))
+    render(withContext(<List {...props} />))
+    const ROW_LENGTH = screen.getAllByRole('columnheader').length
+    const ASSIGNED_SIGNAL_COL_INDEX = 9
 
-    expect(container.querySelector('tr th:nth-child(10)')).toHaveTextContent(
-      'Toegewezen aan'
-    )
     expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(10)')
+      screen.getAllByRole('columnheader')[ASSIGNED_SIGNAL_COL_INDEX]
+    ).toHaveTextContent('Toegewezen aan')
+
+    expect(
+      screen.getAllByRole('cell')[ASSIGNED_SIGNAL_COL_INDEX]
     ).toHaveTextContent(users.results[0].username)
+
     expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(10)')
-    ).toHaveTextContent(/^$/)
+      screen.getAllByRole('cell')[ASSIGNED_SIGNAL_COL_INDEX + ROW_LENGTH]
+    ).toHaveTextContent('')
   })
 
   describe('events', () => {
     it('should sort asc the incidents when the header is clicked', () => {
-      const { container } = render(
-        withContext(<List {...props} sort="-created_at" />)
-      )
+      render(withContext(<List {...props} sort="-created_at" />))
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled()
 
-      fireEvent.click(container.querySelector('tr th:nth-child(4)'))
+      userEvent.click(
+        screen.getByRole('columnheader', { name: 'Datum en tijd' })
+      )
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at')
     })
 
     it('should sort desc the incidents when the header is clicked', () => {
-      const { container } = render(
-        withContext(<List {...props} sort="created_at" />)
-      )
+      render(withContext(<List {...props} sort="created_at" />))
 
       expect(props.onChangeOrdering).not.toHaveBeenCalled()
 
-      fireEvent.click(container.querySelector('tr th:nth-child(4)'))
+      userEvent.click(
+        screen.getByRole('columnheader', { name: 'Datum en tijd' })
+      )
 
       expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at')
     })
@@ -224,14 +196,14 @@ describe('List', () => {
       const listProps = { ...props }
       listProps.incidents = incidentList
 
-      const { getAllByTestId } = render(withContext(<List {...listProps} />))
+      render(withContext(<List {...listProps} />))
 
-      const numCells = getAllByTestId('incidentDaysOpen').length
+      const numCells = screen.getAllByTestId('incidentDaysOpen').length
 
       expect(numCells).toEqual(incidentList.length)
 
       const elementsWithTextContent = [
-        ...getAllByTestId('incidentDaysOpen'),
+        ...screen.getAllByTestId('incidentDaysOpen'),
       ].filter((element) => element.textContent !== '-')
 
       expect(elementsWithTextContent).toHaveLength(2)

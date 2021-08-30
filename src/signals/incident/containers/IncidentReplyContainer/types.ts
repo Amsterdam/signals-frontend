@@ -14,6 +14,7 @@ export interface FieldProps {
   control: Control<FormData>
   register: any
   trigger: (id: string) => void
+  rules?: { maxLength: unknown }
 }
 
 export type FormAnswer = {

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets'
-import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Icon, themeColor, themeSpacing, breakpoint } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { string2date, string2time } from 'shared/services/string-parser'
@@ -51,6 +51,7 @@ const StyledList = styled.div`
 `
 
 const Table = styled.table`
+  table-layout: fixed;
   border-collapse: separate;
   width: 100%;
   height: 100%;
@@ -69,15 +70,9 @@ const Th = styled.th`
   &:hover {
     text-decoration: underline;
   }
-
-  ${(props) =>
-    // Keep Amsterdam's 'Stadsdeel' column at a min-width of 120px to make sure that 'Nieuw-West'
-    // doesn't wrap (but 'Het Amsterdamse Bos' is allowed to wrap)
-    props['data-testid'] === 'sortStadsdeel' && 'min-width: 120px;'}
 `
 
 const TdStyle = styled.td`
-  ${({ noWrap }) => noWrap && 'white-space: nowrap;'}
   padding: 0;
 
   span {
@@ -85,6 +80,9 @@ const TdStyle = styled.td`
     box-sizing: content-box;
 
     a {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       text-decoration: none;
       color: black;
       display: block;
@@ -102,6 +100,45 @@ const Td = ({ detailLink, children, ...rest }) => (
     </span>
   </TdStyle>
 )
+
+const ThParent = styled(Th)`
+  width: 30px;
+`
+
+const ThUrgency = styled(Th)`
+  width: 90px;
+`
+
+const ThId = styled(Th)`
+  width: 85px;
+`
+
+const ThDay = styled(Th)`
+  width: 54px;
+`
+
+const ThDateTime = styled(Th)`
+  width: 150px;
+`
+
+const ThCategory = styled(Th)`
+  width: 230px;
+`
+
+const ThStatus = styled(Th)`
+  width: 160px;
+`
+
+const ThArea = styled(Th)`
+  width: 120px;
+`
+
+const ThAddress = styled(Th)`
+  width: 150px;
+  @media ${breakpoint('min-width', 'laptop')} {
+    width: initial;
+  }
+`
 
 Td.propTypes = {
   detailLink: PropTypes.string.isRequired,
@@ -164,31 +201,37 @@ const List = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <Th data-testid="parent"></Th>
-            <Th
+            <ThParent data-testid="parent"></ThParent>
+            <ThUrgency
               data-testid="sortPriority"
               onClick={onSort('priority,-created_at')}
             >
               Urgentie {renderChevron('priority')}
-            </Th>
-            <Th data-testid="sortId" onClick={onSort('id')}>
+            </ThUrgency>
+            <ThId data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
-            </Th>
-            <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
+            </ThId>
+            <ThDay data-testid="sortDaysOpen" onClick={onSort('days_open')}>
               Dag {renderChevron('days_open')}
-            </Th>
-            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
+            </ThDay>
+            <ThDateTime
+              data-testid="sortCreatedAt"
+              onClick={onSort('created_at')}
+            >
               Datum en tijd {renderChevron('created_at')}
-            </Th>
-            <Th
+            </ThDateTime>
+            <ThCategory
               data-testid="sortSubcategory"
               onClick={onSort('sub_category,-created_at')}
             >
               Subcategorie {renderChevron('sub_category')}
-            </Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+            </ThCategory>
+            <ThStatus
+              data-testid="sortStatus"
+              onClick={onSort('status,-created_at')}
+            >
               Status {renderChevron('status')}
-            </Th>
+            </ThStatus>
             {configuration.featureFlags.fetchDistrictsFromBackend ? (
               <Th
                 data-testid="sortDistrict"
@@ -197,19 +240,19 @@ const List = ({
                 {configuration.language.district} {renderChevron('district')}
               </Th>
             ) : (
-              <Th
+              <ThArea
                 data-testid="sortStadsdeel"
                 onClick={onSort('stadsdeel,-created_at')}
               >
                 Stadsdeel {renderChevron('stadsdeel')}
-              </Th>
+              </ThArea>
             )}
-            <Th
+            <ThAddress
               data-testid="sortAddress"
               onClick={onSort('address,-created_at')}
             >
               Adres {renderChevron('address')}
-            </Th>
+            </ThAddress>
             {configuration.featureFlags.assignSignalToEmployee && (
               <Th
                 data-testid="sortAssigedUserEmail"
@@ -239,7 +282,7 @@ const List = ({
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
                   {getDaysOpen(incident)}
                 </Td>
-                <Td detailLink={detailLink} noWrap>
+                <Td detailLink={detailLink}>
                   {string2date(incident.created_at)}{' '}
                   {string2time(incident.created_at)}
                 </Td>

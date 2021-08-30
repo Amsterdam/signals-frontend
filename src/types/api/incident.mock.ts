@@ -4,6 +4,9 @@ import faker from 'faker'
 import { StatusCode } from 'signals/incident-management/definitions/statusList'
 import type { Incident } from './incident'
 
+// set faker locale
+faker.locale = 'nl'
+
 export const mockIncident = (overrides?: Partial<Incident>): Incident => {
   return {
     _links: {
