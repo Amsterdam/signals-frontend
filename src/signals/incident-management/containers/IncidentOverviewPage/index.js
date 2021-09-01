@@ -11,7 +11,7 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
 import { parseToAPIData } from 'signals/shared/filter/parse'
 import MyFilters from 'signals/incident-management/containers/MyFilters'
-import PageHeader from 'containers/PageHeader'
+import PageHeader from 'containers/IncidentOverviewTitle'
 import {
   orderingChanged,
   pageChanged,
@@ -42,7 +42,9 @@ import List from './components/List'
 import SubNav from './components/SubNav'
 import QuickFilter from './components/QuickFilter'
 import {
+  TitleRow,
   PageHeaderItem,
+  ButtonWrapper,
   PaginationWrapper,
   MapWrapper,
   NoResults,
@@ -140,17 +142,19 @@ export const IncidentOverviewPageContainerComponent = ({
     : false
 
   const pagination =
-    totalPages > 1 ? (
-      <StyledPagination
-        data-testid="pagination"
-        collectionSize={count}
-        pageSize={FILTER_PAGE_SIZE}
-        page={page}
-        onPageChange={(page) => {
-          global.window.scrollTo(0, 0)
-          pageChangedAction(page)
-        }}
-      />
+    !showsMap && totalPages > 1 ? (
+      <Column span={12}>
+        <StyledPagination
+          data-testid="pagination"
+          collectionSize={count}
+          pageSize={FILTER_PAGE_SIZE}
+          page={page}
+          onPageChange={(page) => {
+            global.window.scrollTo(0, 0)
+            pageChangedAction(page)
+          }}
+        />
+      </Column>
     ) : null
 
   return (
@@ -158,24 +162,27 @@ export const IncidentOverviewPageContainerComponent = ({
       className="incident-overview-page"
       data-testid="incidentManagementOverviewPage"
     >
-      <PageHeader>
-        <div>
-          <StyledButton
-            data-testid="myFiltersModalBtn"
-            color="primary"
-            onClick={openMyFiltersModal}
-          >
-            Mijn filters
-          </StyledButton>
+      <Row>
+        <TitleRow>
+          <PageHeader />
+          <ButtonWrapper>
+            <StyledButton
+              data-testid="myFiltersModalBtn"
+              color="primary"
+              onClick={openMyFiltersModal}
+            >
+              Mijn filters
+            </StyledButton>
 
-          <StyledButton
-            data-testid="filterModalBtn"
-            color="primary"
-            onClick={openFilterModal}
-          >
-            Filter
-          </StyledButton>
-        </div>
+            <StyledButton
+              data-testid="filterModalBtn"
+              color="primary"
+              onClick={openFilterModal}
+            >
+              Filter
+            </StyledButton>
+          </ButtonWrapper>
+        </TitleRow>
 
         {modalMyFiltersIsOpen && (
           <Modal
@@ -199,19 +206,23 @@ export const IncidentOverviewPageContainerComponent = ({
           </Modal>
         )}
 
-        <QuickFilter filters={filters} setFilter={handleSetFilter} />
+        <Column span={12}>
+          <QuickFilter filters={filters} setFilter={handleSetFilter} />
+        </Column>
 
-        {hasActiveFilters && (
-          <PageHeaderItem>
-            <FilterTagList
-              tags={activeFilter.options}
-              onClear={clearFiltersAction}
-            />
-          </PageHeaderItem>
-        )}
+        <Column span={12}>
+          {hasActiveFilters && (
+            <PageHeaderItem>
+              <FilterTagList
+                tags={activeFilter.options}
+                onClear={clearFiltersAction}
+              />
+            </PageHeaderItem>
+          )}
+        </Column>
 
         {pagination}
-      </PageHeader>
+      </Row>
 
       <SubNav showsMap={showsMap} />
 
@@ -244,9 +255,7 @@ export const IncidentOverviewPageContainerComponent = ({
             {count === 0 && <NoResults>Geen meldingen</NoResults>}
           </Column>
 
-          <Column span={12}>
-            <PaginationWrapper>{pagination}</PaginationWrapper>
-          </Column>
+          <PaginationWrapper>{pagination}</PaginationWrapper>
         </Row>
       )}
     </div>

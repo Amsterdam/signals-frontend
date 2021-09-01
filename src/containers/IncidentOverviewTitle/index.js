@@ -25,12 +25,7 @@ const RefreshIcon = styled(Refresh).attrs({
   margin-right: 15px;
 `
 
-export const PageHeaderContainerComponent = ({
-  children,
-  filter,
-  incidentsCount,
-  query,
-}) => {
+export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
   const headerTitle = useMemo(() => {
     let title = filter.name || 'Meldingen'
     const hasCount = incidentsCount !== null && incidentsCount >= 0
@@ -38,7 +33,7 @@ export const PageHeaderContainerComponent = ({
 
     return filter.refresh ? (
       <Fragment>
-        <RefreshIcon /> {title}
+        <RefreshIcon role="img" aria-label="Ververst automatisch" /> {title}
       </Fragment>
     ) : (
       title
@@ -50,18 +45,14 @@ export const PageHeaderContainerComponent = ({
     [query]
   )
 
-  return (
-    <PageHeader title={headerTitle} subTitle={subTitle}>
-      {children}
-    </PageHeader>
-  )
+  return <PageHeader title={headerTitle} subTitle={subTitle} />
 }
 
-PageHeaderContainerComponent.defaultProps = {
+IncidentOverviewTitle.defaultProps = {
   children: null,
 }
 
-PageHeaderContainerComponent.propTypes = {
+IncidentOverviewTitle.propTypes = {
   filter: types.filterType,
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
@@ -76,4 +67,4 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps)
 
-export default compose(withConnect)(PageHeaderContainerComponent)
+export default compose(withConnect)(IncidentOverviewTitle)
