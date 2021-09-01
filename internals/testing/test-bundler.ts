@@ -11,7 +11,6 @@ import 'jest-localstorage-mock'
 
 import { configure } from '@testing-library/react'
 import { JSDOM } from 'jsdom'
-import faker from 'faker'
 import Enzyme from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import fetchMock from 'jest-fetch-mock'
@@ -19,9 +18,6 @@ import fetchMock from 'jest-fetch-mock'
 import { baseConfig } from '../scripts/helpers/config'
 
 fetchMock.enableMocks()
-
-// set faker locale
-faker.locale = 'nl'
 
 configure({
   showOriginalStackTrace: true,

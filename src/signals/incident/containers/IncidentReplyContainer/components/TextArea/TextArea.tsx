@@ -14,16 +14,18 @@ const TextArea: FunctionComponent<FieldProps> = ({
   id,
   control,
   register,
+  rules,
 }) => {
   const value = useWatch({
     control,
     name: id,
     defaultValue: '',
   })
+  const maxLength = rules?.maxLength ?? DEFAULT_MAX_LENGTH
 
   const infoText = useMemo(
-    () => `${value.length}/${DEFAULT_MAX_LENGTH} tekens`,
-    [value]
+    () => `${value.length}/${maxLength} tekens`,
+    [maxLength, value.length]
   )
 
   const labelComponent = <strong>{label}</strong>
@@ -39,8 +41,8 @@ const TextArea: FunctionComponent<FieldProps> = ({
           },
         },
         maxLength: {
-          message: `U heeft meer dan de maximale ${DEFAULT_MAX_LENGTH} tekens ingevoerd`,
-          value: DEFAULT_MAX_LENGTH,
+          message: `U heeft meer dan de maximale ${maxLength} tekens ingevoerd`,
+          value: maxLength,
         },
       })}
       errorMessage={errorMessage}
