@@ -4,7 +4,7 @@ import { Fragment, useMemo, useContext } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
-import { getListValueByKey } from 'shared/services/list-helper/list-helper'
+import { getListValueByKey } from 'shared/services/list-helpers/list-helpers'
 import { locationType } from 'shared/types'
 import { stadsdeelList } from 'signals/incident-management/definitions'
 import MapStatic from 'components/MapStatic'

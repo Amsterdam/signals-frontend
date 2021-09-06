@@ -10,7 +10,10 @@ import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { string2date, string2time } from 'shared/services/string-parser'
-import { getListValueByKey } from 'shared/services/list-helper/list-helper'
+import {
+  getListValueByKey,
+  getListIconByKey,
+} from 'shared/services/list-helpers/list-helpers'
 import * as types from 'shared/types'
 import configuration from 'shared/services/configuration/configuration'
 import { statusList } from 'signals/incident-management/definitions'
@@ -152,6 +155,7 @@ const List = ({
         <thead>
           <tr>
             <Th data-testid="parent"></Th>
+            <Th data-testid="priority"></Th>
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
@@ -186,12 +190,6 @@ const List = ({
               Status {renderChevron('status')}
             </Th>
             <Th
-              data-testid="sortPriority"
-              onClick={onSort('priority,-created_at')}
-            >
-              Urgentie {renderChevron('priority')}
-            </Th>
-            <Th
               data-testid="sortAddress"
               onClick={onSort('address,-created_at')}
             >
@@ -215,6 +213,9 @@ const List = ({
                 <Td detailLink={detailLink}>
                   {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
+                </Td>
+                <Td detailLink={detailLink}>
+                  {getListIconByKey(priority, incident?.priority.priority)}
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
@@ -245,12 +246,6 @@ const List = ({
                   )}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {getListValueByKey(
-                    priority,
-                    incident.priority && incident.priority.priority
-                  )}
-                </Td>
-                <Td detailLink={detailLink}>
                   {incident.location && incident.location.address_text}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
@@ -272,7 +267,6 @@ List.propTypes = {
   incidents: PropTypes.arrayOf(types.incidentType).isRequired,
   onChangeOrdering: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  priority: types.dataListType.isRequired,
   sort: PropTypes.string,
   stadsdeel: types.dataListType.isRequired,
   status: types.dataListType.isRequired,
