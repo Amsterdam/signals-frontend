@@ -41,9 +41,7 @@ const LoginPage = () => {
               }}
               type="button"
             >
-              <span className="value">
-                {domain === 'keycloak' ? 'Inloggen ADW' : 'Inloggen'}
-              </span>
+              <span className="value">Inloggen</span>
             </Button>
           </ButtonBar>
         </Notification>

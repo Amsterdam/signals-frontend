@@ -24,8 +24,7 @@ describe('components/LoginPage', () => {
     expect(
       screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
     ).toBeInTheDocument()
-    expect(screen.queryByText('Inloggen')).not.toBeInTheDocument()
-    expect(screen.getByText('Inloggen ADW')).toBeInTheDocument()
+    expect(screen.getByText('Inloggen')).toBeInTheDocument()
     expect(screen.getByTestId('keycloakLoginButton')).toBeInTheDocument()
   })
 
@@ -37,7 +36,6 @@ describe('components/LoginPage', () => {
       screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
     ).toBeInTheDocument()
     expect(screen.getByText('Inloggen')).toBeInTheDocument()
-    expect(screen.queryByText('Inloggen ADW')).not.toBeInTheDocument()
     expect(screen.getByTestId('datapuntLoginButton')).toBeInTheDocument()
   })
 
@@ -57,7 +55,7 @@ describe('components/LoginPage', () => {
     configuration.keycloak = {}
     const loginSpy = jest.spyOn(auth, 'login')
     render(withAppContext(<LoginPage />))
-    const button = screen.getByText('Inloggen ADW').parentNode
+    const button = screen.getByText('Inloggen').parentNode
 
     expect(button.getAttribute('type')).toEqual('button')
 
