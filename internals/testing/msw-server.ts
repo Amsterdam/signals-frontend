@@ -162,7 +162,7 @@ const handlers = [
     `${apiBaseUrl}/signals/v1/public/qa/sessions/:uuid`,
     (req, res, ctx) => {
       switch (req.params.uuid) {
-        case 'locked-session':
+        case 'locked':
           return res(
             ctx.status(410),
             ctx.json({
@@ -170,13 +170,22 @@ const handlers = [
             })
           )
 
-        case 'expired-session':
-          return res(ctx.status(410), ctx.json({ detail: 'Expired!' }))
-
-        case 'invalid-session':
+        case 'invalidated':
           return res(
             ctx.status(500),
-            ctx.json({ detail: "['‘incident-session’ is geen geldige UUID.']" })
+            ctx.json({
+              detail:
+                'Session invalidated is invalidated, associated signal not in state REACTIE_GEVRAAGD.',
+            })
+          )
+
+        case 'expired':
+          return res(ctx.status(410), ctx.json({ detail: 'Expired!' }))
+
+        case 'invalid-uuid':
+          return res(
+            ctx.status(500),
+            ctx.json({ detail: "['invalid-uuid’ is geen geldige UUID.']" })
           )
 
         default:
