@@ -310,7 +310,7 @@ export const checkThanksPage = () => {
 */
 export const openCreatedSignal = () => {
   cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-    cy.get('tr td:nth-child(2)').contains(new RegExp(`^${json.signalId}$`, 'g')).click();
+    cy.get('tr td:nth-child(3)').contains(new RegExp(`^${json.signalId}$`, 'g')).click();
   });
 };
 
