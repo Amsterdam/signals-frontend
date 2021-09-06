@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import * as reactRouterDom from 'react-router-dom'
 import * as actions from 'containers/App/actions'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
@@ -79,10 +79,14 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
       })
 
-      userEvent.type(
-        screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' }),
-        'Rood'
-      )
+      act(() => {
+        userEvent.type(
+          screen.getByRole('textbox', {
+            name: 'Wat voor kleur heeft de auto?',
+          }),
+          'Rood'
+        )
+      })
       userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
       await waitFor(() => {
@@ -98,10 +102,14 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
       })
 
-      userEvent.type(
-        screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' }),
-        'Rood'
-      )
+      act(() => {
+        userEvent.type(
+          screen.getByRole('textbox', {
+            name: 'Wat voor kleur heeft de auto?',
+          }),
+          'Rood'
+        )
+      })
 
       // Upload file to file input
       const fileInput = screen.getByLabelText(/Foto's toevoegen/)
@@ -124,10 +132,14 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
       })
 
-      userEvent.type(
-        screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' }),
-        'Rood'
-      )
+      act(() => {
+        userEvent.type(
+          screen.getByRole('textbox', {
+            name: 'Wat voor kleur heeft de auto?',
+          }),
+          'Rood'
+        )
+      })
 
       mockRequestHandler({
         status: 500,
@@ -154,15 +166,15 @@ describe('IncidentReplyContainer', () => {
   describe('expired questionnaire', () => {
     beforeAll(() => {
       mockedUseParams.mockImplementation(() => ({
-        uuid: 'expired-session',
+        uuid: 'expired',
       }))
     })
     it('should render the correct message', async () => {
       render(withAppContext(<IncidentReplyContainer />))
 
       await waitFor(() => {
-        screen.getByRole('heading', { name: constants.EXPIRED_TITLE })
-        screen.getByText(constants.EXPIRED_CONTENT)
+        screen.getByRole('heading', { name: constants.INACCESSIBLE_TITLE })
+        screen.getByText(constants.INACCESSIBLE_CONTENT)
       })
     })
   })
@@ -170,7 +182,7 @@ describe('IncidentReplyContainer', () => {
   describe('previously submitted questionnaire', () => {
     beforeAll(() => {
       mockedUseParams.mockImplementation(() => ({
-        uuid: 'locked-session',
+        uuid: 'locked',
       }))
     })
 
@@ -178,8 +190,29 @@ describe('IncidentReplyContainer', () => {
       render(withAppContext(<IncidentReplyContainer />))
 
       await waitFor(() => {
-        screen.getByRole('heading', { name: constants.LOCKED_TITLE })
-        screen.getByText(constants.LOCKED_CONTENT)
+        screen.getByRole('heading', {
+          name: constants.SUBMITTED_PREVIOUSLY_TITLE,
+        })
+        screen.getByText(constants.SUBMITTED_PREVIOUSLY_CONTENT)
+      })
+    })
+  })
+
+  describe('questionnaire when incident status was changed', () => {
+    beforeAll(() => {
+      mockedUseParams.mockImplementation(() => ({
+        uuid: 'invalidated',
+      }))
+    })
+
+    it('should render the correct message', async () => {
+      render(withAppContext(<IncidentReplyContainer />))
+
+      await waitFor(() => {
+        screen.getByRole('heading', {
+          name: constants.INACCESSIBLE_TITLE,
+        })
+        screen.getByText(constants.INACCESSIBLE_CONTENT)
       })
     })
   })
@@ -187,7 +220,7 @@ describe('IncidentReplyContainer', () => {
   describe('invalid uuid', () => {
     beforeAll(() => {
       mockedUseParams.mockImplementation(() => ({
-        uuid: 'invalid-session',
+        uuid: 'invalid-uuid',
       }))
     })
 
