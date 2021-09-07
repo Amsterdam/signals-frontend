@@ -71,7 +71,7 @@ export const MANAGE_SIGNALS = {
   firstSignalStadsdeelName: 'tbody > :nth-child(1) > :nth-child(6) > span > a',
   firstSignalStatus: 'tbody > :nth-child(1) > :nth-child(8) > span > a',
   firstSignalSubcategorie: 'tbody > :nth-child(1) > :nth-child(7) > span > a',
-  firstSignalUrgentie: 'tbody > :nth-child(1) > :nth-child(8) > span > a',
+  firstSignalUrgentie: 'tbody > :nth-child(1) > :nth-child(1) > span > a',
   filterTagList: '[data-testid=filterTagListTag]',
   labelHoofmelding: '[aria-label="Hoofdmelding"]',
   linkSignal: '[href*="/manage/incident/"]',

@@ -99,8 +99,8 @@ describe('Filtering', () => {
     cy.get(FILTER.inputFilterDayBefore).type(todaysDate);
     cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
     cy.wait('@getAddressFilter');
-    cy.get('tbody > tr:first-child :nth-child(4)').should('contain', todaysDate);
-    cy.get('tbody > tr:last-child :nth-child(4)').should('contain', todaysDate);
+    cy.get('tbody > tr:first-child :nth-child(5)').should('contain', todaysDate);
+    cy.get('tbody > tr:last-child :nth-child(5)').should('contain', todaysDate);
     cy.get(MANAGE_SIGNALS.filterTagList)
       .should('contain', 'Ruigoord 36')
       .and('contain', `Datum: ${todaysDate} t/m ${todaysDate}`)
@@ -117,15 +117,15 @@ describe('Filtering', () => {
     cy.wait('@getUrgency');
 
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoog').and('be.visible');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
+    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
   });
   it('Should filter by type klacht', () => {
     routes.getSignalDetailsRoutes();
