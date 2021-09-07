@@ -17,7 +17,10 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
 import { dataListType } from 'shared/types'
-import { getListValueByKey } from 'shared/services/list-helper/list-helper'
+import {
+  getListValueByKey,
+  getListIconByKey,
+} from 'shared/services/list-helpers/list-helpers'
 import InfoText from 'components/InfoText'
 import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper'
 
@@ -25,11 +28,17 @@ import EditButton from '../EditButton'
 import IncidentDetailContext from '../../context'
 
 const DisplayValue = styled.span`
-  display: inline-block;
+  display: flex;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - ${themeSpacing(10)});
+`
+
+const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  margin-right: ${themeSpacing(1)};
 `
 
 const SaveButton = styled(Button)`
@@ -203,6 +212,12 @@ const ChangeValue = ({
     />
   )
 
+  const key = rawDataToKey(get(incident, valuePath || path))
+  const icon = getListIconByKey(options, key)
+  const displayValueIcon = icon ? (
+    <IconWrapper data-testid="displayValueIcon">{icon}</IconWrapper>
+  ) : null
+
   return (
     <Fragment>
       <dt data-testid={`meta-list-${type}-definition`}>
@@ -223,10 +238,8 @@ const ChangeValue = ({
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
           <DisplayValue data-testid="valuePath">
-            {getListValueByKey(
-              options,
-              rawDataToKey(get(incident, valuePath || path))
-            )}
+            {displayValueIcon}
+            {getListValueByKey(options, key)}
           </DisplayValue>
         </dd>
       )}

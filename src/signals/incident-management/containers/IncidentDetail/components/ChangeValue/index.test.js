@@ -38,7 +38,7 @@ const otherDescription = 'otherDescription'
 const props = {
   component: SelectInput,
   options: [
-    { key: rawKey, value: rawKeyValue, description },
+    { key: rawKey, value: rawKeyValue, description, icon: 'PriorityHigh' },
     { key: derivedKey, value: derivedKeyValue },
     { key: otherKey, value: otherKeyValue, description: otherDescription },
   ],
@@ -101,6 +101,7 @@ describe('ChangeValue', () => {
   it('should render the selected value', () => {
     render(renderWithContext())
     expect(screen.getByText(rawKeyValue)).toBeInTheDocument()
+    expect(screen.getByTestId('displayValueIcon')).toBeInTheDocument()
   })
 
   it('should work with a valuePath', () => {

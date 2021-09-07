@@ -44,19 +44,6 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
     cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', 'Woningkwaliteit');
   });
-  it('Should sort on column Urgentie', () => {
-    routes.getSortedByUrgencyRoutes();
-
-    cy.get('th').contains('Urgentie').click();
-    cy.wait('@getSortedASC');
-    cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Hoog');
-
-    cy.get('th').contains('Urgentie').click();
-    cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).should('have.text', 'Normaal');
-  });
   it('Should sort on column Adres', () => {
     routes.getSortedByAddressRoutes();
 
