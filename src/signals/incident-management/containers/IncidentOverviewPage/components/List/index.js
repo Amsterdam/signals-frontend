@@ -215,7 +215,7 @@ const List = ({
                   {incident.has_parent && <ChildIcon />}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {getListIconByKey(priority, incident?.priority.priority)}
+                  {getListIconByKey(priority, incident.priority?.priority)}
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
