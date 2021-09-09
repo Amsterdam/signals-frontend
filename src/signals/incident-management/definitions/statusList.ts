@@ -1,31 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-export enum StatusCode {
-  Gemeld = 'm',
-  Afwachting = 'i',
-  Behandeling = 'b',
-  Afgehandeld = 'o',
-  Ingepland = 'ingepland',
-  Geannuleerd = 'a',
-  Gesplitst = 's',
-  VerzoekTotHeropenen = 'reopen requested',
-  ReactieGevraagd = 'reaction requested',
-  ReactieOntvangen = 'reaction received',
-  Heropend = 'reopened',
-  TeVerzenden = 'ready to send',
-  Verzonden = 'sent',
-  VerzendenMislukt = 'send failed',
-  VerzoekTotAfhandeling = 'closure requested',
-  AfgehandeldExtern = 'done external',
-}
-
-export type Status = {
-  color?: string
-  key: StatusCode
-  value: string
-  email_sent_when_set: boolean
-  shows_remaining_sla_days: boolean
-}
+import { Status, StatusCode } from './types'
 
 export const GEMELD = {
   key: StatusCode.Gemeld,

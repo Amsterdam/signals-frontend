@@ -15,7 +15,7 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { statusList } from 'signals/incident-management/definitions'
-import type { StatusCode } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import type { IncidentSummary } from '../types'
 
