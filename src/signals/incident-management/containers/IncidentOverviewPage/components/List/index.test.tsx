@@ -172,7 +172,7 @@ describe('List', () => {
       expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at')
     })
 
-    it.only('should not show days open for specific statuses', () => {
+    it('should not show days open for specific statuses', () => {
       const incidentWithStatus = (state: StatusCode, id: number) => ({
         ...props.incidents[0],
         status: {

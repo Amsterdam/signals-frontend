@@ -48,9 +48,7 @@ export const TdStyle = styled.td<{ noWrap?: boolean }>`
     a {
       text-decoration: none;
       color: black;
-      display: block;
-      width: 100%;
-      height: 100%;
+      display: flex;
       padding: ${themeSpacing(2)};
     }
   }
