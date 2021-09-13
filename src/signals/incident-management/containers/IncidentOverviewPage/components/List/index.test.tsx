@@ -15,7 +15,7 @@ import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'
 
-import { IncidentList } from 'types/api/incident-list'
+import { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import IncidentManagementContext from '../../../../context'
 import List from '.'
@@ -78,6 +78,34 @@ describe('List', () => {
       screen.getByRole('row', {
         name: `${INCIDENT_2.id} 1019 29-11-2018 23:03 Zuid ${INCIDENT_2.category.sub} ${INCIDENT_2.status.state_display} ${INCIDENT_2.location.address_text}`,
       })
+    ).toBeInTheDocument()
+  })
+
+  it('should handle invalid dates correctly', () => {
+    const VALID_DATE = '29-11-2018 23:03'
+    const FALLBACK_DATE = '-'
+
+    const incident = incidents[1] as IncidentListItem
+    const incidentWithInvalidDate = { ...incident, created_at: 'foo' }
+
+    const { rerender } = render(
+      withContext(<List {...props} incidents={[incident]} />)
+    )
+
+    expect(screen.getByRole('cell', { name: VALID_DATE })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('cell', { name: FALLBACK_DATE })
+    ).not.toBeInTheDocument()
+
+    rerender(
+      withContext(<List {...props} incidents={[incidentWithInvalidDate]} />)
+    )
+
+    expect(
+      screen.queryByRole('cell', { name: VALID_DATE })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('cell', { name: FALLBACK_DATE })
     ).toBeInTheDocument()
   })
 

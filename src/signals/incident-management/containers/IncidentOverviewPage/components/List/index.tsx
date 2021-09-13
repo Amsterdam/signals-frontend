@@ -41,9 +41,11 @@ const getDaysOpen = (incident: IncidentListItem) => {
   const hasDaysOpen =
     incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)
 
-  if (!hasDaysOpen) return '-'
+  const createdAtDate = parseISO(incident.created_at)
 
-  return differenceInCalendarDays(new Date(), parseISO(incident.created_at))
+  if (!hasDaysOpen || isNaN(createdAtDate.getTime())) return '-'
+
+  return differenceInCalendarDays(new Date(), createdAtDate)
 }
 
 const Td: FunctionComponent<{ detailLink: string; noWrap?: boolean }> = ({
