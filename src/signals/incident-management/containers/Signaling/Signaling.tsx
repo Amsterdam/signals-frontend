@@ -144,16 +144,13 @@ const Signaling: FunctionComponent = () => {
           )}
         </StyledColumn>
         <StyledColumn span={6} wrap>
-          {totalReopenRequested !== null ? (
+          {totalReopenRequested !== null && (
             <GraphDescription
-              title={`Verzoek tot heropenen tot en met Q1 2021`}
-              description={`
-              Meldingen waarbij de melder voor 01-04-2021 
-              een "verzoek tot heropenen" heeft gedaan.
-            `}
+              title="Verzoek tot heropenen langer dan 2 weken geleden"
+              description={`Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.`}
               total={totalReopenRequested}
             />
-          ) : null}
+          )}
 
           {totalReopenRequested === 0 ? (
             <GraphEmpty text={'Hier is niks meer te signaleren'} />
