@@ -46,10 +46,10 @@ describe('Signals dashbaord', () => {
     
 
       // Dashboard open signals
-      cy.get(DASHBOARD.graphTotalSignals).eq(0).should('have.text', '6,322').and('be.visible');
+      cy.get(DASHBOARD.graphTotalSignals).eq(0).should('have.text', '6.322').and('be.visible');
 
       // Dashboard requested to reopen signals
-      cy.get(DASHBOARD.graphTotalSignals).eq(1).should('have.text', '2,754').and('be.visible');
+      cy.get(DASHBOARD.graphTotalSignals).eq(1).should('have.text', '2.754').and('be.visible');
 
       cy.get(DASHBOARD.emptyText).should('not.exist');
       cy.get(DASHBOARD.checkmarkIcon).should('not.exist');

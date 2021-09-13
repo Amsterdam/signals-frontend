@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/urgentie hoog</title>
+    <g id="icon/urgentie-hoog" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval-Copy-4" fill="#EC0000" cx="8" cy="8" r="7"></circle>
+        <polygon id="Triangle" fill="#FFFFFF" points="8 3 12 8 4 8"></polygon>
+        <rect id="Rectangle" fill="#FFFFFF" transform="translate(8.000000, 9.500000) rotate(-270.000000) translate(-8.000000, -9.500000) " x="5.5" y="8.5" width="5" height="2"></rect>
+    </g>
+</svg>

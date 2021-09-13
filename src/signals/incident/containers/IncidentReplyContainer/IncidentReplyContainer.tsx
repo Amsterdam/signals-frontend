@@ -61,22 +61,36 @@ const IncidentReplyContainer = () => {
     get: getIncident,
   } = useGetPublicIncident()
 
+  const showSpecificErrorMessage =
+    sessionError && typeof sessionError !== 'boolean'
+
   const isExpired = useMemo(
     () =>
-      sessionError &&
-      typeof sessionError !== 'boolean' &&
+      showSpecificErrorMessage &&
       (sessionError as Response).status === constants.EXPIRED_STATUS &&
       (sessionError as FetchError).detail?.includes(constants.EXPIRED_DETAIL),
-    [sessionError]
+    [sessionError, showSpecificErrorMessage]
   )
 
-  const isLocked = useMemo(
+  const isIncorrectStatus = useMemo(
     () =>
-      sessionError &&
-      typeof sessionError !== 'boolean' &&
-      (sessionError as Response).status === constants.LOCKED_STATUS &&
-      (sessionError as FetchError).detail?.includes(constants.LOCKED_DETAIL),
-    [sessionError]
+      showSpecificErrorMessage &&
+      (sessionError as Response).status === constants.INCORRECT_STATUS_STATUS &&
+      (sessionError as FetchError).detail?.includes(
+        constants.INCORRECT_STATUS_DETAIL
+      ),
+    [sessionError, showSpecificErrorMessage]
+  )
+
+  const isSubmittedPreviously = useMemo(
+    () =>
+      showSpecificErrorMessage &&
+      (sessionError as Response).status ===
+        constants.SUBMITTED_PREVIOUSLY_STATUS &&
+      (sessionError as FetchError).detail?.includes(
+        constants.SUBMITTED_PREVIOUSLY_DETAIL
+      ),
+    [sessionError, showSpecificErrorMessage]
   )
 
   const submit = useCallback(
@@ -161,19 +175,19 @@ const IncidentReplyContainer = () => {
     }
   }, [dispatch, postAnswerError, submitError, submitFormError])
 
-  if (isExpired)
+  if (isExpired || isIncorrectStatus)
     return (
       <Notice
-        title={constants.EXPIRED_TITLE}
-        content={constants.EXPIRED_CONTENT}
+        title={constants.INACCESSIBLE_TITLE}
+        content={constants.INACCESSIBLE_CONTENT}
       />
     )
 
-  if (isLocked)
+  if (isSubmittedPreviously)
     return (
       <Notice
-        title={constants.LOCKED_TITLE}
-        content={constants.LOCKED_CONTENT}
+        title={constants.SUBMITTED_PREVIOUSLY_TITLE}
+        content={constants.SUBMITTED_PREVIOUSLY_CONTENT}
       />
     )
 

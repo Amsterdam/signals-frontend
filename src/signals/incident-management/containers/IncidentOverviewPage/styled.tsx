@@ -7,18 +7,34 @@ import {
   Paragraph as AscParagraph,
   themeColor,
   Link,
+  CompactPager,
 } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
-import Pagination from 'components/Pagination'
 import Paragraph from 'components/Paragraph'
+
+export const TitleRow = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(3)};
+`
 
 export const StyledButton = styled(Button)`
   margin-left: 10px;
-  margin-bottom: ${themeSpacing(2)};
 `
 
-export const StyledPagination = styled(Pagination)`
-  margin-top: ${themeSpacing(12)};
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
+export const StyledPagination = styled(CompactPager)`
+  background-color: ${themeColor('tint', 'level1')};
+  display: inline-flex;
+`
+
+export const PaginationWrapper = styled.div`
+  margin-top: ${themeSpacing(5)};
 `
 
 export const StyledParagraph = styled(Paragraph)`
@@ -53,10 +69,16 @@ export const MapWrapper = styled(Column).attrs({
   flex-direction: column;
 `
 
+export const PageTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: ${themeSpacing(2)};
+`
+
 export const PageHeaderItem = styled.div`
   display: flex;
-  flex-basis: 100%;
   flex-wrap: wrap;
+  margin-bottom: ${themeSpacing(1)};
 `
 
 export const StyledPageHeaderItem = styled(PageHeaderItem)`
