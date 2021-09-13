@@ -65,15 +65,18 @@ describe('List', () => {
       expect(header).toHaveTextContent(columnHeaders[index])
     })
 
+    const INCIDENT_1 = incidents[0]
+    const INCIDENT_2 = incidents[1]
+
     expect(
       screen.getByRole('row', {
-        name: '1668 - 03-12-2018 10:41 Centrum Wegsleep Afgehandeld Staalstraat 3B 1011JJ Amsterdam',
+        name: `${INCIDENT_1.id} - 03-12-2018 10:41 Centrum ${INCIDENT_1.category.sub} ${INCIDENT_1.status.state_display} ${INCIDENT_1.location.address_text}`,
       })
     ).toBeInTheDocument()
 
     expect(
       screen.getByRole('row', {
-        name: '1667 1019 29-11-2018 23:03 Zuid Dode dieren Gemeld Raamgracht 45 1011KJ Amsterdam',
+        name: `${INCIDENT_2.id} 1019 29-11-2018 23:03 Zuid ${INCIDENT_2.category.sub} ${INCIDENT_2.status.state_display} ${INCIDENT_2.location.address_text}`,
       })
     ).toBeInTheDocument()
   })

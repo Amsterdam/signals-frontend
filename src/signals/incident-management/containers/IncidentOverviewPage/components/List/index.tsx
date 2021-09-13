@@ -40,8 +40,10 @@ const getDaysOpen = (incident: IncidentListItem) => {
     .map(({ key }) => key)
   const hasDaysOpen =
     incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)
-  const start = hasDaysOpen && parseISO(incident.created_at)
-  return start ? -differenceInCalendarDays(start, new Date()) : '-'
+
+  if (!hasDaysOpen) return '-'
+
+  return differenceInCalendarDays(new Date(), parseISO(incident.created_at))
 }
 
 const Td: FunctionComponent<{ detailLink: string; noWrap?: boolean }> = ({
