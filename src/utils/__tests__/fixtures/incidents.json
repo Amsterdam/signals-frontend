@@ -3,12 +3,13 @@
     "reporter": {
       "email": "user@domain.com",
       "phone": "",
-      "extra_properties": null
+      "sharing_allowed": true
     },
     "extra_properties": null,
     "_display": "1668 - o - A04h - 2018-12-03 09:41:43.012139+00:00",
     "priority": {
-      "priority": "normal"
+      "priority": "normal",
+      "created_by": "user@domain.com"
     },
     "created_at": "2018-12-03T10:41:43.012139+01:00",
     "text": "Grofvuil gedumpt",
@@ -20,7 +21,8 @@
       "state": "o",
       "state_display": "Afgehandeld",
       "extra_properties": null,
-      "created_at": "2018-12-03T10:44:10.162204+01:00"
+      "created_at": "2018-12-03T10:44:10.162204+01:00",
+      "target_api": null
     },
     "location": {
       "id": 1638,
@@ -58,23 +60,43 @@
       "sub_slug": "wegsleep",
       "main": "Overlast in de openbare ruimte",
       "main_slug": "overlast-in-de-openbare-ruimte",
-      "department": "ASC, CCA, THO",
-      "category_url": "https://category-url.amsterdam.nl"
+      "departments": "ASC, CCA, THO",
+      "category_url": "https://category-url.amsterdam.nl",
+      "created_by": "another_user@domain.com",
+      "deadline": "2021-09-14T12:05:04.002163+02:00",
+      "deadline_factor_3": "2021-09-22T12:05:04.002163+02:00",
+      "text": null
     },
     "incident_date_start": "2018-12-03T10:41:42+01:00",
     "text_extra": "",
-    "assigned_user_email": "user1@example.com"
+    "assigned_user_email": "user1@example.com",
+    "has_attachments": false,
+    "has_children": false,
+    "has_parent": false,
+    "notes": [
+      {
+        "created_by": null,
+        "text": "Automatische e-mail bij registratie van de melding is verzonden aan de melder."
+      }
+    ],
+    "type": {
+      "code": "SIG",
+      "created_at": "2018-12-03T10:41:43.012139+01:00",
+      "created_by": "user@domain.com"
+    },
+    "routing_departments": null
   },
   {
     "reporter": {
       "email": "",
       "phone": "",
-      "extra_properties": null
+      "sharing_allowed": true
     },
     "extra_properties": null,
     "_display": "1667 - m - A04h - 2018-11-29 22:03:19.398904+00:00",
     "priority": {
-      "priority": "normal"
+      "priority": "normal",
+      "created_by": "user@domain.com"
     },
     "created_at": "2018-11-29T23:03:19.398904+01:00",
     "text": "poep",
@@ -86,7 +108,8 @@
       "state": "m",
       "state_display": "Gemeld",
       "extra_properties": {},
-      "created_at": "2018-11-29T23:03:19.566082+01:00"
+      "created_at": "2018-11-29T23:03:19.566082+01:00",
+      "target_api": null
     },
     "location": {
       "id": 1637,
@@ -124,10 +147,29 @@
       "sub_slug": "dode-dieren",
       "main": "Overlast van dieren",
       "main_slug": "overlast-van-dieren",
-      "department": "ASC, CCA, GGD",
-      "category_url": "https://category-url.amsterdam.nl"
+      "departments": "ASC, CCA, THO",
+      "category_url": "https://category-url.amsterdam.nl",
+      "created_by": "another_user@domain.com",
+      "deadline": "2021-09-14T12:05:04.002163+02:00",
+      "deadline_factor_3": "2021-09-22T12:05:04.002163+02:00",
+      "text": null
     },
     "incident_date_start": "2018-11-29T23:03:19+01:00",
-    "text_extra": ""
+    "text_extra": "",
+    "has_attachments": false,
+    "has_children": false,
+    "has_parent": false,
+    "notes": [
+      {
+        "created_by": null,
+        "text": "Automatische e-mail bij registratie van de melding is verzonden aan de melder."
+      }
+    ],
+    "type": {
+      "code": "SIG",
+      "created_at": "2018-12-03T10:41:43.012139+01:00",
+      "created_by": "user@domain.com"
+    },
+    "routing_departments": null
   }
 ]

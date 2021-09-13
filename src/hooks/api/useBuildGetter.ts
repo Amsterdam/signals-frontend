@@ -12,7 +12,8 @@ export const useBuildGetter = <T, U extends Array<unknown> = Array<any>>(
         const [url, params] = paramBuilder(...args)
         return genericGet(url, params)
       },
-    []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [genericGet]
   )
 
   return {

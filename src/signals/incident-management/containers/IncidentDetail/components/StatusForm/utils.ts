@@ -4,8 +4,8 @@ import { AlertLevel } from '@amsterdam/asc-ui'
 import {
   changeStatusOptionList,
   isStatusClosed,
-  StatusCode,
 } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import * as constants from './constants'
 
 export const emailSentWhenStatusChangedTo = ({

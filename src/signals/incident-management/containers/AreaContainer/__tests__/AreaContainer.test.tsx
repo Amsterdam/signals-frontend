@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { Feature } from 'components/AreaMap/types'
-import { StatusCode } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import { fetchMock } from '../../../../../../internals/testing/msw-server'
 import AreaContainer from '..'
 

@@ -3,8 +3,8 @@
 import { AlertLevel } from '@amsterdam/asc-ui'
 import statusList, {
   isStatusClosed,
-  Status,
 } from 'signals/incident-management/definitions/statusList'
+import { Status } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 import { IncidentChild } from '../../types'
 import { StatusFormActions } from './actions'

@@ -66,6 +66,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         loadingIncidents: true,
       },
       page: 3,
+      ordering: '-created_at',
       categories: {},
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
