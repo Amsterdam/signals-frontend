@@ -50,8 +50,8 @@ describe('List', () => {
     render(withContext(<List {...props} />))
 
     const columnHeaders = [
-      '',
-      '',
+      '', // Split incident column
+      '', // Urgency column
       'Id',
       'Dag',
       'Datum en tijd',
@@ -73,7 +73,7 @@ describe('List', () => {
 
     expect(
       screen.getByRole('row', {
-        name: '1667 1015 29-11-2018 23:03 Zuid Dode dieren Gemeld Raamgracht 45 1011KJ Amsterdam',
+        name: '1667 1019 29-11-2018 23:03 Zuid Dode dieren Gemeld Raamgracht 45 1011KJ Amsterdam',
       })
     ).toBeInTheDocument()
   })
