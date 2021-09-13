@@ -10,7 +10,6 @@ import { store } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import configuration from 'shared/services/configuration/configuration'
 import type { Result } from 'types/api/reporter'
-import { waitFor } from '@testing-library/react'
 import {
   fetchMock,
   mockRequestHandler,
@@ -185,15 +184,13 @@ describe('Fetch Reporter hook', () => {
       result.current.selectIncident(Number(INCIDENT_ID_2))
     })
 
-    await waitFor(
-      () => expect(result.current.incident?.id).toBe(Number(INCIDENT_ID_2)),
-      { timeout: 3000 }
-    )
-    await waitFor(
-      () =>
-        expect(result.current.incident?.data?.id).toBe(Number(INCIDENT_ID_2)),
-      { timeout: 3000 }
-    )
+    await waitForNextUpdate()
+
+    expect(result.current.incident?.id).toBe(Number(INCIDENT_ID_2))
+
+    await waitForNextUpdate()
+
+    expect(result.current.incident?.data?.id).toBe(Number(INCIDENT_ID_2))
   })
 
   it('does not fetch incident for which the user has no permission', async () => {
@@ -206,7 +203,6 @@ describe('Fetch Reporter hook', () => {
     )
 
     await waitForNextUpdate()
-    await waitForNextUpdate()
 
     // User has no permission to view incident data for incident with id={INCIDENT_ID_3}
     expect(
@@ -218,6 +214,8 @@ describe('Fetch Reporter hook', () => {
     act(() => {
       result.current.selectIncident(Number(INCIDENT_ID_3))
     })
+
+    await waitForNextUpdate()
 
     expect(result.current.incident.isLoading).toBe(false)
   })
