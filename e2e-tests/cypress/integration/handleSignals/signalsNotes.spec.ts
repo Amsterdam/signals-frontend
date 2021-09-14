@@ -30,7 +30,7 @@ sizes.forEach(size => {
 
     it('Should show the signal details', () => {
       cy.get('[href*="/manage/incident/"]')
-        .first()
+        .eq(3)
         .click();
       cy.wait('@getTerms');
       cy.wait('@getHistory');
@@ -117,7 +117,7 @@ sizes.forEach(size => {
 
       cy.get(MANAGE_SIGNALS.filterTagList).contains('Noteletitie');
       cy.get('[href*="/manage/incident/"]')
-        .first()
+        .eq(3)
         .click();
       cy.wait('@getTerms');
       cy.wait('@getHistory');
