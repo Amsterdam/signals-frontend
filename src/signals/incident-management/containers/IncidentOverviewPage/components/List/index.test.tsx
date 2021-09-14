@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import configuration from 'shared/services/configuration/configuration'
 import {
@@ -17,6 +17,7 @@ import users from 'utils/__tests__/fixtures/users.json'
 
 import { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import { StatusCode } from 'signals/incident-management/definitions/types'
+import { formatAddress } from 'shared/services/format-address'
 import IncidentManagementContext from '../../../../context'
 import List, { getDaysOpen } from '.'
 
@@ -46,43 +47,69 @@ describe('List', () => {
     props.onChangeOrdering.mockReset()
   })
 
-  it('should render correctly', () => {
+  it('should render column headers correctly', () => {
     render(withContext(<List {...props} />))
 
-    const columnHeaders = [
+    const expectedHeaders = [
       '', // Split incident column
       '', // Urgency column
       'Id',
       'Dag',
       'Datum en tijd',
-      'Stadsdeel',
       'Subcategorie',
       'Status',
+      'Stadsdeel',
       'Adres',
     ]
 
-    screen.getAllByRole('columnheader').forEach((header, index) => {
-      expect(header).toHaveTextContent(columnHeaders[index])
+    const headers = screen.getAllByRole('columnheader')
+
+    headers.forEach((header, index) => {
+      expect(header).toHaveTextContent(expectedHeaders[index])
     })
+  })
 
-    const INCIDENT_1 = incidents[0]
-    const INCIDENT_2 = incidents[1]
+  it('should render rows correctly', () => {
+    render(withContext(<List {...props} />))
 
-    expect(
-      screen.getByRole('row', {
-        name: `${INCIDENT_1.id} - 03-12-2018 10:41 Centrum ${INCIDENT_1.category.sub} ${INCIDENT_1.status.state_display} ${INCIDENT_1.location.address_text}`,
-      })
-    ).toBeInTheDocument()
+    const [INCIDENT_1, INCIDENT_2] = incidents
 
-    expect(
-      screen.getByRole('row', {
-        name: `${INCIDENT_2.id} ${getDaysOpen(
-          INCIDENT_2 as IncidentListItem
-        )} 29-11-2018 23:03 Zuid ${INCIDENT_2.category.sub} ${
-          INCIDENT_2.status.state_display
-        } ${INCIDENT_2.location.address_text}`,
-      })
-    ).toBeInTheDocument()
+    const expectedRows = [
+      [
+        '',
+        '',
+        `${INCIDENT_1.id}`,
+        '-',
+        '03-12-2018 10:41',
+        INCIDENT_1.category.sub,
+        INCIDENT_1.status.state_display,
+        'Centrum',
+        formatAddress(INCIDENT_1.location.address),
+      ],
+      [
+        '',
+        '',
+        `${INCIDENT_2.id}`,
+        `${getDaysOpen(INCIDENT_2 as IncidentListItem)}`,
+        '29-11-2018 23:03',
+        INCIDENT_2.category.sub,
+        INCIDENT_2.status.state_display,
+        'Zuid',
+        formatAddress(INCIDENT_2.location.address),
+      ],
+    ]
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_columnheaders, ...rows] = screen.getAllByRole('row')
+    expect(rows).toHaveLength(expectedRows.length)
+
+    rows.forEach((row, rowIndex) => {
+      within(row)
+        .getAllByRole('cell')
+        .forEach((cell, index) => {
+          expect(cell).toHaveTextContent(expectedRows[rowIndex][index])
+        })
+    })
   })
 
   it('should handle invalid dates correctly', () => {
@@ -113,27 +140,6 @@ describe('List', () => {
     ).toBeInTheDocument()
   })
 
-  it('should render nowrap correctly', () => {
-    const whiteSpace = 'nowrap'
-    const { container } = render(withContext(<List {...props} />))
-
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(2)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(3)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(4)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(5)')
-    ).toHaveStyleRule('white-space', whiteSpace)
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(6)')
-    ).not.toHaveStyleRule('white-space', whiteSpace)
-  })
-
   it('should render correctly when loading', () => {
     const opacity = '0.3'
     const { rerender, getByTestId } = render(withContext(<List {...props} />))
@@ -150,20 +156,26 @@ describe('List', () => {
   })
 
   it('should render correctly with fetchDistrictsFromBackend', () => {
+    const DISTRICT = 'District'
+    const DISTRICT_INDEX = 7
+
     configuration.featureFlags.fetchDistrictsFromBackend = true
-    configuration.language.district = 'District'
+    configuration.language.district = DISTRICT
 
-    const { container } = render(withContext(<List {...props} />))
+    render(withContext(<List {...props} />))
 
-    expect(container.querySelector('tr th:nth-child(6)')).toHaveTextContent(
-      /^District/
+    const [headers, row1, row2] = screen.getAllByRole('row')
+
+    expect(
+      within(headers).getAllByRole('columnheader')[DISTRICT_INDEX]
+    ).toHaveTextContent(DISTRICT)
+
+    expect(within(row1).getAllByRole('cell')[DISTRICT_INDEX]).toHaveTextContent(
+      'North'
     )
-    expect(
-      container.querySelector('tr:nth-child(1) td:nth-child(6)')
-    ).toHaveTextContent(/^North/)
-    expect(
-      container.querySelector('tr:nth-child(2) td:nth-child(6)')
-    ).toHaveTextContent(/^South/)
+    expect(within(row2).getAllByRole('cell')[DISTRICT_INDEX]).toHaveTextContent(
+      'South'
+    )
   })
 
   it('should render correctly with assignSignalToEmployee', () => {
