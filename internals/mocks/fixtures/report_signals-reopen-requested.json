@@ -1,0 +1,83 @@
+{
+    "total_signal_count": 14,
+    "results": [
+        {
+            "category": {
+                "name": "Overig afval",
+                "departments": [
+                    "AEG",
+                    "ASC",
+                    "STW"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Huisafval",
+                "departments": [
+                    "AEG",
+                    "VIS"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Overig",
+                "departments": [
+                    "ASC"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Onderhoud stoep, straat en fietspad",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Parkeeroverlast",
+                "departments": [
+                    "ASC",
+                    "THO",
+                    "VOR"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Overig openbare ruimte",
+                "departments": [
+                    "ASC"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Overig bedrijven / horeca",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Asbest / accu",
+                "departments": [
+                    "FB",
+                    "THO"
+                ]
+            },
+            "signal_count": 1
+        }
+    ]
+}
