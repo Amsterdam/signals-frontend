@@ -114,12 +114,8 @@ const Signaling: FunctionComponent = () => {
         <StyledColumn span={6} wrap>
           {totalOpen !== null ? (
             <GraphDescription
-              title={`Openstaande meldingen tot en met 2020`}
-              description={`
-              Alle openstaande meldingen die 
-              tot en met 31-12-2020 zijn gemaakt 
-              waarbij de doorlooptijd 3x buiten de afhandeltermijn is.
-            `}
+              title="Meldingen die langer openstaan dan 3x de afhandeltermijn"
+              description="Alle openstaande meldingen, waarbij de doorlooptijd langer is dan 3x buiten de afhandeltermijn is."
               total={totalOpen}
             />
           ) : null}
