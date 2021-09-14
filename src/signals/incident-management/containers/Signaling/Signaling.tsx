@@ -1,5 +1,5 @@
 import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
-import { FunctionComponent, useCallback, useMemo, useEffect } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import styled from 'styled-components'
 import useGetReportOpen from 'hooks/api/useGetReportOpen'
 import useGetReportReopenRequested from 'hooks/api/useGetReportReopenRequested'
@@ -26,8 +26,14 @@ const StyledColumn = styled(Column)`
   }
 `
 
+const endReopenRequestedDate = new Date()
+const daysInThePast = 14
+endReopenRequestedDate.setDate(endReopenRequestedDate.getDate() - daysInThePast)
+const endReopenRequested = endReopenRequestedDate.toISOString()
+
+const endOpen = new Date('2020-12-31').toISOString()
+
 const Signaling: FunctionComponent = () => {
-  const endOpen = useMemo(() => new Date('2020-12-31').toISOString(), [])
   const {
     isLoading: openLoading,
     data: openData,
@@ -35,10 +41,6 @@ const Signaling: FunctionComponent = () => {
     get: getReportOpen,
   } = useGetReportOpen()
 
-  const endReopenRequested = useMemo(
-    () => new Date('2021-04-01').toISOString(),
-    []
-  )
   const {
     isLoading: reopenRequestedLoading,
     data: reopenRequestedData,
@@ -48,13 +50,13 @@ const Signaling: FunctionComponent = () => {
 
   useEffect(() => {
     getReportOpen({ end: endOpen })
-  }, [endOpen, getReportOpen])
+  }, [getReportOpen])
 
   useEffect(() => {
     getReportReopenRequested({ end: endReopenRequested })
-  }, [endReopenRequested, getReportReopenRequested])
+  }, [getReportReopenRequested])
 
-  const getGraphDataFromReport = useCallback((report?: Report) => {
+  const getGraphDataFromReport = (report?: Report) => {
     if (!report) return []
 
     return report.results.map(({ category, signal_count }) => {
@@ -71,25 +73,14 @@ const Signaling: FunctionComponent = () => {
 
       return item
     })
-  }, [])
+  }
 
-  const graphDataOpen = useMemo(
-    () => getGraphDataFromReport(openData),
-    [getGraphDataFromReport, openData]
-  )
-  const totalOpen = useMemo(
-    () => (openData ? openData.total_signal_count : null),
-    [openData]
-  )
-
-  const graphDataReopenRequested = useMemo(
-    () => getGraphDataFromReport(reopenRequestedData),
-    [getGraphDataFromReport, reopenRequestedData]
-  )
-  const totalReopenRequested = useMemo(
-    () => (reopenRequestedData ? reopenRequestedData.total_signal_count : null),
-    [reopenRequestedData]
-  )
+  const graphDataOpen = getGraphDataFromReport(openData)
+  const totalOpen = openData ? openData.total_signal_count : null
+  const graphDataReopenRequested = getGraphDataFromReport(reopenRequestedData)
+  const totalReopenRequested = reopenRequestedData
+    ? reopenRequestedData.total_signal_count
+    : null
 
   const heading = (
     <Row>
@@ -119,7 +110,7 @@ const Signaling: FunctionComponent = () => {
   return (
     <>
       {heading}
-      <Row>
+      <Row data-testid="signaling">
         <StyledColumn span={6} wrap>
           {totalOpen !== null ? (
             <GraphDescription

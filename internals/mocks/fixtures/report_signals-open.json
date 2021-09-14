@@ -1,0 +1,1233 @@
+{
+    "total_signal_count": 5103,
+    "results": [
+        {
+            "category": {
+                "name": "Straatverlichting",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 939
+        },
+        {
+            "category": {
+                "name": "Overig",
+                "departments": [
+                    "ASC"
+                ]
+            },
+            "signal_count": 592
+        },
+        {
+            "category": {
+                "name": "Overig afval",
+                "departments": [
+                    "AEG",
+                    "ASC",
+                    "STW"
+                ]
+            },
+            "signal_count": 405
+        },
+        {
+            "category": {
+                "name": "Onderhoud stoep, straat en fietspad",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 194
+        },
+        {
+            "category": {
+                "name": "Uitwerpselen",
+                "departments": []
+            },
+            "signal_count": 188
+        },
+        {
+            "category": {
+                "name": "Snel varen",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 176
+        },
+        {
+            "category": {
+                "name": "Fietswrak",
+                "departments": [
+                    "THO"
+                ]
+            },
+            "signal_count": 112
+        },
+        {
+            "category": {
+                "name": "Veeg- / zwerfvuil",
+                "departments": []
+            },
+            "signal_count": 96
+        },
+        {
+            "category": {
+                "name": "Grofvuil",
+                "departments": [
+                    "AEG",
+                    "ASC",
+                    "VIS"
+                ]
+            },
+            "signal_count": 83
+        },
+        {
+            "category": {
+                "name": "Jongerenoverlast",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 79
+        },
+        {
+            "category": {
+                "name": "Boom - dood",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 79
+        },
+        {
+            "category": {
+                "name": "Overig bedrijven / horeca",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 78
+        },
+        {
+            "category": {
+                "name": "Veeg- / zwerfvuil",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 74
+        },
+        {
+            "category": {
+                "name": "Geluidsoverlast muziek",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 70
+        },
+        {
+            "category": {
+                "name": "Klok",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 62
+        },
+        {
+            "category": {
+                "name": "Straatverlichting / openbare klok",
+                "departments": []
+            },
+            "signal_count": 61
+        },
+        {
+            "category": {
+                "name": "Huisafval",
+                "departments": [
+                    "AEG",
+                    "VIS"
+                ]
+            },
+            "signal_count": 56
+        },
+        {
+            "category": {
+                "name": "Overig Wegen, verkeer, straatmeubilair",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 56
+        },
+        {
+            "category": {
+                "name": "Asbest / accu",
+                "departments": [
+                    "FB",
+                    "THO"
+                ]
+            },
+            "signal_count": 56
+        },
+        {
+            "category": {
+                "name": "Overlast door bezoekers (niet op terras)",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 54
+        },
+        {
+            "category": {
+                "name": "Wrak in het water",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 51
+        },
+        {
+            "category": {
+                "name": "Daklozen / bedelen",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 50
+        },
+        {
+            "category": {
+                "name": "Parkeeroverlast",
+                "departments": [
+                    "ASC",
+                    "THO",
+                    "VOR"
+                ]
+            },
+            "signal_count": 45
+        },
+        {
+            "category": {
+                "name": "Container is kapot",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 43
+        },
+        {
+            "category": {
+                "name": "Overige overlast door personen",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 42
+        },
+        {
+            "category": {
+                "name": "Gladheid winterdienst",
+                "departments": []
+            },
+            "signal_count": 42
+        },
+        {
+            "category": {
+                "name": "Verkeerslicht",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 40
+        },
+        {
+            "category": {
+                "name": "Maaien",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 39
+        },
+        {
+            "category": {
+                "name": "Geluidsoverlast installaties",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 37
+        },
+        {
+            "category": {
+                "name": "Stankoverlast",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 35
+        },
+        {
+            "category": {
+                "name": "Overige boten",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 35
+        },
+        {
+            "category": {
+                "name": "Wildplassen / poepen / overgeven",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 34
+        },
+        {
+            "category": {
+                "name": "Prullenbak is vol",
+                "departments": []
+            },
+            "signal_count": 34
+        },
+        {
+            "category": {
+                "name": "Uitwerpselen",
+                "departments": [
+                    "ASC",
+                    "STW",
+                    "THO"
+                ]
+            },
+            "signal_count": 34
+        },
+        {
+            "category": {
+                "name": "Nautisch toezicht / vaargedrag",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 31
+        },
+        {
+            "category": {
+                "name": "Overlast terrassen",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 31
+        },
+        {
+            "category": {
+                "name": "Wespen",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 31
+        },
+        {
+            "category": {
+                "name": "Container is vol",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 31
+        },
+        {
+            "category": {
+                "name": "Prullenbak is kapot",
+                "departments": []
+            },
+            "signal_count": 31
+        },
+        {
+            "category": {
+                "name": "Vakantieverhuur",
+                "departments": [
+                    "WON"
+                ]
+            },
+            "signal_count": 30
+        },
+        {
+            "category": {
+                "name": "Overig openbare ruimte",
+                "departments": [
+                    "ASC"
+                ]
+            },
+            "signal_count": 29
+        },
+        {
+            "category": {
+                "name": "Onkruid in het groen",
+                "departments": [
+                    "STW",
+                    "VOR"
+                ]
+            },
+            "signal_count": 28
+        },
+        {
+            "category": {
+                "name": "Drijfvuil bevaarbaar water",
+                "departments": []
+            },
+            "signal_count": 27
+        },
+        {
+            "category": {
+                "name": "Ratten",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 27
+        },
+        {
+            "category": {
+                "name": "Drank- / drugsoverlast",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 26
+        },
+        {
+            "category": {
+                "name": "Wegsleep",
+                "departments": []
+            },
+            "signal_count": 24
+        },
+        {
+            "category": {
+                "name": "Geluid op het water",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 22
+        },
+        {
+            "category": {
+                "name": "Auto- / scooter- / bromfiets(wrak)",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 20
+        },
+        {
+            "category": {
+                "name": "Fietsrek / nietje",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 20
+        },
+        {
+            "category": {
+                "name": "Dode dieren",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 20
+        },
+        {
+            "category": {
+                "name": "Overig dieren",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 19
+        },
+        {
+            "category": {
+                "name": "Bedrijfsafval",
+                "departments": []
+            },
+            "signal_count": 19
+        },
+        {
+            "category": {
+                "name": "Woningkwaliteit",
+                "departments": [
+                    "VTW",
+                    "WON"
+                ]
+            },
+            "signal_count": 19
+        },
+        {
+            "category": {
+                "name": "Lozing / dumping / bodemverontreiniging",
+                "departments": [
+                    "ASC",
+                    "STW",
+                    "THO"
+                ]
+            },
+            "signal_count": 19
+        },
+        {
+            "category": {
+                "name": "Graffiti / wildplak",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 18
+        },
+        {
+            "category": {
+                "name": "Brug",
+                "departments": []
+            },
+            "signal_count": 18
+        },
+        {
+            "category": {
+                "name": "Container plastic kapot",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 17
+        },
+        {
+            "category": {
+                "name": "Duiven",
+                "departments": [
+                    "GGD",
+                    "STL"
+                ]
+            },
+            "signal_count": 17
+        },
+        {
+            "category": {
+                "name": "Leegstand",
+                "departments": [
+                    "WON"
+                ]
+            },
+            "signal_count": 17
+        },
+        {
+            "category": {
+                "name": "Meeuwen",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 16
+        },
+        {
+            "category": {
+                "name": "Graffiti / wildplak",
+                "departments": []
+            },
+            "signal_count": 16
+        },
+        {
+            "category": {
+                "name": "Deelfiets",
+                "departments": []
+            },
+            "signal_count": 15
+        },
+        {
+            "category": {
+                "name": "Container plastic afval vol",
+                "departments": [
+                    "AEG"
+                ]
+            },
+            "signal_count": 15
+        },
+        {
+            "category": {
+                "name": "Sportvoorziening",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 15
+        },
+        {
+            "category": {
+                "name": "Overige Wonen",
+                "departments": [
+                    "WON"
+                ]
+            },
+            "signal_count": 14
+        },
+        {
+            "category": {
+                "name": "Woningdelen / spookburgers",
+                "departments": [
+                    "WON"
+                ]
+            },
+            "signal_count": 14
+        },
+        {
+            "category": {
+                "name": "Verkeersbord / verkeersafzetting",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 13
+        },
+        {
+            "category": {
+                "name": "Verkeersoverlast / Verkeerssituaties",
+                "departments": []
+            },
+            "signal_count": 13
+        },
+        {
+            "category": {
+                "name": "Put / riolering verstopt",
+                "departments": [
+                    "ASC",
+                    "CCA",
+                    "STW"
+                ]
+            },
+            "signal_count": 13
+        },
+        {
+            "category": {
+                "name": "Speelplaats",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 13
+        },
+        {
+            "category": {
+                "name": "Straatmeubilair",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 13
+        },
+        {
+            "category": {
+                "name": "Stank- / geluidsoverlast",
+                "departments": [
+                    "ASC",
+                    "THO",
+                    "VTH"
+                ]
+            },
+            "signal_count": 12
+        },
+        {
+            "category": {
+                "name": "Puin- / sloopafval",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 11
+        },
+        {
+            "category": {
+                "name": "Bouw- / sloopoverlast",
+                "departments": [
+                    "VTH"
+                ]
+            },
+            "signal_count": 11
+        },
+        {
+            "category": {
+                "name": "Overlast door afsteken vuurwerk",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 10
+        },
+        {
+            "category": {
+                "name": "Hinderlijk geplaatst object",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 10
+        },
+        {
+            "category": {
+                "name": "Omleiding / belijning verkeer",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 10
+        },
+        {
+            "category": {
+                "name": "Onderhuur en adreskwaliteit",
+                "departments": [
+                    "WON"
+                ]
+            },
+            "signal_count": 10
+        },
+        {
+            "category": {
+                "name": "Overig groen en water",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 9
+        },
+        {
+            "category": {
+                "name": "Bewegwijzering",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 8
+        },
+        {
+            "category": {
+                "name": "Bruin- en witgoed",
+                "departments": [
+                    "AEG"
+                ]
+            },
+            "signal_count": 8
+        },
+        {
+            "category": {
+                "name": "Afwatering brug",
+                "departments": [
+                    "STW",
+                    "VOR"
+                ]
+            },
+            "signal_count": 7
+        },
+        {
+            "category": {
+                "name": "Vuurwerkoverlast",
+                "departments": []
+            },
+            "signal_count": 7
+        },
+        {
+            "category": {
+                "name": "Oever",
+                "departments": []
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Oevers",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Overlast van taxi's, bussen en fietstaxi's",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Handhaving op afval",
+                "departments": [
+                    "THO"
+                ]
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Overlast vanaf het water",
+                "departments": []
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Beplanting",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Prullenbak is vol",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 6
+        },
+        {
+            "category": {
+                "name": "Sluis",
+                "departments": [
+                    "STW",
+                    "VOR"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Steiger",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Boom - stormschade",
+                "departments": [
+                    "STW",
+                    "VOR"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Autom. Verzinkbare palen",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Ganzen",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Riolering - verstopte kolk",
+                "departments": [
+                    "WAT"
+                ]
+            },
+            "signal_count": 5
+        },
+        {
+            "category": {
+                "name": "Prullenbak is kapot",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Boom - plastic en overig afval",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Container papier kapot",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Woonfraude",
+                "departments": []
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Container papier vol",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Wegwerkzaamheden",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 4
+        },
+        {
+            "category": {
+                "name": "Boom - aanvraag plaatsing",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Brug bediening",
+                "departments": [
+                    "WAT"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Tijdelijke Verkeersmaatregelenn",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Overige dienstverlening",
+                "departments": [
+                    "ASC"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Kades",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Overlast op het water - Vaargedrag",
+                "departments": []
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Gladheid winterdienst",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Onkruid op verharding",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Japanse duizendknoop",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 3
+        },
+        {
+            "category": {
+                "name": "Oplaadpunt",
+                "departments": [
+                    "STL",
+                    "VOR"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Brug",
+                "departments": [
+                    "STW",
+                    "WAT"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Boom - spiegel",
+                "departments": []
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Parkeerautomaten",
+                "departments": [
+                    "PRK",
+                    "VOR"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Olie op het water",
+                "departments": [
+                    "ASC",
+                    "WAT"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Boom - overig",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Stadsplattegronden",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Boom - noodkap",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Verkeerssituaties",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Container glas kapot",
+                "departments": [
+                    "AEG",
+                    "ASC"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Vermoeden",
+                "departments": [
+                    "OOV"
+                ]
+            },
+            "signal_count": 2
+        },
+        {
+            "category": {
+                "name": "Markten",
+                "departments": [
+                    "ASC",
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Camerasystemen",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Gladheid door olie op de weg",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Eikenprocessierups",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Ratten – in en rond een woning",
+                "departments": [
+                    "GGD"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Watergangen",
+                "departments": [
+                    "STW",
+                    "VOR"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Boom - verzoek inspectie",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Drijfvuil bevaarbaar water",
+                "departments": [
+                    "WAT"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Boom - ziekten en plagen",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Drijfvuil niet-bevaarbaar water",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Parkeer verwijssysteem",
+                "departments": [
+                    "VOR"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Snoeien",
+                "departments": [
+                    "STW"
+                ]
+            },
+            "signal_count": 1
+        },
+        {
+            "category": {
+                "name": "Verkeersoverlast",
+                "departments": [
+                    "ASC",
+                    "THO"
+                ]
+            },
+            "signal_count": 1
+        }
+    ]
+}

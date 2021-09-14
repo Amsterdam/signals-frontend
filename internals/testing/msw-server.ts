@@ -22,6 +22,8 @@ import qaQuestionnaireFixture from '../mocks/fixtures/qa-questionnaire.json'
 import qaAnswerFixture from '../mocks/fixtures/qa-answer.json'
 import qaSubmitFixture from '../mocks/fixtures/qa-submit.json'
 import publicIncidentFixture from '../mocks/fixtures/public-incident.json'
+import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json'
+import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code
@@ -201,6 +203,14 @@ const handlers = [
 
   rest.get(`${apiBaseUrl}/signals/v1/public/signals/:uuid`, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(publicIncidentFixture))
+  ),
+
+  rest.get(/reports\/signals\/open/, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(openSignalsReportFixture))
+  ),
+
+  rest.get(/reports\/signals\/reopen-requested/, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(reopenRequestedSignalsReportFixture))
   ),
 
   rest.get(/status-message-templates/, (_req, res, ctx) =>
