@@ -32,7 +32,7 @@ import {
   StyledIcon,
 } from './styles'
 
-const getDaysOpen = (incident: IncidentListItem) => {
+export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList
     .filter(
       ({ shows_remaining_sla_days }) => shows_remaining_sla_days === false

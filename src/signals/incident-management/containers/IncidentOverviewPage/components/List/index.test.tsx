@@ -18,7 +18,7 @@ import users from 'utils/__tests__/fixtures/users.json'
 import { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import IncidentManagementContext from '../../../../context'
-import List from '.'
+import List, { getDaysOpen } from '.'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -76,7 +76,11 @@ describe('List', () => {
 
     expect(
       screen.getByRole('row', {
-        name: `${INCIDENT_2.id} 1019 29-11-2018 23:03 Zuid ${INCIDENT_2.category.sub} ${INCIDENT_2.status.state_display} ${INCIDENT_2.location.address_text}`,
+        name: `${INCIDENT_2.id} ${getDaysOpen(
+          INCIDENT_2 as IncidentListItem
+        )} 29-11-2018 23:03 Zuid ${INCIDENT_2.category.sub} ${
+          INCIDENT_2.status.state_display
+        } ${INCIDENT_2.location.address_text}`,
       })
     ).toBeInTheDocument()
   })
