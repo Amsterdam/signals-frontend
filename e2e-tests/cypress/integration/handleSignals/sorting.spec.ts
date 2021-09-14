@@ -53,7 +53,7 @@ describe('Sorting', () => {
     cy.get(MANAGE_SIGNALS.firstSignalAdres).then(address => {
       expect(address.text()).to.be.oneOf([
         "",
-        "Aaf Bouberstraat 1 1065LP Amsterdam"
+        "Aaf Bouberstraat 1, 1065LP Amsterdam"
       ]);
     });
 
