@@ -15,8 +15,6 @@ import {
 fetchMock.disableMocks()
 
 describe('<Signaling />', () => {
-  beforeEach(() => {})
-
   it('should render data', async () => {
     render(withAppContext(<Signaling />))
 
