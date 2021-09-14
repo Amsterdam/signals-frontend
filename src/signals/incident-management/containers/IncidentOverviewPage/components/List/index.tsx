@@ -22,11 +22,17 @@ import type {
   Definition,
 } from 'signals/incident-management/definitions/types'
 import { IncidentListItem, IncidentList } from 'types/api/incident-list'
+import { formatAddress } from 'shared/services/format-address'
 import IncidentManagementContext from '../../../../context'
 import {
   Th,
   TdStyle,
-  ThStadsdeel,
+  ThArea,
+  ThDate,
+  ThParent,
+  ThPriority,
+  ThStatus,
+  ThSubcategory,
   StyledList,
   Table,
   StyledIcon,
@@ -48,13 +54,12 @@ export const getDaysOpen = (incident: IncidentListItem) => {
   return differenceInCalendarDays(new Date(), createdAtDate)
 }
 
-const Td: FunctionComponent<{ detailLink: string; noWrap?: boolean }> = ({
+const Td: FunctionComponent<{ detailLink: string }> = ({
   detailLink,
-  noWrap,
   children,
   ...rest
 }) => (
-  <TdStyle {...rest} noWrap={noWrap}>
+  <TdStyle {...rest}>
     <span>
       <Link to={detailLink}>{children}</Link>
     </span>
@@ -122,41 +127,44 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <Th data-testid="parent"></Th>
-            <Th data-testid="priority"></Th>
+            <ThParent data-testid="parent"></ThParent>
+            <ThPriority data-testid="priority"></ThPriority>
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
             <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
               Dag {renderChevron('days_open')}
             </Th>
-            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
+            <ThDate data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
-            </Th>
-            {configuration.featureFlags.fetchDistrictsFromBackend ? (
-              <Th
-                data-testid="sortDistrict"
-                onClick={onSort('district,-created_at')}
-              >
-                {configuration.language.district} {renderChevron('district')}
-              </Th>
-            ) : (
-              <ThStadsdeel
-                data-testid="sortStadsdeel"
-                onClick={onSort('stadsdeel,-created_at')}
-              >
-                Stadsdeel {renderChevron('stadsdeel')}
-              </ThStadsdeel>
-            )}
-            <Th
+            </ThDate>
+            <ThSubcategory
               data-testid="sortSubcategory"
               onClick={onSort('sub_category,-created_at')}
             >
               Subcategorie {renderChevron('sub_category')}
-            </Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+            </ThSubcategory>
+            <ThStatus
+              data-testid="sortStatus"
+              onClick={onSort('status,-created_at')}
+            >
               Status {renderChevron('status')}
-            </Th>
+            </ThStatus>
+            {configuration.featureFlags.fetchDistrictsFromBackend ? (
+              <ThArea
+                data-testid="sortDistrict"
+                onClick={onSort('district,-created_at')}
+              >
+                {configuration.language.district} {renderChevron('district')}
+              </ThArea>
+            ) : (
+              <ThArea
+                data-testid="sortStadsdeel"
+                onClick={onSort('stadsdeel,-created_at')}
+              >
+                Stadsdeel {renderChevron('stadsdeel')}
+              </ThArea>
+            )}
             <Th
               data-testid="sortAddress"
               onClick={onSort('address,-created_at')}
@@ -189,9 +197,13 @@ const List: FunctionComponent<ListProps> = ({
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
                   {getDaysOpen(incident)}
                 </Td>
-                <Td detailLink={detailLink} noWrap>
+                <Td detailLink={detailLink}>
                   {string2date(incident.created_at)}{' '}
                   {string2time(incident.created_at)}
+                </Td>
+                <Td detailLink={detailLink}>{incident.category?.sub}</Td>
+                <Td detailLink={detailLink}>
+                  {getListValueByKey(status, incident.status?.state)}
                 </Td>
                 <Td detailLink={detailLink}>
                   {configuration.featureFlags.fetchDistrictsFromBackend
@@ -201,12 +213,9 @@ const List: FunctionComponent<ListProps> = ({
                         incident.location?.stadsdeel
                       )}
                 </Td>
-                <Td detailLink={detailLink}>{incident.category?.sub}</Td>
                 <Td detailLink={detailLink}>
-                  {getListValueByKey(status, incident.status?.state)}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {incident.location?.address_text}
+                  {incident.location.address &&
+                    formatAddress(incident.location.address)}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td detailLink={detailLink}>

@@ -3,7 +3,6 @@
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
   mapLocation,
-  formatAddress,
   featureTolocation,
   locationTofeature,
   wktPointToLocation,
@@ -93,27 +92,6 @@ describe('mapLocation', () => {
   })
 })
 
-describe('formatAddress', () => {
-  it('should return an empty string when no data', () => {
-    expect(formatAddress({})).toEqual('')
-  })
-
-  it('should render the address name', () => {
-    expect(formatAddress(testAddress)).toEqual(
-      'Keizersgracht 666D3, 1016EJ Amsterdam'
-    )
-  })
-
-  it('should render the address without toevoeging', () => {
-    expect(formatAddress(testAddress)).toEqual(
-      'Keizersgracht 666D3, 1016EJ Amsterdam'
-    )
-    expect(
-      formatAddress({ ...testAddress, huisnummer_toevoeging: null })
-    ).toEqual('Keizersgracht 666D, 1016EJ Amsterdam')
-  })
-})
-
 describe('wktPointToLocation', () => {
   it('should convert a WKT point to latlon location ', () => {
     expect(wktPointToLocation('POINT(4.90225668 52.36150435)')).toEqual({
@@ -138,7 +116,7 @@ describe('formatMapLocation', () => {
 
     const result = {
       location: { lat: 52, lng: 4 },
-      addressText: 'Keizersgracht 666D3, 1016EJ Amsterdam',
+      addressText: 'Keizersgracht 666D-3, 1016EJ Amsterdam',
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,

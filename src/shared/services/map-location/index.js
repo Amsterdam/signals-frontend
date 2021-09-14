@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { LatLng } from 'leaflet'
 import configuration from 'shared/services/configuration/configuration'
+import { formatAddress } from 'shared/services/format-address'
 
 export const locationTofeature = (location) => ({
   type: 'Point',
@@ -51,25 +52,6 @@ export const mapLocation = (loc) => {
   return value
 }
 
-const getAddressText = ({
-  openbare_ruimte,
-  huisnummer,
-  huisletter,
-  huisnummer_toevoeging,
-  postcode,
-  woonplaats,
-}) =>
-  [
-    [
-      openbare_ruimte,
-      `${huisnummer || ''}${huisletter || ''}${huisnummer_toevoeging || ''}`,
-    ],
-    [postcode, woonplaats],
-  ]
-    .flatMap((parts) => parts.filter(Boolean).join(' '))
-    .filter(Boolean)
-    .join(', ')
-
 /**
  * Converts a location and address to values
  *
@@ -94,14 +76,12 @@ export const formatMapLocation = (location) => {
   }
 
   if (location.address) {
-    value.addressText = getAddressText(location.address)
+    value.addressText = formatAddress(location.address)
     value.address = location.address
   }
 
   return value
 }
-
-export const formatAddress = (address) => getAddressText(address)
 
 /**
  * Convert geocode response to object with values that can be consumed by our API

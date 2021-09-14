@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { StatusCode } from 'signals/incident-management/definitions/types'
-
-interface Address {
-  postcode: string
-  huisletter: string | null
-  huisnummer: string | number
-  woonplaats: string
-  openbare_ruimte: string
-  huisnummer_toevoeging: string
-}
+import { Address } from 'types/address'
 
 interface Department {
   _display: string

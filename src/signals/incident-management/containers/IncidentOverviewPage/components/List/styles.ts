@@ -31,25 +31,49 @@ export const Th = styled.th`
   }
 `
 
-export const ThStadsdeel = styled(Th)`
-  // Keep Amsterdam's 'Stadsdeel' column at a min-width of 120px to make sure that 'Nieuw-West'
-  // doesn't wrap (but 'Het Amsterdamse Bos' is allowed to wrap)
-  min-width: 120px;
+export const ThParent = styled(Th)`
+  width: 40px;
 `
 
-export const TdStyle = styled.td<{ noWrap?: boolean }>`
-  ${({ noWrap }) => noWrap && 'white-space: nowrap;'}
-  padding: 0;
+export const ThPriority = styled(Th)`
+  width: 32px;
+`
+
+export const ThDate = styled(Th)`
+  width: 150px;
+`
+
+export const ThArea = styled(Th)`
+  width: 120px;
+`
+
+export const ThSubcategory = styled(Th)`
+  width: 220px;
+`
+
+export const ThStatus = styled(Th)`
+  width: 160px;
+`
+
+export const TdStyle = styled.td`
+  padding: 0 ${themeSpacing(2)};
+  height: 60px;
 
   span {
-    display: flex;
-    box-sizing: content-box;
+    display: inline-block;
 
     a {
       text-decoration: none;
       color: black;
-      display: flex;
-      padding: ${themeSpacing(2)};
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      // Show ellipsis on second line
+      @supports (-webkit-line-clamp: 2) {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
     }
   }
 `
