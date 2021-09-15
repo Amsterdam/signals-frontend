@@ -31,8 +31,6 @@ const daysInThePast = 14
 endReopenRequestedDate.setDate(endReopenRequestedDate.getDate() - daysInThePast)
 const endReopenRequested = endReopenRequestedDate.toISOString()
 
-const endOpen = new Date('2020-12-31').toISOString()
-
 const Signaling: FunctionComponent = () => {
   const {
     isLoading: openLoading,
@@ -49,7 +47,7 @@ const Signaling: FunctionComponent = () => {
   } = useGetReportReopenRequested()
 
   useEffect(() => {
-    getReportOpen({ end: endOpen })
+    getReportOpen({ end: new Date().toISOString() })
   }, [getReportOpen])
 
   useEffect(() => {
@@ -115,7 +113,7 @@ const Signaling: FunctionComponent = () => {
           {totalOpen !== null ? (
             <GraphDescription
               title="Meldingen die langer openstaan dan 3x de afhandeltermijn"
-              description="Alle openstaande meldingen, waarbij de doorlooptijd langer is dan 3x buiten de afhandeltermijn is."
+              description="Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn."
               total={totalOpen}
             />
           ) : null}

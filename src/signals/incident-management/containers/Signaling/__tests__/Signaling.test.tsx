@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import signalsReopenRequestedReport from '../../../../../../internals/mocks/fixtures/report_signals-reopen-requested.json'
+import signalsOpenReport from '../../../../../../internals/mocks/fixtures/report_signals-open.json'
 
 import Signaling from '..'
 
@@ -53,6 +54,31 @@ describe('<Signaling />', () => {
     expect(screen.queryByText('13.000')).not.toBeInTheDocument()
   })
 
+  it('fetches open signals up until today', async () => {
+    let reqUrl = new URL('http://localhost:8000')
+
+    server.use(
+      rest.get(/reports\/signals\/open/, async (req, res, ctx) => {
+        const response = await res(ctx.status(200), ctx.json(signalsOpenReport))
+        reqUrl = req.url
+        return response
+      })
+    )
+
+    render(withAppContext(<Signaling />))
+
+    await screen.findByTestId('signaling')
+
+    const today = new Date()
+    const end = new Date(reqUrl.searchParams.get('end') || '')
+
+    expect(today.getDate()).toEqual(end.getDate())
+    expect(today.getMonth()).toEqual(end.getMonth())
+    expect(today.getFullYear()).toEqual(end.getFullYear())
+
+    expect(reqUrl.searchParams.get('start')).toBeNull()
+  })
+
   it('fetches reopen requests up until 14 days ago', async () => {
     let reqUrl = new URL('http://localhost:8000')
 
@@ -79,5 +105,7 @@ describe('<Signaling />', () => {
     expect(twoWeeksAgo.getDate()).toEqual(end.getDate())
     expect(twoWeeksAgo.getMonth()).toEqual(end.getMonth())
     expect(twoWeeksAgo.getFullYear()).toEqual(end.getFullYear())
+
+    expect(reqUrl.searchParams.get('start')).toBeNull()
   })
 })
