@@ -57,7 +57,7 @@ const ChangeValue = ({
   display,
   infoKey = '',
   options,
-  groups = null,
+  groups,
   patch = {},
   path,
   sort,
@@ -245,6 +245,10 @@ const ChangeValue = ({
       )}
     </Fragment>
   )
+}
+
+ChangeValue.defaultProps = {
+  groups: undefined,
 }
 
 ChangeValue.propTypes = {
