@@ -36,15 +36,15 @@ const StyledGPSButton = styled(GPSButton)`
 `
 
 const Map = ({
-  children = null,
+  children,
   className = '',
   'data-testid': dataTestId = 'map-base',
-  events = null,
+  events,
   hasGPSControl = false,
   hasZoomControls = false,
   fullScreen = false,
   mapOptions,
-  setInstance = null,
+  setInstance,
 }) => {
   const dispatch = useDispatch()
   const [mapInstance, setMapInstance] = useState()
@@ -148,8 +148,17 @@ const Map = ({
   )
 }
 
+Map.defaultProps = {
+  children: null,
+  events: undefined,
+  setInstance: undefined,
+}
+
 Map.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   /** @ignore */
   className: PropTypes.string,
   'data-testid': PropTypes.string,

@@ -69,7 +69,7 @@ module.exports = webpackBase({
     {
       loader: 'ts-loader',
       options: {
-        transpileOnly: true, // fork-ts-checker-webpack-plugin is used for type checking
+        transpileOnly: false,
         logLevel: 'info',
         getCustomTransformers: () => ({
           before: [styledComponentsTransformer],
