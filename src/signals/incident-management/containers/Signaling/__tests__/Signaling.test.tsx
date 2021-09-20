@@ -69,14 +69,8 @@ describe('<Signaling />', () => {
 
     await screen.findByTestId('signaling')
 
-    const today = new Date()
-    const end = new Date(reqUrl.searchParams.get('end') || '')
-
-    expect(today.getDate()).toEqual(end.getDate())
-    expect(today.getMonth()).toEqual(end.getMonth())
-    expect(today.getFullYear()).toEqual(end.getFullYear())
-
     expect(reqUrl.searchParams.get('start')).toBeNull()
+    expect(reqUrl.searchParams.get('end')).toBeNull()
   })
 
   it('fetches reopen requests up until 14 days ago', async () => {
