@@ -47,12 +47,9 @@ const Signaling: FunctionComponent = () => {
   } = useGetReportReopenRequested()
 
   useEffect(() => {
-    getReportOpen({ end: new Date().toISOString() })
-  }, [getReportOpen])
-
-  useEffect(() => {
+    getReportOpen()
     getReportReopenRequested({ end: endReopenRequested })
-  }, [getReportReopenRequested])
+  }, [getReportOpen, getReportReopenRequested])
 
   const getGraphDataFromReport = (report?: Report) => {
     if (!report) return []
