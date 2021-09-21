@@ -69,7 +69,7 @@ module.exports = webpackBase({
     {
       loader: 'ts-loader',
       options: {
-        transpileOnly: false,
+        transpileOnly: true,
         logLevel: 'info',
         getCustomTransformers: () => ({
           before: [styledComponentsTransformer],
