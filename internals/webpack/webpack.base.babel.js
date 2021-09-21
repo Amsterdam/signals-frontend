@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const pkgDir = require('pkg-dir')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -165,6 +166,17 @@ module.exports = (options) => ({
     }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
+
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          syntactic: true,
+          semantic: true,
+          declaration: false,
+          global: false,
+        },
+      },
+    }),
   ]
     .concat(options.plugins)
     .filter(Boolean),
