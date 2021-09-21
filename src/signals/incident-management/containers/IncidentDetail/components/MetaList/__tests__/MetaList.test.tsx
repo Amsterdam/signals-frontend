@@ -13,7 +13,7 @@ import {
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import { StatusCode } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'

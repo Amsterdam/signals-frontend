@@ -1,6 +1,6 @@
 import type { FetchError } from 'hooks/useFetch'
 import { AnyAction } from 'redux'
-import { StatusCode } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 import type ContextType from 'types/context'
 

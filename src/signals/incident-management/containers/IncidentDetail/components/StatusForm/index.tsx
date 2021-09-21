@@ -9,10 +9,7 @@ import {
 } from 'react'
 import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
-import {
-  changeStatusOptionList,
-  StatusCode,
-} from 'signals/incident-management/definitions/statusList'
+import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
 import TextArea from 'components/TextArea'
@@ -22,6 +19,7 @@ import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import { Incident } from 'types/api/incident'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import { IncidentChild } from '../../types'

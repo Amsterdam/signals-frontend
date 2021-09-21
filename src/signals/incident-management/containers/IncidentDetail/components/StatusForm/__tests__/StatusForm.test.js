@@ -11,10 +11,10 @@ import {
   AFGEHANDELD,
   GEANNULEERD,
   REACTIE_GEVRAAGD,
-  StatusCode,
   HEROPEND,
   AFWACHTING,
 } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import userEvent from '@testing-library/user-event'
 import { PATCH_TYPE_STATUS } from '../../../constants'

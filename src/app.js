@@ -36,6 +36,7 @@ if (dsn) {
     environment,
     dsn,
     release,
+    autoSessionTracking: false,
   })
 }
 

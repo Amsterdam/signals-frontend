@@ -280,7 +280,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
   }),
   orderingChangedAction: PropTypes.func.isRequired,
   pageChangedAction: PropTypes.func.isRequired,
-  ordering: PropTypes.string,
+  ordering: PropTypes.string.isRequired,
   page: PropTypes.number,
 }
 

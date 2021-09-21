@@ -11,9 +11,7 @@ interface Address {
   huisnummer_toevoeging: string
 }
 
-type Coordinates = [number, number]
-
-export interface Department {
+interface Department {
   _display: string
   id: number
   name: string
@@ -23,16 +21,14 @@ export interface Department {
   category_names: string[]
 }
 
-export interface Incident {
+interface Note {
+  created_by: string | null
+  text: string
+}
+
+export interface IncidentListItem {
   _links: {
-    curies: { href: string; name: string }
     self: { href: string }
-    archives: { href: string }
-    'sia:children'?: { href: string }[]
-    'sia:parent'?: { href: string }
-    'sia:attachments': { href: string }
-    'sia:pdf': { href: string }
-    'sia:context': { href: string }
   }
   _display: string
   category: {
@@ -59,7 +55,7 @@ export interface Incident {
     address_text?: string | null
     geometrie: {
       type: string
-      coordinates: Coordinates
+      coordinates: number[]
     }
     extra_properties: Record<string, unknown> | null
     created_by?: string | null
@@ -85,7 +81,7 @@ export interface Incident {
     priority: 'normal' | 'high' | 'low'
     created_by: string | null
   }
-  notes: []
+  notes: Note[]
   type: {
     code: 'SIG' | 'REQ' | 'QUE' | 'COM' | 'MAI'
     created_at: string
@@ -99,7 +95,11 @@ export interface Incident {
   updated_at: string
   incident_date_start?: string | null
   incident_date_end?: string | null
-  attachments: string[]
   assigned_user_email: string | null
   routing_departments: Department[] | null
+  has_children: boolean
+  has_parent: boolean
+  signal_id: string
 }
+
+export type IncidentList = IncidentListItem[]

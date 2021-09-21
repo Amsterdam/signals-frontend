@@ -2,18 +2,24 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 
 import listIcons from 'signals/incident-management/definitions/listIcons'
-import { ListItem } from 'signals/incident-management/definitions/types'
+import {
+  Definition,
+  Priority,
+} from 'signals/incident-management/definitions/types'
 
-export const getListValueByKey = (list?: ListItem[], key?: ListItem['key']) => {
+export const getListValueByKey = (
+  list?: Definition[],
+  key?: Definition['key'] | null
+) => {
   const comparator =
-    list && key ? (s: ListItem) => s.key === key : (s: ListItem) => !s.key
+    list && key ? (s: Definition) => s.key === key : (s: Definition) => !s.key
   const item = list?.find(comparator)
   const value = item ? item.value : 'Niet gevonden'
 
   return item || key ? value : false
 }
 
-export const getListIconByKey = (list: ListItem[], key: ListItem['key']) => {
+export const getListIconByKey = (list: Priority[], key?: Definition['key']) => {
   const iconName = list.find((item) => item.key === key)?.icon
 
   return iconName ? listIcons[iconName] : null

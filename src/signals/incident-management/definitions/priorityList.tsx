@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { ListItem } from './types'
+import { Priority } from './types'
 
-const priorityList: ListItem[] = [
+const priorityList: Priority[] = [
   {
     key: 'high',
     value: 'Hoog',

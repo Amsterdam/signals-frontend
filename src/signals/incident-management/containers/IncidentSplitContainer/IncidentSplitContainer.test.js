@@ -105,8 +105,20 @@ const renderAwait = async (
 
 const Form =
   (formData = submittedFormData) =>
-  ({ onSubmit, ...props }) => {
-    const handleSubmit = () => {
+  // making sure that the <form> elements doesn't print unsupported attributes
+  ({
+    onSubmit,
+    // eslint-disable-next-line no-unused-vars
+    parentIncident,
+    // eslint-disable-next-line no-unused-vars
+    directingDepartments,
+    // eslint-disable-next-line no-unused-vars
+    isSubmitting,
+    ...props
+  }) => {
+    const handleSubmit = (e) => {
+      // preventing default form submission behaviour to suppress warning in the test console log
+      e.preventDefault()
       onSubmit(formData)
     }
 

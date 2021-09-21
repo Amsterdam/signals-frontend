@@ -1,27 +1,38 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useCallback, useContext } from 'react'
-import PropTypes from 'prop-types'
+import { FunctionComponent, useCallback, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets'
-import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import { Icon } from '@amsterdam/asc-ui'
 
 import { string2date, string2time } from 'shared/services/string-parser'
 import {
   getListValueByKey,
   getListIconByKey,
 } from 'shared/services/list-helpers/list-helpers'
-import * as types from 'shared/types'
 import configuration from 'shared/services/configuration/configuration'
 import { statusList } from 'signals/incident-management/definitions'
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
 
+import type {
+  Status,
+  Priority,
+  Definition,
+} from 'signals/incident-management/definitions/types'
+import { IncidentListItem, IncidentList } from 'types/api/incident-list'
 import IncidentManagementContext from '../../../../context'
+import {
+  Th,
+  TdStyle,
+  ThStadsdeel,
+  StyledList,
+  Table,
+  StyledIcon,
+} from './styles'
 
-const getDaysOpen = (incident) => {
+export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList
     .filter(
       ({ shows_remaining_sla_days }) => shows_remaining_sla_days === false
@@ -29,87 +40,46 @@ const getDaysOpen = (incident) => {
     .map(({ key }) => key)
   const hasDaysOpen =
     incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)
-  const start = hasDaysOpen && parseISO(incident.created_at)
-  return hasDaysOpen ? -differenceInCalendarDays(start, new Date()) : '-'
+
+  const createdAtDate = parseISO(incident.created_at)
+
+  if (!hasDaysOpen || isNaN(createdAtDate.getTime())) return '-'
+
+  return differenceInCalendarDays(new Date(), createdAtDate)
 }
 
-const StyledList = styled.div`
-  width: 100%;
-  overflow: auto;
-
-  ${({ isLoading }) => isLoading && 'opacity: 0.3;'}
-`
-
-const Table = styled.table`
-  border-collapse: separate;
-  width: 100%;
-  height: 100%;
-
-  tr:hover td,
-  td {
-    box-shadow: unset;
-  }
-`
-
-const Th = styled.th`
-  cursor: pointer;
-  font-weight: normal;
-  white-space: nowrap;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  ${(props) =>
-    // Keep Amsterdam's 'Stadsdeel' column at a min-width of 120px to make sure that 'Nieuw-West'
-    // doesn't wrap (but 'Het Amsterdamse Bos' is allowed to wrap)
-    props['data-testid'] === 'sortStadsdeel' && 'min-width: 120px;'}
-`
-
-const TdStyle = styled.td`
-  ${({ noWrap }) => noWrap && 'white-space: nowrap;'}
-  padding: 0;
-
-  span {
-    display: flex;
-    box-sizing: content-box;
-
-    a {
-      text-decoration: none;
-      color: black;
-      display: flex;
-      padding: ${themeSpacing(2)};
-    }
-  }
-`
-
-const Td = ({ detailLink, children, ...rest }) => (
-  <TdStyle {...rest}>
+const Td: FunctionComponent<{ detailLink: string; noWrap?: boolean }> = ({
+  detailLink,
+  noWrap,
+  children,
+  ...rest
+}) => (
+  <TdStyle {...rest} noWrap={noWrap}>
     <span>
       <Link to={detailLink}>{children}</Link>
     </span>
   </TdStyle>
 )
 
-Td.propTypes = {
-  detailLink: PropTypes.string.isRequired,
-  children: PropTypes.node,
-}
-
-const StyledIcon = styled(Icon)`
-  & svg {
-    fill: ${themeColor('tint', 'level4')};
-  }
-`
-
-const ChildIcon = () => (
+const ChildIcon: FunctionComponent = () => (
   <StyledIcon size={14} role="img" aria-label="Deelmelding">
     <Play />
   </StyledIcon>
 )
 
-const List = ({
-  className = '',
+interface ListProps {
+  className?: string
+  incidents: IncidentList
+  isLoading?: boolean
+  onChangeOrdering: (sort: string) => void
+  priority: Priority[]
+  stadsdeel: Definition[]
+  status: Status[]
+  sort: string
+}
+
+const List: FunctionComponent<ListProps> = ({
+  className,
   incidents,
   isLoading = false,
   onChangeOrdering,
@@ -122,7 +92,7 @@ const List = ({
 
   const onSort = useCallback(
     (newSort) => () => {
-      const sortIsAsc = sort?.indexOf(newSort) === 0
+      const sortIsAsc = sort.indexOf(newSort) === 0
       onChangeOrdering(sortIsAsc ? `-${newSort}` : newSort)
     },
     [onChangeOrdering, sort]
@@ -130,9 +100,9 @@ const List = ({
 
   const renderChevron = useCallback(
     (column) => {
-      const currentSort = sort?.split(',')[0]
-      const isColumnSorted = currentSort?.indexOf(column) > -1
-      const sortDirection = currentSort?.charAt(0) === '-' ? 'down' : 'up'
+      const currentSort = sort.split(',')[0]
+      const isColumnSorted = currentSort.indexOf(column) > -1
+      const sortDirection = currentSort.charAt(0) === '-' ? 'down' : 'up'
 
       return isColumnSorted ? (
         <Icon inline size={12}>
@@ -171,12 +141,12 @@ const List = ({
                 {configuration.language.district} {renderChevron('district')}
               </Th>
             ) : (
-              <Th
+              <ThStadsdeel
                 data-testid="sortStadsdeel"
                 onClick={onSort('stadsdeel,-created_at')}
               >
                 Stadsdeel {renderChevron('stadsdeel')}
-              </Th>
+              </ThStadsdeel>
             )}
             <Th
               data-testid="sortSubcategory"
@@ -225,26 +195,18 @@ const List = ({
                 </Td>
                 <Td detailLink={detailLink}>
                   {configuration.featureFlags.fetchDistrictsFromBackend
-                    ? getListValueByKey(
-                        districts,
-                        incident.location && incident.location.area_code
-                      )
+                    ? getListValueByKey(districts, incident.location?.area_code)
                     : getListValueByKey(
                         stadsdeel,
-                        incident.location && incident.location.stadsdeel
+                        incident.location?.stadsdeel
                       )}
                 </Td>
+                <Td detailLink={detailLink}>{incident.category?.sub}</Td>
                 <Td detailLink={detailLink}>
-                  {incident.category && incident.category.sub}
+                  {getListValueByKey(status, incident.status?.state)}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {getListValueByKey(
-                    status,
-                    incident.status && incident.status.state
-                  )}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {incident.location && incident.location.address_text}
+                  {incident.location?.address_text}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td detailLink={detailLink}>
@@ -258,16 +220,6 @@ const List = ({
       </Table>
     </StyledList>
   )
-}
-
-List.propTypes = {
-  className: PropTypes.string,
-  incidents: PropTypes.arrayOf(types.incidentType).isRequired,
-  onChangeOrdering: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  sort: PropTypes.string,
-  stadsdeel: types.dataListType.isRequired,
-  status: types.dataListType.isRequired,
 }
 
 export default List

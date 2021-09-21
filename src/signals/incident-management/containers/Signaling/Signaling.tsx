@@ -1,5 +1,5 @@
 import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
-import { FunctionComponent, useCallback, useMemo, useEffect } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import styled from 'styled-components'
 import useGetReportOpen from 'hooks/api/useGetReportOpen'
 import useGetReportReopenRequested from 'hooks/api/useGetReportReopenRequested'
@@ -26,8 +26,12 @@ const StyledColumn = styled(Column)`
   }
 `
 
+const endReopenRequestedDate = new Date()
+const daysInThePast = 14
+endReopenRequestedDate.setDate(endReopenRequestedDate.getDate() - daysInThePast)
+const endReopenRequested = endReopenRequestedDate.toISOString()
+
 const Signaling: FunctionComponent = () => {
-  const endOpen = useMemo(() => new Date('2020-12-31').toISOString(), [])
   const {
     isLoading: openLoading,
     data: openData,
@@ -35,10 +39,6 @@ const Signaling: FunctionComponent = () => {
     get: getReportOpen,
   } = useGetReportOpen()
 
-  const endReopenRequested = useMemo(
-    () => new Date('2021-04-01').toISOString(),
-    []
-  )
   const {
     isLoading: reopenRequestedLoading,
     data: reopenRequestedData,
@@ -47,14 +47,11 @@ const Signaling: FunctionComponent = () => {
   } = useGetReportReopenRequested()
 
   useEffect(() => {
-    getReportOpen({ end: endOpen })
-  }, [endOpen, getReportOpen])
-
-  useEffect(() => {
+    getReportOpen()
     getReportReopenRequested({ end: endReopenRequested })
-  }, [endReopenRequested, getReportReopenRequested])
+  }, [getReportOpen, getReportReopenRequested])
 
-  const getGraphDataFromReport = useCallback((report?: Report) => {
+  const getGraphDataFromReport = (report?: Report) => {
     if (!report) return []
 
     return report.results.map(({ category, signal_count }) => {
@@ -71,25 +68,14 @@ const Signaling: FunctionComponent = () => {
 
       return item
     })
-  }, [])
+  }
 
-  const graphDataOpen = useMemo(
-    () => getGraphDataFromReport(openData),
-    [getGraphDataFromReport, openData]
-  )
-  const totalOpen = useMemo(
-    () => (openData ? openData.total_signal_count : null),
-    [openData]
-  )
-
-  const graphDataReopenRequested = useMemo(
-    () => getGraphDataFromReport(reopenRequestedData),
-    [getGraphDataFromReport, reopenRequestedData]
-  )
-  const totalReopenRequested = useMemo(
-    () => (reopenRequestedData ? reopenRequestedData.total_signal_count : null),
-    [reopenRequestedData]
-  )
+  const graphDataOpen = getGraphDataFromReport(openData)
+  const totalOpen = openData ? openData.total_signal_count : null
+  const graphDataReopenRequested = getGraphDataFromReport(reopenRequestedData)
+  const totalReopenRequested = reopenRequestedData
+    ? reopenRequestedData.total_signal_count
+    : null
 
   const heading = (
     <Row>
@@ -119,16 +105,12 @@ const Signaling: FunctionComponent = () => {
   return (
     <>
       {heading}
-      <Row>
+      <Row data-testid="signaling">
         <StyledColumn span={6} wrap>
           {totalOpen !== null ? (
             <GraphDescription
-              title={`Openstaande meldingen tot en met 2020`}
-              description={`
-              Alle openstaande meldingen die 
-              tot en met 31-12-2020 zijn gemaakt 
-              waarbij de doorlooptijd 3x buiten de afhandeltermijn is.
-            `}
+              title="Meldingen die langer openstaan dan 3x de afhandeltermijn"
+              description="Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn."
               total={totalOpen}
             />
           ) : null}
@@ -144,16 +126,13 @@ const Signaling: FunctionComponent = () => {
           )}
         </StyledColumn>
         <StyledColumn span={6} wrap>
-          {totalReopenRequested !== null ? (
+          {totalReopenRequested !== null && (
             <GraphDescription
-              title={`Verzoek tot heropenen tot en met Q1 2021`}
-              description={`
-              Meldingen waarbij de melder voor 01-04-2021 
-              een "verzoek tot heropenen" heeft gedaan.
-            `}
+              title="Verzoek tot heropenen langer dan 2 weken geleden"
+              description={`Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.`}
               total={totalReopenRequested}
             />
-          ) : null}
+          )}
 
           {totalReopenRequested === 0 ? (
             <GraphEmpty text={'Hier is niks meer te signaleren'} />
