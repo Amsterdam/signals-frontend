@@ -11,6 +11,8 @@ stats.json
 /app.*.json
 !/app.base.json
 !/app.amsterdam.json
+.githubtoken
+.jiratoken
 
 # Cruft
 .DS_Store
