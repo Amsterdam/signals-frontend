@@ -30,7 +30,7 @@ COPY .gitignore \
   app.amsterdam.json \
   /app/
 
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY assets /app/assets
 COPY server /app/server
