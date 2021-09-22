@@ -124,6 +124,7 @@ module.exports = (options) => ({
             },
           },
         ],
+        dependency: { not: ['url'] },
         type: 'javascript/auto',
       },
       {

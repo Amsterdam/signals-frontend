@@ -16,9 +16,9 @@ import loadModels from 'models'
 
 // Make sure these icons are picked up by webpack
 /* eslint-disable import/no-unresolved,import/extensions */
-import '!file-loader?name=[name].[ext]!./images/favicon.png'
-import '!file-loader?name=[name].[ext]!./images/icon_180x180.png'
-import '!file-loader?name=[name].[ext]!./images/icon_192x192.png'
+import '!file-loader?name=[name][ext]!./images/favicon.png'
+import '!file-loader?name=[name][ext]!./images/icon_180x180.png'
+import '!file-loader?name=[name][ext]!./images/icon_192x192.png'
 /* eslint-enable import/no-unresolved,import/extensions */
 
 // Import CSS and Global Styles
