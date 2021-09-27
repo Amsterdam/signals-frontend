@@ -65,7 +65,7 @@ const Td: FunctionComponent<{ detailLink: string }> = ({
 )
 
 const ChildIcon: FunctionComponent = () => (
-  <StyledIcon size={14} role="img" aria-label="Deelmelding">
+  <StyledIcon aria-label="Deelmelding" data-testid="childIcon">
     <Play />
   </StyledIcon>
 )
@@ -189,7 +189,9 @@ const List: FunctionComponent<ListProps> = ({
                   {incident.has_parent && <ChildIcon />}
                 </Td>
                 <Td detailLink={detailLink}>
-                  {getListIconByKey(priority, incident.priority?.priority)}
+                  <StyledIcon>
+                    {getListIconByKey(priority, incident.priority?.priority)}
+                  </StyledIcon>
                 </Td>
                 <Td detailLink={detailLink}>{incident.id}</Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">

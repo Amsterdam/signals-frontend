@@ -73,7 +73,10 @@ export const TdStyle = styled.td`
   }
 `
 
-export const StyledIcon = styled(Icon)`
+export const StyledIcon = styled(Icon).attrs({
+  size: 14,
+  role: 'img',
+})`
   & svg {
     fill: ${themeColor('tint', 'level4')};
   }
