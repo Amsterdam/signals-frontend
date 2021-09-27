@@ -59,22 +59,17 @@ export const TdStyle = styled.td`
   padding: 0 ${themeSpacing(2)};
   height: 60px;
 
-  span {
-    display: inline-block;
+  a {
+    text-decoration: none;
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-    a {
-      text-decoration: none;
-      color: black;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      // Show ellipsis on second line
-      @supports (-webkit-line-clamp: 2) {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-    }
+    // Show ellipsis on second line
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
   }
 `
 

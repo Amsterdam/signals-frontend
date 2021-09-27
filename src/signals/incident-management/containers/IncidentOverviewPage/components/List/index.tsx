@@ -60,9 +60,7 @@ const Td: FunctionComponent<{ detailLink: string }> = ({
   ...rest
 }) => (
   <TdStyle {...rest}>
-    <span>
-      <Link to={detailLink}>{children}</Link>
-    </span>
+    <Link to={detailLink}>{children}</Link>
   </TdStyle>
 )
 
