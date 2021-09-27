@@ -33,6 +33,7 @@
     "start:tunnel": "cross-env BABEL_ENV=production NODE_ENV=production ENABLE_TUNNEL=true node server",
     "start": "cross-env NODE_ENV=development BABEL_ENV=development node server -- --port=3001",
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn jest --coverage --runInBand",
+    "test:logHeapUsage": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage",
     "test:clean": "rimraf ./coverage",
     "test:concurrent": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn jest --coverage",
     "validate-config": "node ./internals/scripts/validate-config.js",

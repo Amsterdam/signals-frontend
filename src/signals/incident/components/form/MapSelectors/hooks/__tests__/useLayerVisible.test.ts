@@ -6,8 +6,8 @@ import '@amsterdam/react-maps'
 import EventDispathcher from 'test/EventDispatcher'
 import useLayerVisible, { isLayerVisible } from '../useLayerVisible'
 
-const getZoomMock = jest.fn()
-const eventDispatcher = new EventDispathcher()
+const mockGetZoom = jest.fn()
+const mockEventDispatcher = new EventDispathcher()
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock('@amsterdam/react-maps', () => ({
@@ -15,9 +15,9 @@ jest.mock('@amsterdam/react-maps', () => ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ...jest.requireActual('@amsterdam/react-maps')!,
   useMapInstance: () => ({
-    getZoom: getZoomMock,
+    getZoom: mockGetZoom,
     off: jest.fn(),
-    on: eventDispatcher.register,
+    on: mockEventDispatcher.register,
   }),
 }))
 
@@ -35,8 +35,8 @@ describe('isLayerVisible', () => {
 
 describe('useLayerVisible', () => {
   beforeEach(() => {
-    getZoomMock.mockReset()
-    eventDispatcher.events = {}
+    mockGetZoom.mockReset()
+    mockEventDispatcher.events = {}
   })
 
   it('should return true when the layer is visible', () => {
@@ -51,13 +51,13 @@ describe('useLayerVisible', () => {
     const { result } = renderHook(() => useLayerVisible(zoomLevel))
     expect(result.current).toEqual(true)
 
-    getZoomMock.mockImplementation(() => 11)
-    eventDispatcher.trigger('zoomend')
+    mockGetZoom.mockImplementation(() => 11)
+    mockEventDispatcher.trigger('zoomend')
 
     expect(result.current).toEqual(false)
 
-    getZoomMock.mockImplementation(() => 13)
-    eventDispatcher.trigger('zoomend')
+    mockGetZoom.mockImplementation(() => 13)
+    mockEventDispatcher.trigger('zoomend')
     expect(result.current).toEqual(true)
   })
 })
