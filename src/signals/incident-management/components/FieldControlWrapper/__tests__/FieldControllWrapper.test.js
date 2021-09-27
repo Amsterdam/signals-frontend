@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { render } from '@testing-library/react'
 
 import { FormControl } from 'react-reactive-form'
 import FieldControlWrapper from '..'
 import TextInput from '../../TextInput'
 import HiddenInput from '../../HiddenInput'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 describe('FieldControlWrapper', () => {
   const values = [{ key: 'foo', value: 'Foo' }]

@@ -249,4 +249,5 @@ const handlers = [
 
 const server = setupServer(...handlers)
 
-export { server, rest, MockedRequest, fetchMock }
+export { server, rest, fetchMock }
+export type { MockedRequest }

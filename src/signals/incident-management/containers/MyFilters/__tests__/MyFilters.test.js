@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { mount } from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { createEvent, fireEvent, render } from '@testing-library/react'
 import * as definitions from 'signals/incident-management/definitions'
 
 import { withAppContext } from 'test/utils'
 import MyFilters, { MyFiltersComponent } from '..'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('signals/shared/filter/parse', () => {
   const actual = jest.requireActual('signals/shared/filter/parse')
