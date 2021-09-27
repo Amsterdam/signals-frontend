@@ -31,13 +31,25 @@ import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
 
-jest.mock('models/categories/selectors', () => ({
-  __esModule: true,
-  ...jest.requireActual('models/categories/selectors'),
-  makeSelectStructuredCategories: () => categories,
-}))
+jest.mock('models/categories/selectors', () => {
+  const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: () => structuredCategorie,
+  }
+})
 
-jest.spyOn(store, 'dispatch')
+const dispatchSpy = jest.spyOn(store, 'dispatch')
+const makeSelectDirectingDepartmentsSpy = jest.spyOn(
+  departmentsSelectors,
+  'makeSelectDirectingDepartments'
+)
+const makeSelectRoutingDepartmentsSpy = jest.spyOn(
+  departmentsSelectors,
+  'makeSelectRoutingDepartments'
+)
+const makeSelectUserCanSpy = jest.spyOn(appSelectors, 'makeSelectUserCan')
 
 const mockResponse = JSON.stringify(autocompleteUsernames)
 
@@ -67,6 +79,14 @@ describe('signals/incident-management/components/FilterForm', () => {
   afterEach(() => {
     fetch.resetMocks()
     configuration.__reset()
+  })
+
+  afterAll(() => {
+    fetch.mockRestore()
+    dispatchSpy.mockRestore()
+    makeSelectDirectingDepartmentsSpy.mockRestore()
+    makeSelectRoutingDepartmentsSpy.mockRestore()
+    makeSelectUserCanSpy.mockRestore()
   })
 
   it('should render a name field', () => {
@@ -307,9 +327,9 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 
   it('should render a list of directing_department options', () => {
-    jest
-      .spyOn(departmentsSelectors, 'makeSelectDirectingDepartments')
-      .mockImplementation(() => directingDepartments)
+    makeSelectDirectingDepartmentsSpy.mockImplementation(
+      () => directingDepartments
+    )
     const { container } = render(withContext(<FilterForm {...formProps} />))
 
     expect(screen.getByText('Regie hoofdmelding')).toBeInTheDocument()
@@ -346,9 +366,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     const aegName = departmentOptions[2].value
 
     beforeEach(() => {
-      jest
-        .spyOn(departmentsSelectors, 'makeSelectRoutingDepartments')
-        .mockImplementation(() => departmentOptions)
+      makeSelectRoutingDepartmentsSpy.mockImplementation(
+        () => departmentOptions
+      )
     })
 
     it('should not render a list of departments with assignSignalToDepartment disabled', () => {
@@ -563,9 +583,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     })
 
     it('should clear correctly on form clear', async () => {
-      jest
-        .spyOn(appSelectors, 'makeSelectUserCan')
-        .mockImplementation(() => () => false)
+      makeSelectUserCanSpy.mockImplementation(() => () => false)
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
 

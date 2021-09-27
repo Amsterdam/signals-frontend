@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { mount } from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { render, fireEvent, act } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import SearchBarContainer, { SearchBarComponent } from '..'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 describe('containers/SearchBar', () => {
   it('should have props from structured selector', () => {

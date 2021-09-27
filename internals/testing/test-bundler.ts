@@ -4,34 +4,14 @@ import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
 
 import L from 'leaflet'
-import 'core-js/stable'
-import 'regenerator-runtime'
-import 'url-polyfill'
 import 'jest-localstorage-mock'
 
-import { configure } from '@testing-library/react'
-import { JSDOM } from 'jsdom'
-import Enzyme from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import fetchMock from 'jest-fetch-mock'
 
 import { baseConfig } from '../scripts/helpers/config'
 
 fetchMock.enableMocks()
-
-configure({
-  showOriginalStackTrace: true,
-  asyncUtilTimeout: 10000,
-})
-
-// React Enzyme adapter
-Enzyme.configure({ adapter: new Adapter() })
-
 const globalAny = global as any
-const { window } = new JSDOM('<!DOCTYPE html><p>Hello world</p>', {
-  pretendToBeVisual: true,
-  resources: 'usable',
-})
 globalAny.document = window.document
 globalAny.navigator.geolocation = {}
 

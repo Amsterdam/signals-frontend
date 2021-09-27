@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 
 import DateTimeInput from '.'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 describe('Form component <DateTimeInput />', () => {
   const metaFields = {

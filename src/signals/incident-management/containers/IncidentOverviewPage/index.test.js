@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { mount } from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { fireEvent, render, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -10,6 +11,8 @@ import { withAppContext } from 'test/utils'
 import * as constants from 'signals/incident-management/constants'
 
 import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('scroll-lock')
 jest.mock('signals/incident-management/constants')
