@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
+import crypto from 'crypto'
 
 import L from 'leaflet'
 import 'jest-localstorage-mock'
@@ -12,12 +13,20 @@ import { baseConfig } from '../scripts/helpers/config'
 
 fetchMock.enableMocks()
 const globalAny = global as any
+
 globalAny.document = window.document
 globalAny.navigator.geolocation = {}
 
 globalAny.window = window
 globalAny.window.alert = (msg: string) => msg
 globalAny.window.CONFIG = baseConfig
+
+Object.defineProperty(globalAny, 'crypto', {
+  writable: true,
+  value: {
+    getRandomValues: (arr: string[]) => crypto.randomBytes(arr.length),
+  },
+})
 
 // Monkey patch Leaflet
 const originalInit = (L.Map as any).prototype.initialize
