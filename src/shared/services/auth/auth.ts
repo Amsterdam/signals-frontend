@@ -5,9 +5,11 @@ import configuration from '../configuration/configuration'
 import Keycloak from './services/keycloak'
 import ImplicitAuth from './services/implicit-auth'
 
-const auth = (configuration.oidc as any).realm
-  ? new Keycloak()
-  : new ImplicitAuth()
+const useKeycloak =
+  configuration.oidc.responseType === 'code' &&
+  (configuration.oidc as any).realm
+
+const auth = useKeycloak ? new Keycloak() : new ImplicitAuth()
 
 /**
  * Returns access token.

@@ -32,11 +32,12 @@ describe('Auth', () => {
     expect(mocked(Keycloak)).not.toHaveBeenCalled()
   })
 
-  it('uses Keycloak implementation when (Keycloak) realm is configured', () => {
+  it('uses Keycloak implementation when (Keycloak) realm is configured and responseType is code', () => {
     jest.isolateModules(() => {
       jest.mock('shared/services/configuration/configuration', () => ({
         oidc: {
           realm: 'keycloak-realm',
+          responseType: 'code',
         },
       }))
       const auth = require('./auth')

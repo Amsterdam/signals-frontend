@@ -395,14 +395,14 @@
         },
         "responseType": {
           "description": "oAuth2 `response_type` service parameter value",
-          "enum": ["token", "id_token"]
+          "enum": ["token", "id_token", "code"]
         },
         "scope": {
           "description": "oAuth2 `scope` service parameter value",
           "type": "string"
         }
       },
-      "required": ["authEndpoint", "clientId", "scope"]
+      "required": ["authEndpoint", "clientId", "scope", "responseType"]
     },
     "OptionsBackOffice": {
       "type": "object",
