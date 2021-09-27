@@ -17,9 +17,9 @@ jest.mock('../../../hooks/useLayerVisible', () => ({
   default: () => false,
 }))
 
-let showDesktopVariant: boolean
+let mockshowDesktopVariant: boolean
 jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
-  useMatchMedia: () => [showDesktopVariant],
+  useMatchMedia: () => [mockshowDesktopVariant],
 }))
 
 describe('signals/incident/components/form/MapSelectors/Caterpillar/Selector', () => {
@@ -28,7 +28,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/Selector', (
     fetchMock.mockResponseOnce(JSON.stringify(caterpillarsJson), {
       status: 200,
     })
-    showDesktopVariant = false
+    mockshowDesktopVariant = false
   })
 
   afterEach(() => {
@@ -64,7 +64,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/Selector', (
   })
 
   it('should render legend panel', async () => {
-    showDesktopVariant = true
+    mockshowDesktopVariant = true
     render(withSelectContext(<Selector />))
 
     userEvent.click(await screen.findByText('Legenda'))
@@ -73,14 +73,14 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/Selector', (
   })
 
   it('should render selection panel', async () => {
-    showDesktopVariant = true
+    mockshowDesktopVariant = true
     render(withSelectContext(<Selector />))
 
     expect(await screen.findByTestId('selectionPanel')).toBeInTheDocument()
   })
 
   it('should show desktop version on desktop', async () => {
-    showDesktopVariant = true
+    mockshowDesktopVariant = true
     render(withSelectContext(<Selector />))
 
     expect(await screen.findByTestId('panelDesktop')).toBeInTheDocument()

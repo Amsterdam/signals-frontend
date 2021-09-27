@@ -26,11 +26,6 @@ module.exports = {
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.test.json',
-    },
-  },
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
   moduleNameMapper: {
@@ -45,8 +40,7 @@ module.exports = {
   ],
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.ts(x?)$': ['ts-jest'],
-    '^.+\\.js(x?)$': [
+    '^.+\\.(j|t)s(x?)$': [
       'babel-jest',
       { configFile: path.resolve(__dirname, 'babel.config.js') },
     ],
