@@ -6,11 +6,11 @@ import parseAccessToken from './parse-access-token/parse-access-token'
 import randomStringGenerator from './random-string-generator/random-string-generator'
 import queryStringParser from './query-string-parser/query-string-parser'
 
-let tokenData = {}
+let tokenData: Record<string, any> = {}
 const storage = global.localStorage || global.sessionStorage
 
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
-const ERROR_MESSAGES = {
+const ERROR_MESSAGES: Record<string, string> = {
   invalid_request:
     'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
   unauthorized_client:
@@ -36,14 +36,14 @@ const STATE_TOKEN_KEY = 'stateToken' // OAuth2 state token (prevent CSRF)
 const NONCE_KEY = 'nonce' // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken' // OAuth2 access token
 
-class Authz {
+class OidcImplicit {
   init() {
     this.restoreAccessToken() // Restore access token from local storage
     this.handleAuthorizationError() // Catch any error from the OAuth2 authorization service
     this.handleAuthorizationCallback() // Handle a callback from the OAuth2 authorization service
   }
 
-  getIsAuthenticated() {
+  getIsAuthenticated(): boolean {
     const expiresAt = parseAccessToken(this.getAccessToken())?.expiresAt
 
     if (!expiresAt) return false
@@ -58,13 +58,8 @@ class Authz {
 
     if (this.getIsAuthenticated()) {
       const accessToken = this.getAccessToken()
-      const { name, scopes } = parseAccessToken(accessToken)
 
-      return {
-        userName: name,
-        userScopes: scopes,
-        accessToken,
-      }
+      return accessToken ? { accessToken } : null
     }
 
     return null
@@ -88,7 +83,7 @@ class Authz {
   /**
    * Handle login callback.
    */
-  handleAuthorizationCallback() {
+  private handleAuthorizationCallback() {
     // Parse query string into object
     const params = queryStringParser(global.location.hash)
 
@@ -102,7 +97,7 @@ class Authz {
   /**
    * Gets the access token and return path, and clears the localstorage
    */
-  saveToken(state, accessToken) {
+  private saveToken(state: string, accessToken: string) {
     // The state param must be exactly the same as the state token we
     // have saved in local storage (to prevent CSRF)
     const localStateToken = storage.getItem(STATE_TOKEN_KEY)
@@ -132,7 +127,7 @@ class Authz {
     global.history.replaceState('', document.title, global.location.pathname)
   }
 
-  restoreAccessToken() {
+  private restoreAccessToken() {
     const accessToken = this.getAccessToken()
     if (accessToken) {
       tokenData = parseAccessToken(accessToken)
@@ -142,11 +137,10 @@ class Authz {
   /**
    * Finishes an error from the OAuth2 authorization service.
    *
-   * @param code {string} Error code as returned from the service.
-   * @param description {string} Error description as returned from the
-   * service.
+   * @param code Error code as returned from the service.
+   * @param description Error description as returned from the service.
    */
-  handleError(code, description) {
+  private handleError(code: string, description: string) {
     storage.removeItem(STATE_TOKEN_KEY)
 
     // Remove parameters from the URL, as set by the error callback from the
@@ -164,7 +158,7 @@ class Authz {
    * Handles errors in case they were returned by the OAuth2 authorization
    * service.
    */
-  handleAuthorizationError() {
+  private handleAuthorizationError() {
     const params = queryStringParser(global.location.search)
     if (params && params.error) {
       this.handleError(params.error, params.error_description)
@@ -174,7 +168,7 @@ class Authz {
   /**
    * Login token flow.
    */
-  loginToken(domain = 'datapunt', nonce, stateToken) {
+  private loginToken(nonce: string, stateToken: string) {
     const searchParams = new URLSearchParams({
       client_id: configuration.oidc.clientId,
       response_type: configuration.oidc.responseType,
@@ -182,13 +176,12 @@ class Authz {
       state: stateToken,
       nonce,
       redirect_uri: AUTH_REDIRECT_URI,
-      idp_id: domain,
     })
 
     return `${configuration.oidc.authEndpoint}?${searchParams.toString()}`
   }
 
-  login(domain) {
+  login() {
     storage.removeItem(ACCESS_TOKEN_KEY)
 
     const stateToken = randomStringGenerator()
@@ -199,7 +192,7 @@ class Authz {
     storage.setItem(STATE_TOKEN_KEY, stateToken)
     storage.setItem(NONCE_KEY, nonce)
 
-    global.location.assign(this.loginToken(domain, nonce, stateToken))
+    global.location.assign(this.loginToken(nonce, stateToken))
   }
 
   logout() {
@@ -207,4 +200,4 @@ class Authz {
   }
 }
 
-export default Authz
+export default OidcImplicit

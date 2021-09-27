@@ -48,8 +48,6 @@ export interface GlobalNotification {
 }
 
 export interface UserCredentials {
-  userName: string
-  userScopes: string[]
   accessToken: string
 }
 

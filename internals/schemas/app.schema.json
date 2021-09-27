@@ -39,9 +39,6 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
-        "keycloak": {
-          "$ref": "#/definitions/Oidc"
-        },
         "sentry": {
           "$ref": "#/definitions/Sentry"
         },
@@ -384,7 +381,7 @@
       "additionalProperties": false,
       "properties": {
         "authEndpoint": {
-          "description": "URL for the oAuth2 service",
+          "description": "Authentication URL for the oAuth2 service",
           "format": "uri",
           "type": "string"
         },
@@ -393,18 +390,19 @@
           "type": "string"
         },
         "realm": {
-          "description": "oAuth2 `realm` service parameter value",
+          "description": "Keycloak `realm` service parameter value",
           "type": "string"
         },
         "responseType": {
           "description": "oAuth2 `response_type` service parameter value",
-          "type": "string"
+          "enum": ["token", "id_token"]
         },
         "scope": {
-          "description": "oAuth2 `scope` service parameter value (specific to `signals-amsterdam` and `signals-weesp` implementations)",
+          "description": "oAuth2 `scope` service parameter value",
           "type": "string"
         }
-      }
+      },
+      "required": ["authEndpoint", "clientId", "scope"]
     },
     "OptionsBackOffice": {
       "type": "object",
