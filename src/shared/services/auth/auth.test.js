@@ -20,6 +20,17 @@ describe('auth', () => {
   let savedOauthDomain
 
   beforeEach(() => {
+    Object.defineProperties(global, {
+      location: {
+        writable: true,
+        value: {
+          ...global.location,
+          assign: jest.fn(),
+          reload: jest.fn(),
+        },
+      },
+    })
+
     global.localStorage.getItem.mockImplementation((key) => {
       switch (key) {
         case 'oauthDomain':
