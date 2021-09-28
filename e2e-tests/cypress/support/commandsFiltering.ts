@@ -30,7 +30,11 @@ export const filterByCategorySlug = (category_slug: string, category: string) =>
   cy.get(`[data-testid*="sub_categories/${category_slug}"]`).check();
 
   cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+  
   cy.wait('@getSortedTimeDESC');
+
+  // making sure the table view has been updated
+  cy.wait(500);
 
   if (category_slug === 'vermoeden') {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Ondermijning: Alles').and('be.visible');
