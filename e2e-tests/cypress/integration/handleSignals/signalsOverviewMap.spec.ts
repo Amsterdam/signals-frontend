@@ -8,22 +8,16 @@ import * as routes from '../../support/commandsRouting';
 import * as createSignal from '../../support/commandsCreateSignal';
 
 describe('Signal overview Map', () => {
-  describe('Setup testdata', () => {
-    it('Should setup the testdata', () => {
-      // Create signals to use on the map
-      requests.createSignalOverviewMap();
-      requests.createSignalOverviewMap();
-      requests.createSignalOverviewMap();
-      requests.createSignalOverviewMap();
-      requests.createSignalOverviewMap();
-      requests.createSignalOverviewMap();
-    });
+  before(() => {
+    requests.createSignalOverviewMap();
+    routes.stubMap();
   });
 
   describe('Use overview Map', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
+    
     it('Should open the signals overview map with signals', () => {
       routes.defineMapRoutes();
 
@@ -41,8 +35,8 @@ describe('Signal overview Map', () => {
       cy.get(OVERVIEW_MAP.buttonZoomIn).should('be.visible');
       cy.get(OVERVIEW_MAP.markerCluster).should('be.visible');
     });
-    // Skipped, because this test is flaky
-    it.skip('Should not show signals if filtered out', () => {
+    
+    it('Should not show signals if filtered out', () => {
       routes.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilter).click();
@@ -53,8 +47,8 @@ describe('Signal overview Map', () => {
       cy.wait(1000);
       cy.get(OVERVIEW_MAP.markerCluster).should('not.exist');
     });
-    // Skipped, because this test is flaky
-    it.skip('Should show signals again', () => {
+    
+    it('Should show signals again', () => {
       routes.defineMapRoutes();
 
       cy.get(MANAGE_SIGNALS.buttonFilter).click();

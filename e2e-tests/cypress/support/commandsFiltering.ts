@@ -30,20 +30,24 @@ export const filterByCategorySlug = (category_slug: string, category: string) =>
   cy.get(`[data-testid*="sub_categories/${category_slug}"]`).check();
 
   cy.get(FILTER.buttonSubmitFilter).should('be.visible').click();
+  
   cy.wait('@getSortedTimeDESC');
+
+  // making sure the table view has been updated
+  cy.wait(500);
 
   if (category_slug === 'vermoeden') {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Ondermijning: Alles').and('be.visible');
   } else {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', category).and('be.visible');
   }
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 };

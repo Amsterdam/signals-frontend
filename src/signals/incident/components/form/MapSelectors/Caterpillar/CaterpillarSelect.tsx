@@ -57,26 +57,28 @@ const CaterpillarSelect: FunctionComponent<CaterpillarSelectProps> = ({
   }, [setShowMap])
 
   return (
-    <SelectProvider
-      value={{
-        selection: value,
-        location,
-        meta,
-        message,
-        update,
-        edit,
-        close,
-        setMessage,
-      }}
-    >
-      {!showMap && value.length === 0 && (
-        <Intro edit={edit} location={location} />
-      )}
+    <div id={meta.name}>
+      <SelectProvider
+        value={{
+          selection: value,
+          location,
+          meta,
+          message,
+          update,
+          edit,
+          close,
+          setMessage,
+        }}
+      >
+        {!showMap && value.length === 0 && (
+          <Intro edit={edit} location={location} />
+        )}
 
-      {showMap && <Selector />}
+        {showMap && <Selector />}
 
-      {!showMap && value.length > 0 && <Summary />}
-    </SelectProvider>
+        {!showMap && value.length > 0 && <Summary />}
+      </SelectProvider>
+    </div>
   )
 }
 

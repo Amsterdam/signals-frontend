@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { mount } from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList'
@@ -11,6 +12,8 @@ import {
 } from 'utils/__tests__/fixtures'
 
 import DefaultTextsAdmin, { DefaultTextsAdminContainer } from '.'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 describe('<DefaultTextsAdmin />', () => {
   let props

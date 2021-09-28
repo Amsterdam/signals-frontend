@@ -262,8 +262,8 @@ describe('List', () => {
 
       render(withContext(<List {...props} incidents={incidentList} />))
 
-      expect(screen.queryAllByRole('img').length).toEqual(parentsCount)
-      expect(screen.queryByRole('img')).toHaveAttribute(
+      expect(screen.queryAllByTestId('parentIcon').length).toEqual(parentsCount)
+      expect(screen.queryByTestId('parentIcon')).toHaveAttribute(
         'aria-label',
         'Hoofdmelding'
       )
@@ -278,8 +278,8 @@ describe('List', () => {
 
       render(withContext(<List {...props} incidents={incidentList} />))
 
-      expect(screen.queryAllByRole('img').length).toEqual(childCount)
-      expect(screen.queryByRole('img')).toHaveAttribute(
+      expect(screen.queryAllByTestId('childIcon').length).toEqual(childCount)
+      expect(screen.queryByTestId('childIcon')).toHaveAttribute(
         'aria-label',
         'Deelmelding'
       )

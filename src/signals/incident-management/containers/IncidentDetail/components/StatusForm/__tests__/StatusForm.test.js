@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+import { ThemeProvider } from '@amsterdam/asc-ui'
 
-import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import {
   changeStatusOptionList,
@@ -52,12 +52,13 @@ const defaultTexts = [
 const close = jest.fn()
 const update = jest.fn()
 
-const renderWithContext = (incident = incidentFixture, childIncidents) =>
-  withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, update, close }}>
+const renderWithContext = (incident = incidentFixture, childIncidents) => (
+  <IncidentDetailContext.Provider value={{ incident, update, close }}>
+    <ThemeProvider>
       <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
-    </IncidentDetailContext.Provider>
-  )
+    </ThemeProvider>
+  </IncidentDetailContext.Provider>
+)
 
 const statusSendsEmailWhenSet = AFGEHANDELD
 
@@ -66,7 +67,7 @@ const statusDoesNotSendEmailWhenSet = changeStatusOptionList.filter(
 )[0]
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
-  beforeEach(() => {
+  afterEach(() => {
     close.mockReset()
     update.mockReset()
   })

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { act, fireEvent, render } from '@testing-library/react'
-import { mount } from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { withAppContext } from 'test/utils'
 
 import { departments } from 'utils/__tests__/fixtures'
@@ -11,6 +12,8 @@ import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 
 import UserForm from '..'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
