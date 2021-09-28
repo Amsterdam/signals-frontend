@@ -382,7 +382,7 @@ export const createSignalSameAreaOtherCategory = () => {
   })
 };
 
-export const createSignalSameAreaCluster = (number: String) => {
+export const createSignalSameAreaCluster = (number: string) => {
   cy.request({
     method: 'POST',
     url: 'http://localhost:8000/signals/v1/public/signals/',
