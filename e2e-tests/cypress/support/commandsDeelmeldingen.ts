@@ -71,7 +71,7 @@ export const checkSignalNotVisible = () => {
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
       // eslint-disable-next-line promise/no-nesting
       cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-        cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', `${json.signalId}`);
+        cy.get(MANAGE_SIGNALS.signalId).first().should('not.have.text', `${json.signalId}`);
       });
     }
     else {
@@ -89,7 +89,7 @@ export const checkSignalNotVisible = () => {
 export const checkSignalType = (type: string) => {
   switch (type) {
     case 'melding':
-      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      cy.get(MANAGE_SIGNALS.signalId).first().click();
       cy.get(DEELMELDING.linkParent).should('not.exist');
       break;
     case 'hoofdmelding':
@@ -116,14 +116,14 @@ export const filterSignalOnType = (type: string, selector: string) => {
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-  cy.get(MANAGE_SIGNALS.firstSignalId).click();
+  cy.get(MANAGE_SIGNALS.signalId).first().click();
   cy.wait('@getTerms');
   checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
   cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-  cy.get(MANAGE_SIGNALS.firstSignalId).click();
+  cy.get(MANAGE_SIGNALS.signalId).first().click();
   checkSignalType(type);
   cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
 };
