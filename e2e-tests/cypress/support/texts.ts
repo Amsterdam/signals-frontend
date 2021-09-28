@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 export const DASHBOARD_TEXT = {
-  descriptionDashboardOpen: 'Alle openstaande meldingen die',
-  descriptionDashboardReOpen: 'een "verzoek tot heropenen" heeft gedaan.',
+  descriptionDashboardOpen: 'Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn.',
+  descriptionDashboardReOpen: 'Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.',
   noSignals: 'Hier is niks meer te signaleren',
-  titleDashboardOpen: 'Openstaande meldingen tot en met',
-  titleDashboardReopen: 'Verzoek tot heropenen tot en met',
+  titleDashboardOpen: 'Meldingen die langer openstaan dan 3x de afhandeltermijn',
+  titleDashboardReopen: 'Verzoek tot heropenen langer dan 2 weken geleden',
 };
 
 export const ERROR_MESSAGES = {
