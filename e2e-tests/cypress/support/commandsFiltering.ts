@@ -37,13 +37,13 @@ export const filterByCategorySlug = (category_slug: string, category: string) =>
   } else {
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', category).and('be.visible');
   }
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedASC');
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 
   cy.get('th').contains('Id').click();
   cy.wait('@getSortedDESC');
-  cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', category);
+  cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', category);
 };
