@@ -285,4 +285,22 @@ describe('List', () => {
       )
     })
   })
+
+  it('should tab through rows focusing only the "id" column', () => {
+    render(withContext(<List {...props} />))
+
+    expect(document.body).toHaveFocus()
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_columnheaders, ...rows] = screen.getAllByRole('row')
+
+    rows.forEach((row, index) => {
+      // Tab to next row
+      userEvent.tab()
+
+      const idCell = within(row).getByText(incidents[index].id)
+
+      expect(idCell.parentNode).toHaveFocus()
+    })
+  })
 })

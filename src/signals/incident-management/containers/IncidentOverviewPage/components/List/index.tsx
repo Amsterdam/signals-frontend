@@ -25,6 +25,7 @@ import { IncidentListItem, IncidentList } from 'types/api/incident-list'
 import { formatAddress } from 'shared/services/format-address'
 import IncidentManagementContext from '../../../../context'
 import {
+  ContentSpan,
   Th,
   TdStyle,
   ThArea,
@@ -54,13 +55,16 @@ export const getDaysOpen = (incident: IncidentListItem) => {
   return differenceInCalendarDays(new Date(), createdAtDate)
 }
 
-const Td: FunctionComponent<{ detailLink: string }> = ({
+const Td: FunctionComponent<{ detailLink: string; isFocusable?: boolean }> = ({
   detailLink,
   children,
+  isFocusable = false,
   ...rest
 }) => (
   <TdStyle {...rest}>
-    <Link to={detailLink}>{children}</Link>
+    <Link to={detailLink} tabIndex={isFocusable ? 0 : -1}>
+      <ContentSpan>{children}</ContentSpan>
+    </Link>
   </TdStyle>
 )
 
@@ -125,8 +129,8 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <ThParent data-testid="parent"></ThParent>
-            <ThPriority data-testid="priority"></ThPriority>
+            <ThParent data-testid="parent" />
+            <ThPriority data-testid="priority" />
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
@@ -193,7 +197,11 @@ const List: FunctionComponent<ListProps> = ({
                     {getListIconByKey(priority, incident.priority?.priority)}
                   </StyledIcon>
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentId">
+                <Td
+                  isFocusable
+                  detailLink={detailLink}
+                  data-testid="incidentId"
+                >
                   {incident.id}
                 </Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
