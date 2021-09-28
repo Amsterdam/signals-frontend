@@ -6,7 +6,6 @@ import * as caterpillarIcons from './caterpillar-icons'
 export const controls = {
   extra_eikenprocessierups: {
     meta: {
-      options: { validators: ['required'] },
       ifAllOf: {
         subcategory: 'eikenprocessierups',
       },
@@ -73,6 +72,7 @@ export const controls = {
       ],
       extraProperties: ['GlobalID'],
     },
+    options: { validators: ['required'] },
     render: FIELD_TYPE_MAP.caterpillar_select,
   },
   extra_nest_grootte: {
