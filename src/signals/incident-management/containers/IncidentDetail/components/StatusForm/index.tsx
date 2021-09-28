@@ -90,11 +90,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      if (/{{|}}/gi.test(textValue)) {
+      if (/{{|}}|__/gi.test(textValue)) {
         dispatch({
           type: 'SET_ERRORS',
           payload: {
-            text: "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
+            text: "Er is een gereserveerd teken ('{{' of '__') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
           },
         })
         return

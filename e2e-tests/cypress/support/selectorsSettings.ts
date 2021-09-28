@@ -59,7 +59,7 @@ export const STANDAARDTEKSTEN = {
   radioButtonAfgehandeld: '[data-testid=state-o]',
   radioButtonHeropend: '[data-testid=state-reopened]',
   radioButtonIngepland: '[data-testid=state-ingepland]',
-  textAlert: "Er is een gereserveerd teken ('{{' of '}}') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
+  textAlert: "Er is een gereserveerd teken ('{{' of '__') in de toelichting gevonden.\nMogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan.",
   textDescriptionAfhandelen01: 'Beschrijving standaardtekst 1 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als {{naam duif}}',
   textDescriptionAfhandelen02: 'Beschrijving standaardtekst 2 melding duiven AFHANDELEN. De overlastgevende duif is geïdentificeerd als {{naam duif}}',
   textDescriptionHeropenen: 'Beschrijving standaardtekst 1 melding duiven HEROPENEN. De overlastgevende duif is geïdentificeerd als {{naam duif}}',
