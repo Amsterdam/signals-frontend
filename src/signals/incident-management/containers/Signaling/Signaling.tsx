@@ -109,7 +109,7 @@ const Signaling: FunctionComponent = () => {
         <StyledColumn span={6} wrap>
           {totalOpen !== null ? (
             <GraphDescription
-              title="Meldingen die langer openstaan dan 3x de afhandeltermijn"
+              title="Buiten de afhandeltermijn"
               description="Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn."
               total={totalOpen}
             />
@@ -128,7 +128,7 @@ const Signaling: FunctionComponent = () => {
         <StyledColumn span={6} wrap>
           {totalReopenRequested !== null && (
             <GraphDescription
-              title="Verzoek tot heropenen langer dan 2 weken geleden"
+              title="Verzoek tot heropenen"
               description={`Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.`}
               total={totalReopenRequested}
             />

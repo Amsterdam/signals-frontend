@@ -4,8 +4,8 @@ export const DASHBOARD_TEXT = {
   descriptionDashboardOpen: 'Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn.',
   descriptionDashboardReOpen: 'Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.',
   noSignals: 'Hier is niks meer te signaleren',
-  titleDashboardOpen: 'Meldingen die langer openstaan dan 3x de afhandeltermijn',
-  titleDashboardReopen: 'Verzoek tot heropenen langer dan 2 weken geleden',
+  titleDashboardOpen: 'Buiten de afhandeltermijn',
+  titleDashboardReopen: 'Verzoek tot heropenen',
 };
 
 export const ERROR_MESSAGES = {
