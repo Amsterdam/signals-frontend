@@ -292,8 +292,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // type in textarea with special characters '{{' and '}}'
     const textarea = screen.getByRole('textbox')
-    const value = 'Foo {{bar}} baz'
-    userEvent.type(textarea, value)
+    const valueWithBrackets = 'Foo {{bar}} baz'
+    userEvent.type(textarea, valueWithBrackets)
 
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -312,6 +312,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // clear textarea
     const clearText = '{selectall}{backspace}'
+    userEvent.type(textarea, clearText)
+
+    // verify that an error message is NOT shown
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    const valueWithUnderscores = 'Foo __bar__ baz'
+    userEvent.type(textarea, valueWithUnderscores)
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    // verify that an error message is shown
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+
+    // clear textarea
     userEvent.type(textarea, clearText)
 
     // type in textarea
