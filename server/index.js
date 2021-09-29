@@ -5,11 +5,13 @@ const fs = require('fs')
 const https = require('https')
 const express = require('express')
 const logger = require('./logger')
+const compression = require('compression')
 
 const argv = require('./argv')
 const port = require('./port')
-const setup = require('./middlewares/frontendMiddleware')
 const { resolve } = require('path')
+const { inject } = require('../internals/scripts/helpers/config')
+
 const app = express()
 const SSL = process.env.HTTPS
 let options = {}
@@ -23,14 +25,26 @@ if (SSL) {
   }
 }
 
+const publicPath = '/'
+const outputPath = resolve(process.cwd(), 'build')
+const indexFile = resolve(outputPath, 'index.html')
+const manifestFile = resolve(outputPath, 'manifest.json')
+
+// inject configuration into public index file
+const [indexContent, manifestContent] = inject([indexFile, manifestFile])
+fs.writeFileSync(indexFile, indexContent)
+fs.writeFileSync(manifestFile, manifestContent)
+
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 
-// In production we need to pass these values in instead of relying on webpack
-setup(app, {
-  outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
-})
+// compression middleware compresses your server responses which makes them
+// smaller (applies also to assets). You can read more about that technique
+// and other good practices on official Express.js docs http://mxs.is/googmy
+app.use(compression())
+app.use(publicPath, express.static(outputPath))
+
+app.get('*', (req, res) => res.sendFile(indexFile))
 
 app.use('../assets', express.static('/assets'))
 

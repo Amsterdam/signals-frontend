@@ -29,7 +29,7 @@
     "preanalyze": "npm run analyze:clean",
     "prebuild": "npm run build:clean",
     "pretest": "npm run test:clean",
-    "start:prod": "cross-env NODE_ENV=production npx webpack s --config ./internals/webpack/webpack.prod.babel --static=./build --port=3000",
+    "start:prod": "cross-env BABEL_ENV=production NODE_ENV=production node server",
     "start": "cross-env NODE_ENV=development npx webpack s --config ./internals/webpack/webpack.dev.babel",
     "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
     "test:logHeapUsage": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage",
