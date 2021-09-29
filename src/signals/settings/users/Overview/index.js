@@ -24,6 +24,7 @@ import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
 import SettingsContext from 'signals/settings/context'
 import { setUserFilters } from 'signals/settings/actions'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
+import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import Select from 'components/Select'
 import useFetchUsers from './hooks/useFetchUsers'
@@ -72,6 +73,7 @@ const UsersOverviewContainer = () => {
   } = useFetchUsers({ page, filters })
   const userCan = useSelector(makeSelectUserCan)
   const selectRoles = useSelector(inputSelectRolesSelector)
+  const selectDepartments = useSelector(inputSelectDepartmentsSelector)
 
   /**
    * Get page number value from URL query string
@@ -123,6 +125,19 @@ const UsersOverviewContainer = () => {
     [dispatch]
   )
 
+  const selectDepartmentOnChange = useCallback(
+    (event) => {
+      event.preventDefault()
+      const selectedDepartment = selectDepartments.find(
+        ({ value }) => value === event.target.value
+      )
+      dispatch(
+        setUserFilters({ profile_department_code: selectedDepartment.key })
+      )
+    },
+    [dispatch, selectDepartments]
+  )
+
   const onItemClick = useCallback(
     (event) => {
       if (userCan('change_user') === false) {
@@ -151,7 +166,7 @@ const UsersOverviewContainer = () => {
     [history]
   )
 
-  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status']
+  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
 
   return (
     <Fragment>
@@ -189,6 +204,15 @@ const UsersOverviewContainer = () => {
                   options={selectRoles}
                   optionKey="value"
                   onChange={selectRoleOnChange}
+                />,
+
+                <Select
+                  id="departmentSelect"
+                  name="departmentSelect"
+                  value={filters.department}
+                  options={selectDepartments}
+                  optionKey="value"
+                  onChange={selectDepartmentOnChange}
                 />,
 
                 <Select

@@ -14,6 +14,7 @@ const colMap = {
   is_active: 'Status',
   roles: 'Rol',
   username: 'Gebruikersnaam',
+  profile: 'Profiel',
 }
 
 /**
@@ -42,7 +43,12 @@ const useFetchUsers = ({ page, filters } = {}) => {
   useEffect(() => {
     if (!data) return
 
-    const filteredUserData = filterData(data.results, colMap)
+    const filteredUserData = filterData(data.results, colMap).map(
+      ({ Profiel, ...rest }) => ({
+        Afdeling: Profiel.departments.join(', '),
+        ...rest,
+      })
+    )
 
     setUsers({ count: data.count, list: filteredUserData })
   }, [data])
