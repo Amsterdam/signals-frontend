@@ -29,9 +29,8 @@
     "preanalyze": "npm run analyze:clean",
     "prebuild": "npm run build:clean",
     "pretest": "npm run test:clean",
-    "start:prod": "cross-env BABEL_ENV=production NODE_ENV=production node server",
-    "start:tunnel": "cross-env BABEL_ENV=production NODE_ENV=production ENABLE_TUNNEL=true node server",
-    "start": "cross-env NODE_ENV=development BABEL_ENV=development node server -- --port=3001",
+    "start:prod": "cross-env NODE_ENV=production npx webpack s --config ./internals/webpack/webpack.prod.babel --static=./build --port=3000",
+    "start": "cross-env NODE_ENV=development npx webpack s --config ./internals/webpack/webpack.dev.babel",
     "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
     "test:logHeapUsage": "cross-env NODE_ENV=test NODE_OPTIONS=--unhandled-rejections=warn node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage",
     "test:clean": "rimraf ./coverage",
@@ -221,8 +220,7 @@
     "webpack": "^5.28.0",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-middleware": "^5.1.0",
-    "webpack-hot-middleware": "^2.25.1"
+    "webpack-dev-server": "^4.3.0"
   },
   "private": true,
   "husky": {
