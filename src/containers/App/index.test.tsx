@@ -120,6 +120,14 @@ describe('<App />', () => {
     expect(queryByTestId('siteFooter')).not.toBeInTheDocument()
   })
 
+  it('will not render the header when in app mode', () => {
+    configuration.featureFlags.appMode = true
+
+    render(withAppContext(<App />))
+
+    expect(screen.queryByTestId('siteHeader')).not.toBeInTheDocument()
+  })
+
   describe('routing', () => {
     it('should redirect from "/" to "/incident/beschrijf"', () => {
       render(withAppContext(<App />))
