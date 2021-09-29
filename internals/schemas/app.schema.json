@@ -111,6 +111,10 @@
         "useStaticMapServer": {
           "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
+        },
+        "appMode": {
+          "description": "When true, will render the application in app mode, hiding specific UI elements",
+          "type": "boolean"
         }
       },
       "required": [

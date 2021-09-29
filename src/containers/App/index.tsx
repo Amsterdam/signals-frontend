@@ -100,7 +100,7 @@ export const AppContainer = () => {
     <ThemeProvider>
       <AppContext.Provider value={contextValue}>
         <Fragment>
-          <SiteHeaderContainer />
+          {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
 
           <ContentContainer headerIsTall={headerIsTall}>
             <Suspense fallback={<LoadingIndicator />}>
