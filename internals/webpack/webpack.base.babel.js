@@ -17,15 +17,25 @@ const esModules = [
   path.resolve(__rootdir, 'node_modules/@amsterdam/asc-ui'),
 ]
 
-module.exports = (options) => ({
-  mode: options.mode,
-  entry: options.entry,
+module.exports = ({
+  babelQuery,
+  devtool,
+  entry,
+  mode,
+  optimization,
+  output,
+  performance = {},
+  plugins,
+  tsLoaders,
+}) => ({
+  mode,
+  entry,
   output: {
     path: path.resolve(__rootdir, 'build'),
     publicPath: '/',
-    ...options.output,
+    ...output,
   }, // Merge with env dependent settings
-  optimization: options.optimization,
+  optimization,
   module: {
     rules: [
       {
@@ -34,13 +44,13 @@ module.exports = (options) => ({
         include: [path.resolve(__rootdir, 'src'), ...esModules],
         use: {
           loader: 'babel-loader',
-          options: options.babelQuery,
+          options: babelQuery,
         },
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        use: options.tsLoaders,
+        use: tsLoaders,
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -179,7 +189,7 @@ module.exports = (options) => ({
       },
     }),
   ]
-    .concat(options.plugins)
+    .concat(plugins)
     .filter(Boolean),
   resolve: {
     modules: [path.resolve(__rootdir, 'src'), 'node_modules'],
@@ -189,7 +199,7 @@ module.exports = (options) => ({
       types: path.resolve(__rootdir, 'src/types/'),
     },
   },
-  devtool: options.devtool,
+  devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
-  performance: options.performance || {},
+  performance,
 })
