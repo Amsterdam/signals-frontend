@@ -31,8 +31,15 @@ export const Th = styled.th`
   }
 `
 
+export const Tr = styled.tr`
+  :focus {
+    outline: auto;
+  }
+`
+
 export const ThParent = styled(Th)`
-  width: 40px;
+  width: 45px;
+  min-height: 1px;
 `
 
 export const ThPriority = styled(Th)`
@@ -55,21 +62,31 @@ export const ThStatus = styled(Th)`
   width: 160px;
 `
 
+export const ContentSpan = styled.span``
+
 export const TdStyle = styled.td`
-  padding: 0 ${themeSpacing(2)};
+  padding: 0;
   height: 60px;
 
   a {
+    display: flex;
+    align-items: center;
+    padding: 0 ${themeSpacing(2)};
+    height: 100%;
+
     text-decoration: none;
     color: black;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
-    // Show ellipsis on second line
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-clamp: 2;
+    ${ContentSpan} {
+      // Show ellipsis on second line
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: auto;
+    }
   }
 `
 

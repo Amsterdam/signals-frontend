@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FunctionComponent, useCallback, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets'
@@ -23,8 +23,10 @@ import type {
 } from 'signals/incident-management/definitions/types'
 import { IncidentListItem, IncidentList } from 'types/api/incident-list'
 import { formatAddress } from 'shared/services/format-address'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import IncidentManagementContext from '../../../../context'
 import {
+  ContentSpan,
   Th,
   TdStyle,
   ThArea,
@@ -33,6 +35,7 @@ import {
   ThPriority,
   ThStatus,
   ThSubcategory,
+  Tr,
   StyledList,
   Table,
   StyledIcon,
@@ -60,7 +63,9 @@ const Td: FunctionComponent<{ detailLink: string }> = ({
   ...rest
 }) => (
   <TdStyle {...rest}>
-    <Link to={detailLink}>{children}</Link>
+    <Link to={detailLink} tabIndex={-1}>
+      <ContentSpan>{children}</ContentSpan>
+    </Link>
   </TdStyle>
 )
 
@@ -92,6 +97,7 @@ const List: FunctionComponent<ListProps> = ({
   status,
 }) => {
   const { districts } = useContext(IncidentManagementContext)
+  const history = useHistory()
 
   const onSort = useCallback(
     (newSort) => () => {
@@ -116,6 +122,10 @@ const List: FunctionComponent<ListProps> = ({
     [sort]
   )
 
+  const navigateToIncident = (id: number) => {
+    history.push(`${INCIDENT_URL}/${id}`)
+  }
+
   return (
     <StyledList
       isLoading={isLoading}
@@ -125,8 +135,8 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <ThParent data-testid="parent"></ThParent>
-            <ThPriority data-testid="priority"></ThPriority>
+            <ThParent data-testid="parent" />
+            <ThPriority data-testid="priority" />
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
@@ -183,7 +193,11 @@ const List: FunctionComponent<ListProps> = ({
           {incidents.map((incident) => {
             const detailLink = `/manage/incident/${incident.id}`
             return (
-              <tr key={incident.id}>
+              <Tr
+                key={incident.id}
+                tabIndex={0}
+                onKeyPress={() => navigateToIncident(incident.id)}
+              >
                 <Td detailLink={detailLink} data-testid="incidentParent">
                   {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
@@ -229,7 +243,7 @@ const List: FunctionComponent<ListProps> = ({
                     {incident.assigned_user_email}
                   </Td>
                 )}
-              </tr>
+              </Tr>
             )
           })}
         </tbody>
