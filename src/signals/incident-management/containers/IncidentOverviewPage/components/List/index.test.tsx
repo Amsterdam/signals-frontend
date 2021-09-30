@@ -10,6 +10,7 @@ import {
 } from 'signals/incident-management/definitions'
 import { withAppContext } from 'test/utils'
 import 'jest-styled-components'
+import * as reactRouterDom from 'react-router-dom'
 
 import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
@@ -18,8 +19,21 @@ import users from 'utils/__tests__/fixtures/users.json'
 import { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import { formatAddress } from 'shared/services/format-address'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import IncidentManagementContext from '../../../../context'
 import List, { getDaysOpen } from '.'
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
+const pushSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(
+  () =>
+    ({
+      push: pushSpy,
+    } as any)
+)
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -286,7 +300,7 @@ describe('List', () => {
     })
   })
 
-  it('should tab through rows focusing only the "id" column', () => {
+  it('should tab through rows', () => {
     render(withContext(<List {...props} />))
 
     expect(document.body).toHaveFocus()
@@ -294,13 +308,21 @@ describe('List', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_columnheaders, ...rows] = screen.getAllByRole('row')
 
-    rows.forEach((row, index) => {
-      // Tab to next row
+    rows.forEach((row) => {
       userEvent.tab()
-
-      const idCell = within(row).getByText(incidents[index].id)
-
-      expect(idCell.parentNode).toHaveFocus()
+      expect(row).toHaveFocus()
     })
+  })
+
+  it('should navigate to incident when pressing enter on a focused row', () => {
+    render(withContext(<List {...props} />))
+    const row = screen.getAllByRole('row')[1]
+
+    row.focus()
+    userEvent.type(row, '{enter}')
+
+    expect(pushSpy).toHaveBeenCalledWith(
+      `${INCIDENT_URL}/${props.incidents[0].id}`
+    )
   })
 })

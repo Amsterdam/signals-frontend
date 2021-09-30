@@ -31,6 +31,12 @@ export const Th = styled.th`
   }
 `
 
+export const Tr = styled.tr`
+  :focus {
+    outline: auto;
+  }
+`
+
 export const ThParent = styled(Th)`
   width: 45px;
   min-height: 1px;
