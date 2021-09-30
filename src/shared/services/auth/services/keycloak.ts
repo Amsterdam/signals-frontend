@@ -3,11 +3,11 @@
 import keycloakJS, { KeycloakInitOptions, KeycloakInstance } from 'keycloak-js'
 import configuration from 'shared/services/configuration/configuration'
 
-const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/manage/incidents`
+const AUTH_REDIRECT_URI = `${window.location.protocol}//${window.location.host}/manage/incidents`
 const SILENT_CHECK_SSO_REDIRECT_URI = `${window.location.origin}/assets/html/silent-check-sso.html`
 const OAUTH_DOMAIN_KEY = 'oauthDomain' // Domain that is used for login
 
-const storage = global.localStorage || global.sessionStorage
+const storage = window.localStorage || window.sessionStorage
 
 class Keycloak {
   private keycloak: KeycloakInstance
@@ -20,15 +20,11 @@ class Keycloak {
       url: configuration.oidc.authEndpoint,
     })
 
-    this.keycloak.onAuthSuccess = () => this.startRefreshInterval()
-    this.keycloak.onAuthRefreshError = () => this.stopRefreshInterval()
-    this.keycloak.onAuthError = () => this.stopRefreshInterval()
-    this.keycloak.onAuthLogout = () => this.stopRefreshInterval()
-    this.keycloak.onTokenExpired = () => {
-      // This should never happen (refresh interval should keep token valid)
-      this.stopRefreshInterval()
-      this.logout()
-    }
+    this.keycloak.onAuthSuccess = this.startRefreshInterval.bind(this)
+    this.keycloak.onAuthRefreshError = this.stopRefreshInterval.bind(this)
+    this.keycloak.onAuthError = this.stopRefreshInterval.bind(this)
+    this.keycloak.onAuthLogout = this.stopRefreshInterval.bind(this)
+    this.keycloak.onTokenExpired = this.handleExpiredToken.bind(this)
   }
 
   async init() {
@@ -84,12 +80,6 @@ class Keycloak {
   }
 
   login() {
-    if (typeof global.Storage === 'undefined') {
-      throw new TypeError(
-        'Storage not available; cannot proceed with logging in'
-      )
-    }
-
     storage.setItem(OAUTH_DOMAIN_KEY, 'keycloak')
 
     this.keycloak.login({
@@ -105,8 +95,8 @@ class Keycloak {
 
   startRefreshInterval() {
     // Refresh the access token periodically
-    const minValidity = 30 // Token should be valid for at least the next 30 seconds
-    const updateInterval = minValidity * 0.75 // Keep token valid by checking regularly
+    const minValidity = 120 // Token should be valid for at least the next 2 minutes
+    const updateInterval = 60 // Keep token valid by checking every minute
 
     // Start a token updater, if not yet running
     if (!this.refreshIntervalId) {
@@ -121,6 +111,12 @@ class Keycloak {
       clearInterval(this.refreshIntervalId)
       this.refreshIntervalId = null
     }
+  }
+
+  handleExpiredToken() {
+    // This should never happen (refresh interval should keep token valid)
+    this.stopRefreshInterval()
+    this.logout()
   }
 }
 

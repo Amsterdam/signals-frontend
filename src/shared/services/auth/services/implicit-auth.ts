@@ -7,7 +7,7 @@ import randomStringGenerator from './random-string-generator/random-string-gener
 import queryStringParser from './query-string-parser/query-string-parser'
 
 let tokenData: Record<string, any> = {}
-const storage = global.localStorage || global.sessionStorage
+const storage = window.localStorage || window.sessionStorage
 
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES: Record<string, string> = {
@@ -29,7 +29,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 // The parameters the OAuth2 authorization service will return on success
 const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state']
 
-const AUTH_REDIRECT_URI = `${global.location.protocol}//${global.location.host}/manage/incidents`
+const AUTH_REDIRECT_URI = `${window.location.protocol}//${window.location.host}/manage/incidents`
 
 // The keys of values we need to store in the local storage
 const STATE_TOKEN_KEY = 'stateToken' // OAuth2 state token (prevent CSRF)
@@ -85,7 +85,7 @@ class OidcImplicit {
    */
   private handleAuthorizationCallback() {
     // Parse query string into object
-    const params = queryStringParser(global.location.hash)
+    const params = queryStringParser(window.location.hash)
 
     if (!params || !params.state || params.code) return
 
@@ -124,7 +124,7 @@ class OidcImplicit {
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url
-    global.history.replaceState('', document.title, global.location.pathname)
+    window.history.replaceState('', document.title, window.location.pathname)
   }
 
   private restoreAccessToken() {
@@ -145,8 +145,8 @@ class OidcImplicit {
 
     // Remove parameters from the URL, as set by the error callback from the
     // OAuth2 authorization service, to clean up the URL.
-    global.location.assign(
-      `${global.location.protocol}//${global.location.host}${global.location.pathname}`
+    window.location.assign(
+      `${window.location.protocol}//${window.location.host}${window.location.pathname}`
     )
 
     throw new Error(
@@ -159,7 +159,7 @@ class OidcImplicit {
    * service.
    */
   private handleAuthorizationError() {
-    const params = queryStringParser(global.location.search)
+    const params = queryStringParser(window.location.search)
     if (params && params.error) {
       this.handleError(params.error, params.error_description)
     }
@@ -192,7 +192,7 @@ class OidcImplicit {
     storage.setItem(STATE_TOKEN_KEY, stateToken)
     storage.setItem(NONCE_KEY, nonce)
 
-    global.location.assign(this.loginToken(nonce, stateToken))
+    window.location.assign(this.loginToken(nonce, stateToken))
   }
 
   logout() {
