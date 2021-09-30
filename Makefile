@@ -2,7 +2,7 @@
 # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 #
 .PHONY = help build stop pull start stop release start-e2e
-dc = docker-compose
+dc = docker compose
 BUILD_ENV ?= development
 GITHUB_TOKEN := $(shell cat .githubtoken)
 JIRA_TOKEN := $(shell cat .jiratoken)

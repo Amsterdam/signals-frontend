@@ -22,14 +22,14 @@ jobs:
       # https://github.com/cypress-io/github-action/issues/48
       fail-fast: false
       matrix:
-        # run 3 copies of the current job in parallel
+        # run 12 copies of the current job in parallel
         containers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Build frontend
-        run: docker-compose build
+        run: docker compose build
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -38,7 +38,7 @@ jobs:
         id: cypress
         continue-on-error: true
         with:
-          start: docker-compose up frontend
+          start: docker compose up frontend
           wait-on: 'http://localhost:8000/signals/'
           wait-on-timeout: 180
           working-directory: e2e-tests

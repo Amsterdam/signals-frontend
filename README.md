@@ -48,8 +48,8 @@ npm test
 First start the backend and frontend with Docker compose:
 
 ```bash
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 Then run the end-to-end tests:
