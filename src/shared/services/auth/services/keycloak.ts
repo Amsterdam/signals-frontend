@@ -3,7 +3,7 @@
 import keycloakJS, { KeycloakInitOptions, KeycloakInstance } from 'keycloak-js'
 import configuration from 'shared/services/configuration/configuration'
 
-const AUTH_REDIRECT_URI = `${window.location.protocol}//${window.location.host}/manage/incidents`
+const AUTH_REDIRECT_URI = `${window.location.origin}/manage/incidents`
 const SILENT_CHECK_SSO_REDIRECT_URI = `${window.location.origin}/assets/html/silent-check-sso.html`
 const OAUTH_DOMAIN_KEY = 'oauthDomain' // Domain that is used for login
 
