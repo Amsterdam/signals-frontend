@@ -33,7 +33,6 @@ COPY .gitignore \
 RUN npm install
 
 COPY assets /app/assets
-COPY server /app/server
 COPY internals /app/internals
 COPY src /app/src
 
