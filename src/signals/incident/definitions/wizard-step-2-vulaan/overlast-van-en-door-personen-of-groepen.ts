@@ -3,6 +3,36 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 export const overlastPersonenEnGroepen = {
+  extra_drugs_verkoop: {
+    meta: {
+      ifAllOf: {
+        category: 'overlast-van-en-door-personen-of-groepen',
+        subcategory: 'drank-en-drugsoverlast',
+      },
+      label: 'Denkt u dat er drugs worden verkocht?',
+      shortLabel: 'Verkopen van drugs',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja, ik denk dat er drugs worden verkocht',
+        nee: 'Nee, ik denk dat er geen drugs worden verkocht',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: FIELD_TYPE_MAP.radio_input,
+  },
+  extra_drugs_verkoop_ja: {
+    meta: {
+      ifAllOf: {
+        extra_drugs_verkoop: 'ja',
+      },
+      type: 'info',
+      value:
+        'De politie behandelt meldingen van verkoop van drugs en overlast van straatdealers. Bel de politie op [0900 8844](tel:09008844). U hoeft dit formulier niet meer verder in te vullen.',
+    },
+    render: FIELD_TYPE_MAP.plain_text,
+  },
   extra_jongeren_text: {
     meta: {
       ifAllOf: {
@@ -30,6 +60,9 @@ export const overlastPersonenEnGroepen = {
         onbekend: 'Onbekend',
       },
     },
+    options: {
+      validators: ['required'],
+    },
     render: FIELD_TYPE_MAP.radio_input,
   },
   extra_personen_overig_vaker: {
@@ -42,8 +75,11 @@ export const overlastPersonenEnGroepen = {
       pathMerge: 'extra_properties',
       values: {
         nee: 'Nee',
-        ja: 'Ja, het gebeurt vaker:',
+        ja: 'Ja, het gebeurt vaker',
       },
+    },
+    options: {
+      validators: ['required'],
     },
     render: FIELD_TYPE_MAP.radio_input,
   },
@@ -56,6 +92,9 @@ export const overlastPersonenEnGroepen = {
         extra_personen_overig_vaker: 'ja',
         category: 'overlast-van-en-door-personen-of-groepen',
       },
+    },
+    options: {
+      validators: ['required'],
     },
     render: FIELD_TYPE_MAP.textarea_input,
   },
