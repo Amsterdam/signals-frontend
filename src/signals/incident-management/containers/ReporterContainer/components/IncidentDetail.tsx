@@ -8,7 +8,7 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
-import { format } from 'date-fns'
+import format from 'date-fns/format'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 import { useSelector } from 'react-redux'
 import type { Incident as IncidentType } from 'types/api/incident'

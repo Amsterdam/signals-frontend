@@ -3,7 +3,7 @@
 import { KeyboardEvent } from 'react'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import map from 'lodash.map'
+import map from 'lodash/map'
 
 import Input from 'components/Input'
 import Button from 'components/Button'

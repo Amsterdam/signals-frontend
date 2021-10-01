@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import set from 'lodash.set'
-import isObject from 'lodash.isobject'
+import set from 'lodash/set'
+import isObject from 'lodash/isObject'
 
 import getStepControls from '../get-step-controls'
 import convertValue from '../convert-value'

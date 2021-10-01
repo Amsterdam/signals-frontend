@@ -10,8 +10,8 @@ import {
   useState,
 } from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash.isequal'
-import cloneDeep from 'lodash.clonedeep'
+import isEqual from 'lodash/isEqual'
+import cloneDeep from 'lodash/cloneDeep'
 import { useSelector } from 'react-redux'
 import { Label as AscLabel } from '@amsterdam/asc-ui'
 

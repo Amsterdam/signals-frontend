@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import isFunction from 'lodash.isfunction'
+import isFunction from 'lodash/isFunction'
 
 const getStepControls = (step, incident) => {
   if (step && step.formFactory && isFunction(step.formFactory)) {

@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import 'jest-styled-components'
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { withAppContext } from 'test/utils'
 import statuses from 'signals/incident-management/definitions/statusList'

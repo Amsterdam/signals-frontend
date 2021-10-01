@@ -10,8 +10,8 @@ import {
 } from 'react'
 import PropTypes from 'prop-types'
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form'
-import get from 'lodash.get'
-import set from 'lodash.set'
+import get from 'lodash/get'
+import set from 'lodash/set'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 

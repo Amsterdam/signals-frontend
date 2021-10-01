@@ -3,7 +3,7 @@
 import { Fragment, useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
-import isEqual from 'lodash.isequal'
+import isEqual from 'lodash/isEqual'
 import styled from 'styled-components'
 
 import configuration from 'shared/services/configuration/configuration'
