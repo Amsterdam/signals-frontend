@@ -9,17 +9,15 @@ export const selectDepartmentsDomain = (state) =>
 /**
  * Other specific selectors
  */
-const departmentsInputOptions = (state) => [
+export const departmentsInputOptions = (state) => [
   ...state
     .get('list')
     .toJS()
-    .map((department) => {
-      return {
-        key: department.code,
-        name: department.name,
-        value: department.name,
-      }
-    }),
+    .map((department) => ({
+      key: department.code,
+      name: department.name,
+      value: department.name,
+    })),
 ]
 
 export const makeSelectDepartments = createSelector(

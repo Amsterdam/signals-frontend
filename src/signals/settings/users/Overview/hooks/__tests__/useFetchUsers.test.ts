@@ -14,21 +14,18 @@ import {
 } from '../../../../../../../internals/testing/msw-server'
 
 jest.mock('containers/App/constants', () => ({
-  __esModule: true,
-  ...jest.requireActual('containers/App/constants'),
+  PAGE_SIZE: 5,
 }))
 
 fetchMock.disableMocks()
-
-constants.PAGE_SIZE = 5
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should request users from API on mount', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
 
     expect(result.current.isLoading).toEqual(true)
-    expect(result.current.users.count).toBeUndefined()
-    expect(result.current.users.list).toBeUndefined()
+    expect(result.current.users.count).toEqual(0)
+    expect(result.current.users.list).toHaveLength(0)
 
     await waitForNextUpdate()
 
@@ -55,25 +52,32 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed'
-    const error = new Error()
+    const errorResponse = new Error()
     mockRequestHandler({ status: 404, body: { message } })
 
     const { result, waitForNextUpdate } = renderHook(() =>
       useFetchUsers({ page: 1 })
     )
 
-    expect(result.current.error).toEqual(false)
+    let { error } = result.current
+    expect(error).toEqual(false)
 
     await waitForNextUpdate()
-    expect(result.current.error.message).toEqual(getErrorMessage(error))
+    ;({ error } = result.current)
+
+    expect(typeof error !== 'boolean' && error?.message).toEqual(
+      getErrorMessage(errorResponse)
+    )
   })
 
   it('should abort request on unmount', async () => {
     const page = 1
+    const message = 'Aborted'
+    const body = { message }
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort')
     server.use(
-      rest.get(/localhost/, async (req, res, ctx) =>
+      rest.get(/localhost/, async (_, res, ctx) =>
         res(ctx.delay(200), ctx.status(404), ctx.json(body))
       )
     )

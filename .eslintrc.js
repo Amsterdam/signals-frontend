@@ -56,9 +56,14 @@ module.exports = {
     },
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['import'],
+  plugins: ['import', 'jest'],
   root: true,
   rules: {
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error',
     'import/first': 'error',
     'import/order': 'error',
     'no-console': [

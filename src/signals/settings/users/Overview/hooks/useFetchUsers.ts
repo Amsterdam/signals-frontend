@@ -6,6 +6,9 @@ import { PAGE_SIZE as page_size } from 'containers/App/constants'
 import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
 
+import type { FetchError } from 'hooks/useFetch'
+import type UsersData from 'types/api/user'
+
 import filterData from '../../../filterData'
 
 // name mapping from API values to human readable values
@@ -14,19 +17,39 @@ const colMap = {
   is_active: 'Status',
   roles: 'Rol',
   username: 'Gebruikersnaam',
-  profile: 'Profiel',
+  profile: 'profile',
 }
 
-/**
- * Custom hook useFetchUsers
- *
- * Will call private /users endpoint
- *
- * @returns {FetchResponse}
- */
-const useFetchUsers = ({ page, filters } = {}) => {
-  const [users, setUsers] = useState([])
-  const { get, data, isLoading, error } = useFetch()
+type FetchUsersProps = {
+  filters?: Record<string, string>
+  page?: number
+}
+
+type User = {
+  id: number
+  Status: boolean
+  Rol: Array<string>
+  Gebruikersnaam: string
+  Afdeling: string
+}
+
+type Users = {
+  count: number
+  list: Array<User>
+}
+
+interface FetchResponse {
+  isLoading: boolean
+  users: Users
+  error?: boolean | FetchError
+}
+
+const useFetchUsers = ({
+  page,
+  filters,
+}: FetchUsersProps = {}): FetchResponse => {
+  const [users, setUsers] = useState<Users>({ count: 0, list: [] })
+  const { get, data, isLoading, error } = useFetch<UsersData>()
 
   useEffect(() => {
     const pageParams = { page, page_size }
@@ -43,10 +66,13 @@ const useFetchUsers = ({ page, filters } = {}) => {
   useEffect(() => {
     if (!data) return
 
-    const filteredUserData = filterData(data.results, colMap).map(
-      ({ Profiel, ...rest }) => ({
-        Afdeling: Profiel.departments.join(', '),
-        ...rest,
+    const filteredUserData: Array<User> = filterData(data.results, colMap).map(
+      ({ profile, id, Status, Rol, Gebruikersnaam }) => ({
+        id,
+        Status,
+        Rol,
+        Gebruikersnaam,
+        Afdeling: profile?.departments ? profile.departments.join(', ') : '',
       })
     )
 
