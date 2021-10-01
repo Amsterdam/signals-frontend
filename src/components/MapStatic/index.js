@@ -140,6 +140,7 @@ const MapStatic = ({
               data-testid="mapStaticMarker"
               src={selectIconSrc}
               alt=""
+              aria-hidden="true"
               width={markerSize}
               height={markerSize}
               tabIndex="-1"
