@@ -139,7 +139,7 @@ const DateTimeInput = ({
               <StyledSelect
                 id="minutes"
                 name="minutes"
-                aria-describedby="min"
+                aria-labelledby="min"
                 data-testid="selectMinutes"
                 value={`${parent.value.incident_time_minutes}`}
                 onChange={(e) =>
