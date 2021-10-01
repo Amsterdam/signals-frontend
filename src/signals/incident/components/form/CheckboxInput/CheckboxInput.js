@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
-import map from 'lodash.map'
-import isObject from 'lodash.isobject'
+import map from 'lodash/map'
+import isObject from 'lodash/isObject'
 import { Label } from '@amsterdam/asc-ui'
 
 import Checkbox from 'components/Checkbox'

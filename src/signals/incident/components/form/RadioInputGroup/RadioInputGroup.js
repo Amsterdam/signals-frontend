@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import isObject from 'lodash.isobject'
+import isObject from 'lodash/isObject'
 import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
 
 import FormField from '../FormField'

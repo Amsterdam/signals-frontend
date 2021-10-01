@@ -3,8 +3,8 @@
 import { Fragment, ReactElement } from 'react'
 import type { FunctionComponent } from 'react'
 import { Heading } from '@amsterdam/asc-ui'
-import isString from 'lodash.isstring'
-import get from 'lodash.get'
+import isString from 'lodash/isString'
+import get from 'lodash/get'
 import styled from 'styled-components'
 
 const Paragraph = styled.p`

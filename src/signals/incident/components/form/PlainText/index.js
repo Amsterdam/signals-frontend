@@ -3,7 +3,7 @@
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'

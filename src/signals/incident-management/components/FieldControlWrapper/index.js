@@ -2,8 +2,8 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash.isequal'
-import sortBy from 'lodash.sortby'
+import isEqual from 'lodash/isEqual'
+import sortBy from 'lodash/sortBy'
 import styled from 'styled-components'
 import {
   FieldControl,

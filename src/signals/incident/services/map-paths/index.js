@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import forEach from 'lodash.foreach'
-import set from 'lodash.set'
+import forEach from 'lodash/forEach'
+import set from 'lodash/set'
 
 import configuration from 'shared/services/configuration/configuration'
 import getStepControls from '../get-step-controls'

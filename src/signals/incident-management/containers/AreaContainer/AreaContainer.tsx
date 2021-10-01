@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import styled from 'styled-components'
-import { subWeeks } from 'date-fns'
+import subWeeks from 'date-fns/subWeeks'
 import { FunctionComponent, useCallback, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import LoadingIndicator from 'components/LoadingIndicator'

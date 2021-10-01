@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import some from 'lodash.some'
+import some from 'lodash/some'
 import memoize from 'lodash/memoize'
 import { Validators } from 'react-reactive-form'
 import {
