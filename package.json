@@ -30,7 +30,6 @@
     "prebuild": "npm run build:clean",
     "pretest": "npm run test:clean",
     "prestart:prod": "npm run build",
-    "start:prod": "cross-env NODE_ENV=production npx webpack s --config ./internals/webpack/webpack.prod.babel --static=./build --port=3000",
     "start": "cross-env NODE_ENV=development npx webpack s --config ./internals/webpack/webpack.dev.babel --port=3001 --hot --compress --history-api-fallback --watch-files=./src/**/*",
     "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
     "test:logHeapUsage": "cross-env NODE_ENV=test node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage",
