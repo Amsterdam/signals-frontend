@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import { mocked } from 'ts-jest/utils'
 import configuration from '../../configuration/configuration'
-import Authz from './authz'
+import ImplicitAuth from './implicit-auth'
 import queryStringParser from './query-string-parser/query-string-parser'
 import randomStringGenerator from './random-string-generator/random-string-generator'
 import parseAccessToken from './parse-access-token/parse-access-token'
@@ -9,7 +10,6 @@ import parseAccessToken from './parse-access-token/parse-access-token'
 jest.mock('shared/services/configuration/configuration')
 jest.mock('./query-string-parser/query-string-parser')
 jest.mock('./parse-access-token/parse-access-token')
-jest.mock('./random-string-generator/random-string-generator')
 jest.mock('./random-string-generator/random-string-generator')
 
 /* tokens generated with https://www.jsonwebtoken.io/ */
@@ -25,19 +25,19 @@ const invalidToken =
 const validToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6ImMxOWRhNDgwLTAyM2UtNGM2YS04NDM2LWNhMzNkYzZjYzVlMyIsImlhdCI6MTU4ODE2NDUyMCwiZXhwIjoxNTg4MTY4MTQ1MH0.LMA3E950H0EACrvME7Gps1Y-Q43Fux1q8YCJUl9pbYE'
 
-describe('Authz authorization', () => {
+describe('ImplicitAuth authorization', () => {
   const noop = () => {}
-  const authz = new Authz()
+  const implicitauth = new ImplicitAuth()
 
-  let queryObject
-  let savedAccessToken
-  let savedStateToken
-  let savedNonce
-  let savedOauthDomain
-  let randomString
+  let queryObject: Record<string, string>
+  let savedAccessToken: string
+  let savedStateToken: string
+  let savedNonce: string
+  let savedOauthDomain: string
+  let randomString: string
 
   beforeEach(() => {
-    global.localStorage.getItem.mockImplementation((key) => {
+    mocked(global.localStorage.getItem).mockImplementation((key) => {
       switch (key) {
         case 'accessToken':
           return savedAccessToken
@@ -75,9 +75,9 @@ describe('Authz authorization', () => {
     global.location.search = ''
     global.location.hash = ''
 
-    parseAccessToken.mockImplementation(() => ({}))
-    queryStringParser.mockImplementation(() => queryObject)
-    randomStringGenerator.mockImplementation(() => randomString)
+    mocked(parseAccessToken).mockImplementation(() => ({} as any))
+    mocked(queryStringParser).mockImplementation(() => queryObject)
+    mocked(randomStringGenerator).mockImplementation(() => randomString)
 
     queryObject = {}
     randomString = 'random-string'
@@ -87,80 +87,76 @@ describe('Authz authorization', () => {
   })
 
   afterEach(() => {
-    configuration.__reset()
+    ;(configuration as any).__reset()
 
-    global.history.replaceState.mockRestore()
-    global.location.assign.mockRestore()
-    global.location.reload.mockRestore()
+    mocked(global.history.replaceState).mockRestore()
+    mocked(global.location.assign).mockRestore()
+    mocked(global.location.reload).mockRestore()
 
-    global.localStorage.removeItem.mockReset()
-    global.localStorage.setItem.mockReset()
+    mocked(global.localStorage.removeItem).mockReset()
+    mocked(global.localStorage.setItem).mockReset()
   })
 
-  describe('authz', () => {
-    describe('receiving response errors from the auth service', () => {
-      it('throws an error', () => {
-        const queryString =
-          '?error=invalid_request&error_description=invalid%20request'
+  describe('receiving response errors from the auth service', () => {
+    it('throws an error', () => {
+      const queryString =
+        '?error=invalid_request&error_description=invalid%20request'
 
-        global.location.search = queryString
-        queryObject = {
-          error: 'invalid_request',
-          error_description: 'invalid request',
-        }
+      global.location.search = queryString
+      queryObject = {
+        error: 'invalid_request',
+        error_description: 'invalid request',
+      }
 
-        expect(async () => {
-          authz.init()
-        }).rejects.toThrow(
-          'Authorization service responded with error invalid_request [invalid request] (The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.)'
-        )
-        expect(queryStringParser).toHaveBeenCalledWith(queryString)
-      })
+      expect(async () => {
+        implicitauth.init()
+      }).rejects.toThrow(
+        'Authorization service responded with error invalid_request [invalid request] (The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.)'
+      )
+      expect(queryStringParser).toHaveBeenCalledWith(queryString)
+    })
 
-      it('throws an error without a description in the query string', () => {
-        queryObject = {
-          error: 'invalid_request',
-        }
+    it('throws an error without a description in the query string', () => {
+      queryObject = {
+        error: 'invalid_request',
+      }
 
-        expect(async () => {
-          authz.init()
-        }).rejects.toThrow()
-      })
+      expect(async () => {
+        implicitauth.init()
+      }).rejects.toThrow()
+    })
 
-      it('removes the state token from the local storage', () => {
-        queryObject = {
-          error: 'invalid_request',
-        }
+    it('removes the state token from the local storage', () => {
+      queryObject = {
+        error: 'invalid_request',
+      }
 
-        expect(async () => {
-          authz.init()
-        }).rejects.toThrow()
-        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
-          'stateToken'
-        )
-      })
+      expect(async () => {
+        implicitauth.init()
+      }).rejects.toThrow()
+      expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken')
+    })
 
-      it('does not handle any errors without an error in the query string', () => {
-        queryObject = {}
+    it('does not handle any errors without an error in the query string', () => {
+      queryObject = {}
 
-        expect(async () => {
-          authz.init()
-        }).not.toThrow()
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken'
-        )
-      })
+      expect(async () => {
+        implicitauth.init()
+      }).not.toThrow()
+      expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+        'stateToken'
+      )
+    })
 
-      it('does not handle any errors without a query string', () => {
-        queryObject = undefined
+    it('does not handle any errors without a query string', () => {
+      ;(queryObject as any) = undefined
 
-        expect(async () => {
-          authz.init()
-        }).not.toThrow()
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
-          'stateToken'
-        )
-      })
+      expect(async () => {
+        implicitauth.init()
+      }).not.toThrow()
+      expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+        'stateToken'
+      )
     })
 
     describe('receiving a successful callback from the auth service', () => {
@@ -177,7 +173,7 @@ describe('Authz authorization', () => {
         savedStateToken = 'state-token'
 
         expect(async () => {
-          authz.init()
+          implicitauth.init()
         }).rejects.toThrow(
           'Authenticator encountered an invalid state token (invalid-state-token)'
         )
@@ -185,9 +181,12 @@ describe('Authz authorization', () => {
       })
 
       it('throws an error when the nonce received does not match the one saved', () => {
-        parseAccessToken.mockImplementation(() => ({
-          nonce: 'invalid-random-nonce',
-        }))
+        mocked(parseAccessToken).mockImplementation(
+          () =>
+            ({
+              nonce: 'invalid-random-nonce',
+            } as any)
+        )
 
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=state-token'
@@ -203,7 +202,7 @@ describe('Authz authorization', () => {
         savedNonce = 'random-nonce'
 
         expect(async () => {
-          authz.init()
+          implicitauth.init()
         }).rejects.toThrow(
           'Authenticator encountered an invalid nonce (invalid-random-nonce)'
         )
@@ -222,7 +221,7 @@ describe('Authz authorization', () => {
         }
         savedStateToken = 'random-string'
 
-        authz.init()
+        implicitauth.init()
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
@@ -245,7 +244,7 @@ describe('Authz authorization', () => {
         }
         savedStateToken = 'random-string'
 
-        authz.init()
+        implicitauth.init()
         expect(global.localStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
@@ -263,7 +262,7 @@ describe('Authz authorization', () => {
         }
         savedStateToken = 'random-string'
 
-        authz.init()
+        implicitauth.init()
         expect(global.localStorage.setItem).not.toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
@@ -279,7 +278,7 @@ describe('Authz authorization', () => {
     it('throws an error when the crypto library is not supported by the browser', () => {
       randomString = ''
       expect(() => {
-        authz.login()
+        implicitauth.login()
       }).toThrow('crypto library is not available on the current browser')
     })
 
@@ -287,7 +286,7 @@ describe('Authz authorization', () => {
       const hash = '#?the=current-hash'
       global.location.hash = hash
 
-      authz.login()
+      implicitauth.login()
 
       expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken')
       expect(global.localStorage.setItem).toHaveBeenCalledWith(
@@ -304,9 +303,9 @@ describe('Authz authorization', () => {
       configuration.oidc.authEndpoint = 'https://example.com/oauth2/authorize'
       configuration.oidc.clientId = 'test'
 
-      const authzWithTokenFlow = new Authz()
+      const authWithTokenFlow = new ImplicitAuth()
 
-      authzWithTokenFlow.login()
+      authWithTokenFlow.login()
 
       expect(window.location.assign).toHaveBeenCalledWith(
         'https://example.com/oauth2/authorize' +
@@ -315,15 +314,14 @@ describe('Authz authorization', () => {
           '&scope=openid+email+profile' +
           '&state=random-string' +
           '&nonce=random-string' +
-          '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents' +
-          '&idp_id=datapunt'
+          '&redirect_uri=http%3A%2F%2Flocalhost%2Fmanage%2Fincidents'
       )
     })
   })
 
   describe('Logout process', () => {
     it('Removes the access token from local storage', () => {
-      authz.logout()
+      implicitauth.logout()
       expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken')
     })
   })
@@ -338,11 +336,11 @@ describe('Authz authorization', () => {
       }
       savedStateToken = 'random-string'
 
-      authz.init()
+      implicitauth.init()
     })
 
     it('returns an empty string when the callback was unsuccessful', () => {
-      authz.init()
+      implicitauth.init()
     })
 
     it('returns an empty string when there was an error callback', () => {
@@ -351,7 +349,7 @@ describe('Authz authorization', () => {
       }
 
       expect(async () => {
-        authz.init()
+        implicitauth.init()
       }).rejects.toThrow()
     })
   })
@@ -359,8 +357,8 @@ describe('Authz authorization', () => {
   describe('Retrieving the auth headers', () => {
     it('Creates an object defining the headers', () => {
       savedAccessToken = '123AccessToken'
-      authz.init()
-      const authHeaders = authz.getAuthHeaders()
+      implicitauth.init()
+      const authHeaders = implicitauth.getAuthHeaders()
 
       expect(authHeaders).toEqual({
         Authorization: 'Bearer 123AccessToken',
@@ -368,8 +366,8 @@ describe('Authz authorization', () => {
     })
 
     it('Creates an object defining no headers when no access token', () => {
-      authz.init()
-      const authHeaders = authz.getAuthHeaders()
+      implicitauth.init()
+      const authHeaders = implicitauth.getAuthHeaders()
 
       expect(authHeaders).toEqual({})
     })
@@ -377,7 +375,7 @@ describe('Authz authorization', () => {
 
   describe('getIsAuthenticated', () => {
     it('returns false for expired token', () => {
-      global.localStorage.getItem.mockImplementation((key) => {
+      mocked(global.localStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return expiredToken
@@ -386,11 +384,11 @@ describe('Authz authorization', () => {
         }
       })
 
-      expect(authz.getIsAuthenticated()).toEqual(false)
+      expect(implicitauth.getIsAuthenticated()).toEqual(false)
     })
 
     it('returns false for invalid token', () => {
-      global.localStorage.getItem.mockImplementation((key) => {
+      mocked(global.localStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return invalidToken
@@ -399,16 +397,16 @@ describe('Authz authorization', () => {
         }
       })
 
-      expect(authz.getIsAuthenticated()).toEqual(false)
+      expect(implicitauth.getIsAuthenticated()).toEqual(false)
     })
 
     it('returns true', () => {
       const actual = jest.requireActual(
         './parse-access-token/parse-access-token'
       ).default
-      parseAccessToken.mockImplementation(actual)
+      mocked(parseAccessToken).mockImplementation(actual)
 
-      global.localStorage.getItem.mockImplementation((key) => {
+      mocked(global.localStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return validToken
@@ -417,33 +415,37 @@ describe('Authz authorization', () => {
         }
       })
 
-      expect(authz.getIsAuthenticated()).toEqual(true)
+      expect(implicitauth.getIsAuthenticated()).toEqual(true)
     })
   })
 
   describe('authenticate', () => {
     it('should authenticate with credentials with accessToken', () => {
-      parseAccessToken.mockImplementation(() => ({
-        name: 'Jan Klaasen',
-        scopes: ['SIG/ALL'],
-        expiresAt: 999999999999,
-      }))
+      mocked(parseAccessToken).mockImplementation(
+        () =>
+          ({
+            name: 'Jan Klaasen',
+            scopes: ['SIG/ALL'],
+            expiresAt: 999999999999,
+          } as any)
+      )
       savedAccessToken = '123AccessToken'
 
-      expect(authz.authenticate()).toEqual({
-        userName: 'Jan Klaasen',
-        userScopes: ['SIG/ALL'],
+      expect(implicitauth.authenticate()).toEqual({
         accessToken: '123AccessToken',
       })
     })
 
     it('should not authenticate without accessToken', () => {
-      parseAccessToken.mockImplementation(() => ({
-        name: 'Jan Klaasen',
-        scopes: ['SIG/ALL'],
-      }))
+      mocked(parseAccessToken).mockImplementation(
+        () =>
+          ({
+            name: 'Jan Klaasen',
+            scopes: ['SIG/ALL'],
+          } as any)
+      )
 
-      expect(authz.authenticate()).toEqual(null)
+      expect(implicitauth.authenticate()).toEqual(null)
     })
   })
 })

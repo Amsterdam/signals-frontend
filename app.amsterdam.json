@@ -88,16 +88,11 @@
     "siteId": 14
   },
   "oidc": {
-    "authEndpoint": "https://acc.api.data.amsterdam.nl/oauth2/authorize",
-    "clientId": "sia",
-    "responseType": "token",
-    "scope": "SIG/ALL"
-  },
-  "keycloak": {
     "authEndpoint": "https://iam.amsterdam.nl/auth",
     "clientId": "sia-frontend",
+    "realm": "datapunt-ad-acc",
     "responseType": "code",
-    "realm": "datapunt-ad-acc"
+    "scope": "openid"
   },
   "sentry": {
     "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry.data.amsterdam.nl/27"
