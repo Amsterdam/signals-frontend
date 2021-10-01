@@ -56,7 +56,7 @@
     "id": "extra_personen_overig_vaker",
     "label": "Gebeurt het vaker?",
     "shortLabel": "Vaker",
-    "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker:"},
+    "answer": {"id": "ja", "info": "", "label": "Ja, het gebeurt vaker"},
     "category_url": ""
   },
   {

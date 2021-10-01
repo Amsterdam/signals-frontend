@@ -10,7 +10,7 @@ export const overlastPersonenEnGroepen = {
         subcategory: 'drank-en-drugsoverlast',
       },
       label: 'Denkt u dat er drugs worden verkocht?',
-      shortLabel: 'Verkopen van drugs',
+      shortLabel: 'Verkoop drugs',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja, ik denk dat er drugs worden verkocht',
