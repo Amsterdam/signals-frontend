@@ -111,7 +111,7 @@ describe('The custom validators service', () => {
       expect(validatePhoneNumber(control, meta)).toEqual(null)
     })
 
-    it('with correct telephone number', () => {
+    it('with undefined telephone number', () => {
       const control = {
         value: undefined,
       }

@@ -101,7 +101,7 @@ describe('The map paths service', () => {
     expect(mapPaths()).toEqual({})
   })
 
-  it('should map status by default', () => {
+  it('should map status', () => {
     getStepControls.mockImplementation(() => wizard.step.form.controls)
     convertValue
       .mockImplementationOnce(() => incident.description)
