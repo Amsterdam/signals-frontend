@@ -47,6 +47,7 @@ import {
   ButtonWrapper,
   PaginationWrapper,
   MapWrapper,
+  NavWrapper,
   NoResults,
   StyledButton,
   StyledPagination,
@@ -221,10 +222,11 @@ export const IncidentOverviewPageContainerComponent = ({
           )}
         </Column>
 
-        {pagination}
+        <NavWrapper>
+          {pagination}
+          <SubNav showsMap={showsMap} />
+        </NavWrapper>
       </Row>
-
-      <SubNav showsMap={showsMap} />
 
       {showsMap && (
         <Row>
