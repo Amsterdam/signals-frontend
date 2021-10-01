@@ -7,7 +7,7 @@ import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
 
 import type { FetchError } from 'hooks/useFetch'
-import type UsersData from 'types/api/user'
+import type UsersData from 'types/api/users'
 
 import filterData from '../../../filterData'
 
