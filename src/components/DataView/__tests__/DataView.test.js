@@ -472,6 +472,7 @@ describe('DataView with data', () => {
       (order, negate = false) =>
       (row, rowIDX) =>
         row.childNodes.forEach((column, idx) => {
+          // eslint-disable-next-line
           const expectObj = negate ? expect(column).not : expect(column)
           const check =
             data[rowIDX][order[idx]] === undefined

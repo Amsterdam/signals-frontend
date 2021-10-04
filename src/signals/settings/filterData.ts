@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+type Data = Array<Record<string, any>>
+type ColMap = Record<string, any>
+
 /**
  * Clean-up of API response
  *
  * Filtering out invalid keys, turning array values into concatenated strings and
  * converting boolean values to readable text values
- *
- * @param {Object} data
- * @returns {Object}
  */
-const filterData = (data, colMap) => {
+const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> => {
   const allowedKeys = Object.keys(colMap)
 
   return (
@@ -17,7 +17,7 @@ const filterData = (data, colMap) => {
       data?.map((item) =>
         Object.keys(item)
           .filter((key) => allowedKeys.includes(key))
-          .reduce((rawObj, key) => {
+          .reduce((rawObj: ColMap, key: string) => {
             const obj = { ...rawObj }
             let value = Array.isArray(item[key])
               ? item[key].join(', ')

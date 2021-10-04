@@ -26,7 +26,7 @@ describe('getOVLIcon', () => {
     const legendKeys = LEGEND_ITEMS.map(({ key }) => key)
 
     mappingKeys.forEach((mappingKey) => {
-      expect(legendKeys.includes(mappingKey))
+      return expect(legendKeys.includes(mappingKey))
     })
   })
 })

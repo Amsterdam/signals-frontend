@@ -4,14 +4,7 @@ import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import {
-  Row,
-  Column,
-  themeSpacing,
-  Button,
-  SearchBar,
-  styles,
-} from '@amsterdam/asc-ui'
+import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import useDebounce from 'hooks/useDebounce'
@@ -24,9 +17,14 @@ import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
 import SettingsContext from 'signals/settings/context'
 import { setUserFilters } from 'signals/settings/actions'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
+import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import Select from 'components/Select'
 import useFetchUsers from './hooks/useFetchUsers'
+
+type Params = {
+  pageNum: string
+}
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -39,8 +37,11 @@ const HeaderButton = styled(Button)`
 `
 
 const StyledSearchbar = styled(SearchBar)`
-  ${styles.TextFieldStyle} > ${styles.InputStyle} {
-    height: ${themeSpacing(11)};
+  height: ${themeSpacing(11)};
+
+  & div,
+  & input {
+    height: 100% !important;
   }
 
   > button {
@@ -49,20 +50,25 @@ const StyledSearchbar = styled(SearchBar)`
 `
 
 const StyledDataView = styled(DataView)`
-  th:first-child {
-    width: 50%;
+  th:first-child,
+  th:nth-child(2) {
+    width: 25%;
+  }
+
+  th:last-child {
+    width: 120px;
   }
 `
 
 const selectUserActive = [
   { key: 'all', name: 'Alles', value: '*' },
-  { key: 'active', name: 'Actief', value: true },
-  { key: 'inactive', name: 'Niet actief', value: false },
+  { key: 'active', name: 'Actief', value: 'true' },
+  { key: 'inactive', name: 'Niet actief', value: 'false' },
 ]
 
 const UsersOverviewContainer = () => {
   const history = useHistory()
-  const { pageNum } = useParams()
+  const { pageNum } = useParams<Params>()
   const [page, setPage] = useState(1)
   const { state, dispatch } = useContext(SettingsContext)
   const { filters } = state.users
@@ -72,6 +78,13 @@ const UsersOverviewContainer = () => {
   } = useFetchUsers({ page, filters })
   const userCan = useSelector(makeSelectUserCan)
   const selectRoles = useSelector(inputSelectRolesSelector)
+  const selectDepartments = useSelector(inputSelectDepartmentsSelector)
+  const selectedDepartment =
+    selectDepartments && filters.profile_department_code
+      ? selectDepartments.find(
+          ({ key }) => key === filters.profile_department_code
+        ).value
+      : ''
 
   /**
    * Get page number value from URL query string
@@ -123,6 +136,20 @@ const UsersOverviewContainer = () => {
     [dispatch]
   )
 
+  const selectDepartmentOnChange = useCallback(
+    (event) => {
+      event.preventDefault()
+      const selectedDepartment = selectDepartments.find(
+        ({ value }) => value === event.target.value
+      )
+
+      dispatch(
+        setUserFilters({ profile_department_code: selectedDepartment.key })
+      )
+    },
+    [dispatch, selectDepartments]
+  )
+
   const onItemClick = useCallback(
     (event) => {
       if (userCan('change_user') === false) {
@@ -151,7 +178,7 @@ const UsersOverviewContainer = () => {
     [history]
   )
 
-  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status']
+  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
 
   return (
     <Fragment>
@@ -192,9 +219,18 @@ const UsersOverviewContainer = () => {
                 />,
 
                 <Select
+                  id="departmentSelect"
+                  name="departmentSelect"
+                  value={selectedDepartment}
+                  options={selectDepartments}
+                  optionKey="value"
+                  onChange={selectDepartmentOnChange}
+                />,
+
+                <Select
                   id="userActiveSelect"
                   name="userActiveSelect"
-                  value={filters.userActive}
+                  value={filters.is_active}
                   options={selectUserActive}
                   optionKey="value"
                   onChange={selectUserActiveOnChange}

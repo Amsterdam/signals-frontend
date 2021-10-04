@@ -5,7 +5,12 @@ import { fromJS } from 'immutable'
 import departmentsJson from 'utils/__tests__/fixtures/departments.json'
 
 import { initialState } from '../reducer'
-import { selectDepartmentsDomain, makeSelectDepartments } from '../selectors'
+import {
+  selectDepartmentsDomain,
+  makeSelectDepartments,
+  inputSelectDepartmentsSelector,
+  departmentsInputOptions,
+} from '../selectors'
 
 const intermediateState = fromJS({
   count: 9,
@@ -35,5 +40,18 @@ describe('models/departments/selectors', () => {
     const result = intermediateState.toJS()
 
     expect(makeSelectDepartments.resultFunc(intermediateState)).toEqual(result)
+  })
+
+  test('inputSelectDepartmentsSelector', () => {
+    const emptyOption = { key: 'all', name: 'Alles', value: '*' }
+    expect(inputSelectDepartmentsSelector.resultFunc(initialState)).toEqual([
+      emptyOption,
+    ])
+
+    const result = [emptyOption, ...departmentsInputOptions(intermediateState)]
+
+    expect(
+      inputSelectDepartmentsSelector.resultFunc(intermediateState)
+    ).toEqual(result)
   })
 })

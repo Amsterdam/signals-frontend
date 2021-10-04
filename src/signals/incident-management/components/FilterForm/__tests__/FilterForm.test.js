@@ -475,7 +475,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(aeg).not.toBeChecked()
     })
 
-    it('should clear correctly on form clear', async () => {
+    it('should clear correctly on form clear when assignSignalToDepartment flag has been set', async () => {
       configuration.featureFlags.assignSignalToDepartment = true
 
       render(withContext(<FilterForm {...formProps} />))
@@ -661,7 +661,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toHaveValue(username)
     })
 
-    it('should clear correctly on form clear', async () => {
+    it('should clear correctly when form is reset', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       render(withContext(<FilterForm {...formProps} />))
       const checkbox = screen.getByLabelText(notAssignedLabel)

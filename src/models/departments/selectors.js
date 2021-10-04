@@ -6,11 +6,32 @@ import { initialState } from './reducer'
 export const selectDepartmentsDomain = (state) =>
   state?.departments || initialState
 
+/**
+ * Other specific selectors
+ */
+export const departmentsInputOptions = (state) => [
+  ...state
+    .get('list')
+    .toJS()
+    .map((department) => ({
+      key: department.code,
+      name: department.name,
+      value: department.name,
+    })),
+]
+
 export const makeSelectDepartments = createSelector(
   selectDepartmentsDomain,
   (state) => state.toJS()
 )
 
+export const inputSelectDepartmentsSelector = createSelector(
+  selectDepartmentsDomain,
+  (state) => [
+    { key: 'all', name: 'Alles', value: '*' },
+    ...departmentsInputOptions(state),
+  ]
+)
 export const makeSelectDirectingDepartments = createSelector(
   makeSelectDepartments,
   (state) => {
