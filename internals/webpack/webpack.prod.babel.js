@@ -59,12 +59,31 @@ module.exports = require('./webpack.base.babel')({
     nodeEnv: 'production',
     runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all',
       minSize: 25000,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
       enforceSizeThreshold: 85000,
+      cacheGroups: {
+        map: {
+          test: /[\\/]node_modules[\\/].*(arm|maps|leaflet|proj4).*/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        logging: {
+          test: /[\\/]node_modules[\\/].*sentry/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        markdown: {
+          test: /[\\/]node_modules[\\/].*(mark|property-information).*/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
     },
   },
 
