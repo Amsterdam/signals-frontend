@@ -4,6 +4,7 @@ on:
     branches:
       - develop
       - master
+      - chore/correctly-identify-e2e-fail
   pull_request:
     types: [opened, synchronize]
 
@@ -15,6 +16,7 @@ jobs:
   end-to-end:
     name: End-to-end
     runs-on: ubuntu-latest
+    continue-on-error: false
     strategy:
       # when one test fails, DO NOT cancel the other
       # containers, because this will kill Cypress processes
@@ -36,7 +38,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         id: cypress
-        continue-on-error: true
         with:
           start: docker-compose up frontend
           wait-on: 'http://localhost:8000/signals/'
