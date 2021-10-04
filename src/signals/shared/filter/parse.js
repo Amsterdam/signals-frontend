@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import clonedeep from 'lodash.clonedeep'
+import clonedeep from 'lodash/cloneDeep'
 import isValid from 'date-fns/isValid'
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'

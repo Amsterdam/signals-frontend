@@ -350,7 +350,7 @@ export const searchAndCheck = (searchTerm: string, selector: string) => {
   cy.get(MANAGE_SIGNALS.searchResultsTag).should('have.text', `Zoekresultaten voor "${searchTerm}"`).and('be.visible');
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(500);
-  cy.get('[href*="/manage/incident/"]').first().click();
+  cy.get('[href*="/manage/incident/"]').eq(3).click();
   routes.waitForSignalDetailsRoutes();
   cy.get(selector).should('contain', `${searchTerm}`);
 };

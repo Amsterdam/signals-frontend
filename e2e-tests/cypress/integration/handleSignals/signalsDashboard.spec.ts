@@ -10,6 +10,7 @@ describe('Signals dashbaord', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
+
     it('Should open the signals dashboard with no signals', () => {
       cy.intercept('**/reports/signals/open*').as('getOpenSignals');
       cy.intercept('**/reports/signals/reopen-requested?*').as('getReopenRequestedSignals');
@@ -39,6 +40,7 @@ describe('Signals dashbaord', () => {
       cy.get(DASHBOARD.emptyText).should('contain', DASHBOARD_TEXT.noSignals).and('have.length', 2).and('be.visible');
       cy.get(DASHBOARD.checkmarkIcon).should('have.length', 2).and('be.visible');
     });
+    
     it('Should open the signals dashboard with signals', () => {
       cy.intercept('**/reports/signals/open*', { fixture: 'dashboard/dashboardOpen.json' }).as('stubOpenSignals');
       cy.intercept('**/reports/signals/reopen-requested?*', { fixture: 'dashboard/dashboardReopen.json' }).as('stubReopenRequestedSignals');

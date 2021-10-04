@@ -17,29 +17,16 @@ describe('components/LoginPage', () => {
     configuration.__reset()
   })
 
-  it('should render with keycloak', () => {
-    configuration.keycloak = {}
+  it('should render login button', () => {
     render(withAppContext(<LoginPage />))
 
     expect(
       screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
     ).toBeInTheDocument()
     expect(screen.getByText('Inloggen')).toBeInTheDocument()
-    expect(screen.getByTestId('keycloakLoginButton')).toBeInTheDocument()
   })
 
-  it('should render without keycloak', () => {
-    configuration.keycloak = null
-    render(withAppContext(<LoginPage />))
-
-    expect(
-      screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
-    ).toBeInTheDocument()
-    expect(screen.getByText('Inloggen')).toBeInTheDocument()
-    expect(screen.getByTestId('datapuntLoginButton')).toBeInTheDocument()
-  })
-
-  it('should login on datapunt when Inloggen button is clicked', () => {
+  it('should login when Inloggen button is clicked', () => {
     const loginSpy = jest.spyOn(auth, 'login')
     render(withAppContext(<LoginPage />))
     const button = screen.getByText('Inloggen').parentNode
@@ -48,19 +35,6 @@ describe('components/LoginPage', () => {
 
     userEvent.click(button)
 
-    expect(loginSpy).toHaveBeenCalledWith('datapunt')
-  })
-
-  it('should login on keycloak when Inloggen button is clicked', () => {
-    configuration.keycloak = {}
-    const loginSpy = jest.spyOn(auth, 'login')
-    render(withAppContext(<LoginPage />))
-    const button = screen.getByText('Inloggen').parentNode
-
-    expect(button.getAttribute('type')).toEqual('button')
-
-    userEvent.click(button)
-
-    expect(loginSpy).toHaveBeenCalledWith('keycloak')
+    expect(loginSpy).toHaveBeenCalled()
   })
 })

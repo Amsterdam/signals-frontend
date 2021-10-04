@@ -26,11 +26,11 @@ describe.skip('Sorting', () => {
     cy.get('th').contains('Status').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalStatus).should('have.text', 'Afgehandeld');
+    cy.get(MANAGE_SIGNALS.signalStatus).first().should('have.text', 'Afgehandeld');
 
     cy.get('th').contains('Status').click();
     cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.firstSignalStatus).should('have.text', 'In behandeling');
+    cy.get(MANAGE_SIGNALS.signalStatus).first().should('have.text', 'In behandeling');
   });
   it('Should sort on column Dag', () => {
     // This test is skipped because there is only testdata for day 0. Sorting has no impact.
@@ -40,12 +40,12 @@ describe.skip('Sorting', () => {
     // getSignals is the same as the ASC request for day
     cy.wait('@getSignals');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalDag).eq(0).should('have.text', '0');
+    cy.get(MANAGE_SIGNALS.signalDag).first().eq(0).should('have.text', '0');
 
     cy.get('th').contains('Dag').click();
     cy.wait('@@getSortedTimeASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalDag).eq(0).should('not.have.text', '0');
+    cy.get(MANAGE_SIGNALS.signalDag).first().eq(0).should('not.have.text', '0');
   });
   it('Should sort on column Datum en tijd', () => {
     // This test is skipped because it is not possible to know which signal is created first or last with parallel runs
@@ -55,13 +55,13 @@ describe.skip('Sorting', () => {
     cy.get('th').contains('Datum en tijd').click();
     cy.wait('@getSortedTimeASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalDatumTijd).should('not.contain', todaysDate);
+    cy.get(MANAGE_SIGNALS.signalDatumTijd).first().should('not.contain', todaysDate);
 
     cy.get('th').contains('Datum en tijd').click();
     // getSignals is the same as the DESC request for Datum en tijd
     cy.wait('@getSignals');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalDatumTijd).should('contain', todaysDate);
+    cy.get(MANAGE_SIGNALS.signalDatumTijd).first().should('contain', todaysDate);
   });
   it('Should sort on column Stadsdeel', () => {
     // This test is skipped because there is a bug in the sorting mechanism. The bug will not be fixed soon.
@@ -70,10 +70,10 @@ describe.skip('Sorting', () => {
     cy.get('th').contains('Stadsdeel').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Centrum');
+    cy.get(MANAGE_SIGNALS.signalStadsdeelName).first().should('have.text', 'Centrum');
 
     cy.get('th').contains('Stadsdeel').click();
     cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Zuidoost');
+    cy.get(MANAGE_SIGNALS.signalStadsdeelName).first().should('have.text', 'Zuidoost');
   });
 });

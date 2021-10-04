@@ -39,9 +39,6 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
-        "keycloak": {
-          "$ref": "#/definitions/Oidc"
-        },
         "sentry": {
           "$ref": "#/definitions/Sentry"
         },
@@ -110,6 +107,10 @@
         },
         "useStaticMapServer": {
           "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
+          "type": "boolean"
+        },
+        "appMode": {
+          "description": "When true, will render the application in app mode, hiding specific UI elements",
           "type": "boolean"
         }
       },
@@ -384,7 +385,7 @@
       "additionalProperties": false,
       "properties": {
         "authEndpoint": {
-          "description": "URL for the oAuth2 service",
+          "description": "Authentication URL for the oAuth2 service",
           "format": "uri",
           "type": "string"
         },
@@ -393,18 +394,19 @@
           "type": "string"
         },
         "realm": {
-          "description": "oAuth2 `realm` service parameter value",
+          "description": "Keycloak `realm` service parameter value",
           "type": "string"
         },
         "responseType": {
           "description": "oAuth2 `response_type` service parameter value",
-          "type": "string"
+          "enum": ["token", "id_token", "code"]
         },
         "scope": {
-          "description": "oAuth2 `scope` service parameter value (specific to `signals-amsterdam` and `signals-weesp` implementations)",
+          "description": "oAuth2 `scope` service parameter value",
           "type": "string"
         }
-      }
+      },
+      "required": ["authEndpoint", "clientId", "scope", "responseType"]
     },
     "OptionsBackOffice": {
       "type": "object",

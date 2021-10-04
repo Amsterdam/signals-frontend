@@ -24,12 +24,12 @@ describe('Sorting', () => {
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalId).should('have.text', '1');
+    cy.get(MANAGE_SIGNALS.signalId).first().should('have.text', '1');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalId).should('not.have.text', '1');
+    cy.get(MANAGE_SIGNALS.signalId).first().should('not.have.text', '1');
   });
   it('Should sort on column Subcategorie', () => {
     routes.getSortedBySubcategoryRoutes();
@@ -37,12 +37,12 @@ describe('Sorting', () => {
     cy.get('th').contains('Subcategorie').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', 'Afwatering brug');
+    cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', 'Afwatering brug');
 
     cy.get('th').contains('Subcategorie').click();
     cy.wait('@getSortedDESC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalSubcategorie).should('have.text', 'Woningkwaliteit');
+    cy.get(MANAGE_SIGNALS.signalSubcategorie).first().should('have.text', 'Woningkwaliteit');
   });
   it('Should sort on column Adres', () => {
     routes.getSortedByAddressRoutes();
@@ -50,16 +50,16 @@ describe('Sorting', () => {
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedASC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalAdres).then(address => {
+    cy.get(MANAGE_SIGNALS.signalAdres).first().then(address => {
       expect(address.text()).to.be.oneOf([
         "",
-        "Aaf Bouberstraat 1 1065LP Amsterdam"
+        "Aaf Bouberstraat 1, 1065LP Amsterdam"
       ]);
     });
 
     cy.get('th').contains('Adres').click();
     cy.wait('@getSortedDESC');
     cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(MANAGE_SIGNALS.firstSignalAdres).should('contain', 'Zwenkgrasstraat');
+    cy.get(MANAGE_SIGNALS.signalAdres).first().should('contain', 'Zwenkgrasstraat');
   });
 });

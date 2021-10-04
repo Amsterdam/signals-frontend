@@ -52,11 +52,11 @@ describe('Filtering', () => {
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
+    cy.get(MANAGE_SIGNALS.signalStadsdeelName).first().should('have.text', 'Westpoort');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.firstSignalStadsdeelName).should('have.text', 'Westpoort');
+    cy.get(MANAGE_SIGNALS.signalStadsdeelName).first().should('have.text', 'Westpoort');
 
     cy.get(MANAGE_SIGNALS.buttonMijnFilters).should('be.visible').click();
     cy.get('h4').should('contain', 'Status Gemeld Westpoort');
@@ -117,15 +117,15 @@ describe('Filtering', () => {
     cy.wait('@getUrgency');
 
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Hoog').and('be.visible');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
+    cy.get(MANAGE_SIGNALS.signalUrgentie).first().get('svg').should('exist');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
+    cy.get(MANAGE_SIGNALS.signalUrgentie).first().get('svg').should('exist');
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedDESC');
-    cy.get(MANAGE_SIGNALS.firstSignalUrgentie).get('svg').should('exist');
+    cy.get(MANAGE_SIGNALS.signalUrgentie).first().get('svg').should('exist');
   });
   it('Should filter by type klacht', () => {
     routes.getSignalDetailsRoutes();
@@ -139,14 +139,14 @@ describe('Filtering', () => {
     cy.wait('@getType');
     cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Klacht').and('be.visible');
 
-    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.get(MANAGE_SIGNALS.signalId).first().click();
     routes.waitForSignalDetailsRoutes();
     cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht');
     cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
 
     cy.get('th').contains('Id').click();
     cy.wait('@getSortedASC');
-    cy.get(MANAGE_SIGNALS.firstSignalId).click();
+    cy.get(MANAGE_SIGNALS.signalId).first().click();
     routes.waitForSignalDetailsRoutes();
     cy.get(SIGNAL_DETAILS.type).should('have.text', 'Klacht');
     cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();

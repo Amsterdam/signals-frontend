@@ -212,7 +212,7 @@ exports[`Form component <DateTimeInput /> rendering should render date time fiel
         </styled.span>
         <div>
           <Styled(Component)
-            aria-describedby="min"
+            aria-labelledby="min"
             data-testid="selectMinutes"
             id="minutes"
             name="minutes"

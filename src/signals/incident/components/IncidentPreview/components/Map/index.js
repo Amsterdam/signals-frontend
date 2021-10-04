@@ -9,7 +9,7 @@ import { Marker } from '@amsterdam/react-maps'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
-import { formatAddress } from 'shared/services/map-location'
+import { formatAddress } from 'shared/services/format-address'
 import MapStatic from 'components/MapStatic'
 
 import Map from 'components/Map'

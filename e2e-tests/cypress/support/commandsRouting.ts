@@ -358,7 +358,7 @@ export const stubAddress = (fixture: string) => {
  * @example cy.stubMap();
 */
 export const stubMap = () => {
-  cy.intercept('**/**.data.amsterdam.nl/topo_rd/**', { fixture: 'images/map.png' }).as('getMap');
+  cy.intercept('GET', '/topo_rd/**', { fixture: 'images/map.png' }).as('getMap');
 };
 
 /**
@@ -366,7 +366,7 @@ export const stubMap = () => {
  * @example cy.stubPrediction('container.json');
 */
 export const stubPreviewMap = () => {
-  cy.intercept('**/maps/topografie?bbox=**', { fixture: 'images/mapPreview.jpeg' }).as('getPreviewMap');
+  cy.intercept('GET', '/maps/topografie?bbox=**', { fixture: 'images/mapPreview.jpeg' }).as('getPreviewMap');
 };
 
 /**

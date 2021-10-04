@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
-import userEvent, { specialChars } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import { store, withAppContext } from 'test/utils'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
@@ -31,14 +31,25 @@ import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
 
-jest.mock('models/categories/selectors', () => ({
-  __esModule: true,
-  ...jest.requireActual('models/categories/selectors'),
-  // eslint-disable-next-line
-  makeSelectStructuredCategories: () => categories,
-}))
+jest.mock('models/categories/selectors', () => {
+  const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: () => structuredCategorie,
+  }
+})
 
-jest.spyOn(store, 'dispatch')
+const dispatchSpy = jest.spyOn(store, 'dispatch')
+const makeSelectDirectingDepartmentsSpy = jest.spyOn(
+  departmentsSelectors,
+  'makeSelectDirectingDepartments'
+)
+const makeSelectRoutingDepartmentsSpy = jest.spyOn(
+  departmentsSelectors,
+  'makeSelectRoutingDepartments'
+)
+const makeSelectUserCanSpy = jest.spyOn(appSelectors, 'makeSelectUserCan')
 
 const mockResponse = JSON.stringify(autocompleteUsernames)
 
@@ -68,6 +79,14 @@ describe('signals/incident-management/components/FilterForm', () => {
   afterEach(() => {
     fetch.resetMocks()
     configuration.__reset()
+  })
+
+  afterAll(() => {
+    fetch.mockRestore()
+    dispatchSpy.mockRestore()
+    makeSelectDirectingDepartmentsSpy.mockRestore()
+    makeSelectRoutingDepartmentsSpy.mockRestore()
+    makeSelectUserCanSpy.mockRestore()
   })
 
   it('should render a name field', () => {
@@ -243,11 +262,13 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(kindList.length)
   })
 
-  it('should render a list of district options with feature flag enabled', () => {
+  it('should render a list of district options with feature flag enabled', async () => {
     configuration.featureFlags.fetchDistrictsFromBackend = true
     const { container } = render(
       withContext(<FilterForm {...formProps} />, districts)
     )
+
+    await screen.findByTestId('filterName')
 
     expect(
       container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')
@@ -257,9 +278,11 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(districts.length)
   })
 
-  it('should not render districts without districts available', () => {
+  it('should not render districts without districts available', async () => {
     configuration.featureFlags.fetchDistrictsFromBackend = true
     const { container } = render(withContext(<FilterForm {...formProps} />))
+
+    await screen.findByTestId('filterName')
 
     expect(
       container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')
@@ -304,9 +327,9 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 
   it('should render a list of directing_department options', () => {
-    jest
-      .spyOn(departmentsSelectors, 'makeSelectDirectingDepartments')
-      .mockImplementation(() => directingDepartments)
+    makeSelectDirectingDepartmentsSpy.mockImplementation(
+      () => directingDepartments
+    )
     const { container } = render(withContext(<FilterForm {...formProps} />))
 
     expect(screen.getByText('Regie hoofdmelding')).toBeInTheDocument()
@@ -343,9 +366,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     const aegName = departmentOptions[2].value
 
     beforeEach(() => {
-      jest
-        .spyOn(departmentsSelectors, 'makeSelectRoutingDepartments')
-        .mockImplementation(() => departmentOptions)
+      makeSelectRoutingDepartmentsSpy.mockImplementation(
+        () => departmentOptions
+      )
     })
 
     it('should not render a list of departments with assignSignalToDepartment disabled', () => {
@@ -361,6 +384,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       }
 
       render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+
       expect(screen.getByText(label)).toBeInTheDocument()
       const submitButton = screen.getByRole('button', { name: submitLabel })
       const checkbox = screen.getByText(ascName)
@@ -477,7 +501,9 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(not).not.toBeChecked()
 
       userEvent.click(not)
-      expect(not).toBeChecked()
+      await waitFor(() => {
+        expect(not).toBeChecked()
+      })
 
       userEvent.click(clearButton)
       expect(not).not.toBeChecked()
@@ -495,8 +521,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     const selectUser = (input) => {
       return act(async () => {
         userEvent.type(input, 'asc')
-        await screen.findByText(username)
-        userEvent.type(input, `${specialChars.arrowDown}${specialChars.enter}`)
+        const userNameListElement = await screen.findByText(username)
+        userEvent.click(userNameListElement)
       })
     }
 
@@ -518,10 +544,14 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toBeInTheDocument()
 
       userEvent.type(input, 'aeg')
+
       act(() => {
         jest.advanceTimersByTime(INPUT_DELAY * 2)
       })
-      expect(screen.queryByText(username)).not.toBeInTheDocument()
+
+      await waitFor(() => {
+        expect(screen.queryByText(username)).not.toBeInTheDocument()
+      })
       userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
@@ -538,25 +568,22 @@ describe('signals/incident-management/components/FilterForm', () => {
       const expected = { options: { assigned_user_email: username } }
 
       render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+
       const input = screen.getByLabelText(label)
       const submitButton = screen.getByRole('button', { name: submitLabel })
-      expect(input).toBeInTheDocument()
 
-      userEvent.type(input, username)
       await selectUser(input)
-      act(() => {
-        userEvent.click(submitButton)
-      })
+
+      userEvent.click(submitButton)
+
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
       )
     })
 
-    it('should clear correctly on form clear', () => {
-      jest
-        .spyOn(appSelectors, 'makeSelectUserCan')
-        .mockImplementation(() => () => false)
+    it('should clear correctly on form clear', async () => {
+      makeSelectUserCanSpy.mockImplementation(() => () => false)
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
 
@@ -566,11 +593,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       const submitButton = screen.getByRole('button', { name: submitLabel })
       const expected = { options: { assigned_user_email: expect.anything() } }
 
-      act(() => {
-        userEvent.type(input, username)
-        userEvent.click(clearButton)
-        userEvent.click(submitButton)
-      })
+      await selectUser(input)
+
+      userEvent.click(clearButton)
+      userEvent.click(submitButton)
 
       expect(onSubmit).not.toHaveBeenCalledWith(
         expect.anything(),
@@ -589,6 +615,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       userEvent.click(checkbox)
       userEvent.click(submitButton)
+
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
@@ -626,10 +653,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       await selectUser(input)
 
       expect(input).toHaveValue(username)
-      act(() => {
-        userEvent.click(checkbox)
-      })
+
+      userEvent.click(checkbox)
       expect(input).not.toHaveValue()
+
       userEvent.click(checkbox)
       expect(input).toHaveValue(username)
     })
@@ -646,24 +673,22 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).toHaveValue(username)
       expect(checkbox).not.toBeChecked()
 
-      act(() => {
-        userEvent.click(clearButton)
-      })
+      userEvent.click(clearButton)
+
+      await screen.findByTestId('filterName')
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
 
       await selectUser(input)
-      act(() => {
-        userEvent.click(checkbox)
-      })
+      userEvent.click(checkbox)
 
       expect(input).not.toHaveValue()
       expect(checkbox).toBeChecked()
 
-      act(() => {
-        userEvent.click(clearButton)
-      })
+      userEvent.click(clearButton)
+
+      await screen.findByTestId('filterName')
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()

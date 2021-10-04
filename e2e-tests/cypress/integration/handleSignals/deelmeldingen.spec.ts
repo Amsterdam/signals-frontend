@@ -209,7 +209,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSortedDESC');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-          cy.get(MANAGE_SIGNALS.firstSignalId).should('have.text', `${json.signalId}`);
+          cy.get(MANAGE_SIGNALS.signalId).first().should('have.text', `${json.signalId}`);
         });
 
         // Filter on deelmelding modified, signal is not visible
@@ -262,7 +262,7 @@ describe('Deelmeldingen', () => {
         cy.wait('@getSortedDESC');
         cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
         cy.readFile('./cypress/fixtures/tempSignalId.json').then(json => {
-          cy.get(MANAGE_SIGNALS.firstSignalId).should('have.text', `${json.signalId}`);
+          cy.get(MANAGE_SIGNALS.signalId).first().should('have.text', `${json.signalId}`);
         });
 
         // Filter on deelmelding not modified, signal is not visible
@@ -516,7 +516,7 @@ describe('Deelmeldingen', () => {
     });
     it('Should filter on hoofdmelding', () => {
       deelmeldingen.filterSignalOnType('Hoofdmelding', FILTER.checkboxHoofdmelding);
-      cy.get(MANAGE_SIGNALS.firstSignalIcon).should('have.attr', 'aria-label', 'Hoofdmelding');
+      cy.get(MANAGE_SIGNALS.signalParentIcon).should('contain.attr', 'aria-label', 'Hoofdmelding');
     });
     it('Should filter on deelmelding', () => {
       deelmeldingen.filterSignalOnType('Deelmelding', FILTER.checkboxDeelmelding);
@@ -528,13 +528,13 @@ describe('Deelmeldingen', () => {
       cy.wait('@submitDirectingDepartmentFilter');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
       cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'Verantwoordelijke afdeling').and('be.visible');
-      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      cy.get(MANAGE_SIGNALS.signalId).first().click();
       routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.regie).should('have.text', 'Verantwoordelijke afdeling');
       cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
       cy.get('th').contains('Id').click();
       cy.wait('@getSortedASC');
-      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      cy.get(MANAGE_SIGNALS.signalId).first().click();
       routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.regie).should('have.text', 'Verantwoordelijke afdeling');
       cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
@@ -546,13 +546,13 @@ describe('Deelmeldingen', () => {
       cy.wait('@submitDirectingDepartmentFilter');
       cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
       cy.get(MANAGE_SIGNALS.filterTagList).should('have.text', 'ASC').and('be.visible');
-      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      cy.get(MANAGE_SIGNALS.signalId).first().click();
       routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.regie).should('have.text', 'ASC');
       cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();
       cy.get('th').contains('Id').click();
       cy.wait('@getSortedASC');
-      cy.get(MANAGE_SIGNALS.firstSignalId).click();
+      cy.get(MANAGE_SIGNALS.signalId).first().click();
       routes.waitForSignalDetailsRoutes();
       cy.get(SIGNAL_DETAILS.regie).should('have.text', 'ASC');
       cy.get(SIGNAL_DETAILS.linkTerugNaarOverzicht).click();

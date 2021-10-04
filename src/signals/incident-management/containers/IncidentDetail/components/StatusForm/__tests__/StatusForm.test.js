@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+import { ThemeProvider } from '@amsterdam/asc-ui'
 
-import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import {
   changeStatusOptionList,
@@ -52,12 +52,13 @@ const defaultTexts = [
 const close = jest.fn()
 const update = jest.fn()
 
-const renderWithContext = (incident = incidentFixture, childIncidents) =>
-  withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, update, close }}>
+const renderWithContext = (incident = incidentFixture, childIncidents) => (
+  <IncidentDetailContext.Provider value={{ incident, update, close }}>
+    <ThemeProvider>
       <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
-    </IncidentDetailContext.Provider>
-  )
+    </ThemeProvider>
+  </IncidentDetailContext.Provider>
+)
 
 const statusSendsEmailWhenSet = AFGEHANDELD
 
@@ -66,7 +67,7 @@ const statusDoesNotSendEmailWhenSet = changeStatusOptionList.filter(
 )[0]
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
-  beforeEach(() => {
+  afterEach(() => {
     close.mockReset()
     update.mockReset()
   })
@@ -291,8 +292,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // type in textarea with special characters '{{' and '}}'
     const textarea = screen.getByRole('textbox')
-    const value = 'Foo {{bar}} baz'
-    userEvent.type(textarea, value)
+    const valueWithBrackets = 'Foo {{bar}} baz'
+    userEvent.type(textarea, valueWithBrackets)
 
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -311,6 +312,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // clear textarea
     const clearText = '{selectall}{backspace}'
+    userEvent.type(textarea, clearText)
+
+    // verify that an error message is NOT shown
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+    const valueWithUnderscores = 'Foo __bar__ baz'
+    userEvent.type(textarea, valueWithUnderscores)
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    // verify that an error message is shown
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+
+    // clear textarea
     userEvent.type(textarea, clearText)
 
     // type in textarea

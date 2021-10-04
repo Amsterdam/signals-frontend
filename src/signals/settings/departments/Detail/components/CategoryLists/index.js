@@ -4,7 +4,7 @@ import { useContext, useCallback, useMemo, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Row, themeSpacing } from '@amsterdam/asc-ui'
-import isEqual from 'lodash.isequal'
+import isEqual from 'lodash/isEqual'
 
 import {
   ControlsWrapper,

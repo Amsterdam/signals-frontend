@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FunctionComponent, useCallback, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets'
@@ -22,11 +22,20 @@ import type {
   Definition,
 } from 'signals/incident-management/definitions/types'
 import { IncidentListItem, IncidentList } from 'types/api/incident-list'
+import { formatAddress } from 'shared/services/format-address'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import IncidentManagementContext from '../../../../context'
 import {
+  ContentSpan,
   Th,
   TdStyle,
-  ThStadsdeel,
+  ThArea,
+  ThDate,
+  ThParent,
+  ThPriority,
+  ThStatus,
+  ThSubcategory,
+  Tr,
   StyledList,
   Table,
   StyledIcon,
@@ -48,21 +57,20 @@ export const getDaysOpen = (incident: IncidentListItem) => {
   return differenceInCalendarDays(new Date(), createdAtDate)
 }
 
-const Td: FunctionComponent<{ detailLink: string; noWrap?: boolean }> = ({
+const Td: FunctionComponent<{ detailLink: string }> = ({
   detailLink,
-  noWrap,
   children,
   ...rest
 }) => (
-  <TdStyle {...rest} noWrap={noWrap}>
-    <span>
-      <Link to={detailLink}>{children}</Link>
-    </span>
+  <TdStyle {...rest}>
+    <Link to={detailLink} tabIndex={-1}>
+      <ContentSpan>{children}</ContentSpan>
+    </Link>
   </TdStyle>
 )
 
 const ChildIcon: FunctionComponent = () => (
-  <StyledIcon size={14} role="img" aria-label="Deelmelding">
+  <StyledIcon aria-label="Deelmelding" data-testid="childIcon">
     <Play />
   </StyledIcon>
 )
@@ -89,6 +97,7 @@ const List: FunctionComponent<ListProps> = ({
   status,
 }) => {
   const { districts } = useContext(IncidentManagementContext)
+  const history = useHistory()
 
   const onSort = useCallback(
     (newSort) => () => {
@@ -113,6 +122,10 @@ const List: FunctionComponent<ListProps> = ({
     [sort]
   )
 
+  const navigateToIncident = (id: number) => {
+    history.push(`${INCIDENT_URL}/${id}`)
+  }
+
   return (
     <StyledList
       isLoading={isLoading}
@@ -122,41 +135,44 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <Th data-testid="parent"></Th>
-            <Th data-testid="priority"></Th>
+            <ThParent data-testid="parent" />
+            <ThPriority data-testid="priority" />
             <Th data-testid="sortId" onClick={onSort('id')}>
               Id {renderChevron('id')}
             </Th>
             <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
               Dag {renderChevron('days_open')}
             </Th>
-            <Th data-testid="sortCreatedAt" onClick={onSort('created_at')}>
+            <ThDate data-testid="sortCreatedAt" onClick={onSort('created_at')}>
               Datum en tijd {renderChevron('created_at')}
-            </Th>
-            {configuration.featureFlags.fetchDistrictsFromBackend ? (
-              <Th
-                data-testid="sortDistrict"
-                onClick={onSort('district,-created_at')}
-              >
-                {configuration.language.district} {renderChevron('district')}
-              </Th>
-            ) : (
-              <ThStadsdeel
-                data-testid="sortStadsdeel"
-                onClick={onSort('stadsdeel,-created_at')}
-              >
-                Stadsdeel {renderChevron('stadsdeel')}
-              </ThStadsdeel>
-            )}
-            <Th
+            </ThDate>
+            <ThSubcategory
               data-testid="sortSubcategory"
               onClick={onSort('sub_category,-created_at')}
             >
               Subcategorie {renderChevron('sub_category')}
-            </Th>
-            <Th data-testid="sortStatus" onClick={onSort('status,-created_at')}>
+            </ThSubcategory>
+            <ThStatus
+              data-testid="sortStatus"
+              onClick={onSort('status,-created_at')}
+            >
               Status {renderChevron('status')}
-            </Th>
+            </ThStatus>
+            {configuration.featureFlags.fetchDistrictsFromBackend ? (
+              <ThArea
+                data-testid="sortDistrict"
+                onClick={onSort('district,-created_at')}
+              >
+                {configuration.language.district} {renderChevron('district')}
+              </ThArea>
+            ) : (
+              <ThArea
+                data-testid="sortStadsdeel"
+                onClick={onSort('stadsdeel,-created_at')}
+              >
+                Stadsdeel {renderChevron('stadsdeel')}
+              </ThArea>
+            )}
             <Th
               data-testid="sortAddress"
               onClick={onSort('address,-created_at')}
@@ -177,23 +193,37 @@ const List: FunctionComponent<ListProps> = ({
           {incidents.map((incident) => {
             const detailLink = `/manage/incident/${incident.id}`
             return (
-              <tr key={incident.id}>
-                <Td detailLink={detailLink}>
+              <Tr
+                key={incident.id}
+                tabIndex={0}
+                onKeyPress={() => navigateToIncident(incident.id)}
+              >
+                <Td detailLink={detailLink} data-testid="incidentParent">
                   {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
                 </Td>
-                <Td detailLink={detailLink}>
-                  {getListIconByKey(priority, incident.priority?.priority)}
+                <Td detailLink={detailLink} data-testid="incidentUrgency">
+                  <StyledIcon>
+                    {getListIconByKey(priority, incident.priority?.priority)}
+                  </StyledIcon>
                 </Td>
-                <Td detailLink={detailLink}>{incident.id}</Td>
+                <Td detailLink={detailLink} data-testid="incidentId">
+                  {incident.id}
+                </Td>
                 <Td detailLink={detailLink} data-testid="incidentDaysOpen">
                   {getDaysOpen(incident)}
                 </Td>
-                <Td detailLink={detailLink} noWrap>
+                <Td detailLink={detailLink} data-testid="incidentCreatedAt">
                   {string2date(incident.created_at)}{' '}
                   {string2time(incident.created_at)}
                 </Td>
-                <Td detailLink={detailLink}>
+                <Td detailLink={detailLink} data-testid="incidentSubcategory">
+                  {incident.category?.sub}
+                </Td>
+                <Td detailLink={detailLink} data-testid="incidentStatus">
+                  {getListValueByKey(status, incident.status?.state)}
+                </Td>
+                <Td detailLink={detailLink} data-testid="incidentArea">
                   {configuration.featureFlags.fetchDistrictsFromBackend
                     ? getListValueByKey(districts, incident.location?.area_code)
                     : getListValueByKey(
@@ -201,19 +231,19 @@ const List: FunctionComponent<ListProps> = ({
                         incident.location?.stadsdeel
                       )}
                 </Td>
-                <Td detailLink={detailLink}>{incident.category?.sub}</Td>
-                <Td detailLink={detailLink}>
-                  {getListValueByKey(status, incident.status?.state)}
-                </Td>
-                <Td detailLink={detailLink}>
-                  {incident.location?.address_text}
+                <Td detailLink={detailLink} data-testid="incidentAddress">
+                  {incident.location.address &&
+                    formatAddress(incident.location.address)}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
-                  <Td detailLink={detailLink}>
+                  <Td
+                    detailLink={detailLink}
+                    data-testid="incidentAssignedUser"
+                  >
                     {incident.assigned_user_email}
                   </Td>
                 )}
-              </tr>
+              </Tr>
             )
           })}
         </tbody>

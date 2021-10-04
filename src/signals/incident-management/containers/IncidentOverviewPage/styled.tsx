@@ -69,6 +69,16 @@ export const MapWrapper = styled(Column).attrs({
   flex-direction: column;
 `
 
+export const NavWrapper = styled(Column).attrs({
+  span: 12,
+})`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: ${themeSpacing(5)};
+`
+
 export const PageTitle = styled.div`
   display: flex;
   justify-content: space-between;

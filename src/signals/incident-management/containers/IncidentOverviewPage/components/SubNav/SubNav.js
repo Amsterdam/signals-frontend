@@ -70,8 +70,11 @@ export const TabWrapper = styled(Column)`
 `
 
 const SubNav = ({ showsMap }) => (
-  <Wrapper data-testid="subNav">
-    <Column span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}>
+  <>
+    <Column
+      data-testid="subNav"
+      span={{ small: 1, medium: 1, big: 3, large: 6, xLarge: 6 }}
+    >
       {showsMap && configuration.featureFlags.mapFilter24Hours && (
         <MapHeading data-testid="subNavHeader">Afgelopen 24 uur</MapHeading>
       )}
@@ -100,7 +103,7 @@ const SubNav = ({ showsMap }) => (
         )}
       </TabContainer>
     </TabWrapper>
-  </Wrapper>
+  </>
 )
 
 SubNav.defaultProps = {

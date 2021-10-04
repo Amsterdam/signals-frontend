@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { subWeeks } from 'date-fns'
+import subWeeks from 'date-fns/subWeeks'
 import * as requests from '../../support/commandsRequests';
 import { generateToken } from '../../support/jwt';
 import * as routes from '../../support/commandsRouting';

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import isEqual from 'lodash.isequal'
-import isObject from 'lodash.isobject'
+import isEqual from 'lodash/isEqual'
+import isObject from 'lodash/isObject'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
