@@ -24,7 +24,7 @@ describe('Manage categories', () => {
 
     it('Should change the attributes of the category and shows changes in history', () => {
       general.openMenu();
-      cy.contains('foobarbaz').click();
+      cy.contains('Instellingen').click();
       cy.contains('Subcategorieën').click();
 
       routes.waitForCategoriesRoutes();
