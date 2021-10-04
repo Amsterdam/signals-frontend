@@ -54,7 +54,7 @@ FROM nginx:stable-alpine
 
 RUN apk add --no-cache jq nodejs npm
 
-RUN npm install @exodus/schemasafe lodash.merge
+RUN npm install @exodus/schemasafe lodash
 
 COPY --from=base /app/build/. /usr/share/nginx/html/
 
