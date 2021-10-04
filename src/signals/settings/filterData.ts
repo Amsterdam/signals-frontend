@@ -9,7 +9,7 @@ type ColMap = Record<string, any>
  * Filtering out invalid keys, turning array values into concatenated strings and
  * converting boolean values to readable text values
  */
-const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> | [] => {
+const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> => {
   const allowedKeys = Object.keys(colMap)
 
   return (
