@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react-hooks'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 import { getErrorMessage } from 'shared/services/api/api'
 import * as constants from 'containers/App/constants'
@@ -20,8 +20,12 @@ jest.mock('containers/App/constants', () => ({
 fetchMock.disableMocks()
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
-  it('should request users from API on mount', async () => {
+  it('should request users from API', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
+
+    act(() => {
+      result.current.get()
+    })
 
     expect(result.current.isLoading).toEqual(true)
     expect(result.current.users.count).toEqual(0)
@@ -29,7 +33,6 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate()
 
-    expect(result.current.isLoading).toEqual(false)
     expect(result.current.users.count).toEqual(usersJSON.count)
     expect(result.current.users.list).toHaveLength(constants.PAGE_SIZE)
     expect(result.current.users.list[0].id).toEqual(usersJSON.results[0].id)
@@ -37,9 +40,11 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
   it('should request the correct page', async () => {
     const page = 2
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useFetchUsers({ page })
-    )
+    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
+
+    act(() => {
+      result.current.get({ page })
+    })
 
     await waitForNextUpdate()
 
@@ -50,14 +55,76 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
     )
   })
 
+  it('requests with filters', async () => {
+    let request: any
+
+    server.use(
+      rest.get(/localhost/, async (req, res, ctx) => {
+        request = req
+        res(ctx.status(200))
+      })
+    )
+
+    const filters = {
+      role: 'Regievoerder',
+      profile_department_code: 'ACC',
+    }
+    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
+
+    act(() => {
+      result.current.get({ filters })
+    })
+
+    await waitForNextUpdate()
+
+    expect(request.url.toString()).toEqual(
+      expect.stringContaining('role=Regievoerder')
+    )
+    expect(request.url.toString()).toEqual(
+      expect.stringContaining('profile_department_code=ACC')
+    )
+  })
+
+  it('requests with filters, clearing empty values', async () => {
+    let request: any
+
+    server.use(
+      rest.get(/localhost/, async (req, res, ctx) => {
+        request = req
+        res(ctx.status(200))
+      })
+    )
+
+    const filters = {
+      role: 'Regievoerder',
+      profile_department_code: '',
+    }
+    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
+
+    act(() => {
+      result.current.get({ filters })
+    })
+
+    await waitForNextUpdate()
+
+    expect(request.url.toString()).toEqual(
+      expect.stringContaining('role=Regievoerder')
+    )
+    expect(request.url.toString()).not.toEqual(
+      expect.stringContaining('profile_department_code=ACC')
+    )
+  })
+
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed'
     const errorResponse = new Error()
     mockRequestHandler({ status: 404, body: { message } })
 
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useFetchUsers({ page: 1 })
-    )
+    const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
+
+    act(() => {
+      result.current.get({ page: 1 })
+    })
 
     let { error } = result.current
     expect(error).toEqual(false)
@@ -82,9 +149,13 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       )
     )
 
-    const { unmount, waitForNextUpdate } = renderHook(() =>
-      useFetchUsers({ page })
+    const { result, unmount, waitForNextUpdate } = renderHook(() =>
+      useFetchUsers()
     )
+
+    act(() => {
+      result.current.get({ page })
+    })
 
     await waitForNextUpdate()
     unmount()

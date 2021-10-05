@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import { PAGE_SIZE as page_size } from 'containers/App/constants'
 import configuration from 'shared/services/configuration/configuration'
@@ -42,26 +42,27 @@ interface FetchResponse {
   isLoading: boolean
   users: Users
   error?: boolean | FetchError
+  get: (params?: FetchUsersProps) => void
 }
 
-const useFetchUsers = ({
-  page,
-  filters,
-}: FetchUsersProps = {}): FetchResponse => {
+const useFetchUsers = (): FetchResponse => {
   const [users, setUsers] = useState<Users>({ count: 0, list: [] })
-  const { get, data, isLoading, error } = useFetch<UsersData>()
+  const { get: fetch, data, isLoading, error } = useFetch<UsersData>()
 
-  useEffect(() => {
-    const pageParams = { page, page_size }
+  const get = useCallback(
+    async ({ filters, page }: FetchUsersProps = {}) => {
+      const pageParams = { page, page_size }
 
-    const filterParams = Object.entries(filters || {})
-      .filter(([, value]) => value !== '*')
-      .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {})
+      const filterParams = Object.entries(filters || {})
+        .filter(([key, value]) => value !== '*' && key !== '')
+        .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {})
 
-    const queryParams = { ...pageParams, ...filterParams }
+      const queryParams = { ...pageParams, ...filterParams }
 
-    get(configuration.USERS_ENDPOINT, queryParams)
-  }, [filters, get, page])
+      await fetch(configuration.USERS_ENDPOINT, queryParams)
+    },
+    [fetch]
+  )
 
   useEffect(() => {
     if (!data) return
@@ -79,7 +80,7 @@ const useFetchUsers = ({
     setUsers({ count: data.count, list: filteredUserData })
   }, [data])
 
-  return { isLoading, users, error }
+  return { get, users, isLoading, error }
 }
 
 export default useFetchUsers
