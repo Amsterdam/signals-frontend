@@ -52,9 +52,16 @@ const StyledMetaList = styled.dl`
   dd {
     margin-bottom: ${themeSpacing(4)};
 
-    &.alert {
-      color: ${themeColor('secondary')};
+    &.status {
       font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+
+      &.alert {
+        color: ${themeColor('support', 'invalid')};
+      }
+
+      &.success {
+        color: ${themeColor('support', 'valid')};
+      }
     }
 
     .childLink:not(:first-child) {
@@ -258,6 +265,11 @@ const MetaList = () => {
     [departments]
   )
 
+  const statusClass =
+    incident && ['s', 'o', 'a'].includes(incident.status.state)
+      ? 'success'
+      : 'alert'
+
   useEffect(() => {
     if (incidentDepartmentCodes && incidentDepartmentCodes.length) {
       getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, {
@@ -308,7 +320,10 @@ const MetaList = () => {
           />
           Status
         </dt>
-        <dd className="alert" data-testid="meta-list-status-value">
+        <dd
+          className={`status ${statusClass}`}
+          data-testid="meta-list-status-value"
+        >
           {statusText}
         </dd>
       </Highlight>
