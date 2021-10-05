@@ -58,9 +58,6 @@ describe('Keycloak authorization', () => {
         checkLoginIframe: false,
         flow: 'standard',
         pkceMethod: 'S256',
-        silentCheckSsoFallback: true,
-        silentCheckSsoRedirectUri:
-          'http://localhost/assets/html/silent-check-sso.html',
         useNonce: true,
       })
     })
