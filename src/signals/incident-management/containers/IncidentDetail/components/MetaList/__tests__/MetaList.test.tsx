@@ -271,7 +271,7 @@ describe('MetaList', () => {
 
     expect(screen.queryByText('Hoog')).not.toBeInTheDocument()
     expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'alert'
+      'status alert'
     )
     expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe('')
 
@@ -284,10 +284,67 @@ describe('MetaList', () => {
 
     expect(screen.queryByText('Hoog')).toBeInTheDocument()
     expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'alert'
+      'status alert'
     )
     expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe(
       'alert'
+    )
+  })
+
+  it('renders different status colors', () => {
+    const { rerender } = render(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 's' },
+      })
+    )
+
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
+      'status success'
+    )
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'm' },
+      })
+    )
+
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
+      'status alert'
+    )
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'o' },
+      })
+    )
+
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
+      'status success'
+    )
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'i' },
+      })
+    )
+
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
+      'status alert'
+    )
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'a' },
+      })
+    )
+
+    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
+      'status success'
     )
   })
 
