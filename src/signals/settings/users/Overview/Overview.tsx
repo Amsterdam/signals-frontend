@@ -69,13 +69,17 @@ const selectUserActive = [
 const UsersOverviewContainer = () => {
   const history = useHistory()
   const { pageNum } = useParams<Params>()
-  const [page, setPage] = useState(1)
+  const pageNumFromQueryString = pageNum ? Number.parseInt(pageNum, 10) : 1
+  const [page, setPage] = useState(pageNumFromQueryString)
   const { state, dispatch } = useContext(SettingsContext)
-  const { filters } = state.users
   const {
+    users: { filters },
+  } = state
+  const {
+    get,
     isLoading,
     users: { list: data, count },
-  } = useFetchUsers({ page, filters })
+  } = useFetchUsers()
   const userCan = useSelector(makeSelectUserCan)
   const selectRoles = useSelector(inputSelectRolesSelector)
   const selectDepartments = useSelector(inputSelectDepartmentsSelector)
@@ -86,27 +90,26 @@ const UsersOverviewContainer = () => {
         ).value
       : ''
 
-  /**
-   * Get page number value from URL query string
-   *
-   * @returns {number|undefined}
-   */
-  const pageNumFromQueryString = pageNum && Number.parseInt(pageNum, 10)
-
-  // subscribe to param changes
   useEffect(() => {
-    if (pageNumFromQueryString && pageNumFromQueryString !== page) {
+    // request a new data set when the page or the filters change
+    get({ page, filters })
+  }, [filters, page, get])
+
+  useEffect(() => {
+    // on page load, set the correct page number
+    if (page !== pageNumFromQueryString) {
       setPage(pageNumFromQueryString)
     }
-  }, [pageNumFromQueryString, page])
+    // No need to changes in `page`, only update when the URL changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumFromQueryString])
 
   const setUsernameFilter = useCallback(
     (value) => {
-      dispatch(setUserFilters({ username: value }))
       setPage(1)
-      history.push(`${USERS_PAGED_URL}/1`)
+      dispatch(setUserFilters({ username: value }))
     },
-    [dispatch, history]
+    [dispatch]
   )
 
   const createOnChangeFilter = useCallback(
@@ -123,6 +126,7 @@ const UsersOverviewContainer = () => {
   const selectUserActiveOnChange = useCallback(
     (event) => {
       event.preventDefault()
+      setPage(1)
       dispatch(setUserFilters({ is_active: event.target.value }))
     },
     [dispatch]
@@ -131,6 +135,7 @@ const UsersOverviewContainer = () => {
   const selectRoleOnChange = useCallback(
     (event) => {
       event.preventDefault()
+      setPage(1)
       dispatch(setUserFilters({ role: event.target.value }))
     },
     [dispatch]
@@ -143,6 +148,7 @@ const UsersOverviewContainer = () => {
         ({ value }) => value === event.target.value
       )
 
+      setPage(1)
       dispatch(
         setUserFilters({ profile_department_code: selectedDepartment.key })
       )
@@ -170,13 +176,10 @@ const UsersOverviewContainer = () => {
     [history, userCan]
   )
 
-  const onPaginationClick = useCallback(
-    (pageToNavigateTo) => {
-      global.window.scrollTo(0, 0)
-      history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`)
-    },
-    [history]
-  )
+  const onPaginationClick = (pageToNavigateTo: number) => {
+    history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`)
+    global.window.scrollTo(0, 0)
+  }
 
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
 

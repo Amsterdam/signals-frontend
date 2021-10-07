@@ -43,7 +43,7 @@ describe('models/departments/selectors', () => {
   })
 
   test('inputSelectDepartmentsSelector', () => {
-    const emptyOption = { key: 'all', name: 'Alles', value: '*' }
+    const emptyOption = { key: '', name: 'Alles', value: '*' }
     expect(inputSelectDepartmentsSelector.resultFunc(initialState)).toEqual([
       emptyOption,
     ])

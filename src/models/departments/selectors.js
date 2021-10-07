@@ -28,7 +28,7 @@ export const makeSelectDepartments = createSelector(
 export const inputSelectDepartmentsSelector = createSelector(
   selectDepartmentsDomain,
   (state) => [
-    { key: 'all', name: 'Alles', value: '*' },
+    { key: '', name: 'Alles', value: '*' },
     ...departmentsInputOptions(state),
   ]
 )
