@@ -7,7 +7,12 @@ export const overlastPersonenEnGroepen = {
     meta: {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
-        subcategory: 'drank-en-drugsoverlast',
+        ifOneOf: {
+          subcategory: [
+            'drank-en-drugsoverlast',
+            'overige-overlast-door-personen',
+          ],
+        },
       },
       label: 'Denkt u dat er drugs worden verkocht?',
       shortLabel: 'Verkoop drugs',
