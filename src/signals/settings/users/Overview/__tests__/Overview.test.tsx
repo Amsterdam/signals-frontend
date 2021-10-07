@@ -13,7 +13,7 @@ import { history as memoryHistory, withCustomAppContext } from 'test/utils'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 import inputSelectRolesSelectorFixture from 'utils/__tests__/fixtures/inputSelectRolesSelector.json'
 import inputSelectDepartmentsSelectorFixture from 'utils/__tests__/fixtures/inputSelectDepartmentsSelector.json'
-import { USER_URL } from 'signals/settings/routes'
+import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes'
 import * as constants from 'containers/App/constants'
 import * as reactRouter from 'react-router-dom'
 import * as appSelectors from 'containers/App/selectors'
@@ -143,6 +143,40 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(screen.queryByText('Gebruiker toevoegen')).not.toBeInTheDocument()
   })
 
+  it('renders correctly when the page URL changes', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true)
+
+    act(() => {
+      memoryHistory.push(`${USERS_PAGED_URL}/1`)
+    })
+
+    const { rerender } = render(usersOverviewWithAppContext())
+
+    const firstCellContents = screen
+      .getByRole('table')
+      .querySelector('td:first-of-type')?.textContent
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId('loadingIndicator')
+    )
+
+    jest
+      .spyOn(reactRouter, 'useParams')
+      .mockImplementation(() => ({ pageNum: '2' }))
+
+    rerender(usersOverviewWithAppContext())
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByTestId('loadingIndicator')
+    )
+
+    expect(firstCellContents).not.toEqual(
+      screen.getByRole('table').querySelector('td:first-of-type')?.textContent
+    )
+  })
+
   it('should request users from API on mount', async () => {
     render(usersOverviewWithAppContext())
 
@@ -263,12 +297,12 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
   })
 
-  it('should push to the history stack and scroll to top on pagination item click', async () => {
+  it('should scroll to top on pagination item click', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     constants.PAGE_SIZE = 5
 
-    const { push, scrollTo } = testContext
+    const { scrollTo } = testContext
     render(usersOverviewWithAppContext())
 
     await waitForElementToBeRemoved(() =>
@@ -279,7 +313,6 @@ describe('signals/settings/users/containers/Overview', () => {
     userEvent.click(page2)
 
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
-    expect(push).toHaveBeenCalled()
   })
 
   it('should push on list item with an itemId click', async () => {
@@ -305,12 +338,9 @@ describe('signals/settings/users/containers/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = `${itemId}`
 
-    expect(push).toHaveBeenCalledTimes(0)
-
     userEvent.click(username)
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(`${USER_URL}/${itemId}`)
+    expect(push).toHaveBeenLastCalledWith(`${USER_URL}/${itemId}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
@@ -439,6 +469,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const username = 'foo bar baz'
     const stateCfg = {
       users: { filters: { ...state.users.filters, username } },
+      page: 1,
     }
 
     const { rerender, unmount } = render(usersOverviewWithAppContext())
@@ -637,6 +668,7 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should select "Behandelaar" as filter and dispatch a fetch action', async () => {
     const mockedState = {
       users: { filters: { ...state.users.filters, role: 'Behandelaar' } },
+      page: 1,
     }
     render(usersOverviewWithAppContext({}, {}, mockedState))
 
@@ -661,6 +693,7 @@ describe('signals/settings/users/containers/Overview', () => {
   it('should select "Actief" as filter and dispatch a fetch action', async () => {
     const mockedState = {
       users: { filters: { ...state.users.filters, is_active: 'true' } },
+      page: 1,
     }
     render(usersOverviewWithAppContext({}, {}, mockedState))
 
@@ -691,6 +724,7 @@ describe('signals/settings/users/containers/Overview', () => {
           role: 'Behandelaar',
         },
       },
+      page: 1,
     }
 
     render(usersOverviewWithAppContext({}, {}, mockedState))
@@ -725,6 +759,7 @@ describe('signals/settings/users/containers/Overview', () => {
           profile_department_code: activeDepartment.key,
         },
       },
+      page: 1,
     }
 
     render(usersOverviewWithAppContext({}, {}, mockedState))
