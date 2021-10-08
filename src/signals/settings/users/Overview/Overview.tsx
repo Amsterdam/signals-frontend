@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import type { FormEvent } from 'react'
 
 import useDebounce from 'hooks/useDebounce'
 import { PAGE_SIZE } from 'containers/App/constants'
@@ -14,8 +15,6 @@ import Pagination from 'components/Pagination'
 import PageHeader from 'signals/settings/components/PageHeader'
 import DataView from 'components/DataView'
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
-import SettingsContext from 'signals/settings/context'
-import { setUserFilters } from 'signals/settings/actions'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
 import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
@@ -68,13 +67,10 @@ const selectUserActive = [
 
 const UsersOverviewContainer = () => {
   const history = useHistory()
+  const location = useLocation()
   const { pageNum } = useParams<Params>()
-  const pageNumFromQueryString = pageNum ? Number.parseInt(pageNum, 10) : 1
-  const [page, setPage] = useState(pageNumFromQueryString)
-  const { state, dispatch } = useContext(SettingsContext)
-  const {
-    users: { filters },
-  } = state
+  const page = pageNum ? Number.parseInt(pageNum, 10) : 1
+  const [filters, setFilters] = useState(new URLSearchParams(location.search))
   const {
     get,
     isLoading,
@@ -83,77 +79,63 @@ const UsersOverviewContainer = () => {
   const userCan = useSelector(makeSelectUserCan)
   const selectRoles = useSelector(inputSelectRolesSelector)
   const selectDepartments = useSelector(inputSelectDepartmentsSelector)
-  const selectedDepartment =
-    selectDepartments && filters.profile_department_code
-      ? selectDepartments.find(
-          ({ key }) => key === filters.profile_department_code
-        ).value
-      : ''
+  const selectedDepartment = filters.get('profile_department_code')
+    ? selectDepartments.find(
+        ({ value }) => value === filters.get('profile_department_code')
+      )?.value
+    : undefined
+
+  const selectedRole = filters.get('role')
+    ? selectRoles.find(({ value }) => value === filters.get('role'))?.value
+    : undefined
 
   useEffect(() => {
-    // request a new data set when the page or the filters change
-    get({ page, filters })
-  }, [filters, page, get])
+    // make sure that the change in URL is reflected in the component's state
+    const unregister = history.listen((locationState) => {
+      setFilters(new URLSearchParams(locationState.search))
+    })
 
-  useEffect(() => {
-    // on page load, set the correct page number
-    if (page !== pageNumFromQueryString) {
-      setPage(pageNumFromQueryString)
+    return () => {
+      unregister()
     }
-    // No need to changes in `page`, only update when the URL changes
+    // Disabling linter; no dependencies for onmount hook
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumFromQueryString])
+  }, [])
+
+  useEffect(() => {
+    get({ page, filters })
+  }, [get, page, filters])
 
   const setUsernameFilter = useCallback(
-    (value) => {
-      setPage(1)
-      dispatch(setUserFilters({ username: value }))
+    (value: string) => {
+      filters.set('username', value)
+      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [dispatch]
+    [filters, history]
   )
 
   const createOnChangeFilter = useCallback(
     (event) => {
       const { value } = event.target
 
-      setUsernameFilter(value)
+      if (value !== filters.get('username')) {
+        setUsernameFilter(value)
+      }
     },
-    [setUsernameFilter]
+    [setUsernameFilter, filters]
   )
 
   const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250)
 
-  const selectUserActiveOnChange = useCallback(
-    (event) => {
+  const selectOnChange = useCallback(
+    (event: FormEvent<HTMLSelectElement>) => {
       event.preventDefault()
-      setPage(1)
-      dispatch(setUserFilters({ is_active: event.target.value }))
-    },
-    [dispatch]
-  )
+      const { name, value } = event.currentTarget
 
-  const selectRoleOnChange = useCallback(
-    (event) => {
-      event.preventDefault()
-      setPage(1)
-      dispatch(setUserFilters({ role: event.target.value }))
+      filters.set(name, value)
+      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [dispatch]
-  )
-
-  const selectDepartmentOnChange = useCallback(
-    (event) => {
-      event.preventDefault()
-      const selectedDepartment = selectDepartments.find(
-        ({ value }) => value === event.target.value
-      )
-
-      setPage(1)
-      dispatch(
-        setUserFilters({ profile_department_code: selectedDepartment.key })
-      )
-    },
-    [dispatch, selectDepartments]
+    [filters, history]
   )
 
   const onItemClick = useCallback(
@@ -176,10 +158,15 @@ const UsersOverviewContainer = () => {
     [history, userCan]
   )
 
-  const onPaginationClick = (pageToNavigateTo: number) => {
-    history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`)
-    global.window.scrollTo(0, 0)
-  }
+  const onPaginationClick = useCallback(
+    (pageToNavigateTo: number) => {
+      global.window.scrollTo(0, 0)
+      history.push(
+        `${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`
+      )
+    },
+    [filters, history]
+  )
 
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
 
@@ -208,35 +195,35 @@ const UsersOverviewContainer = () => {
                     debouncedOnChangeFilter(event)
                   }}
                   onClear={() => setUsernameFilter('')}
-                  value={filters.username}
+                  value={filters.get('username') || ''}
                   data-testid="filterUsersByUsername"
                 />,
 
                 <Select
                   id="roleSelect"
-                  name="roleSelect"
-                  value={filters.role}
+                  name="role"
+                  value={selectedRole}
                   options={selectRoles}
-                  optionKey="value"
-                  onChange={selectRoleOnChange}
+                  optionKey="name"
+                  onChange={selectOnChange}
                 />,
 
                 <Select
                   id="departmentSelect"
-                  name="departmentSelect"
-                  value={selectedDepartment}
+                  name="profile_department_code"
+                  value={selectedDepartment || '*'}
                   options={selectDepartments}
                   optionKey="value"
-                  onChange={selectDepartmentOnChange}
+                  onChange={selectOnChange}
                 />,
 
                 <Select
                   id="userActiveSelect"
-                  name="userActiveSelect"
-                  value={filters.is_active}
+                  name="is_active"
+                  value={filters.get('is_active') ?? undefined}
                   options={selectUserActive}
                   optionKey="value"
-                  onChange={selectUserActiveOnChange}
+                  onChange={selectOnChange}
                 />,
               ]}
               columnOrder={columnHeaders}

@@ -11,6 +11,13 @@ import type UsersData from 'types/api/users'
 
 import filterData from '../../../filterData'
 
+export type Filters = {
+  profile_department_code?: string
+  role?: string
+  is_active?: 'true' | 'false'
+  username?: string
+}
+
 // name mapping from API values to human readable values
 const colMap = {
   id: 'id',
@@ -21,7 +28,7 @@ const colMap = {
 }
 
 type FetchUsersProps = {
-  filters?: Record<string, string>
+  filters?: URLSearchParams
   page?: number
 }
 
@@ -52,10 +59,21 @@ const useFetchUsers = (): FetchResponse => {
   const get = useCallback(
     async ({ filters, page }: FetchUsersProps = {}) => {
       const pageParams = { page, page_size }
+      const entries = filters ? Array.from(filters.entries()) : []
 
-      const filterParams = Object.entries(filters || {})
-        .filter(([key, value]) => value !== '*' && key !== '')
-        .reduce((acc, [filter, value]) => ({ ...acc, [filter]: value }), {})
+      const filterParams = entries.length
+        ? entries
+            .filter(
+              ([key, value]: [string, string]) => value !== '*' && key !== ''
+            )
+            .reduce(
+              (
+                acc: Record<string, string>,
+                [filter, value]: [string, string]
+              ) => ({ ...acc, [filter]: value }),
+              {}
+            )
+        : {}
 
       const queryParams = { ...pageParams, ...filterParams }
 
