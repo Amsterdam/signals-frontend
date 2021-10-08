@@ -65,10 +65,10 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       })
     )
 
-    const filters = {
+    const filters = new URLSearchParams({
       role: 'Regievoerder',
       profile_department_code: 'ACC',
-    }
+    })
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
 
     act(() => {
@@ -95,10 +95,10 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
       })
     )
 
-    const filters = {
+    const filters = new URLSearchParams({
       role: 'Regievoerder',
       profile_department_code: '',
-    }
+    })
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
 
     act(() => {

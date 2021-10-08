@@ -16,7 +16,7 @@ export const departmentsInputOptions = (state) => [
     .map((department) => ({
       key: department.code,
       name: department.name,
-      value: department.name,
+      value: department.code,
     })),
 ]
 
