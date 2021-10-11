@@ -76,6 +76,7 @@ export const NavWrapper = styled(Column).attrs({
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
+  height: 46px;
   margin-bottom: ${themeSpacing(5)};
 `
 
