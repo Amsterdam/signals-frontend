@@ -26,6 +26,7 @@ describe('Keycloak authorization', () => {
       authEndpoint: 'https://example.nl/auth',
       clientId: 'frontend',
       realm: 'auth-realm',
+      scope: 'openid',
     } as any
   })
 
@@ -53,7 +54,12 @@ describe('Keycloak authorization', () => {
     it('calls keycloak-js init function', async () => {
       new Keycloak().init()
 
-      expect(keycloakJSMock.init).toHaveBeenCalled()
+      expect(keycloakJSMock.init).toHaveBeenCalledWith({
+        checkLoginIframe: false,
+        flow: 'standard',
+        pkceMethod: 'S256',
+        useNonce: true,
+      })
     })
 
     it('calls keycloak-js init with check-sso when localstorage domain value is set', () => {
@@ -81,7 +87,9 @@ describe('Keycloak authorization', () => {
     it('calls keycloak-js login function', async () => {
       new Keycloak().login()
 
-      expect(keycloakJSMock.login).toHaveBeenCalled()
+      expect(keycloakJSMock.login).toHaveBeenCalledWith({
+        scope: 'openid',
+      })
     })
   })
 

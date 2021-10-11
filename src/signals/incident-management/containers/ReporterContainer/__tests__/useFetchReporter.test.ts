@@ -19,14 +19,13 @@ import {
 import { FetchReporterHook, useFetchReporter } from '../useFetchReporter'
 
 const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+const reduxSpy = jest
+  .spyOn(reactRedux, 'useDispatch')
+  .mockImplementation(() => dispatch)
 
 fetchMock.disableMocks()
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-}))
+jest.mock('react-router-dom')
 
 const INCIDENT_ID = '4440'
 const INCIDENT_ID_2 = '4441'
@@ -52,6 +51,10 @@ const REPORTER_MOCK: Result = {
 }
 
 describe('Fetch Reporter hook', () => {
+  afterAll(() => {
+    reduxSpy.mockRestore()
+  })
+
   it('correctly implements pagination', async () => {
     mockRequestHandler({
       body: {

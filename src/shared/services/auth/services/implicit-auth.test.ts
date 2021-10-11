@@ -98,7 +98,7 @@ describe('ImplicitAuth authorization', () => {
   })
 
   describe('receiving response errors from the auth service', () => {
-    it('throws an error', () => {
+    it('throws an error', async () => {
       const queryString =
         '?error=invalid_request&error_description=invalid%20request'
 
@@ -108,7 +108,7 @@ describe('ImplicitAuth authorization', () => {
         error_description: 'invalid request',
       }
 
-      expect(async () => {
+      await expect(async () => {
         implicitauth.init()
       }).rejects.toThrow(
         'Authorization service responded with error invalid_request [invalid request] (The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.)'
@@ -116,22 +116,22 @@ describe('ImplicitAuth authorization', () => {
       expect(queryStringParser).toHaveBeenCalledWith(queryString)
     })
 
-    it('throws an error without a description in the query string', () => {
+    it('throws an error without a description in the query string', async () => {
       queryObject = {
         error: 'invalid_request',
       }
 
-      expect(async () => {
+      await expect(async () => {
         implicitauth.init()
       }).rejects.toThrow()
     })
 
-    it('removes the state token from the local storage', () => {
+    it('removes the state token from the local storage', async () => {
       queryObject = {
         error: 'invalid_request',
       }
 
-      expect(async () => {
+      await expect(async () => {
         implicitauth.init()
       }).rejects.toThrow()
       expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken')
@@ -160,7 +160,7 @@ describe('ImplicitAuth authorization', () => {
     })
 
     describe('receiving a successful callback from the auth service', () => {
-      it('throws an error when the state token received does not match the one saved', () => {
+      it('throws an error when the state token received does not match the one saved', async () => {
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=invalid-state-token'
         global.location.hash = `#${queryString}`
@@ -172,7 +172,7 @@ describe('ImplicitAuth authorization', () => {
         }
         savedStateToken = 'state-token'
 
-        expect(async () => {
+        await expect(async () => {
           implicitauth.init()
         }).rejects.toThrow(
           'Authenticator encountered an invalid state token (invalid-state-token)'
@@ -180,7 +180,7 @@ describe('ImplicitAuth authorization', () => {
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`)
       })
 
-      it('throws an error when the nonce received does not match the one saved', () => {
+      it('throws an error when the nonce received does not match the one saved', async () => {
         mocked(parseAccessToken).mockImplementation(
           () =>
             ({
@@ -201,7 +201,7 @@ describe('ImplicitAuth authorization', () => {
         savedStateToken = 'state-token'
         savedNonce = 'random-nonce'
 
-        expect(async () => {
+        await expect(async () => {
           implicitauth.init()
         }).rejects.toThrow(
           'Authenticator encountered an invalid nonce (invalid-random-nonce)'
@@ -343,12 +343,12 @@ describe('ImplicitAuth authorization', () => {
       implicitauth.init()
     })
 
-    it('returns an empty string when there was an error callback', () => {
+    it('returns an empty string when there was an error callback', async () => {
       queryObject = {
         error: 'invalid_request',
       }
 
-      expect(async () => {
+      await expect(async () => {
         implicitauth.init()
       }).rejects.toThrow()
     })

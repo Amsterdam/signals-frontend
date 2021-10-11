@@ -62,8 +62,8 @@ describe('Auth', () => {
   })
 
   describe('authenticate', () => {
-    it('calls getAuthHeaders function on auth instance', () => {
-      expect(auth.authenticate()).resolves.toBe('authenticated')
+    it('calls getAuthHeaders function on auth instance', async () => {
+      await expect(auth.authenticate()).resolves.toBe('authenticated')
     })
   })
 

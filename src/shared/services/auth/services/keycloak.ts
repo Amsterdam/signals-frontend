@@ -3,8 +3,6 @@
 import keycloakJS, { KeycloakInitOptions, KeycloakInstance } from 'keycloak-js'
 import configuration from 'shared/services/configuration/configuration'
 
-const AUTH_REDIRECT_URI = `${window.location.origin}/manage/incidents`
-const SILENT_CHECK_SSO_REDIRECT_URI = `${window.location.origin}/assets/html/silent-check-sso.html`
 const OAUTH_DOMAIN_KEY = 'oauthDomain' // Domain that is used for login
 
 const storage = window.localStorage || window.sessionStorage
@@ -33,9 +31,6 @@ class Keycloak {
       checkLoginIframe: false, // To keep user logged in, use refresh token instead of (silent) redirect
       pkceMethod: 'S256',
       useNonce: true,
-      silentCheckSsoRedirectUri: SILENT_CHECK_SSO_REDIRECT_URI,
-      silentCheckSsoFallback: true,
-      redirectUri: AUTH_REDIRECT_URI,
     }
 
     /**

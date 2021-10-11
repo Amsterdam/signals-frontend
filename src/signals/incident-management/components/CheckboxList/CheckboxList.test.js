@@ -503,7 +503,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     )
 
     container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
-      expect(slugs.includes(element.value))
+      return expect(slugs.includes(element.value))
     })
 
     const keys = statuses.map(({ key }) => key)
@@ -519,7 +519,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     )
 
     container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
-      expect(keys.includes(element.value))
+      return expect(keys.includes(element.value))
     })
   })
 

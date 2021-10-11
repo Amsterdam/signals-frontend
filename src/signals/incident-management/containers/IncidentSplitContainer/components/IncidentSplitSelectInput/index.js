@@ -44,7 +44,7 @@ const IncidentSplitSelectInput = ({
         optionValue="key"
         options={options}
         groups={groups}
-      ></Select>
+      />
 
       {selected?.description && <StyledInfoText text={selected.description} />}
     </StyledSelect>

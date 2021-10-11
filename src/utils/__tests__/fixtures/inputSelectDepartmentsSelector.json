@@ -1,0 +1,127 @@
+[
+  {
+    "key": "all",
+    "name": "Alles",
+    "value": "*"
+  },
+  {
+    "key": "ASC",
+    "name": "Actie Service Centrum",
+    "value": "Actie Service Centrum"
+  },
+  {
+    "key": "AEG",
+    "name": "Afval en Grondstoffen",
+    "value": "Afval en Grondstoffen"
+  },
+  {
+    "key": "AB",
+    "name": "Amsterdamse Bos",
+    "value": "Amsterdamse Bos"
+  },
+  {
+    "key": "CCA",
+    "name": "CCA",
+    "value": "CCA"
+  },
+  {
+    "key": "FB",
+    "name": "FB",
+    "value": "FB"
+  },
+  {
+    "key": "GGD",
+    "name": "GGD",
+    "value": "GGD"
+  },
+  {
+    "key": "MRB",
+    "name": "Marktbureau",
+    "value": "Marktbureau"
+  },
+  {
+    "key": "OMG",
+    "name": "Omgevingsdienst",
+    "value": "Omgevingsdienst"
+  },
+  {
+    "key": "OOV",
+    "name": "Openbare Orde & Veiligheid",
+    "value": "Openbare Orde & Veiligheid"
+  },
+  {
+    "key": "PRK",
+    "name": "Parkeren",
+    "value": "Parkeren"
+  },
+  {
+    "key": "POL",
+    "name": "Politie",
+    "value": "Politie"
+  },
+  {
+    "key": "POA",
+    "name": "Port of Amsterdam",
+    "value": "Port of Amsterdam"
+  },
+  {
+    "key": "STD",
+    "name": "Stadsdelen",
+    "value": "Stadsdelen"
+  },
+  {
+    "key": "STL",
+    "name": "Stadsloket",
+    "value": "Stadsloket"
+  },
+  {
+    "key": "STW",
+    "name": "Stadswerken",
+    "value": "Stadswerken"
+  },
+  {
+    "key": "THO",
+    "name": "THOR",
+    "value": "THOR"
+  },
+  {
+    "key": "VOR",
+    "name": "V&OR",
+    "value": "V&OR"
+  },
+  {
+    "key": "VIS",
+    "name": "V&OR - VIS",
+    "value": "V&OR - VIS"
+  },
+  {
+    "key": "OVL",
+    "name": "V&OR OVL",
+    "value": "V&OR OVL"
+  },
+  {
+    "key": "VRI",
+    "name": "V&OR VRI",
+    "value": "V&OR VRI"
+  },
+  {
+    "key": "VTH",
+    "name": "VTH",
+    "value": "VTH"
+  },
+  {
+    "key": "VTW",
+    "name": "VTW",
+    "value": "VTW"
+  },
+  {
+    "key": "WAT",
+    "name": "Waternet",
+    "value": "Waternet"
+  },
+  {
+    "key": "WON",
+    "name": "Wonen",
+    "value": "Wonen"
+  }
+]

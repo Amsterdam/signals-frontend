@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM", "ES5"],
+    "lib": ["ESNext", "DOM", "ES5", "DOM.Iterable"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": true,
@@ -27,5 +27,5 @@
     "downlevelIteration": true
   },
   "include": ["src/**/*", "custom.d.ts"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "src/*.json"]
 }

@@ -365,8 +365,8 @@
     "extra_personen_overig_vaker": {
       "label": "Gebeurt het vaker?",
       "shortLabel": "Vaker",
-      "values": {"nee": "Nee", "ja": "Ja, het gebeurt vaker:"},
-      "answers": {"nee": "Nee", "ja": "Ja, het gebeurt vaker:"}
+      "values": {"nee": "Nee", "ja": "Ja, het gebeurt vaker"},
+      "answers": {"nee": "Nee", "ja": "Ja, het gebeurt vaker"}
     },
     "extra_personen_overig_vaker_momenten": {
       "label": "Wanneer gebeurt het?",

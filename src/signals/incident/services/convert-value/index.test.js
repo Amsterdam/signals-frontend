@@ -30,7 +30,7 @@ describe('The convert value service', () => {
     expect(convertValue(array)).toBe(array)
   })
 
-  it('should pass through an array', () => {
+  it('should pass through an object', () => {
     const object = {
       foo: 1,
       bar: {

@@ -28,7 +28,7 @@ describe('DefaultTextsAdmin actions', () => {
     testActionCreator(fetchDefaultTexts, FETCH_DEFAULT_TEXTS, payload)
   })
 
-  it('should dispatch fetchDefaultTexts action', () => {
+  it('should dispatch fetchDefaultTextsSuccess action', () => {
     const payload = {}
     testActionCreator(
       fetchDefaultTextsSuccess,

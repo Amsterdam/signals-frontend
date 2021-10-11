@@ -138,7 +138,7 @@ describe('models/categories/selectors', () => {
     )
 
     deptCodes.forEach((code) => {
-      expect(subCatWithResponsibleDepts.extendedName.indexOf(code) > 0)
+      return expect(subCatWithResponsibleDepts.extendedName.indexOf(code) > 0)
     })
   })
 

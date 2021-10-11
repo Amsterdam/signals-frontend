@@ -173,7 +173,10 @@ module.exports = ({
     }),
 
     new CopyPlugin({
-      patterns: [{ from: path.resolve(__rootdir, 'assets'), to: 'assets' }],
+      patterns: [
+        { from: path.resolve(__rootdir, 'assets'), to: 'assets' },
+        { from: path.resolve(__rootdir, 'src/images') },
+      ],
     }),
 
     process.env.ANALYZE && new BundleAnalyzerPlugin(),

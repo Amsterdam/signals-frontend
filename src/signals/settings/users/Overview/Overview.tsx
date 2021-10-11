@@ -1,18 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-import {
-  Row,
-  Column,
-  themeSpacing,
-  Button,
-  SearchBar,
-  styles,
-} from '@amsterdam/asc-ui'
+import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import type { FormEvent } from 'react'
 
 import useDebounce from 'hooks/useDebounce'
 import { PAGE_SIZE } from 'containers/App/constants'
@@ -21,12 +15,15 @@ import Pagination from 'components/Pagination'
 import PageHeader from 'signals/settings/components/PageHeader'
 import DataView from 'components/DataView'
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
-import SettingsContext from 'signals/settings/context'
-import { setUserFilters } from 'signals/settings/actions'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
+import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import Select from 'components/Select'
 import useFetchUsers from './hooks/useFetchUsers'
+
+type Params = {
+  pageNum: string
+}
 
 const StyledPagination = styled(Pagination)`
   margin-top: ${themeSpacing(12)};
@@ -39,8 +36,11 @@ const HeaderButton = styled(Button)`
 `
 
 const StyledSearchbar = styled(SearchBar)`
-  ${styles.TextFieldStyle} > ${styles.InputStyle} {
-    height: ${themeSpacing(11)};
+  height: ${themeSpacing(11)};
+
+  & div,
+  & input {
+    height: 100% !important;
   }
 
   > button {
@@ -49,78 +49,93 @@ const StyledSearchbar = styled(SearchBar)`
 `
 
 const StyledDataView = styled(DataView)`
-  th:first-child {
-    width: 50%;
+  th:first-child,
+  th:nth-child(2) {
+    width: 25%;
+  }
+
+  th:last-child {
+    width: 120px;
   }
 `
 
 const selectUserActive = [
   { key: 'all', name: 'Alles', value: '*' },
-  { key: 'active', name: 'Actief', value: true },
-  { key: 'inactive', name: 'Niet actief', value: false },
+  { key: 'active', name: 'Actief', value: 'true' },
+  { key: 'inactive', name: 'Niet actief', value: 'false' },
 ]
 
 const UsersOverviewContainer = () => {
   const history = useHistory()
-  const { pageNum } = useParams()
-  const [page, setPage] = useState(1)
-  const { state, dispatch } = useContext(SettingsContext)
-  const { filters } = state.users
+  const location = useLocation()
+  const { pageNum } = useParams<Params>()
+  const page = pageNum ? Number.parseInt(pageNum, 10) : 1
+  const [filters, setFilters] = useState(new URLSearchParams(location.search))
   const {
+    get,
     isLoading,
     users: { list: data, count },
-  } = useFetchUsers({ page, filters })
+  } = useFetchUsers()
   const userCan = useSelector(makeSelectUserCan)
   const selectRoles = useSelector(inputSelectRolesSelector)
+  const selectDepartments = useSelector(inputSelectDepartmentsSelector)
+  const selectedDepartment = filters.get('profile_department_code')
+    ? selectDepartments.find(
+        ({ value }) => value === filters.get('profile_department_code')
+      )?.value
+    : undefined
 
-  /**
-   * Get page number value from URL query string
-   *
-   * @returns {number|undefined}
-   */
-  const pageNumFromQueryString = pageNum && Number.parseInt(pageNum, 10)
+  const selectedRole = filters.get('role')
+    ? selectRoles.find(({ value }) => value === filters.get('role'))?.value
+    : undefined
 
-  // subscribe to param changes
   useEffect(() => {
-    if (pageNumFromQueryString && pageNumFromQueryString !== page) {
-      setPage(pageNumFromQueryString)
+    // make sure that the change in URL is reflected in the component's state
+    const unregister = history.listen((locationState) => {
+      setFilters(new URLSearchParams(locationState.search))
+    })
+
+    return () => {
+      unregister()
     }
-  }, [pageNumFromQueryString, page])
+    // Disabling linter; no dependencies for onmount hook
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    get({ page, filters })
+  }, [get, page, filters])
 
   const setUsernameFilter = useCallback(
-    (value) => {
-      dispatch(setUserFilters({ username: value }))
-      setPage(1)
-      history.push(`${USERS_PAGED_URL}/1`)
+    (value: string) => {
+      filters.set('username', value)
+      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [dispatch, history]
+    [filters, history]
   )
 
   const createOnChangeFilter = useCallback(
     (event) => {
       const { value } = event.target
 
-      setUsernameFilter(value)
+      if (value !== filters.get('username')) {
+        setUsernameFilter(value)
+      }
     },
-    [setUsernameFilter]
+    [setUsernameFilter, filters]
   )
 
   const debouncedOnChangeFilter = useDebounce(createOnChangeFilter, 250)
 
-  const selectUserActiveOnChange = useCallback(
-    (event) => {
+  const selectOnChange = useCallback(
+    (event: FormEvent<HTMLSelectElement>) => {
       event.preventDefault()
-      dispatch(setUserFilters({ is_active: event.target.value }))
-    },
-    [dispatch]
-  )
+      const { name, value } = event.currentTarget
 
-  const selectRoleOnChange = useCallback(
-    (event) => {
-      event.preventDefault()
-      dispatch(setUserFilters({ role: event.target.value }))
+      filters.set(name, value)
+      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [dispatch]
+    [filters, history]
   )
 
   const onItemClick = useCallback(
@@ -144,14 +159,16 @@ const UsersOverviewContainer = () => {
   )
 
   const onPaginationClick = useCallback(
-    (pageToNavigateTo) => {
+    (pageToNavigateTo: number) => {
       global.window.scrollTo(0, 0)
-      history.push(`${USERS_PAGED_URL}/${pageToNavigateTo}`)
+      history.push(
+        `${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`
+      )
     },
-    [history]
+    [filters, history]
   )
 
-  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Status']
+  const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
 
   return (
     <Fragment>
@@ -178,26 +195,35 @@ const UsersOverviewContainer = () => {
                     debouncedOnChangeFilter(event)
                   }}
                   onClear={() => setUsernameFilter('')}
-                  value={filters.username}
+                  value={filters.get('username') || ''}
                   data-testid="filterUsersByUsername"
                 />,
 
                 <Select
                   id="roleSelect"
-                  name="roleSelect"
-                  value={filters.role}
+                  name="role"
+                  value={selectedRole}
                   options={selectRoles}
+                  optionKey="name"
+                  onChange={selectOnChange}
+                />,
+
+                <Select
+                  id="departmentSelect"
+                  name="profile_department_code"
+                  value={selectedDepartment || '*'}
+                  options={selectDepartments}
                   optionKey="value"
-                  onChange={selectRoleOnChange}
+                  onChange={selectOnChange}
                 />,
 
                 <Select
                   id="userActiveSelect"
-                  name="userActiveSelect"
-                  value={filters.userActive}
+                  name="is_active"
+                  value={filters.get('is_active') ?? undefined}
                   options={selectUserActive}
                   optionKey="value"
-                  onChange={selectUserActiveOnChange}
+                  onChange={selectOnChange}
                 />,
               ]}
               columnOrder={columnHeaders}

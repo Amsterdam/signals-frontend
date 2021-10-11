@@ -27,7 +27,7 @@
     "lint:find-rules": "eslint-find-rules -dun .eslintrc.json",
     "lint": "npm run lint:js",
     "preanalyze": "npm run analyze:clean",
-    "prebuild": "npm run build:clean",
+    "prebuild": "npm run build:clean && npm run proj4compile",
     "pretest": "npm run test:clean",
     "prestart:prod": "npm run build",
     "start": "cross-env NODE_ENV=development npx webpack s --config ./internals/webpack/webpack.dev.babel --port=3001 --hot --compress --history-api-fallback --watch-files=./src/**/*",
@@ -36,7 +36,8 @@
     "test:clean": "rimraf ./coverage",
     "test:concurrent": "cross-env NODE_ENV=test jest --coverage",
     "validate-config": "node ./internals/scripts/validate-config.js",
-    "validate-base-config": "node ./internals/scripts/validate-base-config.js"
+    "validate-base-config": "node ./internals/scripts/validate-base-config.js",
+    "proj4compile": "cd node_modules/proj4 && npm i && ./node_modules/.bin/grunt build:sterea"
   },
   "dependencies": {
     "@amsterdam/arm-core": "^0.6.0",
