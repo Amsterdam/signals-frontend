@@ -46,6 +46,9 @@ import IncidentDetailContext from '../../context'
 const incidentIsHandled = (incident: Incident) =>
   incident ? ['a', 's', 'o'].includes(incident.status.state) : false
 
+const statusClassName = (incident?: Incident) =>
+  (incident && incidentIsHandled(incident) ? 'handled' : 'alert') || ''
+
 const StyledMetaList = styled.dl`
   dt {
     color: ${themeColor('tint', 'level5')};
@@ -59,14 +62,6 @@ const StyledMetaList = styled.dl`
 
     &.status {
       font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-
-      &.alert {
-        color: ${themeColor('support', 'invalid')};
-      }
-
-      &.success {
-        color: ${themeColor('support', 'valid')};
-      }
     }
 
     .childLink:not(:first-child) {
@@ -321,9 +316,7 @@ const MetaList = () => {
           Status
         </dt>
         <dd
-          className={`status ${
-            incidentIsHandled(incident) ? 'handled' : 'alert'
-          }`}
+          className={`status ${statusClassName(incident)}`}
           data-testid="meta-list-status-value"
         >
           {statusText}
