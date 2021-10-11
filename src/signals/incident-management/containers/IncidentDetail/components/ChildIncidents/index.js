@@ -54,7 +54,7 @@ const ChildIncidents = ({
           },
           changed: isChildChanged(updated_at, parent.updated_at),
           canView: can_view_signal,
-          history: history.find((entry) => entry[0]._signal === id),
+          history: history.find((entry) => entry[0]._signal === id) || [],
           text: childIncidents.find((incident) => incident.id === id)?.text,
         })
       ),

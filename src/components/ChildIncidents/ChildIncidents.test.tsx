@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
 import { withAppContext } from 'test/utils'
@@ -13,9 +13,11 @@ import ChildIncidents, {
   STATUS_NONE,
 } from './ChildIncidents'
 
+import type { ChildIncident } from './ChildIncidents'
+
 const parentUpdatedAt = childIncidentsFixture.results[2].updated_at
 
-const getChildren = (opts = {}) => {
+const getChildren = (opts = {}): Array<ChildIncident> => {
   const options = {
     ...{ numValues: 4, withHref: true, withStatus: true, withChanged: false },
     ...opts,
@@ -27,6 +29,7 @@ const getChildren = (opts = {}) => {
         id,
         status: status.state_display,
         category: `${category.sub} (${category.departments})`,
+        handlingTime: '3 werkdagen',
       }
 
       return {
@@ -43,7 +46,7 @@ const getChildren = (opts = {}) => {
 describe('components/ChildIncidents', () => {
   it('should render a list', () => {
     const children = getChildren()
-    const { getByTestId } = render(
+    render(
       withAppContext(
         <ChildIncidents
           incidents={children}
@@ -52,7 +55,7 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    const list = getByTestId('childIncidents')
+    const list = screen.getByTestId('childIncidents')
 
     expect(list).toBeInTheDocument()
     expect(list.nodeName).toEqual('UL')
@@ -60,8 +63,8 @@ describe('components/ChildIncidents', () => {
   })
 
   it('should render links', () => {
-    const children = getChildren()
-    const { container, rerender } = render(
+    const children = getChildren({ withHref: true })
+    const { rerender } = render(
       withAppContext(
         <ChildIncidents
           incidents={children}
@@ -70,7 +73,7 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    expect(container.querySelectorAll('a').length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link').length).toBeGreaterThan(0)
 
     rerender(
       withAppContext(
@@ -81,12 +84,12 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    expect(container.querySelectorAll('a').length).toEqual(0)
+    expect(screen.queryAllByRole('link').length).toEqual(0)
   })
 
   it('should show a status incidator', () => {
     const children = getChildren()
-    const { container, rerender } = render(
+    const { rerender } = render(
       withAppContext(
         <ChildIncidents
           incidents={children}
@@ -95,7 +98,7 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    container.querySelectorAll('li').forEach((element) => {
+    screen.getAllByRole('listitem').forEach((element) => {
       expect(element).toHaveStyleRule('border-right', '2px solid white', {
         modifier: '::before',
       })
@@ -110,16 +113,17 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    container.querySelectorAll('li').forEach((element) => {
+    screen.getAllByRole('listitem').forEach((element) => {
       expect(element).not.toHaveStyleRule('border-right', '2px solid white', {
         modifier: '::before',
       })
     })
   })
 
-  it('should mark the changed children', () => {
+  it('sets the correct class name', () => {
     const children = getChildren()
-    const { container, rerender } = render(
+
+    render(
       withAppContext(
         <ChildIncidents
           incidents={children}
@@ -128,7 +132,22 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    container.querySelectorAll('li').forEach((element) => {
+    expect(document.querySelector('.status.handled')).toBeInTheDocument()
+    expect(document.querySelector('.status.alert')).toBeInTheDocument()
+  })
+
+  it('should mark the changed children', () => {
+    const children = getChildren()
+    const { rerender } = render(
+      withAppContext(
+        <ChildIncidents
+          incidents={children}
+          parentUpdatedAt={parentUpdatedAt}
+        />
+      )
+    )
+
+    screen.getAllByRole('listitem').forEach((element) => {
       expect(element).not.toHaveStyleRule('border-left')
     })
 
@@ -141,7 +160,7 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    container.querySelectorAll('li').forEach((element) => {
+    screen.getAllByRole('listitem').forEach((element) => {
       expect(element).toHaveStyleRule('border-left', '4px solid #FEC813')
     })
   })
