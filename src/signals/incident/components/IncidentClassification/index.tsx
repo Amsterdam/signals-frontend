@@ -10,31 +10,38 @@ import { setClassification } from 'signals/incident/containers/IncidentContainer
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors'
+import type SubCategory from 'types/api/sub-category'
 
 const IncidentClassification = () => {
   const history = useHistory()
-  const { category, subcategory } = useParams()
-  const { get, data, error } = useFetch()
+  const { category, subcategory } = useParams<{
+    category: string
+    subcategory: string
+  }>()
+  const { get, data, error } = useFetch<SubCategory>()
   const dispatch = useDispatch()
+  const incidentFormPath = `/incident/beschrijf${history.location.search}`
 
   useEffect(() => {
     if (getIsAuthenticated()) {
-      history.replace('/')
+      history.replace(incidentFormPath)
     } else {
       get(
         `${configuration.CATEGORIES_ENDPOINT}${category}/sub_categories/${subcategory}`
       )
     }
-  }, [category, subcategory, get, history])
+  }, [category, subcategory, get, history, incidentFormPath])
 
   useEffect(() => {
-    if (data && data.is_active) {
+    if (data?.is_active) {
       dispatch(
         setClassification(getClassificationData(category, subcategory, data))
       )
     }
-    if (data || error) history.replace('/')
-  }, [data, error, history, dispatch, category, subcategory])
+    if (data || error) {
+      history.replace(incidentFormPath)
+    }
+  }, [data, error, history, dispatch, category, subcategory, incidentFormPath])
 
   // This shows a loading indicator, it is used to build the logic
   // for setting the category and subcategory from the url

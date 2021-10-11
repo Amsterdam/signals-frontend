@@ -69,12 +69,12 @@ const StyledAutosuggest = styled(PDOKAutoSuggest)`
 `
 
 const MapInput = ({
-  className,
+  className = '',
   hasGPSControl,
   value,
   onChange,
   mapOptions,
-  events,
+  events = {},
   id,
   ...rest
 }) => {

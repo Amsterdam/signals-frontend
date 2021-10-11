@@ -61,14 +61,14 @@ export const mapLocation = (loc) => {
  * @param {Number[]} location.geometrie.coordinates
  * @param {Object} location.address
  * @param {String} location.address.openbare_ruimte
- * @param {String} location.address.huisnummer
- * @param {String} location.address.huisletter
- * @param {String} location.address.huisnummertoevoeging
+ * @param {String|Number} location.address.huisnummer
+ * @param {String} [location.address.huisletter]
+ * @param {String} [location.address.huisnummertoevoeging]
  * @param {String} location.address.postcode
  * @param {String} location.address.woonplaats
  * @returns {Object}
  */
-export const formatMapLocation = (location) => {
+export const formatMapLocation = (location = {}) => {
   const value = {}
 
   if (location.geometrie) {

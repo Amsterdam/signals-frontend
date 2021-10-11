@@ -58,5 +58,5 @@ export interface FormInputProps<T = string>
   meta?: FormMeta
   validatorsOrOpts?: FormOptions
   parent: ParentType
-  value: T
+  value?: T
 }
