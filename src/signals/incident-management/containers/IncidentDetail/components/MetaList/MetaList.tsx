@@ -11,6 +11,8 @@ import {
   Link as AscLink,
 } from '@amsterdam/asc-ui'
 
+import type { Incident } from 'types/api/incident'
+
 import {
   makeSelectHandlingTimesBySlug,
   makeSelectSubcategoriesGroupedByCategories,
@@ -40,6 +42,9 @@ import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../context'
+
+const incidentIsHandled = (incident: Incident) =>
+  incident ? ['a', 's', 'o'].includes(incident.status.state) : false
 
 const StyledMetaList = styled.dl`
   dt {
@@ -265,11 +270,6 @@ const MetaList = () => {
     [departments]
   )
 
-  const statusClass =
-    incident && ['s', 'o', 'a'].includes(incident.status.state)
-      ? 'success'
-      : 'alert'
-
   useEffect(() => {
     if (incidentDepartmentCodes && incidentDepartmentCodes.length) {
       getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, {
@@ -321,7 +321,9 @@ const MetaList = () => {
           Status
         </dt>
         <dd
-          className={`status ${statusClass}`}
+          className={`status ${
+            incidentIsHandled(incident) ? 'handled' : 'alert'
+          }`}
           data-testid="meta-list-status-value"
         >
           {statusText}
