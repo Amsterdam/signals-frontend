@@ -300,7 +300,7 @@ describe('MetaList', () => {
     )
 
     expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status success'
+      'status handled'
     )
 
     rerender(
@@ -322,7 +322,7 @@ describe('MetaList', () => {
     )
 
     expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status success'
+      'status handled'
     )
 
     rerender(
@@ -344,7 +344,7 @@ describe('MetaList', () => {
     )
 
     expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status success'
+      'status handled'
     )
   })
 
