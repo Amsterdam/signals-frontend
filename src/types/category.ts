@@ -10,7 +10,18 @@ export interface CategoryDepartment {
 }
 
 export interface Category {
-  id: number
+  _links: {
+    self: {
+      href: string
+      public: string
+    }
+    next: string
+    previous: string
+    'sia:parent'?: {
+      public: string
+    }
+  }
+  id: number | string
   name: string
   slug: string
   is_active: boolean

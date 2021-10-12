@@ -3,15 +3,14 @@
 import type { CallEffect, PutEffect, TakeEffect } from 'redux-saga/effects'
 import type { Reducer, Store } from 'redux'
 import type { EventChannel, Saga } from 'redux-saga'
-import type { Collection, Seq } from 'immutable'
 
 import type { AppState } from 'containers/App/types'
-import type Categories from './api/categories'
+import type { CategoriesState } from 'models/categories/reducer'
 
 export interface ApplicationRootState {
-  global: AppState
-  categories: Categories
-  test?: any
+  readonly global: AppState
+  readonly categories: CategoriesState
+  readonly test?: any
 }
 
 export interface InjectedStore extends Store {
@@ -41,15 +40,4 @@ export type SagaGeneratorType = Generator<
 export interface Action<T, ActionType> {
   type: T
   payload?: ActionType
-}
-
-export interface ImmutableMap<T> extends Collection<string, any> {
-  get<K extends keyof T>(name: K): T[K]
-  set<K extends string, V>(key: K, value: V): ImmutableMap<T & Record<K, V>>
-}
-
-export interface ImmutableSeq<T> extends Seq<string, T> {
-  sort(
-    comparator?: ((valueA: any, valueB: any) => number) | undefined
-  ): ImmutableSeq<T & Record<string, T>>
 }

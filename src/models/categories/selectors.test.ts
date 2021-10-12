@@ -5,8 +5,11 @@ import {
   mainCategories as mainCategoriesFixture,
   subCategories as subCategoriesFixture,
 } from 'utils/__tests__/fixtures'
-
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
+import { initialState as initialAppState } from 'containers/App/reducer'
+
+import type { CategoriesState } from './reducer'
+import type { ExtendedCategory } from './selectors'
 
 import { initialState } from './reducer'
 import {
@@ -24,47 +27,53 @@ import {
   selectCategoriesDomain,
 } from './selectors'
 
-const state = fromJS({
+const categoriesState = fromJS({
   error: false,
-  errorMessage: false,
   categories: categoriesJson,
   loading: false,
-})
+}) as CategoriesState
 
 describe('models/categories/selectors', () => {
   test('selectCategoriesDomain', () => {
     expect(selectCategoriesDomain()).toEqual(initialState)
 
-    const categoriesDomain = {
-      categories: state,
+    const state = {
+      categories: categoriesState,
+      global: initialAppState,
     }
 
-    expect(selectCategoriesDomain(categoriesDomain)).toEqual(state)
+    expect(selectCategoriesDomain(state)).toEqual(categoriesState)
   })
 
   test('makeSelectCategories', () => {
     expect(makeSelectCategories.resultFunc(initialState)).toBeNull()
 
-    const categories = makeSelectCategories.resultFunc(state)
+    const categories = makeSelectCategories.resultFunc(categoriesState)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const first = categories.first().toJS()
 
-    const firstWithExtraProps = categoriesJson.results[0]
+    const firstWithExtraProps = categoriesJson
+      .results[0] as unknown as ExtendedCategory
     firstWithExtraProps.fk = firstWithExtraProps.id
     firstWithExtraProps.id = firstWithExtraProps._links.self.public
     firstWithExtraProps.key = firstWithExtraProps._links.self.public
-    firstWithExtraProps.parentKey = false
+    firstWithExtraProps.parentKey = undefined
     firstWithExtraProps.value = firstWithExtraProps.name
 
     expect(first).toEqual(firstWithExtraProps)
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const second = categories.skip(1).first().toJS()
 
-    const secondWithExtraProps = categoriesJson.results[1]
+    const secondWithExtraProps = categoriesJson
+      .results[1] as unknown as ExtendedCategory
     secondWithExtraProps.fk = secondWithExtraProps.id
     secondWithExtraProps.id = secondWithExtraProps._links.self.public
     secondWithExtraProps.key = secondWithExtraProps._links.self.public
     secondWithExtraProps.parentKey =
-      secondWithExtraProps._links['sia:parent'].public
+      secondWithExtraProps._links?.['sia:parent']?.public
     secondWithExtraProps.value = secondWithExtraProps.name
 
     expect(second).toEqual(secondWithExtraProps)
@@ -76,7 +85,10 @@ describe('models/categories/selectors', () => {
       ({ is_active }) => !is_active
     ).length
 
-    const result = makeSelectCategories.resultFunc(state).toJS()
+    const categories = makeSelectCategories.resultFunc(categoriesState)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const result = categories.toJS() as Array<ExtendedCategory>
 
     expect(result.length).toEqual(total - inactive)
 
@@ -89,16 +101,16 @@ describe('models/categories/selectors', () => {
     const total = categoriesJson.results.length
     expect(makeSelectAllCategories.resultFunc(initialState)).toBeNull()
 
-    const result = makeSelectAllCategories.resultFunc(state)
+    const result = makeSelectAllCategories.resultFunc(categoriesState)
 
     expect(result.toJS().length).toEqual(total)
   })
 
   test('makeSelectMainCategories', () => {
-    expect(makeSelectMainCategories.resultFunc()).toBeNull()
+    expect(makeSelectMainCategories.resultFunc(null)).toBeNull()
 
     const mainCategories = makeSelectMainCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
+      makeSelectCategories.resultFunc(categoriesState)
     )
     const slugs = mainCategories.map(({ slug }) => slug)
     const keys = categoriesJson.results
@@ -109,10 +121,10 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectSubCategories', () => {
-    expect(makeSelectSubCategories.resultFunc()).toBeNull()
+    expect(makeSelectSubCategories.resultFunc(null)).toBeNull()
 
     const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
+      makeSelectCategories.resultFunc(categoriesState)
     )
     const slugs = subCategories.map(({ slug }) => slug).sort()
     const keys = categoriesJson.results
@@ -126,7 +138,7 @@ describe('models/categories/selectors', () => {
 
   test('makeSelectSubCategories extendedName', () => {
     const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
+      makeSelectCategories.resultFunc(categoriesState)
     )
 
     const subCatWithResponsibleDepts = subCategories.find(
@@ -143,10 +155,10 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectAllSubCategories', () => {
-    expect(makeSelectAllSubCategories.resultFunc()).toBeNull()
+    expect(makeSelectAllSubCategories.resultFunc(null)).toBeNull()
 
     const subCategories = makeSelectAllSubCategories.resultFunc(
-      makeSelectAllCategories.resultFunc(state)
+      makeSelectAllCategories.resultFunc(categoriesState)
     )
     const slugs = subCategories.map(({ slug }) => slug).sort()
     const keys = categoriesJson.results
@@ -159,7 +171,7 @@ describe('models/categories/selectors', () => {
 
   test('makeSelectByMainCategory', () => {
     const subCategories = makeSelectSubCategories.resultFunc(
-      makeSelectCategories.resultFunc(state)
+      makeSelectCategories.resultFunc(categoriesState)
     )
 
     const parentKey = categoriesJson.results[0]._links.self.public
@@ -167,7 +179,7 @@ describe('models/categories/selectors', () => {
       ({ _links }) => _links['sia:parent'].public === parentKey
     ).length
 
-    expect(makeSelectByMainCategory.resultFunc()(parentKey)).toBeNull()
+    expect(makeSelectByMainCategory.resultFunc(null)(parentKey)).toBeNull()
 
     expect(
       makeSelectByMainCategory.resultFunc(subCategories)(parentKey)
@@ -179,7 +191,7 @@ describe('models/categories/selectors', () => {
     const count = categoriesJson.results.filter(filterForMain).length
     const structuredCategories = makeSelectStructuredCategories.resultFunc(
       mainCategories,
-      makeSelectByMainCategory.resultFunc
+      makeSelectByMainCategory.resultFunc(null)
     )
 
     expect(makeSelectStructuredCategories.resultFunc()).toBeNull()
