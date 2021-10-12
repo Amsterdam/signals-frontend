@@ -8,6 +8,8 @@ import { authCall, getErrorMessage } from 'shared/services/api/api'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 
+import type Categories from 'types/api/categories'
+
 import { FETCH_CATEGORIES } from './constants'
 import { fetchCategoriesSuccess, fetchCategoriesFailed } from './actions'
 
@@ -15,11 +17,14 @@ export function* fetchCategories() {
   const requestURL = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT
 
   try {
-    const categories = yield call(authCall, `${requestURL}?page_size=1000`)
+    const categories: Categories = yield call(
+      authCall,
+      `${requestURL}?page_size=1000`
+    )
 
     yield put(fetchCategoriesSuccess(categories))
   } catch (error) {
-    yield put(fetchCategoriesFailed(error))
+    yield put(fetchCategoriesFailed(error as Error))
 
     yield put(
       showGlobalNotification({
