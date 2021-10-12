@@ -52,7 +52,7 @@ export interface IncidentListItem {
     extra_properties: Record<string, unknown> | null
     created_by?: string | null
     bag_validated?: boolean
-  }
+  } | null
   status: {
     text: string | null
     user?: string | null
