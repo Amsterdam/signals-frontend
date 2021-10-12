@@ -1,49 +1,58 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2021 Gemeente Amsterda
 import { createSelector } from 'reselect'
 import { getDaysString } from 'shared/services/date-utils'
 import { reCategory } from 'shared/services/resolveClassification'
 
-// import type { Selector } from 'reselect'
+import type { List as ImmutableList, Map as ImmutableMap } from 'immutable'
+import type { ApplicationRootState } from 'types'
 import type { Category } from 'types/category'
-import type Categories from 'types/api/categories'
-// import type Subcategory from 'types/api/sub-category'
-import type { ImmutableMap, ApplicationRootState } from 'types'
-import type { CategoriesState } from './reducer'
+import SubCategory from 'types/api/sub-category'
 
 import { initialState } from './reducer'
 
-type MappedCategory = Category & {
-  fk: Pick<Category, 'id'>
+export type ExtendedCategory = Category & {
+  fk: number | string
   id: string
   key: string
-  value: Pick<Category, 'name'>
-  parentKey: string
+  parentKey?: string
+  value: string
 }
 
-export const selectCategoriesDomain = (
-  state: ApplicationRootState
-): ImmutableMap<Pick<ApplicationRootState, 'categories'>> =>
+type CategoryMap = ImmutableMap<keyof Category, Category[keyof Category]>
+
+type ExtendedCategoryMap = ImmutableMap<
+  keyof ExtendedCategory,
+  ExtendedCategory[keyof ExtendedCategory]
+>
+
+export const selectCategoriesDomain = (state?: ApplicationRootState) =>
   state?.categories || initialState
 
-const mappedSequence: ImmutableMap<MappedCategory> = (
-  results: ImmutableMap<Pick<Categories, 'results'>>
-) =>
+const mappedSequence = (
+  results: ImmutableList<CategoryMap>
+): ImmutableList<ExtendedCategoryMap> =>
   results
-    .sort((a: any, b: any) =>
-      a.get('name').toLowerCase() > b.get('name').toLowerCase() ? 1 : -1
-    )
-    .map((category: any) =>
-      category
-        .set('fk', category.get('id'))
-        .set('id', category.getIn(['_links', 'self', 'public']))
-        .set('key', category.getIn(['_links', 'self', 'public']))
-        .set('value', category.get('name'))
-        .set(
-          'parentKey',
-          category.hasIn(['_links', 'sia:parent']) &&
-            category.getIn(['_links', 'sia:parent', 'public'])
-        )
+    .sort((a: CategoryMap, b: CategoryMap) => {
+      const valueA = (a.get('name') || '').toString().toLowerCase()
+      const valueB = (b.get('name') || '').toString().toLowerCase()
+
+      if (valueA === valueB) return 0
+      return valueA > valueB ? 1 : -1
+    })
+    .map(
+      (category: ExtendedCategoryMap): ExtendedCategoryMap =>
+        category
+          .set('fk', category.get('id'))
+          .set('id', category.getIn(['_links', 'self', 'public']) as string)
+          .set('key', category.getIn(['_links', 'self', 'public']) as string)
+          .set('value', category.get('name'))
+          .set(
+            'parentKey',
+            category.getIn(['_links', 'sia:parent', 'public']) as
+              | string
+              | undefined
+          )
     )
 
 /**
@@ -56,17 +65,17 @@ const mappedSequence: ImmutableMap<MappedCategory> = (
  */
 export const makeSelectCategories = createSelector(
   selectCategoriesDomain,
-  (state: ImmutableMap<CategoriesState>) => {
-    const results: ImmutableMap<Categories> = state.getIn([
+  (state) => {
+    const results = state.getIn([
       'categories',
       'results',
-    ])
+    ]) as ImmutableList<CategoryMap>
 
     if (!results) {
       return null
     }
 
-    return mappedSequence(results).filter((category: ImmutableMap<Category>) =>
+    return mappedSequence(results).filter((category) =>
       category.get('is_active')
     )
   }
@@ -80,7 +89,10 @@ export const makeSelectCategories = createSelector(
 export const makeSelectAllCategories = createSelector(
   selectCategoriesDomain,
   (state) => {
-    const results = state.getIn(['categories', 'results'])
+    const results = state.getIn([
+      'categories',
+      'results',
+    ]) as ImmutableList<CategoryMap>
 
     if (!results) {
       return null
@@ -90,12 +102,11 @@ export const makeSelectAllCategories = createSelector(
   }
 )
 
-export const filterForMain = ({ _links }) => _links['sia:parent'] === undefined
+export const filterForMain = ({ _links }: Category) =>
+  _links['sia:parent'] === undefined
 
 /**
  * Get all main categories, sorted by name
- *
- * @returns {Object[]}
  */
 export const makeSelectMainCategories = createSelector(
   makeSelectCategories,
@@ -108,13 +119,14 @@ export const makeSelectMainCategories = createSelector(
       (category) => category.getIn(['_links', 'sia:parent']) === undefined
     )
 
-    return categories.toJS()
+    return categories.toJS() as Array<ExtendedCategory>
   }
 )
 
-export const filterForSub = ({ _links }) => _links['sia:parent'] !== undefined
+export const filterForSub = ({ _links }: Category) =>
+  _links['sia:parent'] !== undefined
 
-const getHasParent = (state) =>
+const getHasParent = (state: ImmutableList<ExtendedCategoryMap>) =>
   state.filter(
     (category) => category.getIn(['_links', 'sia:parent']) !== undefined
   )
@@ -131,9 +143,9 @@ export const makeSelectSubCategories = createSelector(
       return null
     }
 
-    const subCategories = getHasParent(state).toJS()
+    const subCategories = getHasParent(state).toJS() as Array<SubCategory>
 
-    return subCategories.map((subCategory) => {
+    return subCategories.map((subCategory: SubCategory) => {
       const responsibleDeptCodes = subCategory.departments
         .filter(({ is_responsible }) => is_responsible)
         .map(({ code }) => code)
@@ -145,7 +157,8 @@ export const makeSelectSubCategories = createSelector(
         )})`
       }
 
-      const [, category_slug] = subCategory._links.self.public.match(reCategory)
+      const [, category_slug] =
+        subCategory._links.self.public.match(reCategory) || []
 
       return {
         ...subCategory,
@@ -163,7 +176,7 @@ export const makeSelectAllSubCategories = createSelector(
       return null
     }
 
-    return getHasParent(state).toJS()
+    return getHasParent(state).toJS() as Array<SubCategory>
   }
 )
 
@@ -175,13 +188,16 @@ export const makeSelectAllSubCategories = createSelector(
  */
 export const makeSelectByMainCategory = createSelector(
   makeSelectSubCategories,
-  (state) => (parentKey) => {
-    if (!state) {
-      return null
-    }
+  (state) =>
+    (parentKey: string): Array<SubCategory> | null => {
+      if (!state) {
+        return null
+      }
 
-    return state.filter((category) => category.parentKey === parentKey)
-  }
+      return state.filter(
+        (category: SubCategory) => category.parentKey === parentKey
+      )
+    }
 )
 
 /**
