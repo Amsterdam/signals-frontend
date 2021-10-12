@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { call } from 'redux-saga/effects'
 import request from 'utils/request'
-import { getAccessToken } from 'shared/services/auth/auth'
+import { getAuthHeaders } from 'shared/services/auth/auth'
 
 export const generateParams = (data) =>
   Object.entries(data)
@@ -19,17 +19,12 @@ export const generateParams = (data) =>
 
 export function* authCall(url, params, authorizationToken) {
   const headers = {
+    ...getAuthHeaders(),
     accept: 'application/json',
   }
 
   if (authorizationToken) {
     headers.Authorization = `Bearer ${authorizationToken}`
-  } else {
-    const token = getAccessToken()
-
-    if (token) {
-      headers.Authorization = `Bearer ${token}`
-    }
   }
 
   const options = {
@@ -42,13 +37,9 @@ export function* authCall(url, params, authorizationToken) {
 
 export function* authCallWithPayload(url, params, method) {
   const headers = {
+    ...getAuthHeaders(),
     accept: 'application/json',
     'Content-Type': 'application/json',
-  }
-
-  const token = getAccessToken()
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
   }
 
   const options = {

@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import 'jest-localstorage-mock'
 import { mocked } from 'ts-jest/utils'
-import configuration from '../../configuration/configuration'
-import ImplicitAuth from './implicit-auth'
-import queryStringParser from './query-string-parser/query-string-parser'
-import randomStringGenerator from './random-string-generator/random-string-generator'
-import parseAccessToken from './parse-access-token/parse-access-token'
+import configuration from '../../../configuration/configuration'
+import queryStringParser from '../query-string-parser'
+import randomStringGenerator from '../random-string-generator'
+import parseAccessToken from '../parse-access-token'
+import ImplicitAuth from '.'
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('./query-string-parser/query-string-parser')
-jest.mock('./parse-access-token/parse-access-token')
-jest.mock('./random-string-generator/random-string-generator')
+jest.mock('../query-string-parser')
+jest.mock('../parse-access-token')
+jest.mock('../random-string-generator')
 
 /* tokens generated with https://www.jsonwebtoken.io/ */
 // token contains 'exp' prop with a date in the past
@@ -401,9 +402,7 @@ describe('ImplicitAuth authorization', () => {
     })
 
     it('returns true', () => {
-      const actual = jest.requireActual(
-        './parse-access-token/parse-access-token'
-      ).default
+      const actual = jest.requireActual('../parse-access-token').default
       mocked(parseAccessToken).mockImplementation(actual)
 
       mocked(global.localStorage.getItem).mockImplementation((key) => {

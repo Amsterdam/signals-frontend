@@ -2,19 +2,30 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { UserCredentials } from 'containers/App/types'
 import configuration from '../configuration/configuration'
-import Keycloak from './services/keycloak'
+import Keycloak from './services/keycloak-auth'
 import ImplicitAuth from './services/implicit-auth'
+import DummyAuth from './services/dummy-auth'
 
-const useKeycloak =
+// Verify that local or session storage is supported & enabled
+let storageEnabled = false
+try {
+  storageEnabled = Boolean(window.localStorage || window.sessionStorage)
+} catch (error) {
+  // Accessing local- or sessionstorage throws when
+  //  this type of storage is explicitly disabled by the user
+}
+
+// Keycloak login depends on cookies for SSO, and realm for login
+const shouldUseKeycloak =
   configuration.oidc.responseType === 'code' &&
-  (configuration.oidc as any).realm
+  (configuration.oidc as any).realm &&
+  navigator.cookieEnabled
 
-const auth = useKeycloak ? new Keycloak() : new ImplicitAuth()
-
-/**
- * Returns access token.
- */
-export const getAccessToken = (): string | null => auth.getAccessToken()
+const auth = storageEnabled
+  ? shouldUseKeycloak
+    ? new Keycloak()
+    : new ImplicitAuth()
+  : new DummyAuth()
 
 /**
  * Perform user login.
