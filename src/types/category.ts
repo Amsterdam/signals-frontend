@@ -4,7 +4,7 @@ export interface CategoryDepartment {
   id: number
   code: string
   name: string
-  is_intern: boolean
+  is_intern: string
   is_responsible: boolean
   can_view: boolean
 }
@@ -15,9 +15,8 @@ export interface Category {
       href: string
       public: string
     }
-    next: string
-    previous: string
     'sia:parent'?: {
+      href: string | null
       public: string
     }
   }
@@ -25,11 +24,11 @@ export interface Category {
   name: string
   slug: string
   is_active: boolean
-  description: string
+  description: string | null
   handling_message: string
   sla: {
-    n_days: number
-    use_calendar_days: boolean
+    n_days: number | null
+    use_calendar_days: boolean | null
   }
   departments: CategoryDepartment[]
   note: string | null

@@ -26,6 +26,16 @@ type ExtendedCategoryMap = ImmutableMap<
   ExtendedCategory[keyof ExtendedCategory]
 >
 
+type ExtendedSubCategory = SubCategory & {
+  extendedName: string
+  category_slug: string
+}
+
+type StructuredCategories = Record<
+  string,
+  ExtendedCategory & { sub: Array<SubCategory> }
+>
+
 export const selectCategoriesDomain = (state?: ApplicationRootState) =>
   state?.categories || initialState
 
@@ -102,7 +112,7 @@ export const makeSelectAllCategories = createSelector(
   }
 )
 
-export const filterForMain = ({ _links }: Category) =>
+export const filterForMain = ({ _links }: Category | ExtendedCategory) =>
   _links['sia:parent'] === undefined
 
 /**
@@ -133,8 +143,6 @@ const getHasParent = (state: ImmutableList<ExtendedCategoryMap>) =>
 
 /**
  * Get all subcategories, sorted by name, excluding inactive subcategories
- *
- * @returns {Object[]}
  */
 export const makeSelectSubCategories = createSelector(
   makeSelectCategories,
@@ -145,27 +153,29 @@ export const makeSelectSubCategories = createSelector(
 
     const subCategories = getHasParent(state).toJS() as Array<SubCategory>
 
-    return subCategories.map((subCategory: SubCategory) => {
-      const responsibleDeptCodes = subCategory.departments
-        .filter(({ is_responsible }) => is_responsible)
-        .map(({ code }) => code)
-      let extendedName = subCategory.name
+    return subCategories.map(
+      (subCategory: SubCategory): ExtendedSubCategory => {
+        const responsibleDeptCodes = subCategory.departments
+          .filter(({ is_responsible }) => is_responsible)
+          .map(({ code }) => code)
+        let extendedName = subCategory.name
 
-      if (responsibleDeptCodes.length > 0) {
-        extendedName = `${subCategory.name} (${responsibleDeptCodes.join(
-          ', '
-        )})`
+        if (responsibleDeptCodes.length > 0) {
+          extendedName = `${subCategory.name} (${responsibleDeptCodes.join(
+            ', '
+          )})`
+        }
+
+        const [, category_slug] =
+          subCategory._links.self.public.match(reCategory) || []
+
+        return {
+          ...subCategory,
+          extendedName,
+          category_slug,
+        }
       }
-
-      const [, category_slug] =
-        subCategory._links.self.public.match(reCategory) || []
-
-      return {
-        ...subCategory,
-        extendedName,
-        category_slug,
-      }
-    })
+    )
   }
 )
 
@@ -182,9 +192,6 @@ export const makeSelectAllSubCategories = createSelector(
 
 /**
  * Get all subcategories, sorted by name, that are children of another category
- *
- * @param {String} parentKey - Main category public identifier
- * @returns {Object[]}
  */
 export const makeSelectByMainCategory = createSelector(
   makeSelectSubCategories,
@@ -202,8 +209,6 @@ export const makeSelectByMainCategory = createSelector(
 
 /**
  * Get all subcategories, grouped by main category. Both main and subcategories are sorted by name.
- *
- * @returns {Object}
  */
 export const makeSelectStructuredCategories = createSelector(
   [makeSelectMainCategories, makeSelectByMainCategory],
@@ -213,28 +218,43 @@ export const makeSelectStructuredCategories = createSelector(
     }
 
     return main.reduce(
-      (acc, mainCategory) => ({
+      (acc: StructuredCategories, mainCategory: ExtendedCategory) => ({
         ...acc,
-        [mainCategory.slug]: { ...mainCategory, sub: byMain(mainCategory.key) },
+        [mainCategory.slug]: {
+          ...mainCategory,
+          sub: byMain(mainCategory.key) || [],
+        },
       }),
       {}
     )
   }
 )
 
+export type SubCategoryOptions = ExtendedSubCategory & {
+  name: string
+  value: string
+  group: string
+}
+
 export const makeSelectSubcategoriesGroupedByCategories = createSelector(
   [makeSelectMainCategories, makeSelectSubCategories],
   (categories, subcategories) => {
-    const subcategoryGroups = categories?.map(({ slug: value, name }) => ({
-      name,
-      value,
-    }))
-    const subcategoryOptions = subcategories?.map((subcategory) => ({
-      ...subcategory,
-      name: subcategory.extendedName,
-      value: subcategory.extendedName,
-      group: subcategory.category_slug,
-    }))
+    const subcategoryGroups =
+      categories?.map(({ slug: value, name }: ExtendedCategory) => ({
+        name,
+        value,
+      })) || []
+
+    const subcategoryOptions =
+      subcategories?.map(
+        (subcategory: ExtendedSubCategory): SubCategoryOptions => ({
+          ...subcategory,
+          name: subcategory.extendedName,
+          value: subcategory.extendedName,
+          group: subcategory.category_slug,
+        })
+      ) || []
+
     return [subcategoryGroups, subcategoryOptions]
   }
 )
@@ -243,7 +263,7 @@ export const makeSelectHandlingTimesBySlug = createSelector(
   makeSelectSubCategories,
   (subcategories) =>
     (subcategories || []).reduce(
-      (acc, { slug, sla }) => ({
+      (acc: Record<string, string>, { slug, sla }: ExtendedSubCategory) => ({
         ...acc,
         [slug]: getDaysString(sla.n_days, sla.use_calendar_days),
       }),
