@@ -35,7 +35,7 @@ describe('IncidentDetail', () => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
     jest
       .spyOn(catgorySelectors, 'makeSelectSubCategories')
-      .mockImplementation(() => [...subCategories])
+      .mockImplementation(() => subCategories || [])
 
     jest
       .spyOn(reactRouterDom, 'useParams')
