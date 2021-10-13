@@ -209,7 +209,7 @@ describe('containers/App/selectors', () => {
       it('should require at least one permission per section', () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         const userWithLimitedPermissions: User = cloneDeep(userJson)
-        const limitedUserState: ApplicationRootState = {
+        const limitedUserState: Partial<ApplicationRootState> = {
           ...state,
           global: {
             ...globalState,

@@ -6,7 +6,11 @@ import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
 import type { CategoriesState } from './reducer'
 
 import reducer, { initialState } from './reducer'
-import { fetchCategories, fetchCategoriesSuccess, fetchCategoriesFailed } from './actions'
+import {
+  fetchCategories,
+  fetchCategoriesSuccess,
+  fetchCategoriesFailed,
+} from './actions'
 
 const catCount = 9
 
@@ -21,7 +25,7 @@ const intermediateState = fromJS({
 
 describe('models/categories/reducer', () => {
   test('default', () => {
-    expect(reducer(undefined, {})).toEqual(initialState)
+    expect(reducer(undefined, { type: 'anything' })).toEqual(initialState)
   })
 
   test('FETCH_CATEGORIES', () => {

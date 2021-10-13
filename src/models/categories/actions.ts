@@ -12,12 +12,12 @@ type FetchCategoriesAction = {
   type: typeof FETCH_CATEGORIES
 }
 
-type FetchCategoriesSuccessAction = {
+export type FetchCategoriesSuccessAction = {
   type: typeof FETCH_CATEGORIES_SUCCESS
   payload: Categories
 }
 
-type FetchCategoriesFailedAction = {
+export type FetchCategoriesFailedAction = {
   type: typeof FETCH_CATEGORIES_FAILED
   payload: Error
 }
