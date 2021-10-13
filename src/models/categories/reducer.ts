@@ -49,6 +49,7 @@ const categoriesReducer: CategoriesReducer = (state = initialState, action) => {
         .set('categories', fromJS(action.payload) as Categories)
 
     default:
+      debugger
       return state
   }
 }
