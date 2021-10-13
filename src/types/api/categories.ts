@@ -2,9 +2,15 @@ import type { Category } from '../category'
 
 export default interface Categories {
   _links: {
-    self: string
-    next: string
-    previous: string
+    self: {
+      href: string
+    }
+    next: {
+      href: string | null
+    }
+    previous: {
+      href: string | null
+    }
   }
   count: number
   results: Array<Category>

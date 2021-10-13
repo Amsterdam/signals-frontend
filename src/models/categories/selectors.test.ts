@@ -8,8 +8,9 @@ import {
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
 import { initialState as initialAppState } from 'containers/App/reducer'
 
+import type CategoriesType from 'types/api/categories'
 import type { CategoriesState } from './reducer'
-import type { ExtendedCategory } from './selectors'
+import type { ExtendedCategory, SubCategoryOptions } from './selectors'
 
 import { initialState } from './reducer'
 import {
@@ -27,9 +28,11 @@ import {
   selectCategoriesDomain,
 } from './selectors'
 
+const categoriesFixture: CategoriesType = categoriesJson
+
 const categoriesState = fromJS({
   error: false,
-  categories: categoriesJson,
+  categories: categoriesFixture,
   loading: false,
 }) as CategoriesState
 
@@ -53,8 +56,7 @@ describe('models/categories/selectors', () => {
     // @ts-ignore
     const first = categories.first().toJS()
 
-    const firstWithExtraProps = categoriesJson
-      .results[0] as unknown as ExtendedCategory
+    const firstWithExtraProps = categoriesFixture.results[0] as ExtendedCategory
     firstWithExtraProps.fk = firstWithExtraProps.id
     firstWithExtraProps.id = firstWithExtraProps._links.self.public
     firstWithExtraProps.key = firstWithExtraProps._links.self.public
@@ -67,8 +69,8 @@ describe('models/categories/selectors', () => {
     // @ts-ignore
     const second = categories.skip(1).first().toJS()
 
-    const secondWithExtraProps = categoriesJson
-      .results[1] as unknown as ExtendedCategory
+    const secondWithExtraProps = categoriesFixture
+      .results[1] as ExtendedCategory
     secondWithExtraProps.fk = secondWithExtraProps.id
     secondWithExtraProps.id = secondWithExtraProps._links.self.public
     secondWithExtraProps.key = secondWithExtraProps._links.self.public
@@ -80,8 +82,8 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectCategories should only return active categories', () => {
-    const total = categoriesJson.results.length
-    const inactive = categoriesJson.results.filter(
+    const total = categoriesFixture.results.length
+    const inactive = categoriesFixture.results.filter(
       ({ is_active }) => !is_active
     ).length
 
@@ -98,12 +100,13 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectAllCategories', () => {
-    const total = categoriesJson.results.length
+    const total = categoriesFixture.results.length
     expect(makeSelectAllCategories.resultFunc(initialState)).toBeNull()
 
     const result = makeSelectAllCategories.resultFunc(categoriesState)
+    const categories = result?.toJS() as Array<ExtendedCategory>
 
-    expect(result.toJS().length).toEqual(total)
+    expect(categories.length).toEqual(total)
   })
 
   test('makeSelectMainCategories', () => {
@@ -112,12 +115,12 @@ describe('models/categories/selectors', () => {
     const mainCategories = makeSelectMainCategories.resultFunc(
       makeSelectCategories.resultFunc(categoriesState)
     )
-    const slugs = mainCategories.map(({ slug }) => slug)
-    const keys = categoriesJson.results
+    const slugs = mainCategories?.map(({ slug }) => slug)
+    const keys = categoriesFixture.results
       .filter(filterForMain)
       .map(({ slug }) => slug)
 
-    expect(slugs).toEqual(keys)
+    expect(slugs).toStrictEqual(keys)
   })
 
   test('makeSelectSubCategories', () => {
@@ -126,8 +129,8 @@ describe('models/categories/selectors', () => {
     const subCategories = makeSelectSubCategories.resultFunc(
       makeSelectCategories.resultFunc(categoriesState)
     )
-    const slugs = subCategories.map(({ slug }) => slug).sort()
-    const keys = categoriesJson.results
+    const slugs = subCategories?.map(({ slug }) => slug).sort()
+    const keys = categoriesFixture.results
       .filter(filterForSub)
       .filter(({ is_active }) => is_active)
       .map(({ slug }) => slug)
@@ -141,16 +144,18 @@ describe('models/categories/selectors', () => {
       makeSelectCategories.resultFunc(categoriesState)
     )
 
-    const subCatWithResponsibleDepts = subCategories.find(
+    const subCatWithResponsibleDepts = subCategories?.find(
       ({ departments }) =>
         departments.filter(({ is_responsible }) => is_responsible).length > 0
     )
-    const deptCodes = subCatWithResponsibleDepts.departments.map(
-      ({ code }) => code
-    )
+    const deptCodes = subCatWithResponsibleDepts?.departments
+      .filter(({ is_responsible }) => is_responsible)
+      .map(({ code }) => code)
 
-    deptCodes.forEach((code) => {
-      return expect(subCatWithResponsibleDepts.extendedName.indexOf(code) > 0)
+    deptCodes?.forEach((code) => {
+      expect(
+        subCatWithResponsibleDepts?.extendedName.indexOf(code)
+      ).toBeGreaterThan(0)
     })
   })
 
@@ -160,8 +165,8 @@ describe('models/categories/selectors', () => {
     const subCategories = makeSelectAllSubCategories.resultFunc(
       makeSelectAllCategories.resultFunc(categoriesState)
     )
-    const slugs = subCategories.map(({ slug }) => slug).sort()
-    const keys = categoriesJson.results
+    const slugs = subCategories?.map(({ slug }) => slug).sort()
+    const keys = categoriesFixture.results
       .filter(filterForSub)
       .map(({ slug }) => slug)
       .sort()
@@ -174,12 +179,15 @@ describe('models/categories/selectors', () => {
       makeSelectCategories.resultFunc(categoriesState)
     )
 
-    const parentKey = categoriesJson.results[0]._links.self.public
-    const count = subCategories.filter(
-      ({ _links }) => _links['sia:parent'].public === parentKey
-    ).length
+    const parentKey = categoriesFixture.results[0]._links.self.public
+    const count =
+      subCategories?.filter(
+        ({ _links }) => _links?.['sia:parent']?.public === parentKey
+      ).length || 0
 
-    expect(makeSelectByMainCategory.resultFunc(null)(parentKey)).toBeNull()
+    expect(
+      makeSelectByMainCategory.resultFunc(subCategories)(parentKey)
+    ).not.toBeNull()
 
     expect(
       makeSelectByMainCategory.resultFunc(subCategories)(parentKey)
@@ -187,16 +195,20 @@ describe('models/categories/selectors', () => {
   })
 
   test('makeSelectStructuredCategories', () => {
-    const mainCategories = categoriesJson.results.filter(filterForMain)
-    const count = categoriesJson.results.filter(filterForMain).length
+    const mainCategories = makeSelectMainCategories.resultFunc(
+      makeSelectCategories.resultFunc(categoriesState)
+    )
+    const subCategories = makeSelectSubCategories.resultFunc(
+      makeSelectCategories.resultFunc(categoriesState)
+    )
+    const count = categoriesFixture.results.filter(filterForMain).length
     const structuredCategories = makeSelectStructuredCategories.resultFunc(
       mainCategories,
-      makeSelectByMainCategory.resultFunc(null)
+      makeSelectByMainCategory.resultFunc(subCategories)
     )
 
-    expect(makeSelectStructuredCategories.resultFunc()).toBeNull()
-
-    expect(Object.keys(structuredCategories)).toHaveLength(count)
+    expect(structuredCategories).not.toBeNull()
+    expect(Object.keys(structuredCategories || {})).toHaveLength(count)
   })
 
   test('makeSelectSubcategoriesGroupedByCategories', () => {
@@ -209,9 +221,11 @@ describe('models/categories/selectors', () => {
     expect(Object.keys(subcategoriesGroupedByCategories)).toHaveLength(2)
     const [subcategoryGroups, subcategoryOptions] =
       subcategoriesGroupedByCategories
-    expect(subcategoryGroups.length).toEqual(mainCategoriesFixture.length)
-    expect(subcategoryOptions.length).toEqual(subCategoriesFixture.length)
-    subcategoryOptions.forEach(
+    expect(subcategoryGroups.length).toEqual(mainCategoriesFixture?.length)
+    expect(subcategoryOptions.length).toEqual(subCategoriesFixture?.length)
+
+    const subCatOptions = subcategoryOptions as Array<SubCategoryOptions>
+    subCatOptions.forEach(
       ({ name, value, extendedName, category_slug, group }) => {
         expect(name).toEqual(extendedName)
         expect(value).toEqual(extendedName)
