@@ -118,10 +118,9 @@ const MetaList = () => {
     return routingDepartmentCodes || categoryDepartmentCodes || []
   }, [routingDepartments, categoryDepartments])
 
-  const [subcategoryGroups, subcategoryOptions] = useSelector<
-    unknown,
-    { id?: number; key?: string; slug?: string; value: string }[][]
-  >(makeSelectSubcategoriesGroupedByCategories)
+  const [subcategoryGroups, subcategoryOptions] = useSelector(
+    makeSelectSubcategoriesGroupedByCategories
+  )
 
   const hasChildren = useMemo(
     () =>

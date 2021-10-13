@@ -3,9 +3,13 @@
 import { fromJS } from 'immutable'
 
 import type { Map as ImmutableMap } from 'immutable'
-import type { Reducer } from 'redux'
+import type { AnyAction, Reducer } from 'redux'
 import type CategoriesType from 'types/api/categories'
-import type { CategoryActions } from './actions'
+import type {
+  CategoryActions,
+  FetchCategoriesSuccessAction,
+  FetchCategoriesFailedAction,
+} from './actions'
 
 import {
   FETCH_CATEGORIES_FAILED,
@@ -32,21 +36,27 @@ export const initialState = fromJS({
   categories: null,
 }) as CategoriesState
 
-type CategoriesReducer = Reducer<CategoriesState, CategoryActions>
+type CategoriesReducer = Reducer<CategoriesState, CategoryActions | AnyAction>
 
 const categoriesReducer: CategoriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CATEGORIES:
       return state.set('loading', true)
 
-    case FETCH_CATEGORIES_FAILED:
-      return state.set('loading', false).set('error', action.payload)
+    case FETCH_CATEGORIES_FAILED: {
+      const { payload } = action as FetchCategoriesFailedAction
 
-    case FETCH_CATEGORIES_SUCCESS:
+      return state.set('loading', false).set('error', payload)
+    }
+
+    case FETCH_CATEGORIES_SUCCESS: {
+      const { payload } = action as FetchCategoriesSuccessAction
+
       return state
         .set('loading', false)
         .set('error', null)
-        .set('categories', fromJS(action.payload) as Categories)
+        .set('categories', fromJS(payload) as Categories)
+    }
 
     default:
       return state
