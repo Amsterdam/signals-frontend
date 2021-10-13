@@ -4,7 +4,7 @@ export interface CategoryDepartment {
   id: number
   code: string
   name: string
-  is_intern: string
+  is_intern: boolean
   is_responsible: boolean
   can_view: boolean
 }

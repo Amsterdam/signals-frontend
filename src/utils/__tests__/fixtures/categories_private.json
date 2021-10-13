@@ -80,7 +80,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -88,7 +88,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -96,7 +96,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -104,7 +104,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -112,7 +112,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -120,7 +120,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -128,7 +128,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -136,7 +136,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -180,7 +180,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -188,7 +188,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -196,7 +196,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -204,7 +204,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -212,7 +212,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -220,7 +220,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -228,7 +228,7 @@
           "id": 16,
           "code": "FB",
           "name": "FB",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -236,7 +236,7 @@
           "id": 5,
           "code": "AEG",
           "name": "Afval en Grondstoffen",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -244,7 +244,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -252,7 +252,7 @@
           "id": 2,
           "code": "THO",
           "name": "THOR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         }
@@ -296,7 +296,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -304,7 +304,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -312,7 +312,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -320,7 +320,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -328,7 +328,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -336,7 +336,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -344,7 +344,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -352,7 +352,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -360,7 +360,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -368,7 +368,7 @@
           "id": 2,
           "code": "THO",
           "name": "THOR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         }
@@ -412,7 +412,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -420,7 +420,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -428,7 +428,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -436,7 +436,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -444,7 +444,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -452,7 +452,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -460,7 +460,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -468,7 +468,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -476,7 +476,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -520,7 +520,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -564,7 +564,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -572,7 +572,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -580,7 +580,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -588,7 +588,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -596,7 +596,7 @@
           "id": 1,
           "code": "POA",
           "name": "Port of Amsterdam",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -604,7 +604,7 @@
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -612,7 +612,7 @@
           "id": 10,
           "code": "OVL",
           "name": "V&OR OVL",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -620,7 +620,7 @@
           "id": 15,
           "code": "VTH",
           "name": "VTH",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -628,7 +628,7 @@
           "id": 8,
           "code": "GGD",
           "name": "GGD",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -636,7 +636,7 @@
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -644,7 +644,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -652,7 +652,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -660,7 +660,7 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -668,7 +668,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -676,7 +676,7 @@
           "id": 16,
           "code": "FB",
           "name": "FB",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -684,7 +684,7 @@
           "id": 11,
           "code": "VRI",
           "name": "V&OR VRI",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -692,7 +692,7 @@
           "id": 5,
           "code": "AEG",
           "name": "Afval en Grondstoffen",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -700,7 +700,7 @@
           "id": 17,
           "code": "VIS",
           "name": "V&OR - VIS",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -708,7 +708,7 @@
           "id": 18,
           "code": "OOV",
           "name": "Openbare Orde & Veiligheid",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -716,7 +716,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -724,7 +724,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -732,7 +732,7 @@
           "id": 2,
           "code": "THO",
           "name": "THOR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -740,7 +740,7 @@
           "id": 13,
           "code": "STL",
           "name": "Stadsloket",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -784,7 +784,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -792,7 +792,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -800,7 +800,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -808,7 +808,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -816,7 +816,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -824,7 +824,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -832,7 +832,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -840,7 +840,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -848,7 +848,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -892,7 +892,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -900,7 +900,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -908,7 +908,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -916,7 +916,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -924,7 +924,7 @@
           "id": 3,
           "code": "WAT",
           "name": "Waternet",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": true,
           "can_view": true
         },
@@ -932,7 +932,7 @@
           "id": 1,
           "code": "POA",
           "name": "Port of Amsterdam",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -940,7 +940,7 @@
           "id": 14,
           "code": "OMG",
           "name": "Omgevingsdienst",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -948,7 +948,7 @@
           "id": 10,
           "code": "OVL",
           "name": "V&OR OVL",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -956,7 +956,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -964,7 +964,7 @@
           "id": 7,
           "code": "POL",
           "name": "Politie",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -972,7 +972,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -980,7 +980,7 @@
           "id": 15,
           "code": "VTH",
           "name": "VTH",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -988,7 +988,7 @@
           "id": 11,
           "code": "VRI",
           "name": "V&OR VRI",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -996,7 +996,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -1004,7 +1004,7 @@
           "id": 18,
           "code": "OOV",
           "name": "Openbare Orde & Veiligheid",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1012,7 +1012,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1020,7 +1020,7 @@
           "id": 17,
           "code": "VIS",
           "name": "V&OR - VIS",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1028,7 +1028,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1036,7 +1036,7 @@
           "id": 2,
           "code": "THO",
           "name": "THOR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1044,7 +1044,7 @@
           "id": 13,
           "code": "STL",
           "name": "Stadsloket",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
@@ -1088,7 +1088,7 @@
           "id": 6,
           "code": "ASC",
           "name": "Actie Service Centrum",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1096,7 +1096,7 @@
           "id": 9,
           "code": "VOR",
           "name": "V&OR",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": true,
           "can_view": true
         },
@@ -1104,7 +1104,7 @@
           "id": 4,
           "code": "STW",
           "name": "Stadswerken",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1112,7 +1112,7 @@
           "id": 22,
           "code": "MRB",
           "name": "Marktbureau",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -1120,7 +1120,7 @@
           "id": 21,
           "code": "PRK",
           "name": "Parkeren",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -1128,7 +1128,7 @@
           "id": 24,
           "code": "STD",
           "name": "Stadsdelen",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -1136,7 +1136,7 @@
           "id": 23,
           "code": "VTW",
           "name": "VTW",
-          "is_intern": "False",
+          "is_intern": false,
           "is_responsible": false,
           "can_view": true
         },
@@ -1144,7 +1144,7 @@
           "id": 20,
           "code": "AB",
           "name": "Amsterdamse Bos",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         },
@@ -1152,7 +1152,7 @@
           "id": 12,
           "code": "CCA",
           "name": "CCA",
-          "is_intern": "True",
+          "is_intern": true,
           "is_responsible": false,
           "can_view": true
         }
