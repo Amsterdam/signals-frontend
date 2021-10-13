@@ -1,0 +1,180 @@
+{
+  "type": "FeatureCollection",
+  "timeStamp": "2021-01-13T06:28:37.338935+00:00",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "container.118431",
+      "geometry_name": "118431",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87999327142592, 52.3731455533363]
+      },
+      "properties": {
+        "id": "118431",
+        "type_id": "4598",
+        "status": 1,
+        "cluster_id": "120456.747|487370.165",
+        "locatie_id": "16199",
+        "gbd_buurt": "03630000000504",
+        "id_nummer": "PAB00022",
+        "eigenaar_id": "112",
+        "fractie_code": "3",
+        "serienummer": "NAW Beek",
+        "datum_creatie": "2019-07-31",
+        "eigenaar_naam": "A Centrum",
+        "verwijderd_dp": false,
+        "datum_plaatsing": "2020-01-28",
+        "geadopteerd_ind": false,
+        "datum_oplevering": "2019-01-01",
+        "bag_openbareruimte_id": "0363300000004424",
+        "datum_operationeel": "2020-01-28",
+        "wijzigingsdatum_dp": "2020-12-31T10:17:35.999327+00:00",
+        "fractie_omschrijving": "Papier",
+        "datum_aflopen_garantie": null,
+        "bag_hoofdadres_verblijfsobject_id": "0363010000697726"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "container.119369",
+      "geometry_name": "119369",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.88002449401526, 52.3731298496507]
+      },
+      "properties": {
+        "id": "119369",
+        "type_id": "4599",
+        "status": 1,
+        "cluster_id": "120456.747|487370.165",
+        "locatie_id": "119370",
+        "gbd_buurt": "03630000000504",
+        "id_nummer": "GLB00072",
+        "eigenaar_id": "112",
+        "fractie_code": "2",
+        "serienummer": "00030",
+        "datum_creatie": "2019-09-10",
+        "eigenaar_naam": "A Centrum",
+        "verwijderd_dp": false,
+        "datum_plaatsing": "2020-01-29",
+        "geadopteerd_ind": false,
+        "datum_oplevering": "2019-01-01",
+        "bag_openbareruimte_id": "0363300000004424",
+        "datum_operationeel": "2020-01-29",
+        "wijzigingsdatum_dp": "2020-12-31T10:17:35.999327+00:00",
+        "fractie_omschrijving": "Glas",
+        "datum_aflopen_garantie": null,
+        "bag_hoofdadres_verblijfsobject_id": "0363010000697726"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "container.149245",
+      "geometry_name": "149245",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.8799430009616, 52.3731249370505]
+      },
+      "properties": {
+        "id": "149245",
+        "type_id": "5327",
+        "status": 1,
+        "cluster_id": null,
+        "locatie_id": "149244",
+        "gbd_buurt": "03630000000504",
+        "id_nummer": "Kerstboom inzamellocatie100",
+        "eigenaar_id": "112",
+        "fractie_code": "55",
+        "serienummer": "Kerstboom inzamellocatie100",
+        "datum_creatie": "2020-11-30",
+        "eigenaar_naam": "A Centrum",
+        "verwijderd_dp": false,
+        "datum_plaatsing": "2020-11-01",
+        "geadopteerd_ind": false,
+        "datum_oplevering": null,
+        "bag_openbareruimte_id": null,
+        "datum_operationeel": "2020-11-01",
+        "wijzigingsdatum_dp": "2020-12-31T10:17:35.999327+00:00",
+        "fractie_omschrijving": "Kerstboom",
+        "datum_aflopen_garantie": null,
+        "bag_hoofdadres_verblijfsobject_id": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "container.149247",
+      "geometry_name": "149247",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.88093933683785, 52.3733754789608]
+      },
+      "properties": {
+        "id": "149247",
+        "type_id": "5327",
+        "status": 1,
+        "cluster_id": null,
+        "locatie_id": "149246",
+        "gbd_buurt": "03630000000504",
+        "id_nummer": "Kerstboom inzamellocatie101",
+        "eigenaar_id": "112",
+        "fractie_code": "55",
+        "serienummer": "Kerstboom inzamellocatie101",
+        "datum_creatie": "2020-11-30",
+        "eigenaar_naam": "A Centrum",
+        "verwijderd_dp": false,
+        "datum_plaatsing": "2020-11-01",
+        "geadopteerd_ind": false,
+        "datum_oplevering": null,
+        "bag_openbareruimte_id": null,
+        "datum_operationeel": "2020-11-01",
+        "wijzigingsdatum_dp": "2020-12-31T10:17:35.999327+00:00",
+        "fractie_omschrijving": "Kerstboom",
+        "datum_aflopen_garantie": null,
+        "bag_hoofdadres_verblijfsobject_id": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "container.16200",
+      "geometry_name": "16200",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.87999327142592, 52.3731455533363]
+      },
+      "properties": {
+        "id": "16200",
+        "type_id": "359",
+        "status": 1,
+        "cluster_id": "120456.747|487370.165",
+        "locatie_id": "16199",
+        "gbd_buurt": "03630000000504",
+        "id_nummer": "PA0261",
+        "eigenaar_id": "112",
+        "fractie_code": "3",
+        "serienummer": "BAC00137",
+        "datum_creatie": "2012-03-29",
+        "eigenaar_naam": "A Centrum",
+        "verwijderd_dp": true,
+        "datum_plaatsing": "2012-03-29",
+        "geadopteerd_ind": null,
+        "datum_oplevering": "2012-03-29",
+        "bag_openbareruimte_id": "0363300000004424",
+        "datum_operationeel": "2012-03-29",
+        "wijzigingsdatum_dp": "2020-12-31T10:17:35.999327+00:00",
+        "fractie_omschrijving": "Papier",
+        "datum_aflopen_garantie": "2014-08-15",
+        "bag_hoofdadres_verblijfsobject_id": "0363010000697726"
+      }
+    }
+  ],
+  "links": [],
+  "numberReturned": 5,
+  "numberMatched": 5
+}
