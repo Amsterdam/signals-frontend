@@ -28,6 +28,7 @@ export const FIELD_TYPE_MAP = {
   checkbox_input: 'CheckboxInput',
   caterpillar_select: 'CaterpillarSelectRenderer',
   container_select: 'ContainerSelectRenderer',
+  asset_select: 'AssetSelectRenderer',
   date_time_input: 'DateTimeInput',
   description_with_classification_input: 'DescriptionInputRenderer',
   emphasis_checkbox_input: 'EmphasisCheckboxInput',

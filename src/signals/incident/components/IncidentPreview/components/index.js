@@ -5,15 +5,17 @@ import Image from './Image'
 import Map from './Map'
 import MapSelectPreview from './MapSelect'
 import ListObjectValue from './ListObjectValue'
+import AssetListPreview from './AssetListPreview'
 import ContainerListPreview from './ContainerListPreview'
 import CaterpillarListPreview from './CaterpillarListPreview'
 
 export default {
+  AssetListPreview,
+  CaterpillarListPreview,
+  ContainerListPreview,
   DateTime,
   ListObjectValue,
   Image,
   Map,
   MapSelectPreview,
-  ContainerListPreview,
-  CaterpillarListPreview,
 }

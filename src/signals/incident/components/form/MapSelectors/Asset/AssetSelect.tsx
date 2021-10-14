@@ -17,7 +17,7 @@ export interface AssetSelectProps {
   parent: {
     meta: {
       incidentContainer: { incident: Pick<Incident, 'location'> }
-      updateIncident: (data: { extra_asset: Item[] }) => void
+      updateIncident: (data: { [key: string]: Item[] }) => void
     }
   }
 }
@@ -38,9 +38,10 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
   /* istanbul ignore next */
   const update = useCallback(
     (selectedValue: Item[]) => {
-      parent.meta.updateIncident({ extra_asset: selectedValue })
+      if (meta.name)
+        parent.meta.updateIncident({ [meta.name as string]: selectedValue })
     },
-    [parent]
+    [meta.name, parent.meta]
   )
 
   const edit = useCallback<ClickEventHandler>(

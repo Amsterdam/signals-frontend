@@ -93,7 +93,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
         }
 
         // eslint-disable-next-line no-console
-        console.error('Unhandled Error in wfs call', JSON.stringify(error))
+        console.error('Unhandled Error in wfs call', error.message)
         setMessage('Kaart informatie kon niet worden opgehaald.')
       })
 
