@@ -27,7 +27,7 @@ describe('SelectionPanel', () => {
     typeValue: 'Glas',
   }
   const UNREGISTERED_FEATURE = {
-    description: 'De asset staat niet op de kaart',
+    description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
       iconSvg: unknown,
@@ -38,7 +38,7 @@ describe('SelectionPanel', () => {
     typeValue: UNREGISTERED_TYPE,
   }
   const UNREGISTERED_CONTAINER = {
-    description: 'De asset staat niet op de kaart',
+    description: 'Het object staat niet op de kaart',
     id: '',
     type: 'not-on-map',
   }
@@ -54,6 +54,7 @@ describe('SelectionPanel', () => {
     onClose: jest.fn(),
     selection: [],
     variant: 'drawer',
+    language: {},
   }
 
   afterEach(() => {
@@ -64,16 +65,16 @@ describe('SelectionPanel', () => {
     render(withAppContext(<SelectionPanel {...props} />))
 
     expect(
-      screen.getByRole('heading', { name: 'Kies de asset' })
+      screen.getByRole('heading', { name: 'Kies het object' })
     ).toBeInTheDocument()
     expect(screen.getByText('Maak een keuze op de kaart')).toBeInTheDocument()
     expect(
       screen.getByRole('checkbox', {
-        name: 'De asset staat niet op de kaart',
+        name: 'Het object staat niet op de kaart',
       })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: 'Meld deze asset' })
+      screen.getByRole('button', { name: 'Meld dit object' })
     ).toBeInTheDocument()
   })
 
@@ -115,7 +116,7 @@ describe('SelectionPanel', () => {
 
     userEvent.click(
       screen.getByRole('checkbox', {
-        name: 'De asset staat niet op de kaart',
+        name: 'Het object staat niet op de kaart',
       })
     )
 
@@ -130,7 +131,9 @@ describe('SelectionPanel', () => {
     )
 
     userEvent.paste(
-      screen.getByLabelText('Wat is het nummer van de asset? (niet verplicht)'),
+      screen.getByLabelText(
+        'Wat is het nummer van het object? (niet verplicht)'
+      ),
       'GLAS987'
     )
 
@@ -148,7 +151,7 @@ describe('SelectionPanel', () => {
 
     userEvent.click(
       screen.getByRole('checkbox', {
-        name: 'De asset staat niet op de kaart',
+        name: 'Het object staat niet op de kaart',
       })
     )
 
@@ -158,7 +161,7 @@ describe('SelectionPanel', () => {
   it('closes/submits the panel', () => {
     render(withAppContext(<SelectionPanel {...props} />))
 
-    userEvent.click(screen.getByRole('button', { name: 'Meld deze asset' }))
+    userEvent.click(screen.getByRole('button', { name: 'Meld dit object' }))
 
     expect(props.onClose).toHaveBeenCalled()
   })
@@ -171,7 +174,9 @@ describe('SelectionPanel', () => {
     )
 
     userEvent.type(
-      screen.getByLabelText('Wat is het nummer van de asset? (niet verplicht)'),
+      screen.getByLabelText(
+        'Wat is het nummer van het object? (niet verplicht)'
+      ),
       '5'
     )
 
@@ -180,7 +185,9 @@ describe('SelectionPanel', () => {
     ])
 
     userEvent.type(
-      screen.getByLabelText('Wat is het nummer van de asset? (niet verplicht)'),
+      screen.getByLabelText(
+        'Wat is het nummer van het object? (niet verplicht)'
+      ),
       '{enter}'
     )
 

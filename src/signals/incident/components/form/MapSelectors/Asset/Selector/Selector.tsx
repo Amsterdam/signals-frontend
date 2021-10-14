@@ -155,6 +155,7 @@ const Selector = () => {
             {showSelectionPanel && (
               <SelectionPanel
                 featureTypes={meta.featureTypes}
+                language={meta.language}
                 selection={selection || []}
                 variant={panelVariant}
                 onChange={update}

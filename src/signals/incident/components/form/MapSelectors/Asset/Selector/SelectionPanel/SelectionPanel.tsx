@@ -56,6 +56,7 @@ export interface SelectionPanelProps {
   variant: Variant
   selection: Item[]
   featureTypes: FeatureType[]
+  language?: Record<string, string>
 }
 
 const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
@@ -64,6 +65,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   variant,
   selection,
   featureTypes,
+  language = {},
 }) => {
   const selectionOnMap = useMemo(
     () => selection.filter((asset) => asset.type !== UNREGISTERED_TYPE),
@@ -145,7 +147,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
   return (
     <MapPanelContent
       variant={variant}
-      title="Kies de asset"
+      title={language.title || 'Kies het object'}
       data-testid="selectionPanel"
     >
       <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
@@ -171,7 +173,7 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
           />
           <Label
             htmlFor="unregisteredAssetCheckbox"
-            label="De asset staat niet op de kaart"
+            label={language.unregistered || 'Het object staat niet op de kaart'}
           />
 
           {unregisteredAsset && (
@@ -180,8 +182,11 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
                 htmlFor="unregisteredAssetInput"
                 label={
                   <Fragment>
-                    <strong>Wat is het nummer van de asset?</strong> (niet
-                    verplicht)
+                    <strong>
+                      {language.unregisteredId ||
+                        'Wat is het nummer van het object?'}
+                    </strong>{' '}
+                    (niet verplicht)
                   </Fragment>
                 }
               />
@@ -198,7 +203,9 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
       )}
 
       <StyledButton onClick={onClose} variant="primary">
-        Meld deze asset{selection.length > 1 ? 's' : ''}
+        {selection.length > 1
+          ? language.submitPlural || 'Meld deze objecten'
+          : language.submitSingular || 'Meld dit object'}
       </StyledButton>
     </MapPanelContent>
   )
