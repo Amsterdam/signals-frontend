@@ -234,14 +234,15 @@ describe('List', () => {
     })
 
     it('should not show days open for specific statuses', () => {
-      const incidentWithStatus = (state: StatusCode, id: number) => ({
-        ...props.incidents[0],
-        status: {
-          ...props.incidents[0].status,
-          state,
-        },
-        id,
-      })
+      const incidentWithStatus = (state: StatusCode, id: number) =>
+        ({
+          ...props.incidents[0],
+          status: {
+            ...props.incidents[0].status,
+            state,
+          },
+          id,
+        } as IncidentListItem)
 
       const listProps = {
         ...props,
