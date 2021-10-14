@@ -52,7 +52,7 @@ export interface IncidentListItem {
     extra_properties: Record<string, unknown> | null
     created_by?: string | null
     bag_validated?: boolean
-  }
+  } | null
   status: {
     text: string | null
     user?: string | null
@@ -63,29 +63,29 @@ export interface IncidentListItem {
     send_email?: boolean
     created_at: string
     extra_properties: Record<string, unknown> | null
-  }
+  } | null
   reporter: {
     email: string | null
     phone: string | null
     sharing_allowed: boolean
-  }
+  } | null
   priority: {
     priority: 'normal' | 'high' | 'low'
     created_by: string | null
-  }
+  } | null
   notes: Note[]
   type: {
     code: 'SIG' | 'REQ' | 'QUE' | 'COM' | 'MAI'
     created_at: string
     created_by: string | null
-  }
+  } | null
   source: string
   text: string
   text_extra: string | null
   extra_properties?: unknown | null
   created_at: string
   updated_at: string
-  incident_date_start?: string | null
+  incident_date_start: string
   incident_date_end?: string | null
   assigned_user_email: string | null
   routing_departments: Department[] | null

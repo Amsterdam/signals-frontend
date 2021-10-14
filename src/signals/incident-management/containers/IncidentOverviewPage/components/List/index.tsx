@@ -232,8 +232,8 @@ const List: FunctionComponent<ListProps> = ({
                       )}
                 </Td>
                 <Td detailLink={detailLink} data-testid="incidentAddress">
-                  {incident.location.address &&
-                    formatAddress(incident.location.address)}
+                  {incident.location?.address &&
+                    formatAddress(incident.location?.address)}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td
