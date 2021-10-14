@@ -12,7 +12,7 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import configuration from 'shared/services/configuration/configuration'
 import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions'
 import { authCall } from 'shared/services/api/api'
-import { logout } from 'shared/services/auth/auth'
+import { login, logout } from 'shared/services/auth/auth'
 import fileUploadChannel from 'shared/services/file-upload-channel'
 import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
@@ -20,6 +20,7 @@ import userJson from 'utils/__tests__/fixtures/user.json'
 
 import type { SagaGeneratorType } from 'types'
 import watchAppSaga, {
+  callLogin,
   callLogout,
   callAuthorize,
   uploadFile,
@@ -31,8 +32,9 @@ import {
   AUTHENTICATE_USER,
   SET_SEARCH_QUERY,
   GET_SOURCES,
+  LOGIN,
 } from './constants'
-import type { AuthenticateUserAction } from './actions'
+import { AuthenticateUserAction, loginFailed } from './actions'
 import {
   logoutFailed,
   authorizeUser,
@@ -45,6 +47,7 @@ import {
 } from './actions'
 import type { UploadFile, ApiError } from './types'
 
+jest.mock('shared/services/auth/auth')
 jest.mock(
   'shared/services/auth/services/random-string-generator/random-string-generator'
 )
@@ -102,12 +105,35 @@ describe('containers/App/saga', () => {
       .next()
       .all([
         takeLatest(LOGOUT, callLogout),
+        takeLatest(LOGIN, callLogin),
         takeLatest(AUTHENTICATE_USER, callAuthorize),
         takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
         takeLatest(GET_SOURCES, fetchSources),
       ])
       .next()
       .isDone()
+  })
+
+  describe('login', () => {
+    it('should dispatch success', () => {
+      testSaga(callLogin).next().call(login).next().isDone()
+    })
+
+    it('should dispatch error', async () => {
+      mocked(login).mockRejectedValue(new Error('aargh'))
+
+      return expectSaga(callLogin)
+        .call(login)
+        .put(loginFailed('aargh'))
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'aargh',
+            type: TYPE_GLOBAL,
+          })
+        )
+        .run()
+    })
   })
 
   describe('logout', () => {
@@ -123,11 +149,9 @@ describe('containers/App/saga', () => {
 
     it('should dispatch error', async () => {
       const message = 'no remove'
-      jest
-        .spyOn(global.localStorage, 'removeItem')
-        .mockImplementationOnce(() => {
-          throw new Error(message)
-        })
+      mocked(logout).mockImplementation(() => {
+        throw new Error(message)
+      })
 
       return expectSaga(callLogout)
         .call(logout)

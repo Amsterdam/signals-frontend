@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
+import { AUTH_ERROR } from './dummy-auth'
 import DummyAuth from '.'
 
 describe('DummyAuth', () => {
@@ -7,7 +10,7 @@ describe('DummyAuth', () => {
     expect(auth.init()).toBe(undefined)
     expect(auth.getIsAuthenticated()).toBe(false)
     expect(auth.getAuthHeaders()).toEqual({})
-    expect(await auth.login()).toBe(undefined)
+    await expect(auth.login()).rejects.toEqual(new Error(AUTH_ERROR))
     expect(auth.logout()).toBe(undefined)
   })
 })

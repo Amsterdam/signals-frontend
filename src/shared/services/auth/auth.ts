@@ -21,11 +21,17 @@ const shouldUseKeycloak =
   (configuration.oidc as any).realm &&
   navigator.cookieEnabled
 
-const auth = storageEnabled
-  ? shouldUseKeycloak
-    ? new Keycloak()
-    : new ImplicitAuth()
-  : new DummyAuth()
+let auth: Keycloak | ImplicitAuth | DummyAuth
+
+if (storageEnabled && shouldUseKeycloak) {
+  auth = new Keycloak()
+}
+if (storageEnabled && !shouldUseKeycloak) {
+  auth = new ImplicitAuth()
+}
+if (!storageEnabled) {
+  auth = new DummyAuth()
+}
 
 /**
  * Perform user login.

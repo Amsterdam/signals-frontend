@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+export const AUTH_ERROR =
+  'Inloggen is niet gelukt. Controleer of je browser cookies toestaat, of probeer het met een andere browser.'
 
 /**
  * Dummy auth class
@@ -16,7 +18,9 @@ class DummyAuth {
   getAuthHeaders() {
     return {}
   }
-  async login() {}
+  async login() {
+    return Promise.reject(new Error(AUTH_ERROR))
+  }
   logout() {}
 }
 
