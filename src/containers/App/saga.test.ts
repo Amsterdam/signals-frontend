@@ -24,14 +24,16 @@ import watchAppSaga, {
   uploadFile,
   callSearchIncidents,
   fetchSources,
+  callPostMessage,
 } from './saga'
 import {
   LOGOUT,
   AUTHENTICATE_USER,
   SET_SEARCH_QUERY,
   GET_SOURCES,
+  POST_MESSAGE,
 } from './constants'
-import type { AuthenticateUserAction } from './actions'
+import { AuthenticateUserAction, PostMessageAction } from './actions'
 import {
   logoutFailed,
   authorizeUser,
@@ -43,6 +45,7 @@ import {
   getSourcesSuccess,
 } from './actions'
 import type { UploadFile, ApiError } from './types'
+import { postMessage } from 'shared/services/app-post-message'
 
 jest.mock(
   'shared/services/auth/services/random-string-generator/random-string-generator'
@@ -108,7 +111,6 @@ describe('containers/App/saga', () => {
       .next()
       .isDone()
   })
-
   describe('logout', () => {
     it('should dispatch success', () => {
       testSaga(callLogout)
@@ -135,6 +137,37 @@ describe('containers/App/saga', () => {
           showGlobalNotification({
             variant: VARIANT_ERROR,
             title: 'Uitloggen is niet gelukt',
+            type: TYPE_GLOBAL,
+          })
+        )
+        .run()
+    })
+  })
+
+  describe('postMessage', () => {
+    it('should dispatch postMessage', () => {
+      const action: PostMessageAction = {
+        type: POST_MESSAGE,
+        payload: 'foo',
+      }
+
+      return expectSaga(callPostMessage, action).call(postMessage, 'foo').run()
+    })
+
+    it('should dispatch notification on error', () => {
+      const action: PostMessageAction = {
+        type: POST_MESSAGE,
+        payload: 'foo',
+      }
+
+      return expectSaga(callPostMessage, action)
+        .provide([
+          [matchers.call.fn(postMessage), throwError(new Error('bar'))],
+        ])
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Er is iets misgegaan',
             type: TYPE_GLOBAL,
           })
         )

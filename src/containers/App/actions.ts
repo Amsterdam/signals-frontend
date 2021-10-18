@@ -17,9 +17,11 @@ import {
   GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
+  POST_MESSAGE,
 } from './constants'
 import type { GlobalNotification, UserCredentials, User, Source } from './types'
 
+export type PostMessageAction = Action<typeof POST_MESSAGE, string>
 export type LoginFailedAction = Action<typeof LOGIN_FAILED, string>
 export type LogoutFailedAction = Action<typeof LOGOUT_FAILED, string>
 export type AuthenticateUserAction = Action<
@@ -84,6 +86,11 @@ export const resetGlobalNotification = (): ResetGlobalNotificationAction => ({
 export const doLogout = (): DoLogoutAction => ({
   type: LOGOUT,
   payload: null,
+})
+
+export const postMessage = (message: string): PostMessageAction => ({
+  type: POST_MESSAGE,
+  payload: message,
 })
 
 export const uploadProgress = (progress: number): UploadProgressAction => ({

@@ -14,6 +14,7 @@ import {
   SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants'
+import configuration from 'shared/services/configuration/configuration'
 
 import {
   ONCLOSE_TIMEOUT,
@@ -133,13 +134,18 @@ const Notification: FunctionComponent<NotificationProps> = ({
 
   const transformClassName = tall ? 'fadeout' : 'slideup'
 
+  let top = 0
+  if (!configuration.featureFlags.appMode) {
+    top = tall ? SITE_HEADER_HEIGHT_TALL : SITE_HEADER_HEIGHT_SHORT
+  }
+
   return (
     <Wrapper
       className={`${className} ${shouldHide && transformClassName}`}
       data-testid="notification"
       onMouseEnter={() => setHasFocus(true)}
       onMouseLeave={() => setHasFocus(false)}
-      top={tall ? SITE_HEADER_HEIGHT_TALL : SITE_HEADER_HEIGHT_SHORT}
+      top={top}
       variant={variant}
     >
       <Row>

@@ -17,6 +17,7 @@ import {
   GET_SOURCES,
   GET_SOURCES_SUCCESS,
   GET_SOURCES_FAILED,
+  POST_MESSAGE,
 } from './constants'
 
 import {
@@ -33,6 +34,7 @@ import {
   getSources,
   getSourcesSuccess,
   getSourcesFailed,
+  postMessage,
 } from './actions'
 
 describe('containers/App/actions', () => {
@@ -57,6 +59,11 @@ describe('containers/App/actions', () => {
 
   it('should dispatch reset global error action', () => {
     testActionCreator(resetGlobalNotification, RESET_GLOBAL_NOTIFICATION)
+  })
+
+  it('should dispatch postMessage action', () => {
+    const payload = 'foo'
+    testActionCreator(postMessage, POST_MESSAGE, payload)
   })
 
   it('should dispatch logout action', () => {

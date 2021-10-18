@@ -13,7 +13,8 @@
     "showVulaanControls": true,
     "useProjectenSignalType": false,
     "useMapSelectGeneric": false,
-    "useStaticMapServer": true
+    "useStaticMapServer": true,
+    "appMode": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

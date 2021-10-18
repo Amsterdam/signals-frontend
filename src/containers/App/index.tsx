@@ -13,6 +13,7 @@ import Footer from 'components/Footer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
+import Notification from 'containers/Notification'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
 import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
@@ -101,6 +102,7 @@ export const AppContainer = () => {
       <AppContext.Provider value={contextValue}>
         <Fragment>
           {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
+          {configuration.featureFlags.appMode && <Notification />}
 
           <ContentContainer headerIsTall={headerIsTall}>
             <Suspense fallback={<LoadingIndicator />}>

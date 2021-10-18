@@ -59,7 +59,7 @@ export const Wrapper = styled.div<{
   }
 
   @media screen and (max-width: 539px) {
-    top: 50px;
+    top: ${({ top }) => (top === 0 ? top : 50)}px;
   }
 
   &.slideup {

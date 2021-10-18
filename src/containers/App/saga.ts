@@ -11,12 +11,14 @@ import {
   LOGOUT,
   AUTHENTICATE_USER,
   GET_SOURCES,
+  POST_MESSAGE,
 } from 'containers/App/constants'
 
 import type { EventChannel } from '@redux-saga/core'
 import { logout } from '../../shared/services/auth/auth'
+import { postMessage } from '../../shared/services/app-post-message'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
-import type { AuthenticateUserAction } from './actions'
+import { AuthenticateUserAction, PostMessageAction } from './actions'
 import {
   logoutFailed,
   showGlobalNotification,
@@ -43,6 +45,22 @@ export function* callLogout() {
         type: TYPE_GLOBAL,
       })
     )
+  }
+}
+
+export function* callPostMessage(action: PostMessageAction) {
+  if (action.payload) {
+    try {
+      yield call(postMessage, action.payload)
+    } catch (error) {
+      yield put(
+        showGlobalNotification({
+          variant: VARIANT_ERROR,
+          title: 'Er is iets misgegaan',
+          type: TYPE_GLOBAL,
+        })
+      )
+    }
   }
 }
 
@@ -136,6 +154,7 @@ export function* fetchSources() {
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGOUT, callLogout),
+    takeLatest(POST_MESSAGE, callPostMessage),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
     takeLatest(GET_SOURCES, fetchSources),

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import AppCloseButton from './AppCloseButton'
 import LinkButton from './LinkButton'
 import CheckboxInput from './CheckboxInput'
 import EmphasisCheckboxInput from './EmphasisCheckboxInput'
@@ -22,6 +23,7 @@ import ContainerSelectRenderer from './MapSelectors/Container/ContainerSelectRen
 import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 
 export default {
+  AppCloseButton,
   CheckboxInput,
   DateTimeInput,
   DescriptionInputRenderer,
