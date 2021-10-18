@@ -33,7 +33,6 @@ export interface Meta extends Record<string, unknown> {
   name?: string
   endpoint: string
   featureTypes: FeatureType[]
-  wfsFilter?: string
   language?: Record<string, string>
 }
 

@@ -22,6 +22,13 @@ import { NO_DATA, WfsDataProvider } from './context'
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
 
+interface Bbox {
+  east: string
+  north: string
+  south: string
+  west: string
+}
+
 export interface WfsLayerProps {
   children: ReactElement<DataLayerProps>
   zoomLevel?: ZoomLevel
@@ -33,25 +40,37 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 }) => {
   const mapInstance = useMapInstance()
   const { meta, setMessage } = useContext(AssetSelectContext)
-  const url = meta.endpoint
   const layerVisible = useLayerVisible(zoomLevel)
 
-  const getBbox = (map: MapType): string => {
+  const getBbox = (map: MapType): Bbox => {
     const bounds = map.getBounds()
 
-    return `<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="${SRS_NAME}"><lowerCorner>${bounds.getWest()} ${bounds.getSouth()}</lowerCorner><upperCorner>${bounds.getEast()} ${bounds.getNorth()}</upperCorner></gml:Envelope></BBOX>`
+    return {
+      east: bounds.getEast().toString(),
+      north: bounds.getNorth().toString(),
+      south: bounds.getSouth().toString(),
+      west: bounds.getWest().toString(),
+    }
   }
 
-  const [bbox, setBbox] = useState('')
+  const [bbox, setBbox] = useState<Bbox>()
   const [data, setData] = useState<FeatureCollection>(NO_DATA)
 
-  const wfsFilter = useMemo<string>(
-    () =>
-      `&Filter=<Filter>${
-        meta.wfsFilter ? `<And>${meta.wfsFilter}${bbox}</And>` : bbox
-      }</Filter>`,
-    [meta.wfsFilter, bbox]
-  )
+  const wfsUrl = useMemo<string>(() => {
+    const endpoint = meta?.endpoint
+    const urlReplacements = endpoint &&
+      bbox && {
+        ...bbox,
+        srsName: SRS_NAME,
+      }
+    return urlReplacements
+      ? Object.entries(urlReplacements).reduce(
+          (acc, [key, replacement]) =>
+            acc.replace(new RegExp(`{{${key}}}`, 'g'), replacement),
+          endpoint
+        )
+      : ''
+  }, [meta.endpoint, bbox])
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -77,7 +96,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
     if (!bbox) return
 
-    const [request, controller] = fetchWithAbort(`${url}${wfsFilter}`)
+    const [request, controller] = fetchWithAbort(wfsUrl)
 
     request
       .then(async (result) => result.json())
@@ -100,7 +119,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, url, layerVisible, setMessage, wfsFilter])
+  }, [bbox, wfsUrl, layerVisible, setMessage])
 
   const layer = cloneElement(children, {
     featureTypes: meta.featureTypes,

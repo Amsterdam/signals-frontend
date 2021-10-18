@@ -7,7 +7,7 @@ import type { AssetSelectValue } from './types'
 export const initialValue: AssetSelectValue = {
   selection: [],
   location: [0, 0],
-  meta: { endpoint: '', featureTypes: [], wfsFilter: '' },
+  meta: { endpoint: '', featureTypes: [] },
   message: undefined,
   update: /* istanbul ignore next */ () => {},
   edit: /* istanbul ignore next */ () => {},
