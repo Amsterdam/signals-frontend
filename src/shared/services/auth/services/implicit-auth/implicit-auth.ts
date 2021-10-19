@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 /* eslint-disable class-methods-use-this */
-import configuration from '../../configuration/configuration'
-import parseAccessToken from './parse-access-token/parse-access-token'
-import randomStringGenerator from './random-string-generator/random-string-generator'
-import queryStringParser from './query-string-parser/query-string-parser'
+import configuration from '../../../configuration/configuration'
+import parseAccessToken from '../parse-access-token'
+import randomStringGenerator from '../random-string-generator'
+import queryStringParser from '../query-string-parser'
 
 let tokenData: Record<string, any> = {}
-const storage = window.localStorage || window.sessionStorage
 
 // A map of the error keys, that the OAuth2 authorization service can return, to a full description
 const ERROR_MESSAGES: Record<string, string> = {
@@ -37,6 +36,12 @@ const NONCE_KEY = 'nonce' // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken' // OAuth2 access token
 
 class OidcImplicit {
+  private storage: Storage
+
+  constructor() {
+    this.storage = window.localStorage || window.sessionStorage
+  }
+
   init() {
     this.restoreAccessToken() // Restore access token from local storage
     this.handleAuthorizationError() // Catch any error from the OAuth2 authorization service
@@ -77,7 +82,7 @@ class OidcImplicit {
   }
 
   getAccessToken() {
-    return storage.getItem(ACCESS_TOKEN_KEY)
+    return this.storage.getItem(ACCESS_TOKEN_KEY)
   }
 
   /**
@@ -100,7 +105,7 @@ class OidcImplicit {
   private saveToken(state: string, accessToken: string) {
     // The state param must be exactly the same as the state token we
     // have saved in local storage (to prevent CSRF)
-    const localStateToken = storage.getItem(STATE_TOKEN_KEY)
+    const localStateToken = this.storage.getItem(STATE_TOKEN_KEY)
     const paramStateToken = decodeURIComponent(state)
 
     if (paramStateToken !== localStateToken) {
@@ -110,17 +115,17 @@ class OidcImplicit {
     }
 
     tokenData = parseAccessToken(accessToken)
-    const localNonce = storage.getItem(NONCE_KEY)
+    const localNonce = this.storage.getItem(NONCE_KEY)
     if (tokenData.nonce && tokenData.nonce !== localNonce) {
       throw new Error(
         `Authenticator encountered an invalid nonce (${tokenData.nonce}). Local nonce token: ${localNonce}.`
       )
     }
 
-    storage.setItem(ACCESS_TOKEN_KEY, accessToken)
+    this.storage.setItem(ACCESS_TOKEN_KEY, accessToken)
 
-    storage.removeItem(STATE_TOKEN_KEY)
-    storage.removeItem(NONCE_KEY)
+    this.storage.removeItem(STATE_TOKEN_KEY)
+    this.storage.removeItem(NONCE_KEY)
 
     // Clean up URL; remove query and hash
     // https://stackoverflow.com/questions/4508574/remove-hash-from-url
@@ -141,7 +146,7 @@ class OidcImplicit {
    * @param description Error description as returned from the service.
    */
   private handleError(code: string, description: string) {
-    storage.removeItem(STATE_TOKEN_KEY)
+    this.storage.removeItem(STATE_TOKEN_KEY)
 
     // Remove parameters from the URL, as set by the error callback from the
     // OAuth2 authorization service, to clean up the URL.
@@ -182,21 +187,21 @@ class OidcImplicit {
   }
 
   login() {
-    storage.removeItem(ACCESS_TOKEN_KEY)
+    this.storage.removeItem(ACCESS_TOKEN_KEY)
 
     const stateToken = randomStringGenerator()
     const nonce = randomStringGenerator()
 
     if (!stateToken || !nonce)
       throw new Error('crypto library is not available on the current browser')
-    storage.setItem(STATE_TOKEN_KEY, stateToken)
-    storage.setItem(NONCE_KEY, nonce)
+    this.storage.setItem(STATE_TOKEN_KEY, stateToken)
+    this.storage.setItem(NONCE_KEY, nonce)
 
     window.location.assign(this.loginToken(nonce, stateToken))
   }
 
   logout() {
-    storage.removeItem(ACCESS_TOKEN_KEY)
+    this.storage.removeItem(ACCESS_TOKEN_KEY)
   }
 }
 

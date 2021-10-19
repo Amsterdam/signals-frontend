@@ -4,9 +4,9 @@ import configuration from 'shared/services/configuration/configuration'
 import { mocked } from 'ts-jest/utils'
 import * as auth from './auth'
 import ImplicitAuth from './services/implicit-auth'
-import Keycloak from './services/keycloak'
+import Keycloak from './services/keycloak-auth'
 
-jest.mock('./services/keycloak', () => jest.fn())
+jest.mock('./services/keycloak-auth', () => jest.fn())
 jest.mock('./services/implicit-auth', () =>
   jest.fn().mockImplementation(() => {
     return {
@@ -24,7 +24,7 @@ describe('Auth', () => {
     jest.clearAllMocks()
   })
 
-  it('uses ImplicitAuth implementation', async () => {
+  it('uses ImplicitAuth implementation when realm is not configured', async () => {
     expect(auth).toBeDefined()
     expect((configuration.oidc as any).realm).not.toBeDefined()
 
@@ -49,9 +49,37 @@ describe('Auth', () => {
     })
   })
 
-  describe('getAccessToken', () => {
-    it('calls getAccessToken function on auth instance', () => {
-      expect(auth.getAccessToken()).toBe('accessToken')
+  it('uses DummyAuth as fallback when both sessionStorage and localStorage are not available', () => {
+    jest.isolateModules(() => {
+      jest.clearAllMocks()
+      jest.mock('./services/dummy-auth', () => jest.fn())
+      const IsolatedMockDummyAuth = require('./services/dummy-auth')
+      const localStorage = window.localStorage
+      const sessionStorage = window.sessionStorage
+
+      Object.defineProperty(window, 'localStorage', {
+        value: null,
+        writable: true,
+      })
+      Object.defineProperty(window, 'sessionStorage', {
+        value: null,
+        writable: true,
+      })
+
+      require('./auth')
+
+      expect(mocked(ImplicitAuth)).not.toHaveBeenCalled()
+      expect(mocked(Keycloak)).not.toHaveBeenCalled()
+      expect(mocked(IsolatedMockDummyAuth)).toHaveBeenCalled()
+
+      Object.defineProperty(window, 'localStorage', {
+        value: localStorage,
+        writable: false,
+      })
+      Object.defineProperty(window, 'sessionStorage', {
+        value: sessionStorage,
+        writable: false,
+      })
     })
   })
 

@@ -8,6 +8,7 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
+  LOGIN,
   LOGOUT,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -24,6 +25,7 @@ import {
   authorizeUser,
   showGlobalNotification,
   resetGlobalNotification,
+  doLogin,
   doLogout,
   uploadProgress,
   uploadSuccess,
@@ -57,6 +59,11 @@ describe('containers/App/actions', () => {
 
   it('should dispatch reset global error action', () => {
     testActionCreator(resetGlobalNotification, RESET_GLOBAL_NOTIFICATION)
+  })
+
+  it('should dispatch login action', () => {
+    const payload = null
+    testActionCreator(doLogin, LOGIN, payload)
   })
 
   it('should dispatch logout action', () => {

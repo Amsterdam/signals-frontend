@@ -3,8 +3,9 @@
 import configuration from 'shared/services/configuration/configuration'
 import keycloakJS, { KeycloakInstance } from 'keycloak-js'
 import { mocked } from 'ts-jest/utils'
+import 'jest-localstorage-mock'
 
-import Keycloak from './keycloak'
+import Keycloak from '.'
 
 jest.mock('keycloak-js')
 jest.mock('shared/services/configuration/configuration')
