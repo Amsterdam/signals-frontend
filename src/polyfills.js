@@ -75,3 +75,14 @@ if (!Array.prototype.flatMap) {
     },
   })
 }
+
+if (!window.AbortController) {
+  // simple AbortController stub; not intended to polyfill the missing API, but to merely prevent
+  // errors in browsers that do not support it.
+  window.AbortController = function () {
+    return {
+      abort: function () {},
+      signal: {},
+    }
+  }
+}
