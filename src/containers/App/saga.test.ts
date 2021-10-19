@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import * as Sentry from '@sentry/browser'
 import { call, put, take, takeLatest } from 'redux-saga/effects'
 import { channel } from 'redux-saga'
 import { mocked } from 'ts-jest/utils'
@@ -18,6 +19,7 @@ import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import userJson from 'utils/__tests__/fixtures/user.json'
 
 import type { SagaGeneratorType } from 'types'
+import { postMessage } from 'shared/services/app-post-message'
 import watchAppSaga, {
   callLogout,
   callAuthorize,
@@ -45,8 +47,8 @@ import {
   getSourcesSuccess,
 } from './actions'
 import type { UploadFile, ApiError } from './types'
-import { postMessage } from 'shared/services/app-post-message'
 
+jest.mock('@sentry/browser')
 jest.mock(
   'shared/services/auth/services/random-string-generator/random-string-generator'
 )
@@ -159,11 +161,10 @@ describe('containers/App/saga', () => {
         type: POST_MESSAGE,
         payload: 'foo',
       }
+      const error = new Error('foo')
 
       return expectSaga(callPostMessage, action)
-        .provide([
-          [matchers.call.fn(postMessage), throwError(new Error('bar'))],
-        ])
+        .provide([[matchers.call.fn(postMessage), throwError(error)]])
         .put(
           showGlobalNotification({
             variant: VARIANT_ERROR,
@@ -171,6 +172,7 @@ describe('containers/App/saga', () => {
             type: TYPE_GLOBAL,
           })
         )
+        .call([Sentry, 'captureException'], error)
         .run()
     })
   })

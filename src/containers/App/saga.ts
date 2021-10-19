@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 import { push } from 'connected-react-router/immutable'
+import * as Sentry from '@sentry/browser'
 
 import { authCall } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
@@ -60,6 +61,8 @@ export function* callPostMessage(action: PostMessageAction) {
           type: TYPE_GLOBAL,
         })
       )
+
+      yield call([Sentry, 'captureException'], error)
     }
   }
 }

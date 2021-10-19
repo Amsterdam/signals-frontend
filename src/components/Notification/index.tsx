@@ -11,6 +11,7 @@ import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 import { useHistory } from 'react-router-dom'
 import {
+  SITE_HEADER_HEIGHT_NONE,
   SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants'
@@ -134,7 +135,7 @@ const Notification: FunctionComponent<NotificationProps> = ({
 
   const transformClassName = tall ? 'fadeout' : 'slideup'
 
-  let top = 0
+  let top = SITE_HEADER_HEIGHT_NONE
   if (!configuration.featureFlags.appMode) {
     top = tall ? SITE_HEADER_HEIGHT_TALL : SITE_HEADER_HEIGHT_SHORT
   }

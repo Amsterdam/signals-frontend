@@ -26,6 +26,9 @@ jest.mock('shared/services/auth/auth', () => ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ...jest.requireActual('shared/services/auth/auth')!,
 }))
+jest.mock('containers/Notification', () => () => (
+  <span data-testid="mockNotification" />
+))
 
 jest.useFakeTimers()
 
@@ -126,6 +129,14 @@ describe('<App />', () => {
     render(withAppContext(<App />))
 
     expect(screen.queryByTestId('siteHeader')).not.toBeInTheDocument()
+  })
+
+  it('will render the notification component when in app mode', async () => {
+    configuration.featureFlags.appMode = true
+
+    render(withAppContext(<App />))
+
+    expect(await screen.findByTestId('mockNotification')).toBeInTheDocument()
   })
 
   describe('routing', () => {

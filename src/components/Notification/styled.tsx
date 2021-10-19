@@ -10,6 +10,8 @@ import {
 } from '@amsterdam/asc-ui'
 import {
   SITE_HEADER_BOTTOM_GAP_HEIGHT,
+  SITE_HEADER_HEIGHT_NONE,
+  SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants'
 import {
@@ -59,7 +61,8 @@ export const Wrapper = styled.div<{
   }
 
   @media screen and (max-width: 539px) {
-    top: ${({ top }) => (top === 0 ? top : 50)}px;
+    top: ${({ top }) =>
+      top === SITE_HEADER_HEIGHT_NONE ? top : SITE_HEADER_HEIGHT_SHORT}px;
   }
 
   &.slideup {
