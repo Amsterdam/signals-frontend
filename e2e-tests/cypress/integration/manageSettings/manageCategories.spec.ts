@@ -109,7 +109,7 @@ describe('Manage categories', () => {
       cy.contains('Melden').click();
       cy.url().should('include', '/incident/beschrijf');
       cy.get(CREATE_SIGNAL.dropdownSubcategory).then($selectlist => {
-        expect($selectlist).to.contain('Afgewaterde brug (STW, VOR)');
+        expect($selectlist).to.contain('Afwatering brug (STW, VOR)');
         expect($selectlist).to.not.contain('Beplanting');
       });
     });

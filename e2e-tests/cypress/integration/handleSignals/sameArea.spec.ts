@@ -11,8 +11,10 @@ import { SIGNAL_DETAILS } from '../../support/selectorsSignalDetails';
 import { SAME_AREA } from '../../support/selectorsSamenhang';
 import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 
-describe('Setup testdata', () => {
-  it('Should setup the testdata', () => {
+let iconCount: number
+
+describe('Signals in same area', () => {
+  before(() => {
     // Signal state 'Afgehandeld'
     requests.createSignalSameAreaAfgehandeld();
     requests.patchLatestSignalStatus();
@@ -30,12 +32,14 @@ describe('Setup testdata', () => {
 
     // Create signal with other category than filtered category
     requests.createSignalSameAreaOtherCategory();
-  });
-});
-describe('Signals in same area', () => {
-  beforeEach(() => {
+
     localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
   });
+
+  beforeEach(() => {
+    iconCount = 0
+  })
+
   it('Should show signals in the same area on map', () => {
     cy.intercept('**/context/near/geography').as('getGeography');
     routes.getManageSignalsRoutes();
@@ -66,57 +70,36 @@ describe('Signals in same area', () => {
     cy.get(SAME_AREA.areaLabel).siblings('ul').should('contain', 'Locatie huidige melding').and('contain', 'Straal 50m').and('be.visible');
     cy.get(SAME_AREA.kindLabel).should('have.text', 'Soort').and('be.visible');
     cy.get(SAME_AREA.kindLabel).siblings('ul').should('contain', 'Standaardmelding').and('contain', 'Deelmelding').and('be.visible');
-    
+
     // Map
     cy.get(SAME_AREA.map).should('be.visible');
-    cy.get(SAME_AREA.icon).should('have.length', 4);
+    cy.get(SAME_AREA.clustericon).should('be.visible');
 
-    // Zoom in and zoom out, waits needed
-    cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomIn).click();
-    cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 3);
-    cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomOut).click();
-    cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
+    cy.get(SAME_AREA.icon).then(($I) => {
+      iconCount = $I.length
+    })
 
-    // Cluster icon
-    cy.get(SAME_AREA.clustericon).should('be.visible').find('span').should('have.text', '3');
-    cy.get(SAME_AREA.clustericon).click();
-    cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 7);
-    cy.get(SAME_AREA.map).click();
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 4);
+    cy.get(SAME_AREA.clustericon).eq(1).scrollIntoView().click();
 
-    cy.get(SAME_AREA.icon).eq(2).click();
-    cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+    cy.get(SAME_AREA.icon).then(($I) => {
+      expect(iconCount).not.equals($I.length)
 
-    // Check Signal data
-    cy.get(SAME_AREA.signalLabel).should('contain', 'Deelmelding').and('be.visible');
-    cy.get(SAME_AREA.signalText).should('contain', SAMENHANG_TEXT.descriptionText).and('be.visible');
-    cy.get(SAME_AREA.locationLabel).should('contain', 'Locatie').and('be.visible');
-    cy.get(SAME_AREA.signalLocation).should('contain', 'Locatie is gepind op de kaart').and('be.visible');
-    cy.get(SAME_AREA.dateLabel).should('contain', 'Gemeld op').and('be.visible');
-    cy.get(SAME_AREA.signalDate).should('contain', todaysDate).and('be.visible');
-    cy.get(SAME_AREA.statusLabel).should('contain', 'Status').and('be.visible');
-    cy.get(SAME_AREA.signalStatus).should('contain', 'Gemeld').and('be.visible');
-    cy.get(SAME_AREA.subcategoryLabel).should('contain', 'Subcategorie (verantwoordelijke afdeling)').and('be.visible');
-    cy.get(SAME_AREA.signalSubcategory).should('contain', 'Container papier vol').and('be.visible');
-    cy.get(SAME_AREA.signalDepartments).should('contain', 'AEG').and('be.visible');
+      cy.get(SAME_AREA.map).click(50, 50);
+      cy.wait(1000);
 
-    // Close map
-    cy.get(SAME_AREA.buttonCloseMap).click();
-    routes.waitForSignalDetailsRoutes();
-    cy.get(SIGNAL_DETAILS.linkMeldingenOmgeving).should('be.visible').click();
+      cy.get(SAME_AREA.icon).then(($I2) => {
+        expect(iconCount).equals($I2.length)
 
-    // Open map again and open nearby signal
-    cy.get(SAME_AREA.zoomButtons).find(SAME_AREA.buttonZoomOut).click();
-    cy.wait(1000);
-    cy.get(SAME_AREA.icon).filter(':visible').should('have.length', 3);
-    cy.get(SAME_AREA.icon).eq(1).click();
-    cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
-    cy.get(SAME_AREA.signalLabel).invoke('removeAttr', 'target').click();
-    routes.waitForSignalDetailsRoutes();
-    cy.get(SIGNAL_DETAILS.descriptionText).should('be.visible').and('contain', SAMENHANG_TEXT.descriptionText);
-    cy.get(SIGNAL_DETAILS.linkMeldingenOmgeving).should('be.visible');
+        iconCount = $I2.length
+
+        cy.get(SAME_AREA.clustericon).eq(2).scrollIntoView().click({ force: true });
+        cy.get(MANAGE_SIGNALS.spinner).should('not.exist');
+
+        // Close map
+        cy.get(SAME_AREA.buttonCloseMap).click();
+        routes.waitForSignalDetailsRoutes();
+        cy.get(SIGNAL_DETAILS.linkMeldingenOmgeving).should('be.visible').scrollIntoView({ offset: { top: -100, left: 0 } }).click();
+      })
+    })
   });
 });
