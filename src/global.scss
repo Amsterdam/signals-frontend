@@ -167,16 +167,6 @@ fieldset {
   height: 100vh;
 }
 
-.status {
-  &.handled {
-    color: #00a03c;
-  }
-
-  &.alert {
-    color: #ec0000;
-  }
-}
-
 @media print {
   html,
   body {

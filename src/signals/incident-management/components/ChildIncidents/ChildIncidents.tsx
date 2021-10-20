@@ -4,22 +4,26 @@ import { Fragment } from 'react'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+
 import ChildIncidentHistory from 'components/ChildIncidentHistory'
 import ChildIncidentDescription from 'components/ChildIncidentDescription'
+import Status from 'signals/incident-management/components/Status'
+import statusList from 'signals/incident-management/definitions/statusList'
 
 import type { FC } from 'react'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { History } from 'types/history'
 
-export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE'
+export const STATUS_NONE =
+  'signals/incident-managementcomponents/ChildIncidents/STATUS_NONE'
 export const STATUS_RESPONSE_REQUIRED =
-  'components/ChildIncidents/STATUS_RESPONSE_REQUIRED'
+  'signals/incident-managementcomponents/ChildIncidents/STATUS_RESPONSE_REQUIRED'
 
 export type ChildIncident = {
   href?: string
   values: {
     id: number
-    status: keyof typeof StatusCode | string
+    status: StatusCode
     category: string
     handlingTime: string
   }
@@ -134,6 +138,10 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
 }) => (
   <StyledList className={className} data-testid="childIncidents">
     {incidents.map((incident) => {
+      const status = statusList.find(
+        ({ value }) => incident.values.status === value
+      )
+
       const valueEntries = (
         <>
           <Row>
@@ -146,7 +154,11 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
                 incidentIsHandled(incident) ? 'handled' : 'alert'
               }`}
             >
-              {incident.values.status}
+              {status && (
+                <Status statusCode={status.key}>
+                  {incident.values.status}
+                </Status>
+              )}
             </DisplayValue>
           </Row>
           <Row>

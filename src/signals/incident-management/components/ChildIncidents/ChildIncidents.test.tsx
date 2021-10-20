@@ -4,9 +4,10 @@ import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
 import { withAppContext } from 'test/utils'
-
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
+
+import type { StatusCode } from 'signals/incident-management/definitions/types'
 
 import ChildIncidents, {
   STATUS_RESPONSE_REQUIRED,
@@ -24,10 +25,10 @@ const getChildren = (opts = {}): Array<ChildIncident> => {
   }
 
   return childIncidentsFixture.results.map(
-    ({ status, category, id, can_view_signal }) => {
+    ({ status, category, id, can_view_signal }): ChildIncident => {
       const values = {
         id,
-        status: status.state_display,
+        status: status.state as StatusCode,
         category: `${category.sub} (${category.departments})`,
         handlingTime: '3 werkdagen',
       }
@@ -118,22 +119,6 @@ describe('components/ChildIncidents', () => {
         modifier: '::before',
       })
     })
-  })
-
-  it('sets the correct class name', () => {
-    const children = getChildren()
-
-    render(
-      withAppContext(
-        <ChildIncidents
-          incidents={children}
-          parentUpdatedAt={parentUpdatedAt}
-        />
-      )
-    )
-
-    expect(document.querySelector('.status.handled')).toBeInTheDocument()
-    expect(document.querySelector('.status.alert')).toBeInTheDocument()
   })
 
   it('should mark the changed children', () => {

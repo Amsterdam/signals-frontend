@@ -7,7 +7,7 @@ import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
 
 import { childIncidentType, historyType, incidentType } from 'shared/types'
-import ChildIncidentsList from 'components/ChildIncidents'
+import ChildIncidentsList from 'signals/incident-management/components/ChildIncidents'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
 import { useSelector } from 'react-redux'
