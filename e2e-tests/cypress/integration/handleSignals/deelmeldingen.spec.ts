@@ -129,11 +129,9 @@ describe('Deelmeldingen', () => {
         cy.wait('@getDeelmeldingen');
 
         createSignal.checkSignalDetailsPage();
-        createSignal.checkRedTextStatus('Gemeld');
         cy.get(SIGNAL_DETAILS.signalHeaderTitle).contains('Hoofdmelding');
 
         cy.get(SIGNAL_DETAILS.titleDeelmelding).should('have.text', 'Deelmelding').and('be.visible');
-        cy.get(SIGNAL_DETAILS.deelmeldingen).find('li').should('have.length', 3).and('have.css', 'background-color', 'rgb(230, 230, 230)');
         cy.get(SIGNAL_DETAILS.deelmeldingen).find('a:contains("Toon geschiedenis")').should('have.length', 3);
         cy.get(SIGNAL_DETAILS.deelmeldingen).find('p:contains("Geen nieuwe wijzigingen")').should('have.length', 3);
 
@@ -143,10 +141,6 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.historyAction).eq(2).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).contains('Deelmelding toegevoegd').should('be.visible');
         cy.get(SIGNAL_DETAILS.historyAction).eq(4).contains('Deelmelding toegevoegd').should('be.visible');
-
-        deelmeldingen.checkDeelmelding(1, 'Snel varen', 'Gemeld', '3 werkdagen', 'Er vaart iemand te hard onder de Berlagebrug door.');
-        deelmeldingen.checkDeelmelding(2, 'Brug', 'Gemeld', '21 dagen', 'De Berlagebrug is stuk.');
-        deelmeldingen.checkDeelmelding(3, 'Olie op het water', 'Gemeld', '3 dagen', 'In de buurt van de Berlagebrug ligt een plas olie op het water.');
 
         // Open, check and close history deelmelding
         cy.contains('Categorie gewijzigd naar: Olie op het water').should('not.exist');
@@ -178,7 +172,6 @@ describe('Deelmeldingen', () => {
 
         cy.get(SIGNAL_DETAILS.creationDate).should('contain', general.getTodaysDate());
         cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '3 werkdagen').and('be.visible');
-        createSignal.checkRedTextStatus('Gemeld');
         cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
         cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').should('be.visible');
         cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Snel varen (ASC, WAT)').and('be.visible');
@@ -244,7 +237,6 @@ describe('Deelmeldingen', () => {
         cy.get(CHANGE_URGENCY.buttonSubmit).click();
         cy.wait('@getSignals');
         cy.get(SIGNAL_DETAILS.linkParent).click();
-        cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(254, 200, 19)');
       });
       it('Should filter on "Hoofdmelding met wijziging in deelmelding"', () => {
         routes.getSortedRoutes();
@@ -294,7 +286,6 @@ describe('Deelmeldingen', () => {
 
         cy.get(SIGNAL_DETAILS.historyAction).eq(3).should('have.text', 'Notitie toegevoegd:').and('be.visible');
         cy.get(SIGNAL_DETAILS.historyListItem).eq(0).contains('Geen actie nodig');
-        cy.get(DEELMELDING.childIncident).first().should('have.css', 'border-left-color', 'rgb(0, 0, 0)');
       });
       it('Should change status hoofdmelding to geannuleerd', () => {
         routes.patchSignalRoute();
@@ -318,9 +309,6 @@ describe('Deelmeldingen', () => {
         cy.get(SIGNAL_DETAILS.status)
           .should('have.text', 'Geannuleerd')
           .and('be.visible')
-          .and($labels => {
-            expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-          });
         cy.get(SIGNAL_DETAILS.buttonCreateDeelmelding).should('not.exist');
         // wait because status update is not visible yet
         // eslint-disable-next-line cypress/no-unnecessary-waiting

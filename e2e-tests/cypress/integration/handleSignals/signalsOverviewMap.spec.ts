@@ -17,7 +17,7 @@ describe('Signal overview Map', () => {
     beforeEach(() => {
       localStorage.setItem('accessToken', generateToken('Admin', 'signals.admin@example.com'));
     });
-    
+
     it('Should open the signals overview map with signals', () => {
       routes.defineMapRoutes();
 
@@ -35,7 +35,7 @@ describe('Signal overview Map', () => {
       cy.get(OVERVIEW_MAP.buttonZoomIn).should('be.visible');
       cy.get(OVERVIEW_MAP.markerCluster).should('be.visible');
     });
-    
+
     it('Should not show signals if filtered out', () => {
       routes.defineMapRoutes();
 
@@ -47,7 +47,7 @@ describe('Signal overview Map', () => {
       cy.wait(1000);
       cy.get(OVERVIEW_MAP.markerCluster).should('not.exist');
     });
-    
+
     it('Should show signals again', () => {
       routes.defineMapRoutes();
 
@@ -98,7 +98,6 @@ describe('Signal overview Map', () => {
       cy.get(SIGNAL_DETAILS.addressCity).should('have.text', '1012RJ Amsterdam').and('be.visible');
 
       cy.get(SIGNAL_DETAILS.handlingTime).should('have.text', '21 dagen').and('be.visible');
-      createSignal.checkRedTextStatus('Gemeld');
       cy.get(SIGNAL_DETAILS.urgency).should('have.text', 'Normaal').and('be.visible');
       cy.get(SIGNAL_DETAILS.type).should('have.text', 'Melding').and('be.visible');
       cy.get(SIGNAL_DETAILS.subCategory).should('have.text', 'Overig openbare ruimte (ASC)').and('be.visible');
