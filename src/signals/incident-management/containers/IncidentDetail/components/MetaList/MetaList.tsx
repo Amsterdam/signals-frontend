@@ -11,8 +11,6 @@ import {
   Link as AscLink,
 } from '@amsterdam/asc-ui'
 
-import type { Incident } from 'types/api/incident'
-
 import {
   makeSelectHandlingTimesBySlug,
   makeSelectSubcategoriesGroupedByCategories,
@@ -33,7 +31,9 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
-import { Department } from 'types/api/incident'
+import Status from 'signals/incident-management/components/Status'
+
+import type { Department } from 'types/api/incident'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -42,12 +42,6 @@ import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../context'
-
-const incidentIsHandled = (incident: Incident) =>
-  incident ? ['a', 's', 'o'].includes(incident.status.state) : false
-
-const statusClassName = (incident?: Incident) =>
-  (incident && incidentIsHandled(incident) ? 'handled' : 'alert') || ''
 
 const StyledMetaList = styled.dl`
   dt {
@@ -315,11 +309,10 @@ const MetaList = () => {
           />
           Status
         </dt>
-        <dd
-          className={`status ${statusClassName(incident)}`}
-          data-testid="meta-list-status-value"
-        >
-          {statusText}
+        <dd className="status" data-testid="meta-list-status-value">
+          {incident?.status?.state && (
+            <Status statusCode={incident.status.state}>{statusText}</Status>
+          )}
         </dd>
       </Highlight>
 

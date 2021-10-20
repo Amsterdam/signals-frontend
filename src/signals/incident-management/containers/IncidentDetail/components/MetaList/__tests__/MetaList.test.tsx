@@ -291,63 +291,6 @@ describe('MetaList', () => {
     )
   })
 
-  it('renders different status colors', () => {
-    const { rerender } = render(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 's' },
-      })
-    )
-
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status handled'
-    )
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 'm' },
-      })
-    )
-
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status alert'
-    )
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 'o' },
-      })
-    )
-
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status handled'
-    )
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 'i' },
-      })
-    )
-
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status alert'
-    )
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        status: { ...incidentFixture.status, state: 'a' },
-      })
-    )
-
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status handled'
-    )
-  })
-
   it('should render days and workdays in single and plural form', () => {
     const { rerender } = render(renderWithContext(plainIncident))
 
