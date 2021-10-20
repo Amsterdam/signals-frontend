@@ -266,31 +266,6 @@ describe('MetaList', () => {
     })
   })
 
-  it('should render correctly with high priority', () => {
-    const { rerender } = render(renderWithContext())
-
-    expect(screen.queryByText('Hoog')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status alert'
-    )
-    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe('')
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        priority: { ...incidentFixture.priority, priority: 'high' },
-      })
-    )
-
-    expect(screen.queryByText('Hoog')).toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'status alert'
-    )
-    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe(
-      'alert'
-    )
-  })
-
   it('should render days and workdays in single and plural form', () => {
     const { rerender } = render(renderWithContext(plainIncident))
 
