@@ -45,12 +45,16 @@ type LiProps = Pick<ChildIncident, 'status' | 'changed'>
 const incidentIsHandled = (incident: ChildIncident) =>
   ['Afgehandeld', 'Gesplitst', 'Geannuleerd'].includes(incident.values.status)
 
-const DisplayValue = styled.span`
+const DisplayValue = styled.span.attrs(() => ({
+  'data-testid': 'childIncidentsDisplayValue',
+}))`
   word-break: normal;
   white-space: nowrap;
 `
 
-const IDDisplayValue = styled(DisplayValue)`
+const IDDisplayValue = styled(DisplayValue).attrs(() => ({
+  'data-testid': 'childIncidentsIdDisplayValue',
+}))`
   padding-right: ${themeSpacing(1)};
 `
 
@@ -175,7 +179,11 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
 
       return (
         <Fragment key={incident.values.id}>
-          <Li status={incident.status} changed={incident.changed}>
+          <Li
+            data-testid="childIncidentListItem"
+            status={incident.status}
+            changed={incident.changed}
+          >
             {incident.href ? (
               <Link to={incident.href}>{valueEntries}</Link>
             ) : (
