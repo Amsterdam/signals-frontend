@@ -13,7 +13,8 @@ import { MANAGE_SIGNALS } from '../../support/selectorsManageIncidents';
 
 let iconCount: number
 
-describe('Signals in same area', () => {
+// skipping test case; need to re-evaluate what exactly needs to be covered by integration testing
+describe.skip('Signals in same area', () => {
   before(() => {
     // Signal state 'Afgehandeld'
     requests.createSignalSameAreaAfgehandeld();
