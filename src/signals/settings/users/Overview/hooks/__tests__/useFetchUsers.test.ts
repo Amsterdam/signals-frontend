@@ -12,6 +12,7 @@ import {
   mockRequestHandler,
   fetchMock,
 } from '../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../internals/testing/api'
 
 jest.mock('containers/App/constants', () => ({
   PAGE_SIZE: 5,
@@ -118,7 +119,7 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed'
     const errorResponse = new Error()
-    mockRequestHandler({ status: 404, body: { message } })
+    mockRequestHandler({ url: API.USERS, status: 404, body: { message } })
 
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
 

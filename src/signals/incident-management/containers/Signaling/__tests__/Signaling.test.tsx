@@ -12,6 +12,7 @@ import {
   rest,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../internals/testing/api'
 
 fetchMock.disableMocks()
 
@@ -35,6 +36,7 @@ describe('<Signaling />', () => {
 
   it('should render error notification', async () => {
     mockRequestHandler({
+      url: API.REPORTS_OPEN,
       status: 400,
       body: 'No users defined',
     })

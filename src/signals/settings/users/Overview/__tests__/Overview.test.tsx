@@ -20,6 +20,7 @@ import * as appSelectors from 'containers/App/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import * as departmenstSelectors from 'models/departments/selectors'
 
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
@@ -196,7 +197,7 @@ describe('signals/settings/users/containers/Overview', () => {
   })
 
   it('should render title and data view with headers only when no data', async () => {
-    mockRequestHandler({ body: {} })
+    mockRequestHandler({ url: API.USERS, body: {} })
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
