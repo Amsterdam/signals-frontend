@@ -27,7 +27,10 @@ release: .jiratoken .githubtoken    ## Run the siali `release` command. Make sur
 	--jiraUrl=${JIRA_URL} \
 	--repository=${REPOSITORY}
 
-start:                              ## Run frontend
+start: build                        ## Run frontend w/production build
+	$(dc) run --service-ports frontend
+
+start-dev: build                        ## Run frontend
 	$(dc) run --service-ports frontend-dev
 
 stop:                               ## Clean docker stuff

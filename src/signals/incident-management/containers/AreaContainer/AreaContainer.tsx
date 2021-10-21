@@ -10,6 +10,9 @@ import { Feature } from 'components/AreaMap/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
 import useGetIncident from 'hooks/api/useGetIncident'
+import { useDispatch } from 'react-redux'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import Filter from './components/Filter'
 import IncidentDetail from './components/IncidentDetail'
 
@@ -27,14 +30,24 @@ export const AreaContainer: FunctionComponent = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [selection, setSelection] = useState<Feature | null>(null)
+  const dispatch = useDispatch()
 
-  const { data: incident, get: getIncident } = useGetIncident()
-  const { data: area, get: getIncidentContextGeography } =
-    useGetIncidentContextGeography()
+  const {
+    data: incident,
+    get: getIncident,
+    error: incidentError,
+  } = useGetIncident()
+  const {
+    data: area,
+    get: getIncidentContextGeography,
+    error: contextError,
+  } = useGetIncidentContextGeography()
+
   const {
     data: selectedIncident,
     get: getSelectedIncident,
     isLoading: isLoadingSelectedIncident,
+    error: selectedIncidentError,
   } = useGetIncident()
 
   useEffect(() => {
@@ -50,6 +63,18 @@ export const AreaContainer: FunctionComponent = () => {
   }, [getSelectedIncident, selection])
 
   useEffect(() => {
+    if (contextError || selectedIncidentError || incidentError) {
+      dispatch(
+        showGlobalNotification({
+          title: 'De data kon niet worden opgehaald',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    }
+  }, [contextError, selectedIncidentError, incidentError, dispatch])
+
+  useEffect(() => {
     if (id) {
       getIncidentContextGeography(Number(id))
     }
@@ -62,7 +87,7 @@ export const AreaContainer: FunctionComponent = () => {
 
   const startDate = subWeeks(new Date(), 12).toISOString()
 
-  if (!area?.features || !incident) return null
+  if (!area?.features || !incident?.location) return null
 
   const incidentSidebar =
     selection && selectedIncident && !isLoadingSelectedIncident ? (

@@ -193,16 +193,18 @@ const MetaList = () => {
 
   const statusText = useMemo(
     () =>
-      statusList.find((status) => status.key === incident?.status.state)?.value,
-    [incident?.status.state]
+      statusList.find((status) => status.key === incident?.status?.state)
+        ?.value,
+    [incident?.status?.state]
   )
 
   const [processTimeText, processTimeClass] = useMemo(() => {
     if (!incident?.category) return []
 
-    const compareDate = isStatusEnd(incident.status.state)
-      ? new Date(incident.status.created_at)
-      : new Date()
+    const compareDate =
+      incident.status && isStatusEnd(incident.status.state)
+        ? new Date(incident.status.created_at)
+        : new Date()
 
     if (
       incident.category.deadline_factor_3 &&
@@ -234,17 +236,18 @@ const MetaList = () => {
     []
   )
 
-  const subcatHighlightDisabled =
-    incident &&
-    ![
-      'm',
-      'reopened',
-      'i',
-      'b',
-      'ingepland',
-      'send failed',
-      'closure requested',
-    ].includes(incident.status.state)
+  const subcatHighlightDisabled = Boolean(
+    incident?.status &&
+      ![
+        'm',
+        'reopened',
+        'i',
+        'b',
+        'ingepland',
+        'send failed',
+        'closure requested',
+      ].includes(incident.status.state)
+  )
 
   // This conversion is needed to meet the api structure
   const getDirectingDepartmentPostData = useCallback(

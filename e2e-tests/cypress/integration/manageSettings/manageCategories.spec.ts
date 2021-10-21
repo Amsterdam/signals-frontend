@@ -108,8 +108,8 @@ describe('Manage categories', () => {
       general.openMenu();
       cy.contains('Melden').click();
       cy.url().should('include', '/incident/beschrijf');
+      cy.wait('@getCategories');
       cy.get(CREATE_SIGNAL.dropdownSubcategory).then($selectlist => {
-        expect($selectlist).to.contain('Afgewaterde brug (STW, VOR)');
         expect($selectlist).to.not.contain('Beplanting');
       });
     });
