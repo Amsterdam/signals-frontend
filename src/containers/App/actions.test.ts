@@ -8,6 +8,7 @@ import {
   AUTHORIZE_USER,
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
+  LOGIN,
   LOGOUT,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
@@ -25,6 +26,7 @@ import {
   authorizeUser,
   showGlobalNotification,
   resetGlobalNotification,
+  doLogin,
   doLogout,
   uploadProgress,
   uploadSuccess,
@@ -64,6 +66,11 @@ describe('containers/App/actions', () => {
   it('should dispatch postMessage action', () => {
     const payload = 'foo'
     testActionCreator(postMessage, POST_MESSAGE, payload)
+  })
+
+  it('should dispatch login action', () => {
+    const payload = null
+    testActionCreator(doLogin, LOGIN, payload)
   })
 
   it('should dispatch logout action', () => {

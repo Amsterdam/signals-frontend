@@ -7,6 +7,7 @@ import {
   SHOW_GLOBAL_NOTIFICATION,
   RESET_GLOBAL_NOTIFICATION,
   LOGIN_FAILED,
+  LOGIN,
   LOGOUT,
   LOGOUT_FAILED,
   UPLOAD_PROGRESS,
@@ -37,6 +38,7 @@ export type ResetGlobalNotificationAction = Action<
   typeof RESET_GLOBAL_NOTIFICATION,
   never
 >
+export type DoLoginAction = Action<typeof LOGIN, null>
 export type DoLogoutAction = Action<typeof LOGOUT, null>
 export type UploadSuccessAction = Action<typeof UPLOAD_SUCCESS, never>
 export type UploadProgressAction = Action<typeof UPLOAD_PROGRESS, number>
@@ -81,6 +83,11 @@ export const showGlobalNotification = (
 
 export const resetGlobalNotification = (): ResetGlobalNotificationAction => ({
   type: RESET_GLOBAL_NOTIFICATION,
+})
+
+export const doLogin = (): DoLoginAction => ({
+  type: LOGIN,
+  payload: null,
 })
 
 export const doLogout = (): DoLogoutAction => ({

@@ -79,7 +79,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       } = incident
       const subcategory = subcategories?.find(
         (s: any) => s.slug === category?.sub_slug
-      ).extendedName
+      )?.extendedName
 
       return {
         id,

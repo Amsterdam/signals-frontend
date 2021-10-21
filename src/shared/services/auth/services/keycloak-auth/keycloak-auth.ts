@@ -5,13 +5,13 @@ import configuration from 'shared/services/configuration/configuration'
 
 const OAUTH_DOMAIN_KEY = 'oauthDomain' // Domain that is used for login
 
-const storage = window.localStorage || window.sessionStorage
-
 class Keycloak {
   private keycloak: KeycloakInstance
   private refreshIntervalId: number | null = null
+  private storage: Storage
 
   constructor() {
+    this.storage = window.localStorage || window.sessionStorage
     this.keycloak = keycloakJS({
       clientId: configuration.oidc.clientId,
       realm: (configuration.oidc as any).realm as string,
@@ -37,7 +37,7 @@ class Keycloak {
      *  If the oauth domain key is set to 'keycloak', this device logged in previously and SSO should be checked.
      *  For browsers that do not support silent checking (Safari) a redirect will be preformed instead.
      */
-    if (storage.getItem(OAUTH_DOMAIN_KEY) === 'keycloak') {
+    if (this.storage.getItem(OAUTH_DOMAIN_KEY) === 'keycloak') {
       options.onLoad = 'check-sso'
     }
 
@@ -75,7 +75,7 @@ class Keycloak {
   }
 
   login() {
-    storage.setItem(OAUTH_DOMAIN_KEY, 'keycloak')
+    this.storage.setItem(OAUTH_DOMAIN_KEY, 'keycloak')
 
     this.keycloak.login({
       scope: configuration.oidc.scope,
@@ -83,7 +83,7 @@ class Keycloak {
   }
 
   logout() {
-    storage.removeItem(OAUTH_DOMAIN_KEY)
+    this.storage.removeItem(OAUTH_DOMAIN_KEY)
 
     this.keycloak.logout()
   }

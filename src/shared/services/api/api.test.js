@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import 'jest-localstorage-mock'
 import { call } from 'redux-saga/effects'
 import request from 'utils/request'
-import { getAccessToken } from 'shared/services/auth/auth'
+import { getAuthHeaders } from 'shared/services/auth/auth'
 
 import {
   authCall,
@@ -16,7 +17,9 @@ import {
   getErrorMessage,
 } from './api'
 
-jest.mock('shared/services/auth/auth')
+jest.mock('shared/services/auth/auth', () => ({
+  getAuthHeaders: jest.fn(),
+}))
 
 describe('api service', () => {
   let params
@@ -45,7 +48,9 @@ describe('api service', () => {
 
   describe('authCall', () => {
     it('should generate the right call', () => {
-      getAccessToken.mockImplementation(() => token)
+      getAuthHeaders.mockImplementation(() => ({
+        Authorization: `Bearer ${token}`,
+      }))
 
       const fullUrl = `${url}?${queryString}`
       const options = {
@@ -61,7 +66,7 @@ describe('api service', () => {
     })
 
     it('should generate a call without token if it is not present', () => {
-      getAccessToken.mockImplementation(() => undefined)
+      getAuthHeaders.mockImplementation(() => null)
 
       const fullUrl = `${url}?${queryString}`
       const options = {
@@ -75,7 +80,9 @@ describe('api service', () => {
     })
 
     it('should generate the right call when params are not defined', () => {
-      getAccessToken.mockImplementation(() => token)
+      getAuthHeaders.mockImplementation(() => ({
+        Authorization: `Bearer ${token}`,
+      }))
 
       const fullUrl = `${url}`
       const options = {
@@ -105,7 +112,9 @@ describe('api service', () => {
 
   describe('authCallWithPayload', () => {
     it('should generate the right call', () => {
-      getAccessToken.mockImplementation(() => token)
+      getAuthHeaders.mockImplementation(() => ({
+        Authorization: `Bearer ${token}`,
+      }))
       const options = {
         method: 'METHOD',
         headers: {
@@ -120,7 +129,7 @@ describe('api service', () => {
     })
 
     it('should generate a call without token if it is not present', () => {
-      getAccessToken.mockImplementation(() => undefined)
+      getAuthHeaders.mockImplementation(() => null)
       const options = {
         method: 'METHOD',
         headers: {

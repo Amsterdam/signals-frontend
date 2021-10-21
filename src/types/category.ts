@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-interface CategoryDepartment {
+export interface CategoryDepartment {
   id: number
   code: string
   name: string
@@ -10,15 +10,25 @@ interface CategoryDepartment {
 }
 
 export interface Category {
-  id: number
+  _links: {
+    self: {
+      href: string
+      public: string
+    }
+    'sia:parent'?: {
+      href: string | null
+      public: string
+    }
+  }
+  id: number | string
   name: string
   slug: string
   is_active: boolean
-  description: string
+  description: string | null
   handling_message: string
   sla: {
-    n_days: number
-    use_calendar_days: boolean
+    n_days: number | null
+    use_calendar_days: boolean | null
   }
   departments: CategoryDepartment[]
   note: string | null

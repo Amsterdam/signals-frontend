@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
+import { mocked } from 'ts-jest/utils'
 
 import loadModel from '..'
 import reducer from './reducer'
@@ -15,25 +16,22 @@ jest.mock('./saga')
 
 describe('models/categories', () => {
   const store = { foo: 'bar' }
-  let spy
-
-  beforeEach(() => {
-    spy = jest.fn()
-  })
 
   afterEach(() => {
-    jest.resetAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('should inject reducer', () => {
-    injectReducerModel.mockImplementation(spy)
+    const spy = jest.fn()
+    mocked(injectReducerModel).mockImplementation(spy)
     loadModel(store)
 
     expect(spy).toHaveBeenCalledWith('categories', reducer, store)
   })
 
   it('should inject saga', () => {
-    injectSagaModel.mockImplementation(spy)
+    const spy = jest.fn()
+    mocked(injectSagaModel).mockImplementation(spy)
     loadModel(store)
 
     expect(spy).toHaveBeenCalledWith('categories', saga, store)

@@ -116,7 +116,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
 
             <FieldGroup>
               <TextArea
-                defaultValue={data?.description}
+                defaultValue={data?.description ?? undefined}
                 disabled={readOnly}
                 id="description"
                 label={<strong>Omschrijving</strong>}
@@ -142,7 +142,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
 
               <CombinedFields>
                 <Input
-                  defaultValue={data?.sla.n_days}
+                  defaultValue={data?.sla.n_days ?? undefined}
                   disabled={readOnly}
                   id="n_days"
                   name="n_days"

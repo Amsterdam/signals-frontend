@@ -186,7 +186,8 @@ const AutoSuggest = ({
   }, [data, numOptionsDeterminer])
 
   const handleFocusOut = useCallback((event) => {
-    if (wrapperRef.current.contains(event.relatedTarget)) return
+    if (wrapperRef.current && wrapperRef.current.contains(event.relatedTarget))
+      return
 
     setActiveIndex(-1)
     setShowList(false)

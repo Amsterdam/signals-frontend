@@ -94,16 +94,6 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(screen.queryByTestId('incidentDetail')).not.toBeInTheDocument()
   })
 
-  it('should get handling times from subcategories', () => {
-    const handlingTimes =
-      categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
-        subCategories
-      )
-
-    expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen')
-    expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen')
-  })
-
   it('should not get child incidents if it does not have them', async () => {
     mockRequestHandler({
       url: `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incidentFixture.id}`,

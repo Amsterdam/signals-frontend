@@ -9,6 +9,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import {
   SET_SEARCH_QUERY,
+  LOGIN,
   LOGOUT,
   AUTHENTICATE_USER,
   GET_SOURCES,
@@ -16,19 +17,21 @@ import {
 } from 'containers/App/constants'
 
 import type { EventChannel } from '@redux-saga/core'
-import { logout } from '../../shared/services/auth/auth'
 import { postMessage } from '../../shared/services/app-post-message'
+import { logout, login } from '../../shared/services/auth/auth'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
-import { AuthenticateUserAction, PostMessageAction } from './actions'
 import {
+  authorizeUser,
+  getSourcesFailed,
+  getSourcesSuccess,
+  loginFailed,
   logoutFailed,
   showGlobalNotification,
-  authorizeUser,
   uploadProgress,
   uploadSuccess,
   uploadFailure,
-  getSourcesFailed,
-  getSourcesSuccess,
+  AuthenticateUserAction,
+  PostMessageAction,
 } from './actions'
 
 import type { User, DataResult, ApiError, UploadFile, Source } from './types'
@@ -64,6 +67,21 @@ export function* callPostMessage(action: PostMessageAction) {
 
       yield call([Sentry, 'captureException'], error)
     }
+  }
+}
+
+export function* callLogin() {
+  try {
+    yield call(login)
+  } catch (error) {
+    yield put(loginFailed((error as Error)?.message))
+    yield put(
+      showGlobalNotification({
+        variant: VARIANT_ERROR,
+        title: (error as Error)?.message || 'Inloggen is niet gelukt',
+        type: TYPE_GLOBAL,
+      })
+    )
   }
 }
 
@@ -158,6 +176,7 @@ export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGOUT, callLogout),
     takeLatest(POST_MESSAGE, callPostMessage),
+    takeLatest(LOGIN, callLogin),
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
     takeLatest(GET_SOURCES, fetchSources),
