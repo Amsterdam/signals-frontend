@@ -31,7 +31,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
-import { Department } from 'types/api/incident'
+import type { Department } from 'types/api/incident'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'

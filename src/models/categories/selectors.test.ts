@@ -10,7 +10,7 @@ import { initialState as initialAppState } from 'containers/App/reducer'
 
 import type CategoriesType from 'types/api/categories'
 import type { CategoriesState } from './reducer'
-import type { ExtendedCategory, SubCategoryOptions } from './selectors'
+import type { ExtendedCategory, SubCategoryOption } from './selectors'
 
 import { initialState } from './reducer'
 import {
@@ -57,10 +57,10 @@ describe('models/categories/selectors', () => {
     const first = categories.first().toJS()
 
     const firstWithExtraProps = categoriesFixture.results[0] as ExtendedCategory
-    firstWithExtraProps.fk = firstWithExtraProps.id
+    firstWithExtraProps.fk = firstWithExtraProps.id.toString()
     firstWithExtraProps.id = firstWithExtraProps._links.self.public
     firstWithExtraProps.key = firstWithExtraProps._links.self.public
-    firstWithExtraProps.parentKey = undefined
+    firstWithExtraProps.parentKey = ''
     firstWithExtraProps.value = firstWithExtraProps.name
 
     expect(first).toEqual(firstWithExtraProps)
@@ -71,11 +71,11 @@ describe('models/categories/selectors', () => {
 
     const secondWithExtraProps = categoriesFixture
       .results[1] as ExtendedCategory
-    secondWithExtraProps.fk = secondWithExtraProps.id
+    secondWithExtraProps.fk = secondWithExtraProps.id.toString()
     secondWithExtraProps.id = secondWithExtraProps._links.self.public
     secondWithExtraProps.key = secondWithExtraProps._links.self.public
     secondWithExtraProps.parentKey =
-      secondWithExtraProps._links?.['sia:parent']?.public
+      secondWithExtraProps._links?.['sia:parent']?.public ?? ''
     secondWithExtraProps.value = secondWithExtraProps.name
 
     expect(second).toEqual(secondWithExtraProps)
@@ -224,7 +224,7 @@ describe('models/categories/selectors', () => {
     expect(subcategoryGroups.length).toEqual(mainCategoriesFixture?.length)
     expect(subcategoryOptions.length).toEqual(subCategoriesFixture?.length)
 
-    const subCatOptions = subcategoryOptions as Array<SubCategoryOptions>
+    const subCatOptions = subcategoryOptions as Array<SubCategoryOption>
     subCatOptions.forEach(
       ({ name, value, extendedName, category_slug, group }) => {
         expect(name).toEqual(extendedName)

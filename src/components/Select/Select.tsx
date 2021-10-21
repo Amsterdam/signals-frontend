@@ -29,7 +29,7 @@ type SelectProps = {
   onChange?: (e: React.FormEvent<HTMLSelectElement>) => void
   optionKey?: keyof SubCategoryOption
   optionName?: keyof SubCategoryOption
-  options: Array<SubCategoryOption>
+  options: Array<Partial<SubCategoryOption>>
   optionValue?: keyof SubCategoryOption
   value?: string
 }
