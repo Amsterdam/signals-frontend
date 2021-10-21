@@ -31,9 +31,7 @@ describe('hooks/useFetchAll', () => {
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toBeUndefined()
 
-      const get = result.current.get([URL1, URL2])
-
-      expect(result.current.isLoading).toEqual(true)
+      await act(() => result.current.get([URL1, URL2]))
 
       expect(fetchMock).toHaveBeenCalledWith(
         URL1,
@@ -42,8 +40,6 @@ describe('hooks/useFetchAll', () => {
         })
       )
       expect(fetchMock).toHaveBeenCalledTimes(2)
-
-      await get
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toEqual([JSONresponse, JSONresponse])

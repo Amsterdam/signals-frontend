@@ -79,9 +79,6 @@ const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
 }
 
 const handlers = [
-  // rest.get('*', (req) => {
-  //   console.log(req.url.pathname)
-  // }),
   // GET
   rest.get(API.AUTOCOMPLETE_USERNAMES, (req, res, ctx) => {
     const departmentCodes = req.url.searchParams.getAll(
