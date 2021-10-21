@@ -110,7 +110,6 @@ describe('Manage categories', () => {
       cy.url().should('include', '/incident/beschrijf');
       cy.wait('@getCategories');
       cy.get(CREATE_SIGNAL.dropdownSubcategory).then($selectlist => {
-        // expect($selectlist).to.contain('Afwatering brug');
         expect($selectlist).to.not.contain('Beplanting');
       });
     });
