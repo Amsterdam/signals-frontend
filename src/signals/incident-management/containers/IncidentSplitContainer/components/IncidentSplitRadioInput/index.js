@@ -71,4 +71,8 @@ IncidentSplitRadioInput.propTypes = {
   className: PropTypes.string,
 }
 
+IncidentSplitRadioInput.defaultProps = {
+  className: '',
+}
+
 export default IncidentSplitRadioInput

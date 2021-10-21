@@ -1,21 +1,33 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
-import PropTypes from 'prop-types'
 
+import type { FC, Ref } from 'react'
+import type { Group } from 'components/Select'
+import type { SubCategoryOption } from 'models/categories/selectors'
 import Select from 'components/Select'
 
 import { StyledInfoText, StyledSelect } from '../../styled'
 
-const getSelectedOption = (options, value) =>
+type IncidentSplitSelectInputProps = {
+  id: string
+  display: string
+  initialValue: string
+  name: string
+  options: Array<SubCategoryOption>
+  groups?: Array<Group>
+  register: Ref<any>
+}
+
+const getSelectedOption = (options: Array<SubCategoryOption>, value: string) =>
   options.find((item) => item.key === value)
 
-const IncidentSplitSelectInput = ({
+const IncidentSplitSelectInput: FC<IncidentSplitSelectInputProps> = ({
   id,
   name,
   display,
   options,
-  groups = null,
+  groups,
   initialValue,
   register,
 }) => {
@@ -49,27 +61,6 @@ const IncidentSplitSelectInput = ({
       {selected?.description && <StyledInfoText text={selected.description} />}
     </StyledSelect>
   )
-}
-
-IncidentSplitSelectInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  display: PropTypes.string.isRequired,
-  initialValue: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      info: PropTypes.string,
-    })
-  ).isRequired,
-  groups: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ),
-  register: PropTypes.func.isRequired,
 }
 
 export default IncidentSplitSelectInput

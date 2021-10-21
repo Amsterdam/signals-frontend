@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { ReactNode } from 'react'
-import { forwardRef } from 'react'
+import { forwardRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
-import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
 import {
   themeColor,
   themeSpacing,
   TextArea as AscTextArea,
 } from '@amsterdam/asc-ui'
+
+import type { ChangeEvent, ReactNode } from 'react'
+import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
 
 import Label from 'components/Label'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
@@ -37,30 +38,74 @@ const InfoText = styled.div`
 `
 
 interface TextAreaProps extends AscTextAreaProps {
-  id?: string
-  label?: ReactNode
-  infoText?: ReactNode
   errorMessage?: string
-  rows?: number
+  id?: string
+  infoText?: ReactNode
+  label?: ReactNode
+  maxContentLength?: number
   maxRows?: number
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
+  rows?: number
+  value?: string
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ infoText, errorMessage, label, id, className, ...props }, ref) => (
-    <ErrorWrapper invalid={Boolean(errorMessage)}>
-      {label && (
-        <Label inline htmlFor={id}>
-          {label}
-        </Label>
-      )}
+  (
+    {
+      className,
+      errorMessage,
+      id,
+      infoText,
+      label,
+      maxContentLength,
+      onChange,
+      value,
+      ...props
+    },
+    ref
+  ) => {
+    const [contents, setContents] = useState('')
 
-      {errorMessage && <StyledErrorMessage message={errorMessage} />}
+    const onChangeContent = useCallback(
+      (event) => {
+        const value = event.target.value
 
-      <StyledArea id={id} className={className} {...props} ref={ref} />
+        setContents(value)
 
-      {infoText && <InfoText>{infoText}</InfoText>}
-    </ErrorWrapper>
-  )
+        if (onChange !== undefined) {
+          onChange(event)
+        }
+      },
+      [setContents, onChange]
+    )
+
+    return (
+      <ErrorWrapper invalid={Boolean(errorMessage)}>
+        {label && (
+          <Label inline htmlFor={id}>
+            {label}
+          </Label>
+        )}
+
+        {errorMessage && <StyledErrorMessage message={errorMessage} />}
+
+        <StyledArea
+          id={id}
+          className={className}
+          {...props}
+          onChange={onChangeContent}
+          value={value || contents}
+          ref={ref}
+        />
+
+        {maxContentLength && maxContentLength > 0 ? (
+          <InfoText>{`${contents.length} / ${maxContentLength} tekens`}</InfoText>
+        ) : (
+          infoText && <InfoText>{infoText}</InfoText>
+        )}
+      </ErrorWrapper>
+    )
+  }
 )
 
 export default TextArea

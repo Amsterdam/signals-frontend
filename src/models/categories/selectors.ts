@@ -12,11 +12,11 @@ import SubCategory from 'types/api/sub-category'
 import { initialState } from './reducer'
 
 export type ExtendedCategory = Category & {
-  fk: number | string
-  id: string
+  fk: string
+  id: number | string
   key: string
-  parentKey?: string
   value: string
+  parentKey: string
 }
 
 type CategoryMap = ImmutableMap<keyof Category, Category[keyof Category]>
@@ -26,10 +26,11 @@ type ExtendedCategoryMap = ImmutableMap<
   ExtendedCategory[keyof ExtendedCategory]
 >
 
-type ExtendedSubCategory = SubCategory & {
-  extendedName: string
-  category_slug: string
-}
+type ExtendedSubCategory = ExtendedCategory &
+  SubCategory & {
+    extendedName: string
+    category_slug: string
+  }
 
 type StructuredCategories = Record<
   string,
@@ -53,15 +54,13 @@ const mappedSequence = (
     .map(
       (category: ExtendedCategoryMap): ExtendedCategoryMap =>
         category
-          .set('fk', category.get('id'))
+          .set('fk', (category.get('id') || '').toString())
           .set('id', category.getIn(['_links', 'self', 'public']) as string)
           .set('key', category.getIn(['_links', 'self', 'public']) as string)
-          .set('value', category.get('name'))
+          .set('value', category.get('name') || '')
           .set(
             'parentKey',
-            category.getIn(['_links', 'sia:parent', 'public']) as
-              | string
-              | undefined
+            category.getIn(['_links', 'sia:parent', 'public']) as string | ''
           )
     )
 
@@ -70,8 +69,6 @@ const mappedSequence = (
  *
  * Category data, coming from the API, is enriched so that specific props, like `id` and `key`
  * are present in the objects that components expect to receive.
- *
- * @returns {IndexedIterable}
  */
 export const makeSelectCategories = createSelector(
   selectCategoriesDomain,
@@ -151,10 +148,10 @@ export const makeSelectSubCategories = createSelector(
       return null
     }
 
-    const subCategories = getHasParent(state).toJS() as Array<SubCategory>
+    const subCategories = getHasParent(state).toJS() as Array<ExtendedCategory>
 
     return subCategories.map(
-      (subCategory: SubCategory): ExtendedSubCategory => {
+      (subCategory: ExtendedCategory): ExtendedSubCategory => {
         const responsibleDeptCodes = subCategory.departments
           .filter(({ is_responsible }) => is_responsible)
           .map(({ code }) => code)
@@ -230,24 +227,29 @@ export const makeSelectStructuredCategories = createSelector(
   }
 )
 
-export type SubCategoryOptions = ExtendedSubCategory & {
+type NameValue = {
   name: string
   value: string
-  group: string
+  group?: string
 }
+
+export type SubCategoryOption = ExtendedSubCategory & NameValue
+export type SubcategoriesGrouped = [Array<NameValue>, Array<SubCategoryOption>]
 
 export const makeSelectSubcategoriesGroupedByCategories = createSelector(
   [makeSelectMainCategories, makeSelectSubCategories],
-  (categories, subcategories) => {
+  (categories, subcategories): SubcategoriesGrouped => {
     const subcategoryGroups =
-      categories?.map(({ slug: value, name }: ExtendedCategory) => ({
-        name,
-        value,
-      })) || []
+      categories?.map(
+        ({ slug: value, name }: ExtendedCategory): NameValue => ({
+          name,
+          value,
+        })
+      ) || []
 
     const subcategoryOptions =
       subcategories?.map(
-        (subcategory: ExtendedSubCategory): SubCategoryOptions => ({
+        (subcategory: ExtendedSubCategory): SubCategoryOption => ({
           ...subcategory,
           name: subcategory.extendedName,
           value: subcategory.extendedName,

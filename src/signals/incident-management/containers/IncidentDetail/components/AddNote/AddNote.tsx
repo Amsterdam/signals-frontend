@@ -1,0 +1,66 @@
+import { useState, useContext, useCallback, useRef } from 'react'
+
+import GenericAddNote, {
+  getAddNoteError,
+} from 'signals/incident-management/components/AddNote'
+
+import type { FC } from 'react'
+
+import IncidentDetailContext from '../../context'
+import { PATCH_TYPE_NOTES } from '../../constants'
+
+type AddNoteProps = {
+  maxContentLength: number
+}
+
+const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
+  const { update } = useContext(IncidentDetailContext)
+  const [error, setError] = useState('')
+  const getValidationError = getAddNoteError(maxContentLength)
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+  const onSubmit = useCallback(
+    (event, text) => {
+      event.preventDefault()
+
+      if (!update || !text) return false
+
+      const validationError = getValidationError(text)
+
+      if (validationError !== '') {
+        setError(validationError)
+        return false
+      }
+
+      const notes = [{ text }]
+
+      update({
+        type: PATCH_TYPE_NOTES,
+        patch: { notes },
+      })
+
+      return true
+    },
+    [getValidationError, update]
+  )
+
+  const onChange = useCallback((event) => {
+    const { value } = event.target
+
+    if (value.trim() !== '') {
+      setError('')
+    }
+  }, [])
+
+  return (
+    <GenericAddNote
+      error={error}
+      maxContentLength={maxContentLength}
+      onChange={onChange}
+      onSubmit={onSubmit}
+      ref={textAreaRef}
+    />
+  )
+}
+
+export default AddNote
