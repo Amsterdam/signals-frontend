@@ -1,43 +1,44 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import { createRef } from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
-import { PATCH_TYPE_NOTES } from '../../containers/IncidentDetail/constants'
-import IncidentDetailContext from '../../context'
-import AddNote from '.'
+import AddNote, { getAddNoteError } from '.'
 
-const update = jest.fn()
+const ref = createRef<HTMLTextAreaElement>()
 
-const renderWithContext = () =>
-  withAppContext(
-    <IncidentDetailContext.Provider value={{ update }}>
-      <AddNote />
-    </IncidentDetailContext.Provider>
-  )
+describe('getNoteError', () => {
+  it('returns a max length error', () => {
+    const maxContentLength = 42
+    const validation = getAddNoteError(maxContentLength)
 
-describe('<AddNote />', () => {
-  beforeEach(() => {
-    update.mockReset()
+    expect(validation('   ')).toEqual('De notitie kan niet leeg zijn')
+    expect(validation(Array(maxContentLength + 2).join('.'))).toEqual(
+      `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
+    )
+    expect(validation('Hic sunt dracones')).toEqual('')
   })
+})
 
+describe('AddNote', () => {
   it('shows the form ', () => {
-    render(renderWithContext())
+    render(withAppContext(<AddNote />))
 
     expect(screen.getByTestId('addNoteNewNoteButton')).toBeInTheDocument()
     expect(
       screen.queryByTestId('addNoteSaveNoteButton')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
 
     expect(screen.getByTestId('addNoteSaveNoteButton')).toBeInTheDocument()
     expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
     expect(screen.getByTestId('addNoteCancelNoteButton')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
+    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
 
     expect(
       screen.queryByTestId('addNoteSaveNoteButton')
@@ -48,130 +49,138 @@ describe('<AddNote />', () => {
     expect(screen.queryByTestId('addNoteNewNoteButton')).toBeInTheDocument()
   })
 
-  it('calls update', () => {
-    render(renderWithContext())
+  it('focuses the textarea', () => {
+    const { unmount, rerender } = render(withAppContext(<AddNote />))
 
-    fireEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    // no ref, no focus
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    expect(screen.getByRole('textbox')).not.toHaveFocus()
 
-    const addNoteTextArea = screen.getByTestId('addNoteText')
-    const value = 'Here be a note'
-    const saveNoteButton = screen.getByTestId('addNoteSaveNoteButton')
+    unmount()
 
-    fireEvent.change(addNoteTextArea, { target: { value } })
+    // not standalone, no focus
+    rerender(withAppContext(<AddNote ref={ref} isStandalone={false} />))
+    expect(screen.getByRole('textbox')).not.toHaveFocus()
 
-    expect(update).not.toHaveBeenCalled()
+    unmount()
 
-    fireEvent.click(saveNoteButton)
-
-    expect(update).toHaveBeenCalledWith({
-      type: PATCH_TYPE_NOTES,
-      patch: {
-        notes: [{ text: value }],
-      },
-    })
+    // standalone, setting focus on render
+    rerender(withAppContext(<AddNote ref={ref} />))
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    expect(screen.getByRole('textbox')).toHaveFocus()
   })
 
-  it('does not call update when note field is empty', () => {
-    render(renderWithContext())
+  it('calls onChange', () => {
+    const onChange = jest.fn()
 
-    fireEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    render(withAppContext(<AddNote onChange={onChange} />))
 
-    const addNoteTextArea = screen.getByTestId('addNoteText')
-    const saveNoteButton = screen.getByTestId('addNoteSaveNoteButton')
+    expect(onChange).not.toHaveBeenCalled()
 
-    fireEvent.change(addNoteTextArea, { target: { value: '  ' } })
-
-    expect(update).not.toHaveBeenCalled()
-    expect(
-      screen.queryByText('De notitie kan niet leeg zijn')
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(saveNoteButton)
-
-    expect(update).not.toHaveBeenCalled()
-    expect(
-      screen.getByText('De notitie kan niet leeg zijn')
-    ).toBeInTheDocument()
-  })
-
-  it('does not call update when context is missing its update action', () => {
-    render(
-      withAppContext(
-        <IncidentDetailContext.Provider value={{}}>
-          <AddNote />
-        </IncidentDetailContext.Provider>
-      )
-    )
-
-    fireEvent.click(screen.getByRole('button'))
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
 
     userEvent.type(screen.getByRole('textbox'), 'Here be text')
 
-    fireEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    expect(onChange).toHaveBeenCalledTimes(12)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: 'Here be text' }),
+      })
+    )
 
-    expect(update).not.toHaveBeenCalled()
+    // nothing should happen; onSubmit isn't passed as a prop
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(onChange).toHaveBeenCalledTimes(12)
+  })
+
+  it('calls onSubmit', () => {
+    const onSubmit = jest.fn()
+
+    const { rerender } = render(withAppContext(<AddNote onSubmit={onSubmit} />))
+
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
+
+    expect(onSubmit).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.anything(),
+      // the field's value will not be passed, because there is no ref to attach it to
+      undefined
+    )
+
+    rerender(withAppContext(<AddNote onSubmit={onSubmit} ref={ref} />))
+
+    userEvent.clear(screen.getByRole('textbox'))
+    userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'Here be text 2'
+    )
+  })
+
+  it('hides the form after submit', () => {
+    const submitWillNotHide = jest.fn(() => false)
+
+    const { rerender } = render(
+      withAppContext(<AddNote onSubmit={submitWillNotHide} />)
+    )
+
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.type(screen.getByRole('textbox'), 'Here be text 3')
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(submitWillNotHide).toHaveBeenCalledTimes(1)
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+
+    const submitWillHide = jest.fn(() => true)
+
+    rerender(withAppContext(<AddNote onSubmit={submitWillHide} />))
+
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(submitWillHide).toHaveBeenCalledTimes(1)
+
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
   })
 
   it('clears the textarea', () => {
-    render(renderWithContext())
+    render(withAppContext(<AddNote />))
+
     const value = 'Here be a note'
 
-    fireEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
 
-    const addNoteTextArea = screen.getByTestId(
-      'addNoteText'
-    ) as HTMLTextAreaElement
+    const addNoteTextArea = screen.getByRole('textbox') as HTMLTextAreaElement
 
-    expect(addNoteTextArea.value).toEqual('')
+    userEvent.type(addNoteTextArea, value)
 
-    const saveNoteButton = screen.getByTestId('addNoteSaveNoteButton')
+    expect(screen.getByRole('textbox')).not.toBeEmptyDOMElement()
 
-    fireEvent.change(addNoteTextArea, { target: { value } })
+    fireEvent.click(screen.getByTestId('addNoteCancelNoteButton')) // unmounts the component
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
 
-    expect(addNoteTextArea.value).toEqual(value)
-
-    fireEvent.click(saveNoteButton)
-
-    const newNoteButton = screen.getByTestId('addNoteNewNoteButton')
-
-    fireEvent.click(newNoteButton)
-
-    expect(
-      (screen.getByTestId('addNoteText') as HTMLTextAreaElement).value
-    ).toEqual('')
+    expect(screen.getByRole('textbox')).toBeEmptyDOMElement()
   })
 
-  it('shows the max amount of characters allowed', () => {
-    render(renderWithContext())
+  it('renders the inline version', () => {
+    render(withAppContext(<AddNote isStandalone={false} />))
 
-    fireEvent.click(screen.getByTestId('addNoteNewNoteButton'))
-
-    expect(screen.getByText('0 / 3000 tekens')).toBeInTheDocument()
-
-    const input = 'Hello World!'
-    userEvent.type(screen.getByRole('textbox'), input)
-
+    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
+    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
     expect(
-      screen.getByText(`${input.length} / 3000 tekens`)
-    ).toBeInTheDocument()
-
-    const maxInput = new Array(3001).join('.')
-    userEvent.type(screen.getByRole('textbox'), maxInput)
-
-    expect(
-      screen.getByText(`${input.length + maxInput.length} / 3000 tekens`)
-    ).toBeInTheDocument()
-
-    const saveNoteButton = screen.getByTestId('addNoteSaveNoteButton')
-
-    expect(
-      screen.queryByText('Je hebt meer dan de maximale 3000 tekens ingevoerd.')
+      screen.queryByTestId('addNoteSaveNoteButton')
     ).not.toBeInTheDocument()
-
-    fireEvent.click(saveNoteButton)
-
     expect(
-      screen.getByText('Je hebt meer dan de maximale 3000 tekens ingevoerd.')
-    ).toBeInTheDocument()
+      screen.queryByTestId('addNoteCancelNoteButton')
+    ).not.toBeInTheDocument()
   })
 })

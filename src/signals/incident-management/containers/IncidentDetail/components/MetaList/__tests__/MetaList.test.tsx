@@ -480,7 +480,7 @@ describe('MetaList', () => {
           categoriesSelectors,
           'makeSelectSubcategoriesGroupedByCategories'
         )
-        .mockImplementation(() => [])
+        .mockImplementation(() => [[], []])
       render(renderWithContext())
 
       expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument()
