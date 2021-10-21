@@ -723,11 +723,13 @@ describe('signals/settings/users/containers/Overview', () => {
       ).value
     ).toBe('GGD')
 
-    memoryHistory.goBack()
-    // forcing URL update; necessary because of lack of history pop support
-    memoryHistory.push(
-      `${USERS_PAGED_URL}/1?role=Regievoerder&profile_department_code=CCA`
-    )
+    act(() => {
+      memoryHistory.goBack()
+      // forcing URL update; necessary because of lack of history pop support
+      memoryHistory.push(
+        `${USERS_PAGED_URL}/1?role=Regievoerder&profile_department_code=CCA`
+      )
+    })
 
     await screen.findByTestId('role')
 

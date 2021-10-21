@@ -7,6 +7,7 @@ import type { MapOptions } from 'leaflet'
 import { render, screen } from '@testing-library/react'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { FeatureCollection } from 'geojson'
+import * as Sentry from '@sentry/browser'
 
 import { Map } from '@amsterdam/react-maps'
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
@@ -16,6 +17,8 @@ import WfsDataContext, {
 } from '../../../components/DataContext/context'
 import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
+
+jest.spyOn(Sentry, 'captureException')
 
 const fetchMock = fetch as FetchMock
 
@@ -100,11 +103,10 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should console.error when other error occurs in the wfs call', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error')
-    const error = new Error()
-    error.name = 'OtherError'
+  it('should handle wfs request errors', async () => {
+    const error = new Error('Foo')
     fetchMock.mockRejectOnce(error)
+
     render(
       withMapCaterpillar(
         <WfsLayer>
@@ -114,8 +116,8 @@ describe('src/signals/incident/components/form/MapSelectors/Caterpillar/WfsLayer
     )
 
     await screen.findByTestId('map-test')
-    expect(consoleErrorSpy).toHaveBeenCalled()
-    consoleErrorSpy.mockClear()
+
     expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(Sentry.captureException).toHaveBeenCalledWith(error)
   })
 })
