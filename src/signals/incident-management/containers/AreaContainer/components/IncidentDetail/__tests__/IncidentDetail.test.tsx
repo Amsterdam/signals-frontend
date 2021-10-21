@@ -3,8 +3,6 @@ import { mockIncident } from 'types/api/incident.mock'
 import { withAppContext } from 'test/utils'
 import IncidentDetail from '../'
 
-const defaults = mockIncident()
-
 describe('IncidentDetail', () => {
   it('should render', () => {
     render(
@@ -19,11 +17,9 @@ describe('IncidentDetail', () => {
       text: 'incident text',
       created_at: new Date(0).toISOString(),
       location: {
-        ...defaults.location,
         address_text: '124 Conch St., Bikini Bottom',
       },
       status: {
-        ...defaults.status,
         state_display: 'Gemeld',
       },
       category: {
@@ -79,8 +75,7 @@ describe('IncidentDetail', () => {
   it('should render a link to the incident that opens in a new window', () => {
     const incident = mockIncident({
       _links: {
-        ...defaults._links,
-        'sia:children': undefined,
+        'sia:children': null,
       },
       id: 1234,
     })
@@ -98,7 +93,6 @@ describe('IncidentDetail', () => {
   it('should display the correct text for parent or default incidents', () => {
     const mainIncident = mockIncident({
       _links: {
-        ...defaults._links,
         'sia:children': [{ href: 'foo' }],
       },
       id: 1234,
@@ -106,16 +100,15 @@ describe('IncidentDetail', () => {
 
     const defaultIncident = mockIncident({
       _links: {
-        ...defaults._links,
-        'sia:children': undefined,
+        'sia:children': null,
       },
       id: 4321,
     })
 
     const partialIncident = mockIncident({
       _links: {
-        ...defaults._links,
         'sia:parent': { href: 'foo' },
+        'sia:children': null,
       },
       id: 5678,
     })

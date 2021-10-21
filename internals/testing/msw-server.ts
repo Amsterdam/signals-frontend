@@ -25,6 +25,8 @@ import publicIncidentFixture from '../mocks/fixtures/public-incident.json'
 import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json'
 import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 
+import * as API from './api'
+
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code
 const departmentAegCode = departmentsFixture.results[1].code
@@ -49,8 +51,6 @@ export const mockRequestHandler = ({
     )
   )
 }
-
-export const apiBaseUrl = 'http://localhost:8000'
 
 const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   if (
@@ -80,26 +80,23 @@ const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
 
 const handlers = [
   // GET
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/autocomplete/usernames`,
-    (req, res, ctx) => {
-      const departmentCodes = req.url.searchParams.getAll(
-        'profile_department_code'
-      )
-      const results = autocompleteUsernames.results.filter(({ username }) =>
-        departmentCodes.find((code) => username.includes(code.toLowerCase()))
-      )
-      const data: typeof autocompleteUsernames = {
-        ...autocompleteUsernames,
-        results,
-        count: results.length,
-      }
-
-      return res(ctx.status(200), ctx.json(data))
+  rest.get(API.AUTOCOMPLETE_USERNAMES, (req, res, ctx) => {
+    const departmentCodes = req.url.searchParams.getAll(
+      'profile_department_code'
+    )
+    const results = autocompleteUsernames.results.filter(({ username }) =>
+      departmentCodes.find((code) => username.includes(code.toLowerCase()))
+    )
+    const data: typeof autocompleteUsernames = {
+      ...autocompleteUsernames,
+      results,
+      count: results.length,
     }
-  ),
 
-  rest.get(`${apiBaseUrl}/signals/v1/private/users`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(data))
+  }),
+
+  rest.get(API.USERS, (req, res, ctx) => {
     const departmentCodes = req.url.searchParams.getAll(
       'profile_department_code'
     )
@@ -118,125 +115,107 @@ const handlers = [
     return res(ctx.status(200), ctx.json(response))
   }),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
+  rest.get(API.INCIDENT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/attachments`,
-    (_req, res, ctx) =>
-      res(ctx.status(200), ctx.json(incidentAttachmentsFixture))
+  rest.get(API.INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentAttachmentsFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/children`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentChildrenFixture))
+  rest.get(API.INCIDENT_CHILDREN, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentChildrenFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/history`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentHistoryFixture))
+  rest.get(API.INCIDENT_HISTORY, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentHistoryFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context/near/geography`,
-    (_req, res, ctx) =>
-      res(ctx.status(200), ctx.json(incidentContextNearGeographyFixture))
+  rest.get(API.INCIDENT_CONTEXT_GEOGRAPHY, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentContextNearGeographyFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context/reporter`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentReporterFixture))
+  rest.get(API.INCIDENT_CONTEXT_REPORTER, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentReporterFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/signals/:incidentId/context`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentContextFixture))
+  rest.get(API.INCIDENT_CONTEXT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentContextFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/private/reports/signals/*`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(reportsFixture))
+  rest.get(API.REPORTS, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(reportsFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/public/qa/sessions/:uuid`,
-    (req, res, ctx) => {
-      switch (req.params.uuid) {
-        case 'locked':
-          return res(
-            ctx.status(410),
-            ctx.json({
-              detail: 'Already used!',
-            })
-          )
+  rest.get(API.QA_SESSIONS, (req, res, ctx) => {
+    switch (req.params.uuid) {
+      case 'locked':
+        return res(
+          ctx.status(410),
+          ctx.json({
+            detail: 'Already used!',
+          })
+        )
 
-        case 'invalidated':
-          return res(
-            ctx.status(500),
-            ctx.json({
-              detail:
-                'Session invalidated is invalidated, associated signal not in state REACTIE_GEVRAAGD.',
-            })
-          )
+      case 'invalidated':
+        return res(
+          ctx.status(500),
+          ctx.json({
+            detail:
+              'Session invalidated is invalidated, associated signal not in state REACTIE_GEVRAAGD.',
+          })
+        )
 
-        case 'expired':
-          return res(ctx.status(410), ctx.json({ detail: 'Expired!' }))
+      case 'expired':
+        return res(ctx.status(410), ctx.json({ detail: 'Expired!' }))
 
-        case 'invalid-uuid':
-          return res(
-            ctx.status(500),
-            ctx.json({ detail: "['invalid-uuid’ is geen geldige UUID.']" })
-          )
+      case 'invalid-uuid':
+        return res(
+          ctx.status(500),
+          ctx.json({ detail: "['invalid-uuid’ is geen geldige UUID.']" })
+        )
 
-        default:
-          return res(ctx.status(200), ctx.json(qaSessionFixture))
-      }
+      default:
+        return res(ctx.status(200), ctx.json(qaSessionFixture))
     }
+  }),
+
+  rest.get(API.QA_QUESTIONNAIRES, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(qaQuestionnaireFixture))
   ),
 
-  rest.get(
-    `${apiBaseUrl}/signals/v1/public/qa/questionnaires/:uuid`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(qaQuestionnaireFixture))
-  ),
-
-  rest.get(`${apiBaseUrl}/signals/v1/public/signals/:uuid`, (_req, res, ctx) =>
+  rest.get(API.PUBLIC_INCIDENT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(publicIncidentFixture))
   ),
 
-  rest.get(/reports\/signals\/open/, (_req, res, ctx) =>
+  rest.get(API.REPORTS_OPEN, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(openSignalsReportFixture))
   ),
 
-  rest.get(/reports\/signals\/reopen-requested/, (_req, res, ctx) =>
+  rest.get(API.REPORTS_REOPEN_REQUESTED, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(reopenRequestedSignalsReportFixture))
   ),
 
-  rest.get(/status-message-templates/, (_req, res, ctx) =>
+  rest.get(API.STATUS_MESSAGE_TEMPLATES, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
   ),
 
   // PATCH
-  rest.patch(
-    `${apiBaseUrl}/signals/v1/private/signals/${incidentFixture.id}`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(incidentFixture))
+  rest.patch(API.INCIDENT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
   // POST
-  rest.post(
-    `${apiBaseUrl}/signals/v1/public/qa/questions/:uuid/answer`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(qaAnswerFixture))
+  rest.post(API.QA_ANSWER, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(qaAnswerFixture))
   ),
 
-  rest.post(
-    `${apiBaseUrl}/signals/v1/public/qa/sessions/:uuid/submit`,
-    (_req, res, ctx) => res(ctx.status(200), ctx.json(qaSubmitFixture))
+  rest.post(API.QA_SUBMIT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(qaSubmitFixture))
   ),
 
-  rest.post(
-    `${apiBaseUrl}/signals/v1/public/signals/:uuid/attachments`,
-    (_req, res, ctx) => res(ctx.status(200))
+  rest.post(API.PUBLIC_INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
+    res(ctx.status(200))
   ),
 
   // FALLBACK

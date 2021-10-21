@@ -13,6 +13,7 @@ import {
   INCIDENT_URL,
   INCIDENTS_URL,
 } from 'signals/incident-management/routes'
+import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
 
 import { PATCH_TYPE_THOR } from '../../constants'
 import IncidentDetailContext from '../../context'
@@ -82,7 +83,7 @@ const DetailHeader = () => {
   const location = useLocation()
 
   const showSplitButton = useMemo(() => {
-    if (['o', 'a', 's'].includes(incident.status.state)) return false
+    if (isStatusEnd(incident.status?.state)) return false
 
     if (incident?._links?.['sia:parent']) return false
 
@@ -93,7 +94,7 @@ const DetailHeader = () => {
   }, [incident])
 
   const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(
-    incident.status.state
+    incident.status?.state
   )
   const downloadLink = incident?._links?.['sia:pdf']?.href
 

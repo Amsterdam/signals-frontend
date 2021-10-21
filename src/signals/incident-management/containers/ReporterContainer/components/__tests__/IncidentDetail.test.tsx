@@ -48,7 +48,13 @@ describe('IncidentDetail', () => {
   })
 
   it('should render a standaard incident', async () => {
-    render(withAppContext(<IncidentDetail incident={incident} />))
+    render(
+      withAppContext(
+        <IncidentDetail
+          incident={mockIncident({ _links: { 'sia:children': null } })}
+        />
+      )
+    )
 
     expect(
       await screen.findByText('Standaardmelding', { exact: false })

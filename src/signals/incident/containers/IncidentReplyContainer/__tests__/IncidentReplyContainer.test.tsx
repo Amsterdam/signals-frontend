@@ -8,12 +8,12 @@ import { withAppContext } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
 import * as constants from '../constants'
+import * as API from '../../../../../../internals/testing/api'
 import IncidentReplyContainer from '..'
 
 import {
   fetchMock,
   mockRequestHandler,
-  apiBaseUrl,
 } from '../../../../../../internals/testing/msw-server'
 
 fetchMock.disableMocks()
@@ -144,7 +144,7 @@ describe('IncidentReplyContainer', () => {
       mockRequestHandler({
         status: 500,
         method: 'post',
-        url: `${apiBaseUrl}/signals/v1/public/qa/questions/:uuid/answer`,
+        url: API.QA_ANSWER,
         body: {
           detail: 'Something went wrong',
         },
