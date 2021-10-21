@@ -94,7 +94,7 @@ const Detail = ({ attachments, context }) => {
           {string2time(incident.incident_date_start)}&nbsp;
         </dd>
 
-        <Location location={location} />
+        {location && <Location location={location} />}
 
         {showArea && (
           <Area count={context.near.signal_count} id={incident.id} />
@@ -106,29 +106,29 @@ const Detail = ({ attachments, context }) => {
           <ExtraProperties items={memoIncident.extra_properties} />
         )}
 
-        <Fragment>
-          <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-          <dd data-testid="detail-phone-value">
-            <StyledLink
-              variant="inline"
-              href={`tel:${incident.reporter.phone}`}
-            >
-              {incident.reporter.phone}
-            </StyledLink>
-          </dd>
-        </Fragment>
+        {incident.reporter && (
+          <Fragment>
+            <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+            <dd data-testid="detail-phone-value">
+              <StyledLink
+                variant="inline"
+                href={`tel:${incident.reporter.phone}`}
+              >
+                {incident.reporter.phone}
+              </StyledLink>
+            </dd>
 
-        <Fragment>
-          <dt data-testid="detail-email-definition">E-mail melder</dt>
-          <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
-        </Fragment>
+            <dt data-testid="detail-email-definition">E-mail melder</dt>
+            <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
 
-        <dt data-testid="detail-sharing-definition">
-          Toestemming contactgegevens delen
-        </dt>
-        <dd data-testid="detail-sharing-value">
-          {incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}
-        </dd>
+            <dt data-testid="detail-sharing-definition">
+              Toestemming contactgegevens delen
+            </dt>
+            <dd data-testid="detail-sharing-value">
+              {incident.reporter.sharing_allowed ? 'Ja' : 'Nee'}
+            </dd>
+          </Fragment>
+        )}
 
         {context?.reporter && (
           <Reporter reporter={context.reporter} id={incident.id} />

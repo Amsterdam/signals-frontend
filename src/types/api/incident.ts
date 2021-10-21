@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { StatusCode } from 'signals/incident-management/definitions/types'
-
-interface Address {
-  postcode: string
-  huisletter: string | null
-  huisnummer: string | number
-  woonplaats: string
-  openbare_ruimte: string
-  huisnummer_toevoeging: string
-}
+import { Address } from 'types/address'
 
 type Coordinates = [number, number]
 
@@ -64,7 +56,7 @@ export interface Incident {
     extra_properties: Record<string, unknown> | null
     created_by?: string | null
     bag_validated?: boolean
-  }
+  } | null
   status: {
     text: string | null
     user?: string | null
@@ -75,22 +67,25 @@ export interface Incident {
     send_email?: boolean
     created_at: string
     extra_properties: Record<string, unknown> | null
-  }
+  } | null
   reporter: {
     email: string | null
     phone: string | null
     sharing_allowed: boolean
-  }
+  } | null
   priority: {
     priority: 'normal' | 'high' | 'low'
     created_by: string | null
-  }
-  notes: []
+  } | null
+  notes: {
+    created_by: string | null
+    text: string
+  }[]
   type: {
     code: 'SIG' | 'REQ' | 'QUE' | 'COM' | 'MAI'
     created_at: string
     created_by: string | null
-  }
+  } | null
   source: string
   text: string
   text_extra: string | null

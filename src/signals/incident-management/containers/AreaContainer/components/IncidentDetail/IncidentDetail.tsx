@@ -84,6 +84,7 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
       <StyledBackLink to="#" onClick={() => onBack()}>
         Terug naar filter
       </StyledBackLink>
+
       <StyledLink
         forwardedAs={Link}
         to={`/manage/incident/${incident.id}`}
@@ -93,9 +94,11 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
           {`${getIncidentTitlePrefix(incident)}melding ${incident.id}`}
         </Heading>
       </StyledLink>
+
       <Heading as="h2" styleAs="h3" data-testid="text">
         {incident.text}
       </Heading>
+
       <DefinitionList>
         <SectionTerm data-testid="location-label">Locatie</SectionTerm>
         <SectionDescription>
@@ -103,19 +106,26 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
             {incident.location?.address_text || 'Locatie is gepind op de kaart'}
           </span>
         </SectionDescription>
+
         <SectionTerm data-testid="date-label">Gemeld op</SectionTerm>
         <SectionDescription>
           <span data-testid="date">
             {incident.created_at && formatDate(incident.created_at)}
           </span>
         </SectionDescription>
+
         <SectionTerm data-testid="status-label">Status</SectionTerm>
-        <SectionDescription>
-          <Status isEnded={isStatusEnd(incident.status.state)}>
-            <span data-testid="status">{incident?.status.state_display}</span>
-          </Status>
-        </SectionDescription>
-        <SectionTerm data-testid="subcategory-label">Subcategorie (verantwoordelijke afdeling)</SectionTerm>
+        {incident.status && (
+          <SectionDescription>
+            <Status isEnded={isStatusEnd(incident.status.state)}>
+              <span data-testid="status">{incident.status.state_display}</span>
+            </Status>
+          </SectionDescription>
+        )}
+
+        <SectionTerm data-testid="subcategory-label">
+          Subcategorie (verantwoordelijke afdeling)
+        </SectionTerm>
         <SectionDescription>
           <span data-testid="subcategory">{incident.category?.sub} </span>
           <span data-testid="departments">
