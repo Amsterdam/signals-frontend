@@ -16,7 +16,7 @@ import { UNREGISTERED_TYPE } from '../../../../constants'
 describe('SelectionPanel', () => {
   const GLAS_FEATURE = {
     label: 'Glas',
-    description: 'Glas asset',
+    description: 'Glas container',
     icon: {
       options: {},
       iconSvg: glas,
@@ -44,7 +44,7 @@ describe('SelectionPanel', () => {
   }
   const GLAS_CONTAINER = {
     id: 'GLAS123',
-    description: 'Glas asset',
+    description: 'Glas container',
     type: 'Glas',
   }
 
@@ -91,8 +91,8 @@ describe('SelectionPanel', () => {
     expect(
       screen.queryByText('Maak een keuze op de kaart')
     ).not.toBeInTheDocument()
-    expect(screen.getByText('Glas asset - GLAS123')).toBeInTheDocument()
-    expect(screen.getByText('Glas asset - GLAS456')).toBeInTheDocument()
+    expect(screen.getByText('Glas container - GLAS123')).toBeInTheDocument()
+    expect(screen.getByText('Glas container - GLAS456')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem').length).toBe(2)
   })
 

@@ -119,16 +119,14 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
 
   it('supports additional wfs filters', () => {
     fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
-    const filterValue =
-      '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>'
-    const endpoint = '/endpoint'
+    const endpoint =
+      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{{srsName}}"><lowerCorner>{{west}} {{south}}</lowerCorner><upperCorner>{{east}} {{north}}</upperCorner></gml:Envelope></BBOX></Filter>'
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
       location: new LatLng(0, 0),
       meta: {
         endpoint,
         featureTypes: [],
-        wfsFilter: filterValue,
       },
       update: jest.fn(),
       edit: jest.fn(),
@@ -136,10 +134,9 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       setMessage: jest.fn(),
     }
 
-    const urlWithFilter = `${endpoint}&Filter=<Filter><And>${filterValue}<BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></And></Filter>`
-    const urlWithoutFilter = `${endpoint}&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`
+    const urlWithFilter = `/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`
 
-    const { rerender } = render(
+    render(
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
@@ -151,23 +148,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       urlWithFilter,
-      expect.objectContaining({})
-    )
-
-    delete assetSelectProviderValue.meta.wfsFilter
-
-    rerender(
-      withMapAsset(
-        <AssetSelectProvider value={assetSelectProviderValue}>
-          <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
-          </WfsLayer>
-        </AssetSelectProvider>
-      )
-    )
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      urlWithoutFilter,
       expect.objectContaining({})
     )
   })

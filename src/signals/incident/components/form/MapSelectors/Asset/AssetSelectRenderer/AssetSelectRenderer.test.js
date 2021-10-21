@@ -27,6 +27,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
   const meta = {
     label: 'Asset',
     isVisible: true,
+    featureTypes: [],
   }
 
   describe('rendering', () => {

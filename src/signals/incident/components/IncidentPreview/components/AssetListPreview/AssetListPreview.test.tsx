@@ -7,9 +7,8 @@ import type { FeatureType } from 'signals/incident/components/form/MapSelectors/
 import AssetListPreview from './AssetListPreview'
 import type { AssetListPreviewProps } from './AssetListPreview'
 
-jest.mock(
-  'signals/incident/components/form/MapSelectors/Container/AssetList',
-  () => jest.fn().mockImplementation(() => null)
+jest.mock('signals/incident/components/form/MapSelectors/Asset/AssetList', () =>
+  jest.fn().mockImplementation(() => null)
 )
 
 describe('AssetListPreview', () => {

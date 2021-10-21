@@ -52,7 +52,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
     expect(contextValue.close).not.toHaveBeenCalled()
 
-    const button = await screen.findByText('Meld deze asset')
+    const button = await screen.findByText('Meld dit object')
     userEvent.click(button)
     expect(contextValue.close).toHaveBeenCalled()
   })
