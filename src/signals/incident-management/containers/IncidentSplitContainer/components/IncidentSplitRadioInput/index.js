@@ -67,7 +67,7 @@ IncidentSplitRadioInput.propTypes = {
       info: PropTypes.string,
     })
   ).isRequired,
-  register: PropTypes.func.isRequired,
+  register: PropTypes.any.isRequired,
   className: PropTypes.string,
 }
 

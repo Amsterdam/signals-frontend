@@ -2,21 +2,22 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 
-import type { FC, Ref } from 'react'
+import type { UseFormMethods } from 'react-hook-form'
+import type { FC } from 'react'
 import type { Group } from 'components/Select'
 import type { SubCategoryOption } from 'models/categories/selectors'
 import Select from 'components/Select'
 
 import { StyledInfoText, StyledSelect } from '../../styled'
 
-type IncidentSplitSelectInputProps = {
+interface IncidentSplitSelectInputProps
+  extends Partial<Pick<UseFormMethods, 'register'>> {
   id: string
   display: string
   initialValue: string
   name: string
   options: Array<SubCategoryOption>
   groups?: Array<Group>
-  register: Ref<any>
 }
 
 const getSelectedOption = (options: Array<SubCategoryOption>, value: string) =>

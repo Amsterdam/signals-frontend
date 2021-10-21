@@ -77,18 +77,21 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
             <TextArea
               label={<strong>Omschrijving</strong>}
               errorMessage={
-                errors.incidents &&
+                errors?.incidents &&
                 errors.incidents[splitNumber]?.description.message
               }
               data-testid={`incidentSplitFormIncidentDescriptionText-${splitNumber}`}
               id={`description-${splitNumber}`}
               name={`incidents[${splitNumber}].description`}
-              ref={register({
-                validate: {
-                  required: (value) =>
-                    !!value.trim() || 'Dit is een verplicht veld',
-                },
-              })}
+              ref={
+                register &&
+                register({
+                  validate: {
+                    required: (value) =>
+                      !!value.trim() || 'Dit is een verplicht veld',
+                  },
+                })
+              }
               rows={10}
               defaultValue={parentIncident.description}
             />
