@@ -28,6 +28,7 @@ import {
   mockRequestHandler,
   fetchMock,
 } from '../../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../../internals/testing/api'
 import MetaList from '../MetaList'
 
 fetchMock.disableMocks()
@@ -518,6 +519,7 @@ describe('MetaList', () => {
     it('should not show assigned user when users not defined', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       mockRequestHandler({
+        url: API.AUTOCOMPLETE_USERNAMES,
         status: 400,
         body: 'No users defined',
       })

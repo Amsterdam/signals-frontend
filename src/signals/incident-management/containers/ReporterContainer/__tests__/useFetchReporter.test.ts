@@ -8,7 +8,6 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { store } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import configuration from 'shared/services/configuration/configuration'
 import type { Result } from 'types/api/reporter'
 import {
   fetchMock,
@@ -17,6 +16,7 @@ import {
   server,
 } from '../../../../../../internals/testing/msw-server'
 import { FetchReporterHook, useFetchReporter } from '../useFetchReporter'
+import * as API from '../../../../../../internals/testing/api'
 
 const dispatch = jest.fn()
 const reduxSpy = jest
@@ -57,6 +57,7 @@ describe('Fetch Reporter hook', () => {
 
   it('correctly implements pagination', async () => {
     mockRequestHandler({
+      url: API.INCIDENT,
       body: {
         ...incidentFixture,
         id: 12345,
@@ -64,20 +65,17 @@ describe('Fetch Reporter hook', () => {
     })
 
     server.use(
-      rest.get(
-        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${INCIDENT_ID}/context/reporter`,
-        (req, res, ctx) => {
-          const query = req.url.searchParams
-          const page = query.get('page')
-          return res(
-            ctx.status(200),
-            ctx.json({
-              count: 8,
-              results: [{ ...REPORTER_MOCK, id: Number(page) }],
-            })
-          )
-        }
-      )
+      rest.get(API.INCIDENT_CONTEXT_REPORTER, (req, res, ctx) => {
+        const query = req.url.searchParams
+        const page = query.get('page')
+        return res(
+          ctx.status(200),
+          ctx.json({
+            count: 8,
+            results: [{ ...REPORTER_MOCK, id: Number(page) }],
+          })
+        )
+      })
     )
 
     const { result, waitForNextUpdate } = renderHook(
@@ -177,6 +175,7 @@ describe('Fetch Reporter hook', () => {
     await waitForNextUpdate()
 
     mockRequestHandler({
+      url: API.INCIDENT,
       body: {
         ...incidentFixture,
         id: Number(INCIDENT_ID_2),
@@ -225,6 +224,7 @@ describe('Fetch Reporter hook', () => {
 
   it('handles errors', async () => {
     mockRequestHandler({
+      url: API.INCIDENT_CONTEXT_REPORTER,
       status: 500,
       body: 'Something went wrong',
     })

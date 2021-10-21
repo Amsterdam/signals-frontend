@@ -14,6 +14,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../internals/testing/api'
 
 import IncidentDetail from '../IncidentDetail'
 
@@ -93,6 +94,7 @@ describe('IncidentDetail', () => {
 
   it('should show an error when api call fails', async () => {
     mockRequestHandler({
+      url: API.INCIDENT_HISTORY,
       status: 500,
       body: 'Something went wrong',
     })
