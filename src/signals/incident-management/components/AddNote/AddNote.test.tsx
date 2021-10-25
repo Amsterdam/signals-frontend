@@ -15,11 +15,15 @@ describe('getNoteError', () => {
     const maxContentLength = 42
     const validation = getAddNoteError(maxContentLength)
 
-    expect(validation('   ')).toEqual('De notitie kan niet leeg zijn')
-    expect(validation(Array(maxContentLength + 2).join('.'))).toEqual(
+    expect(validation({ text: '   ' })).toEqual('De notitie kan niet leeg zijn')
+    expect(validation({ text: Array(maxContentLength + 2).join('.') })).toEqual(
       `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
     )
-    expect(validation('Hic sunt dracones')).toEqual('')
+    expect(validation({ text: 'Hic sunt dracones' })).toEqual('')
+
+    expect(
+      validation({ text: '   ', shouldContainAtLeastOneChar: false })
+    ).toEqual('')
   })
 })
 

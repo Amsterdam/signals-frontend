@@ -32,17 +32,27 @@ const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `
 
-export const getAddNoteError = (maxContentLength: number) => (text: string) => {
-  if (text.trim() === '') {
-    return 'De notitie kan niet leeg zijn'
-  }
+export const getAddNoteError =
+  (maxContentLength: number) =>
+  ({
+    text,
+    fieldName = 'notitie',
+    shouldContainAtLeastOneChar = true,
+  }: {
+    text: string
+    fieldName?: string
+    shouldContainAtLeastOneChar?: boolean
+  }) => {
+    if (shouldContainAtLeastOneChar && text.trim() === '') {
+      return `De ${fieldName} mag niet leeg zijn`
+    }
 
-  if (text.length > maxContentLength) {
-    return `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
-  }
+    if (text.length > maxContentLength) {
+      return `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
+    }
 
-  return ''
-}
+    return ''
+  }
 
 const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
   (
@@ -62,6 +72,8 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
     const [showForm, setShowForm] = useState(!isStandalone)
     const handleSubmit = useCallback(
       (event) => {
+        event.preventDefault()
+
         if (typeof onSubmit === 'function') {
           const successfulSubmit = onSubmit(event, ref?.current?.value)
 
@@ -77,7 +89,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       if (!showForm || !ref?.current || !isStandalone) return
 
       ref.current.focus()
-    }, [isStandalone, ref, showForm])
+    }, [isStandalone, ref, showForm, name])
 
     if (!showForm) {
       return (
@@ -136,6 +148,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 )
 
 AddNote.defaultProps = {
+  className: '',
   isStandalone: true,
   label: 'Notitie toevoegen',
 }
