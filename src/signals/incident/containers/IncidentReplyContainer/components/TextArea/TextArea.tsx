@@ -20,7 +20,7 @@ const TextArea: FunctionComponent<FieldProps> = ({
     control,
     name: id,
     defaultValue: '',
-  })
+  }) as string
   const maxLength = rules?.maxLength ?? DEFAULT_MAX_LENGTH
 
   const infoText = useMemo(
@@ -32,7 +32,13 @@ const TextArea: FunctionComponent<FieldProps> = ({
 
   return (
     <TextAreaComponent
-      ref={register({
+      errorMessage={errorMessage}
+      name={id}
+      id={id}
+      infoText={infoText}
+      label={labelComponent}
+      rows={DEFAULT_ROWS}
+      {...register(id, {
         validate: {
           required: (value: string) => {
             if (!value.trim()) {
@@ -45,12 +51,6 @@ const TextArea: FunctionComponent<FieldProps> = ({
           value: maxLength,
         },
       })}
-      errorMessage={errorMessage}
-      name={id}
-      id={id}
-      infoText={infoText}
-      label={labelComponent}
-      rows={DEFAULT_ROWS}
     />
   )
 }

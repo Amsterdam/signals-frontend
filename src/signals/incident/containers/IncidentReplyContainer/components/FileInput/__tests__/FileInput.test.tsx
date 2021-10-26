@@ -7,7 +7,12 @@ import { withAppContext } from 'test/utils'
 import FileInput from '..'
 
 const WrappedFileInput: FunctionComponent = () => {
-  const { control, trigger, register, errors } = useForm()
+  const {
+    control,
+    trigger,
+    register,
+    formState: { errors },
+  } = useForm()
 
   return (
     <FileInput
@@ -42,7 +47,7 @@ describe('FileInput', () => {
       userEvent.upload(fileInput, file)
 
       await waitFor(() => {
-        screen.getByText(/Dit bestand is te klein/)
+        expect(screen.getByText(/Dit bestand is te klein/)).toBeInTheDocument()
       })
     })
 
@@ -56,7 +61,7 @@ describe('FileInput', () => {
       userEvent.upload(fileInput, file)
 
       await waitFor(() => {
-        screen.getByText(/Dit bestand is te groot/)
+        expect(screen.getByText(/Dit bestand is te groot/)).toBeInTheDocument()
       })
     })
 
@@ -76,7 +81,9 @@ describe('FileInput', () => {
       userEvent.upload(fileInput, files)
 
       await waitFor(() => {
-        screen.getByText(/U kunt maximaal 3 bestanden uploaden/)
+        expect(
+          screen.getByText(/U kunt maximaal 3 bestanden uploaden/)
+        ).toBeInTheDocument()
       })
     })
 
@@ -90,7 +97,9 @@ describe('FileInput', () => {
       userEvent.upload(fileInput, file)
 
       await waitFor(() => {
-        screen.getByText(/Dit bestandstype wordt niet ondersteund/)
+        expect(
+          screen.getByText(/Dit bestandstype wordt niet ondersteund/)
+        ).toBeInTheDocument()
       })
     })
   })

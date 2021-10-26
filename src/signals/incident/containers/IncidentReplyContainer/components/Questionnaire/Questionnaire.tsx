@@ -32,8 +32,13 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
   questionnaire,
   onSubmit,
 }) => {
-  const { register, handleSubmit, errors, control, trigger } =
-    useForm<FormData>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    trigger,
+  } = useForm<FormData>()
 
   const questionnaireQuestions = [
     questionnaire.first_question,
