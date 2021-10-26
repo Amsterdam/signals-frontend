@@ -2,7 +2,6 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 
-import type { UseFormMethods } from 'react-hook-form'
 import type { FC } from 'react'
 import type { Group } from 'components/Select'
 import type { SubCategoryOption } from 'models/categories/selectors'
@@ -10,53 +9,52 @@ import Select from 'components/Select'
 
 import { StyledInfoText, StyledSelect } from '../../styled'
 
-interface IncidentSplitSelectInputProps
-  extends Partial<Pick<UseFormMethods, 'register'>> {
+interface IncidentSplitSelectInputProps {
   id: string
   display: string
   initialValue: string
   name: string
   options: Array<SubCategoryOption>
   groups?: Array<Group>
+  onChange: (...event: any[]) => void
 }
 
 const getSelectedOption = (options: Array<SubCategoryOption>, value: string) =>
   options.find((item) => item.key === value)
 
 const IncidentSplitSelectInput: FC<IncidentSplitSelectInputProps> = ({
-  id,
-  name,
   display,
-  options,
   groups,
+  id,
   initialValue,
-  register,
+  name,
+  onChange,
+  options,
 }) => {
   const [selected, setSelected] = useState(
     getSelectedOption(options, initialValue)
   )
 
-  const onChange = useCallback(
+  const onSelectChange = useCallback(
     (event) => {
       event.preventDefault()
       setSelected(getSelectedOption(options, event.target.value))
+      onChange(event)
     },
-    [options]
+    [options, onChange]
   )
 
   return (
     <StyledSelect>
       <Select
+        data-testid={id}
+        groups={groups}
         id={name}
         label={<strong>{display}</strong>}
         name={name}
-        ref={register}
-        data-testid={`${id}`}
-        onChange={onChange}
-        value={selected?.key}
-        optionValue="key"
         options={options}
-        groups={groups}
+        optionValue="key"
+        onChange={onSelectChange}
       />
 
       {selected?.description && <StyledInfoText text={selected.description} />}
