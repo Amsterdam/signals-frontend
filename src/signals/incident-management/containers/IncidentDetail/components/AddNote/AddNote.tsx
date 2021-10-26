@@ -16,7 +16,6 @@ type AddNoteProps = {
 const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
   const { update } = useContext(IncidentDetailContext)
   const [error, setError] = useState('')
-  const getValidationError = getAddNoteError(maxContentLength)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
   const onSubmit = useCallback(
@@ -25,7 +24,7 @@ const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
 
       if (!update || !text) return false
 
-      const validationError = getValidationError(text)
+      const validationError = getAddNoteError({ maxContentLength, text })
 
       if (validationError !== '') {
         setError(validationError)
@@ -41,7 +40,7 @@ const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
 
       return true
     },
-    [getValidationError, update]
+    [maxContentLength, update]
   )
 
   const onChange = useCallback((event) => {
