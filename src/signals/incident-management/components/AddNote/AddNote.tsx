@@ -22,6 +22,7 @@ type AddNoteProps = {
     event: SyntheticEvent<HTMLInputElement>,
     value?: string | null
   ) => boolean
+  rows?: number
 }
 
 const Section = styled.section`
@@ -32,27 +33,32 @@ const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `
 
-export const getAddNoteError =
-  (maxContentLength: number) =>
-  ({
-    text,
-    fieldName = 'notitie',
-    shouldContainAtLeastOneChar = true,
-  }: {
-    text: string
-    fieldName?: string
-    shouldContainAtLeastOneChar?: boolean
-  }) => {
-    if (shouldContainAtLeastOneChar && text.trim() === '') {
-      return `De ${fieldName} mag niet leeg zijn`
-    }
-
-    if (text.length > maxContentLength) {
-      return `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
-    }
-
-    return ''
+export const getAddNoteError = (config: {
+  fieldName?: string
+  maxContentLength: number
+  shouldContainAtLeastOneChar?: boolean
+  text: string
+}) => {
+  const defaults = {
+    fieldName: 'notitie',
+    shouldContainAtLeastOneChar: true,
   }
+
+  const { fieldName, maxContentLength, shouldContainAtLeastOneChar, text } = {
+    ...defaults,
+    ...config,
+  }
+
+  if (shouldContainAtLeastOneChar && text.trim() === '') {
+    return `De ${fieldName} mag niet leeg zijn`
+  }
+
+  if (text.length > maxContentLength) {
+    return `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
+  }
+
+  return ''
+}
 
 const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
   (
@@ -65,6 +71,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       name,
       onChange,
       onSubmit,
+      rows,
       ...rest
     },
     ref: any
@@ -117,7 +124,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           name={name}
           onChange={onChange}
           ref={ref}
-          rows={10}
+          rows={rows}
           {...rest}
         />
 
@@ -151,6 +158,7 @@ AddNote.defaultProps = {
   className: '',
   isStandalone: true,
   label: 'Notitie toevoegen',
+  rows: 10,
 }
 
 export default AddNote

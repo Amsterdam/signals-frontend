@@ -13,16 +13,27 @@ const ref = createRef<HTMLTextAreaElement>()
 describe('getNoteError', () => {
   it('returns a max length error', () => {
     const maxContentLength = 42
-    const validation = getAddNoteError(maxContentLength)
-
-    expect(validation({ text: '   ' })).toEqual('De notitie kan niet leeg zijn')
-    expect(validation({ text: Array(maxContentLength + 2).join('.') })).toEqual(
+    expect(getAddNoteError({ maxContentLength, text: '   ' })).toEqual(
+      'De notitie mag niet leeg zijn'
+    )
+    expect(
+      getAddNoteError({
+        maxContentLength,
+        text: Array(maxContentLength + 2).join('.'),
+      })
+    ).toEqual(
       `Je hebt meer dan de maximale ${maxContentLength} tekens ingevoerd.`
     )
-    expect(validation({ text: 'Hic sunt dracones' })).toEqual('')
+    expect(
+      getAddNoteError({ maxContentLength, text: 'Hic sunt dracones' })
+    ).toEqual('')
 
     expect(
-      validation({ text: '   ', shouldContainAtLeastOneChar: false })
+      getAddNoteError({
+        maxContentLength,
+        text: '   ',
+        shouldContainAtLeastOneChar: false,
+      })
     ).toEqual('')
   })
 })
