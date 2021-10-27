@@ -1,8 +1,6 @@
 import { useState, useContext, useCallback, useRef } from 'react'
 
-import GenericAddNote, {
-  getAddNoteError,
-} from 'signals/incident-management/components/AddNote'
+import GenericAddNote, { getAddNoteError } from 'components/AddNote'
 
 import type { FC } from 'react'
 
