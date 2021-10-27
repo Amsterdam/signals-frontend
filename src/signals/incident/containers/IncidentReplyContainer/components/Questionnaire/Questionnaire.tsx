@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { FunctionComponent } from 'react'
-import { Questionnaire as QuestionnaireType } from 'types/api/qa/questionnaire'
-
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
-import { FieldType, Question } from 'types/api/qa/question'
 import styled from 'styled-components'
+
+import type { Questionnaire as QuestionnaireType } from 'types/api/qa/questionnaire'
+import type { FieldError } from 'react-hook-form'
+import type { Question } from 'types/api/qa/question'
+
+import { FieldType } from 'types/api/qa/question'
 import FileInput from '../FileInput'
 import TextArea from '../TextArea'
 import { FormAnswer, FormData } from '../../types'
@@ -70,7 +73,7 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
         register={register}
         label={question.label}
         id={question.uuid}
-        errorMessage={errors[question.uuid]?.message}
+        errorMessage={(errors[question.uuid] as FieldError)?.message}
         key={question.uuid}
       />
     )

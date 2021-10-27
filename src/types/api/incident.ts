@@ -3,7 +3,7 @@
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import { Address } from 'types/address'
 
-type Coordinates = [number, number]
+type Coordinates = [number, number] | Array<number>
 
 export interface Department {
   _display: string
@@ -13,6 +13,20 @@ export interface Department {
   is_intern: boolean
   can_direct: true
   category_names: string[]
+}
+
+enum Priority {
+  normal = 'normal',
+  high = 'high',
+  low = 'low',
+}
+
+enum TypeCode {
+  SIG = 'SIG',
+  REQ = 'REQ',
+  QUE = 'QUE',
+  COM = 'COM',
+  MAI = 'MAI',
 }
 
 export interface Incident {
@@ -74,7 +88,7 @@ export interface Incident {
     sharing_allowed: boolean
   } | null
   priority: {
-    priority: 'normal' | 'high' | 'low'
+    priority: Priority
     created_by: string | null
   } | null
   notes: {
@@ -82,7 +96,7 @@ export interface Incident {
     text: string
   }[]
   type: {
-    code: 'SIG' | 'REQ' | 'QUE' | 'COM' | 'MAI'
+    code: TypeCode
     created_at: string
     created_by: string | null
   } | null
