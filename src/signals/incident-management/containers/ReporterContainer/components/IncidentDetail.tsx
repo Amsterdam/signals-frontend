@@ -75,17 +75,17 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
         created_at: date,
         text: description,
         category,
-        status: { state_display: status },
+        status,
       } = incident
       const subcategory = subcategories?.find(
-        (s: any) => s.slug === category?.sub_slug
-      ).extendedName
+        (s) => s.slug === category?.sub_slug
+      )?.extendedName
 
       return {
         id,
         description,
         date,
-        status,
+        status: status?.state_display,
         subcategory,
         isParent: !!incident._links['sia:children'],
       }

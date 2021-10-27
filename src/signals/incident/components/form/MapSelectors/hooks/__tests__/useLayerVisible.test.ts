@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
-import { renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-hooks'
 import '@amsterdam/react-maps'
 import EventDispathcher from 'test/EventDispatcher'
 import useLayerVisible, { isLayerVisible } from '../useLayerVisible'
@@ -52,12 +52,16 @@ describe('useLayerVisible', () => {
     expect(result.current).toEqual(true)
 
     mockGetZoom.mockImplementation(() => 11)
-    mockEventDispatcher.trigger('zoomend')
+    act(() => {
+      mockEventDispatcher.trigger('zoomend')
+    })
 
     expect(result.current).toEqual(false)
 
     mockGetZoom.mockImplementation(() => 13)
-    mockEventDispatcher.trigger('zoomend')
+    act(() => {
+      mockEventDispatcher.trigger('zoomend')
+    })
     expect(result.current).toEqual(true)
   })
 })

@@ -1,24 +1,60 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+
 import ChildIncidentHistory from 'components/ChildIncidentHistory'
 import ChildIncidentDescription from 'components/ChildIncidentDescription'
-import { historyType } from 'shared/types'
+import Status from 'signals/incident-management/components/Status'
+import statusList from 'signals/incident-management/definitions/statusList'
 
-export const STATUS_NONE = 'components/ChildIncidents/STATUS_NONE'
+import type { FC } from 'react'
+import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { History } from 'types/history'
+
+export const STATUS_NONE =
+  'signals/incident-managementcomponents/ChildIncidents/STATUS_NONE'
 export const STATUS_RESPONSE_REQUIRED =
-  'components/ChildIncidents/STATUS_RESPONSE_REQUIRED'
+  'signals/incident-managementcomponents/ChildIncidents/STATUS_RESPONSE_REQUIRED'
 
-const DisplayValue = styled.span`
+export type ChildIncident = {
+  href?: string
+  values: {
+    id: number
+    status: StatusCode
+    category: string
+    handlingTime: string
+  }
+  changed: boolean
+  canView: boolean
+  history?: Array<History>
+  text?: string
+  status?: typeof STATUS_NONE | typeof STATUS_RESPONSE_REQUIRED
+}
+
+type ChildIncidentsProps = {
+  className?: string
+  incidents: Array<ChildIncident>
+  parentUpdatedAt: string
+}
+
+type LiProps = Pick<ChildIncident, 'status' | 'changed'>
+
+const incidentIsHandled = (incident: ChildIncident) =>
+  ['Afgehandeld', 'Gesplitst', 'Geannuleerd'].includes(incident.values.status)
+
+const DisplayValue = styled.span.attrs(() => ({
+  'data-testid': 'childIncidentsDisplayValue',
+}))`
   word-break: normal;
   white-space: nowrap;
 `
 
-const IDDisplayValue = styled(DisplayValue)`
+const IDDisplayValue = styled(DisplayValue).attrs(() => ({
+  'data-testid': 'childIncidentsIdDisplayValue',
+}))`
   padding-right: ${themeSpacing(1)};
 `
 
@@ -39,7 +75,7 @@ const StyledList = styled(List)`
   margin-bottom: 0;
 `
 
-const Li = styled(ListItem)`
+const Li = styled(ListItem)<LiProps>`
   display: flex;
   background-color: ${themeColor('tint', 'level3')};
   margin: 0;
@@ -99,22 +135,34 @@ const Li = styled(ListItem)`
     `}
 `
 
-const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
+const ChildIncidents: FC<ChildIncidentsProps> = ({
+  className,
+  incidents,
+  parentUpdatedAt,
+}) => (
   <StyledList className={className} data-testid="childIncidents">
     {incidents.map((incident) => {
+      const status = statusList.find(
+        ({ value }) => incident.values.status === value
+      )
+
       const valueEntries = (
         <>
           <Row>
             <div>
-              <IDDisplayValue key="id" title={incident.values.id}>
-                {incident.values.id}
-              </IDDisplayValue>
-              <DisplayValue key="category" title={incident.values.category}>
-                {incident.values.category}
-              </DisplayValue>
+              <IDDisplayValue>{incident.values.id}</IDDisplayValue>
+              <DisplayValue>{incident.values.category}</DisplayValue>
             </div>
-            <DisplayValue key="status" title={incident.values.status}>
-              {incident.values.status}
+            <DisplayValue
+              className={`status ${
+                incidentIsHandled(incident) ? 'handled' : 'alert'
+              }`}
+            >
+              {status && (
+                <Status statusCode={status.key}>
+                  {incident.values.status}
+                </Status>
+              )}
             </DisplayValue>
           </Row>
           <Row>
@@ -124,19 +172,18 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
                 text={incident.text}
               />
             </DisplayValue>
-            <DisplayValue
-              key="handling-time"
-              title={incident.values.handlingTime}
-            >
-              {incident.values.handlingTime}
-            </DisplayValue>
+            <DisplayValue>{incident.values.handlingTime}</DisplayValue>
           </Row>
         </>
       )
 
       return (
         <Fragment key={incident.values.id}>
-          <Li status={incident.status} changed={incident.changed}>
+          <Li
+            data-testid="childIncidentListItem"
+            status={incident.status}
+            changed={incident.changed}
+          >
             {incident.href ? (
               <Link to={incident.href}>{valueEntries}</Link>
             ) : (
@@ -153,26 +200,5 @@ const ChildIncidents = ({ className, incidents, parentUpdatedAt }) => (
     })}
   </StyledList>
 )
-
-ChildIncidents.propTypes = {
-  /** @ignore */
-  className: PropTypes.string,
-  parentUpdatedAt: PropTypes.string.isRequired,
-  incidents: PropTypes.arrayOf(
-    PropTypes.exact({
-      href: PropTypes.string,
-      status: PropTypes.string,
-      values: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        status: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
-      }),
-      changed: PropTypes.bool.isRequired,
-      canView: PropTypes.bool.isRequired,
-      history: historyType,
-      text: PropTypes.string,
-    })
-  ),
-}
 
 export default ChildIncidents

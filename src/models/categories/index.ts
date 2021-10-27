@@ -3,10 +3,12 @@
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
 
+import type { InjectedStore } from 'types'
+
 import reducer from './reducer'
 import saga from './saga'
 
-const loadModel = (store) => {
+const loadModel = (store: InjectedStore) => {
   injectReducerModel('categories', reducer, store)
   injectSagaModel('categories', saga, store)
 }

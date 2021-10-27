@@ -3,8 +3,14 @@
 import { fromJS } from 'immutable'
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
 
+import type { CategoriesState } from './reducer'
+
 import reducer, { initialState } from './reducer'
-import * as constants from './constants'
+import {
+  fetchCategories,
+  fetchCategoriesSuccess,
+  fetchCategoriesFailed,
+} from './actions'
 
 const catCount = 9
 
@@ -15,15 +21,15 @@ const intermediateState = fromJS({
     results: categoriesJson.results.slice(0, catCount),
   },
   loading: false,
-})
+}) as CategoriesState
 
 describe('models/categories/reducer', () => {
   test('default', () => {
-    expect(reducer(undefined, {})).toEqual(initialState)
+    expect(reducer(undefined, { type: 'anything' })).toEqual(initialState)
   })
 
   test('FETCH_CATEGORIES', () => {
-    const action = { type: constants.FETCH_CATEGORIES }
+    const action = fetchCategories()
 
     expect(reducer(initialState, action)).toEqual(
       initialState.set('loading', true)
@@ -35,8 +41,7 @@ describe('models/categories/reducer', () => {
   })
 
   test('FETCH_CATEGORIES_SUCCESS', () => {
-    const type = constants.FETCH_CATEGORIES_SUCCESS
-    const action = { type, payload: categoriesJson }
+    const action = fetchCategoriesSuccess(categoriesJson)
 
     const result = fromJS({
       error: null,
@@ -49,10 +54,8 @@ describe('models/categories/reducer', () => {
   })
 
   test('FETCH_CATEGORIES_FAILED', () => {
-    const type = constants.FETCH_CATEGORIES_FAILED
     const error = new Error('Wrong!!!1!')
-    const payload = error
-    const action = { type, payload }
+    const action = fetchCategoriesFailed(error)
 
     expect(reducer(initialState, action)).toEqual(
       initialState.set('error', error).set('loading', false)

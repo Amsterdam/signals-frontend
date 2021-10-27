@@ -14,6 +14,7 @@ import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 import type { Map as MapType } from 'leaflet'
+import * as Sentry from '@sentry/browser'
 
 import ContainerSelectContext from 'signals/incident/components/form/MapSelectors/Container/context'
 import useLayerVisible from '../../../hooks/useLayerVisible'
@@ -92,8 +93,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           return
         }
 
-        // eslint-disable-next-line no-console
-        console.error('Unhandled Error in wfs call', JSON.stringify(error))
+        Sentry.captureException(error)
         setMessage('Kaart informatie kon niet worden opgehaald.')
       })
 

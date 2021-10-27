@@ -5,16 +5,21 @@ import userEvent from '@testing-library/user-event'
 
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
-import * as auth from 'shared/services/auth/auth'
+import { doLogin } from 'containers/App/actions'
 import LoginPage from '.'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')
+const mockUseDispatch = jest.fn()
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch,
+}))
 
 describe('components/LoginPage', () => {
   afterEach(() => {
     jest.clearAllMocks()
-    configuration.__reset()
+    ;(configuration as any).__reset()
   })
 
   it('should render login button', () => {
@@ -23,18 +28,15 @@ describe('components/LoginPage', () => {
     expect(
       screen.getByText('Om deze pagina te zien dient u ingelogd te zijn.')
     ).toBeInTheDocument()
-    expect(screen.getByText('Inloggen')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Inloggen' })).toBeInTheDocument()
   })
 
-  it('should login when Inloggen button is clicked', () => {
-    const loginSpy = jest.spyOn(auth, 'login')
+  it('should login when Inloggen button is clicked', async () => {
     render(withAppContext(<LoginPage />))
-    const button = screen.getByText('Inloggen').parentNode
 
-    expect(button.getAttribute('type')).toEqual('button')
-
+    const button = screen.getByRole('button', { name: 'Inloggen' })
     userEvent.click(button)
 
-    expect(loginSpy).toHaveBeenCalled()
+    expect(mockUseDispatch).toHaveBeenCalledWith(doLogin())
   })
 })

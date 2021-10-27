@@ -5,9 +5,11 @@ import type { Reducer, Store } from 'redux'
 import type { EventChannel, Saga } from 'redux-saga'
 
 import type { AppState } from 'containers/App/types'
+import type { CategoriesState } from 'models/categories/reducer'
 
 export interface ApplicationRootState {
   readonly global: AppState
+  readonly categories: CategoriesState
   readonly test?: any
 }
 

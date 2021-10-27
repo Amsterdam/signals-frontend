@@ -18,6 +18,12 @@ const mockDepartment = {
 describe('signals/settings/categories/Detail/components/CategoryForm', () => {
   const defaultProps = {
     data: {
+      _links: {
+        self: {
+          href: '//',
+          public: '//',
+        }
+      },
       id: 123,
       slug: 'Mock slug',
       departments: [

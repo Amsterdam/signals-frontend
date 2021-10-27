@@ -7,7 +7,7 @@ import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
 
 import { childIncidentType, historyType, incidentType } from 'shared/types'
-import ChildIncidentsList from 'components/ChildIncidents'
+import ChildIncidentsList from 'signals/incident-management/components/ChildIncidents'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
 import { useSelector } from 'react-redux'
@@ -54,7 +54,7 @@ const ChildIncidents = ({
           },
           changed: isChildChanged(updated_at, parent.updated_at),
           canView: can_view_signal,
-          history: history.find((entry) => entry[0]._signal === id),
+          history: history.find((entry) => entry[0]._signal === id) || [],
           text: childIncidents.find((incident) => incident.id === id)?.text,
         })
       ),

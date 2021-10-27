@@ -5,7 +5,6 @@ import '@testing-library/jest-dom/extend-expect'
 import crypto from 'crypto'
 
 import L from 'leaflet'
-import 'jest-localstorage-mock'
 
 import fetchMock from 'jest-fetch-mock'
 

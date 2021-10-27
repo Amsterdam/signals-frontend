@@ -15,6 +15,7 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
@@ -94,19 +95,9 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(screen.queryByTestId('incidentDetail')).not.toBeInTheDocument()
   })
 
-  it('should get handling times from subcategories', () => {
-    const handlingTimes =
-      categoriesSelectors.makeSelectHandlingTimesBySlug.resultFunc(
-        subCategories
-      )
-
-    expect(handlingTimes['auto-scooter-bromfietswrak']).toBe('21 dagen')
-    expect(handlingTimes.parkeerautomaten).toBe('5 werkdagen')
-  })
-
   it('should not get child incidents if it does not have them', async () => {
     mockRequestHandler({
-      url: `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incidentFixture.id}`,
+      url: API.INCIDENT,
       body: {
         ...incidentFixture,
         ...incidentFixture,
@@ -125,7 +116,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
   it('should not fetch context data for incidents with parent incident', async () => {
     mockRequestHandler({
-      url: `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incidentFixture.id}`,
+      url: API.INCIDENT,
       body: {
         ...incidentFixture,
         _links: {
@@ -155,7 +146,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(await screen.findByText(incidentFixture.text)).toBeInTheDocument()
 
     mockRequestHandler({
-      url: `${configuration.INCIDENT_PRIVATE_ENDPOINT}6666`,
+      url: API.INCIDENT,
       body: {
         ...incidentFixture,
         text: 'Een andere melding',
@@ -328,6 +319,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     it('should handle generic', async () => {
       mockRequestHandler({
+        url: API.INCIDENT,
         method: 'patch',
         status: 400,
         body: 'Bad request',
@@ -358,6 +350,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     it('should handle 401', async () => {
       mockRequestHandler({
+        url: API.INCIDENT,
         method: 'patch',
         status: 401,
         body: 'Unauthorized',
@@ -386,6 +379,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     it('should handle 403', async () => {
       mockRequestHandler({
+        url: API.INCIDENT,
         method: 'patch',
         status: 403,
         body: 'Forbidden',
