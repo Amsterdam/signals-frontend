@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { forwardRef, useState, useCallback } from 'react'
+import { forwardRef, useState, useCallback, useEffect } from 'react'
 
-import type { ChangeEvent, ReactNode } from 'react'
+import type { ChangeEvent, ReactNode, ForwardedRef } from 'react'
 import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
 
 import Label from 'components/Label'
@@ -40,9 +40,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       value,
       ...props
     },
-    ref
+    ref?: ForwardedRef<HTMLTextAreaElement>
   ) => {
-    const [contents, setContents] = useState(defaultValue || value || '')
+    const [contents, setContents] = useState('')
 
     // prefer defaultValue over value if both are present
     const contentProps: { defaultValue?: string; value?: string } = {
@@ -66,6 +66,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       maxContentLength && maxContentLength > 0
         ? `${contents.length} / ${maxContentLength} tekens`
         : infoText
+
+    useEffect(() => {
+      setContents(defaultValue || value || '')
+    }, [defaultValue, value])
 
     return (
       <ErrorWrapper invalid={Boolean(errorMessage)}>
@@ -101,7 +105,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 )
 
 TextArea.defaultProps = {
-  className: '',
+  className: undefined,
 }
 
 export default TextArea
