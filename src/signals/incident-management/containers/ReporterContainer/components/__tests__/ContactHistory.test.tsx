@@ -9,6 +9,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../internals/testing/api'
 
 import ContactHistory from '../ContactHistory'
 
@@ -32,6 +33,7 @@ describe('ContactHistory', () => {
 
   it('renders an error response', async () => {
     mockRequestHandler({
+      url: API.INCIDENT_HISTORY,
       status: 500,
       body: 'Internal server error',
     })
@@ -62,7 +64,7 @@ describe('ContactHistory', () => {
   })
 
   it('handles empty contact history', async () => {
-    mockRequestHandler({ body: [] })
+    mockRequestHandler({ url: API.INCIDENT_HISTORY, body: [] })
     render(withAppContext(<ContactHistory id={4440} />))
 
     expect(

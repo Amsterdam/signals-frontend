@@ -28,6 +28,7 @@ import {
   mockRequestHandler,
   fetchMock,
 } from '../../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../../internals/testing/api'
 import MetaList from '../MetaList'
 
 fetchMock.disableMocks()
@@ -265,31 +266,6 @@ describe('MetaList', () => {
         screen.queryByTestId('meta-list-directing_departments-definition')
       ).not.toBeInTheDocument()
     })
-  })
-
-  it('should render correctly with high priority', () => {
-    const { rerender } = render(renderWithContext())
-
-    expect(screen.queryByText('Hoog')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'alert'
-    )
-    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe('')
-
-    rerender(
-      renderWithContext({
-        ...incidentFixture,
-        priority: { ...incidentFixture.priority, priority: 'high' },
-      })
-    )
-
-    expect(screen.queryByText('Hoog')).toBeInTheDocument()
-    expect(screen.queryByTestId('meta-list-status-value')?.className).toBe(
-      'alert'
-    )
-    expect(screen.queryByTestId('meta-list-priority-value')?.className).toBe(
-      'alert'
-    )
   })
 
   it('should render days and workdays in single and plural form', () => {
@@ -530,6 +506,7 @@ describe('MetaList', () => {
     it('should not show assigned user when users not defined', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       mockRequestHandler({
+        url: API.AUTOCOMPLETE_USERNAMES,
         status: 400,
         body: 'No users defined',
       })

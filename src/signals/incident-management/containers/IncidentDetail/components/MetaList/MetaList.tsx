@@ -34,6 +34,7 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
+import Status from 'signals/incident-management/components/Status'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -54,8 +55,7 @@ const StyledMetaList = styled.dl`
   dd {
     margin-bottom: ${themeSpacing(4)};
 
-    &.alert {
-      color: ${themeColor('secondary')};
+    &.status {
       font-family: Avenir Next LT W01 Demi, arial, sans-serif;
     }
 
@@ -310,8 +310,10 @@ const MetaList = () => {
           />
           Status
         </dt>
-        <dd className="alert" data-testid="meta-list-status-value">
-          {statusText}
+        <dd className="status" data-testid="meta-list-status-value">
+          {incident?.status?.state && (
+            <Status statusCode={incident.status.state}>{statusText}</Status>
+          )}
         </dd>
       </Highlight>
 

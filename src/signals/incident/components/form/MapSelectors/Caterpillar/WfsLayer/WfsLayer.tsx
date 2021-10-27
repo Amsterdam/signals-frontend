@@ -17,6 +17,7 @@ import type { FeatureCollection } from 'geojson'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
 import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
+import * as Sentry from '@sentry/browser'
 import useLayerVisible from '../../hooks/useLayerVisible'
 import {
   INITIAL_STATE,
@@ -93,8 +94,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           return
         }
 
-        // eslint-disable-next-line no-console
-        console.error('Unhandled Error in wfs call', JSON.stringify(error))
+        Sentry.captureException(error)
         setMessage('Kaart informatie kon niet worden opgehaald.')
       })
 

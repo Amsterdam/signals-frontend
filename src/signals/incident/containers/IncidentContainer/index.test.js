@@ -38,6 +38,7 @@ describe('signals/incident/containers/IncidentContainer', () => {
     getClassificationAction: jest.fn(),
     updateIncidentAction: jest.fn(),
     createIncidentAction: jest.fn(),
+    removeQuestionDataAction: jest.fn(),
   }
 
   beforeEach(() => {

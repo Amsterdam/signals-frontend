@@ -27,9 +27,7 @@ describe('hooks/useFetch', () => {
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toBeUndefined()
 
-      const get = result.current.get(URL)
-
-      expect(result.current.isLoading).toEqual(true)
+      await act(() => result.current.get(URL))
 
       expect(fetchMock).toHaveBeenCalledWith(
         URL,
@@ -37,8 +35,6 @@ describe('hooks/useFetch', () => {
           method: 'GET',
         })
       )
-
-      await get
 
       expect(result.current.isLoading).toEqual(false)
       expect(result.current.data).toEqual(JSONresponse)

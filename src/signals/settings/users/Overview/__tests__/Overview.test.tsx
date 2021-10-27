@@ -20,6 +20,7 @@ import * as appSelectors from 'containers/App/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import * as departmenstSelectors from 'models/departments/selectors'
 
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
@@ -196,7 +197,7 @@ describe('signals/settings/users/containers/Overview', () => {
   })
 
   it('should render title and data view with headers only when no data', async () => {
-    mockRequestHandler({ body: {} })
+    mockRequestHandler({ url: API.USERS, body: {} })
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
@@ -722,11 +723,13 @@ describe('signals/settings/users/containers/Overview', () => {
       ).value
     ).toBe('GGD')
 
-    memoryHistory.goBack()
-    // forcing URL update; necessary because of lack of history pop support
-    memoryHistory.push(
-      `${USERS_PAGED_URL}/1?role=Regievoerder&profile_department_code=CCA`
-    )
+    act(() => {
+      memoryHistory.goBack()
+      // forcing URL update; necessary because of lack of history pop support
+      memoryHistory.push(
+        `${USERS_PAGED_URL}/1?role=Regievoerder&profile_department_code=CCA`
+      )
+    })
 
     await screen.findByTestId('role')
 
