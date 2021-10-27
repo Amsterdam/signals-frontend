@@ -2,6 +2,9 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+
+import type { Coordinates } from 'types/incident'
+
 import MapInput from '..'
 
 describe('Form component <MapInput />', () => {
@@ -42,7 +45,7 @@ describe('Form component <MapInput />', () => {
       const value = {
         geometrie: {
           type: 'Point',
-          coordinates: [52.3568, 4.8643],
+          coordinates: [52.3568, 4.8643] as Coordinates,
         },
         address: {
           openbare_ruimte: 'Straat',

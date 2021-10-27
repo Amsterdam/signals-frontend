@@ -16,7 +16,7 @@ jest.mock('../WfsLayer', () => () => <span data-testid="wfsLayer" />)
 describe('CaterpillarSelect', () => {
   let props: CaterpillarSelectProps
   const updateIncident = jest.fn()
-  const location = incidentJson.location as Location
+  const location = incidentJson.location as unknown as Location
   beforeEach(() => {
     props = {
       handler: () => ({

@@ -8,11 +8,13 @@ import {
   useCallback,
   useRef,
 } from 'react'
-import type { Point, Position } from 'geojson'
 import L, { LatLng } from 'leaflet'
-import type { MapOptions } from 'leaflet'
 import styled from 'styled-components'
 import { ViewerContainer, Marker } from '@amsterdam/arm-core'
+
+import type { Point } from 'geojson'
+import type { MapOptions } from 'leaflet'
+import { Coordinates } from 'types/incident'
 
 import Map from 'components/Map'
 import MarkerCluster from 'components/MarkerCluster'
@@ -50,7 +52,7 @@ export interface AreaMapProps {
   selectedFeature: Feature | null
   onClose: () => void
   onClick: (feature: Feature | null) => void
-  center: Position
+  center: Coordinates
 }
 
 const AreaMap: FunctionComponent<AreaMapProps> = ({

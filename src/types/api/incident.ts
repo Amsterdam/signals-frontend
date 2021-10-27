@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { StatusCode } from 'signals/incident-management/definitions/types'
-import { Address } from 'types/address'
 
-type Coordinates = [number, number] | Array<number>
+import type { Address } from 'types/address'
+import type { Geometrie } from 'types/incident'
 
 export interface Department {
   _display: string
@@ -15,13 +15,13 @@ export interface Department {
   category_names: string[]
 }
 
-enum Priority {
+export enum Priority {
   normal = 'normal',
   high = 'high',
   low = 'low',
 }
 
-enum TypeCode {
+export enum TypeCode {
   SIG = 'SIG',
   REQ = 'REQ',
   QUE = 'QUE',
@@ -63,10 +63,7 @@ export interface Incident {
     area_code?: string | null
     address: Address | null
     address_text?: string | null
-    geometrie: {
-      type: string
-      coordinates: Coordinates
-    }
+    geometrie: Geometrie
     extra_properties: Record<string, unknown> | null
     created_by?: string | null
     bag_validated?: boolean

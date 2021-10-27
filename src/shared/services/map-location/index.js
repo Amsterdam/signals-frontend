@@ -54,19 +54,6 @@ export const mapLocation = (loc) => {
 
 /**
  * Converts a location and address to values
- *
- * @param {Object} location
- * @param {Object} location.geometrie
- * @param {String} location.geometrie.type
- * @param {Number[]} location.geometrie.coordinates
- * @param {Object} location.address
- * @param {String} location.address.openbare_ruimte
- * @param {String|Number} location.address.huisnummer
- * @param {String} [location.address.huisletter]
- * @param {String} [location.address.huisnummertoevoeging]
- * @param {String} location.address.postcode
- * @param {String} location.address.woonplaats
- * @returns {Object}
  */
 export const formatMapLocation = (location = {}) => {
   const value = {}
