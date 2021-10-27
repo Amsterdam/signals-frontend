@@ -60,7 +60,7 @@ const mappedSequence = (
           .set('value', category.get('name') || '')
           .set(
             'parentKey',
-            category.getIn(['_links', 'sia:parent', 'public']) as string | ''
+            (category.getIn(['_links', 'sia:parent', 'public']) as string) || ''
           )
     )
 
