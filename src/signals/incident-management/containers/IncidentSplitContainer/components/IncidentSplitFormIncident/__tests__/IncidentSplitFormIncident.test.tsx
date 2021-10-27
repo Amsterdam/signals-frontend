@@ -39,10 +39,6 @@ describe('IncidentSplitFormIncident', () => {
     expect(screen.getByTestId('addNote')).toBeInTheDocument()
   })
 
-  it('renders a note field', () => {
-    render(withFormContext(<IncidentSplitFormIncident {...props} />))
-  })
-
   it('should split incidents until limit is reached then it should hide incident split button', () => {
     global.window.HTMLElement.prototype.scrollIntoView = jest.fn()
     render(withFormContext(<IncidentSplitFormIncident {...props} />))
