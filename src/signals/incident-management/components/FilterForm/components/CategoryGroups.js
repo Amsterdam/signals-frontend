@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import * as types from 'shared/types'
@@ -49,4 +48,4 @@ CategoryGroups.propTypes = {
   onSubmit: PropTypes.func,
 }
 
-export default memo(CategoryGroups)
+export default CategoryGroups

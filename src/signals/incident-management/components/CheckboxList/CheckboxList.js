@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Label } from '@amsterdam/asc-ui'
@@ -381,4 +381,4 @@ CheckboxList.propTypes = {
   toggleNothingLabel: PropTypes.string,
 }
 
-export default memo(CheckboxList)
+export default CheckboxList
