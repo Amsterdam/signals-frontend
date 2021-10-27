@@ -38,6 +38,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  testTimeout: 10000,
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(j|t)s(x?)$': [
