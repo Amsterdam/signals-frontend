@@ -12,9 +12,7 @@ import SelectLoader from 'components/SelectLoader'
 
 import type { FC } from 'react'
 import type { SubcategoriesGrouped } from 'models/categories/selectors'
-import AddNote, {
-  getAddNoteError,
-} from 'signals/incident-management/components/AddNote'
+import AddNote, { getAddNoteError } from 'components/AddNote'
 import type { ParentIncident } from '../IncidentSplitForm'
 
 import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'

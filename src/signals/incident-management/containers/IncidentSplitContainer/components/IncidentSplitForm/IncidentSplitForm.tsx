@@ -2,24 +2,23 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, Fragment } from 'react'
 import styled from 'styled-components'
-import { useForm, Controller } from 'react-hook-form'
+import { Controller, useForm, FormProvider } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 
 import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
-import AddNote, {
-  getAddNoteError,
-} from 'signals/incident-management/components/AddNote'
+import AddNote, { getAddNoteError } from 'components/AddNote'
 
 import type { FC } from 'react'
 import type { SubcategoriesGrouped } from 'models/categories/selectors'
 
 import {
+  FormWrapper,
   StyledDefinitionList,
   StyledForm,
   StyledSubmitButton,
-  FormWrapper,
+  ThinLabel,
 } from '../../styled'
 
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident'
@@ -28,6 +27,19 @@ import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 export const StyledIncidentSplitRadioInput = styled(IncidentSplitRadioInput)`
   padding-bottom: ${themeSpacing(6)};
 `
+
+export type IncidentSubType = {
+  subcategory: string
+  description: string
+  priority: string
+  type: string
+}
+
+export type SplitFormData = {
+  department: string
+  noteText: string
+  incidents: Array<IncidentSubType>
+}
 
 export type ParentIncident = {
   id: string | number
@@ -50,11 +62,6 @@ type IncidentSplitFormProps = {
   isSubmitting: boolean
 }
 
-type SplitFormData = {
-  department: string
-  noteText: string
-}
-
 const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   parentIncident,
   subcategories,
@@ -62,10 +69,9 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
-  const maxContentLength = 1000
-  const { handleSubmit, register, errors, control, formState } =
-    useForm<SplitFormData>()
-
+  const maxNoteLength = 1000
+  const formMethods = useForm({ reValidateMode: 'onSubmit' })
+  const { handleSubmit, control } = formMethods
   const history = useHistory()
 
   const onCancel = useCallback(() => {
@@ -73,98 +79,109 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   }, [history, parentIncident.id])
 
   return (
-    <FormWrapper>
-      <StyledForm
-        onSubmit={handleSubmit((data) => {
-          onSubmit(data)
-        })}
-        data-testid="incidentSplitForm"
-      >
-        <Heading>Deelmelding maken</Heading>
+    <FormProvider {...formMethods}>
+      <FormWrapper>
+        <StyledForm
+          onSubmit={handleSubmit((data) => {
+            onSubmit(data)
+          })}
+          data-testid="incidentSplitForm"
+        >
+          <Heading>Deelmelding maken</Heading>
 
-        <fieldset>
-          <Heading forwardedAs="h2">Hoofdmelding</Heading>
+          <fieldset>
+            <Heading forwardedAs="h2">Hoofdmelding</Heading>
 
-          <StyledDefinitionList>
-            <dt>Melding</dt>
-            <dd data-testid="incidentSplitFormParentIncidentId">
-              {parentIncident.id}
-            </dd>
+            <StyledDefinitionList>
+              <dt>Melding</dt>
+              <dd data-testid="incidentSplitFormParentIncidentId">
+                {parentIncident.id}
+              </dd>
 
-            <dt>Status</dt>
-            <dd data-testid="incidentSplitFormStatusDisplayName">
-              {parentIncident.statusDisplayName}
-            </dd>
+              <dt>Status</dt>
+              <dd data-testid="incidentSplitFormStatusDisplayName">
+                {parentIncident.statusDisplayName}
+              </dd>
 
-            <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-            <dd data-testid="incidentSplitFormSubcategoryDisplayName">
-              {parentIncident.subcategoryDisplayName}
-            </dd>
-          </StyledDefinitionList>
+              <dt>Subcategorie (verantwoordelijke afdeling)</dt>
+              <dd data-testid="incidentSplitFormSubcategoryDisplayName">
+                {parentIncident.subcategoryDisplayName}
+              </dd>
+            </StyledDefinitionList>
 
-          <StyledIncidentSplitRadioInput
-            data-testid="incidentSplitFormRadioInputDepartment"
-            display="Regie"
-            id="department"
-            initialValue={parentIncident.directingDepartment}
-            name="department"
-            options={directingDepartments}
-            register={register}
+            <Controller
+              name="department"
+              defaultValue={parentIncident.directingDepartment}
+              render={({ field: { onChange } }) => (
+                <StyledIncidentSplitRadioInput
+                  data-testid="incidentSplitFormRadioInputDepartment"
+                  display="Regie"
+                  id="department"
+                  initialValue={parentIncident.directingDepartment}
+                  name="department"
+                  options={directingDepartments}
+                  onChange={onChange}
+                />
+              )}
+            />
+
+            <Controller
+              name="noteText"
+              control={control}
+              defaultValue=""
+              rules={{
+                validate: (text: string) => {
+                  const error = getAddNoteError({
+                    maxContentLength: maxNoteLength,
+                    text,
+                    shouldContainAtLeastOneChar: false,
+                  })
+
+                  return error || true
+                },
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <AddNote
+                  {...field}
+                  error={error?.message}
+                  isStandalone={false}
+                  label={
+                    <Fragment>
+                      Notitie <ThinLabel>(niet verplicht)</ThinLabel>
+                    </Fragment>
+                  }
+                  maxContentLength={maxNoteLength}
+                />
+              )}
+            />
+          </fieldset>
+
+          <IncidentSplitFormIncident
+            parentIncident={parentIncident}
+            subcategories={subcategories}
           />
 
-          <Controller
-            name="noteText"
-            control={control}
-            defaultValue=""
-            rules={{
-              validate: (value: string) =>
-                getAddNoteError(maxContentLength)(value),
-            }}
-            render={(controllerRenderProps) => (
-              <AddNote
-                {...controllerRenderProps}
-                error={
-                  formState.errors.noteText && formState.errors.noteText.message
-                }
-                isStandalone={false}
-                label={
-                  <Fragment>
-                    <strong>Notitie</strong> (niet verplicht)
-                  </Fragment>
-                }
-                maxContentLength={maxContentLength}
-              />
-            )}
-          />
-        </fieldset>
+          <div>
+            <StyledSubmitButton
+              data-testid="incidentSplitFormSubmitButton"
+              variant="secondary"
+              disabled={isSubmitting}
+            >
+              Opslaan
+            </StyledSubmitButton>
 
-        <IncidentSplitFormIncident
-          parentIncident={parentIncident}
-          subcategories={subcategories}
-          register={register}
-          errors={errors}
-        />
-
-        <div>
-          <StyledSubmitButton
-            data-testid="incidentSplitFormSubmitButton"
-            variant="secondary"
-            disabled={isSubmitting}
-          >
-            Opslaan
-          </StyledSubmitButton>
-
-          <Button
-            data-testid="incidentSplitFormCancelButton"
-            variant="tertiary"
-            onClick={onCancel}
-            disabled={isSubmitting}
-          >
-            Annuleer
-          </Button>
-        </div>
-      </StyledForm>
-    </FormWrapper>
+            <Button
+              data-testid="incidentSplitFormCancelButton"
+              variant="tertiary"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
+              Annuleer
+            </Button>
+          </div>
+        </StyledForm>
+      </FormWrapper>
+    </FormProvider>
   )
 }
 

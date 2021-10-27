@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { FormProvider, useForm } from 'react-hook-form'
 
 import type { ReactNode } from 'react'
@@ -50,16 +51,16 @@ describe('IncidentSplitFormIncident', () => {
 
     const button = screen.getByTestId('incidentSplitFormIncidentSplitButton')
 
-    new Array(9).forEach((_, index) => {
-      fireEvent.click(button)
+    for (let index = 1; index < 10; index = index + 1) {
+      userEvent.click(button)
 
-      const splittedIncidentCount = index + 2
+      const splittedIncidentCount = index + 1
       if (splittedIncidentCount < 10)
         expect(
           screen.getByTestId('incidentSplitFormIncidentSplitButton')
         ).toBeInTheDocument()
       expect(screen.getAllByRole('textbox')).toHaveLength(splittedIncidentCount)
-    })
+    }
 
     expect(
       screen.queryByTestId('incidentSplitFormIncidentSplitButton')
