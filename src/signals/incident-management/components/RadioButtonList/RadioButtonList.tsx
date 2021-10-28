@@ -7,6 +7,7 @@ import { RadioGroup, Label } from '@amsterdam/asc-ui'
 import RadioButton from 'components/RadioButton'
 
 const FilterGroup = styled.div`
+  contain: content;
   position: relative;
 
   & + & {
