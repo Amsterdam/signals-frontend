@@ -4,6 +4,10 @@ import { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+const Table = styled.table`
+  contain: strict;
+`
+
 const StyledTH = styled.th`
   text-align: left;
 `
@@ -37,7 +41,7 @@ const List = ({
   }
 
   return (
-    <table cellPadding="0" cellSpacing="0" width="100%" className={className}>
+    <Table cellPadding="0" cellSpacing="0" width="100%" className={className}>
       <thead>
         <tr>
           {colHeaders.map((colHeader) => (
@@ -60,7 +64,7 @@ const List = ({
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   )
 }
 

@@ -30,6 +30,7 @@ const Form = styled.form`
 const StyledColumn = styled(Column).attrs({
   span: { small: 12, medium: 12, big: 12, large: 5, xLarge: 5 },
 })`
+  contain: content;
   flex-direction: column;
 `
 

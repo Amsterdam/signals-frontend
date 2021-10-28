@@ -7,6 +7,7 @@ import BackLinkComponent from 'components/BackLink'
 import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
 
 const StyledSection = styled.section`
+  contain: content;
   padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(3)};
   margin-bottom: ${themeSpacing(5)};

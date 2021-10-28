@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment } from 'react'
 import { Row, Heading, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -36,6 +35,7 @@ const StyledHeading = styled(Heading)`
 `
 
 const FooterWrapper = styled.div`
+  contain: content;
   background-color: ${themeColor('tint', 'level5')};
   width: 100%;
   margin-top: 50px;
@@ -66,7 +66,7 @@ const Container = styled(Row)`
 `
 
 const Footer = () => (
-  <Fragment>
+  <>
     <FooterWrapper className="no-print" data-testid="siteFooter">
       <Container>
         <Disclaimer data-testid="disclaimer">
@@ -105,7 +105,7 @@ const Footer = () => (
         </StyledLink>
       </Privacy>
     </Container>
-  </Fragment>
+  </>
 )
 
 export default Footer

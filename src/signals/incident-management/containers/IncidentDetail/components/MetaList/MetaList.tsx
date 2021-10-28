@@ -45,6 +45,8 @@ import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon
 import IncidentDetailContext from '../../context'
 
 const StyledMetaList = styled.dl`
+  contain: content;
+
   dt {
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
