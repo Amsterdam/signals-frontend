@@ -1,33 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
 
 import DescriptionInput from '.'
 
-describe('signals/incident/components/form/DescriptionInput', () => {
-  const metaFields = {
-    name: 'input-field-name',
-    isVisible: true,
-  }
+const metaFields = {
+  name: 'input-field-name',
+  isVisible: true,
+}
 
-  const props = {
-    handler: jest.fn(),
-    parent: {
-      meta: {
-        updateIncident: jest.fn(),
-        getClassification: jest.fn(),
-        incidentContainer: { usePredictions: true },
-      },
-      value: jest.fn(),
-      controls: {
-        'input-field-name': {
-          updateValueAndValidity: jest.fn(),
-        },
+const props = {
+  handler: jest.fn(),
+  parent: {
+    meta: {
+      updateIncident: jest.fn(),
+      getClassification: jest.fn(),
+      incidentContainer: { usePredictions: true },
+    },
+    value: jest.fn(),
+    controls: {
+      'input-field-name': {
+        updateValueAndValidity: jest.fn(),
       },
     },
-  }
+  },
+}
 
+describe('signals/incident/components/form/DescriptionInput', () => {
   describe('rendering', () => {
     it('should render correctly', () => {
       const { getByTestId } = render(
@@ -69,9 +71,7 @@ describe('signals/incident/components/form/DescriptionInput', () => {
   })
 
   describe('events', () => {
-    const event = { target: { value: 'diabolo' } }
-
-    beforeEach(() => {})
+    const value = 'diabolo'
 
     afterEach(() => {
       jest.resetAllMocks()
@@ -91,13 +91,12 @@ describe('signals/incident/components/form/DescriptionInput', () => {
       )
 
       const element = getByTestId('descriptionInput')
-      element.focus()
-      act(() => {
-        fireEvent.change(element, event)
-        element.blur()
-      })
+
+      userEvent.type(element, value)
+      fireEvent.blur(element)
 
       await findByTestId('descriptionInput')
+
       expect(props.parent.meta.getClassification).toHaveBeenCalledWith(
         'diabolo'
       )
@@ -121,11 +120,9 @@ describe('signals/incident/components/form/DescriptionInput', () => {
       )
 
       const element = getByTestId('descriptionInput')
-      element.focus()
-      act(() => {
-        fireEvent.change(element, { target: { value: '' } })
-        element.blur()
-      })
+
+      userEvent.clear(element)
+      fireEvent.blur(element)
 
       await findByTestId('descriptionInput')
 
@@ -158,11 +155,9 @@ describe('signals/incident/components/form/DescriptionInput', () => {
       )
 
       const element = getByTestId('descriptionInput')
-      element.focus()
-      act(() => {
-        fireEvent.change(element, event)
-        element.blur()
-      })
+
+      userEvent.type(element, value)
+      fireEvent.blur(element)
 
       await findByTestId('descriptionInput')
 

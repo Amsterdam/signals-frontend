@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import useGetContextReporter from 'hooks/api/useGetContextReporter'
 import useGetIncident from 'hooks/api/useGetIncident'
@@ -29,36 +29,31 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     isLoading: getReporterLoading,
     get: getContextReporter,
   } = useGetContextReporter()
-  const incidents = useMemo<Incidents>(
-    () => ({
-      isLoading: getReporterLoading,
-      data: getReporterData && {
-        count: getReporterData.count,
-        list: getReporterData.results.map((result) => ({
-          id: result.id,
-          canView: result.can_view_signal,
-          category: result.category.sub,
-          feedback: result.feedback
-            ? {
-                isSatisfied: result.feedback.is_satisfied,
-                submittedAt: result.feedback.submitted_at,
-              }
-            : null,
-          createdAt: result.created_at,
-          hasChildren: result.has_children,
-          status: result.status.state_display,
-        })),
-      },
-    }),
-    [getReporterData, getReporterLoading]
-  )
 
-  const canView = useMemo(
-    () =>
-      incidents.data?.list.find((item) => item.id === selectedIncidentId)
-        ?.canView,
-    [incidents.data?.list, selectedIncidentId]
-  )
+  const incidents = {
+    isLoading: getReporterLoading,
+    data: getReporterData && {
+      count: getReporterData.count,
+      list: getReporterData.results.map((result) => ({
+        id: result.id,
+        canView: result.can_view_signal,
+        category: result.category.sub,
+        feedback: result.feedback
+          ? {
+              isSatisfied: result.feedback.is_satisfied,
+              submittedAt: result.feedback.submitted_at,
+            }
+          : null,
+        createdAt: result.created_at,
+        hasChildren: result.has_children,
+        status: result.status.state_display,
+      })),
+    },
+  }
+
+  const canView = incidents.data?.list.find(
+    (item) => item.id === selectedIncidentId
+  )?.canView
 
   const {
     error: getSelectedIncidentError,
@@ -73,20 +68,12 @@ export const useFetchReporter = (id: string): FetchReporterHook => {
     }
   }, [getIncident, canView, selectedIncidentId])
 
-  const incident = useMemo<Incident>(
-    () => ({
-      isLoading: getSelectedIncidentLoading,
-      data: getSelectedIncidentData,
-      id: selectedIncidentId,
-      canView,
-    }),
-    [
-      canView,
-      getSelectedIncidentData,
-      getSelectedIncidentLoading,
-      selectedIncidentId,
-    ]
-  )
+  const incident = {
+    isLoading: getSelectedIncidentLoading,
+    data: getSelectedIncidentData,
+    id: selectedIncidentId,
+    canView,
+  }
 
   useEffect(() => {
     setSelectedIncidentId(getReporterData?.results[0]?.id)

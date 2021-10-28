@@ -2,18 +2,22 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
 
+import { StatusCode } from 'signals/incident-management/definitions/types'
+
+import type { DefaultText as DefaultTextType } from 'types/api/default-text'
+import type { DefaulTextsProps } from './DefaultTexts'
+
 import DefaultTexts from '.'
 
 describe('<DefaultTexts />', () => {
-  let props
+  let props: DefaulTextsProps
 
   beforeEach(() => {
     props = {
-      status: 'o',
-      hasDefaultTexts: true,
+      status: StatusCode.Afgehandeld,
       defaultTexts: [
         {
-          state: 'o',
+          state: StatusCode.Afgehandeld,
           templates: [
             {
               title: 'Titel 1',
@@ -66,22 +70,15 @@ describe('<DefaultTexts />', () => {
   })
 
   it('should not render when wrong status is used', () => {
-    const defaultTexts = [
-      {
-        title: 'Not visible',
-        text: 'bla!',
-      },
-    ]
-
     const { queryAllByTestId } = render(
-      <DefaultTexts {...props} defaultTexts={defaultTexts} />
+      <DefaultTexts {...props} status={StatusCode.Ingepland} />
     )
 
     expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0)
   })
 
   it('should not render when list is empty', () => {
-    const defaultTexts = []
+    const defaultTexts: Array<DefaultTextType> = []
 
     const { queryAllByTestId } = render(
       <DefaultTexts {...props} defaultTexts={defaultTexts} />

@@ -16,7 +16,7 @@ declare namespace signal {
 
   export interface Geometrie {
     type: string;
-    coordinates: number[];
+    coordinates: [number, number];
   }
 
   export interface Address {

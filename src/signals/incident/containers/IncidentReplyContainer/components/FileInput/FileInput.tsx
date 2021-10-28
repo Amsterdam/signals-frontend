@@ -26,24 +26,28 @@ const FileInput: FunctionComponent<FieldProps> = ({
     defaultValue: [],
     rules: {
       validate: {
-        fileType: (files: File[]) => {
-          if (files.find((file) => !ALLOWED_FILE_TYPES.includes(file.type))) {
+        fileType: (files) => {
+          if (
+            (files as File[]).find(
+              (file) => !ALLOWED_FILE_TYPES.includes(file.type)
+            )
+          ) {
             return `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${ALLOWED_EXTENSIONS.join(
               ', '
             )}`
           }
         },
-        numberOfFiles: (files: File[]) => {
-          if (files.length > MAX_NUMBER_OF_FILES)
+        numberOfFiles: (files) => {
+          if ((files as File[]).length > MAX_NUMBER_OF_FILES)
             return `U kunt maximaal ${MAX_NUMBER_OF_FILES} bestanden uploaden`
         },
-        minFileSize: (files: File[]) =>
-          files.find((file) => file.size < MIN) &&
+        minFileSize: (files) =>
+          (files as File[]).find((file) => file.size < MIN) &&
           `Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(
             MIN
           )}.`,
-        maxFileSize: (files: File[]) =>
-          files.find((file) => file.size > MAX) &&
+        maxFileSize: (files) =>
+          (files as File[]).find((file) => file.size > MAX) &&
           `Dit bestand is te groot. De minimale bestandgrootte is ${fileSize(
             MAX
           )}.`,

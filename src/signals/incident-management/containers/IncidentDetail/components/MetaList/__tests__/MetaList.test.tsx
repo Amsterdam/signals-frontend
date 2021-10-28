@@ -39,6 +39,7 @@ store.dispatch(fetchCategoriesSuccess(categoriesPrivate))
 
 const update = jest.fn()
 const edit = jest.fn()
+const close = jest.fn()
 const departmentAscId = departments.list[0].id
 const departmentAscCode = departments.list[0].code
 const departmentAscName = departments.list[0].name
@@ -76,7 +77,7 @@ const childIncident = {
 
 const renderWithContext = (incident: any = parentIncident) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, update, edit }}>
+    <IncidentDetailContext.Provider value={{ incident, update, edit, close }}>
       <MetaList />
     </IncidentDetailContext.Provider>
   )
@@ -325,7 +326,11 @@ describe('MetaList', () => {
     const { rerender } = render(
       renderWithContext({
         ...plainIncident,
-        category: { deadline: before.toISOString() },
+        category: {
+          ...plainIncident.category,
+          deadline: before.toISOString(),
+          deadline_factor_3: undefined,
+        },
       })
     )
     expect(
@@ -341,7 +346,11 @@ describe('MetaList', () => {
     rerender(
       renderWithContext({
         ...plainIncident,
-        category: { deadline: after.toISOString() },
+        category: {
+          ...plainIncident.category,
+          deadline: after.toISOString(),
+          deadline_factor_3: undefined,
+        },
       })
     )
     expect(
@@ -357,7 +366,10 @@ describe('MetaList', () => {
     rerender(
       renderWithContext({
         ...plainIncident,
-        category: { deadline_factor_3: before.toISOString() },
+        category: {
+          ...plainIncident.category,
+          deadline_factor_3: before.toISOString(),
+        },
       })
     )
     expect(
@@ -456,7 +468,7 @@ describe('MetaList', () => {
           categoriesSelectors,
           'makeSelectSubcategoriesGroupedByCategories'
         )
-        .mockImplementation(() => [])
+        .mockImplementation(() => [[], []])
       render(renderWithContext())
 
       expect(screen.queryByText(subcategoryLabel)).not.toBeInTheDocument()

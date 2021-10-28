@@ -2,11 +2,12 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { forwardRef } from 'react'
 
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
+import type { SubCategoryOption } from 'models/categories/selectors'
 
 import { Select as AscSelect } from '@amsterdam/asc-ui'
 
-type Option = {
+export type Option = {
   group?: string
   key: string
   name: string
@@ -14,22 +15,22 @@ type Option = {
   value: string
 }
 
-type Group = {
+export type Group = {
   name: string
   value: string
 }
 
 type SelectProps = {
-  emptyOption?: Option
+  emptyOption?: SubCategoryOption
   groups?: Array<Group>
   id: string
-  label?: string
+  label?: ReactNode
   name: string
   onChange?: (e: React.FormEvent<HTMLSelectElement>) => void
-  optionKey?: keyof Option
-  optionName?: keyof Option
-  options: Array<Option>
-  optionValue?: keyof Option
+  optionKey?: keyof SubCategoryOption
+  optionName?: keyof SubCategoryOption
+  options: Array<Partial<SubCategoryOption>>
+  optionValue?: keyof SubCategoryOption
   value?: string
 }
 
@@ -78,6 +79,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       value={value}
       onChange={onChange}
       data-testid={rest.name}
+      // eslint-disable-next-line
+      // @ts-ignore
       label={label}
       ref={ref}
       id={id}

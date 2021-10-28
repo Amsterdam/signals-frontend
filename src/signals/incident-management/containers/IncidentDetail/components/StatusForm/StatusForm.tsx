@@ -16,9 +16,9 @@ import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
+import type { Incident } from 'types/api/incident'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
-import { Incident } from 'types/api/incident'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
@@ -51,12 +51,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   childIncidents,
 }) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
-  const mockIncident = incident as Incident
+  const incidentAsIncident = incident as Incident
 
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
-  >(reducer, { incident: mockIncident, childIncidents }, init)
+  >(reducer, { incident: incidentAsIncident, childIncidents }, init)
 
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
@@ -100,22 +100,18 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      if (update) {
-        update({
-          type: PATCH_TYPE_STATUS,
-          patch: {
-            status: {
-              state: state.status.key,
-              text: textValue,
-              send_email: state.check.checked,
-            },
+      update({
+        type: PATCH_TYPE_STATUS,
+        patch: {
+          status: {
+            state: state.status.key,
+            text: textValue,
+            send_email: state.check.checked,
           },
-        })
-      }
+        },
+      })
 
-      if (close) {
-        close()
-      }
+      close()
     },
     [
       state.text.value,

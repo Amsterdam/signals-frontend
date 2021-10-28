@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import priorityList from 'signals/incident-management/definitions/priorityList'
 
@@ -15,42 +16,48 @@ describe('IncidentSplitSelectInput', () => {
     id: 'subcategory',
     initialValue: subcategoriesFixture[0].key,
     options: subcategoriesFixture,
-    register: jest.fn(),
+    onChange: jest.fn(),
   }
 
-  it('should render a select input element', () => {
-    const { container } = render(
-      withAppContext(<IncidentSplitSelectInput {...props} />)
-    )
-
-    expect(container.querySelectorAll('option')).toHaveLength(
-      priorityList.length
-    )
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
-  it('should render a label', () => {
-    const { container } = render(
-      withAppContext(<IncidentSplitSelectInput {...props} />)
-    )
+  it('should render a select input element', () => {
+    render(withAppContext(<IncidentSplitSelectInput {...props} />))
 
-    expect(container.querySelectorAll('label')).toHaveLength(1)
+    expect(screen.getAllByRole('option')).toHaveLength(priorityList.length)
   })
 
   it('should select options and display info text when available', async () => {
     const { key: emptyDescriptionKey } = subcategoriesFixture[0]
     const { key, description } = subcategoriesFixture[1]
-    const { findByText, getByTestId, queryByText } = render(
-      withAppContext(<IncidentSplitSelectInput {...props} />)
-    )
+    render(withAppContext(<IncidentSplitSelectInput {...props} />))
 
     const descriptionTextRegex = new RegExp(description)
 
-    fireEvent.change(getByTestId('subcategory'), {
-      target: { value: emptyDescriptionKey },
-    })
-    expect(queryByText(descriptionTextRegex)).not.toBeInTheDocument()
+    userEvent.selectOptions(
+      screen.getByTestId('subcategory'),
+      emptyDescriptionKey
+    )
 
-    fireEvent.change(getByTestId('subcategory'), { target: { value: key } })
-    expect(await findByText(descriptionTextRegex)).toBeInTheDocument()
+    fireEvent.blur(screen.getByTestId('subcategory'))
+    expect(screen.queryByText(descriptionTextRegex)).not.toBeInTheDocument()
+
+    userEvent.selectOptions(screen.getByTestId('subcategory'), key)
+
+    expect(await screen.findByText(descriptionTextRegex)).toBeInTheDocument()
+  })
+
+  it('calls onChange', () => {
+    const { key } = subcategoriesFixture[1]
+
+    render(withAppContext(<IncidentSplitSelectInput {...props} />))
+
+    expect(props.onChange).not.toHaveBeenCalled()
+
+    userEvent.selectOptions(screen.getByTestId('subcategory'), key)
+
+    expect(props.onChange).toHaveBeenCalledTimes(1)
   })
 })
