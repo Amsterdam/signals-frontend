@@ -20,6 +20,7 @@ const Form = styled.form`
 `
 
 const StyledColumn = styled(Column)`
+  contain: content;
   flex-direction: column;
   justify-content: flex-start;
 `

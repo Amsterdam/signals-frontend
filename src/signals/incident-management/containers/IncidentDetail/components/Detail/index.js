@@ -21,6 +21,7 @@ import Reporter from './components/Reporter'
 import Area from './components/Area'
 
 const Wrapper = styled.article`
+  contain: content;
   position: relative;
   z-index: 0;
 `

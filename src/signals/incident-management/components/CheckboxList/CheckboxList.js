@@ -9,6 +9,7 @@ import Checkbox from 'components/Checkbox'
 import * as types from 'shared/types'
 
 const FilterGroup = styled.div`
+  contain: content;
   position: relative;
 
   & + & {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo, useCallback, useContext } from 'react'
+import { useMemo, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
@@ -19,6 +19,10 @@ const isChildChanged = (childDatetime, parentDatetime) =>
   new Date(childDatetime) > new Date(parentDatetime)
 
 const Section = styled.section`
+  contain: content;
+`
+
+const ButtonContainer = styled.div`
   margin: ${themeSpacing(0, 2, 6, 0)};
 `
 
@@ -86,7 +90,7 @@ const ChildIncidents = ({
   }
 
   return (
-    <Fragment>
+    <Section>
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
         Deelmelding
       </Title>
@@ -96,7 +100,7 @@ const ChildIncidents = ({
         parentUpdatedAt={parent.updated_at}
       />
 
-      <Section>
+      <ButtonContainer>
         {canReset && (
           <Button
             type="button"
@@ -107,8 +111,8 @@ const ChildIncidents = ({
             Geen actie nodig
           </Button>
         )}
-      </Section>
-    </Fragment>
+      </ButtonContainer>
+    </Section>
   )
 }
 

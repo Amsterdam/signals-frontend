@@ -97,6 +97,7 @@ const HeaderWrapper = styled.div`
   #header {
     max-width: 1400px;
     z-index: 2;
+    contain: layout;
   }
 
   [aria-hidden='true'] {
