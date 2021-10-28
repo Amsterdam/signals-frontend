@@ -56,10 +56,19 @@
   "map": {
     "municipality": "amsterdam",
     "options": {
-      "center": [52.3731081, 4.8932945],
+      "center": [
+        52.3731081,
+        4.8932945
+      ],
       "maxBounds": [
-        [52.25168, 4.64034],
-        [52.50536, 5.10737]
+        [
+          52.25168,
+          4.64034
+        ],
+        [
+          52.50536,
+          5.10737
+        ]
       ],
       "maxZoom": 14,
       "minZoom": 8,
@@ -72,7 +81,7 @@
     },
     "tiles": {
       "args": [
-        "https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:28992/{z}/{x}/{y}.png"
+        "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/standaard/EPSG:28992/{z}/{x}/{y}.png"
       ],
       "options": {
         "attribution": "Kaartgegevens &copy; Kadaster",
