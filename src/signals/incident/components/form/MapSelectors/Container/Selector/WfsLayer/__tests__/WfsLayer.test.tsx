@@ -8,6 +8,7 @@ import { LatLng } from 'leaflet'
 import { render, screen } from '@testing-library/react'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { FeatureCollection } from 'geojson'
+import * as Sentry from '@sentry/browser'
 
 import { Map } from '@amsterdam/react-maps'
 import containersJson from 'utils/__tests__/fixtures/containers.json'
@@ -18,6 +19,8 @@ import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../../hooks/useLayerVisible'
 import { ContainerSelectProvider } from '../../../context'
 import { DataLayerProps } from '../../../../types'
+
+jest.spyOn(Sentry, 'captureException')
 
 const fetchMock = fetch as FetchMock
 
@@ -98,11 +101,10 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('should console.error when other error occurs in the wfs call', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error')
-    const error = new Error()
-    error.name = 'OtherError'
+  it('should handle wfs request errors', async () => {
+    const error = new Error('Foo')
     fetchMock.mockRejectOnce(error)
+
     render(
       withMapContainer(
         <WfsLayer>
@@ -112,12 +114,12 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
     )
 
     await screen.findByTestId('map-test')
-    expect(consoleErrorSpy).toHaveBeenCalled()
-    consoleErrorSpy.mockClear()
+
     expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(Sentry.captureException).toHaveBeenCalledWith(error)
   })
 
-  it('supports additional wfs filters', () => {
+  it('supports additional wfs filters', async () => {
     fetchMock.mockResponse(JSON.stringify(containersJson), { status: 200 })
     const filterValue =
       '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>'
@@ -149,6 +151,8 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
       )
     )
 
+    await screen.findByText('Leaflet')
+
     expect(fetchMock).toHaveBeenCalledWith(
       urlWithFilter,
       expect.objectContaining({})
@@ -165,6 +169,8 @@ describe('src/signals/incident/components/form/ContainerSelect/WfsLayer', () => 
         </ContainerSelectProvider>
       )
     )
+
+    await screen.findByText('Leaflet')
 
     expect(fetchMock).toHaveBeenCalledWith(
       urlWithoutFilter,

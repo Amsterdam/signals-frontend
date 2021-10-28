@@ -31,7 +31,9 @@ import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
-import { Department } from 'types/api/incident'
+import Status from 'signals/incident-management/components/Status'
+
+import type { Department } from 'types/api/incident'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -52,8 +54,7 @@ const StyledMetaList = styled.dl`
   dd {
     margin-bottom: ${themeSpacing(4)};
 
-    &.alert {
-      color: ${themeColor('secondary')};
+    &.status {
       font-family: Avenir Next LT W01 Demi, arial, sans-serif;
     }
 
@@ -193,16 +194,18 @@ const MetaList = () => {
 
   const statusText = useMemo(
     () =>
-      statusList.find((status) => status.key === incident?.status.state)?.value,
-    [incident?.status.state]
+      statusList.find((status) => status.key === incident?.status?.state)
+        ?.value,
+    [incident?.status?.state]
   )
 
   const [processTimeText, processTimeClass] = useMemo(() => {
     if (!incident?.category) return []
 
-    const compareDate = isStatusEnd(incident.status.state)
-      ? new Date(incident.status.created_at)
-      : new Date()
+    const compareDate =
+      incident.status && isStatusEnd(incident.status.state)
+        ? new Date(incident.status.created_at)
+        : new Date()
 
     if (
       incident.category.deadline_factor_3 &&
@@ -234,17 +237,18 @@ const MetaList = () => {
     []
   )
 
-  const subcatHighlightDisabled =
-    incident &&
-    ![
-      'm',
-      'reopened',
-      'i',
-      'b',
-      'ingepland',
-      'send failed',
-      'closure requested',
-    ].includes(incident.status.state)
+  const subcatHighlightDisabled = Boolean(
+    incident?.status &&
+      ![
+        'm',
+        'reopened',
+        'i',
+        'b',
+        'ingepland',
+        'send failed',
+        'closure requested',
+      ].includes(incident.status.state)
+  )
 
   // This conversion is needed to meet the api structure
   const getDirectingDepartmentPostData = useCallback(
@@ -305,8 +309,10 @@ const MetaList = () => {
           />
           Status
         </dt>
-        <dd className="alert" data-testid="meta-list-status-value">
-          {statusText}
+        <dd className="status" data-testid="meta-list-status-value">
+          {incident?.status?.state && (
+            <Status statusCode={incident.status.state}>{statusText}</Status>
+          )}
         </dd>
       </Highlight>
 

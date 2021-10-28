@@ -105,19 +105,6 @@ export const checkDescriptionPage = () => {
 };
 
 /**
- * Custom command to check if a status text is red and visible.
- * @example cy.checkRedTextStatus('Gemeld');
-*/
-export const checkRedTextStatus = (status: string) => {
-  cy.get(SIGNAL_DETAILS.status)
-    .should('have.text', status)
-    .and('be.visible')
-    .and($labels => {
-      expect($labels).to.have.css('color', 'rgb(236, 0, 0)');
-    });
-};
-
-/**
  * Custom command to check if all questions and answers of a signal are visible, option for short or full lable.
  * @example cy.checkQuestions('../fixtures/signals/fietsNietje.json', short);
 */
@@ -210,7 +197,7 @@ export const checkAllDetails = (json: signal.RootObject, signalType: string) => 
   cy.get(SIGNAL_DETAILS.shareContactDetails).should('have.text', json.reporter.sharing_allowed).and('be.visible');
   cy.get(SIGNAL_DETAILS.creationDate).should('contain', commandsGeneral.getTodaysDate());
   cy.get(SIGNAL_DETAILS.handlingTime).should('contain', json.category.handling_time).and('be.visible');
-  checkRedTextStatus(json.status.state_display);
+
   cy.get(SIGNAL_DETAILS.urgency).should('have.text', json.priority).and('be.visible');
   cy.get(SIGNAL_DETAILS.labelDoorlooptijd).should('have.text', 'Doorlooptijd').and('be.visible');
   cy.get(SIGNAL_DETAILS.doorlooptijd).should('have.text', json.process_time).and('be.visible');

@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import Enzyme, { mount } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
-import { createEvent, fireEvent, render } from '@testing-library/react'
+import { createEvent, fireEvent, render, screen } from '@testing-library/react'
 import * as definitions from 'signals/incident-management/definitions'
 
 import { withAppContext } from 'test/utils'
@@ -71,6 +71,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
     expect(props.onApplyFilter).not.toBeUndefined()
     expect(props.onEditFilter).not.toBeUndefined()
     expect(props.onRemoveFilter).not.toBeUndefined()
+    expect(props.onUpdateFilter).not.toBeUndefined()
   })
 
   it('should show a message when there are no filters', () => {
@@ -83,6 +84,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onEditFilter={() => {}}
           onRemoveFilter={() => {}}
           onRequestIncidents={() => {}}
+          onUpdateFilter={() => {}}
         />
       )
     )
@@ -100,6 +102,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
           onEditFilter={() => {}}
           onRemoveFilter={() => {}}
           onRequestIncidents={() => {}}
+          onUpdateFilter={() => {}}
         />
       )
     )
@@ -125,6 +128,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
       onEditFilter: () => {},
       onRemoveFilter: () => {},
       onRequestIncidents: () => {},
+      onUpdateFilter: () => {},
       filters,
     }
 
@@ -132,16 +136,23 @@ describe('signals/incident-management/containers/MyFilters', () => {
       const onApplyFilter = jest.fn()
       const onEditFilter = jest.fn()
       const onRequestIncidents = jest.fn()
+      const onUpdateFilter = jest.fn()
 
-      const { getAllByTestId } = render(
+      render(
         withAppContext(
           <MyFiltersComponent
-            {...{ ...props, onApplyFilter, onEditFilter, onRequestIncidents }}
+            {...{
+              ...props,
+              onApplyFilter,
+              onEditFilter,
+              onRequestIncidents,
+              onUpdateFilter,
+            }}
           />
         )
       )
 
-      const handleApplyFilterButton = getAllByTestId(
+      const handleApplyFilterButton = screen.getAllByTestId(
         'handleApplyFilterButton'
       )[0]
 

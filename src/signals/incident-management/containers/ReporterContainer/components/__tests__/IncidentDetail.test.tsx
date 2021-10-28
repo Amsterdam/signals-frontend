@@ -14,6 +14,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../internals/testing/api'
 
 import IncidentDetail from '../IncidentDetail'
 
@@ -48,7 +49,13 @@ describe('IncidentDetail', () => {
   })
 
   it('should render a standaard incident', async () => {
-    render(withAppContext(<IncidentDetail incident={incident} />))
+    render(
+      withAppContext(
+        <IncidentDetail
+          incident={mockIncident({ _links: { 'sia:children': null } })}
+        />
+      )
+    )
 
     expect(
       await screen.findByText('Standaardmelding', { exact: false })
@@ -87,6 +94,7 @@ describe('IncidentDetail', () => {
 
   it('should show an error when api call fails', async () => {
     mockRequestHandler({
+      url: API.INCIDENT_HISTORY,
       status: 500,
       body: 'Something went wrong',
     })

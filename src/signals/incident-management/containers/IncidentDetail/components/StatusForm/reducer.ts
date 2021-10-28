@@ -55,7 +55,7 @@ export const init = ({
   childIncidents: IncidentChild[]
 }): State => {
   const incidentStatus = statusList.find(
-    ({ key }) => key === incident.status.state
+    ({ key }) => key === incident.status?.state
   ) as Status
   const isSplitIncident = incident._links?.['sia:parent'] !== undefined
 
@@ -65,7 +65,7 @@ export const init = ({
     isSplitIncident,
   })
 
-  const hasEmail = Boolean(incident.reporter.email)
+  const hasEmail = Boolean(incident.reporter?.email)
 
   const hasOpenChildren = Boolean(
     childIncidents

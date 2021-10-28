@@ -58,7 +58,7 @@ export const mapLocation = (loc) => {
  * @param {Object} location
  * @param {Object} location.geometrie
  * @param {String} location.geometrie.type
- * @param {Number[]} location.geometrie.coordinates
+ * @param {number[]} location.geometrie.coordinates
  * @param {Object} location.address
  * @param {String} location.address.openbare_ruimte
  * @param {String|Number} location.address.huisnummer

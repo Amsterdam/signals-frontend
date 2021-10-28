@@ -47,13 +47,8 @@ const NotPermittedMessage = styled.p`
 const ReporterContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
 
-  const {
-    incident,
-    incidents,
-    selectIncident,
-    currentPage,
-    setCurrentPage,
-  } = useFetchReporter(id)
+  const { incident, incidents, selectIncident, currentPage, setCurrentPage } =
+    useFetchReporter(id)
 
   const header = incident.data?.reporter?.email && incidents.data?.count && (
     <StyledHeader
