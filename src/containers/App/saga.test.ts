@@ -114,6 +114,7 @@ describe('containers/App/saga', () => {
       .next()
       .all([
         takeLatest(LOGOUT, callLogout),
+        takeLatest(POST_MESSAGE, callPostMessage),
         takeLatest(LOGIN, callLogin),
         takeLatest(AUTHENTICATE_USER, callAuthorize),
         takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
