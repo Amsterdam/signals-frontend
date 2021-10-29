@@ -66,7 +66,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return urlReplacements
       ? Object.entries(urlReplacements).reduce(
           (acc, [key, replacement]) =>
-            acc.replace(new RegExp(`{{${key}}}`, 'g'), replacement),
+            acc.replace(new RegExp(`{${key}}`, 'g'), replacement),
           endpoint
         )
       : ''

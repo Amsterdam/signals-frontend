@@ -107,7 +107,7 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
         selection: value,
         location,
         meta: {
-          endpoint: meta.endpoint,
+          ...meta,
           featureTypes,
         },
         message,
