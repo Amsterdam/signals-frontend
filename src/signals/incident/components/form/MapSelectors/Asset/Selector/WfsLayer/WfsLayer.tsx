@@ -3,7 +3,6 @@
 import {
   useContext,
   useEffect,
-  useMemo,
   useState,
   ReactElement,
   cloneElement,
@@ -56,21 +55,19 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   const [bbox, setBbox] = useState<Bbox>()
   const [data, setData] = useState<FeatureCollection>(NO_DATA)
 
-  const wfsUrl = useMemo<string>(() => {
-    const endpoint = meta?.endpoint
-    const urlReplacements = endpoint &&
-      bbox && {
-        ...bbox,
-        srsName: SRS_NAME,
-      }
-    return urlReplacements
-      ? Object.entries(urlReplacements).reduce(
-          (acc, [key, replacement]) =>
-            acc.replace(new RegExp(`{${key}}`, 'g'), replacement),
-          endpoint
-        )
-      : ''
-  }, [meta.endpoint, bbox])
+  const endpoint = meta?.endpoint
+  const urlReplacements = endpoint &&
+    bbox && {
+      ...bbox,
+      srsName: SRS_NAME,
+    }
+  const wfsUrl = urlReplacements
+    ? Object.entries(urlReplacements).reduce(
+        (acc, [key, replacement]) =>
+          acc.replace(new RegExp(`{${key}}`, 'g'), replacement),
+        endpoint
+      )
+    : ''
 
   /* istanbul ignore next */
   useEffect(() => {
