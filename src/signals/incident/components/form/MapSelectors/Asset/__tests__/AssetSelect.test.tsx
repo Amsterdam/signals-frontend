@@ -16,7 +16,7 @@ jest.mock('../Selector/WfsLayer', () => () => <span data-testid="wfsLayer" />)
 describe('AssetSelect', () => {
   let props: AssetSelectProps
   const updateIncident = jest.fn()
-  const location = incidentJson.location as Location
+  const location = incidentJson.location as unknown as Location
   beforeEach(() => {
     props = {
       handler: () => ({
