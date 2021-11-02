@@ -43,6 +43,13 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.map_select:
       return (props) => PreviewComponents.MapSelectPreview({ ...props, meta })
 
+    case FIELD_TYPE_MAP.asset_select:
+      return (props) =>
+        PreviewComponents.AssetListPreview({
+          ...props,
+          featureTypes: meta.featureTypes,
+        })
+
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
       return Label
