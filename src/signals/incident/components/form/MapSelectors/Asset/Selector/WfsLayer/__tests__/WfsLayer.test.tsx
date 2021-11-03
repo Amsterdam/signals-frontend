@@ -33,6 +33,8 @@ const withMapAsset = (Component: ReactNode) => (
   </Map>
 )
 
+const consoleErrorSpy = jest.spyOn(global.console, 'error')
+
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   const setContextData = jest.fn()
   const TestLayer: FunctionComponent<DataLayerProps> = () => {
@@ -48,6 +50,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   })
 
   afterEach(() => {
+    consoleErrorSpy.mockClear()
     jest.resetAllMocks()
   })
 
@@ -99,7 +102,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   })
 
   it('should console.error when other error occurs in the wfs call', async () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error')
     const error = new Error()
     error.name = 'OtherError'
     fetchMock.mockRejectOnce(error)
@@ -111,16 +113,16 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       )
     )
 
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
     await screen.findByTestId('map-test')
     expect(consoleErrorSpy).toHaveBeenCalled()
-    consoleErrorSpy.mockClear()
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('supports additional wfs filters', () => {
+  it('supports additional wfs filters', async () => {
     fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
     const endpoint =
-      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{{srsName}}"><lowerCorner>{{west}} {{south}}</lowerCorner><upperCorner>{{east}} {{north}}</upperCorner></gml:Envelope></BBOX></Filter>'
+      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX></Filter>'
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
       location: new LatLng(0, 0),
