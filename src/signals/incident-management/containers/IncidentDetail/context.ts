@@ -3,7 +3,11 @@
 import { createContext } from 'react'
 import type { Context } from './types'
 
-const initialContext: Context = { incident: undefined }
+const initialContext: Context = {
+  incident: undefined,
+  update: () => {},
+  close: () => {},
+}
 
 const IncidentDetailContext = createContext(initialContext)
 

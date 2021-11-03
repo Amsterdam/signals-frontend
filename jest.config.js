@@ -34,10 +34,12 @@ module.exports = {
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.ts',
   },
+  setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: [
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  testTimeout: 10000,
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(j|t)s(x?)$': [

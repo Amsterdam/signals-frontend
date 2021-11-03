@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { fireEvent, render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
 import priorityList from 'signals/incident-management/definitions/priorityList'
@@ -9,22 +10,23 @@ import IncidentSplitRadioInput from '..'
 
 describe('IncidentSplitRadioInput', () => {
   const props = {
-    name: 'priority',
+    className: 'foo bar',
     display: 'Urgentie',
     id: 'priority',
     initialValue: 'null',
+    name: 'priority',
+    onChange: jest.fn(),
     options: priorityList,
-    register: jest.fn(),
   }
 
-  it('should render a list of radio buttons', () => {
-    const { container } = render(
-      withAppContext(<IncidentSplitRadioInput {...props} />)
-    )
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
-    expect(container.querySelectorAll('input[type=radio]')).toHaveLength(
-      priorityList.length
-    )
+  it('should render a list of radio buttons', () => {
+    render(withAppContext(<IncidentSplitRadioInput {...props} />))
+
+    expect(screen.getAllByRole('radio')).toHaveLength(priorityList.length)
   })
 
   it('should render a label', () => {
@@ -39,18 +41,30 @@ describe('IncidentSplitRadioInput', () => {
 
   it('should select radio buttons and display info text when available', async () => {
     const { info, value } = priorityList[2]
-    const { getByLabelText, getByText, queryByText } = render(
-      withAppContext(<IncidentSplitRadioInput {...props} />)
-    )
-    const radio = getByLabelText(value)
+
+    render(withAppContext(<IncidentSplitRadioInput {...props} />))
+
+    const radio = screen.getByLabelText(value)
     const infoTextRegex = new RegExp(info)
 
     expect(radio.checked).toBe(false)
-    expect(queryByText(infoTextRegex)).not.toBeInTheDocument()
+    expect(screen.queryByText(infoTextRegex)).not.toBeInTheDocument()
 
-    fireEvent.click(radio)
+    userEvent.click(radio)
 
     expect(radio.checked).toBe(true)
-    expect(getByText(infoTextRegex)).toBeInTheDocument()
+    expect(screen.getByText(infoTextRegex)).toBeInTheDocument()
+  })
+
+  it('calls onChange', () => {
+    render(withAppContext(<IncidentSplitRadioInput {...props} />))
+
+    const radio = screen.getAllByRole('radio')[1]
+
+    expect(props.onChange).not.toHaveBeenCalled()
+
+    userEvent.click(radio)
+
+    expect(props.onChange).toHaveBeenCalledTimes(1)
   })
 })

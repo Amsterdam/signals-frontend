@@ -318,7 +318,9 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
           <Detail attachments={state.attachments} context={state.context} />
-          <AddNote />
+
+          <AddNote maxContentLength={3000} />
+
           {state.children?.results && state.childrenHistory && (
             <ChildIncidents
               childrenList={state.children.results}
@@ -327,6 +329,7 @@ const IncidentDetail = () => {
               childIncidents={state.childIncidents}
             />
           )}
+
           {state.history && <History list={state.history} />}
         </DetailContainer>
 

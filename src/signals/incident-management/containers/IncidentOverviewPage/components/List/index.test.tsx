@@ -45,7 +45,7 @@ const withContext = (Component: JSX.Element) =>
   )
 
 const props = {
-  incidents: incidents as IncidentList,
+  incidents: incidents as unknown as IncidentList,
   priority: priorityList,
   status: statusList,
   stadsdeel: stadsdeelList,
@@ -104,7 +104,7 @@ describe('List', () => {
         '',
         '',
         `${INCIDENT_2.id}`,
-        `${getDaysOpen(INCIDENT_2 as IncidentListItem)}`,
+        `${getDaysOpen(INCIDENT_2 as unknown as IncidentListItem)}`,
         '29-11-2018 23:03',
         INCIDENT_2.category.sub,
         INCIDENT_2.status.state_display,
@@ -130,7 +130,7 @@ describe('List', () => {
     const VALID_DATE = '29-11-2018 23:03'
     const FALLBACK_DATE = '-'
 
-    const incident = incidents[1] as IncidentListItem
+    const incident = incidents[1] as unknown as IncidentListItem
     const incidentWithInvalidDate = { ...incident, created_at: 'foo' }
 
     const { rerender } = render(
