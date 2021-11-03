@@ -120,7 +120,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   it('supports additional wfs filters', () => {
     fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
     const endpoint =
-      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{{srsName}}"><lowerCorner>{{west}} {{south}}</lowerCorner><upperCorner>{{east}} {{north}}</upperCorner></gml:Envelope></BBOX></Filter>'
+      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX></Filter>'
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
       location: new LatLng(0, 0),
