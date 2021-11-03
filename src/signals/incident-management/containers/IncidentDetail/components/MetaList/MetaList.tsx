@@ -11,6 +11,9 @@ import {
   Link as AscLink,
 } from '@amsterdam/asc-ui'
 
+import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { Department } from 'types/api/incident'
+
 import {
   makeSelectHandlingTimesBySlug,
   makeSelectSubcategoriesGroupedByCategories,
@@ -33,8 +36,6 @@ import statusList, {
 } from 'signals/incident-management/definitions/statusList'
 import Status from 'signals/incident-management/components/Status'
 
-import type { Department } from 'types/api/incident'
-
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
 import type { Result, User } from '../../types'
@@ -44,6 +45,8 @@ import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon
 import IncidentDetailContext from '../../context'
 
 const StyledMetaList = styled.dl`
+  contain: content;
+
   dt {
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
@@ -203,7 +206,7 @@ const MetaList = () => {
     if (!incident?.category) return []
 
     const compareDate =
-      incident.status && isStatusEnd(incident.status.state)
+      incident.status && isStatusEnd(incident.status.state as StatusCode)
         ? new Date(incident.status.created_at)
         : new Date()
 
@@ -368,7 +371,7 @@ const MetaList = () => {
           </Highlight>
         )}
 
-      {subcategoryOptions && (
+      {subcategoryOptions.length > 0 && (
         <Highlight type="subcategory">
           <ChangeValue
             component={SelectInput}

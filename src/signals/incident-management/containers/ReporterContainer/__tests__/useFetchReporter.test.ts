@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook, cleanup } from '@testing-library/react-hooks'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
+
+import type { Result } from 'types/api/reporter'
+import type { Incident } from 'types/api/incident'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { store } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import type { Result } from 'types/api/reporter'
 import {
   fetchMock,
   mockRequestHandler,
@@ -51,6 +53,7 @@ const REPORTER_MOCK: Result = {
 }
 
 describe('Fetch Reporter hook', () => {
+  afterEach(cleanup)
   afterAll(() => {
     reduxSpy.mockRestore()
   })
@@ -106,6 +109,8 @@ describe('Fetch Reporter hook', () => {
       incident: {
         isLoading: false,
         data: undefined,
+        id: undefined,
+        canView: undefined,
       },
       incidents: {
         isLoading: true,
@@ -133,9 +138,7 @@ describe('Fetch Reporter hook', () => {
       ...SECOND,
       incident: {
         isLoading: false,
-        data: expect.objectContaining({
-          id: Number(INCIDENT_ID),
-        }),
+        data: incidentFixture as unknown as Incident,
         canView: true,
         id: Number(INCIDENT_ID),
       },

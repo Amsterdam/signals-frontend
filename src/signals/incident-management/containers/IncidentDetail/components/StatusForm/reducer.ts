@@ -5,7 +5,10 @@ import statusList, {
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
 import { Status } from 'signals/incident-management/definitions/types'
+
+import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
+
 import { IncidentChild } from '../../types'
 import { StatusFormActions } from './actions'
 import {
@@ -128,8 +131,8 @@ const reducer = (state: State, action: StatusFormActions): State => {
           ...getTextConfig(action.payload.key),
           defaultValue: '',
           required: textIsRequired({
-            toStatus: action.payload.key,
-            fromStatus: state.originalStatus.key,
+            toStatus: action.payload.key as StatusCode,
+            fromStatus: state.originalStatus.key as StatusCode,
             isSplitIncident: state.flags.isSplitIncident,
           }),
         },
@@ -137,8 +140,8 @@ const reducer = (state: State, action: StatusFormActions): State => {
           isSplitIncident: state.flags.isSplitIncident,
           hasEmail: state.flags.hasEmail,
           hasOpenChildren: state.flags.hasOpenChildren,
-          toStatus: action.payload.key,
-          originalStatus: state.originalStatus.key,
+          toStatus: action.payload.key as StatusCode,
+          originalStatus: state.originalStatus.key as StatusCode,
         }),
       }
     }

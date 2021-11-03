@@ -1,66 +1,111 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { ReactNode } from 'react'
-import { forwardRef } from 'react'
-import styled from 'styled-components'
+import { forwardRef, useState, useCallback, useEffect } from 'react'
+
+import type { ChangeEvent, ReactNode, ForwardedRef } from 'react'
 import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
-import {
-  themeColor,
-  themeSpacing,
-  TextArea as AscTextArea,
-} from '@amsterdam/asc-ui'
 
 import Label from 'components/Label'
-import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
-
-const lineHeight = 22
-const infoFontSize = 14
-
-const StyledErrorMessage = styled(ErrorMessage)`
-  margin-bottom: ${themeSpacing(2)};
-`
-
-const StyledArea = styled(AscTextArea)<{ rows?: number; maxRows?: number }>`
-  margin-top: ${themeSpacing(1)};
-  font-family: inherit;
-  vertical-align: top; /* https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers */
-  min-height: ${({ rows = 5 }) => rows * lineHeight}px;
-  resize: vertical;
-  max-height: ${({ maxRows = 15 }) => maxRows * lineHeight}px;
-  line-height: ${lineHeight}px;
-`
-
-const InfoText = styled.div`
-  color: ${themeColor('tint', 'level5')};
-  margin-top: ${themeSpacing(2)};
-  font-size: ${infoFontSize}px;
-`
+import {
+  StyledErrorMessage,
+  StyledArea,
+  InfoText,
+  ErrorWrapper,
+} from './styled'
 
 interface TextAreaProps extends AscTextAreaProps {
-  id?: string
-  label?: ReactNode
-  infoText?: ReactNode
+  defaultValue?: string
   errorMessage?: string
-  rows?: number
+  id?: string
+  infoText?: ReactNode
+  label?: ReactNode
+  maxContentLength?: number
   maxRows?: number
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
+  rows?: number
+  value?: string
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ infoText, errorMessage, label, id, className, ...props }, ref) => (
-    <ErrorWrapper invalid={Boolean(errorMessage)}>
-      {label && (
-        <Label inline htmlFor={id}>
-          {label}
-        </Label>
-      )}
+  (
+    {
+      className,
+      defaultValue,
+      errorMessage,
+      id,
+      infoText,
+      label,
+      maxContentLength,
+      onChange,
+      value,
+      ...props
+    },
+    ref?: ForwardedRef<HTMLTextAreaElement>
+  ) => {
+    const [contents, setContents] = useState('')
 
-      {errorMessage && <StyledErrorMessage message={errorMessage} />}
+    // prefer defaultValue over value if both are present
+    const contentProps: { defaultValue?: string; value?: string } = {
+      [defaultValue ? 'defaultValue' : 'value']: contents,
+    }
 
-      <StyledArea id={id} className={className} {...props} ref={ref} />
+    const onChangeContent = useCallback(
+      (event) => {
+        const value = event.target.value
 
-      {infoText && <InfoText>{infoText}</InfoText>}
-    </ErrorWrapper>
-  )
+        setContents(value)
+
+        if (onChange !== undefined) {
+          onChange(event)
+        }
+      },
+      [setContents, onChange]
+    )
+
+    const textareaInfoText =
+      maxContentLength && maxContentLength > 0
+        ? `${contents.length} / ${maxContentLength} tekens`
+        : infoText
+
+    useEffect(() => {
+      setContents(defaultValue || value || '')
+    }, [defaultValue, value])
+
+    return (
+      <ErrorWrapper invalid={Boolean(errorMessage)}>
+        {label && (
+          <Label inline htmlFor={id}>
+            {label}
+          </Label>
+        )}
+
+        {errorMessage && (
+          <StyledErrorMessage
+            id="textareaErrorMessage"
+            message={errorMessage}
+          />
+        )}
+
+        <StyledArea
+          aria-describedby="textareaInfoText textareaErrorMessage"
+          className={className}
+          id={id}
+          onChange={onChangeContent}
+          ref={ref}
+          {...props}
+          {...contentProps}
+        />
+
+        {textareaInfoText && (
+          <InfoText id="textareaInfoText">{textareaInfoText}</InfoText>
+        )}
+      </ErrorWrapper>
+    )
+  }
 )
+
+TextArea.defaultProps = {
+  className: undefined,
+}
 
 export default TextArea

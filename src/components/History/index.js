@@ -7,6 +7,10 @@ import { Heading, styles, themeSpacing } from '@amsterdam/asc-ui'
 import { historyType } from 'shared/types'
 import HistoryList from 'components/HistoryList'
 
+const Section = styled.section`
+  contain: centent;
+`
+
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
     margin: ${themeSpacing(2)} 0;
@@ -15,13 +19,13 @@ const H2 = styled(Heading)`
 
 const History = ({ className, list }) =>
   list.length > 0 ? (
-    <section className={className} data-testid="history">
+    <Section className={className} data-testid="history">
       <H2 forwardedAs="h2" styleAs="h4">
         Geschiedenis
       </H2>
 
       <HistoryList list={list} />
-    </section>
+    </Section>
   ) : null
 
 History.defaultProps = {

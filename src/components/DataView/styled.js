@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
 export const StyledTable = styled.table`
+  contain: strict;
   width: 100%;
 `
 

@@ -6,10 +6,13 @@ import {
   themeColor,
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import BackLink from 'components/BackLink'
 import { string2date, string2time } from 'shared/services/string-parser'
-import type { Incident } from 'types/api/incident'
 import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
+
+import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { Incident } from 'types/api/incident'
 
 interface IncidentDetailProps {
   incident: Incident
@@ -117,7 +120,7 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         <SectionTerm data-testid="status-label">Status</SectionTerm>
         {incident.status && (
           <SectionDescription>
-            <Status isEnded={isStatusEnd(incident.status.state)}>
+            <Status isEnded={isStatusEnd(incident.status.state as StatusCode)}>
               <span data-testid="status">{incident.status.state_display}</span>
             </Status>
           </SectionDescription>

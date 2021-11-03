@@ -4,11 +4,8 @@ export interface Incident {
   priority: Priority
   classification: Classification
   incident_time_hours: number
-  // questions: any[];
   handling_message: string
-  // images_previews: any[];
   location: Location
-  // images: any[];
   type: Priority
   incident_time_minutes: number
   incident_date: string
@@ -43,9 +40,11 @@ export interface Address extends Record<string, any> {
   woonplaats: string
 }
 
+export type Coordinates = [number, number]
+
 export interface Geometrie {
   type: string
-  coordinates: number[]
+  coordinates: Coordinates
 }
 
 export interface Priority {
