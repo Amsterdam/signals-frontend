@@ -93,7 +93,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
     if (!bbox) return
 
-    const { request, controller } = fetchWithAbort(wfsUrl)
+    const [request, controller] = fetchWithAbort(wfsUrl)
 
     request
       .then(async (result) => result.json())
