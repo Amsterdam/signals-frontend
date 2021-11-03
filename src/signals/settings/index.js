@@ -29,7 +29,7 @@ import routes, {
 // istanbul ignore next
 const OverviewContainer = lazy(() => import('./components/Overview'))
 // istanbul ignore next
-const LoginPage = lazy(() => import('components/LoginPage'))
+const LoginPage = lazy(() => import('components/pages/LoginPage'))
 // istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
 // istanbul ignore next
@@ -53,7 +53,7 @@ const CategoriesOverviewContainer = lazy(() => import('./categories/Overview'))
 // istanbul ignore next
 const CategoryDetailContainer = lazy(() => import('./categories/Detail'))
 // istanbul ignore next
-const NotFoundPage = lazy(() => import('components/NotFoundPage'))
+const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
 const SettingsModule = () => {
   const storeDispatch = useDispatch()

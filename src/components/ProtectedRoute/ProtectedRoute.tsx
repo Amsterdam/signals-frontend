@@ -5,7 +5,7 @@ import type { FunctionComponent } from 'react'
 import type { RouteComponentProps, RouteProps } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
-import NotFoundPage from 'components/NotFoundPage'
+import NotFoundPage from 'components/pages/NotFoundPage'
 import { useSelector } from 'react-redux'
 import {
   makeSelectUserCan,

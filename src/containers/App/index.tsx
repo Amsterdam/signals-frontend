@@ -12,6 +12,7 @@ import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/a
 import Footer from 'components/Footer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
+import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
 import SiteHeaderContainer from 'containers/SiteHeader'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
@@ -57,7 +58,7 @@ const IncidentManagementModule = lazy(
 // istanbul ignore next
 const SettingsModule = lazy(async () => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(async () => import('components/NotFoundPage'))
+const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -128,6 +129,9 @@ export const AppContainer = () => {
                   path="/categorie/:category/:subcategory"
                   component={IncidentContainer}
                 />
+                <Route exact path="/toegankelijkheidsverklaring">
+                  <Toegankelijkheidsverklaring />
+                </Route>
                 <Route component={NotFoundPage} />
               </Switch>
             </Suspense>
