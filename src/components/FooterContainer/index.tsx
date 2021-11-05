@@ -103,15 +103,19 @@ const FooterContainer = () => (
     </FooterWrapper>
 
     <StyledFooterBottom>
-      <Link href={configuration.links.about} inList>
-        Over deze site
-      </Link>
+      {configuration.links.about && (
+        <Link href={configuration.links.about} inList>
+          Over deze site
+        </Link>
+      )}
       <Link href={configuration.links.privacy} inList>
         Privacy
       </Link>
-      <Link href={configuration.links.accessibility} inList>
-        Toegankelijkheid
-      </Link>
+      {configuration.links.accessibility && (
+        <Link href={configuration.links.accessibility} inList>
+          Toegankelijkheid
+        </Link>
+      )}
     </StyledFooterBottom>
   </Footer>
 )
