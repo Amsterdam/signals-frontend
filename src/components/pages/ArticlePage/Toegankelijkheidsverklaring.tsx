@@ -89,7 +89,7 @@ const Toegankelijkheidsverklaring: FC = () => (
         </ListItem>
       </List>
       <Paragraph>
-        Voor 1 januari 2022 zullen deze onderdelen opgelost zijn. Vanaf dan
+        Voor 1 maart 2022 zullen deze onderdelen opgelost zijn. Vanaf dan
         voldoet de website aan alle eisen van de internationale
         toegankelijkheidsstandaard WCAG 2.1 niveau AA.
       </Paragraph>
