@@ -279,6 +279,7 @@ const CheckboxList: FC<CheckboxListProps> = ({
     (event) => {
       switch (event.key) {
         case ' ':
+          // Space
           event.preventDefault()
           handleToggle()
           break

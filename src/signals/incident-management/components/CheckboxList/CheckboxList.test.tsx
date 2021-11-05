@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import 'jest-styled-components'
+import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 import statuses from 'signals/incident-management/definitions/statusList'
@@ -12,11 +13,11 @@ import CheckboxList from '.'
 describe('signals/incident-management/components/CheckboxList', () => {
   it('should render a title ', () => {
     const title = 'This is my title'
-    const { queryByText, rerender } = render(
+    const { rerender } = render(
       withAppContext(<CheckboxList name="status" options={statuses} />)
     )
 
-    expect(queryByText(title)).not.toBeInTheDocument()
+    expect(screen.queryByText(title)).not.toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -24,7 +25,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(title)).toBeInTheDocument()
+    expect(screen.queryByText(title)).toBeInTheDocument()
 
     // should also cover nodes instead of just text
     const anotherTitle = 'Another title'
@@ -42,12 +43,12 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(anotherTitle)).toBeInTheDocument()
+    expect(screen.queryByText(anotherTitle)).toBeInTheDocument()
   })
 
   it('should render a toggle', () => {
     const toggleAllLabel = 'Toggle all'
-    const { queryByText, rerender } = render(
+    const { rerender } = render(
       withAppContext(
         <CheckboxList
           name="status"
@@ -57,7 +58,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -70,7 +71,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleAllLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).toBeInTheDocument()
   })
 
   it('should render a toggle checkbox', () => {
@@ -146,7 +147,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const groupId = 'qux'
     const toggleAllLabel = 'Zork'
     const toggleNothingLabel = 'Dungeon'
-    const { rerender, getByText, queryByText } = render(
+    const { rerender } = render(
       withAppContext(
         <CheckboxList
           defaultValue={[
@@ -166,8 +167,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -184,8 +185,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
   })
 
   it('should set toggled when all boxes are checked', async () => {
@@ -214,17 +215,13 @@ describe('signals/incident-management/components/CheckboxList', () => {
 
     // loop over all checkboxes but one and check them manually
     checkboxes.slice(1).forEach((checkbox) => {
-      act(() => {
-        fireEvent.click(checkbox)
-      })
+      userEvent.click(checkbox)
     })
 
     expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
     expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(checkboxes[0])
-    })
+    userEvent.click(checkboxes[0])
 
     expect(onToggleMock).toHaveBeenCalledTimes(1)
 
@@ -237,7 +234,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const toggleAllLabel = 'Select everything!!!!'
     const toggleNothingLabel = 'Deselect all'
 
-    const { rerender, getByText, queryByText } = render(
+    const { rerender } = render(
       withAppContext(
         <CheckboxList
           defaultValue={statuses}
@@ -252,8 +249,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -270,14 +267,14 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleAllLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
   })
 
   it('should handle toggle', () => {
     const toggleAllLabel = 'Click here to select all'
     const toggleNothingLabel = 'Click here to undo selection'
-    const { container, getByText, queryByText } = render(
+    render(
       withAppContext(
         <CheckboxList
           hasToggle
@@ -290,42 +287,33 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    expect(getByText(toggleAllLabel)).toBeInTheDocument()
-    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument()
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(0)
+    expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
+    expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(0)
 
-    act(() => {
-      fireEvent.click(getByText(toggleAllLabel))
-    })
+    userEvent.click(screen.getByText(toggleAllLabel))
 
     // verify that the toggle has the correct label
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(statuses.length)
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument()
+    expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(
+      statuses.length
+    )
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(getByText(toggleNothingLabel))
-    })
+    userEvent.click(screen.getByText(toggleNothingLabel))
 
-    expect(
-      container.querySelectorAll('input[type="checkbox"]:checked')
-    ).toHaveLength(0)
-    expect(getByText(toggleAllLabel)).toBeInTheDocument()
-    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument()
+    expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(0)
+    expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
   })
 
   describe('toggle all from keyboard', () => {
     const toggleAllLabel = 'Click here to select all'
     const toggleNothingLabel = 'Click here to undo selection'
     const onSubmitMock = jest.fn()
-    let container: HTMLElement
 
     beforeEach(() => {
-      const checkboxList = render(
+      render(
         withAppContext(
           <CheckboxList
             hasToggle
@@ -339,12 +327,11 @@ describe('signals/incident-management/components/CheckboxList', () => {
         )
       )
 
-      container = checkboxList.container
       expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
       expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(0)
+      expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(
+        0
+      )
     })
 
     afterEach(() => {
@@ -352,56 +339,56 @@ describe('signals/incident-management/components/CheckboxList', () => {
     })
 
     it('should ignore unknown keys', () => {
-      const element = screen.getByText(toggleAllLabel)
       // The state of the checkboxes should not change
-      fireEvent.keyDown(element, { key: 'ArrowDown' })
+      userEvent.tab()
+      userEvent.keyboard('[ArrowDown]')
+
       expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
       expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(0)
+      expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(
+        0
+      )
     })
 
     it('should select all checkboxes on space', () => {
-      const element = screen.getByText(toggleAllLabel)
+      userEvent.tab()
+      userEvent.keyboard('[Space]')
 
-      // Space selects all checkboxes
-      fireEvent.keyDown(element, { key: ' ' })
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(statuses.length)
+      expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(
+        statuses.length
+      )
       expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
       expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
     })
 
     it('should deselect all checkboxes on space', () => {
-      const element = screen.getByText(toggleAllLabel)
-
       // Space selects all checkboxes
-      fireEvent.keyDown(element, { key: ' ' })
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(statuses.length)
+      userEvent.tab()
+      userEvent.keyboard('[Space]')
+
+      expect(screen.getAllByRole('checkbox', { checked: true })).toHaveLength(
+        statuses.length
+      )
       expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
       expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
 
       // Space unselects all checkboxes
-      fireEvent.keyDown(element, { key: ' ' })
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(0)
+      userEvent.keyboard('[Space]')
+      expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(
+        0
+      )
       expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
       expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
     })
 
     it('should submit on Enter', () => {
-      const element = screen.getByText(toggleAllLabel)
-
       expect(onSubmitMock).not.toHaveBeenCalled()
-      fireEvent.keyDown(element, { key: 'Enter' })
-      expect(
-        container.querySelectorAll('input[type="checkbox"]:checked')
-      ).toHaveLength(0)
+
+      userEvent.tab()
+      userEvent.keyboard('[Enter]')
+      expect(screen.queryAllByRole('checkbox', { checked: true })).toHaveLength(
+        0
+      )
       expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
       expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
       expect(onSubmitMock).toHaveBeenCalled()
@@ -411,7 +398,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   it('should handle change', () => {
     const toggleAllLabel = 'Click here to select all'
     const toggleNothingLabel = 'Click here to undo selection'
-    const { getByText, queryByText } = render(
+    render(
       withAppContext(
         <CheckboxList
           hasToggle
@@ -424,9 +411,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    act(() => {
-      fireEvent.click(getByText(toggleAllLabel))
-    })
+    userEvent.click(screen.getByText(toggleAllLabel))
 
     const randomOption = Math.floor(Math.random() * statuses.length)
     const randomCheckbox = screen.getAllByRole('checkbox', { checked: true })[
@@ -436,27 +421,23 @@ describe('signals/incident-management/components/CheckboxList', () => {
     expect(randomCheckbox).toBeChecked()
 
     // uncheck one of the checkboxes
-    act(() => {
-      fireEvent.click(randomCheckbox)
-    })
+    userEvent.click(randomCheckbox)
 
     expect(randomCheckbox).not.toBeChecked()
 
     expect(document.activeElement).toBe(randomCheckbox)
 
-    expect(getByText(toggleAllLabel)).toBeInTheDocument()
-    expect(queryByText(toggleNothingLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleAllLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleNothingLabel)).not.toBeInTheDocument()
 
     // check the unchecked box; all boxes should be checked and the correct toggle labels
     // should be applied
-    act(() => {
-      fireEvent.click(randomCheckbox)
-    })
+    userEvent.click(randomCheckbox)
 
     expect(randomCheckbox).toBeChecked()
 
-    expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
-    expect(getByText(toggleNothingLabel)).toBeInTheDocument()
+    expect(screen.queryByText(toggleAllLabel)).not.toBeInTheDocument()
+    expect(screen.getByText(toggleNothingLabel)).toBeInTheDocument()
   })
 
   it('should give preference to slugs over keys for checkbox values from the incoming data', () => {
@@ -591,7 +572,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       .querySelectorAll('input[type="checkbox"]')
       .values()) {
       act(() => {
-        fireEvent.click(checkbox)
+        userEvent.click(checkbox)
       })
     }
 
@@ -624,7 +605,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       .querySelectorAll('input[type="checkbox"]')
       .values()) {
       act(() => {
-        fireEvent.click(checkbox)
+        userEvent.click(checkbox)
       })
     }
 
