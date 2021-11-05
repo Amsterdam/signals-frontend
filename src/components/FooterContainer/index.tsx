@@ -14,30 +14,6 @@ import styled from 'styled-components'
 import configuration from 'shared/services/configuration/configuration'
 import stringFormatter from 'shared/services/stringFormatter'
 
-const StyledFooterBottom = styled(FooterBottom)`
-  span {
-    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 22px;
-  }
-  a:hover {
-    text-decoration: underline solid 2px;
-    text-underline-offset: 4px;
-  }
-`
-
-const Disclaimer = styled.div`
-  color: ${themeColor('bright', 'main')};
-  min-height: ${themeSpacing(25)};
-  height: 100%;
-`
-
-const StyledHeading = styled(Heading)`
-  margin: 0 0 ${themeSpacing(3)} 0;
-  color: ${themeColor('bright', 'main')};
-`
-
 const FooterWrapper = styled.div`
   contain: content;
   background-color: ${themeColor('tint', 'level5')};
@@ -51,7 +27,7 @@ const FooterWrapper = styled.div`
   }
 
   a {
-    color: ${themeColor('bright', 'main')};
+    color: inherit;
   }
 `
 
@@ -66,6 +42,31 @@ const Container = styled(Row)`
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     display: grid;
+  }
+`
+
+const Disclaimer = styled.div`
+  color: inherit;
+  min-height: ${themeSpacing(25)};
+  height: 100%;
+`
+
+const StyledHeading = styled(Heading)`
+  margin: 0 0 ${themeSpacing(3)} 0;
+  color: inherit;
+`
+
+const StyledFooterBottom = styled(FooterBottom)`
+  span {
+    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 22px;
+  }
+  a:hover {
+    text-decoration: underline solid;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
   }
 `
 
