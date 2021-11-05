@@ -26,13 +26,13 @@ type ExtendedCategoryMap = ImmutableMap<
   ExtendedCategory[keyof ExtendedCategory]
 >
 
-type ExtendedSubCategory = ExtendedCategory &
+export type ExtendedSubCategory = ExtendedCategory &
   SubCategory & {
     extendedName: string
     category_slug: string
   }
 
-type StructuredCategories = Record<
+export type StructuredCategories = Record<
   string,
   ExtendedCategory & { sub: Array<SubCategory> }
 >
@@ -209,7 +209,7 @@ export const makeSelectByMainCategory = createSelector(
  */
 export const makeSelectStructuredCategories = createSelector(
   [makeSelectMainCategories, makeSelectByMainCategory],
-  (main, byMain) => {
+  (main, byMain): StructuredCategories | null => {
     if (!main) {
       return null
     }

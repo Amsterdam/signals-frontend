@@ -36,7 +36,7 @@ interface RadioButtonOption extends Option {
   name?: string
 }
 
-interface RadioButtonListProps {
+export interface RadioButtonListProps {
   /** List of keys for elements that need to be checked by default */
   defaultValue?: string
   /** When true, will disable all elements in the list */

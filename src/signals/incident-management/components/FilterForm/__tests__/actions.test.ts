@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import categories from 'utils/__tests__/fixtures/categories.json'
+import structuredCategories from 'utils/__tests__/fixtures/categories_structured.json'
 
 import {
   RESET,
@@ -68,13 +69,18 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
   })
 
   it('should create an action to set categories', () => {
-    const cats = categories.sub
+    const slug = 'foo-bar'
+    const subCategories = structuredCategories['openbaar-groen-en-water'].sub
+    const payload = {
+      slug,
+      subCategories,
+    }
     const expectedAction = {
       type: SET_CATEGORIES,
-      payload: cats,
+      payload,
     }
 
-    expect(setCategories(cats)).toEqual(expectedAction)
+    expect(setCategories(payload)).toEqual(expectedAction)
   })
 
   it('should create an action to set a date field', () => {
@@ -98,13 +104,22 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
   })
 
   it('should create an action to set a main category', () => {
-    const mainCategory = categories.main[0]
+    const category = structuredCategories['openbaar-groen-en-water']
+    const extendedCategory = {
+      ...category,
+      fk: 'foo',
+      id: 'bar',
+      key: 'zork',
+      value: 'string',
+      parentKey: 'string',
+    }
+    const payload = { category: extendedCategory, isToggled: true }
     const expectedAction = {
       type: SET_MAIN_CATEGORY,
-      payload: mainCategory,
+      payload,
     }
 
-    expect(setMainCategory(mainCategory)).toEqual(expectedAction)
+    expect(setMainCategory(payload)).toEqual(expectedAction)
   })
 
   it('should create an action to set the name', () => {

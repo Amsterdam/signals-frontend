@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import categories from 'utils/__tests__/fixtures/categories.json'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
 import reducer, { initialState } from '../reducer'
 
@@ -22,10 +23,6 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
     ...initialState,
     foo: 'bar',
   }
-
-  it('should return the state', () => {
-    expect(reducer(state, {})).toEqual(state)
-  })
 
   it('should handle RESET', () => {
     expect(reducer(state, { type: RESET })).toEqual(initialState)
@@ -107,9 +104,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
   })
 
   it('should handle SET_GROUP_OPTIONS', () => {
-    const options = subCategories.filter(({ _links }) =>
-      _links['sia:parent'].public.endsWith('afval')
-    )
+    const options = categories.mainToSub.afval
     const stateWithGroupOptions = {
       ...state,
       options: {
@@ -126,7 +121,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
   it('should handle SET_SAVE_BUTTON_LABEL', () => {
     const stateWithSaveButtonLabel = {
       ...state,
-      submitBtnLabel: SAVE_SUBMIT_BUTTON_LABEL,
+      submitBtnLabel:
+        SAVE_SUBMIT_BUTTON_LABEL as typeof SAVE_SUBMIT_BUTTON_LABEL,
     }
 
     expect(
@@ -146,10 +142,13 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
 
   describe('handle categories', () => {
     const mainCatSlug = 'afval'
-    const mainCategory = mainCategories.find(({ slug }) => slug === mainCatSlug)
-    const subs = subCategories.filter(
-      ({ parentKey }) => parentKey === mainCategory.key
+    const mainCategory = mainCategories?.find(
+      ({ slug }) => slug === mainCatSlug
     )
+    const subs =
+      subCategories?.filter(
+        ({ parentKey }) => parentKey === mainCategory?.key
+      ) || []
     const stateWithSubcategories = {
       ...state,
       options: {
@@ -171,7 +170,7 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       options: {
         ...state.options,
         maincategory_slug: [mainCategory],
-        category_slug: subs.slice(0, 3),
+        category_slug: subs?.slice(0, 3),
       },
     }
 
@@ -181,6 +180,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithSubcategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
+            // eslint-disable-next-line
+            // @ts-ignore
             category: mainCategory,
             isToggled: true,
           },
@@ -191,6 +192,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
         reducer(stateWithSubcategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
+            // eslint-disable-next-line
+            // @ts-ignore
             category: mainCategory,
             isToggled: false,
           },
@@ -198,6 +201,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       ).toEqual(state)
 
       expect(
+        // eslint-disable-next-line
+        // @ts-ignore
         reducer(stateWithAllCategories, {
           type: SET_MAIN_CATEGORY,
           payload: {
@@ -212,6 +217,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       // setting a category means that a single category has been selected and that the
       // main category entry should be removed from the state
       expect(
+        // eslint-disable-next-line
+        // @ts-ignore
         reducer(stateWithMainCategory, {
           type: SET_CATEGORIES,
           payload: {
@@ -222,6 +229,8 @@ describe('signals/incident-management/components/FilterForm/reducer', () => {
       ).toEqual(stateWithSubcategories)
 
       expect(
+        // eslint-disable-next-line
+        // @ts-ignore
         reducer(stateWithAllCategories, {
           type: SET_CATEGORIES,
           payload: {

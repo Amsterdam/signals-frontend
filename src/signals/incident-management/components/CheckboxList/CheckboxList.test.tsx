@@ -2,7 +2,6 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import 'jest-styled-components'
-import cloneDeep from 'lodash/cloneDeep'
 
 import { withAppContext } from 'test/utils'
 import statuses from 'signals/incident-management/definitions/statusList'
@@ -130,46 +129,17 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const numOptions = 5
     const truncated = statuses.slice(0, numOptions)
 
-    const { rerender } = render(
-      withAppContext(<CheckboxList name={name} options={truncated} />)
-    )
+    render(withAppContext(<CheckboxList name={name} options={truncated} />))
 
-    const allBoxes = document.querySelectorAll('input[type="checkbox"]')
+    const allBoxes = screen.getAllByRole('checkbox')
 
     expect(allBoxes).toHaveLength(numOptions)
 
     allBoxes.forEach((el) => {
+      // eslint-disable-next-line
+      // @ts-ignore
       expect(el.name).toEqual(name)
     })
-
-    // options without required props should not be rendered
-    const invalidOptionsCount = 5
-    const cloned = cloneDeep(statuses)
-    const optionsWithoutRequiredProps = cloned.map((status, index) => {
-      if (index >= invalidOptionsCount) {
-        return status
-      }
-
-      return { ...status, id: undefined, key: undefined }
-    })
-
-    global.console.error = jest.fn()
-
-    expect(global.console.error).not.toHaveBeenCalled()
-
-    rerender(
-      withAppContext(
-        <CheckboxList name={name} options={optionsWithoutRequiredProps} />
-      )
-    )
-
-    expect(document.querySelectorAll('input[type="checkbox"]')).toHaveLength(
-      statuses.length - invalidOptionsCount
-    )
-
-    expect(global.console.error).toHaveBeenCalled()
-
-    global.console.error.mockRestore()
   })
 
   it('should check all boxes when group is checked', () => {
@@ -352,7 +322,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
     const toggleAllLabel = 'Click here to select all'
     const toggleNothingLabel = 'Click here to undo selection'
     const onSubmitMock = jest.fn()
-    let container
+    let container: HTMLElement
 
     beforeEach(() => {
       const checkboxList = render(
@@ -441,7 +411,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   it('should handle change', () => {
     const toggleAllLabel = 'Click here to select all'
     const toggleNothingLabel = 'Click here to undo selection'
-    const { container, getByText, queryByText } = render(
+    const { getByText, queryByText } = render(
       withAppContext(
         <CheckboxList
           hasToggle
@@ -459,18 +429,18 @@ describe('signals/incident-management/components/CheckboxList', () => {
     })
 
     const randomOption = Math.floor(Math.random() * statuses.length)
-    const randomCheckbox = container.querySelectorAll(
-      'input[type="checkbox"]:checked'
-    )[randomOption]
+    const randomCheckbox = screen.getAllByRole('checkbox', { checked: true })[
+      randomOption
+    ]
 
-    expect(randomCheckbox.checked).toEqual(true)
+    expect(randomCheckbox).toBeChecked()
 
     // uncheck one of the checkboxes
     act(() => {
       fireEvent.click(randomCheckbox)
     })
 
-    expect(randomCheckbox.checked).toEqual(false)
+    expect(randomCheckbox).not.toBeChecked()
 
     expect(document.activeElement).toBe(randomCheckbox)
 
@@ -483,7 +453,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       fireEvent.click(randomCheckbox)
     })
 
-    expect(randomCheckbox.checked).toEqual(true)
+    expect(randomCheckbox).toBeChecked()
 
     expect(queryByText(toggleAllLabel)).not.toBeInTheDocument()
     expect(getByText(toggleNothingLabel)).toBeInTheDocument()
@@ -492,7 +462,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   it('should give preference to slugs over keys for checkbox values from the incoming data', () => {
     const options = categories.mainToSub.afval
     const slugs = options.map(({ slug }) => slug)
-    const { container, rerender } = render(
+    const { rerender } = render(
       withAppContext(
         <CheckboxList
           defaultValue={options.slice(0, 2)}
@@ -502,8 +472,10 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
-      return expect(slugs.includes(element.value))
+    screen.getAllByRole('checkbox').forEach((element) => {
+      // eslint-disable-next-line
+      // @ts-ignore
+      expect(slugs.includes(element.value)).toEqual(true)
     })
 
     const keys = statuses.map(({ key }) => key)
@@ -518,8 +490,10 @@ describe('signals/incident-management/components/CheckboxList', () => {
       )
     )
 
-    container.querySelectorAll('input[type="checkbox"]').forEach((element) => {
-      return expect(keys.includes(element.value))
+    screen.getAllByRole('checkbox').forEach((element) => {
+      // eslint-disable-next-line
+      // @ts-ignore
+      expect(keys.includes(element.value)).toEqual(true)
     })
   })
 

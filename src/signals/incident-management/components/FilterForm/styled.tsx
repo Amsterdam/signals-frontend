@@ -32,7 +32,7 @@ export const FilterGroup = styled.div`
   }
 `
 
-export const Fieldset = styled.fieldset`
+export const Fieldset = styled.fieldset<{ isSection: boolean }>`
   border: 0;
   padding: 0;
 

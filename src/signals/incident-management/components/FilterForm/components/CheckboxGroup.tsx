@@ -1,26 +1,31 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+import type { FC } from 'react'
 
-import * as types from 'shared/types'
 import Label from 'components/Label'
 import CheckboxList from '../../CheckboxList'
 import { FilterGroup } from '../styled'
 
+import type { CheckboxListProps } from '../../CheckboxList'
+
 const renderId = 0
 
-const CheckboxGroup = ({
+type CheckboxGroupProps = Partial<CheckboxListProps> & {
+  label: string
+  name: string
+}
+
+const CheckboxGroup: FC<CheckboxGroupProps> = ({
   defaultValue,
+  hasToggle,
   label,
   name,
-  hasToggle,
   onChange,
-  onToggle,
   onSubmit,
+  onToggle,
   options,
 }) =>
-  Array.isArray(options) &&
-  options.length > 0 && (
+  Array.isArray(options) && options.length > 0 ? (
     <FilterGroup
       data-testid={`${name}CheckboxGroup`}
       data-render-id={renderId + 1}
@@ -40,22 +45,11 @@ const CheckboxGroup = ({
         }
       />
     </FilterGroup>
-  )
+  ) : null
 
 CheckboxGroup.defaultProps = {
   defaultValue: [],
   hasToggle: true,
-}
-
-CheckboxGroup.propTypes = {
-  defaultValue: types.dataListType,
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  hasToggle: PropTypes.bool,
-  onChange: PropTypes.func,
-  onToggle: PropTypes.func,
-  onSubmit: PropTypes.func,
-  options: types.dataListType.isRequired,
 }
 
 export default CheckboxGroup
