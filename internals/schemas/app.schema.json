@@ -281,7 +281,8 @@
         },
         "accessibility": {
           "description": "The accessibility statement of the municipality",
-          "type": "string"
+          "type": "string",
+          "format": "uri-reference"
         }
       },
       "required": ["help", "home", "privacy"],
