@@ -28,7 +28,7 @@ const Toegankelijkheidsverklaring: FC = () => (
           </Link>
         </ListItem>
         <ListItem>
-          <Link inList href="htpps://meldingenamsterdamsebos.amsterdam.nl">
+          <Link inList href="https://meldingenamsterdamsebos.amsterdam.nl">
             meldingenamsterdamsebos.amsterdam.nl
           </Link>
         </ListItem>
