@@ -43,7 +43,9 @@
   "links": {
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
     "home": "https://www.amsterdam.nl",
-    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
+    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/",
+    "about": "https://www.amsterdam.nl/overdezesite/",
+    "accessibility": "/toegankelijkheidsverklaring"
   },
   "logo": {
     "url": "/assets/images/amsterdam-logo.svg",

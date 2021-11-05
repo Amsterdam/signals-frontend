@@ -44,7 +44,9 @@
   "links": {
     "help": "https://signalen.org/",
     "home": "https://signalen.org/",
-    "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten"
+    "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten",
+    "about": "",
+    "accessibility": ""
   },
   "logo": {
     "url": "/assets/images/amsterdam-logo.svg",
