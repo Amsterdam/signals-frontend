@@ -55,7 +55,7 @@ const Toegankelijkheidsverklaring: FC = () => (
           De onderzoeksresultaten zijn terug te lezen op de site:{' '}
           <Link
             variant="inline"
-            href="https://www.toegankelijkheidsverklaring.nl/"
+            href="https://www.toegankelijkheidsverklaring.nl/register/5621/"
           >
             toegankelijkheidsverklaring.nl
           </Link>
