@@ -17,12 +17,23 @@ describe('<FooterContainer />', () => {
 
   it('should render correctly', () => {
     configuration.links.privacy = 'https://www.amsterdam.nl/privacy/'
+    configuration.links.about = 'https://www.amsterdam.nl/overdezesite/'
+    configuration.links.accessibility = '/toegankelijkheid/'
+
     const { container, getByTestId } = render(withAppContext(<Footer />))
 
     expect(container.querySelector('div.no-print')).toBeInTheDocument()
     expect(getByTestId('disclaimer')).toBeInTheDocument()
     expect(
       container.querySelector('a[href="https://www.amsterdam.nl/privacy/"]')
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector(
+        'a[href="https://www.amsterdam.nl/overdezesite/"]'
+      )
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector('a[href="/toegankelijkheid/"]')
     ).toBeInTheDocument()
   })
 })
