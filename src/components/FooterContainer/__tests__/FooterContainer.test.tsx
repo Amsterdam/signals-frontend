@@ -8,7 +8,7 @@ import Footer from '..'
 
 jest.mock('shared/services/configuration/configuration')
 
-describe('<Footer />', () => {
+describe('<FooterContainer />', () => {
   afterEach(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

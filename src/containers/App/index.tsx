@@ -9,7 +9,7 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
-import Footer from 'components/Footer'
+import FooterContainer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
@@ -26,13 +26,6 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
-
-const FooterContainer = styled.div`
-  margin: 0 auto;
-  background-color: #ffffff;
-  width: 100%;
-  max-width: 1400px;
-`
 
 const ContentContainer = styled.div<{ headerIsTall: boolean }>`
   contain: content;
@@ -137,11 +130,7 @@ export const AppContainer = () => {
             </Suspense>
           </ContentContainer>
 
-          {!getIsAuthenticated() && (
-            <FooterContainer>
-              <Footer />
-            </FooterContainer>
-          )}
+          {!getIsAuthenticated() && <FooterContainer />}
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>
