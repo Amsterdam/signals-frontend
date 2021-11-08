@@ -273,6 +273,16 @@
           "description": "The privacy statement of the municipality",
           "type": "string",
           "format": "uri"
+        },
+        "about": {
+          "description": "About this site statement of the municipality",
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "accessibility": {
+          "description": "The accessibility statement of the municipality",
+          "type": "string",
+          "format": "uri-reference"
         }
       },
       "required": ["help", "home", "privacy"],

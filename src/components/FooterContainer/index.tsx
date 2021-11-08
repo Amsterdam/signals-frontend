@@ -1,38 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Row, Heading, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Row,
+  Heading,
+  Link,
+  themeColor,
+  themeSpacing,
+  Footer,
+  FooterBottom,
+} from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import configuration from 'shared/services/configuration/configuration'
 import stringFormatter from 'shared/services/stringFormatter'
-
-const Disclaimer = styled.div`
-  color: ${themeColor('bright', 'main')};
-  min-height: ${themeSpacing(25)};
-  height: 100%;
-`
-
-const StyledLink = styled(Link)`
-  font-size: 16px;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal;
-
-  span {
-    align-self: center;
-  }
-`
-
-const Privacy = styled.div`
-  background: ${themeColor('bright', 'main')};
-  padding-top: ${themeSpacing(2)};
-  padding-bottom: ${themeSpacing(2)};
-  height: ${themeSpacing(11)};
-`
-
-const StyledHeading = styled(Heading)`
-  margin: 0 0 ${themeSpacing(3)} 0;
-  color: ${themeColor('bright', 'main')};
-`
 
 const FooterWrapper = styled.div`
   contain: content;
@@ -47,7 +27,7 @@ const FooterWrapper = styled.div`
   }
 
   a {
-    color: ${themeColor('bright', 'main')};
+    color: inherit;
   }
 `
 
@@ -65,8 +45,33 @@ const Container = styled(Row)`
   }
 `
 
-const Footer = () => (
-  <>
+const Disclaimer = styled.div`
+  color: inherit;
+  min-height: ${themeSpacing(25)};
+  height: 100%;
+`
+
+const StyledHeading = styled(Heading)`
+  margin: 0 0 ${themeSpacing(3)} 0;
+  color: inherit;
+`
+
+const StyledFooterBottom = styled(FooterBottom)`
+  span {
+    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 22px;
+  }
+  a:hover {
+    text-decoration: underline solid;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+`
+
+const FooterContainer = () => (
+  <Footer>
     <FooterWrapper className="no-print" data-testid="siteFooter">
       <Container>
         <Disclaimer data-testid="disclaimer">
@@ -98,14 +103,22 @@ const Footer = () => (
       </Container>
     </FooterWrapper>
 
-    <Container>
-      <Privacy>
-        <StyledLink href={configuration.links.privacy} inList>
-          Privacy
-        </StyledLink>
-      </Privacy>
-    </Container>
-  </>
+    <StyledFooterBottom>
+      {configuration.links.about && (
+        <Link href={configuration.links.about} inList>
+          Over deze site
+        </Link>
+      )}
+      <Link href={configuration.links.privacy} inList>
+        Privacy
+      </Link>
+      {configuration.links.accessibility && (
+        <Link href={configuration.links.accessibility} inList>
+          Toegankelijkheid
+        </Link>
+      )}
+    </StyledFooterBottom>
+  </Footer>
 )
 
-export default Footer
+export default FooterContainer
