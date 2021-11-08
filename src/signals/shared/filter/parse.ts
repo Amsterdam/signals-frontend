@@ -7,6 +7,12 @@ import format from 'date-fns/format'
 
 import dataLists from 'signals/incident-management/definitions'
 
+import type { Options } from 'signals/incident-management/components/FilterForm/reducer'
+import type SubCategory from 'types/api/sub-category'
+import type { ExtendedCategory } from 'models/categories/selectors'
+
+type Category = SubCategory | ExtendedCategory
+
 const arrayFields = [
   'area',
   'category_slug',
@@ -23,7 +29,7 @@ const arrayFields = [
   'type',
 ]
 
-export const parseDate = (dateString, timeString) => {
+export const parseDate = (dateString: string, timeString: string) => {
   if (!dateString || !timeString) return null
 
   const strippedDateString = dateString.replace(
@@ -42,18 +48,15 @@ export const parseDate = (dateString, timeString) => {
  *
  * The rich objects in the formState are transformed to flattened arrays containing slugs. Date strings are formatted
  * so that the API can read them.
- *
- * @param   {Object} options - Filter options data
- * @returns {Object}
  */
-export const parseOutputFormData = (options) =>
+export const parseOutputFormData = (options: Options) =>
   Object.entries(options).reduce((acc, [key, value]) => {
     let entryValue
 
     switch (key) {
       case 'category_slug':
       case 'maincategory_slug':
-        entryValue = value.map(({ slug }) => slug)
+        entryValue = (value as Array<Category>).map(({ slug }) => slug)
         break
       case 'area':
       case 'contact_details':

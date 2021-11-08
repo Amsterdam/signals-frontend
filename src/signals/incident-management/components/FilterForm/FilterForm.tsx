@@ -9,11 +9,14 @@ import {
   useReducer,
   useState,
 } from 'react'
-import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
 import { useSelector } from 'react-redux'
 import { Label as AscLabel } from '@amsterdam/asc-ui'
+
+import type { FC, FormEvent } from 'react'
+import type { UserNames } from 'types/api/autocomplete'
+import { Definition } from 'signals/incident-management/definitions/types'
 
 import AutoSuggest from 'components/AutoSuggest'
 import Checkbox from 'components/Checkbox'
@@ -22,7 +25,6 @@ import Label from 'components/Label'
 import { makeSelectStructuredCategories } from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
 import { dateToISOString } from 'shared/services/date-utils'
-import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
 
@@ -32,7 +34,7 @@ import {
 } from 'models/departments/selectors'
 import CalendarInput from '../CalendarInput'
 import CheckboxList from '../CheckboxList'
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
+import { ReactComponent as RefreshIcon } from '../../../../shared/images/icon-refresh.svg'
 import AppContext from '../../../../containers/App/context'
 import IncidentManagementContext from '../../context'
 import RadioGroup from './components/RadioGroup'
@@ -61,20 +63,32 @@ import {
 } from './actions'
 
 import reducer, { init } from './reducer'
+import type { InitFilter } from './reducer'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
-const getUserOptions = (data) =>
+const getUserOptions = (data: UserNames) =>
   data.results?.map((user) => ({
     id: user.username,
     value: user.username,
   }))
 
-const getUserCount = (data) => data?.count
+const getUserCount = (data: UserNames) => data?.count
+
+type FormData = Record<string, any>
+
+type FilterFormProps = {
+  filter: InitFilter
+  onCancel?: (event: FormEvent<HTMLInputElement>) => void
+  onClearFilter: () => void
+  onSaveFilter: (formData: FormData) => void
+  onSubmit: (event: FormEvent<HTMLFormElement>, formData: FormData) => void
+  onUpdateFilter: (formData: FormData) => void
+}
 
 /**
  * Component that renders the incident filter form
  */
-const FilterForm = ({
+const FilterForm: FC<FilterFormProps> = ({
   filter,
   onCancel,
   onClearFilter,
@@ -92,10 +106,12 @@ const FilterForm = ({
 
   const [state, dispatch] = useReducer(reducer, filter, init)
 
-  const isNewFilter = !filter.name
+  const isNewFilter = !filter?.name
 
   const [assignedSelectValue, setAssignedSelectValue] = useState('')
-  const [routedFilterValue, setRoutedFilterValue] = useState([])
+  const [routedFilterValue, setRoutedFilterValue] = useState<Array<Definition>>(
+    []
+  )
   const [controlledTextInput, setControlledTextInput] = useState({
     name: state.filter.name,
     address: state.options.address_text,
@@ -113,23 +129,17 @@ const FilterForm = ({
     [districts, sources, directingDepartments, routingDepartments]
   )
 
-  const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter])
+  const initialFormState = cloneDeep(init(filter))
 
-  const currentState = useMemo(
-    () => ({
-      ...state.filter,
-      options: parseOutputFormData(state.options),
-    }),
-    [state.filter, state.options]
-  )
+  const currentState = {
+    ...state.filter,
+    options: parseOutputFormData(state.options),
+  }
 
-  const initialState = useMemo(
-    () => ({
-      ...initialFormState.filter,
-      options: parseOutputFormData(initialFormState.options),
-    }),
-    [initialFormState.filter, initialFormState.options]
-  )
+  const initialState = {
+    ...initialFormState.filter,
+    options: parseOutputFormData(initialFormState.options),
+  }
 
   const valuesHaveChanged =
     ((!isNewFilter && !isEqual(currentState, initialState)) || isNewFilter) &&
@@ -142,9 +152,10 @@ const FilterForm = ({
   }, [state.filter.name, valuesHaveChanged, isNewFilter])
 
   // collection of category objects that is used to set form field values with
-  const filterSlugs = state.options.maincategory_slug.concat(
-    state.options.category_slug
-  )
+  const filterSlugs = [
+    ...(state.options.maincategory_slug || []),
+    ...(state.options.category_slug || []),
+  ]
 
   const dateFrom =
     state.options.created_after && new Date(state.options.created_after)
@@ -152,7 +163,7 @@ const FilterForm = ({
     state.options.created_before && new Date(state.options.created_before)
 
   const onSubmitForm = useCallback(
-    (event) => {
+    (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       const options = parseOutputFormData(state.options)
       const formData = { ...state.filter, options }
@@ -202,6 +213,8 @@ const FilterForm = ({
   // category checkbox groups
   const onMainCategoryToggle = useCallback(
     (slug, isToggled) => {
+      if (!categories?.[slug]) return
+
       dispatch(
         setMainCategory({
           category: categories[slug],
@@ -300,8 +313,10 @@ const FilterForm = ({
   // callback handler that is called whenever a toggle is (un)checked in a checkbox
   // group that is not one of the category checkbox groups
   const onGroupToggle = useCallback(
-    (groupName, isToggled) => {
-      const options = isToggled ? dataListValues[groupName] : []
+    (groupName: string, isToggled: boolean) => {
+      const options = isToggled
+        ? dataListValues[groupName as keyof typeof dataListValues]
+        : []
       dispatch(setGroupOptions({ [groupName]: options }))
     },
     [dispatch, dataListValues]
@@ -353,7 +368,7 @@ const FilterForm = ({
   )
 
   return (
-    <Form action="" novalidate>
+    <Form action="" noValidate>
       <ControlsWrapper>
         {filter.id && <input type="hidden" name="id" value={filter.id} />}
         <Fieldset isSection>
@@ -598,7 +613,7 @@ const FilterForm = ({
                 >
                   <Checkbox
                     data-testid="filterNotAssigned"
-                    checked={state.options.assigned_user_email === 'null'}
+                    checked={!state.options.assigned_user_email}
                     id="filter_not_assigned"
                     name="notAssigned"
                     onClick={onNotAssignedChange}
@@ -608,7 +623,7 @@ const FilterForm = ({
 
               <AutoSuggest
                 value={
-                  state.options.assigned_user_email === 'null'
+                  !state.options.assigned_user_email
                     ? ''
                     : state.options.assigned_user_email
                 }
@@ -620,7 +635,7 @@ const FilterForm = ({
                 url={USERS_AUTO_SUGGEST_URL}
                 formatResponse={getUserOptions}
                 numOptionsDeterminer={getUserCount}
-                disabled={state.options.assigned_user_email === 'null'}
+                disabled={!state.options.assigned_user_email}
               />
             </FilterGroup>
           )}
@@ -637,7 +652,7 @@ const FilterForm = ({
 
           {configuration.featureFlags.assignSignalToDepartment && (
             <FilterGroup data-testid="filterRoutingDepartment">
-              <Label htmlFor="filter_routing_department" isGroupHeader>
+              <Label isGroupHeader as="span">
                 Afdeling
               </Label>
               <div>
@@ -659,7 +674,6 @@ const FilterForm = ({
                 defaultValue={
                   isNotRoutedChecked() ? [] : state.options.routing_department
                 }
-                id="filter_routing_department"
                 name="routing_department"
                 onChange={onGroupChange}
                 onSubmit={onSubmitForm}
@@ -700,31 +714,6 @@ const FilterForm = ({
       />
     </Form>
   )
-}
-
-FilterForm.defaultProps = {
-  filter: {
-    name: '',
-    options: {},
-  },
-}
-
-FilterForm.propTypes = {
-  filter: filterType,
-  /** Callback handler for when filter settings should not be applied */
-  onCancel: PropTypes.func,
-  /** Callback handler to reset filter */
-  onClearFilter: PropTypes.func.isRequired,
-  /** Callback handler for new filter settings */
-  onSaveFilter: PropTypes.func.isRequired,
-  /**
-   * Callback handler called whenever form is submitted
-   * @param {Event} event
-   * @param {FormData} formData
-   */
-  onSubmit: PropTypes.func.isRequired,
-  /** Callback handler for handling filter settings updates */
-  onUpdateFilter: PropTypes.func,
 }
 
 export default FilterForm
