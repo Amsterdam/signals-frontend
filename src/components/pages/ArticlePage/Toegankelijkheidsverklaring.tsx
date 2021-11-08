@@ -28,7 +28,7 @@ const Toegankelijkheidsverklaring: FC = () => (
           </Link>
         </ListItem>
         <ListItem>
-          <Link inList href="htpps://meldingenamsterdamsebos.amsterdam.nl">
+          <Link inList href="https://meldingenamsterdamsebos.amsterdam.nl">
             meldingenamsterdamsebos.amsterdam.nl
           </Link>
         </ListItem>
@@ -55,7 +55,7 @@ const Toegankelijkheidsverklaring: FC = () => (
           De onderzoeksresultaten zijn terug te lezen op de site:{' '}
           <Link
             variant="inline"
-            href="https://www.toegankelijkheidsverklaring.nl/"
+            href="https://www.toegankelijkheidsverklaring.nl/register/5621/"
           >
             toegankelijkheidsverklaring.nl
           </Link>
@@ -89,7 +89,7 @@ const Toegankelijkheidsverklaring: FC = () => (
         </ListItem>
       </List>
       <Paragraph>
-        Voor 1 januari 2022 zullen deze onderdelen opgelost zijn. Vanaf dan
+        Voor 1 maart 2022 zullen deze onderdelen opgelost zijn. Vanaf dan
         voldoet de website aan alle eisen van de internationale
         toegankelijkheidsstandaard WCAG 2.1 niveau AA.
       </Paragraph>
