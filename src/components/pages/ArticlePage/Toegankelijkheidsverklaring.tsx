@@ -141,7 +141,7 @@ const Toegankelijkheidsverklaring: FC = () => (
         Meld het via{' '}
         <Link
           variant="inline"
-          href="https://formulieren.amsterdam.nl/TriplEforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Klachtenformulier.aspx/fKlachtenformulier"
+          href="https://formulieren.amsterdam.nl/tripleforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Klachtenformulier.aspx"
         >
           ons contactformulier
         </Link>
