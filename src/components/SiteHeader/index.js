@@ -83,12 +83,6 @@ const SearchBarMenuItem = styled(MenuItem)`
 
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
-
-  ${styles.TextFieldStyle} {
-    button {
-      top: 3px;
-    }
-  }
 `
 
 const HeaderWrapper = styled.div`

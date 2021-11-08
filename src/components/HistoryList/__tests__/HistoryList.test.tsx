@@ -26,4 +26,47 @@ describe('<ChildIncidentHistory />', () => {
 
     expect(screen.getByText('mock description')).toBeInTheDocument()
   })
+
+  it('converts Markdown to HTML', () => {
+    const link1 = 'https://www.amsterdam.nl'
+
+    const { rerender } = render(
+      withAppContext(
+        <HistoryList
+          list={[
+            { ...history[0], action: `mock [link text](${link1}) description` },
+          ]}
+        />
+      )
+    )
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', link1)
+
+    const link2 = 'https://www.amsterdam.nl/contact'
+
+    rerender(
+      withAppContext(
+        <HistoryList
+          list={[
+            {
+              ...history[0],
+              description: `mock [link text](${link2}) description`,
+            },
+          ]}
+        />
+      )
+    )
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', link2)
+  })
+
+  it('does not convert unallowed Markdown', () => {
+    render(
+      withAppContext(
+        <HistoryList list={[{ ...history[0], action: '## Here is an h2' }]} />
+      )
+    )
+
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+  })
 })
