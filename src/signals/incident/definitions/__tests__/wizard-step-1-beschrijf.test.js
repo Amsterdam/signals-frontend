@@ -6,17 +6,15 @@ const sources = [
   {
     key: 1,
     value: 'Source 1',
+    can_be_selected: true,
   },
   {
     key: 2,
     value: 'Source 2',
+    can_be_selected: false,
   },
 ]
-const expectedSources = [
-  { '': 'Vul bron in' },
-  { 'Source 1': 'Source 1' },
-  { 'Source 2': 'Source 2' },
-]
+const expectedSources = [{ '': 'Vul bron in' }, { 'Source 1': 'Source 1' }]
 
 let formFactory
 
