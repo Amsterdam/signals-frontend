@@ -24,20 +24,24 @@ const sources = [
   {
     id: 1,
     name: 'Source1',
+    can_be_selected: true,
   },
   {
     id: 2,
     name: 'Source2',
+    can_be_selected: true,
   },
 ]
 const selectedSources = [
   {
     key: 'Source1',
     value: 'Source1',
+    can_be_selected: true,
   },
   {
     key: 'Source2',
     value: 'Source2',
+    can_be_selected: true,
   },
 ]
 
