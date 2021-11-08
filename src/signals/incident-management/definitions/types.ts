@@ -3,6 +3,7 @@ import type { Icon } from './listIcons'
 export interface Definition {
   key: string
   value: string
+  slug?: string
 }
 
 export enum StatusCode {

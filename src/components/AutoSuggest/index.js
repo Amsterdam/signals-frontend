@@ -44,7 +44,7 @@ const AbsoluteList = styled(SuggestList)`
  * - End key focuses the input field at the last character
  */
 const AutoSuggest = ({
-  className,
+  className = '',
   formatResponse,
   numOptionsDeterminer,
   onClear,

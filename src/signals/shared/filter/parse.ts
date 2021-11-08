@@ -7,7 +7,11 @@ import format from 'date-fns/format'
 
 import dataLists from 'signals/incident-management/definitions'
 
-import type { Options } from 'signals/incident-management/components/FilterForm/reducer'
+import type { Definition } from 'signals/incident-management/definitions/types'
+import type {
+  Options,
+  InitFilter,
+} from 'signals/incident-management/components/FilterForm/reducer'
 import type SubCategory from 'types/api/sub-category'
 import type { ExtendedCategory } from 'models/categories/selectors'
 
@@ -29,16 +33,17 @@ const arrayFields = [
   'type',
 ]
 
-export const parseDate = (dateString: string, timeString: string) => {
+export const parseDate = (dateString?: Date, timeString?: string) => {
   if (!dateString || !timeString) return null
 
-  const strippedDateString = dateString.replace(
-    new RegExp(`T${timeString}$`),
-    ''
-  )
+  const strippedDateString = dateString
+    .toString()
+    .replace(new RegExp(`T${timeString}$`), '')
   const parsedDate = parse(strippedDateString, 'yyyy-MM-dd', new Date())
-  if (isValid(parsedDate))
+
+  if (isValid(parsedDate)) {
     return `${format(parsedDate, 'yyyy-MM-dd')}T${timeString}`
+  }
 
   return null
 }
@@ -56,7 +61,9 @@ export const parseOutputFormData = (options: Options) =>
     switch (key) {
       case 'category_slug':
       case 'maincategory_slug':
-        entryValue = (value as Array<Category>).map(({ slug }) => slug)
+        entryValue = (value as Array<Category>).map(
+          ({ slug }) => slug
+        ) as Array<string>
         break
       case 'area':
       case 'contact_details':
@@ -69,33 +76,37 @@ export const parseOutputFormData = (options: Options) =>
       case 'stadsdeel':
       case 'status':
       case 'type':
-        entryValue = value.map(({ key: itemKey }) => itemKey)
+        entryValue = (value as Array<Definition>).map(
+          ({ key: itemKey }) => itemKey
+        ) as Array<string>
         break
       case 'created_after':
-        entryValue = parseDate(options.created_after, '00:00:00')
+        entryValue = parseDate(options.created_after, '00:00:00') as
+          | string
+          | null
         break
       case 'created_before':
         entryValue = parseDate(options.created_before, '23:59:59')
         break
       default:
-        entryValue = value
+        entryValue = value as string
     }
 
     // make sure we do not return values that are either an 0-length string or an empty array
-    return entryValue && entryValue.length ? { ...acc, [key]: entryValue } : acc
+    return entryValue && entryValue?.length > 0
+      ? { ...acc, [key]: entryValue }
+      : acc
   }, {})
 
 /**
  * Formats filter data so that the form can consume it
  *
  * Turns scalar values into arrays where necessary and replaces keys and slugs with objects
- *
- * @param   {Object} filterData - Data to be passed on to the form
- * @param   {Object} filterData.options - options key/value object
- * @param   {Object} [fixtureData={}] - collection of fixtures that is used to enrich the filter data with
- * @returns {Object}
  */
-export const parseInputFormData = (filterData, fixtureData = {}) => {
+export const parseInputFormData = (
+  filterData: InitFilter,
+  fixtureData: Partial<Record<keyof Options, Array<Definition>>> = {}
+) => {
   const options = clonedeep(filterData.options || {})
   const fields = { ...dataLists, ...fixtureData }
 
@@ -104,18 +115,26 @@ export const parseInputFormData = (filterData, fixtureData = {}) => {
     Object.keys(options)
       .filter(
         (fieldName) =>
-          arrayFields.includes(fieldName) && Array.isArray(options[fieldName])
+          arrayFields.includes(fieldName) &&
+          Array.isArray(options[fieldName as keyof Options])
       )
       .forEach((fieldName) => {
-        options[fieldName] = options[fieldName]
+        if (options[fieldName as keyof Options] === undefined) return
+
+        const fieldOptions = (options[fieldName as keyof Options] as Array<any>)
           .map(
-            (value) =>
-              fields[fieldName] &&
-              fields[fieldName].find(
+            (value: string) =>
+              (fields[fieldName as keyof Options] as Array<Definition>)
+                ?.length &&
+              (fields[fieldName as keyof Options] as Array<Definition>).find(
                 ({ key, slug }) => key === value || slug === value
               )
           )
           .filter(Boolean)
+
+        if (fieldOptions) {
+          options[fieldName as keyof Options] = fieldOptions
+        }
       })
   }
 
@@ -125,25 +144,29 @@ export const parseInputFormData = (filterData, fixtureData = {}) => {
 /**
  * Reverse formats filter data
  */
-export const parseToAPIData = (filterData) => {
+export const parseToAPIData = (filterData: InitFilter) => {
   const options = clonedeep(filterData.options || {})
 
   Object.keys(options)
     .filter(
       (fieldName) =>
-        arrayFields.includes(fieldName) && Array.isArray(options[fieldName])
+        arrayFields.includes(fieldName) &&
+        Array.isArray(options[fieldName as keyof Options])
     )
     .forEach((fieldName) => {
-      options[fieldName] = options[fieldName].map(
-        ({ slug, key }) => slug || key
-      )
+      options[fieldName] = (
+        options[fieldName as keyof Options] as Array<Record<string, any>>
+      ).map(({ slug, key }) => slug || key)
     })
 
   return { ...filterData, options }
 }
 
-const map = (key, mapping) => mapping[key] || key
-const mapObject = (original, mapping) =>
+const map = (key: string, mapping: Record<string, any>) => mapping[key] || key
+const mapObject = (
+  original: Record<string, any>,
+  mapping: Record<string, any>
+) =>
   Object.entries(original).reduce(
     (acc, [key, value]) => ({ ...acc, [map(key, mapping)]: value }),
     {}
@@ -154,7 +177,8 @@ const filterParamsMapping = {
   areaType: 'area_type_code',
   routing_department: 'routing_department_code',
 }
-export const mapFilterParams = (params) =>
+
+export const mapFilterParams = (params: Record<string, any>) =>
   mapObject(params, filterParamsMapping)
 
 const filterParamsUnmapping = Object.entries(filterParamsMapping).reduce(
@@ -164,11 +188,13 @@ const filterParamsUnmapping = Object.entries(filterParamsMapping).reduce(
   }),
   {}
 )
-export const unmapFilterParams = (params) =>
+
+export const unmapFilterParams = (params: Record<string, any>) =>
   mapObject(params, filterParamsUnmapping)
 
 const orderingsMapping = {
   days_open: '-created_at',
   '-days_open': 'created_at',
 }
-export const mapOrdering = (ordering) => map(ordering, orderingsMapping)
+
+export const mapOrdering = (ordering: string) => map(ordering, orderingsMapping)

@@ -4,6 +4,7 @@ import type SubCategory from 'types/api/sub-category'
 import type { ExtendedCategory } from 'models/categories/selectors'
 import type { Punctuality } from 'signals/incident-management/definitions/punctualityList'
 import type { Feedback } from 'signals/incident-management/definitions/feedbackList'
+import type { Definition } from 'signals/incident-management/definitions/types'
 
 import {
   DEFAULT_SUBMIT_BUTTON_LABEL,
@@ -22,41 +23,45 @@ import {
 
 import type { Actions } from './actions'
 
-type Filter = {
-  name?: string
-  refresh: boolean
+export type Filter = {
   id?: string
+  name: string
+  refresh: boolean
 }
 
-type CategoryOption = {
-  key: string
-  value: string
-}
-
-type Options = {
+export type Options = {
   address_text: string
-  area: []
+  area: Array<Definition>
   assigned_user_email: ''
   category_slug: Array<SubCategory>
-  directing_department: Array<string>
+  contact_details: Array<Definition>
+  created_after?: Date
+  created_before?: Date
+  directing_department: Array<Definition>
   feedback?: Feedback['key']
-  has_changed_children: []
+  has_changed_children: Array<Definition>
+  kind: Array<Definition>
   maincategory_slug: Array<ExtendedCategory>
   note_keyword: string
-  priority: Array<string>
+  priority: Array<Definition>
   punctuality?: Punctuality['key']
-  routing_department: Array<string>
-  source: Array<CategoryOption>
-  stadsdeel: Array<CategoryOption>
-  status: Array<CategoryOption>
+  routing_department: Array<Definition>
+  source: Array<Definition>
+  stadsdeel: Array<Definition>
+  status: Array<Definition>
+  type: Array<Definition>
 }
 
-type FilterState = {
-  submitBtnLabel:
-    | typeof DEFAULT_SUBMIT_BUTTON_LABEL
-    | typeof SAVE_SUBMIT_BUTTON_LABEL
+export type InitFilter = Filter & {
+  options: Options
+}
+
+export type FilterState = {
   filter: Filter
   options: Options
+  submitBtnLabel?:
+    | typeof DEFAULT_SUBMIT_BUTTON_LABEL
+    | typeof SAVE_SUBMIT_BUTTON_LABEL
 }
 
 export const initialState: FilterState = {
@@ -71,9 +76,11 @@ export const initialState: FilterState = {
     area: [],
     assigned_user_email: '',
     category_slug: [],
+    contact_details: [],
     directing_department: [],
     feedback: undefined,
     has_changed_children: [],
+    kind: [],
     maincategory_slug: [],
     note_keyword: '',
     priority: [],
@@ -82,12 +89,8 @@ export const initialState: FilterState = {
     source: [],
     stadsdeel: [],
     status: [],
+    type: [],
   },
-}
-
-type InitParams = {
-  options: Options
-  filter: Array<Record<keyof Filter, Filter[keyof Filter]>>
 }
 
 /**
@@ -95,7 +98,7 @@ type InitParams = {
  *
  * Merges incoming filter data with the initial state value
  */
-export const init = ({ options, ...filter }: InitParams): FilterState => ({
+export const init = ({ options, ...filter }: InitFilter): FilterState => ({
   ...initialState,
   filter: {
     ...initialState.filter,
@@ -171,13 +174,13 @@ export default (state: FilterState, action: Actions): FilterState => {
         ...state,
         options: {
           ...state.options,
-          category_slug: state.options.category_slug.filter(
+          category_slug: (state.options.category_slug || []).filter(
             ({ _links }) =>
               _links?.['sia:parent']?.public.endsWith(
                 action.payload.category.slug
               ) === false
           ),
-          maincategory_slug: state.options.maincategory_slug
+          maincategory_slug: (state.options.maincategory_slug || [])
             .filter(({ slug }) => slug !== action.payload.category.slug)
             .concat(action.payload.isToggled ? action.payload.category : [])
             .filter(Boolean),
@@ -189,7 +192,7 @@ export default (state: FilterState, action: Actions): FilterState => {
         ...state,
         options: {
           ...state.options,
-          category_slug: state.options.category_slug
+          category_slug: (state.options.category_slug || [])
             .filter(
               ({ _links }) =>
                 _links?.['sia:parent']?.public.endsWith(action.payload.slug) ===
@@ -197,7 +200,7 @@ export default (state: FilterState, action: Actions): FilterState => {
             )
             .concat(action.payload.subCategories)
             .filter(Boolean),
-          maincategory_slug: state.options.maincategory_slug.filter(
+          maincategory_slug: (state.options.maincategory_slug || []).filter(
             ({ _links }) =>
               _links.self.public.endsWith(action.payload.slug) === false
           ),

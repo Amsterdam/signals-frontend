@@ -41,7 +41,7 @@ export type SetCategoriesAction = {
 }
 
 type SetDateActionPayload = Partial<
-  Record<'created_before' | 'created_after', string>
+  Record<'created_before' | 'created_after', Date>
 >
 
 export type SetDateAction = {

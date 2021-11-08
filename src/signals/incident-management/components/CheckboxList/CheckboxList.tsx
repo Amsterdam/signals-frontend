@@ -4,7 +4,7 @@ import { ReactNode, useCallback, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Label } from '@amsterdam/asc-ui'
 
-import type { FC } from 'react'
+import type { FC, FormEvent } from 'react'
 
 import Checkbox from 'components/Checkbox'
 
@@ -89,7 +89,7 @@ export type CheckboxListProps = {
    */
   onChange?: (groupName: string, options: Array<Option>) => void
   /** Adds onSubmit capabilities */
-  onSubmit?: (event: KeyboardEvent) => void
+  onSubmit?: (event: FormEvent<HTMLFormElement>) => void
   /**
    * Callback function that is triggered when a toggle checkbox is checked
    */
