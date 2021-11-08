@@ -34,7 +34,6 @@ const FooterContainer = styled.div`
 `
 
 const ContentContainer = styled.div<{ headerIsTall: boolean }>`
-  contain: content;
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
