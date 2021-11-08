@@ -3,7 +3,11 @@
 import styled from 'styled-components'
 import { Checkbox } from '@amsterdam/asc-ui'
 
-const StyledCheckbox = styled(Checkbox)`
+const StyledCheckbox = styled(Checkbox)<{
+  name?: string
+  type?: string
+  value?: string
+}>`
   z-index: 0;
   & > * {
     margin-left: -4px;

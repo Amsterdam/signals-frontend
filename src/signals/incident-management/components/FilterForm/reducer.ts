@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import type SubCategory from 'types/api/sub-category'
+import type { ExtendedCategory } from 'models/categories/selectors'
+import type { Punctuality } from 'signals/incident-management/definitions/punctualityList'
+import type { Feedback } from 'signals/incident-management/definitions/feedbackList'
+
 import {
   DEFAULT_SUBMIT_BUTTON_LABEL,
   RESET,
@@ -15,7 +20,46 @@ import {
   SET_SAVE_BUTTON_LABEL,
 } from './constants'
 
-export const initialState = {
+import type { Actions } from './actions'
+
+type Filter = {
+  name?: string
+  refresh: boolean
+  id?: string
+}
+
+type CategoryOption = {
+  key: string
+  value: string
+}
+
+type Options = {
+  address_text: string
+  area: []
+  assigned_user_email: ''
+  category_slug: Array<SubCategory>
+  directing_department: Array<string>
+  feedback?: Feedback['key']
+  has_changed_children: []
+  maincategory_slug: Array<ExtendedCategory>
+  note_keyword: string
+  priority: Array<string>
+  punctuality?: Punctuality['key']
+  routing_department: Array<string>
+  source: Array<CategoryOption>
+  stadsdeel: Array<CategoryOption>
+  status: Array<CategoryOption>
+}
+
+type FilterState = {
+  submitBtnLabel:
+    | typeof DEFAULT_SUBMIT_BUTTON_LABEL
+    | typeof SAVE_SUBMIT_BUTTON_LABEL
+  filter: Filter
+  options: Options
+}
+
+export const initialState: FilterState = {
   submitBtnLabel: DEFAULT_SUBMIT_BUTTON_LABEL,
   filter: {
     name: '',
@@ -24,33 +68,34 @@ export const initialState = {
   },
   options: {
     address_text: '',
+    area: [],
+    assigned_user_email: '',
     category_slug: [],
-    feedback: '',
-    punctuality: '',
+    directing_department: [],
+    feedback: undefined,
+    has_changed_children: [],
     maincategory_slug: [],
     note_keyword: '',
     priority: [],
+    punctuality: undefined,
+    routing_department: [],
     source: [],
-    area: [],
     stadsdeel: [],
     status: [],
-    directing_department: [],
-    routing_department: [],
-    has_changed_children: [],
-    assigned_user_email: '',
   },
+}
+
+type InitParams = {
+  options: Options
+  filter: Array<Record<keyof Filter, Filter[keyof Filter]>>
 }
 
 /**
  * State init function
  *
  * Merges incoming filter data with the initial state value
- *
- * @param   {Object} filter
- * @param   {Object} filter.options
- * @returns {Object}
  */
-export const init = ({ options, ...filter }) => ({
+export const init = ({ options, ...filter }: InitParams): FilterState => ({
   ...initialState,
   filter: {
     ...initialState.filter,
@@ -62,7 +107,7 @@ export const init = ({ options, ...filter }) => ({
   },
 })
 
-export default (state, action) => {
+export default (state: FilterState, action: Actions): FilterState => {
   switch (action.type) {
     case RESET:
       return initialState
@@ -128,13 +173,13 @@ export default (state, action) => {
           ...state.options,
           category_slug: state.options.category_slug.filter(
             ({ _links }) =>
-              _links['sia:parent'].public.endsWith(
+              _links?.['sia:parent']?.public.endsWith(
                 action.payload.category.slug
               ) === false
           ),
           maincategory_slug: state.options.maincategory_slug
             .filter(({ slug }) => slug !== action.payload.category.slug)
-            .concat(action.payload.isToggled && action.payload.category)
+            .concat(action.payload.isToggled ? action.payload.category : [])
             .filter(Boolean),
         },
       }
@@ -147,7 +192,7 @@ export default (state, action) => {
           category_slug: state.options.category_slug
             .filter(
               ({ _links }) =>
-                _links['sia:parent'].public.endsWith(action.payload.slug) ===
+                _links?.['sia:parent']?.public.endsWith(action.payload.slug) ===
                 false
             )
             .concat(action.payload.subCategories)
@@ -158,8 +203,5 @@ export default (state, action) => {
           ),
         },
       }
-
-    default:
-      return state
   }
 }

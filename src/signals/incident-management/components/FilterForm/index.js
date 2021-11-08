@@ -131,12 +131,9 @@ const FilterForm = ({
     [initialFormState.filter, initialFormState.options]
   )
 
-  const valuesHaveChanged = useMemo(
-    () =>
-      ((!isNewFilter && !isEqual(currentState, initialState)) || isNewFilter) &&
-      state.filter.name.trim(),
-    [currentState, initialState, state.filter.name, isNewFilter]
-  )
+  const valuesHaveChanged =
+    ((!isNewFilter && !isEqual(currentState, initialState)) || isNewFilter) &&
+    state.filter.name.trim().length > 0
 
   // state update handler; if the form values have changed compared with
   // the initial state, the form's submit button label will change accordingly
@@ -145,9 +142,8 @@ const FilterForm = ({
   }, [state.filter.name, valuesHaveChanged, isNewFilter])
 
   // collection of category objects that is used to set form field values with
-  const filterSlugs = useMemo(
-    () => state.options.maincategory_slug.concat(state.options.category_slug),
-    [state.options.category_slug, state.options.maincategory_slug]
+  const filterSlugs = state.options.maincategory_slug.concat(
+    state.options.category_slug
   )
 
   const dateFrom =

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Label } from '@amsterdam/asc-ui'
 
+import type { FC } from 'react'
+
 import Checkbox from 'components/Checkbox'
-import * as types from 'shared/types'
 
 const FilterGroup = styled.div`
   contain: content;
@@ -17,7 +17,7 @@ const FilterGroup = styled.div`
   }
 `
 
-const Toggle = styled.label`
+const Toggle = styled.label<{ indent: boolean }>`
   display: inline-block;
   color: rgb(0, 70, 153);
   margin-left: ${({ indent }) => indent && 2}0px;
@@ -44,7 +44,7 @@ const Toggle = styled.label`
   }
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ disabled: boolean }>`
   ${({ disabled }) =>
     disabled &&
     css`
@@ -54,10 +54,60 @@ const Wrapper = styled.div`
     `}
 `
 
-const setsAreEqual = (a, b) =>
+const setsAreEqual = (a: Set<any>, b: Set<any>) =>
   a.size === b.size && [...a].every((value) => b.has(value))
 
-const CheckboxList = ({
+type Option = {
+  disabled?: boolean
+  id?: string | number
+  key?: string
+  slug?: string
+  value: string
+}
+
+export type CheckboxListProps = {
+  boxWrapperKeyPrefix?: string
+  className?: string
+  /** List of keys for elements that need to be checked by default */
+  defaultValue?: Array<Option>
+  /**
+   * Unique group identifier. Is used to match against the values of the `prop` attribute in the `options` prop.
+   * If a match is found, the entire group is checked. Do note that, despite the name, this prop is not used as
+   * the `id` attribute for any of the checkboxes.
+   */
+  groupId?: string
+  /** Name of the toggle field as it should appear in the form data */
+  groupName?: string
+  /** Value for the toggle field as it should appear in the form data */
+  groupValue?: string
+  /** When true, will show a toggle element */
+  hasToggle?: boolean
+  /** Value of the `name` attribute of the checkboxes */
+  name: string
+  /**
+   * Callback function that is triggered when an individual checkbox is checked
+   */
+  onChange?: (groupName: string, options: Array<Option>) => void
+  /** Adds onSubmit capabilities */
+  onSubmit?: (event: KeyboardEvent) => void
+  /**
+   * Callback function that is triggered when a toggle checkbox is checked
+   */
+  onToggle?: (groupName: string, allOptionsChecked: boolean) => void
+  /**
+   * Values to be rendered as checkbox elements
+   * Note that either one of `id` or `key` values should be present in an options entry
+   */
+  options: Array<Option>
+  /** Group label contents */
+  title?: ReactNode | null
+  /** Text label for the group toggle in its untoggled state */
+  toggleAllLabel?: string
+  /** Text label for the group toggle in its toggled state */
+  toggleNothingLabel?: string
+}
+
+const CheckboxList: FC<CheckboxListProps> = ({
   boxWrapperKeyPrefix,
   className,
   defaultValue,
@@ -76,28 +126,17 @@ const CheckboxList = ({
 }) => {
   /**
    * Tracking of boxes that have been checked
-   *
-   * @param {Array} state
-   * @param {Object[]} checked - List of options that correspond to checked boxes
-   * @param {Function} setChecked - Handler that receives the full list of checked boxes
    */
   const [checked, setChecked] = useState(new Set(defaultValue))
 
   /**
    * Toggle selection indicator
-   *
-   * @param {Array} state
-   * @param {Boolean} toggled - Indicates if the toggle has been clicked/activated
-   * @param {Function} setToggled - Handler that receives a boolean
    */
   const [toggled, setToggled] = useState(false)
-  const numOptions = useMemo(() => options.length, [options])
+  const numOptions = options.length
 
   /**
    * Verify if an option has been marked as checked
-   *
-   * @param {String} id - key to check for
-   * @returns {Boolean}
    */
   const isChecked = useCallback(
     (id, state = checked) => {
@@ -144,7 +183,7 @@ const CheckboxList = ({
   const getOption = useCallback(
     // id is always a string, because it comes from an HTML data- attribute
     // cast the comparing value to a string to make sure that we're comparing the same things
-    (id) =>
+    (id: string) =>
       options.find((option) => `${option.id}` === id || `${option.key}` === id),
     [options]
   )
@@ -175,7 +214,9 @@ const CheckboxList = ({
 
     setToggled(wholeGroupChecked)
 
-    setChecked(wholeGroupChecked ? options : state)
+    const optionsSet = new Set(options)
+
+    setChecked(wholeGroupChecked ? optionsSet : state)
 
     // don't need all dependencies; only execute when value of `defaultValue` prop changes
     // eslint-disable-next-line
@@ -196,11 +237,12 @@ const CheckboxList = ({
         const modifiedState = new Set(state)
 
         if (targetIsChecked) {
-          modifiedState.add(getOption(target.dataset.id))
+          const option = getOption(target.dataset.id)
+          option && modifiedState.add(option)
         } else {
           const option = getChecked(target.dataset.id)
 
-          modifiedState.delete(option)
+          option && modifiedState.delete(option)
         }
 
         const allOptionsChecked = modifiedState.size === numOptions
@@ -214,7 +256,7 @@ const CheckboxList = ({
         } else {
           const onChangeTimeout = global.setTimeout(() => {
             global.clearTimeout(onChangeTimeout)
-            onChange(groupValue || name, [...modifiedState])
+            onChange && onChange(groupValue || name, [...modifiedState])
           }, 0)
         }
 
@@ -228,7 +270,7 @@ const CheckboxList = ({
    * Checks or unchecks all options in state
    */
   const handleToggle = useCallback(() => {
-    onToggle(groupValue || name, !toggled)
+    onToggle && onToggle(groupValue || name, !toggled)
     setChecked(new Set(toggled ? [] : options))
     setToggled(!toggled)
   }, [groupValue, name, onToggle, options, toggled])
@@ -237,12 +279,13 @@ const CheckboxList = ({
     (event) => {
       switch (event.key) {
         case ' ':
+          // Space
           event.preventDefault()
           handleToggle()
           break
 
         case 'Enter':
-          onSubmit(event)
+          onSubmit && onSubmit(event)
           break
 
         default:
@@ -260,7 +303,7 @@ const CheckboxList = ({
         <Toggle
           indent={Boolean(title)}
           tabIndex={0}
-          onClick={groupName ? null : handleToggle}
+          onClick={groupName ? undefined : handleToggle}
           onKeyDown={handleKeyDown}
         >
           {toggled ? toggleNothingLabel : toggleAllLabel}
@@ -284,15 +327,16 @@ const CheckboxList = ({
           .filter(Boolean)
           .join('_')
         const value = slug || key
-        const defaultOption =
-          defaultValue.find((option) => option.id === id) || {}
+        const defaultOption = defaultValue?.find(
+          (option) => option.id === id
+        ) || { disabled: false }
 
         if (!uid) {
           return null
         }
 
         return (
-          <Wrapper disabled={defaultOption.disabled} key={optionId}>
+          <Wrapper disabled={defaultOption.disabled || false} key={optionId}>
             <Label
               htmlFor={optionId}
               label={label}
@@ -301,8 +345,8 @@ const CheckboxList = ({
             >
               <Checkbox
                 checked={isChecked(groupId) || isChecked(uid)}
-                data-testid={`checkbox-${optionId}`}
                 data-id={uid}
+                data-testid={`checkbox-${optionId}`}
                 id={optionId}
                 name={name}
                 onChange={handleIndividualCheck}
@@ -331,55 +375,6 @@ CheckboxList.defaultProps = {
   title: null,
   toggleAllLabel: 'Alles selecteren',
   toggleNothingLabel: 'Niets selecteren',
-}
-
-CheckboxList.propTypes = {
-  boxWrapperKeyPrefix: PropTypes.string,
-  /** @ignore */
-  className: PropTypes.string,
-  /** List of keys for elements that need to be checked by default */
-  defaultValue: types.dataListType,
-  /**
-   * Unique group identifier. Is used to match against the values of the `prop` attribute in the `options` prop.
-   * If a match is found, the entire group is checked. Do note that, despite the name, this prop is not used as
-   * the `id` attribute for any of the checkboxes.
-   */
-  groupId: PropTypes.string,
-  /** Name of the toggle field as it should appear in the form data */
-  groupName: PropTypes.string,
-  /** Value for the toggle field as it should appear in the form data */
-  groupValue: PropTypes.string,
-  /** When true, will show a toggle element */
-  hasToggle: PropTypes.bool,
-  /** Value of the `name` attribute of the checkboxes */
-  name: PropTypes.string.isRequired,
-  /**
-   * Callback function that is triggered when an individual checkbox is checked
-   *
-   * @param {String} (groupvalue|name) - Either the `groupname` or `name` value of this component
-   * @param {Object[]} - List of values for the checked boxes
-   */
-  onChange: PropTypes.func,
-  /**
-   * Callback function that is triggered when a toggle checkbox is checked
-   *
-   * @param {String} (groupvalue|name) - Either the `groupname` or `name` value of this component
-   * @param {boolean} - Indicator for the toggle status of the group
-   */
-  onToggle: PropTypes.func,
-  /**
-   * Values to be rendered as checkbox elements
-   * Note that either one of `id` or `key` values should be present in an options entry
-   */
-  options: types.dataListType.isRequired,
-  /** Adds onSubmit capabilities */
-  onSubmit: PropTypes.func,
-  /** Group label contents */
-  title: PropTypes.node,
-  /** Text label for the group toggle in its untoggled state */
-  toggleAllLabel: PropTypes.string,
-  /** Text label for the group toggle in its toggled state */
-  toggleNothingLabel: PropTypes.string,
 }
 
 export default CheckboxList

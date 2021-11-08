@@ -28,6 +28,8 @@
     "is_active": true,
     "description": null,
     "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
+    "departments": [],
+    "note": "",
     "sub": [
       {
         "_display": "Boom - boomstob (Openbaar groen en water)",
@@ -61,7 +63,9 @@
         "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob",
         "is_active": true,
         "description": null,
-        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob"
+        "key": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob",
+        "departments": [],
+        "note": ""
       }
     ]
   },

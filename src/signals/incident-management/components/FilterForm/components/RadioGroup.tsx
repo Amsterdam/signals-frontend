@@ -1,15 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+import type { FC } from 'react'
 
-import * as types from 'shared/types'
 import Label from 'components/Label'
 import RadioButtonList from '../../RadioButtonList'
 import { FilterGroup } from '../styled'
 
-const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
-  Array.isArray(options) &&
-  options.length > 0 && (
+import type { RadioButtonListProps } from '../../RadioButtonList'
+
+type RadioGroupProps = Partial<RadioButtonListProps> & {
+  label: string
+  name: string
+}
+
+const RadioGroup: FC<RadioGroupProps> = ({
+  defaultValue,
+  onChange,
+  options,
+  name,
+  label,
+}) =>
+  Array.isArray(options) && options.length > 0 ? (
     <FilterGroup data-testid={`${name}RadioGroup`}>
       <Label as="span" isGroupHeader>
         {label}
@@ -21,18 +32,10 @@ const RadioGroup = ({ defaultValue, onChange, options, name, label }) =>
         options={options}
       />
     </FilterGroup>
-  )
+  ) : null
 
 RadioGroup.defaultProps = {
   defaultValue: '',
-}
-
-RadioGroup.propTypes = {
-  defaultValue: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  options: types.dataListType.isRequired,
 }
 
 export default RadioGroup
