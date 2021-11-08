@@ -160,7 +160,8 @@ module.exports = ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       PROXY: JSON.stringify(process.env.PROXY) || false,
-      GIT_BRANCH: JSON.stringify(process.env.GIT_BRANCH) || 'dummy',
+      FRONTEND_TAG: JSON.stringify(process.env.FRONTEND_TAG) || 'dummy',
+      DOMAIN_TAG: JSON.stringify(process.env.DOMAIN_TAG) || 'dummy',
       BUILD_ENV: JSON.stringify(process.env.BUILD_ENV) || 'development',
     }),
 
