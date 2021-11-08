@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
@@ -24,16 +24,15 @@ describe('<FooterContainer />', () => {
 
     expect(container.querySelector('div.no-print')).toBeInTheDocument()
     expect(getByTestId('disclaimer')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute(
+      'href',
+      configuration.links.privacy
+    )
     expect(
-      container.querySelector('a[href="https://www.amsterdam.nl/privacy/"]')
-    ).toBeInTheDocument()
+      screen.getByRole('link', { name: 'Over deze site' })
+    ).toHaveAttribute('href', configuration.links.about)
     expect(
-      container.querySelector(
-        'a[href="https://www.amsterdam.nl/overdezesite/"]'
-      )
-    ).toBeInTheDocument()
-    expect(
-      container.querySelector('a[href="/toegankelijkheid/"]')
-    ).toBeInTheDocument()
+      screen.getByRole('link', { name: 'Toegankelijkheid' })
+    ).toHaveAttribute('href', configuration.links.accessibility)
   })
 })
