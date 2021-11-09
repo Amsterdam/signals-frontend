@@ -4,10 +4,11 @@ import type { FunctionComponent } from 'react'
 import type { History } from 'types/history'
 import styled from 'styled-components'
 import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import ReactMarkdown from 'react-markdown'
 
 import { string2date, string2time } from 'shared/services/string-parser'
 import type { Theme } from 'types/theme'
+
+import Markdown from 'components/Markdown'
 
 const List = styled.ul`
   margin: 0;
@@ -64,16 +65,12 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
         <Action>
           {action && (
             <div data-testid="history-list-item-action">
-              <ReactMarkdown allowedElements={['a', 'p']}>
-                {action}
-              </ReactMarkdown>
+              <Markdown allowedElements={['a', 'p']}>{action}</Markdown>
             </div>
           )}
           {description && (
             <div data-testid="history-list-item-description">
-              <ReactMarkdown allowedElements={['a', 'p']}>
-                {description}
-              </ReactMarkdown>
+              <Markdown allowedElements={['a', 'p']}>{description}</Markdown>
             </div>
           )}
         </Action>

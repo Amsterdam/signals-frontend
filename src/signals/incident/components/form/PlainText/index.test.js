@@ -54,30 +54,6 @@ describe('Form component <PlainText />', () => {
       expect(getByText(props.meta.value)).toBeInTheDocument()
     })
 
-    it('should render markdown correctly', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-      const injection = '{incident.id}'
-      const props = getProps({
-        ...metaProps,
-        value: `# Header\n[this](https://example.com) link\nInjected: ${injection}`,
-      })
-
-      render(withAppContext(<PlainText {...props} />))
-      expect(
-        screen.getByRole('heading', { name: 'Header' })
-      ).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: 'this' })).toBeInTheDocument()
-      expect(
-        screen.queryByText('# Header', { exact: false })
-      ).not.toBeInTheDocument()
-      expect(
-        screen.getByText(incidentId.toString(), { exact: false })
-      ).toBeInTheDocument()
-      expect(
-        screen.queryByText(injection, { exact: false })
-      ).not.toBeInTheDocument()
-    })
-
     it('should render plain text with links correctly when NOT authenticated', () => {
       const linkText = 'the-link'
       const linkAuthenticatedText = 'auth-link'

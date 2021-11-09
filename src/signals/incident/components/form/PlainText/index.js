@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import get from 'lodash/get'
@@ -8,6 +7,7 @@ import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
+import Markdown from 'components/Markdown'
 
 const injectParent = (value, parent) =>
   mapDynamicFields(value, {
@@ -88,14 +88,10 @@ const PlainText = ({ className, meta, parent }) => {
     <Wrapper className={className} type={meta.type} data-testid="plainText">
       {meta.label && <Label>{meta.label}</Label>}
       {valueAuthenticated && (
-        <ReactMarkdown>
-          {injectParent(valueAuthenticated, parent)}
-        </ReactMarkdown>
+        <Markdown>{injectParent(valueAuthenticated, parent)}</Markdown>
       )}
       {value && (
-        <ReactMarkdown linkTarget="_blank">
-          {injectParent(value, parent)}
-        </ReactMarkdown>
+        <Markdown linkTarget="_blank">{injectParent(value, parent)}</Markdown>
       )}
     </Wrapper>
   ) : null
