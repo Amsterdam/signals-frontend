@@ -28,17 +28,16 @@ import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
 
 const ContentContainer = styled.div<{
-  headerIsTall: boolean
-  paddingBottom: boolean
+  padding: { top: number; bottom: number }
 }>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
   max-width: 1400px;
-  padding-bottom: ${({ paddingBottom }) => paddingBottom && 20}px;
+  padding-bottom: ${({ padding }) => padding.bottom}px;
   width: 100%;
   z-index: 0;
-  padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
+  padding-top: ${({ padding }) => padding.top}px;
 `
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -100,8 +99,10 @@ export const AppContainer = () => {
           {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
 
           <ContentContainer
-            headerIsTall={headerIsTall}
-            paddingBottom={headerIsTall}
+            padding={{
+              top: headerIsTall ? 0 : 50,
+              bottom: getIsAuthenticated() ? 20 : 0,
+            }}
           >
             <Suspense fallback={<LoadingIndicator />}>
               <Switch>
@@ -133,12 +134,8 @@ export const AppContainer = () => {
                 <Route component={NotFoundPage} />
               </Switch>
             </Suspense>
+            {!getIsAuthenticated() && <FooterContainer />}
           </ContentContainer>
-          {!getIsAuthenticated() && (
-            <ContentContainer headerIsTall={true} paddingBottom={false}>
-              <FooterContainer />
-            </ContentContainer>
-          )}
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>
