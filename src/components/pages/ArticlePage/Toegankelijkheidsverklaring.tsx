@@ -47,7 +47,11 @@ const Toegankelijkheidsverklaring: FC = () => (
       <List variant="bullet">
         <ListItem>
           23-07-2021: Handmatig onderzoek door Firm Ground:{' '}
-          <Link variant="inline" icon="download" href="/assets/files/">
+          <Link
+            variant="inline"
+            icon="download"
+            href="/assets/files/2021-07-23 Toegankelijkheidsonderzoek Meldingen-systeem Amsterdam, Amsterdamse Bos en Weesp (www.meldingen.amsterdam.nl) versie 2.0.pdf"
+          >
             document downloaden
           </Link>
         </ListItem>
@@ -137,7 +141,7 @@ const Toegankelijkheidsverklaring: FC = () => (
         Meld het via{' '}
         <Link
           variant="inline"
-          href="https://formulieren.amsterdam.nl/TriplEforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Klachtenformulier.aspx/fKlachtenformulier"
+          href="https://formulieren.amsterdam.nl/tripleforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Klachtenformulier.aspx"
         >
           ons contactformulier
         </Link>
