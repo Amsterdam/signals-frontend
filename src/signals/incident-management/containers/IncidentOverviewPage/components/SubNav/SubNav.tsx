@@ -19,7 +19,7 @@ const SubNav: FC<SubNavProps> = ({ showsMap }) => (
       <MapHeading data-testid="subNavHeader">Afgelopen 24 uur</MapHeading>
     )}
 
-    <TabContainer>
+    <TabContainer data-testid="subNav">
       {showsMap ? (
         <>
           <Tab data-testid="subNavListLink" as={Link} to={INCIDENTS_URL}>
