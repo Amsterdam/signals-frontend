@@ -27,12 +27,15 @@ import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
 
-const ContentContainer = styled.div<{ headerIsTall: boolean }>`
+const ContentContainer = styled.div<{
+  headerIsTall: boolean
+  paddingBottom: boolean
+}>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
   max-width: 1400px;
-  padding-bottom: 20px;
+  padding-bottom: ${({ paddingBottom }) => paddingBottom && 20}px;
   width: 100%;
   z-index: 0;
   padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
@@ -96,7 +99,10 @@ export const AppContainer = () => {
         <Fragment>
           {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
 
-          <ContentContainer headerIsTall={headerIsTall}>
+          <ContentContainer
+            headerIsTall={headerIsTall}
+            paddingBottom={headerIsTall}
+          >
             <Suspense fallback={<LoadingIndicator />}>
               <Switch>
                 <Redirect exact from="/" to="/incident/beschrijf" />
@@ -128,8 +134,11 @@ export const AppContainer = () => {
               </Switch>
             </Suspense>
           </ContentContainer>
-
-          {!getIsAuthenticated() && <FooterContainer />}
+          {!getIsAuthenticated() && (
+            <ContentContainer headerIsTall={true} paddingBottom={false}>
+              <FooterContainer />
+            </ContentContainer>
+          )}
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>
