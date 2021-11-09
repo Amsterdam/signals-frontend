@@ -107,25 +107,24 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <ThParent data-testid="parent" />
-            <ThPriority data-testid="priority" />
-            <Th data-testid="sortId">Id</Th>
-            <Th data-testid="sortDaysOpen">Dag</Th>
-            <ThDate data-testid="sortCreatedAt">Datum en tijd</ThDate>
-            <ThSubcategory data-testid="sortSubcategory">
-              Subcategorie
-            </ThSubcategory>
-            <ThStatus data-testid="sortStatus">Status</ThStatus>
+            <ThParent />
+            <ThPriority />
+            <Th>Id</Th>
+            <Th>Dag</Th>
+            <ThDate>Datum en tijd</ThDate>
+            <ThSubcategory>Subcategorie</ThSubcategory>
+            <ThStatus>Status</ThStatus>
+
             {configuration.featureFlags.fetchDistrictsFromBackend ? (
-              <ThArea data-testid="sortDistrict">
-                {configuration.language.district}
-              </ThArea>
+              <ThArea>{configuration.language.district}</ThArea>
             ) : (
-              <ThArea data-testid="sortStadsdeel">Stadsdeel</ThArea>
+              <ThArea>Stadsdeel</ThArea>
             )}
-            <Th data-testid="sortAddress">Adres</Th>
+
+            <Th>Adres</Th>
+
             {configuration.featureFlags.assignSignalToEmployee && (
-              <Th data-testid="sortAssigedUserEmail">Toegewezen aan</Th>
+              <Th>Toegewezen aan</Th>
             )}
           </tr>
         </thead>

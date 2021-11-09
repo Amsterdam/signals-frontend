@@ -49,7 +49,6 @@ const props = {
   priority: priorityList,
   status: statusList,
   stadsdeel: stadsdeelList,
-  onChangeOrdering: jest.fn(),
   sort: '-created_at',
 }
 
@@ -58,7 +57,6 @@ describe('List', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     configuration.__reset()
-    props.onChangeOrdering.mockReset()
   })
 
   it('should render column headers correctly', () => {
