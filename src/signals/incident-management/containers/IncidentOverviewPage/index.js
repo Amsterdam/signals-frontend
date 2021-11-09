@@ -41,6 +41,7 @@ import FilterTagList from '../FilterTagList/FilterTagList'
 import List from './components/List'
 import SubNav from './components/SubNav'
 import QuickFilter from './components/QuickFilter'
+import Sort from './components/Sort'
 import {
   TitleRow,
   PageHeaderItem,
@@ -144,18 +145,16 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const pagination =
     !showsMap && totalPages > 1 ? (
-      <Column span={12}>
-        <StyledPagination
-          data-testid="pagination"
-          collectionSize={count}
-          pageSize={FILTER_PAGE_SIZE}
-          page={page}
-          onPageChange={(page) => {
-            global.window.scrollTo(0, 0)
-            pageChangedAction(page)
-          }}
-        />
-      </Column>
+      <StyledPagination
+        data-testid="pagination"
+        collectionSize={count}
+        pageSize={FILTER_PAGE_SIZE}
+        page={page}
+        onPageChange={(page) => {
+          global.window.scrollTo(0, 0)
+          pageChangedAction(page)
+        }}
+      />
     ) : null
 
   return (
@@ -224,6 +223,10 @@ export const IncidentOverviewPageContainerComponent = ({
 
         <NavWrapper>
           {pagination}
+          <Sort
+            activeOrdering={ordering}
+            onChangeOrdering={orderingChangedAction}
+          />
           <SubNav showsMap={showsMap} />
         </NavWrapper>
       </Row>
@@ -246,8 +249,6 @@ export const IncidentOverviewPageContainerComponent = ({
             {canRenderList && (
               <List
                 incidents={incidents.results}
-                onChangeOrdering={orderingChangedAction}
-                sort={ordering}
                 incidentsCount={count}
                 isLoading={loadingIncidents}
                 {...dataLists}

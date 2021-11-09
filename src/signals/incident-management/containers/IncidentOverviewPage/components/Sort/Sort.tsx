@@ -12,9 +12,14 @@ const SelectContainer = styled.div`
   label {
     margin-right: ${themeSpacing(8)};
   }
+
+  select {
+    min-width: 220px;
+  }
 `
 
 type SortProps = {
+  activeSort?: SortOptions
   className?: ''
   onChangeOrdering: (sort: string) => void
 }
@@ -36,7 +41,11 @@ export enum SortOptions {
   SUBCATEGORY_DESC = '-sub_category',
 }
 
-const Sort: FC<SortProps> = ({ onChangeOrdering }) => {
+const Sort: FC<SortProps> = ({
+  activeSort = SortOptions.CREATED_AT_DESC,
+  className = '',
+  onChangeOrdering,
+}) => {
   const [sort, setSort] = useState<SortOptions>()
   const onChange = useCallback(
     (event) => {
@@ -53,33 +62,32 @@ const Sort: FC<SortProps> = ({ onChangeOrdering }) => {
   }, [onChangeOrdering, sort])
 
   return (
-    <SelectContainer>
+    <SelectContainer className={className}>
       <Select
         data-testid="incidentSortSelect"
+        defaultValue={activeSort}
         id="sortSelect"
         label="Sorteren"
         onChange={onChange}
       >
         <option value={SortOptions.CREATED_AT_ASC}>Datum: nieuw - oud</option>
         <option value={SortOptions.CREATED_AT_DESC}>Datum: oud - nieuw</option>
-        <option value={SortOptions.PRIORITY_ASC}>Urgentie: hoog - laag</option>
-        <option value={SortOptions.PRIORITY_DESC}>Urgentie: laag - hoog</option>
-        <option value={SortOptions.BUROUGH_ASC}>Stadsdeel A-Z</option>
-        <option value={SortOptions.BUROUGH_DESC}>Stadsdeel Z-A</option>
+        <option value={SortOptions.SUBCATEGORY_ASC}>Subcategorie: A-Z</option>
+        <option value={SortOptions.SUBCATEGORY_DESC}>Subcategorie: Z-A</option>
         <option value={SortOptions.STATUS_ASC}>Status A-Z</option>
         <option value={SortOptions.STATUS_DESC}>Status Z-A</option>
+        <option value={SortOptions.BUROUGH_ASC}>Stadsdeel A-Z</option>
+        <option value={SortOptions.BUROUGH_DESC}>Stadsdeel Z-A</option>
+        <option value={SortOptions.PRIORITY_ASC}>Urgentie: hoog - laag</option>
+        <option value={SortOptions.PRIORITY_DESC}>Urgentie: laag - hoog</option>
         <option value={SortOptions.ADDRESS_ASC}>Adres A-Z</option>
         <option value={SortOptions.ADDRESS_DESC}>Adres Z-A</option>
-        <option value={SortOptions.CREATED_AT_ASC}>Dag: hoog - laag</option>
-        <option value={SortOptions.CREATED_AT_DESC}>Dag: laag - hoog</option>
         <option value={SortOptions.ASSIGNED_USER_EMAIL_ASC}>
           Toegewezen aan: A-Z
         </option>
         <option value={SortOptions.ASSIGNED_USER_EMAIL_DESC}>
           Toegewezen aan: Z-A
         </option>
-        <option value={SortOptions.SUBCATEGORY_ASC}>Subcategorie: A-Z</option>
-        <option value={SortOptions.SUBCATEGORY_DESC}>Subcategorie: Z-A</option>
       </Select>
     </SelectContainer>
   )
