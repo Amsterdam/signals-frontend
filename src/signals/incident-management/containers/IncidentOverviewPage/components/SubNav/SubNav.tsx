@@ -10,7 +10,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import { MAP_URL, INCIDENTS_URL } from '../../../../routes'
 
-export const MapHeading = styled(Heading).attrs({
+const MapHeading = styled(Heading).attrs({
   forwardedAs: 'h2',
 })`
   margin: 0;
@@ -19,7 +19,7 @@ export const MapHeading = styled(Heading).attrs({
   font-weight: 400;
 `
 
-export const TabContainer = styled.div`
+const TabContainer = styled.div`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
   display: flex;
   padding-bottom: ${themeSpacing(1)};
@@ -29,7 +29,7 @@ export const TabContainer = styled.div`
   }
 `
 
-export const Tab = styled.span`
+const Tab = styled.span`
   line-height: 24px;
   font-size: 18px;
   font-family: Avenir Next LT W01 Demi, arial, sans-serif;
@@ -51,10 +51,6 @@ export const Tab = styled.span`
   & + & {
     margin-left: ${themeSpacing(7)};
   }
-`
-
-export const TabWrapper = styled.div`
-  height: ${themeSpacing(8)};
 `
 
 type SubNavProps = {
