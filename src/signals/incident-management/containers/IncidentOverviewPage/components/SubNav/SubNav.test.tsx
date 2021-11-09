@@ -11,6 +11,8 @@ jest.mock('shared/services/configuration/configuration')
 
 describe('signals/incident-management/containers/IncidentOverviewPage/components/SubNav', () => {
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.__reset()
   })
 
