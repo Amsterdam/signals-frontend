@@ -3,7 +3,7 @@
 import { themeSpacing, Icon, themeColor } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const StyledList = styled.div<{ isLoading: boolean }>`
+export const StyledList = styled.div<{ isLoading?: boolean }>`
   width: 100%;
   overflow: auto;
 
@@ -22,13 +22,8 @@ export const Table = styled.table`
 `
 
 export const Th = styled.th`
-  cursor: pointer;
   font-weight: normal;
   white-space: nowrap;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `
 
 export const Tr = styled.tr`

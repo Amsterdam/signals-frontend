@@ -49,7 +49,6 @@ const props = {
   priority: priorityList,
   status: statusList,
   stadsdeel: stadsdeelList,
-  onChangeOrdering: jest.fn(),
   sort: '-created_at',
 }
 
@@ -58,7 +57,6 @@ describe('List', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     configuration.__reset()
-    props.onChangeOrdering.mockReset()
   })
 
   it('should render column headers correctly', () => {
@@ -209,30 +207,6 @@ describe('List', () => {
   })
 
   describe('events', () => {
-    it('should sort asc the incidents when the header is clicked', () => {
-      render(withContext(<List {...props} sort="-created_at" />))
-
-      expect(props.onChangeOrdering).not.toHaveBeenCalled()
-
-      userEvent.click(
-        screen.getByRole('columnheader', { name: 'Datum en tijd' })
-      )
-
-      expect(props.onChangeOrdering).toHaveBeenCalledWith('created_at')
-    })
-
-    it('should sort desc the incidents when the header is clicked', () => {
-      render(withContext(<List {...props} sort="created_at" />))
-
-      expect(props.onChangeOrdering).not.toHaveBeenCalled()
-
-      userEvent.click(
-        screen.getByRole('columnheader', { name: 'Datum en tijd' })
-      )
-
-      expect(props.onChangeOrdering).toHaveBeenCalledWith('-created_at')
-    })
-
     it('should not show days open for specific statuses', () => {
       const incidentWithStatus = (state: StatusCode, id: number) =>
         ({

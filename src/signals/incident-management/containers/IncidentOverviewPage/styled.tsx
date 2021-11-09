@@ -30,7 +30,7 @@ export const ButtonWrapper = styled.div`
 
 export const StyledPagination = styled(CompactPager)`
   background-color: ${themeColor('tint', 'level1')};
-  display: inline-flex;
+  min-width: 200px;
 `
 
 export const PaginationWrapper = styled.div`
@@ -72,11 +72,11 @@ export const MapWrapper = styled(Column).attrs({
 export const NavWrapper = styled(Column).attrs({
   span: 12,
 })`
-  display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
-  height: 46px;
+  min-height: 46px;
   margin-bottom: ${themeSpacing(5)};
 `
 
