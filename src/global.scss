@@ -1,27 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2018 - 2021 Gemeente Amsterdam */
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./stijl/fonts/AvenirNext/2cd55546-ec00-4af9-aeca-4a3cd186da53.woff2')
-      format('woff2'),
-    url('./stijl/fonts/AvenirNext/1e9892c0-6927-4412-9874-1b82801ba47a.woff')
-      format('woff');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./stijl/fonts/AvenirNextDemi/aad99a1f-7917-4dd6-bbb5-b07cedbff64f.woff2')
-      format('woff2'),
-    url('./stijl/fonts/AvenirNextDemi/91b50bbb-9aa1-4d54-9159-ec6f19d14a7c.woff')
-      format('woff');
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
 .col-md-6,
 .col-sm-12 {
   position: relative;
