@@ -27,20 +27,20 @@ type SortProps = {
 }
 
 export enum SortOptions {
-  ADDRESS_ASC = '-address',
-  ADDRESS_DESC = 'address',
-  ASSIGNED_USER_EMAIL_ASC = '-assigned_user_email',
-  ASSIGNED_USER_EMAIL_DESC = 'assigned_user_email',
-  BUROUGH_ASC = '-stadsdeel',
-  BUROUGH_DESC = 'stadsdeel',
+  ADDRESS_ASC = 'address',
+  ADDRESS_DESC = '-address',
+  ASSIGNED_USER_EMAIL_ASC = 'assigned_user_email',
+  ASSIGNED_USER_EMAIL_DESC = '-assigned_user_email',
+  BUROUGH_ASC = 'stadsdeel',
+  BUROUGH_DESC = '-stadsdeel',
   CREATED_AT_ASC = '-created_at',
   CREATED_AT_DESC = 'created_at',
-  PRIORITY_ASC = '-priority',
-  PRIORITY_DESC = 'priority',
-  STATUS_ASC = '-status',
-  STATUS_DESC = 'status',
-  SUBCATEGORY_ASC = '-sub_category',
-  SUBCATEGORY_DESC = 'sub_category',
+  PRIORITY_ASC = 'priority',
+  PRIORITY_DESC = '-priority',
+  STATUS_ASC = 'status',
+  STATUS_DESC = '-status',
+  SUBCATEGORY_ASC = 'sub_category',
+  SUBCATEGORY_DESC = '-sub_category',
 }
 
 const Sort: FC<SortProps> = ({
