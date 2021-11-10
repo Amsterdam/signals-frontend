@@ -15,7 +15,7 @@ import configuration from 'shared/services/configuration/configuration'
 import loadModels from 'models'
 
 // Import CSS and Global Styles
-import './global.scss'
+import './global.css'
 import './polyfills'
 
 import configureStore from './configureStore'
