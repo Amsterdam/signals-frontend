@@ -38,7 +38,6 @@ const FieldSet = styled.fieldset`
 `
 
 const Optional = styled.span`
-  font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   margin-left: ${themeSpacing(2)};
 `
 
