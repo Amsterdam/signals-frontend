@@ -17,14 +17,9 @@ const Hint = styled(Typography).attrs({
   color: ${themeColor('tint', 'level5')};
   display: block;
   margin-bottom: ${themeSpacing(2)};
-  font-size: 16px;
-  line-height: 22px;
 `
 
 const StyledInput = styled(AscInput)<{ showError: boolean }>`
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 22px;
   padding: 10px; /* needed to style the textboxes as according to the design system */
   box-shadow: initial;
 
@@ -46,14 +41,13 @@ const Error = styled(Typography).attrs({
   forwardedAs: 'h6',
 })`
   color: ${themeColor('secondary')};
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal;
+  font-weight: 700;
   margin: ${themeSpacing(2)} 0;
 `
 
 export const StyledLabel = styled(Label)<{ hasHint: boolean }>`
   display: block;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
   ${({ hasHint }) =>
     !hasHint &&
     css`

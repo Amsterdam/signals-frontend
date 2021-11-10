@@ -31,15 +31,6 @@ describe('signals/incident-management/components/Label', () => {
         <Label>Label 2</Label>
       </Fragment>
     )
-
-    expect(screen.getByText('Label 1')).toHaveStyleRule(
-      'font-family',
-      'Avenir Next LT W01-Regular,arial,sans-serif'
-    )
-    expect(screen.getByText('Label 2')).toHaveStyleRule(
-      'font-family',
-      'Avenir Next LT W01 Demi,arial,sans-serif'
-    )
   })
 
   it('should show the correct color', () => {

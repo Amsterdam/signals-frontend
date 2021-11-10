@@ -44,7 +44,6 @@ const StyledMetaList = styled.dl`
 
     &.alert {
       color: ${themeColor('secondary')};
-      font-family: Avenir Next LT W01 Demi, arial, sans-serif;
     }
   }
 `

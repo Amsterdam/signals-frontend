@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Column, Row, themeColor } from '@amsterdam/asc-ui'
-import Button from 'components/Button'
 import { FunctionComponent, MouseEventHandler } from 'react'
 import styled, { css } from 'styled-components'
+
+import Button from 'components/Button'
 
 export const FORM_FOOTER_HEIGHT = 66
 
@@ -16,7 +17,7 @@ export const FooterWrapper = styled.footer<{ inline?: boolean }>`
   ${({ inline }) =>
     !inline &&
     css`
-      border-top: 2px solid #e6e6e6;
+      border-top: 2px solid ${themeColor('tint', 'level3')};
       position: fixed;
       bottom: 0;
       width: 100%;
@@ -29,27 +30,21 @@ export const ButtonContainer = styled(Column)`
   justify-content: flex-start;
 `
 
-const StyledButton = styled(Button)`
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-`
-
-export const SubmitButton = styled(StyledButton).attrs({
+export const SubmitButton = styled(Button).attrs({
   color: 'secondary',
 })`
   margin-right: 15px;
 `
 
-export const ResetButton = styled(StyledButton)`
+export const ResetButton = styled(Button)`
   background-color: ${themeColor('tint', 'level1')};
   margin-right: auto;
 `
 
-export const CancelButton = styled(StyledButton).attrs({
+export const CancelButton = styled(Button).attrs({
   color: 'bright',
 })`
-  background-color: #b4b4b4;
+  background-color: ${themeColor('tint', 'level4')};
 `
 
 export interface FormFooterProps {

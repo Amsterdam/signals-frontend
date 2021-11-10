@@ -56,20 +56,6 @@ const StyledHeading = styled(Heading)`
   color: inherit;
 `
 
-const StyledFooterBottom = styled(FooterBottom)`
-  span {
-    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 22px;
-  }
-  a:hover {
-    text-decoration: underline solid;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-  }
-`
-
 const FooterContainer = () => (
   <Footer>
     <FooterWrapper className="no-print" data-testid="siteFooter">
@@ -103,7 +89,7 @@ const FooterContainer = () => (
       </Container>
     </FooterWrapper>
 
-    <StyledFooterBottom>
+    <FooterBottom>
       {configuration.links.about && (
         <Link href={configuration.links.about} inList>
           Over deze site
@@ -117,7 +103,7 @@ const FooterContainer = () => (
           Toegankelijkheid
         </Link>
       )}
-    </StyledFooterBottom>
+    </FooterBottom>
   </Footer>
 )
 

@@ -17,7 +17,6 @@ import {
   themeColor,
   themeSpacing,
   breakpoint,
-  styles,
 } from '@amsterdam/asc-ui'
 import SearchBar from 'containers/SearchBar'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
@@ -29,11 +28,6 @@ import configuration from 'shared/services/configuration/configuration'
 export const menuBreakpoint = 1200
 
 const StyledHeader = styled(HeaderComponent)`
-  ${styles.HeaderTitleStyle} {
-    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    font-weight: 400;
-  }
-
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
@@ -83,12 +77,6 @@ const SearchBarMenuItem = styled(MenuItem)`
 
 const StyledSearchBar = styled(SearchBar)`
   margin-top: 5px;
-
-  ${styles.TextFieldStyle} {
-    button {
-      top: 3px;
-    }
-  }
 `
 
 const HeaderWrapper = styled.div`
