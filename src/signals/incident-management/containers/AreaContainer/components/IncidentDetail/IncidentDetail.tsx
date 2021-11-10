@@ -54,7 +54,7 @@ const SectionDescription = styled.dd`
 `
 
 const Status = styled.div<{ isEnded: boolean }>`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
   color: ${({ isEnded }) =>
     themeColor('support', isEnded ? 'valid' : 'invalid')};
 `

@@ -59,7 +59,7 @@ export const StyledLink = styled(Link)`
 export const NoResults = styled(AscParagraph)`
   width: 100%;
   text-align: center;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
   color: ${themeColor('tint', 'level4')};
 `
 
