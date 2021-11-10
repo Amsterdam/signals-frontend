@@ -47,7 +47,7 @@ const StyledNavLink = styled(NavLink)`
 
 const StyledTopTaskLink = styled(TopTaskLink)`
   min-height: 132px;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
 `
 
 const Overview: FunctionComponent<Props> = ({ showItems }) => {
