@@ -53,7 +53,7 @@ module.exports = ({
         use: tsLoaders,
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -63,7 +63,6 @@ module.exports = ({
             },
           },
           'css-loader',
-          'sass-loader',
         ],
       },
       {
@@ -89,7 +88,7 @@ module.exports = ({
       },
       {
         test: /\.svg$/,
-        issuer: /\.(jsx?|sass|scss|css)$/,
+        issuer: /\.(jsx?|css)$/,
         use: [
           {
             loader: 'svg-url-loader',

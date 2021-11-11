@@ -14,7 +14,6 @@ import {
 } from 'signals/incident/containers/IncidentContainer/actions'
 
 const StyledLabel = styled(Label)`
-  width: 100%;
   align-self: baseline;
 `
 
