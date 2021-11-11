@@ -222,11 +222,15 @@ export const IncidentOverviewPageContainerComponent = ({
         </Column>
 
         <NavWrapper>
-          {pagination}
-          <Sort
-            activeOrdering={ordering}
-            onChangeOrdering={orderingChangedAction}
-          />
+          {!showsMap && (
+            <>
+              {pagination}
+              <Sort
+                activeOrdering={ordering}
+                onChangeOrdering={orderingChangedAction}
+              />
+            </>
+          )}
           <SubNav showsMap={showsMap} />
         </NavWrapper>
       </Row>
