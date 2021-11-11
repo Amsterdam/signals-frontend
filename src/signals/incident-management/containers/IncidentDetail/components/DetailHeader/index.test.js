@@ -6,10 +6,13 @@ import * as reactRouterDom from 'react-router-dom'
 import { withAppContext } from 'test/utils'
 import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import configuration from 'shared/services/configuration/configuration'
 import { PATCH_TYPE_THOR } from '../../constants'
 
 import IncidentDetailContext from '../../context'
 import DetailHeader from '.'
+
+jest.mock('shared/services/configuration/configuration')
 
 jest.mock('./components/DownloadButton', () => (props) => (
   <div data-testid="detail-header-button-download" {...props} />
@@ -34,7 +37,12 @@ const renderWithContext = (incident = incidentFixture) =>
 
 describe('signals/incident-management/containers/IncidentDetail/components/DetailHeader', () => {
   beforeEach(() => {
+    configuration.featureFlags.showThorButton = true
     update.mockReset()
+  })
+
+  afterEach(() => {
+    configuration.__reset()
   })
 
   it('should render all buttons when state is gemeld and no parent or children are present', () => {
@@ -60,6 +68,24 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     expect(
       screen.queryAllByTestId('detail-header-button-download')
     ).toHaveLength(1)
+  })
+
+  it('should not render THOR button when feature flag disable', () => {
+    configuration.featureFlags.showThorButton = false
+
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        _links: {
+          ...incidentFixture._links,
+          'sia:children': undefined,
+        },
+      })
+    )
+
+    expect(
+      screen.queryByTestId('detail-header-button-thor')
+    ).not.toBeInTheDocument()
   })
 
   it('should render correct title when parent is present', () => {
