@@ -182,7 +182,7 @@ export function* getPostData(action) {
     'text',
     'type',
   ]
-  const authenticatedOnlyFields = ['priority', 'source', 'type']
+  const authenticatedOnlyFields = ['priority', 'type']
 
   // function to filter out values that are not supported by the public API endpoint
   const filterSupportedFields = ([key]) =>
