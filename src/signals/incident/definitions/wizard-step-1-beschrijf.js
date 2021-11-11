@@ -7,8 +7,6 @@ import {
   priorityList,
   typesList,
 } from 'signals/incident-management/definitions'
-import configuration from 'shared/services/configuration/configuration'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'
@@ -29,16 +27,6 @@ const reduceSources = (sources) =>
     [{ '': 'Vul bron in' }]
   )
 
-const renderSources = () => {
-  if (configuration.featureFlags.appMode) {
-    return FormComponents.StaticHiddenInput
-  } else if (getIsAuthenticated()) {
-    return FormComponents.SelectInput
-  } else {
-    return null
-  }
-}
-
 const getControls = memoize(
   (sources) => ({
     controls: {
@@ -50,13 +38,12 @@ const getControls = memoize(
           label: 'Hoe komt de melding binnen?',
           path: 'source',
           values: sources ? reduceSources(sources) : [],
-          name: 'source',
-          value: configuration.featureFlags.appMode ? 'app' : '',
         },
         options: {
           validators: [Validators.required],
         },
-        render: renderSources(),
+        authenticated: true,
+        render: FormComponents.SelectInput,
       },
       location: {
         meta: {
