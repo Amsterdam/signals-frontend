@@ -93,6 +93,10 @@
           "description": "When true, will show no more and no less than the incidents of the last 24 hours on the map (in the back office), regardless of the start and end date filters.",
           "type": "boolean"
         },
+        "showThorButton": {
+          "description": "When true, will show THOR button to the top right on the detail page of a signal",
+          "type": "boolean"
+        },
         "showVulaanControls": {
           "description": "When true, will show extra questions after the first page of questions in the incident submission form",
           "type": "boolean"
@@ -123,6 +127,7 @@
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
+        "showThorButton",
         "showVulaanControls",
         "useProjectenSignalType",
         "useMapSelectGeneric",
@@ -275,7 +280,11 @@
           "format": "uri"
         }
       },
-      "required": ["help", "home", "privacy"],
+      "required": [
+        "help",
+        "home",
+        "privacy"
+      ],
       "title": "Links"
     },
     "Logo": {
@@ -285,26 +294,47 @@
       "properties": {
         "url": {
           "description": "Any URL that will hold the image for the application's logo. Can be a URI or an absolute URL that points to the webroot",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "width": {
           "description": "Length value that sets the logo image's width. See https://developer.mozilla.org/en-US/docs/Web/CSS/width for reference",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "height": {
           "description": "Length value that sets the logo image's height. In pixels, the height should be 74 or less.",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "smallWidth": {
           "description": "Length value that sets the logo image's width in case the logo is rendered in a site header with limited height",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         },
         "smallHeight": {
           "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height. In pixels, the smallHeight should be 34 or less.",
-          "type": ["string", "integer"]
+          "type": [
+            "string",
+            "integer"
+          ]
         }
       },
-      "required": ["height", "smallHeight", "smallWidth", "url", "width"],
+      "required": [
+        "height",
+        "smallHeight",
+        "smallWidth",
+        "url",
+        "width"
+      ],
       "title": "Logo"
     },
     "Map": {
@@ -312,7 +342,10 @@
       "additionalProperties": false,
       "properties": {
         "municipality": {
-          "type": ["string", "array"]
+          "type": [
+            "string",
+            "array"
+          ]
         },
         "options": {
           "$ref": "#/definitions/MapOptions"
@@ -345,7 +378,11 @@
           }
         }
       },
-      "required": ["municipality", "options", "tiles"],
+      "required": [
+        "municipality",
+        "options",
+        "tiles"
+      ],
       "title": "Map"
     },
     "MapOptions": {
@@ -377,7 +414,13 @@
           "type": "integer"
         }
       },
-      "required": ["center", "maxBounds", "maxZoom", "minZoom", "zoom"],
+      "required": [
+        "center",
+        "maxBounds",
+        "maxZoom",
+        "minZoom",
+        "zoom"
+      ],
       "title": "MapOptions"
     },
     "Oidc": {
@@ -399,14 +442,23 @@
         },
         "responseType": {
           "description": "oAuth2 `response_type` service parameter value",
-          "enum": ["token", "id_token", "code"]
+          "enum": [
+            "token",
+            "id_token",
+            "code"
+          ]
         },
         "scope": {
           "description": "oAuth2 `scope` service parameter value",
           "type": "string"
         }
       },
-      "required": ["authEndpoint", "clientId", "scope", "responseType"]
+      "required": [
+        "authEndpoint",
+        "clientId",
+        "scope",
+        "responseType"
+      ]
     },
     "OptionsBackOffice": {
       "type": "object",
@@ -447,7 +499,10 @@
           "$ref": "#/definitions/TilesOptions"
         }
       },
-      "required": ["args", "options"],
+      "required": [
+        "args",
+        "options"
+      ],
       "title": "Tiles"
     },
     "TilesOptions": {
@@ -467,7 +522,10 @@
           "type": "boolean"
         }
       },
-      "required": ["attribution", "tms"],
+      "required": [
+        "attribution",
+        "tms"
+      ],
       "title": "TilesOptions"
     },
     "Matomo": {
@@ -484,7 +542,10 @@
           "type": "integer"
         }
       },
-      "required": ["siteId", "urlBase"],
+      "required": [
+        "siteId",
+        "urlBase"
+      ],
       "title": "Matomo"
     },
     "Sentry": {
@@ -497,7 +558,9 @@
           "description": "Sentry data source name value. When omitted, Sentry will not be initialised in the application"
         }
       },
-      "required": ["dsn"],
+      "required": [
+        "dsn"
+      ],
       "title": "Sentry"
     },
     "Theme": {
