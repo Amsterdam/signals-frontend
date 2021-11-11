@@ -13,6 +13,7 @@ import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
 import RadioInputGroup from './RadioInputGroup'
 import SelectInput from './SelectInput'
+import StaticHiddenInput from './StaticHiddenInput'
 import TextInput from './TextInput'
 import TextareaInput from './TextareaInput'
 import MapInput from './MapInput'
@@ -38,6 +39,7 @@ export default {
   PlainText,
   RadioInputGroup,
   SelectInput,
+  StaticHiddenInput,
   TextInput,
   TextareaInput,
   CategorySelectRenderer,
