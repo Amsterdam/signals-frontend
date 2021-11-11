@@ -52,43 +52,41 @@ ul li {
   text-indent: 0;
   list-style-type: none;
 }
+
 table {
   text-align: left;
   border-collapse: collapse;
+}
 
-  tr {
-    padding: 0.5rem;
+table tr {
+  padding: 0.5rem;
+}
 
-    &:hover {
-      background-color: #f3f3f3;
-      td {
-        box-shadow: 0 1px 0 1px #f3f3f3;
-      }
-    }
-  }
+table td,
+table th {
+  padding: 0.5rem;
+}
 
-  td,
-  th {
-    padding: 0.5rem;
-  }
+table td {
+  border-bottom: 1px solid #bebebe;
+  box-shadow: 0 1px 0 1px #ffffff;
+}
 
-  thead {
-    tr {
-      &:hover {
-        background: inherit;
-      }
-    }
+table tr:hover {
+  background-color: #f3f3f3;
+}
 
-    th {
-      border-top: 1px solid #000000;
-      border-bottom: 1px solid #000000;
-    }
-  }
+table tr:hover td {
+  box-shadow: 0 1px 0 1px #f3f3f3;
+}
 
-  td {
-    border-bottom: 1px solid #bebebe;
-    box-shadow: 0 1px 0 1px #ffffff;
-  }
+thead tr:hover {
+  background: inherit;
+}
+
+thead th {
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
 }
 
 dd {
@@ -123,7 +121,7 @@ dd {
     margin-right: 1cm;
   }
 
-  // Reset the flex model to allow printig on more than one page
+  /* Reset the flex model to allow printig on more than one page */
   .row {
     display: block;
   }
