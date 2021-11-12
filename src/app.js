@@ -55,7 +55,7 @@ if (urlBase && siteId) {
 const render = () => {
   const domainTag = process.env.DOMAIN_TAG
   const tags = [
-    release && `frontend tag ${release}`,
+    release && `frontend tag: ${release}`,
     domainTag && `domain tag: ${domainTag}`,
   ].filter(Boolean)
 
