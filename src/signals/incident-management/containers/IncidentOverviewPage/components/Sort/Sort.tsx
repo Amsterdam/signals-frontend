@@ -10,10 +10,12 @@ import configuration from 'shared/services/configuration/configuration'
 const SelectContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 ${themeSpacing(8)} 0 auto;
+  margin: 0 ${themeSpacing(6)} 0 auto;
 
   label {
-    margin-right: ${themeSpacing(8)};
+    margin-right: ${themeSpacing(3)};
+    padding: 0;
+    font-size: 1rem;
   }
 
   select {
