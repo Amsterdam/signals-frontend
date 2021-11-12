@@ -1,88 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TextAreaInput /> should render character counter correctly 1`] = `
-<div
-  className="text-area-input"
->
-  <div
-    className="mode_input text rij_verplicht"
+<styled.div>
+  <styled.label
+    htmlFor="formname"
   >
-    <styled.label
-      htmlFor="formname"
-    >
-      display
-    </styled.label>
-    <div
-      className="text-area-input__control"
-    >
-      <ForwardRef
-        data-testid="name"
-        id="formname"
-        infoText="0/300 tekens"
-        name="name"
-        placeholder="placeholder"
-        rows={2}
-        value=""
-      />
-    </div>
-  </div>
-</div>
+    display
+  </styled.label>
+  <ForwardRef
+    data-testid="name"
+    id="formname"
+    infoText="0/300 tekens"
+    name="name"
+    placeholder="placeholder"
+    rows={2}
+    value=""
+  />
+</styled.div>
 `;
 
 exports[`<TextAreaInput /> should render character counter with value correctly 1`] = `
-<div
-  className="text-area-input"
->
-  <div
-    className="mode_input text rij_verplicht"
+<styled.div>
+  <styled.label
+    htmlFor="formname"
   >
-    <styled.label
-      htmlFor="formname"
-    >
-      display
-    </styled.label>
-    <div
-      className="text-area-input__control"
-    >
-      <ForwardRef
-        data-testid="name"
-        id="formname"
-        infoText="4/300 tekens"
-        name="name"
-        placeholder="placeholder"
-        rows={2}
-        value=""
-      />
-    </div>
-  </div>
-</div>
+    display
+  </styled.label>
+  <ForwardRef
+    data-testid="name"
+    id="formname"
+    infoText="4/300 tekens"
+    name="name"
+    placeholder="placeholder"
+    rows={2}
+    value=""
+  />
+</styled.div>
 `;
 
 exports[`<TextAreaInput /> should render correctly 1`] = `
-<div
-  className="text-area-input"
->
-  <div
-    className="mode_input text rij_verplicht"
+<styled.div>
+  <styled.label
+    htmlFor="formname"
   >
-    <styled.label
-      htmlFor="formname"
-    >
-      display
-    </styled.label>
-    <div
-      className="text-area-input__control"
-    >
-      <ForwardRef
-        data-testid="name"
-        id="formname"
-        infoText={false}
-        name="name"
-        placeholder="placeholder"
-        rows={2}
-        value=""
-      />
-    </div>
-  </div>
-</div>
+    display
+  </styled.label>
+  <ForwardRef
+    data-testid="name"
+    id="formname"
+    infoText={false}
+    name="name"
+    placeholder="placeholder"
+    rows={2}
+    value=""
+  />
+</styled.div>
 `;
