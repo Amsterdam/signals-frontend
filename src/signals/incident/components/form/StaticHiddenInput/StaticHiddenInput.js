@@ -7,6 +7,8 @@ import { useEffect } from 'react'
 export const StaticHiddenInput = (props) => {
   const { parent, meta } = props
 
+  if (!meta.name || !meta.value) return null
+
   const Render = ({ handler }) => {
     useEffect(() => {
       parent.meta.updateIncident({
