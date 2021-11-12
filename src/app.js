@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import * as Sentry from '@sentry/browser'
-import MatomoTracker from '@datapunt/matomo-tracker-js'
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
 import history from 'utils/history'
 
 // Import root app
@@ -40,18 +40,6 @@ const MOUNT_NODE = document.getElementById('app')
 
 loadModels(store)
 
-// Setup Matomo
-const urlBase = configuration?.matomo?.urlBase
-const siteId = configuration?.matomo?.siteId
-
-if (urlBase && siteId) {
-  const MatomoInstance = new MatomoTracker({
-    urlBase,
-    siteId,
-  })
-  MatomoInstance.trackPageView()
-}
-
 const render = () => {
   const domainTag = process.env.DOMAIN_TAG
   const tags = [
@@ -62,14 +50,35 @@ const render = () => {
   // eslint-disable-next-line no-console
   if (tags.length > 0) console.log(tags.join('\n'))
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
-    MOUNT_NODE
-  )
+  const urlBase = configuration?.matomo?.urlBase
+  const siteId = configuration?.matomo?.siteId
+
+  if (urlBase && siteId) {
+    const matomoInstance = createInstance({
+      urlBase,
+      siteId,
+    })
+
+    ReactDOM.render(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <MatomoProvider value={matomoInstance}>
+            <App />
+          </MatomoProvider>
+        </ConnectedRouter>
+      </Provider>,
+      MOUNT_NODE
+    )
+  } else {
+    ReactDOM.render(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>,
+      MOUNT_NODE
+    )
+  }
 }
 
 const registerServiceWorkerProxy = () => {
