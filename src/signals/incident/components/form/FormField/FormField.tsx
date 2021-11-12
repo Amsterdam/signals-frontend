@@ -38,6 +38,7 @@ const FieldSet = styled.fieldset`
 `
 
 const Optional = styled.span`
+  font-weight: 400;
   margin-left: ${themeSpacing(2)};
 `
 
