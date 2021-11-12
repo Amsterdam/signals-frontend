@@ -40,6 +40,14 @@ const ContentContainer = styled.div<{
   padding-top: ${({ padding }) => padding.top}px;
 `
 
+const FooterContent = styled.div`
+  background-color: #ffffff;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
+  padding-top: 0;
+`
+
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
 const KtoContainer = lazy(
@@ -134,8 +142,10 @@ export const AppContainer = () => {
                 <Route component={NotFoundPage} />
               </Switch>
             </Suspense>
-            {!getIsAuthenticated() && <FooterContainer />}
           </ContentContainer>
+          <FooterContent>
+            {!getIsAuthenticated() && <FooterContainer />}
+          </FooterContent>
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>

@@ -55,11 +55,13 @@ export interface Source {
   id: number
   name: string
   description?: string
+  can_be_selected: boolean
 }
 
 export interface KeyValuePair<Value> {
   key: string
   value: Value
+  can_be_selected: boolean
 }
 
 export interface Upload {
