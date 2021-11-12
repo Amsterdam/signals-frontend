@@ -56,6 +56,13 @@ const StyledHeading = styled(Heading)`
   color: inherit;
 `
 
+const StyledFooterBottom = styled(FooterBottom)`
+  a {
+    font-size: 16px;
+    line-height: 20px;
+  }
+`
+
 const FooterContainer = () => (
   <Footer>
     <FooterWrapper className="no-print" data-testid="siteFooter">
@@ -89,7 +96,7 @@ const FooterContainer = () => (
       </Container>
     </FooterWrapper>
 
-    <FooterBottom>
+    <StyledFooterBottom>
       {configuration.links.about && (
         <Link href={configuration.links.about} inList>
           Over deze site
@@ -103,7 +110,7 @@ const FooterContainer = () => (
           Toegankelijkheid
         </Link>
       )}
-    </FooterBottom>
+    </StyledFooterBottom>
   </Footer>
 )
 
