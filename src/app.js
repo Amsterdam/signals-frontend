@@ -22,7 +22,7 @@ import configureStore from './configureStore'
 
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
-const release = process.env.GIT_BRANCH
+const release = process.env.FRONTEND_TAG
 
 if (dsn) {
   Sentry.init({
@@ -53,8 +53,14 @@ if (urlBase && siteId) {
 }
 
 const render = () => {
+  const domainTag = process.env.DOMAIN_TAG
+  const tags = [
+    release && `frontend tag: ${release}`,
+    domainTag && `domain tag: ${domainTag}`,
+  ].filter(Boolean)
+
   // eslint-disable-next-line no-console
-  if (release) console.log(`Signals: tag ${release}`)
+  if (tags.length > 0) console.log(tags.join('\n'))
 
   ReactDOM.render(
     <Provider store={store}>
