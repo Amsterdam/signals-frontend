@@ -139,9 +139,10 @@ export const makeSelectSearchQuery = createSelector(
 export const makeSelectSources = createSelector(selectGlobal, (globalState) =>
   globalState?.sources?.length
     ? globalState.sources.map(
-        ({ name }): KeyValuePair<string> => ({
+        ({ name, can_be_selected }): KeyValuePair<string> => ({
           key: name,
           value: name,
+          can_be_selected: can_be_selected,
         })
       )
     : null
