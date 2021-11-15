@@ -1,17 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 
-const HiddenInput = ({ handler }) => {
-  const { value, name } = handler()
+const HiddenInput = (props) => {
+  const { parent, meta } = props
 
-  if (!value || !name) return null
+  if (!meta.name || !meta.value) return null
 
-  return <input type="hidden" {...handler()} />
-}
+  const Render = ({ handler }) => {
+    useEffect(() => {
+      parent.meta.updateIncident({
+        [meta.name]: meta.value,
+      })
+    }, [])
+    return (
+      <input
+        data-testid="hidden-input"
+        type="hidden"
+        id={meta.name}
+        value={meta.value}
+        {...handler}
+      />
+    )
+  }
 
-HiddenInput.propTypes = {
-  handler: PropTypes.func,
+  Render.propTypes = {
+    handler: PropTypes.func,
+  }
+
+  return <Render />
 }
 
 export default HiddenInput

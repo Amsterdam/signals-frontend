@@ -33,7 +33,7 @@ const reduceSources = (sources) =>
 
 const renderSources = () => {
   if (configuration.featureFlags.appMode) {
-    return FormComponents.StaticHiddenInput
+    return FormComponents.HiddenInput
   } else if (getIsAuthenticated()) {
     return FormComponents.SelectInput
   } else {
@@ -125,14 +125,12 @@ const getControls = memoize(
           label: 'Incident time hours',
           readOnly: true,
         },
-        render: FormComponents.HiddenInput,
       },
       incident_time_minutes: {
         meta: {
           label: 'Incident time minutes',
           readOnly: true,
         },
-        render: FormComponents.HiddenInput,
       },
       priority: {
         meta: {
@@ -162,7 +160,6 @@ const getControls = memoize(
         meta: {
           label: 'images_previews',
         },
-        render: FormComponents.HiddenInput,
       },
       images: {
         meta: {
