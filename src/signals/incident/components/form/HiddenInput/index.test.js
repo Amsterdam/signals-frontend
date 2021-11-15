@@ -27,6 +27,7 @@ describe('Form component <HiddenInput/>', () => {
       expect(screen.getByTestId('hidden-input')).toBeInTheDocument()
       expect(screen.getByTestId('hidden-input')).toHaveAttribute('id', 'bar')
       expect(screen.getByTestId('hidden-input')).toHaveAttribute('value', 'foo')
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledTimes(1)
     })
 
     it('should not render a hidden input when params are missing', () => {
