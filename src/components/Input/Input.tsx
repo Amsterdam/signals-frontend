@@ -11,9 +11,7 @@ import {
 } from '@amsterdam/asc-ui'
 import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input'
 
-const Hint = styled(Typography).attrs({
-  forwardedAs: 'span',
-})`
+const Hint = styled.span`
   color: ${themeColor('tint', 'level5')};
   display: block;
   margin-bottom: ${themeSpacing(2)};
@@ -22,6 +20,7 @@ const Hint = styled(Typography).attrs({
 const StyledInput = styled(AscInput)<{ showError: boolean }>`
   padding: 10px; /* needed to style the textboxes as according to the design system */
   box-shadow: initial;
+  font-family: Avenir Next;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};

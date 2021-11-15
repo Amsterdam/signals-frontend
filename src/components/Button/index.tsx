@@ -13,8 +13,6 @@ const Button = styled(AscButton)`
   min-width: ${MIN_BUTTON_WIDTH}px;
   justify-content: center;
   font-family: Avenir Next;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   svg path {
     fill: inherit;
