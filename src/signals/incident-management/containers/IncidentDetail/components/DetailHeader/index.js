@@ -152,7 +152,7 @@ const DetailHeader = () => {
           </Button>
         )}
 
-        {canThor && (
+        {canThor && configuration.featureFlags.showThorButton && (
           <Button
             type="button"
             variant="application"

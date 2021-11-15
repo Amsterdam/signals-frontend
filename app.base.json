@@ -2,19 +2,20 @@
   "apiBaseUrl": "http://localhost:8000",
   "areaTypeCodeForDistrict": "district",
   "featureFlags": {
+    "appMode": false,
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableNearIncidents": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
-    "enableNearIncidents": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
     "showVulaanControls": false,
-    "useProjectenSignalType": false,
+    "showThorButton": false,
     "useMapSelectGeneric": false,
-    "useStaticMapServer": false,
-    "appMode": false
+    "useProjectenSignalType": false,
+    "useStaticMapServer": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
