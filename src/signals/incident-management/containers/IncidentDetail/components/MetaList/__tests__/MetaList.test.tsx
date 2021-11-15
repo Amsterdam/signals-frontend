@@ -503,6 +503,47 @@ describe('MetaList', () => {
       expect(screen.getByText('Niet toegewezen')).toBeInTheDocument()
     })
 
+    it('should not show assigned user without a selected department', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true
+      configuration.featureFlags.assignSignalToDepartment = true
+      render(renderWithContext())
+      await screen.findByTestId('meta-list-date-definition')
+
+      expect(
+        screen.queryByTestId('meta-list-assigned_user_email-definition')
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('meta-list-assigned_user_email-value')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should show assigned user with a selected department', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true
+      configuration.featureFlags.assignSignalToDepartment = true
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          routing_departments: {
+            code: departmentAscCode,
+            name: departmentAscName,
+          },
+          category: {
+            ...incidentFixture.category,
+            departments: `${departmentAscCode}, ${departmentAegCode}`,
+          },
+        })
+      )
+      await screen.findByTestId('meta-list-date-definition')
+
+      expect(
+        screen.getByTestId('meta-list-assigned_user_email-definition')
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTestId('meta-list-assigned_user_email-value')
+      ).toBeInTheDocument()
+      expect(screen.getByText('Niet toegewezen')).toBeInTheDocument()
+    })
+
     it('should not show assigned user when users not defined', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       mockRequestHandler({
@@ -576,6 +617,38 @@ describe('MetaList', () => {
         expect(
           screen.queryByText(autocompleteUsernamesAscName)
         ).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(autocompleteUsernamesAegName)
+        ).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(autocompleteUsernamesThoName)
+        ).not.toBeInTheDocument()
+      })
+
+      it('should be visible even if no department selected', async () => {
+        configuration.featureFlags.assignSignalToEmployee = true
+        configuration.featureFlags.assignSignalToDepartment = true
+
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            assigned_user_email: autocompleteUsernamesAscName,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}, ${departmentAegCode}`,
+            },
+          })
+        )
+
+        await screen.findByTestId('meta-list-date-definition')
+
+        expect(screen.queryByText('Niet toegewezen')).not.toBeInTheDocument()
+        expect(
+          screen.queryByText(autocompleteUsernamesAscAegName)
+        ).not.toBeInTheDocument()
+        expect(
+          screen.getByText(autocompleteUsernamesAscName)
+        ).toBeInTheDocument()
         expect(
           screen.queryByText(autocompleteUsernamesAegName)
         ).not.toBeInTheDocument()
