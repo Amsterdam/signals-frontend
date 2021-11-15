@@ -31,7 +31,7 @@ const reduceSources = (sources) =>
     [{ '': 'Vul bron in' }]
   )
 
-const renderSources = () => {
+export const renderSources = () => {
   if (configuration.featureFlags.appMode) {
     return FormComponents.HiddenInput
   } else if (getIsAuthenticated()) {

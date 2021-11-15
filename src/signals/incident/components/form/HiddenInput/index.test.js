@@ -23,6 +23,7 @@ describe('Form component <HiddenInput/>', () => {
 
   describe('rendering', () => {
     it('should render a hidden input', () => {
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledTimes(0)
       render(withAppContext(<HiddenInput {...props} meta={{ ...meta }} />))
       expect(screen.getByTestId('hidden-input')).toBeInTheDocument()
       expect(screen.getByTestId('hidden-input')).toHaveAttribute('id', 'bar')

@@ -173,6 +173,7 @@ export default {
       page_summary: {
         meta: {
           value: 'summary',
+          name: 'page_summary',
         },
         render: FormComponents.HiddenInput,
       },
