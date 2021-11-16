@@ -107,6 +107,7 @@ if (module.hot) {
     render()
   })
 }
+
 // Authenticate and start the authorization process
 authenticate()
   .then((credentials) => store.dispatch(authenticateUser(credentials)))
