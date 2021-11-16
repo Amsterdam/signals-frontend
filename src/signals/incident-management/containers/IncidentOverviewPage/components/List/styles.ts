@@ -56,6 +56,14 @@ export const ThStatus = styled(Th)`
   width: 160px;
 `
 
+export const ThId = styled(Th)`
+  width: 95px;
+`
+
+export const ThDay = styled(Th)`
+  width: 55px;
+`
+
 export const ContentSpan = styled.span``
 
 export const TdStyle = styled.td`
