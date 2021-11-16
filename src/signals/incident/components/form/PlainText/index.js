@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import get from 'lodash/get'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
@@ -14,8 +14,9 @@ const injectParent = (value, parent) =>
     incident: get(parent, 'meta.incidentContainer.incident'),
   })
 
-const Label = styled.div`
-  font-family: Avenir Next LT W01 Demi;
+const Label = styled(Paragraph)`
+  font-weight: 700;
+  margin: 0;
 `
 
 const getStyle = (type) => {
@@ -25,7 +26,7 @@ const getStyle = (type) => {
         color: ${themeColor('secondary')};
         border: 2px solid ${themeColor('secondary')};
         padding: ${themeSpacing(2, 5)};
-        font-family: Avenir Next LT W01 Demi;
+        font-weight: 700;
       `
     case 'info':
       return css`

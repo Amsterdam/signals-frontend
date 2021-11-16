@@ -6,7 +6,6 @@ import { Heading, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 import { FunctionComponent } from 'react'
 
 const StyledHeading = styled(Heading)`
-  font-weight: 400;
   margin: 0;
 `
 

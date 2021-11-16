@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 import { Link, Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 export const StyledH4 = styled(Heading)`
-  font-weight: normal;
   margin-bottom: ${themeSpacing(2)};
 `
 
@@ -19,7 +18,7 @@ export const StyledDefaultText = styled.div<{ empty?: boolean }>`
 `
 
 export const StyledTitle = styled.div`
-  font-family: 'Avenir Next LT W01 Demi';
+  font-weight: 700;
   margin-bottom: ${themeSpacing(2)};
 `
 

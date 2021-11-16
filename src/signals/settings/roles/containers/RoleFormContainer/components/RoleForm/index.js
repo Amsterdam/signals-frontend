@@ -19,7 +19,7 @@ const StyledForm = styled.form`
 
 const GroupLabel = styled(Label)`
   display: block;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: bold;
   margin-bottom: ${themeSpacing(3)};
 `
 

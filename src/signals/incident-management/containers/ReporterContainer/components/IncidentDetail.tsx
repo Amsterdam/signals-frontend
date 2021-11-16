@@ -19,7 +19,7 @@ interface IncidentDetailProps {
 }
 
 const Text = styled(Paragraph)`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
   font-size: 18px;
   margin-bottom: ${themeSpacing(2)};
 `
@@ -29,12 +29,7 @@ const IncidentDescription = styled(Text)`
   margin-bottom: ${themeSpacing(3)};
 `
 
-const DescriptionStyle = styled(Paragraph)`
-  font-size: 16px;
-  line-height: ${themeSpacing(6)};
-`
-
-const InfoStyle = styled(DescriptionStyle)`
+const InfoStyle = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};
   display: grid;
   grid: auto-flow / 3fr 4fr;
@@ -50,13 +45,9 @@ const IncidentStyle = styled.div`
 
 const StyledLink = styled(AscLink)`
   margin-bottom: ${themeSpacing(4)};
-  text-decoration: underline;
 
-  :hover {
-    cursor: pointer;
-    & > * {
-      color: ${themeColor('secondary')};
-    }
+  &:hover > * {
+    color: ${themeColor('secondary')};
   }
 `
 
@@ -94,11 +85,12 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
   return (
     <IncidentStyle>
       <StyledLink
+        variant="inline"
         forwardedAs={Link}
         to={`/manage/incident/${id}`}
         target="_blank"
       >
-        <Heading data-testid="incident-heading" as="h2" styleAs="h6">
+        <Heading data-testid="incident-heading" as="h2" styleAs="h5">
           {`${isParent ? 'Hoofd' : 'Standaard'}melding ${id}`}
         </Heading>
       </StyledLink>

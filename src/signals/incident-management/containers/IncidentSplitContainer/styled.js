@@ -15,7 +15,7 @@ import Button from 'components/Button'
 import InfoText from 'components/InfoText'
 
 export const ThinLabel = styled.span`
-  font-family: Avenir Next LT W01-Regular, verdana, sans-serif;
+  font-weight: 400;
 `
 
 export const StyledDefinitionList = styled.dl`

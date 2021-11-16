@@ -37,14 +37,12 @@ const CurrentPage = styled(Typography)`
   display: flex;
   margin: 0;
   padding: 0 ${themeSpacing(2)};
-  font-family: avenir next w01, arial, sans-serif;
   font-size: inherit;
 `
 
 const Filler = styled(Typography)`
   margin: 0;
   padding: 0 ${themeSpacing(2)};
-  font-family: avenir next w01, arial, sans-serif;
 `
 
 /**

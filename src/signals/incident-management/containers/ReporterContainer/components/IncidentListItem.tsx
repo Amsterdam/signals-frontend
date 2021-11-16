@@ -11,7 +11,7 @@ import { ReporterIncident } from '../types'
 import FeedbackStatus from './FeedbackStatus'
 
 const Info = styled.span`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: bold;
 `
 
 const InfoWrapper = styled.div`

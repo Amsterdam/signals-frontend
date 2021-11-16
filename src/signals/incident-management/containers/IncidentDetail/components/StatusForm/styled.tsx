@@ -40,7 +40,7 @@ export const HeaderArea = styled.div`
 `
 
 export const StyledLabel = styled(Label)`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
 `
 
 export const OptionsArea = styled.div`
@@ -65,7 +65,6 @@ export const QuestionLabel = styled.div`
 `
 
 export const StyledH4 = styled(Heading)`
-  font-weight: normal;
   margin-bottom: ${themeSpacing(2)};
   margin-top: ${themeSpacing(5)};
 `

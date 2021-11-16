@@ -20,13 +20,12 @@ const StyledItem = styled(AscLink)`
   color: black;
   cursor: pointer;
   display: flex;
-  font-family: Avenir Next LT W01-Regular, arial, sans-serif;
   height: 100%;
   margin: 0;
   outline: none;
   padding: 0 ${themeSpacing(2)};
   text-decoration: none;
-  font-weight: normal;
+  font-weight: 400;
 
   &:focus {
     background-color: ${themeColor('support', 'focus')};
@@ -48,7 +47,7 @@ const StyledItem = styled(AscLink)`
   ${(props) =>
     props['data-isnav'] &&
     css`
-      font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+      font-weight: 700;
     `}
 
   ${(props) =>
@@ -101,7 +100,7 @@ const PaginationItem = ({
   const props = shouldPushToHistory ? anchorProps : buttonProps
 
   return (
-    <StyledItem {...commonProps} {...props}>
+    <StyledItem variant="inline" {...commonProps} {...props}>
       {isNav ? (
         <Fragment>
           {pageNum === NEXT && label}

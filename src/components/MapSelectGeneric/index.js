@@ -22,10 +22,9 @@ import MaxSelection from 'utils/maxSelection'
 import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl'
 import LoadingControl from '../MapSelect/control/LoadingControl'
 import ErrorControl from '../MapSelect/control/ErrorControl'
+import Wrapper from './styled'
 import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg'
 import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg'
-
-import './style.scss'
 
 const SELECTION_MAX_COUNT = 30
 export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
@@ -40,14 +39,10 @@ const LeafletDotSelectedIcon = L.icon({
   iconUrl: DotSelectedIcon,
 })
 
-const Wrapper = styled.div`
-  position: relative;
-`
-
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
-  font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
+  font-family: Avenir Next;
 `
 
 const MapSelectGeneric = ({
