@@ -78,10 +78,6 @@ const SearchBarMenuItem = styled(MenuItem)`
   }
 `
 
-const StyledSearchBar = styled(SearchBar)`
-  margin-top: 5px;
-`
-
 const HeaderWrapper = styled.div`
   position: relative;
 
@@ -187,7 +183,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       {getIsAuthenticated() && (
         <Fragment>
           <SearchBarMenuItem>
-            <StyledSearchBar />
+            <SearchBar />
           </SearchBarMenuItem>
 
           <MenuItem element="span">
