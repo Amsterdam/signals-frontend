@@ -175,6 +175,7 @@ module.exports = ({
 
     new CopyPlugin({
       patterns: [
+        path.resolve(__rootdir, 'assets/silent-check-sso.html'),
         { from: path.resolve(__rootdir, 'assets'), to: 'assets' },
         { from: path.resolve(__rootdir, 'src/images') },
       ],
@@ -184,6 +185,7 @@ module.exports = ({
 
     new ForkTsCheckerWebpackPlugin({
       typescript: {
+        memoryLimit: 4096,
         diagnosticOptions: {
           syntactic: true,
           semantic: true,

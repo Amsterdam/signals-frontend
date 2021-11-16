@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
+import { Fragment, useEffect, lazy, Suspense, useMemo, memo } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,7 +16,6 @@ import ThemeProvider from 'components/ThemeProvider'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
 import SiteHeaderContainer from 'containers/SiteHeader'
 import configuration from 'shared/services/configuration/configuration'
-import IncidentContainer from 'signals/incident/containers/IncidentContainer'
 import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
 
@@ -62,6 +61,10 @@ const IncidentManagementModule = lazy(
 const SettingsModule = lazy(async () => import('signals/settings'))
 // istanbul ignore next
 const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
+// istanbul ignore next
+const IncidentContainer = lazy(
+  async () => import('signals/incident/containers/IncidentContainer')
+)
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -157,4 +160,4 @@ export const AppContainer = () => {
   )
 }
 
-export default AppContainer
+export default memo(AppContainer)

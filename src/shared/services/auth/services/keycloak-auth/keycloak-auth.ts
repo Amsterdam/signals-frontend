@@ -27,10 +27,10 @@ class Keycloak {
 
   async init() {
     const options: KeycloakInitOptions = {
-      flow: 'standard', // Standard = code flow
       checkLoginIframe: false, // To keep user logged in, use refresh token instead of (silent) redirect
       pkceMethod: 'S256',
       useNonce: true,
+      silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
     }
 
     /**
@@ -45,9 +45,9 @@ class Keycloak {
   }
 
   async authenticate() {
-    await this.init()
+    const authenticated = await this.init()
 
-    if (this.getIsAuthenticated()) {
+    if (authenticated) {
       const accessToken = this.getAccessToken()
 
       return accessToken ? { accessToken } : null
@@ -60,6 +60,19 @@ class Keycloak {
     return Boolean(
       this.keycloak.authenticated && !this.keycloak.isTokenExpired()
     )
+  }
+
+  isAuthenticated() {
+    try {
+      if (this.keycloak.isTokenExpired()) {
+        return false
+      }
+    } catch (error) {
+      // Unable to check if the token is expired, this means that we probably don't have a token so let's return false.
+      return false
+    }
+
+    return this.keycloak.authenticated ?? false
   }
 
   getAuthHeaders(): {
