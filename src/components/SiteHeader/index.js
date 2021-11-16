@@ -67,6 +67,9 @@ const StyledMenuButton = styled(MenuButton)`
 `
 
 const SearchBarMenuItem = styled(MenuItem)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-right: 0;
   max-width: 365px;
   @media screen and (min-width: ${menuBreakpoint + 1}px) {

@@ -172,6 +172,14 @@ const MetaList = () => {
     [usersData, incident]
   )
 
+  const showAssignedUser =
+    configuration.featureFlags.assignSignalToEmployee &&
+    userOptions &&
+    (incident?.assigned_user_email ||
+      (configuration.featureFlags.assignSignalToDepartment &&
+        incident?.routing_departments) ||
+      !configuration.featureFlags.assignSignalToDepartment)
+
   const departmentOptions = useMemo(() => {
     if (!configuration.featureFlags.assignSignalToDepartment) return []
 
@@ -344,7 +352,7 @@ const MetaList = () => {
         </Highlight>
       )}
 
-      {configuration.featureFlags.assignSignalToEmployee && userOptions && (
+      {showAssignedUser && (
         <Highlight type="assigned_user_email">
           <ChangeValue
             component={SelectInput}

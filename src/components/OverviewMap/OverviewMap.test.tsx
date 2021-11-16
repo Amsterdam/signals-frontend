@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import fetchMock from 'jest-fetch-mock'
-import { render, act } from '@testing-library/react'
+import { render, act, screen } from '@testing-library/react'
 
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'
 import configuration from 'shared/services/configuration/configuration'
 import { withMapContext } from 'test/utils'
 import geographyJSON from 'utils/__tests__/fixtures/geography.json'
 
-import OverviewMap from '..'
-import { POLLING_INTERVAL } from '../OverviewMap'
+import { POLLING_INTERVAL } from './OverviewMap'
+import OverviewMap from '.'
 
 const mockConfiguration = configuration as typeof configurationType
 const createdAfter = '1999-01-01T00:00:00'
@@ -43,13 +43,27 @@ describe('OverviewMap', () => {
   })
 
   it('should render the map and the autosuggest', async () => {
-    const { getByTestId, findByTestId } = render(
-      withMapContext(<OverviewMap />)
+    render(withMapContext(<OverviewMap />))
+
+    await screen.findByTestId('overviewMap')
+
+    expect(screen.getByTestId('autoSuggest')).toBeInTheDocument()
+  })
+
+  it('renders the map without results for the past period', async () => {
+    // API will return a result, but with 'null' for the 'features' prop
+    fetchMock.mockResponse(
+      JSON.stringify({
+        type: 'FeatureCollection',
+        features: null,
+      })
     )
 
-    await findByTestId('overviewMap')
+    render(withMapContext(<OverviewMap />))
 
-    expect(getByTestId('autoSuggest')).toBeInTheDocument()
+    await screen.findByTestId('overviewMap')
+
+    expect(screen.getByTestId('autoSuggest')).toBeInTheDocument()
   })
 
   describe('request', () => {
@@ -61,11 +75,9 @@ describe('OverviewMap', () => {
     }
 
     it('should fetch locations from private endpoint', async () => {
-      const { findByTestId, rerender, unmount } = render(
-        withMapContext(<OverviewMap />)
-      )
+      const { rerender, unmount } = render(withMapContext(<OverviewMap />))
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -92,17 +104,17 @@ describe('OverviewMap', () => {
 
       rerender(withMapContext(<OverviewMap />))
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
     })
 
     it('should fetch locations from public endpoint', async () => {
-      const { findByTestId, rerender, unmount } = render(
+      const { rerender, unmount } = render(
         withMapContext(<OverviewMap isPublic />)
       )
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -129,7 +141,7 @@ describe('OverviewMap', () => {
 
       rerender(withMapContext(<OverviewMap />))
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
     })
@@ -137,9 +149,9 @@ describe('OverviewMap', () => {
     it('should poll the endpoint', async () => {
       jest.useFakeTimers()
 
-      const { findByTestId } = render(withMapContext(<OverviewMap />))
+      render(withMapContext(<OverviewMap />))
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -147,7 +159,7 @@ describe('OverviewMap', () => {
         jest.advanceTimersByTime(POLLING_INTERVAL)
       })
 
-      await findByTestId('overviewMap')
+      await screen.findByTestId('overviewMap')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
 
@@ -157,9 +169,9 @@ describe('OverviewMap', () => {
 
   it('should overwrite date filter params with mapFilter24Hours enabled', async () => {
     configuration.featureFlags.mapFilter24Hours = true
-    const { findByTestId } = render(withMapContext(<OverviewMap />))
+    render(withMapContext(<OverviewMap />))
 
-    await findByTestId('overviewMap')
+    await screen.findByTestId('overviewMap')
 
     const requestUrl = new URL(fetchMock.mock.calls[0][0] as string)
     const params = new URLSearchParams(requestUrl.search)

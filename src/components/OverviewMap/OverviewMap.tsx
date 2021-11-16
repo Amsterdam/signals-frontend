@@ -194,7 +194,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
   }, [get])
 
   useEffect(() => {
-    if (!data || !layerInstance) return () => {}
+    if (!data?.features || !layerInstance) return
 
     data.features.forEach((feature) => {
       const latlng = featureTolocation(feature.geometry)
@@ -256,6 +256,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
           topRight={
             showPanel &&
             incident && (
+              /* istanbul ignore next */
               <DetailPanel incident={incident} onClose={onClosePanel} />
             )
           }

@@ -49,6 +49,10 @@ const Action = styled.div`
   }
 `
 
+const Who = styled.div`
+  word-break: break-all;
+`
+
 interface HistoryListProps {
   list: History[]
   className?: string
@@ -63,7 +67,7 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
       <Item key={identifier}>
         <Time>
           {string2date(when)} om {string2time(when)}
-          <span>{who}</span>
+          <Who>{who}</Who>
         </Time>
 
         <Action>
