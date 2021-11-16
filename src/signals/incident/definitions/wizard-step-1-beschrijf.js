@@ -32,12 +32,10 @@ const reduceSources = (sources) =>
   )
 
 export const renderSources = () => {
-  if (configuration.featureFlags.appMode) {
-    return FormComponents.HiddenInput
-  } else if (getIsAuthenticated()) {
+  if (getIsAuthenticated()) {
     return FormComponents.SelectInput
   } else {
-    return null
+    return FormComponents.HiddenInput
   }
 }
 
@@ -53,7 +51,7 @@ const getControls = memoize(
           path: 'source',
           values: sources ? reduceSources(selectableSources(sources)) : [],
           name: 'source',
-          value: configuration.featureFlags.appMode ? 'app' : '',
+          value: configuration.featureFlags.appMode ? 'app' : 'online',
         },
         options: {
           validators: [Validators.required],
