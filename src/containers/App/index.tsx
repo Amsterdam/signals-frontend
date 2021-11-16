@@ -4,14 +4,16 @@ import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMatomo } from '@datapunt/matomo-tracker-react'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
-import Footer from 'components/Footer'
+import FooterContainer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
+import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
 import SiteHeaderContainer from 'containers/SiteHeader'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
@@ -26,22 +28,25 @@ import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
 
-const FooterContainer = styled.div`
-  margin: 0 auto;
-  background-color: #ffffff;
-  width: 100%;
-  max-width: 1400px;
-`
-
-const ContentContainer = styled.div<{ headerIsTall: boolean }>`
+const ContentContainer = styled.div<{
+  padding: { top: number; bottom: number }
+}>`
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
   max-width: 1400px;
-  padding-bottom: 20px;
+  padding-bottom: ${({ padding }) => padding.bottom}px;
   width: 100%;
   z-index: 0;
-  padding-top: ${({ headerIsTall }) => !headerIsTall && 50}px;
+  padding-top: ${({ padding }) => padding.top}px;
+`
+
+const FooterContent = styled.div`
+  background-color: #ffffff;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
+  padding-top: 0;
 `
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -56,7 +61,7 @@ const IncidentManagementModule = lazy(
 // istanbul ignore next
 const SettingsModule = lazy(async () => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(async () => import('components/NotFoundPage'))
+const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -67,6 +72,10 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice()
   const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
+
+  const { enableLinkTracking } = useMatomo()
+
+  enableLinkTracking()
 
   useEffect(() => {
     const { referrer } = location
@@ -102,7 +111,12 @@ export const AppContainer = () => {
         <Fragment>
           {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
 
-          <ContentContainer headerIsTall={headerIsTall}>
+          <ContentContainer
+            padding={{
+              top: headerIsTall ? 0 : 50,
+              bottom: getIsAuthenticated() ? 20 : 0,
+            }}
+          >
             <Suspense fallback={<LoadingIndicator />}>
               <Switch>
                 <Redirect exact from="/" to="/incident/beschrijf" />
@@ -127,16 +141,16 @@ export const AppContainer = () => {
                   path="/categorie/:category/:subcategory"
                   component={IncidentContainer}
                 />
+                <Route exact path="/toegankelijkheidsverklaring">
+                  <Toegankelijkheidsverklaring />
+                </Route>
                 <Route component={NotFoundPage} />
               </Switch>
             </Suspense>
           </ContentContainer>
-
-          {!getIsAuthenticated() && (
-            <FooterContainer>
-              <Footer />
-            </FooterContainer>
-          )}
+          <FooterContent>
+            {!getIsAuthenticated() && <FooterContainer />}
+          </FooterContent>
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>

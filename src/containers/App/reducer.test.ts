@@ -258,8 +258,8 @@ describe('containers/App/reducer', () => {
 
   it('should handle GET_SOURCES_SUCCESS', () => {
     const sources: Source[] = [
-      { id: 1, name: 'Source1' },
-      { id: 2, name: 'Source2' },
+      { id: 1, name: 'Source1', can_be_selected: true },
+      { id: 2, name: 'Source2', can_be_selected: false },
     ]
     const getSourcesSuccessAction: GetSourcesSuccessAction = {
       type: GET_SOURCES_SUCCESS,

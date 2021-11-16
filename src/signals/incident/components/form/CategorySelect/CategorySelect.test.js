@@ -62,7 +62,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
     expect(queryByTestId('infoText')).toBeInTheDocument()
   })
 
-  it('should render empty select field when no categoeies are found', () => {
+  it('should render empty select field when no categories are found', () => {
     jest
       .spyOn(categoriesSelectors, 'makeSelectSubcategoriesGroupedByCategories')
       .mockImplementation(() => [[], []])

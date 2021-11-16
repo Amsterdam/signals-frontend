@@ -10,6 +10,7 @@
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
+    "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
     "useMapSelectGeneric": false,
@@ -43,7 +44,9 @@
   "links": {
     "help": "https://tamtam.amsterdam.nl/do/office?id=1723860-6f6666696365",
     "home": "https://www.amsterdam.nl",
-    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
+    "privacy": "https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/",
+    "about": "https://www.amsterdam.nl/overdezesite/",
+    "accessibility": "/toegankelijkheidsverklaring"
   },
   "logo": {
     "url": "/assets/images/amsterdam-logo.svg",
@@ -55,10 +58,19 @@
   "map": {
     "municipality": "amsterdam",
     "options": {
-      "center": [52.3731081, 4.8932945],
+      "center": [
+        52.3731081,
+        4.8932945
+      ],
       "maxBounds": [
-        [52.25168, 4.64034],
-        [52.50536, 5.10737]
+        [
+          52.25168,
+          4.64034
+        ],
+        [
+          52.50536,
+          5.10737
+        ]
       ],
       "maxZoom": 14,
       "minZoom": 8,
@@ -70,10 +82,17 @@
       "zoom": 7
     },
     "tiles": {
-      "args": ["https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"],
+      "args": [
+        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
+      ],
       "options": {
         "attribution": "<span aria-hidden='true'>Kaartgegevens CC-BY-4.0 Gemeente Amsterdam</span>",
-        "subdomains": ["t1", "t2", "t3", "t4"],
+        "subdomains": [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ],
         "tms": true
       }
     },

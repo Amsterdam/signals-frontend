@@ -21,6 +21,8 @@ const typesValuesList = typesList.reduce(
   (acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }),
   {}
 )
+const selectableSources = (sources) =>
+  sources.filter((source) => source.can_be_selected)
 const reduceSources = (sources) =>
   sources.reduce(
     (acc, { value }) => [...acc, { [value]: value }],
@@ -37,7 +39,7 @@ const getControls = memoize(
         meta: {
           label: 'Hoe komt de melding binnen?',
           path: 'source',
-          values: sources ? reduceSources(sources) : [],
+          values: sources ? reduceSources(selectableSources(sources)) : [],
         },
         options: {
           validators: [Validators.required],

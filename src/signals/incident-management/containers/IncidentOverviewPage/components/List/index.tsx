@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useCallback, useContext } from 'react'
+import { FunctionComponent, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
-import { ChevronUp, ChevronDown, Play } from '@amsterdam/asc-assets'
-import { Icon } from '@amsterdam/asc-ui'
+import { Play } from '@amsterdam/asc-assets'
 
 import { string2date, string2time } from 'shared/services/string-parser'
 import {
@@ -28,6 +27,8 @@ import IncidentManagementContext from '../../../../context'
 import {
   ContentSpan,
   Th,
+  ThId,
+  ThDay,
   TdStyle,
   ThArea,
   ThDate,
@@ -79,48 +80,21 @@ interface ListProps {
   className?: string
   incidents: IncidentList
   isLoading?: boolean
-  onChangeOrdering: (sort: string) => void
   priority: Priority[]
   stadsdeel: Definition[]
   status: Status[]
-  sort: string
 }
 
 const List: FunctionComponent<ListProps> = ({
   className,
   incidents,
   isLoading = false,
-  onChangeOrdering,
   priority,
-  sort,
   stadsdeel,
   status,
 }) => {
   const { districts } = useContext(IncidentManagementContext)
   const history = useHistory()
-
-  const onSort = useCallback(
-    (newSort) => () => {
-      const sortIsAsc = sort.indexOf(newSort) === 0
-      onChangeOrdering(sortIsAsc ? `-${newSort}` : newSort)
-    },
-    [onChangeOrdering, sort]
-  )
-
-  const renderChevron = useCallback(
-    (column) => {
-      const currentSort = sort.split(',')[0]
-      const isColumnSorted = currentSort.indexOf(column) > -1
-      const sortDirection = currentSort.charAt(0) === '-' ? 'down' : 'up'
-
-      return isColumnSorted ? (
-        <Icon inline size={12}>
-          {sortDirection === 'up' ? <ChevronDown /> : <ChevronUp />}
-        </Icon>
-      ) : null
-    },
-    [sort]
-  )
 
   const navigateToIncident = (id: number) => {
     history.push(`${INCIDENT_URL}/${id}`)
@@ -135,57 +109,24 @@ const List: FunctionComponent<ListProps> = ({
       <Table cellSpacing="0">
         <thead>
           <tr>
-            <ThParent data-testid="parent" />
-            <ThPriority data-testid="priority" />
-            <Th data-testid="sortId" onClick={onSort('id')}>
-              Id {renderChevron('id')}
-            </Th>
-            <Th data-testid="sortDaysOpen" onClick={onSort('days_open')}>
-              Dag {renderChevron('days_open')}
-            </Th>
-            <ThDate data-testid="sortCreatedAt" onClick={onSort('created_at')}>
-              Datum en tijd {renderChevron('created_at')}
-            </ThDate>
-            <ThSubcategory
-              data-testid="sortSubcategory"
-              onClick={onSort('sub_category,-created_at')}
-            >
-              Subcategorie {renderChevron('sub_category')}
-            </ThSubcategory>
-            <ThStatus
-              data-testid="sortStatus"
-              onClick={onSort('status,-created_at')}
-            >
-              Status {renderChevron('status')}
-            </ThStatus>
+            <ThParent />
+            <ThPriority />
+            <ThId>Id</ThId>
+            <ThDay>Dag</ThDay>
+            <ThDate>Datum en tijd</ThDate>
+            <ThSubcategory>Subcategorie</ThSubcategory>
+            <ThStatus>Status</ThStatus>
+
             {configuration.featureFlags.fetchDistrictsFromBackend ? (
-              <ThArea
-                data-testid="sortDistrict"
-                onClick={onSort('district,-created_at')}
-              >
-                {configuration.language.district} {renderChevron('district')}
-              </ThArea>
+              <ThArea>{configuration.language.district}</ThArea>
             ) : (
-              <ThArea
-                data-testid="sortStadsdeel"
-                onClick={onSort('stadsdeel,-created_at')}
-              >
-                Stadsdeel {renderChevron('stadsdeel')}
-              </ThArea>
+              <ThArea>Stadsdeel</ThArea>
             )}
-            <Th
-              data-testid="sortAddress"
-              onClick={onSort('address,-created_at')}
-            >
-              Adres {renderChevron('address')}
-            </Th>
+
+            <Th>Adres</Th>
+
             {configuration.featureFlags.assignSignalToEmployee && (
-              <Th
-                data-testid="sortAssigedUserEmail"
-                onClick={onSort('assigned_user_email,-created_at')}
-              >
-                Toegewezen aan {renderChevron('assigned_user_email')}
-              </Th>
+              <Th>Toegewezen aan</Th>
             )}
           </tr>
         </thead>

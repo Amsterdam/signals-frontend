@@ -28,7 +28,7 @@ import { makeSelectDistricts } from './selectors'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
-const LoginPage = lazy(() => import('components/LoginPage'))
+const LoginPage = lazy(() => import('components/pages/LoginPage'))
 // istanbul ignore next
 const IncidentOverviewPage = lazy(() =>
   import('./containers/IncidentOverviewPage')
