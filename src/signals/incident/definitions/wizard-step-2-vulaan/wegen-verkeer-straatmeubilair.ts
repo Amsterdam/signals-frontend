@@ -500,9 +500,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'verkeerslicht',
-      },
-      ifOneOf: {
-        extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
+        extra_verkeerslicht: 'geen_beschadigingen',
       },
     },
     render: FIELD_TYPE_MAP.text_input,
