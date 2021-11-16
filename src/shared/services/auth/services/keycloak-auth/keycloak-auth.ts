@@ -57,12 +57,6 @@ class Keycloak {
   }
 
   getIsAuthenticated(): boolean {
-    return Boolean(
-      this.keycloak.authenticated && !this.keycloak.isTokenExpired()
-    )
-  }
-
-  isAuthenticated() {
     try {
       if (this.keycloak.isTokenExpired()) {
         return false

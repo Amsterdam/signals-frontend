@@ -57,7 +57,7 @@ describe('Keycloak authorization', () => {
 
       expect(keycloakJSMock.init).toHaveBeenCalledWith({
         checkLoginIframe: false,
-        flow: 'standard',
+        silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
         pkceMethod: 'S256',
         useNonce: true,
       })
