@@ -185,7 +185,6 @@ module.exports = ({
 
     new ForkTsCheckerWebpackPlugin({
       typescript: {
-        memoryLimit: 4096,
         diagnosticOptions: {
           syntactic: true,
           semantic: true,
