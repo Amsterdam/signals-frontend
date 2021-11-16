@@ -27,6 +27,8 @@ import IncidentManagementContext from '../../../../context'
 import {
   ContentSpan,
   Th,
+  ThId,
+  ThDay,
   TdStyle,
   ThArea,
   ThDate,
@@ -109,8 +111,8 @@ const List: FunctionComponent<ListProps> = ({
           <tr>
             <ThParent />
             <ThPriority />
-            <Th>Id</Th>
-            <Th>Dag</Th>
+            <ThId>Id</ThId>
+            <ThDay>Dag</ThDay>
             <ThDate>Datum en tijd</ThDate>
             <ThSubcategory>Subcategorie</ThSubcategory>
             <ThStatus>Status</ThStatus>
