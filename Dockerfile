@@ -57,7 +57,7 @@ FROM nginx:stable-alpine
 
 RUN apk add --no-cache jq nodejs yarn
 
-RUN yarn global add @exodus/schemasafe lodash
+RUN yarn add @exodus/schemasafe lodash
 
 COPY --from=base /app/build/. /usr/share/nginx/html/
 
