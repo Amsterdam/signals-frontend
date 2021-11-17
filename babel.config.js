@@ -7,7 +7,6 @@ module.exports = (api) => {
       : [
           '@babel/preset-env',
           {
-            modules: false,
             useBuiltIns: 'usage',
             targets: {
               esmodules: true,
@@ -20,6 +19,14 @@ module.exports = (api) => {
 
   return {
     plugins: [
+      'transform-commonjs-es2015-modules',
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          corejs: 3,
+          useESModules: true,
+        },
+      ],
       'styled-components',
       '@babel/plugin-proposal-class-properties',
       [
@@ -55,7 +62,7 @@ module.exports = (api) => {
           'dynamic-import-node',
           [
             'babel-plugin-styled-components',
-            { ssr: false, displayName: false, namespace: 'sc' },
+            { ssr: false, displayName: false, namespace: 'sc', pure: true },
           ],
         ],
       },
