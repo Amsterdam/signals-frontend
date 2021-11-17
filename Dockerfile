@@ -55,9 +55,9 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 ################################
 FROM nginx:stable-alpine
 
-RUN apk add --no-cache jq nodejs npm
+RUN apk add --no-cache jq nodejs yarn
 
-RUN npm install @exodus/schemasafe lodash
+RUN yarn global add @exodus/schemasafe lodash
 
 COPY --from=base /app/build/. /usr/share/nginx/html/
 
