@@ -348,23 +348,46 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     },
     render: FIELD_TYPE_MAP.multi_text_input,
   },
-
-  extra_verkeerslicht: {
+  extra_verkeerslicht_welk: {
     meta: {
-      label: 'Denkt u dat de situatie gevaarlijk is?',
-      shortLabel: 'Denkt u dat de situatie gevaarlijk is?',
+      label: 'Welk verkeerslicht werkt niet goed?',
+      shortLabel: 'Type verkeerslicht',
       ifAllOf: {
         subcategory: 'verkeerslicht',
       },
       values: {
-        is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
-        verkeerslicht_op_grond_of_scheef:
-          'Verkeerslicht ligt op de grond of staat gevaarlijk scheef',
+        voetganger: 'Voetganger',
+        fiets: 'Fiets',
+        auto: 'Auto',
+        tram_bus: 'Tram of bus',
+        niet_van_toepassing: 'Niet van toepassing',
+      },
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: FIELD_TYPE_MAP.radio_input,
+  },
+  extra_verkeerslicht: {
+    meta: {
+      label: 'Zijn er ook beschadigingen aan het verkeerslicht?',
+      shortLabel: 'Beschadigingen aan verkeerslicht',
+      ifAllOf: {
+        subcategory: 'verkeerslicht',
+      },
+      ifOneOf: {
+        extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
+      },
+      values: {
+        geen_beschadigingen: 'Nee, geen beschadigingen',
+        verkeerslicht_scheef: 'Ja, het verkeerslicht staat scheef',
+        verkeerslicht_op_grond:
+          'Ja, de lamp of het verkeerslicht ligt op de grond',
+        lamp_hangt_los: 'Ja, de lamp hangt los',
+        losse_kabels_zichtbaar: 'Ja, er hangen losse stroomkabels',
         deurtje_weg_of_open:
-          'Deurtje in de mast is niet aanwezig of staat open',
-        losse_kabels_zichtbaar_of_lamp_los:
-          'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
-        niet_gevaarlijk: 'Niet gevaarlijk',
+          'Ja, er zit geen deurtje in het verkeerslicht of het deurtje staat open',
       },
       pathMerge: 'extra_properties',
     },
@@ -380,45 +403,18 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       ifOneOf: {
         extra_verkeerslicht: [
-          'is_gevolg_van_aanrijding',
-          'verkeerslicht_op_grond_of_scheef',
+          'verkeerslicht_scheef',
+          'verkeerslicht_op_grond',
           'deurtje_weg_of_open',
-          'losse_kabels_zichtbaar_of_lamp_los',
+          'losse_kabels_zichtbaar',
+          'lamp_hangt_los',
         ],
       },
-      type: 'alert',
-      value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
+      label: `Dit kan een gevaarlijke situatie zijn, bel ${configuration.language.phoneNumber}`,
+      type: 'info',
+      value: `Wij verzoeken u om ons te bellen op ${configuration.language.phoneNumber} zodat we dit met spoed kunnen oppakken. U hoeft het formulier niet meer verder in te vullen.`,
     },
     render: FIELD_TYPE_MAP.plain_text,
-  },
-  extra_verkeerslicht_welk: {
-    meta: {
-      label: 'Welk verkeerslicht werkt niet goed?',
-      shortLabel: 'Type verkeerslicht',
-      ifAllOf: {
-        subcategory: 'verkeerslicht',
-      },
-      ifOneOf: {
-        extra_verkeerslicht: [
-          'is_gevolg_van_aanrijding',
-          'verkeerslicht_op_grond_of_scheef',
-          'deurtje_weg_of_open',
-          'losse_kabels_zichtbaar_of_lamp_los',
-          'niet_gevaarlijk',
-        ],
-      },
-      values: {
-        voetganger: 'Voetganger',
-        fiets: 'Fiets',
-        auto: 'Auto',
-        tram_bus: 'Tram of bus',
-      },
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: FIELD_TYPE_MAP.radio_input,
   },
   extra_verkeerslicht_probleem_voetganger: {
     meta: {
@@ -426,6 +422,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       shortLabel: 'Probleem',
       ifAllOf: {
         subcategory: 'verkeerslicht',
+        extra_verkeerslicht: 'geen_beschadigingen',
         extra_verkeerslicht_welk: 'voetganger',
       },
       ifOneOf: {
@@ -451,6 +448,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       shortLabel: 'Probleem',
       ifAllOf: {
         subcategory: 'verkeerslicht',
+        extra_verkeerslicht: 'geen_beschadigingen',
       },
       ifOneOf: {
         extra_verkeerslicht_welk: ['fiets', 'auto'],
@@ -475,6 +473,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       shortLabel: 'Probleem',
       ifAllOf: {
         subcategory: 'verkeerslicht',
+        extra_verkeerslicht: 'geen_beschadigingen',
         extra_verkeerslicht_welk: 'tram_bus',
       },
       values: {
@@ -492,22 +491,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     },
     render: FIELD_TYPE_MAP.checkbox_input,
   },
-  extra_verkeerslicht_rijrichting: {
-    meta: {
-      label: 'Wat is de rijrichting?',
-      shortLabel: 'Rijrichting',
-      subtitle: 'Bijvoorbeeld: van Waterlooplein naar Mr. Visserplein',
-      pathMerge: 'extra_properties',
-      placeholder: 'Rijrichting verkeerslicht',
-      ifAllOf: {
-        subcategory: 'verkeerslicht',
-      },
-      ifOneOf: {
-        extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
-      },
-    },
-    render: FIELD_TYPE_MAP.text_input,
-  },
   extra_verkeerslicht_nummer: {
     meta: {
       label: 'Wat is het nummer van het verkeerslicht?',
@@ -515,12 +498,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       subtitle:
         'Deze kunt u meestal vinden in witte tekst onder of boven de lampen',
       pathMerge: 'extra_properties',
-      placeholder: 'Nummer verkeerslicht',
       ifAllOf: {
         subcategory: 'verkeerslicht',
-      },
-      ifOneOf: {
-        extra_verkeerslicht_welk: ['voetganger', 'fiets', 'auto', 'tram_bus'],
+        extra_verkeerslicht: 'geen_beschadigingen',
       },
     },
     render: FIELD_TYPE_MAP.text_input,
