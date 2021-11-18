@@ -2,12 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import some from 'lodash/some'
 import memoize from 'lodash/memoize'
-import configuration from 'shared/services/configuration/configuration'
 import { Validators } from 'react-reactive-form'
 import {
   priorityList,
   typesList,
 } from 'signals/incident-management/definitions'
+import configuration from 'shared/services/configuration/configuration'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'
