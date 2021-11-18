@@ -23,7 +23,6 @@ import {
 import { makeSelectIncidentContainer } from './selectors'
 import reducer from './reducer'
 import saga from './saga'
-import './style.scss'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next

@@ -1,36 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
-import TextArea from 'components/TextArea'
+import styled from 'styled-components'
 
+import TextArea from 'components/TextArea'
 import Label from 'components/Label'
 
-import './style.scss'
+const Wrapper = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`
 
 const TextAreaInput = (props) => {
   const { name, display, placeholder, rows, maxLength } = props
   const render = ({ handler, value }) => (
-    <div className="text-area-input">
-      <div className="mode_input text rij_verplicht">
-        <Label htmlFor={`form${name}`}>{display}</Label>
+    <Wrapper>
+      <Label htmlFor={`form${name}`}>{display}</Label>
 
-        <div className="text-area-input__control">
-          <TextArea
-            id={`form${name}`}
-            name={name}
-            data-testid={name}
-            value=""
-            {...handler()}
-            placeholder={placeholder}
-            rows={rows}
-            infoText={
-              maxLength > 0 &&
-              `${value ? value.length : '0'}/${maxLength} tekens`
-            }
-          />
-        </div>
-      </div>
-    </div>
+      <TextArea
+        id={`form${name}`}
+        name={name}
+        data-testid={name}
+        value=""
+        {...handler()}
+        placeholder={placeholder}
+        rows={rows}
+        infoText={
+          maxLength > 0 && `${value ? value.length : '0'}/${maxLength} tekens`
+        }
+      />
+    </Wrapper>
   )
 
   render.defaultProps = {

@@ -2,13 +2,23 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import { Input } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import Label from 'components/Label'
 
-import './style.scss'
+const StyledInput = styled.div`
+  .text-input {
+    width: 100%;
+
+    &__control {
+      margin-bottom: 20px;
+    }
+  }
+`
 
 const TextInput = ({ name, display, placeholder }) => {
   const Render = ({ handler }) => (
-    <div>
+    <StyledInput>
       <Label htmlFor={`form${name}`}>{display}</Label>
 
       <Input
@@ -19,7 +29,7 @@ const TextInput = ({ name, display, placeholder }) => {
         {...handler()}
         placeholder={placeholder}
       />
-    </div>
+    </StyledInput>
   )
 
   Render.defaultProps = {
