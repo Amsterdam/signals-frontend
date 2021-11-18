@@ -18,7 +18,7 @@ const StyledFooterBottom = styled(FooterBottom)`
 
 const FooterContainer = () => (
   <Footer>
-    <StyledFooterTop />
+    <StyledFooterTop data-testid="siteFooter" />
     <StyledFooterBottom>
       {configuration.links.about && (
         <Link href={configuration.links.about} inList>
