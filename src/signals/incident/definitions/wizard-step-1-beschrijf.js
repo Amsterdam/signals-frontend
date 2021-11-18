@@ -8,6 +8,7 @@ import {
   typesList,
 } from 'signals/incident-management/definitions'
 import configuration from 'shared/services/configuration/configuration'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'
@@ -30,6 +31,14 @@ const reduceSources = (sources) =>
     [{ '': 'Vul bron in' }]
   )
 
+export const renderSources = () => {
+  if (getIsAuthenticated()) {
+    return FormComponents.SelectInput
+  } else {
+    return FormComponents.HiddenInput
+  }
+}
+
 const getControls = memoize(
   (sources) => ({
     controls: {
@@ -41,12 +50,13 @@ const getControls = memoize(
           label: 'Hoe komt de melding binnen?',
           path: 'source',
           values: sources ? reduceSources(selectableSources(sources)) : [],
+          name: 'source',
+          value: configuration.featureFlags.appMode ? 'app' : 'online',
         },
         options: {
           validators: [Validators.required],
         },
-        authenticated: true,
-        render: FormComponents.SelectInput,
+        render: renderSources(),
       },
       location: {
         meta: {
@@ -113,14 +123,12 @@ const getControls = memoize(
           label: 'Incident time hours',
           readOnly: true,
         },
-        render: FormComponents.HiddenInput,
       },
       incident_time_minutes: {
         meta: {
           label: 'Incident time minutes',
           readOnly: true,
         },
-        render: FormComponents.HiddenInput,
       },
       priority: {
         meta: {
@@ -150,7 +158,6 @@ const getControls = memoize(
         meta: {
           label: 'images_previews',
         },
-        render: FormComponents.HiddenInput,
       },
       images: {
         meta: {
