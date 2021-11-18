@@ -170,13 +170,7 @@ export default {
   formAction: 'CREATE_INCIDENT',
   form: {
     controls: {
-      page_summary: {
-        meta: {
-          value: 'summary',
-          name: 'page_summary',
-        },
-        render: FormComponents.HiddenInput,
-      },
+      page_summary: {},
       sharing_allowed: {
         meta: {
           shortLabel: 'Toestemming contactgegevens delen',
