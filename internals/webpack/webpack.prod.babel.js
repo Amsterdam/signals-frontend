@@ -49,41 +49,102 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
     runtimeChunk: 'single',
     moduleIds: 'deterministic',
     splitChunks: {
-      chunks: 'async',
-      minSize: 25000,
+      chunks: 'all',
+      // minSize: 25000,
       minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 85000,
+      // maxAsyncRequests: 30,
+      // maxInitialRequests: 30,
+      // enforceSizeThreshold: 85000,
+      maxInitialRequests: Infinity,
+      minSize: 0,
       cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all',
-          filename: 'vendors.[contenthash].js',
-          priority: 1,
-          maxInitialRequests: 2,
-          minChunks: 3,
-        },
-        react: {
-          test: /react-dom/,
-          chunks: 'all',
-          filename: 'react-dom.[contenthash].js',
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   chunks: 'initial',
+        //   filename: 'vendors.[contenthash].js',
+        //   priority: 1,
+        //   // maxInitialRequests: 2,
+        //   // minChunks: 3,
+        //   reuseExistingChunk: true,
+        // },
+        vendor: {
+          test: /[\\/]node_modules[\\/](?!@amsterdam)/,
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1]
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`
+          },
         },
         amsterdam: {
-          test: /@(amsterdam|datapunt)/,
-          chunks: 'all',
-          filename: 'amsterdam.[contenthash].js',
+          test: /[\\/]node_modules[\\/]@amsterdam/,
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/]@amsterdam[\\/](.*?)([\\/]|$)/
+            )[1]
+
+            return `npm.${packageName}`
+          },
         },
-        leaflet: {
-          test: /(leaflet|proj4)/,
-          chunks: 'all',
-          filename: 'leaflet.[contenthash].js',
-        },
-        sentry: {
-          test: /sentry/,
-          chunks: 'all',
-          filename: 'sentry.[contenthash].js',
-        },
+        // react: {
+        //   test: /(react-?(dom|router|redux|media)|redux)|react$/,
+        //   chunks: 'all',
+        //   filename: 'react.[contenthash].js',
+        // },
+        // amsterdam: {
+        //   test: /@(amsterdam|datapunt)\/(?!asc-ui)/,
+        //   chunks: 'all',
+        //   filename: 'amsterdam.[contenthash].js',
+        // },
+        // leaflet: {
+        //   test: /(leaflet|proj4)/,
+        //   chunks: 'all',
+        //   filename: 'leaflet.[contenthash].js',
+        // },
+        // core_js: {
+        //   test: /core-js/,
+        //   chunks: 'all',
+        //   filename: 'core-js.[contenthash].js',
+        // },
+        // sentry: {
+        //   test: /sentry/,
+        //   chunks: 'all',
+        //   filename: 'sentry.[contenthash].js',
+        // },
+        // asc_ui: {
+        //   test: /@amsterdam[\\/]asc-ui/,
+        //   chunks: 'all',
+        //   filename: 'asc-ui.[contenthash].js',
+        //   priority: 1,
+        // },
+        // asc_assets: {
+        //   test: /@amsterdam[\\/]asc-assets/,
+        //   chunks: 'all',
+        //   filename: 'asc-assets.[contenthash].js',
+        //   priority: 1,
+        // },
+        // styled: {
+        //   test: /(styled|@emotion|polished)/,
+        //   chunks: 'all',
+        //   filename: 'styled.[contenthash].js',
+        // },
+        // lodash: {
+        //   test: /lodash/,
+        //   chunks: 'all',
+        //   filename: 'lodash.[contenthash].js',
+        // },
+        // markdown: {
+        //   test: /(markdown|micromarkproperty-information|mdast)/,
+        //   chunks: 'all',
+        //   filename: 'markdown.[contenthash].js',
+        // },
+        // legacy: {
+        //   test: /(reactive-form|albus)/,
+        //   chunks: 'all',
+        //   filename: 'legacy.[contenthash].js',
+        // },
       },
     },
   },
