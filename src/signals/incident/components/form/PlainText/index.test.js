@@ -118,6 +118,22 @@ describe('Form component <PlainText />', () => {
       expect(element).toHaveStyleRule('background-color', '#E6E6E6')
     })
 
+    it('should render plain text default correctly', () => {
+      const props = getProps({
+        ...metaProps,
+        type: '',
+        value: 'Default',
+      })
+
+      render(withAppContext(<PlainText {...props} />))
+
+      expect(screen.getByTestId('plainText')).toBeInTheDocument()
+      expect(screen.getByText(props.meta.value)).toBeInTheDocument()
+
+      const element = screen.getByTestId('plainText')
+      expect(element).toHaveStyleRule('color', '#767676')
+    })
+
     it('should render plain text info correctly', () => {
       const props = getProps({
         ...metaProps,
