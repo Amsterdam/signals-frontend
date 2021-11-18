@@ -22,7 +22,7 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
       withAppContext(<MapPreview value={{ geometrie }} />)
     )
 
-    expect(getByText('Geen adres gevonden')).toBeInTheDocument()
+    expect(getByText('Locatie gepind op de kaart')).toBeInTheDocument()
   })
 
   it('should render static map with useStaticMapServer enabled', async () => {

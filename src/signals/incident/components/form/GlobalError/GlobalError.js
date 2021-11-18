@@ -5,13 +5,13 @@ import styled from 'styled-components'
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 
 const ErrorItem = styled.p`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  margin-top: 0;
-  margin-bottom: 0;
   border: ${themeColor('support', 'invalid')} 2px solid;
-  padding: ${themeSpacing(3)};
   color: ${themeColor('support', 'invalid')};
+  font-weight: 700;
   line-height: ${themeSpacing(6)};
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: ${themeSpacing(3)};
 `
 
 const GlobalError = ({ meta, parent: { touched, valid } }) =>

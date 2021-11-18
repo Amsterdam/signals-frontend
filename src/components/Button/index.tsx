@@ -10,10 +10,9 @@ import {
 const MIN_BUTTON_WIDTH = 90
 
 const Button = styled(AscButton)`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal !important;
   min-width: ${MIN_BUTTON_WIDTH}px;
   justify-content: center;
+  font-family: Avenir Next;
 
   svg path {
     fill: inherit;

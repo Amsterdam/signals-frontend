@@ -11,22 +11,16 @@ import {
 } from '@amsterdam/asc-ui'
 import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input'
 
-const Hint = styled(Typography).attrs({
-  forwardedAs: 'span',
-})`
+const Hint = styled.span`
   color: ${themeColor('tint', 'level5')};
   display: block;
   margin-bottom: ${themeSpacing(2)};
-  font-size: 16px;
-  line-height: 22px;
 `
 
 const StyledInput = styled(AscInput)<{ showError: boolean }>`
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 22px;
   padding: 10px; /* needed to style the textboxes as according to the design system */
   box-shadow: initial;
+  font-family: Avenir Next;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};
@@ -46,14 +40,13 @@ const Error = styled(Typography).attrs({
   forwardedAs: 'h6',
 })`
   color: ${themeColor('secondary')};
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal;
+  font-weight: 700;
   margin: ${themeSpacing(2)} 0;
 `
 
 export const StyledLabel = styled(Label)<{ hasHint: boolean }>`
   display: block;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: 700;
   ${({ hasHint }) =>
     !hasHint &&
     css`

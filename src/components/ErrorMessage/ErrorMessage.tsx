@@ -12,8 +12,6 @@ const ErrorMessage = styled(AscErrorMessage).attrs(() => ({
   role: 'alert',
 }))`
   margin-top: 0;
-  font-family: Avenir Next LT W01 Demi;
-  font-weight: normal;
 `
 
 export default ErrorMessage

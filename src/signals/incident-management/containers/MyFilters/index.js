@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import {
   applyFilter,
@@ -18,13 +20,23 @@ import useEventEmitter from 'hooks/useEventEmitter'
 
 import FilterItem from './components/FilterItem'
 
-import './style.scss'
-
 const sortFilters = (filters) => {
   filters.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
 
   return filters
 }
+
+const MyFilters = styled.div`
+  width: 100%;
+`
+
+const NoFilters = styled.div`
+  color: ${themeColor('tint', 'level4')};
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: ${themeSpacing(20)};
+  text-align: center;
+`
 
 export const MyFiltersComponent = ({
   filters,
@@ -56,7 +68,7 @@ export const MyFiltersComponent = ({
   )
 
   return (
-    <div className="my-filters">
+    <MyFilters className="my-filters">
       {filters && filters.length ? (
         sortFilters(filters).map((filter) => (
           <FilterItem
@@ -70,15 +82,15 @@ export const MyFiltersComponent = ({
           />
         ))
       ) : (
-        <div className="my-filters--empty">
+        <NoFilters className="my-filters--empty">
           <p>U heeft geen eigen filter opgeslagen.</p>
           <p>
             Ga naar &lsquo;Filter&rsquo; en voer een naam in om een
             filterinstelling op te slaan.
           </p>
-        </div>
+        </NoFilters>
       )}
-    </div>
+    </MyFilters>
   )
 }
 

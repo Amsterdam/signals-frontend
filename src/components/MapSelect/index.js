@@ -26,18 +26,13 @@ import ErrorControl from './control/ErrorControl'
 import { getIsReportedLayer } from './ReportedLayer/reportedLayer'
 import { ZOOM_MIN, ZOOM_MAX } from './constants'
 
-import './style.scss'
+import Wrapper from './styled'
 
 const SELECTION_MAX_COUNT = 30
-
-const Wrapper = styled.div`
-  position: relative;
-`
 
 const StyledMap = styled(Map)`
   height: 450px;
   width: 100%;
-  font-family: 'Avenir Next LT W01-Regular', arial, sans-serif;
 `
 
 const MapSelect = ({

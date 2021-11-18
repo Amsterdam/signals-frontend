@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useCallback, useReducer, useRef } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
@@ -13,13 +13,6 @@ import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 
 export const andersOptionText = 'Anders, namelijk...'
-
-const customCssTopMargin = () => css`
-  margin-top: ${themeSpacing(3)};
-  & > :first-child {
-    margin-top: -6px; /* ensures the designed distance (12px) to the label above */
-  }
-`
 
 const Form = styled.form`
   display: grid;
@@ -36,16 +29,14 @@ const FieldSet = styled.fieldset`
 
 const StyledLabel = styled(Label)`
   margin-bottom: 0;
-  line-height: ${themeSpacing(6)};
 `
 
 const CheckboxWrapper = styled(Label)`
-  ${customCssTopMargin()};
   display: block;
 `
 
 const Optional = styled.span`
-  font-family: Avenir Next LT W01-Regular;
+  font-weight: 400;
 `
 
 const HelpText = styled.p`
@@ -57,10 +48,6 @@ const HelpText = styled.p`
 
 const StyledTextArea = styled(TextArea)`
   margin-top: ${themeSpacing(3)};
-`
-
-const StyledRadioButtonList = styled(RadioButtonList)`
-  ${customCssTopMargin()};
 `
 
 const initialState = {
@@ -189,7 +176,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
             Een antwoord mogelijk, kies de belangrijkste reden
           </HelpText>
 
-          <StyledRadioButtonList
+          <RadioButtonList
             aria-describedby="subtitle-kto"
             error={Boolean(state.errors.text)}
             groupName="kto"

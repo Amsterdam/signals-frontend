@@ -16,8 +16,8 @@ const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',
 })`
   font-size: 16px;
+  font-weight: 700;
   color: ${themeColor('primary')};
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
 `
 
 const Chevron = styled(ChevronLeft)`

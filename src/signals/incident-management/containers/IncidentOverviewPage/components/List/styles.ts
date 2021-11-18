@@ -22,7 +22,6 @@ export const Table = styled.table`
 `
 
 export const Th = styled.th`
-  font-weight: normal;
   white-space: nowrap;
 `
 

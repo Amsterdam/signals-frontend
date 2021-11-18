@@ -57,16 +57,9 @@ const StyledHeading = styled(Heading)`
 `
 
 const StyledFooterBottom = styled(FooterBottom)`
-  span {
-    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 22px;
-  }
-  a:hover {
-    text-decoration: underline solid;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
+  a {
+    font-size: 16px;
+    line-height: 20px;
   }
 `
 

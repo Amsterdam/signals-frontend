@@ -58,7 +58,7 @@ const StyledMetaList = styled.dl`
     margin-bottom: ${themeSpacing(4)};
 
     &.status {
-      font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+      font-weight: 700;
     }
 
     .childLink:not(:first-child) {

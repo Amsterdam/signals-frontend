@@ -23,7 +23,7 @@ const Field = styled.div`
 `
 
 const Title = styled.div`
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
+  font-weight: bold;
   margin-bottom: ${themeSpacing(2)};
 `
 

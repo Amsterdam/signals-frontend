@@ -59,7 +59,7 @@ const MapPreview = ({ value }) => {
         <Address>
           {value?.address
             ? formatAddress(value.address)
-            : 'Geen adres gevonden'}
+            : 'Locatie gepind op de kaart'}
         </Address>
         {latitude &&
           longitude &&

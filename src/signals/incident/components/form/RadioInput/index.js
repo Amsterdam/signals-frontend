@@ -16,10 +16,6 @@ import {
 const StyledLabel = styled(Label)`
   width: 100%;
   align-self: baseline;
-
-  & > * {
-    font-weight: 400 !important;
-  }
 `
 
 const RadioInput = ({

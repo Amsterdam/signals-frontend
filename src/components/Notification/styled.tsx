@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import styled, { css } from 'styled-components'
-import {
-  Button,
-  Heading,
-  Paragraph,
-  themeSpacing,
-  themeColor,
-} from '@amsterdam/asc-ui'
+import { Button, Paragraph, themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import {
   SITE_HEADER_BOTTOM_GAP_HEIGHT,
   SITE_HEADER_HEIGHT_TALL,
@@ -83,12 +77,9 @@ export const Wrapper = styled.div<{
   }
 `
 
-export const Title = styled(Heading).attrs({
-  forwardedAs: 'h6',
-})`
+export const Title = styled(Paragraph)`
   color: white;
-  font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-  font-weight: normal;
+  font-weight: 700;
   margin: ${({ hasMargin = false }: { hasMargin?: boolean }) =>
     hasMargin
       ? css`

@@ -21,6 +21,10 @@ const Item = styled.li`
   }
   display: grid;
 
+  span {
+    display: block;
+  }
+
   @media ${breakpoint('min-width', 'tabletM')} {
     grid-template-columns: 2fr ${({ theme }: { theme: Theme }) =>
         theme.layouts.medium.gutter}px 4fr;
@@ -45,6 +49,10 @@ const Action = styled.div`
   }
 `
 
+const Who = styled.div`
+  word-break: break-all;
+`
+
 interface HistoryListProps {
   list: History[]
   className?: string
@@ -59,19 +67,19 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
       <Item key={identifier}>
         <Time>
           {string2date(when)} om {string2time(when)}
-          <div>{who}</div>
+          <Who>{who}</Who>
         </Time>
 
         <Action>
           {action && (
-            <div data-testid="history-list-item-action">
+            <span data-testid="history-list-item-action">
               <Markdown allowedElements={['a', 'p']}>{action}</Markdown>
-            </div>
+            </span>
           )}
           {description && (
-            <div data-testid="history-list-item-description">
+            <span data-testid="history-list-item-description">
               <Markdown allowedElements={['a', 'p']}>{description}</Markdown>
-            </div>
+            </span>
           )}
         </Action>
       </Item>

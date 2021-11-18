@@ -17,7 +17,6 @@ import {
   themeColor,
   themeSpacing,
   breakpoint,
-  styles,
 } from '@amsterdam/asc-ui'
 import SearchBar from 'containers/SearchBar'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
@@ -29,11 +28,6 @@ import configuration from 'shared/services/configuration/configuration'
 export const menuBreakpoint = 1200
 
 const StyledHeader = styled(HeaderComponent)`
-  ${styles.HeaderTitleStyle} {
-    font-family: Avenir Next LT W01 Demi, arial, sans-serif;
-    font-weight: 400;
-  }
-
   ${({ isFrontOffice, tall }) =>
     isFrontOffice &&
     tall &&
@@ -73,21 +67,14 @@ const StyledMenuButton = styled(MenuButton)`
 `
 
 const SearchBarMenuItem = styled(MenuItem)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-right: 0;
   max-width: 365px;
   @media screen and (min-width: ${menuBreakpoint + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
-  }
-`
-
-const StyledSearchBar = styled(SearchBar)`
-  margin-top: 5px;
-
-  ${styles.TextFieldStyle} {
-    button {
-      top: 3px;
-    }
   }
 `
 
@@ -196,7 +183,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       {getIsAuthenticated() && (
         <Fragment>
           <SearchBarMenuItem>
-            <StyledSearchBar />
+            <SearchBar />
           </SearchBarMenuItem>
 
           <MenuItem element="span">

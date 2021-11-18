@@ -1,33 +1,46 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+//SPDX-License-Identifier: MPL-2.0
+//Copyright (C) 2021 Gemeente Amsterdam
+import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import HiddenInput from '.'
 
-describe('Form component <HiddenInput />', () => {
-  it('renders a hidden input element', () => {
-    const handler = () => ({ value: 'foo', name: 'bar' })
-    const { container } = render(
-      withAppContext(<HiddenInput handler={handler} />)
-    )
+describe('Form component <HiddenInput/>', () => {
+  const meta = {
+    name: 'bar',
+    value: 'foo',
+    updateIncident: jest.fn(),
+  }
 
-    expect(container.querySelector('input[type="hidden"]')).toBeInTheDocument()
-  })
+  const props = {
+    parent: {
+      meta: {
+        updateIncident: jest.fn(),
+      },
+    },
+    meta: meta,
+  }
 
-  it('renders nothing', () => {
-    const { container, rerender } = render(
-      withAppContext(<HiddenInput handler={() => ({ value: 'foo' })} />)
-    )
+  describe('rendering', () => {
+    it('should render a hidden input', () => {
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledTimes(0)
+      render(withAppContext(<HiddenInput {...props} meta={{ ...meta }} />))
+      expect(screen.getByTestId('hidden-input')).toBeInTheDocument()
+      expect(screen.getByTestId('hidden-input')).toHaveAttribute('id', 'bar')
+      expect(screen.getByTestId('hidden-input')).toHaveAttribute('value', 'foo')
+      expect(props.parent.meta.updateIncident).toHaveBeenCalledTimes(1)
+    })
 
-    expect(
-      container.querySelector('input[type="hidden"]')
-    ).not.toBeInTheDocument()
+    it('should not render a hidden input when params are missing', () => {
+      const missingParamsMeta = {
+        ...props.meta,
+        value: undefined,
+      }
 
-    rerender(withAppContext(<HiddenInput handler={() => ({ name: 'bar' })} />))
-
-    expect(
-      container.querySelector('input[type="hidden"]')
-    ).not.toBeInTheDocument()
+      render(
+        withAppContext(<HiddenInput {...props} meta={missingParamsMeta} />)
+      )
+      expect(screen.queryByTestId('hidden-input')).not.toBeInTheDocument()
+    })
   })
 })
