@@ -56,7 +56,12 @@ const getStyle = (type) => {
         padding: ${themeSpacing(4)};
       `
     default:
-      return null
+      return css`
+        color: ${themeColor('tint', 'level5')};
+        a {
+          color: inherit;
+        }
+      `
   }
 }
 
@@ -87,7 +92,11 @@ const PlainText = ({ className, meta, parent }) => {
 
   return meta?.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plainText">
-      {meta.label && <Label>{meta.label}</Label>}
+      {meta.label && (
+        <Label>
+          <Markdown>{injectParent(meta.label, parent)}</Markdown>
+        </Label>
+      )}
       {valueAuthenticated && (
         <Markdown>{injectParent(valueAuthenticated, parent)}</Markdown>
       )}

@@ -203,6 +203,14 @@
           "description": "The title to show in the header of the application, next to the logo",
           "type": "string"
         },
+        "helpText": {
+          "description": "The text to show at the bottom of the signals form",
+          "type": "string"
+        },
+        "helpTextHeader": {
+          "description": "The header of the text to show at the bottom of the signals form",
+          "type": "string"
+        },
         "logoDescription": {
           "description": "ARIA description for the site logo",
           "type": "string"

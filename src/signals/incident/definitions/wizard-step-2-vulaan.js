@@ -61,6 +61,13 @@ const expandQuestions = memoize(
         isStatic: false,
         render: IncidentNavigation,
       },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+        },
+        render: FormComponents.PlainText,
+      },
     },
   }),
   (questions, category, subcategory) => `${category}${subcategory}`

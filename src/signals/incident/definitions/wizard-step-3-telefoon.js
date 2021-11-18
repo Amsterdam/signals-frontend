@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Validators } from 'react-reactive-form'
+import configuration from 'shared/services/configuration/configuration'
 import { validatePhoneNumber } from '../services/custom-validators'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
@@ -44,6 +45,13 @@ export default {
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,
+      },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+        },
+        render: FormComponents.PlainText,
       },
     },
   },

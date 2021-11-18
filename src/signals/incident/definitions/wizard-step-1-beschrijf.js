@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import some from 'lodash/some'
 import memoize from 'lodash/memoize'
+import configuration from 'shared/services/configuration/configuration'
 import { Validators } from 'react-reactive-form'
 import {
   priorityList,
@@ -170,6 +171,13 @@ const getControls = memoize(
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,
+      },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+        },
+        render: FormComponents.PlainText,
       },
     },
   }),
