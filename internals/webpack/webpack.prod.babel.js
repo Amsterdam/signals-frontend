@@ -45,6 +45,7 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
       }),
       new CssMinimizerPlugin(),
     ],
+    chunkIds: 'named',
     nodeEnv: 'production',
     runtimeChunk: 'single',
     moduleIds: 'deterministic',
@@ -52,7 +53,7 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
       chunks: 'all',
       maxInitialRequests: Infinity,
       minChunks: 1,
-      minSize: 15000,
+      minSize: 10000,
       cacheGroups: {
         vendor: {
           // Capture each package name and turn it into a cache group

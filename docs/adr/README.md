@@ -12,3 +12,4 @@
 9.  [Add MSW for mocking fetch calls](./0009-stop-mocking-fetch-in-tests.md)
 10. [Naming conventions](./0010-naming-conventions.md)
 11. [Embedded application](./0011-embedded-application.md)
+12. [Bundle splitting strategy](./0012-bundle-splitting-strategy.md)
