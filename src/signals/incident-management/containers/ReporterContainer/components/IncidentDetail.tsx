@@ -1,6 +1,7 @@
 import { FunctionComponent, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import {
+  CompactThemeProvider,
   Heading,
   Link as AscLink,
   Paragraph,
@@ -97,18 +98,20 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
       <IncidentDescription data-testid="incident-description">
         {description}
       </IncidentDescription>
-      <InfoStyle>
-        <span data-testid="label-date-definition">Gemeld op</span>
-        <Value data-testid="value-date-definition">
-          {format(new Date(date), 'dd-MM-yyyy HH:mm')}
-        </Value>
-        <span data-testid="label-subcategory">
-          Subcategorie (verantwoordelijke afdeling){' '}
-        </span>
-        <Value data-testid="value-subcategory">{subcategory}</Value>
-        <span data-testid="label-status">Status </span>
-        <Value data-testid="value-status">{status}</Value>
-      </InfoStyle>
+      <CompactThemeProvider>
+        <InfoStyle>
+          <span data-testid="label-date-definition">Gemeld op</span>
+          <Value data-testid="value-date-definition">
+            {format(new Date(date), 'dd-MM-yyyy HH:mm')}
+          </Value>
+          <span data-testid="label-subcategory">
+            Subcategorie (verantwoordelijke afdeling){' '}
+          </span>
+          <Value data-testid="value-subcategory">{subcategory}</Value>
+          <span data-testid="label-status">Status </span>
+          <Value data-testid="value-status">{status}</Value>
+        </InfoStyle>
+      </CompactThemeProvider>
       <Text data-testid="label-history">
         Contactgeschiedenis vanaf afgehandeld
       </Text>
