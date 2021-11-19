@@ -26,7 +26,6 @@ First, we need to see what the current situation is. Below is a screenshot from 
 
 <img src="./img/chunk_optimization_before.png" />
 
-
 ### Aggressive splitting
 
 We can split the code in such a way that each dependency has its own chunk. This way only the updated dependencies need to be downloaded after a new build/release. This will, however, generate such a large amount of chunks that it becomes inefficient; too many requests with too low a payload size.
@@ -38,6 +37,7 @@ Looking at which dependencies belong together (for instance `Leaflet` and `proj4
 ### Middle ground
 
 A solution that covers both aforementioned scenarios would:
+
 - compile a separate chunk for each dependency
 - have a minimum size for generated chunks (combining chunks if they're too small)
 - have a maximum size for generated chunks (splitting chunks if they're too big)
@@ -52,28 +52,20 @@ Applying all the middle ground requirements, the result is as follows:
 
 ### Comparison
 
-__Before__
+__Chunk sizes__
 
-Chunks size: 3.17 MB
+Before: 3.17 MB
 
-Average load times (throttled, simulated network traffic):
+After: 2.69 MB
 
-|                       	| WiFi 	| 4G   	| Good 3G 	|
-|-----------------------	|------	|------	|---------	|
-| DOMContentLoaded (ms) 	|  180 	| 4200 	|   13000 	|
-| load (ms)              	|  950 	| 6200 	|   15000 	|
-| completed (ms)         	|  650 	| 5500 	|   13500 	|
+__Average load times (throttled, simulated network traffic)__
 
-__After__
-
-Chunks size: 2.69 MB
-
-Average load times (throttled, simulated network traffic):
-
-|                       	| WiFi 	| 4G   	| Good 3G 	|
-|-----------------------	|------	|------	|---------	|
-| DOMContentLoaded (ms) 	|  230 	| 3000 	|    6250 	|
-| load (ms)             	|  940 	| 5200 	|   13000 	|
-| completed (ms)        	|  712 	| 4800 	|   12000 	|
+|                       | WiFi          || 4G            || Good 3G        ||
+|                       | Before | After | Before | After | Before  | After |
+| ----------------------| ------ | ----- | ------ | ----- | ------- | ----- |
+| DOMContentLoaded (ms) | 180    | 230   | 4200   | 3000  | 13000   | 6250  |
+| load (s)              | 950    | 940   | 6200   | 5200  | 15000   | 13000 |
+| completed (s)         | 650    | 712   | 5500   | 4800  | 13500   | 12000 |
+| | | | | | | |
 
 Load times for WiFi connection are more or less the same, but the most significant change is for the 4G and 3G connections. Totally worth the effort.
