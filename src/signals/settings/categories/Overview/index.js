@@ -112,9 +112,10 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
             />
           </Column>
 
-          {!isLoading && count > 0 && (
+          {!isLoading && count > PAGE_SIZE && (
             <Column span={12}>
               <StyledCompactPager
+                data-testid="pagination"
                 collectionSize={count}
                 pageSize={PAGE_SIZE}
                 page={page}
