@@ -43,7 +43,7 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
         },
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -53,7 +53,6 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
             },
           },
           'css-loader',
-          'sass-loader',
         ],
       },
       {
@@ -79,7 +78,7 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
       },
       {
         test: /\.svg$/,
-        issuer: /\.(jsx?|sass|scss|css)$/,
+        issuer: /\.(jsx?|css)$/,
         use: [
           {
             loader: 'svg-url-loader',
