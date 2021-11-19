@@ -3,7 +3,14 @@
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Row, Column, themeSpacing, Button, SearchBar } from '@amsterdam/asc-ui'
+import {
+  Row,
+  Column,
+  themeSpacing,
+  Button,
+  SearchBar,
+  CompactPager,
+} from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import type { FormEvent } from 'react'
@@ -11,7 +18,6 @@ import type { FormEvent } from 'react'
 import useDebounce from 'hooks/useDebounce'
 import { PAGE_SIZE } from 'containers/App/constants'
 import LoadingIndicator from 'components/LoadingIndicator'
-import Pagination from 'components/Pagination'
 import PageHeader from 'signals/settings/components/PageHeader'
 import DataView from 'components/DataView'
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
@@ -24,10 +30,6 @@ import useFetchUsers from './hooks/useFetchUsers'
 type Params = {
   pageNum: string
 }
-
-const StyledPagination = styled(Pagination)`
-  margin-top: ${themeSpacing(12)};
-`
 
 const HeaderButton = styled(Button)`
   &:hover {
@@ -57,6 +59,11 @@ const StyledDataView = styled(DataView)`
   th:last-child {
     width: 120px;
   }
+`
+
+const StyledCompactPager = styled(CompactPager)`
+  max-width: 200px;
+  margin-top: ${themeSpacing(6)};
 `
 
 const selectUserActive = [
@@ -234,12 +241,14 @@ const UsersOverviewContainer = () => {
             />
           </Column>
 
-          {!isLoading && count > 0 && (
+          {!isLoading && count > PAGE_SIZE && (
             <Column span={12}>
-              <StyledPagination
-                currentPage={page}
-                onClick={onPaginationClick}
-                totalPages={Math.ceil(count / PAGE_SIZE)}
+              <StyledCompactPager
+                data-testid="pagination"
+                collectionSize={count}
+                pageSize={PAGE_SIZE}
+                page={page}
+                onPageChange={onPaginationClick}
               />
             </Column>
           )}
