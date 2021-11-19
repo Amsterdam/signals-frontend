@@ -69,7 +69,8 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
           },
           priority: 0,
         },
-        // Split the @amsterdam packages into separate chunks instead of packing everthing together; their combined size is over 500 Kb
+        // Split the @amsterdam packages into separate chunks instead of packing everthing together;
+        // their combined size is over 500 Kb
         amsterdam: {
           test: /[\\/]node_modules[\\/]@amsterdam/,
           name(module) {

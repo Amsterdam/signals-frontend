@@ -10,8 +10,8 @@ module.exports = (api) => {
             useBuiltIns: 'usage',
             targets: {
               esmodules: true,
-              // chrome: 42,
-              // firefox: 68,
+              chrome: 42,
+              firefox: 68,
             },
             corejs: 3,
           },
