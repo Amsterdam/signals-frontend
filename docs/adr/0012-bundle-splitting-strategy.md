@@ -60,12 +60,54 @@ After: 2.69 MB
 
 __Average load times (throttled, simulated network traffic)__
 
-|                       | WiFi          || 4G            || Good 3G        ||
-|                       | Before | After | Before | After | Before  | After |
-| ----------------------| ------ | ----- | ------ | ----- | ------- | ----- |
-| DOMContentLoaded (ms) | 180    | 230   | 4200   | 3000  | 13000   | 6250  |
-| load (s)              | 950    | 940   | 6200   | 5200  | 15000   | 13000 |
-| completed (s)         | 650    | 712   | 5500   | 4800  | 13500   | 12000 |
-| | | | | | | |
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2"></th>
+      <th colspan="2">WiFi</th>
+      <th colspan="2">4G</th>
+      <th colspan="2">Good 3G</th>
+    </tr>
+    <tr>
+      <th>Before</th>
+      <th>After</th>
+      <th>Before</th>
+      <th>After</th>
+      <th>Before</th>
+      <th>After</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>DOMContentLoaded (ms)</th>
+      <td>180</td>
+      <td>230</td>
+      <td>4200</td>
+      <td>3000</td>
+      <td>13000</td>
+      <td>6250</td>
+    </tr>
+    <tr>
+      <th>load (s)</th>
+      <td>950</td>
+      <td>940</td>
+      <td>6200</td>
+      <td>5200</td>
+      <td>15000</td>
+      <td>13000</td>
+    </tr>
+    <tr>
+      <th>completed (s)</th>
+      <td>650</td>
+      <td>712</td>
+      <td>5500</td>
+      <td>4800</td>
+      <td>13500</td>
+      <td>12000</td>
+    </tr>
+  </tbody>
+</table>
+
+## Conclusion
 
 Load times for WiFi connection are more or less the same, but the most significant change is for the 4G and 3G connections. Totally worth the effort.
