@@ -50,101 +50,49 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
     moduleIds: 'deterministic',
     splitChunks: {
       chunks: 'all',
-      // minSize: 25000,
-      minChunks: 1,
-      // maxAsyncRequests: 30,
-      // maxInitialRequests: 30,
-      // enforceSizeThreshold: 85000,
       maxInitialRequests: Infinity,
-      minSize: 0,
+      minChunks: 1,
+      minSize: 15000,
       cacheGroups: {
-        // vendors: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   chunks: 'initial',
-        //   filename: 'vendors.[contenthash].js',
-        //   priority: 1,
-        //   // maxInitialRequests: 2,
-        //   // minChunks: 3,
-        //   reuseExistingChunk: true,
-        // },
         vendor: {
+          // Capture each package name and turn it into a cache group
+          // See https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758 for reference on the benefits
+          // of splitting the bundle like that.
           test: /[\\/]node_modules[\\/](?!@amsterdam)/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1]
+            const [, packageName] = module.context.match(
+              /[\\/]node_modules[\\/](.*?)(?:[\\/]|$)/
+            )
 
             // npm package names are URL-safe, but some servers don't like @ symbols
             return `npm.${packageName.replace('@', '')}`
           },
+          priority: 0,
         },
+        // Split the @amsterdam packages into separate chunks instead of packing everthing together; their combined size is over 500 Kb
         amsterdam: {
           test: /[\\/]node_modules[\\/]@amsterdam/,
           name(module) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/]@amsterdam[\\/](.*?)([\\/]|$)/
-            )[1]
+            const [, packageName] = module.context.match(
+              /[\\/]node_modules[\\/]@amsterdam[\\/](.*?)(?:[\\/]|$)/
+            )
 
             return `npm.${packageName}`
           },
+          priority: 0,
         },
-        // react: {
-        //   test: /(react-?(dom|router|redux|media)|redux)|react$/,
-        //   chunks: 'all',
-        //   filename: 'react.[contenthash].js',
-        // },
-        // amsterdam: {
-        //   test: /@(amsterdam|datapunt)\/(?!asc-ui)/,
-        //   chunks: 'all',
-        //   filename: 'amsterdam.[contenthash].js',
-        // },
-        // leaflet: {
-        //   test: /(leaflet|proj4)/,
-        //   chunks: 'all',
-        //   filename: 'leaflet.[contenthash].js',
-        // },
-        // core_js: {
-        //   test: /core-js/,
-        //   chunks: 'all',
-        //   filename: 'core-js.[contenthash].js',
-        // },
-        // sentry: {
-        //   test: /sentry/,
-        //   chunks: 'all',
-        //   filename: 'sentry.[contenthash].js',
-        // },
-        // asc_ui: {
-        //   test: /@amsterdam[\\/]asc-ui/,
-        //   chunks: 'all',
-        //   filename: 'asc-ui.[contenthash].js',
-        //   priority: 1,
-        // },
-        // asc_assets: {
-        //   test: /@amsterdam[\\/]asc-assets/,
-        //   chunks: 'all',
-        //   filename: 'asc-assets.[contenthash].js',
-        //   priority: 1,
-        // },
-        // styled: {
-        //   test: /(styled|@emotion|polished)/,
-        //   chunks: 'all',
-        //   filename: 'styled.[contenthash].js',
-        // },
-        // lodash: {
-        //   test: /lodash/,
-        //   chunks: 'all',
-        //   filename: 'lodash.[contenthash].js',
-        // },
-        // markdown: {
-        //   test: /(markdown|micromarkproperty-information|mdast)/,
-        //   chunks: 'all',
-        //   filename: 'markdown.[contenthash].js',
-        // },
-        // legacy: {
-        //   test: /(reactive-form|albus)/,
-        //   chunks: 'all',
-        //   filename: 'legacy.[contenthash].js',
-        // },
+        leaflet: {
+          test: /(leaflet|proj4)/,
+          chunks: 'all',
+          filename: 'leaflet.[contenthash].js',
+          priority: 1,
+        },
+        legacy: {
+          test: /(reactive-form|albus)/,
+          chunks: 'all',
+          filename: 'legacy.[contenthash].js',
+          priority: 1,
+        },
       },
     },
   },
@@ -190,5 +138,9 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
       !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
 }
+
+const stats = process.env.STATS
+
+if (stats) productionConfig.stats = stats
 
 module.exports = merge(baseConfig, productionConfig)

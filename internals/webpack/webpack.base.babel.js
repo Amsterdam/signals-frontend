@@ -195,6 +195,8 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
   },
 
   target: 'web', // Make web variables accessible to webpack, e.g. window
+
+  stats: 'normal',
 }
 
 module.exports = {
