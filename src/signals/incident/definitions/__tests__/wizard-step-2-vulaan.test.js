@@ -14,7 +14,12 @@ const defaultControls = {
   error: expect.objectContaining({}),
   custom_text: expect.objectContaining({}),
   $field_0: expect.objectContaining({}),
-  help_text: expect.objectContaining({}),
+  help_text: expect.objectContaining({
+    meta: {
+      label: configuration.language.helpTextHeader,
+      value: configuration.language.helpText,
+    },
+  }),
 }
 
 jest.mock('shared/services/configuration/configuration')
