@@ -1,33 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 module.exports = (api) => {
-  const presetEnv =
-    api.env() === 'lint'
-      ? ''
-      : [
-          '@babel/preset-env',
-          {
-            useBuiltIns: 'usage',
-            targets: {
-              esmodules: true,
-              chrome: 42,
-              firefox: 68,
-            },
-            corejs: 3,
-          },
-        ]
+  api.cache(false)
 
   return {
     plugins: [
-      'transform-commonjs-es2015-modules',
-      [
-        '@babel/plugin-transform-runtime',
-        {
-          corejs: 3,
-          useESModules: true,
-        },
-      ],
       'styled-components',
+      '@babel/plugin-transform-modules-commonjs',
       '@babel/plugin-proposal-class-properties',
       [
         'inline-react-svg',
@@ -36,9 +15,9 @@ module.exports = (api) => {
         },
       ],
       '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-transform-runtime',
     ],
     presets: [
-      presetEnv,
       [
         '@babel/preset-react',
         {
@@ -46,20 +25,26 @@ module.exports = (api) => {
         },
       ],
       '@babel/preset-typescript',
-    ].filter(Boolean),
+      [
+        '@babel/preset-env',
+        {
+          useBuiltIns: 'usage',
+          targets: {
+            esmodules: true,
+            chrome: 42,
+            firefox: 68,
+          },
+          corejs: 3,
+        },
+      ],
+    ],
     env: {
       production: {
         only: ['src'],
-        plugins: [
-          'transform-react-remove-prop-types',
-          '@babel/plugin-transform-react-inline-elements',
-          '@babel/plugin-transform-react-constant-elements',
-        ],
+        plugins: ['transform-react-remove-prop-types'],
       },
       test: {
         plugins: [
-          '@babel/plugin-transform-modules-commonjs',
-          'dynamic-import-node',
           [
             'babel-plugin-styled-components',
             { ssr: false, displayName: false, namespace: 'sc', pure: true },
