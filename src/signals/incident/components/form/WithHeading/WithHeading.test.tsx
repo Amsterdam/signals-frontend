@@ -9,12 +9,14 @@ const TextInput: FC<any> = (props) => (
   <span data-testid="textInput" {...props} />
 )
 
+const name = 'Foo bar'
 const wrap = TextInput
 const heading = 'Hic sunt dracones'
 
 describe('WithHeading', () => {
   it('renders a wrapped component', () => {
     const meta = {
+      name,
       heading,
       wrap,
     }
@@ -30,6 +32,7 @@ describe('WithHeading', () => {
       withAppContext(
         <WithHeading
           meta={{
+            name,
             wrap,
           }}
         />
@@ -42,6 +45,7 @@ describe('WithHeading', () => {
       withAppContext(
         <WithHeading
           meta={{
+            name,
             heading,
           }}
         />
