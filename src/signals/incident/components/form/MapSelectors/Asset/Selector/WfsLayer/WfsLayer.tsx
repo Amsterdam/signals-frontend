@@ -68,6 +68,17 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
         endpoint
       )
     : ''
+  const wfsFilterReplaced = urlReplacements
+    ? Object.entries(urlReplacements).reduce(
+        (acc, [key, replacement]) =>
+          acc.replace(new RegExp(`{${key}}`, 'g'), replacement),
+        (meta.wfsFilter as string) || ''
+      )
+    : ''
+
+  const filter = meta.wfsFilter
+    ? `&Filter=<Filter><And>${wfsFilterReplaced}</And></Filter>`
+    : ''
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -93,7 +104,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
     if (!bbox) return
 
-    const [request, controller] = fetchWithAbort(wfsUrl)
+    const [request, controller] = fetchWithAbort(`${wfsUrl}${filter}`)
 
     request
       .then(async (result) => result.json())
@@ -116,7 +127,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, wfsUrl, layerVisible, setMessage])
+  }, [bbox, wfsUrl, layerVisible, setMessage, filter])
 
   const layer = cloneElement(children, {
     featureTypes: meta.featureTypes,

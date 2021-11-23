@@ -41,7 +41,7 @@ export const controls = {
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
       wfsFilter:
-        '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo>',
+        '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint:
         'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
       featureTypes: [
@@ -142,7 +142,7 @@ export const controls = {
         },
       ],
     },
-    render: FIELD_TYPE_MAP.container_select,
+    render: FIELD_TYPE_MAP.asset_select,
   },
 }
 
