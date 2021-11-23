@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import AssetListPreview from './AssetListPreview'
-import ContainerListPreview from './ContainerListPreview'
 import CaterpillarListPreview from './CaterpillarListPreview'
 import DateTime from './DateTime'
 import Image from './Image'
@@ -16,7 +15,6 @@ describe('Preview components', () => {
     expect(components).toEqual({
       AssetListPreview,
       CaterpillarListPreview,
-      ContainerListPreview,
       DateTime,
       ListObjectValue,
       Image,
