@@ -19,7 +19,6 @@ import MapInput from './MapInput'
 import MapSelect from './MapSelect'
 import CategorySelectRenderer from './CategorySelectRenderer'
 import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
-import ContainerSelectRenderer from './MapSelectors/Container/ContainerSelectRenderer'
 import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 
 export default {
@@ -41,7 +40,6 @@ export default {
   TextInput,
   TextareaInput,
   CategorySelectRenderer,
-  ContainerSelectRenderer,
   AssetSelectRenderer,
   CaterpillarSelectRenderer,
 }

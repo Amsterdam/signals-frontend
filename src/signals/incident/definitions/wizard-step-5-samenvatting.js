@@ -61,13 +61,6 @@ export const renderPreview = ({ render, meta }) => {
           meta,
         })
 
-    case FIELD_TYPE_MAP.container_select:
-      return (props) =>
-        PreviewComponents.ContainerListPreview({
-          ...props,
-          featureTypes: meta.featureTypes,
-        })
-
     default:
       return Null
   }
