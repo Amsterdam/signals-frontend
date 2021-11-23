@@ -21,7 +21,6 @@ export default {
           autoComplete: 'tel',
           autoRemove: /[^\d ()+-]/g,
           heading: 'Mogen we u bellen voor vragen?',
-          isFieldSet: true,
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
           subtitle:
@@ -53,7 +52,6 @@ export default {
       },
       privacy_text: {
         meta: {
-          isFieldSet: true,
           heading: 'Uw privacy',
           value:
             'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
