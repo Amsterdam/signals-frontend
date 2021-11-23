@@ -7,7 +7,6 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
-import FormComponents from '../components/form'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
@@ -171,14 +170,6 @@ export default {
   form: {
     controls: {
       page_summary: {},
-      sharing_allowed: {
-        meta: {
-          shortLabel: 'Toestemming contactgegevens delen',
-          value: configuration.language?.consentToContactSharing,
-          path: 'reporter.sharing_allowed',
-        },
-        render: FormComponents.EmphasisCheckboxInput,
-      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,

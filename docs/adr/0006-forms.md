@@ -67,11 +67,10 @@ A form components specifically using the dependency, which can easily be updated
 The definitions for all steps in the wizard can be turned into components, defining the form directly.
 
 - [wizard-step-1-beschrijf.js](../../src/signals/incident/definitions/wizard-step-1-beschrijf.js)
-- [wizard-step-3-telefoon.js](../../src/signals/incident/definitions/wizard-step-3-telefoon.js)
-- [wizard-step-4-email.js](../../src/signals/incident/definitions/wizard-step-4-email.js)
-- [wizard-step-5-samenvatting.js](../../src/signals/incident/definitions/wizard-step-5-samenvatting.js)
-- [wizard-step-6-bedankt.js](../../src/signals/incident/definitions/wizard-step-6-bedankt.js)
-- [wizard-step-7-fout.js](../../src/signals/incident/definitions/wizard-step-7-fout.js)
+- [wizard-step-3-contact.js](../../src/signals/incident/definitions/wizard-step-3-contact.js)
+- [wizard-step-4-summary.js](../../src/signals/incident/definitions/wizard-step-5-summary.js)
+- [wizard-step-5-bedankt.js](../../src/signals/incident/definitions/wizard-step-6-bedankt.js)
+- [wizard-step-6-fout.js](../../src/signals/incident/definitions/wizard-step-6-fout.js)
 
 The definition for step 2 should be turned into a component and define logic for rendering definitions for additional questions.
 
