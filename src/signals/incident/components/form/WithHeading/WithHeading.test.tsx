@@ -10,7 +10,7 @@ const TextInput: FC<any> = (props) => (
 )
 
 const name = 'Foo bar'
-const wrap = TextInput
+const wrappedComponent = TextInput
 const heading = 'Hic sunt dracones'
 
 describe('WithHeading', () => {
@@ -18,7 +18,7 @@ describe('WithHeading', () => {
     const meta = {
       name,
       heading,
-      wrap,
+      wrappedComponent,
     }
 
     render(withAppContext(<WithHeading meta={meta} />))
@@ -33,7 +33,7 @@ describe('WithHeading', () => {
         <WithHeading
           meta={{
             name,
-            wrap,
+            wrappedComponent,
           }}
         />
       )

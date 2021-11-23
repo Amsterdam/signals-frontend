@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 type WrapMeta = FormMeta & {
   heading?: string
-  wrap?: FC
+  wrappedComponent?: FC
 }
 
 type WithHeadingProps = FormOptions & { meta: WrapMeta }
@@ -16,11 +16,11 @@ const StyledHeading = styled(Heading)`
 `
 
 const WithHeading: FC<WithHeadingProps> = (props) => {
-  const { wrap, heading } = props.meta
+  const { wrappedComponent, heading } = props.meta
 
-  if (!wrap || !heading) return null
+  if (!wrappedComponent || !heading) return null
 
-  const InputComponent = wrap
+  const InputComponent = wrappedComponent
 
   return (
     <>

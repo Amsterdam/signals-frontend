@@ -26,7 +26,7 @@ export default {
           subtitle:
             'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
           type: 'tel',
-          wrap: FormComponents.TextInput,
+          wrappedComponent: FormComponents.TextInput,
         },
         render: FormComponents.WithHeading,
         options: {
@@ -43,7 +43,7 @@ export default {
           subtitle:
             'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
           type: 'email',
-          wrap: FormComponents.TextInput,
+          wrappedComponent: FormComponents.TextInput,
         },
         render: FormComponents.WithHeading,
         options: {
@@ -55,7 +55,7 @@ export default {
           heading: 'Uw privacy',
           value:
             'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
-          wrap: FormComponents.PlainText,
+          wrappedComponent: FormComponents.PlainText,
         },
         render: FormComponents.WithHeading,
       },
