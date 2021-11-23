@@ -25,6 +25,7 @@ module.exports = {
       functions: 97.78,
     },
   },
+  coverageReporters: process.env.CI ? ['text'] : ['lcov'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
