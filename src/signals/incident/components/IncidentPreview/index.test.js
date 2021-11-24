@@ -229,6 +229,10 @@ describe('<IncidentPreview />', () => {
             coordinates: [4.899258613586427, 52.36784357172409],
           },
         },
+        sharing_allowed: {
+          value: true,
+        },
+        phone: '0000',
       },
       preview: {
         beschrijf: {
@@ -251,6 +255,18 @@ describe('<IncidentPreview />', () => {
           location: {
             label: 'Locatie',
             render: PreviewComponents.Map,
+          },
+        },
+        contact: {
+          sharing_allowed: {
+            optional: true,
+            label: 'foo bar',
+            render: ({ value }) => (value.value ? 'Ja' : 'Nee'),
+          },
+          phone: {
+            optional: true,
+            label: 'phone',
+            render: ({ value }) => value,
           },
         },
       },
