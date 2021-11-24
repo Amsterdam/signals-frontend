@@ -158,12 +158,12 @@ export default {
     heading: {
       beschrijf: 'Melding',
       vulaan: 'Aanvullende informatie',
+      contact: 'Contactgegevens',
     },
     edit: {
       beschrijf: 'Wijzig melding',
       vulaan: 'Wijzig aanvullende informatie',
-      telefoon: 'Wijzig uw telefoonnummer',
-      email: 'Wijzig uw e-mailadres',
+      contact: 'Wijzig contactgegevens',
     },
   },
   formAction: 'CREATE_INCIDENT',
@@ -214,19 +214,29 @@ export default {
 
     vulaan: getExtraQuestions(category, subcategory, questions),
 
-    telefoon: {
+    contact: {
       phone: {
         label: 'Wat is uw telefoonnummer?',
         optional: true,
         render: ({ value }) => value,
       },
-    },
 
-    email: {
       email: {
         label: 'Wat is uw e-mailadres?',
         optional: true,
         render: ({ value }) => value,
+      },
+
+      sharing_allowed: {
+        label: 'Melding delen',
+        optional: true,
+        render: ({ value }) => {
+          if (!value) return null
+
+          const { label, value: sharingIsAllowed } = value
+
+          return sharingIsAllowed ? label : null
+        },
       },
     },
   }),
