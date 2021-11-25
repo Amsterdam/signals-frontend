@@ -104,6 +104,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
     if (!bbox) return
 
+    if (!wfsUrl) return
+
     const url = new URL(wfsUrl)
     const params = url.searchParams
     params.append('filter', filter)
