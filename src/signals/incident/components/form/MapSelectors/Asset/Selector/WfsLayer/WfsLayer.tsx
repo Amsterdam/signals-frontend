@@ -107,8 +107,10 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     if (!wfsUrl) return
 
     const url = new URL(wfsUrl)
-    const params = url.searchParams
-    params.append('filter', filter)
+    if (filter.length > 0) {
+      const params = url.searchParams
+      params.append('filter', filter)
+    }
 
     const [request, controller] = fetchWithAbort(url.toString())
 
