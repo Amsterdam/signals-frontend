@@ -179,10 +179,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "avgDisclaimer": {
-          "description": "Text that outlines the use of privacy related information",
-          "type": "string"
-        },
         "consentToContactSharing": {
           "description": "The message to ask for consent to share contact information",
           "type": "string"
@@ -191,24 +187,16 @@
           "description": "The label for the district (stadsdeel/wijk)",
           "type": "string"
         },
-        "footer1": {
-          "description": "Extra information to show in the footer of the application",
-          "type": "string"
-        },
-        "footer2": {
-          "description": "Second line of information to show in the footer of the application",
-          "type": "string"
-        },
         "headerTitle": {
           "description": "The title to show in the header of the application, next to the logo",
           "type": "string"
         },
         "helpText": {
-          "description": "The text to show at the bottom of the signals form",
+          "description": "The text to show at the bottom of the signals form (can contain a markdown link)",
           "type": "string"
         },
         "helpTextHeader": {
-          "description": "The header of the text to show at the bottom of the signals form",
+          "description": "The header of the text at the bottom of the signals form (can contain a markdown link)",
           "type": "string"
         },
         "logoDescription": {
@@ -249,12 +237,11 @@
         }
       },
       "required": [
-        "avgDisclaimer",
         "consentToContactSharing",
         "district",
-        "footer1",
-        "footer2",
         "headerTitle",
+        "helpText",
+        "helpTextHeader",
         "logoDescription",
         "mapDescription",
         "phoneNumber",
