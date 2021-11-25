@@ -24,7 +24,6 @@ const StyledErrorWrapper = styled(ErrorWrapper)<{ invalid: boolean }>`
 const StyledLabel = styled(Label)`
   width: 100%;
   margin-bottom: 0;
-  line-height: ${themeSpacing(6)};
 `
 
 const FieldSet = styled.fieldset`
@@ -40,13 +39,13 @@ const FieldSet = styled.fieldset`
 const Optional = styled.span`
   font-weight: 400;
   margin-left: ${themeSpacing(2)};
+  font-weight: 400;
 `
 
 const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
   margin-top: 0;
   margin-bottom: 0;
-  line-height: ${themeSpacing(6)};
 `
 
 type PickedProps = 'touched' | 'hasError' | 'getError'

@@ -25,11 +25,12 @@ module.exports = {
       functions: 97.78,
     },
   },
+  coverageReporters: process.env.CI ? ['text'] : ['lcov'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
   moduleNameMapper: {
-    '.*\\.(css|less|styl|scss|sass)$': '<rootDir>/internals/mocks/cssModule.js',
+    '.*\\.css$': '<rootDir>/internals/mocks/cssModule.js',
     '.*\\.svg$': '<rootDir>/internals/mocks/svg.ts',
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.ts',

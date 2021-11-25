@@ -7,7 +7,6 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
-import FormComponents from '../components/form'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
@@ -159,26 +158,18 @@ export default {
     heading: {
       beschrijf: 'Melding',
       vulaan: 'Aanvullende informatie',
+      contact: 'Contactgegevens',
     },
     edit: {
       beschrijf: 'Wijzig melding',
       vulaan: 'Wijzig aanvullende informatie',
-      telefoon: 'Wijzig uw telefoonnummer',
-      email: 'Wijzig uw e-mailadres',
+      contact: 'Wijzig contactgegevens',
     },
   },
   formAction: 'CREATE_INCIDENT',
   form: {
     controls: {
       page_summary: {},
-      sharing_allowed: {
-        meta: {
-          shortLabel: 'Toestemming contactgegevens delen',
-          value: configuration.language?.consentToContactSharing,
-          path: 'reporter.sharing_allowed',
-        },
-        render: FormComponents.EmphasisCheckboxInput,
-      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,
@@ -223,19 +214,29 @@ export default {
 
     vulaan: getExtraQuestions(category, subcategory, questions),
 
-    telefoon: {
+    contact: {
       phone: {
         label: 'Wat is uw telefoonnummer?',
         optional: true,
         render: ({ value }) => value,
       },
-    },
 
-    email: {
       email: {
         label: 'Wat is uw e-mailadres?',
         optional: true,
         render: ({ value }) => value,
+      },
+
+      sharing_allowed: {
+        label: 'Melding delen',
+        optional: true,
+        render: ({ value }) => {
+          if (!value) return null
+
+          const { label, value: sharingIsAllowed } = value
+
+          return sharingIsAllowed ? label : null
+        },
       },
     },
   }),

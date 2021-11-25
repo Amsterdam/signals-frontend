@@ -27,7 +27,6 @@ const Wrapper = styled.article`
 `
 
 const Title = styled(Heading)`
-  font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `
 

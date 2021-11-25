@@ -140,13 +140,13 @@ describe('signals/settings/categories/containers/Overview', () => {
       pageNum: '1',
     }))
 
-    const { getByText } = render(
+    const { getByTestId } = render(
       withAppContext(
         <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
       )
     )
 
-    const pageButton = getByText('2')
+    const pageButton = getByTestId('nextbutton')
 
     expect(scrollTo).not.toHaveBeenCalled()
     expect(push).not.toHaveBeenCalled()

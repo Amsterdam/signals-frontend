@@ -4,7 +4,7 @@ import * as L from 'leaflet'
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { createLeafletComponent } from '@amsterdam/react-maps'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
-import './style.scss'
+import './style.css'
 
 import 'leaflet.markercluster'
 

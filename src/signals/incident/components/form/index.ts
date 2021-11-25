@@ -1,29 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import LinkButton from './LinkButton'
+import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
+import CategorySelectRenderer from './CategorySelectRenderer'
+import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 import CheckboxInput from './CheckboxInput'
-import EmphasisCheckboxInput from './EmphasisCheckboxInput'
-import DescriptionInputRenderer from './DescriptionInputRenderer'
+import ContainerSelectRenderer from './MapSelectors/Container/ContainerSelectRenderer'
 import DateTimeInput from './DateTimeInput'
+import DescriptionInputRenderer from './DescriptionInputRenderer'
+import EmphasisCheckboxInput from './EmphasisCheckboxInput'
 import FileInputRenderer from './FileInputRenderer'
 import GlobalError from './GlobalError'
 import HandlingMessage from './HandlingMessage/HandlingMessage'
 import HiddenInput from './HiddenInput'
+import LinkButton from './LinkButton'
+import MapInput from './MapInput'
+import MapSelect from './MapSelect'
 import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
 import RadioInputGroup from './RadioInputGroup'
 import SelectInput from './SelectInput'
-import TextInput from './TextInput'
 import TextareaInput from './TextareaInput'
-import MapInput from './MapInput'
-import MapSelect from './MapSelect'
-import CategorySelectRenderer from './CategorySelectRenderer'
-import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
-import ContainerSelectRenderer from './MapSelectors/Container/ContainerSelectRenderer'
-import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
+import TextInput from './TextInput'
+import WithHeading from './WithHeading'
 
 export default {
+  AssetSelectRenderer,
+  CategorySelectRenderer,
+  CaterpillarSelectRenderer,
   CheckboxInput,
+  ContainerSelectRenderer,
   DateTimeInput,
   DescriptionInputRenderer,
   EmphasisCheckboxInput,
@@ -38,10 +43,7 @@ export default {
   PlainText,
   RadioInputGroup,
   SelectInput,
-  TextInput,
   TextareaInput,
-  CategorySelectRenderer,
-  ContainerSelectRenderer,
-  AssetSelectRenderer,
-  CaterpillarSelectRenderer,
+  TextInput,
+  WithHeading,
 }
