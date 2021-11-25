@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
 import MapPreview from '.'
 
 jest.mock('shared/services/configuration/configuration')
+
+jest.mock('components/MapStatic', () => (props) => (
+  <span data-testid="mapStatic" {...props} />
+))
 
 describe('signals/incident/components/IncidentPreview/components/Map', () => {
   const geometrie = {
@@ -17,33 +21,20 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
     configuration.__reset()
   })
 
-  it('should show address fallback', async () => {
-    const { getByText } = render(
-      withAppContext(<MapPreview value={{ geometrie }} />)
-    )
+  it('should render normal map with useStaticMapServer disabled', () => {
+    render(withAppContext(<MapPreview value={{ geometrie }} />))
 
-    expect(getByText('Locatie gepind op de kaart')).toBeInTheDocument()
+    expect(screen.getByText('Locatie gepind op de kaart')).toBeInTheDocument()
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('map-base')).toBeInTheDocument()
   })
 
-  it('should render static map with useStaticMapServer enabled', async () => {
+  it('should render static map with useStaticMapServer enabled', () => {
     configuration.featureFlags.useStaticMapServer = true
 
-    const { findByTestId, queryByTestId } = render(
-      withAppContext(<MapPreview value={{ geometrie }} />)
-    )
+    render(withAppContext(<MapPreview value={{ geometrie }} />))
 
-    await findByTestId('mapStatic')
-
-    expect(queryByTestId('mapStatic')).toBeInTheDocument()
-    expect(queryByTestId('map-base')).not.toBeInTheDocument()
-  })
-
-  it('should render normal map with useStaticMapServer disabled', () => {
-    const { queryByTestId } = render(
-      withAppContext(<MapPreview value={{ geometrie }} />)
-    )
-
-    expect(queryByTestId('mapStatic')).not.toBeInTheDocument()
-    expect(queryByTestId('map-base')).toBeInTheDocument()
+    expect(screen.queryByTestId('mapStatic')).toBeInTheDocument()
+    expect(screen.queryByTestId('map-base')).not.toBeInTheDocument()
   })
 })

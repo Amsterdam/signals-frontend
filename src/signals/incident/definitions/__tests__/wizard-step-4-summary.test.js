@@ -23,7 +23,7 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
-describe('signals/incident/definitions/wizard-step-4-summary', () => {
+describe('Wizard summary', () => {
   afterEach(() => {
     configuration.__reset()
   })

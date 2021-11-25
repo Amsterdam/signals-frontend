@@ -9,7 +9,7 @@ type WrapMeta = FormMeta & {
   wrappedComponent?: FC
 }
 
-type WithHeadingProps = FormOptions & { meta: WrapMeta }
+type WithHeadingProps = FormOptions & { meta: WrapMeta; _parent?: any }
 
 const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(2, 0, 5)};
@@ -20,13 +20,15 @@ const WithHeading: FC<WithHeadingProps> = (props) => {
 
   if (!wrappedComponent || !heading) return null
 
-  const InputComponent = wrappedComponent
+  const Component = wrappedComponent
+
+  const propsWithParent = { ...props, parent: props._parent }
 
   return (
-    <>
+    <div>
       <StyledHeading as="h2">{heading}</StyledHeading>
-      <InputComponent {...props} />
-    </>
+      <Component {...propsWithParent} />
+    </div>
   )
 }
 
