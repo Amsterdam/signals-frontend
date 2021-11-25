@@ -102,9 +102,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       return
     }
 
-    if (!bbox) return
-
-    if (!wfsUrl) return
+    if (!bbox || !wfsUrl) return
 
     const url = new URL(wfsUrl)
     if (filter.length > 0) {
