@@ -11,7 +11,7 @@ import step5, {
   ObjectLabel,
   SCSVLabel,
   Null,
-} from '../wizard-step-5-samenvatting'
+} from '../wizard-step-4-summary'
 import PreviewComponents from '../../components/IncidentPreview/components'
 
 const { previewFactory } = step5
@@ -23,7 +23,7 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
-describe('signals/incident/definitions/wizard-step-5-samenvatting', () => {
+describe('Wizard summary', () => {
   afterEach(() => {
     configuration.__reset()
   })
