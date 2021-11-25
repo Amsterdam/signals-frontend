@@ -195,7 +195,7 @@ export default {
         return false
       })
     ) {
-      return 'incident/telefoon'
+      return 'incident/contact'
     }
     return false
   },

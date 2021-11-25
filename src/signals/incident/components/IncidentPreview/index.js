@@ -117,6 +117,16 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
             return incident[entryKey].length > 0
           }
 
+          try {
+            if (
+              Object.prototype.hasOwnProperty.call(incident[entryKey], 'value')
+            ) {
+              return incident[entryKey].value
+            }
+          } catch {
+            // no-op
+          }
+
           return Boolean(incident[entryKey])
         }
       )
