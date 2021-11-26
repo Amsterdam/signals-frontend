@@ -24,7 +24,7 @@ export default {
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
           subtitle:
-            'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+            'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
           type: 'tel',
           wrappedComponent: FormComponents.TextInput,
         },
@@ -41,7 +41,7 @@ export default {
           label: 'Wat is uw e-mailadres?',
           path: 'reporter.email',
           subtitle:
-            'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
+            'We gebruiken uw e-mailadres alléén om u op de hoogte te houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.',
           type: 'email',
           wrappedComponent: FormComponents.TextInput,
         },
@@ -52,10 +52,9 @@ export default {
       },
       privacy_text: {
         meta: {
-          heading: 'Uw privacy',
+          heading: 'Melding delen',
           value:
-            'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
-          wrappedComponent: FormComponents.PlainText,
+            'Niet alle meldingen vallen onder de verantwoordelijkheid van de gemeenten Amsterdam en Weesp. Om u van dienst te kunnen zijn, kunnen wij uw melding delen met de verantwoordelijke organisaties zoals de Politie of Dierenambulance. Hiervoor hebben we uw toestemming nodig om uw melding te delen.',
         },
         render: FormComponents.WithHeading,
       },
