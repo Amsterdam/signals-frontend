@@ -55,6 +55,7 @@ export default {
           heading: 'Melding delen',
           value:
             'Niet alle meldingen vallen onder de verantwoordelijkheid van de gemeenten Amsterdam en Weesp. Om u van dienst te kunnen zijn, kunnen wij uw melding delen met de verantwoordelijke organisaties zoals de Politie of Dierenambulance. Hiervoor hebben we uw toestemming nodig om uw melding te delen.',
+          wrappedComponent: FormComponents.PlainText,
         },
         render: FormComponents.WithHeading,
       },
