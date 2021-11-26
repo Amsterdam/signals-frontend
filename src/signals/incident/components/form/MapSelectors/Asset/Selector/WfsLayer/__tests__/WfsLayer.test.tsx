@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import type { MapOptions } from 'leaflet'
 import { LatLng } from 'leaflet'
 
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { FeatureCollection } from 'geojson'
 
@@ -34,6 +34,21 @@ const withMapAsset = (Component: ReactNode) => (
 )
 
 const consoleErrorSpy = jest.spyOn(global.console, 'error')
+
+const endpoint = 'https://endpoint/?version=2'
+const promise = Promise.resolve()
+const assetSelectProviderValue: AssetSelectValue = {
+  selection: [],
+  location: new LatLng(0, 0),
+  meta: {
+    endpoint,
+    featureTypes: [],
+  },
+  update: jest.fn(() => promise),
+  edit: jest.fn(),
+  close: jest.fn(),
+  setMessage: jest.fn(),
+}
 
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   const setContextData = jest.fn()
@@ -71,12 +86,13 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
 
   it('should render the wfs layer in the map', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
-
     render(
       withMapAsset(
-        <WfsLayer zoomLevel={{ max: 12 }}>
-          <TestLayer featureTypes={[]} desktopView />
-        </WfsLayer>
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer zoomLevel={{ max: 12 }}>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </AssetSelectProvider>
       )
     )
 
@@ -91,9 +107,11 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     fetchMock.mockRejectOnce(error)
     render(
       withMapAsset(
-        <WfsLayer>
-          <TestLayer featureTypes={[]} desktopView />
-        </WfsLayer>
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </AssetSelectProvider>
       )
     )
 
@@ -107,9 +125,11 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     fetchMock.mockRejectOnce(error)
     render(
       withMapAsset(
-        <WfsLayer>
-          <TestLayer featureTypes={[]} desktopView />
-        </WfsLayer>
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </AssetSelectProvider>
       )
     )
 
@@ -119,10 +139,10 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('supports additional wfs filters', async () => {
+  it('supports no additional wfs filters', async () => {
     fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
-    const endpoint =
-      '/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX></Filter>'
+    const endpoint = 'https://endpoint/?version=2'
+    const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
       location: new LatLng(0, 0),
@@ -130,13 +150,49 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
         endpoint,
         featureTypes: [],
       },
-      update: jest.fn(),
+      update: jest.fn(() => promise),
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
     }
 
-    const urlWithFilter = `/endpoint?version=2&Filter=<Filter><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326"><lowerCorner>4.879893974954347 52.37309163108818</lowerCorner><upperCorner>4.879893974954347 52.37309163108818</upperCorner></gml:Envelope></BBOX></Filter>`
+    render(
+      withMapAsset(
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </AssetSelectProvider>
+      )
+    )
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      endpoint,
+      expect.objectContaining({})
+    )
+    await act(() => promise)
+  })
+
+  it('supports additional wfs filters', async () => {
+    fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
+    const wfsFilter =
+      '<PropertyIsEqualTo><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope>'
+    const assetSelectProviderValue: AssetSelectValue = {
+      selection: [],
+      location: new LatLng(0, 0),
+      meta: {
+        endpoint,
+        wfsFilter,
+        featureTypes: [],
+      },
+      update: jest.fn(() => promise),
+      edit: jest.fn(),
+      close: jest.fn(),
+      setMessage: jest.fn(),
+    }
+
+    const urlWithFilter =
+      'https://endpoint/?version=2&filter=%3CFilter%3E%3CAnd%3E%3CPropertyIsEqualTo%3E%3CPropertyName%3Egeometrie%3C%2FPropertyName%3E%3Cgml%3AEnvelope+srsName%3D%22urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A4326%22%3E%3ClowerCorner%3E4.879893974954347+52.37309163108818%3C%2FlowerCorner%3E%3CupperCorner%3E4.879893974954347+52.37309163108818%3C%2FupperCorner%3E%3C%2Fgml%3AEnvelope%3E%3C%2FAnd%3E%3C%2FFilter%3E'
 
     render(
       withMapAsset(
@@ -152,5 +208,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       urlWithFilter,
       expect.objectContaining({})
     )
+    await act(() => promise)
   })
 })

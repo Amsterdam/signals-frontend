@@ -46,7 +46,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
           extra_container: {
             options: { validators: [] },
             ...afval.extra_container,
-            render: FormComponents.ContainerSelectRenderer,
+            render: FormComponents.AssetSelectRenderer,
           },
         },
       }
