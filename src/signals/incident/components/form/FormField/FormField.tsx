@@ -48,6 +48,10 @@ const SubTitle = styled.p`
   margin-bottom: 0;
 `
 
+const InputWrapper = styled.div<{ width?: string }>`
+  width: ${({ width }) => width || '100%'};
+`
+
 type PickedProps = 'touched' | 'hasError' | 'getError'
 export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   className?: string
@@ -130,7 +134,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
           </Fragment>
         )}
 
-        {children}
+        <InputWrapper width={meta?.width}>{children}</InputWrapper>
       </FieldSetWrapper>
     </StyledErrorWrapper>
   )
