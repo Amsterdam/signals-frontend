@@ -93,6 +93,7 @@ const IncidentWizard = ({
                     id={`incident/${key}`}
                     render={() => {
                       const {
+                        countAsStep,
                         form,
                         formFactory,
                         label,
@@ -104,7 +105,10 @@ const IncidentWizard = ({
                       return previewFactory || form || formFactory ? (
                         <StepWrapper>
                           <Header>
-                            <StyledH1>{label || key}</StyledH1>
+                            <StyledH1>
+                              {countAsStep && `${index + 1}. `}
+                              {label || key}
+                            </StyledH1>
                           </Header>
 
                           <Progress>

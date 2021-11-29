@@ -2,14 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { FormGenerator } from 'react-reactive-form'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { themeSpacing } from '@amsterdam/asc-ui'
 import isObject from 'lodash/isObject'
 
-import { getIsAuthenticated } from 'shared/services/auth/auth'
 import formatConditionalForm from '../../services/format-conditional-form'
 
 export const Form = styled.form`
@@ -22,45 +20,6 @@ export const Fieldset = styled.fieldset`
   margin: 0;
 
   word-break: normal;
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: ${themeSpacing(8)};
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    /**
-      & > * {
-        grid-column-start: 2;
-        grid-column-end: 4;
-      }
-
-      grid-template-columns: 4fr 4fr 4fr;
-      grid-column-gap: ${themeSpacing(5)};
-     */
-
-    ${({ isSummary }) =>
-      isSummary &&
-      css`
-        grid-template-columns: 4fr 6fr;
-
-        & > *:not(.incident-navigation) {
-          grid-column-start: 2;
-        }
-
-        ${() =>
-          getIsAuthenticated() &&
-          css`
-            @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-              grid-template-columns: 4fr 6fr 2fr;
-
-              & > .incident-navigation {
-                grid-column-end: 4;
-              }
-            }
-          `}
-      `}
-  }
- */
 `
 
 class IncidentForm extends Component {
