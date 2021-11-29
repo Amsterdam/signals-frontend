@@ -3,7 +3,16 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
+import { IconOptions } from 'leaflet'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
+import * as verlichtingIcons from './verlichting-icons'
+
+export const ICON_SIZE = 40
+
+const options: Partial<IconOptions> = {
+  className: 'object-marker',
+  iconSize: [ICON_SIZE, ICON_SIZE],
+}
 
 const configuration = appConfiguration as unknown as typeof ConfigurationType
 
@@ -159,19 +168,86 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'overig',
         ],
       },
+      wfsFilter:
+        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.verlichting,
-      zoomMin: 18,
-      legend_items: [
-        'grachtmast',
-        'overspanning',
-        'gevel_armatuur',
-        'schijnwerper',
-        'overig_lichtpunt',
-        'is_gemeld',
+      featureTypes: [
+        {
+          label: 'Grachtmast',
+          description: 'Grachtmast',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.grachtmast,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: '5',
+        },
+        {
+          label: 'Overspanning',
+          description: 'Overspanning',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.overspanning,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: '2',
+        },
+        {
+          label: 'Gevelarmatuur',
+          description: 'Gevelarmatuur',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.gevel_armatuur,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: '3',
+        },
+        {
+          label: 'Schijnwerper',
+          description: 'Schijnwerper',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.schijnwerper,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: '10',
+        },
+        {
+          label: 'Overig lichtpunt',
+          description: 'Overig lichtpunt',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.overig_lichtpunt,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: '4',
+        },
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.reported,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'id',
+          typeField: 'objecttype',
+          typeValue: 'is_gemeld',
+        },
       ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.map_select,
+    render: FIELD_TYPE_MAP.asset_select,
   },
   extra_straatverlichting_niet_op_kaart: {
     meta: {
