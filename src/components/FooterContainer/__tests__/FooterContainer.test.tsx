@@ -20,10 +20,7 @@ describe('<FooterContainer />', () => {
     configuration.links.about = 'https://www.amsterdam.nl/overdezesite/'
     configuration.links.accessibility = '/toegankelijkheid/'
 
-    const { container, getByTestId } = render(withAppContext(<Footer />))
-
-    expect(container.querySelector('div.no-print')).toBeInTheDocument()
-    expect(getByTestId('disclaimer')).toBeInTheDocument()
+    render(withAppContext(<Footer />))
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute(
       'href',
       configuration.links.privacy
