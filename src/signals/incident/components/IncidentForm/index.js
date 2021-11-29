@@ -211,7 +211,7 @@ class IncidentForm extends Component {
         }
       }
 
-      if (this.form.valid) {
+      if (this.form.valid || this.form.status === 'DISABLED') {
         this.setIncident(formAction)
         next()
       } else {
