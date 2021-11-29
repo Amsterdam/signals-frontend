@@ -21,26 +21,22 @@ export const Fieldset = styled.fieldset`
   padding: 0;
   margin: 0;
 
+  word-break: normal;
+
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: ${themeSpacing(8)};
-  word-break: normal;
-
-  & > * {
-    grid-column-start: 1;
-  }
-
-  .incident-navigation,
-  .mapSelect,
-  .mapSelectGeneric,
-  .mapInput,
-  .caution {
-    grid-column-end: 3;
-  }
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-columns: 8fr 4fr;
-    grid-column-gap: ${themeSpacing(5)};
+    /**
+      & > * {
+        grid-column-start: 2;
+        grid-column-end: 4;
+      }
+
+      grid-template-columns: 4fr 4fr 4fr;
+      grid-column-gap: ${themeSpacing(5)};
+     */
 
     ${({ isSummary }) =>
       isSummary &&
@@ -64,6 +60,7 @@ export const Fieldset = styled.fieldset`
           `}
       `}
   }
+ */
 `
 
 class IncidentForm extends Component {

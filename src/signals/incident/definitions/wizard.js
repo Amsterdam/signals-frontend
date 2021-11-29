@@ -8,10 +8,22 @@ import bedankt from './wizard-step-5-bedankt'
 import fout from './wizard-step-6-fout'
 
 export default {
-  beschrijf,
-  vulaan,
-  contact,
-  summary,
+  beschrijf: {
+    countAsStep: true,
+    ...beschrijf,
+  },
+  vulaan: {
+    countAsStep: true,
+    ...vulaan,
+  },
+  contact: {
+    countAsStep: true,
+    ...contact,
+  },
+  summary: {
+    countAsStep: true,
+    ...summary,
+  },
   opslaan: {},
   bedankt,
   fout,

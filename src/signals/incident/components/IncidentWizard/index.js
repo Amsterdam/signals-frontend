@@ -23,6 +23,39 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
+const Header = styled.header``
+const Progress = styled.div``
+const FormWrapper = styled.div``
+
+const StepWrapper = styled.article`
+  display: grid;
+  grid-template-areas:
+    'progress'
+    'header'
+    'form';
+  grid-column-gap: ${themeSpacing(5)};
+
+  ${Header} {
+    grid-area: header;
+  }
+
+  ${Progress} {
+    grid-area: progress;
+  }
+
+  ${FormWrapper} {
+    grid-area: form;
+  }
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-template-areas:
+      'progress header'
+      'progress form';
+
+    grid-template-columns: 4fr 8fr;
+  }
+`
+
 const IncidentWizard = ({
   wizardDefinition,
   getClassification,
@@ -38,6 +71,10 @@ const IncidentWizard = ({
     [incidentContainer.incident]
   )
 
+  const numSteps = Object.values(wizardDefinition).filter(
+    ({ countAsStep }) => countAsStep
+  ).length
+
   return (
     <Wrapper>
       <Route
@@ -50,7 +87,7 @@ const IncidentWizard = ({
               <LoadingIndicator />
             ) : (
               <Steps>
-                {Object.keys(wizardDefinition).map((key) => (
+                {Object.keys(wizardDefinition).map((key, index) => (
                   <Step
                     key={key}
                     id={`incident/${key}`}
@@ -65,36 +102,42 @@ const IncidentWizard = ({
                       } = wizardDefinition[key]
 
                       return previewFactory || form || formFactory ? (
-                        <article>
-                          <header>
+                        <StepWrapper>
+                          <Header>
                             <StyledH1>{label || key}</StyledH1>
-                          </header>
+                          </Header>
 
-                          {previewFactory && incident && sectionLabels && (
-                            <IncidentPreview
-                              incident={incident}
-                              preview={previewFactory(incident)}
-                              sectionLabels={sectionLabels}
-                            />
-                          )}
+                          <Progress>
+                            Voortgang {index + 1} / {numSteps}
+                          </Progress>
 
-                          {(form || formFactory) && (
-                            <IncidentForm
-                              fieldConfig={
-                                form || formFactory(incident, sources)
-                              }
-                              incidentContainer={incidentContainer}
-                              getClassification={getClassification}
-                              removeQuestionData={removeQuestionData}
-                              updateIncident={updateIncident}
-                              createIncident={createIncident}
-                              wizard={wizardDefinition}
-                              postponeSubmitWhenLoading={
-                                postponeSubmitWhenLoading
-                              }
-                            />
-                          )}
-                        </article>
+                          <FormWrapper>
+                            {previewFactory && incident && sectionLabels && (
+                              <IncidentPreview
+                                incident={incident}
+                                preview={previewFactory(incident)}
+                                sectionLabels={sectionLabels}
+                              />
+                            )}
+
+                            {(form || formFactory) && (
+                              <IncidentForm
+                                fieldConfig={
+                                  form || formFactory(incident, sources)
+                                }
+                                incidentContainer={incidentContainer}
+                                getClassification={getClassification}
+                                removeQuestionData={removeQuestionData}
+                                updateIncident={updateIncident}
+                                createIncident={createIncident}
+                                wizard={wizardDefinition}
+                                postponeSubmitWhenLoading={
+                                  postponeSubmitWhenLoading
+                                }
+                              />
+                            )}
+                          </FormWrapper>
+                        </StepWrapper>
                       ) : null
                     }}
                   />
