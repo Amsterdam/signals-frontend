@@ -26,6 +26,7 @@ export default {
           subtitle:
             'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
           type: 'tel',
+          width: '50%',
           wrappedComponent: FormComponents.TextInput,
         },
         render: FormComponents.WithHeading,
