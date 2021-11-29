@@ -19,7 +19,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({
 }) =>
   (meta?.isVisible && (
     <FormField
-      className="textInput"
       meta={meta}
       options={validatorsOrOpts}
       touched={touched}
