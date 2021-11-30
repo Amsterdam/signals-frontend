@@ -34,7 +34,8 @@ export interface Location extends Record<string, any> {
   address: Address
 }
 
-export type Coordinates = [number, number]
+//                        [lat, long]        [lat, long, elevation]
+export type Coordinates = [number, number] | [number, number, number]
 
 export interface Geometrie {
   type: string

@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { LatLng } from 'leaflet'
 
-import type { LatLngLiteral, LatLngTuple } from 'leaflet'
+import type { LatLngLiteral } from 'leaflet'
 import type { Coordinates, Geometrie, Location } from 'types/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
@@ -17,7 +17,7 @@ export const locationTofeature = (location: LatLngLiteral): Geometrie => ({
 export const featureTolocation = ({
   coordinates,
 }: {
-  coordinates: LatLngTuple | number[]
+  coordinates: Coordinates
 }) => new LatLng(coordinates[1], coordinates[0])
 
 export const wktPointToLocation = (wktPoint: string) => {
