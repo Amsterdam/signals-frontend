@@ -3,7 +3,6 @@
 import type { FunctionComponent } from 'react'
 import type { FormInputProps } from 'types/reactive-form'
 import type { Location } from 'types/incident'
-import type { Address } from 'types/address'
 
 import MapInputComponent from 'components/MapInput'
 import MapContext from 'containers/MapContext'
@@ -15,15 +14,6 @@ import FormField from '../FormField'
 import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 import getMapCenter from './getMapCenter'
 
-interface MapValue {
-  location?: {
-    lat: number
-    lng: number
-  }
-  addressText?: string
-  address?: Address
-}
-
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   touched,
   hasError,
@@ -33,7 +23,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   validatorsOrOpts,
   value,
 }) => {
-  const mapLocation = formatMapLocation(value) as MapValue
+  const mapLocation = formatMapLocation(value)
   const { location } = mapLocation
 
   const center = location ? [location.lat, location.lng] : getMapCenter()

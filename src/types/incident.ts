@@ -30,8 +30,8 @@ export interface Datetime {
 }
 
 export interface Location extends Record<string, any> {
-  geometrie?: Geometrie
-  address?: Address
+  geometrie: Geometrie
+  address: Address
 }
 
 //                        [lat, long]        [lat, long, elevation]

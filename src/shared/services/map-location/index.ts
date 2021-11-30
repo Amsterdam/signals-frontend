@@ -73,19 +73,14 @@ type FormatMapLocation = {
 /**
  * Converts a location and address to values
  */
-export const formatMapLocation = (location?: Location) => {
-  const value: FormatMapLocation = {}
+export const formatMapLocation = (location?: Location): FormatMapLocation => {
+  if (!location) return {}
 
-  if (location?.geometrie) {
-    value.location = featureTolocation(location.geometrie)
+  return {
+    location: featureTolocation(location.geometrie),
+    addressText: formatAddress(location.address),
+    address: location.address,
   }
-
-  if (location?.address) {
-    value.addressText = formatAddress(location.address)
-    value.address = location.address
-  }
-
-  return value
 }
 
 /**
