@@ -30,8 +30,9 @@ const updateIncident = (
 ) => {
   const fields = [...oldFields]
   fields[index] = value
-
-  parent.meta.updateIncident({ [meta.name]: fields })
+  if (meta.name) {
+    parent.meta.updateIncident({ [meta.name]: fields })
+  }
 }
 
 function addItem(oldFields: string[], meta: FormMeta, parent: ParentType) {
@@ -42,7 +43,9 @@ function addItem(oldFields: string[], meta: FormMeta, parent: ParentType) {
   }
 
   fields.push('')
-  parent.meta.updateIncident({ [meta.name]: fields })
+  if (meta.name) {
+    parent.meta.updateIncident({ [meta.name]: fields })
+  }
 }
 
 export const StyledInput = styled(Input)`

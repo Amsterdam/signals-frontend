@@ -5,22 +5,22 @@ import L from 'leaflet'
 import { Marker } from '@amsterdam/arm-core'
 
 import type { FeatureCollection } from 'geojson'
-import type { FunctionComponent } from 'react'
+import type { FC } from 'react'
 
-import WfsDataContext from '../../../components/DataContext/context'
-import SelectContext from '../../context/context'
+import WfsDataContext from '../../../Asset/Selector/WfsLayer/context'
+import SelectContext from '../../../Asset/context'
 import type { Feature } from '../../../types'
-import type { Item } from '../../types'
+import type { Item } from '../../../Asset/types'
 import { getIconUrl } from '../../utils'
 
-export const CaterpillarLayer: FunctionComponent = () => {
+export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
   const {
     selection: selectionContext,
     meta,
     update,
   } = useContext(SelectContext)
-  const selection = useRef<Item[]>([])
+  const selection = useRef<Item[]>(selectionContext)
 
   selection.current = useMemo(() => selectionContext, [selectionContext])
 
@@ -38,9 +38,10 @@ export const CaterpillarLayer: FunctionComponent = () => {
           ({ id }) => id === feature.properties[featureType.idField]
         )
 
-      const isReported =
-        feature.properties[featureType.isReportedField] ===
-        featureType.isReportedValue
+      const isReported = featureType.isReportedField
+        ? feature.properties[featureType.isReportedField] ===
+          featureType.isReportedValue
+        : false
 
       let iconId = isReported
         ? featureType.iconIsReportedId
@@ -50,7 +51,7 @@ export const CaterpillarLayer: FunctionComponent = () => {
         iconId = isReported ? 'isSelectedAndReported' : 'isSelected'
       }
 
-      const iconSvg = meta.icons.find(({ id }) => id === iconId)?.icon
+      const iconSvg = meta && meta.icons?.find(({ id }) => id === iconId)?.icon
 
       const iconSize = (isReported ? [44, 44] : [40, 40]) as [number, number]
 
@@ -62,14 +63,14 @@ export const CaterpillarLayer: FunctionComponent = () => {
       const onClick = () => {
         const { description, typeValue, idField } = featureType
 
-        const item: Item = {
+        const item: any = {
           id: feature.properties[idField] as string,
           type: typeValue,
           description,
           isReported,
         }
 
-        meta.extraProperties.forEach((propertyKey) => {
+        meta.extraProperties?.forEach((propertyKey) => {
           item[propertyKey] = feature.properties[propertyKey]
         })
 
@@ -87,8 +88,7 @@ export const CaterpillarLayer: FunctionComponent = () => {
             icon,
             alt: `${featureType.description}${isReported ? ', is gemeld' : ''}${
               isSelected ? ', is geselecteerd' : ''
-            }
-            (${feature.properties[featureType.idField]})`,
+            } (${feature.properties[featureType.idField]})`,
           }}
           latLng={{ lat, lng }}
           events={{

@@ -3,8 +3,9 @@
 import { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
 import { FormFieldProps } from '../../../FormField/FormField'
-import CaterpillarSelect from '../CaterpillarSelect'
-import { Meta } from '../types'
+import AssetSelect from '../../Asset'
+import Layer from '../Selector/CaterpillarLayer'
+import type { Meta } from '../../Asset/types'
 
 interface CaterpillarSelectRendererProps extends FormFieldProps {
   meta: Meta
@@ -23,7 +24,12 @@ const CaterpillarSelectRenderer: FunctionComponent<CaterpillarSelectRendererProp
         hasError={hasError}
         getError={getError}
       >
-        <CaterpillarSelect handler={handler} meta={meta} parent={parent} />
+        <AssetSelect
+          handler={handler}
+          meta={meta}
+          parent={parent}
+          layer={Layer}
+        />
       </FormField>
     ) : null
 

@@ -41,9 +41,19 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const items = selection.map(({ id, type }) => {
+  const items = selection.map(({ id, type, isReported }) => {
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+
+    if (isReported && icon?.reportedIconSvg) {
+      return {
+        id,
+        label: `${description}${id ? ` - ${id}` : ''}`,
+        iconUrl: icon
+          ? `data:image/svg+xml;base64,${btoa(icon.reportedIconSvg)}`
+          : '',
+      }
+    }
 
     return {
       id,

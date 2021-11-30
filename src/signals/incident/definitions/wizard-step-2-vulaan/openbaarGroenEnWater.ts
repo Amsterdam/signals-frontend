@@ -1,7 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import { IconOptions } from 'leaflet'
 import * as caterpillarIcons from './caterpillar-icons'
+
+export const ICON_SIZE = 40
+
+const options: Partial<IconOptions> = {
+  className: 'object-marker',
+  iconSize: [ICON_SIZE, ICON_SIZE],
+}
 
 export const controls = {
   extra_eikenprocessierups: {
@@ -57,9 +65,30 @@ export const controls = {
           label: 'Eikenboom',
           description: 'Eikenboom',
           iconId: 'oak',
+          icon: {
+            options,
+            iconSvg: caterpillarIcons.oak,
+            selectedIconSvg: caterpillarIcons.select,
+            reportedIconSvg: caterpillarIcons.oakIsReported,
+          },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
+          isReportedField: 'AMS_Meldingstatus',
+          isReportedValue: 1,
+        },
+        {
+          label: 'Eikenboom is reeds gemeld ',
+          description: 'Eikenboom is reeds gemeld',
+          iconId: 'oakIsReported',
+          icon: {
+            options,
+            iconSvg: caterpillarIcons.oakIsReported,
+            selectedIconSvg: caterpillarIcons.isSelectedAndReported,
+          },
+          iconIsReportedId: 'oakIsReported',
+          idField: 'OBJECTID',
+          typeValue: 'oakIsReported',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
         },

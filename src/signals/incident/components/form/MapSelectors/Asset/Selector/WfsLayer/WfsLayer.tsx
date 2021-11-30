@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  useContext,
-  useEffect,
-  useState,
-  ReactElement,
-  cloneElement,
-} from 'react'
+import { useContext, useEffect, useState, ReactElement } from 'react'
 import type { FunctionComponent } from 'react'
 import { useMapInstance } from '@amsterdam/react-maps'
 import { fetchWithAbort } from '@amsterdam/arm-core'
@@ -135,10 +129,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     }
   }, [bbox, wfsUrl, layerVisible, setMessage, filter])
 
-  const layer = cloneElement(children, {
-    featureTypes: meta.featureTypes,
-  })
-  return <WfsDataProvider value={data}>{layer}</WfsDataProvider>
+  return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }
 
 export default WfsLayer

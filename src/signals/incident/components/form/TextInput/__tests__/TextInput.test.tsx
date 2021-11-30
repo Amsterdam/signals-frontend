@@ -71,10 +71,11 @@ describe('Form component <TextInput />', () => {
       const input = screen.getByRole('textbox')
       userEvent.type(input, 'diabolo')
       userEvent.tab()
-
-      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
-        [meta.name]: 'diabolo',
-      })
+      if (meta.name) {
+        expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+          [meta.name]: 'diabolo',
+        })
+      }
     })
 
     it('sets incident when value changes and removed unwanted characters', () => {
@@ -91,9 +92,11 @@ describe('Form component <TextInput />', () => {
       userEvent.type(input, 'diabolo')
       userEvent.tab()
 
-      expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
-        [meta.name]: 'iaoo',
-      })
+      if (meta.name) {
+        expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+          [meta.name]: 'iaoo',
+        })
+      }
     })
   })
 })

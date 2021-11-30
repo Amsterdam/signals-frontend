@@ -48,12 +48,14 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
         name={meta.name}
         value={`${(handler().value as { id: string }).id}`}
         onChange={(event: SelectChangeEventType) => {
-          parent.meta.updateIncident({
-            [meta.name]: {
-              id: event.target.value,
-              label: event.target[event.target.selectedIndex].text,
-            },
-          })
+          if (meta.name) {
+            parent.meta.updateIncident({
+              [meta.name]: {
+                id: event.target.value,
+                label: event.target[event.target.selectedIndex].text,
+              },
+            })
+          }
         }}
         options={
           (meta.values
