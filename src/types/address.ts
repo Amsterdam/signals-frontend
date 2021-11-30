@@ -6,5 +6,5 @@ export interface Address {
   huisnummer: string | number
   woonplaats: string
   openbare_ruimte: string
-  huisnummer_toevoeging?: string
+  huisnummer_toevoeging?: string | number
 }

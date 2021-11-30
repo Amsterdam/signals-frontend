@@ -113,8 +113,8 @@ export const pdokResponseFieldList = [
   'centroide_ll',
 ]
 
-export const formatPDOKResponse = ({ response }: RevGeo) =>
-  response?.docs?.map((result) => {
+export const formatPDOKResponse = (request?: RevGeo | null) =>
+  request?.response?.docs.map((result) => {
     const { id, weergavenaam, centroide_ll } = result
     return {
       id,

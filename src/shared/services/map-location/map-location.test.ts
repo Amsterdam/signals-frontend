@@ -78,6 +78,7 @@ describe('mapLocation', () => {
           huisletter: 'D',
           huisnummer_toevoeging: '3',
           postcode: '1016EJ',
+          woonplaats: 'Amsterdam',
         },
       })
     ).toEqual({
@@ -138,7 +139,7 @@ describe('formatMapLocation', () => {
         huisnummer: 666,
         huisletter: '',
         huisnummer_toevoeging: undefined,
-        postcode: null,
+        postcode: '',
         woonplaats: 'Amsterdam',
       },
     }
@@ -158,8 +159,8 @@ describe('formatMapLocation', () => {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: 666,
         huisletter: '',
-        huisnummer_toevoeging: undefined,
-        postcode: null,
+        huisnummer_toevoeging: '',
+        postcode: '',
         woonplaats: 'Amsterdam',
       },
     }
@@ -239,7 +240,6 @@ describe('formatPDOKResponse', () => {
   })
 
   it('return an empty array', () => {
-    expect(formatPDOKResponse({})).toEqual([])
     expect(formatPDOKResponse(undefined)).toEqual([])
     expect(formatPDOKResponse(null)).toEqual([])
   })
