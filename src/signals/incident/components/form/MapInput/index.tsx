@@ -3,6 +3,7 @@
 import type { FunctionComponent } from 'react'
 import type { FormInputProps } from 'types/reactive-form'
 import type { Location } from 'types/incident'
+import type { Address } from 'types/address'
 
 import MapInputComponent from 'components/MapInput'
 import MapContext from 'containers/MapContext'
@@ -20,12 +21,7 @@ interface MapValue {
     lng: number
   }
   addressText?: string
-  address?: {
-    huisnummer: string | number
-    openbare_ruimte: string
-    postcode: string
-    woonplaats: string
-  }
+  address?: Address
 }
 
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
