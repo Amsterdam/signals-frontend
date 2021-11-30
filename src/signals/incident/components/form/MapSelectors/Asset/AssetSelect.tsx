@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
+
+import type { FC } from 'react'
 import type { Incident } from 'types/incident'
 import type { LatLngExpression } from 'leaflet'
+
 import { ClickEventHandler } from '../types'
 import { UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
@@ -36,6 +39,7 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 export interface AssetSelectProps {
   handler: () => { value: Item[] }
   meta: Meta
+  layer?: FC
   parent: {
     meta: {
       incidentContainer: { incident: Pick<Incident, 'location'> }
@@ -44,8 +48,9 @@ export interface AssetSelectProps {
   }
 }
 
-const AssetSelect: FunctionComponent<AssetSelectProps> = ({
+const AssetSelect: FC<AssetSelectProps> = ({
   handler,
+  layer,
   meta,
   parent,
 }) => {
@@ -105,6 +110,7 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
     <AssetSelectProvider
       value={{
         selection: value,
+        layer,
         location,
         meta: {
           ...meta,

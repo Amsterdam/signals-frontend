@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import L from 'leaflet'
 import { Marker } from '@amsterdam/arm-core'
 
 import type { FeatureCollection } from 'geojson'
 import type { FunctionComponent } from 'react'
 
-import WfsDataContext from '../../../components/DataContext/context'
-import SelectContext from '../../context/context'
+// import WfsDataContext from '../../../components/DataContext/context'
+import WfsDataContext from '../../../Asset/Selector/WfsLayer/context'
+// src/signals/incident/components/form/MapSelectors/Caterpillar/Selector/CaterpillarLayer/CaterpillarLayer.tsx
+import SelectContext from '../../../Asset/context'
 import type { Feature } from '../../../types'
-import type { Item } from '../../types'
+import type { Item } from '../../../Asset/types'
 import { getIconUrl } from '../../utils'
 
 export const CaterpillarLayer: FunctionComponent = () => {
@@ -20,9 +22,9 @@ export const CaterpillarLayer: FunctionComponent = () => {
     meta,
     update,
   } = useContext(SelectContext)
-  const selection = useRef<Item[]>([])
+  const selection = useRef<Item[]>(selectionContext)
 
-  selection.current = useMemo(() => selectionContext, [selectionContext])
+  // selection.current = useMemo(() => selectionContext, [selectionContext])
 
   const getMarker = useCallback(
     (feat: any) => {

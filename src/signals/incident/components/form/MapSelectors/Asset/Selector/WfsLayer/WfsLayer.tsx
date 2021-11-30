@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
   ReactElement,
-  cloneElement,
+  // cloneElement,
 } from 'react'
 import type { FunctionComponent } from 'react'
 import { useMapInstance } from '@amsterdam/react-maps'
@@ -135,10 +135,10 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     }
   }, [bbox, wfsUrl, layerVisible, setMessage, filter])
 
-  const layer = cloneElement(children, {
-    featureTypes: meta.featureTypes,
-  })
-  return <WfsDataProvider value={data}>{layer}</WfsDataProvider>
+  // const layer = cloneElement(children, {
+  //   featureTypes: meta.featureTypes,
+  // })
+  return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }
 
 export default WfsLayer

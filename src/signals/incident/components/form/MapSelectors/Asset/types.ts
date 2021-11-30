@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { IconOptions, LatLngExpression } from 'leaflet'
+import type { FC } from 'react'
 import { ClickEventHandler } from '../types'
 
 export interface Item {
@@ -38,6 +39,7 @@ export interface Meta extends Record<string, unknown> {
 
 export interface AssetSelectValue {
   selection: Item[]
+  layer?: FC
   location: LatLngExpression
   meta: Meta
   message?: string

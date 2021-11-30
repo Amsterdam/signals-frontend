@@ -86,7 +86,7 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { selection, location, meta, update, close } =
+  const { selection, layer, location, meta, update, close } =
     useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
@@ -125,6 +125,8 @@ const Selector = () => {
     setShowLegendPanel(false)
     setShowSelectionPanel(true)
   }
+
+  const Layer = layer || AssetLayer
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
@@ -187,10 +189,7 @@ const Selector = () => {
         </ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <AssetLayer
-            featureTypes={meta.featureTypes}
-            desktopView={desktopView}
-          />
+          <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
       </StyledMap>
     </Wrapper>
