@@ -14,7 +14,7 @@ export const MapInput = (props) => {
 
   // Can't use useCallback here, would break the rules of hooks
   const render = ({ handler }) => {
-    const value = handler().value ? formatMapLocation(handler().value) : {}
+    const value = formatMapLocation(handler().value)
     const { lat, lng } = value?.location || {}
     const defaultCenter =
       configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center

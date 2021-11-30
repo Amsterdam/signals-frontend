@@ -12,13 +12,13 @@ import type { RevGeo } from 'types/pdok/revgeo'
 const flParams = pdokResponseFieldList.join(',')
 export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`
 
-const formatRequest = (
-  baseUrl: URL,
+export const formatRequest = (
+  baseUrl: URL | string,
   wgs84point: LatLngLiteral,
   distance = 50
 ) => {
-  const xyRD = wgs84ToRd(wgs84point)
-  return `${baseUrl.toString()}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`
+  const { x, y } = wgs84ToRd(wgs84point)
+  return `${new URL(baseUrl).toString()}&X=${x}&Y=${y}&distance=${distance}`
 }
 
 const reverseGeocoderService = async (location: LatLngLiteral) => {
