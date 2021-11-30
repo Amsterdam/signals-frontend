@@ -27,6 +27,7 @@ import ViewerContainer from './ViewerContainer'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
+import ReportedLayer from './WfsLayer/ReportedLayer'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -187,10 +188,16 @@ const Selector = () => {
         </ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <AssetLayer
-            featureTypes={meta.featureTypes}
-            desktopView={desktopView}
-          />
+          <>
+            <AssetLayer
+              featureTypes={meta.featureTypes}
+              desktopView={desktopView}
+            />
+            <ReportedLayer
+              featureTypes={meta.featureTypes}
+              desktopView={desktopView}
+            />
+          </>
         </WfsLayer>
       </StyledMap>
     </Wrapper>

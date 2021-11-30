@@ -13,7 +13,7 @@ import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
 import './style.css'
 
-import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet'
+import type { LatLng } from 'leaflet'
 import type {
   Point,
   Feature as GeoJSONFeature,
@@ -27,10 +27,10 @@ import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
-import WfsDataContext from '../context'
-import { DataLayerProps, Feature } from '../../../../types'
+import WfsDataContext from './context'
+import { DataLayerProps, Feature } from './../../../types'
 
-const SELECTED_CLASS_MODIFIER = '--selected'
+const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
 export interface ClusterLayer extends L.GeoJSON<Point> {
   _maxZoom?: number
@@ -102,41 +102,23 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
     }
   }, [mapInstance])
 
-  const iconCreateFunction = useCallback(
-    /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
-      const childCount = cluster.getChildCount()
-      const hasSelectedChildren = cluster
-        .getAllChildMarkers()
-        .some((marker) =>
-          marker.options.icon?.options.className?.includes(
-            SELECTED_CLASS_MODIFIER
-          )
-        )
-
-      return new L.DivIcon({
-        html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: `marker-cluster${
-          hasSelectedChildren ? ` marker-cluster${SELECTED_CLASS_MODIFIER}` : ''
-        }`,
-        iconSize: new L.Point(40, 40),
-      })
-    },
-    []
-  )
-
   const clusterOptions = useMemo(
     () => ({
       disableClusteringAtZoom: allowClusters
         ? configuration.map.options.maxZoom
         : configuration.map.options.minZoom,
       zoomToBoundsOnClick: true,
-      iconCreateFunction,
     }),
-    [iconCreateFunction]
+    []
   )
 
   const getFeatureType = useCallback(
     (feature: Feature) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (feature.properties.meldingstatus === 1) {
+        return featureTypes.find(({ typeValue }) => typeValue === 'reported')
+      }
       return featureTypes.find(
         ({ typeField, typeValue }) =>
           feature.properties[typeField] === typeValue
@@ -171,7 +153,13 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           icon: L.icon({
             ...featureType.icon.options,
             /* istanbul ignore next */
-            className: `marker-icon${selected ? SELECTED_CLASS_MODIFIER : ''}`,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            className: `marker-icon ${
+              feature.properties.meldingstatus === 1
+                ? REPORTED_CLASS_MODIFIER
+                : ''
+            }`,
             iconUrl,
           }),
           alt: `${featureType.description} - ${
