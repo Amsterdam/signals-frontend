@@ -4,8 +4,8 @@ import { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
-import { Heading, themeSpacing } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import { Heading, themeSpacing, StepByStepNav } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 
@@ -30,7 +30,7 @@ const FormWrapper = styled.div``
 const StepWrapper = styled.article`
   display: grid;
   grid-template-areas:
-    'progress'
+    ${({ showProgress }) => (showProgress ? 'progress' : '')}
     'header'
     'form';
   grid-column-gap: ${themeSpacing(5)};
@@ -40,7 +40,10 @@ const StepWrapper = styled.article`
   }
 
   ${Progress} {
+    padding-top: ${themeSpacing(8)};
     grid-area: progress;
+
+    display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
   }
 
   ${FormWrapper} {
@@ -48,11 +51,16 @@ const StepWrapper = styled.article`
   }
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-areas:
-      'progress header'
-      'progress form';
+    ${({ showProgress }) =>
+      showProgress
+        ? css`
+            grid-template-areas:
+              'progress header'
+              'progress form';
 
-    grid-template-columns: 4fr 8fr;
+            grid-template-columns: 4fr 8fr;
+          `
+        : ''};
   }
 `
 
@@ -71,9 +79,9 @@ const IncidentWizard = ({
     [incidentContainer.incident]
   )
 
-  const numSteps = Object.values(wizardDefinition).filter(
-    ({ countAsStep }) => countAsStep
-  ).length
+  const steps = Object.values(wizardDefinition)
+    .filter(({ countAsStep }) => countAsStep)
+    .map(({ stepLabel }) => ({ label: stepLabel }))
 
   return (
     <Wrapper>
@@ -102,8 +110,10 @@ const IncidentWizard = ({
                         sectionLabels,
                       } = wizardDefinition[key]
 
+                      const showProgress = index < steps.length
+
                       return previewFactory || form || formFactory ? (
-                        <StepWrapper>
+                        <StepWrapper showProgress={showProgress}>
                           <Header>
                             <StyledH1>
                               {countAsStep && `${index + 1}. `}
@@ -112,7 +122,11 @@ const IncidentWizard = ({
                           </Header>
 
                           <Progress>
-                            Voortgang {index + 1} / {numSteps}
+                            <StepByStepNav
+                              steps={steps}
+                              itemType="numeric"
+                              activeItem={index + 1}
+                            />
                           </Progress>
 
                           <FormWrapper>

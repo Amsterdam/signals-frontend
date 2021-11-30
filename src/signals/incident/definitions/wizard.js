@@ -9,18 +9,22 @@ import fout from './wizard-step-6-fout'
 
 export default {
   beschrijf: {
+    stepLabel: 'Beschrijf uw melding',
     countAsStep: true,
     ...beschrijf,
   },
   vulaan: {
+    stepLabel: 'Locatie en vragen',
     countAsStep: true,
     ...vulaan,
   },
   contact: {
+    stepLabel: 'Contactgegevens',
     countAsStep: true,
     ...contact,
   },
   summary: {
+    stepLabel: 'Versturen',
     countAsStep: true,
     ...summary,
   },
