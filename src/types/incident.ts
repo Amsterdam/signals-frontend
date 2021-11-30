@@ -35,7 +35,7 @@ export interface Location extends Record<string, any> {
 }
 
 //                        [lat, long]        [lat, long, elevation]
-export type Coordinates = [number, number] | [number, number, number]
+export type Coordinates = [number, number] | number[]
 
 export interface Geometrie {
   type: string
