@@ -25,3 +25,11 @@ export const makeSelectIncidentContainer = createSelector(
   selectIncidentContainerDomain,
   (substate) => substate.toJS()
 )
+
+export const makeSelectCoordinates = createSelector(
+  selectIncidentContainerDomain,
+  (state) => {
+    const location = state.get('incident').get('location')
+    return location && location.get('geometrie').get('coordinates').toJS()
+  }
+)
