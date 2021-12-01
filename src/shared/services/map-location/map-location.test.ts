@@ -68,6 +68,7 @@ describe('mapLocation', () => {
         huisletter: 'D',
         huisnummer_toevoeging: '3',
         postcode: '1016EJ',
+        woonplaats: 'Amsterdam',
       },
     })
   })
