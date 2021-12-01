@@ -150,7 +150,9 @@ const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
       title={language.title || 'Kies het object'}
       data-testid="selectionPanel"
     >
-      <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
+      <Paragraph>
+        {language.subTitle || 'U kunt meer dan 1 keuze maken'}
+      </Paragraph>
 
       {selectionOnMap.length ? (
         <StyledAssetList
