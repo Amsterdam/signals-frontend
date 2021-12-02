@@ -6,22 +6,25 @@ import {
 } from 'shared/services/map-location'
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter'
 
+import type { LatLngLiteral } from 'leaflet'
+import type { RevGeo } from 'types/pdok/revgeo'
+
 const flParams = pdokResponseFieldList.join(',')
 export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo?type=adres&rows=1&fl=${flParams}`
 
-export const formatRequest = (baseUrl, wgs84point, distance = 50) => {
-  const xyRD = wgs84ToRd(wgs84point)
-  return `${baseUrl}&X=${xyRD.x}&Y=${xyRD.y}&distance=${distance}`
+export const formatRequest = (
+  baseUrl: URL | string,
+  wgs84point: LatLngLiteral,
+  distance = 50
+) => {
+  const { x, y } = wgs84ToRd(wgs84point)
+  return `${new URL(baseUrl).toString()}&X=${x}&Y=${y}&distance=${distance}`
 }
 
-const reverseGeocoderService = async (location) => {
-  const wgs84point = {
-    lng: location.lng,
-    lat: location.lat,
-  }
-  const url = formatRequest(serviceURL, wgs84point)
+const reverseGeocoderService = async (location: LatLngLiteral) => {
+  const url = formatRequest(new URL(serviceURL), location)
 
-  const result = await fetch(url)
+  const result: RevGeo = await fetch(url)
     .then((res) => res.json())
     // make sure to catch any error responses from the geocoder service
     .catch(() => ({}))
