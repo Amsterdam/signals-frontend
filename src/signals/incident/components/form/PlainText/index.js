@@ -55,6 +55,13 @@ const getStyle = (type) => {
         color: ${themeColor('tint', 'level1')};
         padding: ${themeSpacing(4)};
       `
+    case 'message':
+      return css`
+        color: ${themeColor('tint', 'level7')};
+        a {
+          color: inherit;
+        }
+      `
     default:
       return css`
         color: ${themeColor('tint', 'level5')};
