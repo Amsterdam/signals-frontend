@@ -22,18 +22,6 @@ export const controls = {
       pathMerge: 'extra_properties',
       endpoint:
         'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
-      legendItems: [
-        {
-          label: 'Eikenboom',
-          iconId: 'oak',
-          id: 'oak',
-        },
-        {
-          label: 'Is gemeld',
-          iconId: 'isReported',
-          id: 'isReported',
-        },
-      ],
       icons: [
         {
           id: 'oak',
@@ -74,6 +62,7 @@ export const controls = {
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
+          typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
         },
@@ -89,6 +78,7 @@ export const controls = {
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
           typeValue: 'oakIsReported',
+          typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
         },
@@ -97,6 +87,7 @@ export const controls = {
           description: 'De boom staat niet op de kaart',
           iconId: 'unknown',
           typeValue: 'not-on-map',
+          typeField: '',
         },
       ],
       extraProperties: ['GlobalID'],

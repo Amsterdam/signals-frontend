@@ -18,7 +18,6 @@ const contextValue: SelectValue = {
   ],
   meta: {
     icons: [],
-    legendItems: [],
     extraProperties: [],
     name: 'Name',
     endpoint: '',

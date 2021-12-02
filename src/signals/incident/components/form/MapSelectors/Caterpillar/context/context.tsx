@@ -13,7 +13,6 @@ export const initialValue: SelectValue = {
     featureTypes: [],
     wfsFilter: '',
     icons: [],
-    legendItems: [],
     extraProperties: [],
   },
   message: undefined,

@@ -6,7 +6,7 @@ import { ClickEventHandler } from '../types'
 import { Icon } from '../Caterpillar/types'
 
 export interface Item {
-  id: string | number
+  id: any
   type: string
   description?: string
   isReported?: boolean
@@ -20,7 +20,7 @@ export interface FeatureType {
   iconIsReportedId?: string
   idField: string
   isReportedField?: string
-  isReportedValue?: string
+  isReportedValue?: number
   typeField: string
   typeValue: string
 }
@@ -43,9 +43,12 @@ export interface Meta extends Record<string, unknown> {
   featureTypes: FeatureType[]
   language?: Record<string, string>
   wfsFilter?: string
-  legendItems?: { id: string; label: string; iconId: string }[]
   icons?: Icon[]
   extraProperties?: string[]
+  ifAllOf?: { subcategory: string }
+  label?: string
+  shortLabel?: string
+  pathMerge?: string
 }
 
 export interface AssetSelectValue {

@@ -13,7 +13,6 @@ export const initialValue: AssetSelectValue = {
     featureTypes: [],
     wfsFilter: '',
     icons: [],
-    legendItems: [],
     extraProperties: [],
   },
   message: undefined,
