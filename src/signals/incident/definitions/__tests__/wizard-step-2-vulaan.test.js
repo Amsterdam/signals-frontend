@@ -13,13 +13,14 @@ const { formFactory } = step2
 const defaultControls = {
   error: expect.objectContaining({}),
   custom_text: expect.objectContaining({}),
-  $field_0: expect.objectContaining({}),
   help_text: expect.objectContaining({
     meta: {
+      ignoreVisibility: true,
       label: configuration.language.helpTextHeader,
       value: configuration.language.helpText,
     },
   }),
+  $field_0: expect.objectContaining({}),
 }
 
 jest.mock('shared/services/configuration/configuration')
