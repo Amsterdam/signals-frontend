@@ -25,7 +25,7 @@
     "themeColor": "#ec0000"
   },
   "language": {
-    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding met contactgegevens te delen met andere organisaties, zoals de Politie of de Dierenambulance, als de melding niet voor de gemeente is bestemd.",
+    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.",
     "district": "Stadsdeel",
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
