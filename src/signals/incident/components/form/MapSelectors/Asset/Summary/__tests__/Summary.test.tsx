@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
-import type { LatLngExpression } from 'leaflet'
+
 import { withAppContext } from 'test/utils'
 import type { AssetSelectValue } from '../../types'
 
@@ -31,11 +31,12 @@ const contextValue: AssetSelectValue = {
       },
     ],
   },
-  location: [1, 1] as LatLngExpression,
+  location: [1, 1],
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
+  setLocation: jest.fn(),
 }
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>
