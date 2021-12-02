@@ -6,7 +6,7 @@ import { ClickEventHandler } from '../types'
 import { Icon } from '../Caterpillar/types'
 
 export interface Item {
-  id: string
+  id: string | number
   type: string
   description?: string
   isReported?: boolean

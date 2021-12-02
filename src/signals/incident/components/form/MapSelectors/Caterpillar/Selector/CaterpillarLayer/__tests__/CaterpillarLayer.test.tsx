@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { ReactNode } from 'react'
-
 import type { FeatureCollection } from 'geojson'
 
 import { render, screen } from '@testing-library/react'
@@ -11,28 +9,54 @@ import { Map } from '@amsterdam/react-maps'
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
-import { WfsDataProvider } from '../../../../components/DataContext/context'
+import { WfsDataProvider } from '../../../../Asset/Selector/WfsLayer/context'
 import CaterpillarLayer from '..'
+import { AssetSelectValue } from '../../../../Asset/types'
 import {
   contextValue,
-  withSelectContext,
-} from '../../../context/__tests__/context.test'
+  withAssetSelectContext,
+} from '../../../../Asset/__tests__/context.test'
+import { controls } from '../../../../../../../definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+
+const assetSelectProviderValue: AssetSelectValue = {
+  ...contextValue,
+  selection: [
+    {
+      id: 308777,
+      type: 'Eikenboom',
+      description: 'Eikenboom',
+      isReported: false,
+    },
+    {
+      id: '',
+      type: 'not-on-map',
+      description: 'De boom staat niet op de kaart',
+      isReported: false,
+    },
+    {
+      id: 308778,
+      type: 'Eikenboom',
+      description: 'Eikenboom',
+      isReported: true,
+    },
+  ],
+  meta: controls.extra_eikenprocessierups.meta,
+}
 
 describe('CaterpillarLayer', () => {
-  const withMapCaterpillar = (Component: ReactNode) => (
-    <Map data-testid="map-test" options={MAP_OPTIONS}>
-      {Component}
-    </Map>
-  )
+  const updateSpy = jest.fn()
+  const withMapCaterpillar = () =>
+    withAssetSelectContext(
+      <Map data-testid="map-test" options={MAP_OPTIONS}>
+        <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
+          <CaterpillarLayer />
+        </WfsDataProvider>
+      </Map>,
+      { ...assetSelectProviderValue, update: updateSpy }
+    )
 
   it('should render the caterpillar layer in the map', () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    render(withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />)))
-
+    render(withMapCaterpillar())
     expect(
       screen.getByAltText('Eikenboom, is geselecteerd (308777)')
     ).toBeInTheDocument()
@@ -47,20 +71,7 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle selecting a tree', async () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    const updateSpy = jest.fn()
-
-    render(
-      withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />), {
-        ...contextValue,
-        update: updateSpy,
-      })
-    )
-
+    render(withMapCaterpillar())
     const tree = screen.getByAltText('Eikenboom, is gemeld (308779)')
     userEvent.click(tree)
 
@@ -78,20 +89,7 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle deselecting a tree', () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    const updateSpy = jest.fn()
-
-    render(
-      withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />), {
-        ...contextValue,
-        update: updateSpy,
-      })
-    )
-
+    render(withMapCaterpillar())
     const tree = screen.getByAltText(
       'Eikenboom, is gemeld, is geselecteerd (308778)'
     )
