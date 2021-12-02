@@ -15,7 +15,6 @@ const injectParent = (value, parent) =>
   })
 
 const Label = styled.div`
-  color: #000;
   font-weight: 700;
   margin: 0;
 `
