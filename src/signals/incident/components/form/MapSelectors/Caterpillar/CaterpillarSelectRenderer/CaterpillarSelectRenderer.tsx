@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
 import { FormFieldProps } from '../../../FormField/FormField'
 import AssetSelect from '../../Asset'
-import Layer from '../Selector/CaterpillarLayer'
+import Layer from '../CaterpillarLayer'
 import type { Meta } from '../../Asset/types'
 
 interface CaterpillarSelectRendererProps extends FormFieldProps {

@@ -10,13 +10,13 @@ import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
-import { WfsDataProvider } from '../../../../Asset/Selector/WfsLayer/context'
-import CaterpillarLayer from '..'
-import { AssetSelectValue } from '../../../../Asset/types'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import {
   contextValue,
   withAssetSelectContext,
-} from '../../../../Asset/__tests__/context.test'
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+import CaterpillarLayer from '..'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
@@ -53,6 +53,10 @@ describe('CaterpillarLayer', () => {
 
   it('should handle selecting a tree', async () => {
     render(withMapCaterpillar())
+
+    expect(
+      screen.getByAltText('Eikenboom, is gemeld (308779)')
+    ).toBeInTheDocument()
     const tree = screen.getByAltText('Eikenboom, is gemeld (308779)')
     userEvent.click(tree)
 

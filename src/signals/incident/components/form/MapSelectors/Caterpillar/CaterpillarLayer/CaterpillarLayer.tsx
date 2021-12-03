@@ -7,10 +7,10 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 
-import WfsDataContext from '../../../Asset/Selector/WfsLayer/context'
-import SelectContext from '../../../Asset/context'
-import type { Feature } from '../../../types'
-import type { Item } from '../../../Asset/types'
+import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
+import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
 import { getIconUrl } from '../../utils'
 
 export const CaterpillarLayer: FC = () => {

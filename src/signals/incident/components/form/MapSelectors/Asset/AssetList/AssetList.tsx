@@ -78,7 +78,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
                 aria-label="Verwijder"
                 icon={<Close />}
                 onClick={() => {
-                  onRemove(item.id)
+                  onRemove(item.id.toString())
                 }}
               />
             )}
