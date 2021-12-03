@@ -8,11 +8,8 @@ export const initialValue: AssetSelectValue = {
   selection: [],
   location: [0, 0],
   meta: {
-    name: '',
     endpoint: '',
     featureTypes: [],
-    wfsFilter: '',
-    icons: [],
     extraProperties: [],
   },
   message: undefined,

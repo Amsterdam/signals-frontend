@@ -32,13 +32,12 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={(event) => {
-          if (meta.name) {
+          meta.name &&
             parent.meta.updateIncident({
               [meta.name]: meta.autoRemove
                 ? event.target.value.replace(meta.autoRemove, '')
                 : event.target.value,
             })
-          }
         }}
         infoText={
           meta.maxLength &&

@@ -38,10 +38,11 @@ export const CaterpillarLayer: FC = () => {
           ({ id }) => id === feature.properties[featureType.idField]
         )
 
-      const isReported = featureType.isReportedField
-        ? feature.properties[featureType.isReportedField] ===
-          featureType.isReportedValue
-        : false
+      const isReported = Boolean(
+        featureType.isReportedField &&
+          feature.properties[featureType.isReportedField] ===
+            featureType.isReportedValue
+      )
 
       let iconId = isReported
         ? featureType.iconIsReportedId
@@ -51,7 +52,7 @@ export const CaterpillarLayer: FC = () => {
         iconId = isReported ? 'isSelectedAndReported' : 'isSelected'
       }
 
-      const iconSvg = meta && meta.icons?.find(({ id }) => id === iconId)?.icon
+      const iconSvg = meta.icons?.find(({ id }) => id === iconId)?.icon
 
       const iconSize = (isReported ? [44, 44] : [40, 40]) as [number, number]
 
@@ -63,7 +64,7 @@ export const CaterpillarLayer: FC = () => {
       const onClick = () => {
         const { description, typeValue, idField } = featureType
 
-        const item: any = {
+        const item: Item = {
           id: feature.properties[idField] as string,
           type: typeValue,
           description,

@@ -21,7 +21,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
         incidentContainer: { incident: incidentJson },
         updateIncident: jest.fn(),
       },
-      controls: controls,
+      controls,
     },
     validatorsOrOpts: {},
   }

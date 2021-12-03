@@ -10,6 +10,7 @@ export interface Item {
   type: string
   description?: string
   isReported?: boolean
+  [key: string]: unknown
 }
 
 export interface FeatureType {
