@@ -5,18 +5,19 @@ import { createContext } from 'react'
 import type { AssetSelectValue } from './types'
 
 export const initialValue: AssetSelectValue = {
-  selection: [],
+  close: /* istanbul ignore next */ () => {},
+  edit: /* istanbul ignore next */ () => {},
   location: [0, 0],
+  message: undefined,
   meta: {
     endpoint: '',
     featureTypes: [],
     extraProperties: [],
   },
-  message: undefined,
-  update: /* istanbul ignore next */ () => {},
-  edit: /* istanbul ignore next */ () => {},
-  close: /* istanbul ignore next */ () => {},
+  selection: [],
+  setLocation: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},
+  update: /* istanbul ignore next */ () => {},
 }
 
 const AssetSelectContext = createContext(initialValue)

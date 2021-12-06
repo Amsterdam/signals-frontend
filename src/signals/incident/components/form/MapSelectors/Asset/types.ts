@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { IconOptions, LatLngExpression } from 'leaflet'
 import type { FC } from 'react'
+import type { IconOptions, LatLngTuple, LatLngLiteral } from 'leaflet'
 import { ClickEventHandler } from '../types'
 import { Icon } from '../Caterpillar/types'
 
@@ -53,13 +53,14 @@ export interface Meta extends Record<string, unknown> {
 }
 
 export interface AssetSelectValue {
-  selection: Item[]
-  layer?: FC
-  location: LatLngExpression
-  meta: Meta
-  message?: string
-  update: (items: Item[]) => void
-  edit: ClickEventHandler
   close: () => void
+  edit: ClickEventHandler
+  layer?: FC
+  location?: LatLngTuple
+  message?: string
+  meta: Meta
+  selection: Item[]
+  setLocation: (latLng: LatLngLiteral) => void
   setMessage: (message?: string) => void
+  update: (items: Item[]) => void
 }

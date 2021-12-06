@@ -54,7 +54,6 @@ describe('SelectionPanel', () => {
     onClose: jest.fn(),
     selection: [],
     variant: 'drawer',
-    language: {},
   }
 
   afterEach(() => {
@@ -192,5 +191,25 @@ describe('SelectionPanel', () => {
     )
 
     expect(props.onClose).toHaveBeenCalled()
+  })
+
+  it('renders custom labels', () => {
+    const language = {
+      title: 'Locatie',
+      subTitle: 'Kies de container op de kaart',
+      unregistered: 'De container staat niet op de kaart',
+      submitSingular: 'Gebruik deze locatie',
+    }
+
+    const propsWithLanguage = {
+      ...props,
+      language,
+    }
+
+    render(withAppContext(<SelectionPanel {...propsWithLanguage} />))
+
+    Object.values(language).forEach((label) => {
+      expect(screen.getByText(label)).toBeInTheDocument()
+    })
   })
 })

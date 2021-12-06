@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import type { Address } from './address'
 export interface Incident {
   priority: Priority
   classification: Classification
@@ -33,14 +34,8 @@ export interface Location extends Record<string, any> {
   address: Address
 }
 
-export interface Address extends Record<string, any> {
-  openbare_ruimte: string
-  huisnummer: string | number
-  postcode: string
-  woonplaats: string
-}
-
-export type Coordinates = [number, number]
+//                        [lat, long]        [lat, long, elevation]
+export type Coordinates = [number, number] | number[]
 
 export interface Geometrie {
   type: string

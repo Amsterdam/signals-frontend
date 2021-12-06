@@ -1,21 +1,31 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useMemo, useContext, useState } from 'react'
-import type { FunctionComponent } from 'react'
+import { useMemo, useContext, useState, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
-import type { MapOptions } from 'leaflet'
 
+import type { FunctionComponent } from 'react'
+import type {
+  MapOptions,
+  LeafletMouseEvent,
+  Marker as MarkerType,
+  Map as MapType,
+  LatLngTuple,
+} from 'leaflet'
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
+
+import { Marker } from '@amsterdam/react-maps'
 import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
-import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
-import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import configuration from 'shared/services/configuration/configuration'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import useLayerVisible from '../../hooks/useLayerVisible'
@@ -86,7 +96,7 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { selection, layer, location, meta, update, close } =
+  const { selection, layer, location, meta, update, setLocation, close } =
     useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
@@ -99,27 +109,33 @@ const Selector = () => {
         : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
     [desktopView]
   )
+  const center = location || (configuration.map.options.center as LatLngTuple)
 
-  const mapOptions = useMemo<MapOptions>(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    () => ({
-      ...MAP_OPTIONS,
-      center: location,
-      dragging: true,
-      zoomControl: false,
-      minZoom: 10,
-      maxZoom: 15,
-      zoom: 14,
-    }),
-    [location]
-  )
+  const mapOptions: MapOptions = {
+    ...MAP_OPTIONS,
+    center,
+    dragging: true,
+    zoomControl: false,
+    minZoom: 10,
+    maxZoom: 15,
+    zoom: 14,
+  }
 
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [showSelectionPanel, setShowSelectionPanel] = useState(true)
+  const [pinMarker, setPinMarker] = useState<MarkerType>()
+  const [map, setMap] = useState<MapType>()
 
-  const toggleLegend = () => {
+  const mapClick = useCallback(
+    ({ latlng }: LeafletMouseEvent) => {
+      setLocation(latlng)
+    },
+    [setLocation]
+  )
+
+  const toggleLegend = useCallback(() => {
     setShowLegendPanel(() => !showLegendPanel)
-  }
+  }, [showLegendPanel])
 
   const handleLegendCloseButton = () => {
     setShowLegendPanel(false)
@@ -128,9 +144,20 @@ const Selector = () => {
 
   const Layer = layer || AssetLayer
 
+  useEffect(() => {
+    if (!map || !pinMarker || !location) return
+
+    pinMarker.setLatLng(location)
+  }, [map, location, pinMarker])
+
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
-      <StyledMap hasZoomControls={desktopView} mapOptions={mapOptions}>
+      <StyledMap
+        hasZoomControls={desktopView}
+        mapOptions={mapOptions}
+        events={{ click: mapClick }}
+        setInstance={setMap}
+      >
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
           mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
@@ -184,13 +211,27 @@ const Selector = () => {
         </MapPanelProvider>
 
         <MapMessage />
+
         <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          Zoom in om de objecten te zien
+          Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te zien
         </ZoomMessage>
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
+
+        {location && (
+          <span data-testid="assetPinMarker">
+            <Marker
+              setInstance={setPinMarker}
+              args={[location]}
+              options={{
+                icon: markerIcon,
+                keyboard: false,
+              }}
+            />
+          </span>
+        )}
       </StyledMap>
     </Wrapper>
   )

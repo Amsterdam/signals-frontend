@@ -48,45 +48,27 @@ describe('mapLocation', () => {
           type: 'Point',
           coordinates: [4, 52],
         },
-      })
-    ).toEqual({
-      geometrie: {
-        type: 'Point',
-        coordinates: [4, 52],
-      },
-    })
-  })
-
-  it('should map omgevingsinfo', () => {
-    expect(
-      mapLocation({
-        buurt_code: 'A02d',
-        stadsdeel: 'A',
-      })
-    ).toEqual({
-      buurtcode: 'A02d',
-      stadsdeel: 'A',
-    })
-  })
-
-  it('should map address', () => {
-    expect(
-      mapLocation({
         address: {
           openbare_ruimte: 'Keizersgracht',
           huisnummer: '666',
           huisletter: 'D',
           huisnummer_toevoeging: '3',
           postcode: '1016EJ',
+          woonplaats: 'Amsterdam',
         },
       })
     ).toEqual({
+      geometrie: {
+        type: 'Point',
+        coordinates: [4, 52],
+      },
       address: {
         openbare_ruimte: 'Keizersgracht',
         huisnummer: '666',
         huisletter: 'D',
         huisnummer_toevoeging: '3',
         postcode: '1016EJ',
+        woonplaats: 'Amsterdam',
       },
     })
   })
@@ -138,7 +120,7 @@ describe('formatMapLocation', () => {
         huisnummer: 666,
         huisletter: '',
         huisnummer_toevoeging: undefined,
-        postcode: null,
+        postcode: '',
         woonplaats: 'Amsterdam',
       },
     }
@@ -147,38 +129,6 @@ describe('formatMapLocation', () => {
       location: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666, Amsterdam',
       address: location.address,
-    }
-
-    expect(formatMapLocation(location)).toEqual(result)
-  })
-
-  it('should not return geometrie', () => {
-    const location = {
-      address: {
-        openbare_ruimte: 'Keizersgracht',
-        huisnummer: 666,
-        huisletter: '',
-        huisnummer_toevoeging: undefined,
-        postcode: null,
-        woonplaats: 'Amsterdam',
-      },
-    }
-
-    const result = {
-      addressText: 'Keizersgracht 666, Amsterdam',
-      address: location.address,
-    }
-
-    expect(formatMapLocation(location)).toEqual(result)
-  })
-
-  it('should not return address', () => {
-    const location = {
-      geometrie: testFeature,
-    }
-
-    const result = {
-      location: { lat: 52, lng: 4 },
     }
 
     expect(formatMapLocation(location)).toEqual(result)
@@ -239,7 +189,6 @@ describe('formatPDOKResponse', () => {
   })
 
   it('return an empty array', () => {
-    expect(formatPDOKResponse({})).toEqual([])
     expect(formatPDOKResponse(undefined)).toEqual([])
     expect(formatPDOKResponse(null)).toEqual([])
   })
