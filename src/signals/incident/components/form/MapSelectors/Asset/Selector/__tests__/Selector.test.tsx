@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import 'jest-styled-components'
+import { FC } from 'react'
 import { render, screen } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
 
@@ -40,6 +41,17 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
 
     expect(await screen.findByTestId('assetSelectSelector')).toBeInTheDocument()
+  })
+
+  it('should render the layer when passed as prop', () => {
+    const Layer: FC<any> = (props) => (
+      <span data-testid="testLayer" {...props} />
+    )
+    render(
+      withAssetSelectContext(<Selector />, { ...contextValue, layer: Layer })
+    )
+
+    expect(screen.getByTestId('testLayer')).toBeInTheDocument()
   })
 
   it('should call update when removing asset', async () => {
