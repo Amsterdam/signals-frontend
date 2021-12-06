@@ -20,7 +20,7 @@ export const featureTolocation = ({
   coordinates: Coordinates
 }) => new LatLng(coordinates[1], coordinates[0])
 
-export const wktPointToLocation = (wktPoint: string) => {
+export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
   if (!wktPoint.includes('POINT')) {
     throw new TypeError('Provided WKT geometry is not a point.')
   }
@@ -83,6 +83,13 @@ export const formatMapLocation = (location?: Location): FormatMapLocation => {
   }
 }
 
+type PdokAddress = {
+  openbare_ruimte: string
+  huisnummer: string
+  postcode: string
+  woonplaats: string
+}
+
 /**
  * Convert geocode response to object with values that can be consumed by our API
  */
@@ -91,7 +98,7 @@ export const serviceResultToAddress = ({
   huis_nlt,
   postcode,
   woonplaatsnaam,
-}: Doc) => ({
+}: Doc): PdokAddress => ({
   openbare_ruimte: straatnaam,
   huisnummer: huis_nlt,
   postcode,
@@ -108,7 +115,18 @@ export const pdokResponseFieldList = [
   'centroide_ll',
 ]
 
-export const formatPDOKResponse = (request?: RevGeo | null) =>
+export type PdokResponse = {
+  id: string
+  value: string
+  data: {
+    location: LatLngLiteral
+    address: PdokAddress
+  }
+}
+
+export const formatPDOKResponse = (
+  request?: RevGeo | null
+): Array<PdokResponse> =>
   request?.response?.docs.map((result) => {
     const { id, weergavenaam, centroide_ll } = result
     return {

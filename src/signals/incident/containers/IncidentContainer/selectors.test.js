@@ -5,6 +5,7 @@ import { initialState } from './reducer'
 import {
   selectIncidentContainerDomain,
   makeSelectIncidentContainer,
+  makeSelectCoordinates,
 } from './selectors'
 
 describe('signals/incident/containers/IncidentContainer/selectors', () => {
@@ -33,6 +34,39 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const mockedState = fromJS(state)
 
       expect(makeSelectIncidentContainer.resultFunc(mockedState)).toEqual(state)
+    })
+  })
+
+  describe('makeSelectCoordinates', () => {
+    const state = {
+      incident: {
+        categoy: 'poep',
+        location: undefined,
+      },
+    }
+
+    it('returns nothing', () => {
+      const mockedState = fromJS(state)
+
+      expect(makeSelectCoordinates.resultFunc(mockedState)).toBeUndefined()
+    })
+
+    it('returns coordinates', () => {
+      const coordinates = [4.899295459015508, 52.37211092764973]
+      const location = {
+        geometrie: {
+          type: 'Point',
+          coordinates,
+        },
+      }
+      const stateWithLocation = { ...state }
+      stateWithLocation.incident.location = location
+
+      const mockedState = fromJS(stateWithLocation)
+
+      expect(makeSelectCoordinates.resultFunc(mockedState)).toStrictEqual(
+        coordinates
+      )
     })
   })
 })

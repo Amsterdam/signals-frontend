@@ -27,6 +27,7 @@ export const contextValue: AssetSelectValue = {
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
+  setLocation: jest.fn(),
 }
 
 export const withAssetSelectContext = (
