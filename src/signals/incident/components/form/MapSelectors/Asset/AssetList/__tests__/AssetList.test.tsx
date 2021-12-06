@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
+import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import type { AssetListProps } from '../AssetList'
 import AssetList from '../AssetList'
 
@@ -13,6 +14,12 @@ describe('AssetList', () => {
     onRemove: jest.fn(),
     featureTypes: controls.extra_container.meta.featureTypes,
     selection: [{ description: 'Description', id: 'id', type: 'Rest' }],
+  }
+
+  const reportedProps: AssetListProps = {
+    onRemove: jest.fn(),
+    featureTypes: meta.featureTypes,
+    selection,
   }
 
   it('should render an empty selection', () => {
@@ -30,6 +37,27 @@ describe('AssetList', () => {
       expect(screen.getByTestId(`assetListItem-${id}`)).toBeInTheDocument()
     })
     expect(screen.getAllByRole('listitem').length).toBe(props.selection.length)
+  })
+
+  it('should show that an item was reported before', () => {
+    render(withAppContext(<AssetList {...reportedProps} />))
+
+    expect(screen.getByTestId('assetList')).toBeInTheDocument()
+    reportedProps.selection.forEach(({ id, isReported }) => {
+      if (isReported) {
+        expect(
+          screen.getByTestId(`assetListItem-${id}-reported`)
+        ).toBeInTheDocument()
+      }
+      if (!isReported) {
+        expect(
+          screen.queryByTestId(`assetListItem-${id}-reported`)
+        ).not.toBeInTheDocument()
+      }
+    })
+    expect(screen.getAllByRole('listitem').length).toBe(
+      reportedProps.selection.length
+    )
   })
 
   it('should allow user to remove item', () => {

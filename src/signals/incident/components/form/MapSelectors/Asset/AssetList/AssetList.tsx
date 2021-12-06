@@ -52,6 +52,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         iconUrl: icon
           ? `data:image/svg+xml;base64,${btoa(icon.reportedIconSvg)}`
           : '',
+        isReported: true,
       }
     }
 
@@ -59,6 +60,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       id,
       label: `${description}${id ? ` - ${id}` : ''}`,
       iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
+      isReported: false,
     }
   })
 
@@ -67,7 +69,11 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       {items.map((item) => (
         <IconListItem
           key={item.id}
-          id={`assetListItem-${item.id}`}
+          id={
+            item.isReported
+              ? `assetListItem-${item.id}-reported`
+              : `assetListItem-${item.id}`
+          }
           iconUrl={item.iconUrl}
         >
           <ItemWrapper>
