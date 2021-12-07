@@ -187,6 +187,14 @@ const getControls = memoize(
         isStatic: false,
         render: IncidentNavigation,
       },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+          ignoreVisibility: true,
+        },
+        render: FormComponents.PlainText,
+      },
     },
   }),
   () => ''
