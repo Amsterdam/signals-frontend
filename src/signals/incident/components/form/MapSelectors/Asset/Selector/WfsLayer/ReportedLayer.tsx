@@ -27,8 +27,11 @@ import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
+import {
+  DataLayerProps,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/Asset/types'
 import WfsDataContext from './context'
-import { DataLayerProps, Feature } from './../../../types'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
@@ -152,9 +155,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
-            /* istanbul ignore next */
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             className: `marker-icon ${
               feature.properties.meldingstatus === 1
                 ? REPORTED_CLASS_MODIFIER

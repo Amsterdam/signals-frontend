@@ -2,6 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 import type { IconOptions, LatLngTuple, LatLngLiteral } from 'leaflet'
+import { Feature as GeoJSONFeature, Point } from 'geojson'
 import { ClickEventHandler } from '../types'
 import { Icon } from '../Caterpillar/types'
 
@@ -64,3 +65,13 @@ export interface AssetSelectValue {
   setMessage: (message?: string) => void
   update: (items: Item[]) => void
 }
+
+export interface DataLayerProps {
+  featureTypes: FeatureType[]
+  desktopView?: boolean
+  allowClusters?: boolean
+  reportedLayer?: boolean
+}
+
+export type FeatureProps = Record<string, string | number | undefined>
+export type Feature = GeoJSONFeature<Point, FeatureProps>
