@@ -94,9 +94,10 @@ describe('Form component <MultiTextInput />', () => {
 
         const input = screen.getByRole('textbox')
         userEvent.type(input, '5')
-        expect(props.parent.meta.updateIncident).toHaveBeenLastCalledWith({
-          [meta.name]: ['Lorem5'],
-        })
+        meta.name &&
+          expect(props.parent.meta.updateIncident).toHaveBeenLastCalledWith({
+            [meta.name]: ['Lorem5'],
+          })
       })
 
       it('should add a text field when button is clicked', () => {
@@ -108,9 +109,10 @@ describe('Form component <MultiTextInput />', () => {
 
         const button = screen.getByRole('button')
         userEvent.click(button)
-        expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
-          [meta.name]: ['Lorem', ''],
-        })
+        meta.name &&
+          expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+            [meta.name]: ['Lorem', ''],
+          })
       })
 
       it('should prevent invalid character input', () => {

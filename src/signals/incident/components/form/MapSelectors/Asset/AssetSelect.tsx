@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -43,6 +43,7 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 
 export interface AssetSelectProps {
   handler: () => { value: Item[] }
+  layer?: FC
   meta: Meta
   parent: {
     meta: {
@@ -52,8 +53,9 @@ export interface AssetSelectProps {
   }
 }
 
-const AssetSelect: FunctionComponent<AssetSelectProps> = ({
+const AssetSelect: FC<AssetSelectProps> = ({
   handler,
+  layer,
   meta,
   parent,
 }) => {
@@ -135,6 +137,7 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
       value={{
         close,
         edit,
+        layer,
         location,
         message,
         meta: {

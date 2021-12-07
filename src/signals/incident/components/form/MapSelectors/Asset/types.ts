@@ -1,19 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import type { FC } from 'react'
 import type { IconOptions, LatLngTuple, LatLngLiteral } from 'leaflet'
 import { ClickEventHandler } from '../types'
+import { Icon } from '../Caterpillar/types'
 
 export interface Item {
-  id: string
+  id: string | number
   type: string
   description?: string
+  isReported?: boolean
+  [key: string]: unknown
 }
 
 export interface FeatureType {
   label: string
   description: string
   icon: FeatureIcon
+  iconId?: string
+  iconIsReportedId?: string
   idField: string
+  isReportedField?: string
+  isReportedValue?: number
   typeField: string
   typeValue: string
 }
@@ -22,6 +30,7 @@ export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconSvg: string
   selectedIconSvg?: string
+  reportedIconSvg?: string
 }
 
 export interface Options {
@@ -34,11 +43,19 @@ export interface Meta extends Record<string, unknown> {
   endpoint: string
   featureTypes: FeatureType[]
   language?: Record<string, string>
+  wfsFilter?: string
+  icons?: Icon[]
+  extraProperties?: string[]
+  ifAllOf?: { subcategory: string }
+  label?: string
+  shortLabel?: string
+  pathMerge?: string
 }
 
 export interface AssetSelectValue {
   close: () => void
   edit: ClickEventHandler
+  layer?: FC
   location?: LatLngTuple
   message?: string
   meta: Meta

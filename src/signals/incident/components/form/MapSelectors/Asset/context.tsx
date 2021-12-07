@@ -9,7 +9,11 @@ export const initialValue: AssetSelectValue = {
   edit: /* istanbul ignore next */ () => {},
   location: [0, 0],
   message: undefined,
-  meta: { endpoint: '', featureTypes: [] },
+  meta: {
+    endpoint: '',
+    featureTypes: [],
+    extraProperties: [],
+  },
   selection: [],
   setLocation: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},

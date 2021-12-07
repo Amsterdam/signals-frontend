@@ -34,11 +34,12 @@ const TextInput: FunctionComponent<TextInputProps> = ({
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={(event) => {
-          parent.meta.updateIncident({
-            [meta.name]: meta.autoRemove
-              ? event.target.value.replace(meta.autoRemove, '')
-              : event.target.value,
-          })
+          meta.name &&
+            parent.meta.updateIncident({
+              [meta.name]: meta.autoRemove
+                ? event.target.value.replace(meta.autoRemove, '')
+                : event.target.value,
+            })
         }}
       />
     </FormField>

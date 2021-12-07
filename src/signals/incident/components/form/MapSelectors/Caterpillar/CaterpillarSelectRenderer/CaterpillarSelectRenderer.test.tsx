@@ -3,7 +3,8 @@
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
-import { Meta } from '../types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import { Meta } from '../../Asset/types'
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
 
 describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarSelectRenderer', () => {
@@ -20,7 +21,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
         incidentContainer: { incident: incidentJson },
         updateIncident: jest.fn(),
       },
-      controls: {},
+      controls,
     },
     validatorsOrOpts: {},
   }
@@ -28,6 +29,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
   const meta = {
     label: 'Caterpillar',
     isVisible: true,
+    featureTypes: controls.extra_eikenprocessierups.meta.featureTypes,
   } as unknown as Meta
 
   describe('rendering', () => {
@@ -36,7 +38,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
         withAppContext(<CaterpillarSelectRenderer {...props} meta={meta} />)
       )
 
-      const element = screen.queryByTestId('selectIntro')
+      const element = screen.queryByTestId('assetSelectIntro')
       expect(element).toBeInTheDocument()
     })
 
