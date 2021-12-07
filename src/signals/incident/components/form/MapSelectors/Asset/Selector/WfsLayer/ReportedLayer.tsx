@@ -10,7 +10,6 @@ import {
 } from 'react'
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
-import isEqual from 'lodash/isEqual'
 import './style.css'
 
 import type { LatLng } from 'leaflet'
@@ -117,8 +116,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const getFeatureType = useCallback(
     (feature: Feature) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       if (feature.properties.meldingstatus === 1) {
         return featureTypes.find(({ typeValue }) => typeValue === 'reported')
       }
@@ -212,58 +209,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           layerInstance.addLayer(marker)
         }
       })
-
-      layerInstance.on(
-        'clusterclick',
-        /* istanbul ignore next */ (event: { layer: ClusterMarker }) => {
-          const { _maxZoom: maxZoom } = layerInstance
-          if (shouldSpiderfy(event.layer, maxZoom)) {
-            if (selectedCluster.current) {
-              event.layer.spiderfy()
-              const latlng = event.layer.getLatLng()
-              const selectedLatLng = selectedCluster.current.getLatLng()
-
-              if (!isEqual(latlng, selectedLatLng))
-                selectedCluster.current = event.layer
-            } else {
-              selectedCluster.current = event.layer
-              selectedCluster.current.spiderfy()
-            }
-          } else {
-            // use this offset (x, y form the bottom right corner of the map)
-            // when zooming to bounds to keep the markers above the panel in mobile view
-            const zoomOffset = desktopView ? [0, 0] : [0, 300]
-            event.layer.zoomToBounds({ paddingBottomRight: zoomOffset })
-          }
-        }
-      )
-
-      /* istanbul ignore next */
-      if (selectedCluster.current) {
-        const selectedLatLng = selectedCluster.current.getLatLng()
-        const cluster = (layerInstance.getLayers() as ClusterMarker[]).find(
-          (layer) => {
-            const latlng = layer.__parent.getLatLng()
-            return isEqual(latlng, selectedLatLng)
-          }
-        )
-
-        const parent = getMarkerByZoomLevel(
-          cluster as any,
-          mapInstance.getZoom()
-        )
-
-        if (parent) {
-          selectedCluster.current = parent
-          selectedCluster.current.spiderfy()
-        }
-      }
-    }
-
-    return () => {
-      if (layerInstance) {
-        layerInstance.off('clusterclick')
-      }
     }
   }, [layerInstance, data, options, selectedCluster, mapInstance, desktopView])
 
