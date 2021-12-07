@@ -19,7 +19,6 @@ import type {
   FeatureCollection,
 } from 'geojson'
 import type { FunctionComponent } from 'react'
-import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
@@ -119,10 +118,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
       if (feature.properties.meldingstatus === 1) {
         return featureTypes.find(({ typeValue }) => typeValue === 'reported')
       }
-      return featureTypes.find(
-        ({ typeField, typeValue }) =>
-          feature.properties[typeField] === typeValue
-      )
     },
     [featureTypes, allowClusters]
   )
@@ -132,22 +127,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
       pointToLayer: (feature: Feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature)
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
-        const selected =
-          Array.isArray(selection) &&
-          selection.some(
-            // Exclude from coverage; with the curent leaflet mock this can't be tested
-            /* istanbul ignore next*/ ({ id }) =>
-              id === feature.properties[featureType.idField]
-          )
-
-        // const reported = feature.properties.meldingstatus === 1
-
-        const iconUrl = `data:image/svg+xml;base64,${btoa(
-          /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          selected
-            ? featureType.icon.selectedIconSvg ?? ''
-            : featureType.icon.iconSvg
-        )}`
 
         const marker = L.marker(latlng, {
           icon: L.icon({
@@ -157,34 +136,14 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
                 ? REPORTED_CLASS_MODIFIER
                 : ''
             }`,
-            iconUrl,
+            iconUrl: `data:image/svg+xml;base64,${btoa(
+              featureType.icon.iconSvg
+            )}`,
           }),
           alt: `${featureType.description} - ${
             feature.properties[featureType.idField]
           }`,
         })
-
-        marker.on(
-          'click',
-          /* istanbul ignore next */ () => {
-            const { description, typeValue, idField } = featureType
-            if (typeValue === 'reported') {
-              return
-            }
-            const item: Item = {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              id: feature.properties[idField]!,
-              type: typeValue,
-              description,
-            }
-
-            const updateSelection = selected
-              ? selection.filter(({ id }) => id !== item.id)
-              : [...selection, item]
-
-            update(updateSelection)
-          }
-        )
 
         return marker
       },
