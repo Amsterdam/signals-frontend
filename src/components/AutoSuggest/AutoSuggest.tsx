@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import type { FC } from 'react'
+import type { RevGeo } from 'types/pdok/revgeo'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import useDebounce from 'hooks/useDebounce'
 import useFetch from 'hooks/useFetch'
@@ -30,6 +33,24 @@ const AbsoluteList = styled(SuggestList)`
   z-index: 2;
 `
 
+export type Option = {
+  id: number | string
+  value: string
+}
+
+export type AutoSuggestProps = {
+  className?: string
+  disabled?: boolean
+  formatResponse: (data?: RevGeo) => Array<PdokResponse>
+  id?: string
+  numOptionsDeterminer: (data?: RevGeo) => number
+  onClear?: () => void
+  onSelect: (option: Option) => void
+  placeholder?: string
+  url: string
+  value?: string
+}
+
 /**
  * Autosuggest component that renders a text box and a list with suggestions after text input
  *
@@ -43,7 +64,7 @@ const AbsoluteList = styled(SuggestList)`
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest = ({
+const AutoSuggest: FC<AutoSuggestProps> = ({
   className,
   formatResponse,
   numOptionsDeterminer,
@@ -56,14 +77,14 @@ const AutoSuggest = ({
   id = '',
   ...rest
 }) => {
-  const { get, data } = useFetch()
+  const { get, data } = useFetch<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
-  const wrapperRef = useRef(null)
-  const inputRef = useRef(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const options = data && formatResponse(data)
-  const activeId = options && options[activeIndex]?.id
+  const activeId = options?.[activeIndex]?.id
 
   const handleInputKeyDown = useCallback((event) => {
     switch (event.key) {
@@ -111,7 +132,10 @@ const AutoSuggest = ({
 
         case 'Esc':
         case 'Escape':
-          inputRef.current.value = ''
+          if (inputRef.current) {
+            inputRef.current.value = ''
+          }
+
           setActiveIndex(-1)
           setShowList(false)
           if (onClear) onClear()
@@ -120,16 +144,22 @@ const AutoSuggest = ({
         case 'Home':
           event.preventDefault()
 
-          inputRef.current.focus()
-          inputRef.current.setSelectionRange(0, 0)
+          if (inputRef.current) {
+            inputRef.current.focus()
+            inputRef.current.setSelectionRange(0, 0)
+          }
+
           setActiveIndex(-1)
           break
 
         case 'End':
           event.preventDefault()
 
-          inputRef.current.focus()
-          inputRef.current.setSelectionRange(9999, 9999)
+          if (inputRef.current) {
+            inputRef.current.focus()
+            inputRef.current.setSelectionRange(9999, 9999)
+          }
+
           setActiveIndex(-1)
           break
 
@@ -140,50 +170,6 @@ const AutoSuggest = ({
     },
     [data, numOptionsDeterminer, showList, onClear]
   )
-
-  useEffect(() => {
-    setInitialRender(true)
-  }, [])
-
-  /**
-   * Subscribe to activeIndex changes which happen after keyboard input
-   */
-  useEffect(() => {
-    if (!initialRender) return
-
-    if (activeIndex === -1) {
-      inputRef.current.focus()
-    }
-    // only respond to changed in activeIndex; disabling linter
-    // eslint-disable-next-line
-  }, [activeIndex])
-
-  /**
-   * Register and unregister listeners
-   */
-  useEffect(() => {
-    const wrapper = wrapperRef.current
-    const input = inputRef.current
-
-    wrapper.addEventListener('keydown', handleKeyDown)
-    input.addEventListener('focusout', handleFocusOut)
-    input.addEventListener('keydown', handleInputKeyDown)
-
-    return () => {
-      wrapper.removeEventListener('keydown', handleKeyDown)
-      input.removeEventListener('focusout', handleFocusOut)
-      input.removeEventListener('keydown', handleInputKeyDown)
-    }
-  }, [handleKeyDown, handleFocusOut, handleInputKeyDown])
-
-  /**
-   * Subscribe to changes in fetched data
-   */
-  useEffect(() => {
-    const hasResults = numOptionsDeterminer(data) > 0
-
-    setShowList(hasResults)
-  }, [data, numOptionsDeterminer])
 
   const handleFocusOut = useCallback((event) => {
     if (wrapperRef.current && wrapperRef.current.contains(event.relatedTarget))
@@ -223,34 +209,89 @@ const AutoSuggest = ({
       setActiveIndex(-1)
       setShowList(false)
 
-      inputRef.current.value = option.value
+      if (inputRef.current) {
+        inputRef.current.value = option.value
+      }
+
       onSelect(option)
     },
     [onSelect]
   )
 
   useEffect(() => {
+    setInitialRender(true)
+  }, [])
+
+  /**
+   * Subscribe to activeIndex changes which happen after keyboard input
+   */
+  useEffect(() => {
+    if (!initialRender || !inputRef.current) return
+
+    if (activeIndex === -1) {
+      inputRef.current.focus()
+    }
+    // only respond to changed in activeIndex; disabling linter
+    // eslint-disable-next-line
+  }, [activeIndex])
+
+  /**
+   * Register and unregister listeners
+   */
+  useEffect(() => {
+    const wrapper = wrapperRef.current
+    const input = inputRef.current
+
+    wrapper && wrapper.addEventListener('keydown', handleKeyDown)
+
+    if (input) {
+      input.addEventListener('focusout', handleFocusOut)
+      input.addEventListener('keydown', handleInputKeyDown)
+    }
+
+    return () => {
+      wrapper && wrapper.removeEventListener('keydown', handleKeyDown)
+
+      if (input) {
+        input.removeEventListener('focusout', handleFocusOut)
+        input.removeEventListener('keydown', handleInputKeyDown)
+      }
+    }
+  }, [handleKeyDown, handleFocusOut, handleInputKeyDown])
+
+  /**
+   * Subscribe to changes in fetched data
+   */
+  useEffect(() => {
+    const hasResults = numOptionsDeterminer(data) > 0
+
+    setShowList(hasResults)
+  }, [data, numOptionsDeterminer])
+
+  useEffect(() => {
+    if (!inputRef.current || value === undefined) return
+
     inputRef.current.value = value
   }, [value])
 
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div
-        role="combobox"
         aria-controls="as-listbox"
         aria-expanded={showList}
         aria-haspopup="listbox"
+        role="combobox"
       >
         <StyledInput
           aria-activedescendant={activeId}
           aria-autocomplete="list"
+          autoComplete="off"
           defaultValue={value}
+          disabled={disabled}
+          id={id}
           onChange={onChange}
           placeholder={placeholder}
           ref={inputRef}
-          disabled={disabled}
-          id={id}
-          autoComplete="off"
           {...rest}
         />
       </div>
@@ -269,46 +310,9 @@ const AutoSuggest = ({
 
 AutoSuggest.defaultProps = {
   className: '',
+  id: '',
   placeholder: '',
   value: '',
-}
-
-AutoSuggest.propTypes = {
-  /** @ignore */
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  /**
-   * Request response formatter
-   *
-   * @param {Any} data - Autosuggest Request response containing the list of options
-   * @returns {Object[]} Array of objects where each object is required to have an `id` prop and a `value` prop
-   */
-  formatResponse: PropTypes.func.isRequired,
-  id: PropTypes.string,
-  /**
-   * Result count getter
-   *
-   * @param {Any} data - Request response containing the list options
-   * @return {Number} The amount of options returned from the request
-   */
-  numOptionsDeterminer: PropTypes.func.isRequired,
-  /** Callback function that is called whenever the input field */
-  onClear: PropTypes.func,
-  /**
-   * Option select callback
-   * @param {Object} option - The selected option
-   * @param {String} option.id - Unique option identifier
-   * @param {String} option.value - Option text label
-   */
-  onSelect: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  /**
-   * Request URL from which options should be gotten and to which the search query should be appended
-   * @example `//some-domain.com/api-endpoint?q=`
-   */
-  url: PropTypes.string.isRequired,
-  /** defaultValue for the input field */
-  value: PropTypes.string,
 }
 
 export default AutoSuggest
