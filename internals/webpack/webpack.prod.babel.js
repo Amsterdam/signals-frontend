@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// @ts-check
 const path = require('path')
 const pkgDir = require('pkg-dir')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -11,8 +12,9 @@ const CopyPlugin = require('copy-webpack-plugin')
 const __rootdir = pkgDir.sync()
 
 const template = require('./template')
+const { baseConfig, merge } = require('./webpack.base.babel')
 
-module.exports = require('./webpack.base.babel')({
+const productionConfig = /** @type { import('webpack').Configuration } */ {
   mode: 'production',
 
   entry: [path.join(process.cwd(), 'src/app.js')],
@@ -23,24 +25,11 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
 
-  tsLoaders: [
-    // Babel also has a typescript transpiler. Uncomment this if you prefer and comment-out ts-loader
-    // { loader: 'babel-loader' },
-    {
-      loader: 'ts-loader',
-      options: {
-        transpileOnly: true, // fork-ts-checker-webpack-plugin is used for type checking
-        logLevel: 'info',
-      },
-    },
-  ],
-
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          warnings: false,
           compress: {
             comparisons: false,
           },
@@ -56,15 +45,57 @@ module.exports = require('./webpack.base.babel')({
       }),
       new CssMinimizerPlugin(),
     ],
+    chunkIds: 'named',
     nodeEnv: 'production',
     runtimeChunk: 'single',
+    moduleIds: 'deterministic',
     splitChunks: {
-      chunks: 'async',
-      minSize: 25000,
+      chunks: 'all',
+      maxInitialRequests: Infinity,
       minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 85000,
+      minSize: 10000,
+      cacheGroups: {
+        vendor: {
+          // Capture each package name and turn it into a cache group
+          // See https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758 for reference on the benefits
+          // of splitting the bundle like that.
+          test: /[\\/]node_modules[\\/](?!@amsterdam)/,
+          name(module) {
+            const [, packageName] = module.context.match(
+              /[\\/]node_modules[\\/](.*?)(?:[\\/]|$)/
+            )
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`
+          },
+          priority: 0,
+        },
+        // Split the @amsterdam packages into separate chunks instead of packing everthing together;
+        // their combined size is over 500 Kb
+        amsterdam: {
+          test: /[\\/]node_modules[\\/]@amsterdam/,
+          name(module) {
+            const [, packageName] = module.context.match(
+              /[\\/]node_modules[\\/]@amsterdam[\\/](.*?)(?:[\\/]|$)/
+            )
+
+            return `npm.${packageName}`
+          },
+          priority: 0,
+        },
+        leaflet: {
+          test: /(leaflet|proj4)/,
+          chunks: 'all',
+          filename: 'leaflet.[contenthash].js',
+          priority: 1,
+        },
+        legacy: {
+          test: /(reactive-form|albus)/,
+          chunks: 'all',
+          filename: 'legacy.[contenthash].js',
+          priority: 1,
+        },
+      },
     },
   },
 
@@ -102,10 +133,16 @@ module.exports = require('./webpack.base.babel')({
         },
       ],
     }),
-  ].filter(Boolean),
+  ],
 
   performance: {
     assetFilter: (assetFilename) =>
       !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
   },
-})
+}
+
+const stats = process.env.STATS
+
+if (stats) productionConfig.stats = stats
+
+module.exports = merge(baseConfig, productionConfig)

@@ -5,12 +5,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { Row, Column, themeSpacing } from '@amsterdam/asc-ui'
+import { Row, Column, themeSpacing, CompactPager } from '@amsterdam/asc-ui'
 import { useParams, useHistory } from 'react-router-dom'
 
 import PageHeader from 'signals/settings/components/PageHeader'
 import LoadingIndicator from 'components/LoadingIndicator'
-import Pagination from 'components/Pagination'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
@@ -34,8 +33,9 @@ const StyledDataView = styled(DataView)`
   }
 `
 
-const StyledPagination = styled(Pagination)`
-  margin-top: ${themeSpacing(12)};
+const StyledCompactPager = styled(CompactPager)`
+  max-width: 200px;
+  margin-top: ${themeSpacing(6)};
 `
 
 export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
@@ -112,12 +112,14 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
             />
           </Column>
 
-          {!isLoading && count > 0 && (
+          {!isLoading && count > PAGE_SIZE && (
             <Column span={12}>
-              <StyledPagination
-                currentPage={page}
-                onClick={onPaginationClick}
-                totalPages={Math.ceil(count / PAGE_SIZE)}
+              <StyledCompactPager
+                data-testid="pagination"
+                collectionSize={count}
+                pageSize={PAGE_SIZE}
+                page={page}
+                onPageChange={onPaginationClick}
               />
             </Column>
           )}

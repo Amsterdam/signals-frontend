@@ -244,11 +244,12 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(screen.queryByTestId('pagination')).toBeInTheDocument()
     expect(
-      within(screen.getByTestId('pagination')).queryByText('2')
+      within(screen.getByTestId('pagination')).queryByTestId('nextbutton')
     ).toBeInTheDocument()
 
     expect(
-      within(screen.getByTestId('pagination')).getByText('2').nodeName
+      within(screen.getByTestId('pagination')).getByTestId('nextbutton')
+        .nodeName
     ).toEqual('BUTTON')
 
     jest
@@ -262,10 +263,6 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loadingIndicator')
     )
-
-    expect(
-      within(screen.getByTestId('pagination')).getByText('2').nodeName
-    ).not.toEqual('BUTTON')
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -292,13 +289,13 @@ describe('signals/settings/users/containers/Overview', () => {
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loadingIndicator')
     )
-    const page2 = await screen.findByText('2')
+    const page2 = await screen.findByTestId('nextbutton')
 
     expect(scrollTo).not.toHaveBeenCalled()
 
     userEvent.click(page2)
 
-    await screen.findByText('2')
+    await screen.findByTestId('nextbutton')
 
     expect(scrollTo).toHaveBeenCalledTimes(1)
     expect(scrollTo).toHaveBeenCalledWith(0, 0)

@@ -60,6 +60,15 @@ const renderIncidentForm = (props, renderFunction = render) =>
 describe('<IncidentForm />', () => {
   let defaultProps
 
+  beforeAll(() => {
+    // disable annoying deprecation warnings from `react-reactive-form`
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   beforeEach(() => {
     nextSpy.mockReset()
     defaultProps = {
@@ -306,6 +315,32 @@ describe('<IncidentForm />', () => {
       renderIncidentForm(propsAfterLoading, rerender)
 
       expect(nextSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('submits form with status DISABLED', () => {
+      const emptyControlsSet = {
+        controls: {
+          // no controls to verify; status of the form is set to 'DISABLED' by `react-reactive-form`
+          page_summary: {},
+          $field_0: {
+            isStatic: false,
+            render: IncidentNavigation,
+          },
+        },
+      }
+
+      const props = {
+        ...defaultProps,
+        fieldConfig: emptyControlsSet,
+      }
+
+      renderIncidentForm(props)
+
+      expect(nextSpy).toHaveBeenCalledTimes(1)
+
+      userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+
+      expect(nextSpy).toHaveBeenCalledTimes(2)
     })
   })
 })

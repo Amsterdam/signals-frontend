@@ -179,6 +179,14 @@ const getControls = memoize(
         isStatic: false,
         render: IncidentNavigation,
       },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+          ignoreVisibility: true,
+        },
+        render: FormComponents.PlainText,
+      },
     },
   }),
   () => ''
@@ -195,7 +203,7 @@ export default {
         return false
       })
     ) {
-      return 'incident/telefoon'
+      return 'incident/contact'
     }
     return false
   },

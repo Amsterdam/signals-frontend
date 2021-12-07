@@ -14,20 +14,6 @@ import FormField from '../FormField'
 import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 import getMapCenter from './getMapCenter'
 
-interface MapValue {
-  location?: {
-    lat: number
-    lng: number
-  }
-  addressText?: string
-  address?: {
-    huisnummer: string | number
-    openbare_ruimte: string
-    postcode: string
-    woonplaats: string
-  }
-}
-
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   touched,
   hasError,
@@ -37,7 +23,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   validatorsOrOpts,
   value,
 }) => {
-  const mapLocation = formatMapLocation(value) as MapValue
+  const mapLocation = formatMapLocation(value)
   const { location } = mapLocation
 
   const center = location ? [location.lat, location.lng] : getMapCenter()

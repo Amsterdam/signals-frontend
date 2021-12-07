@@ -7,7 +7,6 @@ import { Marker } from '@amsterdam/react-maps'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { locationType } from 'shared/types'
-import './style.scss'
 
 const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
   const location = value?.geometrie?.coordinates

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
@@ -45,18 +44,15 @@ const MapPreview = ({ value }) => {
     center: [latitude, longitude],
   }
 
-  const geometry = useMemo(
-    () => ({
-      latitude,
-      longitude,
-    }),
-    [longitude, latitude]
-  )
+  const geometry = {
+    latitude,
+    longitude,
+  }
 
   return (
     value && (
-      <Fragment>
-        <Address>
+      <>
+        <Address data-testid="mapAddress">
           {value?.address
             ? formatAddress(value.address)
             : 'Locatie gepind op de kaart'}
@@ -73,7 +69,7 @@ const MapPreview = ({ value }) => {
               />
             </StyledMap>
           ))}
-      </Fragment>
+      </>
     )
   )
 }

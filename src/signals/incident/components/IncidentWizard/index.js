@@ -19,6 +19,10 @@ const StyledH1 = styled(Heading)`
   margin-bottom: ${themeSpacing(5)};
 `
 
+const Wrapper = styled.div`
+  width: 100%;
+`
+
 const IncidentWizard = ({
   wizardDefinition,
   getClassification,
@@ -35,7 +39,7 @@ const IncidentWizard = ({
   )
 
   return (
-    <div className="incident-wizard">
+    <Wrapper>
       <Route
         render={({ history }) => (
           <Wizard
@@ -100,7 +104,7 @@ const IncidentWizard = ({
           </Wizard>
         )}
       />
-    </div>
+    </Wrapper>
   )
 }
 

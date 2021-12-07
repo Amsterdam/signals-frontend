@@ -26,12 +26,11 @@
     "themeColor": "#ec0000"
   },
   "language": {
-    "avgDisclaimer": "Signalen verwerkt uw persoonsgegevens op een zorgvuldige en veilige manier in overeenstemming met de geldende wet- en regelgeving, waaronder de Algemene Verordening Gegevensbescherming. Lees meer hierover op <a href='##AVG_DISCLAIMER_URL##'>Privacyverklaring Meldingen openbare ruimte en overlast</a>.",
     "consentToContactSharing": "Ja, ik geef Signalen toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
     "district": "Wijk",
-    "footer1": "Bel ons dan",
-    "footer2": "op werkdagen van 9.00 tot 17.00 uur.",
     "headerTitle": "",
+    "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
+    "helpTextHeader": "Lukt het niet om een melding te doen? Bel het telefoonnummer [070-373 8393](tel:0703738393)",
     "logoDescription": "Logo gemeente ",
     "mapDescription": "Weet u het adres niet, bel dan 070-373 8393 om telefonisch de melding te maken.",
     "phoneNumber": "070-373 8393",
