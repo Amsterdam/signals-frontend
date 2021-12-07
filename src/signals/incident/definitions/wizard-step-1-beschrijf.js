@@ -175,6 +175,10 @@ const getControls = memoize(
         },
         render: FormComponents.FileInputRenderer,
       },
+      $field_0: {
+        isStatic: false,
+        render: IncidentNavigation,
+      },
       help_text: {
         meta: {
           label: configuration.language.helpTextHeader,
@@ -182,10 +186,6 @@ const getControls = memoize(
           ignoreVisibility: true,
         },
         render: FormComponents.PlainText,
-      },
-      $field_0: {
-        isStatic: false,
-        render: IncidentNavigation,
       },
     },
   }),
