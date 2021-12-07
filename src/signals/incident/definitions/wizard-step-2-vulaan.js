@@ -57,6 +57,10 @@ const expandQuestions = memoize(
         }),
         {}
       ),
+      $field_0: {
+        isStatic: false,
+        render: IncidentNavigation,
+      },
       help_text: {
         meta: {
           label: configuration.language.helpTextHeader,
@@ -64,10 +68,6 @@ const expandQuestions = memoize(
           ignoreVisibility: true,
         },
         render: FormComponents.PlainText,
-      },
-      $field_0: {
-        isStatic: false,
-        render: IncidentNavigation,
       },
     },
   }),
