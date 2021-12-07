@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import './style.css'
@@ -18,7 +11,7 @@ import type {
   Feature as GeoJSONFeature,
   FeatureCollection,
 } from 'geojson'
-import type { FunctionComponent } from 'react'
+import type { FC } from 'react'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
@@ -37,71 +30,15 @@ export interface ClusterLayer extends L.GeoJSON<Point> {
   _maxZoom?: number
 }
 
-export interface ClusterMarker extends L.Layer {
-  __parent: ClusterMarker
-  _zoom: number
-  _childCount: number
-  _childClusters: ClusterMarker[]
-  getLatLng: () => LatLng
-  spiderfy: () => void
-  unspiderfy: () => void
-  zoomToBounds: (options: any) => void
-}
-
-/**
- * @description Recursive function that searches for the correct marker for a zoom level inside the cluster
- */
-export const getMarkerByZoomLevel = (
-  parent: ClusterMarker,
-  zoom: number
-): ClusterMarker | undefined => {
-  if (parent._zoom === zoom) return parent
-  if (!parent.__parent) return undefined
-  return getMarkerByZoomLevel(parent.__parent, zoom)
-}
-/**
- * @description Depending on the zoomlevel, a cluster should be:
- *              - spyderfied when the current zoom level is the max zoom level
- *              - zoomed to when the zoom level is not max zoom level.
- */
-export const shouldSpiderfy = (
-  cluster: ClusterMarker,
-  maxZoom?: number
-): boolean => {
-  let bottomCluster = cluster
-  while (bottomCluster._childClusters.length === 1) {
-    bottomCluster = bottomCluster._childClusters[0]
-  }
-
-  return (
-    bottomCluster._zoom === maxZoom &&
-    bottomCluster._childCount === cluster._childCount
-  )
-}
-
-export const AssetLayer: FunctionComponent<DataLayerProps> = ({
+export const ReportedLayer: FC<DataLayerProps> = ({
   featureTypes,
   desktopView,
   allowClusters,
 }) => {
   const mapInstance = useMapInstance()
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
-  const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
   const { selection, update } = useContext(AssetSelectContext)
-
-  /* istanbul ignore next */
-  useEffect(() => {
-    function onMoveEnd() {
-      selectedCluster.current = undefined
-    }
-
-    mapInstance.on('moveend', onMoveEnd)
-
-    return () => {
-      mapInstance.off('moveend', onMoveEnd)
-    }
-  }, [mapInstance])
 
   const clusterOptions = useMemo(
     () => ({
@@ -126,7 +63,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
     () => ({
       pointToLayer: (feature: Feature, latlng: LatLng) => {
         const featureType = getFeatureType(feature)
-        if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
+        if (!featureType) return
 
         const marker = L.marker(latlng, {
           icon: L.icon({
@@ -169,7 +106,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         }
       })
     }
-  }, [layerInstance, data, options, selectedCluster, mapInstance, desktopView])
+  }, [layerInstance, data, options, mapInstance, desktopView])
 
   return (
     <MarkerCluster
@@ -179,4 +116,4 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   )
 }
 
-export default AssetLayer
+export default ReportedLayer
