@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import 'jest-styled-components'
+import { FC } from 'react'
 import { render, screen } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
+
+import type { LatLngTuple } from 'leaflet'
+
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import {
   contextValue,
@@ -37,6 +41,17 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
 
     expect(await screen.findByTestId('assetSelectSelector')).toBeInTheDocument()
+  })
+
+  it('should render the layer when passed as prop', () => {
+    const Layer: FC<any> = (props) => (
+      <span data-testid="testLayer" {...props} />
+    )
+    render(
+      withAssetSelectContext(<Selector />, { ...contextValue, layer: Layer })
+    )
+
+    expect(screen.getByTestId('testLayer')).toBeInTheDocument()
   })
 
   it('should call update when removing asset', async () => {
@@ -97,5 +112,50 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     const bar = await screen.findAllByTestId('buttonBar')
     expect(bar[0]).toHaveStyleRule('margin-top', '44px', { media })
+  })
+
+  it('renders a pin marker when there is a location', async () => {
+    const location = [52.3731081, 4.8932945] as LatLngTuple
+
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        location,
+      })
+    )
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(screen.getByTestId('assetPinMarker')).toBeInTheDocument()
+  })
+
+  it('does not render a pin marker', async () => {
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        location: undefined,
+      })
+    )
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(screen.queryByTestId('assetPinMarker')).not.toBeInTheDocument()
+  })
+
+  it('dispatches the location when the map is clicked', async () => {
+    const { location, setLocation } = contextValue
+
+    render(withAssetSelectContext(<Selector />))
+
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(setLocation).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('map-base'), {
+      clientX: 10,
+      clientY: 10,
+    })
+
+    expect(setLocation).toHaveBeenCalledWith(
+      expect.not.objectContaining({ lat: location?.[1], lng: location?.[0] })
+    )
   })
 })

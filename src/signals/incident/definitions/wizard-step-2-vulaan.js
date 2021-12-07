@@ -57,6 +57,14 @@ const expandQuestions = memoize(
         }),
         {}
       ),
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+          ignoreVisibility: true,
+        },
+        render: FormComponents.PlainText,
+      },
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,

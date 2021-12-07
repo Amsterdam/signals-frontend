@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { ReactNode } from 'react'
-
 import type { FeatureCollection } from 'geojson'
 
 import { render, screen } from '@testing-library/react'
@@ -9,30 +7,37 @@ import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
+import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
-import { WfsDataProvider } from '../../../../components/DataContext/context'
-import CaterpillarLayer from '..'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import {
   contextValue,
-  withSelectContext,
-} from '../../../context/__tests__/context.test'
+  withAssetSelectContext,
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+import CaterpillarLayer from '..'
+
+const assetSelectProviderValue: AssetSelectValue = {
+  ...contextValue,
+  selection,
+  meta,
+}
 
 describe('CaterpillarLayer', () => {
-  const withMapCaterpillar = (Component: ReactNode) => (
-    <Map data-testid="map-test" options={MAP_OPTIONS}>
-      {Component}
-    </Map>
-  )
+  const updateSpy = jest.fn()
+  const withMapCaterpillar = () =>
+    withAssetSelectContext(
+      <Map data-testid="map-test" options={MAP_OPTIONS}>
+        <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
+          <CaterpillarLayer />
+        </WfsDataProvider>
+      </Map>,
+      { ...assetSelectProviderValue, update: updateSpy }
+    )
 
   it('should render the caterpillar layer in the map', () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    render(withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />)))
-
+    render(withMapCaterpillar())
     expect(
       screen.getByAltText('Eikenboom, is geselecteerd (308777)')
     ).toBeInTheDocument()
@@ -47,20 +52,11 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle selecting a tree', async () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    const updateSpy = jest.fn()
+    render(withMapCaterpillar())
 
-    render(
-      withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />), {
-        ...contextValue,
-        update: updateSpy,
-      })
-    )
-
+    expect(
+      screen.getByAltText('Eikenboom, is gemeld (308779)')
+    ).toBeInTheDocument()
     const tree = screen.getByAltText('Eikenboom, is gemeld (308779)')
     userEvent.click(tree)
 
@@ -78,20 +74,7 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle deselecting a tree', () => {
-    const CaterpillarLayerWrapper = () => (
-      <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-        <CaterpillarLayer />;
-      </WfsDataProvider>
-    )
-    const updateSpy = jest.fn()
-
-    render(
-      withSelectContext(withMapCaterpillar(<CaterpillarLayerWrapper />), {
-        ...contextValue,
-        update: updateSpy,
-      })
-    )
-
+    render(withMapCaterpillar())
     const tree = screen.getByAltText(
       'Eikenboom, is gemeld, is geselecteerd (308778)'
     )

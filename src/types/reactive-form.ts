@@ -31,7 +31,7 @@ export interface ReactiveFormMeta {
 }
 
 export interface FormMeta extends Record<string, unknown> {
-  name: string
+  name?: string
   label?: string
   subtitle?: string
   placeholder?: string
@@ -42,6 +42,7 @@ export interface FormMeta extends Record<string, unknown> {
   autoComplete?: string
   type?: string
   newItemText?: string
+  width?: string
 }
 
 export interface FormOptions {

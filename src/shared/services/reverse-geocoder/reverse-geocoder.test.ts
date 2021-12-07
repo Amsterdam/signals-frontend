@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import fetchMock from 'jest-fetch-mock'
 import reverseGeocoderService, {
   formatRequest,
   serviceURL,
-} from '../services/reverseGeocoderService'
+} from './reverse-geocoder'
 
 describe('formatRequest', () => {
   const testLocation = {
@@ -11,7 +12,7 @@ describe('formatRequest', () => {
     lng: 4,
   }
   const result =
-    'https://base-url&X=39180.476027290264&Y=-667797.6751788945&distance='
+    'https://base-url/&X=39180.476027290264&Y=-667797.6751788945&distance='
 
   it('should format correct without distance', () => {
     expect(formatRequest('https://base-url', testLocation)).toEqual(
@@ -74,7 +75,7 @@ describe('reverseGeocoderService', () => {
         docs: [],
       },
     }
-    fetch.mockResponse(JSON.stringify(noneFoundResponse))
+    fetchMock.mockResponse(JSON.stringify(noneFoundResponse))
 
     const result = await reverseGeocoderService(testLocation)
 
@@ -82,8 +83,8 @@ describe('reverseGeocoderService', () => {
   })
 
   it('should return the correct location', async () => {
-    fetch.resetMocks()
-    fetch.mockResponseOnce(JSON.stringify(serviceURLResponse))
+    fetchMock.resetMocks()
+    fetchMock.mockResponseOnce(JSON.stringify(serviceURLResponse))
 
     const result = await reverseGeocoderService(testLocation)
 
@@ -95,7 +96,9 @@ describe('reverseGeocoderService', () => {
   })
 
   it('should handle failed requests', async () => {
-    fetch.mockReject(() => Promise.reject(new Error('something bad happened')))
+    fetchMock.mockReject(() =>
+      Promise.reject(new Error('something bad happened'))
+    )
 
     const result = await reverseGeocoderService(testLocation)
 

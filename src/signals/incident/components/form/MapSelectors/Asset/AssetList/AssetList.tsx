@@ -41,14 +41,26 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const items = selection.map(({ id, type }) => {
+  const items = selection.map(({ id, type, isReported }) => {
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+
+    if (isReported && icon?.reportedIconSvg) {
+      return {
+        id,
+        label: `${description}${id ? ` - ${id}` : ''}`,
+        iconUrl: icon
+          ? `data:image/svg+xml;base64,${btoa(icon.reportedIconSvg)}`
+          : '',
+        isReported: true,
+      }
+    }
 
     return {
       id,
       label: `${description}${id ? ` - ${id}` : ''}`,
       iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
+      isReported: false,
     }
   })
 
@@ -57,7 +69,11 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       {items.map((item) => (
         <IconListItem
           key={item.id}
-          id={`assetListItem-${item.id}`}
+          id={
+            item.isReported
+              ? `assetListItem-${item.id}-reported`
+              : `assetListItem-${item.id}`
+          }
           iconUrl={item.iconUrl}
         >
           <ItemWrapper>
@@ -68,7 +84,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
                 aria-label="Verwijder"
                 icon={<Close />}
                 onClick={() => {
-                  onRemove(item.id)
+                  onRemove(item.id.toString())
                 }}
               />
             )}

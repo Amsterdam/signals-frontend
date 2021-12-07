@@ -27,7 +27,6 @@ export interface Meta extends Record<string, unknown> {
   endpoint: string
   featureTypes: FeatureType[]
   wfsFilter?: string
-  legendItems: { id: string; label: string; iconId: string }[]
   icons: Icon[]
   extraProperties: string[]
 }

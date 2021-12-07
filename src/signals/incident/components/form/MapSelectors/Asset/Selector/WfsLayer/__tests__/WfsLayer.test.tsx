@@ -3,7 +3,6 @@
 import type { FunctionComponent, ReactNode } from 'react'
 import { useContext } from 'react'
 import type { MapOptions } from 'leaflet'
-import { LatLng } from 'leaflet'
 
 import { act, render, screen } from '@testing-library/react'
 import type { FetchMock } from 'jest-fetch-mock'
@@ -39,7 +38,7 @@ const endpoint = 'https://endpoint/?version=2'
 const promise = Promise.resolve()
 const assetSelectProviderValue: AssetSelectValue = {
   selection: [],
-  location: new LatLng(0, 0),
+  location: [0, -0],
   meta: {
     endpoint,
     featureTypes: [],
@@ -48,6 +47,7 @@ const assetSelectProviderValue: AssetSelectValue = {
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
+  setLocation: jest.fn(),
 }
 
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
@@ -145,7 +145,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
-      location: new LatLng(0, 0),
+      location: [0, -0],
       meta: {
         endpoint,
         featureTypes: [],
@@ -154,6 +154,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
+      setLocation: jest.fn(),
     }
 
     render(
@@ -179,7 +180,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       '<PropertyIsEqualTo><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope>'
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
-      location: new LatLng(0, 0),
+      location: [0, -0],
       meta: {
         endpoint,
         wfsFilter,
@@ -189,6 +190,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
+      setLocation: jest.fn(),
     }
 
     const urlWithFilter =

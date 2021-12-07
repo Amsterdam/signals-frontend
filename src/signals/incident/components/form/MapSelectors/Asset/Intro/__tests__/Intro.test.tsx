@@ -3,18 +3,20 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
-import type { LatLngExpression } from 'leaflet'
+
 import type { AssetSelectValue, Meta } from '../../types'
+
 import Intro from '../Intro'
 
 const contextValue: AssetSelectValue = {
   selection: [],
   meta: {} as Meta,
-  location: [0, 0] as LatLngExpression,
+  location: [0, 0],
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
+  setLocation: jest.fn(),
 }
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>

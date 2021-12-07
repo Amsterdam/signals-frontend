@@ -29,10 +29,10 @@ import {
   setLoadingAction,
 } from 'containers/MapContext/actions'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import Map from '../Map'
 import PDOKAutoSuggest from '../PDOKAutoSuggest'
-import reverseGeocoderService from './services/reverseGeocoderService'
 
 const Wrapper = styled.div`
   position: relative;

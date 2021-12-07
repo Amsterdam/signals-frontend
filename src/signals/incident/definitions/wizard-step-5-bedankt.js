@@ -9,6 +9,7 @@ export default {
     controls: {
       confirmation_message: {
         meta: {
+          type: 'message',
           value: 'Uw melding is bij ons bekend onder nummer: {incident.id}.',
           valueAuthenticated:
             'Uw melding is bij ons bekend onder nummer: [{incident.id}](/manage/incident/{incident.id}).',

@@ -24,8 +24,9 @@ export default {
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
           subtitle:
-            'Zo kunt u ons helpen het probleem sneller of beter op te lossen.',
+            'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
           type: 'tel',
+          width: '50%',
           wrappedComponent: FormComponents.TextInput,
         },
         render: FormComponents.WithHeading,
@@ -41,7 +42,7 @@ export default {
           label: 'Wat is uw e-mailadres?',
           path: 'reporter.email',
           subtitle:
-            'We mailen om u te vertellen wat we met uw melding doen en wanneer het klaar is.',
+            'We gebruiken uw e-mailadres alléén om u op de hoogte te houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.',
           type: 'email',
           wrappedComponent: FormComponents.TextInput,
         },
@@ -52,9 +53,9 @@ export default {
       },
       privacy_text: {
         meta: {
-          heading: 'Uw privacy',
+          heading: 'Melding doorsturen',
           value:
-            'We gebruiken uw e-mailadres alléén om u op de hoogte houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken. We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
+            'Soms kan de gemeente niets doen. Een andere organisatie moet dan aan het werk. Bijvoorbeeld de politie of de dierenambulance. Als dat zo is kunnen wij uw melding doorsturen. Wij sturen uw telefoonnummer of e-mailadres mee. Maar dat doen we alleen als u dat goed vindt.',
           wrappedComponent: FormComponents.PlainText,
         },
         render: FormComponents.WithHeading,
@@ -66,6 +67,14 @@ export default {
           path: 'reporter.sharing_allowed',
         },
         render: FormComponents.EmphasisCheckboxInput,
+      },
+      help_text: {
+        meta: {
+          label: configuration.language.helpTextHeader,
+          value: configuration.language.helpText,
+          ignoreVisibility: true,
+        },
+        render: FormComponents.PlainText,
       },
       $field_0: {
         isStatic: false,

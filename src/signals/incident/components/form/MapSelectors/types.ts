@@ -18,7 +18,11 @@ export interface FeatureType {
   label: string
   description: string
   icon: FeatureIcon
+  iconId?: string
+  iconIsReportedId?: string
   idField: string
+  isReportedField?: string
+  isReportedValue?: number
   typeField: string
   typeValue: string
 }
@@ -27,6 +31,7 @@ export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconSvg: string
   selectedIconSvg?: string
+  reportedIconSvg?: string
 }
 
 export interface Options {

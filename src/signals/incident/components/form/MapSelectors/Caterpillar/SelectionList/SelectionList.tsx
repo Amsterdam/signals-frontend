@@ -10,7 +10,7 @@ import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import IconList, { IconListItem } from '../../components/IconList'
 import type { Item } from '../types'
 import { FeatureType, Icon } from '../types'
-import { getIconUrl } from '../utils'
+import { getIconUrl } from '../../utils'
 
 const ItemTextWrapper = styled.div<{ reported?: boolean }>`
   display: flex;
