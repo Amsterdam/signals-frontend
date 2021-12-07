@@ -1,4 +1,4 @@
-import { ReactComponent as IconPriorityHigh } from '../../../shared/images/icon-urgentie-hoog.svg'
+import IconPriorityHigh from '../../../shared/images/icon-urgentie-hoog.svg'
 
 export type Icon = 'PriorityHigh'
 
