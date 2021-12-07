@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment, useEffect, useRef, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
 import { ChevronRight } from '@amsterdam/asc-assets'
+
+import type { FC } from 'react'
+import type { Option } from '../..'
 
 const StyledList = styled.ul`
   border: 1px solid ${themeColor('tint', 'level5')};
@@ -34,21 +36,35 @@ const StyledIcon = styled(Icon)`
   display: inline-block;
 `
 
-const SuggestList = ({
+type SuggestListProps = {
+  /** Index (zero-based) of the list item that should get focus */
+  activeIndex?: number
+  className?: string
+  id?: string
+  /** Callback function that gets called whenever a list item is clicked or when return is pressed */
+  onSelectOption: (option: Option) => void
+  options: Array<Option>
+  /** aria-role for the listbox element */
+  role?: string
+}
+
+const SuggestList: FC<SuggestListProps> = ({
   activeIndex,
   className,
-  role,
-  options,
+  id,
   onSelectOption,
+  options,
+  role,
   ...rest
 }) => {
-  const listRef = useRef(null)
+  const listRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
     const list = listRef.current
+    if (!list || activeIndex === undefined || activeIndex === null) return
 
     if (activeIndex >= 0 && activeIndex < options.length) {
-      list.children[activeIndex].focus()
+      ;(list.children[activeIndex] as HTMLLIElement).focus()
     }
   }, [activeIndex, options.length])
 
@@ -90,13 +106,14 @@ const SuggestList = ({
     <StyledList
       className={className}
       data-testid="suggestList"
+      id={id}
       role={role}
       ref={listRef}
       {...rest}
     >
       {options.map((option) => (
         <Li
-          id={option.id}
+          id={option.id.toString()}
           data-id={option.id}
           key={option.id}
           onClick={() => onSelect(option)}
@@ -120,23 +137,6 @@ SuggestList.defaultProps = {
   activeIndex: 0,
   className: '',
   role: 'listbox',
-}
-
-SuggestList.propTypes = {
-  /** Index (zero-based) of the list item that should get focus */
-  activeIndex: PropTypes.number,
-  /** @ignore */
-  className: PropTypes.string,
-  /** Callback function that gets called whenever a list item is clicked or when return is pressed */
-  onSelectOption: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  /** aria-role for the listbox element */
-  role: PropTypes.string,
 }
 
 export default SuggestList

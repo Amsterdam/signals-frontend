@@ -3,7 +3,7 @@
 import { createEvent, render, fireEvent, act } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import SuggestList from '..'
+import SuggestList from '.'
 
 const onSelectOption = jest.fn()
 
