@@ -6,7 +6,7 @@ import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
 import { ChevronRight } from '@amsterdam/asc-assets'
 
 import type { FC } from 'react'
-import type { Option } from '../..'
+import type { AutoSuggestOption } from '../..'
 
 const StyledList = styled.ul`
   border: 1px solid ${themeColor('tint', 'level5')};
@@ -42,8 +42,8 @@ type SuggestListProps = {
   className?: string
   id?: string
   /** Callback function that gets called whenever a list item is clicked or when return is pressed */
-  onSelectOption: (option: Option) => void
-  options: Array<Option>
+  onSelectOption: (option: AutoSuggestOption) => void
+  options: Array<AutoSuggestOption>
   /** aria-role for the listbox element */
   role?: string
 }
