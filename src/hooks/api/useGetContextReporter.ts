@@ -1,6 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
-import Reporter from 'types/api/reporter'
-import { QueryParameters } from './types'
+import type Reporter from 'types/api/reporter'
+import type { QueryParameters } from './types'
 import { useBuildGetter } from './useBuildGetter'
 
 const DEFAULT_PAGE_SIZE = 10

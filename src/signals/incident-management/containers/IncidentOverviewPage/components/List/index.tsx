@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useContext } from 'react'
+import type { FunctionComponent } from 'react'
+import { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import parseISO from 'date-fns/parseISO'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -20,7 +21,7 @@ import type {
   Priority,
   Definition,
 } from 'signals/incident-management/definitions/types'
-import { IncidentListItem, IncidentList } from 'types/api/incident-list'
+import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
 import { formatAddress } from 'shared/services/format-address'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import IncidentManagementContext from '../../../../context'

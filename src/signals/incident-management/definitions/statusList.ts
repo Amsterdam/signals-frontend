@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Status, StatusCode } from './types'
+import type { Status } from './types'
+import { StatusCode } from './types'
 
 export const GEMELD = {
   key: StatusCode.Gemeld,

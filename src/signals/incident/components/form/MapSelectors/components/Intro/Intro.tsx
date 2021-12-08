@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useMemo } from 'react'
+import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 import Button from 'components/Button'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import type { LatLngTuple, MapOptions } from 'leaflet'
-import { ClickEventHandler } from '../../types'
+import type { ClickEventHandler } from '../../types'
 
 const Wrapper = styled.div`
   position: relative;

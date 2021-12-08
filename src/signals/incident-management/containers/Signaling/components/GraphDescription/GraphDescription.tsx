@@ -1,6 +1,6 @@
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import Paragraph from 'components/Paragraph'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const GRAPH_DESCRIPTION_COLOR = themeColor('tint', 'level3')

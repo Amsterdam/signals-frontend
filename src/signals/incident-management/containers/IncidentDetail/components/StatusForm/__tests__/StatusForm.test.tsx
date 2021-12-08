@@ -14,10 +14,8 @@ import {
   HEROPEND,
   AFWACHTING,
 } from 'signals/incident-management/definitions/statusList'
-import {
-  StatusCode,
-  Status,
-} from 'signals/incident-management/definitions/types'
+import type { Status } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import type { Incident } from 'types/api/incident'
 

@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ReporterIncident } from '../../types'
+import type { ReporterIncident } from '../../types'
 
 import IncidentList from '../IncidentList'
 

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
-import keycloakJS, { KeycloakInstance } from 'keycloak-js'
+import type { KeycloakInstance } from 'keycloak-js'
+import keycloakJS from 'keycloak-js'
 import { mocked } from 'ts-jest/utils'
 import 'jest-localstorage-mock'
 

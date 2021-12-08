@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 import { FieldType } from 'types/api/qa/question'
-import { Questionnaire as QuestionnaireType } from 'types/api/qa/questionnaire'
+import type { Questionnaire as QuestionnaireType } from 'types/api/qa/questionnaire'
 import Questionnaire from '..'
 
 const questionnaire: QuestionnaireType = {

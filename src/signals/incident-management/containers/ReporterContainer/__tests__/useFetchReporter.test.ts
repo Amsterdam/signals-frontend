@@ -17,7 +17,8 @@ import {
   rest,
   server,
 } from '../../../../../../internals/testing/msw-server'
-import { FetchReporterHook, useFetchReporter } from '../useFetchReporter'
+import type { FetchReporterHook } from '../useFetchReporter'
+import { useFetchReporter } from '../useFetchReporter'
 import * as API from '../../../../../../internals/testing/api'
 
 const dispatch = jest.fn()

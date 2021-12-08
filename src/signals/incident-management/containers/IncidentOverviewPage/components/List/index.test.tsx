@@ -16,7 +16,7 @@ import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'
 
-import { IncidentList, IncidentListItem } from 'types/api/incident-list'
+import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import { formatAddress } from 'shared/services/format-address'
 import { INCIDENT_URL } from 'signals/incident-management/routes'

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import useGetContextReporter from 'hooks/api/useGetContextReporter'
 import useGetIncident from 'hooks/api/useGetIncident'
-import { Incident, Incidents } from './types'
+import type { Incident, Incidents } from './types'
 
 export const PAGE_SIZE = 10
 

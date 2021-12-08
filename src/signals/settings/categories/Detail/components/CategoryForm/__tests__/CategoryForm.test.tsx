@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { MouseEvent } from 'react'
+import type { MouseEvent } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
@@ -22,7 +22,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
         self: {
           href: '//',
           public: '//',
-        }
+        },
       },
       id: 123,
       slug: 'Mock slug',

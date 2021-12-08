@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import 'jest-styled-components'
-import { FC } from 'react'
+import type { FC } from 'react'
 import { render, screen } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
 

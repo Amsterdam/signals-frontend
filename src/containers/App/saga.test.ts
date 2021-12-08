@@ -34,7 +34,8 @@ import {
   GET_SOURCES,
   LOGIN,
 } from './constants'
-import { AuthenticateUserAction, loginFailed } from './actions'
+import type { AuthenticateUserAction } from './actions'
+import { loginFailed } from './actions'
 import {
   logoutFailed,
   authorizeUser,
