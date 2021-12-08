@@ -1,16 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { createEvent, render, fireEvent } from '@testing-library/react'
+
+import type { AutoSuggestOption } from 'components/AutoSuggest'
+
 import { withAppContext } from 'test/utils'
 
 import SuggestList from '.'
 
 const onSelectOption = jest.fn()
 
-const options = [
-  { id: 1, value: 'Item 1' },
-  { id: 2, value: 'Item 2' },
-  { id: 3, value: 'Item 3' },
+const data = {
+  address: {
+    postcode: '1234 AB',
+    huisnummer: 1,
+    woonplaats: "A'dam",
+    openbare_ruimte: '',
+  },
+  location: {
+    lat: 0,
+    lng: 0,
+  },
+}
+
+const options: Array<AutoSuggestOption> = [
+  { id: 1, value: 'Item 1', data },
+  { id: 2, value: 'Item 2', data },
+  { id: 3, value: 'Item 3', data },
 ]
 
 describe('src/components/AutoSuggest/components/SuggestList', () => {

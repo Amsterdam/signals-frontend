@@ -301,7 +301,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           {...rest}
         />
       </div>
-      {options?.length && showList && (
+      {options && showList && (
         <AbsoluteList
           activeIndex={activeIndex}
           id="as-listbox"
