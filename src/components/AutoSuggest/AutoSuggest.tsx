@@ -66,15 +66,15 @@ export type AutoSuggestProps = {
  */
 const AutoSuggest: FC<AutoSuggestProps> = ({
   className,
+  disabled = false,
   formatResponse,
+  id = '',
   numOptionsDeterminer,
   onClear,
   onSelect,
   placeholder,
   url,
   value,
-  disabled = false,
-  id = '',
   ...rest
 }) => {
   const { get, data } = useFetch<RevGeo>()
