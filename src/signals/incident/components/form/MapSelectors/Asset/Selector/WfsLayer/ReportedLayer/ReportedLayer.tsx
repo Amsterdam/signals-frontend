@@ -3,7 +3,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
-import './style.css'
+import '../style.css'
 
 import type { LatLng } from 'leaflet'
 import type {
@@ -22,7 +22,7 @@ import {
   DataLayerProps,
   Feature,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import WfsDataContext from './context'
+import WfsDataContext from '../context'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 

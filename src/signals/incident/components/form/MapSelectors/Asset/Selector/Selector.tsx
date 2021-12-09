@@ -37,7 +37,7 @@ import ViewerContainer from './ViewerContainer'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
-import ReportedLayer from './WfsLayer/ReportedLayer'
+import ReportedLayer from './WfsLayer/ReportedLayer/ReportedLayer'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
