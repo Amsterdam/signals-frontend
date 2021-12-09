@@ -1,119 +1,69 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext } from 'react'
 import L from 'leaflet'
-import { useMapInstance } from '@amsterdam/react-maps'
 import '../style.css'
 
-import type { LatLng } from 'leaflet'
-import type {
-  Point,
-  Feature as GeoJSONFeature,
-  FeatureCollection,
-} from 'geojson'
+import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
-
-import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureTolocation } from 'shared/services/map-location'
-import MarkerCluster from 'components/MarkerCluster'
-
-import configuration from 'shared/services/configuration/configuration'
 import {
   DataLayerProps,
   Feature,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import { Marker } from '@amsterdam/arm-core'
+import { getIconUrl } from 'signals/incident/components/form/MapSelectors/utils'
 import WfsDataContext from '../context'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
-export interface ClusterLayer extends L.GeoJSON<Point> {
-  _maxZoom?: number
-}
-
-export const ReportedLayer: FC<DataLayerProps> = ({
-  featureTypes,
-  desktopView,
-  allowClusters,
-}) => {
-  const mapInstance = useMapInstance()
-  const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
+const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, update } = useContext(AssetSelectContext)
-
-  const clusterOptions = useMemo(
-    () => ({
-      disableClusteringAtZoom: allowClusters
-        ? configuration.map.options.maxZoom
-        : configuration.map.options.minZoom,
-      zoomToBoundsOnClick: true,
-    }),
-    []
-  )
 
   const getFeatureType = useCallback(
-    (feature: Feature) => {
+    (feat: any) => {
+      const feature = feat as Feature
       if (feature.properties.meldingstatus === 1) {
         return featureTypes.find(({ typeValue }) => typeValue === 'reported')
       }
     },
-    [featureTypes, allowClusters]
+    [data, featureTypes]
   )
 
-  const options = useMemo(
-    () => ({
-      pointToLayer: (feature: Feature, latlng: LatLng) => {
-        const featureType = getFeatureType(feature)
-        if (!featureType) return
+  const getMarker = useCallback(
+    (feat: any) => {
+      const feature = feat as Feature
+      const [lng, lat] = feature.geometry.coordinates
+      const latLng = { lat, lng }
+      const featureType = getFeatureType(feature)
+      if (!featureType) return
+      const iconSvg = featureType && featureType.icon.iconSvg
 
-        const marker = L.marker(latlng, {
-          icon: L.icon({
-            ...featureType.icon.options,
-            className: `marker-icon ${
-              feature.properties.meldingstatus === 1
-                ? REPORTED_CLASS_MODIFIER
-                : ''
-            }`,
-            iconUrl: `data:image/svg+xml;base64,${btoa(
-              featureType.icon.iconSvg
-            )}`,
-          }),
-          alt: `${featureType.description} - ${
-            feature.properties[featureType.idField]
-          }`,
-        })
+      const iconSize = [20, 20] as [number, number]
 
-        return marker
-      },
-    }),
-    [getFeatureType, selection, update]
-  )
-
-  useEffect(() => {
-    if (layerInstance) {
-      layerInstance.clearLayers()
-      data.features.forEach((feature) => {
-        const pointFeature: GeoJSONFeature<Point, any> = {
-          ...feature,
-          geometry: { ...(feature.geometry as Point) },
-        }
-        const { coordinates } = pointFeature.geometry
-        const latlng = featureTolocation({ coordinates })
-        const marker = options.pointToLayer(pointFeature, latlng)
-
-        /* istanbul ignore else */
-        if (marker) {
-          layerInstance.addLayer(marker)
-        }
+      const icon = L.icon({
+        iconSize,
+        iconUrl: getIconUrl(iconSvg),
+        className: REPORTED_CLASS_MODIFIER,
       })
-    }
-  }, [layerInstance, data, options, mapInstance, desktopView])
 
-  return (
-    <MarkerCluster
-      clusterOptions={clusterOptions}
-      setInstance={setLayerInstance}
-    />
+      return (
+        <Marker
+          key={`${featureType && feature.properties[featureType.idField]}`}
+          latLng={latLng}
+          options={{
+            zIndexOffset: 1000,
+            icon,
+            alt: `${featureType.description} (${
+              feature.properties[featureType.idField]
+            })`,
+          }}
+        />
+      )
+    },
+    [data, featureTypes]
   )
+
+  return <>{data.features.map(getMarker)}</>
 }
 
 export default ReportedLayer
