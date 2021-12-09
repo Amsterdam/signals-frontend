@@ -6,7 +6,7 @@ import { screen, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import IncidentListItem from '../IncidentListItem'
-import { ReporterIncident } from '../../types'
+import type { ReporterIncident } from '../../types'
 
 describe('IncidentListItem', () => {
   const incident: ReporterIncident = {

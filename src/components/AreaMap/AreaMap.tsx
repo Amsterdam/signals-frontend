@@ -1,20 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  FunctionComponent,
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react'
+import type { FunctionComponent } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import L, { LatLng } from 'leaflet'
 import styled from 'styled-components'
 import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 
 import type { Point } from 'geojson'
 import type { MapOptions } from 'leaflet'
-import { Coordinates } from 'types/incident'
+import type { Coordinates } from 'types/incident'
 
 import Map from 'components/Map'
 import MarkerCluster from 'components/MarkerCluster'
@@ -27,8 +21,8 @@ import {
   currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
 import MapCloseButton from 'components/MapCloseButton'
-import { Geography, Property } from 'types/api/geography'
-import { Feature } from './types'
+import type { Geography, Property } from 'types/api/geography'
+import type { Feature } from './types'
 
 export const DEFAULT_ZOOM = 14
 const MAX_ZOOM = 15

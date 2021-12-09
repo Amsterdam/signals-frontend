@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, SyntheticEvent } from 'react'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
-import { StatusCode } from 'signals/incident-management/definitions/types'
+import type { StatusCode } from 'signals/incident-management/definitions/types'
 
 import { StyledH4, StyledDefaultText, StyledTitle, StyledLink } from './styled'
 

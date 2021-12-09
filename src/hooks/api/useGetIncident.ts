@@ -1,5 +1,5 @@
 import configuration from 'shared/services/configuration/configuration'
-import { Incident } from 'types/api/incident'
+import type { Incident } from 'types/api/incident'
 import { useBuildGetter } from './useBuildGetter'
 
 const useGetIncident = () =>

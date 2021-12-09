@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import FileInputComponent from 'components/FileInput'
-import { FunctionComponent, useCallback, useState } from 'react'
+import type { FunctionComponent } from 'react'
+import { useCallback, useState } from 'react'
 import { useController } from 'react-hook-form'
 import fileSize from 'signals/incident/services/file-size'
-import { FieldProps } from '../../types'
+import type { FieldProps } from '../../types'
 
 const MIN = 30 * 2 ** 10 // 30 KiB
 const MAX = 8 * 2 ** 20 // 8 MiB

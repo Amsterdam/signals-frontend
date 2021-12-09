@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C)  - 2021 Gemeente Amsterdam
 import * as L from 'leaflet'
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import type { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { createLeafletComponent } from '@amsterdam/react-maps'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import './style.css'

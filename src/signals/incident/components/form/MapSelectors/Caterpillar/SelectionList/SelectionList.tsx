@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { FunctionComponent, useMemo } from 'react'
+import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
 
@@ -9,7 +10,7 @@ import Button from 'components/Button'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import IconList, { IconListItem } from '../../components/IconList'
 import type { Item } from '../types'
-import { FeatureType, Icon } from '../types'
+import type { FeatureType, Icon } from '../types'
 import { getIconUrl } from '../../utils'
 
 const ItemTextWrapper = styled.div<{ reported?: boolean }>`

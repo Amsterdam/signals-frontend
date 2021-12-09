@@ -16,7 +16,7 @@ import WfsDataContext, { NO_DATA } from '../context'
 import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../../hooks/useLayerVisible'
 import { AssetSelectProvider } from '../../../context'
-import { DataLayerProps } from '../../../../types'
+import type { DataLayerProps } from '../../../../types'
 
 const fetchMock = fetch as FetchMock
 

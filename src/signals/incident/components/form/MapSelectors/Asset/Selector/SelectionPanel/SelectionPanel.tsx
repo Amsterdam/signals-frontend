@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  Fragment,
-  useCallback,
-  useMemo,
-  KeyboardEvent,
-  ChangeEvent,
-} from 'react'
-import type { FunctionComponent } from 'react'
+import { Fragment, useCallback, useMemo } from 'react'
+import type { FunctionComponent, KeyboardEvent, ChangeEvent } from 'react'
 import styled from 'styled-components'
 
 import { MapPanelContent } from '@amsterdam/arm-core'

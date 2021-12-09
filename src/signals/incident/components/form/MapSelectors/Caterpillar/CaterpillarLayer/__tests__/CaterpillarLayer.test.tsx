@@ -11,7 +11,7 @@ import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import {
   contextValue,
   withAssetSelectContext,

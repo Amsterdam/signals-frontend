@@ -1,6 +1,7 @@
 import { Enlarge, TrashBin } from '@amsterdam/asc-assets'
 import { ErrorWrapper } from 'components/ErrorMessage'
-import { useCallback, useState, FunctionComponent, useEffect } from 'react'
+import type { FunctionComponent } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import Label from 'components/Label'
 import Paragraph from 'components/Paragraph'
 import FileInputStyle, {

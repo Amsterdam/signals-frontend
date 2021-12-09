@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import useFetch from 'hooks/useFetch'
-import { GetHookResponse } from './types'
+import type { GetHookResponse } from './types'
 
 export const useBuildGetter = <T, U extends Array<unknown> = Array<any>>(
   paramBuilder: (...args: U) => [string] | [string, Record<string, any>]

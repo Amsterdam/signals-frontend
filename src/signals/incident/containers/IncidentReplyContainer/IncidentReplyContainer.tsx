@@ -10,7 +10,8 @@ import Paragraph from 'components/Paragraph'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
-import useFetch, { FetchError } from 'hooks/useFetch'
+import type { FetchError } from 'hooks/useFetch'
+import useFetch from 'hooks/useFetch'
 import useGetQuestionnaire from 'hooks/api/qa/useGetQuestionnaire'
 import useGetSession from 'hooks/api/qa/useGetSession'
 import useGetPublicIncident from 'hooks/api/useGetPublicIncident'
@@ -23,7 +24,7 @@ import QuestionnaireComponent from './components/Questionnaire'
 
 import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import * as constants from './constants'
-import { FormAnswer } from './types'
+import type { FormAnswer } from './types'
 import { formatDate } from './utils'
 
 const IncidentReplyContainer = () => {

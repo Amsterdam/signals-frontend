@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
-import { Geography } from 'types/api/geography'
+import type { Geography } from 'types/api/geography'
 
 import AreaMap from '..'
-import { AreaMapProps } from '../AreaMap'
-import { Feature } from '../types'
+import type { AreaMapProps } from '../AreaMap'
+import type { Feature } from '../types'
 
 const features: Feature[] = [
   {

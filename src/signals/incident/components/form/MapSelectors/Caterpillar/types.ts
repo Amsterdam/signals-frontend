@@ -1,5 +1,5 @@
 import type { LatLngExpression } from 'leaflet'
-import { ClickEventHandler, BaseItem } from '../types'
+import type { ClickEventHandler, BaseItem } from '../types'
 
 export interface FeatureType {
   label: string
