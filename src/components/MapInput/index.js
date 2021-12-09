@@ -99,13 +99,13 @@ const MapInput = ({
   }, [map])
 
   const clickFunc = useCallback(
-    async (event) => {
+    async ({ latlng }) => {
       hasInitalViewRef.current = false
       dispatch(setLoadingAction(true))
-      dispatch(setLocationAction(event.latlng))
+      dispatch(setLocationAction(latlng))
 
-      const response = await reverseGeocoderService(event.latlng)
-      const onChangePayload = { geometrie: locationTofeature(event.latlng) }
+      const response = await reverseGeocoderService(latlng)
+      const onChangePayload = { coordinates: latlng }
       const addressText = response?.value || ''
       const address = response?.data?.address || ''
 
@@ -152,7 +152,7 @@ const MapInput = ({
    */
   useEffect(() => {
     // first component render has an empty object for `value` so we need to check for props
-    if (Object.keys(value).length === 0) return
+    if (value && Object.keys(value).length === 0) return
 
     dispatch(setValuesAction(value))
   }, [value, dispatch])

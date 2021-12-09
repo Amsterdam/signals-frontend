@@ -2,13 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
-  mapLocation,
   featureTolocation,
   locationTofeature,
   wktPointToLocation,
-  formatMapLocation,
   serviceResultToAddress,
   formatPDOKResponse,
+  formatMapLocation,
   pointWithinBounds,
 } from '.'
 
@@ -21,56 +20,22 @@ const testAddress = {
   woonplaats: 'Amsterdam',
 }
 
-const testLocation = { lng: 4, lat: 52 }
+const coordinates = { lng: 4, lat: 52 }
 
 const testFeature = {
   type: 'Point',
-  coordinates: [4, 52],
+  coordinates: [coordinates.lat, coordinates.lng],
 }
 
 describe('locationToFeature', () => {
   it('should convert', () => {
-    expect(locationTofeature(testLocation)).toEqual(testFeature)
+    expect(locationTofeature(coordinates)).toEqual(testFeature)
   })
 })
 
 describe('featureTolocation', () => {
   it('should convert', () => {
-    expect(featureTolocation(testFeature)).toEqual(testLocation)
-  })
-})
-
-describe('mapLocation', () => {
-  it('should map geometry', () => {
-    expect(
-      mapLocation({
-        geometrie: {
-          type: 'Point',
-          coordinates: [4, 52],
-        },
-        address: {
-          openbare_ruimte: 'Keizersgracht',
-          huisnummer: '666',
-          huisletter: 'D',
-          huisnummer_toevoeging: '3',
-          postcode: '1016EJ',
-          woonplaats: 'Amsterdam',
-        },
-      })
-    ).toEqual({
-      geometrie: {
-        type: 'Point',
-        coordinates: [4, 52],
-      },
-      address: {
-        openbare_ruimte: 'Keizersgracht',
-        huisnummer: '666',
-        huisletter: 'D',
-        huisnummer_toevoeging: '3',
-        postcode: '1016EJ',
-        woonplaats: 'Amsterdam',
-      },
-    })
+    expect(featureTolocation(testFeature)).toEqual(coordinates)
   })
 })
 
@@ -91,11 +56,6 @@ describe('wktPointToLocation', () => {
 
 describe('formatMapLocation', () => {
   it('should convert the sia location to map format location ', () => {
-    const loc = {
-      geometrie: testFeature,
-      address: testAddress,
-    }
-
     const result = {
       location: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666D-3, 1016EJ Amsterdam',
@@ -109,7 +69,7 @@ describe('formatMapLocation', () => {
       },
     }
 
-    expect(formatMapLocation(loc)).toEqual(result)
+    expect(formatMapLocation(coordinates, testAddress)).toEqual(result)
   })
 
   it('should disregard empty values', () => {

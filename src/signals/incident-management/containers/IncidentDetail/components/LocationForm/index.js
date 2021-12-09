@@ -7,7 +7,6 @@ import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
 import MapContext from 'containers/MapContext'
 
-import { mapLocation } from 'shared/services/map-location'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
 import LocationInput from './components/LocationInput'
@@ -34,10 +33,8 @@ const LocationForm = () => {
   )
 
   const onQueryResult = useCallback(
-    (value) => {
-      const newLocation = mapLocation(value)
-
-      form.controls.location.setValue(newLocation)
+    (location) => {
+      form.controls.location.setValue(location)
     },
     [form.controls.location]
   )

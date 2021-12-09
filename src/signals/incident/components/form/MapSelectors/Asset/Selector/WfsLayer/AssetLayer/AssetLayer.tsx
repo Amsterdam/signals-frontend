@@ -12,7 +12,11 @@ import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
 
-import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet'
+import type {
+  LatLng,
+  MarkerCluster as LeafletMarkerCluster,
+  LatLngLiteral,
+} from 'leaflet'
 import type {
   Point,
   Feature as GeoJSONFeature,
@@ -140,7 +144,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const options = useMemo(
     () => ({
-      pointToLayer: (feature: Feature, latlng: LatLng) => {
+      pointToLayer: (feature: Feature, latlng: LatLngLiteral) => {
         const featureType = getFeatureType(feature)
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
         const selected =
@@ -203,8 +207,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const { coordinates } = pointFeature.geometry
-        const latlng = featureTolocation({ coordinates })
+        const latlng = featureTolocation(pointFeature.geometry)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */

@@ -14,14 +14,17 @@ export const MapInput = (props) => {
 
   // Can't use useCallback here, would break the rules of hooks
   const render = ({ handler }) => {
-    const value = formatMapLocation(handler().value)
-    const { lat, lng } = value?.location || {}
+    const handlerValue = handler().value
+    const value = formatMapLocation(handlerValue)
     const defaultCenter =
       configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center
+    const center = value?.coordinates
+      ? [value.coordinates.lng, value.coordinates.lat]
+      : defaultCenter
     const mapOptions = {
       ...MAP_OPTIONS,
       ...(configuration.map.optionsBackOffice || {}),
-      center: lat && lng ? [lat, lng] : [...defaultCenter],
+      center,
     }
 
     const onLocationChange = (location) => {
