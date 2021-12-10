@@ -9,7 +9,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import {
   contextValue,
   withAssetSelectContext,

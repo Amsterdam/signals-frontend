@@ -132,7 +132,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),
-    [iconCreateFunction]
+    [iconCreateFunction, allowClusters]
   )
 
   const getFeatureType = useCallback(
@@ -142,7 +142,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           feature.properties[typeField] === typeValue
       )
     },
-    [featureTypes, allowClusters]
+    [featureTypes]
   )
 
   const options = useMemo(

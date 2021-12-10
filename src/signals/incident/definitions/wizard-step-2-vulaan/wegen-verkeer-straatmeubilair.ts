@@ -3,7 +3,7 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
-import { IconOptions } from 'leaflet'
+import type { IconOptions } from 'leaflet'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import * as verlichtingIcons from './verlichting-icons'
 

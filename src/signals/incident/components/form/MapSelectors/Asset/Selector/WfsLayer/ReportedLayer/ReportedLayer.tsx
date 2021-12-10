@@ -6,7 +6,7 @@ import '../style.css'
 
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
-import {
+import type {
   DataLayerProps,
   Feature,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
@@ -26,7 +26,7 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         return featureTypes.find(({ typeValue }) => typeValue === 'reported')
       }
     },
-    [data, featureTypes]
+    [featureTypes]
   )
 
   const getMarker = useCallback(
@@ -60,7 +60,7 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         />
       )
     },
-    [data, featureTypes]
+    [data, featureTypes, getFeatureType]
   )
 
   return <>{data.features.map(getMarker)}</>

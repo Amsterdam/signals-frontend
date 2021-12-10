@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
-import { FormFieldProps } from '../../../FormField/FormField'
+import type { FormFieldProps } from '../../../FormField/FormField'
 import AssetSelect from '../../Asset'
 import Layer from '../StreetlightLayer'
 import type { Meta } from '../../Asset/types'
