@@ -45,11 +45,20 @@ describe('wktPointToLocation', () => {
       lat: 52.36150435,
       lng: 4.90225668,
     })
+
+    expect(wktPointToLocation('POINT(4.90225668,52.36150435)')).toEqual({
+      lat: 52.36150435,
+      lng: 4.90225668,
+    })
   })
 
   it('should throw an error', () => {
     expect(() => {
       wktPointToLocation('POLYGON(4.90225668 52.36150435)')
+    }).toThrow()
+
+    expect(() => {
+      wktPointToLocation('POLYGON(4.90225668)')
     }).toThrow()
   })
 })
@@ -57,7 +66,7 @@ describe('wktPointToLocation', () => {
 describe('formatMapLocation', () => {
   it('should convert the sia location to map format location ', () => {
     const result = {
-      location: { lat: 52, lng: 4 },
+      coordinates: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666D-3, 1016EJ Amsterdam',
       address: {
         openbare_ruimte: 'Keizersgracht',
@@ -69,11 +78,22 @@ describe('formatMapLocation', () => {
       },
     }
 
-    expect(formatMapLocation(coordinates, testAddress)).toEqual(result)
+    const location = {
+      stadsdeel: 'west',
+      buurt_code: null,
+      extra_properties: null,
+      geometrie: { type: 'Point', coordinates: [52, 4] },
+      address: testAddress,
+    }
+
+    expect(formatMapLocation(location)).toEqual(result)
   })
 
   it('should disregard empty values', () => {
     const location = {
+      stadsdeel: 'west',
+      buurt_code: null,
+      extra_properties: null,
       geometrie: testFeature,
       address: {
         openbare_ruimte: 'Keizersgracht',
@@ -86,7 +106,7 @@ describe('formatMapLocation', () => {
     }
 
     const result = {
-      location: { lat: 52, lng: 4 },
+      coordinates: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666, Amsterdam',
       address: location.address,
     }

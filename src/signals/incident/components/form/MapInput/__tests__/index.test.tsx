@@ -3,8 +3,6 @@
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import type { Coordinates } from 'types/incident'
-
 import MapInput from '..'
 
 describe('Form component <MapInput />', () => {
@@ -43,10 +41,7 @@ describe('Form component <MapInput />', () => {
 
     it('should handle form value', async () => {
       const value = {
-        geometrie: {
-          type: 'Point',
-          coordinates: [52.3568, 4.8643] as Coordinates,
-        },
+        coordinates: { lat: 2.3568, lng: 4.8643 },
         address: {
           openbare_ruimte: 'Straat',
           huisnummer: '1',

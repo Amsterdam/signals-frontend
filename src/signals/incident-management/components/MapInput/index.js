@@ -18,9 +18,11 @@ export const MapInput = (props) => {
     const value = formatMapLocation(handlerValue)
     const defaultCenter =
       configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center
+
     const center = value?.coordinates
-      ? [value.coordinates.lng, value.coordinates.lat]
+      ? [value.coordinates.lat, value.coordinates.lng]
       : defaultCenter
+
     const mapOptions = {
       ...MAP_OPTIONS,
       ...(configuration.map.optionsBackOffice || {}),

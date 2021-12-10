@@ -33,8 +33,8 @@ const LocationForm = () => {
   )
 
   const onQueryResult = useCallback(
-    (location) => {
-      form.controls.location.setValue(location)
+    (queryLocation) => {
+      form.controls.location.setValue(queryLocation)
     },
     [form.controls.location]
   )

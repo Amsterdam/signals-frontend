@@ -10,21 +10,27 @@ import { formatAddress } from 'shared/services/format-address'
 
 export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
   type: 'Point',
-  coordinates: [lng, lat],
+  coordinates: [lat, lng].sort().reverse(),
 })
 
 export const featureTolocation = ({
   coordinates,
-}: Geometrie): LatLngLiteral => ({ lat: coordinates[0], lng: coordinates[1] })
+}: Geometrie): LatLngLiteral => {
+  const [lat, lng] = coordinates.sort().reverse()
+  return { lat, lng }
+}
 
 export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
-  if (!wktPoint.includes('POINT')) {
+  const pointMatch = wktPoint.match(/\d+\.\d+/gi)
+
+  if (!wktPoint.includes('POINT') || !pointMatch) {
     throw new TypeError('Provided WKT geometry is not a point.')
   }
 
-  const coordinate = wktPoint.split('(')[1].split(')')[0]
-  const lat = Number.parseFloat(coordinate.split(' ')[1])
-  const lng = Number.parseFloat(coordinate.split(' ')[0])
+  const [lat, lng] = pointMatch
+    .sort()
+    .reverse()
+    .map((str) => Number.parseFloat(str))
 
   return {
     lat,
@@ -113,10 +119,10 @@ export const pointWithinBounds = (
   coordinates: Coordinates,
   bounds = configuration.map.options.maxBounds
 ) => {
-  const latWithinBounds =
-    coordinates[0] > bounds[0][0] && coordinates[0] < bounds[1][0]
-  const lngWithinBounds =
-    coordinates[1] > bounds[0][1] && coordinates[1] < bounds[1][1]
+  const [lat, lng] = coordinates.sort().reverse()
+
+  const latWithinBounds = lat > bounds[0][0] && lat < bounds[1][0]
+  const lngWithinBounds = lng > bounds[0][1] && lng < bounds[1][1]
 
   return latWithinBounds && lngWithinBounds
 }
