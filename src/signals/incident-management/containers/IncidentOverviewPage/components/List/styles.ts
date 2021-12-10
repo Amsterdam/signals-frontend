@@ -93,7 +93,7 @@ export const TdStyle = styled.td`
 `
 
 export const StyledIcon = styled(Icon).attrs({
-  size: 14,
+  size: 16,
   role: 'img',
 })`
   & svg {
