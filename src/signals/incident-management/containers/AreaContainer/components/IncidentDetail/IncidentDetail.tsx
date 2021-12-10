@@ -59,7 +59,7 @@ const Status = styled.div<{ isEnded: boolean }>`
     themeColor('support', isEnded ? 'valid' : 'invalid')};
 `
 
-const StyledHeading = styled.p`
+const StyledParagraph = styled.p`
   font-weight: 700;
 `
 
@@ -97,9 +97,9 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         to={`/manage/incident/${incident.id}`}
         target="_blank"
       >
-        <StyledHeading data-testid="incident-heading">
+        <StyledParagraph data-testid="incident-heading">
           {`${getIncidentTitlePrefix(incident)}melding ${incident.id}`}
-        </StyledHeading>
+        </StyledParagraph>
       </StyledLink>
 
       <Heading as="h2" styleAs="h4" data-testid="text">
