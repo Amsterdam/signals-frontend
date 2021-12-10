@@ -50,5 +50,5 @@ export interface DataLayerProps {
   reportedLayer?: boolean
 }
 
-export type FeatureProps = Record<string, string | undefined>
+export type FeatureProps = Record<string, string | number | undefined>
 export type Feature = GeoJSONFeature<Point, FeatureProps>

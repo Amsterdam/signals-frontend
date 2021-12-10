@@ -158,8 +158,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               id === feature.properties[featureType.idField]
           )
 
-        // const reported = feature.properties.meldingstatus === 1
-
         const iconUrl = `data:image/svg+xml;base64,${btoa(
           /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
           selected
@@ -191,6 +189,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               id: feature.properties[idField]!,
               type: typeValue,
               description,
+              isReported: Boolean(feature.properties.meldingstatus === 1),
             }
 
             const updateSelection = selected
