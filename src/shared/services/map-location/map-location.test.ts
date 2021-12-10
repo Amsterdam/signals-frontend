@@ -58,7 +58,7 @@ describe('wktPointToLocation', () => {
     }).toThrow()
 
     expect(() => {
-      wktPointToLocation('POLYGON(4.90225668)')
+      wktPointToLocation('POINT(4.90225668)')
     }).toThrow()
   })
 })
