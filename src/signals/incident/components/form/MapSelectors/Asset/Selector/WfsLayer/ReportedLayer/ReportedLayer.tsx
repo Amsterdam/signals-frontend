@@ -53,9 +53,9 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
           options={{
             zIndexOffset: 1000,
             icon,
-            alt: `${featureType.description} (${
+            alt: `${featureType.description} - ${
               feature.properties[featureType.idField]
-            })`,
+            }`,
           }}
         />
       )

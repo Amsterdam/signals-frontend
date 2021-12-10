@@ -36,8 +36,7 @@ describe('ReportedLayer', () => {
     )
 
   it('should render the reported layer in the map', () => {
-    const { container } = render(withMapStreetlights())
-    expect(container.firstChild).toMatchSnapshot()
+    render(withMapStreetlights())
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
     expect(screen.getByAltText('Is gemeld - 031346')).toBeInTheDocument()
   })

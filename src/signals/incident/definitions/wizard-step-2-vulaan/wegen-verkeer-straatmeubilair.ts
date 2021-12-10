@@ -247,7 +247,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.asset_select,
+    render: FIELD_TYPE_MAP.streetlight_select,
   },
   extra_straatverlichting_niet_op_kaart: {
     meta: {
