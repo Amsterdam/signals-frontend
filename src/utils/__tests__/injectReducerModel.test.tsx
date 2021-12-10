@@ -1,5 +1,5 @@
-import { InjectedStore } from 'types'
-import { Action, Dispatch } from 'redux'
+import type { InjectedStore } from 'types'
+import type { Action, Dispatch } from 'redux'
 import { getInjectors } from 'utils/reducerInjectors'
 
 import injectReducerModel from '../injectReducerModel'

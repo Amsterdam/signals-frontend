@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import { useForm } from 'react-hook-form'
 import { withAppContext } from 'test/utils'
 

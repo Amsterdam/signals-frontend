@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-import { IconOptions } from 'leaflet'
+import type { IconOptions } from 'leaflet'
 import * as caterpillarIcons from './caterpillar-icons'
 
 export const ICON_SIZE = 40

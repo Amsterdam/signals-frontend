@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Column, Row, themeColor } from '@amsterdam/asc-ui'
-import { FunctionComponent, MouseEventHandler } from 'react'
+import type { FunctionComponent, MouseEventHandler } from 'react'
 import styled, { css } from 'styled-components'
 
 import Button from 'components/Button'

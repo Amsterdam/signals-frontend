@@ -2,9 +2,9 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 import type { IconOptions, LatLngTuple, LatLngLiteral } from 'leaflet'
-import { Feature as GeoJSONFeature, Point } from 'geojson'
-import { ClickEventHandler } from '../types'
-import { Icon } from '../Caterpillar/types'
+import type { Feature as GeoJSONFeature, Point } from 'geojson'
+import type { ClickEventHandler } from '../types'
+import type { Icon } from '../Caterpillar/types'
 
 export interface Item {
   id: string | number

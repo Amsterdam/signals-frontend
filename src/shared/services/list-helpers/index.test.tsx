@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import listIcons, {
-  Icon,
-} from 'signals/incident-management/definitions/listIcons'
+import type { Icon } from 'signals/incident-management/definitions/listIcons'
+import listIcons from 'signals/incident-management/definitions/listIcons'
 import { getListValueByKey, getListIconByKey } from './list-helpers'
 
 describe('The list helper service', () => {

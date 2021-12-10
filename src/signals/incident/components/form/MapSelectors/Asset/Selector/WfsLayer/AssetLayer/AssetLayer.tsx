@@ -28,7 +28,7 @@ import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
 import WfsDataContext from '../context'
-import { DataLayerProps, Feature } from '../../../../types'
+import type { DataLayerProps, Feature } from '../../../../types'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 

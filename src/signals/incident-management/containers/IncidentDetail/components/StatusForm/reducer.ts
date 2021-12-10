@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { AlertLevel } from '@amsterdam/asc-ui'
+import type { AlertLevel } from '@amsterdam/asc-ui'
 import statusList, {
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
-import { Status } from 'signals/incident-management/definitions/types'
+import type { Status } from 'signals/incident-management/definitions/types'
 
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 
-import { IncidentChild } from '../../types'
-import { StatusFormActions } from './actions'
+import type { IncidentChild } from '../../types'
+import type { StatusFormActions } from './actions'
 import {
   determineWarnings,
   emailSentWhenStatusChangedTo,

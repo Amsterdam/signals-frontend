@@ -17,6 +17,7 @@ import {
 import type { EventChannel } from '@redux-saga/core'
 import { logout, login } from '../../shared/services/auth/auth'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
+import type { AuthenticateUserAction } from './actions'
 import {
   authorizeUser,
   getSourcesFailed,
@@ -27,7 +28,6 @@ import {
   uploadProgress,
   uploadSuccess,
   uploadFailure,
-  AuthenticateUserAction,
 } from './actions'
 
 import type { User, DataResult, ApiError, UploadFile, Source } from './types'

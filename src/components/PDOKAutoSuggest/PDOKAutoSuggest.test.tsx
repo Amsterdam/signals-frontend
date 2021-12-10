@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
+import { render, fireEvent, act, screen } from '@testing-library/react'
+import fetch from 'jest-fetch-mock'
 
+import { withAppContext } from 'test/utils'
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import { INPUT_DELAY } from 'components/AutoSuggest'
-import {
-  formatPDOKResponse,
-  pdokResponseFieldList,
-} from 'shared/services/map-location'
-import PDOKAutoSuggest, { formatResponseFunc } from '..'
+import { pdokResponseFieldList } from 'shared/services/map-location'
+import PDOKAutoSuggest from '.'
 
 const mockResponse = JSON.stringify(JSONResponse)
 
@@ -18,24 +16,18 @@ const municipalityQs = 'fq=gemeentenaam:'
 const fieldListQs = 'fl='
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
-  const result = render(
-    withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />)
-  )
-  const input = result.container.querySelector('input[aria-autocomplete]')
+  render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />))
+  const input = screen.getByRole('textbox') as HTMLInputElement
 
   input.focus()
 
-  act(() => {
-    fireEvent.change(input, { target: { value } })
-  })
+  fireEvent.change(input, { target: { value } })
 
   act(() => {
     jest.advanceTimersByTime(INPUT_DELAY)
   })
 
-  await result.findByTestId('autoSuggest')
-
-  return result
+  await screen.findByTestId('autoSuggest')
 }
 
 describe('components/PDOKAutoSuggest', () => {
@@ -61,10 +53,8 @@ describe('components/PDOKAutoSuggest', () => {
 
   describe('fetch', () => {
     it('should not be called on focus', () => {
-      const result = render(
-        withAppContext(<PDOKAutoSuggest onSelect={onSelect} />)
-      )
-      const input = result.container.querySelector('input[aria-autocomplete]')
+      render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} />))
+      const input = screen.getByRole('combobox')
 
       input.focus()
 
@@ -120,40 +110,6 @@ describe('components/PDOKAutoSuggest', () => {
         ),
         expect.objectContaining({ method: 'GET' })
       )
-    })
-  })
-
-  describe('onSelect', () => {
-    it('should be called with default format function', async () => {
-      const { findByTestId } = await renderAndSearch()
-      const suggestList = await findByTestId('suggestList')
-      const firstElement = suggestList.querySelector('li:nth-of-type(1)')
-
-      expect(onSelect).not.toHaveBeenCalled()
-
-      act(() => {
-        fireEvent.click(firstElement)
-      })
-
-      expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(formatResponseFunc(JSONResponse)[0])
-    })
-
-    it('should be called with custom format function', async () => {
-      const { findByTestId } = await renderAndSearch('Dam', {
-        formatResponse: formatPDOKResponse,
-      })
-      const suggestList = await findByTestId('suggestList')
-      const firstElement = suggestList.querySelector('li:nth-of-type(1)')
-
-      expect(onSelect).not.toHaveBeenCalled()
-
-      act(() => {
-        fireEvent.click(firstElement)
-      })
-
-      expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(formatPDOKResponse(JSONResponse)[0])
     })
   })
 

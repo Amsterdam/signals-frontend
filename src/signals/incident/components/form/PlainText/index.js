@@ -27,6 +27,9 @@ const getStyle = (type) => {
         border: 2px solid ${themeColor('secondary')};
         padding: ${themeSpacing(2, 5)};
         font-weight: 700;
+        p {
+          color: inherit;
+        }
       `
     case 'info':
       return css`
@@ -54,6 +57,9 @@ const getStyle = (type) => {
         background-color: ${themeColor('secondary')};
         color: ${themeColor('tint', 'level1')};
         padding: ${themeSpacing(4)};
+        p {
+          color: inherit;
+        }
       `
     case 'message':
       return css`
@@ -65,7 +71,8 @@ const getStyle = (type) => {
     default:
       return css`
         color: ${themeColor('tint', 'level5')};
-        a {
+        a,
+        p {
           color: inherit;
         }
       `

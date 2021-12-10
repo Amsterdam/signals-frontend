@@ -11,8 +11,8 @@ import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-import { Theme } from 'types/theme'
-import { Variant } from 'containers/Notification/types'
+import type { Theme } from 'types/theme'
+import type { Variant } from 'containers/Notification/types'
 
 export const Wrapper = styled.div<{
   top?: number

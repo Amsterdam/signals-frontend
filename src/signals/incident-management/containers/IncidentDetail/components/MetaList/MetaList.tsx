@@ -41,7 +41,7 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import type { Result, User } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
-import { ReactComponent as IconEdit } from '../../../../../../shared/images/icon-edit.svg'
+import IconEdit from '../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../context'
 
 const StyledMetaList = styled.dl`

@@ -3,15 +3,37 @@
 import { Fragment } from 'react'
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import fetch from 'jest-fetch-mock'
 
-import AutoSuggest, { INPUT_DELAY } from '..'
+import type { RevGeo } from 'types/pdok/revgeo'
+
 import JSONResponse from './mockResponse.json'
+import AutoSuggest, { INPUT_DELAY } from '.'
+
+import type { AutoSuggestProps } from '.'
 
 const mockResponse = JSON.stringify(JSONResponse)
 
-const numOptionsDeterminer = (data) => data?.response?.docs?.length || 0
-const formatResponse = ({ response }) =>
-  response.docs.map(({ id, weergavenaam }) => ({ id, value: weergavenaam }))
+const numOptionsDeterminer: AutoSuggestProps['numOptionsDeterminer'] = (data) =>
+  data?.response?.docs?.length || 0
+const formatResponse: AutoSuggestProps['formatResponse'] = (requestData) =>
+  requestData?.response?.docs.map((result) => {
+    const { id, weergavenaam } = result
+    return {
+      id,
+      value: weergavenaam,
+      data: {
+        location: { lat: 0, lng: 0 },
+        address: {
+          openbare_ruimte: '',
+          huisnummer: '',
+          postcode: '',
+          woonplaats: '',
+        },
+      },
+    }
+  }) || []
+
 const onSelect = jest.fn()
 const url = '//some-service.com?q='
 
@@ -39,11 +61,11 @@ describe('src/components/AutoSuggest', () => {
   })
 
   it('should render a combobox with input field', () => {
-    const { container } = render(withAppContext(<AutoSuggest {...props} />))
+    render(withAppContext(<AutoSuggest {...props} />))
 
-    expect(container.querySelector('[role=combobox]')).toBeInTheDocument()
+    expect(screen.getByRole('combobox')).toBeInTheDocument()
 
-    const input = container.querySelector('input')
+    const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
     expect(input.getAttribute('aria-autocomplete')).toEqual('list')
     expect(input.getAttribute('id')).toBe('')
@@ -52,30 +74,24 @@ describe('src/components/AutoSuggest', () => {
 
   it('should set an id on the input field', () => {
     const id = 'id'
-    const { container } = render(
-      withAppContext(<AutoSuggest {...{ ...props, id }} />)
-    )
+    render(withAppContext(<AutoSuggest {...{ ...props, id }} />))
 
-    const input = container.querySelector('input')
+    const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
     expect(input.getAttribute('id')).toEqual(id)
   })
 
   it('should disable the input field', () => {
-    const { container } = render(
-      withAppContext(<AutoSuggest {...{ ...props, disabled: true }} />)
-    )
+    render(withAppContext(<AutoSuggest {...{ ...props, disabled: true }} />))
 
-    const input = container.querySelector('input')
+    const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
     expect(input.hasAttribute('disabled')).toBe(true)
   })
 
   it('should request external service', async () => {
-    const { container, findByTestId } = render(
-      withAppContext(<AutoSuggest {...props} />)
-    )
-    const input = container.querySelector('input')
+    render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox')
 
     input.focus()
 
@@ -87,7 +103,7 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
@@ -99,7 +115,7 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
@@ -107,7 +123,7 @@ describe('src/components/AutoSuggest', () => {
       fireEvent.change(input, { target: { value: 'Ams' } })
     })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
@@ -115,19 +131,17 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything())
   })
 
   it('should show a value without sending a request to the external service', async () => {
-    const { container, findByTestId, rerender } = render(
-      withAppContext(<AutoSuggest {...props} />)
-    )
-    const input = container.querySelector('input')
+    const { rerender } = render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox') as HTMLInputElement
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     input.focus()
 
@@ -139,7 +153,7 @@ describe('src/components/AutoSuggest', () => {
 
     rerender(withAppContext(<AutoSuggest {...props} value={value} />))
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     expect(input.value).toEqual(value)
 
@@ -147,20 +161,16 @@ describe('src/components/AutoSuggest', () => {
   })
 
   it('should render a list of suggestions', async () => {
-    const { container, queryByTestId, findByTestId } = render(
-      withAppContext(<AutoSuggest {...props} />)
-    )
-    const input = container.querySelector('input')
+    render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox')
 
     input.focus()
 
-    expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Amsterdam' } })
-    })
+    fireEvent.change(input, { target: { value: 'Amsterdam' } })
 
-    const suggestList = await findByTestId('suggestList')
+    const suggestList = await screen.findByTestId('suggestList')
 
     expect(suggestList).toBeInTheDocument()
     expect(suggestList.getAttribute('role')).toEqual('listbox')
@@ -168,32 +178,24 @@ describe('src/components/AutoSuggest', () => {
 
   describe('keyboard navigation', () => {
     it('ArrowUp key', async () => {
-      const { container, findByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox')
 
       input.focus()
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
 
       expect(document.activeElement).toEqual(input)
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Diemen' } })
-      })
+      fireEvent.change(input, { target: { value: 'Diemen' } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
       const listItems = [...suggestList.querySelectorAll('li')].reverse()
 
-      formatResponse(JSONResponse)
+      formatResponse(JSONResponse as unknown as RevGeo)
         .reverse()
         .forEach((item, index) => {
-          act(() => {
-            fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
-          })
+          fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
 
           const activeElement = listItems[index]
 
@@ -203,46 +205,38 @@ describe('src/components/AutoSuggest', () => {
     })
 
     it('ArrowDown key', async () => {
-      const { container, findByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox') as HTMLInputElement
 
       input.focus()
 
       expect(input.getAttribute('aria-activedescendant')).toBeNull()
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       expect(document.activeElement).toEqual(input)
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Weesp' } })
-      })
+      fireEvent.change(input, { target: { value: 'Weesp' } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
 
-      formatResponse(JSONResponse).forEach((item, index) => {
-        act(() => {
+      formatResponse(JSONResponse as unknown as RevGeo).forEach(
+        (item, index) => {
           fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-        })
 
-        const activeElement = suggestList.querySelector(
-          `li:nth-of-type(${index + 1}`
-        )
+          const activeElement = suggestList.querySelector(
+            `li:nth-of-type(${index + 1}`
+          )
 
-        expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
-        expect(document.activeElement).toEqual(activeElement)
-      })
+          expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
+          expect(document.activeElement).toEqual(activeElement)
+        }
+      )
     })
 
     it('ArrowUp and ArrowDown cycle', async () => {
-      const { container, findByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox')
 
       input.focus()
 
@@ -253,7 +247,7 @@ describe('src/components/AutoSuggest', () => {
         jest.advanceTimersByTime(INPUT_DELAY)
       })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
 
       act(() => {
         fireEvent.keyDown(input, { key: 'Down', code: 40, keyCode: 40 })
@@ -262,7 +256,7 @@ describe('src/components/AutoSuggest', () => {
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
       expect(input.getAttribute('aria-activedescendant')).toEqual(
-        firstElement.id
+        firstElement?.id
       )
 
       act(() => {
@@ -272,7 +266,7 @@ describe('src/components/AutoSuggest', () => {
       const lastElement = suggestList.querySelector('li:last-of-type')
       expect(document.activeElement).toEqual(lastElement)
       expect(input.getAttribute('aria-activedescendant')).toEqual(
-        lastElement.id
+        lastElement?.id
       )
 
       act(() => {
@@ -280,48 +274,40 @@ describe('src/components/AutoSuggest', () => {
       })
 
       expect(input.getAttribute('aria-activedescendant')).toEqual(
-        firstElement.id
+        firstElement?.id
       )
       expect(document.activeElement).toEqual(firstElement)
     })
 
     it('Esc', async () => {
       const onClear = jest.fn()
-      const { container, findByTestId, queryByTestId } = render(
-        withAppContext(<AutoSuggest {...props} onClear={onClear} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
+      const input = screen.getByRole('textbox') as HTMLInputElement
 
       input.focus()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Boom' } })
-      })
+      fireEvent.change(input, { target: { value: 'Boom' } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       expect(document.activeElement).toEqual(firstElement)
       expect(onClear).not.toHaveBeenCalled()
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 })
-      })
+      fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 })
 
       expect(onClear).toHaveBeenCalled()
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
 
       act(() => {
         fireEvent.change(input, { target: { value: 'Boomsloot' } })
       })
 
-      await findByTestId('suggestList')
+      await screen.findByTestId('suggestList')
 
       act(() => {
         fireEvent.keyDown(input, { key: 'Esc', code: 13, keyCode: 13 })
@@ -329,14 +315,14 @@ describe('src/components/AutoSuggest', () => {
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
     })
 
     it('Esc without onClear defined', async () => {
-      const { container, findByTestId, queryByTestId } = render(
+      const { findByTestId, queryByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
-      const input = container.querySelector('input')
+      const input = screen.getByRole('textbox') as HTMLInputElement
 
       input.focus()
 
@@ -377,83 +363,67 @@ describe('src/components/AutoSuggest', () => {
     })
 
     it('Home', async () => {
-      const { container, findByTestId, getByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox')
 
       input.focus()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Niezel' } })
-      })
+      fireEvent.change(input, { target: { value: 'Niezel' } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       expect(document.activeElement).not.toEqual(input)
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Home', code: 36, keyCode: 36 })
-      })
+      fireEvent.keyDown(input, { key: 'Home', code: 36, keyCode: 36 })
 
-      expect(document.activeElement).toEqual(input)
-      expect(document.activeElement.selectionStart).toEqual(0)
-      expect(getByTestId('suggestList')).toBeInTheDocument()
+      const activeElement = document.activeElement as HTMLInputElement
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      expect(activeElement).toEqual(input)
+      expect(activeElement.selectionStart).toEqual(0)
+      expect(screen.getByTestId('suggestList')).toBeInTheDocument()
+
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
     })
 
     it('End', async () => {
-      const { container, findByTestId, getByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox')
       const value = 'Midden'
 
       input.focus()
 
-      act(() => {
-        fireEvent.change(input, { target: { value } })
-      })
+      fireEvent.change(input, { target: { value } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       expect(document.activeElement).not.toEqual(input)
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'End', code: 35, keyCode: 35 })
-      })
+      fireEvent.keyDown(input, { key: 'End', code: 35, keyCode: 35 })
 
-      expect(document.activeElement).toEqual(input)
-      expect(document.activeElement.selectionStart).toEqual(value.length)
-      expect(getByTestId('suggestList')).toBeInTheDocument()
+      const activeElement = document.activeElement as HTMLInputElement
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      expect(activeElement).toEqual(input)
+      expect(activeElement.selectionStart).toEqual(value.length)
+      expect(screen.getByTestId('suggestList')).toBeInTheDocument()
+
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
     })
 
     it('Tab', async () => {
-      const { container, findByTestId } = render(
+      const { container } = render(
         withAppContext(
           <Fragment>
             <AutoSuggest {...props} />
@@ -462,28 +432,24 @@ describe('src/components/AutoSuggest', () => {
           </Fragment>
         )
       )
-      const input = container.querySelector('input[aria-autocomplete=list]')
+      const input = container.querySelector(
+        'input[aria-autocomplete=list]'
+      ) as HTMLUListElement
       const nameField = container.querySelector('input[name=foo]')
 
       input.focus()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Niezel' } })
-      })
+      fireEvent.change(input, { target: { value: 'Niezel' } })
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggestList')
 
       expect(document.activeElement).toEqual(input)
 
-      act(() => {
-        fireEvent.focusOut(input, { relatedTarget: suggestList })
-      })
+      fireEvent.focusOut(input, { relatedTarget: suggestList })
 
       expect(suggestList).toBeInTheDocument()
 
-      act(() => {
-        fireEvent.focusOut(input, { relatedTarget: nameField })
-      })
+      fireEvent.focusOut(input, { relatedTarget: nameField })
 
       expect(suggestList).not.toBeInTheDocument()
     })
@@ -500,7 +466,9 @@ describe('src/components/AutoSuggest', () => {
         )
       )
 
-      const input = container.querySelector('input[aria-autocomplete=list]')
+      const input = container.querySelector(
+        'input[aria-autocomplete=list]'
+      ) as HTMLUListElement
       input.focus()
 
       fireEvent.keyDown(input, { key: 'Enter', code: 13, keyCode: 13 })
@@ -513,65 +481,49 @@ describe('src/components/AutoSuggest', () => {
     })
 
     it('Any key (yes, such a key exists)', async () => {
-      const { container, findByTestId } = render(
-        withAppContext(<AutoSuggest {...props} />)
-      )
-      const input = container.querySelector('input')
+      render(withAppContext(<AutoSuggest {...props} />))
+      const input = screen.getByRole('textbox')
 
       input.focus()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Meeuwenlaan' } })
-      })
+      fireEvent.change(input, { target: { value: 'Meeuwenlaan' } })
 
-      await findByTestId('suggestList')
+      await screen.findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
       expect(document.activeElement).not.toEqual(input)
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Space', code: 91, keyCode: 91 })
-      })
+      fireEvent.keyDown(input, { key: 'Space', code: 91, keyCode: 91 })
 
-      await findByTestId('suggestList')
+      await screen.findByTestId('suggestList')
 
       expect(document.activeElement).toEqual(input)
     })
   })
 
   it('should call onSelect on item click', async () => {
-    const { container, findByTestId, queryByTestId } = render(
-      withAppContext(<AutoSuggest {...props} />)
-    )
-    const input = container.querySelector('input')
+    render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox') as HTMLInputElement
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Rembrandt' } })
-    })
+    fireEvent.change(input, { target: { value: 'Rembrandt' } })
 
-    const suggestList = await findByTestId('suggestList')
+    const suggestList = await screen.findByTestId('suggestList')
 
-    act(() => {
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-    })
+    fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
 
     expect(document.activeElement).not.toEqual(input)
 
     const firstElement = suggestList.querySelector('li:nth-of-type(1)')
-    const firstOption = formatResponse(JSONResponse)[0]
+    const firstOption = formatResponse(JSONResponse as unknown as RevGeo)[0]
 
     expect(onSelect).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(firstElement)
-    })
+    firstElement && fireEvent.click(firstElement)
 
     expect(document.activeElement).toEqual(input)
-    expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
     expect(input.value).toEqual(firstOption.value)
     expect(onSelect).toHaveBeenCalledTimes(1)
     expect(onSelect).toHaveBeenCalledWith(firstOption)
@@ -579,16 +531,12 @@ describe('src/components/AutoSuggest', () => {
 
   it('should call onClear', async () => {
     const onClear = jest.fn()
-    const { container, findByTestId } = render(
-      withAppContext(<AutoSuggest {...props} onClear={onClear} />)
-    )
-    const input = container.querySelector('input')
+    render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
+    const input = screen.getByRole('textbox')
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Rembrandt' } })
-    })
+    fireEvent.change(input, { target: { value: 'Rembrandt' } })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -596,11 +544,9 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '' } })
-    })
+    fireEvent.change(input, { target: { value: '' } })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -610,31 +556,25 @@ describe('src/components/AutoSuggest', () => {
   })
 
   it('should work without onClear defined', async () => {
-    const { container, findByTestId } = render(
-      withAppContext(<AutoSuggest {...props} />)
-    )
-    const input = container.querySelector('input')
+    render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox')
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Rembrandt' } })
-    })
+    fireEvent.change(input, { target: { value: 'Rembrandt' } })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '' } })
-    })
+    fireEvent.change(input, { target: { value: '' } })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await findByTestId('autoSuggest')
+    await screen.findByTestId('autoSuggest')
   })
 })

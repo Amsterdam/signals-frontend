@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import {
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-  FunctionComponent,
-} from 'react'
+import type { FunctionComponent } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 import { useHistory } from 'react-router-dom'
@@ -25,7 +20,7 @@ import {
 } from 'containers/Notification/constants'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import { Type, Variant } from 'containers/Notification/types'
+import type { Type, Variant } from 'containers/Notification/types'
 
 import { Wrapper, Title, Message, CloseButton } from './styled'
 

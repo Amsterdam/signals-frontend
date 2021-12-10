@@ -4,7 +4,7 @@ import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { useMemo } from 'react'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { Theme } from 'types/theme'
+import type { Theme } from 'types/theme'
 import type { Feedback } from '../types'
 
 interface FeedbackStatusProps {

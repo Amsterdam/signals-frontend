@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Label } from '@amsterdam/asc-ui'
 
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 
 import Checkbox from 'components/Checkbox'
 

@@ -5,7 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import { Feature } from 'components/AreaMap/types'
+import type { Feature } from 'components/AreaMap/types'
 import { StatusCode as mockStatusCode } from 'signals/incident-management/definitions/types'
 import * as actions from 'containers/App/actions'
 import {

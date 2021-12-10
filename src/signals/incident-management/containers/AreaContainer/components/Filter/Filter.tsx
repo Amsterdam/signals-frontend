@@ -1,10 +1,10 @@
 import { Heading, Icon, themeSpacing, List, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { dateToString } from 'shared/services/date-utils'
-import { ReactComponent as IconPin } from '../../../../../../shared/images/area-map/icon-pin.svg'
-import { ReactComponent as IconPinGreen } from '../../../../../../shared/images/area-map/icon-pin-green.svg'
-import { ReactComponent as IconCrossSmall } from '../../../../../../shared/images/area-map/icon-cross-small.svg'
-import { ReactComponent as IconRadius } from '../../../../../../shared/images/area-map/icon-radius.svg'
+import IconPin from '../../../../../../shared/images/area-map/icon-pin.svg'
+import IconPinGreen from '../../../../../../shared/images/area-map/icon-pin-green.svg'
+import IconCrossSmall from '../../../../../../shared/images/area-map/icon-cross-small.svg'
+import IconRadius from '../../../../../../shared/images/area-map/icon-radius.svg'
 
 interface FilterProps {
   subcategory?: string
@@ -58,13 +58,13 @@ const Filter: React.FC<FilterProps> = (props) => {
         <List>
           <ListItem>
             <StyledIcon size={ICON_SIZE}>
-              <IconPin />
+              <IconPin viewBox="0 0 24 32" />
             </StyledIcon>
             Openstaand
           </ListItem>
           <ListItem>
             <StyledIcon size={ICON_SIZE}>
-              <IconPinGreen />
+              <IconPinGreen viewBox="0 0 24 32" />
             </StyledIcon>
             Afgehandeld
           </ListItem>
@@ -85,7 +85,7 @@ const Filter: React.FC<FilterProps> = (props) => {
         <List>
           <ListItem>
             <StyledIcon size={ICON_SIZE}>
-              <IconCrossSmall />
+              <IconCrossSmall viewBox="0 0 18 18" />
             </StyledIcon>
             Locatie huidige melding
           </ListItem>
