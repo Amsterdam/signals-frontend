@@ -21,7 +21,7 @@ export const contextValue: AssetSelectValue = {
       description: 'Plastic asset',
     },
   ],
-  location: [0, 0],
+  coordinates: { lat: 0, lng: 0 },
   meta: { endpoint, featureTypes },
   update: jest.fn(),
   edit: jest.fn(),

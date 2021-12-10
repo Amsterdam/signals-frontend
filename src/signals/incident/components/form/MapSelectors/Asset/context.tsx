@@ -7,7 +7,7 @@ import type { AssetSelectValue } from './types'
 export const initialValue: AssetSelectValue = {
   close: /* istanbul ignore next */ () => {},
   edit: /* istanbul ignore next */ () => {},
-  location: [0, 0],
+  coordinates: { lat: 0, lng: 0 },
   message: undefined,
   meta: {
     endpoint: '',

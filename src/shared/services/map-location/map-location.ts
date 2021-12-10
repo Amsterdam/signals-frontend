@@ -23,7 +23,7 @@ export const featureTolocation = ({
 export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
   const pointMatch = wktPoint.match(/\d+\.\d+/gi)
 
-  if (!wktPoint.includes('POINT') || !pointMatch || pointMatch.length <= 1) {
+  if (!wktPoint.includes('POINT') || !pointMatch || pointMatch?.length <= 1) {
     throw new TypeError('Provided WKT geometry is not a point.')
   }
 

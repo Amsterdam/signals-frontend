@@ -28,5 +28,5 @@ export const makeSelectIncidentContainer = createSelector(
 
 export const makeSelectCoordinates = createSelector(
   selectIncidentContainerDomain,
-  (state) => state.get('incident').get('location').get('coordinates')
+  (state) => state.getIn(['incident', 'location', 'coordinates'])
 )

@@ -9,6 +9,8 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
+import { featureTolocation } from 'shared/services/map-location'
+
 import MapStatic from 'components/MapStatic'
 
 import Map from 'components/Map'
@@ -35,18 +37,15 @@ const StyledMarker = styled(Marker)`
  * Map preview with one or more markers
  */
 const MapPreview = ({ value }) => {
-  const longitude = value?.geometrie?.coordinates[0]
-  const latitude = value?.geometrie?.coordinates[1]
+  const { lat, lng } = value?.geometrie
+    ? featureTolocation(value.geometrie)
+    : {}
+
   const options = {
     ...MAP_OPTIONS,
     zoom: mapZoom,
     attributionControl: false,
-    center: [latitude, longitude],
-  }
-
-  const geometry = {
-    latitude,
-    longitude,
+    center: [lat, lng],
   }
 
   return (
@@ -57,14 +56,20 @@ const MapPreview = ({ value }) => {
             ? formatAddress(value.address)
             : 'Locatie gepind op de kaart'}
         </Address>
-        {latitude &&
-          longitude &&
+
+        {lat &&
+          lng &&
           (configuration.featureFlags.useStaticMapServer ? (
-            <MapStatic height={mapHeight} width={mapWidth} {...geometry} />
+            <MapStatic
+              height={mapHeight}
+              lat={lat}
+              lng={lng}
+              width={mapWidth}
+            />
           ) : (
             <StyledMap mapOptions={options}>
               <StyledMarker
-                args={[{ lat: latitude, lng: longitude }]}
+                args={[{ lat, lng }]}
                 options={{ icon: markerIcon }}
               />
             </StyledMap>

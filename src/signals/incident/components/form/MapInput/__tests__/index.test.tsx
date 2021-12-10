@@ -48,13 +48,14 @@ describe('Form component <MapInput />', () => {
           postcode: '1234AB',
           woonplaats: 'Amsterdam',
         },
+        addressText: 'Straat 1, 1234AB Amsterdam',
       }
       render(withAppContext(<MapInput {...props} value={value} />))
 
       const textbox = await screen.findByRole('textbox')
 
       expect(screen.getByRole('img')).toHaveClass('map-marker-select')
-      expect(textbox).toHaveValue('Straat 1, 1234AB Amsterdam')
+      expect(textbox).toHaveValue(value.addressText)
     })
   })
 })

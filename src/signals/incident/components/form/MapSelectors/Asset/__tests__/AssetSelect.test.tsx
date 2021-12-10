@@ -165,7 +165,7 @@ describe('AssetSelect', () => {
     expect(updateIncident).toHaveBeenCalledTimes(2)
     expect(updateIncident).toHaveBeenLastCalledWith({
       location: expect.objectContaining({
-        geometrie: expect.objectContaining({ type: 'Point' }),
+        coordinates: mockLatLng,
         address: geocodedResponse.data.address,
       }),
     })
