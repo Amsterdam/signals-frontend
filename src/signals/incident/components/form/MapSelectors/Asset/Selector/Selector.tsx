@@ -109,11 +109,8 @@ const Selector = () => {
         : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
     [desktopView]
   )
-  const center = (
-    coordinates
-      ? [coordinates.lat, coordinates.lng]
-      : configuration.map.options.center
-  ) as LatLngTuple
+  const center =
+    coordinates || (configuration.map.options.center as LatLngTuple)
 
   const mapOptions: MapOptions = {
     ...MAP_OPTIONS,

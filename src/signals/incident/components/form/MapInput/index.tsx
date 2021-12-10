@@ -22,9 +22,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   validatorsOrOpts,
   value,
 }) => {
-  const center = value?.coordinates
-    ? [value.coordinates.lat, value.coordinates.lng]
-    : getMapCenter()
+  const center = value?.coordinates || getMapCenter()
 
   const mapOptions = {
     ...MAP_OPTIONS,
