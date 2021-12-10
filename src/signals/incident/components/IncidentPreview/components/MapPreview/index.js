@@ -9,7 +9,6 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
-import { featureTolocation } from 'shared/services/map-location'
 
 import MapStatic from 'components/MapStatic'
 
@@ -37,45 +36,34 @@ const StyledMarker = styled(Marker)`
  * Map preview with one or more markers
  */
 const MapPreview = ({ value }) => {
-  const { lat, lng } = value?.geometrie
-    ? featureTolocation(value.geometrie)
-    : {}
+  const { coordinates } = value || {}
 
   const options = {
     ...MAP_OPTIONS,
     zoom: mapZoom,
     attributionControl: false,
-    center: [lat, lng],
+    center: coordinates,
   }
 
-  return (
-    value && (
-      <>
-        <Address data-testid="mapAddress">
-          {value?.address
-            ? formatAddress(value.address)
-            : 'Locatie gepind op de kaart'}
-        </Address>
+  if (!value) return null
 
-        {lat &&
-          lng &&
-          (configuration.featureFlags.useStaticMapServer ? (
-            <MapStatic
-              height={mapHeight}
-              lat={lat}
-              lng={lng}
-              width={mapWidth}
-            />
-          ) : (
-            <StyledMap mapOptions={options}>
-              <StyledMarker
-                args={[{ lat, lng }]}
-                options={{ icon: markerIcon }}
-              />
-            </StyledMap>
-          ))}
-      </>
-    )
+  return (
+    <>
+      <Address data-testid="mapAddress">
+        {value?.address
+          ? formatAddress(value.address)
+          : 'Locatie gepind op de kaart'}
+      </Address>
+
+      {coordinates &&
+        (configuration.featureFlags.useStaticMapServer ? (
+          <MapStatic height={mapHeight} width={mapWidth} {...coordinates} />
+        ) : (
+          <StyledMap mapOptions={options}>
+            <StyledMarker args={[coordinates]} options={{ icon: markerIcon }} />
+          </StyledMap>
+        ))}
+    </>
   )
 }
 

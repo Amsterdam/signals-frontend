@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, act, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 
 import { withMapContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -40,9 +40,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
     expect(close).not.toHaveBeenCalled()
     expect(update).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(queryByTestId('submitBtn'))
-    })
+    fireEvent.click(queryByTestId('submitBtn'))
 
     expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_LOCATION,

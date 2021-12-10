@@ -175,7 +175,13 @@ Map.propTypes = {
    */
   mapOptions: PropTypes.shape({
     attributionControl: PropTypes.bool,
-    center: PropTypes.arrayOf(PropTypes.number),
+    center: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.number),
+      PropTypes.shape({
+        lat: PropTypes.number.isRequired,
+        lng: PropTypes.number.isRequired,
+      }),
+    ]),
     maxZoom: PropTypes.number,
     minZoom: PropTypes.number,
   }).isRequired,

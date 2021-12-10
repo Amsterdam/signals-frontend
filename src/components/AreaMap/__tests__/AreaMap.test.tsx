@@ -53,7 +53,16 @@ describe('<AreaMap />', () => {
 
   beforeEach(() => {
     props = {
-      center: [1, 2],
+      location: {
+        stadsdeel: 'west',
+        buurt_code: null,
+        address: null,
+        extra_properties: null,
+        geometrie: {
+          type: 'Point',
+          coordinates: [25, 4],
+        },
+      },
       onClick: jest.fn(),
       onClose: jest.fn(),
       selectedFeature: features[0],

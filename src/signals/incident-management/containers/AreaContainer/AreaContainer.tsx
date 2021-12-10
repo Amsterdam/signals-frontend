@@ -116,7 +116,7 @@ export const AreaContainer: FunctionComponent = () => {
       <AreaMap
         geoData={area}
         onClose={handleClose}
-        center={incident.location.geometrie.coordinates}
+        location={incident.location}
         selectedFeature={selection}
         onClick={setSelection}
       />

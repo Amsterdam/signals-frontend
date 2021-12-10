@@ -39,6 +39,16 @@ const jsonResponse = {
 const parent = {
   meta: {
     updateIncident: jest.fn(),
+    incidentContainer: {
+      incident: {
+        location: {
+          geometrie: {
+            type: 'Point',
+            coordinates: [4, 25],
+          },
+        },
+      },
+    },
   },
 }
 

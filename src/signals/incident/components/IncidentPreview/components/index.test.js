@@ -4,7 +4,7 @@ import AssetListPreview from './AssetListPreview'
 import CaterpillarListPreview from './CaterpillarListPreview'
 import DateTime from './DateTime'
 import Image from './Image'
-import Map from './Map'
+import MapPreview from './MapPreview'
 import MapSelectPreview from './MapSelect'
 
 import ListObjectValue from './ListObjectValue'
@@ -18,7 +18,7 @@ describe('Preview components', () => {
       DateTime,
       ListObjectValue,
       Image,
-      Map,
+      MapPreview,
       MapSelectPreview,
     })
   })

@@ -54,7 +54,7 @@ const MapSelect = ({
   const selection = useRef(new MaxSelection(SELECTION_MAX_COUNT, value))
   const mapOptions = {
     ...MAP_OPTIONS,
-    center: [latlng.latitude, latlng.longitude],
+    center: latlng,
     zoomControl: false,
     minZoom: 10,
     maxZoom: 15,
@@ -277,8 +277,8 @@ MapSelect.defaultProps = {
 
 MapSelect.propTypes = {
   latlng: PropTypes.exact({
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
   }).isRequired,
   geojsonUrl: PropTypes.string.isRequired,
   onSelectionChange: PropTypes.func,
