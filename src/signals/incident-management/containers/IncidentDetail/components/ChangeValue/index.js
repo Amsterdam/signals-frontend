@@ -28,6 +28,9 @@ import EditButton from '../EditButton'
 import IncidentDetailContext from '../../context'
 
 const DisplayValue = styled.span`
+  color: ${({ highPriority, theme }) =>
+    highPriority ? theme.colors.support.invalid : theme.colors.primary};
+  font-weight: ${({ highPriority }) => (highPriority ? '700' : '400')};
   display: flex;
   white-space: nowrap;
   overflow: hidden;
@@ -237,7 +240,7 @@ const ChangeValue = ({
         <dd data-testid={`meta-list-${type}-value`}>{editForm}</dd>
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
-          <DisplayValue data-testid="valuePath">
+          <DisplayValue data-testid="valuePath" highPriority={Boolean(icon)}>
             {displayValueIcon}
             {getListValueByKey(options, key)}
           </DisplayValue>
