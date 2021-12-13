@@ -6,68 +6,72 @@ import userEvent from '@testing-library/user-event'
 
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
 import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
-import type { AssetListProps } from '../AssetList'
-import AssetList from '../AssetList'
+
+import type { Item } from '../types'
+import type { AssetListProps } from './AssetList'
+
+import AssetList from './AssetList'
 
 describe('AssetList', () => {
   const props: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: controls.extra_container.meta.featureTypes,
-    selection: [{ description: 'Description', id: 'id', type: 'Rest' }],
+    selection: {
+      description: 'Description',
+      id: 'id',
+      type: 'Rest',
+      location: {},
+    },
   }
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: meta.featureTypes,
-    selection,
+    selection: { ...selection[0], location: {} },
   }
 
-  it('should render an empty selection', () => {
-    render(withAppContext(<AssetList {...props} selection={[]} />))
-
-    expect(screen.getByTestId('assetList')).toBeInTheDocument()
-    expect(screen.queryAllByRole('listitem').length).toBe(0)
-  })
-
-  it('should render a selection of assets', () => {
+  it('should render a selection', () => {
     render(withAppContext(<AssetList {...props} />))
 
     expect(screen.getByTestId('assetList')).toBeInTheDocument()
-    props.selection.forEach(({ id }) => {
-      expect(screen.getByTestId(`assetListItem-${id}`)).toBeInTheDocument()
-    })
-    expect(screen.getAllByRole('listitem').length).toBe(props.selection.length)
+    expect(
+      screen.getByTestId(`assetListItem-${props.selection.id}`)
+    ).toBeInTheDocument()
   })
 
   it('should show that an item was reported before', () => {
-    render(withAppContext(<AssetList {...reportedProps} />))
+    selection.forEach((selected: Item) => {
+      const { id, isReported } = selected
+      render(
+        withAppContext(
+          <AssetList
+            {...reportedProps}
+            selection={{ ...selected, location: {} }}
+          />
+        )
+      )
 
-    expect(screen.getByTestId('assetList')).toBeInTheDocument()
-    reportedProps.selection.forEach(({ id, isReported }) => {
       if (isReported) {
         expect(
           screen.getByTestId(`assetListItem-${id}-reported`)
         ).toBeInTheDocument()
-      }
-      if (!isReported) {
+      } else {
         expect(
           screen.queryByTestId(`assetListItem-${id}-reported`)
         ).not.toBeInTheDocument()
       }
     })
-    expect(screen.getAllByRole('listitem').length).toBe(
-      reportedProps.selection.length
-    )
   })
 
   it('should allow user to remove item', () => {
     render(withAppContext(<AssetList {...props} />))
 
-    const item = props.selection[0]
-
     const button = screen.getByRole('button')
+
+    expect(props.onRemove).not.toHaveBeenCalled()
+
     userEvent.click(button)
 
-    expect(props.onRemove).toHaveBeenCalledWith(item.id)
+    expect(props.onRemove).toHaveBeenCalled()
   })
 })

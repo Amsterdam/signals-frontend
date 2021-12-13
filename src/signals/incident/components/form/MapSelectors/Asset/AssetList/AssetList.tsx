@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
+
+import type { FunctionComponent } from 'react'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
@@ -29,10 +31,10 @@ const ItemWrapper = styled.div`
 `
 
 export interface AssetListProps {
-  selection: Item[]
-  onRemove?: (id: string) => void
-  featureTypes: FeatureType[]
   className?: string
+  featureTypes: FeatureType[]
+  onRemove?: () => void
+  selection: Item
 }
 
 const AssetList: FunctionComponent<AssetListProps> = ({
@@ -41,14 +43,19 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const items = selection.map(({ id, type, isReported }) => {
+  const item = useMemo(() => {
+    const { id, type, isReported } = selection
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
+    const baseItem = {
+      id,
+      label: `${description} - ${id}`,
+    }
+
     if (isReported && icon?.reportedIconSvg) {
       return {
-        id,
-        label: `${description}${id ? ` - ${id}` : ''}`,
+        ...baseItem,
         iconUrl: icon
           ? `data:image/svg+xml;base64,${btoa(icon.reportedIconSvg)}`
           : '',
@@ -57,40 +64,35 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     }
 
     return {
-      id,
-      label: `${description}${id ? ` - ${id}` : ''}`,
+      ...baseItem,
       iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
       isReported: false,
     }
-  })
+  }, [featureTypes, selection])
 
   return (
     <IconList data-testid="assetList" className={className}>
-      {items.map((item) => (
-        <IconListItem
-          key={item.id}
-          id={
-            item.isReported
-              ? `assetListItem-${item.id}-reported`
-              : `assetListItem-${item.id}`
-          }
-          iconUrl={item.iconUrl}
-        >
-          <ItemWrapper>
-            {item.label}
-            {onRemove && (
-              <StyledButton
-                data-testid={`assetListRemove-${item.id}`}
-                aria-label="Verwijder"
-                icon={<Close />}
-                onClick={() => {
-                  onRemove(item.id.toString())
-                }}
-              />
-            )}
-          </ItemWrapper>
-        </IconListItem>
-      ))}
+      <IconListItem
+        key={item.id}
+        id={
+          item.isReported
+            ? `assetListItem-${item.id}-reported`
+            : `assetListItem-${item.id}`
+        }
+        iconUrl={item.iconUrl}
+      >
+        <ItemWrapper>
+          {item.label}
+          {onRemove && (
+            <StyledButton
+              data-testid={`assetListRemove-${item.id}`}
+              aria-label="Verwijder"
+              icon={<Close />}
+              onClick={onRemove}
+            />
+          )}
+        </ItemWrapper>
+      </IconListItem>
     </IconList>
   )
 }
