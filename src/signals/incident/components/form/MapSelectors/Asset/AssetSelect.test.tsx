@@ -3,6 +3,7 @@
 import { useContext as mockUseContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import * as reactRedux from 'react-redux'
 
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { withAppContext } from 'test/utils'
@@ -11,18 +12,41 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
-import type { AssetSelectProps } from '../AssetSelect'
+import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import type { AssetSelectProps } from './AssetSelect'
 
-import AssetSelect from '..'
-import { initialValue } from '../context'
-import { withAssetSelectContext } from './context.test'
+import { initialValue } from './context'
+import { withAssetSelectContext } from './__tests__/context.test'
+import AssetSelect from '.'
 
 const mockLatLng = { lat: 10, lng: 20 }
+const mockItem = {
+  id: 12398712,
+  location: {},
+  type: 'not-mapped-or-something',
+}
 
 jest.mock('shared/services/reverse-geocoder')
 
-jest.mock('../Selector', () => () => {
-  const { setLocation, close } = mockUseContext(mockAssetSelectContext)
+jest.mock('./Selector', () => () => {
+  const { setLocation, close, removeItem, setItem } = mockUseContext(
+    mockAssetSelectContext
+  )
+
+  const item = {
+    ...mockItem,
+    location: {
+      coordinates: { lat: 4, lng: 36 },
+    },
+  }
+
+  const unregisteredItem = {
+    ...mockItem,
+    type: mockUNREGISTERED_TYPE,
+    location: {
+      coordinates: mockLatLng,
+    },
+  }
 
   return (
     <>
@@ -40,9 +64,39 @@ jest.mock('../Selector', () => () => {
         role="button"
         tabIndex={0}
       />
+      <span
+        aria-hidden="true"
+        data-testid="setItemContainer"
+        onClick={() => setItem(item)}
+        role="button"
+        tabIndex={0}
+      />
+      <span
+        aria-hidden="true"
+        data-testid="setItemContainerUnregistered"
+        onClick={() => setItem(unregisteredItem)}
+        role="button"
+        tabIndex={0}
+      />
+      <span
+        aria-hidden="true"
+        data-testid="removeItemContainer"
+        onClick={removeItem}
+        role="button"
+        tabIndex={0}
+      />
     </>
   )
 })
+
+const mockAddress = {
+  postcode: '1000 AA',
+  huisnummer: 100,
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+
+jest.mock('react-redux', () => jest.requireActual('react-redux'))
 
 describe('AssetSelect', () => {
   let props: AssetSelectProps
@@ -52,7 +106,7 @@ describe('AssetSelect', () => {
   beforeEach(() => {
     props = {
       handler: () => ({
-        value: [],
+        value: undefined,
       }),
       meta: {
         ...initialValue.meta,
@@ -65,6 +119,8 @@ describe('AssetSelect', () => {
         },
       },
     }
+
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(undefined)
   })
 
   afterEach(() => {
@@ -101,20 +157,24 @@ describe('AssetSelect', () => {
   })
 
   it('should render the Summary', () => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(mockAddress)
+
     render(
       withAppContext(
         <AssetSelect
           {...{
             ...props,
             handler: () => ({
-              value: [
-                {
-                  id: 'PL734',
-                  type: 'plastic',
-                  description: 'Plastic asset',
-                  iconUrl: '',
-                },
-              ],
+              value: {
+                id: 'PL734',
+                type: 'plastic',
+                description: 'Plastic asset',
+                location: {},
+                iconUrl: '',
+              },
             }),
           }}
         />
@@ -158,7 +218,7 @@ describe('AssetSelect', () => {
     userEvent.click(assetSelectSelector)
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({ Zork: [] })
+    expect(updateIncident).toHaveBeenCalledWith({ Zork: undefined })
 
     await screen.findByTestId('assetSelectSelector')
 
@@ -189,10 +249,100 @@ describe('AssetSelect', () => {
     userEvent.click(assetSelectSelector)
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({ Zork: [] })
+    expect(updateIncident).toHaveBeenCalledWith({ Zork: undefined })
 
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
+  })
+
+  it('handles setting a selected item', () => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+
+    render(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    const setItemContainer = screen.getByTestId('setItemContainer')
+
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(setItemContainer)
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { location, ...restItem } = mockItem
+
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledWith({
+      location: {
+        coordinates: { lat: 4, lng: 36 },
+        address: undefined,
+      },
+      Zork: restItem,
+    })
+  })
+
+  it('handles setting a selected, unregistered item', () => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+
+    render(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    const setItemContainerUnregistered = screen.getByTestId(
+      'setItemContainerUnregistered'
+    )
+
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(setItemContainerUnregistered)
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { location, ...restItem } = mockItem
+
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledWith({
+      location: {
+        coordinates: mockLatLng,
+        address: undefined,
+      },
+      Zork: {
+        ...restItem,
+        type: mockUNREGISTERED_TYPE,
+      },
+    })
+  })
+
+  it('handles removing a selected item', () => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+
+    render(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    const removeItemContainer = screen.getByTestId('removeItemContainer')
+
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(removeItemContainer)
+
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledWith({
+      location: {},
+      Zork: undefined,
+    })
   })
 })
