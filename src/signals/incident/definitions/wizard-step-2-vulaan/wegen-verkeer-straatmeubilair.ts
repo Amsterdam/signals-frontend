@@ -378,12 +378,39 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'overig',
         ],
       },
-      endpoint: configuration.map.layers?.klokken,
-      legend_items: ['klok', 'is_gemeld'],
+      wfsFilter:
+        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+      endpoint: configuration.map.layers?.verlichting,
       zoomMin: 14,
+      featureTypes: [
+        {
+          label: 'Klok',
+          description: 'Klok',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.klok,
+            selectedIconSvg: verlichtingIcons.select,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '1',
+        },
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.reported,
+            selectedIconSvg: verlichtingIcons.reported,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: 'reported',
+        },
+      ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.map_select,
+    render: FIELD_TYPE_MAP.streetlight_select,
   },
   extra_klok_niet_op_kaart: {
     meta: {

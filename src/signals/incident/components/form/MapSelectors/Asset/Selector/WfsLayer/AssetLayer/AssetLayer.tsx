@@ -27,6 +27,7 @@ import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
+import { select as SelectIcon } from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
 import WfsDataContext from '../context'
 import type { DataLayerProps, Feature } from '../../../../types'
 
@@ -160,9 +161,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
         const iconUrl = `data:image/svg+xml;base64,${btoa(
           /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          selected
-            ? featureType.icon.selectedIconSvg ?? ''
-            : featureType.icon.iconSvg
+          selected ? SelectIcon : featureType.icon.iconSvg
         )}`
 
         const marker = L.marker(latlng, {

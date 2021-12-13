@@ -12,6 +12,7 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { Marker } from '@amsterdam/arm-core'
 import { getIconUrl } from 'signals/incident/components/form/MapSelectors/utils'
+import { reported as ReportedIcon } from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
 import WfsDataContext from '../context'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
@@ -23,7 +24,11 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     (feat: any) => {
       const feature = feat as Feature
       if (feature.properties.meldingstatus === 1) {
-        return featureTypes.find(({ typeValue }) => typeValue === 'reported')
+        return featureTypes.find(
+          ({ typeValue, typeField }) =>
+            typeValue !== 'reported' &&
+            typeValue === feature.properties[typeField]
+        )
       }
     },
     [featureTypes]
@@ -36,13 +41,12 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       const latLng = { lat, lng }
       const featureType = getFeatureType(feature)
       if (!featureType) return
-      const iconSvg = featureType && featureType.icon.iconSvg
 
       const iconSize = [20, 20] as [number, number]
 
       const icon = L.icon({
         iconSize,
-        iconUrl: getIconUrl(iconSvg),
+        iconUrl: getIconUrl(ReportedIcon),
         className: REPORTED_CLASS_MODIFIER,
       })
 
