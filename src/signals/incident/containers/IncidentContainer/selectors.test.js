@@ -6,6 +6,7 @@ import {
   selectIncidentContainerDomain,
   makeSelectIncidentContainer,
   makeSelectCoordinates,
+  makeSelectAddress,
 } from './selectors'
 
 describe('signals/incident/containers/IncidentContainer/selectors', () => {
@@ -62,8 +63,41 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const mockedState = fromJS(stateWithLocation)
 
       expect(makeSelectCoordinates.resultFunc(mockedState)).toStrictEqual(
-        fromJS(coordinates)
+        coordinates
       )
+    })
+  })
+
+  describe('makeSelectAddress', () => {
+    const state = {
+      incident: {
+        categoy: 'poep',
+        location: undefined,
+      },
+    }
+
+    it('returns nothing', () => {
+      const mockedState = fromJS(state)
+
+      expect(makeSelectAddress.resultFunc(mockedState)).toBeUndefined()
+    })
+
+    it('returns an address', () => {
+      const address = {
+        postcode: '1000 AA',
+        huisnummer: 100,
+        woonplaats: 'Amsterdam',
+        openbare_ruimte: 'West',
+      }
+      const location = {
+        address,
+      }
+      const stateWithAddress = { ...state }
+      stateWithAddress.incident.location = location
+
+      const mockedState = fromJS(stateWithAddress)
+
+      expect(makeSelectAddress.resultFunc(mockedState)).toStrictEqual(address)
     })
   })
 })
