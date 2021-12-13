@@ -10,6 +10,7 @@ import { uploadFile } from 'containers/App/saga'
 import resolveClassification from 'shared/services/resolveClassification'
 import mapControlsToParams from 'signals/incident/services/map-controls-to-params'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
+import { locationToAPIfeature } from 'shared/services/map-location'
 import {
   getClassificationData,
   makeSelectIncidentContainer,
@@ -160,6 +161,10 @@ export function* getPostData(action) {
     },
     type: {
       code: incident.type.id,
+    },
+    location: {
+      address: incident.location.address,
+      geometrie: locationToAPIfeature(incident.location.coordinates),
     },
   }
 
