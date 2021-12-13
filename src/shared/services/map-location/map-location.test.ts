@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import type { LatLngTuple } from 'leaflet'
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
   featureTolocation,
@@ -24,7 +25,7 @@ const coordinates = { lng: 4, lat: 52 }
 
 const testFeature = {
   type: 'Point',
-  coordinates: [coordinates.lat, coordinates.lng],
+  coordinates: [coordinates.lat, coordinates.lng] as LatLngTuple,
 }
 
 describe('locationToFeature', () => {
@@ -82,7 +83,7 @@ describe('formatMapLocation', () => {
       stadsdeel: 'west',
       buurt_code: null,
       extra_properties: null,
-      geometrie: { type: 'Point', coordinates: [52, 4] },
+      geometrie: { type: 'Point', coordinates: [52, 4] as LatLngTuple },
       address: testAddress,
     }
 
@@ -187,11 +188,11 @@ describe('pointWithinBounds', () => {
       [maxLat, maxLng],
     ]
 
-    const middle = [5, 6]
-    const outsideLeft = [1, 6]
-    const outsideRight = [5, 10]
-    const outsideTop = [5, 1]
-    const outsideBottom = [5, 10]
+    const middle: LatLngTuple = [5, 6]
+    const outsideLeft: LatLngTuple = [1, 6]
+    const outsideRight: LatLngTuple = [5, 10]
+    const outsideTop: LatLngTuple = [5, 1]
+    const outsideBottom: LatLngTuple = [5, 10]
 
     expect(pointWithinBounds(middle, bounds)).toEqual(true)
     expect(pointWithinBounds(outsideLeft, bounds)).toEqual(false)

@@ -24,6 +24,7 @@ import type {
 } from 'geojson'
 import type { FunctionComponent } from 'react'
 import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Geometrie } from 'types/incident'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
@@ -178,11 +179,13 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           'click',
           /* istanbul ignore next */ () => {
             const { description, typeValue, idField } = featureType
+            const coordinates = featureTolocation(feature.geometry as Geometrie)
             const item: Item = {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               id: feature.properties[idField]!,
               type: typeValue,
               description,
+              coordinates,
             }
 
             const updateSelection = selected
@@ -207,7 +210,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const latlng = featureTolocation(pointFeature.geometry)
+        const latlng = featureTolocation(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */

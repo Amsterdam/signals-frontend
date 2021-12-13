@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import type { LatLngLiteral } from 'leaflet'
-import type { Coordinates, Geometrie, Location } from 'types/incident'
+import type { LatLngLiteral, LatLngTuple } from 'leaflet'
+import type { Geometrie, Location } from 'types/incident'
 import type { Incident } from 'types/api/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
@@ -10,7 +10,7 @@ import { formatAddress } from 'shared/services/format-address'
 
 export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
   type: 'Point',
-  coordinates: [lat, lng].sort().reverse(),
+  coordinates: [lat, lng].sort().reverse() as LatLngTuple,
 })
 
 export const featureTolocation = ({
@@ -116,7 +116,7 @@ export const formatPDOKResponse = (
   }) || []
 
 export const pointWithinBounds = (
-  coordinates: Coordinates,
+  coordinates: LatLngTuple,
   bounds = configuration.map.options.maxBounds
 ) => {
   const [lat, lng] = coordinates.sort().reverse()
