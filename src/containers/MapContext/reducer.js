@@ -18,7 +18,7 @@ export const initialState = {
     woonplaats: '',
   },
   addressText: '',
-  location: {
+  coordinates: {
     lat: 0,
     lng: 0,
   },
@@ -30,13 +30,13 @@ export default (state, action) => {
     case RESET_LOCATION:
       return {
         ...state,
-        location: initialState.location,
+        coordinates: initialState.coordinates,
       }
 
     case SET_LOCATION:
       return {
         ...state,
-        location: action.payload,
+        coordinates: action.payload,
       }
 
     case SET_ADDRESS:

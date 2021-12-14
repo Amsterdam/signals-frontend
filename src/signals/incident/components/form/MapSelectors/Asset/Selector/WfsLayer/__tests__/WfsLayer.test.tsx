@@ -38,7 +38,7 @@ const endpoint = 'https://endpoint/?version=2'
 const promise = Promise.resolve()
 const assetSelectProviderValue: AssetSelectValue = {
   selection: [],
-  location: [0, -0],
+  coordinates: { lat: 0, lng: 0 },
   meta: {
     endpoint,
     featureTypes: [],
@@ -145,7 +145,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
-      location: [0, -0],
+      coordinates: { lat: 0, lng: 0 },
       meta: {
         endpoint,
         featureTypes: [],
@@ -180,7 +180,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       '<PropertyIsEqualTo><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope>'
     const assetSelectProviderValue: AssetSelectValue = {
       selection: [],
-      location: [0, -0],
+      coordinates: { lat: 0, lng: 0 },
       meta: {
         endpoint,
         wfsFilter,

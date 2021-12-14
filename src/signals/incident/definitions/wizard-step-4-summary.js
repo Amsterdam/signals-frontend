@@ -183,7 +183,7 @@ export default {
       },
       location: {
         label: 'Waar is het?',
-        render: PreviewComponents.Map,
+        render: PreviewComponents.MapPreview,
       },
       description: {
         label: 'Waar gaat het om?',
@@ -221,7 +221,7 @@ export default {
       },
 
       sharing_allowed: {
-        label: 'Melding delen',
+        label: 'Melding doorsturen',
         optional: true,
         render: ({ value }) => {
           if (!value) return null

@@ -11,7 +11,7 @@ import Intro from '../Intro'
 const contextValue: AssetSelectValue = {
   selection: [],
   meta: {} as Meta,
-  location: [0, 0],
+  coordinates: { lat: 0, lng: 0 },
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
@@ -31,16 +31,13 @@ describe('signals/incident/components/form/AssetSelect/Intro', () => {
     jest.resetAllMocks()
   })
 
-  it('should render the component without the map', () => {
-    render(withContext(<Intro />))
-
-    expect(screen.getByTestId('assetSelectIntro')).toBeInTheDocument()
-    expect(screen.queryByTestId('mapLocation')).not.toBeInTheDocument()
-    expect(screen.getByTestId('chooseOnMap')).toBeInTheDocument()
-  })
-
-  it('should render the component with the map', () => {
-    render(withContext(<Intro />, { ...contextValue, location: [1, 1] }))
+  it('renders', () => {
+    render(
+      withContext(<Intro />, {
+        ...contextValue,
+        coordinates: { lat: 1, lng: 1 },
+      })
+    )
 
     expect(screen.getByTestId('assetSelectIntro')).toBeInTheDocument()
     expect(screen.getByTestId('mapLocation')).toBeInTheDocument()
