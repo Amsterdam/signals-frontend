@@ -2,7 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
 import L from 'leaflet'
-import '../style.css'
 
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
@@ -20,8 +19,7 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
   const data = useContext<FeatureCollection>(WfsDataContext)
 
   const getFeatureType = useCallback(
-    (feat: any) => {
-      const feature = feat as Feature
+    (feature: Feature) => {
       if (feature.properties.meldingstatus === 1) {
         return featureTypes.find(({ typeValue }) => typeValue === 'reported')
       }
@@ -36,7 +34,7 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       const latLng = { lat, lng }
       const featureType = getFeatureType(feature)
       if (!featureType) return
-      const iconSvg = featureType && featureType.icon.iconSvg
+      const iconSvg = featureType?.icon.iconSvg
 
       const iconSize = [20, 20] as [number, number]
 
@@ -60,7 +58,7 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         />
       )
     },
-    [data, featureTypes, getFeatureType]
+    [getFeatureType]
   )
 
   return <>{data.features.map(getMarker)}</>

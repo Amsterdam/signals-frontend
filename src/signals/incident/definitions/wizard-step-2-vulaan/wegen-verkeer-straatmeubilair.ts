@@ -9,7 +9,7 @@ import * as verlichtingIcons from './verlichting-icons'
 
 export const ICON_SIZE = 40
 
-const options: Partial<IconOptions> = {
+const options: Pick<IconOptions, 'className' | 'iconSize'> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
