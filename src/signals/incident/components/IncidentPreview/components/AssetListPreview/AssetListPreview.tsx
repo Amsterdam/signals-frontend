@@ -9,7 +9,7 @@ import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 export interface AssetListPreviewProps {
-  value: Item[]
+  value: Item
   featureTypes: FeatureType[]
 }
 
