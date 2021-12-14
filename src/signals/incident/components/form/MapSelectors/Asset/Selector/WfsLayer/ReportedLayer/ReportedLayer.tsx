@@ -36,10 +36,8 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       if (!featureType) return
       const iconSvg = featureType?.icon.iconSvg
 
-      const iconSize = [20, 20] as [number, number]
-
       const icon = L.icon({
-        iconSize,
+        iconSize: [20, 20],
         iconUrl: getIconUrl(iconSvg),
         className: REPORTED_CLASS_MODIFIER,
       })
