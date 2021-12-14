@@ -36,7 +36,8 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     [featureTypes]
   )
 
-  const getMarker = (feature: Feature) => {
+  const getMarker = (feat: any) => {
+    const feature = feat as Feature
     const latLng = featureTolocation(feature.geometry as Geometrie)
     const featureType = getFeatureType(feature)
 
@@ -63,12 +64,10 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return (
     <>
       {data.features
-        .filter((feature) => feature.properties.meldingstatus === 1)
+        .filter((feature) => feature?.properties?.meldingstatus === 1)
         .map(getMarker)}
     </>
   )
