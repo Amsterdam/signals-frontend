@@ -26,6 +26,7 @@ import type { FunctionComponent } from 'react'
 import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Geometrie } from 'types/incident'
 
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
@@ -89,7 +90,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, update } = useContext(AssetSelectContext)
+  const { selection, removeItem, setItem } = useContext(AssetSelectContext)
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -148,17 +149,15 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
       pointToLayer: (feature: Feature, latlng: LatLngLiteral) => {
         const featureType = getFeatureType(feature)
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
-        const selected =
-          Array.isArray(selection) &&
-          selection.some(
-            // Exclude from coverage; with the curent leaflet mock this can't be tested
-            /* istanbul ignore next*/ ({ id }) =>
-              id === feature.properties[featureType.idField]
-          )
+
+        const { description, typeValue, idField } = featureType
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const id = feature.properties[idField]!
+        const isSelectedItem = selection?.id === id
 
         const iconUrl = `data:image/svg+xml;base64,${btoa(
           /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          selected
+          isSelectedItem
             ? featureType.icon.selectedIconSvg ?? ''
             : featureType.icon.iconSvg
         )}`
@@ -167,7 +166,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           icon: L.icon({
             ...featureType.icon.options,
             /* istanbul ignore next */
-            className: `marker-icon${selected ? SELECTED_CLASS_MODIFIER : ''}`,
+            className: `marker-icon${
+              isSelectedItem ? SELECTED_CLASS_MODIFIER : ''
+            }`,
             iconUrl,
           }),
           alt: `${featureType.description} - ${
@@ -177,29 +178,35 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
         marker.on(
           'click',
-          /* istanbul ignore next */ () => {
-            const { description, typeValue, idField } = featureType
+          /* istanbul ignore next */ async () => {
             const coordinates = featureTolocation(feature.geometry as Geometrie)
             const item: Item = {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              id: feature.properties[idField]!,
-              type: typeValue,
+              location: {
+                coordinates,
+              },
               description,
-              coordinates,
+              id,
+              type: typeValue,
             }
 
-            const updateSelection = selected
-              ? selection.filter(({ id }) => id !== item.id)
-              : [...selection, item]
+            const response = await reverseGeocoderService(coordinates)
 
-            update(updateSelection)
+            if (response) {
+              item.location.address = response.data.address
+            }
+
+            if (item.id === selection?.id) {
+              removeItem()
+            } else {
+              setItem(item)
+            }
           }
         )
 
         return marker
       },
     }),
-    [getFeatureType, selection, update]
+    [getFeatureType, removeItem, selection, setItem]
   )
 
   useEffect(() => {

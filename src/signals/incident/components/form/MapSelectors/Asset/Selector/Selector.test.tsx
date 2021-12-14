@@ -1,20 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import 'jest-styled-components'
-import type { FC } from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
+import userEvent from '@testing-library/user-event'
+import { ascDefaultTheme } from '@amsterdam/asc-ui'
+
+import type { FC } from 'react'
 
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import {
   contextValue,
   withAssetSelectContext,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
-import userEvent from '@testing-library/user-event'
-import { ascDefaultTheme } from '@amsterdam/asc-ui'
-import Selector from '..'
+import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
-jest.mock('../../../hooks/useLayerVisible', () => ({
+import Selector from './Selector'
+
+jest.mock('../../hooks/useLayerVisible', () => ({
   __esModule: true,
   default: () => false,
 }))
@@ -23,6 +26,12 @@ let mockShowDesktopVariant: boolean
 jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
   useMatchMedia: () => [mockShowDesktopVariant],
 }))
+
+jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
+  <span data-testid="mockLegendPanel">
+    <input type="button" name="closeLegend" onClick={onClose} />
+  </span>
+))
 
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
@@ -42,23 +51,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
   })
 
   it('should render the layer when passed as prop', () => {
-    const Layer: FC<any> = (props) => (
-      <span data-testid="testLayer" {...props} />
-    )
+    const Layer: FC<any> = () => <span data-testid="testLayer" />
     render(
       withAssetSelectContext(<Selector />, { ...contextValue, layer: Layer })
     )
 
     expect(screen.getByTestId('testLayer')).toBeInTheDocument()
-  })
-
-  it('should call update when removing asset', async () => {
-    render(withAssetSelectContext(<Selector />))
-    expect(contextValue.update).not.toHaveBeenCalled()
-
-    const removeAssetsButton = await screen.findAllByTestId(/assetListRemove/)
-    userEvent.click(removeAssetsButton[0])
-    expect(contextValue.update).toHaveBeenCalled()
   })
 
   it('should call close when closing the selector', async () => {
@@ -70,20 +68,31 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(contextValue.close).toHaveBeenCalled()
   })
 
-  it('should render legend panel', async () => {
-    mockShowDesktopVariant = true
-    render(withAssetSelectContext(<Selector />))
-
-    userEvent.click(await screen.findByText('Legenda'))
-
-    expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
-  })
-
   it('should render selection panel', async () => {
     mockShowDesktopVariant = true
     render(withAssetSelectContext(<Selector />))
 
     expect(await screen.findByTestId('selectionPanel')).toBeInTheDocument()
+  })
+
+  it('handles closing the legend panel', () => {
+    render(withAssetSelectContext(<Selector />))
+
+    const legendToggleButton = screen.getByText('Legenda')
+
+    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
+
+    userEvent.click(legendToggleButton)
+
+    expect(screen.getByTestId('mockLegendPanel')).toBeInTheDocument()
+
+    const mockLegendPanel = screen.getByTestId('mockLegendPanel')
+
+    const legendCloseButton = within(mockLegendPanel).getByRole('button')
+
+    userEvent.click(legendCloseButton)
+
+    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
   })
 
   it('should show desktop version on desktop', async () => {
@@ -119,6 +128,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       withAssetSelectContext(<Selector />, {
         ...contextValue,
         coordinates,
+        selection: undefined,
       })
     )
     await screen.findByTestId('assetSelectSelector')
