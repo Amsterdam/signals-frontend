@@ -20,7 +20,7 @@ const StyledLink = styled(Link)`
 `
 
 const Summary: FC = () => {
-  const { location, selection, edit, meta } = useContext(AssetSelectContext)
+  const { address, selection, edit, meta } = useContext(AssetSelectContext)
   const { id, type } = selection || {}
   const { description } =
     meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
@@ -39,9 +39,9 @@ const Summary: FC = () => {
       {selection && (
         <div data-testid="assetSelectSummaryDescription">{`${description} - ${id}`}</div>
       )}
-      {location.address && (
+      {address && (
         <div data-testid="assetSelectSummaryAddress">
-          {formatAddress(location.address)}
+          {formatAddress(address)}
         </div>
       )}
       <StyledLink

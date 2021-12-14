@@ -31,15 +31,13 @@ const contextValue: AssetSelectValue = {
       },
     ],
   },
-  location: {
-    address: {
-      postcode: '1000 AA',
-      huisnummer: 100,
-      woonplaats: 'Amsterdam',
-      openbare_ruimte: 'West',
-    },
-    coordinates: { lat: 0, lng: 0 },
+  address: {
+    postcode: '1000 AA',
+    huisnummer: 100,
+    woonplaats: 'Amsterdam',
+    openbare_ruimte: 'West',
   },
+  coordinates: { lat: 0, lng: 0 },
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
