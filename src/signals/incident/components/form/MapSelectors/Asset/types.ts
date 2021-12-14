@@ -70,7 +70,6 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
-  reportedLayer?: boolean
 }
 
 export type FeatureProps = Record<string, string | number | undefined>
