@@ -96,7 +96,7 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { selection, layer, location, meta, update, setLocation, close } =
+  const { selection, layer, coordinates, meta, update, setLocation, close } =
     useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
@@ -109,7 +109,8 @@ const Selector = () => {
         : { Panel: MapPanelDrawer, panelVariant: 'drawer' },
     [desktopView]
   )
-  const center = location || (configuration.map.options.center as LatLngTuple)
+  const center =
+    coordinates || (configuration.map.options.center as LatLngTuple)
 
   const mapOptions: MapOptions = {
     ...MAP_OPTIONS,
@@ -145,10 +146,10 @@ const Selector = () => {
   const Layer = layer || AssetLayer
 
   useEffect(() => {
-    if (!map || !pinMarker || !location) return
+    if (!map || !pinMarker || !coordinates) return
 
-    pinMarker.setLatLng(location)
-  }, [map, location, pinMarker])
+    pinMarker.setLatLng(coordinates)
+  }, [map, coordinates, pinMarker])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
@@ -220,11 +221,11 @@ const Selector = () => {
           <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
 
-        {location && (
+        {coordinates && (
           <span data-testid="assetPinMarker">
             <Marker
               setInstance={setPinMarker}
-              args={[location]}
+              args={[coordinates]}
               options={{
                 icon: markerIcon,
                 keyboard: false,

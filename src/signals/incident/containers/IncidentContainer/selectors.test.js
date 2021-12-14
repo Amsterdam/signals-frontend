@@ -54,10 +54,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
     it('returns coordinates', () => {
       const coordinates = [4.899295459015508, 52.37211092764973]
       const location = {
-        geometrie: {
-          type: 'Point',
-          coordinates,
-        },
+        coordinates,
       }
       const stateWithLocation = { ...state }
       stateWithLocation.incident.location = location
@@ -65,7 +62,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const mockedState = fromJS(stateWithLocation)
 
       expect(makeSelectCoordinates.resultFunc(mockedState)).toStrictEqual(
-        coordinates
+        fromJS(coordinates)
       )
     })
   })

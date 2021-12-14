@@ -183,7 +183,7 @@ export default {
       },
       location: {
         label: 'Waar is het?',
-        render: PreviewComponents.Map,
+        render: PreviewComponents.MapPreview,
       },
       description: {
         label: 'Waar gaat het om?',

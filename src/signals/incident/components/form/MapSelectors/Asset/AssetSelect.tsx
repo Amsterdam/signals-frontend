@@ -5,12 +5,11 @@ import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { locationTofeature } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { makeSelectCoordinates } from 'signals/incident/containers/IncidentContainer/selectors'
 
 import type { Incident } from 'types/incident'
-import type { LatLngLiteral, LatLngTuple } from 'leaflet'
+import type { LatLngLiteral } from 'leaflet'
 import type { ClickEventHandler } from '../types'
 
 import { UNREGISTERED_TYPE } from '../constants'
@@ -66,8 +65,6 @@ const AssetSelect: FC<AssetSelectProps> = ({
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
 
-  const location: LatLngTuple = coordinates && [coordinates[1], coordinates[0]]
-
   /* istanbul ignore next */
   const update = useCallback(
     (selectedValue: Item[]) => {
@@ -89,7 +86,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       if (response) {
         const locationFromResponse = {
-          geometrie: locationTofeature(latLng),
+          coordinates: latLng,
           address: response.data.address,
         }
 
@@ -139,7 +136,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
         close,
         edit,
         layer,
-        location,
+        coordinates,
         message,
         meta: {
           ...meta,

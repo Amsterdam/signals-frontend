@@ -5,9 +5,10 @@ import styled from 'styled-components'
 import { Row, Column } from '@amsterdam/asc-ui'
 import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
+import { locationTofeature } from 'shared/services/map-location'
+
 import MapContext from 'containers/MapContext'
 
-import { mapLocation } from 'shared/services/map-location'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
 import LocationInput from './components/LocationInput'
@@ -34,10 +35,8 @@ const LocationForm = () => {
   )
 
   const onQueryResult = useCallback(
-    (value) => {
-      const newLocation = mapLocation(value)
-
-      form.controls.location.setValue(newLocation)
+    (queryLocation) => {
+      form.controls.location.setValue(queryLocation)
     },
     [form.controls.location]
   )
@@ -46,9 +45,18 @@ const LocationForm = () => {
     (event) => {
       event.preventDefault()
 
+      const { coordinates, ...formValueLocation } = form.value.location
+      const patch = { location: { ...location, ...formValueLocation } }
+
+      if (coordinates) {
+        patch.location.geometrie = locationTofeature(coordinates)
+        // the API expects a specifc order of coordinates: lng,lat
+        patch.location.geometrie.coordinates.reverse()
+      }
+
       update({
         type: PATCH_TYPE_LOCATION,
-        patch: { location: { ...location, ...form.value.location } },
+        patch,
       })
 
       close()

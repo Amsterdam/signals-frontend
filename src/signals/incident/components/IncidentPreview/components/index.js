@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import DateTime from './DateTime'
 import Image from './Image'
-import Map from './Map'
+import MapPreview from './MapPreview'
 import MapSelectPreview from './MapSelect'
 import ListObjectValue from './ListObjectValue'
 import AssetListPreview from './AssetListPreview'
@@ -14,6 +14,6 @@ export default {
   DateTime,
   ListObjectValue,
   Image,
-  Map,
+  MapPreview,
   MapSelectPreview,
 }

@@ -20,6 +20,7 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 
 import type { LatLngExpression } from 'leaflet'
 import type { AutoSuggestOption } from 'components/AutoSuggest/AutoSuggest'
+import type { Geometrie } from 'types/incident'
 
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
@@ -52,7 +53,7 @@ interface MapInstance {
 }
 
 interface Feature {
-  geometry: { coordinates: L.LatLngTuple }
+  geometry: Geometrie
   properties: IncidentSummary
 }
 

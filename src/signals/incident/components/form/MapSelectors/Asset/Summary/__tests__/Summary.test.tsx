@@ -31,7 +31,7 @@ const contextValue: AssetSelectValue = {
       },
     ],
   },
-  location: [1, 1],
+  coordinates: { lat: 0, lng: 0 },
   update: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
