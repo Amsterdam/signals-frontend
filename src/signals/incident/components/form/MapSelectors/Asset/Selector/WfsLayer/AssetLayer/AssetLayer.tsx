@@ -11,7 +11,6 @@ import {
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
-import './style.css'
 
 import type {
   LatLng,

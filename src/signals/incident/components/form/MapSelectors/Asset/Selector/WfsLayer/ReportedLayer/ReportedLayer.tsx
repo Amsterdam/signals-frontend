@@ -3,6 +3,8 @@
 import { useCallback, useContext } from 'react'
 import L from 'leaflet'
 
+import './style.css'
+
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
@@ -42,16 +44,16 @@ const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         className: REPORTED_CLASS_MODIFIER,
       })
 
+      const featureId = feature.properties[featureType.idField]
+
       return (
         <Marker
-          key={`${featureType && feature.properties[featureType.idField]}`}
+          key={featureId}
           latLng={latLng}
           options={{
             zIndexOffset: 1000,
             icon,
-            alt: `${featureType.description} - ${
-              feature.properties[featureType.idField]
-            }`,
+            alt: `${featureType.description} - ${featureId}`,
           }}
         />
       )

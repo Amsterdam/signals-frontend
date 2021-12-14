@@ -37,7 +37,16 @@ describe('ReportedLayer', () => {
 
   it('should render the reported layer in the map', () => {
     render(withMapStreetlights())
+    const reportedFeature = streetlightsJson.features.find(
+      (feature) => feature.properties.meldingstatus === 1
+    )
+    const reportedFeatureType = meta.featureTypes.find(
+      (featureType) => featureType.typeValue === 'reported'
+    )
+    const featureId = reportedFeature?.properties['objectnummer']
+
+    const description = `${reportedFeatureType?.description} - ${featureId}`
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
-    expect(screen.getByAltText('Is gemeld - 031346')).toBeInTheDocument()
+    expect(screen.getByAltText(description)).toBeInTheDocument()
   })
 })
