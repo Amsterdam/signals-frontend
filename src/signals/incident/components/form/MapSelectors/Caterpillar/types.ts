@@ -1,5 +1,4 @@
-import type { LatLngExpression } from 'leaflet'
-import type { ClickEventHandler, BaseItem } from '../types'
+import type { BaseItem } from '../types'
 
 export interface FeatureType {
   label: string
@@ -29,15 +28,4 @@ export interface Meta extends Record<string, unknown> {
   wfsFilter?: string
   icons: Icon[]
   extraProperties: string[]
-}
-
-export interface SelectValue {
-  selection: Item[]
-  location: LatLngExpression
-  meta: Meta
-  message?: string
-  update: (items: Item[]) => void
-  edit: ClickEventHandler
-  close: () => void
-  setMessage: (message?: string) => void
 }

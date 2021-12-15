@@ -2,15 +2,20 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
-import type { ClickEventHandler } from '../types'
+import type { Address } from 'types/address'
+import type { EventHandler } from '../types'
 import type { Icon } from '../Caterpillar/types'
+import type { UNREGISTERED_TYPE } from '../constants'
 
-export interface Item {
-  id: string | number
-  type: string
+export interface Item extends Record<string, unknown> {
+  location: {
+    address?: Address
+    coordinates?: LatLngLiteral
+  }
   description?: string
+  id: string | number
   isReported?: boolean
-  [key: string]: unknown
+  type?: typeof UNREGISTERED_TYPE | string
 }
 
 export interface FeatureType {
@@ -53,14 +58,16 @@ export interface Meta extends Record<string, unknown> {
 }
 
 export interface AssetSelectValue {
+  address?: Address
   close: () => void
-  edit: ClickEventHandler
+  edit: EventHandler
   layer?: FC
   coordinates?: LatLngLiteral
   message?: string
   meta: Meta
-  selection: Item[]
+  removeItem: () => void
+  selection?: Item
+  setItem: (item: Item) => void
   setLocation: (latLng: LatLngLiteral) => void
   setMessage: (message?: string) => void
-  update: (items: Item[]) => void
 }
