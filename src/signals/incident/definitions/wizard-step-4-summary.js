@@ -215,7 +215,7 @@ export default {
       },
 
       sharing_allowed: {
-        label: 'Melding delen',
+        label: 'Melding doorsturen',
         optional: true,
         render: ({ value }) => {
           if (!value) return null
