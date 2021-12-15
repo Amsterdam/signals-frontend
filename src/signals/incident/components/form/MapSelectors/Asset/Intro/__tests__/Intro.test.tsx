@@ -9,10 +9,11 @@ import type { AssetSelectValue, Meta } from '../../types'
 import Intro from '../Intro'
 
 const contextValue: AssetSelectValue = {
-  selection: [],
+  selection: undefined,
   meta: {} as Meta,
   coordinates: { lat: 0, lng: 0 },
-  update: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),

@@ -1,21 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FeatureCollection } from 'geojson'
-
 import { render, screen } from '@testing-library/react'
-
 import { Map } from '@amsterdam/react-maps'
+
+import type { FeatureCollection } from 'geojson'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Geometrie } from 'types/incident'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
+
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import { featureTolocation } from 'shared/services/map-location'
+
 import withAssetSelectContext, {
   contextValue,
-} from '../../../Asset/__tests__/withAssetSelectContext'
-import CaterpillarLayer from '..'
+} from '../../Asset/__tests__/withAssetSelectContext'
+import CaterpillarLayer from '.'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
@@ -51,25 +54,26 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle selecting a tree', async () => {
+    const featureId = 308779
+    const feature = caterpillarsJson.features.find(({ id }) => id === featureId)
+    const coordinates = featureTolocation(feature?.geometry as Geometrie)
+
     render(withMapCaterpillar())
 
-    expect(
-      screen.getByAltText('Eikenboom, is gemeld (308779)')
-    ).toBeInTheDocument()
-    const tree = screen.getByAltText('Eikenboom, is gemeld (308779)')
+    const tree = screen.getByAltText(`Eikenboom, is gemeld (${featureId})`)
+
     userEvent.click(tree)
 
-    expect(setItemSpy).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        {
-          id: 308779,
-          isReported: true,
-          description: 'Eikenboom',
-          type: 'Eikenboom',
-          GlobalID: '88fa2ec3-690d-44a8-b8d8-4c462c86ac74',
-        },
-      ])
-    )
+    expect(setItemSpy).toHaveBeenCalledWith({
+      id: featureId,
+      isReported: true,
+      description: 'Eikenboom',
+      type: 'Eikenboom',
+      GlobalID: feature?.properties.GlobalID,
+      location: {
+        coordinates,
+      },
+    })
   })
 
   it('should handle deselecting a tree', () => {
@@ -80,16 +84,12 @@ describe('CaterpillarLayer', () => {
     userEvent.click(tree)
 
     expect(setItemSpy).toHaveBeenCalled()
-    expect(setItemSpy).not.toHaveBeenCalledWith(
-      expect.arrayContaining([
-        {
-          description: 'Eikenboom',
-          id: 308778,
-          isReported: true,
-          type: 'Eikenboom',
-          GlobalID: '218b8c15-ef75-4851-9616-125132af7438',
-        },
-      ])
-    )
+    expect(setItemSpy).not.toHaveBeenCalledWith({
+      description: 'Eikenboom',
+      id: 308778,
+      isReported: true,
+      type: 'Eikenboom',
+      GlobalID: '218b8c15-ef75-4851-9616-125132af7438',
+    })
   })
 })

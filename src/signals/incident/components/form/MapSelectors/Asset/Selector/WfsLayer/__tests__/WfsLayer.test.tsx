@@ -37,13 +37,14 @@ const consoleErrorSpy = jest.spyOn(global.console, 'error')
 const endpoint = 'https://endpoint/?version=2'
 const promise = Promise.resolve()
 const assetSelectProviderValue: AssetSelectValue = {
-  selection: [],
+  selection: undefined,
   coordinates: { lat: 0, lng: 0 },
   meta: {
     endpoint,
     featureTypes: [],
   },
-  update: jest.fn(() => promise),
+  setItem: jest.fn(() => promise),
+  removeItem: jest.fn(),
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
@@ -144,13 +145,14 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const endpoint = 'https://endpoint/?version=2'
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
-      selection: [],
+      selection: undefined,
       coordinates: { lat: 0, lng: 0 },
       meta: {
         endpoint,
         featureTypes: [],
       },
-      update: jest.fn(() => promise),
+      setItem: jest.fn(() => promise),
+      removeItem: jest.fn(),
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
@@ -179,14 +181,15 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const wfsFilter =
       '<PropertyIsEqualTo><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope>'
     const assetSelectProviderValue: AssetSelectValue = {
-      selection: [],
+      selection: undefined,
       coordinates: { lat: 0, lng: 0 },
       meta: {
         endpoint,
         wfsFilter,
         featureTypes: [],
       },
-      update: jest.fn(() => promise),
+      setItem: jest.fn(() => promise),
+      removeItem: jest.fn(),
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
