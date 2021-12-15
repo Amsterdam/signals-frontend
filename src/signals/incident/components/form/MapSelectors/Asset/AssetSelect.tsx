@@ -94,10 +94,11 @@ const AssetSelect: FC<AssetSelectProps> = ({
     })
   }, [meta.name, parent.meta])
 
+  /**
+   * Callback handler for map clicks
+   */
   const setLocation = useCallback(
     async (latLng: LatLngLiteral) => {
-      parent.meta.updateIncident({ [meta.name as string]: undefined })
-
       const response = await reverseGeocoderService(latLng)
 
       if (response) {
@@ -107,9 +108,15 @@ const AssetSelect: FC<AssetSelectProps> = ({
         }
 
         parent.meta.updateIncident({ location: locationFromResponse })
+
+        // if there is an already selected object AND the object is NOT an unknown type,
+        // clear the selection
+        if (selection && selection.type !== UNREGISTERED_TYPE) {
+          removeItem()
+        }
       }
     },
-    [meta.name, parent.meta]
+    [removeItem, parent.meta, selection]
   )
 
   const edit = useCallback<EventHandler>(
@@ -133,6 +140,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
           featureType.typeValue === UNREGISTERED_TYPE
             ? defaultUnregisteredIconConfig
             : defaultIconConfig
+
         return {
           ...featureType,
           icon: {
@@ -151,10 +159,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
   return (
     <AssetSelectProvider
       value={{
-        location: {
-          coordinates,
-          address,
-        },
+        address,
+        coordinates,
         close,
         edit,
         layer,
@@ -170,11 +176,11 @@ const AssetSelect: FC<AssetSelectProps> = ({
         removeItem,
       }}
     >
-      {!showMap && !address && <Intro />}
+      {!showMap && !selection && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && address && <Summary />}
+      {!showMap && selection && <Summary />}
     </AssetSelectProvider>
   )
 }

@@ -16,7 +16,9 @@ import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
 import type { AssetSelectProps } from './AssetSelect'
 
 import { initialValue } from './context'
-import { withAssetSelectContext } from './__tests__/context.test'
+import withAssetSelectContext, {
+  contextValue,
+} from './__tests__/withAssetSelectContext'
 import AssetSelect from '.'
 
 const mockLatLng = { lat: 10, lng: 20 }
@@ -91,9 +93,18 @@ jest.mock('./Selector', () => () => {
 
 const mockAddress = {
   postcode: '1000 AA',
-  huisnummer: 100,
+  huisnummer: '100',
   woonplaats: 'Amsterdam',
   openbare_ruimte: 'West',
+}
+
+const geocodedResponse = {
+  id: 'foo',
+  value: 'bar',
+  data: {
+    location: mockLatLng,
+    address: mockAddress,
+  },
 }
 
 jest.mock('react-redux', () => jest.requireActual('react-redux'))
@@ -186,23 +197,7 @@ describe('AssetSelect', () => {
     expect(screen.queryByTestId('assetSelectSummary')).toBeInTheDocument()
   })
 
-  it('handles setLocation for a successful reverse geocode request', async () => {
-    const geocodedResponse = {
-      id: 'foo',
-      value: 'bar',
-      data: {
-        location: {
-          lat: 52.37377195,
-          lng: 4.87745608,
-        },
-        address: {
-          openbare_ruimte: '',
-          huisnummer: '189A-2',
-          postcode: '1016KP',
-          woonplaats: 'Amsterdam',
-        },
-      },
-    }
+  it('handles click on map when point has an associated address', async () => {
     mocked(reverseGeocoderService).mockImplementation(() =>
       Promise.resolve(geocodedResponse)
     )
@@ -217,13 +212,10 @@ describe('AssetSelect', () => {
 
     userEvent.click(assetSelectSelector)
 
-    expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({ Zork: undefined })
-
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(2)
-    expect(updateIncident).toHaveBeenLastCalledWith({
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledWith({
       location: expect.objectContaining({
         coordinates: mockLatLng,
         address: geocodedResponse.data.address,
@@ -231,7 +223,7 @@ describe('AssetSelect', () => {
     })
   })
 
-  it('handles setLocation for a unsuccessful reverse geocode request', async () => {
+  it('handles click on map when point does not have an associated address', async () => {
     const geocodedResponse = undefined
 
     mocked(reverseGeocoderService).mockImplementation(() =>
@@ -248,12 +240,77 @@ describe('AssetSelect', () => {
 
     userEvent.click(assetSelectSelector)
 
-    expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({ Zork: undefined })
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(updateIncident).not.toHaveBeenCalled()
+  })
+
+  it('handles click on map with already selected object', async () => {
+    mocked(reverseGeocoderService).mockImplementation(() =>
+      Promise.resolve(geocodedResponse)
+    )
+
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+
+    const meta = {
+      ...contextValue.meta,
+      name: 'FooBar',
+    }
+
+    const { rerender } = render(
+      withAssetSelectContext(<AssetSelect {...props} />, {
+        ...contextValue,
+        meta,
+      })
+    )
+
+    // open map
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    // select item
+    userEvent.click(screen.getByTestId('setItemContainer'))
+
+    const item = {
+      ...mockItem,
+      location: {
+        coordinates: { lat: 4, lng: 36 },
+      },
+    }
+
+    // setting an item will dispatch an action to the global store and, in turn, will rerender
+    // the AssetSelect component, so we need to do that as well:
+    rerender(
+      withAssetSelectContext(
+        <AssetSelect
+          {...{
+            ...props,
+            handler: () => ({
+              value: item,
+            }),
+          }}
+        />,
+        {
+          ...contextValue,
+          meta,
+        }
+      )
+    )
+
+    // simulate click on map
+    userEvent.click(screen.getByTestId('assetSelectSelector'))
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledTimes(3)
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      location: {},
+      [meta.name]: undefined,
+    })
   })
 
   it('handles setting a selected item', () => {
