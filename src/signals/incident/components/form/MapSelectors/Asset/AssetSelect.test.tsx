@@ -168,11 +168,6 @@ describe('AssetSelect', () => {
   })
 
   it('should render the Summary', () => {
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce(mockAddress)
-
     render(
       withAppContext(
         <AssetSelect
@@ -192,7 +187,6 @@ describe('AssetSelect', () => {
       )
     )
 
-    expect(screen.queryByTestId('assetSelectIntro')).not.toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSummary')).toBeInTheDocument()
   })

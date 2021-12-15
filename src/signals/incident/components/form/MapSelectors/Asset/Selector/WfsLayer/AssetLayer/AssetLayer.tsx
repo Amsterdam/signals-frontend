@@ -179,6 +179,11 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         marker.on(
           'click',
           /* istanbul ignore next */ async () => {
+            if (isSelectedItem) {
+              removeItem()
+              return
+            }
+
             const coordinates = featureTolocation(feature.geometry as Geometrie)
             const item: Item = {
               location: {
@@ -195,11 +200,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               item.location.address = response.data.address
             }
 
-            if (item.id === selection?.id) {
-              removeItem()
-            } else {
-              setItem(item)
-            }
+            setItem(item)
           }
         )
 

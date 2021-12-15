@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useContext, useRef, useMemo } from 'react'
+import { useCallback, useContext } from 'react'
 import L from 'leaflet'
 import { Marker } from '@amsterdam/arm-core'
 
@@ -17,24 +17,20 @@ import { getIconUrl } from '../../utils'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
-  const {
-    selection: selectionContext,
-    meta,
-    setItem,
-  } = useContext(SelectContext)
-  const selection = useRef<Item | undefined>(selectionContext)
-
-  selection.current = useMemo(() => selectionContext, [selectionContext])
+  const { selection, meta, setItem, removeItem } = useContext(SelectContext)
 
   const getMarker = useCallback(
     (feat: any) => {
       const feature = feat as Feature
       const coordinates = featureTolocation(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
-      const featureType = meta.featureTypes[0]
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const featureType = meta.featureTypes.find(
+        ({ label }) => label === 'Eikenboom'
+      )!
       const featureId = feature.properties[featureType.idField] as string
 
-      const isSelected = selectionContext?.id === featureId
+      const isSelected = selection?.id === featureId
 
       const isReported = Boolean(
         featureType.isReportedField &&
@@ -58,6 +54,11 @@ export const CaterpillarLayer: FC = () => {
       })
 
       const onClick = () => {
+        if (isSelected) {
+          removeItem()
+          return
+        }
+
         const { description, typeValue } = featureType
 
         const item: Item = {
@@ -97,7 +98,8 @@ export const CaterpillarLayer: FC = () => {
       meta.extraProperties,
       meta.featureTypes,
       meta.icons,
-      selectionContext,
+      removeItem,
+      selection,
       setItem,
     ]
   )

@@ -9,7 +9,7 @@ export const selection = [
     location: {},
   },
   {
-    id: '308779',
+    id: 308779,
     type: 'not-on-map',
     description: 'De boom staat niet op de kaart',
     isReported: false,

@@ -27,16 +27,23 @@ const assetSelectProviderValue: AssetSelectValue = {
 }
 
 describe('CaterpillarLayer', () => {
-  const setItemSpy = jest.fn()
-  const withMapCaterpillar = () =>
+  const setItem = jest.fn()
+  const removeItem = jest.fn()
+
+  const withMapCaterpillar = (contextOverride = {}) =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
           <CaterpillarLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, setItem: setItemSpy }
+      { ...assetSelectProviderValue, setItem, removeItem, ...contextOverride }
     )
+
+  afterEach(() => {
+    setItem.mockReset()
+    removeItem.mockReset()
+  })
 
   it('should render the caterpillar layer in the map', () => {
     render(withMapCaterpillar())
@@ -45,9 +52,6 @@ describe('CaterpillarLayer', () => {
     ).toBeInTheDocument()
     expect(
       screen.getByAltText('Eikenboom, is gemeld (308779)')
-    ).toBeInTheDocument()
-    expect(
-      screen.getByAltText('Eikenboom, is gemeld, is geselecteerd (308778)')
     ).toBeInTheDocument()
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
@@ -58,13 +62,13 @@ describe('CaterpillarLayer', () => {
     const feature = caterpillarsJson.features.find(({ id }) => id === featureId)
     const coordinates = featureTolocation(feature?.geometry as Geometrie)
 
-    render(withMapCaterpillar())
+    const { rerender } = render(withMapCaterpillar())
 
     const tree = screen.getByAltText(`Eikenboom, is gemeld (${featureId})`)
 
     userEvent.click(tree)
 
-    expect(setItemSpy).toHaveBeenCalledWith({
+    expect(setItem).toHaveBeenCalledWith({
       id: featureId,
       isReported: true,
       description: 'Eikenboom',
@@ -74,22 +78,43 @@ describe('CaterpillarLayer', () => {
         coordinates,
       },
     })
+
+    expect(
+      screen.queryByAltText(
+        `Eikenboom, is gemeld, is geselecteerd (${featureId})`
+      )
+    ).not.toBeInTheDocument()
+
+    rerender(
+      withMapCaterpillar({
+        selection: selection.find(({ id }) => id === featureId),
+      })
+    )
+
+    expect(
+      screen.getByAltText(
+        `Eikenboom, is gemeld, is geselecteerd (${featureId})`
+      )
+    ).toBeInTheDocument()
   })
 
   it('should handle deselecting a tree', () => {
-    render(withMapCaterpillar())
-    const tree = screen.getByAltText(
-      'Eikenboom, is gemeld, is geselecteerd (308778)'
+    const featureId = 308778
+    const selected = selection.find(({ id }) => id === featureId)
+
+    render(
+      withMapCaterpillar({
+        selection: selected,
+      })
     )
+
+    const tree = screen.getByAltText(
+      `Eikenboom, is gemeld, is geselecteerd (${308778})`
+    )
+
     userEvent.click(tree)
 
-    expect(setItemSpy).toHaveBeenCalled()
-    expect(setItemSpy).not.toHaveBeenCalledWith({
-      description: 'Eikenboom',
-      id: 308778,
-      isReported: true,
-      type: 'Eikenboom',
-      GlobalID: '218b8c15-ef75-4851-9616-125132af7438',
-    })
+    expect(removeItem).toHaveBeenCalled()
+    expect(setItem).not.toHaveBeenCalled()
   })
 })
