@@ -86,6 +86,11 @@ export const controls = {
           label: 'Onbekend',
           description: 'De boom staat niet op de kaart',
           iconId: 'unknown',
+          icon: {
+            options,
+            iconSvg: caterpillarIcons.unknown,
+            selectedIconSvg: caterpillarIcons.unknown,
+          },
           typeValue: 'not-on-map',
           typeField: '',
         },
