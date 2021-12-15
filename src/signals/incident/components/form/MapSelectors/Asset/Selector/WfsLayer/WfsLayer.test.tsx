@@ -2,21 +2,24 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
 import { useContext } from 'react'
-import type { MapOptions } from 'leaflet'
-
 import { act, render, screen } from '@testing-library/react'
+
+import type { MapOptions } from 'leaflet'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { FeatureCollection } from 'geojson'
 
 import { Map } from '@amsterdam/react-maps'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { AssetSelectValue } from '../../../types'
-import WfsDataContext, { NO_DATA } from '../context'
+
+import type { AssetSelectValue } from '../../types'
+import type { DataLayerProps } from '../../../types'
+
 import WfsLayer from '../WfsLayer'
-import * as useLayerVisible from '../../../../hooks/useLayerVisible'
-import { AssetSelectProvider } from '../../../context'
-import type { DataLayerProps } from '../../../../types'
+import * as useLayerVisible from '../../../hooks/useLayerVisible'
+import { AssetSelectProvider } from '../../context'
+
+import WfsDataContext, { NO_DATA } from './context'
 
 const fetchMock = fetch as FetchMock
 

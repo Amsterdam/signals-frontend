@@ -1,21 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { ReactNode } from 'react'
+import { render, screen } from '@testing-library/react'
+import { Map } from '@amsterdam/react-maps'
 
 import type { FeatureCollection } from 'geojson'
 import type { MapOptions } from 'leaflet'
 
-import { render, screen } from '@testing-library/react'
-
-import { Map } from '@amsterdam/react-maps'
-
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { FeatureType } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import { WfsDataProvider } from '../../context'
-import AssetLayer from '..'
-import type { ClusterMarker } from '../AssetLayer'
-import { shouldSpiderfy, getMarkerByZoomLevel } from '../AssetLayer'
+
+import { WfsDataProvider } from '../context'
+
+import type { FeatureType } from '../../../../types'
+import type { ClusterMarker } from './AssetLayer'
+
+import { shouldSpiderfy, getMarkerByZoomLevel } from './AssetLayer'
+import AssetLayer from '.'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options: MapOptions = {

@@ -57,6 +57,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     unregisteredAsset?.id || ''
   )
 
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUnregisteredAssetValue(event.currentTarget.value)
+  }
+
   const onCheck = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setShowObjectIdInput(!showObjectIdInput)
@@ -67,10 +71,6 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     },
     [removeItem, showObjectIdInput]
   )
-
-  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setUnregisteredAssetValue(event.currentTarget.value)
-  }, [])
 
   const onSetItem = useCallback(() => {
     setItem({
