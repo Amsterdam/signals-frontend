@@ -99,24 +99,27 @@ const AssetSelect: FC<AssetSelectProps> = ({
    */
   const setLocation = useCallback(
     async (latLng: LatLngLiteral) => {
+      // if there is an already selected object AND the object is NOT an unknown type,
+      // clear the selection
+      const { value } = handler()
+
+      if (value && value.type !== UNREGISTERED_TYPE) {
+        removeItem()
+      }
+
+      const location: Item['location'] = {
+        coordinates: latLng,
+      }
+
       const response = await reverseGeocoderService(latLng)
 
       if (response) {
-        const locationFromResponse = {
-          coordinates: latLng,
-          address: response.data.address,
-        }
-
-        parent.meta.updateIncident({ location: locationFromResponse })
-
-        // if there is an already selected object AND the object is NOT an unknown type,
-        // clear the selection
-        if (selection && selection.type !== UNREGISTERED_TYPE) {
-          removeItem()
-        }
+        location.address = response.data.address
       }
+
+      parent.meta.updateIncident({ location })
     },
-    [removeItem, parent.meta, selection]
+    [parent.meta, removeItem, handler]
   )
 
   const edit = useCallback<EventHandler>(
@@ -176,7 +179,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
         removeItem,
       }}
     >
-      {!showMap && !selection && <Intro />}
+      {!showMap && <Intro />}
 
       {showMap && <Selector />}
 

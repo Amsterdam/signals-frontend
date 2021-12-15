@@ -242,7 +242,9 @@ describe('AssetSelect', () => {
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).not.toHaveBeenCalled()
+    expect(updateIncident).toHaveBeenCalledWith({
+      location: { coordinates: mockLatLng },
+    })
   })
 
   it('handles click on map with already selected object', async () => {
@@ -307,9 +309,15 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledTimes(3)
-    expect(updateIncident).toHaveBeenLastCalledWith({
+    expect(updateIncident).toHaveBeenNthCalledWith(2, {
       location: {},
       [meta.name]: undefined,
+    })
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      location: {
+        address: mockAddress,
+        coordinates: mockLatLng,
+      },
     })
   })
 
