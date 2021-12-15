@@ -11,10 +11,9 @@ import {
 import userEvent from '@testing-library/user-event'
 
 import { UNREGISTERED_TYPE } from '../../../constants'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from '../../__tests__/context.test'
+} from '../../__tests__/withAssetSelectContext'
 import SelectionPanel from '../SelectionPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import type { SelectionPanelProps } from './SelectionPanel'

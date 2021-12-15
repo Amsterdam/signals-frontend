@@ -9,10 +9,9 @@ import { ascDefaultTheme } from '@amsterdam/asc-ui'
 import type { FC } from 'react'
 
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+} from '../__tests__/withAssetSelectContext'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector from './Selector'

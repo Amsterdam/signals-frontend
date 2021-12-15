@@ -12,20 +12,19 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+} from '../../../Asset/__tests__/withAssetSelectContext'
 import CaterpillarLayer from '..'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection,
+  selection: selection[0],
   meta,
 }
 
 describe('CaterpillarLayer', () => {
-  const updateSpy = jest.fn()
+  const setItemSpy = jest.fn()
   const withMapCaterpillar = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
@@ -33,7 +32,7 @@ describe('CaterpillarLayer', () => {
           <CaterpillarLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, update: updateSpy }
+      { ...assetSelectProviderValue, setItem: setItemSpy }
     )
 
   it('should render the caterpillar layer in the map', () => {
@@ -60,7 +59,7 @@ describe('CaterpillarLayer', () => {
     const tree = screen.getByAltText('Eikenboom, is gemeld (308779)')
     userEvent.click(tree)
 
-    expect(updateSpy).toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalledWith(
       expect.arrayContaining([
         {
           id: 308779,
@@ -80,8 +79,8 @@ describe('CaterpillarLayer', () => {
     )
     userEvent.click(tree)
 
-    expect(updateSpy).toHaveBeenCalled()
-    expect(updateSpy).not.toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalled()
+    expect(setItemSpy).not.toHaveBeenCalledWith(
       expect.arrayContaining([
         {
           description: 'Eikenboom',
