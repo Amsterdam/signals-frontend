@@ -4,8 +4,12 @@ import type { FC } from 'react'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Address } from 'types/address'
 import type { EventHandler } from '../types'
-import type { Icon } from '../Caterpillar/types'
 import type { UNREGISTERED_TYPE } from '../constants'
+
+type Icon = {
+  id: string
+  icon: string
+}
 
 export interface Item extends Record<string, unknown> {
   location: {
