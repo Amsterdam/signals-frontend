@@ -67,6 +67,14 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
   })
 
+  it('renders without selection', () => {
+    render(withContext(<Summary />, { ...contextValue, selection: undefined }))
+
+    expect(
+      screen.queryByTestId('assetSelectSummaryDescription')
+    ).not.toBeInTheDocument()
+  })
+
   it('should call edit by mouse click', () => {
     render(withContext(<Summary />))
     expect(contextValue.edit).not.toHaveBeenCalled()

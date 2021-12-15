@@ -25,6 +25,12 @@ export const selection = [
 ]
 
 export const meta = {
+  icons: [
+    {
+      id: 'cannot_be_matched',
+      icon: '',
+    },
+  ],
   ifAllOf: {
     subcategory: 'eikenprocessierups',
   },
