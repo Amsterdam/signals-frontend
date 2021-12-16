@@ -30,6 +30,8 @@ export const StreetlightLayer = () => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           reportedFeatures={reportedFeatures}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           reportedFeatureType={reportedFeatureType}
         />
       )}
