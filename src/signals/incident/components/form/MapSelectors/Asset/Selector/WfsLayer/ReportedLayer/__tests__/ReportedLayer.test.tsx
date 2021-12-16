@@ -46,7 +46,6 @@ describe('ReportedLayer', () => {
     const featureId = reportedFeature?.properties['objectnummer']
 
     const description = `${reportedFeatureType?.description} - ${featureId}`
-    expect(screen.getByTestId('map-test')).toBeInTheDocument()
     expect(screen.getByAltText(description)).toBeInTheDocument()
   })
 })

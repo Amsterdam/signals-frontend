@@ -197,7 +197,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               id: feature.properties[idField]!,
               type: typeValue,
               description,
-              isReported: Boolean(feature.properties.meldingstatus === 1),
+              isReported: feature.properties.meldingstatus === 1,
               coordinates,
             }
 

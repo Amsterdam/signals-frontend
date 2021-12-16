@@ -27,7 +27,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const state = {
         incidentContainer: {
           incident: {
-            categoy: 'poep',
+            category: 'poep',
           },
         },
       }
@@ -40,7 +40,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
   describe('makeSelectCoordinates', () => {
     const state = {
       incident: {
-        categoy: 'poep',
+        category: 'poep',
         location: undefined,
       },
     }
@@ -62,7 +62,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const mockedState = fromJS(stateWithLocation)
 
       expect(makeSelectCoordinates.resultFunc(mockedState)).toStrictEqual(
-        fromJS(coordinates)
+        coordinates
       )
     })
   })
