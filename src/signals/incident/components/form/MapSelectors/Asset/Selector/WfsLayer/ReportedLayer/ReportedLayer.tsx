@@ -4,7 +4,10 @@ import L from 'leaflet'
 import './style.css'
 
 import type { FC } from 'react'
-import type { Feature } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type {
+  Feature,
+  FeatureType,
+} from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { Marker } from '@amsterdam/arm-core'
 import { getIconUrl } from 'signals/incident/components/form/MapSelectors/utils'
 import { reported as ReportedIcon } from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
@@ -14,15 +17,16 @@ import type { Geometrie } from 'types/incident'
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
 export interface ReportedLayerProps {
-  reportedFeatures: any
-  reportedFeatureType: any
+  reportedFeatures: Feature[]
+  reportedFeatureType: FeatureType
 }
 
 const ReportedLayer: FC<ReportedLayerProps> = ({
   reportedFeatures,
   reportedFeatureType,
 }) => {
-  const getMarker = (feature: Feature, index: number) => {
+  const getMarker = (feat: any, index: number) => {
+    const feature = feat as Feature
     const latLng = featureTolocation(feature?.geometry as Geometrie)
 
     if (!feature || !reportedFeatureType) return

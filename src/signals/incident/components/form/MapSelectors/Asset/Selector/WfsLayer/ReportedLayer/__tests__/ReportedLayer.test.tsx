@@ -49,6 +49,8 @@ describe('ReportedLayer', () => {
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
           {reportedFeatures?.length > 0 && reportedFeatureType && (
             <ReportedLayer
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               reportedFeatures={reportedFeatures}
               reportedFeatureType={reportedFeatureType}
             />
