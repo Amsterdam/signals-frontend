@@ -95,7 +95,11 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       setUnregisteredAssetValue('')
       setShowObjectIdInput(false)
     }
-  }, [selectionOnMap])
+
+    if (unregisteredAsset) {
+      setShowObjectIdInput(true)
+    }
+  }, [selectionOnMap, unregisteredAsset])
 
   return (
     <MapPanelContent
