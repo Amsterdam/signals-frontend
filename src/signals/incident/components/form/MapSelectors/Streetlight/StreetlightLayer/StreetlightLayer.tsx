@@ -22,10 +22,12 @@ export const StreetlightLayer = () => {
     (feature) => feature.properties?.meldingstatus === 1
   )
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return (
     <>
       <AssetLayer featureTypes={meta.featureTypes} desktopView={desktopView} />
-      {reportedFeatures.length > 0 && reportedFeatureType && (
+      {reportedFeatures?.length > 0 && reportedFeatureType && (
         <ReportedLayer
           reportedFeatures={reportedFeatures}
           reportedFeatureType={reportedFeatureType}

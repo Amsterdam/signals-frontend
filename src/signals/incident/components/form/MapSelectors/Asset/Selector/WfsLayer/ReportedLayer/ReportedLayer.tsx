@@ -18,22 +18,17 @@ const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
 export interface ReportedLayerProps {
   reportedFeatures: Feature[]
-  reportedFeatureType?: FeatureType
-  desktopView?: boolean
+  reportedFeatureType: FeatureType
 }
 
 const ReportedLayer: FC<ReportedLayerProps> = ({
   reportedFeatures,
   reportedFeatureType,
 }) => {
-  if (!reportedFeatures || !reportedFeatureType) {
-    return null
-  }
-  const getMarker = (feat: any) => {
-    const feature = feat as Feature
-    const latLng = featureTolocation(feature.geometry as Geometrie)
+  const getMarker = (feature: Feature, index: number) => {
+    const latLng = featureTolocation(feature?.geometry as Geometrie)
 
-    if (!reportedFeatureType) return
+    if (!feature || !reportedFeatureType) return
 
     const icon = L.icon({
       iconSize: [20, 20],
@@ -41,7 +36,7 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
       className: REPORTED_CLASS_MODIFIER,
     })
 
-    const featureId = feature.properties[reportedFeatureType.idField]
+    const featureId = feature.properties[reportedFeatureType.idField] || index
 
     return (
       <Marker
@@ -55,7 +50,9 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
       />
     )
   }
-  return <>{reportedFeatures.map(getMarker)}</>
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <>{reportedFeatures.length > 0 && reportedFeatures.map(getMarker)}</>
 }
 
 export default ReportedLayer

@@ -14,6 +14,7 @@ import {
   contextValue,
   withAssetSelectContext,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+import * as verlichtingIcons from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
 import ReportedLayer from '../ReportedLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
@@ -23,13 +24,38 @@ const assetSelectProviderValue: AssetSelectValue = {
   meta,
 }
 
+const reportedFeatureType = {
+  label: 'Is gemeld',
+  description: 'Is gemeld',
+  icon: {
+    options: {},
+    iconSvg: verlichtingIcons.reported,
+    selectedIconSvg: verlichtingIcons.reported,
+  },
+  idField: 'objectnummer',
+  typeField: 'objecttype',
+  typeValue: 'reported',
+}
+
+const reportedFeatures = streetlightsJson.features.filter(
+  (feature) => feature.properties?.meldingstatus === 1
+)
+
 describe('ReportedLayer', () => {
   const updateSpy = jest.fn()
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const withMapStreetlights = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
-          <ReportedLayer featureTypes={meta.featureTypes} desktopView />;
+          {reportedFeatures?.length > 0 && reportedFeatureType && (
+            <ReportedLayer
+              reportedFeatures={reportedFeatures}
+              reportedFeatureType={reportedFeatureType}
+              desktopView
+            />
+          )}
         </WfsDataProvider>
       </Map>,
       { ...assetSelectProviderValue, update: updateSpy }
@@ -37,14 +63,9 @@ describe('ReportedLayer', () => {
 
   it('should render the reported layer in the map', () => {
     render(withMapStreetlights())
-    const reportedFeature = streetlightsJson.features.find(
-      (feature) => feature.properties.meldingstatus === 1
-    )
-    const reportedFeatureType = meta.featureTypes.find(
-      (featureType) => featureType.typeValue === 'reported'
-    )
-    const featureId = reportedFeature?.properties['objectnummer']
 
+    const featureId =
+      (reportedFeatures && reportedFeatures[0].properties['objectnummer']) || ''
     const description = `${reportedFeatureType?.description} - ${featureId}`
     expect(screen.getByAltText(description)).toBeInTheDocument()
   })
