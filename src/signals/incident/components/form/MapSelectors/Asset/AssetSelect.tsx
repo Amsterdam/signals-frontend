@@ -101,8 +101,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
     async (latLng: LatLngLiteral) => {
       const payload: Record<string, any> = {}
 
-      // if there is an already selected object AND the object is NOT an unknown type,
-      // set the selection type so that the checkbox in the selection panel will be checked
+      // Clicking the map should unset a previous selection and preset it with an item that we know
+      // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
+      // will be checked whenever a click on the map is registered
       payload[meta.name as string] = { type: UNREGISTERED_TYPE }
 
       const location: Item['location'] = {
