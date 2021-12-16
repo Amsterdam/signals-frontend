@@ -10,34 +10,25 @@ import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import StreetlightLayer from '../StreetlightLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: [
-    {
-      id: '031346',
-      type: '4',
-      description: 'Overig lichtpunt',
-      isReported: true,
-    },
-    {
-      id: '27235',
-      type: '4',
-      description: 'Overig lichtpunt',
-      isReported: false,
-    },
-  ],
+  selection: {
+    id: '031346',
+    type: '4',
+    description: 'Overig lichtpunt',
+    isReported: true,
+    location: {},
+  },
   meta,
 }
 
 describe('StreetlightLayer', () => {
-  const updateSpy = jest.fn()
   const withMapStreetlight = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
@@ -45,7 +36,7 @@ describe('StreetlightLayer', () => {
           <StreetlightLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, update: updateSpy }
+      { ...assetSelectProviderValue }
     )
 
   it('should render the streetlight layer in the map', () => {
