@@ -48,9 +48,13 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
+    const label = [description, isReported && 'is gemeld', id]
+      .filter(Boolean)
+      .join(' - ')
+
     const baseItem = {
       id,
-      label: `${description} - ${id}`,
+      label,
     }
 
     if (isReported && icon?.reportedIconSvg) {
@@ -66,7 +70,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     return {
       ...baseItem,
       iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
-      isReported: false,
+      isReported,
     }
   }, [featureTypes, selection])
 

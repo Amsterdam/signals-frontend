@@ -18,6 +18,7 @@ import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
 import RadioInputGroup from './RadioInputGroup'
 import SelectInput from './SelectInput'
+import StreetlightSelectRenderer from './MapSelectors/Streetlight/StreetlightSelectRenderer'
 import TextareaInput from './TextareaInput'
 import TextInput from './TextInput'
 import WithHeading from './WithHeading'
@@ -41,6 +42,7 @@ export default {
   PlainText,
   RadioInputGroup,
   SelectInput,
+  StreetlightSelectRenderer,
   TextareaInput,
   TextInput,
   WithHeading,

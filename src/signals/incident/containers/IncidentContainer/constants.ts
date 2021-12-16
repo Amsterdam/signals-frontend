@@ -41,6 +41,7 @@ export const FIELD_TYPE_MAP = {
   plain_text: 'PlainText',
   radio_input: 'RadioInputGroup',
   select_input: 'SelectInput',
+  streetlight_select: 'StreetlightSelectRenderer',
   text_input: 'TextInput',
   textarea_input: 'TextareaInput',
 }
