@@ -99,13 +99,11 @@ const AssetSelect: FC<AssetSelectProps> = ({
    */
   const setLocation = useCallback(
     async (latLng: LatLngLiteral) => {
-      // if there is an already selected object AND the object is NOT an unknown type,
-      // clear the selection
-      const { value } = handler()
+      const payload: Record<string, any> = {}
 
-      if (value && value.type !== UNREGISTERED_TYPE) {
-        removeItem()
-      }
+      // if there is an already selected object AND the object is NOT an unknown type,
+      // set the selection type so that the checkbox in the selection panel will be checked
+      payload[meta.name as string] = { type: UNREGISTERED_TYPE }
 
       const location: Item['location'] = {
         coordinates: latLng,
@@ -117,9 +115,11 @@ const AssetSelect: FC<AssetSelectProps> = ({
         location.address = response.data.address
       }
 
-      parent.meta.updateIncident({ location })
+      payload.location = location
+
+      parent.meta.updateIncident(payload)
     },
-    [parent.meta, removeItem, handler]
+    [meta.name, parent.meta]
   )
 
   const edit = useCallback<EventHandler>(

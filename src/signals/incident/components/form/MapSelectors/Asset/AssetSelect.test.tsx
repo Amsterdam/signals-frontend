@@ -12,7 +12,10 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
-import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import {
+  UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
+  UNREGISTERED_TYPE,
+} from '../constants'
 import type { AssetSelectProps } from './AssetSelect'
 
 import { initialValue } from './context'
@@ -210,6 +213,9 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
     expect(updateIncident).toHaveBeenCalledWith({
+      [props.meta.name as string]: {
+        type: UNREGISTERED_TYPE,
+      },
       location: expect.objectContaining({
         coordinates: mockLatLng,
         address: geocodedResponse.data.address,
@@ -237,6 +243,9 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledWith({
+      [props.meta.name as string]: {
+        type: UNREGISTERED_TYPE,
+      },
       location: { coordinates: mockLatLng },
     })
   })
@@ -302,12 +311,11 @@ describe('AssetSelect', () => {
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(3)
-    expect(updateIncident).toHaveBeenNthCalledWith(2, {
-      location: {},
-      [meta.name]: undefined,
-    })
+    expect(updateIncident).toHaveBeenCalledTimes(2)
     expect(updateIncident).toHaveBeenLastCalledWith({
+      [props.meta.name as string]: {
+        type: UNREGISTERED_TYPE,
+      },
       location: {
         address: mockAddress,
         coordinates: mockLatLng,
