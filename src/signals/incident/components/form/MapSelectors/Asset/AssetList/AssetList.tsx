@@ -50,7 +50,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
     const baseItem = {
       id,
-      label: `${description} - ${id}`,
+      label: `${description}${id ? ` - ${id}` : ''}`,
     }
 
     if (isReported && icon?.reportedIconSvg) {
