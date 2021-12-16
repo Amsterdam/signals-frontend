@@ -4,7 +4,11 @@ import { render, screen } from '@testing-library/react'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import userEvent from '@testing-library/user-event'
 
+import type { Address } from 'types/address'
+
+import { formatAddress } from 'shared/services/format-address'
 import { withAppContext } from 'test/utils'
+
 import type { AssetSelectValue } from '../types'
 
 import Summary from '../Summary'
@@ -102,5 +106,32 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     userEvent.keyboard('{Enter}')
 
     expect(contextValue.edit).toHaveBeenCalled()
+  })
+
+  it('renders summary address', () => {
+    const address = contextValue.address as Address
+
+    const { rerender } = render(withContext(<Summary />))
+    expect(
+      screen.queryByText('Locatie is gepind op de kaart')
+    ).not.toBeInTheDocument()
+    expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
+
+    rerender(withContext(<Summary />, { ...contextValue, address: undefined }))
+    expect(
+      screen.getByText('Locatie is gepind op de kaart')
+    ).toBeInTheDocument()
+
+    rerender(
+      withContext(<Summary />, {
+        ...contextValue,
+        address: undefined,
+        coordinates: undefined,
+      })
+    )
+    expect(
+      screen.queryByText('Locatie is gepind op de kaart')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
   })
 })

@@ -20,10 +20,15 @@ const StyledLink = styled(Link)`
 `
 
 const Summary: FC = () => {
-  const { address, selection, edit, meta } = useContext(AssetSelectContext)
+  const { address, coordinates, selection, edit, meta } =
+    useContext(AssetSelectContext)
   const { id, type } = selection || {}
   const { description } =
     meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+
+  const summaryDescription = `${description}${id ? ` - ${id}` : ''}`
+  let summaryAddress = coordinates ? 'Locatie is gepind op de kaart' : ''
+  if (address) summaryAddress = formatAddress(address)
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
@@ -37,13 +42,11 @@ const Summary: FC = () => {
   return (
     <Wrapper data-testid="assetSelectSummary">
       {selection && (
-        <div data-testid="assetSelectSummaryDescription">{`${description} - ${id}`}</div>
-      )}
-      {address && (
-        <div data-testid="assetSelectSummaryAddress">
-          {formatAddress(address)}
+        <div data-testid="assetSelectSummaryDescription">
+          {summaryDescription}
         </div>
       )}
+      <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
       <StyledLink
         onClick={edit}
         onKeyUp={onKeyUp}
