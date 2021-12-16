@@ -19,10 +19,16 @@ import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-st
 import wonen from './wizard-step-2-vulaan/wonen'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
-const mapValidatorToFn = (key) => Validators[key]
-const expandValidatorFn = ([key, ...args]) => mapValidatorToFn(key)(...args)
-const expandValidator = (key) =>
-  Array.isArray(key) ? expandValidatorFn(key) : mapValidatorToFn(key)
+
+const mapValidatorToFn = (validator) => Validators?.[validator] || validator
+
+const expandValidatorFn = ([validator, ...args]) =>
+  mapValidatorToFn(validator)(...args)
+
+const expandValidator = (validator) =>
+  Array.isArray(validator)
+    ? expandValidatorFn(validator)
+    : mapValidatorToFn(validator)
 
 const expandQuestions = memoize(
   (questions) => ({
