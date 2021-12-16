@@ -12,9 +12,10 @@ jest.mock('components/MapStatic', () => (props) => (
   <span data-testid="mapStatic" {...props} />
 ))
 
-describe('signals/incident/components/IncidentPreview/components/Map', () => {
-  const geometrie = {
-    coordinates: [52, 4],
+describe('signals/incident/components/IncidentPreview/components/MapPreview', () => {
+  const coordinates = {
+    lat: 52,
+    lng: 4,
   }
 
   afterEach(() => {
@@ -22,7 +23,7 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   })
 
   it('should render normal map with useStaticMapServer disabled', () => {
-    render(withAppContext(<MapPreview value={{ geometrie }} />))
+    render(withAppContext(<MapPreview value={{ coordinates }} />))
 
     expect(screen.getByText('Locatie gepind op de kaart')).toBeInTheDocument()
     expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
@@ -32,7 +33,7 @@ describe('signals/incident/components/IncidentPreview/components/Map', () => {
   it('should render static map with useStaticMapServer enabled', () => {
     configuration.featureFlags.useStaticMapServer = true
 
-    render(withAppContext(<MapPreview value={{ geometrie }} />))
+    render(withAppContext(<MapPreview value={{ coordinates }} />))
 
     expect(screen.queryByTestId('mapStatic')).toBeInTheDocument()
     expect(screen.queryByTestId('map-base')).not.toBeInTheDocument()

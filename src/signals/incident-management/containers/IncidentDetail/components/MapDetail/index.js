@@ -6,12 +6,14 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import { Marker } from '@amsterdam/react-maps'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { featureTolocation } from 'shared/services/map-location'
 import { locationType } from 'shared/types'
 
 const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
-  const location = value?.geometrie?.coordinates
-  const lat = location && location[1]
-  const lng = location && location[0]
+  const { lat, lng } = value?.geometrie
+    ? featureTolocation(value.geometrie)
+    : {}
+
   const options = {
     ...MAP_OPTIONS,
     zoom,

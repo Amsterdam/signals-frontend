@@ -4,10 +4,14 @@ import { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 import Button from 'components/Button'
 import { themeSpacing } from '@amsterdam/asc-ui'
+
+import type { LatLngTuple, MapOptions } from 'leaflet'
+
+import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+
 import Map from 'components/Map'
-import type { LatLngTuple, MapOptions } from 'leaflet'
 
 const Wrapper = styled.div`
   position: relative;
@@ -30,10 +34,9 @@ const StyledMap = styled(Map)`
 `
 
 const Intro = () => {
-  const { edit, location } = useContext(AssetSelectContext)
-  const latlng = location as LatLngTuple
-  const lat = latlng?.[0]
-  const lng = latlng?.[1]
+  const { edit, coordinates } = useContext(AssetSelectContext)
+  const center =
+    coordinates || (configuration.map.options.center as LatLngTuple)
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const mapOptions = useMemo<MapOptions>(
@@ -41,25 +44,23 @@ const Intro = () => {
     () => ({
       ...MAP_OPTIONS,
       attributionControl: false,
-      center: [lat, lng],
+      center,
       dragging: false,
       keyboard: false,
       doubleClickZoom: false,
     }),
-    [lat, lng]
+    [center]
   )
 
   return (
     <Wrapper data-testid="assetSelectIntro">
-      {lat && lng && (
-        <StyledMap
-          data-testid="mapLocation"
-          mapOptions={mapOptions}
-          hasZoomControls={false}
-          events={{}}
-          setInstance={() => {}}
-        ></StyledMap>
-      )}
+      <StyledMap
+        data-testid="mapLocation"
+        mapOptions={mapOptions}
+        hasZoomControls={false}
+        events={{}}
+        setInstance={() => {}}
+      />
 
       <ButtonBar>
         <Button data-testid="chooseOnMap" onClick={edit} variant="primary">

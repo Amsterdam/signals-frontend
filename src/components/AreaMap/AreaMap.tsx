@@ -2,13 +2,14 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
-import L, { LatLng } from 'leaflet'
+import L from 'leaflet'
 import styled from 'styled-components'
 import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 
 import type { Point } from 'geojson'
 import type { MapOptions } from 'leaflet'
-import type { Coordinates } from 'types/incident'
+import type { Geography, Property } from 'types/api/geography'
+import type { Incident } from 'types/api/incident'
 
 import Map from 'components/Map'
 import MarkerCluster from 'components/MarkerCluster'
@@ -20,8 +21,9 @@ import {
   pointerSelectIcon,
   currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
+import { featureTolocation } from 'shared/services/map-location'
 import MapCloseButton from 'components/MapCloseButton'
-import type { Geography, Property } from 'types/api/geography'
+
 import type { Feature } from './types'
 
 export const DEFAULT_ZOOM = 14
@@ -46,12 +48,12 @@ export interface AreaMapProps {
   selectedFeature: Feature | null
   onClose: () => void
   onClick: (feature: Feature | null) => void
-  center: Coordinates
+  location: Incident['location']
 }
 
 const AreaMap: FunctionComponent<AreaMapProps> = ({
   geoData,
-  center,
+  location,
   selectedFeature,
   onClose,
   onClick,
@@ -59,10 +61,8 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   const [markers, setMarkers] = useState<L.GeoJSON<Point>>()
   const [map, setMap] = useState<L.Map>()
   const selectedFeatureId = useRef<number>()
-  const centerLatLng = useMemo<LatLng>(
-    () => new LatLng(center[1], center[0]),
-    [center]
-  )
+  const coordinates =
+    location?.geometrie && featureTolocation(location?.geometrie)
 
   useEffect(() => {
     selectedFeatureId.current = selectedFeature?.properties.id
@@ -71,9 +71,9 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   const mapOptions = useMemo(
     () => ({
       ...AREA_MAP_OPTIONS,
-      center: center.reverse(), // center is [lat, long] instead of [long, lag],
+      center: coordinates,
     }),
-    [center]
+    [coordinates]
   )
 
   const getIncidentIcon = useCallback(
@@ -117,7 +117,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           },
       })
     }
-  }, [center, centerLatLng, map, onClick])
+  }, [coordinates, map, onClick])
 
   // Render focus circle
   useEffect(() => {
@@ -192,14 +192,17 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
         mapOptions={mapOptions}
         setInstance={setMap}
       >
-        <Marker
-          latLng={centerLatLng}
-          options={{
-            icon: currentIncidentIcon,
-            interactive: false,
-            zIndexOffset: CURRENT_INCIDENT_MARKER_Z,
-          }}
-        />
+        {coordinates && (
+          <Marker
+            latLng={coordinates}
+            options={{
+              icon: currentIncidentIcon,
+              interactive: false,
+              zIndexOffset: CURRENT_INCIDENT_MARKER_Z,
+            }}
+          />
+        )}
+
         <MarkerCluster
           setInstance={setMarkers}
           getIsSelectedCluster={getIsSelectedCluster}

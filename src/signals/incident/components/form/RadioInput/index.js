@@ -45,7 +45,7 @@ const RadioInput = ({
   }, [dispatch, id, info, label, name, resetsStateOnChange])
 
   return (
-    <StyledLabel inline htmlFor={idAttr} label={label}>
+    <StyledLabel inline htmlFor={idAttr} label={label} noActiveState>
       <Radio
         checked={checked}
         data-testid="inputUsingDispatch"

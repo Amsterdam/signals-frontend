@@ -5,8 +5,6 @@ import type { FC } from 'react'
 import { render, screen } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
 
-import type { LatLngTuple } from 'leaflet'
-
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import {
   contextValue,
@@ -115,12 +113,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
   })
 
   it('renders a pin marker when there is a location', async () => {
-    const location = [52.3731081, 4.8932945] as LatLngTuple
+    const coordinates = { lat: 52.3731081, lng: 4.8932945 }
 
     render(
       withAssetSelectContext(<Selector />, {
         ...contextValue,
-        location,
+        coordinates,
       })
     )
     await screen.findByTestId('assetSelectSelector')
@@ -132,7 +130,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(
       withAssetSelectContext(<Selector />, {
         ...contextValue,
-        location: undefined,
+        coordinates: undefined,
       })
     )
     await screen.findByTestId('assetSelectSelector')
@@ -141,7 +139,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
   })
 
   it('dispatches the location when the map is clicked', async () => {
-    const { location, setLocation } = contextValue
+    const { coordinates, setLocation } = contextValue
 
     render(withAssetSelectContext(<Selector />))
 
@@ -155,7 +153,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     })
 
     expect(setLocation).toHaveBeenCalledWith(
-      expect.not.objectContaining({ lat: location?.[1], lng: location?.[0] })
+      expect.not.objectContaining(coordinates)
     )
   })
 })

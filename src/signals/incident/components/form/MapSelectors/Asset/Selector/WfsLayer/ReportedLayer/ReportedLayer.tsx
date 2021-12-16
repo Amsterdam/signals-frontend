@@ -1,73 +1,57 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useContext } from 'react'
 import L from 'leaflet'
-import '../style.css'
+import './style.css'
 
-import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
-  DataLayerProps,
   Feature,
+  FeatureType,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { Marker } from '@amsterdam/arm-core'
 import { getIconUrl } from 'signals/incident/components/form/MapSelectors/utils'
 import { reported as ReportedIcon } from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
-import WfsDataContext from '../context'
+import { featureTolocation } from 'shared/services/map-location'
+import type { Geometrie } from 'types/incident'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
-const ReportedLayer: FC<DataLayerProps> = ({ featureTypes }) => {
-  const data = useContext<FeatureCollection>(WfsDataContext)
+export interface ReportedLayerProps {
+  reportedFeatures: Feature[]
+  reportedFeatureType: FeatureType
+}
 
-  const getFeatureType = useCallback(
-    (feat: any) => {
-      const feature = feat as Feature
-      if (feature.properties.meldingstatus === 1) {
-        return featureTypes.find(
-          ({ typeValue, typeField }) =>
-            typeValue !== 'reported' &&
-            typeValue === feature.properties[typeField]
-        )
-      }
-    },
-    [featureTypes]
-  )
+const ReportedLayer: FC<ReportedLayerProps> = ({
+  reportedFeatures,
+  reportedFeatureType,
+}) => {
+  const getMarker = (feat: any, index: number) => {
+    const feature = feat as Feature
+    const latLng = featureTolocation(feature?.geometry as Geometrie)
 
-  const getMarker = useCallback(
-    (feat: any) => {
-      const feature = feat as Feature
-      const [lng, lat] = feature.geometry.coordinates
-      const latLng = { lat, lng }
-      const featureType = getFeatureType(feature)
-      if (!featureType) return
+    if (!feature || !reportedFeatureType) return
 
-      const iconSize = [20, 20] as [number, number]
+    const icon = L.icon({
+      iconSize: [20, 20],
+      iconUrl: getIconUrl(ReportedIcon),
+      className: REPORTED_CLASS_MODIFIER,
+    })
 
-      const icon = L.icon({
-        iconSize,
-        iconUrl: getIconUrl(ReportedIcon),
-        className: REPORTED_CLASS_MODIFIER,
-      })
+    const featureId = feature.properties[reportedFeatureType.idField] || index
 
-      return (
-        <Marker
-          key={`${featureType && feature.properties[featureType.idField]}`}
-          latLng={latLng}
-          options={{
-            zIndexOffset: 1000,
-            icon,
-            alt: `${featureType.description} - ${
-              feature.properties[featureType.idField]
-            }`,
-          }}
-        />
-      )
-    },
-    [data, featureTypes, getFeatureType]
-  )
-
-  return <>{data.features.map(getMarker)}</>
+    return (
+      <Marker
+        key={featureId}
+        latLng={latLng}
+        options={{
+          zIndexOffset: 1000,
+          icon,
+          alt: `Is gemeld - ${featureId}`,
+        }}
+      />
+    )
+  }
+  return <>{reportedFeatures.length > 0 && reportedFeatures.map(getMarker)}</>
 }
 
 export default ReportedLayer

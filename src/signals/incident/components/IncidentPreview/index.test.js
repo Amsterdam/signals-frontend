@@ -254,7 +254,7 @@ describe('<IncidentPreview />', () => {
           },
           location: {
             label: 'Locatie',
-            render: PreviewComponents.Map,
+            render: PreviewComponents.MapPreview,
           },
         },
         contact: {

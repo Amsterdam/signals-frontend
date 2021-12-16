@@ -55,9 +55,9 @@ const MapStatic = ({
   className,
   format,
   height,
-  latitude,
+  lat,
   layers,
-  longitude,
+  lng,
   markerSize,
   showLoadingMessage,
   showMarker,
@@ -65,10 +65,7 @@ const MapStatic = ({
 }) => {
   const { data, error, get, isLoading } = useFetch()
   const [src, setSrc] = useState()
-  const { x, y } = useMemo(
-    () => wgs84ToRd({ lat: latitude, lng: longitude }),
-    [latitude, longitude]
-  )
+  const { x, y } = useMemo(() => wgs84ToRd({ lat, lng }), [lat, lng])
   const params = useMemo(
     () => ({
       bbox: [
@@ -173,14 +170,14 @@ MapStatic.propTypes = {
   format: PropTypes.oneOf(['png', 'jpeg', 'gif']),
   /** Height in pixels of the image tile that should be generated */
   height: PropTypes.number,
-  latitude: PropTypes.number.isRequired,
+  lat: PropTypes.number.isRequired,
   /** Indicator of the map style */
   layers: PropTypes.oneOf([
     'basiskaart',
     'basiskaart-light',
     'basiskaart-zwartwit',
   ]),
-  longitude: PropTypes.number.isRequired,
+  lng: PropTypes.number.isRequired,
   /** Size in pixels of the marker */
   markerSize: PropTypes.number,
   /** When false, will not show the loading message */

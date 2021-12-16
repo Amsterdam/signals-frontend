@@ -3,8 +3,6 @@
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import type { Coordinates } from 'types/incident'
-
 import MapInput from '..'
 
 describe('Form component <MapInput />', () => {
@@ -43,23 +41,21 @@ describe('Form component <MapInput />', () => {
 
     it('should handle form value', async () => {
       const value = {
-        geometrie: {
-          type: 'Point',
-          coordinates: [52.3568, 4.8643] as Coordinates,
-        },
+        coordinates: { lat: 2.3568, lng: 4.8643 },
         address: {
           openbare_ruimte: 'Straat',
           huisnummer: '1',
           postcode: '1234AB',
           woonplaats: 'Amsterdam',
         },
+        addressText: 'Straat 1, 1234AB Amsterdam',
       }
       render(withAppContext(<MapInput {...props} value={value} />))
 
       const textbox = await screen.findByRole('textbox')
 
       expect(screen.getByRole('img')).toHaveClass('map-marker-select')
-      expect(textbox).toHaveValue('Straat 1, 1234AB Amsterdam')
+      expect(textbox).toHaveValue(value.addressText)
     })
   })
 })

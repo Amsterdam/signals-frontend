@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { createSelector } from 'reselect'
+import { getIn } from 'immutable'
 import { initialState } from './reducer'
 
 export const getClassificationData = (
@@ -29,7 +30,12 @@ export const makeSelectIncidentContainer = createSelector(
 export const makeSelectCoordinates = createSelector(
   selectIncidentContainerDomain,
   (state) => {
-    const location = state.get('incident').get('location')
-    return location && location.get('geometrie').get('coordinates').toJS()
+    const coordinates = getIn(
+      state,
+      ['incident', 'location', 'coordinates'],
+      undefined
+    )
+
+    return coordinates?.toJS ? coordinates.toJS() : coordinates
   }
 )

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
-import type { IconOptions, LatLngTuple, LatLngLiteral } from 'leaflet'
 import type { Feature as GeoJSONFeature, Point } from 'geojson'
+import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { ClickEventHandler } from '../types'
 import type { Icon } from '../Caterpillar/types'
 
@@ -57,7 +57,7 @@ export interface AssetSelectValue {
   close: () => void
   edit: ClickEventHandler
   layer?: FC
-  location?: LatLngTuple
+  coordinates?: LatLngLiteral
   message?: string
   meta: Meta
   selection: Item[]
@@ -70,7 +70,6 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
-  reportedLayer?: boolean
 }
 
 export type FeatureProps = Record<string, string | number | undefined>

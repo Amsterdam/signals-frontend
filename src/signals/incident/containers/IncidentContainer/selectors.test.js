@@ -27,7 +27,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const state = {
         incidentContainer: {
           incident: {
-            categoy: 'poep',
+            category: 'poep',
           },
         },
       }
@@ -40,7 +40,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
   describe('makeSelectCoordinates', () => {
     const state = {
       incident: {
-        categoy: 'poep',
+        category: 'poep',
         location: undefined,
       },
     }
@@ -54,10 +54,7 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
     it('returns coordinates', () => {
       const coordinates = [4.899295459015508, 52.37211092764973]
       const location = {
-        geometrie: {
-          type: 'Point',
-          coordinates,
-        },
+        coordinates,
       }
       const stateWithLocation = { ...state }
       stateWithLocation.incident.location = location

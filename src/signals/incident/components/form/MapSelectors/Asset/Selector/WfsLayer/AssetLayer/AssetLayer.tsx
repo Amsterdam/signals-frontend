@@ -11,9 +11,12 @@ import {
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
-import './style.css'
 
-import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet'
+import type {
+  LatLng,
+  MarkerCluster as LeafletMarkerCluster,
+  LatLngLiteral,
+} from 'leaflet'
 import type {
   Point,
   Feature as GeoJSONFeature,
@@ -21,6 +24,7 @@ import type {
 } from 'geojson'
 import type { FunctionComponent } from 'react'
 import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Geometrie } from 'types/incident'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
@@ -148,7 +152,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const options = useMemo(
     () => ({
-      pointToLayer: (feature: Feature, latlng: LatLng) => {
+      pointToLayer: (feature: Feature, latlng: LatLngLiteral) => {
         const featureType = getFeatureType(feature)
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
         const selected =
@@ -180,15 +184,20 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           'click',
           /* istanbul ignore next */ () => {
             const { description, typeValue, idField } = featureType
+
             if (typeValue === 'reported') {
               return
             }
+
+            const coordinates = featureTolocation(feature.geometry as Geometrie)
+
             const item: Item = {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               id: feature.properties[idField]!,
               type: typeValue,
               description,
-              isReported: Boolean(feature.properties.meldingstatus === 1),
+              isReported: feature.properties.meldingstatus === 1,
+              coordinates,
             }
 
             const updateSelection = selected
@@ -213,8 +222,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const { coordinates } = pointFeature.geometry
-        const latlng = featureTolocation({ coordinates })
+        const latlng = featureTolocation(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */
