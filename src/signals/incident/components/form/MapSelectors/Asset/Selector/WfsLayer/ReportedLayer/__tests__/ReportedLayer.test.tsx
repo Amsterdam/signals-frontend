@@ -43,8 +43,6 @@ const reportedFeatures = streetlightsJson.features.filter(
 
 describe('ReportedLayer', () => {
   const updateSpy = jest.fn()
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const withMapStreetlights = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
@@ -53,7 +51,6 @@ describe('ReportedLayer', () => {
             <ReportedLayer
               reportedFeatures={reportedFeatures}
               reportedFeatureType={reportedFeatureType}
-              desktopView
             />
           )}
         </WfsDataProvider>
@@ -63,7 +60,6 @@ describe('ReportedLayer', () => {
 
   it('should render the reported layer in the map', () => {
     render(withMapStreetlights())
-
     const featureId =
       (reportedFeatures && reportedFeatures[0].properties['objectnummer']) || ''
     const description = `${reportedFeatureType?.description} - ${featureId}`
