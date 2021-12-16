@@ -46,7 +46,9 @@ export interface WfsFilter {
 export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
+  allowClusters?: boolean
+  reportedLayer?: boolean
 }
 
-export type FeatureProps = Record<string, string | undefined>
+export type FeatureProps = Record<string, string | number | undefined>
 export type Feature = GeoJSONFeature<Point, FeatureProps>

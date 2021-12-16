@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
+import type { Feature as GeoJSONFeature, Point } from 'geojson'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { ClickEventHandler } from '../types'
 import type { Icon } from '../Caterpillar/types'
@@ -64,3 +65,12 @@ export interface AssetSelectValue {
   setMessage: (message?: string) => void
   update: (items: Item[]) => void
 }
+
+export interface DataLayerProps {
+  featureTypes: FeatureType[]
+  desktopView?: boolean
+  allowClusters?: boolean
+}
+
+export type FeatureProps = Record<string, string | number | undefined>
+export type Feature = GeoJSONFeature<Point, FeatureProps>

@@ -370,6 +370,11 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "containers": {
+              "description": "GeoJSON URL for the retrieval of container location data. Used by the incident form for showing container locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri-template"
+            },
             "klokken": {
               "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
               "type": "string",

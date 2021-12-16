@@ -30,6 +30,7 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
+import configuration from 'shared/services/configuration/configuration'
 import WfsDataContext from '../context'
 import type { DataLayerProps, Feature } from '../../../../types'
 
@@ -84,6 +85,7 @@ export const shouldSpiderfy = (
 export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   featureTypes,
   desktopView,
+  allowClusters,
 }) => {
   const mapInstance = useMapInstance()
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
@@ -128,18 +130,22 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const clusterOptions = useMemo(
     () => ({
+      disableClusteringAtZoom: allowClusters
+        ? configuration.map.options.maxZoom
+        : configuration.map.options.minZoom,
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),
-    [iconCreateFunction]
+    [iconCreateFunction, allowClusters]
   )
 
   const getFeatureType = useCallback(
-    (feature: Feature) =>
-      featureTypes.find(
+    (feature: Feature) => {
+      return featureTypes.find(
         ({ typeField, typeValue }) =>
           feature.properties[typeField] === typeValue
-      ),
+      )
+    },
     [featureTypes]
   )
 
@@ -179,12 +185,19 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           'click',
           /* istanbul ignore next */ () => {
             const { description, typeValue, idField } = featureType
+
+            if (typeValue === 'reported') {
+              return
+            }
+
             const coordinates = featureTolocation(feature.geometry as Geometrie)
+
             const item: Item = {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               id: feature.properties[idField]!,
               type: typeValue,
               description,
+              isReported: feature.properties.meldingstatus === 1,
               coordinates,
             }
 
