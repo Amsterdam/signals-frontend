@@ -51,7 +51,7 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
       />
     )
   }
-  return <>{reportedFeatures.length > 0 && reportedFeatures.map(getMarker)}</>
+  return <>{reportedFeatures.map(getMarker)}</>
 }
 
 export default ReportedLayer
