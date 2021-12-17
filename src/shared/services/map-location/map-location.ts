@@ -13,6 +13,14 @@ export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
   coordinates: [lat, lng].sort().reverse() as LatLngTuple,
 })
 
+export const locationToAPIfeature = ({
+  lat,
+  lng,
+}: LatLngLiteral): Geometrie => ({
+  type: 'Point',
+  coordinates: [lng, lat] as LatLngTuple,
+})
+
 export const featureTolocation = ({
   coordinates,
 }: Geometrie): LatLngLiteral => {

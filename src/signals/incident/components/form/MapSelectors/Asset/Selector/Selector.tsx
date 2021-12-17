@@ -96,7 +96,7 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { selection, layer, coordinates, meta, update, setLocation, close } =
+  const { close, coordinates, layer, meta, selection, setLocation } =
     useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
@@ -112,20 +112,25 @@ const Selector = () => {
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
 
-  const mapOptions: MapOptions = {
-    ...MAP_OPTIONS,
-    center,
-    dragging: true,
-    zoomControl: false,
-    minZoom: 10,
-    maxZoom: 15,
-    zoom: 14,
-  }
+  const mapOptions: MapOptions = useMemo(
+    () => ({
+      ...MAP_OPTIONS,
+      center,
+      dragging: true,
+      zoomControl: false,
+      minZoom: 10,
+      maxZoom: 15,
+      zoom: 14,
+    }),
+    [center]
+  )
 
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [showSelectionPanel, setShowSelectionPanel] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
+  const showMarker =
+    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
@@ -135,7 +140,7 @@ const Selector = () => {
   )
 
   const toggleLegend = useCallback(() => {
-    setShowLegendPanel(() => !showLegendPanel)
+    setShowLegendPanel(!showLegendPanel)
   }, [showLegendPanel])
 
   const handleLegendCloseButton = () => {
@@ -146,10 +151,10 @@ const Selector = () => {
   const Layer = layer || AssetLayer
 
   useEffect(() => {
-    if (!map || !pinMarker || !coordinates) return
+    if (!map || !pinMarker || !coordinates || selection) return
 
     pinMarker.setLatLng(coordinates)
-  }, [map, coordinates, pinMarker])
+  }, [map, coordinates, pinMarker, selection])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
@@ -186,10 +191,7 @@ const Selector = () => {
               <SelectionPanel
                 featureTypes={meta.featureTypes}
                 language={meta.language}
-                selection={selection || []}
                 variant={panelVariant}
-                onChange={update}
-                onClose={close}
               />
             )}
 
@@ -221,7 +223,7 @@ const Selector = () => {
           <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
         </WfsLayer>
 
-        {coordinates && (
+        {showMarker && (
           <span data-testid="assetPinMarker">
             <Marker
               setInstance={setPinMarker}

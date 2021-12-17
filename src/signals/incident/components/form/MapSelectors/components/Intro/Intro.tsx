@@ -8,7 +8,7 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import type { LatLngTuple, MapOptions } from 'leaflet'
-import type { ClickEventHandler } from '../../types'
+import type { EventHandler } from '../../types'
 
 const Wrapper = styled.div`
   position: relative;
@@ -31,7 +31,7 @@ const StyledMap = styled(Map)`
 `
 
 interface IntroProps {
-  edit: ClickEventHandler
+  edit: EventHandler
   location: LatLngTuple
 }
 

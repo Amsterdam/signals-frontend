@@ -5,6 +5,8 @@ import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import AssetSelectRenderer from './AssetSelectRenderer'
 
+jest.mock('../AssetSelect', () => () => <span data-testid="mockAssetSelect" />)
+
 describe('signals/incident/components/form/AssetSelectRenderer', () => {
   const props = {
     handler: jest.fn(() => ({
@@ -34,8 +36,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
     it('should render correctly', async () => {
       render(withAppContext(<AssetSelectRenderer {...props} meta={meta} />))
 
-      const element = screen.queryByTestId('assetSelectIntro')
-      expect(element).toBeInTheDocument()
+      expect(screen.getByTestId('mockAssetSelect')).toBeInTheDocument()
     })
 
     it('should NOT render when not visible', () => {
@@ -48,7 +49,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
         )
       )
 
-      expect(screen.queryByTestId('assetSelectIntro')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('mockAssetSelect')).not.toBeInTheDocument()
     })
   })
 })

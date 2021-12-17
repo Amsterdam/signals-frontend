@@ -6,11 +6,14 @@ import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import { makeSelectCoordinates } from 'signals/incident/containers/IncidentContainer/selectors'
+import {
+  makeSelectAddress,
+  makeSelectCoordinates,
+} from 'signals/incident/containers/IncidentContainer/selectors'
 
 import type { Incident } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
-import type { ClickEventHandler } from '../types'
+import type { EventHandler } from '../types'
 
 import { UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
@@ -42,7 +45,7 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 }
 
 export interface AssetSelectProps {
-  handler: () => { value: Item[] }
+  handler: () => { value?: Item }
   layer?: FC
   meta: Meta
   parent: {
@@ -59,44 +62,67 @@ const AssetSelect: FC<AssetSelectProps> = ({
   meta,
   parent,
 }) => {
-  const value = handler().value
+  const selection = handler().value
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
+  const address = useSelector(makeSelectAddress)
 
-  /* istanbul ignore next */
-  const update = useCallback(
-    (selectedValue: Item[]) => {
-      if (meta.name) {
-        parent.meta.updateIncident({
-          location: undefined,
-          [meta.name as string]: selectedValue,
-        })
-      }
+  const setItem = useCallback(
+    (item: Item) => {
+      const { location, ...restItem } = item
+      const { address: addr, coordinates: coords } = location
+      const itemCoords = item?.type === UNREGISTERED_TYPE ? coordinates : coords
+      const itemAddress = item?.type === UNREGISTERED_TYPE ? address : addr
+
+      parent.meta.updateIncident({
+        location: {
+          coordinates: itemCoords,
+          address: itemAddress,
+        },
+        [meta.name as string]: restItem,
+      })
     },
-    [meta.name, parent.meta]
+    [address, coordinates, meta.name, parent.meta]
   )
 
+  const removeItem = useCallback(() => {
+    parent.meta.updateIncident({
+      location: {},
+      [meta.name as string]: undefined,
+    })
+  }, [meta.name, parent.meta])
+
+  /**
+   * Callback handler for map clicks
+   */
   const setLocation = useCallback(
     async (latLng: LatLngLiteral) => {
-      parent.meta.updateIncident({ [meta.name as string]: [] })
+      // if there is an already selected object AND the object is NOT an unknown type,
+      // clear the selection
+      const { value } = handler()
+
+      if (value && value.type !== UNREGISTERED_TYPE) {
+        removeItem()
+      }
+
+      const location: Item['location'] = {
+        coordinates: latLng,
+      }
 
       const response = await reverseGeocoderService(latLng)
 
       if (response) {
-        const locationFromResponse = {
-          coordinates: latLng,
-          address: response.data.address,
-        }
-
-        parent.meta.updateIncident({ location: locationFromResponse })
+        location.address = response.data.address
       }
+
+      parent.meta.updateIncident({ location })
     },
-    [meta.name, parent.meta]
+    [parent.meta, removeItem, handler]
   )
 
-  const edit = useCallback<ClickEventHandler>(
+  const edit = useCallback<EventHandler>(
     (event) => {
       event.preventDefault()
       setShowMap(true)
@@ -109,12 +135,15 @@ const AssetSelect: FC<AssetSelectProps> = ({
   }, [setShowMap])
 
   useEffect(() => {
+    if (!meta.featureTypes.length) return
+
     setFeatureTypes(
       meta.featureTypes.map((featureType) => {
         const defaultConfig =
           featureType.typeValue === UNREGISTERED_TYPE
             ? defaultUnregisteredIconConfig
             : defaultIconConfig
+
         return {
           ...featureType,
           icon: {
@@ -133,26 +162,28 @@ const AssetSelect: FC<AssetSelectProps> = ({
   return (
     <AssetSelectProvider
       value={{
+        address,
+        coordinates,
         close,
         edit,
         layer,
-        coordinates,
         message,
         meta: {
           ...meta,
           featureTypes,
         },
-        selection: value,
+        selection,
         setLocation,
         setMessage,
-        update,
+        setItem,
+        removeItem,
       }}
     >
-      {!showMap && value.length === 0 && <Intro />}
+      {!showMap && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && value.length > 0 && <Summary />}
+      {!showMap && selection && <Summary />}
     </AssetSelectProvider>
   )
 }
