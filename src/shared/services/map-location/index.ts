@@ -2,6 +2,7 @@ export {
   featureTolocation,
   formatMapLocation,
   formatPDOKResponse,
+  locationToAPIfeature,
   locationTofeature,
   pdokResponseFieldList,
   pointWithinBounds,

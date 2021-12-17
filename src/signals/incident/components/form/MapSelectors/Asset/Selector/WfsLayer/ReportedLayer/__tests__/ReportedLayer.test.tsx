@@ -10,17 +10,16 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import * as verlichtingIcons from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
 import ReportedLayer from '../ReportedLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: [],
+  selection: undefined,
   meta,
 }
 
@@ -42,7 +41,6 @@ const reportedFeatures = streetlightsJson.features.filter(
 )
 
 describe('ReportedLayer', () => {
-  const updateSpy = jest.fn()
   const withMapStreetlights = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
@@ -57,7 +55,7 @@ describe('ReportedLayer', () => {
           )}
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, update: updateSpy }
+      { ...assetSelectProviderValue }
     )
 
   it('should render the reported layer in the map', () => {

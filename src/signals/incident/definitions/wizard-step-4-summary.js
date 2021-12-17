@@ -43,6 +43,8 @@ export const renderPreview = ({ render, meta }) => {
       return (props) => PreviewComponents.MapSelectPreview({ ...props, meta })
 
     case FIELD_TYPE_MAP.asset_select:
+    case FIELD_TYPE_MAP.caterpillar_select:
+    case FIELD_TYPE_MAP.streetlight_select:
       return (props) =>
         PreviewComponents.AssetListPreview({
           ...props,
@@ -52,13 +54,6 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
       return Label
-
-    case FIELD_TYPE_MAP.caterpillar_select:
-      return (props) =>
-        PreviewComponents.CaterpillarListPreview({
-          ...props,
-          meta,
-        })
 
     default:
       return Null

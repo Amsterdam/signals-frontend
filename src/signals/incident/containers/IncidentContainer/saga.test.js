@@ -13,6 +13,7 @@ import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json'
 import configuration from 'shared/services/configuration/configuration'
 import * as auth from 'shared/services/auth/auth'
 import { authPostCall, postCall } from 'shared/services/api/api'
+import { locationToAPIfeature } from 'shared/services/map-location'
 
 import { uploadFile } from 'containers/App/saga'
 
@@ -114,6 +115,8 @@ const { handling_message, classification } = getClassificationData(
   mockCategoryData
 )
 
+const coordinates = { lat: 25.4364534534, lng: 4.21321232 }
+
 const payloadIncident = {
   text: 'Foo Baz',
   priority: {
@@ -126,6 +129,15 @@ const payloadIncident = {
   category,
   subcategory,
   classification,
+  location: {
+    address: {
+      postcode: '1000 AA',
+      huisnummer: 100,
+      woonplaats: 'Amsterdam',
+      openbare_ruimte: 'West',
+    },
+    coordinates,
+  },
 }
 
 const action = {
@@ -426,6 +438,10 @@ describe('IncidentContainer saga', () => {
         reporter: {
           sharing_allowed: false,
         },
+        location: {
+          address: payloadIncident.location.address,
+          geometrie: locationToAPIfeature(coordinates),
+        },
       }
 
       return expectSaga(getPostData, invalidAction).returns(postData).run(false)
@@ -440,6 +456,10 @@ describe('IncidentContainer saga', () => {
         category: { sub_category: payloadIncident.classification.id },
         reporter: {
           sharing_allowed: false,
+        },
+        location: {
+          address: payloadIncident.location.address,
+          geometrie: locationToAPIfeature(coordinates),
         },
       }
 
@@ -461,6 +481,10 @@ describe('IncidentContainer saga', () => {
         },
         reporter: {
           sharing_allowed: false,
+        },
+        location: {
+          address: payloadIncident.location.address,
+          geometrie: locationToAPIfeature(coordinates),
         },
       }
 
@@ -497,6 +521,10 @@ describe('IncidentContainer saga', () => {
           ...mapControlsToParamsResponse.reporter,
           sharing_allowed:
             mapControlsToParamsResponse.reporter.sharing_allowed.value,
+        },
+        location: {
+          address: payloadIncident.location.address,
+          geometrie: locationToAPIfeature(coordinates),
         },
       }
 

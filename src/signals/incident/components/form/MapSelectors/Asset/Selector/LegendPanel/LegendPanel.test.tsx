@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import LegendPanel from '../LegendPanel'
-import type { LegendPanelProps } from '../LegendPanel'
+import type { LegendPanelProps } from './LegendPanel'
 
 describe('LegendPanel', () => {
   const props: LegendPanelProps = {

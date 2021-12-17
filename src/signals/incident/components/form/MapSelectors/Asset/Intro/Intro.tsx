@@ -38,9 +38,7 @@ const Intro = () => {
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const mapOptions = useMemo<MapOptions>(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     () => ({
       ...MAP_OPTIONS,
       attributionControl: false,

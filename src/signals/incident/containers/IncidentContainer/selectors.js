@@ -39,3 +39,12 @@ export const makeSelectCoordinates = createSelector(
     return coordinates?.toJS ? coordinates.toJS() : coordinates
   }
 )
+
+export const makeSelectAddress = createSelector(
+  selectIncidentContainerDomain,
+  (state) => {
+    const address = getIn(state, ['incident', 'location', 'address'], undefined)
+
+    return address?.toJS ? address.toJS() : address
+  }
+)

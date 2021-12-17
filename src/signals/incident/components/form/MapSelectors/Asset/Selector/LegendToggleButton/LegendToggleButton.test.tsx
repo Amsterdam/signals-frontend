@@ -2,13 +2,14 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
+import { MapPanelProvider } from '@amsterdam/arm-core'
+import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 
 import { withAppContext } from 'test/utils'
 
-import { MapPanelProvider } from '@amsterdam/arm-core'
-import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
-import LegendToggleButton from '..'
-import type { LegendToggleButtonProps } from '../LegendToggleButton'
+import type { LegendToggleButtonProps } from './LegendToggleButton'
+
+import LegendToggleButton from '.'
 
 describe('LegendToggleButton', () => {
   const props: LegendToggleButtonProps = {

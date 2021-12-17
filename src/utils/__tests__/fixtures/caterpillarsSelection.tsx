@@ -6,22 +6,31 @@ export const selection = [
     type: 'Eikenboom',
     description: 'Eikenboom',
     isReported: false,
+    location: {},
   },
   {
-    id: '',
+    id: 308779,
     type: 'not-on-map',
     description: 'De boom staat niet op de kaart',
     isReported: false,
+    location: {},
   },
   {
     id: 308778,
     type: 'Eikenboom',
     description: 'Eikenboom',
     isReported: true,
+    location: {},
   },
 ]
 
 export const meta = {
+  icons: [
+    {
+      id: 'cannot_be_matched',
+      icon: '',
+    },
+  ],
   ifAllOf: {
     subcategory: 'eikenprocessierups',
   },
