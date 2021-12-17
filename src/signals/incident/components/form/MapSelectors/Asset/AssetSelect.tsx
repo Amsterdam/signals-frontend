@@ -95,7 +95,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
   }, [meta.name, parent.meta])
 
   /**
-   * Callback handler for map clicks
+   * Callback handler for map clicks; will fetch the address and dispatches both coordinates and
+   * address to the global state.
    */
   const fetchLocation = useCallback(
     async (latLng: LatLngLiteral) => {
