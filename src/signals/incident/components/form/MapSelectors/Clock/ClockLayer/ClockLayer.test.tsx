@@ -10,10 +10,9 @@ import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import {
+import withAssetSelectContext, {
   contextValue,
-  withAssetSelectContext,
-} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/context.test'
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import ClockLayer from '../ClockLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_klok_nummer
@@ -23,19 +22,18 @@ const assetSelectProviderValue: AssetSelectValue = {
 }
 
 describe('ClockLayer', () => {
-  const updateSpy = jest.fn()
-  const withMapStreetlight = () =>
+  const withMapClock = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
           <ClockLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, update: updateSpy }
+      { ...assetSelectProviderValue }
     )
 
-  it('should render the streetlight layer in the map', () => {
-    render(withMapStreetlight())
+  it('should render the clock layer in the map', () => {
+    render(withMapClock())
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
   })
 })
