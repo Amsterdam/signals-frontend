@@ -97,7 +97,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
   /**
    * Callback handler for map clicks
    */
-  const setLocation = useCallback(
+  const fetchLocation = useCallback(
     async (latLng: LatLngLiteral) => {
       const payload: Record<string, any> = {}
 
@@ -108,6 +108,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       const location: Item['location'] = {
         coordinates: latLng,
+        address,
       }
 
       payload.location = location
@@ -124,10 +125,10 @@ const AssetSelect: FC<AssetSelectProps> = ({
         parent.meta.updateIncident(payload)
       }
     },
-    [meta.name, parent.meta]
+    [address, meta.name, parent.meta]
   )
 
-  const setLocationAddress = useCallback(
+  const setLocation = useCallback(
     (location: Location) => {
       parent.meta.updateIncident({ location })
     },
@@ -184,12 +185,12 @@ const AssetSelect: FC<AssetSelectProps> = ({
           ...meta,
           featureTypes,
         },
+        removeItem,
         selection,
         setLocation,
-        setLocationAddress,
-        setMessage,
         setItem,
-        removeItem,
+        fetchLocation,
+        setMessage,
       }}
     >
       {!showMap && <Intro />}

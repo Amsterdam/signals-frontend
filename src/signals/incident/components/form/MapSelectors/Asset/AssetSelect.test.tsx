@@ -31,7 +31,7 @@ const mockItem = {
 jest.mock('shared/services/reverse-geocoder')
 
 jest.mock('./Selector', () => () => {
-  const { setLocation, close, removeItem, setItem } = mockUseContext(
+  const { fetchLocation, close, removeItem, setItem } = mockUseContext(
     mockAssetSelectContext
   )
 
@@ -55,7 +55,7 @@ jest.mock('./Selector', () => () => {
       <span
         aria-hidden="true"
         data-testid="assetSelectSelector"
-        onClick={() => setLocation(mockLatLng)}
+        onClick={() => fetchLocation(mockLatLng)}
         role="button"
         tabIndex={0}
       />

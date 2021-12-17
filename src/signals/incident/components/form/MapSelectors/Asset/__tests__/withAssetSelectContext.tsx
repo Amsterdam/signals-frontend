@@ -26,8 +26,8 @@ export const contextValue: AssetSelectValue = {
     type: 'plastic',
   },
   setItem: jest.fn(),
+  fetchLocation: jest.fn(),
   setLocation: jest.fn(),
-  setLocationAddress: jest.fn(),
   setMessage: jest.fn(),
 }
 

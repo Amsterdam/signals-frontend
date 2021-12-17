@@ -3,6 +3,7 @@
 import type { FC } from 'react'
 import type { Feature as GeoJSONFeature, Point } from 'geojson'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
+import type { Location } from 'types/incident'
 import type { Address } from 'types/address'
 import type { EventHandler } from '../types'
 import type { UNREGISTERED_TYPE } from '../constants'
@@ -73,8 +74,8 @@ export interface AssetSelectValue {
   removeItem: () => void
   selection?: Item
   setItem: (item: Item) => void
-  setLocation: (latLng: LatLngLiteral) => void
-  setLocationAddress: (location: any) => void
+  fetchLocation: (latLng: LatLngLiteral) => void
+  setLocation: (location: Location) => void
   setMessage: (message?: string) => void
 }
 

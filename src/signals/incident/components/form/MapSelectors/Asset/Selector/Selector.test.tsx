@@ -148,20 +148,20 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
   })
 
   it('dispatches the location when the map is clicked', async () => {
-    const { coordinates, setLocation } = contextValue
+    const { coordinates, fetchLocation } = contextValue
 
     render(withAssetSelectContext(<Selector />))
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(setLocation).not.toHaveBeenCalled()
+    expect(fetchLocation).not.toHaveBeenCalled()
 
     userEvent.click(screen.getByTestId('map-base'), {
       clientX: 10,
       clientY: 10,
     })
 
-    expect(setLocation).toHaveBeenCalledWith(
+    expect(fetchLocation).toHaveBeenCalledWith(
       expect.not.objectContaining(coordinates)
     )
   })

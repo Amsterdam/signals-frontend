@@ -108,7 +108,7 @@ const Selector = () => {
     meta,
     selection,
     setLocation,
-    setLocationAddress,
+    fetchLocation,
   } = useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
@@ -143,13 +143,14 @@ const Selector = () => {
   const [map, setMap] = useState<MapType>()
   const [addressValue, setAddressValue] = useState('')
   const showMarker =
-    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
+    coordinates !== undefined &&
+    (!selection || selection.type === UNREGISTERED_TYPE)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
-      setLocation(latlng)
+      fetchLocation(latlng)
     },
-    [setLocation]
+    [fetchLocation]
   )
 
   const toggleLegend = useCallback(() => {
@@ -163,18 +164,15 @@ const Selector = () => {
 
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
-      setLocationAddress(option.data)
+      const { location, address } = option.data
+      setLocation({ coordinates: location, address })
       setAddressValue(option.value)
 
       if (map) {
         map.flyTo(option.data.location, map.getZoom())
       }
-
-      if (pinMarker) {
-        pinMarker.setLatLng(option.data.location)
-      }
     },
-    [setLocationAddress, map, pinMarker]
+    [setLocation, map]
   )
 
   const Layer = layer || AssetLayer
