@@ -204,7 +204,6 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               id,
               type: typeValue,
               isReported: feature.properties.meldingstatus === 1,
-              coordinates,
             }
 
             const response = await reverseGeocoderService(coordinates)
