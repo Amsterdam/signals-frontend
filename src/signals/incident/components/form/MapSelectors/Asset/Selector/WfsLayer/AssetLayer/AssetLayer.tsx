@@ -31,6 +31,7 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
+import configuration from 'shared/services/configuration/configuration'
 import WfsDataContext from '../context'
 import type { DataLayerProps, Feature } from '../../../../types'
 
@@ -85,6 +86,7 @@ export const shouldSpiderfy = (
 export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   featureTypes,
   desktopView,
+  allowClusters,
 }) => {
   const mapInstance = useMapInstance()
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
@@ -129,18 +131,22 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const clusterOptions = useMemo(
     () => ({
+      disableClusteringAtZoom: allowClusters
+        ? configuration.map.options.maxZoom
+        : configuration.map.options.minZoom,
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),
-    [iconCreateFunction]
+    [iconCreateFunction, allowClusters]
   )
 
   const getFeatureType = useCallback(
-    (feature: Feature) =>
-      featureTypes.find(
+    (feature: Feature) => {
+      return featureTypes.find(
         ({ typeField, typeValue }) =>
           feature.properties[typeField] === typeValue
-      ),
+      )
+    },
     [featureTypes]
   )
 
@@ -179,12 +185,17 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         marker.on(
           'click',
           /* istanbul ignore next */ async () => {
+            if (typeValue === 'reported') {
+              return
+            }
+
             if (isSelectedItem) {
               removeItem()
               return
             }
 
             const coordinates = featureTolocation(feature.geometry as Geometrie)
+
             const item: Item = {
               location: {
                 coordinates,
@@ -192,6 +203,8 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               description,
               id,
               type: typeValue,
+              isReported: feature.properties.meldingstatus === 1,
+              coordinates,
             }
 
             const response = await reverseGeocoderService(coordinates)

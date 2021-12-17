@@ -110,15 +110,19 @@ const AssetSelect: FC<AssetSelectProps> = ({
         coordinates: latLng,
       }
 
+      payload.location = location
+
+      // immediately set the location so that the marker is placed on the map; the reverse geocoder response
+      // might take some time to resolve, leaving the user wondering if the map click actually did anything
+      parent.meta.updateIncident(payload)
+
       const response = await reverseGeocoderService(latLng)
 
       if (response) {
-        location.address = response.data.address
+        payload.location.address = response.data.address
+
+        parent.meta.updateIncident(payload)
       }
-
-      payload.location = location
-
-      parent.meta.updateIncident(payload)
     },
     [meta.name, parent.meta]
   )

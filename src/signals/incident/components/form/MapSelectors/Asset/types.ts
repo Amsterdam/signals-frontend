@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FC } from 'react'
+import type { Feature as GeoJSONFeature, Point } from 'geojson'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Address } from 'types/address'
 import type { EventHandler } from '../types'
@@ -75,3 +76,12 @@ export interface AssetSelectValue {
   setLocation: (latLng: LatLngLiteral) => void
   setMessage: (message?: string) => void
 }
+
+export interface DataLayerProps {
+  featureTypes: FeatureType[]
+  desktopView?: boolean
+  allowClusters?: boolean
+}
+
+export type FeatureProps = Record<string, string | number | undefined>
+export type Feature = GeoJSONFeature<Point, FeatureProps>

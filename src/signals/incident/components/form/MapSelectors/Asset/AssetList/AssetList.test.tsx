@@ -30,7 +30,7 @@ describe('AssetList', () => {
     selection: { ...selection[0], location: {} },
   }
 
-  it('renders a selection', () => {
+  it('should render a selection', () => {
     render(withAppContext(<AssetList {...props} />))
 
     expect(screen.getByTestId('assetList')).toBeInTheDocument()
@@ -39,7 +39,7 @@ describe('AssetList', () => {
     ).toBeInTheDocument()
   })
 
-  it('shows reported items', () => {
+  it('should show that an item was reported before', () => {
     selection.forEach((selected: Item) => {
       const { id, isReported } = selected
       render(
@@ -63,7 +63,7 @@ describe('AssetList', () => {
     })
   })
 
-  it('calls onRemove handler', () => {
+  it('should allow user to remove item', () => {
     render(withAppContext(<AssetList {...props} />))
 
     const button = screen.getByRole('button')
@@ -73,29 +73,5 @@ describe('AssetList', () => {
     userEvent.click(button)
 
     expect(props.onRemove).toHaveBeenCalled()
-  })
-
-  it('displays an item label', () => {
-    const {
-      selection: { type, id },
-    } = props
-    const { description } =
-      props.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
-
-    const { rerender } = render(withAppContext(<AssetList {...props} />))
-
-    expect(screen.getByText(`${description} - ${id}`)).toBeInTheDocument()
-
-    const selectionWithoutId = {
-      ...props.selection,
-      id: '',
-    }
-
-    rerender(
-      withAppContext(<AssetList {...props} selection={selectionWithoutId} />)
-    )
-
-    expect(screen.queryByText(`${description} - ${id}`)).not.toBeInTheDocument()
-    expect(screen.getByText(description || '')).toBeInTheDocument()
   })
 })

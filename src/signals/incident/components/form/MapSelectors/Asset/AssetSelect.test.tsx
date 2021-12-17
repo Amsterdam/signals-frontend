@@ -12,10 +12,7 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
-import {
-  UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
-  UNREGISTERED_TYPE,
-} from '../constants'
+import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
 import type { AssetSelectProps } from './AssetSelect'
 
 import { initialValue } from './context'
@@ -209,17 +206,27 @@ describe('AssetSelect', () => {
 
     userEvent.click(assetSelectSelector)
 
-    await screen.findByTestId('assetSelectSelector')
+    const payload = {
+      [props.meta.name as string]: {
+        type: mockUNREGISTERED_TYPE,
+      },
+      location: {
+        coordinates: mockLatLng,
+      },
+    }
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({
-      [props.meta.name as string]: {
-        type: UNREGISTERED_TYPE,
-      },
-      location: expect.objectContaining({
-        coordinates: mockLatLng,
+    expect(updateIncident).toHaveBeenCalledWith(payload)
+
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      ...payload,
+      location: {
+        ...payload.location,
         address: geocodedResponse.data.address,
-      }),
+      },
     })
   })
 
@@ -244,7 +251,7 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledWith({
       [props.meta.name as string]: {
-        type: UNREGISTERED_TYPE,
+        type: mockUNREGISTERED_TYPE,
       },
       location: { coordinates: mockLatLng },
     })
@@ -311,10 +318,10 @@ describe('AssetSelect', () => {
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(updateIncident).toHaveBeenCalledTimes(3)
     expect(updateIncident).toHaveBeenLastCalledWith({
       [props.meta.name as string]: {
-        type: UNREGISTERED_TYPE,
+        type: mockUNREGISTERED_TYPE,
       },
       location: {
         address: mockAddress,

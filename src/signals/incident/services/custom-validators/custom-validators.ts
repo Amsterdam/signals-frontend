@@ -18,12 +18,12 @@ export const validatePhoneNumber = (control?: AbstractControl) => {
   }
 }
 
-export const createRequired =
-  (message: string) =>
-  ({ value }: AbstractControl) =>
-    value === null || value === undefined || value.length === 0
+export const createRequired = (message: string) =>
+  function required({ value }: AbstractControl) {
+    return value === null || value === undefined || value.length === 0
       ? { required: message }
       : null
+  }
 
 export const validateObjectLocation =
   (objectType: string) => (control: AbstractControl) => {
