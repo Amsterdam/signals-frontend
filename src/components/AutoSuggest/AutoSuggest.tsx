@@ -4,9 +4,7 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import type { FC } from 'react'
-import type { LatLngExpression } from 'leaflet'
 import type { PdokResponse } from 'shared/services/map-location'
-import type { Address } from 'types/address'
 import type { RevGeo } from 'types/pdok/revgeo'
 
 import useDebounce from 'hooks/useDebounce'
@@ -35,15 +33,6 @@ const AbsoluteList = styled(SuggestList)`
   z-index: 2;
 `
 
-export type AutoSuggestOption = {
-  data: {
-    address: Address
-    location: LatLngExpression
-  }
-  id: number | string
-  value: string
-}
-
 export type AutoSuggestProps = {
   className?: string
   disabled?: boolean
@@ -51,7 +40,7 @@ export type AutoSuggestProps = {
   id?: string
   numOptionsDeterminer: (data?: RevGeo) => number
   onClear?: () => void
-  onSelect: (option: AutoSuggestOption) => void
+  onSelect: (option: PdokResponse) => void
   placeholder?: string
   url: string
   value?: string
@@ -90,7 +79,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const options = data && formatResponse(data)
-  const activeId = options?.[activeIndex]?.id
+  const activeId = options?.[activeIndex]?.id || ''
 
   const handleInputKeyDown = useCallback((event) => {
     switch (event.key) {
@@ -289,7 +278,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         role="combobox"
       >
         <StyledInput
-          aria-activedescendant={activeId}
+          aria-activedescendant={activeId?.toString()}
           aria-autocomplete="list"
           autoComplete="off"
           defaultValue={value}

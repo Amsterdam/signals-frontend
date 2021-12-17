@@ -11,7 +11,7 @@ import {
   makeSelectCoordinates,
 } from 'signals/incident/containers/IncidentContainer/selectors'
 
-import type { Incident } from 'types/incident'
+import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import type { EventHandler } from '../types'
 
@@ -127,6 +127,13 @@ const AssetSelect: FC<AssetSelectProps> = ({
     [meta.name, parent.meta]
   )
 
+  const setLocationAddress = useCallback(
+    (location: Location) => {
+      parent.meta.updateIncident({ location })
+    },
+    [parent.meta]
+  )
+
   const edit = useCallback<EventHandler>(
     (event) => {
       event.preventDefault()
@@ -179,6 +186,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
         },
         selection,
         setLocation,
+        setLocationAddress,
         setMessage,
         setItem,
         removeItem,

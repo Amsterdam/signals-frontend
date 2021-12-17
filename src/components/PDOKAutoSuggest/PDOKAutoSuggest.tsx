@@ -3,7 +3,7 @@
 import type { FC } from 'react'
 import type { RevGeo } from 'types/pdok/revgeo'
 
-import type { AutoSuggestOption } from 'components/AutoSuggest'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import AutoSuggest from 'components/AutoSuggest'
 import {
@@ -28,7 +28,7 @@ type PDOKAutoSuggestProps = {
   fieldList?: Array<string>
   municipality?: string | Array<string>
   onClear?: () => void
-  onSelect: (option: AutoSuggestOption) => void
+  onSelect: (option: PdokResponse) => void
   placeholder?: string
   value?: string
 }

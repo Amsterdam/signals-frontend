@@ -74,6 +74,7 @@ export interface AssetSelectValue {
   selection?: Item
   setItem: (item: Item) => void
   setLocation: (latLng: LatLngLiteral) => void
+  setLocationAddress: (location: any) => void
   setMessage: (message?: string) => void
 }
 

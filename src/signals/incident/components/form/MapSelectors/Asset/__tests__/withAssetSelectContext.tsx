@@ -27,6 +27,7 @@ export const contextValue: AssetSelectValue = {
   },
   setItem: jest.fn(),
   setLocation: jest.fn(),
+  setLocationAddress: jest.fn(),
   setMessage: jest.fn(),
 }
 

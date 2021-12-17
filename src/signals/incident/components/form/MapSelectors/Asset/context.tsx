@@ -17,6 +17,7 @@ export const initialValue: AssetSelectValue = {
   },
   selection: undefined,
   setLocation: /* istanbul ignore next */ () => {},
+  setLocationAddress: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},
   removeItem: /* istanbul ignore next */ () => {},

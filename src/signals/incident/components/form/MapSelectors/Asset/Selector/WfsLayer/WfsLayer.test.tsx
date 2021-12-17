@@ -52,6 +52,7 @@ const assetSelectProviderValue: AssetSelectValue = {
   close: jest.fn(),
   setMessage: jest.fn(),
   setLocation: jest.fn(),
+  setLocationAddress: jest.fn(),
 }
 
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
@@ -160,6 +161,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       close: jest.fn(),
       setMessage: jest.fn(),
       setLocation: jest.fn(),
+      setLocationAddress: jest.fn(),
     }
 
     render(
@@ -197,6 +199,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       close: jest.fn(),
       setMessage: jest.fn(),
       setLocation: jest.fn(),
+      setLocationAddress: jest.fn(),
     }
 
     const urlWithFilter =

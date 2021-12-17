@@ -46,6 +46,7 @@ const contextValue: AssetSelectValue = {
   close: jest.fn(),
   setMessage: jest.fn(),
   setLocation: jest.fn(),
+  setLocationAddress: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
 }

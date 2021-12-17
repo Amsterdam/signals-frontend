@@ -14,6 +14,7 @@ import type {
 } from 'leaflet'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import { Marker } from '@amsterdam/react-maps'
 import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
@@ -23,11 +24,13 @@ import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
-
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
+
 import useLayerVisible from '../../hooks/useLayerVisible'
 import { UNREGISTERED_TYPE } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
@@ -98,8 +101,15 @@ const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { close, coordinates, layer, meta, selection, setLocation } =
-    useContext(AssetSelectContext)
+  const {
+    close,
+    coordinates,
+    layer,
+    meta,
+    selection,
+    setLocation,
+    setLocationAddress,
+  } = useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
     Panel: FunctionComponent
@@ -131,6 +141,7 @@ const Selector = () => {
   const [showSelectionPanel, setShowSelectionPanel] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
+  const [addressValue, setAddressValue] = useState('')
   const showMarker =
     coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
 
@@ -149,6 +160,22 @@ const Selector = () => {
     setShowLegendPanel(false)
     setShowSelectionPanel(true)
   }
+
+  const onAddressSelect = useCallback(
+    (option: PdokResponse) => {
+      setLocationAddress(option.data)
+      setAddressValue(option.value)
+
+      if (map) {
+        map.flyTo(option.data.location, map.getZoom())
+      }
+
+      if (pinMarker) {
+        pinMarker.setLatLng(option.data.location)
+      }
+    },
+    [setLocationAddress, map, pinMarker]
+  )
 
   const Layer = layer || AssetLayer
 
@@ -174,6 +201,13 @@ const Selector = () => {
         >
           <ViewerContainer
             topLeft={
+              <PDOKAutoSuggest
+                onSelect={onAddressSelect}
+                placeholder="Zoek adres"
+                value={addressValue}
+              />
+            }
+            bottomLeft={
               <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
                 <LegendToggleButton
                   onClick={toggleLegend}
