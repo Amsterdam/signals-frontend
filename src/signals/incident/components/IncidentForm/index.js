@@ -223,7 +223,14 @@ class IncidentForm extends Component {
           !Array.isArray(values) && isObject(values)
             ? `-${Object.keys(values)[0]}`
             : ''
-        this.formRef.current.querySelector(`#${name}${valueSelector}`).focus()
+
+        const invalidElement = this.formRef.current.querySelector(
+          `#${name}${valueSelector}`
+        )
+
+        if (invalidElement) {
+          invalidElement.focus()
+        }
       }
     }
 

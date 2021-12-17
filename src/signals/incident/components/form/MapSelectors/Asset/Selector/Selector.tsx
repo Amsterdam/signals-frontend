@@ -228,6 +228,7 @@ const Selector = () => {
         {showMarker && (
           <span data-testid="assetPinMarker">
             <Marker
+              key={Object.values(coordinates).toString()}
               setInstance={setPinMarker}
               args={[coordinates]}
               options={{

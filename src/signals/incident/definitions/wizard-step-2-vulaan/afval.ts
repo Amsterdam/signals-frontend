@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import configuration from '../../../../shared/services/configuration/configuration'
 import * as afvalIcons from './afval-icons'
 
@@ -153,6 +155,9 @@ export const controls = {
       ],
     },
     render: FIELD_TYPE_MAP.asset_select,
+    options: {
+      validators: [validateObjectLocation('container')],
+    },
   },
 }
 

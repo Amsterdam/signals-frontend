@@ -99,27 +99,32 @@ const AssetSelect: FC<AssetSelectProps> = ({
    */
   const setLocation = useCallback(
     async (latLng: LatLngLiteral) => {
-      // if there is an already selected object AND the object is NOT an unknown type,
-      // clear the selection
-      const { value } = handler()
+      const payload: Record<string, any> = {}
 
-      if (value && value.type !== UNREGISTERED_TYPE) {
-        removeItem()
-      }
+      // Clicking the map should unset a previous selection and preset it with an item that we know
+      // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
+      // will be checked whenever a click on the map is registered
+      payload[meta.name as string] = { type: UNREGISTERED_TYPE }
 
       const location: Item['location'] = {
         coordinates: latLng,
       }
 
+      payload.location = location
+
+      // immediately set the location so that the marker is placed on the map; the reverse geocoder response
+      // might take some time to resolve, leaving the user wondering if the map click actually did anything
+      parent.meta.updateIncident(payload)
+
       const response = await reverseGeocoderService(latLng)
 
       if (response) {
-        location.address = response.data.address
-      }
+        payload.location.address = response.data.address
 
-      parent.meta.updateIncident({ location })
+        parent.meta.updateIncident(payload)
+      }
     },
-    [parent.meta, removeItem, handler]
+    [meta.name, parent.meta]
   )
 
   const edit = useCallback<EventHandler>(

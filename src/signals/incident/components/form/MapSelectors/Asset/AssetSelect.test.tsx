@@ -206,14 +206,27 @@ describe('AssetSelect', () => {
 
     userEvent.click(assetSelectSelector)
 
-    await screen.findByTestId('assetSelectSelector')
+    const payload = {
+      [props.meta.name as string]: {
+        type: mockUNREGISTERED_TYPE,
+      },
+      location: {
+        coordinates: mockLatLng,
+      },
+    }
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
-    expect(updateIncident).toHaveBeenCalledWith({
-      location: expect.objectContaining({
-        coordinates: mockLatLng,
+    expect(updateIncident).toHaveBeenCalledWith(payload)
+
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      ...payload,
+      location: {
+        ...payload.location,
         address: geocodedResponse.data.address,
-      }),
+      },
     })
   })
 
@@ -237,6 +250,9 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledWith({
+      [props.meta.name as string]: {
+        type: mockUNREGISTERED_TYPE,
+      },
       location: { coordinates: mockLatLng },
     })
   })
@@ -303,11 +319,10 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledTimes(3)
-    expect(updateIncident).toHaveBeenNthCalledWith(2, {
-      location: {},
-      [meta.name]: undefined,
-    })
     expect(updateIncident).toHaveBeenLastCalledWith({
+      [props.meta.name as string]: {
+        type: mockUNREGISTERED_TYPE,
+      },
       location: {
         address: mockAddress,
         coordinates: mockLatLng,
