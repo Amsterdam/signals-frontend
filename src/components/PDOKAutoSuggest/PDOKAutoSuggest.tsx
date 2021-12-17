@@ -10,6 +10,7 @@ import {
   pdokResponseFieldList,
   formatPDOKResponse,
 } from 'shared/services/map-location'
+import configuration from 'shared/services/configuration/configuration'
 
 const municipalityFilterName = 'gemeentenaam'
 const serviceParams = [
@@ -83,6 +84,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
 PDOKAutoSuggest.defaultProps = {
   className: '',
   fieldList: [],
+  municipality: configuration.map.municipality,
   value: '',
 }
 
