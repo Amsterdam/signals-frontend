@@ -3,6 +3,7 @@
 import { useMemo, useContext, useState, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { breakpoint } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 import type {
@@ -17,7 +18,6 @@ import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPan
 import type { PdokResponse } from 'shared/services/map-location'
 
 import { Marker } from '@amsterdam/react-maps'
-import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
@@ -31,7 +31,6 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
-import useLayerVisible from '../../hooks/useLayerVisible'
 import { UNREGISTERED_TYPE } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
@@ -40,6 +39,7 @@ import ViewerContainer from './ViewerContainer'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
+import ButtonBar from './ButtonBar/ButtonBar'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -65,6 +65,7 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
+  z-index: 2; // position over the site header
 `
 
 const StyledMap = styled(Map)`
@@ -72,26 +73,21 @@ const StyledMap = styled(Map)`
   width: 100%;
 `
 
-const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
-    margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
+const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
+  @media screen and (max-width: 300px) {
+    top: 60px;
+    width: calc(100vw - 32px);
+  }
+
+  @media screen and (min-width: 300px) {
+    width: calc(100vw - 92px);
+  }
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    width: calc(100vw - 492px);
+    max-width: 375px;
   }
 `
-
-const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({
-  children,
-  zoomLevel,
-}) => {
-  const layerVisible = useLayerVisible(zoomLevel)
-  const { message } = useContext(AssetSelectContext)
-  const messageVisible = !layerVisible || !!message
-
-  return (
-    <ButtonBarStyle data-testid="buttonBar" messageVisible={messageVisible}>
-      {children}
-    </ButtonBarStyle>
-  )
-}
 
 export interface ButtonBarProps {
   zoomLevel: ZoomLevel
@@ -199,7 +195,7 @@ const Selector = () => {
         >
           <ViewerContainer
             topLeft={
-              <PDOKAutoSuggest
+              <StyledPDOKAutoSuggest
                 onSelect={onAddressSelect}
                 placeholder="Zoek adres"
                 value={addressValue}
