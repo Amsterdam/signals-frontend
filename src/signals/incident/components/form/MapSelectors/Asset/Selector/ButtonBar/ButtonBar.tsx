@@ -14,13 +14,22 @@ const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
   }
 `
 
-const ButtonBar: FC<{ zoomLevel: ZoomLevel }> = ({ children, zoomLevel }) => {
+export interface ButtonBarProps {
+  className?: string
+  zoomLevel: ZoomLevel
+}
+
+const ButtonBar: FC<ButtonBarProps> = ({ className, children, zoomLevel }) => {
   const layerVisible = useLayerVisible(zoomLevel)
   const { message } = useContext(AssetSelectContext)
-  const messageVisible = !layerVisible || !!message
+  const messageVisible = !layerVisible || Boolean(message)
 
   return (
-    <ButtonBarStyle data-testid="buttonBar" messageVisible={messageVisible}>
+    <ButtonBarStyle
+      className={className}
+      data-testid="buttonBar"
+      messageVisible={messageVisible}
+    >
       {children}
     </ButtonBarStyle>
   )
