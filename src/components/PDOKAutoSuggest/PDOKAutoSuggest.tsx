@@ -24,7 +24,7 @@ const serviceUrl =
 const numOptionsDeterminer = (data?: RevGeo) =>
   data?.response?.docs?.length || 0
 
-type PDOKAutoSuggestProps = {
+export type PDOKAutoSuggestProps = {
   className?: string
   fieldList?: Array<string>
   municipality?: string | Array<string>
