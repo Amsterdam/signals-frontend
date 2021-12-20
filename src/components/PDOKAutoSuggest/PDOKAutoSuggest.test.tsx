@@ -68,14 +68,6 @@ describe('components/PDOKAutoSuggest', () => {
   })
 
   describe('municipality', () => {
-    it('should call fetch without municipality by default', async () => {
-      await renderAndSearch()
-      expect(fetch).toHaveBeenCalledWith(
-        expect.not.stringContaining(municipalityQs),
-        expect.objectContaining({ method: 'GET' })
-      )
-    })
-
     it('should call fetch with municipality', async () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' })
       expect(fetch).toHaveBeenCalledWith(

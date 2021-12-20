@@ -278,7 +278,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         role="combobox"
       >
         <StyledInput
-          aria-activedescendant={activeId?.toString()}
+          aria-activedescendant={activeId.toString() ?? null}
           aria-autocomplete="list"
           autoComplete="off"
           defaultValue={value}
