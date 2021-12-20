@@ -21,6 +21,7 @@ import { Marker } from '@amsterdam/react-maps'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
+import { formatAddress } from 'shared/services/format-address'
 
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
@@ -89,15 +90,12 @@ const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   }
 `
 
-export interface ButtonBarProps {
-  zoomLevel: ZoomLevel
-}
-
 const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
   const {
+    address,
     close,
     coordinates,
     layer,
@@ -137,7 +135,8 @@ const Selector = () => {
   const [showSelectionPanel, setShowSelectionPanel] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
-  const [addressValue, setAddressValue] = useState('')
+  const addressValue = address ? formatAddress(address) : ''
+
   const showMarker =
     coordinates !== undefined &&
     (!selection || selection.type === UNREGISTERED_TYPE)
@@ -162,11 +161,8 @@ const Selector = () => {
     (option: PdokResponse) => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
-      setAddressValue(option.value)
 
-      if (map) {
-        map.flyTo(option.data.location, map.getZoom())
-      }
+      map?.flyTo(option.data.location, map.getZoom())
     },
     [setLocation, map]
   )

@@ -14,6 +14,7 @@ import { mocked } from 'ts-jest/utils'
 import type { Location } from 'types/incident'
 import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
 import type { AssetSelectProps } from './AssetSelect'
+import type { Item } from './types'
 
 import { initialValue } from './context'
 import withAssetSelectContext, {
@@ -31,11 +32,10 @@ const mockItem = {
 jest.mock('shared/services/reverse-geocoder')
 
 jest.mock('./Selector', () => () => {
-  const { fetchLocation, close, removeItem, setItem } = mockUseContext(
-    mockAssetSelectContext
-  )
+  const { fetchLocation, close, removeItem, setItem, setLocation } =
+    mockUseContext(mockAssetSelectContext)
 
-  const item = {
+  const item: Item = {
     ...mockItem,
     location: {
       coordinates: { lat: 4, lng: 36 },
@@ -48,6 +48,11 @@ jest.mock('./Selector', () => () => {
     location: {
       coordinates: mockLatLng,
     },
+  }
+
+  const location: Location = {
+    coordinates: mockLatLng,
+    address: mockAddress,
   }
 
   return (
@@ -84,6 +89,13 @@ jest.mock('./Selector', () => () => {
         aria-hidden="true"
         data-testid="removeItemContainer"
         onClick={removeItem}
+        role="button"
+        tabIndex={0}
+      />
+      <span
+        aria-hidden="true"
+        data-testid="addressSelectContainer"
+        onClick={() => setLocation(location)}
         role="button"
         tabIndex={0}
       />
@@ -417,6 +429,29 @@ describe('AssetSelect', () => {
     expect(updateIncident).toHaveBeenCalledWith({
       location: {},
       Zork: undefined,
+    })
+  })
+
+  it('handles setting a location, without having to fetch the address', () => {
+    render(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    const addressSelectContainer = screen.getByTestId('addressSelectContainer')
+
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(addressSelectContainer)
+
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+    expect(updateIncident).toHaveBeenCalledWith({
+      location: {
+        coordinates: mockLatLng,
+        address: mockAddress,
+      },
+      Zork: {
+        type: mockUNREGISTERED_TYPE,
+      },
     })
   })
 })
