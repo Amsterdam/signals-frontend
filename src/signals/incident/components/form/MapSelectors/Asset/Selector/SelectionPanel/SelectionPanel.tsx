@@ -107,7 +107,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       title={language.title || 'Kies het object'}
       data-testid="selectionPanel"
     >
-      <Paragraph>
+      <Paragraph strong>
         {language.subTitle || 'U kunt maar een object kiezen'}
       </Paragraph>
 
@@ -131,17 +131,13 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
             label={language.unregistered || 'Het object staat niet op de kaart'}
           />
 
-          {showObjectIdInput && (
+          {showObjectIdInput && language.unregisteredId && (
             <>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={
                   <>
-                    <strong>
-                      {language.unregisteredId ||
-                        'Wat is het nummer van het object?'}
-                    </strong>{' '}
-                    (niet verplicht)
+                    <strong>{language.unregisteredId}</strong> (niet verplicht)
                   </>
                 }
               />

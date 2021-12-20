@@ -18,6 +18,16 @@ export const controls = {
         subcategory: 'eikenprocessierups',
       },
       label: 'Kies de boom waarin u de eikenprocessierupsen hebt gezien',
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies de boom op de kaart',
+        unregistered: 'De boom staat niet op de kaart',
+        unregisteredId: undefined,
+        objectTypeSingular: 'boom',
+        objectTypePlural: 'bomen',
+        submitSingular: 'Gebruik deze locatie',
+        submitPlural: 'Gebruik deze locatie',
+      },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
       endpoint:

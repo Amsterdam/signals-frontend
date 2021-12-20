@@ -153,8 +153,16 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   extra_straatverlichting_nummer: {
     meta: {
       label: 'Kies de lamp of lantaarnpaal waar het om gaat',
-      subtitle:
-        'U kunt meer dan één keuze maken. Lampen met een uitroepteken zijn al gemeld.',
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies het lichtpunt op de kaart',
+        unregistered: 'Het lichtpunt staat niet op de kaart',
+        unregisteredId: 'Nummer van het lichtpunt',
+        objectTypeSingular: 'lichtpunt',
+        objectTypePlural: 'lichtpunten',
+        submitSingular: 'Gebruik deze locatie',
+        submitPlural: 'Gebruik deze locatie',
+      },
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
@@ -367,6 +375,16 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   extra_klok_nummer: {
     meta: {
       label: 'Kies de klok waar het om gaat',
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies de klok op de kaart',
+        unregistered: 'De klok staat niet op de kaart',
+        unregisteredId: 'Nummer van de klok',
+        objectTypeSingular: 'klok',
+        objectTypePlural: 'klokken',
+        submitSingular: 'Gebruik deze locatie',
+        submitPlural: 'Gebruik deze locatie',
+      },
       shortLabel: 'Klok(ken) op kaart',
       ifAllOf: {
         subcategory: 'klok',
