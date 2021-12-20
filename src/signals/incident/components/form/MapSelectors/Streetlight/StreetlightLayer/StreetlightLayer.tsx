@@ -7,6 +7,10 @@ import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
 import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
+import type { Feature, FeatureType } from '../../Asset/types'
+
+const CLOCK = 1
+const REPORTED = 1
 
 export const StreetlightLayer = () => {
   const { meta } = useContext(AssetSelectContext)
@@ -18,11 +22,10 @@ export const StreetlightLayer = () => {
     return meta.featureTypes.find(({ typeValue }) => typeValue === 'reported')
   }
 
-  // Only streetlight features that are reported, exclude clocks (objecttype is 1)
   const reportedFeatures = data.features.filter(
     (feature) =>
-      feature.properties?.objecttype !== 1 &&
-      feature.properties?.meldingstatus === 1
+      feature.properties?.objecttype !== CLOCK &&
+      feature.properties?.meldingstatus === REPORTED
   )
 
   return (
@@ -30,12 +33,8 @@ export const StreetlightLayer = () => {
       <AssetLayer featureTypes={meta.featureTypes} desktopView={desktopView} />
       {reportedFeatures.length > 0 && reportedFeatureType && (
         <ReportedLayer
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          reportedFeatures={reportedFeatures}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          reportedFeatureType={reportedFeatureType}
+          reportedFeatures={reportedFeatures as Feature[]}
+          reportedFeatureType={reportedFeatureType as unknown as FeatureType}
         />
       )}
     </>
