@@ -18,9 +18,9 @@ export const ClockLayer = () => {
 
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
 
-  const reportedFeatureType = () => {
-    return meta.featureTypes.find(({ typeValue }) => typeValue === 'reported')
-  }
+  const reportedFeatureType = meta.featureTypes.find(
+    ({ typeValue }) => typeValue === 'reported'
+  )
 
   const reportedFeatures = data.features.filter(
     (feature) =>
@@ -34,7 +34,7 @@ export const ClockLayer = () => {
       {reportedFeatures.length > 0 && reportedFeatureType && (
         <ReportedLayer
           reportedFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType as unknown as FeatureType}
+          reportedFeatureType={reportedFeatureType as FeatureType}
         />
       )}
     </>
