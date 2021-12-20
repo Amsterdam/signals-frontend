@@ -4,6 +4,7 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import appConfiguration from 'shared/services/configuration/configuration'
 import type { IconOptions } from 'leaflet'
+import { selectIcon } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/SelectIcon'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import * as verlichtingIcons from './verlichting-icons'
 
@@ -178,7 +179,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.grachtmast,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -190,7 +191,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.overspanning,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -202,7 +203,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.gevel_armatuur,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -214,7 +215,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.schijnwerper,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -226,7 +227,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.overig_lichtpunt,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -389,7 +390,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           icon: {
             options,
             iconSvg: verlichtingIcons.klok,
-            selectedIconSvg: verlichtingIcons.select,
+            selectedIconSvg: selectIcon,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',

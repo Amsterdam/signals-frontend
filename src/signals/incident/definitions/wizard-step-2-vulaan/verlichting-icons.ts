@@ -74,16 +74,6 @@ export const reported = `<svg width="22px" height="22px" viewBox="0 0 22 22" ver
 </svg>
 `
 
-export const select = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>icon-select</title>
-<g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="icon-select">
-        <circle id="Oval-2-Copy-21" stroke="#EC0000" stroke-width="4" fill="#FFFFFF" cx="20" cy="20" r="18"></circle>
-        <circle id="Oval-Copy" fill="#EC0000" cx="20" cy="20" r="6"></circle>
-    </g>
-</g>
-</svg>`
-
 export const schijnwerper = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-schijnwerper</title>
 <g id="icoon/Icon_40_Schijnwerper" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
