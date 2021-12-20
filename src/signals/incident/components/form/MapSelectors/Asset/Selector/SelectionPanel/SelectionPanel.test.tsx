@@ -67,7 +67,7 @@ describe('SelectionPanel', () => {
     featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     variant: 'drawer',
     language: {
-      unregisteredId: 'Nummer van de containerr',
+      unregisteredId: 'Nummer van de container',
     },
   }
 
