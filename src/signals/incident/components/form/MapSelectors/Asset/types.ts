@@ -6,6 +6,7 @@ import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Address } from 'types/address'
 import type { EventHandler } from '../types'
 import type { UNREGISTERED_TYPE } from '../constants'
+import type { FormFieldProps } from '../../FormField/FormField'
 
 type Icon = {
   id: string
@@ -81,6 +82,13 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
+}
+
+export interface AssetSelectRendererProps extends FormFieldProps {
+  meta: Meta
+  handler: any
+  parent: any
+  validatorsOrOpts: any
 }
 
 export type FeatureProps = Record<string, string | number | undefined>

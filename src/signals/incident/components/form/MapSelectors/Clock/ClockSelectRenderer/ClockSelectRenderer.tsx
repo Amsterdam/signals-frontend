@@ -2,19 +2,11 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
-import type { FormFieldProps } from '../../../FormField/FormField'
 import AssetSelect from '../../Asset'
 import Layer from '../ClockLayer'
-import type { Meta } from '../../Asset/types'
+import type { AssetSelectRendererProps } from '../../Asset/types'
 
-interface ClockSelectRendererProps extends FormFieldProps {
-  meta: Meta
-  handler: any
-  parent: any
-  validatorsOrOpts: any
-}
-
-const ClockSelectRenderer: FunctionComponent<ClockSelectRendererProps> = ({
+const ClockSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
   handler,
   touched,
   hasError,
