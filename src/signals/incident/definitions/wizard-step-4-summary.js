@@ -44,6 +44,7 @@ export const renderPreview = ({ render, meta }) => {
 
     case FIELD_TYPE_MAP.asset_select:
     case FIELD_TYPE_MAP.caterpillar_select:
+    case FIELD_TYPE_MAP.clock_select:
     case FIELD_TYPE_MAP.streetlight_select:
       return (props) =>
         PreviewComponents.AssetListPreview({

@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useContext, useCallback } from 'react'
 import styled from 'styled-components'
-import { Link } from '@amsterdam/asc-ui'
+import { Link, themeSpacing } from '@amsterdam/asc-ui'
 
 import type { FC, KeyboardEvent } from 'react'
 
@@ -11,6 +11,7 @@ import { formatAddress } from 'shared/services/format-address'
 
 const Wrapper = styled.div`
   position: relative;
+  margin: ${themeSpacing(4, 0, 0, 0)};
 `
 
 const StyledLink = styled(Link)`
