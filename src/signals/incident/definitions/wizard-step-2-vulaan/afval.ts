@@ -4,6 +4,13 @@ import type { IconOptions } from 'leaflet'
 
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
+import breadUrl from 'shared/images/afval/Icon_40_bread.svg?url'
+import gftUrl from 'shared/images/afval/Icon_40_gft.svg?url'
+import glasUrl from 'shared/images/afval/Icon_40_glas.svg?url'
+import paperUrl from 'shared/images/afval/Icon_40_paper.svg?url'
+import textileUrl from 'shared/images/afval/Icon_40_textile.svg?url'
+import restUrl from 'shared/images/afval/Icon_40_rest.svg?url'
+import plasticUrl from 'shared/images/afval/Icon_40_plastic.svg?url'
 import configuration from '../../../../shared/services/configuration/configuration'
 import * as afvalIcons from './afval-icons'
 
@@ -63,6 +70,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.rest,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: restUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -75,6 +83,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.paper,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: paperUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -87,6 +96,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.glas,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: glasUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -99,6 +109,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.plastic,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: plasticUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -111,6 +122,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.textile,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: textileUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -123,6 +135,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.gft,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: gftUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -135,6 +148,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.bread,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: breadUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',

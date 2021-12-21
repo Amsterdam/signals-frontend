@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Fragment, useEffect, useState, useMemo } from 'react'
+import { Fragment, useEffect, useState, useMemo, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeColor } from '@amsterdam/asc-ui'
@@ -8,6 +8,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from 'hooks/useFetch'
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter'
+import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import selectIconSrc from '!!file-loader!../../shared/images/icon-select-marker.svg'
 
 const ImgWrapper = styled.div`
@@ -63,6 +64,7 @@ const MapStatic = ({
   showMarker,
   width,
 }) => {
+  const { selection, meta } = useContext(AssetSelectContext)
   const { data, error, get, isLoading } = useFetch()
   const [src, setSrc] = useState()
   const { x, y } = useMemo(() => wgs84ToRd({ lat, lng }), [lat, lng])
@@ -94,6 +96,17 @@ const MapStatic = ({
 
     setSrc(global.URL.createObjectURL(data))
   }, [data])
+
+  const getIconSrc = () => {
+    if (selection.type === 'not-on-map') {
+      return selectIconSrc
+    }
+
+    const featureType = meta.featureTypes.find(
+      ({ typeValue }) => typeValue === selection.type
+    )
+    return featureType.icon.iconUrl ?? selectIconSrc
+  }
 
   return (
     <ImgWrapper
@@ -135,7 +148,7 @@ const MapStatic = ({
           {showMarker && (
             <img
               data-testid="mapStaticMarker"
-              src={selectIconSrc}
+              src={getIconSrc()}
               alt=""
               aria-hidden="true"
               width={markerSize}

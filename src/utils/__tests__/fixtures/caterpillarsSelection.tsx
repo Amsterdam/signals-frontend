@@ -34,7 +34,7 @@ export const meta = {
   ifAllOf: {
     subcategory: 'eikenprocessierups',
   },
-  label: 'Kies de boom waarin u de eikenprocessierupsen hebt gezien',
+  label: 'Waar is het?',
   shortLabel: 'Boom',
   pathMerge: 'extra_properties',
   endpoint:

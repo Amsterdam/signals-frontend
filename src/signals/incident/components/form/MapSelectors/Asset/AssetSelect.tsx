@@ -205,7 +205,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
         setMessage,
       }}
     >
-      {!showMap && <Intro />}
+      {!showMap && !selection && <Intro />}
 
       {showMap && <Selector />}
 

@@ -6,18 +6,27 @@ import { Link, themeSpacing } from '@amsterdam/asc-ui'
 
 import type { FC, KeyboardEvent } from 'react'
 
+import MapStatic from 'components/MapStatic'
+
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { formatAddress } from 'shared/services/format-address'
 
+const mapWidth = 640
+const mapHeight = 180
+
 const Wrapper = styled.div`
   position: relative;
-  margin: ${themeSpacing(4, 0, 0, 0)};
+  margin: ${themeSpacing(0, 0, 0, 0)};
 `
 
 const StyledLink = styled(Link)`
   text-decoration: underline;
   font-size: 16px;
   cursor: pointer;
+`
+
+const StyledMapStatic = styled(MapStatic)`
+  margin: ${themeSpacing(0, 0, 2, 0)};
 `
 
 const Summary: FC = () => {
@@ -42,6 +51,15 @@ const Summary: FC = () => {
 
   return (
     <Wrapper data-testid="assetSelectSummary">
+      {coordinates && (
+        <StyledMapStatic
+          height={mapHeight}
+          width={mapWidth}
+          lat={coordinates.lat}
+          lng={coordinates.lng}
+        />
+      )}
+
       {selection && (
         <div data-testid="assetSelectSummaryDescription">
           {summaryDescription}
