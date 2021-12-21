@@ -25,8 +25,8 @@ export const createRequired = (message: string) =>
       : null
   }
 
-export const validateObjectLocation =
-  (objectType: string) => (control: AbstractControl) => {
+export const validateObjectLocation = (objectType: string) =>
+  function required(control: AbstractControl) {
     if (control.value) return null
 
     return {
