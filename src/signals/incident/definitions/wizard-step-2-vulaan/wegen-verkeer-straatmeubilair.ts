@@ -9,6 +9,7 @@ import {
   unknownIcon,
 } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/MarkerIcons'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
+import { validateObjectLocation } from '../../services/custom-validators'
 import * as verlichtingIcons from './verlichting-icons'
 
 export const ICON_SIZE = 40
@@ -270,6 +271,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.streetlight_select,
+    options: {
+      validators: [validateObjectLocation('lichtpunt')],
+    },
   },
   extra_straatverlichting_niet_op_kaart_nummer: {
     meta: {
@@ -433,6 +437,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.clock_select,
+    options: {
+      validators: [validateObjectLocation('klok')],
+    },
   },
   extra_klok_niet_op_kaart_nummer: {
     meta: {
