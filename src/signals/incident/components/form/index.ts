@@ -4,6 +4,7 @@ import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
 import CategorySelectRenderer from './CategorySelectRenderer'
 import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 import CheckboxInput from './CheckboxInput'
+import ClockSelectRenderer from './MapSelectors/Clock/ClockSelectRenderer'
 import DateTimeInput from './DateTimeInput'
 import DescriptionInputRenderer from './DescriptionInputRenderer'
 import EmphasisCheckboxInput from './EmphasisCheckboxInput'
@@ -28,6 +29,7 @@ export default {
   CategorySelectRenderer,
   CaterpillarSelectRenderer,
   CheckboxInput,
+  ClockSelectRenderer,
   DateTimeInput,
   DescriptionInputRenderer,
   EmphasisCheckboxInput,
