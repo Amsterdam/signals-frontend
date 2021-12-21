@@ -172,7 +172,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       },
       wfsFilter:
         '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.verlichting,
+      endpoint: configuration.map.layers?.klokken,
       featureTypes: [
         {
           label: 'Grachtmast',
