@@ -1,9 +1,0 @@
-<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>icon-overspanning</title>
-<g id="icoon/Icon_40_Overspanning" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-  <circle id="Oval" stroke="#000000" stroke-width="2" fill="#FFFFFF" cx="20" cy="20" r="19"></circle>
-  <ellipse id="Oval" stroke="#000000" stroke-width="2" fill="#FEC813" cx="20" cy="26" rx="11" ry="5"></ellipse>
-  <rect id="Rectangle" fill="#000000" x="18" y="15" width="4" height="6"></rect>
-  <path d="M3.69604187,10.1446801 C9.13069458,12.0971495 14.5653473,13.0733842 20,13.0733842 C25.4472366,13.0733842 30.8944733,12.0926233 36.3417099,10.1311016 C36.8944733,9.93205432 37.5031342,12.0970325 37.2547012,12.1923839 C31.5031342,14.3999027 25.7515671,15.5036621 20,15.5036621 C14.2709915,15.5036621 8.54198303,14.408544 2.81297455,12.2183077 C2.54198303,12.114706 3.13069458,9.94157173 3.69604187,10.1446801 Z" id="Rectangle-Copy" fill="#000000"></path>
-</g>
-</svg>
