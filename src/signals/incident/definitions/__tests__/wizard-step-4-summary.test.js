@@ -119,22 +119,6 @@ describe('Wizard summary', () => {
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({})
     })
-
-    it('should fall back to short label', () => {
-      configuration.featureFlags.showVulaanControls = true
-      const actual = previewFactory({
-        category: 'wegen-verkeer-straatmeubilair',
-      })
-      const expected = expect.objectContaining({
-        vulaan: expect.objectContaining({
-          extra_straatverlichting_niet_op_kaart: expect.objectContaining({
-            label: 'Staat niet op kaart',
-          }),
-        }),
-      })
-
-      expect(actual).toEqual(expected)
-    })
   })
 
   describe('Fetch questions from backend', () => {

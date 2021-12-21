@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
 import AssetSelect from '../AssetSelect'
+import type { AssetSelectRendererProps } from '../types'
 
-const AssetSelectRenderer = ({
+const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
   handler,
   touched,
   hasError,
@@ -13,7 +14,7 @@ const AssetSelectRenderer = ({
   getError,
   validatorsOrOpts,
 }) =>
-  meta?.isVisible && (
+  meta?.isVisible ? (
     <FormField
       meta={meta}
       options={validatorsOrOpts}
@@ -23,16 +24,6 @@ const AssetSelectRenderer = ({
     >
       <AssetSelect handler={handler} meta={meta} parent={parent} />
     </FormField>
-  )
-
-AssetSelectRenderer.propTypes = {
-  handler: PropTypes.func,
-  touched: PropTypes.bool,
-  getError: PropTypes.func.isRequired,
-  hasError: PropTypes.func.isRequired,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
-  validatorsOrOpts: PropTypes.object,
-}
+  ) : null
 
 export default AssetSelectRenderer
