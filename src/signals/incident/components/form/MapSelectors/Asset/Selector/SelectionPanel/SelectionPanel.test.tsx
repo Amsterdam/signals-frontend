@@ -244,7 +244,7 @@ describe('SelectionPanel', () => {
       title: 'Locatie',
       subTitle: 'Kies de container op de kaart',
       unregistered: 'De container staat niet op de kaart',
-      submitSingular: 'Gebruik deze locatie',
+      submit: 'Gebruik deze locatie',
     }
 
     const propsWithLanguage = {

@@ -155,7 +155,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       )}
 
       <StyledButton onClick={close} variant="primary">
-        {language.submitSingular || 'Meld dit object'}
+        {language.submit || 'Meld dit object'}
       </StyledButton>
     </MapPanelContent>
   )
