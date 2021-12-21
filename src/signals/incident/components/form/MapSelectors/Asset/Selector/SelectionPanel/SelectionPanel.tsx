@@ -30,6 +30,10 @@ const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
 `
 
+const StyledParagraph = styled(Paragraph)`
+  margin-top: ${themeSpacing(6)};
+`
+
 export interface SelectionPanelProps {
   featureTypes: FeatureType[]
   language?: Record<string, string>
@@ -133,6 +137,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
 
           {showObjectIdInput && language.unregisteredId && (
             <>
+              <StyledParagraph>
+                Typ het dichtstbijzijnde adres of klik de locatie aan op de
+                kaart.
+              </StyledParagraph>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={
