@@ -22,6 +22,14 @@
   }
 }
 
+.leaflet-fade-anim .leaflet-tile {
+  will-change: unset !important;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  will-change: unset !important;
+}
+
 *,
 :after,
 :before {
