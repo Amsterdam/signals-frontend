@@ -2,19 +2,11 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
-import type { FormFieldProps } from '../../../FormField/FormField'
 import AssetSelect from '../../Asset'
 import Layer from '../StreetlightLayer'
-import type { Meta } from '../../Asset/types'
+import type { AssetSelectRendererProps } from '../../Asset/types'
 
-interface StreetlightSelectRendererProps extends FormFieldProps {
-  meta: Meta
-  handler: any
-  parent: any
-  validatorsOrOpts: any
-}
-
-const StreetlightSelectRenderer: FunctionComponent<StreetlightSelectRendererProps> =
+const StreetlightSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
   ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
     meta.isVisible ? (
       <FormField

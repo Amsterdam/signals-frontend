@@ -93,9 +93,7 @@ describe('SelectionPanel', () => {
       })
     )
 
-    expect(
-      screen.getByRole('heading', { name: 'Kies het object' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Locatie' })).toBeInTheDocument()
 
     expect(
       screen.getByRole('checkbox', {

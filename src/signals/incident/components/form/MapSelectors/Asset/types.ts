@@ -4,8 +4,10 @@ import type { FC } from 'react'
 import type { Feature as GeoJSONFeature, Point } from 'geojson'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Address } from 'types/address'
+import type { FormOptions } from 'types/reactive-form'
 import type { EventHandler } from '../types'
 import type { UNREGISTERED_TYPE } from '../constants'
+import type { FormFieldProps } from '../../FormField/FormField'
 
 type Icon = {
   id: string
@@ -81,6 +83,13 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
+}
+
+export interface AssetSelectRendererProps extends FormFieldProps {
+  meta: Meta
+  handler: any
+  parent: any
+  validatorsOrOpts: FormOptions
 }
 
 export type FeatureProps = Record<string, string | number | undefined>

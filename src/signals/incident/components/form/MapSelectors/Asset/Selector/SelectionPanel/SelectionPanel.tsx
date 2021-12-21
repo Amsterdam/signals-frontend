@@ -104,7 +104,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   return (
     <MapPanelContent
       variant={variant}
-      title={language.title || 'Kies het object'}
+      title={language.title || 'Locatie'}
       data-testid="selectionPanel"
     >
       <Paragraph strong>

@@ -30,6 +30,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
     label: 'Asset',
     isVisible: true,
     featureTypes: [],
+    endpoint: '',
   }
 
   describe('rendering', () => {
