@@ -136,7 +136,7 @@ const getExtraQuestions = (category, subcategory, questions) => {
 }
 
 export default {
-  label: 'Controleer uw gegevens',
+  label: '4. Versturen',
   subheader: 'Maak een aanpassing als dat nodig is.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
@@ -144,12 +144,12 @@ export default {
   previousButtonClass: 'action startagain',
   sectionLabels: {
     heading: {
-      beschrijf: 'Melding',
-      vulaan: 'Aanvullende informatie',
-      contact: 'Contactgegevens',
+      beschrijf: '1. Beschrijf uw melding',
+      vulaan: '2. Locatie en vragen',
+      contact: '3. Contactgegevens',
     },
     edit: {
-      beschrijf: 'Wijzig melding',
+      beschrijf: 'Wijzig uw melding',
       vulaan: 'Wijzig aanvullende informatie',
       contact: 'Wijzig contactgegevens',
     },
@@ -181,7 +181,7 @@ export default {
         render: PreviewComponents.MapPreview,
       },
       description: {
-        label: 'Waar gaat het om?',
+        label: 'Uw melding gaat over:',
         render: ({ value }) => value,
       },
       classification: {
@@ -216,7 +216,7 @@ export default {
       },
 
       sharing_allowed: {
-        label: 'Melding doorsturen',
+        label: 'Melding delen',
         optional: true,
         render: ({ value }) => {
           if (!value) return null
