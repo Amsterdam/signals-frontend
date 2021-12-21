@@ -19,8 +19,8 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import { ViewerContainer } from '@amsterdam/arm-core'
 
 import type { LatLngExpression } from 'leaflet'
-import type { AutoSuggestOption } from 'components/AutoSuggest/AutoSuggest'
 import type { Geometrie } from 'types/incident'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
@@ -132,7 +132,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
    * Note that testing this functionality resembles integration testing, hence disabling istanbul coverage
    */
   const onSelect = useCallback(
-    /* istanbul ignore next */ (option: AutoSuggestOption) => {
+    /* istanbul ignore next */ (option: PdokResponse) => {
       if (dispatch) {
         dispatch(setAddressAction(option.value))
       }

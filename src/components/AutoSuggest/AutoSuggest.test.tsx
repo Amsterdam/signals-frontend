@@ -2,6 +2,8 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
 import { render, fireEvent, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
 import fetch from 'jest-fetch-mock'
 
@@ -93,11 +95,7 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox')
 
-    input.focus()
-
-    act(() => {
-      fireEvent.change(input, { target: { value: 'A' } })
-    })
+    userEvent.type(input, 'A')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -107,9 +105,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(fetch).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Am' } })
-    })
+    userEvent.type(input, 'm')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -119,9 +115,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(fetch).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Ams' } })
-    })
+    userEvent.type(input, 's')
 
     await screen.findByTestId('autoSuggest')
 
@@ -164,11 +158,9 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox')
 
-    input.focus()
-
     expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
 
-    fireEvent.change(input, { target: { value: 'Amsterdam' } })
+    userEvent.type(input, 'Amsterdam')
 
     const suggestList = await screen.findByTestId('suggestList')
 
@@ -181,13 +173,11 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      input.focus()
-
-      fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
+      userEvent.type(input, '{ArrowUp}')
 
       expect(document.activeElement).toEqual(input)
 
-      fireEvent.change(input, { target: { value: 'Diemen' } })
+      userEvent.type(input, 'Diemen')
 
       const suggestList = await screen.findByTestId('suggestList')
       const listItems = [...suggestList.querySelectorAll('li')].reverse()
@@ -195,7 +185,7 @@ describe('src/components/AutoSuggest', () => {
       formatResponse(JSONResponse as unknown as RevGeo)
         .reverse()
         .forEach((item, index) => {
-          fireEvent.keyDown(input, { key: 'ArrowUp', code: 38, keyCode: 38 })
+          userEvent.type(input, '{ArrowUp}')
 
           const activeElement = listItems[index]
 
@@ -208,21 +198,19 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      input.focus()
+      expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
 
-      expect(input.getAttribute('aria-activedescendant')).toBeNull()
-
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}')
 
       expect(document.activeElement).toEqual(input)
 
-      fireEvent.change(input, { target: { value: 'Weesp' } })
+      userEvent.type(input, 'Weesp')
 
       const suggestList = await screen.findByTestId('suggestList')
 
       formatResponse(JSONResponse as unknown as RevGeo).forEach(
         (item, index) => {
-          fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+          userEvent.type(input, '{ArrowDown}')
 
           const activeElement = suggestList.querySelector(
             `li:nth-of-type(${index + 1}`
@@ -238,20 +226,17 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      input.focus()
+      expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
 
-      expect(input.getAttribute('aria-activedescendant')).toBeNull()
+      userEvent.type(input, 'Weesp')
 
       act(() => {
-        fireEvent.change(input, { target: { value: 'Weesp' } })
         jest.advanceTimersByTime(INPUT_DELAY)
       })
 
       const suggestList = await screen.findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Down', code: 40, keyCode: 40 })
-      })
+      userEvent.type(input, '{Down}')
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -259,9 +244,7 @@ describe('src/components/AutoSuggest', () => {
         firstElement?.id
       )
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Up', code: 38, keyCode: 38 })
-      })
+      userEvent.type(input, '{Up}')
 
       const lastElement = suggestList.querySelector('li:last-of-type')
       expect(document.activeElement).toEqual(lastElement)
@@ -269,9 +252,7 @@ describe('src/components/AutoSuggest', () => {
         lastElement?.id
       )
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      userEvent.type(input, '{ArrowDown}')
 
       expect(input.getAttribute('aria-activedescendant')).toEqual(
         firstElement?.id
@@ -284,34 +265,28 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      input.focus()
-
-      fireEvent.change(input, { target: { value: 'Boom' } })
+      userEvent.type(input, 'Boom')
 
       const suggestList = await screen.findByTestId('suggestList')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}')
 
       expect(document.activeElement).toEqual(firstElement)
       expect(onClear).not.toHaveBeenCalled()
 
-      fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 })
+      userEvent.type(input, '{Escape}')
 
       expect(onClear).toHaveBeenCalled()
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
       expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Boomsloot' } })
-      })
+      userEvent.type(input, 'sloot')
 
       await screen.findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Esc', code: 13, keyCode: 13 })
-      })
+      userEvent.type(input, '{Escape}')
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
@@ -324,38 +299,26 @@ describe('src/components/AutoSuggest', () => {
       )
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      input.focus()
-
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Boom' } })
-      })
+      userEvent.type(input, 'Boom')
 
       const suggestList = await findByTestId('suggestList')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      })
+      userEvent.type(input, '{ArrowDown}')
 
       expect(document.activeElement).toEqual(firstElement)
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Escape', code: 13, keyCode: 13 })
-      })
+      userEvent.type(input, '{Escape}')
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
       expect(queryByTestId('suggestList')).not.toBeInTheDocument()
 
-      act(() => {
-        fireEvent.change(input, { target: { value: 'Boomsloot' } })
-      })
+      userEvent.type(input, 'sloot')
 
       await findByTestId('suggestList')
 
-      act(() => {
-        fireEvent.keyDown(input, { key: 'Esc', code: 13, keyCode: 13 })
-      })
+      userEvent.type(input, '{Esc}')
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
@@ -366,19 +329,15 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      input.focus()
-
-      fireEvent.change(input, { target: { value: 'Niezel' } })
+      userEvent.type(input, 'Niezel')
 
       const suggestList = await screen.findByTestId('suggestList')
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}{ArrowDown}{ArrowDown}')
 
       expect(document.activeElement).not.toEqual(input)
 
-      fireEvent.keyDown(input, { key: 'Home', code: 36, keyCode: 36 })
+      userEvent.type(input, '{Home}')
 
       const activeElement = document.activeElement as HTMLInputElement
 
@@ -386,7 +345,7 @@ describe('src/components/AutoSuggest', () => {
       expect(activeElement.selectionStart).toEqual(0)
       expect(screen.getByTestId('suggestList')).toBeInTheDocument()
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}')
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -397,18 +356,15 @@ describe('src/components/AutoSuggest', () => {
       const input = screen.getByRole('textbox')
       const value = 'Midden'
 
-      input.focus()
-
-      fireEvent.change(input, { target: { value } })
+      userEvent.type(input, `${value}`)
 
       const suggestList = await screen.findByTestId('suggestList')
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}{ArrowDown}')
 
       expect(document.activeElement).not.toEqual(input)
 
-      fireEvent.keyDown(input, { key: 'End', code: 35, keyCode: 35 })
+      userEvent.type(input, '{End}')
 
       const activeElement = document.activeElement as HTMLInputElement
 
@@ -416,7 +372,7 @@ describe('src/components/AutoSuggest', () => {
       expect(activeElement.selectionStart).toEqual(value.length)
       expect(screen.getByTestId('suggestList')).toBeInTheDocument()
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}')
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -437,9 +393,7 @@ describe('src/components/AutoSuggest', () => {
       ) as HTMLUListElement
       const nameField = container.querySelector('input[name=foo]')
 
-      input.focus()
-
-      fireEvent.change(input, { target: { value: 'Niezel' } })
+      userEvent.type(input, 'Niezel')
 
       const suggestList = await screen.findByTestId('suggestList')
 
@@ -469,9 +423,8 @@ describe('src/components/AutoSuggest', () => {
       const input = container.querySelector(
         'input[aria-autocomplete=list]'
       ) as HTMLUListElement
-      input.focus()
 
-      fireEvent.keyDown(input, { key: 'Enter', code: 13, keyCode: 13 })
+      userEvent.type(input, '{Enter}')
 
       await screen.findByRole('combobox')
       expect(document.activeElement).toEqual(input)
@@ -484,18 +437,15 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      input.focus()
-
-      fireEvent.change(input, { target: { value: 'Meeuwenlaan' } })
+      userEvent.type(input, 'Meeuwenlaan')
 
       await screen.findByTestId('suggestList')
 
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
-      fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+      userEvent.type(input, '{ArrowDown}{ArrowDown}')
 
       expect(document.activeElement).not.toEqual(input)
 
-      fireEvent.keyDown(input, { key: 'Space', code: 91, keyCode: 91 })
+      userEvent.type(input, '{Space}')
 
       await screen.findByTestId('suggestList')
 
@@ -507,11 +457,11 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox') as HTMLInputElement
 
-    fireEvent.change(input, { target: { value: 'Rembrandt' } })
+    userEvent.type(input, 'Rembrandt')
 
     const suggestList = await screen.findByTestId('suggestList')
 
-    fireEvent.keyDown(input, { key: 'ArrowDown', code: 40, keyCode: 40 })
+    userEvent.type(input, '{ArrowDown}')
 
     expect(document.activeElement).not.toEqual(input)
 
@@ -534,7 +484,7 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
     const input = screen.getByRole('textbox')
 
-    fireEvent.change(input, { target: { value: 'Rembrandt' } })
+    userEvent.type(input, 'Rembrandt')
 
     await screen.findByTestId('autoSuggest')
 
@@ -544,7 +494,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).not.toHaveBeenCalled()
 
-    fireEvent.change(input, { target: { value: '' } })
+    userEvent.clear(input)
 
     await screen.findByTestId('autoSuggest')
 
@@ -559,7 +509,7 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox')
 
-    fireEvent.change(input, { target: { value: 'Rembrandt' } })
+    userEvent.type(input, 'Rembrandt')
 
     await screen.findByTestId('autoSuggest')
 
@@ -567,7 +517,7 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    fireEvent.change(input, { target: { value: '' } })
+    userEvent.clear(input)
 
     await screen.findByTestId('autoSuggest')
 

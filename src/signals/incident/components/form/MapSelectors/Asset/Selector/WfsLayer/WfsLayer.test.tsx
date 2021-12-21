@@ -51,6 +51,7 @@ const assetSelectProviderValue: AssetSelectValue = {
   edit: jest.fn(),
   close: jest.fn(),
   setMessage: jest.fn(),
+  fetchLocation: jest.fn(),
   setLocation: jest.fn(),
 }
 
@@ -159,6 +160,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
+      fetchLocation: jest.fn(),
       setLocation: jest.fn(),
     }
 
@@ -196,6 +198,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       edit: jest.fn(),
       close: jest.fn(),
       setMessage: jest.fn(),
+      fetchLocation: jest.fn(),
       setLocation: jest.fn(),
     }
 

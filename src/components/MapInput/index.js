@@ -16,7 +16,6 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import 'leaflet/dist/leaflet.css'
 
 import { markerIcon } from 'shared/services/configuration/map-markers'
-import { formatPDOKResponse } from 'shared/services/map-location'
 import configuration from 'shared/services/configuration/configuration'
 import MapContext from 'containers/MapContext/context'
 import {
@@ -182,7 +181,6 @@ const MapInput = ({
         <StyledViewerContainer
           topLeft={
             <StyledAutosuggest
-              formatResponse={formatPDOKResponse}
               municipality={configuration.map?.municipality}
               onClear={onClear}
               onSelect={onSelect}
