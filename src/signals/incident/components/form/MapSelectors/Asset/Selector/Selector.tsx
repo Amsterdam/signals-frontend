@@ -138,8 +138,7 @@ const Selector = () => {
   const addressValue = address ? formatAddress(address) : ''
 
   const showMarker =
-    coordinates !== undefined &&
-    (!selection || selection.type === UNREGISTERED_TYPE)
+    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
