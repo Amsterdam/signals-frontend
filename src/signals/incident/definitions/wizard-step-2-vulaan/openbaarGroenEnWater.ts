@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
+import { validateObjectLocation } from '../../services/custom-validators'
 import * as caterpillarIcons from './caterpillar-icons'
 
 export const ICON_SIZE = 40
@@ -106,7 +107,9 @@ export const controls = {
       ],
       extraProperties: ['GlobalID'],
     },
-    options: { validators: ['required'] },
+    options: {
+      validators: [validateObjectLocation('boom')],
+    },
     render: FIELD_TYPE_MAP.caterpillar_select,
   },
   extra_nest_grootte: {
