@@ -121,7 +121,7 @@ const Selector = () => {
       dragging: true,
       zoomControl: false,
       minZoom: 10,
-      maxZoom: 15,
+      maxZoom: 16,
       zoom: 14,
     }),
     [center]
