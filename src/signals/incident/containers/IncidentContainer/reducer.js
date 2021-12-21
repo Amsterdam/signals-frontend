@@ -19,30 +19,59 @@ import { getIncidentClassification } from './services'
 
 export const initialState = fromJS({
   incident: {
-    datetime: undefined,
-    incident_date: 'Vandaag',
-    incident_time_hours: 9,
-    incident_time_minutes: 0,
-    category: '',
-    subcategory: '',
-    classification: null,
-    description: '',
-    email: '',
-    handling_message: '',
-    images_previews: [],
-    images: [],
-    location: undefined,
-    phone: undefined,
     priority: {
       id: 'normal',
       label: 'Normaal',
     },
+    sharing_allowed: {
+      label:
+        'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.',
+      value: true,
+    },
+    classification: {
+      id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
+      name: 'Container is vol',
+      slug: 'container-is-vol',
+    },
+    incident_time_hours: 9,
     questions: [],
-    source: undefined,
+    handling_message:
+      'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+    phone: '14020',
+    extra_container: {
+      id: '232432',
+      type: 'not-on-map',
+    },
+    images_previews: [],
+    location: {
+      coordinates: {
+        lat: 52.373381808290645,
+        lng: 4.893622741484086,
+      },
+      address: {
+        openbare_ruimte: 'Dam',
+        huisnummer: '1',
+        postcode: '1012JS',
+        woonplaats: 'Amsterdam',
+      },
+    },
+    images: [],
     type: {
       id: 'SIG',
       label: 'Melding',
     },
+    incident_time_minutes: 0,
+    source: 'online',
+    incident_date: 'Vandaag',
+    datetime: {
+      id: 'Nu',
+      label: 'Nu',
+      info: '',
+    },
+    email: 'janjaap.van.deursen@amsterdam.nl',
+    description: 'container is vol',
+    category: 'afval',
+    subcategory: 'container-is-vol',
   },
   loadingClassification: false,
   usePredictions: true,
