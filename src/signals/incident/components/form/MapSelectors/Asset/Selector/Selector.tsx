@@ -54,7 +54,7 @@ const MAP_PANEL_SNAP_POSITIONS = {
 }
 
 const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
-  max: 12,
+  max: 13,
 }
 
 const Wrapper = styled.div`
@@ -125,7 +125,7 @@ const Selector = () => {
       dragging: true,
       zoomControl: false,
       minZoom: 10,
-      maxZoom: 15,
+      maxZoom: 16,
       zoom: 14,
     }),
     [center]
