@@ -2,19 +2,11 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
-import type { FormFieldProps } from '../../../FormField/FormField'
 import AssetSelect from '../../Asset'
 import Layer from '../CaterpillarLayer'
-import type { Meta } from '../../Asset/types'
+import type { AssetSelectRendererProps } from '../../Asset/types'
 
-interface CaterpillarSelectRendererProps extends FormFieldProps {
-  meta: Meta
-  handler: any
-  parent: any
-  validatorsOrOpts: any
-}
-
-const CaterpillarSelectRenderer: FunctionComponent<CaterpillarSelectRendererProps> =
+const CaterpillarSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
   ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
     meta.isVisible ? (
       <FormField

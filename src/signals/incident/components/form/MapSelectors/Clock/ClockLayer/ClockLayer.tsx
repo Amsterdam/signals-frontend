@@ -12,7 +12,7 @@ import type { Feature, FeatureType } from '../../Asset/types'
 const CLOCK = 1
 const REPORTED = 1
 
-export const StreetlightLayer = () => {
+export const ClockLayer = () => {
   const { meta } = useContext(AssetSelectContext)
   const data = useContext<FeatureCollection>(WfsDataContext)
 
@@ -24,8 +24,8 @@ export const StreetlightLayer = () => {
 
   const reportedFeatures = data.features.filter(
     (feature) =>
-      feature.properties?.objecttype !== CLOCK &&
-      feature.properties?.meldingstatus === REPORTED
+      feature.properties?.meldingstatus === REPORTED &&
+      feature.properties?.objecttype === CLOCK
   )
 
   return (
@@ -41,4 +41,4 @@ export const StreetlightLayer = () => {
   )
 }
 
-export default StreetlightLayer
+export default ClockLayer

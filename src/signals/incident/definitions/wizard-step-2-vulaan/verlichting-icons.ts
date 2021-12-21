@@ -28,6 +28,18 @@ export const grachtmast = `<svg width="40px" height="40px" viewBox="0 0 40 40" v
 </svg>
 `
 
+export const klok = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>icoon/Icon_40_Klok</title>
+<g id="icoon/Icon_40_Klok" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <circle id="Oval" stroke="#000000" stroke-width="2" fill="#FFFFFF" cx="20" cy="20" r="19"></circle>
+    <rect id="Rectangle" fill="#000000" x="18" y="26" width="4" height="12"></rect>
+    <circle id="Oval-Copy" stroke="#000000" stroke-width="2" fill="#FEC813" cx="20" cy="17" r="9"></circle>
+    <rect id="Rectangle" fill="#000000" x="19" y="11" width="2" height="7"></rect>
+    <rect id="Rectangle-Copy" fill="#000000" transform="translate(21.500000, 17.000000) rotate(-270.000000) translate(-21.500000, -17.000000) " x="20.5" y="14.5" width="2" height="5"></rect>
+</g>
+</svg>
+`
+
 export const overig_lichtpunt = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-overig</title>
 <g id="icoon/Icon_40_Overig" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -61,16 +73,6 @@ export const reported = `<svg width="22px" height="22px" viewBox="0 0 22 22" ver
 </g>
 </svg>
 `
-
-export const select = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>icon-select</title>
-<g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="icon-select">
-        <circle id="Oval-2-Copy-21" stroke="#EC0000" stroke-width="4" fill="#FFFFFF" cx="20" cy="20" r="18"></circle>
-        <circle id="Oval-Copy" fill="#EC0000" cx="20" cy="20" r="6"></circle>
-    </g>
-</g>
-</svg>`
 
 export const schijnwerper = `<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>icon-schijnwerper</title>
