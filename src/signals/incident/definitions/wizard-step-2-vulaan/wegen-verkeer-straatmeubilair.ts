@@ -9,12 +9,12 @@ import {
   unknownIcon,
 } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/MarkerIcons'
 
-import grachtmastUrl from 'shared/images/openbare_verlichting/Icon_40_grachtmast.svg?url'
-import overspanningUrl from 'shared/images/openbare_verlichting/Icon_40_overspanning.svg?url'
-import gevelarmatuurUrl from 'shared/images/openbare_verlichting/Icon_40_gevelarmatuur.svg?url'
-import schijnwerperUrl from 'shared/images/openbare_verlichting/Icon_40_schijnwerper.svg?url'
-import overigUrl from 'shared/images/openbare_verlichting/Icon_40_overig.svg?url'
-import klokUrl from 'shared/images/openbare_verlichting/Icon_40_overig.svg?url'
+import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url'
+import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
+import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
+import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
+import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+import klokUrl from 'shared/images/openbare_verlichting/overig.svg?url'
 
 import { validateObjectLocation } from '../../services/custom-validators'
 import type ConfigurationType from '../../../../../app.amsterdam.json'

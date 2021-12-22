@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
-import oakUrl from 'shared/images/groen_water/Icon_40_oak.svg?url'
+import oakUrl from 'shared/images/groen_water/oak.svg?url'
 import { validateObjectLocation } from '../../services/custom-validators'
 import * as caterpillarIcons from './caterpillar-icons'
 
