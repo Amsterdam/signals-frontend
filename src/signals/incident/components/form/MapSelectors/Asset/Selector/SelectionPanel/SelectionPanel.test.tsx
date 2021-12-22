@@ -242,7 +242,7 @@ describe('SelectionPanel', () => {
   it('renders custom labels', () => {
     const language = {
       title: 'Locatie',
-      subTitle: 'Kies de container op de kaart',
+      subTitle: 'Kies een container op de kaart',
       unregistered: 'De container staat niet op de kaart',
       submit: 'Gebruik deze locatie',
     }

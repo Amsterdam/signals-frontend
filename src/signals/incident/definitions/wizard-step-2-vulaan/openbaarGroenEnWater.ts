@@ -20,7 +20,7 @@ export const controls = {
       label: 'Kies de boom waarin u de eikenprocessierupsen hebt gezien',
       language: {
         title: 'Locatie',
-        subTitle: 'Kies de boom op de kaart',
+        subTitle: 'Kies een boom op de kaart',
         unregistered: 'De boom staat niet op de kaart',
         unregisteredId: undefined,
         objectTypeSingular: 'boom',
