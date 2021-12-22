@@ -2,19 +2,33 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import fetchMock from 'jest-fetch-mock'
 
-import MapStatic from '..'
-import blob from './static.jpg'
+import MapStatic from '.'
 
 const lat = 52.37553393844094
 const lng = 4.879890711122719
 
-fetch.mockResponse(new Blob([blob], { type: 'image/png' }))
+const coordinates = { lat, lng }
+
+fetchMock.mockResponse(() =>
+  Promise.resolve(JSON.stringify(new Blob(['image'], { type: 'image/png' })))
+)
 
 describe('components/MapStatic', () => {
+  beforeAll(() => {
+    // React will throw an error when using a non-Blob or non-Stream object as image src
+    // To prevent warning from showing up in the output, temporarily overwrite the error handler
+    global.console.error = jest.fn()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('should render a loading message and image placeholder', async () => {
     const { queryByTestId, findByTestId } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     expect(queryByTestId('mapStaticLoadingMessage')).toBeInTheDocument()
@@ -28,7 +42,7 @@ describe('components/MapStatic', () => {
   it('should not render a loading message', async () => {
     const { queryByTestId, findByTestId } = render(
       withAppContext(
-        <MapStatic lat={lat} lng={lng} showLoadingMessage={false} />
+        <MapStatic coordinates={coordinates} showLoadingMessage={false} />
       )
     )
 
@@ -41,10 +55,10 @@ describe('components/MapStatic', () => {
 
   it('should render an error message', async () => {
     const error = new Error()
-    fetch.mockRejectOnce(error)
+    fetchMock.mockRejectOnce(error)
 
     const { queryByTestId, findByTestId } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     expect(queryByTestId('mapStaticError')).not.toBeInTheDocument()
@@ -56,7 +70,7 @@ describe('components/MapStatic', () => {
 
   it('should render a static map image', async () => {
     const { queryByTestId, findByTestId } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     expect(queryByTestId('mapStaticMap')).not.toBeInTheDocument()
@@ -68,7 +82,7 @@ describe('components/MapStatic', () => {
 
   it('should render a marker', async () => {
     const { queryByTestId, findByTestId, rerender } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     await findByTestId('mapStatic')
@@ -76,7 +90,7 @@ describe('components/MapStatic', () => {
     expect(queryByTestId('mapStaticMarker')).toBeInTheDocument()
 
     rerender(
-      withAppContext(<MapStatic lat={lat} lng={lng} showMarker={false} />)
+      withAppContext(<MapStatic coordinates={coordinates} showMarker={false} />)
     )
 
     await findByTestId('mapStatic')
@@ -86,7 +100,7 @@ describe('components/MapStatic', () => {
 
   it('should request different formats', async () => {
     const { findByTestId, unmount } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     await findByTestId('mapStatic')
@@ -98,7 +112,7 @@ describe('components/MapStatic', () => {
 
     unmount()
 
-    render(withAppContext(<MapStatic lat={lat} lng={lng} format="gif" />))
+    render(withAppContext(<MapStatic coordinates={coordinates} format="gif" />))
 
     await findByTestId('mapStatic')
 
@@ -114,7 +128,7 @@ describe('components/MapStatic', () => {
 
     const { findByTestId } = render(
       withAppContext(
-        <MapStatic lat={lat} lng={lng} width={width} height={height} />
+        <MapStatic coordinates={coordinates} width={width} height={height} />
       )
     )
 
@@ -132,7 +146,7 @@ describe('components/MapStatic', () => {
     const layers = 'basiskaart-light'
 
     const { findByTestId, unmount } = render(
-      withAppContext(<MapStatic lat={lat} lng={lng} />)
+      withAppContext(<MapStatic coordinates={coordinates} />)
     )
 
     await findByTestId('mapStatic')
@@ -144,7 +158,9 @@ describe('components/MapStatic', () => {
 
     unmount()
 
-    render(withAppContext(<MapStatic lat={lat} lng={lng} layers={layers} />))
+    render(
+      withAppContext(<MapStatic coordinates={coordinates} layers={layers} />)
+    )
 
     await findByTestId('mapStatic')
 

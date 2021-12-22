@@ -55,8 +55,7 @@ const Summary: FC = () => {
         <StyledMapStatic
           height={mapHeight}
           width={mapWidth}
-          lat={coordinates.lat}
-          lng={coordinates.lng}
+          coordinates={coordinates}
         />
       )}
 

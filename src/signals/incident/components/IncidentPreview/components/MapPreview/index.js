@@ -57,7 +57,11 @@ const MapPreview = ({ value }) => {
 
       {coordinates &&
         (configuration.featureFlags.useStaticMapServer ? (
-          <MapStatic height={mapHeight} width={mapWidth} {...coordinates} />
+          <MapStatic
+            height={mapHeight}
+            width={mapWidth}
+            coordinates={coordinates}
+          />
         ) : (
           <StyledMap mapOptions={options}>
             <StyledMarker args={[coordinates]} options={{ icon: markerIcon }} />
