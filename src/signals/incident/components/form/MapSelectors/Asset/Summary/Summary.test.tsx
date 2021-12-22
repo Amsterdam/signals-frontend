@@ -9,9 +9,28 @@ import type { Address } from 'types/address'
 import { formatAddress } from 'shared/services/format-address'
 import { withAppContext } from 'test/utils'
 
+import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { AssetSelectValue } from '../types'
 
 import Summary from '../Summary'
+
+jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
+  <span data-testid="mapStatic">
+    <img src={iconSrc} alt="" />
+  </span>
+))
+
+const featureType = {
+  label: 'Plastic',
+  description: 'Plastic asset',
+  icon: {
+    iconSvg: 'svg',
+    iconUrl: 'plasticIconUrl',
+  },
+  idField: 'id_nummer',
+  typeField: 'fractie_omschrijving',
+  typeValue: 'plastic',
+}
 
 const contextValue: AssetSelectValue = {
   selection: {
@@ -22,18 +41,7 @@ const contextValue: AssetSelectValue = {
   },
   meta: {
     endpoint: '',
-    featureTypes: [
-      {
-        label: 'Plastic',
-        description: 'Plastic asset',
-        icon: {
-          iconSvg: 'svg',
-        },
-        idField: 'id_nummer',
-        typeField: 'fractie_omschrijving',
-        typeValue: 'Plastic',
-      },
-    ],
+    featureTypes: [featureType],
   },
   address: {
     postcode: '1000 AA',
@@ -134,5 +142,15 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
       screen.queryByText('Locatie is gepind op de kaart')
     ).not.toBeInTheDocument()
     expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
+  })
+
+  it('renders a MapStatic component witht the correct iconSrc prop', () => {
+    render(withContext(<Summary />))
+
+    const mapStatic = screen.getByTestId('mapStatic')
+
+    expect(
+      mapStatic.querySelector(`img[src="${featureType.icon.iconUrl}"]`)
+    ).toBeInTheDocument()
   })
 })

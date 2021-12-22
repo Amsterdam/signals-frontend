@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useContext, useCallback } from 'react'
+import { useContext, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { Link, themeSpacing } from '@amsterdam/asc-ui'
 
@@ -40,6 +40,18 @@ const Summary: FC = () => {
   let summaryAddress = coordinates ? 'Locatie is gepind op de kaart' : ''
   if (address) summaryAddress = formatAddress(address)
 
+  const iconSrc = useMemo(() => {
+    if (!selection?.type || selection.type === 'not-on-map') {
+      return undefined
+    }
+
+    const featureType = meta.featureTypes.find(
+      ({ typeValue }) => typeValue === selection.type
+    )
+
+    return featureType && featureType.icon.iconUrl
+  }, [selection?.type, meta.featureTypes])
+
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
       if (event?.key === 'Enter') {
@@ -54,6 +66,7 @@ const Summary: FC = () => {
       {coordinates && (
         <StyledMapStatic
           height={mapHeight}
+          iconSrc={iconSrc}
           width={mapWidth}
           coordinates={coordinates}
         />
