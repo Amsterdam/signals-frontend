@@ -98,8 +98,8 @@ describe('SelectionPanel', () => {
     ).toBeInTheDocument()
 
     expect(
-      screen.getByRole('button', { name: 'Meld dit object' })
-    ).toBeInTheDocument()
+      screen.queryByRole('button', { name: 'Meld dit object' })
+    ).not.toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
   })
@@ -112,6 +112,9 @@ describe('SelectionPanel', () => {
       })
     )
 
+    expect(
+      screen.getByRole('button', { name: 'Meld dit object' })
+    ).toBeInTheDocument()
     expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
     expect(
       screen.getByText(`${selection.description} - ${selection.id}`)
@@ -125,6 +128,7 @@ describe('SelectionPanel', () => {
         selection,
       })
     )
+
     const mockAssetList = screen.getByTestId('mockAssetList')
 
     const removeButton = within(mockAssetList).getByRole('button')
@@ -235,12 +239,28 @@ describe('SelectionPanel', () => {
     expect(contextValue.close).toHaveBeenCalled()
   })
 
+  it('renders default labels', () => {
+    const language = undefined
+
+    const propsWithLanguage = {
+      ...props,
+      language,
+    }
+
+    render(withAppContext(<SelectionPanel {...propsWithLanguage} />))
+
+    expect(screen.getByText('Locatie')).toBeInTheDocument()
+    expect(
+      screen.getByText('Het object staat niet op de kaart')
+    ).toBeInTheDocument()
+  })
+
   it('renders custom labels', () => {
     const language = {
       title: 'Locatie',
       subTitle: 'Kies een container op de kaart',
       unregistered: 'De container staat niet op de kaart',
-      submit: 'Gebruik deze locatie',
+      description: 'Beschrijving',
     }
 
     const propsWithLanguage = {
@@ -253,5 +273,27 @@ describe('SelectionPanel', () => {
     Object.values(language).forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument()
     })
+  })
+
+  it('renders the object panel only when feature types are available', () => {
+    const { rerender } = render(
+      withAssetSelectContext(<SelectionPanel {...props} />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+
+    rerender(
+      withAssetSelectContext(<SelectionPanel {...props} featureTypes={[]} />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(
+      screen.queryByTestId('unregisteredObjectPanel')
+    ).not.toBeInTheDocument()
   })
 })
