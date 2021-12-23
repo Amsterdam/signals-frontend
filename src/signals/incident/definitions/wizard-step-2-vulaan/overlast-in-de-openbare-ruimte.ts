@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import locatie from './locatie'
 
 export const overlastInDeOpenbareRuimte = {
+  locatie,
   extra_auto_scooter_bromfietswrak: {
     meta: {
       ifAllOf: {

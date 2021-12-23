@@ -12,7 +12,9 @@ import textileUrl from 'shared/images/afval/textile.svg?url'
 import restUrl from 'shared/images/afval/rest.svg?url'
 import plasticUrl from 'shared/images/afval/plastic.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
-import configuration from '../../../../shared/services/configuration/configuration'
+import configuration from 'shared/services/configuration/configuration'
+
+import locatie from './locatie'
 
 export const ICON_SIZE = 40
 
@@ -22,6 +24,7 @@ const options: Partial<IconOptions> = {
 }
 
 export const controls = {
+  locatie,
   extra_afval: {
     meta: {
       ifOneOf: {
