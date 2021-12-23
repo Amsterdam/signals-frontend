@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Fragment, useEffect, useState, useMemo } from 'react'
-import PropTypes from 'prop-types'
+import { useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import { themeColor } from '@amsterdam/asc-ui'
 import configuration from 'shared/services/configuration/configuration'
 
+import type { FC } from 'react'
+import type { LatLngLiteral } from 'leaflet'
+
 import useFetch from 'hooks/useFetch'
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter'
-import selectIconSrc from '!!file-loader!../../shared/images/icon-select-marker.svg'
+import selectIconSrc from '../../shared/images/icon-select-marker.svg?url'
 
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div<{ maxWidth: number; markerSize: number }>`
   position: relative;
   width: 100%;
   max-width: ${({ maxWidth }) => maxWidth}px;
@@ -47,24 +49,47 @@ const Error = styled(LoadingMessage)`
   color: ${themeColor('secondary')};
 `
 
+export interface MapStaticProps {
+  /* The bigger the number, the higher the zoom level */
+  boundsScaleFactor?: number
+  className?: string
+  coordinates: LatLngLiteral
+  /** Supported image formats */
+  format?: 'png' | 'jpeg' | 'gif'
+  /** Height in pixels of the image tile that should be generated */
+  height?: number
+  iconSrc?: string
+  /** Indicator of the map style */
+  layers?: 'basiskaart' | 'basiskaart-light' | 'basiskaart-zwartwit'
+  /** Size in pixels of the marker */
+  markerSize?: number
+  /** When false, will not show the loading message */
+  showLoadingMessage?: boolean
+  /** When false, will not render marker at given latitude and longitude */
+  showMarker?: boolean
+  /** Width in pixels of the image tile that should be generated */
+  width?: number
+}
+
 /**
  * Component that renders a map tile of a given width and height around a center point
  */
-const MapStatic = ({
-  boundsScaleFactor,
-  className,
-  format,
-  height,
-  lat,
-  layers,
-  lng,
-  markerSize,
-  showLoadingMessage,
-  showMarker,
-  width,
+const MapStatic: FC<MapStaticProps> = ({
+  boundsScaleFactor = 2,
+  className = '',
+  coordinates,
+  format = 'jpeg',
+  height = 300,
+  iconSrc = selectIconSrc,
+  layers = 'basiskaart',
+  markerSize = 40,
+  showLoadingMessage = true,
+  showMarker = true,
+  width = 460,
 }) => {
+  const { lat, lng } = coordinates
   const { data, error, get, isLoading } = useFetch()
-  const [src, setSrc] = useState()
+  const [src, setSrc] = useState<string>()
   const { x, y } = useMemo(() => wgs84ToRd({ lat, lng }), [lat, lng])
   const params = useMemo(
     () => ({
@@ -92,18 +117,18 @@ const MapStatic = ({
   useEffect(() => {
     if (!data) return
 
-    setSrc(global.URL.createObjectURL(data))
+    setSrc(global.URL.createObjectURL(data as Blob))
   }, [data])
 
   return (
     <ImgWrapper
       className={className}
       data-testid="mapStatic"
-      maxWidth={width}
       markerSize={markerSize}
+      maxWidth={width}
     >
       {!src ? (
-        <Fragment>
+        <>
           {showLoadingMessage && isLoading && (
             <LoadingMessage data-testid="mapStaticLoadingMessage">
               Preview laden...
@@ -115,77 +140,38 @@ const MapStatic = ({
             </Error>
           )}
           <Placeholder
-            data-testid="mapStaticPlaceholder"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
             alt=""
-            width={width}
+            data-testid="mapStaticPlaceholder"
             height={height}
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+            width={width}
           />
-        </Fragment>
+        </>
       ) : (
-        <Fragment>
+        <>
           <Image
+            alt=""
             className="map"
             data-testid="mapStaticImage"
+            height={height}
             src={src}
             width={width}
-            height={height}
-            alt=""
           />
           {showMarker && (
             <img
-              data-testid="mapStaticMarker"
-              src={selectIconSrc}
               alt=""
               aria-hidden="true"
-              width={markerSize}
+              data-testid="mapStaticMarker"
               height={markerSize}
-              tabIndex="-1"
+              src={iconSrc}
+              tabIndex={-1}
+              width={markerSize}
             />
           )}
-        </Fragment>
+        </>
       )}
     </ImgWrapper>
   )
-}
-
-MapStatic.defaultProps = {
-  boundsScaleFactor: 2,
-  className: '',
-  format: 'jpeg',
-  height: 300,
-  layers: 'basiskaart',
-  markerSize: 40,
-  showMarker: true,
-  showLoadingMessage: true,
-  width: 460,
-}
-
-MapStatic.propTypes = {
-  /* The bigger the number, the higher the zoom level */
-  boundsScaleFactor: PropTypes.number,
-  /** @ignore */
-  className: PropTypes.string,
-  /** Supported image formats */
-  format: PropTypes.oneOf(['png', 'jpeg', 'gif']),
-  /** Height in pixels of the image tile that should be generated */
-  height: PropTypes.number,
-  lat: PropTypes.number.isRequired,
-  /** Indicator of the map style */
-  layers: PropTypes.oneOf([
-    'basiskaart',
-    'basiskaart-light',
-    'basiskaart-zwartwit',
-  ]),
-  lng: PropTypes.number.isRequired,
-  /** Size in pixels of the marker */
-  markerSize: PropTypes.number,
-  /** When false, will not show the loading message */
-  showLoadingMessage: PropTypes.bool,
-  /** When false, will not render marker at given latitude and longitude */
-  showMarker: PropTypes.bool,
-  /** Width in pixels of the image tile that should be generated */
-  width: PropTypes.number,
 }
 
 export default MapStatic

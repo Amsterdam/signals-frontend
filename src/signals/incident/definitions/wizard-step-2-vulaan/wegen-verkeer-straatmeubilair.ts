@@ -8,6 +8,15 @@ import {
   selectIcon,
   unknownIcon,
 } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/MarkerIcons'
+
+import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url'
+import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
+import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
+import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
+import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+import klokUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+
+import { validateObjectLocation } from '../../services/custom-validators'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import * as verlichtingIcons from './verlichting-icons'
 
@@ -190,6 +199,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.grachtmast,
             selectedIconSvg: selectIcon,
+            iconUrl: grachtmastUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -202,6 +212,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.overspanning,
             selectedIconSvg: selectIcon,
+            iconUrl: overspanningUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -214,6 +225,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.gevel_armatuur,
             selectedIconSvg: selectIcon,
+            iconUrl: gevelarmatuurUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -226,6 +238,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.schijnwerper,
             selectedIconSvg: selectIcon,
+            iconUrl: schijnwerperUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -238,6 +251,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.overig_lichtpunt,
             selectedIconSvg: selectIcon,
+            iconUrl: overigUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -270,6 +284,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.streetlight_select,
+    options: {
+      validators: [validateObjectLocation('lichtpunt')],
+    },
   },
   extra_straatverlichting_niet_op_kaart_nummer: {
     meta: {
@@ -401,6 +418,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
             options,
             iconSvg: verlichtingIcons.klok,
             selectedIconSvg: selectIcon,
+            iconUrl: klokUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -433,6 +451,9 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.clock_select,
+    options: {
+      validators: [validateObjectLocation('klok')],
+    },
   },
   extra_klok_niet_op_kaart_nummer: {
     meta: {

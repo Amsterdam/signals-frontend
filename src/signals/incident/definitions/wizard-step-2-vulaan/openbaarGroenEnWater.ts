@@ -2,6 +2,8 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
+import oakUrl from 'shared/images/groen_water/oak.svg?url'
+import { validateObjectLocation } from '../../services/custom-validators'
 import * as caterpillarIcons from './caterpillar-icons'
 
 export const ICON_SIZE = 40
@@ -17,7 +19,7 @@ export const controls = {
       ifAllOf: {
         subcategory: 'eikenprocessierups',
       },
-      label: 'Kies de boom waarin u de eikenprocessierupsen hebt gezien',
+      label: 'Waar is het?',
       language: {
         title: 'Locatie',
         subTitle: 'Kies de boom op de kaart',
@@ -67,6 +69,7 @@ export const controls = {
             iconSvg: caterpillarIcons.oak,
             selectedIconSvg: caterpillarIcons.select,
             reportedIconSvg: caterpillarIcons.oakIsReported,
+            iconUrl: oakUrl,
           },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
@@ -106,7 +109,9 @@ export const controls = {
       ],
       extraProperties: ['GlobalID'],
     },
-    options: { validators: ['required'] },
+    options: {
+      validators: [validateObjectLocation('boom')],
+    },
     render: FIELD_TYPE_MAP.caterpillar_select,
   },
   extra_nest_grootte: {
