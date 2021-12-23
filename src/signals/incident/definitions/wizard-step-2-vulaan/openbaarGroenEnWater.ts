@@ -22,7 +22,7 @@ export const controls = {
       label: 'Waar is het?',
       language: {
         title: 'Locatie',
-        subTitle: 'Kies de boom op de kaart',
+        subTitle: 'Kies een boom op de kaart',
         unregistered: 'De boom staat niet op de kaart',
         unregisteredId: undefined,
         objectTypeSingular: 'boom',

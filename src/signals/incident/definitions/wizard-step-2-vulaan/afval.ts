@@ -49,7 +49,7 @@ export const controls = {
       },
       language: {
         title: 'Locatie',
-        subTitle: 'Kies de container op de kaart',
+        subTitle: 'Kies een container op de kaart',
         unregistered: 'De container staat niet op de kaart',
         unregisteredId: 'Nummer van de container',
         objectTypeSingular: 'container',

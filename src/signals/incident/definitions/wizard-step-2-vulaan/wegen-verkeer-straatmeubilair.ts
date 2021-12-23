@@ -167,7 +167,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     meta: {
       language: {
         title: 'Locatie',
-        subTitle: 'Kies het lichtpunt op de kaart',
+        subTitle: 'Kies een lichtpunt op de kaart',
         unregistered: 'Het lichtpunt staat niet op de kaart',
         unregisteredId: 'Nummer van het lichtpunt',
         objectTypeSingular: 'lichtpunt',
@@ -387,7 +387,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     meta: {
       language: {
         title: 'Locatie',
-        subTitle: 'Kies de klok op de kaart',
+        subTitle: 'Kies een klok op de kaart',
         unregistered: 'De klok staat niet op de kaart',
         unregisteredId: 'Nummer van de klok',
         objectTypeSingular: 'klok',
