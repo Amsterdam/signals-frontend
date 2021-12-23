@@ -14,7 +14,7 @@ import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg
 import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
 import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
 import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
-import klokUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+import klokUrl from 'shared/images/openbare_verlichting/klok.svg?url'
 
 import { validateObjectLocation } from '../../services/custom-validators'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
