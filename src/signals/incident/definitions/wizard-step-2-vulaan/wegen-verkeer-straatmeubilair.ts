@@ -174,7 +174,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         objectTypePlural: 'lichtpunten',
         submit: 'Gebruik deze locatie',
       },
-      label: 'Waar is het?',
+      label: 'Kies de lamp of lantaarnpaal waar het om gaat',
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
@@ -394,7 +394,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         objectTypePlural: 'klokken',
         submit: 'Gebruik deze locatie',
       },
-      label: 'Waar is het?',
+      label: 'Kies de klok waar het om gaat',
       shortLabel: 'Klok(ken) op kaart',
       ifAllOf: {
         subcategory: 'klok',
