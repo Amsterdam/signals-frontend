@@ -3,10 +3,10 @@
 import format from 'date-fns/format'
 import styled from 'styled-components'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import { Theme } from 'types/theme'
+import type { Theme } from 'types/theme'
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
 import type { FunctionComponent } from 'react'
-import { ReporterIncident } from '../types'
+import type { ReporterIncident } from '../types'
 
 import FeedbackStatus from './FeedbackStatus'
 

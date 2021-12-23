@@ -1,7 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import { validateObjectLocation } from 'signals/incident/services/custom-validators'
+import breadUrl from 'shared/images/afval/bread.svg?url'
+import gftUrl from 'shared/images/afval/gft.svg?url'
+import glasUrl from 'shared/images/afval/glas.svg?url'
+import paperUrl from 'shared/images/afval/paper.svg?url'
+import textileUrl from 'shared/images/afval/textile.svg?url'
+import restUrl from 'shared/images/afval/rest.svg?url'
+import plasticUrl from 'shared/images/afval/plastic.svg?url'
+import configuration from '../../../../shared/services/configuration/configuration'
 import * as afvalIcons from './afval-icons'
 
 export const ICON_SIZE = 40
@@ -37,13 +47,21 @@ export const controls = {
           'container-voor-plastic-afval-is-kapot',
         ],
       },
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies een container op de kaart',
+        unregistered: 'De container staat niet op de kaart',
+        unregisteredId: 'Nummer van de container',
+        objectTypeSingular: 'container',
+        objectTypePlural: 'containers',
+        submit: 'Gebruik deze locatie',
+      },
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',
       pathMerge: 'extra_properties',
       wfsFilter:
         '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint:
-        'https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json',
+      endpoint: configuration.map.layers.containers,
       featureTypes: [
         {
           label: 'Restafval',
@@ -52,6 +70,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.rest,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: restUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -64,6 +83,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.paper,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: paperUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -76,6 +96,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.glas,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: glasUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -88,6 +109,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.plastic,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: plasticUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -100,6 +122,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.textile,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: textileUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -112,6 +135,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.gft,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: gftUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -124,6 +148,7 @@ export const controls = {
             options,
             iconSvg: afvalIcons.bread,
             selectedIconSvg: afvalIcons.select,
+            iconUrl: breadUrl,
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -143,6 +168,9 @@ export const controls = {
       ],
     },
     render: FIELD_TYPE_MAP.asset_select,
+    options: {
+      validators: [validateObjectLocation('container')],
+    },
   },
 }
 

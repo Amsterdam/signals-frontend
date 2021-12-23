@@ -2,11 +2,12 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import subWeeks from 'date-fns/subWeeks'
-import { FunctionComponent, useCallback, useState, useEffect } from 'react'
+import type { FunctionComponent } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AreaMap from 'components/AreaMap'
-import { Feature } from 'components/AreaMap/types'
+import type { Feature } from 'components/AreaMap/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
 import useGetIncident from 'hooks/api/useGetIncident'
@@ -115,7 +116,7 @@ export const AreaContainer: FunctionComponent = () => {
       <AreaMap
         geoData={area}
         onClose={handleClose}
-        center={incident.location.geometrie.coordinates}
+        location={incident.location}
         selectedFeature={selection}
         onClick={setSelection}
       />

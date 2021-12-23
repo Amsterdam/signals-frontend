@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import styled from 'styled-components'
-import { Link, LinkProps } from 'react-router-dom'
+import type { LinkProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Link as AscLink,
   Icon,
@@ -10,7 +11,7 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import { ChevronLeft } from '@amsterdam/asc-assets'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',

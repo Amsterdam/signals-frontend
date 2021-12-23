@@ -6,7 +6,7 @@
 
 import { put } from 'redux-saga/effects'
 
-import { InjectedStore } from 'types'
+import type { InjectedStore } from 'types'
 import { createMemoryHistory } from 'history'
 import configureStore from '../../configureStore'
 import {

@@ -16,10 +16,6 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import 'leaflet/dist/leaflet.css'
 
 import { markerIcon } from 'shared/services/configuration/map-markers'
-import {
-  locationTofeature,
-  formatPDOKResponse,
-} from 'shared/services/map-location'
 import configuration from 'shared/services/configuration/configuration'
 import MapContext from 'containers/MapContext/context'
 import {
@@ -29,10 +25,10 @@ import {
   setLoadingAction,
 } from 'containers/MapContext/actions'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import Map from '../Map'
 import PDOKAutoSuggest from '../PDOKAutoSuggest'
-import reverseGeocoderService from './services/reverseGeocoderService'
 
 const Wrapper = styled.div`
   position: relative;
@@ -81,9 +77,9 @@ const MapInput = ({
   const { state, dispatch } = useContext(MapContext)
   const [map, setMap] = useState()
   const [marker, setMarker] = useState()
-  const { location, addressText: addressValue } = state
+  const { coordinates, addressText: addressValue } = state
   const hasLocation =
-    Boolean(location) && location?.lat !== 0 && location?.lng !== 0
+    Boolean(coordinates) && coordinates?.lat !== 0 && coordinates?.lng !== 0
 
   /**
    * This reference ensures the map zooms to the marker location only when the marker location
@@ -99,13 +95,13 @@ const MapInput = ({
   }, [map])
 
   const clickFunc = useCallback(
-    async (event) => {
+    async ({ latlng }) => {
       hasInitalViewRef.current = false
       dispatch(setLoadingAction(true))
-      dispatch(setLocationAction(event.latlng))
+      dispatch(setLocationAction(latlng))
 
-      const response = await reverseGeocoderService(event.latlng)
-      const onChangePayload = { geometrie: locationTofeature(event.latlng) }
+      const response = await reverseGeocoderService(latlng)
+      const onChangePayload = { coordinates: latlng }
       const addressText = response?.value || ''
       const address = response?.data?.address || ''
 
@@ -125,14 +121,14 @@ const MapInput = ({
     (option) => {
       dispatch(
         setValuesAction({
-          location: option.data.location,
+          coordinates: option.data.location,
           address: option.data.address,
           addressText: option.value,
         })
       )
 
       onChange({
-        geometrie: locationTofeature(option.data.location),
+        coordinates: option.data.location,
         address: option.data.address,
       })
 
@@ -152,7 +148,7 @@ const MapInput = ({
    */
   useEffect(() => {
     // first component render has an empty object for `value` so we need to check for props
-    if (Object.keys(value).length === 0) return
+    if (!value || Object.keys(value).length === 0) return
 
     dispatch(setValuesAction(value))
   }, [value, dispatch])
@@ -165,12 +161,12 @@ const MapInput = ({
 
     if (hasInitalViewRef.current) {
       const zoomLevel = map.getZoom()
-      map.setView(location, zoomLevel < 11 ? 11 : zoomLevel)
+      map.setView(coordinates, zoomLevel < 11 ? 11 : zoomLevel)
       hasInitalViewRef.current = false
     }
 
-    marker.setLatLng(location)
-  }, [marker, location, hasLocation, map])
+    marker.setLatLng(coordinates)
+  }, [marker, coordinates, hasLocation, map])
 
   return (
     <Wrapper className={className}>
@@ -185,7 +181,6 @@ const MapInput = ({
         <StyledViewerContainer
           topLeft={
             <StyledAutosuggest
-              formatResponse={formatPDOKResponse}
               municipality={configuration.map?.municipality}
               onClear={onClear}
               onSelect={onSelect}
@@ -199,7 +194,7 @@ const MapInput = ({
         {hasLocation && (
           <Marker
             setInstance={setMarker}
-            args={[location]}
+            args={[coordinates]}
             options={{
               icon: markerIcon,
               keyboard: false,
@@ -232,7 +227,7 @@ MapInput.propTypes = {
    */
   onChange: PropTypes.func,
   value: PropTypes.shape({
-    location: PropTypes.shape({
+    coordinates: PropTypes.shape({
       lat: PropTypes.number.isRequired,
       lng: PropTypes.number.isRequired,
     }),

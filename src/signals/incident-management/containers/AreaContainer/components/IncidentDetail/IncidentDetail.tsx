@@ -59,6 +59,10 @@ const Status = styled.div<{ isEnded: boolean }>`
     themeColor('support', isEnded ? 'valid' : 'invalid')};
 `
 
+const StyledParagraph = styled.p`
+  font-weight: 700;
+`
+
 const formatDate = (date: string): string => {
   return `${string2date(date)} ${string2time(date)}`
 }
@@ -93,12 +97,12 @@ const IncidentDetail: React.FC<IncidentDetailProps> = ({
         to={`/manage/incident/${incident.id}`}
         target="_blank"
       >
-        <Heading data-testid="incident-heading" as="h2" styleAs="h6">
+        <StyledParagraph data-testid="incident-heading">
           {`${getIncidentTitlePrefix(incident)}melding ${incident.id}`}
-        </Heading>
+        </StyledParagraph>
       </StyledLink>
 
-      <Heading as="h2" styleAs="h3" data-testid="text">
+      <Heading as="h2" styleAs="h4" data-testid="text">
         {incident.text}
       </Heading>
 

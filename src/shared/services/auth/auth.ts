@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { UserCredentials } from 'containers/App/types'
+import type { UserCredentials } from 'containers/App/types'
 import configuration from '../configuration/configuration'
 import Keycloak from './services/keycloak-auth'
 import ImplicitAuth from './services/implicit-auth'

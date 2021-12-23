@@ -12,7 +12,11 @@ import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
 
-import type { LatLng, MarkerCluster as LeafletMarkerCluster } from 'leaflet'
+import type {
+  LatLng,
+  MarkerCluster as LeafletMarkerCluster,
+  LatLngLiteral,
+} from 'leaflet'
 import type {
   Point,
   Feature as GeoJSONFeature,
@@ -20,13 +24,17 @@ import type {
 } from 'geojson'
 import type { FunctionComponent } from 'react'
 import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Geometrie } from 'types/incident'
 
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
+import configuration from 'shared/services/configuration/configuration'
 import WfsDataContext from '../context'
-import { DataLayerProps, Feature } from '../../../../types'
+import type { DataLayerProps, Feature } from '../../../../types'
+import { selectIcon } from './MarkerIcons'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 
@@ -79,12 +87,13 @@ export const shouldSpiderfy = (
 export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   featureTypes,
   desktopView,
+  allowClusters,
 }) => {
   const mapInstance = useMapInstance()
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, update } = useContext(AssetSelectContext)
+  const { selection, removeItem, setItem } = useContext(AssetSelectContext)
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -123,46 +132,48 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const clusterOptions = useMemo(
     () => ({
+      disableClusteringAtZoom: allowClusters
+        ? configuration.map.options.maxZoom
+        : configuration.map.options.minZoom,
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),
-    [iconCreateFunction]
+    [iconCreateFunction, allowClusters]
   )
 
   const getFeatureType = useCallback(
-    (feature: Feature) =>
-      featureTypes.find(
+    (feature: Feature) => {
+      return featureTypes.find(
         ({ typeField, typeValue }) =>
           feature.properties[typeField] === typeValue
-      ),
+      )
+    },
     [featureTypes]
   )
 
   const options = useMemo(
     () => ({
-      pointToLayer: (feature: Feature, latlng: LatLng) => {
+      pointToLayer: (feature: Feature, latlng: LatLngLiteral) => {
         const featureType = getFeatureType(feature)
         if (!featureType) return L.marker({ ...latlng, lat: 0, lng: 0 })
-        const selected =
-          Array.isArray(selection) &&
-          selection.some(
-            // Exclude from coverage; with the curent leaflet mock this can't be tested
-            /* istanbul ignore next*/ ({ id }) =>
-              id === feature.properties[featureType.idField]
-          )
+
+        const { description, typeValue, idField } = featureType
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const id = feature.properties[idField]!
+        const isSelectedItem = selection?.id === id
 
         const iconUrl = `data:image/svg+xml;base64,${btoa(
           /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          selected
-            ? featureType.icon.selectedIconSvg ?? ''
-            : featureType.icon.iconSvg
+          isSelectedItem ? selectIcon : featureType.icon.iconSvg
         )}`
 
         const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
             /* istanbul ignore next */
-            className: `marker-icon${selected ? SELECTED_CLASS_MODIFIER : ''}`,
+            className: `marker-icon${
+              isSelectedItem ? SELECTED_CLASS_MODIFIER : ''
+            }`,
             iconUrl,
           }),
           alt: `${featureType.description} - ${
@@ -172,27 +183,42 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
         marker.on(
           'click',
-          /* istanbul ignore next */ () => {
-            const { description, typeValue, idField } = featureType
-            const item: Item = {
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              id: feature.properties[idField]!,
-              type: typeValue,
-              description,
+          /* istanbul ignore next */ async () => {
+            if (typeValue === 'reported') {
+              return
             }
 
-            const updateSelection = selected
-              ? selection.filter(({ id }) => id !== item.id)
-              : [...selection, item]
+            if (isSelectedItem) {
+              removeItem()
+              return
+            }
 
-            update(updateSelection)
+            const coordinates = featureTolocation(feature.geometry as Geometrie)
+
+            const item: Item = {
+              location: {
+                coordinates,
+              },
+              description,
+              id,
+              type: typeValue,
+              isReported: feature.properties.meldingstatus === 1,
+            }
+
+            const response = await reverseGeocoderService(coordinates)
+
+            if (response) {
+              item.location.address = response.data.address
+            }
+
+            setItem(item)
           }
         )
 
         return marker
       },
     }),
-    [getFeatureType, selection, update]
+    [getFeatureType, removeItem, selection, setItem]
   )
 
   useEffect(() => {
@@ -203,8 +229,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const { coordinates } = pointFeature.geometry
-        const latlng = featureTolocation({ coordinates })
+        const latlng = featureTolocation(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */

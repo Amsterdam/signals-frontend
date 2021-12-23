@@ -1,6 +1,6 @@
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
-import { Answer } from 'types/api/qa/answer'
+import type { Answer } from 'types/api/qa/answer'
 
 export const usePostAnswer = () => {
   const { post: originalPost, ...rest } = useFetch<Answer>()

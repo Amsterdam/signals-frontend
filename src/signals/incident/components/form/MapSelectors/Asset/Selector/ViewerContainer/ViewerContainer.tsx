@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { Fragment, FunctionComponent, useContext } from 'react'
-import type { ReactNode } from 'react'
+import { Fragment, useContext } from 'react'
+import type { ReactNode, FunctionComponent } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import {

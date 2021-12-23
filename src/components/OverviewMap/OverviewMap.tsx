@@ -18,16 +18,17 @@ import L from 'leaflet'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { ViewerContainer } from '@amsterdam/arm-core'
 
+import type { LatLngExpression } from 'leaflet'
+import type { Geometrie } from 'types/incident'
+import type { PdokResponse } from 'shared/services/map-location'
+
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import MapContext from 'containers/MapContext/context'
 import { setAddressAction } from 'containers/MapContext/actions'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
-import {
-  featureTolocation,
-  formatPDOKResponse,
-} from 'shared/services/map-location'
+import { featureTolocation } from 'shared/services/map-location'
 import { makeSelectFilterParams } from 'signals/incident-management/selectors'
 import useFetch from 'hooks/useFetch'
 import {
@@ -41,7 +42,7 @@ import DetailPanel from './DetailPanel'
 
 interface MapInstance {
   getZoom: () => number
-  flyTo: (location: number[], level: number) => void
+  flyTo: (location: LatLngExpression, level: number) => void
   eachLayer: (
     fn: (layer: {
       getIcon: unknown
@@ -52,7 +53,7 @@ interface MapInstance {
 }
 
 interface Feature {
-  geometry: { coordinates: L.LatLngTuple }
+  geometry: Geometrie
   properties: IncidentSummary
 }
 
@@ -131,10 +132,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
    * Note that testing this functionality resembles integration testing, hence disabling istanbul coverage
    */
   const onSelect = useCallback(
-    /* istanbul ignore next */ (option: {
-      value: string
-      data: { location: [number, number] }
-    }) => {
+    /* istanbul ignore next */ (option: PdokResponse) => {
       if (dispatch) {
         dispatch(setAddressAction(option.value))
       }
@@ -247,7 +245,6 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
           topLeft={
             <Autosuggest
               fieldList={['centroide_ll']}
-              formatResponse={formatPDOKResponse}
               municipality={configuration.map?.municipality}
               onSelect={onSelect}
               placeholder="Zoom naar adres"

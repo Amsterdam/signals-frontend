@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import {
-  useCallback,
-  useReducer,
-  useContext,
-  FunctionComponent,
-  Reducer,
-} from 'react'
+import type { FunctionComponent, Reducer } from 'react'
+import { useCallback, useReducer, useContext } from 'react'
 import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
@@ -22,7 +17,7 @@ import RadioButtonList from 'signals/incident-management/components/RadioButtonL
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
-import { IncidentChild } from '../../types'
+import type { IncidentChild } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   Form,
@@ -38,8 +33,9 @@ import {
   Wrapper,
 } from './styled'
 import * as constants from './constants'
-import reducer, { init, State } from './reducer'
-import { StatusFormActions } from './actions'
+import type { State } from './reducer'
+import reducer, { init } from './reducer'
+import type { StatusFormActions } from './actions'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType

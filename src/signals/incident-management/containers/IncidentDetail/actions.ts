@@ -1,6 +1,6 @@
 import type { Action } from 'types'
 import type { FetchError } from 'hooks/useFetch'
-import Context from 'types/context'
+import type Context from 'types/context'
 import type { Incident } from 'types/api/incident'
 import type {
   State,

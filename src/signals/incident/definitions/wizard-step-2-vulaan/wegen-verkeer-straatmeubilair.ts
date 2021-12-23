@@ -3,7 +3,29 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
+import type { IconOptions } from 'leaflet'
+import {
+  selectIcon,
+  unknownIcon,
+} from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/MarkerIcons'
+
+import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url'
+import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
+import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
+import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
+import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+import klokUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+
+import { validateObjectLocation } from '../../services/custom-validators'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
+import * as verlichtingIcons from './verlichting-icons'
+
+export const ICON_SIZE = 40
+
+const options: Pick<IconOptions, 'className' | 'iconSize'> = {
+  className: 'object-marker',
+  iconSize: [ICON_SIZE, ICON_SIZE],
+}
 
 const configuration = appConfiguration as unknown as typeof ConfigurationType
 
@@ -143,9 +165,16 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_straatverlichting_nummer: {
     meta: {
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies een lichtpunt op de kaart',
+        unregistered: 'Het lichtpunt staat niet op de kaart',
+        unregisteredId: 'Nummer van het lichtpunt',
+        objectTypeSingular: 'lichtpunt',
+        objectTypePlural: 'lichtpunten',
+        submit: 'Gebruik deze locatie',
+      },
       label: 'Kies de lamp of lantaarnpaal waar het om gaat',
-      subtitle:
-        'U kunt meer dan één keuze maken. Lampen met een uitroepteken zijn al gemeld.',
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
@@ -159,39 +188,105 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'overig',
         ],
       },
-      endpoint: configuration.map.layers?.verlichting,
-      zoomMin: 18,
-      legend_items: [
-        'grachtmast',
-        'overspanning',
-        'gevel_armatuur',
-        'schijnwerper',
-        'overig_lichtpunt',
-        'is_gemeld',
+      wfsFilter:
+        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+      endpoint: configuration.map.layers?.klokken,
+      featureTypes: [
+        {
+          label: 'Grachtmast',
+          description: 'Grachtmast',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.grachtmast,
+            selectedIconSvg: selectIcon,
+            iconUrl: grachtmastUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '5',
+        },
+        {
+          label: 'Overspanning',
+          description: 'Overspanning',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.overspanning,
+            selectedIconSvg: selectIcon,
+            iconUrl: overspanningUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '2',
+        },
+        {
+          label: 'Gevelarmatuur',
+          description: 'Gevelarmatuur',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.gevel_armatuur,
+            selectedIconSvg: selectIcon,
+            iconUrl: gevelarmatuurUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '3',
+        },
+        {
+          label: 'Schijnwerper',
+          description: 'Schijnwerper',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.schijnwerper,
+            selectedIconSvg: selectIcon,
+            iconUrl: schijnwerperUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '10',
+        },
+        {
+          label: 'Overig lichtpunt',
+          description: 'Overig lichtpunt',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.overig_lichtpunt,
+            selectedIconSvg: selectIcon,
+            iconUrl: overigUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '4',
+        },
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.reported,
+            selectedIconSvg: verlichtingIcons.reported,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: 'reported',
+        },
+        {
+          description: 'Het lichtpunt staat niet op de kaart',
+          label: 'Onbekend',
+          icon: {
+            iconSvg: unknownIcon,
+            selectedIconSvg: selectIcon,
+          },
+          idField: 'id',
+          typeField: 'type',
+          typeValue: 'not-on-map',
+        },
       ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.map_select,
-  },
-  extra_straatverlichting_niet_op_kaart: {
-    meta: {
-      value: 'De lamp of lantaarnpaal staat niet op de kaart',
-      shortLabel: 'Staat niet op kaart',
-      ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
-      },
-      ifOneOf: {
-        extra_straatverlichting_probleem: [
-          'lamp_doet_het_niet',
-          'lamp_brandt_overdag',
-          'geeft_lichthinder',
-          'lamp_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
-      pathMerge: 'extra_properties',
+    render: FIELD_TYPE_MAP.streetlight_select,
+    options: {
+      validators: [validateObjectLocation('lichtpunt')],
     },
-    render: FIELD_TYPE_MAP.checkbox_input,
   },
   extra_straatverlichting_niet_op_kaart_nummer: {
     meta: {
@@ -290,6 +385,15 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
   },
   extra_klok_nummer: {
     meta: {
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies een klok op de kaart',
+        unregistered: 'De klok staat niet op de kaart',
+        unregisteredId: 'Nummer van de klok',
+        objectTypeSingular: 'klok',
+        objectTypePlural: 'klokken',
+        submit: 'Gebruik deze locatie',
+      },
       label: 'Kies de klok waar het om gaat',
       shortLabel: 'Klok(ken) op kaart',
       ifAllOf: {
@@ -302,30 +406,54 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           'overig',
         ],
       },
-      endpoint: configuration.map.layers?.klokken,
-      legend_items: ['klok', 'is_gemeld'],
+      wfsFilter:
+        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+      endpoint: configuration.map.layers?.verlichting,
       zoomMin: 14,
+      featureTypes: [
+        {
+          label: 'Klok',
+          description: 'Klok',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.klok,
+            selectedIconSvg: selectIcon,
+            iconUrl: klokUrl,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: '1',
+        },
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconSvg: verlichtingIcons.reported,
+            selectedIconSvg: verlichtingIcons.reported,
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: 'reported',
+        },
+        {
+          description: 'De klok staat niet op de kaart',
+          label: 'Onbekend',
+          icon: {
+            iconSvg: unknownIcon,
+            selectedIconSvg: selectIcon,
+          },
+          idField: 'id',
+          typeField: 'type',
+          typeValue: 'not-on-map',
+        },
+      ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.map_select,
-  },
-  extra_klok_niet_op_kaart: {
-    meta: {
-      shortLabel: 'Staat niet op kaart',
-      ifAllOf: {
-        subcategory: 'klok',
-      },
-      ifOneOf: {
-        extra_klok_probleem: [
-          'klok_staat_niet_op_tijd_of_stil',
-          'klok_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
-      pathMerge: 'extra_properties',
-      value: 'De klok staat niet op de kaart',
+    render: FIELD_TYPE_MAP.clock_select,
+    options: {
+      validators: [validateObjectLocation('klok')],
     },
-    render: FIELD_TYPE_MAP.checkbox_input,
   },
   extra_klok_niet_op_kaart_nummer: {
     meta: {

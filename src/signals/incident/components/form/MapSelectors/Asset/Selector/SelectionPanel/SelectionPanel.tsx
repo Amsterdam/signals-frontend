@@ -1,211 +1,169 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  Fragment,
-  useCallback,
-  useMemo,
-  KeyboardEvent,
-  ChangeEvent,
-} from 'react'
-import type { FunctionComponent } from 'react'
+import { useCallback, useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
+
+import type { KeyboardEvent, ChangeEvent, FC } from 'react'
+import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 
 import { MapPanelContent } from '@amsterdam/arm-core'
 import {
   Paragraph,
   Button,
-  themeColor,
   themeSpacing,
   Label,
   Input,
   Checkbox,
 } from '@amsterdam/asc-ui'
 
-import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
 import AssetList from '../../AssetList'
 
-import type { FeatureType, Item } from '../../types'
+import type { FeatureType } from '../../types'
 import { UNREGISTERED_TYPE } from '../../../constants'
+import AssetSelectContext from '../../../Asset/context'
 
 const StyledAssetList = styled(AssetList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
-`
-
-const StyledParagraph = styled(Paragraph)`
-  margin-bottom: 0;
-  font-size: 16px;
-  opacity: 0.6;
-`
-
-const EmptySelectionWrapper = styled.div`
-  background-color: ${themeColor('tint', 'level2')};
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: ${themeSpacing(4)} 0;
 `
 
 const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
 `
 
+const StyledParagraph = styled(Paragraph)`
+  margin-top: ${themeSpacing(6)};
+`
+
 export interface SelectionPanelProps {
-  onChange: (items: Item[]) => void
-  onClose: () => void
-  variant: Variant
-  selection: Item[]
   featureTypes: FeatureType[]
   language?: Record<string, string>
+  variant: Variant
 }
 
-const SelectionPanel: FunctionComponent<SelectionPanelProps> = ({
-  onChange,
-  onClose,
+const SelectionPanel: FC<SelectionPanelProps> = ({
   variant,
-  selection,
   featureTypes,
   language = {},
 }) => {
-  const selectionOnMap = useMemo(
-    () => selection.filter((asset) => asset.type !== UNREGISTERED_TYPE),
-    [selection]
+  const { selection, removeItem, setItem, close } =
+    useContext(AssetSelectContext)
+
+  const selectionOnMap =
+    selection && selection.type !== UNREGISTERED_TYPE ? selection : undefined
+
+  const unregisteredAsset =
+    selection && selection.type === UNREGISTERED_TYPE ? selection : undefined
+
+  const [showObjectIdInput, setShowObjectIdInput] = useState(
+    unregisteredAsset !== undefined
   )
-  const unregisteredAsset = useMemo(
-    () => selection.find((asset) => asset.type === UNREGISTERED_TYPE),
-    [selection]
-  )
-  const hasUnregisteredAsset = useMemo(
-    () => Boolean(unregisteredAsset),
-    [unregisteredAsset]
+  const [unregisteredAssetValue, setUnregisteredAssetValue] = useState(
+    unregisteredAsset?.id || ''
   )
 
-  const unregisteredFeature = useMemo(
-    () =>
-      featureTypes.find((feature) => feature.typeValue === UNREGISTERED_TYPE),
-    [featureTypes]
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUnregisteredAssetValue(event.currentTarget.value)
+  }
+
+  const onCheck = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setShowObjectIdInput(!showObjectIdInput)
+
+      if (!event.target.checked) {
+        removeItem()
+      }
+    },
+    [removeItem, showObjectIdInput]
   )
 
-  const handleKeyDown = useCallback(
+  const onSetItem = useCallback(() => {
+    setItem({
+      location: {},
+      id: unregisteredAssetValue,
+      type: UNREGISTERED_TYPE,
+    })
+  }, [setItem, unregisteredAssetValue])
+
+  const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
-        onClose()
+        onSetItem()
+        close()
       }
     },
-    [onClose]
+    [close, onSetItem]
   )
 
-  const removeAsset = useCallback(
-    (itemId: string) => {
-      onChange(selection.filter(({ id }) => id !== itemId))
-    },
-    [selection, onChange]
-  )
-
-  const removeAssetUnregistered = useCallback(() => {
-    onChange(selectionOnMap)
-  }, [selectionOnMap, onChange])
-
-  const updateUnregisteredAsset = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      /* istanbul ignore next */
-      if (unregisteredAsset) {
-        onChange([
-          ...selectionOnMap,
-          { ...unregisteredAsset, id: event.currentTarget.value },
-        ])
-      }
-    },
-    [unregisteredAsset, onChange, selectionOnMap]
-  )
-
-  const addAssetUnregistered = useCallback(() => {
-    /* istanbul ignore next */
-    if (unregisteredFeature) {
-      onChange([
-        ...selectionOnMap,
-        {
-          id: '',
-          type: unregisteredFeature.typeValue,
-          description: unregisteredFeature.description,
-        },
-      ])
+  useEffect(() => {
+    if (selectionOnMap) {
+      setUnregisteredAssetValue('')
+      setShowObjectIdInput(false)
     }
-  }, [unregisteredFeature, onChange, selectionOnMap])
 
-  const toggleUnregisteredAsset = useCallback(
-    ({ target: { checked } }: ChangeEvent<HTMLInputElement>) => {
-      if (checked) {
-        addAssetUnregistered()
-      } else {
-        removeAssetUnregistered()
-      }
-    },
-    [addAssetUnregistered, removeAssetUnregistered]
-  )
+    if (unregisteredAsset) {
+      setShowObjectIdInput(true)
+    }
+  }, [selectionOnMap, unregisteredAsset])
 
   return (
     <MapPanelContent
       variant={variant}
-      title={language.title || 'Kies het object'}
+      title={language.title || 'Locatie'}
       data-testid="selectionPanel"
     >
-      <Paragraph>U kunt meer dan 1 keuze maken</Paragraph>
+      <Paragraph strong>
+        {language.subTitle || 'U kunt maar een object kiezen'}
+      </Paragraph>
 
-      {selectionOnMap.length ? (
+      {selection && selectionOnMap && (
         <StyledAssetList
-          selection={selectionOnMap}
-          onRemove={removeAsset}
+          selection={selection}
+          onRemove={removeItem}
           featureTypes={featureTypes}
         />
-      ) : (
-        <EmptySelectionWrapper>
-          <StyledParagraph>Maak een keuze op de kaart</StyledParagraph>
-        </EmptySelectionWrapper>
       )}
 
-      {unregisteredFeature && (
+      {(!selection || unregisteredAsset) && (
         <div>
           <Checkbox
             id="unregisteredAssetCheckbox"
-            checked={hasUnregisteredAsset}
-            onChange={toggleUnregisteredAsset}
+            checked={showObjectIdInput}
+            onChange={onCheck}
           />
           <Label
             htmlFor="unregisteredAssetCheckbox"
             label={language.unregistered || 'Het object staat niet op de kaart'}
           />
 
-          {unregisteredAsset && (
-            <Fragment>
+          {showObjectIdInput && language.unregisteredId && (
+            <>
+              <StyledParagraph>
+                Typ het dichtstbijzijnde adres of klik de locatie aan op de
+                kaart.
+              </StyledParagraph>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={
-                  <Fragment>
-                    <strong>
-                      {language.unregisteredId ||
-                        'Wat is het nummer van het object?'}
-                    </strong>{' '}
-                    (niet verplicht)
-                  </Fragment>
+                  <>
+                    <strong>{language.unregisteredId}</strong> (niet verplicht)
+                  </>
                 }
               />
               <Input
                 id="unregisteredAssetInput"
-                onSubmit={onClose}
-                onKeyDown={handleKeyDown}
-                onChange={updateUnregisteredAsset}
-                value={unregisteredAsset.id}
+                onBlur={onSetItem}
+                onChange={onChange}
+                onKeyUp={onKeyUp}
+                onSubmit={close}
+                value={unregisteredAssetValue}
               />
-            </Fragment>
+            </>
           )}
         </div>
       )}
 
-      <StyledButton onClick={onClose} variant="primary">
-        {selection.length > 1
-          ? language.submitPlural || 'Meld deze objecten'
-          : language.submitSingular || 'Meld dit object'}
+      <StyledButton onClick={close} variant="primary">
+        {language.submit || 'Meld dit object'}
       </StyledButton>
     </MapPanelContent>
   )

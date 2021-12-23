@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 
 import listIcons from 'signals/incident-management/definitions/listIcons'
-import {
+import type {
   Definition,
   Priority,
 } from 'signals/incident-management/definitions/types'

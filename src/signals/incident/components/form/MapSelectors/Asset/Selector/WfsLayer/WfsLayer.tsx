@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import {
-  useContext,
-  useEffect,
-  useState,
-  ReactElement,
-  cloneElement,
-} from 'react'
-import type { FunctionComponent } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import type { FunctionComponent, ReactElement } from 'react'
 import { useMapInstance } from '@amsterdam/react-maps'
 import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
@@ -16,7 +10,7 @@ import type { Map as MapType } from 'leaflet'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import useLayerVisible from '../../../hooks/useLayerVisible'
-import type { DataLayerProps } from '../../../types'
+import type { DataLayerProps } from '../../types'
 import { NO_DATA, WfsDataProvider } from './context'
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
@@ -135,10 +129,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     }
   }, [bbox, wfsUrl, layerVisible, setMessage, filter])
 
-  const layer = cloneElement(children, {
-    featureTypes: meta.featureTypes,
-  })
-  return <WfsDataProvider value={data}>{layer}</WfsDataProvider>
+  return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }
 
 export default WfsLayer

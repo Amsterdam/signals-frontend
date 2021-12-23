@@ -3,13 +3,18 @@
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
-import { Meta } from '../types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import type { Meta } from '../../Asset/types'
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
+
+jest.mock('../../Asset/AssetSelect', () => () => (
+  <span data-testid="mockAssetSelect" />
+))
 
 describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarSelectRenderer', () => {
   const props = {
     handler: jest.fn(() => ({
-      value: [],
+      value: undefined,
     })),
     touched: false,
     getError: jest.fn(),
@@ -20,7 +25,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
         incidentContainer: { incident: incidentJson },
         updateIncident: jest.fn(),
       },
-      controls: {},
+      controls,
     },
     validatorsOrOpts: {},
   }
@@ -28,29 +33,25 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
   const meta = {
     label: 'Caterpillar',
     isVisible: true,
+    featureTypes: controls.extra_eikenprocessierups.meta.featureTypes,
   } as unknown as Meta
 
-  describe('rendering', () => {
-    it('should render correctly', async () => {
-      render(
-        withAppContext(<CaterpillarSelectRenderer {...props} meta={meta} />)
+  it('should render correctly', async () => {
+    render(withAppContext(<CaterpillarSelectRenderer {...props} meta={meta} />))
+
+    expect(screen.getByTestId('mockAssetSelect')).toBeInTheDocument()
+  })
+
+  it('should NOT render when not visible', () => {
+    render(
+      withAppContext(
+        <CaterpillarSelectRenderer
+          {...props}
+          meta={{ ...meta, isVisible: false }}
+        />
       )
+    )
 
-      const element = screen.queryByTestId('selectIntro')
-      expect(element).toBeInTheDocument()
-    })
-
-    it('should NOT render when not visible', () => {
-      render(
-        withAppContext(
-          <CaterpillarSelectRenderer
-            {...props}
-            meta={{ ...meta, isVisible: false }}
-          />
-        )
-      )
-
-      expect(screen.queryByTestId('selectIntro')).not.toBeInTheDocument()
-    })
+    expect(screen.queryByTestId('mockAssetSelect')).not.toBeInTheDocument()
   })
 })

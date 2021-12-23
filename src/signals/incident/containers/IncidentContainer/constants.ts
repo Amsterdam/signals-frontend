@@ -28,6 +28,7 @@ export const FIELD_TYPE_MAP = {
   checkbox_input: 'CheckboxInput',
   caterpillar_select: 'CaterpillarSelectRenderer',
   asset_select: 'AssetSelectRenderer',
+  clock_select: 'ClockSelectRenderer',
   date_time_input: 'DateTimeInput',
   description_with_classification_input: 'DescriptionInputRenderer',
   emphasis_checkbox_input: 'EmphasisCheckboxInput',
@@ -41,6 +42,7 @@ export const FIELD_TYPE_MAP = {
   plain_text: 'PlainText',
   radio_input: 'RadioInputGroup',
   select_input: 'SelectInput',
+  streetlight_select: 'StreetlightSelectRenderer',
   text_input: 'TextInput',
   textarea_input: 'TextareaInput',
 }

@@ -58,8 +58,8 @@ describe('<MapSelect />', () => {
   }
 
   const latlng = {
-    latitude: 4,
-    longitude: 52,
+    lat: 4,
+    lng: 52,
   }
 
   beforeEach(() => {

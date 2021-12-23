@@ -26,15 +26,15 @@ describe('signals/incident/components/IncidentPreview/components/MapSelect/MapSe
 
   it('returns a location', () => {
     expect(getLatlng(incidentFixture.location)).toEqual({
-      latitude: incidentFixture.location.geometrie.coordinates[1],
-      longitude: incidentFixture.location.geometrie.coordinates[0],
+      lat: incidentFixture.location.geometrie.coordinates[0],
+      lng: incidentFixture.location.geometrie.coordinates[1],
     })
   })
 
   it('returns default coords', () => {
     expect(getLatlng()).toEqual({
-      latitude: DEFAULT_COORDS[1],
-      longitude: DEFAULT_COORDS[0],
+      lat: DEFAULT_COORDS[0],
+      lng: DEFAULT_COORDS[1],
     })
   })
 })

@@ -20,16 +20,18 @@ interface IconListItemProps {
   iconUrl: string
   id?: string
   className?: string
+  iconSize?: number
 }
 
 export const IconListItem: FunctionComponent<IconListItemProps> = ({
   iconUrl,
   children,
   className,
+  iconSize = 40,
   id,
 }) => (
   <StyledListItem data-testid={id} className={className}>
-    <StyledIcon iconUrl={iconUrl} size={40} />
+    <StyledIcon iconUrl={iconUrl} size={iconSize} />
     {children}
   </StyledListItem>
 )

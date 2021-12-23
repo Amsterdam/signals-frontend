@@ -1,6 +1,6 @@
 import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import Paragraph from 'components/Paragraph'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { Checkmark } from '@amsterdam/asc-assets'
 
@@ -40,7 +40,7 @@ const GraphEmpty: FunctionComponent<GraphEmptyProps> = ({ text }) => {
     <Wrapper>
       <IconWrapper>
         <StyledIcon>
-          <Checkmark data-testid="checkmark"/>
+          <Checkmark data-testid="checkmark" />
         </StyledIcon>
       </IconWrapper>
       <Paragraph data-testid="empty-text">

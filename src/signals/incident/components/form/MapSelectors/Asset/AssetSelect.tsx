@@ -1,15 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useEffect } from 'react'
+import type { FC } from 'react'
+import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import type { Incident } from 'types/incident'
-import type { LatLngExpression } from 'leaflet'
-import { ClickEventHandler } from '../types'
+import { useSelector } from 'react-redux'
+
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import {
+  makeSelectAddress,
+  makeSelectCoordinates,
+} from 'signals/incident/containers/IncidentContainer/selectors'
+
+import type { Incident, Location } from 'types/incident'
+import type { LatLngLiteral } from 'leaflet'
+import type { EventHandler } from '../types'
+
 import { UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
 import Summary from './Summary'
+
 import type { FeatureType, Item, Meta } from './types'
 
 const defaultIconConfig: FeatureType['icon'] = {
@@ -34,40 +45,109 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 }
 
 export interface AssetSelectProps {
-  handler: () => { value: Item[] }
+  handler: () => { value?: Item }
+  layer?: FC
   meta: Meta
   parent: {
     meta: {
       incidentContainer: { incident: Pick<Incident, 'location'> }
-      updateIncident: (data: { [key: string]: Item[] }) => void
+      updateIncident: (data: { [key: string]: any }) => void
     }
   }
 }
 
-const AssetSelect: FunctionComponent<AssetSelectProps> = ({
+const AssetSelect: FC<AssetSelectProps> = ({
   handler,
+  layer,
   meta,
   parent,
 }) => {
-  const value = handler().value
+  const selection = handler().value
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
+  const coordinates = useSelector(makeSelectCoordinates)
+  const address = useSelector(makeSelectAddress)
 
-  const { coordinates } =
-    parent.meta.incidentContainer.incident.location.geometrie
-  const location: LatLngExpression = [coordinates[1], coordinates[0]]
+  const setItem = useCallback(
+    (item: Item) => {
+      const { location, ...restItem } = item
+      const { address: addr, coordinates: coords } = location
+      const itemCoords = item?.type === UNREGISTERED_TYPE ? coordinates : coords
+      const itemAddress = item?.type === UNREGISTERED_TYPE ? address : addr
 
-  /* istanbul ignore next */
-  const update = useCallback(
-    (selectedValue: Item[]) => {
-      if (meta.name)
-        parent.meta.updateIncident({ [meta.name as string]: selectedValue })
+      parent.meta.updateIncident({
+        location: {
+          coordinates: itemCoords,
+          address: itemAddress,
+        },
+        [meta.name as string]: restItem,
+      })
     },
-    [meta.name, parent.meta]
+    [address, coordinates, meta.name, parent.meta]
   )
 
-  const edit = useCallback<ClickEventHandler>(
+  const removeItem = useCallback(() => {
+    parent.meta.updateIncident({
+      location: {},
+      [meta.name as string]: undefined,
+    })
+  }, [meta.name, parent.meta])
+
+  const getUpdatePayload = useCallback(
+    (location: Item['location']) => {
+      const payload: Record<string, any> = {}
+
+      // Clicking the map should unset a previous selection and preset it with an item that we know
+      // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
+      // will be checked whenever a click on the map is registered
+      payload[meta.name as string] = { type: UNREGISTERED_TYPE }
+
+      payload.location = location
+
+      return payload
+    },
+    [meta.name]
+  )
+
+  /**
+   * Callback handler for map clicks; will fetch the address and dispatches both coordinates and
+   * address to the global state.
+   */
+  const fetchLocation = useCallback(
+    async (latLng: LatLngLiteral) => {
+      const location: Item['location'] = {
+        coordinates: latLng,
+        address,
+      }
+
+      const payload = getUpdatePayload(location)
+
+      // immediately set the location so that the marker is placed on the map; the reverse geocoder response
+      // might take some time to resolve, leaving the user wondering if the map click actually did anything
+      parent.meta.updateIncident(payload)
+
+      const response = await reverseGeocoderService(latLng)
+
+      if (response) {
+        payload.location.address = response.data.address
+
+        parent.meta.updateIncident(payload)
+      }
+    },
+    [address, getUpdatePayload, parent.meta]
+  )
+
+  const setLocation = useCallback(
+    (location: Location) => {
+      const payload = getUpdatePayload(location)
+
+      parent.meta.updateIncident(payload)
+    },
+    [parent.meta, getUpdatePayload]
+  )
+
+  const edit = useCallback<EventHandler>(
     (event) => {
       event.preventDefault()
       setShowMap(true)
@@ -80,12 +160,15 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
   }, [setShowMap])
 
   useEffect(() => {
+    if (!meta.featureTypes.length) return
+
     setFeatureTypes(
       meta.featureTypes.map((featureType) => {
         const defaultConfig =
           featureType.typeValue === UNREGISTERED_TYPE
             ? defaultUnregisteredIconConfig
             : defaultIconConfig
+
         return {
           ...featureType,
           icon: {
@@ -104,24 +187,29 @@ const AssetSelect: FunctionComponent<AssetSelectProps> = ({
   return (
     <AssetSelectProvider
       value={{
-        selection: value,
-        location,
+        address,
+        coordinates,
+        close,
+        edit,
+        layer,
+        message,
         meta: {
           ...meta,
           featureTypes,
         },
-        message,
-        update,
-        edit,
-        close,
+        removeItem,
+        selection,
+        setLocation,
+        setItem,
+        fetchLocation,
         setMessage,
       }}
     >
-      {!showMap && value.length === 0 && <Intro />}
+      {!showMap && !selection && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && value.length > 0 && <Summary />}
+      {!showMap && selection && <Summary />}
     </AssetSelectProvider>
   )
 }

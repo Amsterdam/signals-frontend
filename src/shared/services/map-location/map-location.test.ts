@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import type { LatLngTuple } from 'leaflet'
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
-  mapLocation,
   featureTolocation,
-  locationTofeature,
-  wktPointToLocation,
   formatMapLocation,
-  serviceResultToAddress,
   formatPDOKResponse,
+  locationToAPIfeature,
+  locationTofeature,
   pointWithinBounds,
+  serviceResultToAddress,
+  wktPointToLocation,
 } from '.'
 
 const testAddress = {
@@ -21,56 +22,33 @@ const testAddress = {
   woonplaats: 'Amsterdam',
 }
 
-const testLocation = { lng: 4, lat: 52 }
+const coordinates = { lng: 4, lat: 52 }
 
 const testFeature = {
   type: 'Point',
-  coordinates: [4, 52],
+  coordinates: [coordinates.lat, coordinates.lng] as LatLngTuple,
+}
+
+const apiCompatibleFeature = {
+  type: 'Point',
+  coordinates: [coordinates.lng, coordinates.lat] as LatLngTuple,
 }
 
 describe('locationToFeature', () => {
   it('should convert', () => {
-    expect(locationTofeature(testLocation)).toEqual(testFeature)
+    expect(locationTofeature(coordinates)).toEqual(testFeature)
+  })
+})
+
+describe('locationToAPIfeature', () => {
+  it('should convert', () => {
+    expect(locationToAPIfeature(coordinates)).toEqual(apiCompatibleFeature)
   })
 })
 
 describe('featureTolocation', () => {
   it('should convert', () => {
-    expect(featureTolocation(testFeature)).toEqual(testLocation)
-  })
-})
-
-describe('mapLocation', () => {
-  it('should map geometry', () => {
-    expect(
-      mapLocation({
-        geometrie: {
-          type: 'Point',
-          coordinates: [4, 52],
-        },
-        address: {
-          openbare_ruimte: 'Keizersgracht',
-          huisnummer: '666',
-          huisletter: 'D',
-          huisnummer_toevoeging: '3',
-          postcode: '1016EJ',
-          woonplaats: 'Amsterdam',
-        },
-      })
-    ).toEqual({
-      geometrie: {
-        type: 'Point',
-        coordinates: [4, 52],
-      },
-      address: {
-        openbare_ruimte: 'Keizersgracht',
-        huisnummer: '666',
-        huisletter: 'D',
-        huisnummer_toevoeging: '3',
-        postcode: '1016EJ',
-        woonplaats: 'Amsterdam',
-      },
-    })
+    expect(featureTolocation(testFeature)).toEqual(coordinates)
   })
 })
 
@@ -80,24 +58,28 @@ describe('wktPointToLocation', () => {
       lat: 52.36150435,
       lng: 4.90225668,
     })
+
+    expect(wktPointToLocation('POINT(4.90225668,52.36150435)')).toEqual({
+      lat: 52.36150435,
+      lng: 4.90225668,
+    })
   })
 
   it('should throw an error', () => {
     expect(() => {
       wktPointToLocation('POLYGON(4.90225668 52.36150435)')
     }).toThrow()
+
+    expect(() => {
+      wktPointToLocation('POINT(4.90225668)')
+    }).toThrow()
   })
 })
 
 describe('formatMapLocation', () => {
   it('should convert the sia location to map format location ', () => {
-    const loc = {
-      geometrie: testFeature,
-      address: testAddress,
-    }
-
     const result = {
-      location: { lat: 52, lng: 4 },
+      coordinates: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666D-3, 1016EJ Amsterdam',
       address: {
         openbare_ruimte: 'Keizersgracht',
@@ -109,11 +91,22 @@ describe('formatMapLocation', () => {
       },
     }
 
-    expect(formatMapLocation(loc)).toEqual(result)
+    const location = {
+      stadsdeel: 'west',
+      buurt_code: null,
+      extra_properties: null,
+      geometrie: { type: 'Point', coordinates: [52, 4] as LatLngTuple },
+      address: testAddress,
+    }
+
+    expect(formatMapLocation(location)).toEqual(result)
   })
 
   it('should disregard empty values', () => {
     const location = {
+      stadsdeel: 'west',
+      buurt_code: null,
+      extra_properties: null,
       geometrie: testFeature,
       address: {
         openbare_ruimte: 'Keizersgracht',
@@ -126,7 +119,7 @@ describe('formatMapLocation', () => {
     }
 
     const result = {
-      location: { lat: 52, lng: 4 },
+      coordinates: { lat: 52, lng: 4 },
       addressText: 'Keizersgracht 666, Amsterdam',
       address: location.address,
     }
@@ -207,11 +200,11 @@ describe('pointWithinBounds', () => {
       [maxLat, maxLng],
     ]
 
-    const middle = [5, 6]
-    const outsideLeft = [1, 6]
-    const outsideRight = [5, 10]
-    const outsideTop = [5, 1]
-    const outsideBottom = [5, 10]
+    const middle: LatLngTuple = [5, 6]
+    const outsideLeft: LatLngTuple = [1, 6]
+    const outsideRight: LatLngTuple = [5, 10]
+    const outsideTop: LatLngTuple = [5, 1]
+    const outsideBottom: LatLngTuple = [5, 10]
 
     expect(pointWithinBounds(middle, bounds)).toEqual(true)
     expect(pointWithinBounds(outsideLeft, bounds)).toEqual(false)

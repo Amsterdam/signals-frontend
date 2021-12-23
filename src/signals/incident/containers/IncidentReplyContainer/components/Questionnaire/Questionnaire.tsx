@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -12,7 +12,7 @@ import type { Question } from 'types/api/qa/question'
 import { FieldType } from 'types/api/qa/question'
 import FileInput from '../FileInput'
 import TextArea from '../TextArea'
-import { FormAnswer, FormData } from '../../types'
+import type { FormAnswer, FormData } from '../../types'
 import Submit from '../Submit'
 
 const QuestionsWrapper = styled.div`

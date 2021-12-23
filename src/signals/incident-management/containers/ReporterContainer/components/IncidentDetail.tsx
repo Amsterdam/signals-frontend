@@ -1,4 +1,5 @@
-import { FunctionComponent, useMemo } from 'react'
+import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CompactThemeProvider,

@@ -20,7 +20,7 @@ describe('containers/MapContext/reducer', () => {
     expect(reducer(initialState, {})).toEqual(initialState)
   })
 
-  it('should handle set location', () => {
+  it('should handle set coordinates', () => {
     const action = {
       type: SET_LOCATION,
       payload: testLocation,
@@ -28,7 +28,7 @@ describe('containers/MapContext/reducer', () => {
 
     expect(reducer(initialState, action)).toEqual({
       ...initialState,
-      location: action.payload,
+      coordinates: action.payload,
     })
   })
 
@@ -46,7 +46,7 @@ describe('containers/MapContext/reducer', () => {
 
   it('should handle set values', () => {
     const testValues = {
-      location: testLocation,
+      coordinates: testLocation,
       addressText: testAddressText,
     }
 
@@ -73,12 +73,12 @@ describe('containers/MapContext/reducer', () => {
     })
   })
 
-  it('should handle reset location', () => {
+  it('should handle reset coordinates', () => {
     const action = {
       type: RESET_LOCATION,
     }
 
-    expect(reducer({ ...initialState, location: {} }, action)).toEqual({
+    expect(reducer({ ...initialState, coordinates: {} }, action)).toEqual({
       ...initialState,
     })
   })

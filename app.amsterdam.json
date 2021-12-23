@@ -71,7 +71,7 @@
           5.10737
         ]
       ],
-      "maxZoom": 14,
+      "maxZoom": 16,
       "minZoom": 8,
       "zoom": 10
     },
@@ -97,8 +97,9 @@
     },
     "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
-      "klokken": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={east}&lengtegraad[lte]={west}&breedtegraad[gte]={south}&breedtegraad[lte]={north}&objecttypeOmschrijving=Klok",
-      "verlichting": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={east}&lengtegraad[lte]={west}&breedtegraad[gte]={south}&breedtegraad[lte]={north}&objecttypeOmschrijving[not]=Klok"
+      "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
+      "klokken": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
+      "verlichting": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
   },
   "matomo": {

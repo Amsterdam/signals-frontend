@@ -5,11 +5,11 @@ import type {
   Item,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import AssetList from 'signals/incident/components/form/MapSelectors/Asset/AssetList'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 export interface AssetListPreviewProps {
-  value: Item[]
+  value: Item
   featureTypes: FeatureType[]
 }
 

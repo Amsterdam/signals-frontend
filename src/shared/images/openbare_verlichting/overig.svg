@@ -1,0 +1,10 @@
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>icon-overig</title>
+  <g id="icoon/Icon_40_Overig" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <circle id="Oval" stroke="#000000" stroke-width="2" fill="#FFFFFF" cx="20" cy="20" r="19"></circle>
+    <ellipse id="Oval-Copy-2" fill="#000000" transform="translate(20.000000, 29.000000) rotate(-180.000000) translate(-20.000000, -29.000000) " cx="20" cy="29" rx="5" ry="3"></ellipse>
+    <circle id="Oval-Copy-4" fill="#000000" transform="translate(20.000000, 31.000000) rotate(-180.000000) translate(-20.000000, -31.000000) " cx="20" cy="31" r="2"></circle>
+    <path d="M20,9 C24.418278,9 28,12.581722 28,17 C28,19.9606507 26.3917256,22.5456688 24.0011597,23.9290715 L24,28 L16,28 L15.99984,23.9296499 C13.6087228,22.5463894 12,19.9610634 12,17 C12,12.581722 15.581722,9 20,9 Z" id="Combined-Shape" stroke="#000000" stroke-width="2" fill="#FEC813"></path>
+    <path d="M15,24.5 C16.663524,25.8333333 18.3301906,26.5 20,26.5 C21.6698094,26.5 23.336476,25.8333333 25,24.5 L23.7047323,28.4657593 L16.6600545,28.4657593 L15,24.5 Z" id="Rectangle" fill="#000000"></path>
+  </g>
+</svg>
