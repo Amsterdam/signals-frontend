@@ -7,13 +7,17 @@ import { Map } from '@amsterdam/react-maps'
 
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type {
+  AssetSelectValue,
+  Feature,
+  FeatureType,
+} from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import * as verlichtingIcons from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
+import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 import ReportedLayer from '../ReportedLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
@@ -28,8 +32,7 @@ const reportedFeatureType = {
   description: 'Is gemeld',
   icon: {
     options: {},
-    iconSvg: verlichtingIcons.reported,
-    selectedIconSvg: verlichtingIcons.reported,
+    iconUrl: reportedIconUrl,
   },
   idField: 'objectnummer',
   typeField: 'objecttype',
@@ -47,10 +50,8 @@ describe('ReportedLayer', () => {
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
           {reportedFeatures?.length > 0 && reportedFeatureType && (
             <ReportedLayer
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              reportedFeatures={reportedFeatures}
-              reportedFeatureType={reportedFeatureType}
+              reportedFeatures={reportedFeatures as Feature[]}
+              reportedFeatureType={reportedFeatureType as FeatureType}
             />
           )}
         </WfsDataProvider>

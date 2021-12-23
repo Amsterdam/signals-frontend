@@ -69,7 +69,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
     return {
       ...baseItem,
-      iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
+      iconUrl: icon ? icon.iconUrl : '',
       isReported,
     }
   }, [featureTypes, selection])

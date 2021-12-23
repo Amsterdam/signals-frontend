@@ -228,9 +228,7 @@ const Selector = () => {
                   .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
                   .map((featureType) => ({
                     label: featureType.label,
-                    iconUrl: `data:image/svg+xml;base64,${btoa(
-                      featureType.icon.iconSvg
-                    )}`,
+                    iconUrl: featureType.icon.iconUrl,
                     id: featureType.typeValue,
                   }))}
               />

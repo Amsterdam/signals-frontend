@@ -3,11 +3,9 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import {
-  glas,
-  select,
-  unknown,
-} from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons'
+import glasUrl from 'shared/images/afval/glas.svg?url'
+import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+
 import userEvent from '@testing-library/user-event'
 
 import { UNREGISTERED_TYPE } from '../../../constants'
@@ -34,8 +32,7 @@ describe('SelectionPanel', () => {
     description: 'Glas container',
     icon: {
       options: {},
-      iconSvg: glas,
-      selectedIconSvg: select,
+      iconUrl: glasUrl,
     },
     idField: 'id_nummer',
     typeField: 'fractie_omschrijving',
@@ -45,8 +42,7 @@ describe('SelectionPanel', () => {
     description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
-      iconSvg: unknown,
-      selectedIconSvg: select,
+      iconUrl: unknownFeatureUrl,
     },
     idField: 'id',
     typeField: 'type',

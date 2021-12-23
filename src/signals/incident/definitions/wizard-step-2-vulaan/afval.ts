@@ -11,8 +11,8 @@ import paperUrl from 'shared/images/afval/paper.svg?url'
 import textileUrl from 'shared/images/afval/textile.svg?url'
 import restUrl from 'shared/images/afval/rest.svg?url'
 import plasticUrl from 'shared/images/afval/plastic.svg?url'
+import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
 import configuration from '../../../../shared/services/configuration/configuration'
-import * as afvalIcons from './afval-icons'
 
 export const ICON_SIZE = 40
 
@@ -68,8 +68,6 @@ export const controls = {
           description: 'Restafval container',
           icon: {
             options,
-            iconSvg: afvalIcons.rest,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: restUrl,
           },
           idField: 'id_nummer',
@@ -81,8 +79,6 @@ export const controls = {
           description: 'Papier container',
           icon: {
             options,
-            iconSvg: afvalIcons.paper,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: paperUrl,
           },
           idField: 'id_nummer',
@@ -94,8 +90,6 @@ export const controls = {
           description: 'Glas container',
           icon: {
             options,
-            iconSvg: afvalIcons.glas,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: glasUrl,
           },
           idField: 'id_nummer',
@@ -107,8 +101,6 @@ export const controls = {
           description: 'Plastic container',
           icon: {
             options,
-            iconSvg: afvalIcons.plastic,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: plasticUrl,
           },
           idField: 'id_nummer',
@@ -120,8 +112,6 @@ export const controls = {
           description: 'Textiel container',
           icon: {
             options,
-            iconSvg: afvalIcons.textile,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: textileUrl,
           },
           idField: 'id_nummer',
@@ -133,8 +123,6 @@ export const controls = {
           description: 'Groente- fruit- en tuinafval container',
           icon: {
             options,
-            iconSvg: afvalIcons.gft,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: gftUrl,
           },
           idField: 'id_nummer',
@@ -146,8 +134,6 @@ export const controls = {
           description: 'Brood container',
           icon: {
             options,
-            iconSvg: afvalIcons.bread,
-            selectedIconSvg: afvalIcons.select,
             iconUrl: breadUrl,
           },
           idField: 'id_nummer',
@@ -158,8 +144,7 @@ export const controls = {
           description: 'De container staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconSvg: afvalIcons.unknown,
-            selectedIconSvg: afvalIcons.select,
+            iconUrl: unknownFeatureUrl,
           },
           idField: 'id',
           typeField: 'type',

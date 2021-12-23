@@ -5,17 +5,18 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
-import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
-import type { Item } from '../types'
+import type { Item, FeatureType } from '../types'
 import type { AssetListProps } from './AssetList'
 
 import AssetList from './AssetList'
 
 describe('AssetList', () => {
+  const { featureTypes } = controls.extra_container.meta
   const props: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: controls.extra_container.meta.featureTypes,
+    featureTypes: featureTypes as FeatureType[],
     selection: {
       description: 'Description',
       id: 'id',
@@ -26,7 +27,7 @@ describe('AssetList', () => {
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: meta.featureTypes,
+    featureTypes: featureTypes as FeatureType[],
     selection: { ...selection[0], location: {} },
   }
 

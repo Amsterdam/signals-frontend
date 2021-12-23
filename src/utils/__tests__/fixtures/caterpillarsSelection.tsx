@@ -47,6 +47,7 @@ export const meta = {
       icon: {
         options: {},
         iconSvg: caterpillarIcons.oak,
+        iconUrl: '',
         selectedIconSvg: caterpillarIcons.select,
         reportedIconSvg: caterpillarIcons.oakIsReported,
       },
@@ -64,6 +65,7 @@ export const meta = {
       icon: {
         options: {},
         iconSvg: caterpillarIcons.oakIsReported,
+        iconUrl: '',
         selectedIconSvg: caterpillarIcons.isSelectedAndReported,
       },
       iconIsReportedId: 'oakIsReported',

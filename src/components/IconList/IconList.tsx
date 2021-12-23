@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import { List, Icon, themeSpacing, ListItem } from '@amsterdam/asc-ui'
+import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 const StyledListItem = styled(ListItem)`
@@ -9,15 +9,13 @@ const StyledListItem = styled(ListItem)`
   align-items: center;
 `
 
-const StyledIcon = styled(Icon)`
+const StyledImg = styled.img`
   margin-right: ${themeSpacing(2)};
   flex-shrink: 0;
-  background-repeat: no-repeat;
-  background-position: center;
 `
 
 interface IconListItemProps {
-  iconUrl: string
+  iconUrl?: string
   id?: string
   className?: string
   iconSize?: number
@@ -31,7 +29,7 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   id,
 }) => (
   <StyledListItem data-testid={id} className={className}>
-    <StyledIcon iconUrl={iconUrl} size={iconSize} />
+    <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     {children}
   </StyledListItem>
 )
