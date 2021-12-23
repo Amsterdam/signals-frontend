@@ -60,9 +60,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     if (isReported && icon?.reportedIconSvg) {
       return {
         ...baseItem,
-        iconUrl: icon
-          ? `data:image/svg+xml;base64,${btoa(icon.reportedIconSvg)}`
-          : '',
+        iconUrl: icon ? icon.reportedIconSvg : '',
         isReported: true,
       }
     }

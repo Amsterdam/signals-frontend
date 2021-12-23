@@ -71,6 +71,7 @@ export const controls = {
           icon: {
             options,
             iconUrl: oakUrl,
+            reportedIconSvg: oakReportedUrl,
           },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',

@@ -3,8 +3,6 @@
 import { withAppContext } from 'test/utils'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
 import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
 import type { Item, FeatureType } from '../types'
@@ -13,7 +11,19 @@ import type { AssetListProps } from './AssetList'
 import AssetList from './AssetList'
 
 describe('AssetList', () => {
-  const { featureTypes } = controls.extra_container.meta
+  const featureTypes = [
+    {
+      label: 'Restafval',
+      description: 'Restafval container',
+      icon: {
+        options: {},
+        iconUrl: '',
+      },
+      idField: 'id_nummer',
+      typeField: 'fractie_omschrijving',
+      typeValue: 'Rest',
+    },
+  ]
   const props: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: featureTypes as FeatureType[],

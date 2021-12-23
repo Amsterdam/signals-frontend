@@ -24,7 +24,6 @@ const featureType = {
   label: 'Plastic',
   description: 'Plastic asset',
   icon: {
-    iconSvg: 'svg',
     iconUrl: 'plasticIconUrl',
   },
   idField: 'id_nummer',

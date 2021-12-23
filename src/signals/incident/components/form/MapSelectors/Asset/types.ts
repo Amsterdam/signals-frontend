@@ -42,7 +42,6 @@ export interface FeatureType {
 export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconUrl: string
-  selectedIconSvg?: string
   reportedIconSvg?: string
 }
 
