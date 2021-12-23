@@ -3,8 +3,12 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
+import oakReportedUrl from 'shared/images/groen_water/oakReported.svg?url'
+import reportedUrl from 'shared/images/icon-reported-marker.svg?url'
+import selectedUrl from 'shared/images/featureSelected.svg?url'
+import oakSelectedReportedUrl from 'shared/images/groen_water/oakSelectedReported.svg?url'
+import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
 import { validateObjectLocation } from '../../services/custom-validators'
-import * as caterpillarIcons from './caterpillar-icons'
 
 export const ICON_SIZE = 40
 
@@ -36,27 +40,27 @@ export const controls = {
       icons: [
         {
           id: 'oak',
-          icon: caterpillarIcons.oak,
+          icon: oakUrl,
         },
         {
           id: 'oakIsReported',
-          icon: caterpillarIcons.oakIsReported,
+          icon: oakReportedUrl,
         },
         {
           id: 'isReported',
-          icon: caterpillarIcons.reported,
+          icon: reportedUrl,
         },
         {
           id: 'isSelected',
-          icon: caterpillarIcons.select,
+          icon: selectedUrl,
         },
         {
           id: 'isSelectedAndReported',
-          icon: caterpillarIcons.isSelectedAndReported,
+          icon: oakSelectedReportedUrl,
         },
         {
           id: 'unknown',
-          icon: caterpillarIcons.unknown,
+          icon: unknownFeatureUrl,
         },
       ],
       featureTypes: [
@@ -66,9 +70,6 @@ export const controls = {
           iconId: 'oak',
           icon: {
             options,
-            iconSvg: caterpillarIcons.oak,
-            selectedIconSvg: caterpillarIcons.select,
-            reportedIconSvg: caterpillarIcons.oakIsReported,
             iconUrl: oakUrl,
           },
           iconIsReportedId: 'oakIsReported',
@@ -84,8 +85,7 @@ export const controls = {
           iconId: 'oakIsReported',
           icon: {
             options,
-            iconSvg: caterpillarIcons.oakIsReported,
-            selectedIconSvg: caterpillarIcons.isSelectedAndReported,
+            iconUrl: oakReportedUrl,
           },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
@@ -100,8 +100,7 @@ export const controls = {
           iconId: 'unknown',
           icon: {
             options,
-            iconSvg: caterpillarIcons.unknown,
-            selectedIconSvg: caterpillarIcons.unknown,
+            iconUrl: unknownFeatureUrl,
           },
           typeValue: 'not-on-map',
           typeField: '',

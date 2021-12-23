@@ -1,4 +1,5 @@
-import * as caterpillarIcons from '../../../signals/incident/definitions/wizard-step-2-vulaan/caterpillar-icons'
+import oakUrl from 'shared/images/groen_water/oak.svg?url'
+import oakReportedUrl from 'shared/images/groen_water/oakReported.svg?url'
 
 export const selection = [
   {
@@ -46,10 +47,7 @@ export const meta = {
       iconId: 'oak',
       icon: {
         options: {},
-        iconSvg: caterpillarIcons.oak,
-        iconUrl: '',
-        selectedIconSvg: caterpillarIcons.select,
-        reportedIconSvg: caterpillarIcons.oakIsReported,
+        iconUrl: oakUrl,
       },
       iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
@@ -64,9 +62,7 @@ export const meta = {
       iconId: 'oakIsReported',
       icon: {
         options: {},
-        iconSvg: caterpillarIcons.oakIsReported,
-        iconUrl: '',
-        selectedIconSvg: caterpillarIcons.isSelectedAndReported,
+        iconUrl: oakReportedUrl,
       },
       iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
