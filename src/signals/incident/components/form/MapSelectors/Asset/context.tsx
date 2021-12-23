@@ -16,6 +16,7 @@ export const initialValue: AssetSelectValue = {
     extraProperties: [],
   },
   selection: undefined,
+  fetchLocation: /* istanbul ignore next */ () => {},
   setLocation: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},

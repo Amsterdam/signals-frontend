@@ -100,7 +100,7 @@ export const pdokResponseFieldList = [
 ]
 
 export type PdokResponse = {
-  id: string
+  id: number | string
   value: string
   data: {
     location: LatLngLiteral

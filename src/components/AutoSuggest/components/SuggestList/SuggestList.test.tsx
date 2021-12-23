@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { createEvent, render, fireEvent } from '@testing-library/react'
 
-import type { AutoSuggestOption } from 'components/AutoSuggest'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import { withAppContext } from 'test/utils'
 
@@ -13,7 +13,7 @@ const onSelectOption = jest.fn()
 const data = {
   address: {
     postcode: '1234 AB',
-    huisnummer: 1,
+    huisnummer: '1',
     woonplaats: "A'dam",
     openbare_ruimte: '',
   },
@@ -23,7 +23,7 @@ const data = {
   },
 }
 
-const options: Array<AutoSuggestOption> = [
+const options: Array<PdokResponse> = [
   { id: 1, value: 'Item 1', data },
   { id: 2, value: 'Item 2', data },
   { id: 3, value: 'Item 3', data },

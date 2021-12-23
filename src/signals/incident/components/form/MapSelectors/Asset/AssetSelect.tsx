@@ -11,7 +11,7 @@ import {
   makeSelectCoordinates,
 } from 'signals/incident/containers/IncidentContainer/selectors'
 
-import type { Incident } from 'types/incident'
+import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import type { EventHandler } from '../types'
 
@@ -94,11 +94,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
     })
   }, [meta.name, parent.meta])
 
-  /**
-   * Callback handler for map clicks
-   */
-  const setLocation = useCallback(
-    async (latLng: LatLngLiteral) => {
+  const getUpdatePayload = useCallback(
+    (location: Item['location']) => {
       const payload: Record<string, any> = {}
 
       // Clicking the map should unset a previous selection and preset it with an item that we know
@@ -106,11 +103,25 @@ const AssetSelect: FC<AssetSelectProps> = ({
       // will be checked whenever a click on the map is registered
       payload[meta.name as string] = { type: UNREGISTERED_TYPE }
 
+      payload.location = location
+
+      return payload
+    },
+    [meta.name]
+  )
+
+  /**
+   * Callback handler for map clicks; will fetch the address and dispatches both coordinates and
+   * address to the global state.
+   */
+  const fetchLocation = useCallback(
+    async (latLng: LatLngLiteral) => {
       const location: Item['location'] = {
         coordinates: latLng,
+        address,
       }
 
-      payload.location = location
+      const payload = getUpdatePayload(location)
 
       // immediately set the location so that the marker is placed on the map; the reverse geocoder response
       // might take some time to resolve, leaving the user wondering if the map click actually did anything
@@ -124,7 +135,16 @@ const AssetSelect: FC<AssetSelectProps> = ({
         parent.meta.updateIncident(payload)
       }
     },
-    [meta.name, parent.meta]
+    [address, getUpdatePayload, parent.meta]
+  )
+
+  const setLocation = useCallback(
+    (location: Location) => {
+      const payload = getUpdatePayload(location)
+
+      parent.meta.updateIncident(payload)
+    },
+    [parent.meta, getUpdatePayload]
   )
 
   const edit = useCallback<EventHandler>(
@@ -177,14 +197,15 @@ const AssetSelect: FC<AssetSelectProps> = ({
           ...meta,
           featureTypes,
         },
+        removeItem,
         selection,
         setLocation,
-        setMessage,
         setItem,
-        removeItem,
+        fetchLocation,
+        setMessage,
       }}
     >
-      {!showMap && <Intro />}
+      {!showMap && !selection && <Intro />}
 
       {showMap && <Selector />}
 

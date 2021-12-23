@@ -3,13 +3,14 @@
 import type { FC } from 'react'
 import type { RevGeo } from 'types/pdok/revgeo'
 
-import type { AutoSuggestOption } from 'components/AutoSuggest'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import AutoSuggest from 'components/AutoSuggest'
 import {
   pdokResponseFieldList,
   formatPDOKResponse,
 } from 'shared/services/map-location'
+import configuration from 'shared/services/configuration/configuration'
 
 const municipalityFilterName = 'gemeentenaam'
 const serviceParams = [
@@ -23,12 +24,12 @@ const serviceUrl =
 const numOptionsDeterminer = (data?: RevGeo) =>
   data?.response?.docs?.length || 0
 
-type PDOKAutoSuggestProps = {
+export type PDOKAutoSuggestProps = {
   className?: string
   fieldList?: Array<string>
   municipality?: string | Array<string>
   onClear?: () => void
-  onSelect: (option: AutoSuggestOption) => void
+  onSelect: (option: PdokResponse) => void
   placeholder?: string
   value?: string
 }
@@ -83,6 +84,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
 PDOKAutoSuggest.defaultProps = {
   className: '',
   fieldList: [],
+  municipality: configuration.map.municipality,
   value: '',
 }
 

@@ -92,8 +92,7 @@ const Location = ({ location }) => {
                   height={mapHeight}
                   markerSize={20}
                   width={mapWidth}
-                  lat={lat}
-                  lng={lng}
+                  coordinates={{ lat, lng }}
                 />
               ) : (
                 <StyledMap

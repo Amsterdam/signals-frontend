@@ -3,6 +3,7 @@
 import { useMemo, useContext, useState, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { breakpoint } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 import type {
@@ -14,21 +15,23 @@ import type {
 } from 'leaflet'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPanelContext'
+import type { PdokResponse } from 'shared/services/map-location'
 
 import { Marker } from '@amsterdam/react-maps'
-import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
+import { formatAddress } from 'shared/services/format-address'
 
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
-
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import useLayerVisible from '../../hooks/useLayerVisible'
+
 import { UNREGISTERED_TYPE } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
@@ -37,6 +40,7 @@ import ViewerContainer from './ViewerContainer'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
+import ButtonBar from './ButtonBar/ButtonBar'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -50,7 +54,7 @@ const MAP_PANEL_SNAP_POSITIONS = {
 }
 
 const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
-  max: 12,
+  max: 13,
 }
 
 const Wrapper = styled.div`
@@ -62,6 +66,7 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
+  z-index: 2; // position over the site header
 `
 
 const StyledMap = styled(Map)`
@@ -69,37 +74,36 @@ const StyledMap = styled(Map)`
   width: 100%;
 `
 
-const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
-    margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
+const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
+  @media screen and (max-width: 300px) {
+    top: 60px;
+    width: calc(100vw - 32px);
+  }
+
+  @media screen and (min-width: 300px) {
+    width: calc(100vw - 92px);
+  }
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    width: calc(100vw - 492px);
+    max-width: 375px;
   }
 `
-
-const ButtonBar: FunctionComponent<{ zoomLevel: ZoomLevel }> = ({
-  children,
-  zoomLevel,
-}) => {
-  const layerVisible = useLayerVisible(zoomLevel)
-  const { message } = useContext(AssetSelectContext)
-  const messageVisible = !layerVisible || !!message
-
-  return (
-    <ButtonBarStyle data-testid="buttonBar" messageVisible={messageVisible}>
-      {children}
-    </ButtonBarStyle>
-  )
-}
-
-export interface ButtonBarProps {
-  zoomLevel: ZoomLevel
-}
 
 const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { close, coordinates, layer, meta, selection, setLocation } =
-    useContext(AssetSelectContext)
+  const {
+    address,
+    close,
+    coordinates,
+    layer,
+    meta,
+    selection,
+    setLocation,
+    fetchLocation,
+  } = useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
   const { Panel, panelVariant } = useMemo<{
     Panel: FunctionComponent
@@ -121,7 +125,7 @@ const Selector = () => {
       dragging: true,
       zoomControl: false,
       minZoom: 10,
-      maxZoom: 15,
+      maxZoom: 16,
       zoom: 14,
     }),
     [center]
@@ -131,14 +135,16 @@ const Selector = () => {
   const [showSelectionPanel, setShowSelectionPanel] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
+  const addressValue = address ? formatAddress(address) : ''
+
   const showMarker =
     coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
-      setLocation(latlng)
+      fetchLocation(latlng)
     },
-    [setLocation]
+    [fetchLocation]
   )
 
   const toggleLegend = useCallback(() => {
@@ -149,6 +155,16 @@ const Selector = () => {
     setShowLegendPanel(false)
     setShowSelectionPanel(true)
   }
+
+  const onAddressSelect = useCallback(
+    (option: PdokResponse) => {
+      const { location, address } = option.data
+      setLocation({ coordinates: location, address })
+
+      map?.flyTo(option.data.location, map.getZoom())
+    },
+    [setLocation, map]
+  )
 
   const Layer = layer || AssetLayer
 
@@ -174,6 +190,13 @@ const Selector = () => {
         >
           <ViewerContainer
             topLeft={
+              <StyledPDOKAutoSuggest
+                onSelect={onAddressSelect}
+                placeholder="Zoek adres"
+                value={addressValue}
+              />
+            }
+            bottomLeft={
               <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
                 <LegendToggleButton
                   onClick={toggleLegend}

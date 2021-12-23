@@ -30,6 +30,10 @@ const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
 `
 
+const StyledParagraph = styled(Paragraph)`
+  margin-top: ${themeSpacing(6)};
+`
+
 export interface SelectionPanelProps {
   featureTypes: FeatureType[]
   language?: Record<string, string>
@@ -107,7 +111,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       title={language.title || 'Locatie'}
       data-testid="selectionPanel"
     >
-      <Paragraph>
+      <Paragraph strong>
         {language.subTitle || 'U kunt maar een object kiezen'}
       </Paragraph>
 
@@ -131,17 +135,17 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
             label={language.unregistered || 'Het object staat niet op de kaart'}
           />
 
-          {showObjectIdInput && (
+          {showObjectIdInput && language.unregisteredId && (
             <>
+              <StyledParagraph>
+                Typ het dichtstbijzijnde adres of klik de locatie aan op de
+                kaart.
+              </StyledParagraph>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={
                   <>
-                    <strong>
-                      {language.unregisteredId ||
-                        'Wat is het nummer van het object?'}
-                    </strong>{' '}
-                    (niet verplicht)
+                    <strong>{language.unregisteredId}</strong> (niet verplicht)
                   </>
                 }
               />
@@ -159,7 +163,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       )}
 
       <StyledButton onClick={close} variant="primary">
-        {language.submitSingular || 'Meld dit object'}
+        {language.submit || 'Meld dit object'}
       </StyledButton>
     </MapPanelContent>
   )

@@ -66,6 +66,9 @@ describe('SelectionPanel', () => {
   const props: SelectionPanelProps = {
     featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     variant: 'drawer',
+    language: {
+      unregisteredId: 'Nummer van de container',
+    },
   }
 
   const selection = {
@@ -146,7 +149,7 @@ describe('SelectionPanel', () => {
     )
 
     expect(
-      screen.queryByText('Wat is het nummer van het object?')
+      screen.queryByText('Nummer van de container')
     ).not.toBeInTheDocument()
 
     userEvent.click(
@@ -155,9 +158,7 @@ describe('SelectionPanel', () => {
       })
     )
 
-    expect(
-      screen.getByText('Wat is het nummer van het object?')
-    ).toBeInTheDocument()
+    expect(screen.getByText('Nummer van de container')).toBeInTheDocument()
 
     const unregisteredObjectId = '8976238'
 
@@ -218,9 +219,7 @@ describe('SelectionPanel', () => {
     )
 
     userEvent.type(
-      screen.getByLabelText(
-        'Wat is het nummer van het object? (niet verplicht)'
-      ),
+      screen.getByLabelText('Nummer van de container (niet verplicht)'),
       '5'
     )
 
@@ -228,9 +227,7 @@ describe('SelectionPanel', () => {
     expect(contextValue.close).not.toHaveBeenCalled()
 
     userEvent.type(
-      screen.getByLabelText(
-        'Wat is het nummer van het object? (niet verplicht)'
-      ),
+      screen.getByLabelText('Nummer van de container (niet verplicht)'),
       '{Enter}'
     )
 
@@ -245,9 +242,9 @@ describe('SelectionPanel', () => {
   it('renders custom labels', () => {
     const language = {
       title: 'Locatie',
-      subTitle: 'Kies de container op de kaart',
+      subTitle: 'Kies een container op de kaart',
       unregistered: 'De container staat niet op de kaart',
-      submitSingular: 'Gebruik deze locatie',
+      submit: 'Gebruik deze locatie',
     }
 
     const propsWithLanguage = {
