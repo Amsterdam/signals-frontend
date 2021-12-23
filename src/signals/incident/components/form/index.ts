@@ -14,7 +14,6 @@ import HandlingMessage from './HandlingMessage/HandlingMessage'
 import HiddenInput from './HiddenInput'
 import LinkButton from './LinkButton'
 import MapInput from './MapInput'
-import MapSelect from './MapSelect'
 import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
 import RadioInputGroup from './RadioInputGroup'
@@ -39,7 +38,6 @@ export default {
   HiddenInput,
   LinkButton,
   MapInput,
-  MapSelect,
   MultiTextInput,
   PlainText,
   RadioInputGroup,
