@@ -10,7 +10,7 @@ import { stadsdeelList } from 'signals/incident-management/definitions'
 import MapStatic from 'components/MapStatic'
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 
 import MapDetail from '../../../MapDetail'
 import HighLight from '../../../Highlight'
@@ -60,7 +60,7 @@ const StyledMap = styled(MapDetail)`
 const Location = ({ location }) => {
   const { districts } = useContext(IncidentManagementContext)
   const { preview, edit } = useContext(IncidentDetailContext)
-  const { lat, lng } = featureTolocation(location.geometrie)
+  const { lat, lng } = featureToCoordinates(location.geometrie)
 
   return (
     <Fragment>

@@ -28,7 +28,7 @@ import type { Geometrie } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -192,7 +192,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               return
             }
 
-            const coordinates = featureTolocation(feature.geometry as Geometrie)
+            const coordinates = featureToCoordinates(
+              feature.geometry as Geometrie
+            )
 
             const item: Item = {
               location: {
@@ -228,7 +230,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const latlng = featureTolocation(feature.geometry as Geometrie)
+        const latlng = featureToCoordinates(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */

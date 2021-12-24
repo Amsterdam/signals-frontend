@@ -13,7 +13,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
 
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 
 import withAssetSelectContext, {
   contextValue,
@@ -60,7 +60,7 @@ describe('CaterpillarLayer', () => {
   it('should handle selecting a tree', async () => {
     const featureId = 308779
     const feature = caterpillarsJson.features.find(({ id }) => id === featureId)
-    const coordinates = featureTolocation(feature?.geometry as Geometrie)
+    const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
 
     const { rerender } = render(withMapCaterpillar())
 

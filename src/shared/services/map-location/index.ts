@@ -1,9 +1,9 @@
 export {
-  featureTolocation,
+  coordinatesToAPIFeature,
+  coordinatesToFeature,
+  featureToCoordinates,
   formatMapLocation,
   formatPDOKResponse,
-  locationToAPIfeature,
-  locationTofeature,
   pdokResponseFieldList,
   pointWithinBounds,
   serviceResultToAddress,
