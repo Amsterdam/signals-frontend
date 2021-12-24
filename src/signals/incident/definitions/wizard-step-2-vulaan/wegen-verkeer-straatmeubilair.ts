@@ -3,7 +3,6 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
-
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import locatie from './locatie'
 

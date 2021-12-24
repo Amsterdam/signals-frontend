@@ -26,7 +26,7 @@ const options: Pick<IconOptions, 'className' | 'iconSize'> = {
 
 const configuration = appConfiguration as unknown as typeof ConfigurationType
 
-export const straatverlichtingKlokken = {
+const straatverlichtingKlokken = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
   extra_kerstverlichting: {
