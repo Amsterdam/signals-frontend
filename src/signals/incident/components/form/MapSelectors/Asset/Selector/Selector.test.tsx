@@ -227,4 +227,15 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       screen.getByText(formatAddress(predefinedAddress))
     ).toBeInTheDocument()
   })
+
+  it('only renders legend button when feature types are available', () => {
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        meta: { ...contextValue.meta, featureTypes: [] },
+      })
+    )
+
+    expect(screen.queryByText('Legenda')).not.toBeInTheDocument()
+  })
 })

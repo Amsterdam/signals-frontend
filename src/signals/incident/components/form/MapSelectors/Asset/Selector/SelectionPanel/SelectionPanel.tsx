@@ -14,6 +14,7 @@ import {
   Label,
   Input,
   Checkbox,
+  themeColor,
 } from '@amsterdam/asc-ui'
 
 import AssetList from '../../AssetList'
@@ -32,6 +33,13 @@ const StyledButton = styled(Button)`
 
 const StyledParagraph = styled(Paragraph)`
   margin-top: ${themeSpacing(6)};
+`
+
+const Description = styled.span`
+  display: block;
+  font-weight: 400;
+  font-size: 16px;
+  color: ${themeColor('tint', 'level5')};
 `
 
 export interface SelectionPanelProps {
@@ -113,6 +121,9 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     >
       <Paragraph strong>
         {language.subTitle || 'U kunt maar een object kiezen'}
+        {language.description ? (
+          <Description>{language.description}</Description>
+        ) : null}
       </Paragraph>
 
       {selection && selectionOnMap && (
@@ -123,8 +134,8 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         />
       )}
 
-      {(!selection || unregisteredAsset) && (
-        <div>
+      {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
+        <div data-testid="unregisteredObjectPanel">
           <Checkbox
             id="unregisteredAssetCheckbox"
             checked={showObjectIdInput}
@@ -162,9 +173,11 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         </div>
       )}
 
-      <StyledButton onClick={close} variant="primary">
-        {language.submit || 'Meld dit object'}
-      </StyledButton>
+      {selection && (
+        <StyledButton onClick={close} variant="primary">
+          {language.submit || 'Meld dit object'}
+        </StyledButton>
+      )}
     </MapPanelContent>
   )
 }

@@ -36,7 +36,7 @@ const Summary: FC = () => {
   const { description } =
     meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
-  const summaryDescription = `${description}${id ? ` - ${id}` : ''}`
+  const summaryDescription = [description, id].filter(Boolean).join(' - ')
   let summaryAddress = coordinates ? 'Locatie is gepind op de kaart' : ''
   if (address) summaryAddress = formatAddress(address)
 

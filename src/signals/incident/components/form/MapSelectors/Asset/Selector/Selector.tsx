@@ -132,10 +132,10 @@ const Selector = () => {
   )
 
   const [showLegendPanel, setShowLegendPanel] = useState(false)
-  const [showSelectionPanel, setShowSelectionPanel] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const addressValue = address ? formatAddress(address) : ''
+  const hasLegend = meta.featureTypes.length > 0
 
   const showMarker =
     coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
@@ -153,7 +153,6 @@ const Selector = () => {
 
   const handleLegendCloseButton = () => {
     setShowLegendPanel(false)
-    setShowSelectionPanel(true)
   }
 
   const onAddressSelect = useCallback(
@@ -197,12 +196,14 @@ const Selector = () => {
               />
             }
             bottomLeft={
-              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-                <LegendToggleButton
-                  onClick={toggleLegend}
-                  isRenderingLegendPanel={showLegendPanel}
-                />
-              </ButtonBar>
+              hasLegend ? (
+                <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+                  <LegendToggleButton
+                    onClick={toggleLegend}
+                    isRenderingLegendPanel={showLegendPanel}
+                  />
+                </ButtonBar>
+              ) : null
             }
             topRight={
               <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
@@ -212,15 +213,13 @@ const Selector = () => {
           />
 
           <Panel data-testid={`panel${desktopView ? 'Desktop' : 'Mobile'}`}>
-            {showSelectionPanel && (
-              <SelectionPanel
-                featureTypes={meta.featureTypes}
-                language={meta.language}
-                variant={panelVariant}
-              />
-            )}
+            <SelectionPanel
+              featureTypes={meta.featureTypes}
+              language={meta.language}
+              variant={panelVariant}
+            />
 
-            {showLegendPanel && (
+            {showLegendPanel ? (
               <LegendPanel
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
@@ -232,7 +231,7 @@ const Selector = () => {
                     id: featureType.typeValue,
                   }))}
               />
-            )}
+            ) : null}
           </Panel>
         </MapPanelProvider>
 

@@ -8,6 +8,7 @@ import configuration from 'shared/services/configuration/configuration'
 import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
+import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import openbaarGroenEnWater from './wizard-step-2-vulaan/openbaarGroenEnWater'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
@@ -16,6 +17,7 @@ import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
@@ -99,8 +101,13 @@ export default {
       case 'openbaar-groen-en-water':
         return expandQuestions(openbaarGroenEnWater, category, subcategory)
 
-      case 'afval':
+      case 'afval': {
+        if (subcategory.startsWith('container')) {
+          return expandQuestions(afvalContainer, category, subcategory)
+        }
+
         return expandQuestions(afval, category, subcategory)
+      }
 
       case 'civiele-constructies':
         return expandQuestions(civieleConstructies, category, subcategory)
@@ -124,12 +131,15 @@ export default {
       case 'overlast-van-en-door-personen-of-groepen':
         return expandQuestions(overlastPersonenEnGroepen, category, subcategory)
 
-      case 'wegen-verkeer-straatmeubilair':
-        return expandQuestions(
-          wegenVerkeerStraatmeubilair,
-          category,
+      case 'wegen-verkeer-straatmeubilair': {
+        const config = ['klok', 'lantaarnpaal-straatverlichting'].includes(
           subcategory
         )
+          ? straatverlichtingKlokken
+          : wegenVerkeerStraatmeubilair
+
+        return expandQuestions(config, category, subcategory)
+      }
 
       case 'wonen':
         return expandQuestions(wonen, category, subcategory)

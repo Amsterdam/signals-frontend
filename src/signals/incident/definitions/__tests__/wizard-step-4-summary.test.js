@@ -4,7 +4,7 @@ import { Validators } from 'react-reactive-form'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import step5, {
+import step4, {
   renderPreview,
   summary,
   Label,
@@ -14,7 +14,7 @@ import step5, {
 } from '../wizard-step-4-summary'
 import PreviewComponents from '../../components/IncidentPreview/components'
 
-const { previewFactory } = step5
+const { previewFactory } = step4
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('react-reactive-form')
@@ -82,25 +82,24 @@ describe('Wizard summary', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = previewFactory({
         category: 'afval',
-        subcategory: 'subcategory',
       })
 
-      const expected = expect.objectContaining({
+      const expected = {
         vulaan: {
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,
-            render: Label,
+            render: expect.any(Function),
           },
-          extra_container: {
-            label: 'Kies de container waar het om gaat',
+          locatie: {
+            label: 'Waar is het?',
             optional: true,
             render: expect.any(Function),
           },
         },
-      })
+      }
 
-      expect(actual).toEqual(expected)
+      expect(actual).toEqual(expect.objectContaining(expected))
     })
 
     it('should return no questions with non existing category', () => {

@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import type { ReactNode, ReactPortal } from 'react'
 
 import { withAppContext } from 'test/utils'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
 
 import type { AssetSelectValue, FeatureType } from '../types'
 import { AssetSelectProvider } from '../context'
