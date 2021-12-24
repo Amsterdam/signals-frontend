@@ -13,7 +13,6 @@ const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const wegenVerkeerStraatmeubilair = {
   locatie,
-
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
       ifOneOf: {
