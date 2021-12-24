@@ -5,14 +5,15 @@ import type { FeatureCollection } from 'geojson'
 import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
-import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type {
   AssetSelectValue,
   Feature,
   FeatureType,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+
+import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import withAssetSelectContext, {
   contextValue,
@@ -20,7 +21,7 @@ import withAssetSelectContext, {
 import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 import ReportedLayer from '../ReportedLayer'
 
-const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
+const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: undefined,

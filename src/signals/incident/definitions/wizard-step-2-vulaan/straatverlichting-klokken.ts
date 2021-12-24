@@ -4,12 +4,18 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import appConfiguration from 'shared/services/configuration/configuration'
 import type { IconOptions } from 'leaflet'
-import {
-  selectIcon,
-  unknownIcon,
-} from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/AssetLayer/MarkerIcons'
+
+import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
+import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url'
+import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
+import klokUrl from 'shared/images/openbare_verlichting/klok.svg?url'
+import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
+import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
+import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
+
 import type ConfigurationType from '../../../../../app.amsterdam.json'
-import * as verlichtingIcons from './verlichting-icons'
+import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
 
@@ -20,7 +26,7 @@ const options: Pick<IconOptions, 'className' | 'iconSize'> = {
 
 const configuration = appConfiguration as unknown as typeof ConfigurationType
 
-const straatverlichtingKlokken = {
+export const straatverlichtingKlokken = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
   extra_kerstverlichting: {
@@ -39,17 +45,26 @@ const straatverlichtingKlokken = {
     meta: {
       language: {
         title: 'Locatie',
-        subTitle: 'Kies het lichtpunt op de kaart',
+        subTitle: 'Kies een lichtpunt op de kaart',
         unregistered: 'Het lichtpunt staat niet op de kaart',
         unregisteredId: 'Nummer van het lichtpunt',
         objectTypeSingular: 'lichtpunt',
         objectTypePlural: 'lichtpunten',
         submit: 'Gebruik deze locatie',
       },
-      label: 'Waar is het?',
+      label: 'Kies de lamp of lantaarnpaal waar het om gaat',
       shortLabel: 'Lichtpunt(en) op kaart',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
+      },
+      ifOneOf: {
+        extra_straatverlichting_probleem: [
+          'lamp_doet_het_niet',
+          'lamp_brandt_overdag',
+          'geeft_lichthinder',
+          'lamp_is_zichtbaar_beschadigd',
+          'overig',
+        ],
       },
       wfsFilter:
         '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
@@ -60,8 +75,7 @@ const straatverlichtingKlokken = {
           description: 'Grachtmast',
           icon: {
             options,
-            iconSvg: verlichtingIcons.grachtmast,
-            selectedIconSvg: selectIcon,
+            iconUrl: grachtmastUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -72,8 +86,7 @@ const straatverlichtingKlokken = {
           description: 'Overspanning',
           icon: {
             options,
-            iconSvg: verlichtingIcons.overspanning,
-            selectedIconSvg: selectIcon,
+            iconUrl: overspanningUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -84,8 +97,7 @@ const straatverlichtingKlokken = {
           description: 'Gevelarmatuur',
           icon: {
             options,
-            iconSvg: verlichtingIcons.gevel_armatuur,
-            selectedIconSvg: selectIcon,
+            iconUrl: gevelarmatuurUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -96,8 +108,7 @@ const straatverlichtingKlokken = {
           description: 'Schijnwerper',
           icon: {
             options,
-            iconSvg: verlichtingIcons.schijnwerper,
-            selectedIconSvg: selectIcon,
+            iconUrl: schijnwerperUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -108,8 +119,7 @@ const straatverlichtingKlokken = {
           description: 'Overig lichtpunt',
           icon: {
             options,
-            iconSvg: verlichtingIcons.overig_lichtpunt,
-            selectedIconSvg: selectIcon,
+            iconUrl: overigUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -120,8 +130,7 @@ const straatverlichtingKlokken = {
           description: 'Is gemeld',
           icon: {
             options,
-            iconSvg: verlichtingIcons.reported,
-            selectedIconSvg: verlichtingIcons.reported,
+            iconUrl: reportedFeatureMarkerUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -131,8 +140,7 @@ const straatverlichtingKlokken = {
           description: 'Het lichtpunt staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconSvg: unknownIcon,
-            selectedIconSvg: selectIcon,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           idField: 'id',
           typeField: 'type',
@@ -142,6 +150,9 @@ const straatverlichtingKlokken = {
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.streetlight_select,
+    options: {
+      validators: [validateObjectLocation('lichtpunt')],
+    },
   },
 
   extra_straatverlichting_probleem: {
@@ -242,17 +253,24 @@ const straatverlichtingKlokken = {
     meta: {
       language: {
         title: 'Locatie',
-        subTitle: 'Kies de klok op de kaart',
+        subTitle: 'Kies een klok op de kaart',
         unregistered: 'De klok staat niet op de kaart',
         unregisteredId: 'Nummer van de klok',
         objectTypeSingular: 'klok',
         objectTypePlural: 'klokken',
         submit: 'Gebruik deze locatie',
       },
-      label: 'Waar is het?',
+      label: 'Kies de klok waar het om gaat',
       shortLabel: 'Klok(ken) op kaart',
       ifAllOf: {
         subcategory: 'klok',
+      },
+      ifOneOf: {
+        extra_klok_probleem: [
+          'klok_staat_niet_op_tijd_of_stil',
+          'klok_is_zichtbaar_beschadigd',
+          'overig',
+        ],
       },
       wfsFilter:
         '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
@@ -264,8 +282,7 @@ const straatverlichtingKlokken = {
           description: 'Klok',
           icon: {
             options,
-            iconSvg: verlichtingIcons.klok,
-            selectedIconSvg: selectIcon,
+            iconUrl: klokUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -276,8 +293,7 @@ const straatverlichtingKlokken = {
           description: 'Is gemeld',
           icon: {
             options,
-            iconSvg: verlichtingIcons.reported,
-            selectedIconSvg: verlichtingIcons.reported,
+            iconUrl: reportedFeatureMarkerUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -287,8 +303,7 @@ const straatverlichtingKlokken = {
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconSvg: unknownIcon,
-            selectedIconSvg: selectIcon,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           idField: 'id',
           typeField: 'type',
@@ -298,6 +313,9 @@ const straatverlichtingKlokken = {
       pathMerge: 'extra_properties',
     },
     render: FIELD_TYPE_MAP.clock_select,
+    options: {
+      validators: [validateObjectLocation('klok')],
+    },
   },
 
   extra_klok: {
