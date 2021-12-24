@@ -189,7 +189,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+        '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.klokken,
       featureTypes: [
         {
@@ -407,7 +407,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         ],
       },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+        '<PropertyIsEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.verlichting,
       zoomMin: 14,
       featureTypes: [

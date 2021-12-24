@@ -9,7 +9,6 @@ import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
 import type { Feature, FeatureType } from '../../Asset/types'
 
-const CLOCK = 1
 const REPORTED = 1
 
 export const ClockLayer = () => {
@@ -23,9 +22,7 @@ export const ClockLayer = () => {
   )
 
   const reportedFeatures = data.features.filter(
-    (feature) =>
-      feature.properties?.meldingstatus === REPORTED &&
-      feature.properties?.objecttype === CLOCK
+    (feature) => feature.properties?.meldingstatus === REPORTED
   )
 
   return (
