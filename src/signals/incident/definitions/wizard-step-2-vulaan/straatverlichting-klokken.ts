@@ -57,18 +57,9 @@ const straatverlichtingKlokken = {
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
-      ifOneOf: {
-        extra_straatverlichting_probleem: [
-          'lamp_doet_het_niet',
-          'lamp_brandt_overdag',
-          'geeft_lichthinder',
-          'lamp_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.klokken,
+        '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+      endpoint: configuration.map.layers?.verlichting,
       featureTypes: [
         {
           label: 'Grachtmast',
@@ -265,16 +256,9 @@ const straatverlichtingKlokken = {
       ifAllOf: {
         subcategory: 'klok',
       },
-      ifOneOf: {
-        extra_klok_probleem: [
-          'klok_staat_niet_op_tijd_of_stil',
-          'klok_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.verlichting,
+        '<PropertyIsEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+      endpoint: configuration.map.layers?.klokken,
       zoomMin: 14,
       featureTypes: [
         {
