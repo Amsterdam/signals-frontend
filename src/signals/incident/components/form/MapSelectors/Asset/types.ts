@@ -12,7 +12,7 @@ import type { FormFieldProps } from '../../FormField/FormField'
 
 type Icon = {
   id: string
-  icon: string
+  iconUrl: string
 }
 
 export interface Item extends Record<string, unknown> {

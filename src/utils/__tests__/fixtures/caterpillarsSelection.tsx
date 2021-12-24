@@ -29,7 +29,7 @@ export const meta = {
   icons: [
     {
       id: 'cannot_be_matched',
-      icon: '',
+      iconUrl: '',
     },
   ],
   ifAllOf: {

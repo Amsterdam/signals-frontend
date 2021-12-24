@@ -40,27 +40,27 @@ export const controls = {
       icons: [
         {
           id: 'oak',
-          icon: oakUrl,
+          iconUrl: oakUrl,
         },
         {
           id: 'oakIsReported',
-          icon: oakReportedUrl,
+          iconUrl: oakReportedUrl,
         },
         {
           id: 'isReported',
-          icon: reportedUrl,
+          iconUrl: reportedUrl,
         },
         {
           id: 'isSelected',
-          icon: selectedUrl,
+          iconUrl: selectedUrl,
         },
         {
           id: 'isSelectedAndReported',
-          icon: oakSelectedReportedUrl,
+          iconUrl: oakSelectedReportedUrl,
         },
         {
           id: 'unknown',
-          icon: unknownFeatureUrl,
+          iconUrl: unknownFeatureUrl,
         },
       ],
       featureTypes: [

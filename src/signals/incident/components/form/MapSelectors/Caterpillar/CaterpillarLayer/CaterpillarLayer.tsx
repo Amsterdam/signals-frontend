@@ -46,7 +46,7 @@ export const CaterpillarLayer: FC = () => {
         iconId = isReported ? 'isSelectedAndReported' : 'isSelected'
       }
 
-      const iconUrl = meta.icons?.find(({ id }) => id === iconId)?.icon
+      const iconUrl = meta.icons?.find(({ id }) => id === iconId)?.iconUrl
 
       const icon = L.icon({
         iconSize: isReported ? [44, 44] : [40, 40],
