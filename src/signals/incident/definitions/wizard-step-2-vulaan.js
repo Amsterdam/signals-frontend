@@ -8,6 +8,7 @@ import configuration from 'shared/services/configuration/configuration'
 import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
+import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import openbaarGroenEnWater from './wizard-step-2-vulaan/openbaarGroenEnWater'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
@@ -100,8 +101,13 @@ export default {
       case 'openbaar-groen-en-water':
         return expandQuestions(openbaarGroenEnWater, category, subcategory)
 
-      case 'afval':
+      case 'afval': {
+        if (subcategory.startsWith('container')) {
+          return expandQuestions(afvalContainer, category, subcategory)
+        }
+
         return expandQuestions(afval, category, subcategory)
+      }
 
       case 'civiele-constructies':
         return expandQuestions(civieleConstructies, category, subcategory)

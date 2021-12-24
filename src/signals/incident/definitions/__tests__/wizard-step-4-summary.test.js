@@ -91,11 +91,6 @@ describe('Wizard summary', () => {
             optional: true,
             render: expect.any(Function),
           },
-          extra_container: {
-            label: 'Kies de container waar het om gaat',
-            optional: true,
-            render: expect.any(Function),
-          },
           locatie: {
             label: 'Waar is het?',
             optional: true,
