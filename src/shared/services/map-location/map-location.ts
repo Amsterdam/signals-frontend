@@ -61,7 +61,7 @@ type FormatMapLocation = {
 export const formatMapLocation = (
   location?: Incident['location']
 ): FormatMapLocation => {
-  if (!location) return {}
+  if (!location?.geometrie) return {}
 
   return {
     coordinates: featureToCoordinates(location.geometrie),
