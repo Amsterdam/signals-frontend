@@ -31,11 +31,11 @@ const locatie = {
   },
 }
 
-export const locatieFn = (displayConditions?: DisplayConditions) => ({
+export const locatieFn = (displayConditions: DisplayConditions = {}) => ({
   ...locatie,
   meta: {
     ...locatie.meta,
-    ...{ ...(displayConditions || {}) },
+    ...displayConditions,
   },
 })
 
