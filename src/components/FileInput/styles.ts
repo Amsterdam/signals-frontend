@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
@@ -108,9 +108,16 @@ export const ScreenReaderOnly = styled.span`
   width: 1px;
 `
 
-export const StyledErrorMessage = styled(ErrorMessage)`
+export const StyledErrorMessage = styled(ErrorMessage)<{ invalid: boolean }>`
   margin-top: ${themeSpacing(1)};
   margin-bottom: ${themeSpacing(3)};
+  white-space: pre-wrap;
+  display: none;
+  ${({ invalid }) =>
+    invalid &&
+    css`
+      display: flex;
+    `}
 `
 
 export default FileInputStyle
