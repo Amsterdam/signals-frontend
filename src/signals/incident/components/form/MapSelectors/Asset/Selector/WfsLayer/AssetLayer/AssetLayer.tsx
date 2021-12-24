@@ -32,9 +32,9 @@ import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
+import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 import WfsDataContext from '../context'
-import type { DataLayerProps, Feature } from '../../../../types'
-import { selectIcon } from './MarkerIcons'
+import type { DataLayerProps, Feature } from '../../../types'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 
@@ -162,10 +162,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const id = feature.properties[idField]!
         const isSelectedItem = selection?.id === id
 
-        const iconUrl = `data:image/svg+xml;base64,${btoa(
-          /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          isSelectedItem ? selectIcon : featureType.icon.iconSvg
-        )}`
+        const iconUrl = isSelectedItem
+          ? featureSelectedMarkerUrl
+          : featureType.icon.iconUrl
 
         const marker = L.marker(latlng, {
           icon: L.icon({

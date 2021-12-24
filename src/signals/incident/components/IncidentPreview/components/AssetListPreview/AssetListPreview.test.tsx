@@ -36,7 +36,7 @@ describe('AssetListPreview', () => {
           typeField: 'type',
           typeValue: 'type',
           icon: {
-            iconSvg: 'svg',
+            iconUrl: 'svg',
           },
         } as FeatureType,
       ],

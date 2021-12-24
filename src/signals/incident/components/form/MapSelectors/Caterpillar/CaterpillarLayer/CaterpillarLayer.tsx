@@ -13,7 +13,7 @@ import type { Geometrie } from 'types/incident'
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureTolocation } from 'shared/services/map-location'
-import { getIconUrl } from '../../utils'
+import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
@@ -46,11 +46,11 @@ export const CaterpillarLayer: FC = () => {
         iconId = isReported ? 'isSelectedAndReported' : 'isSelected'
       }
 
-      const iconSvg = meta.icons?.find(({ id }) => id === iconId)?.icon
+      const iconUrl = meta.icons?.find(({ id }) => id === iconId)?.iconUrl
 
       const icon = L.icon({
         iconSize: isReported ? [44, 44] : [40, 40],
-        iconUrl: getIconUrl(iconSvg),
+        iconUrl: iconUrl || defaultFeatureMarkerUrl,
       })
 
       const onClick = () => {

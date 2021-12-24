@@ -13,7 +13,6 @@
     "mapFilter24Hours": false,
     "showVulaanControls": false,
     "showThorButton": false,
-    "useMapSelectGeneric": false,
     "useProjectenSignalType": false,
     "useStaticMapServer": false
   },

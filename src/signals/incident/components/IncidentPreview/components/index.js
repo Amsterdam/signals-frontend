@@ -3,7 +3,6 @@
 import DateTime from './DateTime'
 import Image from './Image'
 import MapPreview from './MapPreview'
-import MapSelectPreview from './MapSelect'
 import ListObjectValue from './ListObjectValue'
 import AssetListPreview from './AssetListPreview'
 
@@ -13,5 +12,4 @@ export default {
   ListObjectValue,
   Image,
   MapPreview,
-  MapSelectPreview,
 }

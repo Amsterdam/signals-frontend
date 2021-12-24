@@ -13,34 +13,34 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import StreetlightLayer from '../StreetlightLayer'
+import ClockLayer from './ClockLayer'
 
-const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
+const { meta } = wegenVerkeerStraatmeubilair.extra_klok_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: {
-    id: '031346',
-    type: '4',
-    description: 'Overig lichtpunt',
+    id: '79522',
+    type: '1',
+    description: 'Klok',
     isReported: true,
     location: {},
   },
   meta,
 }
 
-describe('StreetlightLayer', () => {
-  const withMapStreetlight = () =>
+describe('ClockLayer', () => {
+  const withClockMap = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
-          <StreetlightLayer />
+          <ClockLayer />
         </WfsDataProvider>
       </Map>,
       { ...assetSelectProviderValue }
     )
 
-  it('should render the streetlight layer in the map', () => {
-    render(withMapStreetlight())
+  it('should render the clock layer in the map', () => {
+    render(withClockMap())
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
   })
 })
