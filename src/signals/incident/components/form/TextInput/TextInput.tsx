@@ -28,7 +28,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({
       <Input
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
-        autoFocus={meta.autoFocus}
         autoComplete={meta.autoComplete}
         type={meta.type}
         placeholder={meta.placeholder}
