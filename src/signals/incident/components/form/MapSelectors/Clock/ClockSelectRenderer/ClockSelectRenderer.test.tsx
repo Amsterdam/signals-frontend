@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
-import { wegenVerkeerStraatmeubilair } from 'signals/incident/definitions/wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
+
 import type { Meta } from '../../Asset/types'
+
 import ClockSelectRenderer from './ClockSelectRenderer'
 
 jest.mock('../../Asset/AssetSelect', () => () => (
@@ -33,8 +36,7 @@ describe('signals/incident/components/form/ClockSelectRenderer', () => {
   const meta = {
     label: 'Klok',
     isVisible: true,
-    featureTypes:
-      wegenVerkeerStraatmeubilair.extra_klok_nummer.meta.featureTypes,
+    featureTypes: straatverlichtingKlokken.extra_klok_nummer.meta.featureTypes,
   } as unknown as Meta
 
   describe('rendering', () => {
