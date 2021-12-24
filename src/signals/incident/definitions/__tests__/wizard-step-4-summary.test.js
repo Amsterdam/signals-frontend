@@ -97,7 +97,7 @@ describe('Wizard summary', () => {
             render: expect.any(Function),
           },
           locatie: {
-            label: undefined,
+            label: 'Waar is het?',
             optional: true,
             render: expect.any(Function),
           },

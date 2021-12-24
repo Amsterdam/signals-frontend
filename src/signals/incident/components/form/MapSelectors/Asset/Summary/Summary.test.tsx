@@ -20,6 +20,12 @@ jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
   </span>
 ))
 
+const selection = {
+  id: 'PL734',
+  type: 'plastic',
+  description: 'Plastic asset',
+  location: {},
+}
 const featureType = {
   label: 'Plastic',
   description: 'Plastic asset',
@@ -31,12 +37,6 @@ const featureType = {
   typeValue: 'plastic',
 }
 
-const selection = {
-  id: 'PL734',
-  type: 'plastic',
-  description: 'Plastic asset',
-  location: {},
-}
 const contextValue: AssetSelectValue = {
   selection,
   meta: {

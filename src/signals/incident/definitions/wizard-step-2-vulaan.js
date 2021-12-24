@@ -16,6 +16,7 @@ import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
@@ -124,12 +125,15 @@ export default {
       case 'overlast-van-en-door-personen-of-groepen':
         return expandQuestions(overlastPersonenEnGroepen, category, subcategory)
 
-      case 'wegen-verkeer-straatmeubilair':
-        return expandQuestions(
-          wegenVerkeerStraatmeubilair,
-          category,
+      case 'wegen-verkeer-straatmeubilair': {
+        const config = ['klok', 'lantaarnpaal-straatverlichting'].includes(
           subcategory
         )
+          ? straatverlichtingKlokken
+          : wegenVerkeerStraatmeubilair
+
+        return expandQuestions(config, category, subcategory)
+      }
 
       case 'wonen':
         return expandQuestions(wonen, category, subcategory)

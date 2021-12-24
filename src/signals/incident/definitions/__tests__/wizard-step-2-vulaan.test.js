@@ -6,7 +6,6 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import step2 from '../wizard-step-2-vulaan'
-import afval from '../wizard-step-2-vulaan/afval'
 import FormComponents from '../../components/form'
 
 const { formFactory } = step2
@@ -36,31 +35,6 @@ describe('Wizard step 2 vulaan, formFactory', () => {
   })
 
   describe('Hard coded questions', () => {
-    it('should return expanded questions based on category', () => {
-      configuration.featureFlags.showVulaanControls = true
-      const actual = formFactory({
-        category: 'afval',
-        subcategory: 'subcategory',
-      })
-      const expected = {
-        controls: {
-          ...defaultControls,
-          extra_afval: {
-            options: { validators: [] },
-            ...afval.extra_afval,
-            render: FormComponents.TextareaInput,
-          },
-          extra_container: {
-            options: { validators: [] },
-            ...afval.extra_container,
-            render: FormComponents.AssetSelectRenderer,
-          },
-        },
-      }
-
-      expect(actual).toEqual(expected)
-    })
-
     it('should return no questions with non existing category', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = formFactory({

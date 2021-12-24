@@ -14,7 +14,7 @@ import plasticUrl from 'shared/images/afval/plastic.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import configuration from 'shared/services/configuration/configuration'
 
-import locatie from './locatie'
+import { locatieFn } from './locatie'
 
 export const ICON_SIZE = 40
 
@@ -24,7 +24,11 @@ const options: Partial<IconOptions> = {
 }
 
 export const controls = {
-  locatie,
+  locatie: locatieFn({
+    ifOneOf: {
+      subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
+    },
+  }),
   extra_afval: {
     meta: {
       ifOneOf: {
