@@ -3,11 +3,11 @@
 import type { LatLngTuple } from 'leaflet'
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import {
-  featureTolocation,
+  featureToCoordinates,
   formatMapLocation,
   formatPDOKResponse,
-  locationToAPIfeature,
-  locationTofeature,
+  coordinatesToAPIFeature,
+  coordinatesToFeature,
   pointWithinBounds,
   serviceResultToAddress,
   wktPointToLocation,
@@ -36,19 +36,19 @@ const apiCompatibleFeature = {
 
 describe('locationToFeature', () => {
   it('should convert', () => {
-    expect(locationTofeature(coordinates)).toEqual(testFeature)
+    expect(coordinatesToFeature(coordinates)).toEqual(testFeature)
   })
 })
 
-describe('locationToAPIfeature', () => {
+describe('coordinatesToAPIFeature', () => {
   it('should convert', () => {
-    expect(locationToAPIfeature(coordinates)).toEqual(apiCompatibleFeature)
+    expect(coordinatesToAPIFeature(coordinates)).toEqual(apiCompatibleFeature)
   })
 })
 
-describe('featureTolocation', () => {
+describe('featureToCoordinates', () => {
   it('should convert', () => {
-    expect(featureTolocation(testFeature)).toEqual(coordinates)
+    expect(featureToCoordinates(testFeature)).toEqual(coordinates)
   })
 })
 

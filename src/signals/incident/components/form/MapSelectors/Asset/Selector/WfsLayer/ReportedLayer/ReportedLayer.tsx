@@ -9,7 +9,7 @@ import type {
   FeatureType,
 } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { Marker } from '@amsterdam/arm-core'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
 import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 
@@ -26,7 +26,7 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
 }) => {
   const getMarker = (feat: any, index: number) => {
     const feature = feat as Feature
-    const latLng = featureTolocation(feature?.geometry as Geometrie)
+    const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
     if (!feature || !reportedFeatureType) return
 

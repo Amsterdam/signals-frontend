@@ -13,7 +13,7 @@ import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json'
 import configuration from 'shared/services/configuration/configuration'
 import * as auth from 'shared/services/auth/auth'
 import { authPostCall, postCall } from 'shared/services/api/api'
-import { locationToAPIfeature } from 'shared/services/map-location'
+import { coordinatesToAPIFeature } from 'shared/services/map-location'
 
 import { uploadFile } from 'containers/App/saga'
 
@@ -440,7 +440,7 @@ describe('IncidentContainer saga', () => {
         },
         location: {
           address: payloadIncident.location.address,
-          geometrie: locationToAPIfeature(coordinates),
+          geometrie: coordinatesToAPIFeature(coordinates),
         },
       }
 
@@ -459,7 +459,7 @@ describe('IncidentContainer saga', () => {
         },
         location: {
           address: payloadIncident.location.address,
-          geometrie: locationToAPIfeature(coordinates),
+          geometrie: coordinatesToAPIFeature(coordinates),
         },
       }
 
@@ -484,7 +484,7 @@ describe('IncidentContainer saga', () => {
         },
         location: {
           address: payloadIncident.location.address,
-          geometrie: locationToAPIfeature(coordinates),
+          geometrie: coordinatesToAPIFeature(coordinates),
         },
       }
 
@@ -524,7 +524,7 @@ describe('IncidentContainer saga', () => {
         },
         location: {
           address: payloadIncident.location.address,
-          geometrie: locationToAPIfeature(coordinates),
+          geometrie: coordinatesToAPIFeature(coordinates),
         },
       }
 

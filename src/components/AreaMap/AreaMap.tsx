@@ -21,7 +21,7 @@ import {
   pointerSelectIcon,
   currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import MapCloseButton from 'components/MapCloseButton'
 
 import type { Feature } from './types'
@@ -62,7 +62,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   const [map, setMap] = useState<L.Map>()
   const selectedFeatureId = useRef<number>()
   const coordinates =
-    location?.geometrie && featureTolocation(location?.geometrie)
+    location?.geometrie && featureToCoordinates(location?.geometrie)
 
   useEffect(() => {
     selectedFeatureId.current = selectedFeature?.properties.id

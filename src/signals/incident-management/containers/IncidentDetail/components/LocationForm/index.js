@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Row, Column } from '@amsterdam/asc-ui'
 import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
-import { locationTofeature } from 'shared/services/map-location'
+import { coordinatesToFeature } from 'shared/services/map-location'
 
 import MapContext from 'containers/MapContext'
 
@@ -49,7 +49,7 @@ const LocationForm = () => {
       const patch = { location: { ...location, ...formValueLocation } }
 
       if (coordinates) {
-        patch.location.geometrie = locationTofeature(coordinates)
+        patch.location.geometrie = coordinatesToFeature(coordinates)
         // the API expects a specifc order of coordinates: lng,lat
         patch.location.geometrie.coordinates.reverse()
       }

@@ -12,8 +12,8 @@ import type { Geometrie } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureTolocation } from 'shared/services/map-location'
 import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
+import { featureToCoordinates } from 'shared/services/map-location'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
@@ -22,7 +22,7 @@ export const CaterpillarLayer: FC = () => {
   const getMarker = useCallback(
     (feat: any) => {
       const feature = feat as Feature
-      const coordinates = featureTolocation(feature.geometry as Geometrie)
+      const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const featureType = meta.featureTypes.find(

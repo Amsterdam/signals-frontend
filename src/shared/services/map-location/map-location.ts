@@ -8,12 +8,15 @@ import type { RevGeo, Doc } from 'types/pdok/revgeo'
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 
-export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
+export const coordinatesToFeature = ({
+  lat,
+  lng,
+}: LatLngLiteral): Geometrie => ({
   type: 'Point',
   coordinates: [lat, lng].sort().reverse() as LatLngTuple,
 })
 
-export const locationToAPIfeature = ({
+export const coordinatesToAPIFeature = ({
   lat,
   lng,
 }: LatLngLiteral): Geometrie => ({
@@ -21,7 +24,7 @@ export const locationToAPIfeature = ({
   coordinates: [lng, lat] as LatLngTuple,
 })
 
-export const featureTolocation = ({
+export const featureToCoordinates = ({
   coordinates,
 }: Geometrie): LatLngLiteral => {
   const [lat, lng] = coordinates.sort().reverse()
@@ -61,7 +64,7 @@ export const formatMapLocation = (
   if (!location?.geometrie?.coordinates || !location.address) return {}
 
   return {
-    coordinates: featureTolocation(location.geometrie),
+    coordinates: featureToCoordinates(location.geometrie),
     addressText: formatAddress(location.address),
     address: location.address,
   }

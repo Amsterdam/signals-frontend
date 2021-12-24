@@ -28,7 +28,7 @@ import MapContext from 'containers/MapContext/context'
 import { setAddressAction } from 'containers/MapContext/actions'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import { makeSelectFilterParams } from 'signals/incident-management/selectors'
 import useFetch from 'hooks/useFetch'
 import {
@@ -195,7 +195,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
     if (!data?.features || !layerInstance) return
 
     data.features.forEach((feature) => {
-      const latlng = featureTolocation(feature.geometry)
+      const latlng = featureToCoordinates(feature.geometry)
 
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
