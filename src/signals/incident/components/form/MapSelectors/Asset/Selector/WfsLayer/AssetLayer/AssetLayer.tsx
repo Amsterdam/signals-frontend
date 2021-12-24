@@ -32,7 +32,7 @@ import { featureTolocation } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
-import featureSelectedUrl from 'shared/images/featureSelected.svg?url'
+import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 import WfsDataContext from '../context'
 import type { DataLayerProps, Feature } from '../../../types'
 
@@ -163,7 +163,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const isSelectedItem = selection?.id === id
 
         const iconUrl = isSelectedItem
-          ? featureSelectedUrl
+          ? featureSelectedMarkerUrl
           : featureType.icon.iconUrl
 
         const marker = L.marker(latlng, {

@@ -10,9 +10,9 @@ import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url
 import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
 import klokUrl from 'shared/images/openbare_verlichting/klok.svg?url'
 import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
-import reportedFeatureUrl from 'shared/images/icon-reported-marker.svg?url'
+import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
 import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
-import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 
 import { validateObjectLocation } from '../../services/custom-validators'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
@@ -249,7 +249,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           description: 'Is gemeld',
           icon: {
             options,
-            iconUrl: reportedFeatureUrl,
+            iconUrl: reportedFeatureMarkerUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -259,7 +259,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           description: 'Het lichtpunt staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureUrl,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           idField: 'id',
           typeField: 'type',
@@ -412,7 +412,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           description: 'Is gemeld',
           icon: {
             options,
-            iconUrl: reportedFeatureUrl,
+            iconUrl: reportedFeatureMarkerUrl,
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -422,7 +422,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureUrl,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           idField: 'id',
           typeField: 'type',

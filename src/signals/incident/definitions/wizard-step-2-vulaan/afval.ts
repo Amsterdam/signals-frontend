@@ -11,7 +11,7 @@ import paperUrl from 'shared/images/afval/paper.svg?url'
 import textileUrl from 'shared/images/afval/textile.svg?url'
 import restUrl from 'shared/images/afval/rest.svg?url'
 import plasticUrl from 'shared/images/afval/plastic.svg?url'
-import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import configuration from '../../../../shared/services/configuration/configuration'
 
 export const ICON_SIZE = 40
@@ -144,7 +144,7 @@ export const controls = {
           description: 'De container staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureUrl,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           idField: 'id',
           typeField: 'type',

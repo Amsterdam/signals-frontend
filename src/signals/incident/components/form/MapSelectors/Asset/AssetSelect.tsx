@@ -13,8 +13,8 @@ import {
 
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
-import defaultFeatureUrl from 'shared/images/featureDefault.svg?url'
-import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import type { EventHandler } from '../types'
 
 import { UNREGISTERED_TYPE } from '../constants'
@@ -30,14 +30,14 @@ const defaultIconConfig: FeatureType['icon'] = {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconUrl: defaultFeatureUrl,
+  iconUrl: defaultFeatureMarkerUrl,
 }
 const defaultUnregisteredIconConfig: FeatureType['icon'] = {
   options: {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconUrl: unknownFeatureUrl,
+  iconUrl: unknownFeatureMarkerUrl,
 }
 
 export interface AssetSelectProps {

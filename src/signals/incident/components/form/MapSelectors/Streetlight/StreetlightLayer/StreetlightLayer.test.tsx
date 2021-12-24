@@ -13,7 +13,7 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import StreetlightLayer from '../StreetlightLayer'
+import StreetlightLayer from './StreetlightLayer'
 
 const { meta } = wegenVerkeerStraatmeubilair.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {

@@ -4,10 +4,10 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 import type { IconOptions } from 'leaflet'
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
 import oakReportedUrl from 'shared/images/groen_water/oakReported.svg?url'
-import reportedUrl from 'shared/images/icon-reported-marker.svg?url'
-import selectedUrl from 'shared/images/featureSelected.svg?url'
+import featureReportedMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
+import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 import oakSelectedReportedUrl from 'shared/images/groen_water/oakSelectedReported.svg?url'
-import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -48,11 +48,11 @@ export const controls = {
         },
         {
           id: 'isReported',
-          iconUrl: reportedUrl,
+          iconUrl: featureReportedMarkerUrl,
         },
         {
           id: 'isSelected',
-          iconUrl: selectedUrl,
+          iconUrl: featureSelectedMarkerUrl,
         },
         {
           id: 'isSelectedAndReported',
@@ -60,7 +60,7 @@ export const controls = {
         },
         {
           id: 'unknown',
-          iconUrl: unknownFeatureUrl,
+          iconUrl: unknownFeatureMarkerUrl,
         },
       ],
       featureTypes: [
@@ -101,7 +101,7 @@ export const controls = {
           iconId: 'unknown',
           icon: {
             options,
-            iconUrl: unknownFeatureUrl,
+            iconUrl: unknownFeatureMarkerUrl,
           },
           typeValue: 'not-on-map',
           typeField: '',

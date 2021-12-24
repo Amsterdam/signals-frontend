@@ -4,7 +4,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import glasUrl from 'shared/images/afval/glas.svg?url'
-import unknownFeatureUrl from 'shared/images/featureUnknown.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 
 import userEvent from '@testing-library/user-event'
 
@@ -42,7 +42,7 @@ describe('SelectionPanel', () => {
     description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
-      iconUrl: unknownFeatureUrl,
+      iconUrl: unknownFeatureMarkerUrl,
     },
     idField: 'id',
     typeField: 'type',
