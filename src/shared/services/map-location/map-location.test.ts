@@ -108,23 +108,22 @@ describe('formatMapLocation', () => {
       buurt_code: null,
       extra_properties: null,
       geometrie: testFeature,
-      address: {
-        openbare_ruimte: 'Keizersgracht',
-        huisnummer: 666,
-        huisletter: '',
-        huisnummer_toevoeging: undefined,
-        postcode: '',
-        woonplaats: 'Amsterdam',
-      },
+      address: null,
     }
 
     const result = {
       coordinates: { lat: 52, lng: 4 },
-      addressText: 'Keizersgracht 666, Amsterdam',
-      address: location.address,
+      addressText: '',
+      address: undefined,
     }
 
-    expect(formatMapLocation(location)).toEqual(result)
+    expect(formatMapLocation(location)).toStrictEqual(result)
+  })
+
+  it('returns an empty object when param is falsy', () => {
+    const location = null
+
+    expect(formatMapLocation(location)).toStrictEqual({})
   })
 })
 

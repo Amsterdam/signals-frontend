@@ -61,12 +61,12 @@ type FormatMapLocation = {
 export const formatMapLocation = (
   location?: Incident['location']
 ): FormatMapLocation => {
-  if (!location?.geometrie?.coordinates || !location.address) return {}
+  if (!location) return {}
 
   return {
     coordinates: featureToCoordinates(location.geometrie),
-    addressText: formatAddress(location.address),
-    address: location.address,
+    addressText: location.address ? formatAddress(location.address) : '',
+    address: location.address ?? undefined,
   }
 }
 
