@@ -4,21 +4,40 @@ import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
-const isValueEqual = (objToCompareTo, value, key, verificationFunc) =>
-  (!Array.isArray(value) && isEqual(value, objToCompareTo[key])) ||
-  (Array.isArray(value) &&
-    verificationFunc.call(value, (val) =>
-      isValueEqual(objToCompareTo, val, key, verificationFunc)
-    )) ||
-  (Array.isArray(objToCompareTo[key]) && objToCompareTo[key].includes(value)) ||
-  (Array.isArray(objToCompareTo[key]) &&
-    verificationFunc.call(objToCompareTo[key], (item) => item.id === value)) ||
-  (isObject(objToCompareTo[key]) &&
-    objToCompareTo[key].value &&
-    isEqual(value, objToCompareTo[key].value)) ||
-  (isObject(objToCompareTo[key]) &&
-    objToCompareTo[key].id &&
-    isEqual(value, objToCompareTo[key].id))
+const isValueEqual = (objToCompareTo, value, key, comparisonFunc) => {
+  if (Array.isArray(objToCompareTo[key])) {
+    if (
+      objToCompareTo[key].includes(value) ||
+      comparisonFunc.call(objToCompareTo[key], (item) => item.id === value)
+    )
+      return true
+  }
+
+  if (!Array.isArray(value)) {
+    if (isEqual(value, objToCompareTo[key])) return true
+  } else {
+    if (
+      comparisonFunc.call(value, (val) =>
+        isValueEqual(objToCompareTo, val, key, comparisonFunc)
+      )
+    )
+      return true
+  }
+
+  if (isObject(objToCompareTo[key])) {
+    if (objToCompareTo[key].value && isEqual(value, objToCompareTo[key].value))
+      return true
+    if (objToCompareTo[key].id && isEqual(value, objToCompareTo[key].id))
+      return true
+  }
+
+  return false
+}
+
+const comparisonFuncs = {
+  ifAllOf: Array.prototype.every,
+  ifOneOf: Array.prototype.some,
+}
 
 /**
  * Evaluate values against an object
@@ -38,10 +57,7 @@ const evaluateConditions = (conditions, objToCompareTo) => {
 
   return validEntries
     .map(([comparisonKey, value]) => {
-      const comparisonFunc =
-        comparisonKey === 'ifAllOf'
-          ? Array.prototype.every
-          : Array.prototype.some
+      const comparisonFunc = comparisonFuncs[comparisonKey]
 
       return comparisonFunc.call(Object.entries(value), ([key, val]) => {
         // in case of nested conditions, recursively evaluate that condition
