@@ -15,6 +15,7 @@ import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
 
 const StyledH1 = styled(Heading)`
+  font-weight: 500;
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(5)};
 `
