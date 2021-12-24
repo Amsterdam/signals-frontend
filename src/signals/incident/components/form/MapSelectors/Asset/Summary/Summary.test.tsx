@@ -31,13 +31,14 @@ const featureType = {
   typeValue: 'plastic',
 }
 
+const selection = {
+  id: 'PL734',
+  type: 'plastic',
+  description: 'Plastic asset',
+  location: {},
+}
 const contextValue: AssetSelectValue = {
-  selection: {
-    id: 'PL734',
-    type: 'plastic',
-    description: 'Plastic asset',
-    location: {},
-  },
+  selection,
   meta: {
     endpoint: '',
     featureTypes: [featureType],
@@ -77,6 +78,24 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+  })
+
+  it('does not render empty values', () => {
+    render(
+      withContext(<Summary />, {
+        ...contextValue,
+        meta: {
+          ...contextValue.meta,
+          featureTypes: [],
+        },
+      })
+    )
+
+    const idRe = new RegExp(`${selection.id}$`)
+    const undefinedRe = new RegExp('undefined')
+
+    expect(screen.getByText(idRe)).toBeInTheDocument()
+    expect(screen.queryByText(undefinedRe)).not.toBeInTheDocument()
   })
 
   it('renders without selection', () => {
