@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { screen, render, fireEvent } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import FileInput from '..'
@@ -23,7 +23,7 @@ describe('Form component <FileInput />', () => {
 
   describe('rendering', () => {
     it('should render upload field correctly', () => {
-      const { getByTestId, getAllByTestId } = render(
+      render(
         withAppContext(
           <FileInput
             {...props}
@@ -35,9 +35,9 @@ describe('Form component <FileInput />', () => {
         )
       )
 
-      expect(getByTestId('fileInput')).toBeInTheDocument()
-      expect(getByTestId('fileInputUploadButton')).toBeInTheDocument()
-      expect(getAllByTestId('fileInputEmptyBox').length).toBe(2)
+      expect(screen.queryByTestId('fileInput')).toBeInTheDocument()
+      expect(screen.queryByTestId('fileInputUploadButton')).toBeInTheDocument()
+      expect(screen.queryAllByTestId('fileInputEmptyBox').length).toBe(2)
     })
 
     describe('events', () => {
@@ -95,7 +95,7 @@ describe('Form component <FileInput />', () => {
 
       it('uploads already uploaded file and triggers multiple errors', async () => {
         handler.mockImplementation(() => ({ value: [file2, file3, file4] }))
-        const { queryByTestId, findByTestId } = render(
+        render(
           withAppContext(
             <FileInput
               parent={parent}
@@ -110,12 +110,10 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const fileInputElement = queryByTestId('fileInputUpload')
-        act(() => {
-          fireEvent.change(fileInputElement, { target: { files: [file1] } })
+        fireEvent.change(screen.queryByTestId('fileInputUpload'), {
+          target: { files: [file1] },
         })
-
-        await findByTestId('fileInputUpload')
+        await screen.findByTestId('fileInputUpload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
@@ -126,7 +124,7 @@ describe('Form component <FileInput />', () => {
       it('uploads a file with no extra validations', async () => {
         handler.mockImplementation(() => ({ value: undefined }))
 
-        const { queryByTestId, findByTestId } = render(
+        render(
           withAppContext(
             <FileInput
               parent={parent}
@@ -141,12 +139,10 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const fileInputElement = queryByTestId('fileInputUpload')
-        act(() => {
-          fireEvent.change(fileInputElement, { target: { files: [file1] } })
+        fireEvent.change(screen.queryByTestId('fileInputUpload'), {
+          target: { files: [file1] },
         })
-
-        await findByTestId('fileInputUpload')
+        await screen.findByTestId('fileInputUpload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
@@ -159,7 +155,7 @@ describe('Form component <FileInput />', () => {
         handler.mockImplementation(() => ({ value: [file1, file2] }))
         window.URL.createObjectURL.mockImplementation(() => expectedBlob)
 
-        const { queryAllByTestId, findByTestId } = render(
+        render(
           withAppContext(
             <FileInput
               parent={{
@@ -179,16 +175,14 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const deleteFotoButtonList = queryAllByTestId('deleteFotoButton')
+        const deleteFotoButtonList = screen.queryAllByTestId('deleteFotoButton')
         expect(deleteFotoButtonList.length).toBe(2)
-        act(() => {
-          fireEvent.click(deleteFotoButtonList[0], {
-            preventDefault: jest.fn(),
-            foo: 'booo',
-          })
+        fireEvent.click(deleteFotoButtonList[0], {
+          preventDefault: jest.fn(),
+          foo: 'booo',
         })
 
-        await findByTestId('fileInputUpload')
+        await screen.findByTestId('fileInputUpload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name': [file2],
@@ -197,8 +191,11 @@ describe('Form component <FileInput />', () => {
       })
 
       it('returns error when trying to upload file that is too small', async () => {
+        const errorText =
+          'Dit bestand is te klein. De minimale bestandgrootte is 30 kB.'
+
         handler.mockImplementation(() => ({ value: null }))
-        const { queryByTestId, findByTestId } = render(
+        render(
           withAppContext(
             <FileInput
               parent={parent}
@@ -212,21 +209,22 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        expect(queryByTestId('fileInputUpload')).toBeInTheDocument()
-        expect(queryByTestId('fileInputError')).not.toBeInTheDocument()
+        const inputError = screen.getByTestId('fileInputError')
+        expect(inputError).toBeInTheDocument()
+        expect(inputError).not.toHaveTextContent(errorText)
 
-        const fileInputElement = queryByTestId('fileInputUpload')
-        act(() => {
-          fireEvent.change(fileInputElement, { target: { files: [file5] } })
-        })
+        const fileInputElement = screen.getByTestId('fileInputUpload')
+        expect(fileInputElement).toBeInTheDocument()
 
-        await findByTestId('fileInputUpload')
+        fireEvent.change(fileInputElement, { target: { files: [file5] } })
+        await screen.findByTestId('fileInputUpload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': [],
           'input-field-name': [],
         })
-        expect(queryByTestId('fileInputError')).toBeInTheDocument()
+
+        expect(inputError).toHaveTextContent(errorText)
       })
     })
   })
