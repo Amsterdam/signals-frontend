@@ -6,6 +6,9 @@ import { withAppContext } from 'test/utils'
 import CheckboxInput from '../CheckboxInput'
 
 describe('Form component <CheckboxInput />', () => {
+  const error = 'Hic sunt dracones'
+  const getError = () => error
+
   describe('rendering', () => {
     it('should render a checkbox', () => {
       const props = {
@@ -22,7 +25,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       const checkbox = container.querySelector('input[type="checkbox"]')
 
@@ -42,7 +47,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       const checkboxes = container.querySelectorAll('input[type="checkbox"]')
 
@@ -76,7 +83,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       const checkboxes = container.querySelectorAll('input[type="checkbox"]')
 
@@ -99,7 +108,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       const checkboxes = container.querySelectorAll('input[type="checkbox"]')
 
@@ -129,7 +140,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       const checkbox = container.querySelector('input[type="checkbox"]')
 
@@ -165,7 +178,9 @@ describe('Form component <CheckboxInput />', () => {
         }),
       }
 
-      const { container } = render(withAppContext(<CheckboxInput {...props} />))
+      const { container } = render(
+        withAppContext(<CheckboxInput {...props} getError={getError} />)
+      )
 
       expect(container.querySelectorAll('[checked]')).toHaveLength(1)
 
