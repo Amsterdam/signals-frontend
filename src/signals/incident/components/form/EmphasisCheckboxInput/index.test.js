@@ -8,6 +8,9 @@ import EmphasisCheckboxInput from '.'
 
 describe('EmphasisCheckboxInput', () => {
   it('renders correctly', () => {
+    const error = 'Hic sunt dracones'
+    const getError = () => error
+
     const props = {
       _parent: {},
       meta: {
@@ -21,7 +24,7 @@ describe('EmphasisCheckboxInput', () => {
     }
 
     const { container } = render(
-      withAppContext(<EmphasisCheckboxInput {...props} />)
+      withAppContext(<EmphasisCheckboxInput {...props} getError={getError} />)
     )
 
     expect(container.firstChild).toHaveStyleRule(
