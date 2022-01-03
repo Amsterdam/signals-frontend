@@ -5,10 +5,10 @@ import { Validators } from 'react-reactive-form'
 
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
-import { createRequired } from '../../../../services/custom-validators'
+import { createRequired } from '../../../services/custom-validators'
 
-import type { FormFieldProps } from '../FormField'
-import FormField from '..'
+import type { FormFieldProps } from './FormField'
+import FormField from './FormField'
 
 describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr'
@@ -119,13 +119,14 @@ describe('signals/incident/components/form/FormField', () => {
     const getError = () => true
     const error = 'Dit is een verplicht veld'
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} touched />)
-    )
+    render(withAppContext(<FormField {...props} />))
 
+    expect(
+      screen.queryByTestId(`${props.meta.name}-required`)
+    ).toBeInTheDocument()
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
+    render(
       withAppContext(
         <FormField {...props} getError={getError} hasError={hasError} touched />
       )
@@ -139,13 +140,11 @@ describe('signals/incident/components/form/FormField', () => {
     const hasError = (prop: string) => prop === 'required'
     const getError = () => error
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} touched />)
-    )
+    render(withAppContext(<FormField {...props} />))
 
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
+    render(
       withAppContext(
         <FormField {...props} getError={getError} hasError={hasError} touched />
       )
@@ -158,15 +157,17 @@ describe('signals/incident/components/form/FormField', () => {
     const hasError = (prop: string) => prop === 'email'
     const error =
       'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl'
+    const getError = () => error
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} touched />)
-    )
+    render(withAppContext(<FormField {...props} />))
 
+    expect(screen.queryByTestId('invalid-mail')).toBeInTheDocument()
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
-      withAppContext(<FormField {...props} hasError={hasError} touched />)
+    render(
+      withAppContext(
+        <FormField {...props} hasError={hasError} getError={getError} />
+      )
     )
 
     expect(screen.queryByText(error)).toBeInTheDocument()
@@ -178,15 +179,14 @@ describe('signals/incident/components/form/FormField', () => {
     const getError = () => ({ requiredLength })
     const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} getError={getError} touched />)
-    )
+    render(withAppContext(<FormField {...props} />))
 
+    expect(screen.queryByTestId('maxLengthError')).toBeInTheDocument()
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
+    render(
       withAppContext(
-        <FormField {...props} hasError={hasError} getError={getError} touched />
+        <FormField {...props} hasError={hasError} getError={getError} />
       )
     )
 
@@ -198,15 +198,14 @@ describe('signals/incident/components/form/FormField', () => {
     const hasError = (prop: string) => prop === 'custom'
     const getError = () => error
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} getError={getError} touched />)
-    )
+    render(withAppContext(<FormField {...props} />))
 
+    expect(screen.queryByTestId('customError')).toBeInTheDocument()
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
+    render(
       withAppContext(
-        <FormField {...props} hasError={hasError} getError={getError} touched />
+        <FormField {...props} hasError={hasError} getError={getError} />
       )
     )
 
@@ -219,20 +218,20 @@ describe('signals/incident/components/form/FormField', () => {
     const touched = false
     const error = 'Dit is een verplicht veld'
 
-    const { rerender } = render(
+    render(
       withAppContext(
-        <FormField {...props} hasError={hasError} touched={touched} />
+        <FormField
+          {...props}
+          getError={getError}
+          hasError={hasError}
+          touched={touched}
+        />
       )
     )
 
+    expect(
+      screen.queryByTestId(`${props.meta.name}-required`)
+    ).toBeInTheDocument()
     expect(screen.queryByText(error)).not.toBeInTheDocument()
-
-    rerender(
-      withAppContext(
-        <FormField {...props} getError={getError} hasError={hasError} touched />
-      )
-    )
-
-    expect(screen.queryByText(error)).toBeInTheDocument()
   })
 })

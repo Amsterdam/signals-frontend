@@ -81,6 +81,11 @@ const FormField: FunctionComponent<FormFieldProps> = ({
   )
   const FieldSetWrapper = isFieldSet ? FieldSet : Fragment
 
+  const requiredError =
+    getError('required') === true
+      ? 'Dit is een verplicht veld'
+      : (getError('required') as string)
+
   return (
     <StyledErrorWrapper className={className} invalid={containsErrors}>
       <FieldSetWrapper>
@@ -88,52 +93,50 @@ const FormField: FunctionComponent<FormFieldProps> = ({
           <StyledLabel
             {...(isFieldSet ? { as: 'legend' } : { htmlFor: meta.name })}
           >
-            <Fragment>
+            <>
               {meta.label}
               {isOptional && <Optional>(niet verplicht)</Optional>}
-            </Fragment>
+            </>
           </StyledLabel>
         )}
 
         {meta?.subtitle && (
           <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>
         )}
+        <ErrorMessage
+          data-testid={`${meta.name}-required`}
+          message={touched && hasError('required') ? requiredError : ''}
+          invalid={touched && hasError('required')}
+        />
 
-        {touched && containsErrors && (
-          <Fragment>
-            {hasError('required') && (
-              <ErrorMessage
-                data-testid={`${meta.name}-required`}
-                message={
-                  getError('required') === true
-                    ? 'Dit is een verplicht veld'
-                    : (getError('required') as string)
-                }
-              />
-            )}
+        <ErrorMessage
+          data-testid="invalid-mail"
+          message={
+            hasError('email')
+              ? 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl'
+              : ''
+          }
+          invalid={hasError('email')}
+        />
 
-            {hasError('email') && (
-              <ErrorMessage
-                data-testid="invalid-mail"
-                message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
-              />
-            )}
-
-            {hasError('maxLength') && (
-              <ErrorMessage
-                message={`U heeft meer dan de maximale ${String(
+        <ErrorMessage
+          data-testid="maxLengthError"
+          message={
+            hasError('maxLength')
+              ? `U heeft meer dan de maximale ${String(
                   (getError('maxLength') as { requiredLength: number })
                     .requiredLength
-                )} tekens ingevoerd`}
-              />
-            )}
+                )} tekens ingevoerd`
+              : ''
+          }
+          invalid={hasError('maxLength')}
+        />
 
-            {hasError('custom') && (
-              <ErrorMessage message={getError('custom') as string} />
-            )}
-          </Fragment>
-        )}
-
+        <ErrorMessage
+          data-testid="customError"
+          message={hasError('custom') ? getError('custom') : ''}
+          invalid={hasError('custom')}
+        />
         <InputWrapper width={meta?.width}>{children}</InputWrapper>
       </FieldSetWrapper>
     </StyledErrorWrapper>
