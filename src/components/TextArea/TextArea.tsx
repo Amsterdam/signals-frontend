@@ -11,7 +11,7 @@ import {
   StyledArea,
   InfoText,
   ErrorWrapper,
-} from './styled'
+} from './styles'
 
 interface TextAreaProps extends AscTextAreaProps {
   defaultValue?: string
@@ -79,12 +79,12 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           </Label>
         )}
 
-        {errorMessage && (
-          <StyledErrorMessage
-            id="textareaErrorMessage"
-            message={errorMessage}
-          />
-        )}
+        <StyledErrorMessage
+          id="textareaErrorMessage"
+          data-testid="textareaError"
+          message={errorMessage || ''}
+          invalid={Boolean(errorMessage)}
+        />
 
         <StyledArea
           aria-describedby="textareaInfoText textareaErrorMessage"

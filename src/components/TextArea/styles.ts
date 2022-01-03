@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import {
   themeColor,
   themeSpacing,
@@ -9,8 +9,15 @@ import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 const lineHeight = 22
 const infoFontSize = 14
 
-export const StyledErrorMessage = styled(ErrorMessage)`
+export const StyledErrorMessage = styled(ErrorMessage)<{ invalid: boolean }>`
   margin-bottom: ${themeSpacing(2)};
+  white-space: pre-wrap;
+  display: none;
+  ${({ invalid }) =>
+    invalid &&
+    css`
+      display: flex;
+    `}
 `
 
 export const StyledArea = styled(AscTextArea)<{

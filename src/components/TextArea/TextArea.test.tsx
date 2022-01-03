@@ -5,9 +5,11 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
-import TextArea from '..'
+import TextArea from './index'
 
 describe('components/TextArea', () => {
+  const errorMessage = 'Dit veld is verplicht'
+
   it('renders correctly', () => {
     const { container } = render(
       withAppContext(<TextArea cols={40} rows={5} className="txtArea" />)
@@ -15,6 +17,10 @@ describe('components/TextArea', () => {
     expect(
       container.querySelector('textarea[cols="40"][rows="5"].txtArea')
     ).toBeInTheDocument()
+
+    const textareaErrorElement = screen.queryByTestId('textareaError')
+    expect(textareaErrorElement).toBeInTheDocument()
+    expect(textareaErrorElement).not.toHaveTextContent(errorMessage)
   })
 
   it('renders the info text', () => {
@@ -40,9 +46,9 @@ describe('components/TextArea', () => {
   })
 
   it('renders error', () => {
-    render(withAppContext(<TextArea errorMessage="Dit veld is verplicht" />))
+    render(withAppContext(<TextArea errorMessage={errorMessage} />))
 
-    expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
   it('prefers defaultValue over value', () => {
