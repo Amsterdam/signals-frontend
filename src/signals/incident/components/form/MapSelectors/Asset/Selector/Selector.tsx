@@ -138,7 +138,7 @@ const Selector = () => {
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const addressValue = address ? formatAddress(address) : ''
-  const hasLegend = meta.featureTypes.length > 0
+  const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
     coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
@@ -200,7 +200,7 @@ const Selector = () => {
               />
             }
             bottomLeft={
-              hasLegend ? (
+              hasFeatureTypes ? (
                 <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
                   <LegendToggleButton
                     onClick={toggleLegend}
@@ -241,9 +241,12 @@ const Selector = () => {
 
         <MapMessage />
 
-        <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te zien
-        </ZoomMessage>
+        {hasFeatureTypes && (
+          <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+            Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te
+            zien
+          </ZoomMessage>
+        )}
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
