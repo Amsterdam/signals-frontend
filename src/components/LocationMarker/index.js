@@ -42,13 +42,13 @@ const LocationMarker = ({ geolocation }) => {
     locationDot.remove()
   }
 
-  const addLocationDot = () => {
-    locationDot.setLatLng([latitude, longitude])
-    locationDot.addTo(mapInstance)
-  }
-
   useEffect(() => {
     if (!mapInstance) return undefined
+
+    const addLocationDot = () => {
+      locationDot.setLatLng([latitude, longitude])
+      locationDot.addTo(mapInstance)
+    }
 
     accuracyCircle.addTo(mapInstance)
     accuracyCircle.setLatLng([latitude, longitude])
