@@ -60,6 +60,8 @@ const LocationMarker = ({ geolocation }) => {
     return () => {
       locationDot.remove()
       accuracyCircle.remove()
+      mapInstance.off('zoom', removeLocationDot)
+      mapInstance.off('zoomend', addLocationDot)
     }
   }, [mapInstance, latitude, longitude, accuracy])
 
