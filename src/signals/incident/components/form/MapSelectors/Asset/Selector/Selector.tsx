@@ -183,6 +183,7 @@ const Selector = () => {
         mapOptions={mapOptions}
         events={{ click: mapClick }}
         setInstance={setMap}
+        hasGPSControl
       >
         <MapPanelProvider
           mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}

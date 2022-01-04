@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import Leaflet from 'leaflet'
-import { render } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
-import Map from '../../Map'
-import LocationMarker from '..'
+import Map from '../Map'
+import LocationMarker from './index'
 
 jest.mock('leaflet', () => jest.requireActual('leaflet'))
 
@@ -31,6 +31,23 @@ describe('components/LocationMarker', () => {
       longitude,
     }
 
+    const coords = {
+      accuracy: 50,
+      latitude: 52.3731081,
+      longitude: 4.8932945,
+    }
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    }
+
+    global.navigator.geolocation = mockGeolocation
+
     expect(Leaflet.Circle.prototype.addTo).not.toHaveBeenCalled()
     expect(Leaflet.Circle.prototype.setLatLng).not.toHaveBeenCalled()
     expect(Leaflet.Circle.prototype.setRadius).not.toHaveBeenCalled()
@@ -40,7 +57,7 @@ describe('components/LocationMarker', () => {
 
     const { unmount } = render(
       withAppContext(
-        <Map mapOptions={MAP_OPTIONS}>
+        <Map mapOptions={MAP_OPTIONS} hasGPSControl>
           <LocationMarker geolocation={geolocation} />
         </Map>
       )
@@ -53,6 +70,10 @@ describe('components/LocationMarker', () => {
     ])
     expect(Leaflet.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy)
 
+    act(() => {
+      fireEvent.click(screen.queryByTestId('gpsButton'))
+    })
+
     expect(Leaflet.CircleMarker.prototype.addTo).toHaveBeenCalled()
     expect(Leaflet.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([
       latitude,
@@ -60,7 +81,6 @@ describe('components/LocationMarker', () => {
     ])
 
     expect(Leaflet.Circle.prototype.remove).not.toHaveBeenCalled()
-    expect(Leaflet.CircleMarker.prototype.remove).not.toHaveBeenCalled()
 
     unmount()
 

@@ -38,6 +38,15 @@ const LocationMarker = ({ geolocation }) => {
 
   const { accuracy, latitude, longitude } = geolocation
 
+  const removeLocationDot = () => {
+    locationDot.remove()
+  }
+
+  const addLocationDot = () => {
+    locationDot.setLatLng([latitude, longitude])
+    locationDot.addTo(mapInstance)
+  }
+
   useEffect(() => {
     if (!mapInstance) return undefined
 
@@ -45,8 +54,8 @@ const LocationMarker = ({ geolocation }) => {
     accuracyCircle.setLatLng([latitude, longitude])
     accuracyCircle.setRadius(accuracy)
 
-    locationDot.addTo(mapInstance)
-    locationDot.setLatLng([latitude, longitude])
+    mapInstance.on('zoom', removeLocationDot)
+    mapInstance.on('zoomend', addLocationDot)
 
     return () => {
       locationDot.remove()
