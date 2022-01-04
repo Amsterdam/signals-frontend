@@ -57,6 +57,9 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,
 }
 
+const MAP_LOCATION_ZOOM = 14
+const MAP_NO_LOCATION_ZOOM = 9
+
 const Wrapper = styled.div`
   position: fixed;
   top: 0;
@@ -124,9 +127,9 @@ const Selector = () => {
       center,
       dragging: true,
       zoomControl: false,
-      minZoom: 10,
+      minZoom: 7,
       maxZoom: 16,
-      zoom: 14,
+      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
     }),
     [center]
   )
@@ -160,7 +163,7 @@ const Selector = () => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
 
-      map?.flyTo(option.data.location, map.getZoom())
+      map?.flyTo(option.data.location, MAP_LOCATION_ZOOM)
     },
     [setLocation, map]
   )
