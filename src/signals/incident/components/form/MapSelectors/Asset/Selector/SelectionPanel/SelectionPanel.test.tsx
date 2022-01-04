@@ -99,7 +99,7 @@ describe('SelectionPanel', () => {
 
     expect(
       screen.queryByRole('button', { name: 'Meld dit object' })
-    ).not.toBeInTheDocument()
+    ).toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
   })

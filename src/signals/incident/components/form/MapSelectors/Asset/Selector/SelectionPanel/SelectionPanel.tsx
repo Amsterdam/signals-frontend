@@ -177,11 +177,9 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         </div>
       )}
 
-      {selection && (
-        <StyledButton onClick={close} variant="primary">
-          {language.submit || 'Meld dit object'}
-        </StyledButton>
-      )}
+      <StyledButton onClick={close} variant="primary">
+        {language.submit || 'Meld dit object'}
+      </StyledButton>
     </StyledMapPanelContent>
   )
 }
