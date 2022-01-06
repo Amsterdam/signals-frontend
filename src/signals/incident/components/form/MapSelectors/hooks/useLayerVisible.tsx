@@ -16,7 +16,8 @@ export const isLayerVisible = (zoom: number, zoomLevel: ZoomLevel): boolean => {
 const useLayerVisible = (zoomLevel: ZoomLevel) => {
   const mapInstance = useMapInstance()
 
-  const [layerVisible, setLayerVisible] = useState(true)
+  const isVisible = isLayerVisible(mapInstance.getZoom(), zoomLevel)
+  const [layerVisible, setLayerVisible] = useState(isVisible)
 
   useEffect(() => {
     /* istanbul ignore next */
