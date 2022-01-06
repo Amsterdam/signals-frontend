@@ -131,7 +131,7 @@ const Selector = () => {
       maxZoom: 16,
       zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
     }),
-    [center]
+    [center, coordinates]
   )
 
   const [showLegendPanel, setShowLegendPanel] = useState(false)
