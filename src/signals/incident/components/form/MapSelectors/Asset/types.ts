@@ -82,8 +82,6 @@ export interface AssetSelectValue {
 
 export interface DataLayerProps {
   featureTypes: FeatureType[]
-  desktopView?: boolean
-  allowClusters?: boolean
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {
