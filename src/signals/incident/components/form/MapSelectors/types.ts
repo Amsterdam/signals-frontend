@@ -20,8 +20,6 @@ export interface FeatureType {
   label: string
   description: string
   icon: FeatureIcon
-  iconId?: string
-  iconIsReportedId?: string
   idField: string
   isReportedField?: string
   isReportedValue?: number
@@ -32,7 +30,6 @@ export interface FeatureType {
 export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconUrl: string
-  reportedIconSvg?: string
 }
 
 export interface Options {
@@ -48,7 +45,6 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
-  reportedLayer?: boolean
 }
 
 export type FeatureProps = Record<string, string | number | undefined>

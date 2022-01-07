@@ -57,14 +57,6 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       label,
     }
 
-    if (isReported && icon?.reportedIconSvg) {
-      return {
-        ...baseItem,
-        iconUrl: icon ? icon.reportedIconSvg : '',
-        isReported: true,
-      }
-    }
-
     return {
       ...baseItem,
       iconUrl: icon ? icon.iconUrl : '',

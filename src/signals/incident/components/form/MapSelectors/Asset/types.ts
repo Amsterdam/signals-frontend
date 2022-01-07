@@ -10,11 +10,6 @@ import type { EventHandler } from '../types'
 import type { UNREGISTERED_TYPE } from '../constants'
 import type { FormFieldProps } from '../../FormField/FormField'
 
-type Icon = {
-  id: string
-  iconUrl: string
-}
-
 export interface Item extends Record<string, unknown> {
   location: {
     address?: Address
@@ -30,8 +25,6 @@ export interface FeatureType {
   label: string
   description: string
   icon: FeatureIcon
-  iconId?: string
-  iconIsReportedId?: string
   idField: string
   isReportedField?: string
   isReportedValue?: number
@@ -42,7 +35,6 @@ export interface FeatureType {
 export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconUrl: string
-  reportedIconSvg?: string
 }
 
 export interface Options {
@@ -56,7 +48,6 @@ export interface Meta extends Record<string, unknown> {
   featureTypes: FeatureType[]
   language?: Record<string, string>
   wfsFilter?: string
-  icons?: Icon[]
   extraProperties?: string[]
   ifAllOf?: { subcategory: string }
   label?: string
