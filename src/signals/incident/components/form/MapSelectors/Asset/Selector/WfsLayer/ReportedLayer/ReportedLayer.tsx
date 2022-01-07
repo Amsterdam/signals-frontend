@@ -7,7 +7,7 @@ import type { FC } from 'react'
 import type {
   Feature,
   FeatureType,
-} from 'signals/incident/components/form/MapSelectors/Asset/types'
+} from 'signals/incident/components/form/MapSelectors/types'
 import { Marker } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'

@@ -4,7 +4,8 @@ import type { ReactNode, ReactPortal } from 'react'
 import { withAppContext } from 'test/utils'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
 
-import type { AssetSelectValue, FeatureType } from '../types'
+import type { AssetSelectValue } from '../types'
+import type { FeatureType } from '../../types'
 import { AssetSelectProvider } from '../context'
 
 ReactDOM.createPortal = (node) => node as ReactPortal

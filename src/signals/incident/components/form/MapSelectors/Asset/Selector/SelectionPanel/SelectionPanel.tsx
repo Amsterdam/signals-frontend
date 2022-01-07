@@ -17,10 +17,9 @@ import {
   themeColor,
 } from '@amsterdam/asc-ui'
 
+import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
+import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import AssetList from '../../AssetList'
-
-import type { FeatureType } from '../../types'
-import { UNREGISTERED_TYPE } from '../../../constants'
 import AssetSelectContext from '../../../Asset/context'
 
 const StyledAssetList = styled(AssetList)`

@@ -7,10 +7,10 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
-  Item,
   FeatureType,
   Feature,
-} from 'signals/incident/components/form/MapSelectors/Asset/types'
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
@@ -54,7 +54,7 @@ export const CaterpillarLayer: FC = () => {
           : featureType.icon.iconUrl,
       })
 
-      const onClick = async () => {
+      const onClick = () => {
         if (isSelected) {
           removeItem()
           return

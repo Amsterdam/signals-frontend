@@ -13,8 +13,8 @@ import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
 import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import type { Item } from '../types'
 import type { AssetSelectProps } from './AssetSelect'
-import type { Item } from './types'
 
 import { initialValue } from './context'
 import withAssetSelectContext, {

@@ -9,7 +9,7 @@ import type { FunctionComponent } from 'react'
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type { FeatureType, Item } from '../types'
+import type { FeatureType, Item } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',

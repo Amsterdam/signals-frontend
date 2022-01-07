@@ -3,6 +3,9 @@
 import type { MouseEvent, KeyboardEvent } from 'react'
 import type { IconOptions } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
+import type { Address } from 'types/address'
+import type { LatLngLiteral } from 'leaflet'
+import type { UNREGISTERED_TYPE } from './constants'
 
 export type EventHandler = (
   event:
@@ -14,6 +17,17 @@ export interface BaseItem {
   id: string
   type: string
   description?: string
+}
+
+export interface Item extends Record<string, unknown> {
+  location: {
+    address?: Address
+    coordinates?: LatLngLiteral
+  }
+  description?: string
+  id: string | number
+  isReported?: boolean
+  type?: typeof UNREGISTERED_TYPE | string
 }
 
 export interface FeatureType {
@@ -45,6 +59,19 @@ export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
+}
+
+export interface Meta extends Record<string, unknown> {
+  name?: string
+  endpoint: string
+  featureTypes: FeatureType[]
+  language?: Record<string, string>
+  wfsFilter?: string
+  extraProperties?: string[]
+  ifAllOf?: { subcategory: string }
+  label?: string
+  shortLabel?: string
+  pathMerge?: string
 }
 
 export type FeatureProps = Record<string, string | number | undefined>

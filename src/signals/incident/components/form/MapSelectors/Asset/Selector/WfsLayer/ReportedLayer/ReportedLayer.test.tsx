@@ -6,10 +6,10 @@ import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
 import type {
-  AssetSelectValue,
   Feature,
   FeatureType,
-} from 'signals/incident/components/form/MapSelectors/Asset/types'
+} from 'signals/incident/components/form/MapSelectors/types'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -19,7 +19,7 @@ import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
-import ReportedLayer from '../ReportedLayer'
+import ReportedLayer from './ReportedLayer'
 
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
