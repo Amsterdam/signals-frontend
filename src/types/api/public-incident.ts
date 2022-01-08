@@ -6,6 +6,7 @@ enum State {
 }
 export interface PublicIncident {
   _display: string
+  id: number
   signal_id: string
   created_at: string
   updated_at: string

@@ -47,7 +47,7 @@ describe('IncidentReplyContainer', () => {
       await waitFor(() => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
         screen.getByRole('heading', { name: 'Uw melding' })
-        screen.getByText('Nummer: SIA-1234')
+        screen.getByText('Nummer: 1234')
         screen.getByText('Gemeld op: 26 juli 2021, 17:43 uur')
         screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' })
         screen.getByLabelText(/Foto's toevoegen/)

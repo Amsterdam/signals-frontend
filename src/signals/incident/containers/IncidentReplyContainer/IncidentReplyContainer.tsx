@@ -225,7 +225,7 @@ const IncidentReplyContainer = () => {
           <StyledHeading>Aanvullende informatie</StyledHeading>
           <StyledSubHeading as="h2">Uw melding</StyledSubHeading>
           <Content>
-            <Paragraph>Nummer: {incident._display}</Paragraph>
+            <Paragraph>Nummer: {incident.id}</Paragraph>
             <Paragraph>Gemeld op: {formattedDate}</Paragraph>
           </Content>
           <QuestionnaireComponent
