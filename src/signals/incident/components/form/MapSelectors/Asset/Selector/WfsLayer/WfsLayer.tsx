@@ -14,6 +14,7 @@ import type { DataLayerProps } from '../../types'
 import { NO_DATA, WfsDataProvider } from './context'
 
 const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
+const SRS_NAME_SMALL = 'EPSG:4326'
 
 interface Bbox {
   east: string
@@ -54,6 +55,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     bbox && {
       ...bbox,
       srsName: SRS_NAME,
+      srsNameSmall: SRS_NAME_SMALL,
     }
   const wfsUrl = urlReplacements
     ? Object.entries(urlReplacements).reduce(
