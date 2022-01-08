@@ -30,8 +30,8 @@
     "district": "Wijk",
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
-    "helpTextHeader": "Lukt het niet om een melding te doen? Bel het telefoonnummer [070-373 8393](tel:070-373 8393)",
-    "logoDescription": "Logo gemeente ",
+    "helpTextHeader": "Lukt het niet om een melding te doen? Bel het telefoonnummer [070-373 8393](tel:0703738393)",
+    "logoDescription": "Logo gemeente",
     "mapDescription": "Weet u het adres niet, bel dan 070-373 8393 om telefonisch de melding te maken.",
     "phoneNumber": "070-373 8393",
     "shortTitle": "Signalen",
@@ -42,11 +42,11 @@
     "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen."
   },
   "links": {
+    "about": "",
+    "accessibility": "",
     "help": "https://signalen.org/",
     "home": "https://signalen.org/",
-    "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten",
-    "about": "",
-    "accessibility": ""
+    "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten"
   },
   "logo": {
     "url": "/assets/images/amsterdam-logo.svg",
