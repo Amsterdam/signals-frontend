@@ -41,7 +41,8 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField]!
-    const isSelected = selection?.id === id
+
+    const isSelected = Boolean(selection?.id === id)
 
     const iconUrl = isSelected
       ? featureSelectedMarkerUrl
