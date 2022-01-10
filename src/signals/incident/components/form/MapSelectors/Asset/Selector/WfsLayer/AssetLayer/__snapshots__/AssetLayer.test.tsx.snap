@@ -1,0 +1,333 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AssetLayer should handle selecting a container 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        id="app"
+      >
+        <div
+          class="leaflet-container leaflet-grab leaflet-touch-drag"
+          data-testid="map-test"
+          style="position: relative;"
+          tabindex="0"
+        >
+          <div
+            class="leaflet-pane leaflet-map-pane"
+            style="left: 0px; top: 0px;"
+          >
+            <div
+              class="leaflet-pane leaflet-tile-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-shadow-pane leaflet-zoom-hide"
+            />
+            <div
+              class="leaflet-pane leaflet-overlay-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-marker-pane leaflet-zoom-hide"
+            >
+              <img
+                alt="Papier container (PAB00022)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -270px; top: -3px; z-index: -3; outline: none;"
+                tabindex="0"
+              />
+              <img
+                alt="Glas container, is geselecteerd (GLB00072)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -269px; top: -2px; z-index: -2;"
+                tabindex="0"
+              />
+              <img
+                alt="Papier container (PA0261)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -270px; top: -3px; z-index: -3;"
+                tabindex="0"
+              />
+            </div>
+            <div
+              class="leaflet-pane leaflet-tooltip-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-popup-pane"
+            />
+          </div>
+          <div
+            class="leaflet-control-container"
+          >
+            <div
+              class="leaflet-top leaflet-left"
+            />
+            <div
+              class="leaflet-top leaflet-right"
+            />
+            <div
+              class="leaflet-bottom leaflet-left"
+            />
+            <div
+              class="leaflet-bottom leaflet-right"
+            >
+              <div
+                class="leaflet-control-attribution leaflet-control"
+              >
+                <a
+                  href="https://leafletjs.com"
+                  title="A JS library for interactive maps"
+                >
+                  Leaflet
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        id="app"
+      >
+        <div
+          class="leaflet-container leaflet-grab leaflet-touch-drag"
+          data-testid="map-test"
+          style="position: relative;"
+          tabindex="0"
+        >
+          <div
+            class="leaflet-pane leaflet-map-pane"
+            style="left: 0px; top: 0px;"
+          >
+            <div
+              class="leaflet-pane leaflet-tile-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-shadow-pane leaflet-zoom-hide"
+            />
+            <div
+              class="leaflet-pane leaflet-overlay-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-marker-pane leaflet-zoom-hide"
+            >
+              <img
+                alt="Papier container, is geselecteerd (PAB00022)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -270px; top: -3px; z-index: -3;"
+                tabindex="0"
+              />
+              <img
+                alt="Glas container (GLB00072)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -269px; top: -2px; z-index: -2;"
+                tabindex="0"
+              />
+              <img
+                alt="Papier container (PA0261)"
+                class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+                src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+                style="left: -270px; top: -3px; z-index: -3;"
+                tabindex="0"
+              />
+            </div>
+            <div
+              class="leaflet-pane leaflet-tooltip-pane"
+            />
+            <div
+              class="leaflet-pane leaflet-popup-pane"
+            />
+          </div>
+          <div
+            class="leaflet-control-container"
+          >
+            <div
+              class="leaflet-top leaflet-left"
+            />
+            <div
+              class="leaflet-top leaflet-right"
+            />
+            <div
+              class="leaflet-bottom leaflet-left"
+            />
+            <div
+              class="leaflet-bottom leaflet-right"
+            >
+              <div
+                class="leaflet-control-attribution leaflet-control"
+              >
+                <a
+                  href="https://leafletjs.com"
+                  title="A JS library for interactive maps"
+                >
+                  Leaflet
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      id="app"
+    >
+      <div
+        class="leaflet-container leaflet-grab leaflet-touch-drag"
+        data-testid="map-test"
+        style="position: relative;"
+        tabindex="0"
+      >
+        <div
+          class="leaflet-pane leaflet-map-pane"
+          style="left: 0px; top: 0px;"
+        >
+          <div
+            class="leaflet-pane leaflet-tile-pane"
+          />
+          <div
+            class="leaflet-pane leaflet-shadow-pane leaflet-zoom-hide"
+          />
+          <div
+            class="leaflet-pane leaflet-overlay-pane"
+          />
+          <div
+            class="leaflet-pane leaflet-marker-pane leaflet-zoom-hide"
+          >
+            <img
+              alt="Papier container, is geselecteerd (PAB00022)"
+              class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+              src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+              style="left: -270px; top: -3px; z-index: -3;"
+              tabindex="0"
+            />
+            <img
+              alt="Glas container (GLB00072)"
+              class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+              src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+              style="left: -269px; top: -2px; z-index: -2;"
+              tabindex="0"
+            />
+            <img
+              alt="Papier container (PA0261)"
+              class="leaflet-marker-icon leaflet-zoom-hide leaflet-interactive"
+              src="function SvgMock(props) {
+  return /*#__PURE__*/(0, _react.createElement)('svg', props);
+}"
+              style="left: -270px; top: -3px; z-index: -3;"
+              tabindex="0"
+            />
+          </div>
+          <div
+            class="leaflet-pane leaflet-tooltip-pane"
+          />
+          <div
+            class="leaflet-pane leaflet-popup-pane"
+          />
+        </div>
+        <div
+          class="leaflet-control-container"
+        >
+          <div
+            class="leaflet-top leaflet-left"
+          />
+          <div
+            class="leaflet-top leaflet-right"
+          />
+          <div
+            class="leaflet-bottom leaflet-left"
+          />
+          <div
+            class="leaflet-bottom leaflet-right"
+          >
+            <div
+              class="leaflet-control-attribution leaflet-control"
+            >
+              <a
+                href="https://leafletjs.com"
+                title="A JS library for interactive maps"
+              >
+                Leaflet
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
