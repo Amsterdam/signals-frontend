@@ -15,7 +15,15 @@ import withAssetSelectContext, {
 import { WfsDataProvider } from '../context'
 import AssetLayer from '.'
 
-const assetSelectProviderValue: AssetSelectValue = contextValue
+const assetSelectProviderValue: AssetSelectValue = {
+  ...contextValue,
+  selection: {
+    description: 'Glas container',
+    id: 'GLB00072',
+    type: 'Glas',
+    location: {},
+  },
+}
 
 const { featureTypes } = contextValue.meta
 
@@ -42,6 +50,9 @@ describe('AssetLayer', () => {
     render(withAssetMap())
     expect(
       screen.getByAltText('Papier container (PAB00022)')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByAltText('Glas container, is geselecteerd (GLB00072)')
     ).toBeInTheDocument()
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
