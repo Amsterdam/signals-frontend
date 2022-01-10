@@ -82,7 +82,7 @@ const Detail = ({ attachments, context }) => {
   )
   const showPhone = useMemo(
     () => /^\d+$/.test(incident.reporter.phone),
-    [incident.reporter]
+    [incident.reporter.phone]
   )
 
   return (
@@ -116,6 +116,7 @@ const Detail = ({ attachments, context }) => {
             <dd data-testid="detail-phone-value">
               {showPhone ? (
                 <StyledLink
+                  data-testid="detail-phone-link"
                   variant="inline"
                   href={`tel:${incident.reporter.phone}`}
                 >
