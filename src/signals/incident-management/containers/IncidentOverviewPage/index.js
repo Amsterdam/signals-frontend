@@ -239,7 +239,10 @@ export const IncidentOverviewPageContainerComponent = ({
         <Row>
           <MapWrapper>
             <MapContext>
-              <OverviewMap data-testid="24HourMap" />
+              <OverviewMap
+                data-testid="24HourMap"
+                refresh={activeFilter.refresh}
+              />
             </MapContext>
           </MapWrapper>
         </Row>

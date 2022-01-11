@@ -146,10 +146,30 @@ describe('OverviewMap', () => {
       expect(fetchMock.mock.calls).toHaveLength(2)
     })
 
-    it('should poll the endpoint', async () => {
+    it('should not poll the endpoint by default', async () => {
       jest.useFakeTimers()
 
       render(withMapContext(<OverviewMap />))
+
+      await screen.findByTestId('overviewMap')
+
+      expect(fetchMock.mock.calls).toHaveLength(1)
+
+      act(() => {
+        jest.advanceTimersByTime(POLLING_INTERVAL)
+      })
+
+      await screen.findByTestId('overviewMap')
+
+      expect(fetchMock.mock.calls).toHaveLength(1)
+
+      jest.useRealTimers()
+    })
+
+    it('should poll the endpoint when refresh is true', async () => {
+      jest.useFakeTimers()
+
+      render(withMapContext(<OverviewMap refresh={true} />))
 
       await screen.findByTestId('overviewMap')
 
