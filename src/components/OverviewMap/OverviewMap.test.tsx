@@ -169,7 +169,7 @@ describe('OverviewMap', () => {
     it('should poll the endpoint when refresh is true', async () => {
       jest.useFakeTimers()
 
-      render(withMapContext(<OverviewMap refresh={true} />))
+      render(withMapContext(<OverviewMap refresh />))
 
       await screen.findByTestId('overviewMap')
 
