@@ -149,7 +149,7 @@ const getControls = memoize(
           label: "Foto's toevoegen",
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
           minFileSize: 30 * 2 ** 10, // 30 KiB.
-          maxFileSize: 8 * 2 ** 20, // 8 MiB.
+          maxFileSize: 20 * 2 ** 20, // 8 MiB.
           allowedFileTypes: [
             'image/jpeg',
             'image/jpg',
