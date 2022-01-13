@@ -18,7 +18,7 @@ import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/c
 import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 
 import { featureToCoordinates } from 'shared/services/map-location'
-import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
+import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
@@ -38,9 +38,9 @@ export const CaterpillarLayer: FC = () => {
       const isSelected = selection?.id === featureId
 
       const isReported = Boolean(
-        featureType.isReportedField &&
-          feature.properties[featureType.isReportedField] ===
-            featureType.isReportedValue
+        featureType.statusField && (
+          featureType.statusValues?.includes(feature.properties[featureType.statusField])
+        )
       )
 
       const altText = `${featureType.description}${
@@ -100,22 +100,31 @@ export const CaterpillarLayer: FC = () => {
   const reportedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'reported'
   )!
-  const reportedFeatures = features.filter((feature) =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const checkedFeatureType = meta.featureTypes.find(
+    ({ typeValue }) => typeValue === 'checked'
+  )!
+  const statusFeatures = features.filter((feature) =>
     Boolean(
-      reportedFeatureType?.isReportedField &&
+      reportedFeatureType?.statusField &&
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        feature.properties![reportedFeatureType.isReportedField] ===
-          reportedFeatureType.isReportedValue
+      reportedFeatureType.statusValues?.includes(feature.properties![reportedFeatureType.statusField])
+    ) ||
+    Boolean(
+      checkedFeatureType?.statusField &&
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      checkedFeatureType.statusValues?.includes(feature.properties![checkedFeatureType.statusField])
     )
   )
 
   return (
     <>
       {features.map(getMarker)}
-      {reportedFeatures.length > 0 && reportedFeatureType && (
-        <ReportedLayer
-          reportedFeatures={reportedFeatures as Feature[]}
+      {statusFeatures.length > 0 && reportedFeatureType && checkedFeatureType && (
+        <StatusLayer
+          statusFeatures={statusFeatures as Feature[]}
           reportedFeatureType={reportedFeatureType as FeatureType}
+          checkedFeatureType={checkedFeatureType as FeatureType}
         />
       )}
     </>

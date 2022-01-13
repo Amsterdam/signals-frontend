@@ -19,7 +19,7 @@ import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
-import ReportedLayer from './ReportedLayer'
+import StatusLayer from './StatusLayer'
 
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
@@ -38,21 +38,38 @@ const reportedFeatureType = {
   idField: 'objectnummer',
   typeField: 'objecttype',
   typeValue: 'reported',
+  statusField: 'meldingstatus',
+  statusValues: [1]
 }
 
-const reportedFeatures = streetlightsJson.features.filter(
-  (feature) => feature.properties?.meldingstatus === 1
+const checkedFeatureType = {
+  label: 'Storing status',
+  description: 'Storing status',
+  icon: {
+    options: {},
+    iconUrl: reportedIconUrl,
+  },
+  idField: 'objectnummer',
+  typeField: 'objecttype',
+  typeValue: 'checked',
+  statusField: 'storingstatus',
+  statusValues: [1]
+}
+
+const statusFeatures = streetlightsJson.features.filter(
+  (feature) => feature.properties?.meldingstatus === 1 || feature.properties?.storingstatus === 1
 )
 
-describe('ReportedLayer', () => {
+describe('StatusLayer', () => {
   const withMapStreetlights = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={streetlightsJson as FeatureCollection}>
-          {reportedFeatures?.length > 0 && reportedFeatureType && (
-            <ReportedLayer
-              reportedFeatures={reportedFeatures as Feature[]}
+          {statusFeatures?.length > 0 && reportedFeatureType && checkedFeatureType && (
+            <StatusLayer
+              statusFeatures={statusFeatures as Feature[]}
               reportedFeatureType={reportedFeatureType as FeatureType}
+              checkedFeatureType={checkedFeatureType as FeatureType}
             />
           )}
         </WfsDataProvider>
@@ -60,10 +77,10 @@ describe('ReportedLayer', () => {
       { ...assetSelectProviderValue }
     )
 
-  it('should render the reported layer in the map', () => {
+  it('should render the status layer in the map', () => {
     render(withMapStreetlights())
     const featureId =
-      (reportedFeatures && reportedFeatures[0].properties['objectnummer']) || ''
+      (statusFeatures && statusFeatures[0].properties['objectnummer']) || ''
     const description = `${reportedFeatureType?.description} - ${featureId}`
     expect(screen.getByAltText(description)).toBeInTheDocument()
   })

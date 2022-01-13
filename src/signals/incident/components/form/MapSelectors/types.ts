@@ -35,8 +35,8 @@ export interface FeatureType {
   description: string
   icon: FeatureIcon
   idField: string
-  isReportedField?: string
-  isReportedValue?: number
+  statusField?: string
+  statusValues?: number[] | string[]
   typeField: string
   typeValue: string
 }

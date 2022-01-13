@@ -4,6 +4,7 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 import type { IconOptions } from 'leaflet'
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
 import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
+import checkedFeatureMarkerUrl from 'shared/images/icon-checked-marker.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import { validateObjectLocation } from '../../services/custom-validators'
 
@@ -45,8 +46,8 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
+          statusField: 'AMS_Meldingstatus',
+          statusValues: [0, 1],
         },
         {
           label: 'Eikenboom is reeds gemeld ',
@@ -58,8 +59,21 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'reported',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
+          statusField: 'AMS_Meldingstatus',
+          statusValues: [1],
+        },
+        {
+          label: 'Vrij van eikenprocessierups',
+          description: 'Vrij van eikenprocessierups',
+          icon: {
+            options,
+            iconUrl: checkedFeatureMarkerUrl,
+          },
+          idField: 'OBJECTID',
+          typeValue: 'checked',
+          typeField: '',
+          statusField: 'Registratie',
+          statusValues: ['Bestreden', 'Geen EPR'],
         },
         {
           label: 'Onbekend',
