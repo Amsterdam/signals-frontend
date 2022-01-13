@@ -80,10 +80,10 @@ const Detail = ({ attachments, context }) => {
       ),
     [context?.near?.signal_count]
   )
-  const showPhone = useMemo(
-    () => !/[ *]/.test(incident.reporter.phone.replace(/ /g, '')),
-    [incident.reporter.phone]
-  )
+  const showPhone = useMemo(() => {
+    const phoneNumber = incident.reporter.phone?.replace(/ /g, '')
+    return !/[ *]/.test(phoneNumber)
+  }, [incident.reporter.phone])
 
   return (
     <Wrapper data-testid="incidentDetailDetail">
