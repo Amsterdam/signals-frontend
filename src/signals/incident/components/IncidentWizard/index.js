@@ -44,6 +44,10 @@ const StepWrapper = styled.article`
     padding-top: ${themeSpacing(8)};
     grid-area: progress;
     display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
+
+    li {
+      line-height: 20px;
+    }
   }
 
   ${FormWrapper} {
