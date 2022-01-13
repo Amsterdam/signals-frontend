@@ -81,7 +81,7 @@ const Detail = ({ attachments, context }) => {
     [context?.near?.signal_count]
   )
   const showPhone = useMemo(() => {
-    const phoneNumber = incident.reporter.phone?.replace(/ /g, '')
+    const phoneNumber = incident.reporter.phone?.replaceAll(' ', '')
     return !/[ *]/.test(phoneNumber)
   }, [incident.reporter.phone])
 
