@@ -29,10 +29,9 @@ export const CaterpillarLayer: FC = () => {
       const feature = feat as Feature
       const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const featureType = meta.featureTypes!.find(
+      const featureType = meta.featureTypes.find(
         ({ typeValue }) => typeValue === 'Eikenboom'
-      )!
+      ) as FeatureType
       const featureId = feature.properties[featureType.idField] as string
 
       const isSelected = selection?.id === featureId
@@ -96,10 +95,9 @@ export const CaterpillarLayer: FC = () => {
     [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const reportedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'reported'
-  )!
+  ) as FeatureType
   const reportedFeatures = features.filter((feature) =>
     Boolean(
       reportedFeatureType?.isReportedField &&
