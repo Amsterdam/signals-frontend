@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, FC, SetStateAction } from 'react'
 import {
   memo,
   useContext,
@@ -9,7 +9,6 @@ import {
   useEffect,
   useMemo,
 } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import format from 'date-fns/format'
@@ -95,8 +94,16 @@ const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
 }
+interface OverviewMapProps {
+  isPublic?: boolean
+  refresh?: boolean
+}
 
-const OverviewMap = ({ isPublic = false, ...rest }) => {
+const OverviewMap: FC<OverviewMapProps> = ({
+  isPublic = false,
+  refresh,
+  ...rest
+}) => {
   const endpoint = isPublic
     ? configuration.MAP_SIGNALS_ENDPOINT
     : configuration.GEOGRAPHY_ENDPOINT
@@ -163,6 +170,9 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
   }, [resetMarkerIcons])
 
   useEffect(() => {
+    if (!refresh) {
+      return
+    }
     let active = true
     const pollingFn = () => {
       /* istanbul ignore else */
@@ -173,7 +183,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
       active = false
       clearInterval(intervalId)
     }
-  }, [pollingCount, setPollingCount])
+  }, [refresh, pollingCount, setPollingCount])
 
   useEffect(() => {
     if (isLoading || !initialMount) return
@@ -261,10 +271,6 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
       </StyledMap>
     </Wrapper>
   )
-}
-
-OverviewMap.propTypes = {
-  isPublic: PropTypes.bool,
 }
 
 export default memo(OverviewMap)
