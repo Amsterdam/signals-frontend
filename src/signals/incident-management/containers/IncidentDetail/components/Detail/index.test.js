@@ -152,7 +152,7 @@ describe('<Detail />', () => {
   it('should only render phone number in a link when the number is visible', async () => {
     const reporterPhoneVisible = {
       reporter: {
-        phone: '1234',
+        phone: '+31 201234567',
       },
     }
 
