@@ -80,6 +80,10 @@ const Detail = ({ attachments, context }) => {
       ),
     [context?.near?.signal_count]
   )
+  const showPhone = useMemo(() => {
+    const phoneNumber = incident.reporter.phone?.replaceAll(' ', '')
+    return !/[ *]/.test(phoneNumber)
+  }, [incident.reporter.phone])
 
   return (
     <Wrapper data-testid="incidentDetailDetail">
@@ -110,12 +114,17 @@ const Detail = ({ attachments, context }) => {
           <Fragment>
             <dt data-testid="detail-phone-definition">Telefoon melder</dt>
             <dd data-testid="detail-phone-value">
-              <StyledLink
-                variant="inline"
-                href={`tel:${incident.reporter.phone}`}
-              >
-                {incident.reporter.phone}
-              </StyledLink>
+              {showPhone ? (
+                <StyledLink
+                  data-testid="detail-phone-link"
+                  variant="inline"
+                  href={`tel:${incident.reporter.phone}`}
+                >
+                  {incident.reporter.phone}
+                </StyledLink>
+              ) : (
+                incident.reporter.phone
+              )}
             </dd>
 
             <dt data-testid="detail-email-definition">E-mail melder</dt>
