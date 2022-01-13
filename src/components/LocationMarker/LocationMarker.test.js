@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import Leaflet from 'leaflet'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -70,9 +71,7 @@ describe('components/LocationMarker', () => {
     ])
     expect(Leaflet.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy)
 
-    act(() => {
-      fireEvent.click(screen.queryByTestId('gpsButton'))
-    })
+    userEvent.click(screen.queryByTestId('gpsButton'))
 
     expect(Leaflet.CircleMarker.prototype.addTo).toHaveBeenCalled()
     expect(Leaflet.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([
