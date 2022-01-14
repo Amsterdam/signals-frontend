@@ -34,6 +34,10 @@ const StyledParagraph = styled(Paragraph)`
   margin-top: ${themeSpacing(6)};
 `
 
+const StyledMapPanelContent = styled(MapPanelContent)`
+  background: none;
+`
+
 const Description = styled.span`
   display: block;
   font-weight: 400;
@@ -113,7 +117,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   }, [selectionOnMap, unregisteredAsset])
 
   return (
-    <MapPanelContent
+    <StyledMapPanelContent
       variant={variant}
       title={language.title || 'Locatie'}
       data-testid="selectionPanel"
@@ -172,12 +176,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         </div>
       )}
 
-      {selection && (
-        <StyledButton onClick={close} variant="primary">
-          {language.submit || 'Meld dit object'}
-        </StyledButton>
-      )}
-    </MapPanelContent>
+      <StyledButton onClick={close} variant="primary">
+        {language.submit || 'Meld dit object'}
+      </StyledButton>
+    </StyledMapPanelContent>
   )
 }
 
