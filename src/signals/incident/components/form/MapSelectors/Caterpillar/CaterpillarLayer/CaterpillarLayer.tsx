@@ -118,9 +118,9 @@ export const CaterpillarLayer: FC = () => {
       ) ||
       Boolean(
         checkedFeatureType.isCheckedField &&
-          // eslint-disable-next-line
-          // @ts-ignore
           checkedFeatureType.isCheckedValues?.includes(
+            // eslint-disable-next-line
+            // @ts-ignore
             feature.properties[checkedFeatureType.isCheckedField]
           )
       )
