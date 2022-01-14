@@ -25,27 +25,32 @@ export const CaterpillarLayer: FC = () => {
   const { selection, meta, setItem, removeItem } = useContext(SelectContext)
 
   const getMarker = useCallback(
-    (feat: any) => {
+    (feat: any, reportedFeatureType, checkedFeatureType) => {
       const feature = feat as Feature
       const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
       const featureType = meta.featureTypes.find(
         ({ typeValue }) => typeValue === 'Eikenboom'
       ) as FeatureType
-      const featureId = feature.properties[featureType.idField] as string
 
+      const featureId = feature.properties[featureType.idField] as string
       const isSelected = selection?.id === featureId
 
       const isReported = Boolean(
-        featureType.statusField &&
-          featureType.statusValues?.includes(
-            feature.properties[featureType.statusField]
-          )
+        feature.properties[reportedFeatureType.isReportedField] ===
+          reportedFeatureType.isReportedValue
+      )
+      const isChecked = Boolean(
+        checkedFeatureType.isCheckedValues?.includes(
+          feature.properties[checkedFeatureType.isCheckedField]
+        )
       )
 
       const altText = `${featureType.description}${
         isReported ? ', is gemeld' : ''
-      }${isSelected ? ', is geselecteerd' : ''} (${featureId})`
+      }${!isReported && isChecked ? ', is opgelost' : ''}${
+        isSelected ? ', is geselecteerd' : ''
+      } (${featureId})`
 
       const icon = L.icon({
         iconSize: [40, 40],
@@ -102,26 +107,30 @@ export const CaterpillarLayer: FC = () => {
   const checkedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'checked'
   ) as FeatureType
+
   const statusFeatures = features.filter(
     (feature) =>
       Boolean(
-        reportedFeatureType?.statusField &&
-          reportedFeatureType.statusValues?.includes(
-            feature.properties![reportedFeatureType.statusField]
-          )
+        reportedFeatureType.isReportedField &&
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          feature.properties![reportedFeatureType.isReportedField] ===
+            reportedFeatureType.isReportedValue
       ) ||
       Boolean(
-        checkedFeatureType?.statusField &&
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          checkedFeatureType.statusValues?.includes(
-            feature.properties![checkedFeatureType.statusField]
+        checkedFeatureType.isCheckedField &&
+          // eslint-disable-next-line
+          // @ts-ignore
+          checkedFeatureType.isCheckedValues?.includes(
+            feature.properties[checkedFeatureType.isCheckedField]
           )
       )
   )
 
   return (
     <>
-      {features.map(getMarker)}
+      {features.map((feat) =>
+        getMarker(feat, reportedFeatureType, checkedFeatureType)
+      )}
       {statusFeatures.length > 0 &&
         reportedFeatureType &&
         checkedFeatureType && (

@@ -11,77 +11,71 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
-import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
+import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 import StatusLayer from './StatusLayer'
 
-const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: undefined,
+  selection: selection[0],
   meta,
 }
 
-const reportedFeatureType = {
-  label: 'Is gemeld',
-  description: 'Is gemeld',
-  icon: {
-    options: {},
-    iconUrl: reportedIconUrl,
-  },
-  idField: 'objectnummer',
-  typeField: 'objecttype',
-  typeValue: 'reported',
-  statusField: 'meldingstatus',
-  statusValues: [1]
-}
+const reportedFeatureType = meta.featureTypes.find(
+  ({ typeValue }) => typeValue === 'reported'
+)
+const checkedFeatureType = meta.featureTypes.find(
+  ({ typeValue }) => typeValue === 'checked'
+)
 
-const checkedFeatureType = {
-  label: 'Storing status',
-  description: 'Storing status',
-  icon: {
-    options: {},
-    iconUrl: reportedIconUrl,
-  },
-  idField: 'objectnummer',
-  typeField: 'objecttype',
-  typeValue: 'checked',
-  statusField: 'storingstatus',
-  statusValues: [1]
-}
-
-const statusFeatures = streetlightsJson.features.filter(
-  (feature) => feature.properties?.meldingstatus === 1 || feature.properties?.storingstatus === 1
+const statusFeatures = caterpillarsJson.features.filter(
+  (feature) =>
+    Boolean(
+      reportedFeatureType?.isReportedField &&
+        feature.properties['AMS_Meldingstatus'] ===
+          reportedFeatureType?.isReportedValue
+    ) ||
+    Boolean(
+      checkedFeatureType?.isCheckedField &&
+        checkedFeatureType.isCheckedValues?.includes(
+          feature.properties['Registratie']
+        )
+    )
 )
 
 describe('StatusLayer', () => {
-  const withMapStreetlights = () =>
+  const withMapCaterpillar = () =>
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
-        <WfsDataProvider value={streetlightsJson as FeatureCollection}>
-          {statusFeatures?.length > 0 && reportedFeatureType && checkedFeatureType && (
-            <StatusLayer
-              statusFeatures={statusFeatures as Feature[]}
-              reportedFeatureType={reportedFeatureType as FeatureType}
-              checkedFeatureType={checkedFeatureType as FeatureType}
-            />
-          )}
+        <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
+          {statusFeatures?.length > 0 &&
+            reportedFeatureType &&
+            checkedFeatureType && (
+              <StatusLayer
+                statusFeatures={statusFeatures as unknown as Feature[]}
+                reportedFeatureType={reportedFeatureType as FeatureType}
+                checkedFeatureType={checkedFeatureType as FeatureType}
+              />
+            )}
         </WfsDataProvider>
       </Map>,
       { ...assetSelectProviderValue }
     )
 
-  it('should render the status layer in the map', () => {
-    render(withMapStreetlights())
-    const featureId =
-      (statusFeatures && statusFeatures[0].properties['objectnummer']) || ''
-    const description = `${reportedFeatureType?.description} - ${featureId}`
-    expect(screen.getByAltText(description)).toBeInTheDocument()
+  it('should render reported and checked features in the map', () => {
+    render(withMapCaterpillar())
+    const reportedFeatureId = statusFeatures[0].properties['OBJECTID']
+    const reportedDescription = `${reportedFeatureType?.description} - ${reportedFeatureId}`
+    expect(screen.getByAltText(reportedDescription)).toBeInTheDocument()
+
+    const checkedFeatureId = statusFeatures[2].properties['OBJECTID']
+    const checkedDescription = `${checkedFeatureType?.description} - ${checkedFeatureId}`
+    expect(screen.getByAltText(checkedDescription)).toBeInTheDocument()
   })
 })

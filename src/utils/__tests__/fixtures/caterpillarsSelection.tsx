@@ -1,5 +1,6 @@
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
 import reportedFeatureMarkerUrl from '*.svg?url'
+import checkedFeatureMarkerUrl from '*.svg?url'
 
 export const selection = [
   {
@@ -61,6 +62,21 @@ export const meta = {
       typeField: '',
       isReportedField: 'AMS_Meldingstatus',
       isReportedValue: 1,
+    },
+    {
+      label: 'Vrij van eikenprocessierups',
+      description: 'Vrij van eikenprocessierups',
+      icon: {
+        options: {},
+        iconUrl: checkedFeatureMarkerUrl,
+      },
+      idField: 'OBJECTID',
+      typeValue: 'checked',
+      typeField: '',
+      isReportedField: 'AMS_Meldingstatus',
+      isReportedValue: 1,
+      isCheckedField: 'Registratie',
+      isCheckedValues: ['Bestreden', 'Geen EPR'],
     },
   ],
   extraProperties: ['GlobalID'],

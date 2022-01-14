@@ -31,23 +31,25 @@ const StatusLayer: FC<StatusLayerProps> = ({
     const feature = feat as Feature
     const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
-    if (!feature || !reportedFeatureType || !checkedFeatureType) return
+    if (!feature || !reportedFeatureType) return
+
+    const isReportedField = reportedFeatureType.isReportedField || ''
 
     const isReported = Boolean(
-      reportedFeatureType.statusField && reportedFeatureType.statusValues?.includes(
-        feature.properties[reportedFeatureType.statusField]
-      )
+      feature.properties![isReportedField] ===
+        reportedFeatureType.isReportedValue
     )
-
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: isReported ? reportedIconUrl: checkedIconUrl,
+      iconUrl: isReported ? reportedIconUrl : checkedIconUrl,
       className: STATUS_CLASS_MODIFIER,
     })
 
     const featureId = feature.properties[reportedFeatureType.idField] || index
-    const altText = isReported ? `Is gemeld - ${featureId}` : `Is opgelost - ${featureId}`
+    const altText = isReported
+      ? `${reportedFeatureType.description} - ${featureId}`
+      : `${checkedFeatureType.description} - ${featureId}`
 
     return (
       <Marker

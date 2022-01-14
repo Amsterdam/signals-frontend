@@ -35,8 +35,10 @@ export interface FeatureType {
   description: string
   icon: FeatureIcon
   idField: string
-  statusField?: string
-  statusValues?: number[] | string[]
+  isReportedField?: string
+  isReportedValue?: number
+  isCheckedField?: string
+  isCheckedValues?: string[]
   typeField: string
   typeValue: string
 }
