@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
-import type { Item, FeatureType } from '../types'
+import type { FeatureType, Item } from '../../types'
 import type { AssetListProps } from './AssetList'
 
 import AssetList from './AssetList'

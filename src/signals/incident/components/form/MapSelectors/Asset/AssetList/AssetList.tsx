@@ -9,7 +9,7 @@ import type { FunctionComponent } from 'react'
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type { FeatureType, Item } from '../types'
+import type { FeatureType, Item } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -55,14 +55,6 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     const baseItem = {
       id,
       label,
-    }
-
-    if (isReported && icon?.reportedIconSvg) {
-      return {
-        ...baseItem,
-        iconUrl: icon ? icon.reportedIconSvg : '',
-        isReported: true,
-      }
     }
 
     return {
