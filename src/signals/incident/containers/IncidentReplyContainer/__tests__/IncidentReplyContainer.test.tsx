@@ -66,7 +66,7 @@ describe('IncidentReplyContainer', () => {
       userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
       await waitFor(() => {
-        expect(screen.getByRole('alert')).toHaveTextContent(
+        expect(screen.getByTestId('textareaError')).toHaveTextContent(
           'Dit is een verplicht veld'
         )
       })
