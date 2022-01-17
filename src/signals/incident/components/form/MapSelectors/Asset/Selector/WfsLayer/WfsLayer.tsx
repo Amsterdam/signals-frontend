@@ -13,8 +13,8 @@ import useLayerVisible from '../../../hooks/useLayerVisible'
 import type { DataLayerProps } from '../../types'
 import { NO_DATA, WfsDataProvider } from './context'
 
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
-const SRS_NAME_SMALL = 'EPSG:4326'
+export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
+export const SRS_NAME_SMALL = 'EPSG:4326'
 
 interface Bbox {
   east: string

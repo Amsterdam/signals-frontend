@@ -20,6 +20,7 @@ import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import { AssetSelectProvider } from '../../context'
 
 import WfsDataContext, { NO_DATA } from './context'
+import { SRS_NAME, SRS_NAME_SMALL } from './WfsLayer'
 
 const fetchMock = fetch as FetchMock
 
@@ -176,6 +177,45 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       endpoint,
+      expect.objectContaining({})
+    )
+    await act(() => promise)
+  })
+
+  it('supports replacements in the endpoint', async () => {
+    fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
+    const endpoint =
+      'https://endpoint/?version=2&srsName={srsName}&srsNameSmall={srsNameSmall}&bbox={north},{east},{south},{west}'
+    const expectedEndpoint = `https://endpoint/?version=2&srsName=${SRS_NAME}&srsNameSmall=${SRS_NAME_SMALL}&bbox=52.37309163108818,4.879893974954347,52.37309163108818,4.879893974954347`
+    const promise = Promise.resolve()
+    const assetSelectProviderValue: AssetSelectValue = {
+      selection: undefined,
+      coordinates: { lat: 0, lng: 0 },
+      meta: {
+        endpoint,
+        featureTypes: [],
+      },
+      setItem: jest.fn(() => promise),
+      removeItem: jest.fn(),
+      edit: jest.fn(),
+      close: jest.fn(),
+      setMessage: jest.fn(),
+      fetchLocation: jest.fn(),
+      setLocation: jest.fn(),
+    }
+
+    render(
+      withMapAsset(
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer featureTypes={[]} desktopView />
+          </WfsLayer>
+        </AssetSelectProvider>
+      )
+    )
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      expectedEndpoint,
       expect.objectContaining({})
     )
     await act(() => promise)
