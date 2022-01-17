@@ -11,7 +11,6 @@ const infoFontSize = 14
 
 export const StyledErrorMessage = styled(ErrorMessage)`
   margin-bottom: ${themeSpacing(2)};
-  white-space: pre-wrap;
 `
 
 export const StyledArea = styled(AscTextArea)<{
