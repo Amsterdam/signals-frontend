@@ -30,7 +30,7 @@ const FormWrapper = styled.div``
 const StepWrapper = styled.article`
   display: grid;
   grid-template-areas:
-    ${({ showProgress }) => (showProgress ? 'progress' : '')}
+    ${({ showProgress }) => (showProgress ? "'progress'" : '')}
     'header'
     'form';
 
@@ -45,6 +45,10 @@ const StepWrapper = styled.article`
     grid-area: progress;
     display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
 
+    @media (max-width: ${({ theme }) => theme.layouts.medium.max - 1}px) {
+      margin-left: ${themeSpacing(4)};
+    }
+
     li {
       line-height: 20px;
     }
@@ -54,17 +58,17 @@ const StepWrapper = styled.article`
     grid-area: form;
   }
 
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    ${({ showProgress }) =>
-      showProgress
-        ? css`
+  ${({ showProgress }) =>
+    showProgress
+      ? css`
+          @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
             grid-template-areas:
               'progress header'
               'progress form';
             grid-template-columns: 4fr 8fr;
-          `
-        : ''};
-  }
+          }
+        `
+      : ''};
 `
 
 const IncidentWizard = ({
