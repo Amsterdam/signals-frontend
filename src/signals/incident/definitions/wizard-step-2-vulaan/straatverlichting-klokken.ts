@@ -68,7 +68,7 @@ export const straatverlichtingKlokken = {
       },
       wfsFilter:
         '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.klokken,
+      endpoint: configuration.map.layers?.verlichting,
       featureTypes: [
         {
           label: 'Grachtmast',
@@ -274,7 +274,7 @@ export const straatverlichtingKlokken = {
       },
       wfsFilter:
         '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.verlichting,
+      endpoint: configuration.map.layers?.klokken,
       zoomMin: 14,
       featureTypes: [
         {
