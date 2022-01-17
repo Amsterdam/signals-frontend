@@ -59,7 +59,7 @@ const straatverlichtingKlokken = {
       },
       wfsFilter:
         '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.verlichting,
+      endpoint: configuration.map.layers?.klokken,
       featureTypes: [
         {
           label: 'Grachtmast',
@@ -258,7 +258,7 @@ const straatverlichtingKlokken = {
       },
       wfsFilter:
         '<PropertyIsEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers?.klokken,
+      endpoint: configuration.map.layers?.verlichting,
       zoomMin: 14,
       featureTypes: [
         {
