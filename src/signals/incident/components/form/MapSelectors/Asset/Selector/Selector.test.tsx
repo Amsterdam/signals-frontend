@@ -228,7 +228,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     ).toBeInTheDocument()
   })
 
-  it('only renders legend button when feature types are available', () => {
+  it('only renders legend button and the zoom message when feature types are available', () => {
     render(
       withAssetSelectContext(<Selector />, {
         ...contextValue,
@@ -237,5 +237,19 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
 
     expect(screen.queryByText('Legenda')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument()
+
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        meta: {
+          ...contextValue.meta,
+          featureTypes: contextValue.meta.featureTypes,
+        },
+      })
+    )
+
+    expect(screen.queryByText('Legenda')).toBeInTheDocument()
+    expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
   })
 })

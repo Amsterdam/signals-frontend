@@ -23,7 +23,6 @@ import type {
   FeatureCollection,
 } from 'geojson'
 import type { FunctionComponent } from 'react'
-import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Geometrie } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
@@ -33,8 +32,12 @@ import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
 import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
+import type {
+  DataLayerProps,
+  Item,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
-import type { DataLayerProps, Feature } from '../../../types'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 

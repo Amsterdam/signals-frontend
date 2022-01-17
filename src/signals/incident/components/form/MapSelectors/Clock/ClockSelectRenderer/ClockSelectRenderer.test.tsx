@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 
-import type { Meta } from '../../Asset/types'
+import type { Meta } from '../../types'
 
 import ClockSelectRenderer from './ClockSelectRenderer'
 

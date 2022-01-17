@@ -17,10 +17,9 @@ import {
   themeColor,
 } from '@amsterdam/asc-ui'
 
+import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
+import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import AssetList from '../../AssetList'
-
-import type { FeatureType } from '../../types'
-import { UNREGISTERED_TYPE } from '../../../constants'
 import AssetSelectContext from '../../../Asset/context'
 
 const StyledAssetList = styled(AssetList)`
@@ -29,6 +28,14 @@ const StyledAssetList = styled(AssetList)`
 
 const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
+`
+
+const StyledParagraph = styled(Paragraph)`
+  margin-top: ${themeSpacing(6)};
+`
+
+const StyledMapPanelContent = styled(MapPanelContent)`
+  background: none;
 `
 
 const Description = styled.span`
@@ -110,7 +117,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   }, [selectionOnMap, unregisteredAsset])
 
   return (
-    <MapPanelContent
+    <StyledMapPanelContent
       variant={variant}
       title={language.title || 'Locatie'}
       data-testid="selectionPanel"
@@ -144,6 +151,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
 
           {showObjectIdInput && language.unregisteredId && (
             <>
+              <StyledParagraph>
+                Typ het dichtstbijzijnde adres of klik de locatie aan op de
+                kaart.
+              </StyledParagraph>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={
@@ -165,12 +176,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         </div>
       )}
 
-      {selection && (
-        <StyledButton onClick={close} variant="primary">
-          {language.submit || 'Meld dit object'}
-        </StyledButton>
-      )}
-    </MapPanelContent>
+      <StyledButton onClick={close} variant="primary">
+        {language.submit || 'Meld dit object'}
+      </StyledButton>
+    </StyledMapPanelContent>
   )
 }
 

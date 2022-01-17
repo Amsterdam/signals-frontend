@@ -15,15 +15,12 @@ import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
-import type { EventHandler } from '../types'
-
+import type { EventHandler, FeatureType, Item, Meta } from '../types'
 import { UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
 import Summary from './Summary'
-
-import type { FeatureType, Item, Meta } from './types'
 
 const defaultIconConfig: FeatureType['icon'] = {
   options: {

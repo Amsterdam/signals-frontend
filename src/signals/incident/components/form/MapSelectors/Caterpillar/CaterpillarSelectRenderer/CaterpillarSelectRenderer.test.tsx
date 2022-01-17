@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
-import type { Meta } from '../../Asset/types'
+import type { Meta } from '../../types'
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
 
 jest.mock('../../Asset/AssetSelect', () => () => (

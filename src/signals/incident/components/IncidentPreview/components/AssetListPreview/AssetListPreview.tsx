@@ -3,7 +3,7 @@
 import type {
   FeatureType,
   Item,
-} from 'signals/incident/components/form/MapSelectors/Asset/types'
+} from 'signals/incident/components/form/MapSelectors/types'
 import AssetList from 'signals/incident/components/form/MapSelectors/Asset/AssetList'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
