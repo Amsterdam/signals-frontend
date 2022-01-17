@@ -322,6 +322,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('shows an error when the text field contains specific characters', async () => {
+    const errorText =
+      "Er is een gereserveerd teken ('{{' of '__') in de toelichting gevonden. Mogelijk staan er nog een of meerdere interne aanwijzingen in deze tekst. Pas de tekst aan."
     // render component
     render(renderWithContext())
 
@@ -330,8 +332,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const valueWithBrackets = 'Foo {{bar}} baz'
     userEvent.type(textarea, valueWithBrackets)
 
-    // verify that an error message is NOT shown
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    // verify that an error message element is NOT shown
+    const alertElement = screen.queryByRole('alert')
+    expect(alertElement).toBeInTheDocument()
+    expect(alertElement).toBeEmptyDOMElement()
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -339,8 +343,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(screen.getByRole('alert')).toBeInTheDocument()
-
+    expect(alertElement).toHaveTextContent(errorText)
     // verify that 'update' and 'close' have NOT been called
     expect(update).not.toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
@@ -350,7 +353,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.type(textarea, clearText)
 
     // verify that an error message is NOT shown
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(alertElement).toBeEmptyDOMElement()
 
     const valueWithUnderscores = 'Foo __bar__ baz'
     userEvent.type(textarea, valueWithUnderscores)
@@ -358,7 +361,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     // verify that an error message is shown
-    expect(screen.getByRole('alert')).toBeInTheDocument()
+    expect(alertElement).toHaveTextContent(errorText)
 
     // clear textarea
     userEvent.type(textarea, clearText)
@@ -385,10 +388,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('clears the error message when another status is selected', async () => {
+    const errorText = 'Dit veld is verplicht'
     render(renderWithContext())
 
     // verify that an error message is NOT shown
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    const alertElement = screen.queryByRole('alert')
+    expect(alertElement).toBeInTheDocument()
+    expect(alertElement).toBeEmptyDOMElement()
 
     userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
 
@@ -398,7 +404,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     await screen.findByTestId('statusForm')
 
     // verify that an error message is shown
-    expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(alertElement).not.toBeEmptyDOMElement()
+    expect(screen.queryByText(errorText)).toBeInTheDocument()
 
     // select another status
     const otherStatus = screen.getByRole('radio', {
