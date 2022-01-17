@@ -103,40 +103,38 @@ const FormField: FunctionComponent<FormFieldProps> = ({
         {meta?.subtitle && (
           <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>
         )}
-        <ErrorMessage
-          data-testid={`${meta.name}-required`}
-          message={touched && hasError('required') ? requiredError : ''}
-          invalid={touched && hasError('required')}
-        />
+        <div role="status">
+          <ErrorMessage
+            data-testid={`${meta.name}-required`}
+            message={touched && hasError('required') ? requiredError : ''}
+          />
 
-        <ErrorMessage
-          data-testid="invalid-mail"
-          message={
-            hasError('email')
-              ? 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl'
-              : ''
-          }
-          invalid={hasError('email')}
-        />
+          <ErrorMessage
+            data-testid="invalid-mail"
+            message={
+              hasError('email')
+                ? 'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl'
+                : ''
+            }
+          />
 
-        <ErrorMessage
-          data-testid="maxLengthError"
-          message={
-            hasError('maxLength')
-              ? `U heeft meer dan de maximale ${String(
-                  (getError('maxLength') as { requiredLength: number })
-                    .requiredLength
-                )} tekens ingevoerd`
-              : ''
-          }
-          invalid={hasError('maxLength')}
-        />
+          <ErrorMessage
+            data-testid="maxLengthError"
+            message={
+              hasError('maxLength')
+                ? `U heeft meer dan de maximale ${String(
+                    (getError('maxLength') as { requiredLength: number })
+                      .requiredLength
+                  )} tekens ingevoerd`
+                : ''
+            }
+          />
 
-        <ErrorMessage
-          data-testid="customError"
-          message={hasError('custom') ? getError('custom') : ''}
-          invalid={hasError('custom')}
-        />
+          <ErrorMessage
+            data-testid="customError"
+            message={hasError('custom') ? getError('custom') : ''}
+          />
+        </div>
         <InputWrapper width={meta?.width}>{children}</InputWrapper>
       </FieldSetWrapper>
     </StyledErrorWrapper>

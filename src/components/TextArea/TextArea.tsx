@@ -78,13 +78,13 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {label}
           </Label>
         )}
-
-        <StyledErrorMessage
-          id="textareaErrorMessage"
-          data-testid="textareaError"
-          message={errorMessage || ''}
-          invalid={Boolean(errorMessage)}
-        />
+        <div role="status">
+          <StyledErrorMessage
+            id="textareaErrorMessage"
+            data-testid="textareaError"
+            message={errorMessage || ''}
+          />
+        </div>
 
         <StyledArea
           aria-describedby="textareaInfoText textareaErrorMessage"

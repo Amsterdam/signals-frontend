@@ -10,15 +10,9 @@ import {
 // custom error message component that renders the correct font according to the design system guidelines
 const ErrorMessage = styled(AscErrorMessage).attrs(() => ({
   role: 'alert',
-}))<{ invalid: boolean }>`
+}))`
   margin-top: 0;
   white-space: pre-wrap;
-  display: none;
-  ${({ invalid }) =>
-    invalid &&
-    css`
-      display: flex;
-    `}
 `
 
 export default ErrorMessage

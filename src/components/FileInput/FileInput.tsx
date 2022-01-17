@@ -83,12 +83,12 @@ const FileInput: FunctionComponent<FileInputProps> = ({
           {helpText}
         </Paragraph>
       )}
-
-      <StyledErrorMessage
-        data-testid="fileInputError"
-        message={errorMessages.join('\n') || ''}
-        invalid={errorMessages.length > 0}
-      />
+      <div role="status">
+        <StyledErrorMessage
+          data-testid="fileInputError"
+          message={errorMessages.join('\n') || ''}
+        />
+      </div>
 
       <FileInputStyle
         id={name}
