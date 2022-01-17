@@ -83,7 +83,7 @@ const expandQuestions = memoize(
 )
 
 export default {
-  label: 'Dit hebben we nog van u nodig',
+  label: 'Locatie en vragen',
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
   previousButtonLabel: 'Vorige',

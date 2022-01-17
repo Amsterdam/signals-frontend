@@ -12,6 +12,7 @@ type WrapMeta = FormMeta & {
 type WithHeadingProps = FormOptions & { meta: WrapMeta; _parent?: any }
 
 const StyledHeading = styled(Heading)`
+  font-weight: 500;
   margin: ${themeSpacing(2, 0, 5)};
 `
 

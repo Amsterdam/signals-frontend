@@ -26,7 +26,7 @@ const options: Pick<IconOptions, 'className' | 'iconSize'> = {
 
 const configuration = appConfiguration as unknown as typeof ConfigurationType
 
-export const straatverlichtingKlokken = {
+const straatverlichtingKlokken = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
   extra_kerstverlichting: {
@@ -57,17 +57,8 @@ export const straatverlichtingKlokken = {
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
-      ifOneOf: {
-        extra_straatverlichting_probleem: [
-          'lamp_doet_het_niet',
-          'lamp_brandt_overdag',
-          'geeft_lichthinder',
-          'lamp_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+        '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.verlichting,
       featureTypes: [
         {
@@ -265,15 +256,8 @@ export const straatverlichtingKlokken = {
       ifAllOf: {
         subcategory: 'klok',
       },
-      ifOneOf: {
-        extra_klok_probleem: [
-          'klok_staat_niet_op_tijd_of_stil',
-          'klok_is_zichtbaar_beschadigd',
-          'overig',
-        ],
-      },
       wfsFilter:
-        '<BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
+        '<PropertyIsEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.klokken,
       zoomMin: 14,
       featureTypes: [
