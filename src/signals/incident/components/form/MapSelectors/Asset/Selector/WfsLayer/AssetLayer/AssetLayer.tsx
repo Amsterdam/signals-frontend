@@ -229,7 +229,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         return marker
       },
     }),
-    [getFeatureType, removeItem, selection, setItem]
+    [getFeatureType, removeItem, selection, setItem, reportedFeatureType]
   )
 
   useEffect(() => {

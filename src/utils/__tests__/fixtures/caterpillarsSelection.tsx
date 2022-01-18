@@ -73,8 +73,6 @@ export const meta = {
       idField: 'OBJECTID',
       typeValue: 'checked',
       typeField: '',
-      isReportedField: 'AMS_Meldingstatus',
-      isReportedValue: 1,
       isCheckedField: 'Registratie',
       isCheckedValues: ['Bestreden', 'Geen EPR'],
     },
