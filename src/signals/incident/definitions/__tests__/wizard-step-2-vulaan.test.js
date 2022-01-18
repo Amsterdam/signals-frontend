@@ -35,13 +35,18 @@ describe('Wizard step 2 vulaan, formFactory', () => {
   })
 
   describe('Hard coded questions', () => {
-    it('should return no questions with non existing category', () => {
+    it('should only return location when category does not match', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
       })
-      const expected = { controls: {} }
+      const expected = {
+        controls: {
+          ...defaultControls,
+          locatie: expect.any(Object),
+        },
+      }
 
       expect(actual).toEqual(expected)
     })
