@@ -42,15 +42,6 @@ const expandQuestions = memoize(
         },
         render: FormComponents.GlobalError,
       },
-      custom_text: {
-        meta: {
-          label: 'Dit hebt u net ingevuld:',
-          type: 'citation',
-          value: '{incident.description}',
-          ignoreVisibility: true,
-        },
-        render: FormComponents.PlainText,
-      },
       ...Object.entries(questions).reduce(
         (acc, [key, question]) => ({
           ...acc,
