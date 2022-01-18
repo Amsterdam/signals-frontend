@@ -4,7 +4,7 @@ import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 import { useContext } from 'react'
 import type { FeatureCollection } from 'geojson'
 import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
-import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
+import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
 import type { Feature, ReportedFeatureType } from '../../types'
@@ -32,8 +32,8 @@ export const StreetlightLayer = () => {
     <>
       <AssetLayer featureTypes={meta.featureTypes} desktopView={desktopView} />
       {reportedFeatures.length > 0 && reportedFeatureType && (
-        <ReportedLayer
-          reportedFeatures={reportedFeatures as Feature[]}
+        <StatusLayer
+          statusFeatures={reportedFeatures as Feature[]}
           reportedFeatureType={reportedFeatureType}
         />
       )}

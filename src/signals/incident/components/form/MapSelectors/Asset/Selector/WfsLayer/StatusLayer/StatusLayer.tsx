@@ -20,7 +20,7 @@ const STATUS_CLASS_MODIFIER = 'marker-status'
 export interface StatusLayerProps {
   statusFeatures: Feature[]
   reportedFeatureType: ReportedFeatureType
-  checkedFeatureType: CheckedFeatureType
+  checkedFeatureType?: CheckedFeatureType
 }
 
 const StatusLayer: FC<StatusLayerProps> = ({
@@ -47,7 +47,9 @@ const StatusLayer: FC<StatusLayerProps> = ({
     const featureId = feature.properties[reportedFeatureType.idField] || index
     const altText = isReported
       ? `${reportedFeatureType.description} - ${featureId}`
-      : `${checkedFeatureType.description} - ${featureId}`
+      : checkedFeatureType
+      ? `${checkedFeatureType.description} - ${featureId}`
+      : ''
 
     return (
       <Marker
