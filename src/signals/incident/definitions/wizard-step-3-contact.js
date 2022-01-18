@@ -53,9 +53,10 @@ export default {
       },
       privacy_text: {
         meta: {
-          heading: 'Melding delen',
+          type: 'message',
+          heading: 'Melding doorsturen',
           value:
-            'Niet alle meldingen vallen onder de verantwoordelijkheid van de gemeente. Om u van dienst te kunnen zijn, kunnen wij uw melding delen met de verantwoordelijke organisaties zoals de Politie of Dierenambulance. Hiervoor hebben we uw toestemming nodig om uw melding te delen.',
+            'Soms kan de gemeente niets doen. Een andere organisatie moet dan aan het werk. Bijvoorbeeld de politie of de dierenambulance. Als dat zo is kunnen wij uw melding doorsturen. Wij sturen uw telefoonnummer of e-mailadres mee. Maar dat doen we alleen als u dat goed vindt.',
           wrappedComponent: FormComponents.PlainText,
         },
         render: FormComponents.WithHeading,
@@ -76,6 +77,7 @@ export default {
         meta: {
           label: configuration.language.helpTextHeader,
           value: configuration.language.helpText,
+          ignoreVisibility: true,
         },
         render: FormComponents.PlainText,
       },

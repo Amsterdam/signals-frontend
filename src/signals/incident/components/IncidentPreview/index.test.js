@@ -47,6 +47,8 @@ describe('<IncidentPreview />', () => {
           },
           required_prop: {
             label: 'Qux',
+            authenticated: false,
+            optional: false,
             render: ({ value }) => value,
           },
         },
@@ -81,55 +83,36 @@ describe('<IncidentPreview />', () => {
     jest.resetAllMocks()
   })
 
-  describe('rendering', () => {
-    it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(
-        withAppContext(<IncidentPreview {...props} />)
-      )
+  it('expect to render correctly', async () => {
+    const { queryByText, findByTestId } = render(
+      withAppContext(<IncidentPreview {...props} />)
+    )
 
-      await findByTestId('incidentPreview')
+    await findByTestId('incidentPreview')
 
-      expect(queryByText(props.incident.phone)).toBeInTheDocument()
-      expect(
-        queryByText(props.preview.beschrijf.phone.label)
-      ).toBeInTheDocument()
+    expect(queryByText(props.incident.phone)).toBeInTheDocument()
+    expect(queryByText(props.preview.beschrijf.phone.label)).toBeInTheDocument()
 
-      expect(queryByText(props.incident.email)).toBeInTheDocument()
-      expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument()
+    expect(queryByText(props.incident.email)).toBeInTheDocument()
+    expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument()
 
-      expect(queryByText(props.incident.other_prop)).not.toBeInTheDocument()
-      expect(
-        queryByText(props.preview.beschrijf.other_prop.label)
-      ).not.toBeInTheDocument()
+    expect(queryByText(props.incident.other_prop)).not.toBeInTheDocument()
+    expect(
+      queryByText(props.preview.beschrijf.other_prop.label)
+    ).not.toBeInTheDocument()
 
-      // optional prop without value should not be in the DOM
-      expect(
-        queryByText(props.preview.beschrijf.optional_prop.label)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByText(props.preview.beschrijf.optional_array_prop.label)
-      ).not.toBeInTheDocument()
+    // optional prop without value should not be in the DOM
+    expect(
+      queryByText(props.preview.beschrijf.optional_prop.label)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByText(props.preview.beschrijf.optional_array_prop.label)
+    ).not.toBeInTheDocument()
 
-      // required prop without value should be in the DOM
-      expect(
-        queryByText(props.preview.beschrijf.required_prop.label)
-      ).toBeInTheDocument()
-    })
-
-    it('expect to render correctly for authenticated users', async () => {
-      getIsAuthenticated.mockImplementation(() => true)
-
-      const { queryByText, findByTestId } = render(
-        withAppContext(<IncidentPreview {...props} />)
-      )
-
-      await findByTestId('incidentPreview')
-
-      expect(queryByText(props.incident.other_prop)).toBeInTheDocument()
-      expect(
-        queryByText(props.preview.beschrijf.other_prop.label)
-      ).toBeInTheDocument()
-    })
+    // required prop without value should be in the DOM
+    expect(
+      queryByText(props.preview.beschrijf.required_prop.label)
+    ).toBeInTheDocument()
   })
 
   it('should have links', async () => {
@@ -153,32 +136,6 @@ describe('<IncidentPreview />', () => {
 
     container.querySelectorAll('a').forEach((element) => {
       expect(element.href).toEqual(expect.stringMatching(sectionRe))
-    })
-  })
-
-  it('should have the correct layout for authenticated users', async () => {
-    getIsAuthenticated.mockImplementation(() => false)
-
-    const { container, findByTestId, rerender } = render(
-      withAppContext(<IncidentPreview {...props} />)
-    )
-
-    await findByTestId('incidentPreview')
-
-    container.querySelectorAll('header').forEach((element) => {
-      expect(element).toHaveStyleRule('grid-template-columns', '12fr')
-    })
-
-    getIsAuthenticated.mockImplementation(() => true)
-
-    rerender(withAppContext(<IncidentPreview {...props} />))
-
-    await findByTestId('incidentPreview')
-
-    container.querySelectorAll('header').forEach((element) => {
-      expect(element).toHaveStyleRule('grid-template-columns', '4fr 6fr 2fr', {
-        media: '(min-width:1024px)',
-      })
     })
   })
 
@@ -254,7 +211,7 @@ describe('<IncidentPreview />', () => {
           },
           location: {
             label: 'Locatie',
-            render: PreviewComponents.Map,
+            render: PreviewComponents.MapPreview,
           },
         },
         contact: {

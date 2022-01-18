@@ -3,7 +3,7 @@
 import styled from 'styled-components'
 
 import { Heading, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 
 const StyledHeading = styled(Heading)`
   margin: 0;

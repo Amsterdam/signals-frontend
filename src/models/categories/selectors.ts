@@ -7,7 +7,7 @@ import { reCategory } from 'shared/services/resolveClassification'
 import type { List as ImmutableList, Map as ImmutableMap } from 'immutable'
 import type { ApplicationRootState } from 'types'
 import type { Category } from 'types/category'
-import SubCategory from 'types/api/sub-category'
+import type SubCategory from 'types/api/sub-category'
 
 import { initialState } from './reducer'
 

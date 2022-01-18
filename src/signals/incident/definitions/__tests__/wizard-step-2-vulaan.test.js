@@ -6,20 +6,20 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import step2 from '../wizard-step-2-vulaan'
-import afval from '../wizard-step-2-vulaan/afval'
 import FormComponents from '../../components/form'
 
 const { formFactory } = step2
 const defaultControls = {
   error: expect.objectContaining({}),
   custom_text: expect.objectContaining({}),
-  $field_0: expect.objectContaining({}),
   help_text: expect.objectContaining({
     meta: {
+      ignoreVisibility: true,
       label: configuration.language.helpTextHeader,
       value: configuration.language.helpText,
     },
   }),
+  $field_0: expect.objectContaining({}),
 }
 
 jest.mock('shared/services/configuration/configuration')
@@ -35,38 +35,18 @@ describe('Wizard step 2 vulaan, formFactory', () => {
   })
 
   describe('Hard coded questions', () => {
-    it('should return expanded questions based on category', () => {
-      configuration.featureFlags.showVulaanControls = true
-      const actual = formFactory({
-        category: 'afval',
-        subcategory: 'subcategory',
-      })
-      const expected = {
-        controls: {
-          ...defaultControls,
-          extra_afval: {
-            options: { validators: [] },
-            ...afval.extra_afval,
-            render: FormComponents.TextareaInput,
-          },
-          extra_container: {
-            options: { validators: [] },
-            ...afval.extra_container,
-            render: FormComponents.AssetSelectRenderer,
-          },
-        },
-      }
-
-      expect(actual).toEqual(expected)
-    })
-
-    it('should return no questions with non existing category', () => {
+    it('should only return location when category does not match', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
       })
-      const expected = { controls: {} }
+      const expected = {
+        controls: {
+          ...defaultControls,
+          locatie: expect.any(Object),
+        },
+      }
 
       expect(actual).toEqual(expected)
     })

@@ -13,7 +13,6 @@ import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'
 import getStepControls from '../services/get-step-controls'
-import { createRequired } from '../services/custom-validators'
 
 const priorityValuesList = priorityList.reduce(
   (acc, { key, value, info }) => ({ ...acc, [key]: { value, info } }),
@@ -57,20 +56,6 @@ const getControls = memoize(
           validators: [Validators.required],
         },
         render: renderSources(),
-      },
-      location: {
-        meta: {
-          label: 'Waar is het?',
-          subtitle:
-            'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
-          path: 'location',
-        },
-        options: {
-          validators: [
-            createRequired('Kies een locatie op de kaart of vul een adres in'),
-          ],
-        },
-        render: FormComponents.MapInput,
       },
       description: {
         meta: {
@@ -164,7 +149,7 @@ const getControls = memoize(
           label: "Foto's toevoegen",
           subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
           minFileSize: 30 * 2 ** 10, // 30 KiB.
-          maxFileSize: 8 * 2 ** 20, // 8 MiB.
+          maxFileSize: 20 * 2 ** 20, // 20 MiB.
           allowedFileTypes: [
             'image/jpeg',
             'image/jpg',
@@ -183,6 +168,7 @@ const getControls = memoize(
         meta: {
           label: configuration.language.helpTextHeader,
           value: configuration.language.helpText,
+          ignoreVisibility: true,
         },
         render: FormComponents.PlainText,
       },

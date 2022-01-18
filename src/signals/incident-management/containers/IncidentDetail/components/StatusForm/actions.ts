@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Status } from 'signals/incident-management/definitions/types'
+import type { Status } from 'signals/incident-management/definitions/types'
 
 export type Action<T extends string = string, P = void> = {
   payload: P

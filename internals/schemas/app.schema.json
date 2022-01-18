@@ -105,10 +105,6 @@
           "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
-        "useMapSelectGeneric": {
-          "description": "When true, will use MapSelectGeneric instead of MapSelect input component for additional questions.",
-          "type": "boolean"
-        },
         "useStaticMapServer": {
           "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
           "type": "boolean"
@@ -130,7 +126,6 @@
         "showThorButton",
         "showVulaanControls",
         "useProjectenSignalType",
-        "useMapSelectGeneric",
         "useStaticMapServer"
       ],
       "title": "FeatureFlags"
@@ -370,6 +365,11 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "containers": {
+              "description": "GeoJSON URL for the retrieval of container location data. Used by the incident form for showing container locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri-template"
+            },
             "klokken": {
               "description": "GeoJSON URL for the retrieval of public clock location data. Used by the incident form for showing clock locations on a map\n\nNo Swagger documentation available",
               "type": "string",

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { ExtendedCategory } from 'models/categories/selectors'
-import SubCategory from 'types/api/sub-category'
+import type SubCategory from 'types/api/sub-category'
 import {
   RESET,
   SET_ADDRESS,

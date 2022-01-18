@@ -13,7 +13,6 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useMapSelectGeneric": false,
     "useStaticMapServer": true
   },
   "head": {
@@ -25,7 +24,7 @@
     "themeColor": "#ec0000"
   },
   "language": {
-    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding met contactgegevens te delen met andere organisaties, zoals de Politie of de Dierenambulance, als de melding niet voor de gemeente is bestemd.",
+    "consentToContactSharing": "Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.",
     "district": "Stadsdeel",
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
@@ -71,7 +70,7 @@
           5.10737
         ]
       ],
-      "maxZoom": 14,
+      "maxZoom": 16,
       "minZoom": 8,
       "zoom": 10
     },
@@ -97,8 +96,9 @@
     },
     "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
-      "klokken": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={east}&lengtegraad[lte]={west}&breedtegraad[gte]={south}&breedtegraad[lte]={north}&objecttypeOmschrijving=Klok",
-      "verlichting": "https://api.data.amsterdam.nl/v1/openbareverlichting/openbareverlichting/?_format=geojson&lengtegraad[gte]={east}&lengtegraad[lte]={west}&breedtegraad[gte]={south}&breedtegraad[lte]={north}&objecttypeOmschrijving[not]=Klok"
+      "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
+      "klokken": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
+      "verlichting": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
   },
   "matomo": {

@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+
+import type { FunctionComponent } from 'react'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type { FeatureType, Item } from '../types'
+import type { FeatureType, Item } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -28,11 +31,19 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
+const StyledDiv = styled.div`
+  color: ${themeColor('secondary')};
+`
+
+const StyledLabel = styled.div`
+  margin-left: ${themeSpacing(2)};
+`
+
 export interface AssetListProps {
-  selection: Item[]
-  onRemove?: (id: string) => void
-  featureTypes: FeatureType[]
   className?: string
+  featureTypes: FeatureType[]
+  onRemove?: () => void
+  selection: Item
 }
 
 const AssetList: FunctionComponent<AssetListProps> = ({
@@ -41,40 +52,52 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const items = selection.map(({ id, type }) => {
+  const item = useMemo(() => {
+    const { id, type, isReported } = selection
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
-    return {
+    const label = [description, id].filter(Boolean).join(' - ')
+
+    const baseItem = {
       id,
-      label: `${description}${id ? ` - ${id}` : ''}`,
-      iconUrl: icon ? `data:image/svg+xml;base64,${btoa(icon.iconSvg)}` : '',
+      label,
     }
-  })
+
+    return {
+      ...baseItem,
+      iconUrl: icon ? icon.iconUrl : '',
+      isReported,
+    }
+  }, [featureTypes, selection])
 
   return (
     <IconList data-testid="assetList" className={className}>
-      {items.map((item) => (
-        <IconListItem
-          key={item.id}
-          id={`assetListItem-${item.id}`}
-          iconUrl={item.iconUrl}
-        >
-          <ItemWrapper>
-            {item.label}
-            {onRemove && (
-              <StyledButton
-                data-testid={`assetListRemove-${item.id}`}
-                aria-label="Verwijder"
-                icon={<Close />}
-                onClick={() => {
-                  onRemove(item.id)
-                }}
-              />
-            )}
-          </ItemWrapper>
-        </IconListItem>
-      ))}
+      <IconListItem
+        key={item.id}
+        id={
+          item.isReported
+            ? `assetListItem-${item.id}-reported`
+            : `assetListItem-${item.id}`
+        }
+        iconUrl={item.iconUrl}
+        isReported={item.isReported}
+      >
+        <ItemWrapper>
+          <StyledLabel>
+            <div>{item.label}</div>
+            {item.isReported && <StyledDiv>Is gemeld</StyledDiv>}
+          </StyledLabel>
+          {onRemove && (
+            <StyledButton
+              data-testid={`assetListRemove-${item.id}`}
+              aria-label="Verwijder"
+              icon={<Close />}
+              onClick={onRemove}
+            />
+          )}
+        </ItemWrapper>
+      </IconListItem>
     </IconList>
   )
 }

@@ -2,69 +2,13 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
 import { FormGenerator } from 'react-reactive-form'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { themeSpacing } from '@amsterdam/asc-ui'
 import isObject from 'lodash/isObject'
 
-import { getIsAuthenticated } from 'shared/services/auth/auth'
 import formatConditionalForm from '../../services/format-conditional-form'
-
-export const Form = styled.form`
-  width: 100%;
-`
-
-export const Fieldset = styled.fieldset`
-  border: 0;
-  padding: 0;
-  margin: 0;
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: ${themeSpacing(8)};
-  word-break: normal;
-
-  & > * {
-    grid-column-start: 1;
-  }
-
-  .incident-navigation,
-  .mapSelect,
-  .mapSelectGeneric,
-  .mapInput,
-  .caution {
-    grid-column-end: 3;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-columns: 8fr 4fr;
-    grid-column-gap: ${themeSpacing(5)};
-
-    ${({ isSummary }) =>
-      isSummary &&
-      css`
-        grid-template-columns: 4fr 6fr;
-
-        & > *:not(.incident-navigation) {
-          grid-column-start: 2;
-        }
-
-        ${() =>
-          getIsAuthenticated() &&
-          css`
-            @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-              grid-template-columns: 4fr 6fr 2fr;
-
-              & > .incident-navigation {
-                grid-column-end: 4;
-              }
-            }
-          `}
-      `}
-  }
-`
+import { Form, Fieldset, ProgressContainer } from './styled'
 
 class IncidentForm extends Component {
   constructor(props) {
@@ -223,7 +167,14 @@ class IncidentForm extends Component {
           !Array.isArray(values) && isObject(values)
             ? `-${Object.keys(values)[0]}`
             : ''
-        this.formRef.current.querySelector(`#${name}${valueSelector}`).focus()
+
+        const invalidElement = this.formRef.current.querySelector(
+          `#${name}${valueSelector}`
+        )
+
+        if (invalidElement) {
+          invalidElement.focus()
+        }
       }
     }
 
@@ -235,7 +186,8 @@ class IncidentForm extends Component {
     const isSummary = Object.keys(fields).includes('page_summary')
 
     return (
-      <div className="incident-form" data-testid="incidentForm">
+      <div data-testid="incidentForm">
+        <ProgressContainer />
         <Form onSubmit={this.handleSubmit} ref={this.formRef}>
           <Fieldset isSummary={isSummary}>
             <FormGenerator

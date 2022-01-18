@@ -6,7 +6,7 @@
 import { composeWithDevTools } from 'redux-devtools-extension'
 import history from '../utils/history'
 import configureStore from '../configureStore'
-import { InjectedStore } from '../types'
+import type { InjectedStore } from '../types'
 
 describe('configureStore', () => {
   let store: InjectedStore

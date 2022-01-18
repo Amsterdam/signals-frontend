@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { FunctionComponent, useMemo } from 'react'
+import type { FunctionComponent } from 'react'
+import { useMemo } from 'react'
 import { useWatch } from 'react-hook-form'
 import TextAreaComponent from 'components/TextArea'
-import { FieldProps } from '../../types'
+import type { FieldProps } from '../../types'
 
 export const DEFAULT_MAX_LENGTH = 1000
 const DEFAULT_ROWS = 6

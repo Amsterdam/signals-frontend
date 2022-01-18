@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import configuration from 'shared/services/configuration/configuration'
@@ -147,5 +147,47 @@ describe('<Detail />', () => {
     await findByTestId('detail-title')
 
     expect(queryByTestId('detail-area-definition')).not.toBeInTheDocument()
+  })
+
+  it('should only render phone number in a link when the number is visible', async () => {
+    const reporterPhoneVisible = {
+      reporter: {
+        phone: '+31 201234567',
+      },
+    }
+
+    const { rerender, unmount } = render(
+      withAppContext(
+        <IncidentDetailContext.Provider
+          value={{ incident: { ...incidentFixture, ...reporterPhoneVisible } }}
+        >
+          <Detail {...props} />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    expect(screen.queryByTestId('detail-phone-link')).toBeInTheDocument()
+
+    unmount()
+
+    const reporterPhoneNotVisible = {
+      reporter: {
+        phone: '***',
+      },
+    }
+
+    rerender(
+      withAppContext(
+        <IncidentDetailContext.Provider
+          value={{
+            incident: { ...incidentFixture, ...reporterPhoneNotVisible },
+          }}
+        >
+          <Detail {...props} />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    expect(screen.queryByTestId('detail-phone-link')).not.toBeInTheDocument()
   })
 })

@@ -4,6 +4,7 @@ import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
 import CategorySelectRenderer from './CategorySelectRenderer'
 import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
 import CheckboxInput from './CheckboxInput'
+import ClockSelectRenderer from './MapSelectors/Clock/ClockSelectRenderer'
 import DateTimeInput from './DateTimeInput'
 import DescriptionInputRenderer from './DescriptionInputRenderer'
 import EmphasisCheckboxInput from './EmphasisCheckboxInput'
@@ -13,11 +14,11 @@ import HandlingMessage from './HandlingMessage/HandlingMessage'
 import HiddenInput from './HiddenInput'
 import LinkButton from './LinkButton'
 import MapInput from './MapInput'
-import MapSelect from './MapSelect'
 import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
 import RadioInputGroup from './RadioInputGroup'
 import SelectInput from './SelectInput'
+import StreetlightSelectRenderer from './MapSelectors/Streetlight/StreetlightSelectRenderer'
 import TextareaInput from './TextareaInput'
 import TextInput from './TextInput'
 import WithHeading from './WithHeading'
@@ -27,6 +28,7 @@ export default {
   CategorySelectRenderer,
   CaterpillarSelectRenderer,
   CheckboxInput,
+  ClockSelectRenderer,
   DateTimeInput,
   DescriptionInputRenderer,
   EmphasisCheckboxInput,
@@ -36,11 +38,11 @@ export default {
   HiddenInput,
   LinkButton,
   MapInput,
-  MapSelect,
   MultiTextInput,
   PlainText,
   RadioInputGroup,
   SelectInput,
+  StreetlightSelectRenderer,
   TextareaInput,
   TextInput,
   WithHeading,

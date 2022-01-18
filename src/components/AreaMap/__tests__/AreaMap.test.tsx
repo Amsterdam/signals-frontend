@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
-import { Geography } from 'types/api/geography'
+import type { Geography } from 'types/api/geography'
 
 import AreaMap from '..'
-import { AreaMapProps } from '../AreaMap'
-import { Feature } from '../types'
+import type { AreaMapProps } from '../AreaMap'
+import type { Feature } from '../types'
 
 const features: Feature[] = [
   {
@@ -53,7 +53,16 @@ describe('<AreaMap />', () => {
 
   beforeEach(() => {
     props = {
-      center: [1, 2],
+      location: {
+        stadsdeel: 'west',
+        buurt_code: null,
+        address: null,
+        extra_properties: null,
+        geometrie: {
+          type: 'Point',
+          coordinates: [25, 4],
+        },
+      },
       onClick: jest.fn(),
       onClose: jest.fn(),
       selectedFeature: features[0],

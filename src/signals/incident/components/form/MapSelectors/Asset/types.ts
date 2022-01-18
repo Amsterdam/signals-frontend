@@ -1,48 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { IconOptions, LatLngExpression } from 'leaflet'
-import { ClickEventHandler } from '../types'
-
-export interface Item {
-  id: string
-  type: string
-  description?: string
-}
-
-export interface FeatureType {
-  label: string
-  description: string
-  icon: FeatureIcon
-  idField: string
-  typeField: string
-  typeValue: string
-}
-
-export interface FeatureIcon {
-  options?: Partial<IconOptions>
-  iconSvg: string
-  selectedIconSvg?: string
-}
-
-export interface Options {
-  className: string
-  iconSize: number[]
-}
-
-export interface Meta extends Record<string, unknown> {
-  name?: string
-  endpoint: string
-  featureTypes: FeatureType[]
-  language?: Record<string, string>
-}
+import type { FC } from 'react'
+import type { LatLngLiteral } from 'leaflet'
+import type { Location } from 'types/incident'
+import type { Address } from 'types/address'
+import type { FormOptions } from 'types/reactive-form'
+import type { EventHandler, Meta, Item } from '../types'
+import type { FormFieldProps } from '../../FormField/FormField'
 
 export interface AssetSelectValue {
-  selection: Item[]
-  location: LatLngExpression
-  meta: Meta
-  message?: string
-  update: (items: Item[]) => void
-  edit: ClickEventHandler
+  address?: Address
   close: () => void
+  edit: EventHandler
+  layer?: FC
+  coordinates?: LatLngLiteral
+  message?: string
+  meta: Meta
+  removeItem: () => void
+  selection?: Item
+  setItem: (item: Item) => void
+  fetchLocation: (latLng: LatLngLiteral) => void
+  setLocation: (location: Location) => void
   setMessage: (message?: string) => void
+}
+
+export interface AssetSelectRendererProps extends FormFieldProps {
+  meta: Meta
+  handler: any
+  parent: any
+  validatorsOrOpts: FormOptions
 }

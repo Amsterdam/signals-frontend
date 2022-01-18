@@ -11,8 +11,8 @@ import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-import { Theme } from 'types/theme'
-import { Variant } from 'containers/Notification/types'
+import type { Theme } from 'types/theme'
+import type { Variant } from 'containers/Notification/types'
 
 export const Wrapper = styled.div<{
   top?: number
@@ -43,7 +43,6 @@ export const Wrapper = styled.div<{
   transition-timing-function: ease-out;
   transition-duration: ${ONCLOSE_TIMEOUT}ms;
   width: 100vw;
-  will-change: transform, opacity;
   z-index: 1;
   opacity: 1;
 

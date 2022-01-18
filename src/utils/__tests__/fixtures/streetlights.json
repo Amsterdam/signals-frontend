@@ -1,0 +1,291 @@
+{
+  "type": "FeatureCollection",
+  "timeStamp": "2021-12-07T15:58:53.923001+00:00",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.23942",
+      "geometry_name": "031346",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93260100007849,
+          52.3446930046443
+        ]
+      },
+      "properties": {
+        "id": 23942,
+        "object_id": "27234",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "031346",
+        "breedtegraad": 52.344692873378,
+        "lengtegraad": 4.93260130543811,
+        "storingstatus": 1,
+        "meldingstatus": 1
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.23943",
+      "geometry_name": "031347",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93313800007901,
+          52.3444540046442
+        ]
+      },
+      "properties": {
+        "id": 23943,
+        "object_id": "27235",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "031347",
+        "breedtegraad": 52.3444543310183,
+        "lengtegraad": 4.93313777365805,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.23944",
+      "geometry_name": "031348",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93335200007922,
+          52.3443220046441
+        ]
+      },
+      "properties": {
+        "id": 23944,
+        "object_id": "27236",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "031348",
+        "breedtegraad": 52.3443224057349,
+        "lengtegraad": 4.93335249775015,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.23945",
+      "geometry_name": "031349",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93359000007945,
+          52.3441730046441
+        ]
+      },
+      "properties": {
+        "id": 23945,
+        "object_id": "27237",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "031349",
+        "breedtegraad": 52.3441730429587,
+        "lengtegraad": 4.93359043844232,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.49871",
+      "geometry_name": "068456",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93344300007931,
+          52.3448420046444
+        ]
+      },
+      "properties": {
+        "id": 49871,
+        "object_id": "57932",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "068456",
+        "breedtegraad": 52.3448416153548,
+        "lengtegraad": 4.93344316554146,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.49873",
+      "geometry_name": "068458",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93283100007871,
+          52.3447910046444
+        ]
+      },
+      "properties": {
+        "id": 49873,
+        "object_id": "57934",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "068458",
+        "breedtegraad": 52.3447909128035,
+        "lengtegraad": 4.93283099525234,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.49874",
+      "geometry_name": "068459",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93307800007895,
+          52.3449420046444
+        ]
+      },
+      "properties": {
+        "id": 49874,
+        "object_id": "57935",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "068459",
+        "breedtegraad": 52.3449419567218,
+        "lengtegraad": 4.93307819437964,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.50733",
+      "geometry_name": "069624",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.932107000078,
+          52.3438240046438
+        ]
+      },
+      "properties": {
+        "id": 50733,
+        "object_id": "58966",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "069624",
+        "breedtegraad": 52.3438241969584,
+        "lengtegraad": 4.93210714648664,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.50734",
+      "geometry_name": "069625",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93183200007773,
+          52.3439710046439
+        ]
+      },
+      "properties": {
+        "id": 50734,
+        "object_id": "58967",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "069625",
+        "breedtegraad": 52.343970898584,
+        "lengtegraad": 4.931832395939,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.50735",
+      "geometry_name": "069626",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93157700007748,
+          52.344126004644
+        ]
+      },
+      "properties": {
+        "id": 50735,
+        "object_id": "58968",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "069626",
+        "breedtegraad": 52.3441261239691,
+        "lengtegraad": 4.93157736727644,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.68844",
+      "geometry_name": "095833",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.93245900007835,
+          52.3448780046444
+        ]
+      },
+      "properties": {
+        "id": 68844,
+        "object_id": "79521",
+        "objecttype": "4",
+        "objecttype_omschrijving": "LSD Objecten",
+        "objectnummer": "095833",
+        "breedtegraad": 52.3448781918236,
+        "lengtegraad": 4.93245867255593,
+        "storingstatus": 0,
+        "meldingstatus": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "openbareverlichting.68845",
+      "geometry_name": "095834",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.9329240000788,
+          52.3445870046443
+        ]
+      },
+      "properties": {
+        "id": 68845,
+        "object_id": "79522",
+        "objecttype": "1",
+        "objecttype_omschrijving": "Klok",
+        "objectnummer": "095834",
+        "breedtegraad": 52.3445868895297,
+        "lengtegraad": 4.93292421581416,
+        "storingstatus": 0,
+        "meldingstatus": 1
+      }
+    }
+  ],
+  "links": [],
+  "numberReturned": 12,
+  "numberMatched": 12
+}

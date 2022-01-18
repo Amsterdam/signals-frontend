@@ -8,25 +8,10 @@ import MapInputComponent from 'components/MapInput'
 import MapContext from 'containers/MapContext'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { formatMapLocation } from 'shared/services/map-location'
 
 import FormField from '../FormField'
 import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 import getMapCenter from './getMapCenter'
-
-interface MapValue {
-  location?: {
-    lat: number
-    lng: number
-  }
-  addressText?: string
-  address?: {
-    huisnummer: string | number
-    openbare_ruimte: string
-    postcode: string
-    woonplaats: string
-  }
-}
 
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   touched,
@@ -37,10 +22,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   validatorsOrOpts,
   value,
 }) => {
-  const mapLocation = formatMapLocation(value) as MapValue
-  const { location } = mapLocation
-
-  const center = location ? [location.lat, location.lng] : getMapCenter()
+  const center = value?.coordinates || getMapCenter()
 
   const mapOptions = {
     ...MAP_OPTIONS,
@@ -72,7 +54,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
             aria-label={configuration.language.mapDescription}
             aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
             onChange={onLocationChange}
-            value={mapLocation}
+            value={value}
             mapOptions={mapOptions}
             hasGPSControl
           />

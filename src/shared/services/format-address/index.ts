@@ -1,4 +1,4 @@
-import { Address } from 'types/address'
+import type { Address } from 'types/address'
 
 export const formatAddress = ({
   openbare_ruimte,

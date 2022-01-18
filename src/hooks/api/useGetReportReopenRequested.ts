@@ -1,5 +1,5 @@
 import configuration from 'shared/services/configuration/configuration'
-import { Report } from 'types/api/report'
+import type { Report } from 'types/api/report'
 import { useBuildGetter } from './useBuildGetter'
 
 const useGetReportReopenRequested = () =>

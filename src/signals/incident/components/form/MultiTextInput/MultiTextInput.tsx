@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { KeyboardEvent } from 'react'
+import type { KeyboardEvent } from 'react'
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import map from 'lodash/map'
@@ -30,8 +30,7 @@ const updateIncident = (
 ) => {
   const fields = [...oldFields]
   fields[index] = value
-
-  parent.meta.updateIncident({ [meta.name]: fields })
+  meta.name && parent.meta.updateIncident({ [meta.name]: fields })
 }
 
 function addItem(oldFields: string[], meta: FormMeta, parent: ParentType) {
@@ -42,7 +41,7 @@ function addItem(oldFields: string[], meta: FormMeta, parent: ParentType) {
   }
 
   fields.push('')
-  parent.meta.updateIncident({ [meta.name]: fields })
+  meta.name && parent.meta.updateIncident({ [meta.name]: fields })
 }
 
 export const StyledInput = styled(Input)`

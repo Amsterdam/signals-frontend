@@ -1,0 +1,11 @@
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>icon-rest</title>
+  <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="icon-rest">
+      <circle id="Oval-2-Copy-17" stroke="#FFFFFF" stroke-width="2" fill="#323232" cx="20" cy="20" r="19"></circle>
+      <g transform="translate(11.000000, 10.000000)" fill="#FFFFFF" fill-rule="nonzero" id="Combined-Shape">
+        <path d="M6,19.5 C6,20.328427 5.32842713,21 4.5,21 C3.67157287,21 3,20.328427 3,19.5 L6,19.5 Z M15,19.5 C15,20.328427 14.3284271,21 13.5,21 C12.6715729,21 12,20.328427 12,19.5 L15,19.5 Z M16.5,6 L15,18 L3,18 L1.4932251,6 L16.5,6 Z M6,7.5 L4.5,7.5 L4.5,16.5 L13.5,16.5 L13.5,7.5 L12,7.5 L12,15 L6,15 L6,7.5 Z M12,0 L12,3 L18,3 L18,4.5 L0,4.5 L0,3 L6,3 L6,0 L12,0 Z M10.5,1.5 L7.5,1.5 L7.5,3 L10.5,3 L10.5,1.5 Z"></path>
+      </g>
+    </g>
+  </g>
+</svg>

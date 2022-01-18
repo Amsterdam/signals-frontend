@@ -1,7 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-import * as caterpillarIcons from './caterpillar-icons'
+import type { IconOptions } from 'leaflet'
+import oakUrl from 'shared/images/groen_water/oak.svg?url'
+import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
+import { validateObjectLocation } from '../../services/custom-validators'
+
+export const ICON_SIZE = 40
+
+const options: Pick<IconOptions, 'className' | 'iconSize'> = {
+  className: 'object-marker',
+  iconSize: [ICON_SIZE, ICON_SIZE],
+}
 
 export const controls = {
   extra_eikenprocessierups: {
@@ -9,70 +20,63 @@ export const controls = {
       ifAllOf: {
         subcategory: 'eikenprocessierups',
       },
-      label: 'Kies de boom waarin u de eikenprocessierupsen hebt gezien',
+      label: 'Waar is het?',
+      language: {
+        title: 'Locatie',
+        subTitle: 'Kies een boom op de kaart',
+        unregistered: 'De boom staat niet op de kaart',
+        unregisteredId: undefined,
+        objectTypeSingular: 'boom',
+        objectTypePlural: 'bomen',
+        submit: 'Gebruik deze locatie',
+      },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
       endpoint:
         'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
-      legendItems: [
-        {
-          label: 'Eikenboom',
-          iconId: 'oak',
-          id: 'oak',
-        },
-        {
-          label: 'Is gemeld',
-          iconId: 'isReported',
-          id: 'isReported',
-        },
-      ],
-      icons: [
-        {
-          id: 'oak',
-          icon: caterpillarIcons.oak,
-        },
-        {
-          id: 'oakIsReported',
-          icon: caterpillarIcons.oakIsReported,
-        },
-        {
-          id: 'isReported',
-          icon: caterpillarIcons.reported,
-        },
-        {
-          id: 'isSelected',
-          icon: caterpillarIcons.select,
-        },
-        {
-          id: 'isSelectedAndReported',
-          icon: caterpillarIcons.isSelectedAndReported,
-        },
-        {
-          id: 'unknown',
-          icon: caterpillarIcons.unknown,
-        },
-      ],
       featureTypes: [
         {
           label: 'Eikenboom',
           description: 'Eikenboom',
-          iconId: 'oak',
-          iconIsReportedId: 'oakIsReported',
+          icon: {
+            options,
+            iconUrl: oakUrl,
+          },
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
+          typeField: '',
+          isReportedField: 'AMS_Meldingstatus',
+          isReportedValue: 1,
+        },
+        {
+          label: 'Eikenboom is reeds gemeld ',
+          description: 'Eikenboom is reeds gemeld',
+          icon: {
+            options,
+            iconUrl: reportedFeatureMarkerUrl,
+          },
+          idField: 'OBJECTID',
+          typeValue: 'reported',
+          typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
         },
         {
           label: 'Onbekend',
           description: 'De boom staat niet op de kaart',
-          iconId: 'unknown',
+          icon: {
+            options,
+            iconUrl: unknownFeatureMarkerUrl,
+          },
           typeValue: 'not-on-map',
+          typeField: '',
         },
       ],
       extraProperties: ['GlobalID'],
     },
-    options: { validators: ['required'] },
+    options: {
+      validators: [validateObjectLocation('boom')],
+    },
     render: FIELD_TYPE_MAP.caterpillar_select,
   },
   extra_nest_grootte: {

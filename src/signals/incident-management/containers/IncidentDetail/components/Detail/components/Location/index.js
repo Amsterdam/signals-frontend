@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo, useContext } from 'react'
+import { Fragment, useContext } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
@@ -10,6 +10,7 @@ import { stadsdeelList } from 'signals/incident-management/definitions'
 import MapStatic from 'components/MapStatic'
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
+import { featureToCoordinates } from 'shared/services/map-location'
 
 import MapDetail from '../../../MapDetail'
 import HighLight from '../../../Highlight'
@@ -59,16 +60,7 @@ const StyledMap = styled(MapDetail)`
 const Location = ({ location }) => {
   const { districts } = useContext(IncidentManagementContext)
   const { preview, edit } = useContext(IncidentDetailContext)
-  const latitude = location?.geometrie?.coordinates[1]
-  const longitude = location?.geometrie?.coordinates[0]
-
-  const geometry = useMemo(
-    () => ({
-      latitude,
-      longitude,
-    }),
-    [longitude, latitude]
-  )
+  const { lat, lng } = featureToCoordinates(location.geometrie)
 
   return (
     <Fragment>
@@ -86,7 +78,7 @@ const Location = ({ location }) => {
         />
 
         <StyledHighLight type="location">
-          {latitude && longitude && (
+          {lat && lng && (
             <MapTile
               role="button"
               onClick={() => {
@@ -100,11 +92,11 @@ const Location = ({ location }) => {
                   height={mapHeight}
                   markerSize={20}
                   width={mapWidth}
-                  {...geometry}
+                  coordinates={{ lat, lng }}
                 />
               ) : (
                 <StyledMap
-                  key={`${latitude},${longitude}`}
+                  key={`${lat},${lng}`}
                   value={location}
                   icon={smallMarkerIcon}
                   zoom={mapZoom}

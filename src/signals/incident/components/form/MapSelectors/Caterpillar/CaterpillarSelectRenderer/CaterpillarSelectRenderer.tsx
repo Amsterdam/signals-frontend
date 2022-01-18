@@ -1,19 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import FormField from '../../../FormField'
-import { FormFieldProps } from '../../../FormField/FormField'
-import CaterpillarSelect from '../CaterpillarSelect'
-import { Meta } from '../types'
+import AssetSelect from '../../Asset'
+import Layer from '../CaterpillarLayer'
+import type { AssetSelectRendererProps } from '../../Asset/types'
 
-interface CaterpillarSelectRendererProps extends FormFieldProps {
-  meta: Meta
-  handler: any
-  parent: any
-  validatorsOrOpts: any
-}
-
-const CaterpillarSelectRenderer: FunctionComponent<CaterpillarSelectRendererProps> =
+const CaterpillarSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
   ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
     meta.isVisible ? (
       <FormField
@@ -23,7 +16,12 @@ const CaterpillarSelectRenderer: FunctionComponent<CaterpillarSelectRendererProp
         hasError={hasError}
         getError={getError}
       >
-        <CaterpillarSelect handler={handler} meta={meta} parent={parent} />
+        <AssetSelect
+          handler={handler}
+          meta={meta}
+          parent={parent}
+          layer={Layer}
+        />
       </FormField>
     ) : null
 

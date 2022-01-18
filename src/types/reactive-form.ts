@@ -31,14 +31,13 @@ export interface ReactiveFormMeta {
 }
 
 export interface FormMeta extends Record<string, unknown> {
-  name: string
+  name?: string
   label?: string
   subtitle?: string
   placeholder?: string
   maxLength?: number
   autoRemove?: RegExp
   isVisible?: boolean
-  autoFocus?: boolean
   autoComplete?: string
   type?: string
   newItemText?: string

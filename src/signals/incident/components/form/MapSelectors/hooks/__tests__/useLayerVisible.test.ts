@@ -41,6 +41,7 @@ describe('useLayerVisible', () => {
 
   it('should return true when the layer is visible', () => {
     const zoomLevel: ZoomLevel = { max: 12 }
+    mockGetZoom.mockImplementation(() => 13)
     const { result } = renderHook(() => useLayerVisible(zoomLevel))
 
     expect(result.current).toEqual(true)
@@ -49,7 +50,7 @@ describe('useLayerVisible', () => {
   it('should return false when layer is not visible', () => {
     const zoomLevel: ZoomLevel = { max: 12 }
     const { result } = renderHook(() => useLayerVisible(zoomLevel))
-    expect(result.current).toEqual(true)
+    expect(result.current).toEqual(false)
 
     mockGetZoom.mockImplementation(() => 11)
     act(() => {

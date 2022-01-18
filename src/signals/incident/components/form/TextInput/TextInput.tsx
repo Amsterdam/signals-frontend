@@ -28,17 +28,17 @@ const TextInput: FunctionComponent<TextInputProps> = ({
       <Input
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
-        autoFocus={meta.autoFocus}
         autoComplete={meta.autoComplete}
         type={meta.type}
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={(event) => {
-          parent.meta.updateIncident({
-            [meta.name]: meta.autoRemove
-              ? event.target.value.replace(meta.autoRemove, '')
-              : event.target.value,
-          })
+          meta.name &&
+            parent.meta.updateIncident({
+              [meta.name]: meta.autoRemove
+                ? event.target.value.replace(meta.autoRemove, '')
+                : event.target.value,
+            })
         }}
       />
     </FormField>

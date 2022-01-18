@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FunctionComponent, useCallback, useState } from 'react'
+import type { FunctionComponent } from 'react'
+import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 
 import { pointWithinBounds } from 'shared/services/map-location'
 import LoadingIndicator from 'components/LoadingIndicator'
 
 import { Button } from '@amsterdam/asc-ui'
-import { ReactComponent as GPS } from '../../shared/images/icon-gps.svg'
+import GPS from '../../shared/images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);

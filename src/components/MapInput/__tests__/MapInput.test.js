@@ -174,7 +174,7 @@ describe('components/MapInput', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({
-      geometrie: expect.any(Object),
+      coordinates: expect.any(Object),
       address: expect.any(Object),
     })
   })
@@ -232,11 +232,11 @@ describe('components/MapInput', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ geometrie: expect.any(Object) })
+    expect(onChange).toHaveBeenCalledWith({ coordinates: expect.any(Object) })
   })
 
   it('should render marker and center the map', async () => {
-    const location = {
+    const coordinates = {
       lat: 52.36058599633851,
       lng: 4.894292258032637,
     }
@@ -267,7 +267,9 @@ describe('components/MapInput', () => {
 
     rerender(
       withAppContext(
-        <context.Provider value={{ state: { location }, dispatch: () => {} }}>
+        <context.Provider
+          value={{ state: { coordinates }, dispatch: () => {} }}
+        >
           <MapInput
             id="test"
             mapOptions={MAP_OPTIONS}
@@ -341,7 +343,7 @@ describe('components/MapInput', () => {
     expect(setValuesSpy).toHaveBeenCalledTimes(2)
     expect(setValuesSpy).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        location: expect.any(Object),
+        coordinates: expect.any(Object),
         address: expect.any(Object),
         addressText: input.value,
       })
@@ -350,7 +352,7 @@ describe('components/MapInput', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        geometrie: expect.any(Object),
+        coordinates: expect.any(Object),
         address: expect.any(Object),
       })
     )

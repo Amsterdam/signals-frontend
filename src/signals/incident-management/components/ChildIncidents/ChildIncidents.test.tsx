@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
+import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 
 import { withAppContext } from 'test/utils'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
@@ -146,7 +147,13 @@ describe('components/ChildIncidents', () => {
     )
 
     screen.getAllByRole('listitem').forEach((element) => {
-      expect(element).toHaveStyleRule('border-left', '4px solid #FEC813')
+      expect(element).toHaveStyleRule(
+        'border-left',
+        `4px solid ${themeColor(
+          'support',
+          'focus'
+        )({ theme: ascDefaultTheme })}`
+      )
     })
   })
 })

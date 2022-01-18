@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import { Address } from './address'
+import type { Address } from './address'
 import type { Geometrie } from './incident'
 
 export default interface Location {

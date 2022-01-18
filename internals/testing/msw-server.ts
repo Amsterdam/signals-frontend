@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { rest, MockedRequest, ResponseResolver } from 'msw'
+import type { MockedRequest, ResponseResolver } from 'msw'
+import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import fetchMock from 'jest-fetch-mock'
 

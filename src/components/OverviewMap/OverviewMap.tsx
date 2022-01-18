@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, FC, SetStateAction } from 'react'
 import {
   memo,
   useContext,
@@ -9,7 +9,6 @@ import {
   useEffect,
   useMemo,
 } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import format from 'date-fns/format'
@@ -18,16 +17,17 @@ import L from 'leaflet'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { ViewerContainer } from '@amsterdam/arm-core'
 
+import type { LatLngExpression } from 'leaflet'
+import type { Geometrie } from 'types/incident'
+import type { PdokResponse } from 'shared/services/map-location'
+
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import MapContext from 'containers/MapContext/context'
 import { setAddressAction } from 'containers/MapContext/actions'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
-import {
-  featureTolocation,
-  formatPDOKResponse,
-} from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import { makeSelectFilterParams } from 'signals/incident-management/selectors'
 import useFetch from 'hooks/useFetch'
 import {
@@ -41,7 +41,7 @@ import DetailPanel from './DetailPanel'
 
 interface MapInstance {
   getZoom: () => number
-  flyTo: (location: number[], level: number) => void
+  flyTo: (location: LatLngExpression, level: number) => void
   eachLayer: (
     fn: (layer: {
       getIcon: unknown
@@ -52,7 +52,7 @@ interface MapInstance {
 }
 
 interface Feature {
-  geometry: { coordinates: L.LatLngTuple }
+  geometry: Geometrie
   properties: IncidentSummary
 }
 
@@ -94,8 +94,16 @@ const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
 }
+interface OverviewMapProps {
+  isPublic?: boolean
+  refresh?: boolean
+}
 
-const OverviewMap = ({ isPublic = false, ...rest }) => {
+const OverviewMap: FC<OverviewMapProps> = ({
+  isPublic = false,
+  refresh,
+  ...rest
+}) => {
   const endpoint = isPublic
     ? configuration.MAP_SIGNALS_ENDPOINT
     : configuration.GEOGRAPHY_ENDPOINT
@@ -131,10 +139,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
    * Note that testing this functionality resembles integration testing, hence disabling istanbul coverage
    */
   const onSelect = useCallback(
-    /* istanbul ignore next */ (option: {
-      value: string
-      data: { location: [number, number] }
-    }) => {
+    /* istanbul ignore next */ (option: PdokResponse) => {
       if (dispatch) {
         dispatch(setAddressAction(option.value))
       }
@@ -165,6 +170,9 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
   }, [resetMarkerIcons])
 
   useEffect(() => {
+    if (!refresh) {
+      return
+    }
     let active = true
     const pollingFn = () => {
       /* istanbul ignore else */
@@ -175,7 +183,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
       active = false
       clearInterval(intervalId)
     }
-  }, [pollingCount, setPollingCount])
+  }, [refresh, pollingCount, setPollingCount])
 
   useEffect(() => {
     if (isLoading || !initialMount) return
@@ -197,7 +205,7 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
     if (!data?.features || !layerInstance) return
 
     data.features.forEach((feature) => {
-      const latlng = featureTolocation(feature.geometry)
+      const latlng = featureToCoordinates(feature.geometry)
 
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
@@ -247,7 +255,6 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
           topLeft={
             <Autosuggest
               fieldList={['centroide_ll']}
-              formatResponse={formatPDOKResponse}
               municipality={configuration.map?.municipality}
               onSelect={onSelect}
               placeholder="Zoom naar adres"
@@ -264,10 +271,6 @@ const OverviewMap = ({ isPublic = false, ...rest }) => {
       </StyledMap>
     </Wrapper>
   )
-}
-
-OverviewMap.propTypes = {
-  isPublic: PropTypes.bool,
 }
 
 export default memo(OverviewMap)

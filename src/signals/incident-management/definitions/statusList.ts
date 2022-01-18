@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Status, StatusCode } from './types'
+import type { Status } from './types'
+import { StatusCode } from './types'
 
 export const GEMELD = {
   key: StatusCode.Gemeld,
@@ -46,7 +47,7 @@ export const INGEPLAND = {
   key: StatusCode.Ingepland,
   value: 'Ingepland',
   color: 'grey',
-  email_sent_when_set: true,
+  email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 

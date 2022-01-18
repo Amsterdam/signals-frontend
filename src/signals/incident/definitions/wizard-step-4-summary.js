@@ -39,10 +39,10 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.multi_text_input:
       return SCSVLabel
 
-    case FIELD_TYPE_MAP.map_select:
-      return (props) => PreviewComponents.MapSelectPreview({ ...props, meta })
-
     case FIELD_TYPE_MAP.asset_select:
+    case FIELD_TYPE_MAP.caterpillar_select:
+    case FIELD_TYPE_MAP.clock_select:
+    case FIELD_TYPE_MAP.streetlight_select:
       return (props) =>
         PreviewComponents.AssetListPreview({
           ...props,
@@ -52,13 +52,6 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
       return Label
-
-    case FIELD_TYPE_MAP.caterpillar_select:
-      return (props) =>
-        PreviewComponents.CaterpillarListPreview({
-          ...props,
-          meta,
-        })
 
     default:
       return Null
@@ -141,7 +134,7 @@ const getExtraQuestions = (category, subcategory, questions) => {
 }
 
 export default {
-  label: 'Controleer uw gegevens',
+  label: 'Versturen',
   subheader: 'Maak een aanpassing als dat nodig is.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
@@ -149,12 +142,12 @@ export default {
   previousButtonClass: 'action startagain',
   sectionLabels: {
     heading: {
-      beschrijf: 'Melding',
-      vulaan: 'Aanvullende informatie',
-      contact: 'Contactgegevens',
+      beschrijf: '1. Beschrijf uw melding',
+      vulaan: '2. Locatie en vragen',
+      contact: '3. Contactgegevens',
     },
     edit: {
-      beschrijf: 'Wijzig melding',
+      beschrijf: 'Wijzig uw melding',
       vulaan: 'Wijzig aanvullende informatie',
       contact: 'Wijzig contactgegevens',
     },
@@ -183,10 +176,10 @@ export default {
       },
       location: {
         label: 'Waar is het?',
-        render: PreviewComponents.Map,
+        render: PreviewComponents.MapPreview,
       },
       description: {
-        label: 'Waar gaat het om?',
+        label: 'Uw melding gaat over:',
         render: ({ value }) => value,
       },
       classification: {

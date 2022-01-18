@@ -3,6 +3,7 @@
 /* eslint-disable  react/prop-types */
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
+import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
@@ -115,7 +116,10 @@ describe('Form component <PlainText />', () => {
 
       const element = getByTestId('plainText')
       expect(element).toHaveStyleRule('padding', '20px')
-      expect(element).toHaveStyleRule('background-color', '#E6E6E6')
+      expect(element).toHaveStyleRule(
+        'background-color',
+        themeColor('tint', 'level3')({ theme: ascDefaultTheme })
+      )
     })
 
     it('should render plain text info correctly', () => {
