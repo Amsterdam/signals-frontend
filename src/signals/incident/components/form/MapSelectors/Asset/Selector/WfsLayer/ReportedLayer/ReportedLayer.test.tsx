@@ -18,7 +18,6 @@ import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/A
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 import ReportedLayer from './ReportedLayer'
 
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
@@ -33,7 +32,7 @@ const reportedFeatureType = {
   description: 'Is gemeld',
   icon: {
     options: {},
-    iconUrl: reportedIconUrl,
+    iconUrl: '/assets/images/icon-reported-marker.svg',
   },
   idField: 'objectnummer',
   typeField: 'objecttype',

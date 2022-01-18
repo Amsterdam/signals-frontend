@@ -8,10 +8,10 @@ import type {
   Feature,
   FeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
+import type { Geometrie } from 'types/incident'
+
 import { Marker } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
-import type { Geometrie } from 'types/incident'
-import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
@@ -32,7 +32,7 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: reportedIconUrl,
+      iconUrl: '/assets/images/icon-reported-marker.svg',
       className: REPORTED_CLASS_MODIFIER,
     })
 

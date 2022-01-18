@@ -15,7 +15,6 @@ import type { Geometrie } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 
 import { featureToCoordinates } from 'shared/services/map-location'
 import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
@@ -49,7 +48,7 @@ export const CaterpillarLayer: FC = () => {
       const icon = L.icon({
         iconSize: [40, 40],
         iconUrl: isSelected
-          ? featureSelectedMarkerUrl
+          ? '/assets/images/featureSelectedMarker.svg'
           : featureType.icon.iconUrl,
       })
 

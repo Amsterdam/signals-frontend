@@ -56,7 +56,7 @@ export default styled.div`
 
       background-color: ${themeColor('tint', 'level2')};
 
-      background-image: url('../../shared/images/Chevron-Down.svg');
+      background-image: url('/assets/images/Chevron-Down.svg');
       background-position: right;
       background-repeat: no-repeat;
       background-size: 16px 16px;
@@ -97,7 +97,7 @@ export default styled.div`
     .legend-control {
       &.is-closed {
         .legend-header {
-          background-image: url('../../shared/images/Chevron-Top.svg');
+          background-image: url('/assets/images/Chevron-Top.svg');
         }
 
         .legend-content {

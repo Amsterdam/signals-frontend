@@ -23,8 +23,6 @@ import ZoomMessageControl from '../MapSelect/control/ZoomMessageControl'
 import LoadingControl from '../MapSelect/control/LoadingControl'
 import ErrorControl from '../MapSelect/control/ErrorControl'
 import Wrapper from './styled'
-import DotSelectedIcon from '!!file-loader!../../shared/images/icon-dot-selected-marker.svg'
-import DotIcon from '!!file-loader!../../shared/images/icon-dot-marker.svg'
 
 const SELECTION_MAX_COUNT = 30
 export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
@@ -33,10 +31,13 @@ const defaultOptions = {
   className: 'object-marker',
   iconSize: [32, 32],
 }
-const LeafletDotIcon = L.icon({ ...defaultOptions, iconUrl: DotIcon })
+const LeafletDotIcon = L.icon({
+  ...defaultOptions,
+  iconUrl: '/assets/images/icon-dot-marker.svg',
+})
 const LeafletDotSelectedIcon = L.icon({
   ...defaultOptions,
-  iconUrl: DotSelectedIcon,
+  iconUrl: '/assets/images/icon-dot-selected-marker.svg',
 })
 
 const StyledMap = styled(Map)`

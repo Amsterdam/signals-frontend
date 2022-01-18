@@ -41,7 +41,6 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import type { Result, User } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
-import IconEdit from '../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../context'
 
 const StyledMetaList = styled.dl`
@@ -312,7 +311,7 @@ const MetaList = () => {
         <dt data-testid="meta-list-status-definition">
           <EditButton
             data-testid="editStatusButton"
-            icon={<IconEdit />}
+            icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
             iconSize={18}
             variant="application"
             type="button"

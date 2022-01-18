@@ -31,7 +31,6 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
-import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 import type {
   DataLayerProps,
   Item,
@@ -166,7 +165,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const isSelectedItem = selection?.id === id
 
         const iconUrl = isSelectedItem
-          ? featureSelectedMarkerUrl
+          ? '/assets/images/featureSelectedMarker.svg'
           : featureType.icon.iconUrl
 
         const marker = L.marker(latlng, {

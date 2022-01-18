@@ -1,20 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-
 import appConfiguration from 'shared/services/configuration/configuration'
+
 import type { IconOptions } from 'leaflet'
-
-import gevelarmatuurUrl from 'shared/images/openbare_verlichting/gevelarmatuur.svg?url'
-import grachtmastUrl from 'shared/images/openbare_verlichting/grachtmast.svg?url'
-import overspanningUrl from 'shared/images/openbare_verlichting/overspanning.svg?url'
-import klokUrl from 'shared/images/openbare_verlichting/klok.svg?url'
-import overigUrl from 'shared/images/openbare_verlichting/overig.svg?url'
-import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
-import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
-import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
-
 import type ConfigurationType from '../../../../../app.amsterdam.json'
+
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -66,7 +57,7 @@ const straatverlichtingKlokken = {
           description: 'Grachtmast',
           icon: {
             options,
-            iconUrl: grachtmastUrl,
+            iconUrl: '/assets/images/openbare_verlichting/grachtmast.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -77,7 +68,7 @@ const straatverlichtingKlokken = {
           description: 'Overspanning',
           icon: {
             options,
-            iconUrl: overspanningUrl,
+            iconUrl: '/assets/images/openbare_verlichting/overspanning.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -88,7 +79,7 @@ const straatverlichtingKlokken = {
           description: 'Gevelarmatuur',
           icon: {
             options,
-            iconUrl: gevelarmatuurUrl,
+            iconUrl: '/assets/images/openbare_verlichting/gevelarmatuur.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -99,7 +90,7 @@ const straatverlichtingKlokken = {
           description: 'Schijnwerper',
           icon: {
             options,
-            iconUrl: schijnwerperUrl,
+            iconUrl: '/assets/images/openbare_verlichting/schijnwerper.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -110,7 +101,7 @@ const straatverlichtingKlokken = {
           description: 'Overig lichtpunt',
           icon: {
             options,
-            iconUrl: overigUrl,
+            iconUrl: '/assets/images/openbare_verlichting/overig.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -121,7 +112,7 @@ const straatverlichtingKlokken = {
           description: 'Is gemeld',
           icon: {
             options,
-            iconUrl: reportedFeatureMarkerUrl,
+            iconUrl: '/assets/images/icon-reported-marker.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -131,7 +122,7 @@ const straatverlichtingKlokken = {
           description: 'Het lichtpunt staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureMarkerUrl,
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
           },
           idField: 'id',
           typeField: 'type',
@@ -266,7 +257,7 @@ const straatverlichtingKlokken = {
           description: 'Klok',
           icon: {
             options,
-            iconUrl: klokUrl,
+            iconUrl: '/assets/images/openbare_verlichting/klok.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -277,7 +268,7 @@ const straatverlichtingKlokken = {
           description: 'Is gemeld',
           icon: {
             options,
-            iconUrl: reportedFeatureMarkerUrl,
+            iconUrl: 'assets/images/icon-reported-marker.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
@@ -287,7 +278,7 @@ const straatverlichtingKlokken = {
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureMarkerUrl,
+            iconUrl: 'assets/images/featureUnknownMarker.svg',
           },
           idField: 'id',
           typeField: 'type',
