@@ -137,7 +137,7 @@ const getExtraQuestions = (category, subcategory, questions) => {
 }
 
 export default {
-  label: '4. Versturen',
+  label: 'Versturen',
   subheader: 'Maak een aanpassing als dat nodig is.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
