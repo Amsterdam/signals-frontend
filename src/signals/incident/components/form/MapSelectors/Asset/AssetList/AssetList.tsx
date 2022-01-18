@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 
@@ -30,6 +31,14 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
+const StyledDiv = styled.div`
+  color: ${themeColor('secondary')};
+`
+
+const StyledLabel = styled.div`
+  margin-left: ${themeSpacing(2)};
+`
+
 export interface AssetListProps {
   className?: string
   featureTypes: FeatureType[]
@@ -48,9 +57,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
-    const label = [description, isReported && 'is gemeld', id]
-      .filter(Boolean)
-      .join(' - ')
+    const label = [description, id].filter(Boolean).join(' - ')
 
     const baseItem = {
       id,
@@ -74,9 +81,13 @@ const AssetList: FunctionComponent<AssetListProps> = ({
             : `assetListItem-${item.id}`
         }
         iconUrl={item.iconUrl}
+        isReported={item.isReported}
       >
         <ItemWrapper>
-          {item.label}
+          <StyledLabel>
+            <div>{item.label}</div>
+            {item.isReported && <StyledDiv>Is gemeld</StyledDiv>}
+          </StyledLabel>
           {onRemove && (
             <StyledButton
               data-testid={`assetListRemove-${item.id}`}
