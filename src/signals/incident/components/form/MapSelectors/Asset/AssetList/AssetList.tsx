@@ -31,8 +31,9 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
-const StyledDiv = styled.div`
-  color: ${themeColor('secondary')};
+const StyledDiv = styled.div<{ isReported?: boolean }>`
+  color: ${({ isReported }) =>
+    isReported ? themeColor('secondary') : themeColor('support', 'valid')};
 `
 
 const StyledLabel = styled.div`
@@ -103,7 +104,9 @@ const AssetList: FunctionComponent<AssetListProps> = ({
           <StyledLabel>
             <div>{item.label}</div>
             {item.isReported && (
-              <StyledDiv>{reportedFeatureType.description}</StyledDiv>
+              <StyledDiv isReported>
+                {reportedFeatureType.description}
+              </StyledDiv>
             )}
             {!item.isReported && item.isChecked && (
               <StyledDiv>{checkedFeatureType.description}</StyledDiv>
