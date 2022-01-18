@@ -39,9 +39,6 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.multi_text_input:
       return SCSVLabel
 
-    case FIELD_TYPE_MAP.map_select:
-      return (props) => PreviewComponents.MapSelectPreview({ ...props, meta })
-
     case FIELD_TYPE_MAP.asset_select:
     case FIELD_TYPE_MAP.caterpillar_select:
     case FIELD_TYPE_MAP.clock_select:
