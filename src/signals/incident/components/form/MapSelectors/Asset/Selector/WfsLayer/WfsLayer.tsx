@@ -13,8 +13,7 @@ import useLayerVisible from '../../../hooks/useLayerVisible'
 import type { DataLayerProps } from '../../types'
 import { NO_DATA, WfsDataProvider } from './context'
 
-export const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
-export const SRS_NAME_SMALL = 'EPSG:4326'
+export const SRS_NAME = 'EPSG:4326'
 
 interface Bbox {
   east: string
@@ -55,7 +54,6 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     bbox && {
       ...bbox,
       srsName: SRS_NAME,
-      srsNameSmall: SRS_NAME_SMALL,
     }
   const wfsUrl = urlReplacements
     ? Object.entries(urlReplacements).reduce(

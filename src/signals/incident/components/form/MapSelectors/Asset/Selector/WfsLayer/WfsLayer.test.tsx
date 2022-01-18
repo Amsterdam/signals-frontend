@@ -20,7 +20,7 @@ import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import { AssetSelectProvider } from '../../context'
 
 import WfsDataContext, { NO_DATA } from './context'
-import { SRS_NAME, SRS_NAME_SMALL } from './WfsLayer'
+import { SRS_NAME } from './WfsLayer'
 
 const fetchMock = fetch as FetchMock
 
@@ -185,8 +185,8 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   it('supports replacements in the endpoint', async () => {
     fetchMock.mockResponse(JSON.stringify(assetsJson), { status: 200 })
     const endpoint =
-      'https://endpoint/?version=2&srsName={srsName}&srsNameSmall={srsNameSmall}&bbox={north},{east},{south},{west}'
-    const expectedEndpoint = `https://endpoint/?version=2&srsName=${SRS_NAME}&srsNameSmall=${SRS_NAME_SMALL}&bbox=52.37309163108818,4.879893974954347,52.37309163108818,4.879893974954347`
+      'https://endpoint/?version=2&srsName={srsName}&bbox={north},{east},{south},{west}'
+    const expectedEndpoint = `https://endpoint/?version=2&srsName=${SRS_NAME}&bbox=52.37309163108818,4.879893974954347,52.37309163108818,4.879893974954347`
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
       selection: undefined,
@@ -243,7 +243,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     }
 
     const urlWithFilter =
-      'https://endpoint/?version=2&filter=%3CFilter%3E%3CAnd%3E%3CPropertyIsEqualTo%3E%3CPropertyName%3Egeometrie%3C%2FPropertyName%3E%3Cgml%3AEnvelope+srsName%3D%22urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A4326%22%3E%3ClowerCorner%3E4.879893974954347+52.37309163108818%3C%2FlowerCorner%3E%3CupperCorner%3E4.879893974954347+52.37309163108818%3C%2FupperCorner%3E%3C%2Fgml%3AEnvelope%3E%3C%2FAnd%3E%3C%2FFilter%3E'
+      'https://endpoint/?version=2&filter=%3CFilter%3E%3CAnd%3E%3CPropertyIsEqualTo%3E%3CPropertyName%3Egeometrie%3C%2FPropertyName%3E%3Cgml%3AEnvelope+srsName%3D%22EPSG%3A4326%22%3E%3ClowerCorner%3E4.879893974954347+52.37309163108818%3C%2FlowerCorner%3E%3CupperCorner%3E4.879893974954347+52.37309163108818%3C%2FupperCorner%3E%3C%2Fgml%3AEnvelope%3E%3C%2FAnd%3E%3C%2FFilter%3E'
 
     render(
       withMapAsset(
