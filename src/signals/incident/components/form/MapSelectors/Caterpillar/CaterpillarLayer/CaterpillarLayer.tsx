@@ -7,9 +7,11 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
+  CheckedFeatureType,
   FeatureType,
   Feature,
   Item,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
@@ -41,7 +43,7 @@ export const CaterpillarLayer: FC = () => {
           reportedFeatureType.isReportedValue
       )
       const isChecked = Boolean(
-        checkedFeatureType.isCheckedValues?.includes(
+        checkedFeatureType.isCheckedValues.includes(
           feature.properties[checkedFeatureType.isCheckedField]
         )
       )
@@ -103,10 +105,10 @@ export const CaterpillarLayer: FC = () => {
 
   const reportedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'reported'
-  ) as FeatureType
+  ) as ReportedFeatureType
   const checkedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'checked'
-  ) as FeatureType
+  ) as CheckedFeatureType
 
   const statusFeatures = features.filter(
     (feature) =>
@@ -119,9 +121,8 @@ export const CaterpillarLayer: FC = () => {
       Boolean(
         checkedFeatureType.isCheckedField &&
           checkedFeatureType.isCheckedValues?.includes(
-            // eslint-disable-next-line
-            // @ts-ignore
-            feature.properties[checkedFeatureType.isCheckedField]
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            feature.properties![checkedFeatureType.isCheckedField]
           )
       )
   )
@@ -136,8 +137,8 @@ export const CaterpillarLayer: FC = () => {
         checkedFeatureType && (
           <StatusLayer
             statusFeatures={statusFeatures as Feature[]}
-            reportedFeatureType={reportedFeatureType as FeatureType}
-            checkedFeatureType={checkedFeatureType as FeatureType}
+            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
+            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
           />
         )}
     </>

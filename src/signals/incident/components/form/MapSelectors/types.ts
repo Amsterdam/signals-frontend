@@ -35,12 +35,18 @@ export interface FeatureType {
   description: string
   icon: FeatureIcon
   idField: string
-  isReportedField?: string
-  isReportedValue?: number
-  isCheckedField?: string
-  isCheckedValues?: string[]
   typeField: string
   typeValue: string
+}
+
+export interface ReportedFeatureType extends FeatureType {
+  isReportedField: string
+  isReportedValue: number
+}
+
+export interface CheckedFeatureType extends FeatureType {
+  isCheckedField: string
+  isCheckedValues: string[]
 }
 
 export interface FeatureIcon {

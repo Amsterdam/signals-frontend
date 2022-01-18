@@ -7,7 +7,7 @@ import { Map } from '@amsterdam/react-maps'
 
 import type {
   Feature,
-  FeatureType,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
@@ -52,7 +52,7 @@ describe('ReportedLayer', () => {
           {reportedFeatures?.length > 0 && reportedFeatureType && (
             <ReportedLayer
               reportedFeatures={reportedFeatures as Feature[]}
-              reportedFeatureType={reportedFeatureType as FeatureType}
+              reportedFeatureType={reportedFeatureType as ReportedFeatureType}
             />
           )}
         </WfsDataProvider>

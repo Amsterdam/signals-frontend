@@ -5,8 +5,9 @@ import './style.css'
 
 import type { FC } from 'react'
 import type {
+  CheckedFeatureType,
   Feature,
-  FeatureType,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import { Marker } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
@@ -18,8 +19,8 @@ const STATUS_CLASS_MODIFIER = 'marker-status'
 
 export interface StatusLayerProps {
   statusFeatures: Feature[]
-  reportedFeatureType: FeatureType
-  checkedFeatureType: FeatureType
+  reportedFeatureType: ReportedFeatureType
+  checkedFeatureType: CheckedFeatureType
 }
 
 const StatusLayer: FC<StatusLayerProps> = ({
@@ -31,12 +32,9 @@ const StatusLayer: FC<StatusLayerProps> = ({
     const feature = feat as Feature
     const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
-    if (!feature || !reportedFeatureType) return
-
-    const isReportedField = reportedFeatureType.isReportedField || ''
-
+    const isReportedField = reportedFeatureType.isReportedField
     const isReported = Boolean(
-      feature.properties![isReportedField] ===
+      feature.properties[isReportedField] ===
         reportedFeatureType.isReportedValue
     )
 

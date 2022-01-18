@@ -6,8 +6,9 @@ import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
 import type {
+  CheckedFeatureType,
   Feature,
-  FeatureType,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
@@ -29,10 +30,10 @@ const assetSelectProviderValue: AssetSelectValue = {
 
 const reportedFeatureType = meta.featureTypes.find(
   ({ typeValue }) => typeValue === 'reported'
-)
+) as ReportedFeatureType
 const checkedFeatureType = meta.featureTypes.find(
   ({ typeValue }) => typeValue === 'checked'
-)
+) as CheckedFeatureType
 
 const statusFeatures = caterpillarsJson.features.filter(
   (feature) =>
@@ -54,15 +55,11 @@ describe('StatusLayer', () => {
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-          {statusFeatures?.length > 0 &&
-            reportedFeatureType &&
-            checkedFeatureType && (
-              <StatusLayer
-                statusFeatures={statusFeatures as unknown as Feature[]}
-                reportedFeatureType={reportedFeatureType as FeatureType}
-                checkedFeatureType={checkedFeatureType as FeatureType}
-              />
-            )}
+          <StatusLayer
+            statusFeatures={statusFeatures as unknown as Feature[]}
+            reportedFeatureType={reportedFeatureType}
+            checkedFeatureType={checkedFeatureType}
+          />
         </WfsDataProvider>
       </Map>,
       { ...assetSelectProviderValue }

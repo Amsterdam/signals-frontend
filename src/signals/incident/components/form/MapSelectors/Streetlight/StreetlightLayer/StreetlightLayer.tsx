@@ -7,7 +7,7 @@ import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
 import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
-import type { Feature, FeatureType } from '../../types'
+import type { Feature, ReportedFeatureType } from '../../types'
 
 const REPORTED = 1
 
@@ -31,7 +31,7 @@ export const StreetlightLayer = () => {
       {reportedFeatures.length > 0 && reportedFeatureType && (
         <ReportedLayer
           reportedFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType as FeatureType}
+          reportedFeatureType={reportedFeatureType as ReportedFeatureType}
         />
       )}
     </>
