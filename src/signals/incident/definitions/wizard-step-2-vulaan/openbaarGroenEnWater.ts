@@ -17,9 +17,6 @@ const options: Pick<IconOptions, 'className' | 'iconSize'> = {
 export const controls = {
   extra_eikenprocessierups: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Waar is het?',
       language: {
         title: 'Locatie',
@@ -81,9 +78,6 @@ export const controls = {
   },
   extra_nest_grootte: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Wat hebt u op de boom gezien?',
       shortLabel: 'Op de boom gezien',
       pathMerge: 'extra_properties',

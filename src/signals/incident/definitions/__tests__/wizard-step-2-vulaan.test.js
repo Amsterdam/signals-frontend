@@ -52,7 +52,12 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     })
 
     it('should return empty controls when showVulaanControls is false', () => {
-      expect(formFactory({ category: 'afval' }).controls).toEqual({})
+      configuration.featureFlags.showVulaanControls = false
+
+      expect(formFactory({ category: 'afval' }).controls).toEqual({
+        ...defaultControls,
+        locatie: expect.any(Object),
+      })
     })
   })
 

@@ -83,6 +83,8 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
+const fallback = expandQuestions({ locatie })
+
 export default {
   label: 'Locatie en vragen',
   nextButtonLabel: 'Volgende',
@@ -91,7 +93,9 @@ export default {
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category, subcategory, questions }) => {
-    if (!configuration?.featureFlags.showVulaanControls) return { controls: {} }
+    if (configuration?.featureFlags.showVulaanControls === false) {
+      return fallback
+    }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
       return expandQuestions(questions || {}, category, subcategory)
@@ -99,7 +103,11 @@ export default {
 
     switch (category) {
       case 'openbaar-groen-en-water':
-        return expandQuestions(openbaarGroenEnWater, category, subcategory)
+        if (subcategory === 'eikenprocessierups') {
+          return expandQuestions(openbaarGroenEnWater, category, subcategory)
+        } else {
+          return fallback
+        }
 
       case 'afval': {
         if (subcategory.startsWith('container')) {
@@ -145,7 +153,7 @@ export default {
         return expandQuestions(wonen, category, subcategory)
 
       default:
-        return expandQuestions({ locatie })
+        return fallback
     }
   },
 }
