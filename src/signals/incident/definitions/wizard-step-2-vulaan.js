@@ -19,6 +19,7 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
+import locatie from './wizard-step-2-vulaan/locatie'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -90,8 +91,7 @@ export default {
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category, subcategory, questions }) => {
-    const noExtraProps = { controls: {} }
-    if (!configuration?.featureFlags.showVulaanControls) return noExtraProps
+    if (!configuration?.featureFlags.showVulaanControls) return { controls: {} }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
       return expandQuestions(questions || {}, category, subcategory)
@@ -145,7 +145,7 @@ export default {
         return expandQuestions(wonen, category, subcategory)
 
       default:
-        return noExtraProps
+        return expandQuestions({ locatie })
     }
   },
 }
