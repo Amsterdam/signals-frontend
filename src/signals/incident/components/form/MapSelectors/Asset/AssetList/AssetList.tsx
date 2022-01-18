@@ -10,7 +10,7 @@ import type { FunctionComponent } from 'react'
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type { FeatureType, Item } from '../../types'
+import type { FeatureType, Item, ReportedFeatureType } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -53,7 +53,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   featureTypes,
 }) => {
   const item = useMemo(() => {
-    const { id, type, isReported } = selection
+    const { id, type, isReported, isChecked } = selection
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
@@ -67,9 +67,22 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     return {
       ...baseItem,
       iconUrl: icon ? icon.iconUrl : '',
+      isChecked,
       isReported,
     }
   }, [featureTypes, selection])
+
+  const reportedFeatureType = useMemo(() => {
+    return featureTypes.find(
+      ({ typeValue }) => typeValue === 'reported'
+    ) as ReportedFeatureType
+  }, [featureTypes])
+
+  const checkedFeatureType = useMemo(() => {
+    return featureTypes.find(
+      ({ typeValue }) => typeValue === 'checked'
+    ) as ReportedFeatureType
+  }, [featureTypes])
 
   return (
     <IconList data-testid="assetList" className={className}>
@@ -78,15 +91,23 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         id={
           item.isReported
             ? `assetListItem-${item.id}-reported`
+            : item.isChecked
+            ? `assetListItem-${item.id}-checked`
             : `assetListItem-${item.id}`
         }
         iconUrl={item.iconUrl}
         isReported={item.isReported}
+        isChecked={item.isChecked}
       >
         <ItemWrapper>
           <StyledLabel>
             <div>{item.label}</div>
-            {item.isReported && <StyledDiv>Is gemeld</StyledDiv>}
+            {item.isReported && (
+              <StyledDiv>{reportedFeatureType.description}</StyledDiv>
+            )}
+            {!item.isReported && item.isChecked && (
+              <StyledDiv>{checkedFeatureType.description}</StyledDiv>
+            )}
           </StyledLabel>
           {onRemove && (
             <StyledButton

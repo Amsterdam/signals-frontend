@@ -36,6 +36,7 @@ import type {
   DataLayerProps,
   Item,
   Feature,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
 
@@ -97,6 +98,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
   const { selection, removeItem, setItem } = useContext(AssetSelectContext)
+  const reportedFeatureType = featureTypes.find(
+    ({ typeValue }) => typeValue === 'reported'
+  ) as ReportedFeatureType
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -206,7 +210,10 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               description,
               id,
               type: typeValue,
-              isReported: feature.properties.meldingstatus === 1,
+              isReported: Boolean(
+                feature.properties[reportedFeatureType.isReportedField] ===
+                  reportedFeatureType.isReportedValue
+              ),
             }
 
             const response = await reverseGeocoderService(coordinates)

@@ -23,6 +23,19 @@ describe('AssetList', () => {
       typeField: 'fractie_omschrijving',
       typeValue: 'Rest',
     },
+    {
+      label: 'Is gemeld',
+      description: 'Object is reeds gemeld',
+      icon: {
+        options: {},
+        iconUrl: '',
+      },
+      idField: 'OBJECTID',
+      typeValue: 'reported',
+      typeField: '',
+      isReportedField: 'AMS_Meldingstatus',
+      isReportedValue: 1,
+    },
   ]
   const props: AssetListProps = {
     onRemove: jest.fn(),

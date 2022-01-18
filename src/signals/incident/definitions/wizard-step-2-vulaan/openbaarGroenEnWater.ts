@@ -46,13 +46,9 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
-          isCheckedField: 'Registratie',
-          isCheckedValues: ['Bestreden', 'Geen EPR'],
         },
         {
-          label: 'Eikenboom is reeds gemeld ',
+          label: 'Is gemeld',
           description: 'Eikenboom is reeds gemeld',
           icon: {
             options,
@@ -63,8 +59,6 @@ export const controls = {
           typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
-          isCheckedField: 'Registratie',
-          isCheckedValues: ['Bestreden', 'Geen EPR'],
         },
         {
           label: 'Vrij van eikenprocessierups',
@@ -76,8 +70,6 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'checked',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
           isCheckedField: 'Registratie',
           isCheckedValues: ['Bestreden', 'Geen EPR'],
         },

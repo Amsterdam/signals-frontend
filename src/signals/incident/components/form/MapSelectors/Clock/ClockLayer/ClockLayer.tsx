@@ -9,8 +9,6 @@ import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
 import type { Feature, ReportedFeatureType } from '../../types'
 
-const REPORTED = 1
-
 export const ClockLayer = () => {
   const { meta } = useContext(AssetSelectContext)
   const data = useContext<FeatureCollection>(WfsDataContext)
@@ -19,10 +17,15 @@ export const ClockLayer = () => {
 
   const reportedFeatureType = meta.featureTypes.find(
     ({ typeValue }) => typeValue === 'reported'
-  )
+  ) as ReportedFeatureType
 
-  const reportedFeatures = data.features.filter(
-    (feature) => feature.properties?.meldingstatus === REPORTED
+  const reportedFeatures = data.features.filter((feature) =>
+    Boolean(
+      reportedFeatureType.isReportedField &&
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        feature.properties![reportedFeatureType.isReportedField] ===
+          reportedFeatureType.isReportedValue
+    )
   )
 
   return (
@@ -31,7 +34,7 @@ export const ClockLayer = () => {
       {reportedFeatures.length > 0 && reportedFeatureType && (
         <ReportedLayer
           reportedFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType as ReportedFeatureType}
+          reportedFeatureType={reportedFeatureType}
         />
       )}
     </>

@@ -74,6 +74,7 @@ export const CaterpillarLayer: FC = () => {
           type: typeValue,
           description,
           isReported,
+          isChecked,
           location: {
             coordinates,
           },
@@ -137,8 +138,8 @@ export const CaterpillarLayer: FC = () => {
         checkedFeatureType && (
           <StatusLayer
             statusFeatures={statusFeatures as Feature[]}
-            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
-            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
+            reportedFeatureType={reportedFeatureType}
+            checkedFeatureType={checkedFeatureType}
           />
         )}
     </>

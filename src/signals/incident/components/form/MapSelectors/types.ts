@@ -27,6 +27,7 @@ export interface Item extends Record<string, unknown> {
   description?: string
   id: string | number
   isReported?: boolean
+  isChecked?: boolean
   type?: typeof UNREGISTERED_TYPE | string
 }
 
