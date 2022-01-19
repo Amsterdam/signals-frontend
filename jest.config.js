@@ -13,7 +13,6 @@ module.exports = {
     '!src/app.{js,jsx,ts,tsx}',
     '!src/polyfills.{js,jsx,ts,tsx}',
     '!src/global-styles.{js,jsx,ts,tsx}',
-    '!src/**/definitions/*',
     '!src/**/.*',
     '!src/sw-proxy*.{js,jsx,ts,tsx}',
   ],

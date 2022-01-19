@@ -4,6 +4,7 @@ import { Validators } from 'react-reactive-form'
 
 import configuration from 'shared/services/configuration/configuration'
 
+import PreviewComponents from '../../components/IncidentPreview/components'
 import step4, {
   renderPreview,
   summary,
@@ -12,7 +13,6 @@ import step4, {
   SCSVLabel,
   Null,
 } from '../wizard-step-4-summary'
-import PreviewComponents from '../../components/IncidentPreview/components'
 
 const { previewFactory } = step4
 
@@ -82,17 +82,13 @@ describe('Wizard summary', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = previewFactory({
         category: 'afval',
+        subcategory: 'subcategory',
       })
 
       const expected = {
         vulaan: {
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
-            optional: true,
-            render: expect.any(Function),
-          },
-          locatie: {
-            label: 'Waar is het?',
             optional: true,
             render: expect.any(Function),
           },

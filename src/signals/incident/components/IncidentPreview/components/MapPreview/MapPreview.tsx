@@ -40,7 +40,7 @@ const StyledMarker = styled(Marker)`
 interface MapPreviewProps {
   incident: Incident
   value: Item
-  featureTypes: FeatureType[]
+  featureTypes?: FeatureType[]
 }
 
 const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
@@ -56,7 +56,7 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
   let iconSrc = undefined
 
   if (value?.type !== 'not-on-map') {
-    const featureType = featureTypes.find(
+    const featureType = featureTypes?.find(
       ({ typeValue }) => typeValue === value.type
     )
 

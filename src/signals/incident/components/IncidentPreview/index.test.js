@@ -5,6 +5,7 @@ import 'jest-styled-components'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { withAppContext } from 'test/utils'
+import { formatAddress } from 'shared/services/format-address'
 
 import PreviewComponents from './components'
 import IncidentPreview from '.'
@@ -249,7 +250,9 @@ describe('<IncidentPreview />', () => {
       expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument()
 
       expect(queryByText(incident.datetime.label)).toBeInTheDocument()
-      expect(queryByText(incident.location.address_text)).toBeInTheDocument()
+      expect(
+        queryByText(formatAddress(incident.location.address))
+      ).toBeInTheDocument()
     })
   })
 })
