@@ -19,6 +19,7 @@ import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-v
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import location from './wizard-step-2-vulaan/locatie'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -67,14 +68,8 @@ export const renderPreview = ({ render, meta }) => {
   }
 }
 
-const controlsWithoutLocatie = (controls) => {
-  // eslint-disable-next-line no-unused-vars
-  const { locatie, ...rest } = controls
-  return rest
-}
-
 export const summary = (controls) =>
-  Object.entries(controlsWithoutLocatie(controls)).reduce(
+  Object.entries(controls).reduce(
     (acc, [key, val]) => ({
       ...acc,
       [key]: {
@@ -102,7 +97,7 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
-const fallback = summary({})
+const fallback = summary({ location })
 
 const getExtraQuestions = (category, subcategory, questions) => {
   if (configuration?.featureFlags.showVulaanControls === false) {
