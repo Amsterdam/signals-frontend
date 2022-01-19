@@ -5,7 +5,7 @@ describe('definition overlast-bedrijven-en-horeca', () => {
     const keys = Object.keys(overlastBedrijvenEnHoreca)
 
     expect(keys).toStrictEqual([
-      'locatie',
+      'location',
       'extra_bedrijven_horeca_wat',
       'extra_bedrijven_horeca_naam',
       'extra_bedrijven_horeca_adres',
