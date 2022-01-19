@@ -2,10 +2,10 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import locatie from './locatie'
+import location from './locatie'
 
 export const overlastPersonenEnGroepen = {
-  locatie,
+  location,
   extra_drugs_verkoop: {
     meta: {
       ifAllOf: {
