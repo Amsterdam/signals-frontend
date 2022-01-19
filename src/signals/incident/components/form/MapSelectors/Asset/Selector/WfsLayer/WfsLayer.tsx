@@ -13,7 +13,7 @@ import type { DataLayerProps } from 'signals/incident/components/form/MapSelecto
 import useLayerVisible from '../../../hooks/useLayerVisible'
 import { NO_DATA, WfsDataProvider } from './context'
 
-const SRS_NAME = 'urn:ogc:def:crs:EPSG::4326'
+export const SRS_NAME = 'EPSG:4326'
 
 interface Bbox {
   east: string
