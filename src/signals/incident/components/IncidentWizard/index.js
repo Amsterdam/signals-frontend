@@ -4,7 +4,12 @@ import { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
-import { Heading, themeSpacing, StepByStepNav } from '@amsterdam/asc-ui'
+import {
+  Heading,
+  themeSpacing,
+  StepByStepNav,
+  Paragraph,
+} from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -111,6 +116,7 @@ const IncidentWizard = ({
                         form,
                         formFactory,
                         label,
+                        subHeader,
                         postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
@@ -125,6 +131,7 @@ const IncidentWizard = ({
                               {countAsStep && `${index + 1}. `}
                               {label || key}
                             </StyledH1>
+                            {subHeader && <Paragraph>{subHeader}</Paragraph>}
                           </Header>
 
                           <Progress>

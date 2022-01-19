@@ -135,7 +135,7 @@ const getExtraQuestions = (category, subcategory, questions) => {
 
 export default {
   label: 'Versturen',
-  subheader: 'Maak een aanpassing als dat nodig is.',
+  subHeader: 'Controleer uw gegevens en verstuur uw melding.',
   nextButtonLabel: 'Verstuur',
   nextButtonClass: 'action primary',
   previousButtonLabel: 'Vorige',
@@ -148,7 +148,7 @@ export default {
     },
     edit: {
       beschrijf: 'Wijzig uw melding',
-      vulaan: 'Wijzig aanvullende informatie',
+      vulaan: 'Wijzig locatie en vragen',
       contact: 'Wijzig contactgegevens',
     },
   },
@@ -179,7 +179,7 @@ export default {
         render: PreviewComponents.MapPreview,
       },
       description: {
-        label: 'Uw melding gaat over:',
+        label: 'Waar gaat het over?',
         render: ({ value }) => value,
       },
       classification: {
