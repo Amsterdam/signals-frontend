@@ -5,10 +5,30 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
+import type { IconListItemProps } from 'components/IconList/IconList'
+import type { HTMLAttributes, PropsWithChildren } from 'react'
 import type { FeatureType, Item } from '../../types'
 import type { AssetListProps } from './AssetList'
 
 import AssetList from './AssetList'
+
+jest.mock('components/IconList/IconList', () => ({
+  __esModule: true,
+  default: ({ children, ...props }: HTMLAttributes<HTMLUListElement>) => (
+    <ul {...props}>{children}</ul>
+  ),
+  IconListItem: ({
+    children,
+    iconUrl,
+    isReported,
+    id,
+    ...props
+  }: PropsWithChildren<IconListItemProps>) => (
+    <li data-testid={id} {...props}>
+      {children}
+    </li>
+  ),
+}))
 
 describe('AssetList', () => {
   const featureTypes = [
@@ -29,7 +49,7 @@ describe('AssetList', () => {
     featureTypes: featureTypes as FeatureType[],
     selection: {
       description: 'Description',
-      id: 'id',
+      id: '234',
       type: 'Rest',
       location: {},
     },
@@ -40,6 +60,28 @@ describe('AssetList', () => {
     featureTypes: featureTypes as FeatureType[],
     selection: { ...selection[0], location: {} },
   }
+
+  it('does not render with empty selection props', () => {
+    const emptyId = {
+      id: '',
+      label: 'Here be a label',
+      location: {},
+    }
+
+    const { rerender } = render(
+      withAppContext(<AssetList {...props} selection={emptyId} />)
+    )
+    expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
+
+    const emptyLabel = {
+      id: '2983764827364',
+      label: '',
+      location: {},
+    }
+
+    rerender(withAppContext(<AssetList {...props} selection={emptyLabel} />))
+    expect(screen.getByTestId('assetList')).toBeInTheDocument()
+  })
 
   it('renders a selection', () => {
     render(withAppContext(<AssetList {...props} />))
@@ -84,29 +126,5 @@ describe('AssetList', () => {
     userEvent.click(button)
 
     expect(props.onRemove).toHaveBeenCalled()
-  })
-
-  it('displays an item label', () => {
-    const {
-      selection: { type, id },
-    } = props
-    const { description } =
-      props.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
-
-    const { rerender } = render(withAppContext(<AssetList {...props} />))
-
-    expect(screen.getByText(`${description} - ${id}`)).toBeInTheDocument()
-
-    const selectionWithoutId = {
-      ...props.selection,
-      id: '',
-    }
-
-    rerender(
-      withAppContext(<AssetList {...props} selection={selectionWithoutId} />)
-    )
-
-    expect(screen.queryByText(`${description} - ${id}`)).not.toBeInTheDocument()
-    expect(screen.getByText(description || '')).toBeInTheDocument()
   })
 })
