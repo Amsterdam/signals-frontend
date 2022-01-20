@@ -5,7 +5,7 @@ describe('definition wegen-verkeer-straatmeubilair', () => {
     const keys = Object.keys(wegenVerkeerStraatMeubilair)
 
     expect(keys).toStrictEqual([
-      'locatie',
+      'location',
       'extra_onderhoud_stoep_straat_en_fietspad',
       'extra_wegen_gladheid',
       'extra_verkeerslicht_welk',

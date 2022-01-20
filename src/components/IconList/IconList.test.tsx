@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils'
 import IconList, { IconListItem } from './IconList'
 
 describe('IconList', () => {
-  it('should render', () => {
+  it('renders correctly', () => {
     render(
       withAppContext(
         <IconList>
@@ -15,11 +15,12 @@ describe('IconList', () => {
       )
     )
 
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem').length).toBe(1)
   })
 
-  it('should render an empty list', () => {
+  it('renders an empty list', () => {
     render(withAppContext(<IconList />))
 
     expect(screen.getByRole('list')).toBeInTheDocument()

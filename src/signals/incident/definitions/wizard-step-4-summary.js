@@ -8,15 +8,18 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
+import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
+import afvalControls from './wizard-step-2-vulaan/afval'
+import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
+import openbaarGroenEnWaterControls from './wizard-step-2-vulaan/openbaarGroenEnWater'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
-import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
-import afvalControls from './wizard-step-2-vulaan/afval'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
-import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
-import openbaarGroenEnWaterControls from './wizard-step-2-vulaan/openbaarGroenEnWater'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
+import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
+import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
+import location from './wizard-step-2-vulaan/locatie'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -43,11 +46,18 @@ export const renderPreview = ({ render, meta }) => {
     case FIELD_TYPE_MAP.caterpillar_select:
     case FIELD_TYPE_MAP.clock_select:
     case FIELD_TYPE_MAP.streetlight_select:
-      return (props) =>
-        PreviewComponents.AssetListPreview({
-          ...props,
-          featureTypes: meta.featureTypes,
-        })
+      return (props) => (
+        <>
+          {PreviewComponents.MapPreview({
+            ...props,
+            featureTypes: meta.featureTypes,
+          })}
+          {PreviewComponents.AssetListPreview({
+            ...props,
+            featureTypes: meta.featureTypes,
+          })}
+        </>
+      )
 
     case FIELD_TYPE_MAP.text_input:
     case FIELD_TYPE_MAP.textarea_input:
@@ -79,10 +89,7 @@ const expandQuestions = memoize(
         [key]: {
           label: question.meta.label || question.meta.shortLabel,
           optional: !question.required,
-          render: renderPreview({
-            render: question.render,
-            meta: question.meta,
-          }),
+          render: renderPreview(question),
         },
       }),
       {}
@@ -90,16 +97,25 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
+const fallback = summary({ location })
+
 const getExtraQuestions = (category, subcategory, questions) => {
-  if (!configuration?.featureFlags.showVulaanControls) return {}
+  if (configuration?.featureFlags.showVulaanControls === false) {
+    return fallback
+  }
 
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
     return expandQuestions(questions || {}, category, subcategory)
   }
 
   switch (category) {
-    case 'afval':
-      return summary(afvalControls)
+    case 'afval': {
+      if (subcategory.startsWith('container')) {
+        return summary(afvalContainerControls)
+      } else {
+        return summary(afvalControls)
+      }
+    }
 
     case 'civiele-constructies':
       return summary(civieleConstructies)
@@ -119,17 +135,29 @@ const getExtraQuestions = (category, subcategory, questions) => {
     case 'overlast-van-dieren':
       return summary(overlastVanDieren)
 
-    case 'wegen-verkeer-straatmeubilair':
-      return summary(wegenVerkeerStraatmeubilairControls)
+    case 'wegen-verkeer-straatmeubilair': {
+      const config = ['klok', 'lantaarnpaal-straatverlichting'].includes(
+        subcategory
+      )
+        ? straatverlichtingKlokkenControls
+        : wegenVerkeerStraatmeubilairControls
+
+      return summary(config)
+    }
 
     case 'wonen':
       return summary(wonenControls)
 
-    case 'openbaar-groen-en-water':
-      return summary(openbaarGroenEnWaterControls)
+    case 'openbaar-groen-en-water': {
+      if (subcategory === 'eikenprocessierups') {
+        return summary(openbaarGroenEnWaterControls)
+      } else {
+        return fallback
+      }
+    }
 
     default:
-      return {}
+      return fallback
   }
 }
 
@@ -173,10 +201,6 @@ export default {
         label: 'Urgentie',
         render: ({ value }) => value?.label,
         authenticated: true,
-      },
-      location: {
-        label: 'Waar is het?',
-        render: PreviewComponents.MapPreview,
       },
       description: {
         label: 'Waar gaat het over?',

@@ -32,7 +32,7 @@ export interface Datetime {
 
 export interface Location {
   coordinates: LatLngLiteral
-  address: Address
+  address?: Address
 }
 
 export interface Geometrie {
@@ -43,4 +43,53 @@ export interface Geometrie {
 export interface Priority {
   id: string
   label: string
+}
+
+export const mock = {
+  priority: {
+    id: 'normal',
+    label: 'Normaal',
+  },
+  sharing_allowed: {
+    label:
+      'Ja, ik geef de gemeenten Amsterdam en Weesp toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.',
+    value: true,
+  },
+  classification: {
+    id: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water',
+    name: 'Overig groen en water',
+    slug: 'overig-groen-en-water',
+  },
+  incident_time_hours: 9,
+  questions: [],
+  handling_message:
+    'Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
+  phone: '14 020',
+  locatie: {
+    type: 'not-on-map',
+  },
+  images_previews: [],
+  location: {
+    coordinates: {
+      lat: 52.38931218069618,
+      lng: 4.933903676810628,
+    },
+  },
+  images: [],
+  type: {
+    id: 'SIG',
+    label: 'Melding',
+  },
+  incident_time_minutes: 0,
+  source: 'online',
+  incident_date: 'Vandaag',
+  datetime: {
+    id: 'Nu',
+    label: 'Nu',
+    info: '',
+  },
+  email: 'noreply@amsterdam.nl',
+  description: 'bomen',
+  category: 'openbaar-groen-en-water',
+  subcategory: 'overig-groen-en-water',
 }
