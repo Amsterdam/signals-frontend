@@ -5,7 +5,7 @@ describe('definition overlast-in-de-openbare-ruimte', () => {
     const keys = Object.keys(overlastInDeOpenbareRuimte)
 
     expect(keys).toStrictEqual([
-      'location',
+      'locatie',
       'extra_auto_scooter_bromfietswrak',
       'extra_fietswrak',
       'extra_parkeeroverlast',

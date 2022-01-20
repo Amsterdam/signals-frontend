@@ -2,10 +2,10 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import location from './locatie'
+import locatie from './locatie'
 
 export const civieleConstructies = {
-  location,
+  locatie,
   extra_brug: {
     meta: {
       ifAllOf: {

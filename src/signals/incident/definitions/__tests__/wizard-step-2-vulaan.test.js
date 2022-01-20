@@ -7,7 +7,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import step2 from '../wizard-step-2-vulaan'
 import FormComponents from '../../components/form'
-import locatie from '../wizard-step-2-vulaan/locatie'
+import location from '../wizard-step-2-vulaan/locatie'
 
 const { formFactory } = step2
 const defaultControls = {
@@ -29,8 +29,8 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
-const location = {
-  ...locatie,
+const locatie = {
+  ...location,
   options: {
     validators: [Validators.required],
   },
@@ -52,7 +52,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
-          location,
+          locatie,
         },
       }
 
@@ -64,7 +64,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
 
       expect(formFactory({ category: 'afval' }).controls).toEqual({
         ...defaultControls,
-        location,
+        locatie,
       })
     })
   })
@@ -83,7 +83,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
-          location,
+          locatie,
         },
       }
 

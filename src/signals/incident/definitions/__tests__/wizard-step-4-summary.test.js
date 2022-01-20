@@ -143,7 +143,7 @@ describe('Wizard summary', () => {
             optional: true,
             render: expect.any(Function),
           },
-          location: {
+          locatie: {
             label: 'Waar is het?',
             optional: true,
             render: expect.any(Function),
@@ -163,7 +163,7 @@ describe('Wizard summary', () => {
       const expected = expect.objectContaining({
         ...beschrijfContact,
         vulaan: {
-          location: {
+          locatie: {
             label: 'Waar is het?',
             optional: true,
             render: expect.any(Function),
@@ -176,7 +176,7 @@ describe('Wizard summary', () => {
 
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({
-        location: {
+        locatie: {
           label: 'Waar is het?',
           optional: true,
           render: expect.any(Function),
@@ -197,7 +197,13 @@ describe('Wizard summary', () => {
         subcategory: 'subcategory',
       })
       const expected = expect.objectContaining({
-        vulaan: {},
+        vulaan: {
+          locatie: {
+            label: 'Waar is het?',
+            optional: true,
+            render: expect.any(Function),
+          },
+        },
       })
 
       expect(actual).toEqual(expected)

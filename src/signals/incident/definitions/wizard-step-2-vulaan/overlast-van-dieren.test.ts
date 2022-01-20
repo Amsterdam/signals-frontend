@@ -5,7 +5,7 @@ describe('definition overlast-van-dieren', () => {
     const keys = Object.keys(overlastVanDieren)
 
     expect(keys).toStrictEqual([
-      'location',
+      'locatie',
       'extra_dieren_welk_dier',
       'extra_dieren_waar_wespen',
       'extra_dieren_waar_dode_dieren',

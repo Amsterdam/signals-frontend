@@ -2,12 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import location from './locatie'
+import locatie from './locatie'
 
 export const ICON_SIZE = 40
 
 export const controls = {
-  location,
+  locatie,
   extra_afval: {
     meta: {
       ifOneOf: {
