@@ -8,6 +8,7 @@ export const selection = [
     description: 'Eikenboom',
     isReported: false,
     location: {},
+    label: 'Eikenboom - 308777',
   },
   {
     id: 308779,
@@ -15,6 +16,7 @@ export const selection = [
     description: 'De boom staat niet op de kaart',
     isReported: false,
     location: {},
+    label: 'Boom - 308779',
   },
   {
     id: 308778,
@@ -22,6 +24,7 @@ export const selection = [
     description: 'Eikenboom',
     isReported: true,
     location: {},
+    label: 'Eikenboom - is gemeld - 308778',
   },
 ]
 

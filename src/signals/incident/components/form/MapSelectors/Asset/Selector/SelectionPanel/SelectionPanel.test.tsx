@@ -70,11 +70,13 @@ describe('SelectionPanel', () => {
   const selection = {
     ...GLAS_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
+    label: 'foo bar',
   }
 
   const selectionUnregistered = {
     ...UNREGISTERED_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
+    label: 'foo bar',
   }
 
   afterEach(() => {
@@ -172,6 +174,7 @@ describe('SelectionPanel', () => {
       id: unregisteredObjectId,
       location: {},
       type: UNREGISTERED_TYPE,
+      label: `De container staat niet op de kaart - ${unregisteredObjectId}`,
     })
   })
 
@@ -235,6 +238,7 @@ describe('SelectionPanel', () => {
       id: '5',
       location: {},
       type: UNREGISTERED_TYPE,
+      label: 'De container staat niet op de kaart - 5',
     })
     expect(contextValue.close).toHaveBeenCalled()
   })

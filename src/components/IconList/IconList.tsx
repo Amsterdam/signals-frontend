@@ -19,7 +19,7 @@ const ReportedIcon = styled.img`
   margin-top: -30px;
 `
 
-interface IconListItemProps {
+export interface IconListItemProps {
   iconUrl?: string
   id?: string
   className?: string
@@ -36,7 +36,9 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   isReported,
 }) => (
   <StyledListItem data-testid={id} className={className}>
-    <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+    {iconUrl && (
+      <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+    )}
     {isReported && (
       <ReportedIcon
         alt=""

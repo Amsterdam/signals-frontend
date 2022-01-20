@@ -28,6 +28,7 @@ export interface Item extends Record<string, unknown> {
   id: string | number
   isReported?: boolean
   type?: typeof UNREGISTERED_TYPE | string
+  label: string
 }
 
 export interface FeatureType {

@@ -25,6 +25,7 @@ const selection = {
   type: 'plastic',
   description: 'Plastic asset',
   location: {},
+  label: 'Plastic container - PL734',
 }
 const featureType = {
   label: 'Plastic',

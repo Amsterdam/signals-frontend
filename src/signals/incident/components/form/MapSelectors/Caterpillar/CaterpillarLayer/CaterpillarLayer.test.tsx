@@ -77,6 +77,7 @@ describe('CaterpillarLayer', () => {
       location: {
         coordinates,
       },
+      label: `Eikenboom - ${featureId}`,
     })
 
     expect(

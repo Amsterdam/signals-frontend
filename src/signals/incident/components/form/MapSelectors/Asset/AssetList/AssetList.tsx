@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
@@ -41,7 +40,7 @@ const StyledLabel = styled.div`
 
 export interface AssetListProps {
   className?: string
-  featureTypes: FeatureType[]
+  featureTypes?: FeatureType[]
   onRemove?: () => void
   selection: Item
 }
@@ -52,45 +51,30 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const item = useMemo(() => {
-    const { id, type, isReported } = selection
-    const { description, icon }: Partial<FeatureType> =
-      featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+  const { id, type, isReported } = selection
+  const { description, icon }: Partial<FeatureType> =
+    featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
-    const label = [description, id].filter(Boolean).join(' - ')
+  const label = [description, id].filter(Boolean).join(' - ')
 
-    const baseItem = {
-      id,
-      label,
-    }
-
-    return {
-      ...baseItem,
-      iconUrl: icon ? icon.iconUrl : '',
-      isReported,
-    }
-  }, [featureTypes, selection])
+  if (!id) return null
 
   return (
     <IconList data-testid="assetList" className={className}>
       <IconListItem
-        key={item.id}
-        id={
-          item.isReported
-            ? `assetListItem-${item.id}-reported`
-            : `assetListItem-${item.id}`
-        }
-        iconUrl={item.iconUrl}
-        isReported={item.isReported}
+        key={id}
+        id={isReported ? `assetListItem-${id}-reported` : `assetListItem-${id}`}
+        iconUrl={icon?.iconUrl}
+        isReported={isReported}
       >
         <ItemWrapper>
           <StyledLabel>
-            <div>{item.label}</div>
-            {item.isReported && <StyledDiv>Is gemeld</StyledDiv>}
+            {label}
+            {isReported && <StyledDiv>Is gemeld</StyledDiv>}
           </StyledLabel>
           {onRemove && (
             <StyledButton
-              data-testid={`assetListRemove-${item.id}`}
+              data-testid={`assetListRemove-${id}`}
               aria-label="Verwijder"
               icon={<Close />}
               onClick={onRemove}

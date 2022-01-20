@@ -30,6 +30,7 @@ describe('AssetListPreview', () => {
             lng: 12.0,
           },
         },
+        label: 'description - id',
       },
       featureTypes: [
         {
