@@ -44,7 +44,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     if (!featureType) return null
 
     const { description, typeValue, idField } = featureType
-    const id = feature.properties[idField]
+    const id = feature.properties[idField] || ''
 
     const isSelected = Boolean(selection?.id === id)
 
@@ -69,7 +69,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         id,
         type: typeValue,
         description,
-        isReported: feature.properties.meldingstatus === 1,
+        isReported: isReported,
         location: {
           coordinates,
         },
