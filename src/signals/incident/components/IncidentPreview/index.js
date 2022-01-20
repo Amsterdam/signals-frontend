@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
+import { Fragment } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import {
@@ -30,14 +31,10 @@ const Header = styled.header`
   column-gap: ${themeSpacing(5)};
   grid-template-columns: 12fr;
   margin-bottom: ${themeSpacing(4)};
-
-  h2 {
-    font-weight: 500;
-  }
 `
 
 const LinkContainer = styled.div`
-  padding-top: ${themeSpacing(5)};
+  padding: ${themeSpacing(6)} 0;
 
   @media screen and ${breakpoint('min-width', 'laptopM')} {
     padding-top: 0;
@@ -53,17 +50,13 @@ const LinkContainer = styled.div`
 const Dl = styled.dl`
   margin: 0;
   padding: 0;
-`
-
-const DefinitionsWrapper = styled.div`
   line-height: 24px;
-
-  dd {
+  dd:not(:last-of-type) {
     margin-bottom: ${themeSpacing(6)};
   }
 
   dt {
-    font-weight: 500;
+    font-weight: 700;
     margin-bottom: ${themeSpacing(1)};
   }
 `
@@ -119,7 +112,7 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
 
             <Dl>
               {visibleEntries.map(([itemKey, itemValue]) => (
-                <DefinitionsWrapper key={itemKey}>
+                <Fragment key={itemKey}>
                   <dt>{itemValue.label}</dt>
                   <dd>
                     {itemValue.render({
@@ -128,7 +121,7 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
                       incident,
                     })}
                   </dd>
-                </DefinitionsWrapper>
+                </Fragment>
               ))}
             </Dl>
 
