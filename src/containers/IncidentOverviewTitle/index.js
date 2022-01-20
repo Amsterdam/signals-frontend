@@ -15,7 +15,7 @@ import {
 } from 'signals/incident-management/selectors'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 
-import Refresh from '../../shared/images/icon-refresh.svg'
+import Refresh from '../../images/icon-refresh.svg'
 
 const RefreshIcon = styled(Refresh).attrs({
   height: 30,
