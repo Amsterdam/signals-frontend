@@ -10,6 +10,7 @@ import {
   StepByStepNav,
   breakpoint,
   Paragraph,
+  ascDefaultTheme,
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
@@ -50,7 +51,7 @@ const StepWrapper = styled.article`
     grid-area: progress;
     display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
 
-    @media screen and ${breakpoint('max-width', 'tabletS')} {
+    @media screen and ${breakpoint('max-width', 'tabletM')} {
       margin-left: ${themeSpacing(4)};
     }
 
@@ -66,7 +67,7 @@ const StepWrapper = styled.article`
   ${({ showProgress }) =>
     showProgress
       ? css`
-          @media screen and ${breakpoint('min-width', 'tabletS')} {
+          @media screen and ${breakpoint('min-width', 'tabletM')} {
             grid-template-areas:
               'progress header'
               'progress form';
@@ -140,6 +141,10 @@ const IncidentWizard = ({
                               steps={steps}
                               itemType="numeric"
                               activeItem={index + 1}
+                              breakpoint={breakpoint(
+                                'max-width',
+                                'tabletM'
+                              )({ theme: ascDefaultTheme })}
                             />
                           </Progress>
 
