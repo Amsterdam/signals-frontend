@@ -7,7 +7,11 @@ import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
 import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
-import type { Feature, ReportedFeatureType } from '../../types'
+import type { Feature } from '../../types'
+import {
+  getIsReported,
+  getReportedFeatureType,
+} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
 
 export const StreetlightLayer = () => {
   const { meta } = useContext(AssetSelectContext)
@@ -15,18 +19,12 @@ export const StreetlightLayer = () => {
 
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
 
-  const reportedFeatureType = meta.featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as ReportedFeatureType
-
-  const reportedFeatures = data.features.filter((feature) =>
-    Boolean(
-      reportedFeatureType.isReportedField &&
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        feature.properties![reportedFeatureType.isReportedField] ===
-          reportedFeatureType.isReportedValue
-    )
-  )
+  const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
+  const reportedFeatures = reportedFeatureType
+    ? data.features.filter((feature) =>
+        getIsReported(feature as unknown as Feature, reportedFeatureType)
+      )
+    : []
 
   return (
     <>
