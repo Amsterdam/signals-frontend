@@ -5,11 +5,7 @@ import type { FeatureCollection } from 'geojson'
 import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
-import type {
-  CheckedFeatureType,
-  Feature,
-  ReportedFeatureType,
-} from 'signals/incident/components/form/MapSelectors/types'
+import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
@@ -21,6 +17,12 @@ import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import StatusLayer from './StatusLayer'
+import {
+  getCheckedFeatureType,
+  getIsChecked,
+  getIsReported,
+  getReportedFeatureType,
+} from './utils'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
@@ -28,26 +30,13 @@ const assetSelectProviderValue: AssetSelectValue = {
   meta,
 }
 
-const reportedFeatureType = meta.featureTypes.find(
-  ({ typeValue }) => typeValue === 'reported'
-) as ReportedFeatureType
-const checkedFeatureType = meta.featureTypes.find(
-  ({ typeValue }) => typeValue === 'checked'
-) as CheckedFeatureType
+const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
+const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
 
 const statusFeatures = caterpillarsJson.features.filter(
   (feature) =>
-    Boolean(
-      reportedFeatureType?.isReportedField &&
-        feature.properties['AMS_Meldingstatus'] ===
-          reportedFeatureType?.isReportedValue
-    ) ||
-    Boolean(
-      checkedFeatureType?.isCheckedField &&
-        checkedFeatureType.isCheckedValues?.includes(
-          feature.properties['Registratie']
-        )
-    )
+    getIsReported(feature as unknown as Feature, reportedFeatureType) ||
+    getIsChecked(feature as unknown as Feature, checkedFeatureType)
 )
 
 describe('StatusLayer', () => {

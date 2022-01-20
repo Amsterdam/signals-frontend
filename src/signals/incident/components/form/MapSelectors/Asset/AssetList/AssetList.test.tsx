@@ -21,6 +21,7 @@ jest.mock('components/IconList/IconList', () => ({
     children,
     iconUrl,
     isReported,
+    isChecked,
     id,
     ...props
   }: PropsWithChildren<IconListItemProps>) => (

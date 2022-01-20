@@ -36,9 +36,9 @@ import type {
   DataLayerProps,
   Item,
   Feature,
-  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
+import { getIsReported, getReportedFeatureType } from '../StatusLayer/utils'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 
@@ -98,9 +98,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
   const { selection, removeItem, setItem } = useContext(AssetSelectContext)
-  const reportedFeatureType = featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as ReportedFeatureType
+  const reportedFeatureType = getReportedFeatureType(featureTypes)
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -210,10 +208,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               description,
               id,
               type: typeValue,
-              isReported: Boolean(
-                feature.properties[reportedFeatureType.isReportedField] ===
-                  reportedFeatureType.isReportedValue
-              ),
+              isReported: getIsReported(feature, reportedFeatureType),
             }
 
             const response = await reverseGeocoderService(coordinates)

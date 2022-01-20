@@ -9,12 +9,11 @@ import type { FunctionComponent } from 'react'
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type {
-  CheckedFeatureType,
-  FeatureType,
-  Item,
-  ReportedFeatureType,
-} from '../../types'
+import type { FeatureType, Item } from '../../types'
+import {
+  getCheckedFeatureType,
+  getReportedFeatureType,
+} from '../Selector/WfsLayer/StatusLayer/utils'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -35,7 +34,7 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
-const StyledDiv = styled.div<{ isReported?: boolean }>`
+const StyledStatusDescription = styled.div<{ isReported?: boolean }>`
   color: ${({ isReported }) =>
     isReported ? themeColor('secondary') : themeColor('support', 'valid')};
 `
@@ -65,25 +64,21 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
   if (!id) return null
 
-  const reportedFeatureType = featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as ReportedFeatureType
+  const reportedFeatureType = getReportedFeatureType(featureTypes)
+  const checkedFeatureType = getCheckedFeatureType(featureTypes)
 
-  const checkedFeatureType = featureTypes.find(
-    ({ typeValue }) => typeValue === 'checked'
-  ) as CheckedFeatureType
+  let extendedId = `assetListItem-${id}`
+  if (isReported) {
+    extendedId = `assetListItem-${id}-reported`
+  } else if (isChecked) {
+    extendedId = `assetListItem-${id}-checked`
+  }
 
   return (
     <IconList data-testid="assetList" className={className}>
       <IconListItem
         key={id}
-        id={
-          isReported
-            ? `assetListItem-${id}-reported`
-            : isChecked
-            ? `assetListItem-${id}-checked`
-            : `assetListItem-${id}`
-        }
+        id={extendedId}
         iconUrl={icon?.iconUrl}
         isReported={isReported}
         isChecked={isChecked}
@@ -91,13 +86,15 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         <ItemWrapper>
           <StyledLabel>
             {label}
-            {isReported && (
-              <StyledDiv isReported>
+            {reportedFeatureType && isReported && (
+              <StyledStatusDescription isReported>
                 {reportedFeatureType.description}
-              </StyledDiv>
+              </StyledStatusDescription>
             )}
-            {!isReported && isChecked && (
-              <StyledDiv>{checkedFeatureType.description}</StyledDiv>
+            {checkedFeatureType && !isReported && isChecked && (
+              <StyledStatusDescription>
+                {checkedFeatureType.description}
+              </StyledStatusDescription>
             )}
           </StyledLabel>
           {onRemove && (

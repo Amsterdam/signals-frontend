@@ -7,11 +7,9 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
-  CheckedFeatureType,
   FeatureType,
   Feature,
   Item,
-  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
@@ -21,6 +19,12 @@ import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?ur
 
 import { featureToCoordinates } from 'shared/services/map-location'
 import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
+import {
+  getCheckedFeatureType,
+  getIsChecked,
+  getIsReported,
+  getReportedFeatureType,
+} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
@@ -38,15 +42,8 @@ export const CaterpillarLayer: FC = () => {
       const featureId = feature.properties[featureType.idField] as string
       const isSelected = selection?.id === featureId
 
-      const isReported = Boolean(
-        feature.properties[reportedFeatureType.isReportedField] ===
-          reportedFeatureType.isReportedValue
-      )
-      const isChecked = Boolean(
-        checkedFeatureType.isCheckedValues.includes(
-          feature.properties[checkedFeatureType.isCheckedField]
-        )
-      )
+      const isReported = getIsReported(feature, reportedFeatureType)
+      const isChecked = getIsChecked(feature, checkedFeatureType)
 
       const altText = `${featureType.description}${
         isReported ? ', is gemeld' : ''
@@ -104,28 +101,13 @@ export const CaterpillarLayer: FC = () => {
     [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
   )
 
-  const reportedFeatureType = meta.featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as ReportedFeatureType
-  const checkedFeatureType = meta.featureTypes.find(
-    ({ typeValue }) => typeValue === 'checked'
-  ) as CheckedFeatureType
+  const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
+  const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
 
   const statusFeatures = features.filter(
     (feature) =>
-      Boolean(
-        reportedFeatureType.isReportedField &&
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          feature.properties![reportedFeatureType.isReportedField] ===
-            reportedFeatureType.isReportedValue
-      ) ||
-      Boolean(
-        checkedFeatureType.isCheckedField &&
-          checkedFeatureType.isCheckedValues?.includes(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            feature.properties![checkedFeatureType.isCheckedField]
-          )
-      )
+      getIsReported(feature as unknown as Feature, reportedFeatureType) ||
+      getIsChecked(feature as unknown as Feature, checkedFeatureType)
   )
 
   return (

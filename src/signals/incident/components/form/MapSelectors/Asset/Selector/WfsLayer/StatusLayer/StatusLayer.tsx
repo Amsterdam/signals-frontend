@@ -14,6 +14,7 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
 import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 import checkedIconUrl from 'shared/images/icon-checked-marker.svg?url'
+import { getIsChecked, getIsReported } from './utils'
 
 const STATUS_CLASS_MODIFIER = 'marker-status'
 
@@ -32,11 +33,7 @@ const StatusLayer: FC<StatusLayerProps> = ({
     const feature = feat as Feature
     const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
-    const isReportedField = reportedFeatureType.isReportedField
-    const isReported = Boolean(
-      feature.properties[isReportedField] ===
-        reportedFeatureType.isReportedValue
-    )
+    const isReported = getIsReported(feature, reportedFeatureType)
 
     const icon = L.icon({
       iconSize: [20, 20],
@@ -45,11 +42,16 @@ const StatusLayer: FC<StatusLayerProps> = ({
     })
 
     const featureId = feature.properties[reportedFeatureType.idField] || index
-    const altText = isReported
-      ? `${reportedFeatureType.description} - ${featureId}`
-      : checkedFeatureType
-      ? `${checkedFeatureType.description} - ${featureId}`
-      : ''
+
+    let altText = ''
+    if (isReported) {
+      altText = `${reportedFeatureType.description} - ${featureId}`
+    } else if (
+      getIsChecked(feature, checkedFeatureType) &&
+      checkedFeatureType
+    ) {
+      altText = `${checkedFeatureType.description} - ${featureId}`
+    }
 
     return (
       <Marker
