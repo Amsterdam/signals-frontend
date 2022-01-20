@@ -9,6 +9,7 @@ import {
   themeSpacing,
   StepByStepNav,
   breakpoint,
+  Paragraph,
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
@@ -116,6 +117,7 @@ const IncidentWizard = ({
                         form,
                         formFactory,
                         label,
+                        subHeader,
                         postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
@@ -130,6 +132,7 @@ const IncidentWizard = ({
                               {countAsStep && `${index + 1}. `}
                               {label || key}
                             </StyledH1>
+                            {subHeader && <Paragraph>{subHeader}</Paragraph>}
                           </Header>
 
                           <Progress>
