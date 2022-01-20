@@ -19,7 +19,7 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
-import locatie from './wizard-step-2-vulaan/locatie'
+import location from './wizard-step-2-vulaan/locatie'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -74,7 +74,7 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
-const fallback = expandQuestions({ locatie })
+const fallback = expandQuestions({ location })
 
 export default {
   label: 'Locatie en vragen',
@@ -89,7 +89,11 @@ export default {
     }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
-      return expandQuestions(questions || {}, category, subcategory)
+      const hasQuestions = Object.keys(questions || {}).length > 0
+
+      return hasQuestions
+        ? expandQuestions(questions, category, subcategory)
+        : fallback
     }
 
     switch (category) {
