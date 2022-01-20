@@ -19,7 +19,7 @@ import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-v
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
-import location from './wizard-step-2-vulaan/locatie'
+import locatie from './wizard-step-2-vulaan/locatie'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -97,7 +97,7 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
-const fallback = summary({ location })
+const fallback = summary({ locatie })
 
 const getExtraQuestions = (category, subcategory, questions) => {
   if (configuration?.featureFlags.showVulaanControls === false) {
@@ -105,7 +105,12 @@ const getExtraQuestions = (category, subcategory, questions) => {
   }
 
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
-    return expandQuestions(questions || {}, category, subcategory)
+    const backendQuestions = questions || {}
+    const hasQuestions = Object.keys(backendQuestions).length > 0
+
+    return hasQuestions
+      ? expandQuestions(backendQuestions, category, subcategory)
+      : fallback
   }
 
   switch (category) {

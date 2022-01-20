@@ -5,7 +5,7 @@ describe('definition wonen', () => {
     const keys = Object.keys(wonen)
 
     expect(keys).toStrictEqual([
-      'location',
+      'locatie',
       'wonen_overig',
       'extra_wonen_woningdelen_vermoeden',
       'extra_wonen_woningdelen_eigenaar',

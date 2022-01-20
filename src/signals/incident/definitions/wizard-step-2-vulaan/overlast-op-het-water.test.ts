@@ -5,7 +5,7 @@ describe('definition overlast-op-het-water', () => {
     const keys = Object.keys(overlastOpHetWater)
 
     expect(keys).toStrictEqual([
-      'location',
+      'locatie',
       'extra_boten_snelheid_typeboot',
       'extra_boten_snelheid_rederij',
       'extra_boten_snelheid_naamboot',
