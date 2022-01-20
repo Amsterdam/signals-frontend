@@ -5,7 +5,7 @@ describe('definition overlast-van-en-door-personen-of-groepen', () => {
     const keys = Object.keys(overlastVanEnDoorPersonenOfGroepen)
 
     expect(keys).toStrictEqual([
-      'location',
+      'locatie',
       'extra_drugs_verkoop',
       'extra_drugs_verkoop_ja',
       'extra_jongeren_text',
