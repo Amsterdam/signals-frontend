@@ -69,6 +69,7 @@ export const CaterpillarLayer: FC = () => {
           location: {
             coordinates,
           },
+          label: [description, featureId].filter(Boolean).join(' - '),
         }
 
         meta.extraProperties?.forEach((propertyKey) => {
