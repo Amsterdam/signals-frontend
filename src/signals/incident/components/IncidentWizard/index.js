@@ -8,6 +8,7 @@ import {
   Heading,
   themeSpacing,
   StepByStepNav,
+  breakpoint,
   Paragraph,
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
@@ -49,7 +50,7 @@ const StepWrapper = styled.article`
     grid-area: progress;
     display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
 
-    @media (max-width: ${({ theme }) => theme.layouts.medium.max - 1}px) {
+    @media screen and ${breakpoint('max-width', 'tabletS')} {
       margin-left: ${themeSpacing(4)};
     }
 
@@ -65,7 +66,7 @@ const StepWrapper = styled.article`
   ${({ showProgress }) =>
     showProgress
       ? css`
-          @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+          @media screen and ${breakpoint('min-width', 'tabletS')} {
             grid-template-areas:
               'progress header'
               'progress form';
