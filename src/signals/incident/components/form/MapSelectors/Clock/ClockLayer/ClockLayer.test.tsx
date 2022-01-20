@@ -25,6 +25,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     description: 'Klok',
     isReported: true,
     location: {},
+    label: 'Klok - 79522',
   },
   meta,
 }

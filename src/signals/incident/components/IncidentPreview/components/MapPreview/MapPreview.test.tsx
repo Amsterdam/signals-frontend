@@ -53,6 +53,7 @@ const value = {
   },
   id: 'noop',
   type: 'Rest',
+  label: 'Rest - noop',
 }
 const props = {
   incident,
