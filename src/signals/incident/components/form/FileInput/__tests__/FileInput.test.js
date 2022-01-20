@@ -42,7 +42,7 @@ describe('Form component <FileInput />', () => {
 
     describe('events', () => {
       const minFileSize = 30 * 2 ** 10
-      const maxFileSize = 8 * 2 ** 20
+      const maxFileSize = 20 * 2 ** 20
       let handler
       let parent
 

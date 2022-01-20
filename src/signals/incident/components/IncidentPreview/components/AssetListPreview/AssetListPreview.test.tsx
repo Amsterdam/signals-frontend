@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import AssetList from 'signals/incident/components/form/MapSelectors/Asset/AssetList'
-import type { FeatureType } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
 
 import AssetListPreview from './AssetListPreview'
 import type { AssetListPreviewProps } from './AssetListPreview'
@@ -30,6 +30,7 @@ describe('AssetListPreview', () => {
             lng: 12.0,
           },
         },
+        label: 'description - id',
       },
       featureTypes: [
         {

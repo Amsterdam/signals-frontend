@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
-import type { FeatureType, Item } from '../types'
+import type { FeatureType, Item } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -30,9 +30,17 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
+const StyledDiv = styled.div`
+  color: ${themeColor('secondary')};
+`
+
+const StyledLabel = styled.div`
+  margin-left: ${themeSpacing(2)};
+`
+
 export interface AssetListProps {
   className?: string
-  featureTypes: FeatureType[]
+  featureTypes?: FeatureType[]
   onRemove?: () => void
   selection: Item
 }
@@ -43,51 +51,30 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const item = useMemo(() => {
-    const { id, type, isReported } = selection
-    const { description, icon }: Partial<FeatureType> =
-      featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+  const { id, type, isReported } = selection
+  const { description, icon }: Partial<FeatureType> =
+    featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
-    const label = [description, isReported && 'is gemeld', id]
-      .filter(Boolean)
-      .join(' - ')
+  const label = [description, id].filter(Boolean).join(' - ')
 
-    const baseItem = {
-      id,
-      label,
-    }
-
-    if (isReported && icon?.reportedIconSvg) {
-      return {
-        ...baseItem,
-        iconUrl: icon ? icon.reportedIconSvg : '',
-        isReported: true,
-      }
-    }
-
-    return {
-      ...baseItem,
-      iconUrl: icon ? icon.iconUrl : '',
-      isReported,
-    }
-  }, [featureTypes, selection])
+  if (!id) return null
 
   return (
     <IconList data-testid="assetList" className={className}>
       <IconListItem
-        key={item.id}
-        id={
-          item.isReported
-            ? `assetListItem-${item.id}-reported`
-            : `assetListItem-${item.id}`
-        }
-        iconUrl={item.iconUrl}
+        key={id}
+        id={isReported ? `assetListItem-${id}-reported` : `assetListItem-${id}`}
+        iconUrl={icon?.iconUrl}
+        isReported={isReported}
       >
         <ItemWrapper>
-          {item.label}
+          <StyledLabel>
+            {label}
+            {isReported && <StyledDiv>Is gemeld</StyledDiv>}
+          </StyledLabel>
           {onRemove && (
             <StyledButton
-              data-testid={`assetListRemove-${item.id}`}
+              data-testid={`assetListRemove-${id}`}
               aria-label="Verwijder"
               icon={<Close />}
               onClick={onRemove}

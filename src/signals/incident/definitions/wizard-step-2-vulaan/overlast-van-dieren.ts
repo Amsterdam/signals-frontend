@@ -9,7 +9,6 @@ const overlastVanDieren = {
   extra_dieren_welk_dier: {
     meta: {
       ifAllOf: {
-        category: 'overlast-van-dieren',
         subcategory: 'overig-dieren',
       },
       label: 'Waarover gaat de melding?',

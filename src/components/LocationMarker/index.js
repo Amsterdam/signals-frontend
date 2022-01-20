@@ -33,6 +33,15 @@ const accuracyCircle = new Leaflet.Circle(
   accuracyCircleOptions
 )
 
+const addLocationDot = (mapInstance, latLng) => {
+  locationDot.setLatLng(latLng)
+  locationDot.addTo(mapInstance)
+}
+
+const removeLocationDot = () => {
+  locationDot.remove()
+}
+
 const LocationMarker = ({ geolocation }) => {
   const mapInstance = useMapInstance()
 
@@ -45,12 +54,18 @@ const LocationMarker = ({ geolocation }) => {
     accuracyCircle.setLatLng([latitude, longitude])
     accuracyCircle.setRadius(accuracy)
 
-    locationDot.addTo(mapInstance)
-    locationDot.setLatLng([latitude, longitude])
+    mapInstance.on('zoom', removeLocationDot)
+    mapInstance.on('zoomend', () =>
+      addLocationDot(mapInstance, [latitude, longitude])
+    )
 
     return () => {
       locationDot.remove()
       accuracyCircle.remove()
+      mapInstance.off('zoom', removeLocationDot)
+      mapInstance.off('zoomend', () =>
+        addLocationDot(mapInstance, [latitude, longitude])
+      )
     }
   }, [mapInstance, latitude, longitude, accuracy])
 

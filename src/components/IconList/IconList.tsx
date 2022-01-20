@@ -3,6 +3,7 @@
 import type { FunctionComponent } from 'react'
 import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -14,11 +15,17 @@ const StyledImg = styled.img`
   flex-shrink: 0;
 `
 
-interface IconListItemProps {
+const ReportedIcon = styled.img`
+  margin-left: -20px;
+  margin-top: -30px;
+`
+
+export interface IconListItemProps {
   iconUrl?: string
   id?: string
   className?: string
   iconSize?: number
+  isReported?: boolean
 }
 
 export const IconListItem: FunctionComponent<IconListItemProps> = ({
@@ -27,9 +34,15 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   className,
   iconSize = 40,
   id,
+  isReported,
 }) => (
   <StyledListItem data-testid={id} className={className}>
-    <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+    {iconUrl && (
+      <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+    )}
+    {isReported && (
+      <ReportedIcon alt="" height={20} src={reportedIconUrl} width={20} />
+    )}
     {children}
   </StyledListItem>
 )

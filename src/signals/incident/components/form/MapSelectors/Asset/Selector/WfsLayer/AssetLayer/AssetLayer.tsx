@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
+import type { FC } from 'react'
 import L from 'leaflet'
 
+import type {
+  DataLayerProps,
+  Item,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/types'
 import type { FeatureCollection } from 'geojson'
-import type { FC } from 'react'
-import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Geometrie } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
@@ -13,10 +17,10 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import { featureToCoordinates } from 'shared/services/map-location'
 
 import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
+
 import { Marker } from '@amsterdam/arm-core'
 import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
 import WfsDataContext from '../context'
-import type { DataLayerProps, Feature } from '../../../types'
 
 export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
   const data = useContext<FeatureCollection>(WfsDataContext)
@@ -40,7 +44,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     if (!featureType) return null
 
     const { description, typeValue, idField } = featureType
-    const id = feature.properties[idField]!
+    const id = feature.properties[idField]
 
     const isSelected = Boolean(selection?.id === id)
 
@@ -59,6 +63,8 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         return
       }
 
+      const isReported = feature.properties.meldingstatus === 1
+
       const item: Item = {
         id,
         type: typeValue,
@@ -67,6 +73,9 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         location: {
           coordinates,
         },
+        label: [description, isReported && 'is gemeld', id]
+          .filter(Boolean)
+          .join(' - '),
       }
 
       const response = await reverseGeocoderService(coordinates)

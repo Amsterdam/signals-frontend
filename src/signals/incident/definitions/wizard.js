@@ -8,10 +8,26 @@ import bedankt from './wizard-step-5-bedankt'
 import fout from './wizard-step-6-fout'
 
 export default {
-  beschrijf,
-  vulaan,
-  contact,
-  summary,
+  beschrijf: {
+    stepLabel: 'Beschrijf uw melding',
+    countAsStep: true,
+    ...beschrijf,
+  },
+  vulaan: {
+    stepLabel: 'Locatie en vragen',
+    countAsStep: true,
+    ...vulaan,
+  },
+  contact: {
+    stepLabel: 'Contactgegevens',
+    countAsStep: true,
+    ...contact,
+  },
+  summary: {
+    stepLabel: 'Versturen',
+    countAsStep: true,
+    ...summary,
+  },
   opslaan: {},
   bedankt,
   fout,

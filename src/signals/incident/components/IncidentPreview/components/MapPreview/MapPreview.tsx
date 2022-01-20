@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { Marker } from '@amsterdam/react-maps'
@@ -11,8 +10,14 @@ import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 
 import MapStatic from 'components/MapStatic'
-
 import Map from 'components/Map'
+
+import type { Incident } from 'types/incident'
+import type { FC } from 'react'
+import type {
+  FeatureType,
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
 
 const mapWidth = 640
 const mapHeight = 300
@@ -32,11 +37,14 @@ const StyledMarker = styled(Marker)`
   cursor: none;
 `
 
-/**
- * Map preview with one or more markers
- */
-const MapPreview = ({ value }) => {
-  const { coordinates } = value || {}
+interface MapPreviewProps {
+  incident: Incident
+  value: Item
+  featureTypes?: FeatureType[]
+}
+
+const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
+  const { address, coordinates } = incident.location
 
   const options = {
     ...MAP_OPTIONS,
@@ -45,14 +53,22 @@ const MapPreview = ({ value }) => {
     center: coordinates,
   }
 
-  if (!value) return null
+  let iconSrc = undefined
+
+  if (value?.type !== 'not-on-map') {
+    const featureType = featureTypes?.find(
+      ({ typeValue }) => typeValue === value.type
+    )
+
+    if (featureType) {
+      iconSrc = featureType.icon.iconUrl
+    }
+  }
 
   return (
     <>
       <Address data-testid="mapAddress">
-        {value?.address
-          ? formatAddress(value.address)
-          : 'Locatie gepind op de kaart'}
+        {address ? formatAddress(address) : 'Locatie gepind op de kaart'}
       </Address>
 
       {coordinates &&
@@ -61,6 +77,7 @@ const MapPreview = ({ value }) => {
             height={mapHeight}
             width={mapWidth}
             coordinates={coordinates}
+            iconSrc={iconSrc}
           />
         ) : (
           <StyledMap mapOptions={options}>
@@ -69,22 +86,6 @@ const MapPreview = ({ value }) => {
         ))}
     </>
   )
-}
-
-MapPreview.propTypes = {
-  value: PropTypes.shape({
-    address: PropTypes.shape({
-      openbare_ruimte: PropTypes.string,
-      huisnummer: PropTypes.string,
-      huisletter: PropTypes.string,
-      huisnummer_toevoeging: PropTypes.string,
-      postcode: PropTypes.string,
-      woonplaats: PropTypes.string,
-    }),
-    geometrie: PropTypes.shape({
-      coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
-    }),
-  }),
 }
 
 export default MapPreview

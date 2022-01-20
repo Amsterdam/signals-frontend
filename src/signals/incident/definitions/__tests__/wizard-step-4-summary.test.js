@@ -4,6 +4,7 @@ import { Validators } from 'react-reactive-form'
 
 import configuration from 'shared/services/configuration/configuration'
 
+import PreviewComponents from '../../components/IncidentPreview/components'
 import step4, {
   renderPreview,
   summary,
@@ -12,7 +13,6 @@ import step4, {
   SCSVLabel,
   Null,
 } from '../wizard-step-4-summary'
-import PreviewComponents from '../../components/IncidentPreview/components'
 
 const { previewFactory } = step4
 
@@ -78,13 +78,65 @@ describe('Wizard summary', () => {
   })
 
   describe('Hard coded questions', () => {
+    const beschrijfContact = {
+      beschrijf: {
+        classification: {
+          authenticated: true,
+          label: 'Subcategorie',
+          render: expect.any(Function),
+        },
+        datetime: {
+          label: 'Geef het tijdstip aan',
+          render: expect.any(Function),
+        },
+        description: {
+          label: 'Waar gaat het over?',
+          render: expect.any(Function),
+        },
+        images_previews: {
+          label: "Foto's toevoegen",
+          optional: true,
+          render: expect.any(Function),
+        },
+        priority: {
+          authenticated: true,
+          label: 'Urgentie',
+          render: expect.any(Function),
+        },
+        source: {
+          authenticated: true,
+          label: 'Bron',
+          render: expect.any(Function),
+        },
+      },
+      contact: {
+        email: {
+          label: 'Wat is uw e-mailadres?',
+          optional: true,
+          render: expect.any(Function),
+        },
+        phone: {
+          label: 'Wat is uw telefoonnummer?',
+          optional: true,
+          render: expect.any(Function),
+        },
+        sharing_allowed: {
+          label: 'Melding delen',
+          optional: true,
+          render: expect.any(Function),
+        },
+      },
+    }
+
     it('should return questions based on category', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = previewFactory({
         category: 'afval',
+        subcategory: 'subcategory',
       })
 
       const expected = {
+        ...beschrijfContact,
         vulaan: {
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
@@ -102,21 +154,34 @@ describe('Wizard summary', () => {
       expect(actual).toEqual(expect.objectContaining(expected))
     })
 
-    it('should return no questions with non existing category', () => {
+    it('should return no extra questions with non existing category', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
       })
       const expected = expect.objectContaining({
-        vulaan: {},
+        ...beschrijfContact,
+        vulaan: {
+          locatie: {
+            label: 'Waar is het?',
+            optional: true,
+            render: expect.any(Function),
+          },
+        },
       })
 
       expect(actual).toEqual(expected)
     })
 
     it('should return empty controls when showVulaanControls is false', () => {
-      expect(previewFactory({ category: 'afval' }).vulaan).toEqual({})
+      expect(previewFactory({ category: 'afval' }).vulaan).toEqual({
+        locatie: {
+          label: 'Waar is het?',
+          optional: true,
+          render: expect.any(Function),
+        },
+      })
     })
   })
 
@@ -132,7 +197,13 @@ describe('Wizard summary', () => {
         subcategory: 'subcategory',
       })
       const expected = expect.objectContaining({
-        vulaan: {},
+        vulaan: {
+          locatie: {
+            label: 'Waar is het?',
+            optional: true,
+            render: expect.any(Function),
+          },
+        },
       })
 
       expect(actual).toEqual(expected)

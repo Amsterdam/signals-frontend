@@ -6,7 +6,7 @@ import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
 import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
-import type { Feature, FeatureType } from '../../Asset/types'
+import type { Feature, FeatureType } from '../../types'
 
 const REPORTED = 1
 

@@ -16,6 +16,7 @@ import type { Geometrie } from 'types/incident'
 import userEvent from '@testing-library/user-event'
 import { featureToCoordinates } from 'shared/services/map-location'
 import { WfsDataProvider } from '../context'
+
 import AssetLayer from '.'
 
 const assetSelectProviderValue: AssetSelectValue = {
@@ -25,6 +26,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     id: 'GLB00072',
     type: 'Glas',
     location: {},
+    label: 'Glas container - GLB00072',
   },
 }
 
@@ -72,6 +74,7 @@ describe('AssetLayer', () => {
       isReported: false,
       description: 'Papier container',
       type: 'Papier',
+      label: 'Papier container - PAB00022',
       location: {
         coordinates: coordinates,
       },

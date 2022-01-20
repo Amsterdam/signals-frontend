@@ -19,6 +19,7 @@ import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-do
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
+import locatie from './wizard-step-2-vulaan/locatie'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -40,15 +41,6 @@ const expandQuestions = memoize(
           ignoreVisibility: true,
         },
         render: FormComponents.GlobalError,
-      },
-      custom_text: {
-        meta: {
-          label: 'Dit hebt u net ingevuld:',
-          type: 'citation',
-          value: '{incident.description}',
-          ignoreVisibility: true,
-        },
-        render: FormComponents.PlainText,
       },
       ...Object.entries(questions).reduce(
         (acc, [key, question]) => ({
@@ -82,24 +74,36 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
+const fallback = expandQuestions({ locatie })
+
 export default {
-  label: 'Dit hebben we nog van u nodig',
+  label: 'Locatie en vragen',
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
   previousButtonLabel: 'Vorige',
   previousButtonClass: 'action startagain',
   formAction: 'UPDATE_INCIDENT',
   formFactory: ({ category, subcategory, questions }) => {
-    const noExtraProps = { controls: {} }
-    if (!configuration?.featureFlags.showVulaanControls) return noExtraProps
+    if (configuration?.featureFlags.showVulaanControls === false) {
+      return fallback
+    }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
-      return expandQuestions(questions || {}, category, subcategory)
+      const backendQuestions = questions || {}
+      const hasQuestions = Object.keys(backendQuestions).length > 0
+
+      return hasQuestions
+        ? expandQuestions(backendQuestions, category, subcategory)
+        : fallback
     }
 
     switch (category) {
       case 'openbaar-groen-en-water':
-        return expandQuestions(openbaarGroenEnWater, category, subcategory)
+        if (subcategory === 'eikenprocessierups') {
+          return expandQuestions(openbaarGroenEnWater, category, subcategory)
+        } else {
+          return fallback
+        }
 
       case 'afval': {
         if (subcategory.startsWith('container')) {
@@ -145,7 +149,7 @@ export default {
         return expandQuestions(wonen, category, subcategory)
 
       default:
-        return noExtraProps
+        return fallback
     }
   },
 }

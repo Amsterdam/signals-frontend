@@ -3,7 +3,6 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
-
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import locatie from './locatie'
 
@@ -13,7 +12,6 @@ const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const wegenVerkeerStraatmeubilair = {
   locatie,
-
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
       ifOneOf: {

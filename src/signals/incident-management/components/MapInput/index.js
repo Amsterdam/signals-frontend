@@ -25,6 +25,7 @@ export const MapInput = (props) => {
       ...MAP_OPTIONS,
       ...(configuration.map.optionsBackOffice || {}),
       center,
+      zoom: 14,
     }
 
     const onLocationChange = (location) => {

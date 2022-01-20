@@ -1,5 +1,5 @@
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
-import oakReportedUrl from 'shared/images/groen_water/oakReported.svg?url'
+import reportedFeatureMarkerUrl from '*.svg?url'
 
 export const selection = [
   {
@@ -8,6 +8,7 @@ export const selection = [
     description: 'Eikenboom',
     isReported: false,
     location: {},
+    label: 'Eikenboom - 308777',
   },
   {
     id: 308779,
@@ -15,6 +16,7 @@ export const selection = [
     description: 'De boom staat niet op de kaart',
     isReported: false,
     location: {},
+    label: 'Boom - 308779',
   },
   {
     id: 308778,
@@ -22,16 +24,11 @@ export const selection = [
     description: 'Eikenboom',
     isReported: true,
     location: {},
+    label: 'Eikenboom - is gemeld - 308778',
   },
 ]
 
 export const meta = {
-  icons: [
-    {
-      id: 'cannot_be_matched',
-      iconUrl: '',
-    },
-  ],
   ifAllOf: {
     subcategory: 'eikenprocessierups',
   },
@@ -44,12 +41,10 @@ export const meta = {
     {
       label: 'Eikenboom',
       description: 'Eikenboom',
-      iconId: 'oak',
       icon: {
         options: {},
         iconUrl: oakUrl,
       },
-      iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
       typeValue: 'Eikenboom',
       typeField: '',
@@ -59,14 +54,13 @@ export const meta = {
     {
       label: 'Eikenboom is reeds gemeld ',
       description: 'Eikenboom is reeds gemeld',
-      iconId: 'oakIsReported',
       icon: {
         options: {},
-        iconUrl: oakReportedUrl,
+        iconUrl: reportedFeatureMarkerUrl,
       },
       iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
-      typeValue: 'oakIsReported',
+      typeValue: 'reported',
       typeField: '',
       isReportedField: 'AMS_Meldingstatus',
       isReportedValue: 1,

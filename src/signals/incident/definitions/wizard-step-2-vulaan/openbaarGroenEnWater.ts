@@ -3,16 +3,13 @@
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
 import oakUrl from 'shared/images/groen_water/oak.svg?url'
-import oakReportedUrl from 'shared/images/groen_water/oakReported.svg?url'
-import featureReportedMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
-import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
-import oakSelectedReportedUrl from 'shared/images/groen_water/oakSelectedReported.svg?url'
+import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
 
-const options: Partial<IconOptions> = {
+const options: Pick<IconOptions, 'className' | 'iconSize'> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
@@ -20,9 +17,6 @@ const options: Partial<IconOptions> = {
 export const controls = {
   extra_eikenprocessierups: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Waar is het?',
       language: {
         title: 'Locatie',
@@ -37,43 +31,14 @@ export const controls = {
       pathMerge: 'extra_properties',
       endpoint:
         'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
-      icons: [
-        {
-          id: 'oak',
-          iconUrl: oakUrl,
-        },
-        {
-          id: 'oakIsReported',
-          iconUrl: oakReportedUrl,
-        },
-        {
-          id: 'isReported',
-          iconUrl: featureReportedMarkerUrl,
-        },
-        {
-          id: 'isSelected',
-          iconUrl: featureSelectedMarkerUrl,
-        },
-        {
-          id: 'isSelectedAndReported',
-          iconUrl: oakSelectedReportedUrl,
-        },
-        {
-          id: 'unknown',
-          iconUrl: unknownFeatureMarkerUrl,
-        },
-      ],
       featureTypes: [
         {
           label: 'Eikenboom',
           description: 'Eikenboom',
-          iconId: 'oak',
           icon: {
             options,
             iconUrl: oakUrl,
-            reportedIconSvg: oakReportedUrl,
           },
-          iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
           typeField: '',
@@ -83,14 +48,12 @@ export const controls = {
         {
           label: 'Eikenboom is reeds gemeld ',
           description: 'Eikenboom is reeds gemeld',
-          iconId: 'oakIsReported',
           icon: {
             options,
-            iconUrl: oakReportedUrl,
+            iconUrl: reportedFeatureMarkerUrl,
           },
-          iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
-          typeValue: 'oakIsReported',
+          typeValue: 'reported',
           typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
@@ -98,7 +61,6 @@ export const controls = {
         {
           label: 'Onbekend',
           description: 'De boom staat niet op de kaart',
-          iconId: 'unknown',
           icon: {
             options,
             iconUrl: unknownFeatureMarkerUrl,
@@ -116,9 +78,6 @@ export const controls = {
   },
   extra_nest_grootte: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Wat hebt u op de boom gezien?',
       shortLabel: 'Op de boom gezien',
       pathMerge: 'extra_properties',

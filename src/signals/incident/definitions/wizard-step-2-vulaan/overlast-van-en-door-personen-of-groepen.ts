@@ -9,7 +9,6 @@ export const overlastPersonenEnGroepen = {
   extra_drugs_verkoop: {
     meta: {
       ifAllOf: {
-        category: 'overlast-van-en-door-personen-of-groepen',
         ifOneOf: {
           subcategory: [
             'drank-en-drugsoverlast',
@@ -44,7 +43,6 @@ export const overlastPersonenEnGroepen = {
   extra_jongeren_text: {
     meta: {
       ifAllOf: {
-        category: 'overlast-van-en-door-personen-of-groepen',
         subcategory: 'jongerenoverlast',
       },
       type: 'caution',
@@ -55,9 +53,6 @@ export const overlastPersonenEnGroepen = {
   },
   extra_personen_overig: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-van-en-door-personen-of-groepen',
-      },
       label: 'Om hoeveel personen gaat het (ongeveer)?',
       shortLabel: 'Aantal personen',
       pathMerge: 'extra_properties',
@@ -75,9 +70,6 @@ export const overlastPersonenEnGroepen = {
   },
   extra_personen_overig_vaker: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-van-en-door-personen-of-groepen',
-      },
       label: 'Gebeurt het vaker?',
       shortLabel: 'Vaker',
       pathMerge: 'extra_properties',
@@ -98,7 +90,6 @@ export const overlastPersonenEnGroepen = {
       pathMerge: 'extra_properties',
       ifAllOf: {
         extra_personen_overig_vaker: 'ja',
-        category: 'overlast-van-en-door-personen-of-groepen',
       },
     },
     options: {
