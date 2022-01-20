@@ -4,7 +4,13 @@ import { useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
-import { Heading, themeSpacing, StepByStepNav } from '@amsterdam/asc-ui'
+import {
+  Heading,
+  themeSpacing,
+  StepByStepNav,
+  breakpoint,
+  Paragraph,
+} from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -15,7 +21,6 @@ import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
 
 const StyledH1 = styled(Heading)`
-  font-weight: 500;
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(5)};
 `
@@ -45,7 +50,7 @@ const StepWrapper = styled.article`
     grid-area: progress;
     display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
 
-    @media (max-width: ${({ theme }) => theme.layouts.medium.max - 1}px) {
+    @media screen and ${breakpoint('max-width', 'tabletS')} {
       margin-left: ${themeSpacing(4)};
     }
 
@@ -61,7 +66,7 @@ const StepWrapper = styled.article`
   ${({ showProgress }) =>
     showProgress
       ? css`
-          @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+          @media screen and ${breakpoint('min-width', 'tabletS')} {
             grid-template-areas:
               'progress header'
               'progress form';
@@ -112,6 +117,7 @@ const IncidentWizard = ({
                         form,
                         formFactory,
                         label,
+                        subHeader,
                         postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
@@ -126,6 +132,7 @@ const IncidentWizard = ({
                               {countAsStep && `${index + 1}. `}
                               {label || key}
                             </StyledH1>
+                            {subHeader && <Paragraph>{subHeader}</Paragraph>}
                           </Header>
 
                           <Progress>

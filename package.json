@@ -42,7 +42,7 @@
   "dependencies": {
     "@amsterdam/arm-core": "^0.6.0",
     "@amsterdam/asc-assets": "^0.32.0",
-    "@amsterdam/asc-ui": "^0.35.0",
+    "@amsterdam/asc-ui": "^0.35.1-alpha.31",
     "@amsterdam/react-maps": "^0.12.0",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@datapunt/matomo-tracker-js": "^0.5.1",

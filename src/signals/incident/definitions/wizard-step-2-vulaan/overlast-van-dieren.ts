@@ -2,14 +2,13 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
-import locatie from './locatie'
+import location from './locatie'
 
 const overlastVanDieren = {
-  locatie,
+  location,
   extra_dieren_welk_dier: {
     meta: {
       ifAllOf: {
-        category: 'overlast-van-dieren',
         subcategory: 'overig-dieren',
       },
       label: 'Waarover gaat de melding?',

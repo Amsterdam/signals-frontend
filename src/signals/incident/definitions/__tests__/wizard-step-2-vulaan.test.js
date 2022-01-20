@@ -11,7 +11,6 @@ import FormComponents from '../../components/form'
 const { formFactory } = step2
 const defaultControls = {
   error: expect.objectContaining({}),
-  custom_text: expect.objectContaining({}),
   help_text: expect.objectContaining({
     meta: {
       ignoreVisibility: true,
@@ -52,7 +51,12 @@ describe('Wizard step 2 vulaan, formFactory', () => {
     })
 
     it('should return empty controls when showVulaanControls is false', () => {
-      expect(formFactory({ category: 'afval' }).controls).toEqual({})
+      configuration.featureFlags.showVulaanControls = false
+
+      expect(formFactory({ category: 'afval' }).controls).toEqual({
+        ...defaultControls,
+        locatie: expect.any(Object),
+      })
     })
   })
 

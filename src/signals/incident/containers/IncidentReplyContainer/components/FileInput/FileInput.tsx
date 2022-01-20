@@ -8,7 +8,7 @@ import fileSize from 'signals/incident/services/file-size'
 import type { FieldProps } from '../../types'
 
 const MIN = 30 * 2 ** 10 // 30 KiB
-const MAX = 8 * 2 ** 20 // 8 MiB
+const MAX = 20 * 2 ** 20 // 20 MiB
 const MAX_NUMBER_OF_FILES = 3
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']
 const ALLOWED_EXTENSIONS = ALLOWED_FILE_TYPES.map((type) => type.split('/')[1])
