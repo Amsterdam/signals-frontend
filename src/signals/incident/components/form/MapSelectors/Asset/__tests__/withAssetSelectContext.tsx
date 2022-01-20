@@ -25,6 +25,7 @@ export const contextValue: AssetSelectValue = {
     description: 'Plastic asset',
     id: 'PL734',
     type: 'plastic',
+    label: 'Plastic container - PL734',
   },
   setItem: jest.fn(),
   fetchLocation: jest.fn(),

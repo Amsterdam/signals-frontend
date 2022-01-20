@@ -24,6 +24,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     description: 'Overig lichtpunt',
     isReported: true,
     location: {},
+    label: 'Overig lichtpunt - 031346',
   },
   meta,
 }

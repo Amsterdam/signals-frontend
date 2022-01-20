@@ -52,13 +52,14 @@ describe('AssetList', () => {
       id: '234',
       type: 'Rest',
       location: {},
+      label: 'Rest container - 234',
     },
   }
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: featureTypes as FeatureType[],
-    selection: { ...selection[0], location: {} },
+    selection: { ...selection[0], location: {}, label: 'Rest container - 234' },
   }
 
   it('does not render with empty selection props', () => {

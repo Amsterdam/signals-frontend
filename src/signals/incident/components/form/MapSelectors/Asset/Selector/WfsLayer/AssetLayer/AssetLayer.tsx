@@ -199,6 +199,8 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               feature.geometry as Geometrie
             )
 
+            const isReported = feature.properties.meldingstatus === 1
+
             const item: Item = {
               location: {
                 coordinates,
@@ -206,7 +208,10 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               description,
               id,
               type: typeValue,
-              isReported: feature.properties.meldingstatus === 1,
+              isReported,
+              label: [description, isReported && 'is gemeld', id]
+                .filter(Boolean)
+                .join(' - '),
             }
 
             const response = await reverseGeocoderService(coordinates)

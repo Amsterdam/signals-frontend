@@ -92,6 +92,9 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
       location: {},
       id: unregisteredAssetValue,
       type: UNREGISTERED_TYPE,
+      label: ['De container staat niet op de kaart', unregisteredAssetValue]
+        .filter(Boolean)
+        .join(' - '),
     })
   }, [setItem, unregisteredAssetValue])
 
