@@ -90,7 +90,7 @@ describe('Wizard summary', () => {
           render: expect.any(Function),
         },
         description: {
-          label: 'Uw melding gaat over:',
+          label: 'Waar gaat het over?',
           render: expect.any(Function),
         },
         images_previews: {
