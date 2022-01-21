@@ -27,13 +27,14 @@ export const prepareQuestions = ({
     Object.values(backendQuestions).some(
       (question) => question.render === QuestionFieldType.AssetSelect
     )
-  const backendQuestionsToExpand =
+  const backendQuestionsToExpand = (
     hasQuestions && hasAssetSelect
       ? questions
       : {
           locatie,
           ...questions,
         }
+  ) as Record<string, Question>
 
   return hasQuestions
     ? expandQuestions(backendQuestionsToExpand, category, subcategory)
