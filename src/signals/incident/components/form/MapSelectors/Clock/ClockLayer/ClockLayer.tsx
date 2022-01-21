@@ -7,7 +7,7 @@ import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
 import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
-import type { Feature } from '../../types'
+import type { Feature, ReportedFeatureType } from '../../types'
 import {
   getIsReported,
   getReportedFeatureType,
@@ -22,7 +22,10 @@ export const ClockLayer = () => {
   const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
   const reportedFeatures = reportedFeatureType
     ? data.features.filter((feature) =>
-        getIsReported(feature as unknown as Feature, reportedFeatureType)
+        getIsReported(
+          feature as unknown as Feature,
+          reportedFeatureType as ReportedFeatureType
+        )
       )
     : []
 
@@ -32,7 +35,7 @@ export const ClockLayer = () => {
       {reportedFeatures.length > 0 && reportedFeatureType && (
         <StatusLayer
           statusFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType}
+          reportedFeatureType={reportedFeatureType as ReportedFeatureType}
         />
       )}
     </>

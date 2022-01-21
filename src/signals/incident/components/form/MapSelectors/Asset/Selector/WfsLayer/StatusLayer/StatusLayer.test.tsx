@@ -5,7 +5,11 @@ import type { FeatureCollection } from 'geojson'
 import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
-import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  CheckedFeatureType,
+  Feature,
+  ReportedFeatureType,
+} from 'signals/incident/components/form/MapSelectors/types'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
@@ -35,8 +39,14 @@ const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
 
 const statusFeatures = caterpillarsJson.features.filter(
   (feature) =>
-    getIsReported(feature as unknown as Feature, reportedFeatureType) ||
-    getIsChecked(feature as unknown as Feature, checkedFeatureType)
+    getIsReported(
+      feature as unknown as Feature,
+      reportedFeatureType as ReportedFeatureType
+    ) ||
+    getIsChecked(
+      feature as unknown as Feature,
+      checkedFeatureType as CheckedFeatureType
+    )
 )
 
 describe('StatusLayer', () => {
@@ -46,8 +56,8 @@ describe('StatusLayer', () => {
         <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
           <StatusLayer
             statusFeatures={statusFeatures as unknown as Feature[]}
-            reportedFeatureType={reportedFeatureType}
-            checkedFeatureType={checkedFeatureType}
+            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
+            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
           />
         </WfsDataProvider>
       </Map>,

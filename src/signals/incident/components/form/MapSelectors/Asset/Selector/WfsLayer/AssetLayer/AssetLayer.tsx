@@ -36,6 +36,7 @@ import type {
   DataLayerProps,
   Item,
   Feature,
+  ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
 import { getIsReported, getReportedFeatureType } from '../StatusLayer/utils'
@@ -98,7 +99,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
   const { selection, removeItem, setItem } = useContext(AssetSelectContext)
-  const reportedFeatureType = getReportedFeatureType(featureTypes)
+  const reportedFeatureType = getReportedFeatureType(
+    featureTypes
+  ) as ReportedFeatureType
 
   /* istanbul ignore next */
   useEffect(() => {

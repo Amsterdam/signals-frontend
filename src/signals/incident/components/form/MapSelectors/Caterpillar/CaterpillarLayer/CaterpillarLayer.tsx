@@ -10,6 +10,8 @@ import type {
   FeatureType,
   Feature,
   Item,
+  ReportedFeatureType,
+  CheckedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
@@ -107,8 +109,14 @@ export const CaterpillarLayer: FC = () => {
 
   const statusFeatures = features.filter(
     (feature) =>
-      getIsReported(feature as unknown as Feature, reportedFeatureType) ||
-      getIsChecked(feature as unknown as Feature, checkedFeatureType)
+      getIsReported(
+        feature as unknown as Feature,
+        reportedFeatureType as ReportedFeatureType
+      ) ||
+      getIsChecked(
+        feature as unknown as Feature,
+        checkedFeatureType as CheckedFeatureType
+      )
   )
 
   return (
@@ -121,8 +129,8 @@ export const CaterpillarLayer: FC = () => {
         checkedFeatureType && (
           <StatusLayer
             statusFeatures={statusFeatures as Feature[]}
-            reportedFeatureType={reportedFeatureType}
-            checkedFeatureType={checkedFeatureType}
+            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
+            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
           />
         )}
     </>
