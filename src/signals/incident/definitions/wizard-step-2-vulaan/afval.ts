@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-
+import { QuestionFieldType } from 'types/question'
 import locatie from './locatie'
 
 export const ICON_SIZE = 40
@@ -17,7 +16,7 @@ export const controls = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: QuestionFieldType.TextareaInput,
   },
 }
 

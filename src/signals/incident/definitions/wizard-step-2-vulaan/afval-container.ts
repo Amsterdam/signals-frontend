@@ -2,7 +2,6 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import breadUrl from 'shared/images/afval/bread.svg?url'
 import gftUrl from 'shared/images/afval/gft.svg?url'
@@ -13,6 +12,7 @@ import restUrl from 'shared/images/afval/rest.svg?url'
 import plasticUrl from 'shared/images/afval/plastic.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import configuration from 'shared/services/configuration/configuration'
+import { QuestionFieldType } from 'types/question'
 
 export const ICON_SIZE = 40
 
@@ -143,7 +143,7 @@ export const controls = {
         },
       ],
     },
-    render: FIELD_TYPE_MAP.asset_select,
+    render: QuestionFieldType.AssetSelect,
     options: {
       validators: [validateObjectLocation('container')],
     },

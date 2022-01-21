@@ -5,7 +5,6 @@ import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
 import { prepareQuestions } from '../services/prepare-questions'
@@ -92,7 +91,6 @@ export default {
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
       return prepareQuestions({
-        assetSelectType: FIELD_TYPE_MAP.asset_select,
         category,
         expandQuestions,
         locatie,

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
 import type { IconOptions } from 'leaflet'
@@ -14,6 +13,7 @@ import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url
 import schijnwerperUrl from 'shared/images/openbare_verlichting/schijnwerper.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 
+import { QuestionFieldType } from 'types/question'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import { validateObjectLocation } from '../../services/custom-validators'
 
@@ -38,7 +38,7 @@ const straatverlichtingKlokken = {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
 
   extra_straatverlichting_nummer: {
@@ -140,7 +140,7 @@ const straatverlichtingKlokken = {
       ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.streetlight_select,
+    render: QuestionFieldType.StreetlightSelect,
     options: {
       validators: [validateObjectLocation('lichtpunt')],
     },
@@ -168,7 +168,7 @@ const straatverlichtingKlokken = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_straatverlichting: {
     meta: {
@@ -200,7 +200,7 @@ const straatverlichtingKlokken = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_straatverlichting_drie_of_meer_message: {
     meta: {
@@ -211,7 +211,7 @@ const straatverlichtingKlokken = {
       value:
         'Let op: u hoeft maar 1 lamp of lantaarnpaal aan te klikken. Het is niet nodig alle kapotte lampen of lantaarnpalen aan te klikken.',
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
   extra_straatverlichting_gevaar: {
     meta: {
@@ -237,7 +237,7 @@ const straatverlichtingKlokken = {
       type: 'alert',
       value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
 
   extra_klok_nummer: {
@@ -296,7 +296,7 @@ const straatverlichtingKlokken = {
       ],
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.clock_select,
+    render: QuestionFieldType.ClockSelect,
     options: {
       validators: [validateObjectLocation('klok')],
     },
@@ -324,7 +324,7 @@ const straatverlichtingKlokken = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_klok_gevaar: {
     meta: {
@@ -342,7 +342,7 @@ const straatverlichtingKlokken = {
       type: 'alert',
       value: `Bel direct ${configuration.language.phoneNumber}. U hoeft dit formulier niet meer verder in te vullen.`,
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
   extra_klok_probleem: {
     meta: {
@@ -371,7 +371,7 @@ const straatverlichtingKlokken = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
 }
 

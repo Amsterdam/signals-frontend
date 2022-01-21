@@ -42,7 +42,7 @@ export const FIELD_TYPE_MAP = {
   map_input: QuestionFieldType.MapInput,
   multi_text_input: QuestionFieldType.MultiTextInput,
   plain_text: QuestionFieldType.PlainText,
-  radio_input: QuestionFieldType.RadioInputGroup,
+  radio_input: QuestionFieldType.RadioInput,
   select_input: QuestionFieldType.SelectInput,
   streetlight_select: QuestionFieldType.StreetlightSelect,
   text_input: QuestionFieldType.TextInput,

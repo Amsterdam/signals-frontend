@@ -13,7 +13,7 @@ export enum QuestionFieldType {
   MapInput = 'MapInput',
   MultiTextInput = 'MultiTextInput',
   PlainText = 'PlainText',
-  RadioInputGroup = 'RadioInputGroup',
+  RadioInput = 'RadioInputGroup',
   SelectInput = 'SelectInput',
   StreetlightSelect = 'StreetlightSelectRenderer',
   TextInput = 'TextInput',

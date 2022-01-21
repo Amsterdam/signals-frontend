@@ -1,7 +1,7 @@
 import type { Question } from 'types/question'
+import { QuestionFieldType } from 'types/question'
 
 interface PrepareQuestionsParams {
-  assetSelectType: string
   category: string
   expandQuestions: (
     questions: Record<string, Question>,
@@ -14,7 +14,6 @@ interface PrepareQuestionsParams {
 }
 
 export const prepareQuestions = ({
-  assetSelectType,
   category,
   expandQuestions,
   locatie,
@@ -26,7 +25,7 @@ export const prepareQuestions = ({
   const hasAssetSelect =
     hasQuestions &&
     Object.values(backendQuestions).some(
-      (question) => question.render === assetSelectType
+      (question) => question.render === QuestionFieldType.AssetSelect
     )
   const backendQuestionsToExpand =
     hasQuestions && hasAssetSelect
