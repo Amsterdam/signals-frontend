@@ -84,14 +84,16 @@ const FileInput: FunctionComponent<FileInputProps> = ({
         </Paragraph>
       )}
 
-      {errorMessages.length > 0 &&
-        errorMessages.map((message, index) => (
-          <StyledErrorMessage
-            key={index}
-            data-testid="fileInputError"
-            message={message}
-          />
-        ))}
+      <div role="status">
+        {errorMessages.length > 0 &&
+          errorMessages.map((message, index) => (
+            <StyledErrorMessage
+              key={index}
+              data-testid="fileInputError"
+              message={message}
+            />
+          ))}
+      </div>
 
       <FileInputStyle
         id={name}
