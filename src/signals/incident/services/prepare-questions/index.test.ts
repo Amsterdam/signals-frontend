@@ -15,6 +15,21 @@ describe('The prepare questions service', () => {
     expandQuestions.mockClear()
   })
 
+  it('should work with questions undefined', () => {
+    const questions = undefined
+    expect(
+      prepareQuestions({
+        category,
+        expandQuestions,
+        locatie,
+        questions,
+        subcategory,
+      })
+    ).toEqual(returnValue)
+    expect(expandQuestions).toHaveBeenCalledTimes(1)
+    expect(expandQuestions).toHaveBeenCalledWith({ locatie })
+  })
+
   it('should call fn with location only when no questions given', () => {
     const questions = {}
     expect(

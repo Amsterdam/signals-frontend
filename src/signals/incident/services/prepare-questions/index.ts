@@ -9,7 +9,7 @@ interface PrepareQuestionsParams {
     subcategory?: string
   ) => Record<string, unknown>
   locatie: Question
-  questions: Record<string, Question>
+  questions?: Record<string, Question>
   subcategory: string
 }
 
@@ -20,10 +20,11 @@ export const prepareQuestions = ({
   questions,
   subcategory,
 }: PrepareQuestionsParams) => {
-  const hasQuestions = Object.keys(questions).length > 0
+  const backendQuestions = questions || {}
+  const hasQuestions = Object.keys(backendQuestions).length > 0
   const hasAssetSelect =
     hasQuestions &&
-    Object.values(questions).some(
+    Object.values(backendQuestions).some(
       (question) => question.render === QuestionFieldType.AssetSelect
     )
   const backendQuestionsToExpand =
