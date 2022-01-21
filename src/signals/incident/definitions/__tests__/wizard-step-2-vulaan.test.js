@@ -75,7 +75,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
     })
 
-    it('should return empty controls without questions', () => {
+    it('should return location control when no questions given', () => {
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -90,7 +90,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should expand render prop to component', () => {
+    it('should return location control when no asset select questions given', () => {
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -103,9 +103,33 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
+          locatie,
           key1: {
             options: { validators: [] },
             render: FormComponents.TextInput,
+          },
+        },
+      }
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should return controls without location when asset select question given', () => {
+      const actual = formFactory({
+        category: 'category',
+        subcategory: 'subcategory',
+        questions: {
+          key1: {
+            render: 'AssetSelectRenderer',
+          },
+        },
+      })
+      const expected = {
+        controls: {
+          ...defaultControls,
+          key1: {
+            options: { validators: [] },
+            render: FormComponents.AssetSelectRenderer,
           },
         },
       }
@@ -129,6 +153,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
+          locatie,
           key1: {
             options: { validators: [Validators.required] },
             render: FormComponents.TextInput,
@@ -155,6 +180,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
+          locatie,
           key1: {
             options: { validators: [Validators.required, Validators.email] },
             render: FormComponents.TextInput,
@@ -185,6 +211,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       const expected = {
         controls: {
           ...defaultControls,
+          locatie,
           key1: {
             options: { validators: [maxLengthFn] },
             render: FormComponents.TextInput,

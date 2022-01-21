@@ -20,11 +20,10 @@ export const prepareQuestions = ({
   questions,
   subcategory,
 }: PrepareQuestionsParams) => {
-  const backendQuestions = questions || {}
-  const hasQuestions = Object.keys(backendQuestions).length > 0
+  const hasQuestions = Object.keys(questions).length > 0
   const hasAssetSelect =
     hasQuestions &&
-    Object.values(backendQuestions).some(
+    Object.values(questions).some(
       (question) => question.render === QuestionFieldType.AssetSelect
     )
   const backendQuestionsToExpand =

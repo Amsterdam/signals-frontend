@@ -23,6 +23,14 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
+const expectedLocation = {
+  locatie: {
+    label: 'Waar is het?',
+    optional: true,
+    render: expect.any(Function),
+  },
+}
+
 describe('Wizard summary', () => {
   afterEach(() => {
     configuration.__reset()
@@ -176,6 +184,7 @@ describe('Wizard summary', () => {
 
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({
+        ...expectedLocation,
         locatie: {
           label: 'Waar is het?',
           optional: true,
@@ -191,25 +200,21 @@ describe('Wizard summary', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
     })
 
-    it('should return empty controls without questions', () => {
+    it('should return location control when no questions given', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
       })
       const expected = expect.objectContaining({
         vulaan: {
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
+          ...expectedLocation,
         },
       })
 
       expect(actual).toEqual(expected)
     })
 
-    it('should expand render prop to component', () => {
+    it('should return location control when no asset select questions given', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -222,10 +227,35 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         vulaan: {
+          ...expectedLocation,
           key1: {
             label: 'Label',
             optional: true,
             render: Label,
+          },
+        },
+      })
+
+      expect(actual).toEqual(expected)
+    })
+
+    it('should not return location control when asset select questions given', () => {
+      const actual = previewFactory({
+        category: 'category',
+        subcategory: 'subcategory',
+        questions: {
+          key1: {
+            meta: { label: 'Label' },
+            render: 'AssetSelectRenderer',
+          },
+        },
+      })
+      const expected = expect.objectContaining({
+        vulaan: {
+          key1: {
+            label: 'Label',
+            optional: true,
+            render: expect.any(Function),
           },
         },
       })
@@ -247,6 +277,7 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         vulaan: {
+          ...expectedLocation,
           key1: {
             label: 'Label',
             optional: false,
