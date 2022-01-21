@@ -2,20 +2,32 @@
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { LatLngLiteral, LatLngTuple } from 'leaflet'
 import type { Address } from './address'
+
+export type ValueObject = {
+  label: string
+  value: boolean
+}
+
 export interface Incident {
-  priority: Priority
-  classification: Classification
-  incident_time_hours: number
-  handling_message: string
-  location: Location
-  type: Priority
-  incident_time_minutes: number
-  incident_date: string
-  datetime: Datetime
-  email: string
-  description: string
   category: string
+  classification: Classification | null
+  datetime: Datetime
+  description: string
+  email: string
+  handling_message: string
+  images: string[]
+  images_previews: string[]
+  incident_date: string
+  incident_time_hours: number
+  incident_time_minutes: number
+  location: Location
+  phone?: string
+  priority: Priority
+  questions?: []
+  sharing_allowed?: ValueObject
+  source?: string
   subcategory: string
+  type: Priority
 }
 
 export interface Classification {
@@ -45,7 +57,7 @@ export interface Priority {
   label: string
 }
 
-export const mock = {
+export const mock: Incident = {
   priority: {
     id: 'normal',
     label: 'Normaal',
@@ -65,14 +77,17 @@ export const mock = {
   handling_message:
     'Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
   phone: '14 020',
-  locatie: {
-    type: 'not-on-map',
-  },
   images_previews: [],
   location: {
     coordinates: {
       lat: 52.38931218069618,
       lng: 4.933903676810628,
+    },
+    address: {
+      openbare_ruimte: "'s-Gravenhekje",
+      huisnummer: '9',
+      postcode: '1011TG',
+      woonplaats: 'Amsterdam',
     },
   },
   images: [],
