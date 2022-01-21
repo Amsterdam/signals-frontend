@@ -34,7 +34,7 @@ import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { UNREGISTERED_TYPE } from '../../constants'
-import { MapMessage, ZoomMessage } from '../../components/MapMessage'
+import { ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
 import AssetLayer from './WfsLayer/AssetLayer'
@@ -78,16 +78,17 @@ const StyledMap = styled(Map)`
 `
 
 const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  left: 43px;
-  //                  left margin + right margin - margin (+1px border) to gps button + gps button width
-  width: calc(100vw - (16px + 16px - 2px + 44px));
+  left: calc(44px + 8px);
+  //                  gps button width + left margin + right margin + margin to gps button - border width
+  width: calc(100vw - (44px + 16px + 16px + 8px - 2px));
 
   @media screen and ${breakpoint('min-width', 'tabletS')} {
-    width: calc(100vw - (16px + 16px - 2px + 44px + 44px + 16px));
+    //                  gps button width + close button width + margin to gps button + left margin + right margin
+    width: calc(100vw - (44px + 44px + 8px + 16px + 16px + 8px));
   }
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
-    width: calc(100vw - 492px);
+    width: 50vw;
     max-width: 375px;
   }
 `
@@ -236,8 +237,6 @@ const Selector = () => {
               />
             ) : null}
           </Panel>
-
-          <MapMessage />
 
           {hasFeatureTypes && (
             <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
