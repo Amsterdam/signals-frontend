@@ -45,7 +45,6 @@ const FileInput: FunctionComponent<FileInputProps> = ({
   const [keyValue, setKeyValue] = useState(1)
 
   useEffect(() => {
-    updateFileInputComponent()
     setPreviews(files.map(window.URL.createObjectURL))
   }, [files])
 
@@ -62,18 +61,16 @@ const FileInput: FunctionComponent<FileInputProps> = ({
 
   const removeFile = useCallback(
     (_event, index: number) => {
+      setKeyValue(keyValue + 1)
+
       window.URL.revokeObjectURL(previews[index])
 
       const newFiles = files.filter((_file, fileIndex) => fileIndex !== index)
 
       onChange(newFiles)
     },
-    [files, onChange, previews]
+    [files, onChange, previews, keyValue]
   )
-
-  const updateFileInputComponent = useCallback(() => {
-    setKeyValue(keyValue + 1)
-  }, [keyValue])
 
   return (
     <ErrorWrapper invalid={errorMessages.length > 0}>
