@@ -7,6 +7,7 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
+import { prepareQuestions } from '../services/prepare-questions'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalControls from './wizard-step-2-vulaan/afval'
@@ -105,12 +106,14 @@ const getExtraQuestions = (category, subcategory, questions) => {
   }
 
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
-    const backendQuestions = questions || {}
-    const hasQuestions = Object.keys(backendQuestions).length > 0
-
-    return hasQuestions
-      ? expandQuestions(backendQuestions, category, subcategory)
-      : fallback
+    return prepareQuestions({
+      assetSelectType: FIELD_TYPE_MAP.asset_select,
+      category,
+      expandQuestions,
+      locatie,
+      questions,
+      subcategory,
+    })
   }
 
   switch (category) {

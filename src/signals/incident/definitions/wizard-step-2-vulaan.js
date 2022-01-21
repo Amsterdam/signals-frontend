@@ -5,8 +5,10 @@ import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
 
+import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
+import { prepareQuestions } from '../services/prepare-questions'
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -89,12 +91,14 @@ export default {
     }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
-      const backendQuestions = questions || {}
-      const hasQuestions = Object.keys(backendQuestions).length > 0
-
-      return hasQuestions
-        ? expandQuestions(backendQuestions, category, subcategory)
-        : fallback
+      return prepareQuestions({
+        assetSelectType: FIELD_TYPE_MAP.asset_select,
+        category,
+        expandQuestions,
+        locatie,
+        questions,
+        subcategory,
+      })
     }
 
     switch (category) {
