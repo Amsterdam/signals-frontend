@@ -8,7 +8,7 @@ import type { FormMeta } from 'types/reactive-form'
 import { createRequired } from '../../../services/custom-validators'
 
 import type { FormFieldProps } from './FormField'
-import FormField from './index'
+import FormField from '.'
 
 describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr'

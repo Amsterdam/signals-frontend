@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
-import TextArea from './index'
+import TextArea from '.'
 
 describe('components/TextArea', () => {
   it('renders correctly', () => {
