@@ -81,40 +81,6 @@ const getControls = memoize(
         },
         render: FormComponents.CategorySelectRenderer,
       },
-      datetime: {
-        meta: {
-          label: 'Geef het tijdstip aan',
-          values: {
-            Nu: 'Nu',
-            Eerder: 'Eerder',
-          },
-        },
-        options: {
-          validators: [Validators.required],
-        },
-        render: FormComponents.RadioInputGroup,
-      },
-      incident_date: {
-        meta: {
-          ifAllOf: {
-            datetime: 'Eerder',
-          },
-        },
-        render: FormComponents.DateTimeInput,
-        strict: false,
-      },
-      incident_time_hours: {
-        meta: {
-          label: 'Incident time hours',
-          readOnly: true,
-        },
-      },
-      incident_time_minutes: {
-        meta: {
-          label: 'Incident time minutes',
-          readOnly: true,
-        },
-      },
       priority: {
         meta: {
           label: 'Wat is de urgentie?',
