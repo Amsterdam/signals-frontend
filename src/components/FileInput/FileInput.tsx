@@ -57,7 +57,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
       const newFiles = files.concat([...event.target.files])
       onChange(newFiles)
     },
-    [files, onChange]
+    [files, onChange, keyValue]
   )
 
   const removeFile = useCallback(
@@ -68,7 +68,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
 
       onChange(newFiles)
     },
-    [files, onChange, previews]
+    [files, onChange, previews, keyValue]
   )
 
   return (
