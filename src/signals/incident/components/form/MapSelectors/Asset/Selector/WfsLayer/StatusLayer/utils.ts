@@ -34,11 +34,7 @@ export const getIsChecked = (
 }
 
 export const getReportedFeatureType = (featureTypes: FeatureType[]) =>
-  featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as ReportedFeatureType
+  featureTypes.find(({ typeValue }) => typeValue === 'reported')
 
 export const getCheckedFeatureType = (featureTypes: FeatureType[]) =>
-  featureTypes.find(
-    ({ typeValue }) => typeValue === 'checked'
-  ) as CheckedFeatureType
+  featureTypes.find(({ typeValue }) => typeValue === 'checked')
