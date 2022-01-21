@@ -26,6 +26,7 @@ import { formatAddress } from 'shared/services/format-address'
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
+import ViewerContainer from 'components/ViewerContainer'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
@@ -36,7 +37,6 @@ import { UNREGISTERED_TYPE } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
-import ViewerContainer from './ViewerContainer'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
@@ -78,13 +78,12 @@ const StyledMap = styled(Map)`
 `
 
 const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  @media screen and (max-width: 300px) {
-    top: 60px;
-    width: calc(100vw - 32px);
-  }
+  left: 43px;
+  //                  left margin + right margin - margin (+1px border) to gps button + gps button width
+  width: calc(100vw - (16px + 16px - 2px + 44px));
 
-  @media screen and (min-width: 300px) {
-    width: calc(100vw - 92px);
+  @media screen and ${breakpoint('min-width', 'tabletS')} {
+    width: calc(100vw - (16px + 16px - 2px + 44px + 44px + 16px));
   }
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
@@ -107,7 +106,7 @@ const Selector = () => {
     setLocation,
     fetchLocation,
   } = useContext(AssetSelectContext)
-  const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
+  const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
   const { Panel, panelVariant } = useMemo<{
     Panel: FunctionComponent
     panelVariant: Variant
@@ -178,18 +177,18 @@ const Selector = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
-      <StyledMap
-        hasZoomControls={desktopView}
-        mapOptions={mapOptions}
-        events={{ click: mapClick }}
-        setInstance={setMap}
-        hasGPSControl
+      <MapPanelProvider
+        mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
+        mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
+        variant={panelVariant}
+        initialPosition={SnapPoint.Halfway}
       >
-        <MapPanelProvider
-          mapPanelSnapPositions={MAP_PANEL_SNAP_POSITIONS}
-          mapPanelDrawerSnapPositions={MAP_PANEL_DRAWER_SNAP_POSITIONS}
-          variant={panelVariant}
-          initialPosition={SnapPoint.Halfway}
+        <StyledMap
+          hasZoomControls={desktopView}
+          mapOptions={mapOptions}
+          events={{ click: mapClick }}
+          setInstance={setMap}
+          hasGPSControl
         >
           <ViewerContainer
             topLeft={
@@ -237,35 +236,35 @@ const Selector = () => {
               />
             ) : null}
           </Panel>
-        </MapPanelProvider>
 
-        <MapMessage />
+          <MapMessage />
 
-        {hasFeatureTypes && (
-          <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-            Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te
-            zien
-          </ZoomMessage>
-        )}
+          {hasFeatureTypes && (
+            <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+              Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te
+              zien
+            </ZoomMessage>
+          )}
 
-        <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <Layer featureTypes={meta.featureTypes} />
-        </WfsLayer>
+          <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+            <Layer featureTypes={meta.featureTypes} />
+          </WfsLayer>
 
-        {showMarker && (
-          <span data-testid="assetPinMarker">
-            <Marker
-              key={Object.values(coordinates).toString()}
-              setInstance={setPinMarker}
-              args={[coordinates]}
-              options={{
-                icon: markerIcon,
-                keyboard: false,
-              }}
-            />
-          </span>
-        )}
-      </StyledMap>
+          {showMarker && (
+            <span data-testid="assetPinMarker">
+              <Marker
+                key={Object.values(coordinates).toString()}
+                setInstance={setPinMarker}
+                args={[coordinates]}
+                options={{
+                  icon: markerIcon,
+                  keyboard: false,
+                }}
+              />
+            </span>
+          )}
+        </StyledMap>
+      </MapPanelProvider>
     </Wrapper>
   )
 

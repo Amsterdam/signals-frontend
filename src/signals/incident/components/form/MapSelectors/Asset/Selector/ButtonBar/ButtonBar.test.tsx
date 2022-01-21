@@ -18,7 +18,7 @@ const useLayerVisibleSpy = mocked(useLayerVisible).mockImplementation(
 )
 
 describe('ButtonBar', () => {
-  const media = `screen and ${ascDefaultTheme.breakpoints.tabletM('max-width')}`
+  const media = `screen and ${ascDefaultTheme.breakpoints.tabletS('max-width')}`
 
   it('sets top margin when context layer is not visible', () => {
     render(
