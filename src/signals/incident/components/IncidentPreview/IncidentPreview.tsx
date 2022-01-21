@@ -98,10 +98,10 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
   sectionLabels,
 }) => (
   <Wrapper data-testid="incidentPreview">
-    {Object.entries(preview).map(([section, value]) => {
-      const editLinkLabel = sectionLabels.edit[section as keyof Preview]
+    {Object.entries(preview).map(([sectionId, value]) => {
+      const editLinkLabel = sectionLabels.edit[sectionId as keyof Preview]
       const sectionHeadingLabel =
-        sectionLabels.heading[section as keyof Preview]
+        sectionLabels.heading[sectionId as keyof Preview]
 
       const visibleEntries = Object.entries(value).filter(
         ([entryKey, { optional, authenticated }]) => {
@@ -137,15 +137,16 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
       )
 
       return (
-        visibleEntries.length > 0 && (
-          <Section key={section}>
-            {sectionHeadingLabel && (
-              <Header>
-                <Heading as="h2" styleAs="h3">
-                  {sectionHeadingLabel}
-                </Heading>
-              </Header>
-            )}
+        <Section key={sectionId}>
+          {sectionHeadingLabel && (
+            <Header>
+              <Heading as="h2" styleAs="h3">
+                {sectionHeadingLabel}
+              </Heading>
+            </Header>
+          )}
+
+          {visibleEntries.length > 0 ? (
             <Dl>
               {visibleEntries.map(([itemKey, itemValue]) => (
                 <Fragment key={itemKey}>
@@ -160,14 +161,16 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
                 </Fragment>
               ))}
             </Dl>
+          ) : (
+            'U heeft geen gegevens ingevuld'
+          )}
 
-            <LinkContainer>
-              <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                {editLinkLabel}
-              </AscLink>
-            </LinkContainer>
-          </Section>
-        )
+          <LinkContainer>
+            <AscLink as={Link} to={`/incident/${sectionId}`} variant="inline">
+              {editLinkLabel}
+            </AscLink>
+          </LinkContainer>
+        </Section>
       )
     })}
   </Wrapper>
