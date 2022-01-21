@@ -42,8 +42,10 @@ const FileInput: FunctionComponent<FileInputProps> = ({
   onChange,
 }) => {
   const [previews, setPreviews] = useState<string[]>([])
+  const [keyValue, setKeyValue] = useState(1)
 
   useEffect(() => {
+    setKeyValue(keyValue + 1)
     setPreviews(files.map(window.URL.createObjectURL))
   }, [files])
 
@@ -120,6 +122,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
         {files.length < maxNumberOfFiles && (
           <FileInputUploadButton data-testid="fileInputUploadButton">
             <input
+              key={keyValue}
               type="file"
               id="fileUpload"
               data-testid="fileInputUpload"
