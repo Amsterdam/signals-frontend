@@ -45,7 +45,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
   const [keyValue, setKeyValue] = useState(1)
 
   useEffect(() => {
-    setKeyValue(keyValue + 1)
+    updateFileInputComponent()
     setPreviews(files.map(window.URL.createObjectURL))
   }, [files])
 
@@ -57,7 +57,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
       const newFiles = files.concat([...event.target.files])
       onChange(newFiles)
     },
-    [files, onChange, keyValue]
+    [files, onChange]
   )
 
   const removeFile = useCallback(
@@ -68,8 +68,12 @@ const FileInput: FunctionComponent<FileInputProps> = ({
 
       onChange(newFiles)
     },
-    [files, onChange, previews, keyValue]
+    [files, onChange, previews]
   )
+
+  const updateFileInputComponent = useCallback(() => {
+    setKeyValue(keyValue + 1)
+  }, [keyValue])
 
   return (
     <ErrorWrapper invalid={errorMessages.length > 0}>
