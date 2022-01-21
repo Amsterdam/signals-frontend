@@ -9,7 +9,7 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import useLayerVisible from '../../../hooks/useLayerVisible'
 
 const ButtonBarStyle = styled.div<{ messageVisible: boolean }>`
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
+  @media screen and ${breakpoint('max-width', 'tabletS')} {
     margin-top: ${({ messageVisible }) => messageVisible && themeSpacing(11)};
   }
 `
