@@ -69,7 +69,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         id,
         type: typeValue,
         description,
-        isReported: isReported,
+        isReported,
         location: {
           coordinates,
         },
