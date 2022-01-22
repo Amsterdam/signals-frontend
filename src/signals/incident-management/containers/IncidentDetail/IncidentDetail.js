@@ -16,6 +16,7 @@ import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
 import reducer, { initialState } from './reducer'
 
+import Attachments from './components/Attachments'
 import ChildIncidents from './components/ChildIncidents'
 import DetailHeader from './components/DetailHeader'
 import MetaList from './components/MetaList'
@@ -302,6 +303,10 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
           <Detail attachments={state.attachments} context={state.context} />
+
+          {state.attachments && state.attachments.length && (
+            <Attachments attachments={state.attachments} />
+          )}
 
           <AddNote maxContentLength={3000} />
 
