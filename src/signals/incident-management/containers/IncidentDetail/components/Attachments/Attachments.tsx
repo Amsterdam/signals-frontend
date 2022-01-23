@@ -6,10 +6,12 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
 import type { Attachment } from 'types/attachment'
-import Button from 'components/Button'
 import type { FC } from 'react'
+import Button from 'components/Button'
+import { useCallback, useState } from 'react'
 import { useContext } from 'react'
 import IncidentDetailContext from '../../context'
+import FileInput from '../FileInput'
 
 const Wrapper = styled.article`
   contain: content;
@@ -19,10 +21,6 @@ const Wrapper = styled.article`
 
 const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
-`
-
-const Section = styled.section`
-  margin: ${themeSpacing(2, 2, 2, 0)};
 `
 
 const StyledBox = styled.div`
@@ -66,10 +64,6 @@ const StyledDate = styled.div`
   line-height: 14px;
 `
 
-// const StyledLink = styled(AscLink)`
-//   font-size: inherit;
-// `
-
 interface AttachmentsProps {
   attachments: Array<Attachment>
   className: string
@@ -77,12 +71,23 @@ interface AttachmentsProps {
 
 const Attachments: FC<AttachmentsProps> = ({ attachments, className }) => {
   const { preview } = useContext(IncidentDetailContext)
+  const [files, setFiles] = useState([])
+  const hasAttachments = attachments.length > 0 || files.length > 0
 
-  return attachments.length > 0 ? (
+  const handleChange = useCallback(
+    (newFiles) => {
+      setFiles(newFiles)
+    },
+    [setFiles]
+  )
+
+  return (
     <Wrapper className={className}>
-      <Title forwardedAs="h2" styleAs="h4">
-        Foto
-      </Title>
+      {hasAttachments && (
+        <Title forwardedAs="h2" styleAs="h4">
+          Foto
+        </Title>
+      )}
       {attachments.map((attachment) => (
         <StyledBox
           key={attachment.location}
@@ -98,18 +103,21 @@ const Attachments: FC<AttachmentsProps> = ({ attachments, className }) => {
           </StyledDate>
         </StyledBox>
       ))}
-      <Section>
-        <Button type="button" variant="textButton">
+      {files.map((file) => (
+        <StyledBox key={window.URL.createObjectURL(file)}>
+          <StyledImg src={window.URL.createObjectURL(file)} />
+          <StyledReporter>wordt geüpload</StyledReporter>
+        </StyledBox>
+      ))}
+      <FileInput name="addPhoto" label="Foto toevoegen" onChange={handleChange}>
+        <Button
+          forwardedAs="span"
+          variant={hasAttachments ? 'textButton' : 'application'}
+        >
           Foto toevoegen
         </Button>
-      </Section>
+      </FileInput>
     </Wrapper>
-  ) : (
-    <Section>
-      <Button type="button" variant="application">
-        Foto toevoegen
-      </Button>
-    </Section>
   )
 }
 
