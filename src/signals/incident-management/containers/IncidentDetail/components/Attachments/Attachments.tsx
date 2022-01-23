@@ -6,6 +6,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
 import type { Attachment } from 'types/attachment'
+import Button from 'components/Button'
 import type { FC } from 'react'
 import { useContext } from 'react'
 import IncidentDetailContext from '../../context'
@@ -18,6 +19,10 @@ const Wrapper = styled.article`
 
 const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
+`
+
+const Section = styled.section`
+  margin: ${themeSpacing(2, 2, 2, 0)};
 `
 
 const StyledBox = styled.div`
@@ -67,14 +72,15 @@ const StyledDate = styled.div`
 
 interface AttachmentsProps {
   attachments: Array<Attachment>
+  className: string
 }
 
-const Attachments: FC<AttachmentsProps> = ({ attachments }) => {
+const Attachments: FC<AttachmentsProps> = ({ attachments, className }) => {
   const { preview } = useContext(IncidentDetailContext)
 
-  return (
-    <Wrapper data-testid="incidentDetailAttachments">
-      <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
+  return attachments.length > 0 ? (
+    <Wrapper className={className}>
+      <Title forwardedAs="h2" styleAs="h4">
         Foto
       </Title>
       {attachments.map((attachment) => (
@@ -85,17 +91,25 @@ const Attachments: FC<AttachmentsProps> = ({ attachments }) => {
             preview('attachment', { attachmentHref: attachment.location })
           }
         >
-          <StyledImg
-            data-testid="attachmentsValueButton"
-            src={attachment.location}
-          />
+          <StyledImg src={attachment.location} />
           <StyledReporter>Melder</StyledReporter>
           <StyledDate>
             {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
           </StyledDate>
         </StyledBox>
       ))}
+      <Section>
+        <Button type="button" variant="textButton">
+          Foto toevoegen
+        </Button>
+      </Section>
     </Wrapper>
+  ) : (
+    <Section>
+      <Button type="button" variant="application">
+        Foto toevoegen
+      </Button>
+    </Section>
   )
 }
 

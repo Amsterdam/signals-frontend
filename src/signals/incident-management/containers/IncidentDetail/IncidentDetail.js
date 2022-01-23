@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useReducer, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Column } from '@amsterdam/asc-ui'
+import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -48,6 +48,10 @@ import {
 
 const StyledRow = styled(Row)`
   position: relative;
+`
+
+const StyledAttachments = styled(Attachments)`
+  margin-bottom: ${themeSpacing(4)};
 `
 
 const DetailContainer = styled(Column)`
@@ -304,9 +308,7 @@ const IncidentDetail = () => {
         >
           <Detail attachments={state.attachments} context={state.context} />
 
-          {state.attachments && state.attachments.length && (
-            <Attachments attachments={state.attachments} />
-          )}
+          <StyledAttachments attachments={state.attachments || []} />
 
           <AddNote maxContentLength={3000} />
 
