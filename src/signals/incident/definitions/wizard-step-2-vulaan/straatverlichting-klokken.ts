@@ -202,17 +202,6 @@ const straatverlichtingKlokken = {
     },
     render: FIELD_TYPE_MAP.radio_input,
   },
-  extra_straatverlichting_drie_of_meer_message: {
-    meta: {
-      ifOneOf: {
-        extra_straatverlichting: 'drie_of_meer_kapot',
-      },
-      type: 'info',
-      value:
-        'Let op: u hoeft maar 1 lamp of lantaarnpaal aan te klikken. Het is niet nodig alle kapotte lampen of lantaarnpalen aan te klikken.',
-    },
-    render: FIELD_TYPE_MAP.plain_text,
-  },
   extra_straatverlichting_gevaar: {
     meta: {
       ifAllOf: {
