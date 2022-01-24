@@ -5,10 +5,10 @@ import { Validators } from 'react-reactive-form'
 
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
-import { createRequired } from '../../../../services/custom-validators'
+import { createRequired } from '../../../services/custom-validators'
 
-import type { FormFieldProps } from '../FormField'
-import FormField from '..'
+import type { FormFieldProps } from './FormField'
+import FormField from '.'
 
 describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr'

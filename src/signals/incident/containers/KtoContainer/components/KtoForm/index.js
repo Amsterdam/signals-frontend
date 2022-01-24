@@ -193,7 +193,10 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
               rows="2"
             />
           )}
-          {state.errors.text && <ErrorMessage message={state.errors.text} />}
+
+          <div role="status">
+            {state.errors.text && <ErrorMessage message={state.errors.text} />}
+          </div>
         </FieldSet>
       </GridArea>
 
