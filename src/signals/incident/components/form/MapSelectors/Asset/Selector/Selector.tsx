@@ -60,6 +60,10 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
 const MAP_LOCATION_ZOOM = 14
 const MAP_NO_LOCATION_ZOOM = 9
 
+const StyledViewerContainer = styled(ViewerContainer)`
+  z-index: 401;
+`
+
 const Wrapper = styled.div`
   position: fixed;
   top: 0;
@@ -75,9 +79,14 @@ const Wrapper = styled.div`
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
+  position: relative;
+  z-index: 0;
 `
 
 const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
+  position: relative;
+  z-index: 1;
+
   left: calc(44px + 8px);
   //                  gps button width + left margin + right margin + margin to gps button - border width
   width: calc(100vw - (44px + 16px + 16px + 8px - 2px));
@@ -191,7 +200,7 @@ const Selector = () => {
           setInstance={setMap}
           hasGPSControl
         >
-          <ViewerContainer
+          <StyledViewerContainer
             topLeft={
               <StyledPDOKAutoSuggest
                 onSelect={onAddressSelect}
