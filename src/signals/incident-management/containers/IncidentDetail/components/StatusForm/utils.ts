@@ -125,7 +125,7 @@ export const getTextConfig = (statusCode: StatusCode) => {
         label: constants.REPLY_MAIL_LABEL,
         subtitle: constants.REPLY_MAIL_SUBTITLE,
         maxLength: constants.REPLY_MAIL_MAX_LENGTH,
-        rows: 5,
+        rows: 6,
       }
     : {
         label: constants.DEFAULT_TEXT_LABEL,
