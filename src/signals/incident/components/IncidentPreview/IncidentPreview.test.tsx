@@ -3,9 +3,12 @@
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
-import { getIsAuthenticated } from 'shared/services/auth/auth'
+import * as auth from 'shared/services/auth/auth'
 import { withAppContext } from 'test/utils'
 import { formatAddress } from 'shared/services/format-address'
+import { mock } from 'types/incident'
+
+import type { IncidentPreviewProps } from './IncidentPreview'
 
 import PreviewComponents from './components'
 import IncidentPreview from '.'
@@ -13,56 +16,54 @@ import IncidentPreview from '.'
 jest.mock('shared/services/auth/auth')
 
 describe('<IncidentPreview />', () => {
-  let props
+  let props: IncidentPreviewProps
 
   beforeEach(() => {
-    getIsAuthenticated.mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     props = {
-      incident: {
-        phone: '0666 666 666',
-        email: 'duvel@uiteendoosje.nl',
-        other_prop: 'Lorem ipsum',
-        optional_array_prop: [],
-      },
+      incident: mock,
       preview: {
         beschrijf: {
           phone: {
             label: 'Uw (mobiele) telefoon',
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
           other_prop: {
             label: 'Foo bar',
             authenticated: true,
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
           optional_prop: {
             label: 'Bazzzz',
             optional: true,
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
           optional_array_prop: {
             label: 'Opttt',
             optional: true,
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
           required_prop: {
             label: 'Qux',
             authenticated: false,
             optional: false,
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
         },
         vulaan: {
           email: {
             label: 'Uw e-mailadres',
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
         },
-        some_other_section: {
-          field: {
-            label: 'Bar baz qux',
-            render: ({ value }) => value,
+        contact: {
+          sharing_allowed: {
+            optional: true,
+            label: 'foo bar',
+            render: ({ value }: { value: { value?: string } }) => (
+              <span>{value.value ? 'Ja' : 'Nee'}</span>
+            ),
           },
         },
       },
@@ -70,11 +71,12 @@ describe('<IncidentPreview />', () => {
         heading: {
           vulaan: 'Vulaan heading',
           beschrijf: 'Beschrijf heading',
+          contact: 'Contact',
         },
         edit: {
           vulaan: 'Wijzig vulaan',
           beschrijf: 'Wijzig beschrijf',
-          some_other_section: 'Wijzig bar baz qux',
+          contact: 'Wijzig bar baz qux',
         },
       },
     }
@@ -91,13 +93,12 @@ describe('<IncidentPreview />', () => {
 
     await findByTestId('incidentPreview')
 
-    expect(queryByText(props.incident.phone)).toBeInTheDocument()
+    expect(queryByText(props.incident.phone || '')).toBeInTheDocument()
     expect(queryByText(props.preview.beschrijf.phone.label)).toBeInTheDocument()
 
     expect(queryByText(props.incident.email)).toBeInTheDocument()
     expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument()
 
-    expect(queryByText(props.incident.other_prop)).not.toBeInTheDocument()
     expect(
       queryByText(props.preview.beschrijf.other_prop.label)
     ).not.toBeInTheDocument()
@@ -131,9 +132,6 @@ describe('<IncidentPreview />', () => {
     expect(
       screen.getByText(props.sectionLabels.edit.vulaan)
     ).toBeInTheDocument()
-    expect(
-      screen.getByText(props.sectionLabels.edit.some_other_section)
-    ).toBeInTheDocument()
 
     container.querySelectorAll('a').forEach((element) => {
       expect(element.href).toEqual(expect.stringMatching(sectionRe))
@@ -145,62 +143,27 @@ describe('<IncidentPreview />', () => {
       sectionLabels: {
         heading: {
           beschrijf: 'Beschrijf',
+          vulaan: 'Aanvullen',
+          contact: 'Contact',
         },
         edit: {
           beschrijf: 'Wijzig beschrijf',
+          vulaan: 'Wijzig aanvullen',
+          contact: 'Wijzig contact',
         },
       },
-      incident: {
-        plain_text: 'Dit is een melding',
-        objectValue: {
-          id: 'horecabedrijf',
-          label: 'Horecabedrijf, zoals een café, restaurant',
-        },
-        listObjectValue: [
-          {
-            id: 'uitgewaaierd_terras',
-            label: 'Uitgewaaierd terras',
-          },
-          {
-            id: 'doorloop',
-            label: 'Het terras belemmert de doorloop',
-          },
-        ],
-        datetime: {
-          id: 'Nu',
-          label: 'Nu',
-        },
-        location: {
-          address: {
-            openbare_ruimte: 'Zwanenburgwal',
-            huisnummer: '15',
-            huisletter: '',
-            huisnummer_toevoeging: '',
-            postcode: '1011VW',
-            woonplaats: 'Amsterdam',
-          },
-          address_text: 'Zwanenburgwal 15, 1011VW Amsterdam',
-          buurt_code: 'A04i',
-          stadsdeel: 'A',
-          geometrie: {
-            type: 'Point',
-            coordinates: [4.899258613586427, 52.36784357172409],
-          },
-        },
-        sharing_allowed: {
-          value: true,
-        },
-        phone: '0000',
-      },
+      incident: mock,
       preview: {
         beschrijf: {
           plain_text: {
             label: 'Plain text',
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
           objectValue: {
             label: 'Object value',
-            render: ({ value }) => value.label,
+            render: ({ value }: { value: { label?: string } }) => (
+              <span>{value?.label}</span>
+            ),
           },
           listObjectValue: {
             label: 'List object value',
@@ -215,16 +178,17 @@ describe('<IncidentPreview />', () => {
             render: PreviewComponents.MapPreview,
           },
         },
+        vulaan: {},
         contact: {
           sharing_allowed: {
             optional: true,
             label: 'foo bar',
-            render: ({ value }) => (value.value ? 'Ja' : 'Nee'),
+            render: PreviewComponents.ListObjectValue,
           },
           phone: {
             optional: true,
             label: 'phone',
-            render: ({ value }) => value,
+            render: ({ value }: { value: string }) => <span>{value}</span>,
           },
         },
       },
@@ -232,26 +196,26 @@ describe('<IncidentPreview />', () => {
 
     it('expect to render correctly', async () => {
       const { queryByText, findByTestId } = render(
+        // Disabling linter; ts compiler is complaining about untyped components. When all components have been ported to TS, the comments can be removed
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         withAppContext(<IncidentPreview {...allTypesProps} />)
       )
 
       await findByTestId('incidentPreview')
 
       const { incident } = allTypesProps
-      const step = allTypesProps.preview.beschrijf
+      const { beschrijf, contact } = allTypesProps.preview
 
-      expect(queryByText(step.plain_text.label)).toBeInTheDocument()
-      expect(queryByText(incident.plain_text)).toBeInTheDocument()
+      expect(queryByText(beschrijf.plain_text.label)).toBeInTheDocument()
 
-      expect(queryByText(step.objectValue.label)).toBeInTheDocument()
-      expect(queryByText(incident.objectValue.label)).toBeInTheDocument()
-
-      expect(queryByText(incident.listObjectValue[0].label)).toBeInTheDocument()
-      expect(queryByText(incident.listObjectValue[1].label)).toBeInTheDocument()
+      expect(queryByText(beschrijf.objectValue.label)).toBeInTheDocument()
+      expect(queryByText(contact.sharing_allowed.label)).toBeInTheDocument()
 
       expect(queryByText(incident.datetime.label)).toBeInTheDocument()
       expect(
-        queryByText(formatAddress(incident.location.address))
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-non-null-asserted-optional-chain
+        queryByText(formatAddress(incident.location?.address!))
       ).toBeInTheDocument()
     })
   })
