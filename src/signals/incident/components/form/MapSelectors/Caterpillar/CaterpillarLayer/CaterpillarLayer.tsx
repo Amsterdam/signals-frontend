@@ -6,14 +6,19 @@ import { Marker } from '@amsterdam/arm-core'
 
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
-import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  FeatureType,
+  Feature,
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureTolocation } from 'shared/services/map-location'
-import { getIconUrl } from '../../utils'
+import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
+
+import { featureToCoordinates } from 'shared/services/map-location'
+import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
@@ -22,12 +27,11 @@ export const CaterpillarLayer: FC = () => {
   const getMarker = useCallback(
     (feat: any) => {
       const feature = feat as Feature
-      const coordinates = featureTolocation(feature.geometry as Geometrie)
+      const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const featureType = meta.featureTypes.find(
-        ({ label }) => label === 'Eikenboom'
-      )!
+        ({ typeValue }) => typeValue === 'Eikenboom'
+      ) as FeatureType
       const featureId = feature.properties[featureType.idField] as string
 
       const isSelected = selection?.id === featureId
@@ -38,19 +42,15 @@ export const CaterpillarLayer: FC = () => {
             featureType.isReportedValue
       )
 
-      let iconId = isReported
-        ? featureType.iconIsReportedId
-        : featureType.iconId
-
-      if (isSelected) {
-        iconId = isReported ? 'isSelectedAndReported' : 'isSelected'
-      }
-
-      const iconSvg = meta.icons?.find(({ id }) => id === iconId)?.icon
+      const altText = `${featureType.description}${
+        isReported ? ', is gemeld' : ''
+      }${isSelected ? ', is geselecteerd' : ''} (${featureId})`
 
       const icon = L.icon({
-        iconSize: isReported ? [44, 44] : [40, 40],
-        iconUrl: getIconUrl(iconSvg),
+        iconSize: [40, 40],
+        iconUrl: isSelected
+          ? featureSelectedMarkerUrl
+          : featureType.icon.iconUrl,
       })
 
       const onClick = () => {
@@ -69,6 +69,7 @@ export const CaterpillarLayer: FC = () => {
           location: {
             coordinates,
           },
+          label: [description, featureId].filter(Boolean).join(' - '),
         }
 
         meta.extraProperties?.forEach((propertyKey) => {
@@ -83,9 +84,7 @@ export const CaterpillarLayer: FC = () => {
           key={`${featureId}-${isSelected}`}
           options={{
             icon,
-            alt: `${featureType.description}${isReported ? ', is gemeld' : ''}${
-              isSelected ? ', is geselecteerd' : ''
-            } (${featureId})`,
+            alt: altText,
           }}
           latLng={coordinates}
           events={{
@@ -94,17 +93,32 @@ export const CaterpillarLayer: FC = () => {
         />
       )
     },
-    [
-      meta.extraProperties,
-      meta.featureTypes,
-      meta.icons,
-      removeItem,
-      selection,
-      setItem,
-    ]
+    [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
   )
 
-  return <>{features.map(getMarker)}</>
+  const reportedFeatureType = meta.featureTypes.find(
+    ({ typeValue }) => typeValue === 'reported'
+  ) as FeatureType
+  const reportedFeatures = features.filter((feature) =>
+    Boolean(
+      reportedFeatureType?.isReportedField &&
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        feature.properties![reportedFeatureType.isReportedField] ===
+          reportedFeatureType.isReportedValue
+    )
+  )
+
+  return (
+    <>
+      {features.map(getMarker)}
+      {reportedFeatures.length > 0 && reportedFeatureType && (
+        <ReportedLayer
+          reportedFeatures={reportedFeatures as Feature[]}
+          reportedFeatureType={reportedFeatureType as FeatureType}
+        />
+      )}
+    </>
+  )
 }
 
 export default CaterpillarLayer

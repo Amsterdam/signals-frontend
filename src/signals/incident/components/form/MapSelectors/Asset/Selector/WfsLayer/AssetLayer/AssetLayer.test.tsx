@@ -10,9 +10,9 @@ import type { MapOptions } from 'leaflet'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
+import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
 import { WfsDataProvider } from '../context'
 
-import type { FeatureType } from '../../../../types'
 import type { ClusterMarker } from './AssetLayer'
 
 import { shouldSpiderfy, getMarkerByZoomLevel } from './AssetLayer'
@@ -89,7 +89,7 @@ describe('AssetLayer', () => {
       description: 'Papier asset',
       icon: {
         options: {},
-        iconSvg: 'iconSvg',
+        iconUrl: 'iconSvg',
       },
       idField: 'id_nummer',
       typeField: 'fractie_omschrijving',
@@ -100,7 +100,7 @@ describe('AssetLayer', () => {
       description: 'Glas asset',
       icon: {
         options: {},
-        iconSvg: 'svgIcon',
+        iconUrl: 'svgIcon',
       },
       idField: 'id_nummer',
       typeField: 'fractie_omschrijving',

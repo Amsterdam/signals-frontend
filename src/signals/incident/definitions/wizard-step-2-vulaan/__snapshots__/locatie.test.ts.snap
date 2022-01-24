@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`locatie return a config object 1`] = `
+Object {
+  "meta": Object {
+    "featureTypes": Array [],
+    "label": "Waar is het?",
+    "language": Object {
+      "description": "Typ het dichtsbijzijnde adres of klik de locatie aan op de kaart",
+      "subTitle": "Waar is het?",
+      "submit": "Gebruik deze locatie",
+      "title": "Locatie",
+    },
+    "shortLabel": "Waar is het?",
+  },
+  "options": Object {
+    "validators": Array [
+      "required",
+    ],
+  },
+  "render": "AssetSelectRenderer",
+}
+`;

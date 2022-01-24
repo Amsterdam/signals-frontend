@@ -3,11 +3,9 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import {
-  glas,
-  select,
-  unknown,
-} from 'signals/incident/definitions/wizard-step-2-vulaan/afval-icons'
+import glasUrl from 'shared/images/afval/glas.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
+
 import userEvent from '@testing-library/user-event'
 
 import { UNREGISTERED_TYPE } from '../../../constants'
@@ -34,8 +32,7 @@ describe('SelectionPanel', () => {
     description: 'Glas container',
     icon: {
       options: {},
-      iconSvg: glas,
-      selectedIconSvg: select,
+      iconUrl: glasUrl,
     },
     idField: 'id_nummer',
     typeField: 'fractie_omschrijving',
@@ -45,8 +42,7 @@ describe('SelectionPanel', () => {
     description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
-      iconSvg: unknown,
-      selectedIconSvg: select,
+      iconUrl: unknownFeatureMarkerUrl,
     },
     idField: 'id',
     typeField: 'type',
@@ -74,11 +70,13 @@ describe('SelectionPanel', () => {
   const selection = {
     ...GLAS_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
+    label: 'foo bar',
   }
 
   const selectionUnregistered = {
     ...UNREGISTERED_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
+    label: 'foo bar',
   }
 
   afterEach(() => {
@@ -102,7 +100,7 @@ describe('SelectionPanel', () => {
     ).toBeInTheDocument()
 
     expect(
-      screen.getByRole('button', { name: 'Meld dit object' })
+      screen.queryByRole('button', { name: 'Meld dit object' })
     ).toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
@@ -116,6 +114,9 @@ describe('SelectionPanel', () => {
       })
     )
 
+    expect(
+      screen.getByRole('button', { name: 'Meld dit object' })
+    ).toBeInTheDocument()
     expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
     expect(
       screen.getByText(`${selection.description} - ${selection.id}`)
@@ -129,6 +130,7 @@ describe('SelectionPanel', () => {
         selection,
       })
     )
+
     const mockAssetList = screen.getByTestId('mockAssetList')
 
     const removeButton = within(mockAssetList).getByRole('button')
@@ -172,6 +174,7 @@ describe('SelectionPanel', () => {
       id: unregisteredObjectId,
       location: {},
       type: UNREGISTERED_TYPE,
+      label: `De container staat niet op de kaart - ${unregisteredObjectId}`,
     })
   })
 
@@ -235,8 +238,25 @@ describe('SelectionPanel', () => {
       id: '5',
       location: {},
       type: UNREGISTERED_TYPE,
+      label: 'De container staat niet op de kaart - 5',
     })
     expect(contextValue.close).toHaveBeenCalled()
+  })
+
+  it('renders default labels', () => {
+    const language = undefined
+
+    const propsWithLanguage = {
+      ...props,
+      language,
+    }
+
+    render(withAppContext(<SelectionPanel {...propsWithLanguage} />))
+
+    expect(screen.getByText('Locatie')).toBeInTheDocument()
+    expect(
+      screen.getByText('Het object staat niet op de kaart')
+    ).toBeInTheDocument()
   })
 
   it('renders custom labels', () => {
@@ -244,7 +264,7 @@ describe('SelectionPanel', () => {
       title: 'Locatie',
       subTitle: 'Kies een container op de kaart',
       unregistered: 'De container staat niet op de kaart',
-      submit: 'Gebruik deze locatie',
+      description: 'Beschrijving',
     }
 
     const propsWithLanguage = {
@@ -257,5 +277,27 @@ describe('SelectionPanel', () => {
     Object.values(language).forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument()
     })
+  })
+
+  it('renders the object panel only when feature types are available', () => {
+    const { rerender } = render(
+      withAssetSelectContext(<SelectionPanel {...props} />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+
+    rerender(
+      withAssetSelectContext(<SelectionPanel {...props} featureTypes={[]} />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(
+      screen.queryByTestId('unregisteredObjectPanel')
+    ).not.toBeInTheDocument()
   })
 })

@@ -13,7 +13,6 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useMapSelectGeneric": false,
     "useStaticMapServer": true
   },
   "head": {

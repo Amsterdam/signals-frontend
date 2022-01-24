@@ -7,12 +7,11 @@ import type { FC } from 'react'
 import type {
   Feature,
   FeatureType,
-} from 'signals/incident/components/form/MapSelectors/Asset/types'
+} from 'signals/incident/components/form/MapSelectors/types'
 import { Marker } from '@amsterdam/arm-core'
-import { getIconUrl } from 'signals/incident/components/form/MapSelectors/utils'
-import { reported as ReportedIcon } from 'signals/incident/definitions/wizard-step-2-vulaan/verlichting-icons'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
+import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
 
@@ -27,13 +26,13 @@ const ReportedLayer: FC<ReportedLayerProps> = ({
 }) => {
   const getMarker = (feat: any, index: number) => {
     const feature = feat as Feature
-    const latLng = featureTolocation(feature?.geometry as Geometrie)
+    const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
     if (!feature || !reportedFeatureType) return
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: getIconUrl(ReportedIcon),
+      iconUrl: reportedIconUrl,
       className: REPORTED_CLASS_MODIFIER,
     })
 

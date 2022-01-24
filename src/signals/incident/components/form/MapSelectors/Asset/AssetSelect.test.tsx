@@ -13,8 +13,8 @@ import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
 import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import type { Item } from '../types'
 import type { AssetSelectProps } from './AssetSelect'
-import type { Item } from './types'
 
 import { initialValue } from './context'
 import withAssetSelectContext, {
@@ -27,6 +27,7 @@ const mockItem = {
   id: 12398712,
   location: {},
   type: 'not-mapped-or-something',
+  label: 'foo bar',
 }
 
 jest.mock('shared/services/reverse-geocoder')
@@ -40,6 +41,7 @@ jest.mock('./Selector', () => () => {
     location: {
       coordinates: { lat: 4, lng: 36 },
     },
+    label: 'foo bar',
   }
 
   const unregisteredItem = {
@@ -48,6 +50,7 @@ jest.mock('./Selector', () => () => {
     location: {
       coordinates: mockLatLng,
     },
+    label: 'foo bar',
   }
 
   const location: Location = {
@@ -192,6 +195,7 @@ describe('AssetSelect', () => {
                 description: 'Plastic asset',
                 location: {},
                 iconUrl: '',
+                label: 'foo bar',
               },
             }),
           }}
@@ -304,6 +308,7 @@ describe('AssetSelect', () => {
       location: {
         coordinates: { lat: 4, lng: 36 },
       },
+      label: 'foo bar',
     }
 
     // setting an item will dispatch an action to the global store and, in turn, will rerender

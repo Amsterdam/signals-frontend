@@ -38,7 +38,6 @@ export interface FormMeta extends Record<string, unknown> {
   maxLength?: number
   autoRemove?: RegExp
   isVisible?: boolean
-  autoFocus?: boolean
   autoComplete?: string
   type?: string
   newItemText?: string

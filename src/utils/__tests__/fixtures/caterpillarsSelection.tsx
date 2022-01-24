@@ -1,4 +1,5 @@
-import * as caterpillarIcons from '../../../signals/incident/definitions/wizard-step-2-vulaan/caterpillar-icons'
+import oakUrl from 'shared/images/groen_water/oak.svg?url'
+import reportedFeatureMarkerUrl from '*.svg?url'
 
 export const selection = [
   {
@@ -7,6 +8,7 @@ export const selection = [
     description: 'Eikenboom',
     isReported: false,
     location: {},
+    label: 'Eikenboom - 308777',
   },
   {
     id: 308779,
@@ -14,6 +16,7 @@ export const selection = [
     description: 'De boom staat niet op de kaart',
     isReported: false,
     location: {},
+    label: 'Boom - 308779',
   },
   {
     id: 308778,
@@ -21,16 +24,11 @@ export const selection = [
     description: 'Eikenboom',
     isReported: true,
     location: {},
+    label: 'Eikenboom - is gemeld - 308778',
   },
 ]
 
 export const meta = {
-  icons: [
-    {
-      id: 'cannot_be_matched',
-      icon: '',
-    },
-  ],
   ifAllOf: {
     subcategory: 'eikenprocessierups',
   },
@@ -43,14 +41,10 @@ export const meta = {
     {
       label: 'Eikenboom',
       description: 'Eikenboom',
-      iconId: 'oak',
       icon: {
         options: {},
-        iconSvg: caterpillarIcons.oak,
-        selectedIconSvg: caterpillarIcons.select,
-        reportedIconSvg: caterpillarIcons.oakIsReported,
+        iconUrl: oakUrl,
       },
-      iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
       typeValue: 'Eikenboom',
       typeField: '',
@@ -60,15 +54,13 @@ export const meta = {
     {
       label: 'Eikenboom is reeds gemeld ',
       description: 'Eikenboom is reeds gemeld',
-      iconId: 'oakIsReported',
       icon: {
         options: {},
-        iconSvg: caterpillarIcons.oakIsReported,
-        selectedIconSvg: caterpillarIcons.isSelectedAndReported,
+        iconUrl: reportedFeatureMarkerUrl,
       },
       iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
-      typeValue: 'oakIsReported',
+      typeValue: 'reported',
       typeField: '',
       isReportedField: 'AMS_Meldingstatus',
       isReportedValue: 1,

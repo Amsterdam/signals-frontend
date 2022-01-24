@@ -2,7 +2,10 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
+import locatie from './locatie'
+
 export const overlastBedrijvenEnHoreca = {
+  locatie,
   extra_bedrijven_horeca_wat: {
     meta: {
       ifAllOf: {

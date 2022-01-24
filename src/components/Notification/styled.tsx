@@ -43,8 +43,7 @@ export const Wrapper = styled.div<{
   transition-timing-function: ease-out;
   transition-duration: ${ONCLOSE_TIMEOUT}ms;
   width: 100vw;
-  will-change: transform, opacity;
-  z-index: 1;
+  z-index: 9999;
   opacity: 1;
 
   @media (min-width: 1400px) {

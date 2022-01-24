@@ -4,6 +4,8 @@ import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/co
 
 import configuration from 'shared/services/configuration/configuration'
 
+import locatie from './locatie'
+
 const woningdelen = {
   extra_wonen_woningdelen_vermoeden: {
     meta: {
@@ -758,6 +760,7 @@ const vakantieverhuur = {
 }
 
 const overig = {
+  locatie,
   wonen_overig: {
     meta: {
       ifAllOf: {

@@ -2,9 +2,10 @@ import ReactDOM from 'react-dom'
 import type { ReactNode, ReactPortal } from 'react'
 
 import { withAppContext } from 'test/utils'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
 
 import type { AssetSelectValue } from '../types'
+import type { FeatureType } from '../../types'
 import { AssetSelectProvider } from '../context'
 
 ReactDOM.createPortal = (node) => node as ReactPortal
@@ -15,7 +16,7 @@ export const contextValue: AssetSelectValue = {
   coordinates: { lat: 25.3546456, lng: 3.45645645 },
   close: jest.fn(),
   edit: jest.fn(),
-  meta: { endpoint, featureTypes },
+  meta: { endpoint, featureTypes: featureTypes as FeatureType[] },
   removeItem: jest.fn(),
   selection: {
     location: {
@@ -24,6 +25,7 @@ export const contextValue: AssetSelectValue = {
     description: 'Plastic asset',
     id: 'PL734',
     type: 'plastic',
+    label: 'Plastic container - PL734',
   },
   setItem: jest.fn(),
   fetchLocation: jest.fn(),

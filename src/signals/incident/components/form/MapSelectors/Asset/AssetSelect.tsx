@@ -13,35 +13,28 @@ import {
 
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
-import type { EventHandler } from '../types'
-
+import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
+import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
+import type { EventHandler, FeatureType, Item, Meta } from '../types'
 import { UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
 import Summary from './Summary'
 
-import type { FeatureType, Item, Meta } from './types'
-
 const defaultIconConfig: FeatureType['icon'] = {
   options: {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconSvg:
-    '<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>icon-select</title><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon-select"><circle id="Oval-2-Copy-21" stroke="#000000" stroke-width="4" fill="#FFFFFF" cx="20" cy="20" r="18"></circle><circle id="Oval-Copy" fill="#000000" cx="20" cy="20" r="6"></circle></g></g></svg>',
-  selectedIconSvg:
-    '<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>icon-select</title><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon-select"><circle id="Oval-2-Copy-21" stroke="#EC0000" stroke-width="4" fill="#FFFFFF" cx="20" cy="20" r="18"></circle><circle id="Oval-Copy" fill="#EC0000" cx="20" cy="20" r="6"></circle></g></g></svg>',
+  iconUrl: defaultFeatureMarkerUrl,
 }
 const defaultUnregisteredIconConfig: FeatureType['icon'] = {
   options: {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconSvg:
-    '<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>icon-unknown</title><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/onbekend" stroke-width="2"><g id="icon-unknown"><circle id="Oval-2-Copy-23" stroke="#FFFFFF" fill="#B4B4B4" cx="20" cy="20" r="19"></circle><g transform="translate(10.000000, 10.000000)" stroke="#000000"><circle id="Oval" cx="10" cy="10" r="9"></circle><line x1="13" y1="7" x2="7" y2="13" id="Line-3" stroke-linecap="square"></line><line x1="13" y1="13" x2="7" y2="7" id="Line-3-Copy" stroke-linecap="square"></line></g></g></g></g></svg>',
-  selectedIconSvg:
-    '<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>icon-select</title><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon-select"><circle id="Oval-2-Copy-21" stroke="#EC0000" stroke-width="4" fill="#FFFFFF" cx="20" cy="20" r="18"></circle><circle id="Oval-Copy" fill="#EC0000" cx="20" cy="20" r="6"></circle></g></g></svg>',
+  iconUrl: unknownFeatureMarkerUrl,
 }
 
 export interface AssetSelectProps {

@@ -6,13 +6,13 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import step2 from '../wizard-step-2-vulaan'
-import afval from '../wizard-step-2-vulaan/afval'
 import FormComponents from '../../components/form'
+import location from '../wizard-step-2-vulaan/locatie'
 
 const { formFactory } = step2
 const defaultControls = {
   error: expect.objectContaining({}),
-  custom_text: expect.objectContaining({}),
+  $field_0: expect.objectContaining({}),
   help_text: expect.objectContaining({
     meta: {
       ignoreVisibility: true,
@@ -20,7 +20,6 @@ const defaultControls = {
       value: configuration.language.helpText,
     },
   }),
-  $field_0: expect.objectContaining({}),
 }
 
 jest.mock('shared/services/configuration/configuration')
@@ -30,50 +29,43 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
+const locatie = {
+  ...location,
+  options: {
+    validators: [Validators.required],
+  },
+  render: expect.any(Function),
+}
+
 describe('Wizard step 2 vulaan, formFactory', () => {
   afterEach(() => {
     configuration.__reset()
   })
 
   describe('Hard coded questions', () => {
-    it('should return expanded questions based on category', () => {
+    it('should only return location when category does not match', () => {
       configuration.featureFlags.showVulaanControls = true
       const actual = formFactory({
-        category: 'afval',
+        category: 'category',
         subcategory: 'subcategory',
       })
       const expected = {
         controls: {
           ...defaultControls,
-          extra_afval: {
-            options: { validators: [] },
-            ...afval.extra_afval,
-            render: FormComponents.TextareaInput,
-          },
-          extra_container: {
-            options: { validators: [] },
-            ...afval.extra_container,
-            render: FormComponents.AssetSelectRenderer,
-          },
+          locatie,
         },
       }
 
       expect(actual).toEqual(expected)
     })
 
-    it('should return no questions with non existing category', () => {
-      configuration.featureFlags.showVulaanControls = true
-      const actual = formFactory({
-        category: 'category',
-        subcategory: 'subcategory',
-      })
-      const expected = { controls: {} }
-
-      expect(actual).toEqual(expected)
-    })
-
     it('should return empty controls when showVulaanControls is false', () => {
-      expect(formFactory({ category: 'afval' }).controls).toEqual({})
+      configuration.featureFlags.showVulaanControls = false
+
+      expect(formFactory({ category: 'afval' }).controls).toEqual({
+        ...defaultControls,
+        locatie,
+      })
     })
   })
 
@@ -89,7 +81,10 @@ describe('Wizard step 2 vulaan, formFactory', () => {
         subcategory: 'subcategory',
       })
       const expected = {
-        controls: defaultControls,
+        controls: {
+          ...defaultControls,
+          locatie,
+        },
       }
 
       expect(actual).toEqual(expected)

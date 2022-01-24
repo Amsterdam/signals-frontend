@@ -47,7 +47,7 @@ export const INGEPLAND = {
   key: StatusCode.Ingepland,
   value: 'Ingepland',
   color: 'grey',
-  email_sent_when_set: true,
+  email_sent_when_set: false,
   shows_remaining_sla_days: true,
 }
 

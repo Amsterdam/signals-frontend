@@ -4,7 +4,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 
-import type { AssetSelectValue, Meta } from '../types'
+import type { AssetSelectValue } from '../types'
+import type { Meta } from '../../types'
 
 import Intro from '../Intro'
 

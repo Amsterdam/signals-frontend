@@ -37,7 +37,6 @@ export const FIELD_TYPE_MAP = {
   header: 'Header',
   hidden_input: 'HiddenInput',
   map_input: 'MapInput',
-  map_select: 'MapSelect',
   multi_text_input: 'MultiTextInput',
   plain_text: 'PlainText',
   radio_input: 'RadioInputGroup',

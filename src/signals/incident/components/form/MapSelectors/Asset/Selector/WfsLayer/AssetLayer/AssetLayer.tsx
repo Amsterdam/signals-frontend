@@ -23,18 +23,21 @@ import type {
   FeatureCollection,
 } from 'geojson'
 import type { FunctionComponent } from 'react'
-import type { Item } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Geometrie } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureTolocation } from 'shared/services/map-location'
+import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'shared/services/configuration/configuration'
+import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
+import type {
+  DataLayerProps,
+  Item,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
-import type { DataLayerProps, Feature } from '../../../../types'
-import { selectIcon } from './MarkerIcons'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
 
@@ -162,10 +165,9 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const id = feature.properties[idField]!
         const isSelectedItem = selection?.id === id
 
-        const iconUrl = `data:image/svg+xml;base64,${btoa(
-          /* istanbul ignore next */ // Exclude from coverage; with the curent leaflet mock this can't be tested
-          isSelectedItem ? selectIcon : featureType.icon.iconSvg
-        )}`
+        const iconUrl = isSelectedItem
+          ? featureSelectedMarkerUrl
+          : featureType.icon.iconUrl
 
         const marker = L.marker(latlng, {
           icon: L.icon({
@@ -193,7 +195,11 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               return
             }
 
-            const coordinates = featureTolocation(feature.geometry as Geometrie)
+            const coordinates = featureToCoordinates(
+              feature.geometry as Geometrie
+            )
+
+            const isReported = feature.properties.meldingstatus === 1
 
             const item: Item = {
               location: {
@@ -202,7 +208,10 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               description,
               id,
               type: typeValue,
-              isReported: feature.properties.meldingstatus === 1,
+              isReported,
+              label: [description, isReported && 'is gemeld', id]
+                .filter(Boolean)
+                .join(' - '),
             }
 
             const response = await reverseGeocoderService(coordinates)
@@ -229,7 +238,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
           ...feature,
           geometry: { ...(feature.geometry as Point) },
         }
-        const latlng = featureTolocation(feature.geometry as Geometrie)
+        const latlng = featureToCoordinates(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */
