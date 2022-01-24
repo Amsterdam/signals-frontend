@@ -1,7 +1,3 @@
-import oakUrl from 'shared/images/groen_water/oak.svg?url'
-import reportedFeatureMarkerUrl from '*.svg?url'
-import checkedFeatureMarkerUrl from '*.svg?url'
-
 export const selection = [
   {
     id: 308777,
@@ -44,7 +40,7 @@ export const meta = {
       description: 'Eikenboom',
       icon: {
         options: {},
-        iconUrl: oakUrl,
+        iconUrl: '/assets/images/groen_water/oak.svg',
       },
       idField: 'OBJECTID',
       typeValue: 'Eikenboom',
@@ -57,7 +53,7 @@ export const meta = {
       description: 'Eikenboom is reeds gemeld',
       icon: {
         options: {},
-        iconUrl: reportedFeatureMarkerUrl,
+        iconUrl: '/assets/images/groen_water/oakReported.svg',
       },
       iconIsReportedId: 'oakIsReported',
       idField: 'OBJECTID',
@@ -71,7 +67,7 @@ export const meta = {
       description: 'Vrij van eikenprocessierups',
       icon: {
         options: {},
-        iconUrl: checkedFeatureMarkerUrl,
+        iconUrl: '/assets/images/icon-checked-marker.svg',
       },
       idField: 'OBJECTID',
       typeValue: 'checked',

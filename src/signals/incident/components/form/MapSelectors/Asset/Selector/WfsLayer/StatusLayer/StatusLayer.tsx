@@ -12,8 +12,6 @@ import type {
 import { Marker } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
-import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
-import checkedIconUrl from 'shared/images/icon-checked-marker.svg?url'
 import { getIsChecked, getIsReported } from './utils'
 
 const STATUS_CLASS_MODIFIER = 'marker-status'
@@ -37,7 +35,9 @@ const StatusLayer: FC<StatusLayerProps> = ({
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: isReported ? reportedIconUrl : checkedIconUrl,
+      iconUrl: isReported
+        ? '/assets/images/icon-reported-marker.svg'
+        : '/assets/images/icon-checked-marker.svg',
       className: STATUS_CLASS_MODIFIER,
     })
 

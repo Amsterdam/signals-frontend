@@ -259,7 +259,7 @@ const straatverlichtingKlokken = {
           description: 'Is gemeld',
           icon: {
             options,
-            iconUrl: 'assets/images/icon-reported-marker.svg',
+            iconUrl: '/assets/images/icon-reported-marker.svg',
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
