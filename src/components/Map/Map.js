@@ -31,6 +31,10 @@ const StyledGPSButton = styled(GPSButton)`
   margin-bottom: 8px;
 `
 
+const StyledVieweContainer = styled(ViewerContainer)`
+  z-index: 402;
+`
+
 const Map = ({
   children,
   className = '',
@@ -98,7 +102,7 @@ const Map = ({
       {children}
 
       {/* Render GPS and zoom buttons after children to maintain correct focus order */}
-      <ViewerContainer
+      <StyledVieweContainer
         topLeft={
           hasGPSControl &&
           global.navigator.geolocation && (
