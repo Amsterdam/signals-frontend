@@ -2,8 +2,6 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useMemo, useContext, useState, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
-import { breakpoint } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 import type {
@@ -23,11 +21,6 @@ import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 import { formatAddress } from 'shared/services/format-address'
 
-import Map from 'components/Map'
-import MapCloseButton from 'components/MapCloseButton'
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
-import ViewerContainer from 'components/ViewerContainer'
-
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
@@ -40,7 +33,13 @@ import LegendPanel from './LegendPanel'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
-import ButtonBar from './ButtonBar/ButtonBar'
+import {
+  CloseButton,
+  StyledMap,
+  StyledPDOKAutoSuggest,
+  StyledViewerContainer,
+  Wrapper,
+} from './styled'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
   [SnapPoint.Closed]: '90%',
@@ -59,48 +58,6 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
 
 const MAP_LOCATION_ZOOM = 14
 const MAP_NO_LOCATION_ZOOM = 9
-
-const StyledViewerContainer = styled(ViewerContainer)`
-  z-index: 401;
-`
-
-const Wrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box; // Override box-sizing: content-box set by Leaflet
-  z-index: 2; // position over the site header
-`
-
-const StyledMap = styled(Map)`
-  height: 100%;
-  width: 100%;
-  position: relative;
-  z-index: 0;
-`
-
-const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  position: relative;
-  z-index: 1;
-
-  left: calc(44px + 8px);
-  //                  gps button width + left margin + right margin + margin to gps button - border width
-  width: calc(100vw - (44px + 16px + 16px + 8px - 2px));
-
-  @media screen and ${breakpoint('min-width', 'tabletS')} {
-    //                  gps button width + close button width + margin to gps button + left margin + right margin
-    width: calc(100vw - (44px + 44px + 8px + 16px + 16px + 8px));
-  }
-
-  @media screen and ${breakpoint('min-width', 'tabletM')} {
-    width: 50vw;
-    max-width: 375px;
-  }
-`
 
 const Selector = () => {
   // to be replaced with MOUNT_NODE
@@ -210,19 +167,13 @@ const Selector = () => {
             }
             bottomLeft={
               hasFeatureTypes ? (
-                <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-                  <LegendToggleButton
-                    onClick={toggleLegend}
-                    isRenderingLegendPanel={showLegendPanel}
-                  />
-                </ButtonBar>
+                <LegendToggleButton
+                  onClick={toggleLegend}
+                  isRenderingLegendPanel={showLegendPanel}
+                />
               ) : null
             }
-            topRight={
-              <ButtonBar zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-                <MapCloseButton onClick={close} />
-              </ButtonBar>
-            }
+            topRight={<CloseButton onClick={close} />}
           />
 
           <Panel data-testid={`panel${desktopView ? 'Desktop' : 'Mobile'}`}>
