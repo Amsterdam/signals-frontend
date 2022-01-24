@@ -25,6 +25,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
+import MapCloseButton from 'components/MapCloseButton'
 
 import { UNREGISTERED_TYPE } from '../../constants'
 import { ZoomMessage } from '../../components/MapMessage'
@@ -34,7 +35,6 @@ import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
 import {
-  CloseButton,
   StyledMap,
   StyledPDOKAutoSuggest,
   StyledViewerContainer,
@@ -173,7 +173,7 @@ const Selector = () => {
                 />
               ) : null
             }
-            topRight={<CloseButton onClick={close} />}
+            topRight={<MapCloseButton onClick={close} />}
           />
 
           <Panel data-testid={`panel${desktopView ? 'Desktop' : 'Mobile'}`}>
