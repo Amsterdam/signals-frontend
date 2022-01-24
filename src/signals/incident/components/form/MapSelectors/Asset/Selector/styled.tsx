@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint } from '@amsterdam/asc-ui'
 
 import Map from 'components/Map'
-import MapCloseButton from 'components/MapCloseButton'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import ViewerContainer from 'components/ViewerContainer'
 
@@ -34,22 +33,11 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   z-index: 1;
 
   left: calc(44px + 8px);
-  //                  gps button width + left margin + right margin + margin to gps button - border width
-  width: calc(100vw - (44px + 16px + 16px + 8px - 2px));
-
-  @media screen and ${breakpoint('min-width', 'tabletS')} {
-    //                  gps button width + close button width + margin to gps button + left margin + right margin
-    width: calc(100vw - (44px + 44px + 8px + 16px + 16px + 8px));
-  }
+  //                  left page margin + gps button width + margin to gps button + margin to close button + close button width + right page margin
+  width: calc(100vw - (16px + 44px + 8px + 8px + 44px + 16px));
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: 50vw;
     max-width: 375px;
-  }
-`
-
-export const CloseButton = styled(MapCloseButton)`
-  @media screen and ${breakpoint('max-width', 'tabletS')} {
-    margin-top: ${themeSpacing(11)};
   }
 `
