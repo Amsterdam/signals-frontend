@@ -4,11 +4,6 @@ import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 import L from 'leaflet'
 
-import type {
-  DataLayerProps,
-  Item,
-  Feature,
-} from 'signals/incident/components/form/MapSelectors/types'
 import type { FeatureCollection } from 'geojson'
 import type { Geometrie } from 'types/incident'
 
@@ -17,6 +12,12 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import { featureToCoordinates } from 'shared/services/map-location'
 
 import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
+
+import type {
+  DataLayerProps,
+  Item,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/types'
 
 import { Marker } from '@amsterdam/arm-core'
 import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
@@ -45,7 +46,6 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField] || ''
-
     const isSelected = Boolean(selection?.id === id)
 
     const iconUrl = isSelected

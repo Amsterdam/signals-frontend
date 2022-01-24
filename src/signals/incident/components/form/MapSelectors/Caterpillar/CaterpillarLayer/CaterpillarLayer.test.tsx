@@ -71,6 +71,7 @@ describe('CaterpillarLayer', () => {
     expect(setItem).toHaveBeenCalledWith({
       id: featureId,
       isReported: true,
+      isChecked: true,
       description: 'Eikenboom',
       type: 'Eikenboom',
       GlobalID: feature?.properties.GlobalID,
