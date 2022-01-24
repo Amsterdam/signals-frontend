@@ -68,7 +68,6 @@ export interface WfsFilter {
 export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
-  allowClusters?: boolean
 }
 
 export interface Meta extends Record<string, unknown> {

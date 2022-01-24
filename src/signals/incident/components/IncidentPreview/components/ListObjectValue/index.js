@@ -8,9 +8,10 @@ const StyledList = styled(List)`
   margin-bottom: 0;
 `
 
-const ListObjectValue = ({ value }) =>
-  Array.isArray(value) &&
-  value.length > 0 && (
+const ListObjectValue = ({ value }) => {
+  if (!(Array.isArray(value) && value.length > 0)) return null
+
+  return (
     <StyledList>
       {value
         .filter(({ label }) => Boolean(label))
@@ -19,6 +20,7 @@ const ListObjectValue = ({ value }) =>
         ))}
     </StyledList>
   )
+}
 
 ListObjectValue.propTypes = {
   value: PropTypes.arrayOf(

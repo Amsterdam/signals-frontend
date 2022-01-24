@@ -1,7 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `"Woensdag 21 februari, 6:06"`;
+exports[`Preview component <DateTime /> should render earlier date correctly 1`] = `
+<span>
+  Woensdag 21 februari, 6:06
+</span>
+`;
 
-exports[`Preview component <DateTime /> should render earlier today correctly 1`] = `"Vandaag, 13:45"`;
+exports[`Preview component <DateTime /> should render earlier today correctly 1`] = `
+<span>
+  Vandaag, 13:45
+</span>
+`;
 
-exports[`Preview component <DateTime /> should render now correctly 1`] = `"Nu"`;
+exports[`Preview component <DateTime /> should render now correctly 1`] = `
+<span>
+  Nu
+</span>
+`;

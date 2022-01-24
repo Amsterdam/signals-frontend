@@ -11,6 +11,7 @@ import {
 
 // Should reflect ViewerContainer props from arm-core (which are not exported)
 interface ViewerContainerProps {
+  className?: string
   topLeft?: ReactNode
   topRight?: ReactNode
   bottomLeft?: ReactNode

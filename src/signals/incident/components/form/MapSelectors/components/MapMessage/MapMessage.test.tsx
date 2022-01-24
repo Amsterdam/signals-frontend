@@ -7,9 +7,9 @@ import { Map } from '@amsterdam/react-maps'
 import { render, screen } from '@testing-library/react'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
-import { ZoomMessage } from '..'
-import { MapMessage } from '../MapMessage'
-import * as useLayerVisible from '../../../hooks/useLayerVisible'
+import * as useLayerVisible from '../../hooks/useLayerVisible'
+import { MapMessage } from './MapMessage'
+import { ZoomMessage } from '.'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options = {
@@ -44,15 +44,9 @@ describe('ZoomMessage', () => {
 
 describe('MapMessage', () => {
   it('should render the message in the map', () => {
-    render(<MapMessage message={'the-message'} />)
+    render(<MapMessage>the-message</MapMessage>)
 
     expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
     expect(screen.getByText('the-message')).toBeInTheDocument()
-  })
-
-  it('should NOT render the message in the map', () => {
-    render(<MapMessage />)
-
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
   })
 })

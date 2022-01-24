@@ -216,10 +216,6 @@ export default {
         render: ({ value }) => value?.name,
         authenticated: true,
       },
-      datetime: {
-        label: 'Geef het tijdstip aan',
-        render: PreviewComponents.DateTime,
-      },
       images_previews: {
         label: "Foto's toevoegen",
         render: PreviewComponents.Image,
