@@ -20,17 +20,17 @@ const configuration = appConfiguration as unknown as typeof ConfigurationType
 const straatverlichtingKlokken = {
   // This element will be enabled each year near the christmass.
   // Comment/Uncomment next block to show/hide it.
-  extra_kerstverlichting: {
-    meta: {
-      type: 'alert-inverted',
-      value:
-        'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
-      ifAllOf: {
-        subcategory: 'lantaarnpaal-straatverlichting',
-      },
-    },
-    render: FIELD_TYPE_MAP.plain_text,
-  },
+  // extra_kerstverlichting: {
+  //   meta: {
+  //     type: 'alert-inverted',
+  //     value:
+  //       'Doet de sierverlichting in een winkelstraat het niet? Of hebt u last van de kerstverlichting? Neem dan contact op met de winkeliersvereniging. De gemeente gaat hier helaas niet over.',
+  //     ifAllOf: {
+  //       subcategory: 'lantaarnpaal-straatverlichting',
+  //     },
+  //   },
+  //   render: FIELD_TYPE_MAP.plain_text,
+  // },
 
   extra_straatverlichting_nummer: {
     meta: {
@@ -192,17 +192,6 @@ const straatverlichtingKlokken = {
       validators: ['required'],
     },
     render: FIELD_TYPE_MAP.radio_input,
-  },
-  extra_straatverlichting_drie_of_meer_message: {
-    meta: {
-      ifOneOf: {
-        extra_straatverlichting: 'drie_of_meer_kapot',
-      },
-      type: 'info',
-      value:
-        'Let op: u hoeft maar 1 lamp of lantaarnpaal aan te klikken. Het is niet nodig alle kapotte lampen of lantaarnpalen aan te klikken.',
-    },
-    render: FIELD_TYPE_MAP.plain_text,
   },
   extra_straatverlichting_gevaar: {
     meta: {

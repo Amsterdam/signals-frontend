@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
 import { Fragment } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -12,7 +11,9 @@ import {
   breakpoint,
 } from '@amsterdam/asc-ui'
 
-import { incidentType } from 'shared/types'
+import type { FC } from 'react'
+import type { Incident, ValueObject } from 'types/incident'
+
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 const Section = styled.section`
@@ -66,13 +67,46 @@ const Wrapper = styled.div`
   word-break: normal;
 `
 
-const IncidentPreview = ({ incident, preview, sectionLabels }) => (
+type Sections = 'beschrijf' | 'vulaan' | 'contact'
+
+type Section = {
+  authenticated?: boolean
+  label: string
+  optional?: boolean
+  render: FC<{ value: any; incident: Incident }> | FC<{ value: any }>
+}
+
+type Preview = {
+  [Key in Sections]: Record<string, Section>
+}
+
+type SectionLabels = {
+  [Key in 'heading' | 'edit']: {
+    [Key in Sections]: string
+  }
+}
+
+export interface IncidentPreviewProps {
+  incident: Incident
+  preview: Preview
+  sectionLabels: SectionLabels
+}
+
+const IncidentPreview: FC<IncidentPreviewProps> = ({
+  incident,
+  preview,
+  sectionLabels,
+}) => (
   <Wrapper data-testid="incidentPreview">
-    {Object.entries(preview).map(([section, value]) => {
-      const editLinkLabel = sectionLabels.edit[section]
-      const sectionHeadingLabel = sectionLabels.heading[section]
+    {Object.entries(preview).map(([sectionId, value]) => {
+      const editLinkLabel = sectionLabels.edit[sectionId as keyof Preview]
+      const sectionHeadingLabel =
+        sectionLabels.heading[sectionId as keyof Preview]
+
       const visibleEntries = Object.entries(value).filter(
         ([entryKey, { optional, authenticated }]) => {
+          const incidentProp = entryKey as keyof Incident
+
           if (authenticated && !getIsAuthenticated()) {
             return false
           }
@@ -81,35 +115,38 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
             return true
           }
 
-          if (Array.isArray(incident[entryKey])) {
-            return incident[entryKey].length > 0
+          if (Array.isArray(incident[incidentProp])) {
+            return (incident[incidentProp] as []).length > 0
           }
 
           try {
             if (
-              Object.prototype.hasOwnProperty.call(incident[entryKey], 'value')
+              Object.prototype.hasOwnProperty.call(
+                incident[incidentProp],
+                'value'
+              )
             ) {
-              return incident[entryKey].value
+              return (incident[incidentProp] as ValueObject).value
             }
           } catch {
             // no-op
           }
 
-          return Boolean(incident[entryKey])
+          return Boolean(incident[incidentProp])
         }
       )
 
       return (
-        visibleEntries.length > 0 && (
-          <Section key={section}>
-            {sectionHeadingLabel && (
-              <Header>
-                <Heading as="h2" styleAs="h3">
-                  {sectionHeadingLabel}
-                </Heading>
-              </Header>
-            )}
+        <Section key={sectionId}>
+          {sectionHeadingLabel && (
+            <Header>
+              <Heading as="h2" styleAs="h3">
+                {sectionHeadingLabel}
+              </Heading>
+            </Header>
+          )}
 
+          {visibleEntries.length > 0 ? (
             <Dl>
               {visibleEntries.map(([itemKey, itemValue]) => (
                 <Fragment key={itemKey}>
@@ -117,33 +154,26 @@ const IncidentPreview = ({ incident, preview, sectionLabels }) => (
                   <dd>
                     {itemValue.render({
                       ...itemValue,
-                      value: incident[itemKey],
+                      value: incident[itemKey as keyof Incident],
                       incident,
                     })}
                   </dd>
                 </Fragment>
               ))}
             </Dl>
+          ) : (
+            'U heeft geen gegevens ingevuld'
+          )}
 
-            <LinkContainer>
-              <AscLink as={Link} to={`/incident/${section}`} variant="inline">
-                {editLinkLabel}
-              </AscLink>
-            </LinkContainer>
-          </Section>
-        )
+          <LinkContainer>
+            <AscLink as={Link} to={`/incident/${sectionId}`} variant="inline">
+              {editLinkLabel}
+            </AscLink>
+          </LinkContainer>
+        </Section>
       )
     })}
   </Wrapper>
 )
-
-IncidentPreview.propTypes = {
-  incident: incidentType.isRequired,
-  preview: PropTypes.object,
-  sectionLabels: PropTypes.shape({
-    heading: PropTypes.object,
-    edit: PropTypes.object,
-  }),
-}
 
 export default IncidentPreview

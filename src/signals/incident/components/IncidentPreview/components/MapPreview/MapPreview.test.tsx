@@ -97,7 +97,17 @@ describe('signals/incident/components/IncidentPreview/components/MapPreview', ()
 
   it('should render interactive map with useStaticMapServer disabled', () => {
     configuration.featureFlags.useStaticMapServer = false
-    render(withAppContext(<MapPreview {...props} />))
+    const noAddress = {
+      ...props,
+      incident: {
+        ...incident,
+        location: {
+          ...incident.location,
+          address: undefined,
+        },
+      },
+    }
+    render(withAppContext(<MapPreview {...noAddress} />))
 
     expect(screen.getByText('Locatie gepind op de kaart')).toBeInTheDocument()
     expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()

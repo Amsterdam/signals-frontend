@@ -11,7 +11,7 @@ import { Button } from '@amsterdam/asc-ui'
 import GPS from '../../images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
-  border: 1px solid;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 `
 
 const GPSIcon = styled(GPS)`

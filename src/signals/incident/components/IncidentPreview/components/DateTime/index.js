@@ -27,7 +27,9 @@ const getValue = (value, incident) => {
   )}, ${time}`
 }
 
-const DateTime = ({ value, incident }) => getValue(value, incident)
+const DateTime = ({ value, incident }) => (
+  <span>{getValue(value, incident)}</span>
+)
 
 DateTime.propTypes = {
   value: PropTypes.shape({}),
