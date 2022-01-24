@@ -3,32 +3,35 @@
 import { useContext } from 'react'
 import type { FeatureCollection } from 'geojson'
 import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
-import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
+import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
-import type { Feature, FeatureType } from '../../types'
-
-const REPORTED = 1
+import type { Feature, ReportedFeatureType } from '../../types'
+import {
+  getIsReported,
+  getReportedFeatureType,
+} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
 
 export const StreetlightLayer = () => {
   const { meta } = useContext(AssetSelectContext)
   const data = useContext<FeatureCollection>(WfsDataContext)
-
-  const reportedFeatureType = meta.featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  )
-
-  const reportedFeatures = data.features.filter(
-    (feature) => feature.properties?.meldingstatus === REPORTED
-  )
+  const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
+  const reportedFeatures = reportedFeatureType
+    ? data.features.filter((feature) =>
+        getIsReported(
+          feature as unknown as Feature,
+          reportedFeatureType as ReportedFeatureType
+        )
+      )
+    : []
 
   return (
     <>
       <AssetLayer featureTypes={meta.featureTypes} />
       {reportedFeatures.length > 0 && reportedFeatureType && (
-        <ReportedLayer
-          reportedFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType as FeatureType}
+        <StatusLayer
+          statusFeatures={reportedFeatures as Feature[]}
+          reportedFeatureType={reportedFeatureType as ReportedFeatureType}
         />
       )}
     </>

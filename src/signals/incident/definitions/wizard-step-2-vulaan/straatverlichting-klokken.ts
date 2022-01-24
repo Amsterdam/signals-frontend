@@ -117,6 +117,8 @@ const straatverlichtingKlokken = {
           idField: 'objectnummer',
           typeField: 'objecttype',
           typeValue: 'reported',
+          isReportedField: 'meldingstatus',
+          isReportedValue: 1,
         },
         {
           description: 'Het lichtpunt staat niet op de kaart',
@@ -262,6 +264,8 @@ const straatverlichtingKlokken = {
           idField: 'objectnummer',
           typeField: 'objecttype',
           typeValue: 'reported',
+          isReportedField: 'meldingstatus',
+          isReportedValue: 1,
         },
         {
           description: 'De klok staat niet op de kaart',

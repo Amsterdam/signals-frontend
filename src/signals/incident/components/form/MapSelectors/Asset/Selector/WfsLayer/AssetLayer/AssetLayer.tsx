@@ -4,17 +4,18 @@ import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 import L from 'leaflet'
 
-import type {
-  DataLayerProps,
-  Item,
-  Feature,
-} from 'signals/incident/components/form/MapSelectors/types'
 import type { FeatureCollection } from 'geojson'
 import type { Geometrie } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureToCoordinates } from 'shared/services/map-location'
+
+import type {
+  DataLayerProps,
+  Item,
+  Feature,
+} from 'signals/incident/components/form/MapSelectors/types'
 
 import { Marker } from '@amsterdam/arm-core'
 import WfsDataContext from '../context'
@@ -42,7 +43,6 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField] || ''
-
     const isSelected = Boolean(selection?.id === id)
 
     const iconUrl = isSelected

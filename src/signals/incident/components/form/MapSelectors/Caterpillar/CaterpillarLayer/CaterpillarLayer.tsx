@@ -10,6 +10,8 @@ import type {
   FeatureType,
   Feature,
   Item,
+  ReportedFeatureType,
+  CheckedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
@@ -17,33 +19,38 @@ import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { featureToCoordinates } from 'shared/services/map-location'
-import ReportedLayer from '../../Asset/Selector/WfsLayer/ReportedLayer'
+import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
+import {
+  getCheckedFeatureType,
+  getIsChecked,
+  getIsReported,
+  getReportedFeatureType,
+} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
   const { selection, meta, setItem, removeItem } = useContext(SelectContext)
 
   const getMarker = useCallback(
-    (feat: any) => {
+    (feat: any, reportedFeatureType, checkedFeatureType) => {
       const feature = feat as Feature
       const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
       const featureType = meta.featureTypes.find(
         ({ typeValue }) => typeValue === 'Eikenboom'
       ) as FeatureType
-      const featureId = feature.properties[featureType.idField] as string
 
+      const featureId = feature.properties[featureType.idField] as string
       const isSelected = selection?.id === featureId
 
-      const isReported = Boolean(
-        featureType.isReportedField &&
-          feature.properties[featureType.isReportedField] ===
-            featureType.isReportedValue
-      )
+      const isReported = getIsReported(feature, reportedFeatureType)
+      const isChecked = getIsChecked(feature, checkedFeatureType)
 
       const altText = `${featureType.description}${
         isReported ? ', is gemeld' : ''
-      }${isSelected ? ', is geselecteerd' : ''} (${featureId})`
+      }${!isReported && isChecked ? ', is opgelost' : ''}${
+        isSelected ? ', is geselecteerd' : ''
+      } (${featureId})`
 
       const icon = L.icon({
         iconSize: [40, 40],
@@ -65,6 +72,7 @@ export const CaterpillarLayer: FC = () => {
           type: typeValue,
           description,
           isReported,
+          isChecked,
           location: {
             coordinates,
           },
@@ -95,27 +103,35 @@ export const CaterpillarLayer: FC = () => {
     [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
   )
 
-  const reportedFeatureType = meta.featureTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
-  ) as FeatureType
-  const reportedFeatures = features.filter((feature) =>
-    Boolean(
-      reportedFeatureType?.isReportedField &&
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        feature.properties![reportedFeatureType.isReportedField] ===
-          reportedFeatureType.isReportedValue
-    )
+  const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
+  const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
+
+  const statusFeatures = features.filter(
+    (feature) =>
+      getIsReported(
+        feature as unknown as Feature,
+        reportedFeatureType as ReportedFeatureType
+      ) ||
+      getIsChecked(
+        feature as unknown as Feature,
+        checkedFeatureType as CheckedFeatureType
+      )
   )
 
   return (
     <>
-      {features.map(getMarker)}
-      {reportedFeatures.length > 0 && reportedFeatureType && (
-        <ReportedLayer
-          reportedFeatures={reportedFeatures as Feature[]}
-          reportedFeatureType={reportedFeatureType as FeatureType}
-        />
+      {features.map((feat) =>
+        getMarker(feat, reportedFeatureType, checkedFeatureType)
       )}
+      {statusFeatures.length > 0 &&
+        reportedFeatureType &&
+        checkedFeatureType && (
+          <StatusLayer
+            statusFeatures={statusFeatures as Feature[]}
+            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
+            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
+          />
+        )}
     </>
   )
 }

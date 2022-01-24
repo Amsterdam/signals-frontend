@@ -14,7 +14,7 @@ const StyledImg = styled.img`
   flex-shrink: 0;
 `
 
-const ReportedIcon = styled.img`
+const StatusIcon = styled.img`
   margin-left: -20px;
   margin-top: -30px;
 `
@@ -24,6 +24,7 @@ export interface IconListItemProps {
   id?: string
   className?: string
   iconSize?: number
+  isChecked?: boolean
   isReported?: boolean
 }
 
@@ -33,6 +34,7 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   className,
   iconSize = 40,
   id,
+  isChecked,
   isReported,
 }) => (
   <StyledListItem data-testid={id} className={className}>
@@ -40,10 +42,18 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}
     {isReported && (
-      <ReportedIcon
+      <StatusIcon
         alt=""
         height={20}
         src="/assets/images/icon-reported-marker.svg"
+        width={20}
+      />
+    )}
+    {!isReported && isChecked && (
+      <StatusIcon
+        alt=""
+        height={20}
+        src="/assets/images/icon-checked-marker.svg"
         width={20}
       />
     )}

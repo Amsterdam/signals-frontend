@@ -2,7 +2,6 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
-
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -40,11 +39,9 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
         },
         {
-          label: 'Eikenboom is reeds gemeld ',
+          label: 'Is gemeld',
           description: 'Eikenboom is reeds gemeld',
           icon: {
             options,
@@ -55,6 +52,19 @@ export const controls = {
           typeField: '',
           isReportedField: 'AMS_Meldingstatus',
           isReportedValue: 1,
+        },
+        {
+          label: 'Vrij van eikenprocessierups',
+          description: 'Vrij van eikenprocessierups',
+          icon: {
+            options,
+            iconUrl: '/assets/images/icon-checked-marker.svg',
+          },
+          idField: 'OBJECTID',
+          typeValue: 'checked',
+          typeField: '',
+          isCheckedField: 'Registratie',
+          isCheckedValues: ['Bestreden', 'Geen EPR'],
         },
         {
           label: 'Onbekend',
