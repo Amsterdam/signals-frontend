@@ -7,7 +7,6 @@ import { Label, Alert, Heading } from '@amsterdam/asc-ui'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
-import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
@@ -16,6 +15,7 @@ import type { Incident } from 'types/api/incident'
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import styled from 'styled-components'
+import AddNote from 'components/AddNote'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild } from '../../types'
@@ -46,6 +46,10 @@ interface StatusFormProps {
 const StyledParagraph = styled.p`
   color: themeColor('tint', 'level5');
   margin: 0;
+`
+
+const NotRequired = styled.span`
+  font-weight: 400;
 `
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
@@ -231,28 +235,29 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               )}
             </div>
 
-            <div>
-              <QuestionLabel>
-                <strong>{state.text.label}</strong>
-                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-                {state.text.required &&
-                  state.check.checked &&
-                  state.flags.hasEmail && (
-                    <Paragraph light>{state.text.subtitle}</Paragraph>
+            <AddNote
+              data-testid="text"
+              isStandalone={false}
+              label={
+                <QuestionLabel>
+                  {state.text.label}
+                  {!state.text.required && (
+                    <NotRequired>&nbsp;(niet verplicht)</NotRequired>
                   )}
-              </QuestionLabel>
-              <TextArea
-                data-testid="text"
-                error={Boolean(state.errors.text)}
-                errorMessage={state.errors.text}
-                infoText={`${state.text.value.length}/${state.text.maxLength} tekens`}
-                name="text"
-                onChange={onTextChange}
-                required={state.text.required}
-                rows={state.text.rows}
-                value={state.text.value || state.text.defaultValue}
-              />
-            </div>
+                  {state.text.required &&
+                    state.check.checked &&
+                    state.flags.hasEmail && (
+                      <Paragraph light>{state.text.subtitle}</Paragraph>
+                    )}
+                </QuestionLabel>
+              }
+              maxContentLength={state.text.maxLength}
+              error={state.errors.text}
+              name="text"
+              onChange={onTextChange}
+              rows={state.text.rows}
+              value={state.text.value || state.text.defaultValue}
+            />
 
             <div>
               <StyledButton

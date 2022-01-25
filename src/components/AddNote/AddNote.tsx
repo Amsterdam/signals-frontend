@@ -23,6 +23,7 @@ type AddNoteProps = {
     value?: string | null
   ) => boolean
   rows?: number
+  value?: string | null
 }
 
 const Section = styled.section`
@@ -72,6 +73,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       onChange,
       onSubmit,
       rows,
+      value,
       ...rest
     },
     ref: any
@@ -125,6 +127,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           onChange={onChange}
           ref={ref}
           rows={rows}
+          value={value || ''}
           {...rest}
         />
 
