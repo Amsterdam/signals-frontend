@@ -1,10 +1,10 @@
 # Move images to webroot
 
-Date: 2022-01-24
+Date: 2022-01-25
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
