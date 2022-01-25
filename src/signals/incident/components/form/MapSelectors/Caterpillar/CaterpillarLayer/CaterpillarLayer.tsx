@@ -46,11 +46,16 @@ export const CaterpillarLayer: FC = () => {
       const isReported = getIsReported(feature, reportedFeatureType)
       const isChecked = getIsChecked(feature, checkedFeatureType)
 
-      const altText = `${featureType.description}${
-        isReported ? ', is gemeld' : ''
-      }${!isReported && isChecked ? ', is opgelost' : ''}${
-        isSelected ? ', is geselecteerd' : ''
-      } (${featureId})`
+      let { description } = featureType
+      if (isChecked && checkedFeatureType) {
+        description = checkedFeatureType.description
+      } else if (isReported) {
+        description = reportedFeatureType.description
+      }
+
+      const altText = isSelected
+        ? `${description}, is geselecteerd (${featureId})`
+        : `${description} (${featureId})`
 
       const icon = L.icon({
         iconSize: [40, 40],
