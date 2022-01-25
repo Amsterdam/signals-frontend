@@ -11,8 +11,6 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureToCoordinates } from 'shared/services/map-location'
 
-import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
-
 import type {
   DataLayerProps,
   Item,
@@ -20,7 +18,6 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 
 import { Marker } from '@amsterdam/arm-core'
-import defaultFeatureMarkerUrl from 'shared/images/featureDefaultMarker.svg?url'
 import WfsDataContext from '../context'
 
 export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
@@ -49,9 +46,11 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     const isSelected = Boolean(selection?.id === id)
 
     const iconUrl = isSelected
-      ? featureSelectedMarkerUrl
+      ? '/assets/images/featureSelectedMarker.svg'
       : featureType.icon.iconUrl
-    const icon = L.icon({ iconUrl: iconUrl || defaultFeatureMarkerUrl })
+    const icon = L.icon({
+      iconUrl: iconUrl || '/assets/images/featureDefaultMarker.svg',
+    })
 
     const onClick = async () => {
       if (typeValue === 'reported') {

@@ -3,9 +3,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import glasUrl from 'shared/images/afval/glas.svg?url'
-import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
-
 import userEvent from '@testing-library/user-event'
 
 import { UNREGISTERED_TYPE } from '../../../constants'
@@ -32,7 +29,7 @@ describe('SelectionPanel', () => {
     description: 'Glas container',
     icon: {
       options: {},
-      iconUrl: glasUrl,
+      iconUrl: '/assets/images/afval/glas.svg',
     },
     idField: 'id_nummer',
     typeField: 'fractie_omschrijving',
@@ -42,7 +39,7 @@ describe('SelectionPanel', () => {
     description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
-      iconUrl: unknownFeatureMarkerUrl,
+      iconUrl: '/assets/images/featureUnknownMarker.svg',
     },
     idField: 'id',
     typeField: 'type',
