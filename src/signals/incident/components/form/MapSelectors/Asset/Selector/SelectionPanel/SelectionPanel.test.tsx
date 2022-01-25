@@ -178,26 +178,6 @@ describe('SelectionPanel', () => {
     })
   })
 
-  it('removes asset not on map', () => {
-    render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
-        ...contextValue,
-        selection: selectionUnregistered,
-      })
-    )
-
-    const checkbox = screen.getByRole('checkbox', {
-      name: 'Het object staat niet op de kaart',
-    })
-
-    expect(contextValue.removeItem).not.toHaveBeenCalled()
-    expect(checkbox).toBeChecked()
-
-    userEvent.click(checkbox)
-
-    expect(contextValue.removeItem).toHaveBeenCalled()
-  })
-
   it('closes/submits the panel', () => {
     render(
       withAssetSelectContext(<SelectionPanel {...props} />, {

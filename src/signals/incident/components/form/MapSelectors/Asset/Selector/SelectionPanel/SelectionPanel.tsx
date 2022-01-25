@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useState, useContext, useEffect } from 'react'
+import { useCallback, useState, useContext } from 'react'
 import styled from 'styled-components'
 
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
@@ -76,16 +76,9 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     setUnregisteredAssetValue(event.currentTarget.value)
   }
 
-  const onCheck = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setShowObjectIdInput(!showObjectIdInput)
-
-      if (!event.target.checked) {
-        removeItem()
-      }
-    },
-    [removeItem, showObjectIdInput]
-  )
+  const onCheck = useCallback(() => {
+    setShowObjectIdInput(!showObjectIdInput)
+  }, [showObjectIdInput])
 
   const onSetItem = useCallback(() => {
     setItem({
@@ -107,17 +100,6 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     },
     [close, onSetItem]
   )
-
-  useEffect(() => {
-    if (selectionOnMap) {
-      setUnregisteredAssetValue('')
-      setShowObjectIdInput(false)
-    }
-
-    if (unregisteredAsset) {
-      setShowObjectIdInput(true)
-    }
-  }, [selectionOnMap, unregisteredAsset])
 
   return (
     <StyledMapPanelContent
