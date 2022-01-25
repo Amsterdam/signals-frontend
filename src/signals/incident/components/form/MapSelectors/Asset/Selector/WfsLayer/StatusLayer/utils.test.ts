@@ -43,7 +43,7 @@ describe('utils', () => {
 
   describe('getIsChecked', () => {
     it('should return if the feature has been checked or not', () => {
-      const checkedFeature = caterpillarsJson.features[1]
+      const checkedFeature = caterpillarsJson.features[2]
       const uncheckedFeature = caterpillarsJson.features[0]
 
       expect(
