@@ -5,6 +5,7 @@ import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
+import LoadingIndicator from 'components/LoadingIndicator'
 import { useSelector } from 'react-redux'
 import { makeSelectUploadProgress } from 'containers/App/selectors'
 import type { Attachment } from 'types/attachment'
@@ -90,9 +91,22 @@ const StyledUploadProgress = styled.div<StyledUploadProgressProps>`
   position: absolute;
   bottom: 0;
   left: 0;
-  height 3px;
-  width: ${({ progress }) => progress * 100}%;
-  background-color: ${themeColor('primary')};
+  right: 0;
+  height 5px;
+  background-color: ${themeColor('tint', 'level4')};
+
+  &::after {
+    content: '';
+    display: block;
+    width: ${({ progress }) => progress * 100}%;
+    height: 100%;
+    background-color: ${themeColor('primary')};
+  }
+`
+
+const StyledLoadingIndicator = styled(LoadingIndicator)`
+  width: 50px;
+  height: 50px;
 `
 
 interface AttachmentsProps {
@@ -160,7 +174,11 @@ const Attachments: FC<AttachmentsProps> = ({ attachments, className, add }) => {
           <StyledGradient />
           <StyledEmployee>{file.name}</StyledEmployee>
           <StyledDate>wordt geüpload</StyledDate>
-          <StyledUploadProgress progress={uploadProgress || 0} />
+          {uploadProgress === 1 ? (
+            <StyledLoadingIndicator />
+          ) : (
+            <StyledUploadProgress progress={uploadProgress || 0} />
+          )}
         </StyledBox>
       ))}
       <FileInput name="addPhoto" label="Foto toevoegen" onChange={handleChange}>
