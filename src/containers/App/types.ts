@@ -89,4 +89,5 @@ export interface ApiError extends Error {
 export interface UploadFile {
   id?: number
   file?: { name: string }
+  private?: boolean
 }

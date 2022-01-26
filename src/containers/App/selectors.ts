@@ -144,6 +144,11 @@ export const makeSelectSearchQuery = createSelector(
   (globalState) => globalState?.searchQuery
 )
 
+export const makeSelectUploadProgress = createSelector(
+  selectGlobal,
+  (globalState) => globalState?.upload.progress
+)
+
 export const makeSelectSources = createSelector(selectGlobal, (globalState) =>
   globalState?.sources?.length
     ? globalState.sources.map(

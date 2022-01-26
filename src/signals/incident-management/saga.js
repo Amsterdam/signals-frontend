@@ -26,6 +26,7 @@ import CONFIGURATION from 'shared/services/configuration/configuration'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 
+import { uploadFile } from 'containers/App/saga'
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
@@ -62,6 +63,7 @@ import {
   SEARCH_INCIDENTS,
   UPDATE_FILTER,
   PATCH_INCIDENT_SUCCESS,
+  UPLOAD_ATTACHMENTS,
 } from './constants'
 
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors'
@@ -271,6 +273,25 @@ export function* updateFilter(action) {
   yield spawn(doUpdateFilter, action)
 }
 
+export function* uploadAttachments(action) {
+  try {
+    yield all([
+      ...action.payload.files.map((file) =>
+        call(uploadFile, {
+          payload: {
+            file,
+            id: action.payload.id,
+            private: true,
+          },
+        })
+      ),
+    ])
+    // yield put(createIncidentSuccess(incident))
+  } catch {
+    // yield put(createIncidentError())
+  }
+}
+
 export default function* watchIncidentManagementSaga() {
   yield all([
     takeLatest(GET_DISTRICTS, fetchDistricts),
@@ -278,6 +299,7 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
+    takeLatest(UPLOAD_ATTACHMENTS, uploadAttachments),
     takeLatest(
       [
         APPLY_FILTER,

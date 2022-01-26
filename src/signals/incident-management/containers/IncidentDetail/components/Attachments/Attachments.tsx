@@ -5,7 +5,10 @@ import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
+import { useSelector } from 'react-redux'
+import { makeSelectUploadProgress } from 'containers/App/selectors'
 import type { Attachment } from 'types/attachment'
+import { useEffect } from 'react'
 import type { FC } from 'react'
 import Button from 'components/Button'
 import { useCallback, useState } from 'react'
@@ -40,6 +43,19 @@ const StyledImg = styled.img`
   object-fit: cover;
 `
 
+const StyledGradient = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 75%
+  );
+`
+
 const StyledReporter = styled.div`
   position: absolute;
   top: 10px;
@@ -57,29 +73,61 @@ const StyledDate = styled.div`
   position: absolute;
   bottom: 10px;
   left: 10px;
-  padding: 6px 8px;
-  background-color: rgba(150, 150, 150, 0.8);
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
   line-height: 14px;
 `
 
+const StyledEmployee = styled(StyledDate)`
+  bottom: 30px;
+`
+
+interface StyledUploadProgressProps {
+  progress: number
+}
+
+const StyledUploadProgress = styled.div<StyledUploadProgressProps>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height 3px;
+  width: ${({ progress }) => progress * 100}%;
+  background-color: ${themeColor('primary')};
+`
+
 interface AttachmentsProps {
   attachments: Array<Attachment>
   className: string
+  add: (file: File) => void
 }
 
-const Attachments: FC<AttachmentsProps> = ({ attachments, className }) => {
+type Files = Array<{
+  name: string
+  src: string
+}>
+
+const Attachments: FC<AttachmentsProps> = ({ attachments, className, add }) => {
   const { preview } = useContext(IncidentDetailContext)
-  const [files, setFiles] = useState([])
+  const uploadProgress = useSelector(makeSelectUploadProgress)
+  const [files, setFiles] = useState<Files>([])
   const hasAttachments = attachments.length > 0 || files.length > 0
 
   const handleChange = useCallback(
     (newFiles) => {
-      setFiles(newFiles)
+      setFiles(
+        newFiles.map((file: File) => ({
+          name: file.name,
+          src: window.URL.createObjectURL(file),
+        }))
+      )
+      add(newFiles)
     },
-    [setFiles]
+    [add, setFiles]
   )
+
+  useEffect(() => {
+    setFiles([])
+  }, [attachments])
 
   return (
     <Wrapper className={className}>
@@ -97,16 +145,22 @@ const Attachments: FC<AttachmentsProps> = ({ attachments, className }) => {
           }
         >
           <StyledImg src={attachment.location} />
+          <StyledGradient />
           <StyledReporter>Melder</StyledReporter>
+          <StyledEmployee>Employee</StyledEmployee>
           <StyledDate>
             {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
           </StyledDate>
+          <StyledUploadProgress progress={0.5} />
         </StyledBox>
       ))}
       {files.map((file) => (
-        <StyledBox key={window.URL.createObjectURL(file)}>
-          <StyledImg src={window.URL.createObjectURL(file)} />
-          <StyledReporter>wordt geüpload</StyledReporter>
+        <StyledBox key={file.src}>
+          <StyledImg src={file.src} />
+          <StyledGradient />
+          <StyledEmployee>{file.name}</StyledEmployee>
+          <StyledDate>wordt geüpload</StyledDate>
+          <StyledUploadProgress progress={uploadProgress || 0} />
         </StyledBox>
       ))}
       <FileInput name="addPhoto" label="Foto toevoegen" onChange={handleChange}>

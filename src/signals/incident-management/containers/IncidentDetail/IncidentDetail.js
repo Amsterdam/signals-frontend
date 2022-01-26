@@ -14,6 +14,8 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
+import { UPLOAD_ATTACHMENTS } from 'signals/incident-management/constants'
+import { makeSelectUploadProgress } from 'containers/App/selectors'
 import reducer, { initialState } from './reducer'
 
 import Attachments from './components/Attachments'
@@ -78,6 +80,9 @@ const IncidentDetail = () => {
   const storeDispatch = useDispatch()
   const { id } = useParams()
   const [state, dispatch] = useReducer(reducer, initialState)
+  const incidentDispatch = useDispatch()
+  const uploadProgress = useSelector(makeSelectUploadProgress)
+  const [isUploading, setUploading] = useState(false)
   const {
     error,
     get: getIncident,
@@ -283,6 +288,28 @@ const IncidentDetail = () => {
     dispatch({ type: CLOSE_ALL })
   }, [])
 
+  const addAttachment = useCallback(
+    (files) => {
+      if (incident) {
+        setUploading(true)
+        incidentDispatch({
+          type: UPLOAD_ATTACHMENTS,
+          payload: { files, id: incident.id },
+        })
+      }
+    },
+    [incident, incidentDispatch]
+  )
+
+  useEffect(() => {
+    if (isUploading && !uploadProgress) {
+      setUploading(false)
+      getAttachments(
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
+      )
+    }
+  }, [getAttachments, id, isUploading, uploadProgress])
+
   if (!state.incident || !subcategories) return null
 
   return (
@@ -308,7 +335,10 @@ const IncidentDetail = () => {
         >
           <Detail attachments={state.attachments} context={state.context} />
 
-          <StyledAttachments attachments={state.attachments || []} />
+          <StyledAttachments
+            attachments={state.attachments || []}
+            add={addAttachment}
+          />
 
           <AddNote maxContentLength={3000} />
 

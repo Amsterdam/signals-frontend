@@ -97,11 +97,15 @@ export function* callAuthorize(action: AuthenticateUserAction) {
 
 export function* uploadFile(action: { payload: UploadFile }): any {
   const id = action.payload?.id ?? ''
+  const isPrivate = action.payload?.private ?? false
+  const endpoint = isPrivate
+    ? configuration.INCIDENT_PRIVATE_ENDPOINT
+    : configuration.INCIDENT_PUBLIC_ENDPOINT
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel: EventChannel<any> = yield call(
     fileUploadChannel,
-    `${configuration.INCIDENT_PUBLIC_ENDPOINT}${id}/attachments/`,
+    `${endpoint}${id}/attachments/`,
     action.payload?.file,
     id
   )
