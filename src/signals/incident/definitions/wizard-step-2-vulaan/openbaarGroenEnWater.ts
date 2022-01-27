@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
+import { QuestionFieldType } from 'types/question'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -82,7 +82,7 @@ export const controls = {
     options: {
       validators: [validateObjectLocation('boom')],
     },
-    render: FIELD_TYPE_MAP.caterpillar_select,
+    render: QuestionFieldType.CaterpillarSelect,
   },
   extra_nest_grootte: {
     meta: {
@@ -97,7 +97,7 @@ export const controls = {
       },
     },
     options: { validators: ['required'] },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
 }
 

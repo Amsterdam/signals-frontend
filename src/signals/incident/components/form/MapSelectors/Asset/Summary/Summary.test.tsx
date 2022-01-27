@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 
 import type { Address } from 'types/address'
 
+import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 import { withAppContext } from 'test/utils'
 
@@ -13,6 +14,8 @@ import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { AssetSelectValue } from '../types'
 
 import Summary from '../Summary'
+
+jest.mock('shared/services/configuration/configuration')
 
 jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
   <span data-testid="mapStatic">
@@ -66,11 +69,19 @@ export const withContext = (Component: JSX.Element, context = contextValue) =>
   )
 
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
+  beforeEach(() => {
+    configuration.featureFlags.useStaticMapServer = true
+  })
+
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    configuration.__reset()
     jest.resetAllMocks()
   })
 
-  it('should render ', () => {
+  it('should render interactive map with useStaticMapServer disabled', () => {
+    configuration.featureFlags.useStaticMapServer = false
     render(withContext(<Summary />))
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
@@ -79,6 +90,21 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('map-base')).toBeInTheDocument()
+  })
+
+  it('should render static map with useStaticMapServer enabled', () => {
+    render(withContext(<Summary />))
+
+    expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
+    expect(
+      screen.getByTestId('assetSelectSummaryDescription')
+    ).toBeInTheDocument()
+    expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
+    expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+    expect(screen.getByTestId('mapStatic')).toBeInTheDocument()
+    expect(screen.queryByTestId('map-base')).not.toBeInTheDocument()
   })
 
   it('does not render empty values', () => {

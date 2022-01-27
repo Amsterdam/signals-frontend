@@ -75,7 +75,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
     })
 
-    it('should return empty controls without questions', () => {
+    it('should return location control when no questions given', () => {
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -90,7 +90,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should expand render prop to component', () => {
+    it('should return controls when questions given', () => {
       const actual = formFactory({
         category: 'category',
         subcategory: 'subcategory',
