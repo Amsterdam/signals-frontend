@@ -47,7 +47,10 @@ describe('components/LocationMarker', () => {
       ),
     }
 
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
 
     expect(Leaflet.Circle.prototype.addTo).not.toHaveBeenCalled()
     expect(Leaflet.Circle.prototype.setLatLng).not.toHaveBeenCalled()
