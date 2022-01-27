@@ -26,10 +26,6 @@ type AddNoteProps = {
   value?: string | null
 }
 
-const Section = styled.section`
-  margin: ${themeSpacing(2, 2, 2, 0)};
-`
-
 const NoteButton = styled(Button)`
   margin: ${themeSpacing(8, 2, 4, 0)};
 `
@@ -102,7 +98,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 
     if (!showForm) {
       return (
-        <Section data-testid="addNote">
+        <section data-testid="addNote">
           <Button
             type="button"
             variant="application"
@@ -111,12 +107,12 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           >
             Notitie toevoegen
           </Button>
-        </Section>
+        </section>
       )
     }
 
     return (
-      <Section className={className} data-testid="addNote">
+      <section className={className} data-testid="addNote">
         <Label htmlFor="addNoteText">{label}</Label>
         <TextArea
           data-testid="addNoteText"
@@ -152,7 +148,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
             </NoteButton>
           </>
         )}
-      </Section>
+      </section>
     )
   }
 )

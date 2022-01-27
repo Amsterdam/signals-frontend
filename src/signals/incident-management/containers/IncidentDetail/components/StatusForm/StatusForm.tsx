@@ -2,12 +2,21 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FunctionComponent, Reducer } from 'react'
 import { useCallback, useReducer, useContext } from 'react'
-import { Label, Alert, Heading } from '@amsterdam/asc-ui'
+import {
+  Alert,
+  Button,
+  Heading,
+  Label,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
 import Checkbox from 'components/Checkbox'
+import AddNote from 'components/AddNote'
+import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
@@ -15,7 +24,7 @@ import type { Incident } from 'types/api/incident'
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 import styled from 'styled-components'
-import AddNote from 'components/AddNote'
+
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild } from '../../types'
@@ -44,12 +53,41 @@ interface StatusFormProps {
 }
 
 const StyledParagraph = styled.p`
-  color: themeColor('tint', 'level5');
+  color: ${themeColor('tint', 'level5')};
   margin: 0;
 `
 
-const NotRequired = styled.span`
-  font-weight: 400;
+const StandardTextsButton = styled(Button)`
+  margin-top: ${themeSpacing(2)};
+  border-bottom: none;
+  border-color: ${themeColor('tint', 'level5')};
+  padding-bottom: 0;
+  width: 100%;
+  :hover {
+    outline-style: none;
+  }
+  div {
+    font-weight: normal;
+    font-family: 'Avenir Next';
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding-bottom: ${themeSpacing(3)};
+    border-bottom: 1px solid ${themeColor('tint', 'level4')};
+  }
+`
+
+const AddNoteWrapper = styled.div`
+  label {
+    display: none;
+  }
+  section div textarea {
+    margin-top: 0;
+    border-top: 1px solid transparent;
+    :hover {
+      border-top-color: transparent;
+    }
+  }
 `
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
@@ -143,6 +181,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     dispatch({ type: 'SET_TEXT', payload: event.target.value })
   }, [])
 
+  const defaultTextTemplatesLength = () => {
+    if (!defaultTexts || defaultTexts.length === 0) {
+      return 0
+    }
+    const statusDefaultTexts = defaultTexts.filter(
+      (text) => text.state === state.status.key
+    )
+    return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
+  }
+
   return (
     <Wrapper>
       <StyledColumn span={12}>
@@ -235,29 +283,44 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               )}
             </div>
 
-            <AddNote
-              data-testid="text"
-              isStandalone={false}
-              label={
-                <QuestionLabel>
-                  {state.text.label}
-                  {!state.text.required && (
-                    <NotRequired>&nbsp;(niet verplicht)</NotRequired>
+            <AddNoteWrapper>
+              <QuestionLabel>
+                <strong>{state.text.label}</strong>
+                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
+                {state.text.required &&
+                  state.check.checked &&
+                  state.flags.hasEmail && (
+                    <Paragraph light>{state.text.subtitle}</Paragraph>
                   )}
-                  {state.text.required &&
-                    state.check.checked &&
-                    state.flags.hasEmail && (
-                      <Paragraph light>{state.text.subtitle}</Paragraph>
-                    )}
-                </QuestionLabel>
-              }
-              maxContentLength={state.text.maxLength}
-              error={state.errors.text}
-              name="text"
-              onChange={onTextChange}
-              rows={state.text.rows}
-              value={state.text.value || state.text.defaultValue}
-            />
+              </QuestionLabel>
+              <ErrorWrapper invalid={Boolean(state.errors.text)}>
+                <div role="status">
+                  {state.errors.text && (
+                    <ErrorMessage
+                      id="textareaErrorMessage"
+                      message={state.errors.text}
+                    />
+                  )}
+                </div>
+
+                <StandardTextsButton variant="primaryInverted">
+                  <div>
+                    {`Standaardtekst (${defaultTextTemplatesLength()})`}
+                  </div>
+                </StandardTextsButton>
+
+                <AddNote
+                  data-testid="text"
+                  isStandalone={false}
+                  label={''}
+                  maxContentLength={state.text.maxLength}
+                  name="text"
+                  onChange={onTextChange}
+                  rows={state.text.rows}
+                  value={state.text.value || state.text.defaultValue}
+                />
+              </ErrorWrapper>
+            </AddNoteWrapper>
 
             <div>
               <StyledButton
