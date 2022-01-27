@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeSpacing, Button } from '@amsterdam/asc-ui'
 
-import IconEdit from '../../../../../../shared/images/icon-edit.svg'
-
 const StyledButton = styled(Button)`
   position: absolute;
   top: 0;
@@ -18,7 +16,7 @@ const EditButton = ({ className, disabled, onClick, ...rest }) => (
     className={className}
     data-testid={rest['data-testid'] || 'editButton'}
     disabled={disabled}
-    icon={<IconEdit />}
+    icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
     iconSize={18}
     onClick={onClick}
     variant="application"

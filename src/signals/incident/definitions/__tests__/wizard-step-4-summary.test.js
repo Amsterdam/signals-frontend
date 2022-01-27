@@ -85,10 +85,6 @@ describe('Wizard summary', () => {
           label: 'Subcategorie',
           render: expect.any(Function),
         },
-        datetime: {
-          label: 'Geef het tijdstip aan',
-          render: expect.any(Function),
-        },
         description: {
           label: 'Waar gaat het over?',
           render: expect.any(Function),

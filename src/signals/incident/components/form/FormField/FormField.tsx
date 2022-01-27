@@ -99,40 +99,42 @@ const FormField: FunctionComponent<FormFieldProps> = ({
           <SubTitle id={`subtitle-${meta.name}`}>{meta.subtitle}</SubTitle>
         )}
 
-        {touched && containsErrors && (
-          <Fragment>
-            {hasError('required') && (
-              <ErrorMessage
-                data-testid={`${meta.name}-required`}
-                message={
-                  getError('required') === true
-                    ? 'Dit is een verplicht veld'
-                    : (getError('required') as string)
-                }
-              />
-            )}
+        <div role="status">
+          {touched && containsErrors && (
+            <Fragment>
+              {hasError('required') && (
+                <ErrorMessage
+                  data-testid={`${meta.name}-required`}
+                  message={
+                    getError('required') === true
+                      ? 'Dit is een verplicht veld'
+                      : (getError('required') as string)
+                  }
+                />
+              )}
 
-            {hasError('email') && (
-              <ErrorMessage
-                data-testid="invalid-mail"
-                message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
-              />
-            )}
+              {hasError('email') && (
+                <ErrorMessage
+                  data-testid="invalid-mail"
+                  message="Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl"
+                />
+              )}
 
-            {hasError('maxLength') && (
-              <ErrorMessage
-                message={`U heeft meer dan de maximale ${String(
-                  (getError('maxLength') as { requiredLength: number })
-                    .requiredLength
-                )} tekens ingevoerd`}
-              />
-            )}
+              {hasError('maxLength') && (
+                <ErrorMessage
+                  message={`U heeft meer dan de maximale ${String(
+                    (getError('maxLength') as { requiredLength: number })
+                      .requiredLength
+                  )} tekens ingevoerd`}
+                />
+              )}
 
-            {hasError('custom') && (
-              <ErrorMessage message={getError('custom') as string} />
-            )}
-          </Fragment>
-        )}
+              {hasError('custom') && (
+                <ErrorMessage message={getError('custom') as string} />
+              )}
+            </Fragment>
+          )}
+        </div>
 
         <InputWrapper width={meta?.width}>{children}</InputWrapper>
       </FieldSetWrapper>

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { Fragment, useContext } from 'react'
+import { useContext } from 'react'
 import type { ReactNode, FunctionComponent } from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import {
   MapPanelContext,
@@ -11,6 +11,7 @@ import {
 
 // Should reflect ViewerContainer props from arm-core (which are not exported)
 interface ViewerContainerProps {
+  className?: string
   topLeft?: ReactNode
   topRight?: ReactNode
   bottomLeft?: ReactNode
@@ -23,14 +24,6 @@ interface StyledViewerContainerProps {
   height: string
 }
 
-// Prevent scrollBar on iOS due to navigation bar
-const GlobalPanelStyle = createGlobalStyle`
-  body {
-    touch-action: none;
-    overflow: hidden;
-  }
-`
-
 const StyledViewerContainer = styled(
   AscViewerContainer
 )<StyledViewerContainerProps>`
@@ -38,6 +31,8 @@ const StyledViewerContainer = styled(
   height: ${({ height }) => height};
   z-index: 400;
   transition: height 0.3s ease-in-out;
+  touch-action: none;
+  overflow: hidden;
 `
 
 const ViewerContainer: FunctionComponent<ViewerContainerProps> = (props) => {
@@ -48,15 +43,12 @@ const ViewerContainer: FunctionComponent<ViewerContainerProps> = (props) => {
   const leftOffset = isDrawerVariant ? drawerPosition : '0'
 
   return (
-    <Fragment>
-      <GlobalPanelStyle />
-      <StyledViewerContainer
-        {...props}
-        data-testid="viewer-asset"
-        height={height}
-        leftOffset={leftOffset}
-      />
-    </Fragment>
+    <StyledViewerContainer
+      {...props}
+      data-testid="viewer-asset"
+      height={height}
+      leftOffset={leftOffset}
+    />
   )
 }
 
