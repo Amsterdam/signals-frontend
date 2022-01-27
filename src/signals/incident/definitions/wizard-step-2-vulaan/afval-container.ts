@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
+import appConfiguration from 'shared/services/configuration/configuration'
 import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import breadUrl from 'shared/images/afval/bread.svg?url'
@@ -12,7 +13,8 @@ import textileUrl from 'shared/images/afval/textile.svg?url'
 import restUrl from 'shared/images/afval/rest.svg?url'
 import plasticUrl from 'shared/images/afval/plastic.svg?url'
 import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
-import configuration from 'shared/services/configuration/configuration'
+
+import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 export const ICON_SIZE = 40
 
@@ -20,6 +22,8 @@ const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
+
+const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const controls = {
   extra_container: {
@@ -52,7 +56,7 @@ export const controls = {
       pathMerge: 'extra_properties',
       wfsFilter:
         '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      endpoint: configuration.map.layers.containers,
+      endpoint: configuration.map.layers?.containers,
       featureTypes: [
         {
           label: 'Restafval',
