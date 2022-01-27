@@ -1,14 +1,11 @@
 import { QuestionFieldType } from 'types/question'
+import locatie from '../../definitions/wizard-step-2-vulaan/locatie'
 import { prepareQuestions } from '.'
 
 const returnValue = 'returnValue'
 const expandQuestions = jest.fn().mockReturnValue(returnValue)
 const category = 'category'
 const subcategory = 'subcategory'
-const locatie = {
-  render: QuestionFieldType.AssetSelect,
-  meta: { label: 'location' },
-}
 
 describe('The prepare questions service', () => {
   beforeEach(() => {
@@ -21,7 +18,6 @@ describe('The prepare questions service', () => {
       prepareQuestions({
         category,
         expandQuestions,
-        locatie,
         questions,
         subcategory,
       })
@@ -36,7 +32,6 @@ describe('The prepare questions service', () => {
       prepareQuestions({
         category,
         expandQuestions,
-        locatie,
         questions,
         subcategory,
       })
@@ -57,7 +52,6 @@ describe('The prepare questions service', () => {
       prepareQuestions({
         category,
         expandQuestions,
-        locatie,
         questions,
         subcategory,
       })
@@ -82,7 +76,6 @@ describe('The prepare questions service', () => {
       prepareQuestions({
         category,
         expandQuestions,
-        locatie,
         questions,
         subcategory,
       })

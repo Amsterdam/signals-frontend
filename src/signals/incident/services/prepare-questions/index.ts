@@ -1,5 +1,6 @@
 import type { Question } from 'types/question'
 import { QuestionFieldType } from 'types/question'
+import locatie from '../../definitions/wizard-step-2-vulaan/locatie'
 
 interface PrepareQuestionsParams {
   category: string
@@ -8,7 +9,6 @@ interface PrepareQuestionsParams {
     category?: string,
     subcategory?: string
   ) => Record<string, unknown>
-  locatie: Question
   questions?: Record<string, Question>
   subcategory: string
 }
@@ -16,7 +16,6 @@ interface PrepareQuestionsParams {
 export const prepareQuestions = ({
   category,
   expandQuestions,
-  locatie,
   questions,
   subcategory,
 }: PrepareQuestionsParams) => {
