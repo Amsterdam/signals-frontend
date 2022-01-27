@@ -41,19 +41,19 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}
-    {isReported && (
-      <StatusIcon
-        alt=""
-        height={20}
-        src="/assets/images/icon-reported-marker.svg"
-        width={20}
-      />
-    )}
-    {!isReported && isChecked && (
+    {isChecked && (
       <StatusIcon
         alt=""
         height={20}
         src="/assets/images/icon-checked-marker.svg"
+        width={20}
+      />
+    )}
+    {!isChecked && isReported && (
+      <StatusIcon
+        alt=""
+        height={20}
+        src="/assets/images/icon-reported-marker.svg"
         width={20}
       />
     )}

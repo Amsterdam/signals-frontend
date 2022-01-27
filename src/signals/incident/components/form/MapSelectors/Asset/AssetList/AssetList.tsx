@@ -68,10 +68,10 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   const checkedFeatureType = getCheckedFeatureType(featureTypes)
 
   let extendedId = `assetListItem-${id}`
-  if (isReported) {
-    extendedId = `assetListItem-${id}-reported`
-  } else if (isChecked) {
+  if (isChecked) {
     extendedId = `assetListItem-${id}-checked`
+  } else if (isReported) {
+    extendedId = `assetListItem-${id}-reported`
   }
 
   return (
@@ -86,14 +86,14 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         <ItemWrapper>
           <StyledLabel>
             {label}
-            {reportedFeatureType && isReported && (
-              <StyledStatusDescription isReported>
-                {reportedFeatureType.description}
-              </StyledStatusDescription>
-            )}
-            {checkedFeatureType && !isReported && isChecked && (
+            {checkedFeatureType && isChecked && (
               <StyledStatusDescription>
                 {checkedFeatureType.description}
+              </StyledStatusDescription>
+            )}
+            {!isChecked && reportedFeatureType && isReported && (
+              <StyledStatusDescription isReported>
+                {reportedFeatureType.description}
               </StyledStatusDescription>
             )}
           </StyledLabel>

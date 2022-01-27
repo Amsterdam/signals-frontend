@@ -51,27 +51,30 @@ describe('CaterpillarLayer', () => {
       screen.getByAltText('Eikenboom, is geselecteerd (308777)')
     ).toBeInTheDocument()
     expect(
-      screen.getByAltText('Eikenboom, is gemeld (308779)')
+      screen.getByAltText('Eikenboom is reeds gemeld (308778)')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByAltText('Vrij van eikenprocessierups (308780)')
     ).toBeInTheDocument()
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
   })
 
   it('should handle selecting a tree', async () => {
-    const featureId = 308779
+    const featureId = 308778
     const feature = caterpillarsJson.features.find(({ id }) => id === featureId)
     const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
 
     const { rerender } = render(withMapCaterpillar())
 
-    const tree = screen.getByAltText(`Eikenboom, is gemeld (${featureId})`)
+    const tree = screen.getByAltText(`Eikenboom is reeds gemeld (${featureId})`)
 
     userEvent.click(tree)
 
     expect(setItem).toHaveBeenCalledWith({
       id: featureId,
       isReported: true,
-      isChecked: true,
+      isChecked: false,
       description: 'Eikenboom',
       type: 'Eikenboom',
       GlobalID: feature?.properties.GlobalID,
@@ -83,7 +86,7 @@ describe('CaterpillarLayer', () => {
 
     expect(
       screen.queryByAltText(
-        `Eikenboom, is gemeld, is geselecteerd (${featureId})`
+        `Eikenboom is reeds gemeld, is geselecteerd (${featureId})`
       )
     ).not.toBeInTheDocument()
 
@@ -95,7 +98,7 @@ describe('CaterpillarLayer', () => {
 
     expect(
       screen.getByAltText(
-        `Eikenboom, is gemeld, is geselecteerd (${featureId})`
+        `Eikenboom is reeds gemeld, is geselecteerd (${featureId})`
       )
     ).toBeInTheDocument()
   })
@@ -111,7 +114,7 @@ describe('CaterpillarLayer', () => {
     )
 
     const tree = screen.getByAltText(
-      `Eikenboom, is gemeld, is geselecteerd (${308778})`
+      `Eikenboom is reeds gemeld, is geselecteerd (${308778})`
     )
 
     userEvent.click(tree)
