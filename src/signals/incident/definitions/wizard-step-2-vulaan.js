@@ -91,7 +91,6 @@ export default {
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
       const backendQuestions = questions || {}
       const hasQuestions = Object.keys(backendQuestions).length > 0
-
       return hasQuestions
         ? expandQuestions(backendQuestions, category, subcategory)
         : fallback

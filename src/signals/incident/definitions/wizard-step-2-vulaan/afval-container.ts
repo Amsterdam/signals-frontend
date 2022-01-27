@@ -3,8 +3,8 @@
 import type { IconOptions } from 'leaflet'
 
 import appConfiguration from 'shared/services/configuration/configuration'
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
+import { QuestionFieldType } from 'types/question'
 
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
@@ -139,7 +139,7 @@ export const controls = {
         },
       ],
     },
-    render: FIELD_TYPE_MAP.asset_select,
+    render: QuestionFieldType.AssetSelect,
     options: {
       validators: [validateObjectLocation('container')],
     },
