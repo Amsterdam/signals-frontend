@@ -22,7 +22,7 @@ export interface LocationResult
   extends Partial<
     Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
   > {
-  toggled: boolean
+  toggled?: boolean
 }
 
 export interface GPSButtonProps {
