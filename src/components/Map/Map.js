@@ -2,21 +2,17 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { ViewerContainer } from '@amsterdam/arm-core'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import styled from 'styled-components'
 import { TileLayer } from '@amsterdam/react-maps'
 import { useDispatch } from 'react-redux'
 
+import ViewerContainer from 'components/ViewerContainer'
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
 import GPSButton from '../GPSButton'
 import LocationMarker from '../LocationMarker'
-
-const StyledViewerContainer = styled(ViewerContainer)`
-  z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
-`
 
 const StyledMap = styled(MapComponent)`
   cursor: default;
@@ -33,6 +29,10 @@ const StyledMap = styled(MapComponent)`
 
 const StyledGPSButton = styled(GPSButton)`
   margin-bottom: 8px;
+`
+
+const StyledVieweContainer = styled(ViewerContainer)`
+  z-index: 402;
 `
 
 const Map = ({
@@ -102,39 +102,44 @@ const Map = ({
       {children}
 
       {/* Render GPS and zoom buttons after children to maintain correct focus order */}
-      <StyledViewerContainer
+      <StyledVieweContainer
+        topLeft={
+          hasGPSControl &&
+          global.navigator.geolocation && (
+            <StyledGPSButton
+              onLocationSuccess={(location) => {
+                setGeolocation(location)
+              }}
+              onLocationError={() => {
+                dispatch(
+                  showGlobalNotification({
+                    variant: VARIANT_NOTICE,
+                    title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
+                    message:
+                      'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
+                    type: TYPE_LOCAL,
+                  })
+                )
+              }}
+              onLocationOutOfBounds={() => {
+                dispatch(
+                  showGlobalNotification({
+                    variant: VARIANT_NOTICE,
+                    title:
+                      'Uw locatie valt buiten de kaart en is daardoor niet te zien',
+                    type: TYPE_LOCAL,
+                  })
+                )
+              }}
+            />
+          )
+        }
         bottomRight={
-          <div data-testid="mapZoom">
-            {hasGPSControl && global.navigator.geolocation && (
-              <StyledGPSButton
-                onLocationSuccess={(location) => {
-                  setGeolocation(location)
-                }}
-                onLocationError={() => {
-                  dispatch(
-                    showGlobalNotification({
-                      variant: VARIANT_NOTICE,
-                      title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
-                      message:
-                        'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
-                      type: TYPE_LOCAL,
-                    })
-                  )
-                }}
-                onLocationOutOfBounds={() => {
-                  dispatch(
-                    showGlobalNotification({
-                      variant: VARIANT_NOTICE,
-                      title:
-                        'Uw locatie valt buiten de kaart en is daardoor niet te zien',
-                      type: TYPE_LOCAL,
-                    })
-                  )
-                }}
-              />
-            )}
-            {showZoom && <Zoom />}
-          </div>
+          showZoom && (
+            <div data-testid="mapZoom">
+              <Zoom />
+            </div>
+          )
         }
       />
 

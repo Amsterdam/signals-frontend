@@ -27,6 +27,7 @@ export interface Item extends Record<string, unknown> {
   description?: string
   id: string | number
   isReported?: boolean
+  isChecked?: boolean
   type?: typeof UNREGISTERED_TYPE | string
   label: string
 }
@@ -36,10 +37,18 @@ export interface FeatureType {
   description: string
   icon: FeatureIcon
   idField: string
-  isReportedField?: string
-  isReportedValue?: number
   typeField: string
   typeValue: string
+}
+
+export interface ReportedFeatureType extends FeatureType {
+  isReportedField: string
+  isReportedValue: number
+}
+
+export interface CheckedFeatureType extends FeatureType {
+  isCheckedField: string
+  isCheckedValues: string[]
 }
 
 export interface FeatureIcon {
@@ -59,7 +68,6 @@ export interface WfsFilter {
 export interface DataLayerProps {
   featureTypes: FeatureType[]
   desktopView?: boolean
-  allowClusters?: boolean
 }
 
 export interface Meta extends Record<string, unknown> {

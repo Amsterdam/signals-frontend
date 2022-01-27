@@ -15,7 +15,6 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import MapDetail from '../../../MapDetail'
 import HighLight from '../../../Highlight'
 import EditButton from '../../../EditButton'
-import IconEdit from '../../../../../../../../shared/images/icon-edit.svg'
 import IncidentDetailContext from '../../../../context'
 import IncidentManagementContext from '../../../../../../context'
 
@@ -68,7 +67,7 @@ const Location = ({ location }) => {
       <Description>
         <StyledEditButton
           data-testid="editLocationButton"
-          icon={<IconEdit />}
+          icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
           iconSize={18}
           onClick={() => {
             edit('location')

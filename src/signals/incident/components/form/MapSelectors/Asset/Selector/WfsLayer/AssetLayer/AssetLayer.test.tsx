@@ -1,121 +1,99 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import type { ReactNode } from 'react'
+// Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
 import type { FeatureCollection } from 'geojson'
-import type { MapOptions } from 'leaflet'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
-import assetsJson from 'utils/__tests__/fixtures/assets.json'
+import containerJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
-import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
+import withAssetSelectContext, {
+  contextValue,
+} from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import type { Geometrie } from 'types/incident'
+import userEvent from '@testing-library/user-event'
+import { featureToCoordinates } from 'shared/services/map-location'
 import { WfsDataProvider } from '../context'
 
-import type { ClusterMarker } from './AssetLayer'
-
-import { shouldSpiderfy, getMarkerByZoomLevel } from './AssetLayer'
 import AssetLayer from '.'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const options: MapOptions = {
-  ...MAP_OPTIONS,
-  center: [52.37309068742423, 4.879893985747362],
-  zoom: 14,
+const assetSelectProviderValue: AssetSelectValue = {
+  ...contextValue,
+  selection: {
+    description: 'Glas container',
+    id: 'GLB00072',
+    type: 'Glas',
+    location: {},
+    label: 'Glas container - GLB00072',
+  },
 }
 
-describe('getMarkerByZoomLevel', () => {
-  const cluster = {
-    __parent: { _zoom: 15, __parent: { _zoom: 14, __parent: { _zoom: 13 } } },
-  } as ClusterMarker
-  it('should return the right parent depending on the zoom level', () => {
-    expect(getMarkerByZoomLevel(cluster, 14)).toEqual(cluster.__parent.__parent)
-  })
-
-  it('should return undefined when no parent found on the zoom level', () => {
-    expect(getMarkerByZoomLevel(cluster, 12)).toBeUndefined()
-  })
-})
-
-describe('shouldSpiderfy', () => {
-  it('should spiderfy when maxZoom', () => {
-    const cluster = {
-      _zoom: 14,
-      _childCount: 3,
-      _childClusters: [
-        {
-          _zoom: 15,
-          _childCount: 3,
-          _childClusters: [],
-        },
-      ],
-    } as unknown as ClusterMarker
-    expect(shouldSpiderfy(cluster, 15)).toBeTruthy()
-  })
-
-  it('should not spiderfy when can zoomed', () => {
-    const cluster = {
-      _zoom: 13,
-      _childCount: 4,
-      _childClusters: [
-        {
-          _zoom: 14,
-          _childCount: 3,
-          _childClusters: [
-            {
-              __zoom: 15,
-              _childCount: 3,
-              _childClusters: [],
-            },
-          ],
-        },
-      ],
-    } as unknown as ClusterMarker
-    expect(shouldSpiderfy(cluster, 14)).toBeFalsy()
-  })
-})
+const { featureTypes } = contextValue.meta
 
 describe('AssetLayer', () => {
-  const withMapAsset = (Component: ReactNode) => (
-    <Map data-testid="map-test" options={options}>
-      {Component}
-    </Map>
-  )
+  const setItem = jest.fn()
+  const removeItem = jest.fn()
 
-  const featureTypes: FeatureType[] = [
-    {
-      label: 'Papier',
-      description: 'Papier asset',
-      icon: {
-        options: {},
-        iconUrl: 'iconSvg',
-      },
-      idField: 'id_nummer',
-      typeField: 'fractie_omschrijving',
-      typeValue: 'Papier',
-    },
-    {
-      label: 'Glas',
-      description: 'Glas asset',
-      icon: {
-        options: {},
-        iconUrl: 'svgIcon',
-      },
-      idField: 'id_nummer',
-      typeField: 'fractie_omschrijving',
-      typeValue: 'Glas',
-    },
-  ]
-
-  it('should render the cluster layer in the map', () => {
-    const AssetLayerWrapper = () => (
-      <WfsDataProvider value={assetsJson as FeatureCollection}>
-        <AssetLayer featureTypes={featureTypes} desktopView />;
-      </WfsDataProvider>
+  const withAssetMap = (contextOverride = {}) =>
+    withAssetSelectContext(
+      <Map data-testid="map-test" options={MAP_OPTIONS}>
+        <WfsDataProvider value={containerJson as FeatureCollection}>
+          <AssetLayer featureTypes={featureTypes} />
+        </WfsDataProvider>
+      </Map>,
+      { ...assetSelectProviderValue, setItem, removeItem, ...contextOverride }
     )
-    render(withMapAsset(<AssetLayerWrapper />))
+
+  afterEach(() => {
+    setItem.mockReset()
+    removeItem.mockReset()
+  })
+
+  it('should render the asset layer in the map', () => {
+    render(withAssetMap())
+    expect(
+      screen.getByAltText('Papier container (PAB00022)')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByAltText('Glas container, is geselecteerd (GLB00072)')
+    ).toBeInTheDocument()
 
     expect(screen.getByTestId('map-test')).toBeInTheDocument()
+  })
+
+  it('should handle selecting a container', async () => {
+    const featureId = 'PAB00022'
+    const feature = containerJson.features.find(
+      ({ properties }) => properties.id_nummer === featureId
+    )
+    const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
+    const newSelection = {
+      id: featureId,
+      isReported: false,
+      description: 'Papier container',
+      type: 'Papier',
+      label: 'Papier container - PAB00022',
+      location: {
+        coordinates: coordinates,
+      },
+    }
+
+    render(withAssetMap())
+
+    const container = screen.getByAltText(`Papier container (${featureId})`)
+
+    userEvent.click(container)
+
+    expect(
+      screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
+    ).not.toBeInTheDocument()
+
+    render(withAssetMap({ selection: newSelection }))
+
+    expect(
+      screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
+    ).toBeInTheDocument()
   })
 })

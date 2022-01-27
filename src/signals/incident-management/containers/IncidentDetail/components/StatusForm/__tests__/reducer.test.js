@@ -82,7 +82,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         label: constants.REPLY_MAIL_LABEL,
         subtitle: constants.REPLY_MAIL_SUBTITLE,
         maxLength: constants.REPLY_MAIL_MAX_LENGTH,
-        rows: 5,
+        rows: 6,
       },
     }
 
