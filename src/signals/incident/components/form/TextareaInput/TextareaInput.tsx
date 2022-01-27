@@ -1,50 +1,66 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
-import TextArea from 'components/TextArea'
+import styled from 'styled-components'
 
+import type { FocusEvent, FunctionComponent } from 'react'
 import type { FormInputProps } from 'types/reactive-form'
-import FormField from '../FormField'
 
-export type TextAreaInputProps = FormInputProps
+import FormField from '../FormField'
+import AddNote from './AddNote'
+
+export type TextAreaInputProps = Omit<FormInputProps, 'handler'>
+
+const ThinLabel = styled.span`
+  font-weight: 400;
+`
 
 const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
-  handler,
   touched,
-  value,
   hasError,
   getError,
   meta,
   parent,
   validatorsOrOpts,
-}) =>
-  (meta?.isVisible && (
+  value,
+}) => {
+  if (!meta) return null
+
+  const { label, subtitle, name, isVisible, maxLength, ...metaData } = meta
+
+  if (!isVisible || !name) return null
+
+  const onBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
+    const text = event.target.value
+
+    parent.meta.updateIncident({
+      [name]: text,
+    })
+  }
+
+  const props = {
+    isStandalone: false,
+    name,
+    maxContentLength: maxLength || undefined,
+    label: (
+      <>
+        {label} <ThinLabel>(niet verplicht)</ThinLabel>
+      </>
+    ),
+    onBlur,
+    value,
+  }
+
+  return (
     <FormField
-      meta={meta}
+      meta={metaData}
       options={validatorsOrOpts}
       touched={touched}
       hasError={hasError}
       getError={getError}
     >
-      <TextArea
-        id={meta.name}
-        aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
-        placeholder={meta.placeholder}
-        {...handler()}
-        onBlur={(event) => {
-          meta.name &&
-            parent.meta.updateIncident({
-              [meta.name]: meta.autoRemove
-                ? event.target.value.replace(meta.autoRemove, '')
-                : event.target.value,
-            })
-        }}
-        infoText={
-          meta.maxLength &&
-          `${value ? value.length : '0'}/${meta.maxLength} tekens`
-        }
-      />
+      <AddNote {...props} />
     </FormField>
-  )) ||
-  null
+  )
+}
+
 export default TextareaInput
