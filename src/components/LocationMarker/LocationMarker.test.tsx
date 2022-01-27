@@ -74,7 +74,7 @@ describe('components/LocationMarker', () => {
     ])
     expect(Leaflet.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy)
 
-    userEvent.click(screen.queryByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(Leaflet.CircleMarker.prototype.addTo).toHaveBeenCalled()
     expect(Leaflet.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([
