@@ -151,11 +151,7 @@ describe('Wizard summary', () => {
             optional: true,
             render: expect.any(Function),
           },
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
+          ...expectedLocation,
         },
       }
 
@@ -170,13 +166,7 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         ...beschrijfContact,
-        vulaan: {
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
-        },
+        vulaan: expectedLocation,
       })
 
       expect(actual).toEqual(expected)
@@ -185,11 +175,6 @@ describe('Wizard summary', () => {
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({
         ...expectedLocation,
-        locatie: {
-          label: 'Waar is het?',
-          optional: true,
-          render: expect.any(Function),
-        },
       })
     })
   })
