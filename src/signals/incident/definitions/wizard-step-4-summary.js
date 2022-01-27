@@ -7,7 +7,6 @@ import configuration from 'shared/services/configuration/configuration'
 import { QuestionFieldType } from 'types/question'
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
-import { prepareQuestions } from '../services/prepare-questions'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalControls from './wizard-step-2-vulaan/afval'
@@ -106,13 +105,11 @@ const getExtraQuestions = (category, subcategory, questions) => {
   }
 
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
-    return prepareQuestions({
-      category,
-      expandQuestions,
-      locatie,
-      questions,
-      subcategory,
-    })
+    const backendQuestions = questions || {}
+    const hasQuestions = Object.keys(backendQuestions).length > 0
+    return hasQuestions
+      ? expandQuestions(backendQuestions, category, subcategory)
+      : fallback
   }
 
   switch (category) {

@@ -214,7 +214,7 @@ describe('Wizard summary', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('should return location control when no asset select questions given', () => {
+    it('should return controls when questions given', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
@@ -227,35 +227,10 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         vulaan: {
-          ...expectedLocation,
           key1: {
             label: 'Label',
             optional: true,
             render: Label,
-          },
-        },
-      })
-
-      expect(actual).toEqual(expected)
-    })
-
-    it('should not return location control when asset select questions given', () => {
-      const actual = previewFactory({
-        category: 'category',
-        subcategory: 'subcategory',
-        questions: {
-          key1: {
-            meta: { label: 'Label' },
-            render: 'AssetSelectRenderer',
-          },
-        },
-      })
-      const expected = expect.objectContaining({
-        vulaan: {
-          key1: {
-            label: 'Label',
-            optional: true,
-            render: expect.any(Function),
           },
         },
       })
@@ -277,7 +252,6 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         vulaan: {
-          ...expectedLocation,
           key1: {
             label: 'Label',
             optional: false,

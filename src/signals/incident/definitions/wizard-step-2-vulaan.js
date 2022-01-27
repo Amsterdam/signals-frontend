@@ -7,7 +7,6 @@ import configuration from 'shared/services/configuration/configuration'
 
 import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
-import { prepareQuestions } from '../services/prepare-questions'
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -90,13 +89,11 @@ export default {
     }
 
     if (configuration.featureFlags.fetchQuestionsFromBackend) {
-      return prepareQuestions({
-        category,
-        expandQuestions,
-        locatie,
-        questions,
-        subcategory,
-      })
+      const backendQuestions = questions || {}
+      const hasQuestions = Object.keys(backendQuestions).length > 0
+      return hasQuestions
+        ? expandQuestions(backendQuestions, category, subcategory)
+        : fallback
     }
 
     switch (category) {
