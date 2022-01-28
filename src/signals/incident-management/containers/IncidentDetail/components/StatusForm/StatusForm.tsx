@@ -199,16 +199,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
           <HeaderArea>
             <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
-
-            <div data-testid="originalStatus">
-              <StyledLabel label="Huidige status" />
-              <div>{state.originalStatus.value}</div>
-            </div>
           </HeaderArea>
 
           <OptionsArea>
             <div>
-              <StyledLabel htmlFor="status" label="Nieuwe status" />
+              <StyledLabel htmlFor="status" label="Status" />
               <input
                 type="hidden"
                 name="status"

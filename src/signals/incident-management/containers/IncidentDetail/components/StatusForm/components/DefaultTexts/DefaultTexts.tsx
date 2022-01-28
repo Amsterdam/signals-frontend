@@ -39,7 +39,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
       <ModalHeader>
         <StyledHeading as="h3">Standaardtekst</StyledHeading>
         <CloseButton variant="application" onClick={onClose}>
-          X
+          <img src="/assets/images/icon-close.svg" alt="Sluit standaardtekst" />
         </CloseButton>
       </ModalHeader>
 
