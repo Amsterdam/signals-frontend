@@ -3,8 +3,8 @@
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
+import { QuestionFieldType } from 'types/question'
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
@@ -28,24 +28,24 @@ export const Null = () => null
 
 export const renderPreview = ({ render, meta }) => {
   switch (render) {
-    case FIELD_TYPE_MAP.radio_input:
-    case FIELD_TYPE_MAP.select_input:
+    case QuestionFieldType.RadioInput:
+    case QuestionFieldType.SelectInput:
       return ObjectLabel
 
-    case FIELD_TYPE_MAP.checkbox_input:
+    case QuestionFieldType.CheckboxInput:
       if (meta?.values) {
         return PreviewComponents.ListObjectValue
       }
 
       return () => 'Ja'
 
-    case FIELD_TYPE_MAP.multi_text_input:
+    case QuestionFieldType.MultiTextInput:
       return SCSVLabel
 
-    case FIELD_TYPE_MAP.asset_select:
-    case FIELD_TYPE_MAP.caterpillar_select:
-    case FIELD_TYPE_MAP.clock_select:
-    case FIELD_TYPE_MAP.streetlight_select:
+    case QuestionFieldType.AssetSelect:
+    case QuestionFieldType.CaterpillarSelect:
+    case QuestionFieldType.ClockSelect:
+    case QuestionFieldType.StreetlightSelect:
       return (props) => (
         <>
           {PreviewComponents.MapPreview({
@@ -59,8 +59,8 @@ export const renderPreview = ({ render, meta }) => {
         </>
       )
 
-    case FIELD_TYPE_MAP.text_input:
-    case FIELD_TYPE_MAP.textarea_input:
+    case QuestionFieldType.TextInput:
+    case QuestionFieldType.TextareaInput:
       return Label
 
     default:
@@ -107,7 +107,6 @@ const getExtraQuestions = (category, subcategory, questions) => {
   if (configuration.featureFlags.fetchQuestionsFromBackend) {
     const backendQuestions = questions || {}
     const hasQuestions = Object.keys(backendQuestions).length > 0
-
     return hasQuestions
       ? expandQuestions(backendQuestions, category, subcategory)
       : fallback

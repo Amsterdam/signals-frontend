@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import { QuestionFieldType } from 'types/question'
 import locatie from './locatie'
 
 export const overlastInDeOpenbareRuimte = {
@@ -16,7 +16,7 @@ export const overlastInDeOpenbareRuimte = {
       subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
   extra_fietswrak: {
     meta: {
@@ -29,7 +29,7 @@ export const overlastInDeOpenbareRuimte = {
       shortLabel: 'Extra informatie',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
   extra_parkeeroverlast: {
     meta: {
@@ -41,7 +41,7 @@ export const overlastInDeOpenbareRuimte = {
       subtitle: 'Bijvoorbeeld: kenteken, merk en kleur',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
 }
 

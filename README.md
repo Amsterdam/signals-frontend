@@ -110,5 +110,5 @@ and [the Apple developer documentation](https://developer.apple.com/library/arch
 The Dot icons ([icon-dot] and [icon-dot-selected]) made by [Pixel perfect](https://icon54.com/) from [www.flaticon.com].
 
 [www.flaticon.com]: https://www.flaticon.com/ 'Flaticon'
-[icon-dot]: /src/shared/images/icon-dot-marker.svg
-[icon-dot-selected]: /src/shared/images/icon-dot-selected-marker.svg
+[icon-dot]: /assets/images/icon-dot-marker.svg
+[icon-dot-selected]: /assets/images/icon-dot-selected-marker.svg

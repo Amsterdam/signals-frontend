@@ -4,19 +4,20 @@ import { forwardRef, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
-import type { ChangeEvent, ReactNode, SyntheticEvent } from 'react'
+import type { ChangeEvent, ReactNode, SyntheticEvent, FocusEvent } from 'react'
 
 import Button from 'components/Button'
 import TextArea from 'components/TextArea'
 import Label from 'components/Label'
 
-type AddNoteProps = {
+export interface AddNoteProps {
   className?: string
   error?: string
   isStandalone?: boolean
   label?: ReactNode
   maxContentLength?: number
   name?: string
+  onBlur?: (event: FocusEvent<HTMLTextAreaElement>) => void
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
   onSubmit?: (
     event: SyntheticEvent<HTMLInputElement>,
@@ -66,6 +67,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       label,
       maxContentLength,
       name,
+      onBlur,
       onChange,
       onSubmit,
       rows,
@@ -120,6 +122,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           id="addNoteText"
           maxContentLength={maxContentLength}
           name={name}
+          onBlur={onBlur}
           onChange={onChange}
           ref={ref}
           rows={rows}

@@ -1,11 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import type { FC, PropsWithChildren } from 'react'
 import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import styled from 'styled-components'
 import { TileLayer } from '@amsterdam/react-maps'
 import { useDispatch } from 'react-redux'
+
+import type { LatLngTuple, Map as MapType } from 'leaflet'
+import type {
+  LatLngExpression,
+  LeafletEventHandlerFnMap,
+  MapOptions,
+} from 'leaflet'
+import type { LocationResult } from 'components/GPSButton/GPSButton'
 
 import ViewerContainer from 'components/ViewerContainer'
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
@@ -35,20 +43,42 @@ const StyledVieweContainer = styled(ViewerContainer)`
   z-index: 402;
 `
 
-const Map = ({
+interface MapProps {
+  className?: string
+  'data-testid'?: string
+  /**
+   * Map events
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
+   */
+  events?: LeafletEventHandlerFnMap
+  hasGPSControl?: boolean
+  hasZoomControls?: boolean
+  /**
+   * Leaflet configuration options
+   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
+   */
+  mapOptions: MapOptions
+  fullScreen?: boolean
+  /**
+   * useState function that sets a reference to the map instance
+   */
+  setInstance?: (instance: L.Map) => void
+}
+
+const Map: FC<PropsWithChildren<MapProps>> = ({
+  'data-testid': dataTestId = 'map-base',
   children,
   className = '',
-  'data-testid': dataTestId = 'map-base',
   events,
+  fullScreen = false,
   hasGPSControl = false,
   hasZoomControls = false,
-  fullScreen = false,
   mapOptions,
   setInstance,
 }) => {
   const dispatch = useDispatch()
-  const [mapInstance, setMapInstance] = useState()
-  const [geolocation, setGeolocation] = useState()
+  const [mapInstance, setMapInstance] = useState<MapType>()
+  const [geolocation, setGeolocation] = useState<LocationResult>()
   const hasTouchCapabilities = 'ontouchstart' in window
   const showZoom = hasZoomControls && !hasTouchCapabilities
   const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom
@@ -56,7 +86,7 @@ const Map = ({
   const options = useMemo(() => {
     const center = geolocation
       ? [geolocation.latitude, geolocation.longitude]
-      : mapOptions.center
+      : (mapOptions.center as LatLngExpression)
 
     return {
       maxZoom,
@@ -64,17 +94,21 @@ const Map = ({
       tap: false,
       scrollWheelZoom: false,
       center,
-      ...{ ...mapOptions },
-    }
+      ...mapOptions,
+    } as MapOptions
   }, [mapOptions, geolocation, maxZoom, minZoom])
 
   useLayoutEffect(() => {
     if (!mapInstance || !geolocation || !geolocation.toggled) return
 
-    mapInstance.flyTo([geolocation.latitude, geolocation.longitude], maxZoom, {
-      animate: true,
-      noMoveStart: true,
-    })
+    mapInstance.flyTo(
+      [geolocation.latitude, geolocation.longitude] as LatLngTuple,
+      maxZoom,
+      {
+        animate: true,
+        noMoveStart: true,
+      }
+    )
   }, [geolocation, mapInstance, maxZoom])
 
   const captureInstance = useCallback(
@@ -90,6 +124,9 @@ const Map = ({
 
   return (
     <StyledMap
+      // Disabling linter; without className prop, the Map component cannot be styled
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       className={className}
       data-testid={dataTestId}
       data-max-zoom={maxZoom}
@@ -146,55 +183,11 @@ const Map = ({
       {geolocation?.toggled && <LocationMarker geolocation={geolocation} />}
 
       <TileLayer
-        args={configuration.map.tiles.args}
+        args={configuration.map.tiles.args as [string]}
         options={configuration.map.tiles.options}
       />
     </StyledMap>
   )
-}
-
-Map.defaultProps = {
-  children: null,
-  events: undefined,
-  setInstance: undefined,
-}
-
-Map.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  /** @ignore */
-  className: PropTypes.string,
-  'data-testid': PropTypes.string,
-  /**
-   * Map events
-   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
-   */
-  events: PropTypes.shape({}),
-  hasGPSControl: PropTypes.bool,
-  hasZoomControls: PropTypes.bool,
-  /**
-   * Leaflet configuration options
-   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
-   */
-  mapOptions: PropTypes.shape({
-    attributionControl: PropTypes.bool,
-    center: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.number),
-      PropTypes.shape({
-        lat: PropTypes.number.isRequired,
-        lng: PropTypes.number.isRequired,
-      }),
-    ]),
-    maxZoom: PropTypes.number,
-    minZoom: PropTypes.number,
-  }).isRequired,
-  fullScreen: PropTypes.bool,
-  /**
-   * useState function that sets a reference to the map instance
-   */
-  setInstance: PropTypes.func,
 }
 
 export default Map

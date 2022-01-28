@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
+
+import { QuestionFieldType } from 'types/question'
+
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 export const UPDATE_INCIDENT = 'sia/IncidentContainer/UPDATE_INCIDENT'
 export const RESET_INCIDENT = 'sia/IncidentContainer/RESET_INCIDENT'
@@ -25,25 +28,25 @@ export const GET_QUESTIONS_SUCCESS =
 export const GET_QUESTIONS_ERROR = 'sia/IncidentContainer/GET_QUESTIONS_ERROR'
 
 export const FIELD_TYPE_MAP = {
-  checkbox_input: 'CheckboxInput',
-  caterpillar_select: 'CaterpillarSelectRenderer',
-  asset_select: 'AssetSelectRenderer',
-  clock_select: 'ClockSelectRenderer',
-  date_time_input: 'DateTimeInput',
-  description_with_classification_input: 'DescriptionInputRenderer',
-  emphasis_checkbox_input: 'EmphasisCheckboxInput',
-  file_input: 'FileInputRenderer',
-  handling_message: 'HandlingMessage',
-  header: 'Header',
-  hidden_input: 'HiddenInput',
-  map_input: 'MapInput',
-  multi_text_input: 'MultiTextInput',
-  plain_text: 'PlainText',
-  radio_input: 'RadioInputGroup',
-  select_input: 'SelectInput',
-  streetlight_select: 'StreetlightSelectRenderer',
-  text_input: 'TextInput',
-  textarea_input: 'TextareaInput',
+  asset_select: QuestionFieldType.AssetSelect,
+  caterpillar_select: QuestionFieldType.CaterpillarSelect,
+  checkbox_input: QuestionFieldType.CheckboxInput,
+  clock_select: QuestionFieldType.ClockSelect,
+  date_time_input: QuestionFieldType.DateTimeInput,
+  description_with_classification_input: QuestionFieldType.DescriptionInput,
+  emphasis_checkbox_input: QuestionFieldType.EmphasisCheckboxInput,
+  file_input: QuestionFieldType.FileInput,
+  handling_message: QuestionFieldType.HandlingMessage,
+  header: QuestionFieldType.Header,
+  hidden_input: QuestionFieldType.HiddenInput,
+  map_input: QuestionFieldType.MapInput,
+  multi_text_input: QuestionFieldType.MultiTextInput,
+  plain_text: QuestionFieldType.PlainText,
+  radio_input: QuestionFieldType.RadioInput,
+  select_input: QuestionFieldType.SelectInput,
+  streetlight_select: QuestionFieldType.StreetlightSelect,
+  text_input: QuestionFieldType.TextInput,
+  textarea_input: QuestionFieldType.TextareaInput,
 }
 
 export const INPUT_VALIDATOR_MAP = {

@@ -1,4 +1,4 @@
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
+import { QuestionFieldType } from 'types/question'
 
 const locatie = {
   meta: {
@@ -13,7 +13,7 @@ const locatie = {
     },
     shortLabel: 'Waar is het?',
   },
-  render: FIELD_TYPE_MAP.asset_select,
+  render: QuestionFieldType.AssetSelect,
   options: {
     validators: ['required'],
   },

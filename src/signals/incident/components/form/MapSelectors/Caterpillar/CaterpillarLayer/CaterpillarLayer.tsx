@@ -17,7 +17,6 @@ import type { Geometrie } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import featureSelectedMarkerUrl from 'shared/images/featureSelectedMarker.svg?url'
 
 import { featureToCoordinates } from 'shared/services/map-location'
 import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
@@ -47,16 +46,21 @@ export const CaterpillarLayer: FC = () => {
       const isReported = getIsReported(feature, reportedFeatureType)
       const isChecked = getIsChecked(feature, checkedFeatureType)
 
-      const altText = `${featureType.description}${
-        isReported ? ', is gemeld' : ''
-      }${!isReported && isChecked ? ', is opgelost' : ''}${
-        isSelected ? ', is geselecteerd' : ''
-      } (${featureId})`
+      let { description } = featureType
+      if (isChecked && checkedFeatureType) {
+        description = checkedFeatureType.description
+      } else if (isReported) {
+        description = reportedFeatureType.description
+      }
+
+      const altText = isSelected
+        ? `${description}, is geselecteerd (${featureId})`
+        : `${description} (${featureId})`
 
       const icon = L.icon({
         iconSize: [40, 40],
         iconUrl: isSelected
-          ? featureSelectedMarkerUrl
+          ? '/assets/images/featureSelectedMarker.svg'
           : featureType.icon.iconUrl,
       })
 

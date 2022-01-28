@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 
 import appConfiguration from 'shared/services/configuration/configuration'
+import { QuestionFieldType } from 'types/question'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import locatie from './locatie'
 
@@ -22,7 +22,7 @@ export const wegenVerkeerStraatmeubilair = {
       subtitle: 'Bijvoorbeeld: asfalt, klinkers of stoeptegels',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
   extra_wegen_gladheid: {
     meta: {
@@ -36,7 +36,7 @@ Let op:
 Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS of GVB: [gvb.nl/klantenservice](https://gvb.nl/klantenservice)`,
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
   extra_verkeerslicht_welk: {
     meta: {
@@ -57,7 +57,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_verkeerslicht: {
     meta: {
@@ -84,7 +84,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_verkeerslicht_gevaar: {
     meta: {
@@ -104,7 +104,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       type: 'info',
       value: `Wij verzoeken u om ons te bellen op ${configuration.language.phoneNumber} zodat we dit met spoed kunnen oppakken. U hoeft het formulier niet meer verder in te vullen.`,
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: QuestionFieldType.PlainText,
   },
   extra_verkeerslicht_probleem_voetganger: {
     meta: {
@@ -130,7 +130,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.checkbox_input,
+    render: QuestionFieldType.CheckboxInput,
   },
   extra_verkeerslicht_probleem_fiets_auto: {
     meta: {
@@ -155,7 +155,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.checkbox_input,
+    render: QuestionFieldType.CheckboxInput,
   },
   extra_verkeerslicht_probleem_bus_tram: {
     meta: {
@@ -179,7 +179,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.checkbox_input,
+    render: QuestionFieldType.CheckboxInput,
   },
   extra_verkeerslicht_nummer: {
     meta: {
@@ -193,7 +193,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_verkeerslicht: 'geen_beschadigingen',
       },
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
 
   extra_fietsrek_aanvragen: {
@@ -212,7 +212,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
   extra_fietsrek_aanvraag: {
     meta: {
@@ -224,7 +224,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       shortLabel: "Aanvraag fietsenrek of 'nietje'",
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: QuestionFieldType.TextareaInput,
   },
 }
 

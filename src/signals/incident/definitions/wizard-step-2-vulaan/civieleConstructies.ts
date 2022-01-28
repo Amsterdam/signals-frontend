@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-
+import { QuestionFieldType } from 'types/question'
 import locatie from './locatie'
 
 export const civieleConstructies = {
@@ -15,7 +14,7 @@ export const civieleConstructies = {
       shortLabel: 'Naam brug',
       pathMerge: 'extra_properties',
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: QuestionFieldType.TextInput,
   },
 }
 
