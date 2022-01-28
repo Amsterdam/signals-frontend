@@ -334,10 +334,13 @@ const IncidentDetail = () => {
         </DetailContainer>
 
         <DetailContainer
-          span={{ small: 1, medium: 2, big: 3, large: 4, xLarge: 4 }}
-          push={{ small: 0, medium: 0, big: 0, large: 1, xLarge: 1 }}
+          span={{ small: 4, medium: 4, big: 4, large: 5, xLarge: 5 }}
+          push={{ small: 0, medium: 0, big: 0, large: 0, xLarge: 0 }}
         >
-          <MetaList />
+          <MetaList
+            defaultTexts={state.defaultTexts}
+            childIncidents={state.children?.results}
+          />
         </DetailContainer>
 
         {(state.preview || state.edit) && (

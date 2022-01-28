@@ -17,6 +17,7 @@ export const AddNoteWrapper = styled.div`
     display: none;
   }
   section div textarea {
+    padding: ${themeSpacing(3)};
     margin-top: 0;
     border-top: 1px solid transparent;
     :hover {
@@ -27,25 +28,17 @@ export const AddNoteWrapper = styled.div`
 
 export const Form = styled.form`
   position: relative;
+  padding: ${themeSpacing(0, 5, 6, 5)};
+  margin-bottom: ${themeSpacing(6)};
+  background-color: ${themeColor('tint', 'level2')};
   width: 100%;
   grid-template-areas:
     'header'
     'options'
     'texts'
     'form';
-  grid-column-gap: 20px;
   display: grid;
-  margin-bottom: 5em;
   grid-row-gap: ${themeSpacing(4)};
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-template-columns: 6fr 6fr;
-    grid-template-areas:
-      'header texts'
-      'options texts'
-      'form texts'
-      '. texts';
-  }
 `
 
 export const HeaderArea = styled.div`
@@ -81,7 +74,7 @@ export const StandardTextsButton = styled(Button)`
   margin-top: ${themeSpacing(2)};
   border-bottom: none;
   border-color: ${themeColor('tint', 'level5')};
-  padding: ${themeSpacing(3, 2, 0, 2)};
+  padding: ${themeSpacing(3, 3, 0, 3)};
   width: 100%;
   :hover {
     outline-style: none;

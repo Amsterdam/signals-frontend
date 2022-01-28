@@ -78,7 +78,7 @@ const childIncident = {
 const renderWithContext = (incident: any = parentIncident) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, edit, close }}>
-      <MetaList />
+      <MetaList defaultTexts={} childIncidents={} />
     </IncidentDetailContext.Provider>
   )
 

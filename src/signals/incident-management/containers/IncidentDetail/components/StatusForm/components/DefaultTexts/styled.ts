@@ -18,7 +18,7 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${themeSpacing(3, 4, 3, 4)};
+  padding: ${themeSpacing(3, 5, 3, 4)};
   margin: 0;
   border-bottom: 1px solid ${themeColor('tint', 'level5')};
 `
