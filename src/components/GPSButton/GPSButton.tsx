@@ -46,6 +46,40 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
     )
   }
 
+  const onSuccess: PositionCallback = useCallback(
+    ({ coords }) => {
+      const { accuracy, latitude, longitude } = coords
+
+      if (pointWithinBounds([latitude, longitude])) {
+        successCallbackFunc?.({
+          accuracy,
+          latitude,
+          longitude,
+          toggled: !toggled,
+        })
+        setToggled(!toggled)
+      } else {
+        if (typeof onLocationOutOfBounds === 'function') {
+          onLocationOutOfBounds()
+        }
+
+        setToggled(false)
+      }
+
+      setLoading(false)
+    },
+    [onLocationOutOfBounds, successCallbackFunc, toggled]
+  )
+
+  const onError: PositionErrorCallback = useCallback(
+    (error) => {
+      onLocationError?.(error)
+      setToggled(false)
+      setLoading(false)
+    },
+    [onLocationError]
+  )
+
   const onClick = useCallback(
     (event) => {
       event.preventDefault()
@@ -58,34 +92,6 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
         return
       }
 
-      const onSuccess: PositionCallback = ({ coords }) => {
-        const { accuracy, latitude, longitude } = coords
-
-        if (pointWithinBounds([latitude, longitude])) {
-          successCallbackFunc?.({
-            accuracy,
-            latitude,
-            longitude,
-            toggled: !toggled,
-          })
-          setToggled(!toggled)
-        } else {
-          if (typeof onLocationOutOfBounds === 'function') {
-            onLocationOutOfBounds()
-          }
-
-          setToggled(false)
-        }
-
-        setLoading(false)
-      }
-
-      const onError: PositionErrorCallback = (error) => {
-        onLocationError?.(error)
-        setToggled(false)
-        setLoading(false)
-      }
-
       setLoading(true)
 
       if (shouldWatch) {
@@ -94,14 +100,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
         global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
       }
     },
-    [
-      onLocationError,
-      onLocationOutOfBounds,
-      successCallbackFunc,
-      shouldWatch,
-      toggled,
-      loading,
-    ]
+    [onError, onSuccess, successCallbackFunc, shouldWatch, toggled, loading]
   )
 
   return (
