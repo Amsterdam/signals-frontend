@@ -290,6 +290,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             </div>
 
             <StandardTextsButton
+              data-testid="standardTextButton"
               variant="primaryInverted"
               onClick={openStandardTextModal}
             >

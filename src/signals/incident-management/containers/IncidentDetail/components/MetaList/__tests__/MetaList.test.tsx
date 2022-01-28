@@ -30,6 +30,7 @@ import {
 } from '../../../../../../../../internals/testing/msw-server'
 import * as API from '../../../../../../../../internals/testing/api'
 import MetaList from '../MetaList'
+import type { IncidentChild } from '../../../types'
 
 fetchMock.disableMocks()
 jest.mock('shared/services/configuration/configuration')
@@ -75,10 +76,24 @@ const childIncident = {
   _links: { ...plainLinks, 'sia:parent': { href: 'http://parent-link' } },
 }
 
-const renderWithContext = (incident: any = parentIncident) =>
+const defaultTexts = [
+  {
+    state: StatusCode.Ingepland,
+    templates: [],
+  },
+  {
+    state: StatusCode.Afgehandeld,
+    templates: [],
+  },
+]
+
+const renderWithContext = (
+  incident: any = parentIncident,
+  childIncidents: IncidentChild[] = []
+) =>
   withAppContext(
     <IncidentDetailContext.Provider value={{ incident, update, edit, close }}>
-      <MetaList defaultTexts={} childIncidents={} />
+      <MetaList defaultTexts={defaultTexts} childIncidents={childIncidents} />
     </IncidentDetailContext.Provider>
   )
 
@@ -406,10 +421,10 @@ describe('MetaList', () => {
     ).toHaveTextContent(/^Binnen de afhandeltermijn$/)
   })
 
-  it('should call edit', () => {
+  it('should show the status form', () => {
     render(renderWithContext())
 
-    expect(edit).not.toHaveBeenCalled()
+    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
 
     const button = screen.queryByTestId('editStatusButton')
 
@@ -417,7 +432,7 @@ describe('MetaList', () => {
       fireEvent.click(button)
     }
 
-    expect(edit).toHaveBeenCalled()
+    expect(screen.queryByTestId('statusForm')).toBeInTheDocument()
   })
 
   it('should call update', () => {

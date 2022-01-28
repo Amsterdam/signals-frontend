@@ -55,16 +55,20 @@ const defaultTexts = [
   },
 ]
 
-const close = jest.fn()
 const update = jest.fn()
 
 const renderWithContext = (
   incident = incidentFixture,
-  childIncidents: IncidentChild[] = []
+  childIncidents: IncidentChild[] = [],
+  onClose: () => void = () => {}
 ) => (
-  <IncidentDetailContext.Provider value={{ incident, update, close }}>
+  <IncidentDetailContext.Provider value={{ incident, update }}>
     <ThemeProvider>
-      <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
+      <StatusForm
+        defaultTexts={defaultTexts}
+        childIncidents={childIncidents}
+        onClose={onClose}
+      />
     </ThemeProvider>
   </IncidentDetailContext.Provider>
 )
@@ -103,13 +107,13 @@ const getChildIncidents = (statuses: Status[]) => {
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   afterEach(() => {
-    close.mockReset()
     update.mockReset()
   })
 
   it('renders correctly', () => {
     render(renderWithContext())
-
+    expect(screen.queryByTestId('standardTextButton')).toBeInTheDocument()
+    expect(screen.getByText('Standaardtekst (0)')).toBeInTheDocument()
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
     expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
@@ -120,6 +124,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(screen.getByTestId('sendEmailCheckbox')).toBeInTheDocument()
     expect(screen.getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
+  })
+
+  it('shows the number of available standard texts', () => {
+    const withSendEmailStatus = { ...incidentFixture }
+    if (withSendEmailStatus?.status?.state) {
+      withSendEmailStatus.status.state = statusSendsEmailWhenSet.key
+    }
+
+    render(renderWithContext(withSendEmailStatus))
+    expect(screen.getByText('Standaardtekst (4)')).toBeInTheDocument()
   })
 
   it('renders a disabled checkbox', () => {
@@ -193,9 +207,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is shown
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
-    // verify that 'update' and 'close' have NOT been called
+    // verify that 'update' has NOT been called
     expect(update).not.toHaveBeenCalled()
-    expect(close).not.toHaveBeenCalled()
 
     // type text in textarea
     const textarea = screen.getByRole('textbox')
@@ -210,7 +223,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     await screen.findByTestId('statusForm')
 
-    // verify that 'update' and 'close' have been called
+    // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         type: PATCH_TYPE_STATUS,
@@ -219,7 +232,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         },
       })
     )
-    expect(close).toHaveBeenCalled()
   })
 
   it('toggles the requirement for the text field', () => {
@@ -261,21 +273,28 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component with incident status that will render default texts
     render(renderWithContext(withDefaultTextsSelectedState))
 
-    // verify that there are default texts visible
-    expect(screen.getByTestId('defaultTextsTitle')).toBeInTheDocument()
+    // verify that there are default texts button is visible
+    expect(screen.getByTestId('standardTextButton')).toBeInTheDocument()
 
     // verify that the text field is empty
     expect(screen.getByRole('textbox')).toHaveTextContent('')
 
-    // click a default text link
-    const link = screen.getAllByTestId('defaultTextsItemButton')[0]
+    // click the standard text button
+    const link = screen.getByTestId('standardTextButton')
+
+    userEvent.click(link)
+
+    // verify that the default texts are shown
+    expect(screen.getAllByTestId('defaultTextsItemText')[0]).toBeInTheDocument()
     const { textContent } = screen.getAllByTestId(
       'defaultTextsItemText'
     )[0] as HTMLElement
 
-    userEvent.click(link)
+    const defaultTextsItemButton = screen.getAllByTestId(
+      'defaultTextsItemButton'
+    )[0]
+    userEvent.click(defaultTextsItemButton)
 
-    // verify that the text field is NOT empty
     expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
 
     // select another status
@@ -341,9 +360,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is shown
     expect(screen.getByRole('alert')).toBeInTheDocument()
 
-    // verify that 'update' and 'close' have NOT been called
+    // verify that 'update' has NOT been called
     expect(update).not.toHaveBeenCalled()
-    expect(close).not.toHaveBeenCalled()
 
     // clear textarea
     const clearText = '{selectall}{backspace}'
@@ -372,7 +390,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     await screen.findByTestId('statusForm')
 
-    // verify that 'update' and 'close' have been called
+    // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         type: PATCH_TYPE_STATUS,
@@ -381,7 +399,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         },
       })
     )
-    expect(close).toHaveBeenCalled()
   })
 
   it('clears the error message when another status is selected', async () => {
