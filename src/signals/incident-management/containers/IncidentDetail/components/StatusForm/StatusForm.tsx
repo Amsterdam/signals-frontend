@@ -28,12 +28,13 @@ import {
   Form,
   FormArea,
   HeaderArea,
-  StyledLabel,
   OptionsArea,
   QuestionLabel,
   StandardTextsButton,
+  StyledAlert,
   StyledButton,
   StyledH4,
+  StyledLabel,
   StyledParagraph,
 } from './styled'
 import * as constants from './constants'
@@ -216,7 +217,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       <FormArea>
         {state.warnings.length > 0 &&
           state.warnings.map((warning) => (
-            <Alert
+            <StyledAlert
               key={warning.key}
               data-testid={warning.key}
               level={warning.level}
@@ -225,7 +226,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               {warning.content && (
                 <StyledParagraph>{warning.content}</StyledParagraph>
               )}
-            </Alert>
+            </StyledAlert>
           ))}
         <div>
           <QuestionLabel>
@@ -261,9 +262,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   />
                 </Label>
               ) : (
-                <Alert data-testid="no-email-warning">
+                <div data-testid="no-email-warning">
                   {constants.NO_REPORTER_EMAIL}
-                </Alert>
+                </div>
               )}
             </div>
           )}

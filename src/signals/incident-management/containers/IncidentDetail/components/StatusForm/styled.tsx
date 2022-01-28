@@ -2,12 +2,12 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import {
+  Alert,
   Heading,
-  themeSpacing,
-  Row,
-  Column,
-  themeColor,
   Label,
+  Row,
+  themeColor,
+  themeSpacing,
 } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
@@ -41,29 +41,20 @@ export const Form = styled.form`
   grid-row-gap: ${themeSpacing(4)};
 `
 
-export const HeaderArea = styled.div`
-  grid-area: header;
+export const FormArea = styled.div`
+  grid-area: form;
+  display: grid;
+  grid-row-gap: ${themeSpacing(6)};
 `
 
-export const StyledLabel = styled(Label)`
-  font-weight: 700;
+export const HeaderArea = styled.div`
+  grid-area: header;
 `
 
 export const OptionsArea = styled.div`
   grid-area: options;
   display: grid;
   grid-row-gap: ${themeSpacing(4)};
-`
-
-export const TextsArea = styled.div`
-  grid-area: texts;
-  margin-top: ${themeSpacing(5)};
-`
-
-export const FormArea = styled.div`
-  grid-area: form;
-  display: grid;
-  grid-row-gap: ${themeSpacing(6)};
 `
 
 export const QuestionLabel = styled.div`
@@ -90,28 +81,35 @@ export const StandardTextsButton = styled(Button)`
   }
 `
 
+export const StyledAlert = styled(Alert)<{ level?: string }>`
+  ${({ level }) =>
+    level === 'neutral' ? 'background-color: transparent; padding: 0;' : ''}
+`
+
+export const StyledButton = styled(Button)`
+  margin-right: ${themeSpacing(2)};
+`
+
 export const StyledH4 = styled(Heading)`
   margin-bottom: ${themeSpacing(2)};
   margin-top: ${themeSpacing(5)};
 `
 
+export const StyledLabel = styled(Label)`
+  font-weight: 700;
+`
+
 export const StyledParagraph = styled.p`
-  color: ${themeColor('tint', 'level5')};
+  color: inherit;
   margin: 0;
+`
+
+export const TextsArea = styled.div`
+  grid-area: texts;
+  margin-top: ${themeSpacing(5)};
 `
 
 export const Wrapper = styled(Row)`
   background-color: ${themeColor('tint', 'level1')};
   position: relative;
-`
-
-export const StyledColumn = styled(Column)`
-  display: block;
-  background-color: ${themeColor('tint', 'level1')};
-  position: relative;
-  margin-bottom: ${themeSpacing(3)};
-`
-
-export const StyledButton = styled(Button)`
-  margin-right: ${themeSpacing(2)};
 `
