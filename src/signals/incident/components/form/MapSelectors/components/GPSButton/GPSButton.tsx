@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import { Button } from '@amsterdam/asc-ui'
+
+import type { FunctionComponent } from 'react'
+import type { LocationResult } from 'types/location'
 
 import { pointWithinBounds } from 'shared/services/map-location'
 import LoadingIndicator from 'components/LoadingIndicator'
 
-import { Button } from '@amsterdam/asc-ui'
 import GPS from '../../images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
@@ -17,13 +19,6 @@ const StyledButton = styled(Button)`
 const GPSIcon = styled(GPS)`
   display: inline-block;
 `
-
-export interface LocationResult
-  extends Partial<
-    Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
-  > {
-  toggled?: boolean
-}
 
 export interface GPSButtonProps {
   className?: string

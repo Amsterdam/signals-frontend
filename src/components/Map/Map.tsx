@@ -2,10 +2,10 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, PropsWithChildren } from 'react'
 import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
-import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
-import styled from 'styled-components'
-import { TileLayer } from '@amsterdam/react-maps'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
+import { TileLayer } from '@amsterdam/react-maps'
 
 import type { LatLngTuple, Map as MapType } from 'leaflet'
 import type {
@@ -13,13 +13,13 @@ import type {
   LeafletEventHandlerFnMap,
   MapOptions,
 } from 'leaflet'
-import type { LocationResult } from 'components/GPSButton/GPSButton'
+import type { LocationResult } from 'types/location'
 
 import ViewerContainer from 'components/ViewerContainer'
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
-import GPSButton from '../GPSButton'
+import GPSButton from '../../signals/incident/components/form/MapSelectors/components/GPSButton'
 import LocationMarker from '../LocationMarker'
 
 const StyledMap = styled(MapComponent)`
