@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback, useState } from 'react'
+import { useReducer, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -22,7 +22,6 @@ import MetaList from './components/MetaList'
 import AddNote from './components/AddNote'
 import LocationForm from './components/LocationForm'
 import AttachmentViewer from './components/AttachmentViewer'
-import StatusForm from './components/StatusForm'
 import Detail from './components/Detail'
 import LocationPreview from './components/LocationPreview'
 import CloseButton from './components/CloseButton'
@@ -88,23 +87,8 @@ const IncidentDetail = () => {
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
   const { get: getContext, data: context } = useFetch()
   const { get: getChildIncidents, data: childIncidents } = useFetchAll()
-  const [editingStatus, setEditingStatus] = useState(false)
 
   const subcategories = useSelector(makeSelectSubCategories)
-
-  useEffect(() => {
-    if (state.edit === 'status') {
-      setEditingStatus(true)
-      window.scrollTo(0, 0)
-    }
-  }, [state.edit])
-
-  useEffect(() => {
-    if (editingStatus && state.edit !== 'status') {
-      setEditingStatus(false)
-      window.scrollTo(0, 0)
-    }
-  }, [editingStatus, state.edit])
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp)
@@ -345,13 +329,6 @@ const IncidentDetail = () => {
 
         {(state.preview || state.edit) && (
           <Preview>
-            {state.edit === 'status' && (
-              <StatusForm
-                defaultTexts={state.defaultTexts}
-                childIncidents={state.children?.results}
-              />
-            )}
-
             {state.preview === 'location' && <LocationPreview />}
 
             {state.edit === 'location' && <LocationForm />}
