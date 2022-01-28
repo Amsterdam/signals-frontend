@@ -1,16 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent, Reducer } from 'react'
+import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
-import {
-  Alert,
-  Button,
-  Heading,
-  Label,
-  Modal,
-  themeColor,
-  themeSpacing,
-} from '@amsterdam/asc-ui'
+import { Alert, Heading, Label, Modal } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import useEventEmitter from 'hooks/useEventEmitter'
 
@@ -26,23 +18,24 @@ import type { Incident } from 'types/api/incident'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import { StatusCode } from 'signals/incident-management/definitions/types'
-import styled from 'styled-components'
 
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
+  AddNoteWrapper,
   Form,
   FormArea,
   HeaderArea,
   StyledLabel,
   OptionsArea,
   QuestionLabel,
+  StandardTextsButton,
   StyledButton,
   StyledColumn,
   StyledH4,
-  TextsArea,
+  StyledParagraph,
   Wrapper,
 } from './styled'
 import * as constants from './constants'
@@ -54,44 +47,6 @@ interface StatusFormProps {
   defaultTexts: DefaultTextsType
   childIncidents: IncidentChild[]
 }
-
-const StyledParagraph = styled.p`
-  color: ${themeColor('tint', 'level5')};
-  margin: 0;
-`
-
-const StandardTextsButton = styled(Button)`
-  margin-top: ${themeSpacing(2)};
-  border-bottom: none;
-  border-color: ${themeColor('tint', 'level5')};
-  padding-bottom: 0;
-  width: 100%;
-  :hover {
-    outline-style: none;
-  }
-  div {
-    font-weight: normal;
-    font-family: 'Avenir Next';
-    text-align: left;
-    width: 100%;
-    height: 100%;
-    padding-bottom: ${themeSpacing(3)};
-    border-bottom: 1px solid ${themeColor('tint', 'level4')};
-  }
-`
-
-const AddNoteWrapper = styled.div`
-  label {
-    display: none;
-  }
-  section div textarea {
-    margin-top: 0;
-    border-top: 1px solid transparent;
-    :hover {
-      border-top-color: transparent;
-    }
-  }
-`
 
 let lastActiveElement: HTMLElement | null = null
 
@@ -224,6 +179,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       (text) => text.state === state.status.key
     )
     return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
+  }
+
+  const useDefaultText = (event: SyntheticEvent, text: string) => {
+    setDefaultText(event, text)
+    closeStandardTextModal()
   }
 
   useEffect(() => {
@@ -362,7 +322,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   >
                     <DefaultTexts
                       defaultTexts={defaultTexts}
-                      onHandleUseDefaultText={setDefaultText}
+                      onHandleUseDefaultText={useDefaultText}
                       status={state.status.key}
                       onClose={closeStandardTextModal}
                     />
@@ -401,13 +361,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               </StyledButton>
             </div>
           </FormArea>
-          <TextsArea>
-            <DefaultTexts
-              defaultTexts={defaultTexts}
-              onHandleUseDefaultText={setDefaultText}
-              status={state.status.key}
-            />
-          </TextsArea>
         </Form>
       </StyledColumn>
     </Wrapper>
