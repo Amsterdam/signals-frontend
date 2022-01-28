@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FunctionComponent, Reducer } from 'react'
-import { useCallback, useReducer, useContext } from 'react'
+import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import {
   Alert,
   Button,
   Heading,
   Label,
+  Modal,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
+import { disablePageScroll, enablePageScroll } from 'scroll-lock'
+import useEventEmitter from 'hooks/useEventEmitter'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -90,17 +93,49 @@ const AddNoteWrapper = styled.div`
   }
 `
 
+let lastActiveElement: HTMLElement | null = null
+
 const StatusForm: FunctionComponent<StatusFormProps> = ({
   defaultTexts,
   childIncidents,
 }) => {
   const { incident, update, close } = useContext(IncidentDetailContext)
   const incidentAsIncident = incident as Incident
+  const { listenFor, unlisten } = useEventEmitter()
 
+  const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
+
+  const openStandardTextModal = useCallback(
+    (event) => {
+      event.preventDefault()
+      disablePageScroll()
+      setModalStandardTextIsOpen(true)
+      lastActiveElement = document.activeElement as HTMLElement
+    },
+    [modalStandardTextIsOpen]
+  )
+
+  const closeStandardTextModal = useCallback(() => {
+    enablePageScroll()
+    setModalStandardTextIsOpen(false)
+
+    if (lastActiveElement) {
+      lastActiveElement.focus()
+    }
+  }, [setModalStandardTextIsOpen])
+
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        closeStandardTextModal()
+      }
+    },
+    [closeStandardTextModal]
+  )
 
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
@@ -190,6 +225,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     )
     return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
   }
+
+  useEffect(() => {
+    listenFor('keydown', escFunction)
+    return () => {
+      unlisten('keydown', escFunction)
+    }
+  }, [escFunction, listenFor, unlisten])
 
   return (
     <Wrapper>
@@ -303,11 +345,29 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   )}
                 </div>
 
-                <StandardTextsButton variant="primaryInverted">
+                <StandardTextsButton
+                  variant="primaryInverted"
+                  onClick={openStandardTextModal}
+                >
                   <div>
                     {`Standaardtekst (${defaultTextTemplatesLength()})`}
                   </div>
                 </StandardTextsButton>
+                {modalStandardTextIsOpen && (
+                  <Modal
+                    data-testid="standardTextModal"
+                    open
+                    onClose={closeStandardTextModal}
+                    title="Standard texts"
+                  >
+                    <DefaultTexts
+                      defaultTexts={defaultTexts}
+                      onHandleUseDefaultText={setDefaultText}
+                      status={state.status.key}
+                      onClose={closeStandardTextModal}
+                    />
+                  </Modal>
+                )}
 
                 <AddNote
                   data-testid="text"

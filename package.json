@@ -48,6 +48,7 @@
     "@datapunt/matomo-tracker-js": "^0.5.1",
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@sentry/browser": "^6.8.0",
+    "@types/scroll-lock": "^2.1.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.9.1",
     "date-fns": "^2.19.0",
