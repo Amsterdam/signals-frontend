@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { ThemeProvider } from '@amsterdam/asc-ui'
 
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -621,5 +621,19 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(submitButton).not.toBeDisabled()
     userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
     expect(submitButton).toBeDisabled()
+  })
+
+  it('closes the standard text modal on ESC', () => {
+    render(renderWithContext())
+
+    // click the standard text button
+    const link = screen.getByTestId('standardTextButton')
+    userEvent.click(link)
+
+    expect(screen.queryByTestId('standardTextModal')).not.toBeNull()
+
+    fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 })
+
+    expect(screen.queryByTestId('standardTextModal')).toBeNull()
   })
 })
