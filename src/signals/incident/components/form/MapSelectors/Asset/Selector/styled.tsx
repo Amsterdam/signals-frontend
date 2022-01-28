@@ -32,12 +32,19 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   position: relative;
   z-index: 1;
 
-  left: calc(44px + 8px);
   //                  left page margin + gps button width + margin to gps button + margin to close button + close button width + right page margin
   width: calc(100vw - (16px + 44px + 8px + 8px + 44px + 16px));
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: 50vw;
     max-width: 375px;
+  }
+`
+
+export const ControlWrapper = styled.div`
+  display: flex;
+
+  * + * {
+    margin-left: 8px;
   }
 `

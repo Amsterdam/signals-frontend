@@ -1,25 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, PropsWithChildren } from 'react'
-import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
+// import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import { TileLayer } from '@amsterdam/react-maps'
 
-import type { LatLngTuple, Map as MapType } from 'leaflet'
+// import type { LatLngTuple, Map as MapType } from 'leaflet'
 import type {
-  LatLngExpression,
+  // LatLngExpression,
   LeafletEventHandlerFnMap,
   MapOptions,
 } from 'leaflet'
-import type { LocationResult } from 'types/location'
+// import type { LocationResult } from 'types/location'
 
 import ViewerContainer from 'components/ViewerContainer'
-import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
-import { showGlobalNotification } from 'containers/App/actions'
+// import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
+// import { showGlobalNotification } from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
-import GPSButton from '../../signals/incident/components/form/MapSelectors/components/GPSButton'
+// import GPSButton from '../../signals/incident/components/form/MapSelectors/components/GPSButton'
 import LocationMarker from '../LocationMarker'
 
 const StyledMap = styled(MapComponent)`
@@ -35,9 +35,9 @@ const StyledMap = styled(MapComponent)`
   }
 `
 
-const StyledGPSButton = styled(GPSButton)`
-  margin-bottom: 8px;
-`
+// const StyledGPSButton = styled(GPSButton)`
+//   margin-bottom: 8px;
+// `
 
 const StyledVieweContainer = styled(ViewerContainer)`
   z-index: 402;
@@ -71,56 +71,52 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
   className = '',
   events,
   fullScreen = false,
-  hasGPSControl = false,
+  // hasGPSControl = false,
   hasZoomControls = false,
   mapOptions,
-  setInstance,
+  // setInstance,
 }) => {
-  const dispatch = useDispatch()
-  const [mapInstance, setMapInstance] = useState<MapType>()
-  const [geolocation, setGeolocation] = useState<LocationResult>()
+  const geolocation = undefined
+  // const dispatch = useDispatch()
+  // const [mapInstance, setMapInstance] = useState<MapType>()
+  // const [geolocation, setGeolocation] = useState<LocationResult>()
   const hasTouchCapabilities = 'ontouchstart' in window
   const showZoom = hasZoomControls && !hasTouchCapabilities
   const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom
   const minZoom = mapOptions.minZoom || configuration.map.options.minZoom
-  const options = useMemo(() => {
-    const center = geolocation
-      ? [geolocation.latitude, geolocation.longitude]
-      : (mapOptions.center as LatLngExpression)
+  const { center } = mapOptions
+  const options = {
+    maxZoom,
+    minZoom,
+    tap: false,
+    scrollWheelZoom: false,
+    center,
+    ...mapOptions,
+  }
 
-    return {
-      maxZoom,
-      minZoom,
-      tap: false,
-      scrollWheelZoom: false,
-      center,
-      ...mapOptions,
-    } as MapOptions
-  }, [mapOptions, geolocation, maxZoom, minZoom])
+  // useLayoutEffect(() => {
+  //   if (!mapInstance || !geolocation || !geolocation.toggled) return
 
-  useLayoutEffect(() => {
-    if (!mapInstance || !geolocation || !geolocation.toggled) return
+  //   mapInstance.flyTo(
+  //     [geolocation.latitude, geolocation.longitude] as LatLngTuple,
+  //     maxZoom,
+  //     {
+  //       animate: true,
+  //       noMoveStart: true,
+  //     }
+  //   )
+  // }, [geolocation, mapInstance, maxZoom])
 
-    mapInstance.flyTo(
-      [geolocation.latitude, geolocation.longitude] as LatLngTuple,
-      maxZoom,
-      {
-        animate: true,
-        noMoveStart: true,
-      }
-    )
-  }, [geolocation, mapInstance, maxZoom])
+  // const captureInstance = useCallback(
+  //   (instance) => {
+  //     setMapInstance(instance)
 
-  const captureInstance = useCallback(
-    (instance) => {
-      setMapInstance(instance)
-
-      if (typeof setInstance === 'function') {
-        setInstance(instance)
-      }
-    },
-    [setInstance]
-  )
+  //     if (typeof setInstance === 'function') {
+  //       setInstance(instance)
+  //     }
+  //   },
+  //   [setInstance]
+  // )
 
   return (
     <StyledMap
@@ -133,44 +129,44 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       data-min-zoom={minZoom}
       events={events}
       options={options}
-      setInstance={captureInstance}
+      // setInstance={captureInstance}
       fullScreen={fullScreen}
     >
       {children}
 
       {/* Render GPS and zoom buttons after children to maintain correct focus order */}
       <StyledVieweContainer
-        topLeft={
-          hasGPSControl &&
-          global.navigator.geolocation && (
-            <StyledGPSButton
-              onLocationSuccess={(location) => {
-                setGeolocation(location)
-              }}
-              onLocationError={() => {
-                dispatch(
-                  showGlobalNotification({
-                    variant: VARIANT_NOTICE,
-                    title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
-                    message:
-                      'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
-                    type: TYPE_LOCAL,
-                  })
-                )
-              }}
-              onLocationOutOfBounds={() => {
-                dispatch(
-                  showGlobalNotification({
-                    variant: VARIANT_NOTICE,
-                    title:
-                      'Uw locatie valt buiten de kaart en is daardoor niet te zien',
-                    type: TYPE_LOCAL,
-                  })
-                )
-              }}
-            />
-          )
-        }
+        // topLeft={
+        //   hasGPSControl &&
+        //   global.navigator.geolocation && (
+        //     <StyledGPSButton
+        //       onLocationSuccess={(location) => {
+        //         setGeolocation(location)
+        //       }}
+        //       onLocationError={() => {
+        //         dispatch(
+        //           showGlobalNotification({
+        //             variant: VARIANT_NOTICE,
+        //             title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
+        //             message:
+        //               'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
+        //             type: TYPE_LOCAL,
+        //           })
+        //         )
+        //       }}
+        //       onLocationOutOfBounds={() => {
+        //         dispatch(
+        //           showGlobalNotification({
+        //             variant: VARIANT_NOTICE,
+        //             title:
+        //               'Uw locatie valt buiten de kaart en is daardoor niet te zien',
+        //             type: TYPE_LOCAL,
+        //           })
+        //         )
+        //       }}
+        //     />
+        //   )
+        // }
         bottomRight={
           showZoom && (
             <div data-testid="mapZoom">
