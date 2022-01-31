@@ -3,12 +3,18 @@
 import { render, act, fireEvent, waitFor } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import GPSButton from '..'
+import GPSButton from './GPSButton'
 
 describe('components/GPSButton', () => {
   it('should render button with icon', () => {
     const { container, getByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={() => {}} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={() => {}}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     const button = getByTestId('gpsButton')
@@ -39,7 +45,13 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId, queryByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
@@ -87,7 +99,13 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(onLocationSuccess).not.toHaveBeenCalled()
@@ -136,6 +154,7 @@ describe('components/GPSButton', () => {
         <GPSButton
           onLocationSuccess={onLocationSuccess}
           onLocationError={onLocationError}
+          onLocationOutOfBounds={() => {}}
         />
       )
     )
@@ -176,7 +195,13 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId, rerender, unmount } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
@@ -194,6 +219,7 @@ describe('components/GPSButton', () => {
         <GPSButton
           onLocationSuccess={onLocationSuccess}
           onLocationOutOfBounds={onLocationOutOfBounds}
+          onLocationError={() => {}}
         />
       )
     )

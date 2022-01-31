@@ -27,9 +27,9 @@ export interface LocationResult
 
 export interface GPSButtonProps {
   className?: string
-  onLocationSuccess?: (result: LocationResult) => void
-  onLocationError?: (error: GeolocationPositionError) => void
-  onLocationOutOfBounds?: () => void
+  onLocationSuccess: (result: LocationResult) => void
+  onLocationError: (error: GeolocationPositionError) => void
+  onLocationOutOfBounds: () => void
 }
 
 const GPSButton: FunctionComponent<GPSButtonProps> = ({
@@ -46,7 +46,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       const { accuracy, latitude, longitude } = coords
 
       if (pointWithinBounds([latitude, longitude])) {
-        onLocationSuccess?.({
+        onLocationSuccess({
           accuracy,
           latitude,
           longitude,
@@ -54,10 +54,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
         })
         setToggled(!toggled)
       } else {
-        if (typeof onLocationOutOfBounds === 'function') {
-          onLocationOutOfBounds()
-        }
-
+        onLocationOutOfBounds()
         setToggled(false)
       }
 
@@ -68,7 +65,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
 
   const onError: PositionErrorCallback = useCallback(
     (error) => {
-      onLocationError?.(error)
+      onLocationError(error)
       setToggled(false)
       setLoading(false)
     },
@@ -82,7 +79,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       if (loading) return
 
       if (toggled) {
-        onLocationSuccess?.({ toggled: false })
+        onLocationSuccess({ toggled: false })
         setToggled(false)
         return
       }
