@@ -26,16 +26,13 @@ import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
   Form,
-  FormArea,
-  HeaderArea,
-  OptionsArea,
-  QuestionLabel,
   StandardTextsButton,
   StyledAlert,
   StyledButton,
   StyledH4,
   StyledLabel,
   StyledParagraph,
+  StyledSection,
 } from './styled'
 import * as constants from './constants'
 import type { State } from './reducer'
@@ -66,13 +63,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
 
   const openStandardTextModal = useCallback(
-    (event) => {
+    (event: SyntheticEvent) => {
       event.preventDefault()
       disablePageScroll()
       setModalStandardTextIsOpen(true)
       lastActiveElement = document.activeElement as HTMLElement
     },
-    [modalStandardTextIsOpen]
+    [setModalStandardTextIsOpen]
   )
 
   const closeStandardTextModal = useCallback(() => {
@@ -172,20 +169,23 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     dispatch({ type: 'SET_TEXT', payload: event.target.value })
   }, [])
 
-  const defaultTextTemplatesLength = () => {
-    if (!defaultTexts || defaultTexts.length === 0) {
-      return 0
-    }
-    const statusDefaultTexts = defaultTexts.filter(
-      (text) => text.state === state.status.key
-    )
-    return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
-  }
+  const defaultTextTemplatesLength = useCallback(
+    (defaultTexts: DefaultTextsType) => {
+      if (!defaultTexts || defaultTexts.length === 0) {
+        return 0
+      }
+      const statusDefaultTexts = defaultTexts.filter(
+        (text) => text.state === state.status.key
+      )
+      return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
+    },
+    [state.text]
+  )
 
-  const useDefaultText = (event: SyntheticEvent, text: string) => {
+  const useDefaultText = useCallback((event: SyntheticEvent, text: string) => {
     setDefaultText(event, text)
     closeStandardTextModal()
-  }
+  }, [])
 
   useEffect(() => {
     listenFor('keydown', escFunction)
@@ -196,25 +196,21 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
-      <HeaderArea>
-        <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
-      </HeaderArea>
+      <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-      <OptionsArea>
-        <div>
-          <StyledLabel htmlFor="status" label="Status" />
-          <input type="hidden" name="status" value={state.originalStatus.key} />
-          <RadioButtonList
-            defaultValue={state.status.key}
-            groupName="status"
-            hasEmptySelectionButton={false}
-            onChange={onRadioChange}
-            options={changeStatusOptionList}
-          />
-        </div>
-      </OptionsArea>
+      <StyledSection>
+        <StyledLabel htmlFor="status" label="Status" />
+        <input type="hidden" name="status" value={state.originalStatus.key} />
+        <RadioButtonList
+          defaultValue={state.status.key}
+          groupName="status"
+          hasEmptySelectionButton={false}
+          onChange={onRadioChange}
+          options={changeStatusOptionList}
+        />
+      </StyledSection>
 
-      <FormArea>
+      <StyledSection>
         {state.warnings.length > 0 &&
           state.warnings.map((warning) => (
             <StyledAlert
@@ -228,58 +224,62 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               )}
             </StyledAlert>
           ))}
-        <div>
-          <QuestionLabel>
-            <strong>Versturen</strong>
-          </QuestionLabel>
 
-          {state.flags.isSplitIncident &&
-            (state.status.key === StatusCode.ReactieGevraagd ? (
-              <Alert data-testid="split-incident-reply-warning" level="info">
-                {constants.REPLY_DEELMELDING_EXPLANATION}
-              </Alert>
-            ) : (
-              <Alert data-testid="split-incident-warning" level="info">
-                {constants.DEELMELDING_EXPLANATION}
-              </Alert>
-            ))}
+        <StyledLabel label="Versturen" />
 
-          {!state.flags.isSplitIncident && (
-            <div>
-              {state.flags.hasEmail ? (
-                <Label
+        {state.flags.isSplitIncident &&
+          (state.status.key === StatusCode.ReactieGevraagd ? (
+            <Alert data-testid="split-incident-reply-warning" level="info">
+              {constants.REPLY_DEELMELDING_EXPLANATION}
+            </Alert>
+          ) : (
+            <Alert data-testid="split-incident-warning" level="info">
+              {constants.DEELMELDING_EXPLANATION}
+            </Alert>
+          ))}
+
+        {!state.flags.isSplitIncident && (
+          <div>
+            {state.flags.hasEmail ? (
+              <Label
+                disabled={state.check.disabled}
+                htmlFor="send_email"
+                label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                noActiveState
+              >
+                <Checkbox
+                  checked={state.check.checked}
+                  data-testid="sendEmailCheckbox"
                   disabled={state.check.disabled}
-                  htmlFor="send_email"
-                  label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                  noActiveState
-                >
-                  <Checkbox
-                    checked={state.check.checked}
-                    data-testid="sendEmailCheckbox"
-                    disabled={state.check.disabled}
-                    id="send_email"
-                    onClick={onCheck}
-                  />
-                </Label>
-              ) : (
-                <div data-testid="no-email-warning">
-                  {constants.NO_REPORTER_EMAIL}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+                  id="send_email"
+                  onClick={onCheck}
+                />
+              </Label>
+            ) : (
+              <div data-testid="no-email-warning">
+                {constants.NO_REPORTER_EMAIL}
+              </div>
+            )}
+          </div>
+        )}
+      </StyledSection>
 
+      <StyledSection>
         <AddNoteWrapper>
-          <QuestionLabel>
-            <strong>{state.text.label}</strong>
-            {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-            {state.text.required &&
-              state.check.checked &&
-              state.flags.hasEmail && (
-                <Paragraph light>{state.text.subtitle}</Paragraph>
-              )}
-          </QuestionLabel>
+          <Label
+            htmlFor="addNoteText"
+            label={
+              <>
+                <strong>{state.text.label}</strong>
+                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
+                {state.text.required &&
+                  state.check.checked &&
+                  state.flags.hasEmail && (
+                    <Paragraph light>{state.text.subtitle}</Paragraph>
+                  )}
+              </>
+            }
+          />
           <ErrorWrapper invalid={Boolean(state.errors.text)}>
             <div role="status">
               {state.errors.text && (
@@ -295,7 +295,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               variant="primaryInverted"
               onClick={openStandardTextModal}
             >
-              <div>{`Standaardtekst (${defaultTextTemplatesLength()})`}</div>
+              <div>{`Standaardtekst (${defaultTextTemplatesLength(
+                defaultTexts
+              )})`}</div>
             </StandardTextsButton>
             {modalStandardTextIsOpen && (
               <Modal
@@ -325,26 +327,26 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             />
           </ErrorWrapper>
         </AddNoteWrapper>
+      </StyledSection>
 
-        <div>
-          <StyledButton
-            data-testid="statusFormSubmitButton"
-            type="submit"
-            variant="secondary"
-            disabled={disableSubmit}
-          >
-            Opslaan
-          </StyledButton>
+      <div>
+        <StyledButton
+          data-testid="statusFormSubmitButton"
+          type="submit"
+          variant="secondary"
+          disabled={disableSubmit}
+        >
+          Opslaan
+        </StyledButton>
 
-          <StyledButton
-            data-testid="statusFormCancelButton"
-            variant="tertiary"
-            onClick={onClose}
-          >
-            Annuleer
-          </StyledButton>
-        </div>
-      </FormArea>
+        <StyledButton
+          data-testid="statusFormCancelButton"
+          variant="tertiary"
+          onClick={onClose}
+        >
+          Annuleer
+        </StyledButton>
+      </div>
     </Form>
   )
 }

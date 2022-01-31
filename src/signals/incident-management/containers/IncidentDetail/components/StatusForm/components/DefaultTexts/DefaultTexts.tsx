@@ -3,7 +3,7 @@
 import type { FC, SyntheticEvent } from 'react'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
-
+import { Close } from '@amsterdam/asc-assets'
 import {
   CloseButton,
   ModalHeader,
@@ -40,9 +40,13 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
         <StyledHeading as="h3" data-testid="defaultTextsTitle">
           Standaardtekst
         </StyledHeading>
-        <CloseButton variant="application" onClick={onClose}>
-          <img src="/assets/images/icon-close.svg" alt="Sluit standaardtekst" />
-        </CloseButton>
+        <CloseButton
+          variant="application"
+          onClick={onClose}
+          icon={<Close />}
+          size={20}
+          title="Sluiten"
+        />
       </ModalHeader>
 
       <Wrapper>

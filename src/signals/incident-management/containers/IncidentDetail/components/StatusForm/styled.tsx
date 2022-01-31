@@ -9,11 +9,12 @@ import {
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
+import type { AlertLevel } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
 
 export const AddNoteWrapper = styled.div`
-  label {
+  label.addNoteText {
     display: none;
   }
   section div textarea {
@@ -28,37 +29,10 @@ export const AddNoteWrapper = styled.div`
 
 export const Form = styled.form`
   position: relative;
-  padding: ${themeSpacing(0, 5, 6, 5)};
+  padding: ${themeSpacing(5, 5, 6, 5)};
   margin-bottom: ${themeSpacing(6)};
   background-color: ${themeColor('tint', 'level2')};
   width: 100%;
-  grid-template-areas:
-    'header'
-    'options'
-    'texts'
-    'form';
-  display: grid;
-  grid-row-gap: ${themeSpacing(4)};
-`
-
-export const FormArea = styled.div`
-  grid-area: form;
-  display: grid;
-  grid-row-gap: ${themeSpacing(6)};
-`
-
-export const HeaderArea = styled.div`
-  grid-area: header;
-`
-
-export const OptionsArea = styled.div`
-  grid-area: options;
-  display: grid;
-  grid-row-gap: ${themeSpacing(4)};
-`
-
-export const QuestionLabel = styled.div`
-  margin: ${themeSpacing(2)} 0;
 `
 
 export const StandardTextsButton = styled(Button)`
@@ -81,7 +55,7 @@ export const StandardTextsButton = styled(Button)`
   }
 `
 
-export const StyledAlert = styled(Alert)<{ level?: string }>`
+export const StyledAlert = styled(Alert)<{ level?: AlertLevel }>`
   ${({ level }) =>
     level === 'neutral' ? 'background-color: transparent; padding: 0;' : ''}
 `
@@ -92,7 +66,7 @@ export const StyledButton = styled(Button)`
 
 export const StyledH4 = styled(Heading)`
   margin-bottom: ${themeSpacing(2)};
-  margin-top: ${themeSpacing(5)};
+  margin-top: ${themeSpacing(0)};
 `
 
 export const StyledLabel = styled(Label)`
@@ -102,6 +76,10 @@ export const StyledLabel = styled(Label)`
 export const StyledParagraph = styled.p`
   color: inherit;
   margin: 0;
+`
+
+export const StyledSection = styled.section`
+  margin-bottom: ${themeSpacing(6)};
 `
 
 export const TextsArea = styled.div`
