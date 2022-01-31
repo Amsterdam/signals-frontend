@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, act, fireEvent, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
 import GPSButton from './GPSButton'
@@ -56,17 +57,13 @@ describe('components/GPSButton', () => {
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument()
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
@@ -110,18 +107,14 @@ describe('components/GPSButton', () => {
 
     expect(onLocationSuccess).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationSuccess).toHaveBeenCalledWith({
       ...coords,
       toggled: true,
     })
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationSuccess).toHaveBeenLastCalledWith({
       toggled: false,
@@ -161,9 +154,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationError).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationError).toHaveBeenCalledWith({
       code,
@@ -206,9 +197,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
@@ -226,9 +215,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).toHaveBeenCalled()
   })
