@@ -41,6 +41,40 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
   const [loading, setLoading] = useState(false)
   const [toggled, setToggled] = useState(false)
 
+  const onSuccess: PositionCallback = useCallback(
+    ({ coords }) => {
+      const { accuracy, latitude, longitude } = coords
+
+      if (pointWithinBounds([latitude, longitude])) {
+        onLocationSuccess?.({
+          accuracy,
+          latitude,
+          longitude,
+          toggled: !toggled,
+        })
+        setToggled(!toggled)
+      } else {
+        if (typeof onLocationOutOfBounds === 'function') {
+          onLocationOutOfBounds()
+        }
+
+        setToggled(false)
+      }
+
+      setLoading(false)
+    },
+    [onLocationOutOfBounds, onLocationSuccess, toggled]
+  )
+
+  const onError: PositionErrorCallback = useCallback(
+    (error) => {
+      onLocationError?.(error)
+      setToggled(false)
+      setLoading(false)
+    },
+    [onLocationError]
+  )
+
   const onClick = useCallback(
     (event) => {
       event.preventDefault()
@@ -53,45 +87,11 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
         return
       }
 
-      const onSuccess: PositionCallback = ({ coords }) => {
-        const { accuracy, latitude, longitude } = coords
-
-        if (pointWithinBounds([latitude, longitude])) {
-          onLocationSuccess?.({
-            accuracy,
-            latitude,
-            longitude,
-            toggled: !toggled,
-          })
-          setToggled(!toggled)
-        } else {
-          if (typeof onLocationOutOfBounds === 'function') {
-            onLocationOutOfBounds()
-          }
-
-          setToggled(false)
-        }
-
-        setLoading(false)
-      }
-
-      const onError: PositionErrorCallback = (error) => {
-        onLocationError?.(error)
-        setToggled(false)
-        setLoading(false)
-      }
-
       setLoading(true)
 
       global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
     },
-    [
-      onLocationError,
-      onLocationOutOfBounds,
-      onLocationSuccess,
-      toggled,
-      loading,
-    ]
+    [onLocationSuccess, toggled, loading, onError, onSuccess]
   )
 
   return (
