@@ -110,52 +110,6 @@ describe('components/GPSButton', () => {
     })
   })
 
-  it('should call onLocationChange', () => {
-    const coords = {
-      accuracy: 1234,
-      latitude: 52.3731081,
-      longitude: 4.8932945,
-    }
-    const mockGeolocation = {
-      watchPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
-    }
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocation
-
-    const onLocationChange = jest.fn()
-
-    const { getByTestId } = render(
-      withAppContext(<GPSButton onLocationChange={onLocationChange} />)
-    )
-
-    expect(onLocationChange).not.toHaveBeenCalled()
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(onLocationChange).toHaveBeenCalledWith({
-      ...coords,
-      toggled: true,
-    })
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(onLocationChange).toHaveBeenLastCalledWith({
-      toggled: false,
-    })
-  })
-
   it('should call onLocationError', () => {
     const code = 1
     const message = 'User denied geolocation'
@@ -251,21 +205,5 @@ describe('components/GPSButton', () => {
     })
 
     expect(onLocationOutOfBounds).toHaveBeenCalled()
-  })
-
-  it('should throw an error', () => {
-    const logErrorMock = jest
-      .spyOn(global.console, 'error')
-      .mockImplementation(jest.fn())
-
-    expect(() => {
-      render(withAppContext(<GPSButton />))
-    }).toThrow()
-
-    expect(() => {
-      render(withAppContext(<GPSButton onLocationChange={() => {}} />))
-    }).not.toThrow()
-
-    logErrorMock.mockRestore()
   })
 })
