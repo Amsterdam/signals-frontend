@@ -8,7 +8,7 @@ const locatie = {
       title: 'Locatie',
       subTitle: 'Waar is het?',
       description:
-        'Typ het dichtsbijzijnde adres of klik de locatie aan op de kaart',
+        'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
       submit: 'Gebruik deze locatie',
     },
     shortLabel: 'Waar is het?',
