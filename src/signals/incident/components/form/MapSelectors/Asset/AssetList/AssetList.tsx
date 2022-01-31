@@ -10,6 +10,10 @@ import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 
 import type { FeatureType, Item } from '../../types'
+import {
+  getCheckedFeatureType,
+  getReportedFeatureType,
+} from '../Selector/WfsLayer/StatusLayer/utils'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -30,8 +34,9 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
-const StyledDiv = styled.div`
-  color: ${themeColor('secondary')};
+const StyledStatusDescription = styled.div<{ isReported?: boolean }>`
+  color: ${({ isReported }) =>
+    isReported ? themeColor('secondary') : themeColor('support', 'valid')};
 `
 
 const StyledLabel = styled.div`
@@ -40,7 +45,7 @@ const StyledLabel = styled.div`
 
 export interface AssetListProps {
   className?: string
-  featureTypes?: FeatureType[]
+  featureTypes: FeatureType[]
   onRemove?: () => void
   selection: Item
 }
@@ -51,7 +56,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
 }) => {
-  const { id, type, isReported } = selection
+  const { id, type, isReported, isChecked } = selection
   const { description, icon }: Partial<FeatureType> =
     featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
@@ -59,18 +64,38 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
   if (!id) return null
 
+  const reportedFeatureType = getReportedFeatureType(featureTypes)
+  const checkedFeatureType = getCheckedFeatureType(featureTypes)
+
+  let extendedId = `assetListItem-${id}`
+  if (isChecked) {
+    extendedId = `assetListItem-${id}-checked`
+  } else if (isReported) {
+    extendedId = `assetListItem-${id}-reported`
+  }
+
   return (
     <IconList data-testid="assetList" className={className}>
       <IconListItem
         key={id}
-        id={isReported ? `assetListItem-${id}-reported` : `assetListItem-${id}`}
+        id={extendedId}
         iconUrl={icon?.iconUrl}
         isReported={isReported}
+        isChecked={isChecked}
       >
         <ItemWrapper>
           <StyledLabel>
             {label}
-            {isReported && <StyledDiv>Is gemeld</StyledDiv>}
+            {checkedFeatureType && isChecked && (
+              <StyledStatusDescription>
+                {checkedFeatureType.description}
+              </StyledStatusDescription>
+            )}
+            {!isChecked && reportedFeatureType && isReported && (
+              <StyledStatusDescription isReported>
+                {reportedFeatureType.description}
+              </StyledStatusDescription>
+            )}
           </StyledLabel>
           {onRemove && (
             <StyledButton

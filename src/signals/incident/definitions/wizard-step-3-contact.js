@@ -18,7 +18,8 @@ export default {
     controls: {
       phone: {
         meta: {
-          autoComplete: 'tel',
+          // https://bytes.grubhub.com/disabling-safari-autofill-for-a-single-line-address-input-b83137b5b1c7
+          autoComplete: 'search_tel',
           autoRemove: /[^\d ()+-]/g,
           heading: 'Mogen we u bellen voor vragen?',
           label: 'Wat is uw telefoonnummer?',
@@ -36,7 +37,7 @@ export default {
       },
       email: {
         meta: {
-          autoComplete: 'email',
+          autoComplete: 'search_email',
           autoRemove: /[^\w!#$%&'*+./;=?@^`{|}~-]/g,
           heading: 'Wilt u op de hoogte blijven?',
           label: 'Wat is uw e-mailadres?',

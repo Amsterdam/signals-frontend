@@ -32,7 +32,7 @@ import {
 } from 'models/departments/selectors'
 import CalendarInput from '../CalendarInput'
 import CheckboxList from '../CheckboxList'
-import RefreshIcon from '../../../../shared/images/icon-refresh.svg'
+import RefreshIcon from '../../../../images/icon-refresh.svg'
 import AppContext from '../../../../containers/App/context'
 import IncidentManagementContext from '../../context'
 import RadioGroup from './components/RadioGroup'

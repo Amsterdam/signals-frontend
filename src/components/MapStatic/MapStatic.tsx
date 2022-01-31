@@ -10,7 +10,6 @@ import type { LatLngLiteral } from 'leaflet'
 
 import useFetch from 'hooks/useFetch'
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter'
-import selectIconSrc from '../../shared/images/icon-select-marker.svg?url'
 
 const ImgWrapper = styled.div<{ maxWidth: number; markerSize: number }>`
   position: relative;
@@ -80,7 +79,7 @@ const MapStatic: FC<MapStaticProps> = ({
   coordinates,
   format = 'jpeg',
   height = 300,
-  iconSrc = selectIconSrc,
+  iconSrc = '/assets/images/icon-select-marker.svg',
   layers = 'basiskaart',
   markerSize = 40,
   showLoadingMessage = true,

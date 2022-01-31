@@ -31,7 +31,6 @@ module.exports = {
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/dist/'],
   moduleNameMapper: {
     '.*\\.css$': '<rootDir>/internals/mocks/cssModule.js',
-    '.*\\.svg(\\?url)?$': '<rootDir>/internals/mocks/svg.ts',
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.ts',
   },

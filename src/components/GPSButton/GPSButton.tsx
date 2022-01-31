@@ -8,7 +8,7 @@ import { pointWithinBounds } from 'shared/services/map-location'
 import LoadingIndicator from 'components/LoadingIndicator'
 
 import { Button } from '@amsterdam/asc-ui'
-import GPS from '../../shared/images/icon-gps.svg'
+import GPS from '../../images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
@@ -22,7 +22,7 @@ export interface LocationResult
   extends Partial<
     Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
   > {
-  toggled: boolean
+  toggled?: boolean
 }
 
 export interface GPSButtonProps {

@@ -13,11 +13,14 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import format from 'date-fns/format'
 import subDays from 'date-fns/addDays'
-import L from 'leaflet'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { ViewerContainer } from '@amsterdam/arm-core'
 
-import type { LatLngExpression } from 'leaflet'
+import type {
+  Map as MapType,
+  MarkerCluster as MarkerClusterType,
+} from 'leaflet'
+import L from 'leaflet'
 import type { Geometrie } from 'types/incident'
 import type { PdokResponse } from 'shared/services/map-location'
 
@@ -35,21 +38,9 @@ import {
   markerIcon,
 } from 'shared/services/configuration/map-markers'
 import MarkerCluster from '../MarkerCluster'
-import type { IncidentSummary } from './types'
-
 import DetailPanel from './DetailPanel'
 
-interface MapInstance {
-  getZoom: () => number
-  flyTo: (location: LatLngExpression, level: number) => void
-  eachLayer: (
-    fn: (layer: {
-      getIcon: unknown
-      getAllChildMarkers: unknown
-      setIcon: (icon: L.Icon<L.IconOptions>) => void
-    }) => void
-  ) => void
-}
+import type { IncidentSummary } from './types'
 
 interface Feature {
   geometry: Geometrie
@@ -110,7 +101,7 @@ const OverviewMap: FC<OverviewMapProps> = ({
   const { dispatch } = useContext(MapContext)
   const [initialMount, setInitialMount] = useState(false)
   const [showPanel, setShowPanel] = useState(false)
-  const [map, setMap] = useState<MapInstance>()
+  const [map, setMap] = useState<MapType>()
   const filterParams = useSelector(makeSelectFilterParams)
   const { get, data, isLoading } = useFetch<Data>()
   const [layerInstance, setLayerInstance] = useState<L.LayerGroup>()
@@ -156,8 +147,10 @@ const OverviewMap: FC<OverviewMapProps> = ({
   const resetMarkerIcons = useCallback(() => {
     if (!map) return
 
-    map.eachLayer((layer) => {
-      if (layer.getIcon && !layer.getAllChildMarkers) {
+    map.eachLayer((markerClustLayer) => {
+      const layer = markerClustLayer as MarkerClusterType
+
+      if (layer.getIcon() && !layer.getAllChildMarkers) {
         layer.setIcon(incidentIcon)
       }
     })

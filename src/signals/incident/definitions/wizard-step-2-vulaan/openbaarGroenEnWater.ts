@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import type { IconOptions } from 'leaflet'
-import oakUrl from 'shared/images/groen_water/oak.svg?url'
-import reportedFeatureMarkerUrl from 'shared/images/icon-reported-marker.svg?url'
-import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
+import { QuestionFieldType } from 'types/question'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -37,20 +34,18 @@ export const controls = {
           description: 'Eikenboom',
           icon: {
             options,
-            iconUrl: oakUrl,
+            iconUrl: '/assets/images/groen_water/oak.svg',
           },
           idField: 'OBJECTID',
           typeValue: 'Eikenboom',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
         },
         {
-          label: 'Eikenboom is reeds gemeld ',
+          label: 'Is gemeld',
           description: 'Eikenboom is reeds gemeld',
           icon: {
             options,
-            iconUrl: reportedFeatureMarkerUrl,
+            iconUrl: '/assets/images/icon-reported-marker.svg',
           },
           idField: 'OBJECTID',
           typeValue: 'reported',
@@ -59,11 +54,24 @@ export const controls = {
           isReportedValue: 1,
         },
         {
+          label: 'Vrij van eikenprocessierups',
+          description: 'Vrij van eikenprocessierups',
+          icon: {
+            options,
+            iconUrl: '/assets/images/icon-checked-marker.svg',
+          },
+          idField: 'OBJECTID',
+          typeValue: 'checked',
+          typeField: '',
+          isCheckedField: 'Registratie',
+          isCheckedValues: ['Bestreden', 'Geen EPR'],
+        },
+        {
           label: 'Onbekend',
           description: 'De boom staat niet op de kaart',
           icon: {
             options,
-            iconUrl: unknownFeatureMarkerUrl,
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
           },
           typeValue: 'not-on-map',
           typeField: '',
@@ -74,7 +82,7 @@ export const controls = {
     options: {
       validators: [validateObjectLocation('boom')],
     },
-    render: FIELD_TYPE_MAP.caterpillar_select,
+    render: QuestionFieldType.CaterpillarSelect,
   },
   extra_nest_grootte: {
     meta: {
@@ -89,7 +97,7 @@ export const controls = {
       },
     },
     options: { validators: ['required'] },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: QuestionFieldType.RadioInput,
   },
 }
 

@@ -15,6 +15,7 @@ import type { Incident } from 'types/api/incident'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import { StatusCode } from 'signals/incident-management/definitions/types'
+import styled from 'styled-components'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild } from '../../types'
@@ -41,6 +42,11 @@ interface StatusFormProps {
   defaultTexts: DefaultTextsType
   childIncidents: IncidentChild[]
 }
+
+const StyledParagraph = styled.p`
+  color: themeColor('tint', 'level5');
+  margin: 0;
+`
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
   defaultTexts,
@@ -175,7 +181,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   {warning.heading && (
                     <Heading as="h3">{warning.heading}</Heading>
                   )}
-                  {warning.content && <Paragraph>{warning.content}</Paragraph>}
+                  {warning.content && (
+                    <StyledParagraph>{warning.content}</StyledParagraph>
+                  )}
                 </Alert>
               ))}
             <div>

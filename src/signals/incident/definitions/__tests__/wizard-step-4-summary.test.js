@@ -23,6 +23,14 @@ jest.mock('lodash/memoize', () => ({
   default: jest.fn((fn) => fn),
 }))
 
+const expectedLocation = {
+  locatie: {
+    label: 'Waar is het?',
+    optional: true,
+    render: expect.any(Function),
+  },
+}
+
 describe('Wizard summary', () => {
   afterEach(() => {
     configuration.__reset()
@@ -85,10 +93,6 @@ describe('Wizard summary', () => {
           label: 'Subcategorie',
           render: expect.any(Function),
         },
-        datetime: {
-          label: 'Geef het tijdstip aan',
-          render: expect.any(Function),
-        },
         description: {
           label: 'Waar gaat het over?',
           render: expect.any(Function),
@@ -143,11 +147,7 @@ describe('Wizard summary', () => {
             optional: true,
             render: expect.any(Function),
           },
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
+          ...expectedLocation,
         },
       }
 
@@ -162,13 +162,7 @@ describe('Wizard summary', () => {
       })
       const expected = expect.objectContaining({
         ...beschrijfContact,
-        vulaan: {
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
-        },
+        vulaan: expectedLocation,
       })
 
       expect(actual).toEqual(expected)
@@ -176,11 +170,7 @@ describe('Wizard summary', () => {
 
     it('should return empty controls when showVulaanControls is false', () => {
       expect(previewFactory({ category: 'afval' }).vulaan).toEqual({
-        locatie: {
-          label: 'Waar is het?',
-          optional: true,
-          render: expect.any(Function),
-        },
+        ...expectedLocation,
       })
     })
   })
@@ -191,25 +181,21 @@ describe('Wizard summary', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
     })
 
-    it('should return empty controls without questions', () => {
+    it('should return location control when no questions given', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',
       })
       const expected = expect.objectContaining({
         vulaan: {
-          locatie: {
-            label: 'Waar is het?',
-            optional: true,
-            render: expect.any(Function),
-          },
+          ...expectedLocation,
         },
       })
 
       expect(actual).toEqual(expected)
     })
 
-    it('should expand render prop to component', () => {
+    it('should return controls when questions given', () => {
       const actual = previewFactory({
         category: 'category',
         subcategory: 'subcategory',

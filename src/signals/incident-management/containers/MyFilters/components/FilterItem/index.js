@@ -12,7 +12,7 @@ import {
 import FilterTagList from 'signals/incident-management/containers/FilterTagList'
 import { Checkbox, Label } from '@amsterdam/asc-ui'
 
-import Refresh from '../../../../../../shared/images/icon-refresh.svg'
+import Refresh from '../../../../../../images/icon-refresh.svg'
 
 const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(7)};

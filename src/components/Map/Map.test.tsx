@@ -74,11 +74,20 @@ describe('components/Map', () => {
 
   it('should NOT render the gps button when the functions is not present', () => {
     const geolocation = global.navigator.geolocation
-    global.navigator.geolocation = undefined
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: undefined,
+      writable: true,
+    })
+
     render(withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />))
 
     expect(screen.queryByTestId('gpsButton')).not.toBeInTheDocument()
-    global.navigator.geolocation = geolocation
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: geolocation,
+      writable: true,
+    })
   })
 
   it('should render a location marker', () => {
@@ -97,7 +106,10 @@ describe('components/Map', () => {
       ),
     }
 
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
 
     const { getByTestId, queryByTestId } = render(
       withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
@@ -116,7 +128,7 @@ describe('components/Map', () => {
     const code = 1
     const message = 'User denied geolocation'
     const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success, error) =>
+      getCurrentPosition: jest.fn().mockImplementation((_, error) =>
         Promise.resolve(
           error({
             code,
@@ -126,7 +138,10 @@ describe('components/Map', () => {
       ),
     }
 
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
 
     const { getByTestId } = render(
       withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
@@ -165,7 +180,10 @@ describe('components/Map', () => {
       ),
     }
 
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
 
     const { getByTestId } = render(
       withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
@@ -193,8 +211,14 @@ describe('components/Map', () => {
       withAppContext(<Map mapOptions={MAP_OPTIONS} />)
     )
 
-    const maxZoom = Number.parseInt(getByTestId('map-base').dataset.maxZoom, 10)
-    const minZoom = Number.parseInt(getByTestId('map-base').dataset.minZoom, 10)
+    const maxZoom = Number.parseInt(
+      (getByTestId('map-base').dataset.maxZoom || '').toString(),
+      10
+    )
+    const minZoom = Number.parseInt(
+      (getByTestId('map-base').dataset.minZoom || '').toString(),
+      10
+    )
 
     expect(maxZoom).toEqual(MAP_OPTIONS.maxZoom)
     expect(minZoom).toEqual(MAP_OPTIONS.minZoom)
@@ -214,11 +238,11 @@ describe('components/Map', () => {
     )
 
     const maxZoomFromConfig = Number.parseInt(
-      getByTestId('map-base').dataset.maxZoom,
+      (getByTestId('map-base').dataset.maxZoom || '').toString(),
       10
     )
     const minZoomFromConfig = Number.parseInt(
-      getByTestId('map-base').dataset.minZoom,
+      (getByTestId('map-base').dataset.minZoom || '').toString(),
       10
     )
 

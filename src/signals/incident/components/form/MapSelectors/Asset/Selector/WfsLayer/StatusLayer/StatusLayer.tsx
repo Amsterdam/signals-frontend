@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 Gemeente Amsterdam
+import L from 'leaflet'
+import './style.css'
+
+import type { FC } from 'react'
+import type {
+  CheckedFeatureType,
+  Feature,
+  ReportedFeatureType,
+} from 'signals/incident/components/form/MapSelectors/types'
+import { Marker } from '@amsterdam/arm-core'
+import { featureToCoordinates } from 'shared/services/map-location'
+import type { Geometrie } from 'types/incident'
+import { getIsChecked, getIsReported } from './utils'
+
+const STATUS_CLASS_MODIFIER = 'marker-status'
+
+export interface StatusLayerProps {
+  statusFeatures: Feature[]
+  reportedFeatureType: ReportedFeatureType
+  checkedFeatureType?: CheckedFeatureType
+}
+
+const StatusLayer: FC<StatusLayerProps> = ({
+  statusFeatures,
+  reportedFeatureType,
+  checkedFeatureType,
+}) => {
+  const getMarker = (feat: any, index: number) => {
+    const feature = feat as Feature
+    const latLng = featureToCoordinates(feature?.geometry as Geometrie)
+
+    const isReported = getIsReported(feature, reportedFeatureType)
+    const isChecked = getIsChecked(feature, checkedFeatureType)
+
+    const icon = L.icon({
+      iconSize: [20, 20],
+      iconUrl: isChecked
+        ? '/assets/images/icon-checked-marker.svg'
+        : '/assets/images/icon-reported-marker.svg',
+      className: STATUS_CLASS_MODIFIER,
+    })
+
+    const featureId = feature.properties[reportedFeatureType.idField] || index
+
+    let altText = ''
+    if (isChecked && checkedFeatureType) {
+      altText = `${checkedFeatureType.description} - ${featureId}`
+    } else if (isReported) {
+      altText = `${reportedFeatureType.description} - ${featureId}`
+    }
+
+    return (
+      <Marker
+        key={featureId}
+        latLng={latLng}
+        options={{
+          zIndexOffset: 1000,
+          icon,
+          alt: altText,
+        }}
+      />
+    )
+  }
+  return <>{statusFeatures.map(getMarker)}</>
+}
+
+export default StatusLayer

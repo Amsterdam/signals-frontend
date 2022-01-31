@@ -3,7 +3,6 @@
 import type { FunctionComponent } from 'react'
 import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
-import reportedIconUrl from 'shared/images/icon-reported-marker.svg?url'
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -15,7 +14,7 @@ const StyledImg = styled.img`
   flex-shrink: 0;
 `
 
-const ReportedIcon = styled.img`
+const StatusIcon = styled.img`
   margin-left: -20px;
   margin-top: -30px;
 `
@@ -25,6 +24,7 @@ export interface IconListItemProps {
   id?: string
   className?: string
   iconSize?: number
+  isChecked?: boolean
   isReported?: boolean
 }
 
@@ -34,14 +34,28 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   className,
   iconSize = 40,
   id,
+  isChecked,
   isReported,
 }) => (
   <StyledListItem data-testid={id} className={className}>
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}
-    {isReported && (
-      <ReportedIcon alt="" height={20} src={reportedIconUrl} width={20} />
+    {isChecked && (
+      <StatusIcon
+        alt=""
+        height={20}
+        src="/assets/images/icon-checked-marker.svg"
+        width={20}
+      />
+    )}
+    {!isChecked && isReported && (
+      <StatusIcon
+        alt=""
+        height={20}
+        src="/assets/images/icon-reported-marker.svg"
+        width={20}
+      />
     )}
     {children}
   </StyledListItem>

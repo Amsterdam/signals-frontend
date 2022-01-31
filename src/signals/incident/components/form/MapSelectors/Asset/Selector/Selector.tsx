@@ -206,7 +206,7 @@ const Selector = () => {
           )}
 
           <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-            <Layer featureTypes={meta.featureTypes} desktopView={desktopView} />
+            <Layer featureTypes={meta.featureTypes} />
           </WfsLayer>
 
           {showMarker && (

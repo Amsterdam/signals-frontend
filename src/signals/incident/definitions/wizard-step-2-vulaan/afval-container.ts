@@ -2,17 +2,9 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
-import breadUrl from 'shared/images/afval/bread.svg?url'
-import gftUrl from 'shared/images/afval/gft.svg?url'
-import glasUrl from 'shared/images/afval/glas.svg?url'
-import paperUrl from 'shared/images/afval/paper.svg?url'
-import textileUrl from 'shared/images/afval/textile.svg?url'
-import restUrl from 'shared/images/afval/rest.svg?url'
-import plasticUrl from 'shared/images/afval/plastic.svg?url'
-import unknownFeatureMarkerUrl from 'shared/images/featureUnknownMarker.svg?url'
 import configuration from 'shared/services/configuration/configuration'
+import { QuestionFieldType } from 'types/question'
 
 export const ICON_SIZE = 40
 
@@ -59,7 +51,7 @@ export const controls = {
           description: 'Restafval container',
           icon: {
             options,
-            iconUrl: restUrl,
+            iconUrl: '/assets/images/afval/rest.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -70,7 +62,7 @@ export const controls = {
           description: 'Papier container',
           icon: {
             options,
-            iconUrl: paperUrl,
+            iconUrl: '/assets/images/afval/paper.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -81,7 +73,7 @@ export const controls = {
           description: 'Glas container',
           icon: {
             options,
-            iconUrl: glasUrl,
+            iconUrl: '/assets/images/afval/glas.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -92,7 +84,7 @@ export const controls = {
           description: 'Plastic container',
           icon: {
             options,
-            iconUrl: plasticUrl,
+            iconUrl: '/assets/images/afval/plastic.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -103,7 +95,7 @@ export const controls = {
           description: 'Textiel container',
           icon: {
             options,
-            iconUrl: textileUrl,
+            iconUrl: '/assets/images/afval/textile.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -114,7 +106,7 @@ export const controls = {
           description: 'Groente- fruit- en tuinafval container',
           icon: {
             options,
-            iconUrl: gftUrl,
+            iconUrl: '/assets/images/afval/gft.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -125,7 +117,7 @@ export const controls = {
           description: 'Brood container',
           icon: {
             options,
-            iconUrl: breadUrl,
+            iconUrl: '/assets/images/afval/bread.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -135,7 +127,7 @@ export const controls = {
           description: 'De container staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: unknownFeatureMarkerUrl,
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
           },
           idField: 'id',
           typeField: 'type',
@@ -143,7 +135,7 @@ export const controls = {
         },
       ],
     },
-    render: FIELD_TYPE_MAP.asset_select,
+    render: QuestionFieldType.AssetSelect,
     options: {
       validators: [validateObjectLocation('container')],
     },

@@ -47,7 +47,10 @@ describe('components/LocationMarker', () => {
       ),
     }
 
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
 
     expect(Leaflet.Circle.prototype.addTo).not.toHaveBeenCalled()
     expect(Leaflet.Circle.prototype.setLatLng).not.toHaveBeenCalled()
@@ -71,7 +74,7 @@ describe('components/LocationMarker', () => {
     ])
     expect(Leaflet.Circle.prototype.setRadius).toHaveBeenCalledWith(accuracy)
 
-    userEvent.click(screen.queryByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(Leaflet.CircleMarker.prototype.addTo).toHaveBeenCalled()
     expect(Leaflet.CircleMarker.prototype.setLatLng).toHaveBeenCalledWith([
