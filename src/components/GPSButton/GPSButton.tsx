@@ -22,36 +22,26 @@ const GPSIcon = styled(GPS)`
 
 export interface GPSButtonProps {
   className?: string
-  onLocationChange?: (result: LocationResult) => void
-  onLocationSuccess?: (result: LocationResult) => void
-  onLocationError?: (error: GeolocationPositionError) => void
-  onLocationOutOfBounds?: () => void
+  onLocationSuccess: (result: LocationResult) => void
+  onLocationError: (error: GeolocationPositionError) => void
+  onLocationOutOfBounds: () => void
 }
 
 const GPSButton: FunctionComponent<GPSButtonProps> = ({
   className,
-  onLocationChange,
   onLocationSuccess,
   onLocationError,
   onLocationOutOfBounds,
 }) => {
   const [loading, setLoading] = useState(false)
   const [toggled, setToggled] = useState(false)
-  const shouldWatch = typeof onLocationChange === 'function'
-  const successCallbackFunc = shouldWatch ? onLocationChange : onLocationSuccess
-
-  if (!shouldWatch && typeof onLocationSuccess !== 'function') {
-    throw new Error(
-      'Either one of onLocationChange or onLocationSuccess is required'
-    )
-  }
 
   const onSuccess: PositionCallback = useCallback(
     ({ coords }) => {
       const { accuracy, latitude, longitude } = coords
 
       if (pointWithinBounds([latitude, longitude])) {
-        successCallbackFunc?.({
+        onLocationSuccess({
           accuracy,
           latitude,
           longitude,
@@ -59,21 +49,18 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
         })
         setToggled(!toggled)
       } else {
-        if (typeof onLocationOutOfBounds === 'function') {
-          onLocationOutOfBounds()
-        }
-
+        onLocationOutOfBounds()
         setToggled(false)
       }
 
       setLoading(false)
     },
-    [onLocationOutOfBounds, successCallbackFunc, toggled]
+    [onLocationOutOfBounds, onLocationSuccess, toggled]
   )
 
   const onError: PositionErrorCallback = useCallback(
     (error) => {
-      onLocationError?.(error)
+      onLocationError(error)
       setToggled(false)
       setLoading(false)
     },
@@ -87,20 +74,16 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       if (loading) return
 
       if (toggled) {
-        successCallbackFunc?.({ toggled: false })
+        onLocationSuccess({ toggled: false })
         setToggled(false)
         return
       }
 
       setLoading(true)
 
-      if (shouldWatch) {
-        global.navigator.geolocation.watchPosition(onSuccess, onError)
-      } else {
-        global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
-      }
+      global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
     },
-    [onError, onSuccess, successCallbackFunc, shouldWatch, toggled, loading]
+    [onLocationSuccess, toggled, loading, onError, onSuccess]
   )
 
   return (
