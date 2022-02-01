@@ -33,7 +33,7 @@ const typedMeta = meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: selection[0],
-  meta: typedMeta as unknown as Meta,
+  meta: typedMeta,
 }
 
 const reportedFeatureType = getReportedFeatureType(typedMeta.featureTypes)
