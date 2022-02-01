@@ -179,7 +179,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       )
       return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
     },
-    [state.text, state.status.key]
+    [state.status.key]
   )
 
   const useDefaultText = useCallback(
