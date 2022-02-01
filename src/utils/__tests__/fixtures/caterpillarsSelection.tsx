@@ -25,6 +25,12 @@ export const selection = [
   },
 ]
 
+const ICON_SIZE = 40
+const options = {
+  className: 'object-marker',
+  iconSize: [ICON_SIZE, ICON_SIZE],
+}
+
 export const meta = {
   ifAllOf: {
     subcategory: 'eikenprocessierups',
@@ -39,7 +45,7 @@ export const meta = {
       label: 'Eikenboom',
       description: 'Eikenboom',
       icon: {
-        options: {},
+        options,
         iconUrl: '/assets/images/groen_water/oak.svg',
       },
       idField: 'OBJECTID',
@@ -52,7 +58,7 @@ export const meta = {
       label: 'Eikenboom is reeds gemeld ',
       description: 'Eikenboom is reeds gemeld',
       icon: {
-        options: {},
+        options,
         iconUrl: '/assets/images/groen_water/oakReported.svg',
       },
       iconIsReportedId: 'oakIsReported',
@@ -66,7 +72,7 @@ export const meta = {
       label: 'Vrij van eikenprocessierups',
       description: 'Vrij van eikenprocessierups',
       icon: {
-        options: {},
+        options,
         iconUrl: '/assets/images/icon-checked-marker.svg',
       },
       idField: 'OBJECTID',

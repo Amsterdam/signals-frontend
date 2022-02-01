@@ -96,4 +96,9 @@ describe('AssetLayer', () => {
       screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
     ).toBeInTheDocument()
   })
+
+  it('To render icons in the asset layer in the correct location, corresponding featureTypes should have an iconSize', () => {
+    const iconSize = featureTypes[0].icon?.options?.iconSize
+    expect(iconSize).toBeDefined()
+  })
 })

@@ -11,6 +11,7 @@ import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
+import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import { featureToCoordinates } from 'shared/services/map-location'
@@ -20,10 +21,11 @@ import withAssetSelectContext, {
 } from '../../Asset/__tests__/withAssetSelectContext'
 import CaterpillarLayer from '.'
 
+const typedMeta = meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: selection[0],
-  meta,
+  meta: typedMeta,
 }
 
 describe('CaterpillarLayer', () => {
