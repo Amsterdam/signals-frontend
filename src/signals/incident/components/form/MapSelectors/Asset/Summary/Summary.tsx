@@ -59,8 +59,9 @@ const Summary: FC = () => {
   }
 
   const summaryDescription = [description, id].filter(Boolean).join(' - ')
-  let summaryAddress = coordinates ? 'Locatie is gepind op de kaart' : ''
-  if (address) summaryAddress = formatAddress(address)
+  let summaryAddress =
+    coordinates && !selection ? 'Locatie is gepind op de kaart' : ''
+  if (address && !summaryAddress) summaryAddress = formatAddress(address)
 
   const iconSrc = useMemo(() => {
     if (!selection?.type || selection.type === 'not-on-map') {
