@@ -59,9 +59,9 @@ const Summary: FC = () => {
   }
 
   const summaryDescription = [description, id].filter(Boolean).join(' - ')
-  let summaryAddress =
-    coordinates && !selection ? 'Locatie is gepind op de kaart' : ''
-  if (address && !summaryAddress) summaryAddress = formatAddress(address)
+  const summaryAddress = address
+    ? formatAddress(address)
+    : 'Locatie is gepind op de kaart'
 
   const iconSrc = useMemo(() => {
     if (!selection?.type || selection.type === 'not-on-map') {
@@ -107,6 +107,7 @@ const Summary: FC = () => {
       )}
       <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
       <StyledLink
+        data-testid="mapEditButton"
         onClick={edit}
         onKeyUp={onKeyUp}
         variant="inline"

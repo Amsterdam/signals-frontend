@@ -178,18 +178,6 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(
       screen.getByText('Locatie is gepind op de kaart')
     ).toBeInTheDocument()
-
-    rerender(
-      withContext(<Summary />, {
-        ...contextValue,
-        selection: undefined,
-        address: undefined,
-        coordinates: undefined,
-      })
-    )
-    expect(
-      screen.queryByText('Locatie is gepind op de kaart')
-    ).not.toBeInTheDocument()
     expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
   })
 
