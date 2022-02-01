@@ -60,7 +60,34 @@ const AssetSelect: FC<AssetSelectProps> = ({
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
   const address = useSelector(makeSelectAddress)
+  const hasSelection = selection || coordinates
 
+  /**
+   * Indicate that an object is not visible on the map
+   */
+  const setNotOnMap = useCallback(
+    (itemNotPresentOnMap?: boolean) => {
+      const payload: Record<string, any> = {}
+
+      if (coordinates) {
+        payload.location = {
+          coordinates,
+          address,
+        }
+      }
+
+      payload[meta.name as string] = itemNotPresentOnMap
+        ? { type: UNREGISTERED_TYPE }
+        : undefined
+
+      parent.meta.updateIncident(payload)
+    },
+    [address, coordinates, meta.name, parent.meta]
+  )
+
+  /**
+   * Selecting an object on the map
+   */
   const setItem = useCallback(
     (item: Item) => {
       const { location, ...restItem } = item
@@ -91,9 +118,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
       const payload: Record<string, any> = {}
 
       // Clicking the map should unset a previous selection and preset it with an item that we know
-      // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
-      // will be checked whenever a click on the map is registered
-      payload[meta.name as string] = { type: UNREGISTERED_TYPE }
+      // doesn't exist on the map.
+      payload[meta.name as string] = undefined
 
       payload.location = location
 
@@ -121,15 +147,16 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       const response = await reverseGeocoderService(latLng)
 
-      if (response) {
-        payload.location.address = response.data.address
+      payload.location.address = response?.data?.address
 
-        parent.meta.updateIncident(payload)
-      }
+      parent.meta.updateIncident(payload)
     },
     [address, getUpdatePayload, parent.meta]
   )
 
+  /**
+   * Address auto complete selection
+   */
   const setLocation = useCallback(
     (location: Location) => {
       const payload = getUpdatePayload(location)
@@ -195,13 +222,14 @@ const AssetSelect: FC<AssetSelectProps> = ({
         setItem,
         fetchLocation,
         setMessage,
+        setNotOnMap,
       }}
     >
-      {!showMap && !selection && <Intro />}
+      {!showMap && !hasSelection && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && selection && <Summary />}
+      {!showMap && hasSelection && <Summary />}
     </AssetSelectProvider>
   )
 }

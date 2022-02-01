@@ -31,6 +31,7 @@ export const contextValue: AssetSelectValue = {
   fetchLocation: jest.fn(),
   setLocation: jest.fn(),
   setMessage: jest.fn(),
+  setNotOnMap: jest.fn(),
 }
 
 const withAssetSelectContext = (Component: ReactNode, context = contextValue) =>

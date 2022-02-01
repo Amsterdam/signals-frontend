@@ -52,7 +52,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   featureTypes,
   language = {},
 }) => {
-  const { selection, removeItem, setItem, close } =
+  const { selection, removeItem, setItem, close, setNotOnMap } =
     useContext(AssetSelectContext)
 
   const selectionOnMap =
@@ -74,7 +74,8 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
 
   const onCheck = useCallback(() => {
     setShowObjectIdInput(!showObjectIdInput)
-  }, [showObjectIdInput])
+    setNotOnMap(!showObjectIdInput)
+  }, [setNotOnMap, showObjectIdInput])
 
   const onSetItem = useCallback(() => {
     setItem({
