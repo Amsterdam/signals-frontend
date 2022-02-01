@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import type { ChangeEvent } from 'react'
 import { useContext as mockUseContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -33,8 +34,14 @@ const mockItem = {
 jest.mock('shared/services/reverse-geocoder')
 
 jest.mock('./Selector', () => () => {
-  const { fetchLocation, close, removeItem, setItem, setLocation } =
-    mockUseContext(mockAssetSelectContext)
+  const {
+    fetchLocation,
+    close,
+    removeItem,
+    setItem,
+    setLocation,
+    setNotOnMap,
+  } = mockUseContext(mockAssetSelectContext)
 
   const item: Item = {
     ...mockItem,
@@ -101,6 +108,13 @@ jest.mock('./Selector', () => () => {
         onClick={() => setLocation(location)}
         role="button"
         tabIndex={0}
+      />
+      <input
+        type="checkbox"
+        data-testid="setNotOnMapCheckbox"
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          setNotOnMap(event.target.checked)
+        }}
       />
     </>
   )
@@ -182,7 +196,7 @@ describe('AssetSelect', () => {
     expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
   })
 
-  it('should render the Summary', () => {
+  it('renders the Summary when an object has been selected', () => {
     render(
       withAppContext(
         <AssetSelect
@@ -197,6 +211,29 @@ describe('AssetSelect', () => {
                 iconUrl: '',
                 label: 'foo bar',
               },
+            }),
+          }}
+        />
+      )
+    )
+
+    expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('assetSelectSummary')).toBeInTheDocument()
+  })
+
+  it('renders the Summary when a location has been pinned', () => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockImplementationOnce(() => mockLatLng)
+      .mockImplementationOnce(() => mockAddress)
+
+    render(
+      withAppContext(
+        <AssetSelect
+          {...{
+            ...props,
+            handler: () => ({
+              value: undefined,
             }),
           }}
         />
@@ -450,6 +487,57 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
     expect(updateIncident).toHaveBeenCalledWith({
+      location: {
+        coordinates: mockLatLng,
+        address: mockAddress,
+      },
+      Zork: {
+        type: mockUNREGISTERED_TYPE,
+      },
+    })
+  })
+
+  it('handles the indication that an object is not visible on the map', () => {
+    const { rerender } = render(
+      withAssetSelectContext(<AssetSelect {...props} />)
+    )
+
+    userEvent.click(screen.getByText(/kies op kaart/i))
+
+    const setNotOnMapCheckbox = screen.getByTestId('setNotOnMapCheckbox')
+    expect(setNotOnMapCheckbox).not.toBeChecked()
+
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(setNotOnMapCheckbox)
+    expect(setNotOnMapCheckbox).toBeChecked()
+
+    expect(updateIncident).toHaveBeenCalledWith({
+      Zork: {
+        type: mockUNREGISTERED_TYPE,
+      },
+    })
+
+    userEvent.click(setNotOnMapCheckbox)
+    expect(setNotOnMapCheckbox).not.toBeChecked()
+
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      Zork: undefined,
+    })
+
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockImplementationOnce(() => mockLatLng)
+      .mockImplementationOnce(() => mockAddress)
+
+    rerender(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(setNotOnMapCheckbox)
+    expect(setNotOnMapCheckbox).toBeChecked()
+
+    expect(updateIncident).toHaveBeenCalledTimes(3)
+    expect(updateIncident).toHaveBeenLastCalledWith({
       location: {
         coordinates: mockLatLng,
         address: mockAddress,

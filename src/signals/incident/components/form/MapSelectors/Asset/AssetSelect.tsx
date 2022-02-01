@@ -60,7 +60,34 @@ const AssetSelect: FC<AssetSelectProps> = ({
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
   const address = useSelector(makeSelectAddress)
+  const hasSelection = selection || (address && coordinates)
 
+  /**
+   * Indicate that an object is not visible on the map
+   */
+  const setNotOnMap = useCallback(
+    (itemNotPresentOnMap?: boolean) => {
+      const payload: Record<string, any> = {}
+
+      if (address && coordinates) {
+        payload.location = {
+          coordinates,
+          address,
+        }
+      }
+
+      payload[meta.name as string] = itemNotPresentOnMap
+        ? { type: UNREGISTERED_TYPE }
+        : undefined
+
+      parent.meta.updateIncident(payload)
+    },
+    [address, coordinates, meta.name, parent.meta]
+  )
+
+  /**
+   * Selecting an object on the map
+   */
   const setItem = useCallback(
     (item: Item) => {
       const { location, ...restItem } = item
@@ -130,6 +157,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
     [address, getUpdatePayload, parent.meta]
   )
 
+  /**
+   * Address auto complete selection
+   */
   const setLocation = useCallback(
     (location: Location) => {
       const payload = getUpdatePayload(location)
@@ -195,13 +225,14 @@ const AssetSelect: FC<AssetSelectProps> = ({
         setItem,
         fetchLocation,
         setMessage,
+        setNotOnMap,
       }}
     >
-      {!showMap && !selection && <Intro />}
+      {!showMap && !hasSelection && <Intro />}
 
       {showMap && <Selector />}
 
-      {!showMap && selection && <Summary />}
+      {!showMap && hasSelection && <Summary />}
     </AssetSelectProvider>
   )
 }
