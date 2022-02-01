@@ -179,13 +179,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       )
       return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
     },
-    [state.text]
+    [state.text, state.status.key]
   )
 
-  const useDefaultText = useCallback((event: SyntheticEvent, text: string) => {
-    setDefaultText(event, text)
-    closeStandardTextModal()
-  }, [])
+  const useDefaultText = useCallback(
+    (event: SyntheticEvent, text: string) => {
+      setDefaultText(event, text)
+      closeStandardTextModal()
+    },
+    [closeStandardTextModal, setDefaultText]
+  )
 
   useEffect(() => {
     listenFor('keydown', escFunction)
