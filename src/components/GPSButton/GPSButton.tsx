@@ -34,7 +34,6 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
   onLocationOutOfBounds,
 }) => {
   const [loading, setLoading] = useState(false)
-  const [toggled, setToggled] = useState(false)
 
   const onSuccess: PositionCallback = useCallback(
     ({ coords }) => {
@@ -45,23 +44,19 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
           accuracy,
           latitude,
           longitude,
-          toggled: !toggled,
         })
-        setToggled(!toggled)
       } else {
         onLocationOutOfBounds()
-        setToggled(false)
       }
 
       setLoading(false)
     },
-    [onLocationOutOfBounds, onLocationSuccess, toggled]
+    [onLocationOutOfBounds, onLocationSuccess]
   )
 
   const onError: PositionErrorCallback = useCallback(
     (error) => {
       onLocationError(error)
-      setToggled(false)
       setLoading(false)
     },
     [onLocationError]
@@ -73,30 +68,18 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
 
       if (loading) return
 
-      if (toggled) {
-        onLocationSuccess({ toggled: false })
-        setToggled(false)
-        return
-      }
-
       setLoading(true)
 
       global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
     },
-    [onLocationSuccess, toggled, loading, onError, onSuccess]
+    [loading, onError, onSuccess]
   )
 
   return (
     <StyledButton
       className={className}
       data-testid="gpsButton"
-      icon={
-        loading ? (
-          <LoadingIndicator color="black" />
-        ) : (
-          <GPSIcon fill={toggled ? '#009de6' : 'black'} />
-        )
-      }
+      icon={loading ? <LoadingIndicator color="black" /> : <GPSIcon />}
       aria-label="Huidige locatie"
       iconSize={20}
       onClick={onClick}
