@@ -7,19 +7,14 @@ import { AssetSelectProvider } from 'signals/incident/components/form/MapSelecto
 import type { AssetSelectValue } from '../types'
 import type { Meta } from '../../types'
 
+import { contextValue as assetSelectContextValue } from '../__tests__/withAssetSelectContext'
 import Intro from '../Intro'
 
 const contextValue: AssetSelectValue = {
+  ...assetSelectContextValue,
   selection: undefined,
   meta: {} as Meta,
   coordinates: { lat: 0, lng: 0 },
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  edit: jest.fn(),
-  close: jest.fn(),
-  setMessage: jest.fn(),
-  fetchLocation: jest.fn(),
-  setLocation: jest.fn(),
 }
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>
