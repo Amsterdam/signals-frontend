@@ -1,26 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, PropsWithChildren } from 'react'
-// import { useMemo, useState, useLayoutEffect, useCallback } from 'react'
-// import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import { TileLayer } from '@amsterdam/react-maps'
 
-// import type { LatLngTuple, Map as MapType } from 'leaflet'
-import type {
-  // LatLngExpression,
-  LeafletEventHandlerFnMap,
-  MapOptions,
-} from 'leaflet'
-// import type { LocationResult } from 'types/location'
+import type { LeafletEventHandlerFnMap, MapOptions } from 'leaflet'
 
 import ViewerContainer from 'components/ViewerContainer'
-// import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
-// import { showGlobalNotification } from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
-// import GPSButton from '../../signals/incident/components/form/MapSelectors/components/GPSButton'
-import LocationMarker from '../LocationMarker'
 
 const StyledMap = styled(MapComponent)`
   cursor: default;
@@ -34,10 +22,6 @@ const StyledMap = styled(MapComponent)`
     cursor: all-scroll;
   }
 `
-
-// const StyledGPSButton = styled(GPSButton)`
-//   margin-bottom: 8px;
-// `
 
 const StyledVieweContainer = styled(ViewerContainer)`
   z-index: 402;
@@ -71,15 +55,10 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
   className = '',
   events,
   fullScreen = false,
-  // hasGPSControl = false,
   hasZoomControls = false,
   mapOptions,
-  // setInstance,
+  setInstance,
 }) => {
-  const geolocation = undefined
-  // const dispatch = useDispatch()
-  // const [mapInstance, setMapInstance] = useState<MapType>()
-  // const [geolocation, setGeolocation] = useState<LocationResult>()
   const hasTouchCapabilities = 'ontouchstart' in window
   const showZoom = hasZoomControls && !hasTouchCapabilities
   const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom
@@ -94,30 +73,6 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
     ...mapOptions,
   }
 
-  // useLayoutEffect(() => {
-  //   if (!mapInstance || !geolocation || !geolocation.toggled) return
-
-  //   mapInstance.flyTo(
-  //     [geolocation.latitude, geolocation.longitude] as LatLngTuple,
-  //     maxZoom,
-  //     {
-  //       animate: true,
-  //       noMoveStart: true,
-  //     }
-  //   )
-  // }, [geolocation, mapInstance, maxZoom])
-
-  // const captureInstance = useCallback(
-  //   (instance) => {
-  //     setMapInstance(instance)
-
-  //     if (typeof setInstance === 'function') {
-  //       setInstance(instance)
-  //     }
-  //   },
-  //   [setInstance]
-  // )
-
   return (
     <StyledMap
       // Disabling linter; without className prop, the Map component cannot be styled
@@ -129,44 +84,13 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       data-min-zoom={minZoom}
       events={events}
       options={options}
-      // setInstance={captureInstance}
       fullScreen={fullScreen}
+      setInstance={setInstance}
     >
       {children}
 
-      {/* Render GPS and zoom buttons after children to maintain correct focus order */}
+      {/* Render zoom buttons after children to maintain correct focus order */}
       <StyledVieweContainer
-        // topLeft={
-        //   hasGPSControl &&
-        //   global.navigator.geolocation && (
-        //     <StyledGPSButton
-        //       onLocationSuccess={(location) => {
-        //         setGeolocation(location)
-        //       }}
-        //       onLocationError={() => {
-        //         dispatch(
-        //           showGlobalNotification({
-        //             variant: VARIANT_NOTICE,
-        //             title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
-        //             message:
-        //               'Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.',
-        //             type: TYPE_LOCAL,
-        //           })
-        //         )
-        //       }}
-        //       onLocationOutOfBounds={() => {
-        //         dispatch(
-        //           showGlobalNotification({
-        //             variant: VARIANT_NOTICE,
-        //             title:
-        //               'Uw locatie valt buiten de kaart en is daardoor niet te zien',
-        //             type: TYPE_LOCAL,
-        //           })
-        //         )
-        //       }}
-        //     />
-        //   )
-        // }
         bottomRight={
           showZoom && (
             <div data-testid="mapZoom">
@@ -175,8 +99,6 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
           )
         }
       />
-
-      {geolocation?.toggled && <LocationMarker geolocation={geolocation} />}
 
       <TileLayer
         args={configuration.map.tiles.args as [string]}
