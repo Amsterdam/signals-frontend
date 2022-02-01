@@ -61,6 +61,8 @@ const LocationMarker: FC<LocationMarkerProps> = ({ geolocation }) => {
     accuracyCircle.addTo(mapInstance)
     accuracyCircle.setLatLng(coordinates)
 
+    addLocationDot(mapInstance, coordinates)
+
     if (accuracy) {
       accuracyCircle.setRadius(accuracy)
     }
