@@ -49,6 +49,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       ? '/assets/images/featureSelectedMarker.svg'
       : featureType.icon.iconUrl
     const icon = L.icon({
+      iconSize: [40, 40],
       iconUrl: iconUrl || '/assets/images/featureDefaultMarker.svg',
     })
 
