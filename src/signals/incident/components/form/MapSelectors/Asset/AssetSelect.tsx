@@ -60,7 +60,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
   const address = useSelector(makeSelectAddress)
-  const hasSelection = selection || (address && coordinates)
+  const hasSelection = selection || coordinates
 
   /**
    * Indicate that an object is not visible on the map
@@ -69,7 +69,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
     (itemNotPresentOnMap?: boolean) => {
       const payload: Record<string, any> = {}
 
-      if (address && coordinates) {
+      if (coordinates) {
         payload.location = {
           coordinates,
           address,
@@ -118,9 +118,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
       const payload: Record<string, any> = {}
 
       // Clicking the map should unset a previous selection and preset it with an item that we know
-      // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
-      // will be checked whenever a click on the map is registered
-      payload[meta.name as string] = { type: UNREGISTERED_TYPE }
+      // doesn't exist on the map.
+      payload[meta.name as string] = undefined
 
       payload.location = location
 
@@ -148,11 +147,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       const response = await reverseGeocoderService(latLng)
 
-      if (response) {
-        payload.location.address = response.data.address
+      payload.location.address = response?.data?.address
 
-        parent.meta.updateIncident(payload)
-      }
+      parent.meta.updateIncident(payload)
     },
     [address, getUpdatePayload, parent.meta]
   )

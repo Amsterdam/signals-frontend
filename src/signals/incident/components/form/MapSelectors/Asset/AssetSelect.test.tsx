@@ -260,9 +260,7 @@ describe('AssetSelect', () => {
     userEvent.click(assetSelectSelector)
 
     const payload = {
-      [props.meta.name as string]: {
-        type: mockUNREGISTERED_TYPE,
-      },
+      [props.meta.name as string]: undefined,
       location: {
         coordinates: mockLatLng,
       },
@@ -303,10 +301,8 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledWith({
-      [props.meta.name as string]: {
-        type: mockUNREGISTERED_TYPE,
-      },
-      location: { coordinates: mockLatLng },
+      [props.meta.name as string]: undefined,
+      location: { coordinates: mockLatLng, address: undefined },
     })
   })
 
@@ -335,7 +331,7 @@ describe('AssetSelect', () => {
     )
 
     // open map
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByTestId('mapEditButton'))
 
     // select item
     userEvent.click(screen.getByTestId('setItemContainer'))
@@ -374,9 +370,7 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(3)
     expect(updateIncident).toHaveBeenLastCalledWith({
-      [props.meta.name as string]: {
-        type: mockUNREGISTERED_TYPE,
-      },
+      [props.meta.name as string]: undefined,
       location: {
         address: mockAddress,
         coordinates: mockLatLng,
@@ -394,7 +388,7 @@ describe('AssetSelect', () => {
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByTestId('mapEditButton'))
 
     const setItemContainer = screen.getByTestId('setItemContainer')
 
@@ -425,7 +419,7 @@ describe('AssetSelect', () => {
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByTestId('mapEditButton'))
 
     const setItemContainerUnregistered = screen.getByTestId(
       'setItemContainerUnregistered'
@@ -459,7 +453,7 @@ describe('AssetSelect', () => {
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByTestId('mapEditButton'))
 
     const removeItemContainer = screen.getByTestId('removeItemContainer')
 
@@ -491,9 +485,7 @@ describe('AssetSelect', () => {
         coordinates: mockLatLng,
         address: mockAddress,
       },
-      Zork: {
-        type: mockUNREGISTERED_TYPE,
-      },
+      Zork: undefined,
     })
   })
 
