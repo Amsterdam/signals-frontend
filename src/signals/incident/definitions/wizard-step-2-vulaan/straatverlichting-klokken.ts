@@ -4,6 +4,7 @@ import appConfiguration from 'shared/services/configuration/configuration'
 
 import { QuestionFieldType } from 'types/question'
 import type { IconOptions } from 'leaflet'
+import { OBJECT_NOT_ON_MAP } from 'signals/incident/components/form/MapSelectors/constants'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 import { validateObjectLocation } from '../../services/custom-validators'
@@ -128,7 +129,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: 'not-on-map',
+          typeValue: OBJECT_NOT_ON_MAP,
         },
       ],
       pathMerge: 'extra_properties',
@@ -275,7 +276,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: 'not-on-map',
+          typeValue: OBJECT_NOT_ON_MAP,
         },
       ],
       pathMerge: 'extra_properties',

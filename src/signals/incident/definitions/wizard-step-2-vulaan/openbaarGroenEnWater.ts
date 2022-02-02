@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+import { OBJECT_NOT_ON_MAP } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
 import { validateObjectLocation } from '../../services/custom-validators'
 
@@ -73,7 +74,7 @@ export const controls = {
             options,
             iconUrl: '/assets/images/featureUnknownMarker.svg',
           },
-          typeValue: 'not-on-map',
+          typeValue: OBJECT_NOT_ON_MAP,
           typeField: '',
         },
       ],

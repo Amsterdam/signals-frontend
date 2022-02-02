@@ -5,7 +5,7 @@ import type { IconOptions } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
 import type { Address } from 'types/address'
 import type { LatLngLiteral } from 'leaflet'
-import type { UNREGISTERED_TYPE } from './constants'
+import type { OBJECT_NOT_ON_MAP, OBJECT_UNKNOWN } from './constants'
 
 export type EventHandler = (
   event:
@@ -28,7 +28,7 @@ export interface Item extends Record<string, unknown> {
   id: string | number
   isReported?: boolean
   isChecked?: boolean
-  type?: typeof UNREGISTERED_TYPE | string
+  type?: typeof OBJECT_UNKNOWN | typeof OBJECT_NOT_ON_MAP | string
   label: string
 }
 

@@ -1,3 +1,5 @@
+import { OBJECT_NOT_ON_MAP } from 'signals/incident/components/form/MapSelectors/constants'
+
 export const selection = [
   {
     id: 308777,
@@ -9,7 +11,7 @@ export const selection = [
   },
   {
     id: 308779,
-    type: 'not-on-map',
+    type: OBJECT_NOT_ON_MAP,
     description: 'De boom staat niet op de kaart',
     isReported: false,
     location: {},
