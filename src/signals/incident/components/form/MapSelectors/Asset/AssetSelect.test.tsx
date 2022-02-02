@@ -13,7 +13,11 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
-import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import {
+  OBJECT_NOT_ON_MAP,
+  OBJECT_UNKNOWN as mockOBJECT_UNKNOWN,
+  OBJECT_UNKNOWN,
+} from '../constants'
 import type { Item } from '../types'
 import type { AssetSelectProps } from './AssetSelect'
 
@@ -53,7 +57,7 @@ jest.mock('./Selector', () => () => {
 
   const unregisteredItem = {
     ...mockItem,
-    type: mockUNREGISTERED_TYPE,
+    type: mockOBJECT_UNKNOWN,
     location: {
       coordinates: mockLatLng,
     },
@@ -260,7 +264,9 @@ describe('AssetSelect', () => {
     userEvent.click(assetSelectSelector)
 
     const payload = {
-      [props.meta.name as string]: undefined,
+      [props.meta.name as string]: {
+        type: OBJECT_UNKNOWN,
+      },
       location: {
         coordinates: mockLatLng,
       },
@@ -301,7 +307,9 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledWith({
-      [props.meta.name as string]: undefined,
+      [props.meta.name as string]: {
+        type: OBJECT_UNKNOWN,
+      },
       location: { coordinates: mockLatLng, address: undefined },
     })
   })
@@ -370,7 +378,9 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(3)
     expect(updateIncident).toHaveBeenLastCalledWith({
-      [props.meta.name as string]: undefined,
+      [props.meta.name as string]: {
+        type: OBJECT_UNKNOWN,
+      },
       location: {
         address: mockAddress,
         coordinates: mockLatLng,
@@ -440,7 +450,7 @@ describe('AssetSelect', () => {
       },
       Zork: {
         ...restItem,
-        type: mockUNREGISTERED_TYPE,
+        type: OBJECT_UNKNOWN,
       },
     })
   })
@@ -485,7 +495,9 @@ describe('AssetSelect', () => {
         coordinates: mockLatLng,
         address: mockAddress,
       },
-      Zork: undefined,
+      Zork: {
+        type: OBJECT_UNKNOWN,
+      },
     })
   })
 
@@ -506,7 +518,7 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledWith({
       Zork: {
-        type: mockUNREGISTERED_TYPE,
+        type: OBJECT_NOT_ON_MAP,
       },
     })
 
@@ -515,7 +527,9 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(2)
     expect(updateIncident).toHaveBeenLastCalledWith({
-      Zork: undefined,
+      Zork: {
+        type: OBJECT_UNKNOWN,
+      },
     })
 
     jest
@@ -535,7 +549,7 @@ describe('AssetSelect', () => {
         address: mockAddress,
       },
       Zork: {
-        type: mockUNREGISTERED_TYPE,
+        type: OBJECT_NOT_ON_MAP,
       },
     })
   })

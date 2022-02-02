@@ -15,7 +15,11 @@ import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import type { EventHandler, FeatureType, Item, Meta } from '../types'
 
-import { UNREGISTERED_TYPE } from '../constants'
+import {
+  OBJECT_NOT_ON_MAP,
+  OBJECT_UNKNOWN,
+  selectionIsObject,
+} from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
@@ -76,9 +80,11 @@ const AssetSelect: FC<AssetSelectProps> = ({
         }
       }
 
-      payload[meta.name as string] = itemNotPresentOnMap
-        ? { type: UNREGISTERED_TYPE }
-        : undefined
+      const type = itemNotPresentOnMap ? OBJECT_NOT_ON_MAP : OBJECT_UNKNOWN
+
+      payload[meta.name as string] = {
+        type,
+      }
 
       parent.meta.updateIncident(payload)
     },
@@ -92,8 +98,8 @@ const AssetSelect: FC<AssetSelectProps> = ({
     (item: Item) => {
       const { location, ...restItem } = item
       const { address: addr, coordinates: coords } = location
-      const itemCoords = item?.type === UNREGISTERED_TYPE ? coordinates : coords
-      const itemAddress = item?.type === UNREGISTERED_TYPE ? address : addr
+      const itemCoords = !selectionIsObject(item) ? coordinates : coords
+      const itemAddress = !selectionIsObject(item) ? address : addr
 
       parent.meta.updateIncident({
         location: {
@@ -117,9 +123,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
     (location: Item['location']) => {
       const payload: Record<string, any> = {}
 
-      // Clicking the map should unset a previous selection and preset it with an item that we know
-      // doesn't exist on the map.
-      payload[meta.name as string] = undefined
+      payload[meta.name as string] = { type: OBJECT_UNKNOWN }
 
       payload.location = location
 
@@ -184,7 +188,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
     setFeatureTypes(
       meta.featureTypes.map((featureType) => {
         const defaultConfig =
-          featureType.typeValue === UNREGISTERED_TYPE
+          featureType.typeValue === OBJECT_NOT_ON_MAP
             ? defaultUnregisteredIconConfig
             : defaultIconConfig
 
