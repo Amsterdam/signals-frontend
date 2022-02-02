@@ -18,7 +18,10 @@ import {
 } from '@amsterdam/asc-ui'
 
 import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
-import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import {
+  OBJECT_NOT_ON_MAP,
+  selectionIsObject,
+} from 'signals/incident/components/form/MapSelectors/constants'
 import AssetList from '../../AssetList'
 import AssetSelectContext from '../../../Asset/context'
 
@@ -52,41 +55,47 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   featureTypes,
   language = {},
 }) => {
-  const { selection, removeItem, setItem, close, setNotOnMap } =
+  const { close, coordinates, removeItem, selection, setItem, setNotOnMap } =
     useContext(AssetSelectContext)
 
   const selectionOnMap =
-    selection && selection.type !== UNREGISTERED_TYPE ? selection : undefined
-
-  const unregisteredAsset =
-    selection && selection.type === UNREGISTERED_TYPE ? selection : undefined
+    selection && selectionIsObject(selection) ? selection : undefined
+  const unknownObject =
+    selection && !selectionIsObject(selection) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
-    unregisteredAsset !== undefined
+    selection?.type === OBJECT_NOT_ON_MAP
   )
-  const [unregisteredAssetValue, setUnregisteredAssetValue] = useState(
-    unregisteredAsset?.id || ''
+  const [unknownObjectValue, setUnknownObjectValue] = useState(
+    unknownObject?.id || ''
   )
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnregisteredAssetValue(event.currentTarget.value)
+    setUnknownObjectValue(event.currentTarget.value)
   }
 
-  const onCheck = useCallback(() => {
-    setShowObjectIdInput(!showObjectIdInput)
-    setNotOnMap(!showObjectIdInput)
-  }, [setNotOnMap, showObjectIdInput])
+  const onCheck = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = event.target
+
+      setShowObjectIdInput(checked)
+      setUnknownObjectValue('')
+
+      setNotOnMap(checked)
+    },
+    [setNotOnMap]
+  )
 
   const onSetItem = useCallback(() => {
     setItem({
       location: {},
-      id: unregisteredAssetValue,
-      type: UNREGISTERED_TYPE,
-      label: ['De container staat niet op de kaart', unregisteredAssetValue]
+      id: unknownObjectValue,
+      type: OBJECT_NOT_ON_MAP,
+      label: ['De container staat niet op de kaart', unknownObjectValue]
         .filter(Boolean)
         .join(' - '),
     })
-  }, [setItem, unregisteredAssetValue])
+  }, [setItem, unknownObjectValue])
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
@@ -120,22 +129,22 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         />
       )}
 
-      {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
+      {featureTypes.length > 0 && (!selection || unknownObject) && (
         <div data-testid="unregisteredObjectPanel">
           <Checkbox
-            id="unregisteredAssetCheckbox"
+            id="unregisteredObjectCheckbox"
             checked={showObjectIdInput}
             onChange={onCheck}
           />
           <Label
-            htmlFor="unregisteredAssetCheckbox"
+            htmlFor="unregisteredObjectCheckbox"
             label={language.unregistered || 'Het object staat niet op de kaart'}
           />
 
           {showObjectIdInput && language.unregisteredId && (
             <>
               <Label
-                htmlFor="unregisteredAssetInput"
+                htmlFor="unregisteredObjectInput"
                 label={
                   <>
                     <strong>{language.unregisteredId}</strong> (niet verplicht)
@@ -143,19 +152,19 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
                 }
               />
               <Input
-                id="unregisteredAssetInput"
+                id="unregisteredObjectInput"
                 onBlur={onSetItem}
                 onChange={onChange}
                 onKeyUp={onKeyUp}
                 onSubmit={close}
-                value={unregisteredAssetValue}
+                value={unknownObjectValue}
               />
             </>
           )}
         </div>
       )}
 
-      <StyledButton onClick={close} variant="primary">
+      <StyledButton onClick={close} variant="primary" disabled={!coordinates}>
         {language.submit || 'Meld dit object'}
       </StyledButton>
     </StyledMapPanelContent>

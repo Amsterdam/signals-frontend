@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils'
 
 import userEvent from '@testing-library/user-event'
 
-import { UNREGISTERED_TYPE } from '../../../constants'
+import { OBJECT_NOT_ON_MAP, OBJECT_UNKNOWN } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
@@ -43,12 +43,12 @@ describe('SelectionPanel', () => {
     },
     idField: 'id',
     typeField: 'type',
-    typeValue: UNREGISTERED_TYPE,
+    typeValue: OBJECT_UNKNOWN,
   }
   const UNREGISTERED_CONTAINER = {
     description: 'Het object staat niet op de kaart',
     id: '',
-    type: 'not-on-map',
+    type: OBJECT_NOT_ON_MAP,
   }
   const GLAS_CONTAINER = {
     id: 'GLAS123',
@@ -81,9 +81,10 @@ describe('SelectionPanel', () => {
   })
 
   it('renders the panel', () => {
-    render(
+    const { rerender } = render(
       withAssetSelectContext(<SelectionPanel {...props} />, {
         ...contextValue,
+        coordinates: undefined,
         selection: undefined,
       })
     )
@@ -96,11 +97,23 @@ describe('SelectionPanel', () => {
       })
     ).toBeInTheDocument()
 
-    expect(
-      screen.queryByRole('button', { name: 'Meld dit object' })
-    ).toBeInTheDocument()
+    const submitButton = screen.queryByRole('button', {
+      name: 'Meld dit object',
+    })
+
+    expect(submitButton).toBeInTheDocument()
+    expect(submitButton).toBeDisabled()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
+
+    rerender(
+      withAssetSelectContext(<SelectionPanel {...props} />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(submitButton).not.toBeDisabled()
   })
 
   it('renders selected asset', () => {
@@ -170,7 +183,7 @@ describe('SelectionPanel', () => {
     expect(contextValue.setItem).toHaveBeenCalledWith({
       id: unregisteredObjectId,
       location: {},
-      type: UNREGISTERED_TYPE,
+      type: OBJECT_NOT_ON_MAP,
       label: `De container staat niet op de kaart - ${unregisteredObjectId}`,
     })
   })
@@ -214,7 +227,7 @@ describe('SelectionPanel', () => {
     expect(contextValue.setItem).toHaveBeenCalledWith({
       id: '5',
       location: {},
-      type: UNREGISTERED_TYPE,
+      type: OBJECT_NOT_ON_MAP,
       label: 'De container staat niet op de kaart - 5',
     })
     expect(contextValue.close).toHaveBeenCalled()
