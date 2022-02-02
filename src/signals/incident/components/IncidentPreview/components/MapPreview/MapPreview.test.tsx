@@ -10,6 +10,7 @@ import type { Incident } from 'types/incident'
 import { mock } from 'types/incident'
 import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
 import { formatAddress } from 'shared/services/format-address'
+import { OBJECT_UNKNOWN } from 'signals/incident/components/form/MapSelectors/constants'
 import MapPreview from '.'
 
 jest.mock('shared/services/configuration/configuration')
@@ -129,7 +130,7 @@ describe('signals/incident/components/IncidentPreview/components/MapPreview', ()
       ...props,
       value: {
         ...value,
-        type: 'not-on-map',
+        type: OBJECT_UNKNOWN,
       },
     }
 

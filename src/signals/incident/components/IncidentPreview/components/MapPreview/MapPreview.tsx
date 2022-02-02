@@ -4,6 +4,13 @@ import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { Marker } from '@amsterdam/react-maps'
 
+import type { Incident } from 'types/incident'
+import type { FC } from 'react'
+import type {
+  FeatureType,
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
+
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
@@ -11,13 +18,7 @@ import { formatAddress } from 'shared/services/format-address'
 
 import MapStatic from 'components/MapStatic'
 import Map from 'components/Map'
-
-import type { Incident } from 'types/incident'
-import type { FC } from 'react'
-import type {
-  FeatureType,
-  Item,
-} from 'signals/incident/components/form/MapSelectors/types'
+import { selectionIsObject } from 'signals/incident/components/form/MapSelectors/constants'
 
 const mapWidth = 640
 const mapHeight = 300
@@ -55,7 +56,7 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
 
   let iconSrc = undefined
 
-  if (value?.type !== 'not-on-map') {
+  if (selectionIsObject(value)) {
     const featureType = featureTypes?.find(
       ({ typeValue }) => typeValue === value.type
     )
