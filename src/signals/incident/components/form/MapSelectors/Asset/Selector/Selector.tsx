@@ -27,7 +27,7 @@ import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import MapCloseButton from 'components/MapCloseButton'
 
-import { UNREGISTERED_TYPE } from '../../constants'
+import { OBJECT_NOT_ON_MAP, selectionIsObject } from '../../constants'
 import { ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
@@ -107,7 +107,7 @@ const Selector = () => {
   const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
-    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
+    coordinates && (!selection || !selectionIsObject(selection))
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
@@ -188,7 +188,7 @@ const Selector = () => {
                 onClose={handleLegendCloseButton}
                 variant={panelVariant}
                 items={meta.featureTypes
-                  .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
+                  .filter(({ typeValue }) => typeValue !== OBJECT_NOT_ON_MAP) // Filter the unknown icon from the legend
                   .map((featureType) => ({
                     label: featureType.label,
                     iconUrl: featureType.icon.iconUrl,
