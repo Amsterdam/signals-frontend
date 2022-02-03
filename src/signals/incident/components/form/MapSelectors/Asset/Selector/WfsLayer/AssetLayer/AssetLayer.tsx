@@ -78,6 +78,11 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
           .join(' - '),
       }
 
+      // Immediately set the known values before getting the address from the reverse geocoder
+      // service. This way the result of the click is reflected on the map right away; it
+      // can take up to a couple of seconds before the geocoder service responds.
+      setItem(item)
+
       const response = await reverseGeocoderService(coordinates)
 
       if (response) {
