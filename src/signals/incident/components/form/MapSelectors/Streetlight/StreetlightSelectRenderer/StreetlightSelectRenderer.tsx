@@ -7,7 +7,7 @@ import Layer from '../StreetlightLayer'
 import type { AssetSelectRendererProps } from '../../Asset/types'
 
 const StreetlightSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
-  ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
+  ({ touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
     meta.isVisible ? (
       <FormField
         meta={meta}
@@ -16,12 +16,7 @@ const StreetlightSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
         hasError={hasError}
         getError={getError}
       >
-        <AssetSelect
-          handler={handler}
-          meta={meta}
-          parent={parent}
-          layer={Layer}
-        />
+        <AssetSelect meta={meta} parent={parent} layer={Layer} />
       </FormField>
     ) : null
 

@@ -7,7 +7,6 @@ import Layer from '../ClockLayer'
 import type { AssetSelectRendererProps } from '../../Asset/types'
 
 const ClockSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
-  handler,
   touched,
   hasError,
   meta,
@@ -23,12 +22,7 @@ const ClockSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
       hasError={hasError}
       getError={getError}
     >
-      <AssetSelect
-        handler={handler}
-        meta={meta}
-        parent={parent}
-        layer={Layer}
-      />
+      <AssetSelect meta={meta} parent={parent} layer={Layer} />
     </FormField>
   ) : null
 

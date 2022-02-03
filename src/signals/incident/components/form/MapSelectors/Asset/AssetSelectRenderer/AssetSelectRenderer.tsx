@@ -6,7 +6,6 @@ import AssetSelect from '../AssetSelect'
 import type { AssetSelectRendererProps } from '../types'
 
 const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
-  handler,
   touched,
   hasError,
   meta,
@@ -22,7 +21,7 @@ const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
       hasError={hasError}
       getError={getError}
     >
-      <AssetSelect handler={handler} meta={meta} parent={parent} />
+      <AssetSelect meta={meta} parent={parent} />
     </FormField>
   ) : null
 
