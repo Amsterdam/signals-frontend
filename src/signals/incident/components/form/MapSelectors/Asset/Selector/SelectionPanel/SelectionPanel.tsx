@@ -71,7 +71,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   )
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnknownObjectValue(event.currentTarget.value)
+    setUnknownObjectValue(event.currentTarget.value.trim())
   }
 
   const onCheck = useCallback(
