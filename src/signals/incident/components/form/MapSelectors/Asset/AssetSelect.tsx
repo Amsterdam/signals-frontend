@@ -3,7 +3,7 @@
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import {
@@ -66,8 +66,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ layer, meta, parent }) => {
     // ignoring linter till incident selectors are converted to TS
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    (state) => makeSelectExtraProperties(state, meta.name),
-    shallowEqual
+    (state) => makeSelectExtraProperties(state, meta.name)
   )
 
   const hasSelection = selection || coordinates
