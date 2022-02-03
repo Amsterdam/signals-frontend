@@ -48,3 +48,13 @@ export const makeSelectAddress = createSelector(
     return address?.toJS ? address.toJS() : address
   }
 )
+
+export const makeSelectExtraProperties = createSelector(
+  selectIncidentContainerDomain,
+  (_, extraPropName) => extraPropName,
+  (state, propName) => {
+    const extraProperties = getIn(state, ['incident', propName], undefined)
+
+    return extraProperties?.toJS ? extraProperties.toJS() : extraProperties
+  }
+)

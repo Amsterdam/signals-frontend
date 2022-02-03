@@ -7,6 +7,7 @@ import {
   makeSelectIncidentContainer,
   makeSelectCoordinates,
   makeSelectAddress,
+  makeSelectExtraProperties,
 } from './selectors'
 
 describe('signals/incident/containers/IncidentContainer/selectors', () => {
@@ -98,6 +99,35 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
       const mockedState = fromJS(stateWithAddress)
 
       expect(makeSelectAddress.resultFunc(mockedState)).toStrictEqual(address)
+    })
+  })
+
+  describe('makeSelectExtraProperties', () => {
+    const state = {
+      incident: {
+        extra_something: {
+          a: 'foo',
+          b: 'bar',
+        },
+      },
+    }
+
+    const mockedState = fromJS(state)
+
+    it('returns nothing', () => {
+      expect(makeSelectExtraProperties.resultFunc(mockedState)).toBeUndefined()
+      expect(
+        makeSelectExtraProperties.resultFunc(mockedState, 'extra_nothing')
+      ).toBeUndefined()
+    })
+
+    it('returns extra propperties', () => {
+      expect(
+        makeSelectExtraProperties.resultFunc(mockedState, 'extra_something')
+      ).toStrictEqual({
+        a: 'foo',
+        b: 'bar',
+      })
     })
   })
 })
