@@ -73,9 +73,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         location: {
           coordinates,
         },
-        label: [description, isReported && 'is gemeld', id]
-          .filter(Boolean)
-          .join(' - '),
+        label: [description, id].filter(Boolean).join(' - '),
       }
 
       const response = await reverseGeocoderService(coordinates)
