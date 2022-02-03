@@ -3,12 +3,13 @@
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import {
   makeSelectAddress,
   makeSelectCoordinates,
+  makeSelectExtraProperties,
 } from 'signals/incident/containers/IncidentContainer/selectors'
 
 import type { Incident, Location } from 'types/incident'
@@ -41,7 +42,6 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 }
 
 export interface AssetSelectProps {
-  handler: () => { value?: Item }
   layer?: FC
   meta: Meta
   parent: {
@@ -52,19 +52,32 @@ export interface AssetSelectProps {
   }
 }
 
-const AssetSelect: FC<AssetSelectProps> = ({
-  handler,
-  layer,
-  meta,
-  parent,
-}) => {
-  const selection = handler().value
+interface UpdatePayload extends Record<string, unknown> {
+  location?: Item['location']
+}
+
+const AssetSelect: FC<AssetSelectProps> = ({ layer, meta, parent }) => {
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const coordinates = useSelector(makeSelectCoordinates)
   const address = useSelector(makeSelectAddress)
+  const selection = useSelector(
+    // ignoring linter till incident selectors are converted to TS
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    (state) => makeSelectExtraProperties(state, meta.name),
+    shallowEqual
+  )
+
   const hasSelection = selection || coordinates
+
+  const updateIncident = useCallback(
+    (payload: UpdatePayload) => {
+      parent.meta.updateIncident(payload)
+    },
+    [parent.meta]
+  )
 
   /**
    * Indicate that an object is not visible on the map
@@ -86,9 +99,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
         type,
       }
 
-      parent.meta.updateIncident(payload)
+      updateIncident(payload)
     },
-    [address, coordinates, meta.name, parent.meta]
+    [address, coordinates, meta.name, updateIncident]
   )
 
   /**
@@ -101,7 +114,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
       const itemCoords = !selectionIsObject(item) ? coordinates : coords
       const itemAddress = !selectionIsObject(item) ? address : addr
 
-      parent.meta.updateIncident({
+      updateIncident({
         location: {
           coordinates: itemCoords,
           address: itemAddress,
@@ -109,15 +122,15 @@ const AssetSelect: FC<AssetSelectProps> = ({
         [meta.name as string]: restItem,
       })
     },
-    [address, coordinates, meta.name, parent.meta]
+    [address, coordinates, meta.name, updateIncident]
   )
 
   const removeItem = useCallback(() => {
-    parent.meta.updateIncident({
+    updateIncident({
       location: {},
       [meta.name as string]: undefined,
     })
-  }, [meta.name, parent.meta])
+  }, [meta.name, updateIncident])
 
   const getUpdatePayload = useCallback(
     (location: Item['location']) => {
@@ -125,11 +138,24 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       payload[meta.name as string] = { type: OBJECT_UNKNOWN }
 
+      // If the checkbox, that indicates that an object is not visible on the map, is checked,
+      // this setting should be retained. If not, then a click on the map will not show that
+      // the object is not visible on the map (in the summary), even though the box was ticked.
+      if (selection?.type === OBJECT_NOT_ON_MAP) {
+        const { id, label } = selection
+
+        payload[meta.name as string] = {
+          ...payload[meta.name as string],
+          ...{ id, label },
+          type: OBJECT_NOT_ON_MAP,
+        }
+      }
+
       payload.location = location
 
       return payload
     },
-    [meta.name]
+    [meta.name, selection]
   )
 
   /**
@@ -145,17 +171,18 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       const payload = getUpdatePayload(location)
 
-      // immediately set the location so that the marker is placed on the map; the reverse geocoder response
-      // might take some time to resolve, leaving the user wondering if the map click actually did anything
-      parent.meta.updateIncident(payload)
+      // Immediately set the location so that the marker is placed on the map; the reverse geocoder response
+      // might take some time to resolve, leaving the user wondering if the map click actually did anything.
+      // If the geocoder response never comes through, at least we have coordinates.
+      updateIncident(payload)
 
       const response = await reverseGeocoderService(latLng)
 
       payload.location.address = response?.data?.address
 
-      parent.meta.updateIncident(payload)
+      updateIncident(payload)
     },
-    [address, getUpdatePayload, parent.meta]
+    [address, getUpdatePayload, updateIncident]
   )
 
   /**
@@ -165,9 +192,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
     (location: Location) => {
       const payload = getUpdatePayload(location)
 
-      parent.meta.updateIncident(payload)
+      updateIncident(payload)
     },
-    [parent.meta, getUpdatePayload]
+    [updateIncident, getUpdatePayload]
   )
 
   const edit = useCallback<EventHandler>(

@@ -149,9 +149,6 @@ describe('AssetSelect', () => {
 
   beforeEach(() => {
     props = {
-      handler: () => ({
-        value: undefined,
-      }),
       meta: {
         ...initialValue.meta,
         name: 'Zork',
@@ -201,25 +198,22 @@ describe('AssetSelect', () => {
   })
 
   it('renders the Summary when an object has been selected', () => {
-    render(
-      withAppContext(
-        <AssetSelect
-          {...{
-            ...props,
-            handler: () => ({
-              value: {
-                id: 'PL734',
-                type: 'plastic',
-                description: 'Plastic asset',
-                location: {},
-                iconUrl: '',
-                label: 'foo bar',
-              },
-            }),
-          }}
-        />
-      )
-    )
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockImplementationOnce(() => undefined)
+      .mockImplementationOnce(() => undefined)
+      .mockImplementationOnce(() => ({
+        value: {
+          id: 'PL734',
+          type: 'plastic',
+          description: 'Plastic asset',
+          location: {},
+          iconUrl: '',
+          label: 'foo bar',
+        },
+      }))
+
+    render(withAppContext(<AssetSelect {...props} />))
 
     expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSummary')).toBeInTheDocument()
@@ -323,7 +317,9 @@ describe('AssetSelect', () => {
       .spyOn(reactRedux, 'useSelector')
       .mockReturnValueOnce(mockLatLng)
       .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(undefined)
       .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
       .mockReturnValueOnce(undefined)
 
     const meta = {
@@ -352,23 +348,22 @@ describe('AssetSelect', () => {
       label: 'foo bar',
     }
 
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(item)
+      .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(item)
+
     // setting an item will dispatch an action to the global store and, in turn, will rerender
     // the AssetSelect component, so we need to do that as well:
     rerender(
-      withAssetSelectContext(
-        <AssetSelect
-          {...{
-            ...props,
-            handler: () => ({
-              value: item,
-            }),
-          }}
-        />,
-        {
-          ...contextValue,
-          meta,
-        }
-      )
+      withAssetSelectContext(<AssetSelect {...props} />, {
+        ...contextValue,
+        meta,
+      })
     )
 
     // simulate click on map
@@ -424,7 +419,9 @@ describe('AssetSelect', () => {
       .spyOn(reactRedux, 'useSelector')
       .mockReturnValueOnce(mockLatLng)
       .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(undefined)
       .mockReturnValueOnce(mockLatLng)
+      .mockReturnValueOnce(undefined)
       .mockReturnValueOnce(undefined)
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
@@ -550,6 +547,69 @@ describe('AssetSelect', () => {
       },
       Zork: {
         type: OBJECT_NOT_ON_MAP,
+      },
+    })
+  })
+
+  it('keeps selection values on map click when object is indicated to not be on the map', async () => {
+    mocked(reverseGeocoderService).mockImplementation(() =>
+      Promise.resolve(geocodedResponse)
+    )
+
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockImplementationOnce(() => mockLatLng)
+      .mockImplementationOnce(() => undefined)
+      .mockImplementationOnce(() => ({
+        ...mockItem,
+        type: OBJECT_NOT_ON_MAP,
+      }))
+      .mockImplementationOnce(() => mockLatLng)
+      .mockImplementationOnce(() => undefined)
+      .mockImplementationOnce(() => ({
+        ...mockItem,
+        type: OBJECT_NOT_ON_MAP,
+      }))
+
+    // render with selection OBJECT_NOT_ON_MAP
+    render(withAssetSelectContext(<AssetSelect {...props} />))
+
+    userEvent.click(screen.getByTestId('mapEditButton'))
+
+    // click map location
+    expect(updateIncident).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('assetSelectSelector'))
+
+    expect(updateIncident).toHaveBeenCalledTimes(1)
+
+    // ensure that update is called with OBJECT_NOT_ON_MAP instead of OBJECT_UNKNOWN
+    expect(updateIncident).toHaveBeenCalledWith({
+      Zork: {
+        id: mockItem.id,
+        label: mockItem.label,
+        type: OBJECT_NOT_ON_MAP,
+      },
+      location: {
+        address: undefined,
+        coordinates: mockLatLng,
+      },
+    })
+
+    // wait for the geocoder response to come back
+    await screen.findByTestId('assetSelectSelector')
+
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+
+    expect(updateIncident).toHaveBeenLastCalledWith({
+      Zork: {
+        id: mockItem.id,
+        label: mockItem.label,
+        type: OBJECT_NOT_ON_MAP,
+      },
+      location: {
+        address: mockAddress,
+        coordinates: mockLatLng,
       },
     })
   })
