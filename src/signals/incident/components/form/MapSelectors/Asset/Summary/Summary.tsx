@@ -15,6 +15,7 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { formatAddress } from 'shared/services/format-address'
 import configuration from 'shared/services/configuration/configuration'
+import { selectionIsObject } from '../../constants'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -59,12 +60,13 @@ const Summary: FC = () => {
   }
 
   const summaryDescription = [description, id].filter(Boolean).join(' - ')
+
   const summaryAddress = address
     ? formatAddress(address)
     : 'Locatie is gepind op de kaart'
 
   const iconSrc = useMemo(() => {
-    if (!selection?.type || selection.type === 'not-on-map') {
+    if (!selection || !selectionIsObject(selection)) {
       return undefined
     }
 
@@ -73,7 +75,7 @@ const Summary: FC = () => {
     )
 
     return featureType && featureType.icon.iconUrl
-  }, [selection?.type, meta.featureTypes])
+  }, [selection, meta.featureTypes])
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
