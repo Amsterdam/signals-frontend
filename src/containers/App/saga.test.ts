@@ -169,11 +169,6 @@ describe('containers/App/saga', () => {
   })
 
   describe('callAuthorize', () => {
-    beforeEach(() => {
-      // mocking reload function in global location object, since jsdom doesn't support reload and will throw an error
-      mocked(global.location).reload = jest.fn()
-    })
-
     afterEach(() => {
       mocked(global.location).reload.mockRestore()
     })
