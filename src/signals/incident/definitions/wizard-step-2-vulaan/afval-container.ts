@@ -5,6 +5,7 @@ import type { IconOptions } from 'leaflet'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import configuration from 'shared/services/configuration/configuration'
 import { QuestionFieldType } from 'types/question'
+import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 
 export const ICON_SIZE = 40
 
@@ -131,7 +132,7 @@ export const controls = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: 'not-on-map',
+          typeValue: UNKNOWN_TYPE,
         },
       ],
     },
