@@ -5,7 +5,7 @@ import type { FC } from 'react'
 import L from 'leaflet'
 
 import type { FeatureCollection } from 'geojson'
-import type { Geometrie } from 'types/incident'
+import type { Geometrie, Location } from 'types/incident'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
@@ -64,25 +64,27 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       }
 
       const isReported = feature.properties.meldingstatus === 1
+      const location: Location = {
+        coordinates,
+      }
 
       const item: Item = {
         id,
         type: typeValue,
         description,
         isReported,
-        location: {
-          coordinates,
-        },
         label: [description, id].filter(Boolean).join(' - '),
       }
+
+      setItem(item, location)
 
       const response = await reverseGeocoderService(coordinates)
 
       if (response) {
-        item.location.address = response.data.address
+        location.address = response.data.address
       }
 
-      setItem(item)
+      setItem(item, location)
     }
 
     return (

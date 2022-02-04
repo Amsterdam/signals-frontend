@@ -18,11 +18,10 @@ export interface AssetSelectValue {
   meta: Meta
   removeItem: () => void
   selection?: Item
-  setItem: (item: Item) => void
+  setItem: (item: Item, location?: Location) => void
   fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
-  setNotOnMap: (itemNotPresentOnMap?: boolean) => void
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {
