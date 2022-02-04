@@ -12,7 +12,11 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'ts-jest/utils'
 
 import type { Location } from 'types/incident'
-import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
+import {
+  UNKNOWN_TYPE,
+  UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
+  UNREGISTERED_TYPE,
+} from '../constants'
 import type { Item } from '../types'
 import type { AssetSelectProps } from './AssetSelect'
 
@@ -29,6 +33,7 @@ const mockItem = {
   type: 'not-mapped-or-something',
   label: 'foo bar',
 }
+const mockItemCoordinates = { lat: 4, lng: 36 }
 
 jest.mock('shared/services/reverse-geocoder')
 
@@ -39,7 +44,7 @@ jest.mock('./Selector', () => () => {
   const item: Item = {
     ...mockItem,
     location: {
-      coordinates: { lat: 4, lng: 36 },
+      coordinates: mockItemCoordinates,
     },
     label: 'foo bar',
   }
@@ -184,18 +189,15 @@ describe('AssetSelect', () => {
     render(
       withAppContext(
         <AssetSelect
-          {...{
-            ...props,
-            handler: () => ({
-              value: {
-                id: 'PL734',
-                type: 'plastic',
-                description: 'Plastic asset',
-                location: {},
-                iconUrl: '',
-                label: 'foo bar',
-              },
-            }),
+          {...props}
+          value={{
+            selection: {
+              id: 'PL734',
+              type: 'plastic',
+              description: 'Plastic asset',
+              iconUrl: '',
+              label: 'foo bar',
+            },
           }}
         />
       )
@@ -211,18 +213,17 @@ describe('AssetSelect', () => {
       .mockImplementationOnce(() => mockLatLng)
       .mockImplementationOnce(() => mockAddress)
 
-    render(
-      withAppContext(
-        <AssetSelect
-          {...{
-            ...props,
-            handler: () => ({
-              value: undefined,
-            }),
-          }}
-        />
-      )
-    )
+    const value = {
+      selection: {
+        type: UNREGISTERED_TYPE,
+      },
+      location: {
+        coordinates: mockLatLng,
+        address: mockAddress,
+      },
+    }
+
+    render(withAppContext(<AssetSelect {...props} value={value} />))
 
     expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSummary')).toBeInTheDocument()
@@ -244,9 +245,14 @@ describe('AssetSelect', () => {
     userEvent.click(assetSelectSelector)
 
     const payload = {
-      [props.meta.name as string]: undefined,
       location: {
         coordinates: mockLatLng,
+      },
+      [props.meta.name as string]: {
+        selection: undefined,
+        location: {
+          coordinates: mockLatLng,
+        },
       },
     }
 
@@ -255,14 +261,22 @@ describe('AssetSelect', () => {
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(2)
-    expect(updateIncident).toHaveBeenLastCalledWith({
-      ...payload,
+    const payloadWithAddress = {
       location: {
-        ...payload.location,
-        address: geocodedResponse.data.address,
+        coordinates: mockLatLng,
+        address: mockAddress,
       },
-    })
+      [props.meta.name as string]: {
+        selection: undefined,
+        location: {
+          coordinates: mockLatLng,
+          address: mockAddress,
+        },
+      },
+    }
+
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(updateIncident).toHaveBeenLastCalledWith(payloadWithAddress)
   })
 
   it('handles click on map when point does not have an associated address', async () => {
@@ -285,8 +299,11 @@ describe('AssetSelect', () => {
     await screen.findByTestId('assetSelectSelector')
 
     expect(updateIncident).toHaveBeenCalledWith({
-      [props.meta.name as string]: undefined,
       location: { coordinates: mockLatLng, address: undefined },
+      [props.meta.name as string]: {
+        selection: undefined,
+        location: { coordinates: mockLatLng, address: undefined },
+      },
     })
   })
 
@@ -295,12 +312,15 @@ describe('AssetSelect', () => {
       Promise.resolve(geocodedResponse)
     )
 
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
+    const value = {
+      selection: {
+        type: UNKNOWN_TYPE,
+      },
+      location: {
+        coordinates: mockLatLng,
+        address: mockAddress,
+      },
+    }
 
     const meta = {
       ...contextValue.meta,
@@ -308,7 +328,7 @@ describe('AssetSelect', () => {
     }
 
     const { rerender } = render(
-      withAssetSelectContext(<AssetSelect {...props} />, {
+      withAssetSelectContext(<AssetSelect {...props} value={value} />, {
         ...contextValue,
         meta,
       })
@@ -332,14 +352,7 @@ describe('AssetSelect', () => {
     // the AssetSelect component, so we need to do that as well:
     rerender(
       withAssetSelectContext(
-        <AssetSelect
-          {...{
-            ...props,
-            handler: () => ({
-              value: item,
-            }),
-          }}
-        />,
+        <AssetSelect {...props} value={{ selection: item }} />,
         {
           ...contextValue,
           meta,
@@ -354,7 +367,13 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(3)
     expect(updateIncident).toHaveBeenLastCalledWith({
-      [props.meta.name as string]: undefined,
+      Zork: {
+        selection: undefined,
+        location: {
+          address: mockAddress,
+          coordinates: mockLatLng,
+        },
+      },
       location: {
         address: mockAddress,
         coordinates: mockLatLng,
@@ -363,14 +382,19 @@ describe('AssetSelect', () => {
   })
 
   it('handles setting a selected item', () => {
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
+    const location = {
+      coordinates: mockLatLng,
+    }
 
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    const value = {
+      selection: {
+        type: UNKNOWN_TYPE,
+        id: '08u2349823',
+      },
+      location,
+    }
+
+    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -380,28 +404,33 @@ describe('AssetSelect', () => {
 
     userEvent.click(setItemContainer)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { location, ...restItem } = mockItem
-
-    expect(updateIncident).toHaveBeenCalledTimes(1)
     expect(updateIncident).toHaveBeenCalledWith({
-      location: {
-        coordinates: { lat: 4, lng: 36 },
-        address: undefined,
+      location,
+      Zork: {
+        location,
+        selection: {
+          ...mockItem,
+          location: {
+            coordinates: mockItemCoordinates,
+          },
+        },
       },
-      Zork: restItem,
     })
   })
 
   it('handles setting a selected, unregistered item', () => {
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
+    const location = {
+      coordinates: mockLatLng,
+    }
+    const value = {
+      selection: {
+        type: UNREGISTERED_TYPE,
+        id: '08u2349823',
+      },
+      location,
+    }
 
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -413,29 +442,33 @@ describe('AssetSelect', () => {
 
     userEvent.click(setItemContainerUnregistered)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { location, ...restItem } = mockItem
-
     expect(updateIncident).toHaveBeenCalledTimes(1)
     expect(updateIncident).toHaveBeenCalledWith({
-      location: {
-        coordinates: mockLatLng,
-        address: undefined,
-      },
+      location,
       Zork: {
-        ...restItem,
-        type: mockUNREGISTERED_TYPE,
+        location,
+        selection: {
+          ...mockItem,
+          type: mockUNREGISTERED_TYPE,
+          location,
+        },
       },
     })
   })
 
   it('handles removing a selected item', () => {
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValueOnce(mockLatLng)
-      .mockReturnValueOnce(undefined)
+    const location = {
+      coordinates: mockLatLng,
+    }
+    const value = {
+      selection: {
+        type: UNREGISTERED_TYPE,
+        id: '08u2349823',
+      },
+      location,
+    }
 
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -447,15 +480,22 @@ describe('AssetSelect', () => {
 
     expect(updateIncident).toHaveBeenCalledTimes(1)
     expect(updateIncident).toHaveBeenCalledWith({
-      location: {},
+      location: undefined,
       Zork: undefined,
     })
   })
 
   it('handles setting a location, without having to fetch the address', () => {
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    const value = {
+      selection: {
+        type: UNKNOWN_TYPE,
+        id: '08u2349823',
+      },
+    }
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
+
+    userEvent.click(screen.getByTestId('mapEditButton'))
 
     const addressSelectContainer = screen.getByTestId('addressSelectContainer')
 
@@ -469,7 +509,16 @@ describe('AssetSelect', () => {
         coordinates: mockLatLng,
         address: mockAddress,
       },
-      Zork: undefined,
+      Zork: {
+        selection: {
+          type: UNKNOWN_TYPE,
+          id: '08u2349823',
+        },
+        location: {
+          coordinates: mockLatLng,
+          address: mockAddress,
+        },
+      },
     })
   })
 })
