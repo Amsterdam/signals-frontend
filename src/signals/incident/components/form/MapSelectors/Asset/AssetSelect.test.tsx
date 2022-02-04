@@ -10,7 +10,7 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { withAppContext } from 'test/utils'
 import mockAssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 
 import type { Location } from 'types/incident'
 import { UNREGISTERED_TYPE as mockUNREGISTERED_TYPE } from '../constants'
