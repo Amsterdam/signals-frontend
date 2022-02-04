@@ -92,7 +92,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@babel/register": "^7.17.0",
     "@exodus/schemasafe": "^1.0.0-rc.2",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@redux-saga/is": "^1.1.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
