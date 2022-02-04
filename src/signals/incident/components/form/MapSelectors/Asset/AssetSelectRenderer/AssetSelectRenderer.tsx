@@ -22,7 +22,7 @@ const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
       hasError={hasError}
       getError={getError}
     >
-      <AssetSelect handler={handler} meta={meta} parent={parent} />
+      <AssetSelect value={handler().value} meta={meta} parent={parent} />
     </FormField>
   ) : null
 
