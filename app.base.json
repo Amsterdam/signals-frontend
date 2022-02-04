@@ -80,7 +80,6 @@
       "minZoom": 7,
       "zoom": 7
     },
-    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "tiles": {
       "args": [
         "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/standaard/EPSG:28992/{z}/{x}/{y}.png"
@@ -89,6 +88,10 @@
         "attribution": "Kaartgegevens &copy; Kadaster",
         "tms": false
       }
+    },
+    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
+    "layers": {
+      "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
   },
   "oidc": {

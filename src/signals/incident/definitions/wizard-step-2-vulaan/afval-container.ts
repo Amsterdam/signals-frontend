@@ -2,11 +2,9 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
-import appConfiguration from 'shared/services/configuration/configuration'
+import configuration from 'shared/services/configuration/configuration'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
-
-import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 export const ICON_SIZE = 40
 
@@ -14,8 +12,6 @@ const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
-
-const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const controls = {
   extra_container: {
