@@ -40,13 +40,12 @@ const StyledMarker = styled(Marker)`
 
 interface MapPreviewProps {
   incident: Incident
-  value: Item & { selection: Item }
+  value: { selection: Item }
   featureTypes?: FeatureType[]
 }
 
 const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
   const { address, coordinates } = incident.location
-  const objectValue = value?.selection || value
 
   const options = {
     ...MAP_OPTIONS,
@@ -57,9 +56,9 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
 
   let iconSrc = undefined
 
-  if (selectionIsObject(value)) {
+  if (selectionIsObject(value.selection)) {
     const featureType = featureTypes?.find(
-      ({ typeValue }) => typeValue === objectValue.type
+      ({ typeValue }) => typeValue === value.selection.type
     )
 
     if (featureType) {
