@@ -2,8 +2,8 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
-import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import configuration from 'shared/services/configuration/configuration'
+import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 export const ICON_SIZE = 40
