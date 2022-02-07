@@ -27,29 +27,50 @@ export interface LocationResult
 
 export interface GPSButtonProps {
   className?: string
-  onLocationChange?: (result: LocationResult) => void
-  onLocationSuccess?: (result: LocationResult) => void
-  onLocationError?: (error: GeolocationPositionError) => void
-  onLocationOutOfBounds?: () => void
+  onLocationSuccess: (result: LocationResult) => void
+  onLocationError: (error: GeolocationPositionError) => void
+  onLocationOutOfBounds: () => void
 }
 
 const GPSButton: FunctionComponent<GPSButtonProps> = ({
   className,
-  onLocationChange,
   onLocationSuccess,
   onLocationError,
   onLocationOutOfBounds,
 }) => {
   const [loading, setLoading] = useState(false)
   const [toggled, setToggled] = useState(false)
-  const shouldWatch = typeof onLocationChange === 'function'
-  const successCallbackFunc = shouldWatch ? onLocationChange : onLocationSuccess
 
-  if (!shouldWatch && typeof onLocationSuccess !== 'function') {
-    throw new Error(
-      'Either one of onLocationChange or onLocationSuccess is required'
-    )
-  }
+  const onSuccess: PositionCallback = useCallback(
+    ({ coords }) => {
+      const { accuracy, latitude, longitude } = coords
+
+      if (pointWithinBounds([latitude, longitude])) {
+        onLocationSuccess({
+          accuracy,
+          latitude,
+          longitude,
+          toggled: !toggled,
+        })
+        setToggled(!toggled)
+      } else {
+        onLocationOutOfBounds()
+        setToggled(false)
+      }
+
+      setLoading(false)
+    },
+    [onLocationOutOfBounds, onLocationSuccess, toggled]
+  )
+
+  const onError: PositionErrorCallback = useCallback(
+    (error) => {
+      onLocationError(error)
+      setToggled(false)
+      setLoading(false)
+    },
+    [onLocationError]
+  )
 
   const onClick = useCallback(
     (event) => {
@@ -58,55 +79,16 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       if (loading) return
 
       if (toggled) {
-        successCallbackFunc?.({ toggled: false })
+        onLocationSuccess({ toggled: false })
         setToggled(false)
         return
       }
 
-      const onSuccess: PositionCallback = ({ coords }) => {
-        const { accuracy, latitude, longitude } = coords
-
-        if (pointWithinBounds([latitude, longitude])) {
-          successCallbackFunc?.({
-            accuracy,
-            latitude,
-            longitude,
-            toggled: !toggled,
-          })
-          setToggled(!toggled)
-        } else {
-          if (typeof onLocationOutOfBounds === 'function') {
-            onLocationOutOfBounds()
-          }
-
-          setToggled(false)
-        }
-
-        setLoading(false)
-      }
-
-      const onError: PositionErrorCallback = (error) => {
-        onLocationError?.(error)
-        setToggled(false)
-        setLoading(false)
-      }
-
       setLoading(true)
 
-      if (shouldWatch) {
-        global.navigator.geolocation.watchPosition(onSuccess, onError)
-      } else {
-        global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
-      }
+      global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
     },
-    [
-      onLocationError,
-      onLocationOutOfBounds,
-      successCallbackFunc,
-      shouldWatch,
-      toggled,
-      loading,
-    ]
+    [onLocationSuccess, toggled, loading, onError, onSuccess]
   )
 
   return (

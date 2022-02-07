@@ -1,14 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, act, fireEvent, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
-import GPSButton from '..'
+import GPSButton from './GPSButton'
 
 describe('components/GPSButton', () => {
   it('should render button with icon', () => {
     const { container, getByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={() => {}} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={() => {}}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     const button = getByTestId('gpsButton')
@@ -39,22 +46,24 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId, queryByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(getByTestId('loadingIndicator')).toBeInTheDocument()
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
@@ -87,71 +96,27 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(onLocationSuccess).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationSuccess).toHaveBeenCalledWith({
       ...coords,
       toggled: true,
     })
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationSuccess).toHaveBeenLastCalledWith({
-      toggled: false,
-    })
-  })
-
-  it('should call onLocationChange', () => {
-    const coords = {
-      accuracy: 1234,
-      latitude: 52.3731081,
-      longitude: 4.8932945,
-    }
-    const mockGeolocation = {
-      watchPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
-    }
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocation
-
-    const onLocationChange = jest.fn()
-
-    const { getByTestId } = render(
-      withAppContext(<GPSButton onLocationChange={onLocationChange} />)
-    )
-
-    expect(onLocationChange).not.toHaveBeenCalled()
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(onLocationChange).toHaveBeenCalledWith({
-      ...coords,
-      toggled: true,
-    })
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(onLocationChange).toHaveBeenLastCalledWith({
       toggled: false,
     })
   })
@@ -182,15 +147,14 @@ describe('components/GPSButton', () => {
         <GPSButton
           onLocationSuccess={onLocationSuccess}
           onLocationError={onLocationError}
+          onLocationOutOfBounds={() => {}}
         />
       )
     )
 
     expect(onLocationError).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationError).toHaveBeenCalledWith({
       code,
@@ -222,14 +186,18 @@ describe('components/GPSButton', () => {
     const onLocationSuccess = jest.fn()
 
     const { getByTestId, rerender, unmount } = render(
-      withAppContext(<GPSButton onLocationSuccess={onLocationSuccess} />)
+      withAppContext(
+        <GPSButton
+          onLocationSuccess={onLocationSuccess}
+          onLocationError={() => {}}
+          onLocationOutOfBounds={() => {}}
+        />
+      )
     )
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
@@ -240,32 +208,15 @@ describe('components/GPSButton', () => {
         <GPSButton
           onLocationSuccess={onLocationSuccess}
           onLocationOutOfBounds={onLocationOutOfBounds}
+          onLocationError={() => {}}
         />
       )
     )
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
+    userEvent.click(getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).toHaveBeenCalled()
-  })
-
-  it('should throw an error', () => {
-    const logErrorMock = jest
-      .spyOn(global.console, 'error')
-      .mockImplementation(jest.fn())
-
-    expect(() => {
-      render(withAppContext(<GPSButton />))
-    }).toThrow()
-
-    expect(() => {
-      render(withAppContext(<GPSButton onLocationChange={() => {}} />))
-    }).not.toThrow()
-
-    logErrorMock.mockRestore()
   })
 })
