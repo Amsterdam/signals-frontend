@@ -56,7 +56,7 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
 
   let iconSrc = undefined
 
-  if (selectionIsObject(value.selection)) {
+  if (value?.selection && selectionIsObject(value.selection)) {
     const featureType = featureTypes?.find(
       ({ typeValue }) => typeValue === value.selection.type
     )
