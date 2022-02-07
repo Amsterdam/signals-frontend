@@ -73,18 +73,21 @@ describe('CaterpillarLayer', () => {
 
     userEvent.click(tree)
 
-    expect(setItem).toHaveBeenCalledWith({
-      id: featureId,
-      isReported: true,
-      isChecked: false,
-      description: 'Eikenboom',
-      type: 'Eikenboom',
-      GlobalID: feature?.properties.GlobalID,
-      location: {
-        coordinates,
+    expect(setItem).toHaveBeenCalledWith(
+      {
+        id: featureId,
+        isReported: true,
+        isChecked: false,
+        description: 'Eikenboom',
+        type: 'Eikenboom',
+        GlobalID: feature?.properties.GlobalID,
+        location: {
+          coordinates,
+        },
+        label: `Eikenboom - ${featureId}`,
       },
-      label: `Eikenboom - ${featureId}`,
-    })
+      { coordinates }
+    )
 
     expect(
       screen.queryByAltText(
