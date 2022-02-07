@@ -27,7 +27,7 @@ import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import MapCloseButton from 'components/MapCloseButton'
 
-import { UNREGISTERED_TYPE } from '../../constants'
+import { selectionIsUndetermined, UNREGISTERED_TYPE } from '../../constants'
 import { ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
@@ -107,7 +107,7 @@ const Selector = () => {
   const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
-    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
+    coordinates && (!selection || selectionIsUndetermined(selection))
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {

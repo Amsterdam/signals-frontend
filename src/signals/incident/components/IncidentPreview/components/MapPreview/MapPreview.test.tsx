@@ -47,13 +47,14 @@ const coordinates = {
   lng: 4,
 }
 const value = {
-  incident,
-  location: {
-    coordinates,
+  selection: {
+    location: {
+      coordinates,
+    },
+    id: 'noop',
+    type: 'Rest',
+    label: 'Rest - noop',
   },
-  id: 'noop',
-  type: 'Rest',
-  label: 'Rest - noop',
 }
 const props = {
   incident,

@@ -18,7 +18,11 @@ import {
 } from '@amsterdam/asc-ui'
 
 import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
-import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import {
+  selectionIsObject,
+  selectionIsUndetermined,
+  UNKNOWN_TYPE,
+} from 'signals/incident/components/form/MapSelectors/constants'
 import AssetList from '../../AssetList'
 import AssetSelectContext from '../../../Asset/context'
 
@@ -52,41 +56,53 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   featureTypes,
   language = {},
 }) => {
-  const { selection, removeItem, setItem, close, setNotOnMap } =
+  const { selection, removeItem, setItem, close } =
     useContext(AssetSelectContext)
 
   const selectionOnMap =
-    selection && selection.type !== UNREGISTERED_TYPE ? selection : undefined
+    selection && selectionIsObject(selection) ? selection : undefined
 
   const unregisteredAsset =
-    selection && selection.type === UNREGISTERED_TYPE ? selection : undefined
+    selection && selectionIsUndetermined(selection) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
-    unregisteredAsset !== undefined
+    selection?.type === UNKNOWN_TYPE
   )
   const [unregisteredAssetValue, setUnregisteredAssetValue] = useState(
     unregisteredAsset?.id || ''
   )
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnregisteredAssetValue(event.currentTarget.value)
-  }
+  const unregisteredLabel =
+    language.unregistered || 'Het object staat niet op de kaart'
 
-  const onCheck = useCallback(() => {
-    setShowObjectIdInput(!showObjectIdInput)
-    setNotOnMap(!showObjectIdInput)
-  }, [setNotOnMap, showObjectIdInput])
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUnregisteredAssetValue(event.currentTarget.value.trim())
+  }
 
   const onSetItem = useCallback(() => {
     setItem({
-      location: {},
       id: unregisteredAssetValue,
-      type: UNREGISTERED_TYPE,
-      label: ['De container staat niet op de kaart', unregisteredAssetValue]
+      type: UNKNOWN_TYPE,
+      label: [unregisteredLabel, unregisteredAssetValue]
         .filter(Boolean)
         .join(' - '),
     })
-  }, [setItem, unregisteredAssetValue])
+  }, [unregisteredLabel, setItem, unregisteredAssetValue])
+
+  const onCheck = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setShowObjectIdInput(event.target.checked)
+
+      if (event.target.checked) {
+        onSetItem()
+      } else {
+        setItem({
+          type: UNKNOWN_TYPE,
+        })
+      }
+    },
+    [onSetItem, setItem]
+  )
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
@@ -129,7 +145,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
           />
           <Label
             htmlFor="unregisteredAssetCheckbox"
-            label={language.unregistered || 'Het object staat niet op de kaart'}
+            label={unregisteredLabel}
           />
 
           {showObjectIdInput && language.unregisteredId && (

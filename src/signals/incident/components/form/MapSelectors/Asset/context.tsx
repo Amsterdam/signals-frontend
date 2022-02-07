@@ -21,7 +21,6 @@ export const initialValue: AssetSelectValue = {
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},
   removeItem: /* istanbul ignore next */ () => {},
-  setNotOnMap: /* istanbul ignore next */ () => {},
 }
 
 const AssetSelectContext = createContext(initialValue)

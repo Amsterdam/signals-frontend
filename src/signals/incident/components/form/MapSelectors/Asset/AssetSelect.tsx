@@ -3,19 +3,14 @@
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import {
-  makeSelectAddress,
-  makeSelectCoordinates,
-} from 'signals/incident/containers/IncidentContainer/selectors'
 
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import type { EventHandler, FeatureType, Item, Meta } from '../types'
 
-import { UNREGISTERED_TYPE } from '../constants'
+import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
@@ -36,8 +31,15 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
   iconUrl: '/assets/images/featureUnknownMarker.svg',
 }
 
+interface UpdatePayload {
+  selection?: Item
+  location?: Location
+}
 export interface AssetSelectProps {
-  handler: () => { value?: Item }
+  value?: {
+    selection?: Item
+    location?: Location
+  }
   layer?: FC
   meta: Meta
   parent: {
@@ -48,84 +50,58 @@ export interface AssetSelectProps {
   }
 }
 
-const AssetSelect: FC<AssetSelectProps> = ({
-  handler,
-  layer,
-  meta,
-  parent,
-}) => {
-  const selection = handler().value
+const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
+  const { selection, location } = value || {}
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
-  const coordinates = useSelector(makeSelectCoordinates)
-  const address = useSelector(makeSelectAddress)
+  const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
 
-  /**
-   * Indicate that an object is not visible on the map
-   */
-  const setNotOnMap = useCallback(
-    (itemNotPresentOnMap?: boolean) => {
-      const payload: Record<string, any> = {}
-
-      if (coordinates) {
-        payload.location = {
-          coordinates,
-          address,
-        }
-      }
-
-      payload[meta.name as string] = itemNotPresentOnMap
-        ? { type: UNREGISTERED_TYPE }
-        : undefined
-
-      parent.meta.updateIncident(payload)
+  const updateIncident = useCallback(
+    (payload?: UpdatePayload) => {
+      parent.meta.updateIncident({
+        location: payload?.location,
+        [meta.name as string]: payload,
+      })
     },
-    [address, coordinates, meta.name, parent.meta]
+    [meta.name, parent.meta]
   )
 
   /**
    * Selecting an object on the map
    */
   const setItem = useCallback(
-    (item: Item) => {
-      const { location, ...restItem } = item
-      const { address: addr, coordinates: coords } = location
-      const itemCoords = item?.type === UNREGISTERED_TYPE ? coordinates : coords
-      const itemAddress = item?.type === UNREGISTERED_TYPE ? address : addr
+    (selectedItem: Item, itemLocation?: Location) => {
+      const payload = {
+        selection: selectedItem,
+        location: itemLocation || location,
+      }
 
-      parent.meta.updateIncident({
-        location: {
-          coordinates: itemCoords,
-          address: itemAddress,
-        },
-        [meta.name as string]: restItem,
-      })
+      updateIncident(payload)
     },
-    [address, coordinates, meta.name, parent.meta]
+    [location, updateIncident]
   )
 
   const removeItem = useCallback(() => {
-    parent.meta.updateIncident({
-      location: {},
-      [meta.name as string]: undefined,
-    })
-  }, [meta.name, parent.meta])
+    updateIncident(undefined)
+  }, [updateIncident])
 
   const getUpdatePayload = useCallback(
-    (location: Item['location']) => {
-      const payload: Record<string, any> = {}
-
+    (location: Location) => {
       // Clicking the map should unset a previous selection and preset it with an item that we know
       // doesn't exist on the map.
-      payload[meta.name as string] = undefined
+      const payload: UpdatePayload = { location }
 
-      payload.location = location
+      if (selection?.type === UNKNOWN_TYPE) {
+        payload.selection = selection
+      } else {
+        payload.selection = undefined
+      }
 
       return payload
     },
-    [meta.name]
+    [selection]
   )
 
   /**
@@ -134,7 +110,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
    */
   const fetchLocation = useCallback(
     async (latLng: LatLngLiteral) => {
-      const location: Item['location'] = {
+      const location = {
         coordinates: latLng,
         address,
       }
@@ -143,15 +119,17 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       // immediately set the location so that the marker is placed on the map; the reverse geocoder response
       // might take some time to resolve, leaving the user wondering if the map click actually did anything
-      parent.meta.updateIncident(payload)
+      updateIncident(payload)
 
-      const response = await reverseGeocoderService(latLng)
+      if (payload.location) {
+        const response = await reverseGeocoderService(latLng)
 
-      payload.location.address = response?.data?.address
+        payload.location.address = response?.data?.address
 
-      parent.meta.updateIncident(payload)
+        updateIncident(payload)
+      }
     },
-    [address, getUpdatePayload, parent.meta]
+    [address, getUpdatePayload, updateIncident]
   )
 
   /**
@@ -161,9 +139,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
     (location: Location) => {
       const payload = getUpdatePayload(location)
 
-      parent.meta.updateIncident(payload)
+      updateIncident(payload)
     },
-    [parent.meta, getUpdatePayload]
+    [updateIncident, getUpdatePayload]
   )
 
   const edit = useCallback<EventHandler>(
@@ -222,7 +200,6 @@ const AssetSelect: FC<AssetSelectProps> = ({
         setItem,
         fetchLocation,
         setMessage,
-        setNotOnMap,
       }}
     >
       {!showMap && !hasSelection && <Intro />}
