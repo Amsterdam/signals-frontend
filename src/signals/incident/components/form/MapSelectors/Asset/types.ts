@@ -22,6 +22,7 @@ export interface AssetSelectValue {
   fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
+  setNotOnMap: (itemNotPresentOnMap?: boolean) => void
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {

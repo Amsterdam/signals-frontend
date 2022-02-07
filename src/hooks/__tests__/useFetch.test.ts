@@ -5,7 +5,7 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 
 import type { FetchError } from '../useFetch'
 import useFetch from '../useFetch'

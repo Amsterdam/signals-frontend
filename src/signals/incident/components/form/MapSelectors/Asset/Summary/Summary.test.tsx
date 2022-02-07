@@ -13,6 +13,8 @@ import { withAppContext } from 'test/utils'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { AssetSelectValue } from '../types'
 
+import { contextValue as assetSelectContextValue } from '../__tests__/withAssetSelectContext'
+
 import Summary from '../Summary'
 
 jest.mock('shared/services/configuration/configuration')
@@ -42,6 +44,7 @@ const featureType = {
 }
 
 const contextValue: AssetSelectValue = {
+  ...assetSelectContextValue,
   selection,
   meta: {
     endpoint: '',
@@ -54,13 +57,6 @@ const contextValue: AssetSelectValue = {
     openbare_ruimte: 'West',
   },
   coordinates: { lat: 0, lng: 0 },
-  edit: jest.fn(),
-  close: jest.fn(),
-  setMessage: jest.fn(),
-  fetchLocation: jest.fn(),
-  setLocation: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
 }
 
 export const withContext = (Component: JSX.Element, context = contextValue) =>
@@ -171,21 +167,17 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     ).not.toBeInTheDocument()
     expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
 
-    rerender(withContext(<Summary />, { ...contextValue, address: undefined }))
-    expect(
-      screen.getByText('Locatie is gepind op de kaart')
-    ).toBeInTheDocument()
-
     rerender(
       withContext(<Summary />, {
         ...contextValue,
+        selection: undefined,
         address: undefined,
-        coordinates: undefined,
       })
     )
+
     expect(
-      screen.queryByText('Locatie is gepind op de kaart')
-    ).not.toBeInTheDocument()
+      screen.getByText('Locatie is gepind op de kaart')
+    ).toBeInTheDocument()
     expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
   })
 

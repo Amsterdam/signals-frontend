@@ -2,8 +2,8 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
-import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import configuration from 'shared/services/configuration/configuration'
+import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 export const ICON_SIZE = 40
@@ -37,7 +37,7 @@ export const controls = {
         objectTypePlural: 'containers',
         submit: 'Gebruik deze locatie',
         description:
-          'Typ het dichtsbijzijnde adres of klik de locatie aan op de kaart',
+          'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
       },
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',

@@ -49,6 +49,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       ? '/assets/images/featureSelectedMarker.svg'
       : featureType.icon.iconUrl
     const icon = L.icon({
+      iconSize: featureType.icon?.options?.iconSize || [40, 40],
       iconUrl: iconUrl || '/assets/images/featureDefaultMarker.svg',
     })
 
@@ -72,9 +73,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         location: {
           coordinates,
         },
-        label: [description, isReported && 'is gemeld', id]
-          .filter(Boolean)
-          .join(' - '),
+        label: [description, id].filter(Boolean).join(' - '),
       }
 
       const response = await reverseGeocoderService(coordinates)

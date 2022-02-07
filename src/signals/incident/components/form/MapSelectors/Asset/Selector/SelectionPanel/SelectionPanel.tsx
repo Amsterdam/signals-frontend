@@ -30,10 +30,6 @@ const StyledButton = styled(Button)`
   margin-top: ${themeSpacing(6)};
 `
 
-const StyledParagraph = styled(Paragraph)`
-  margin-top: ${themeSpacing(6)};
-`
-
 const StyledMapPanelContent = styled(MapPanelContent)`
   background: none;
 `
@@ -56,7 +52,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   featureTypes,
   language = {},
 }) => {
-  const { selection, removeItem, setItem, close } =
+  const { selection, removeItem, setItem, close, setNotOnMap } =
     useContext(AssetSelectContext)
 
   const selectionOnMap =
@@ -78,7 +74,8 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
 
   const onCheck = useCallback(() => {
     setShowObjectIdInput(!showObjectIdInput)
-  }, [showObjectIdInput])
+    setNotOnMap(!showObjectIdInput)
+  }, [setNotOnMap, showObjectIdInput])
 
   const onSetItem = useCallback(() => {
     setItem({
@@ -109,9 +106,10 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
     >
       <Paragraph strong>
         {language.subTitle || 'U kunt maar een object kiezen'}
-        {language.description ? (
-          <Description>{language.description}</Description>
-        ) : null}
+        <Description>
+          {language.description ||
+            'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
+        </Description>
       </Paragraph>
 
       {selection && selectionOnMap && (
@@ -136,10 +134,6 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
 
           {showObjectIdInput && language.unregisteredId && (
             <>
-              <StyledParagraph>
-                Typ het dichtstbijzijnde adres of klik de locatie aan op de
-                kaart.
-              </StyledParagraph>
               <Label
                 htmlFor="unregisteredAssetInput"
                 label={

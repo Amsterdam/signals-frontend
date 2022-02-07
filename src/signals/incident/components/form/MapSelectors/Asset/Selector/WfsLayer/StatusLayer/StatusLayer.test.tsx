@@ -20,6 +20,7 @@ import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/A
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 import StatusLayer from './StatusLayer'
 import {
   getCheckedFeatureType,
@@ -28,14 +29,15 @@ import {
   getReportedFeatureType,
 } from './utils'
 
+const typedMeta = meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: selection[0],
-  meta,
+  meta: typedMeta,
 }
 
-const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
-const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
+const reportedFeatureType = getReportedFeatureType(typedMeta.featureTypes)
+const checkedFeatureType = getCheckedFeatureType(typedMeta.featureTypes)
 
 const statusFeatures = caterpillarsJson.features.filter(
   (feature) =>
@@ -73,5 +75,10 @@ describe('StatusLayer', () => {
     const checkedFeatureId = statusFeatures[2].properties['OBJECTID']
     const checkedDescription = `${checkedFeatureType?.description} - ${checkedFeatureId}`
     expect(screen.getByAltText(checkedDescription)).toBeInTheDocument()
+  })
+
+  it('To render Asset layer icons in the correct location with respect to the status icons, featureTypes should have the proper iconSize', () => {
+    const iconSize = meta.featureTypes[0].icon?.options?.iconSize
+    expect(iconSize).toEqual([40, 40])
   })
 })
