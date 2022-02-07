@@ -183,9 +183,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       clientY: 10,
     })
 
-    expect(fetchLocation).toHaveBeenCalledWith(
-      expect.not.objectContaining(coordinates)
-    )
+    setTimeout(() => {
+      expect(fetchLocation).toHaveBeenCalledWith(
+        expect.not.objectContaining(coordinates)
+      )
+    }, 300)
   })
 
   it('dispatches the location when an address is selected', async () => {
