@@ -65,7 +65,7 @@ export const StyledButton = styled(Button)`
 `
 
 export const StyledH4 = styled(Heading)`
-  margin-bottom: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(4)};
   margin-top: ${themeSpacing(0)};
 `
 
@@ -80,11 +80,6 @@ export const StyledParagraph = styled.p`
 
 export const StyledSection = styled.section`
   margin-bottom: ${themeSpacing(6)};
-`
-
-export const TextsArea = styled.div`
-  grid-area: texts;
-  margin-top: ${themeSpacing(5)};
 `
 
 export const Wrapper = styled(Row)`
