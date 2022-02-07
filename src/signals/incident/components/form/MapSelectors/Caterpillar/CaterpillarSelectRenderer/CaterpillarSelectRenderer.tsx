@@ -17,7 +17,7 @@ const CaterpillarSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
         getError={getError}
       >
         <AssetSelect
-          handler={handler}
+          value={handler().value}
           meta={meta}
           parent={parent}
           layer={Layer}

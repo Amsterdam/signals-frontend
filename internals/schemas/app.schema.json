@@ -357,7 +357,7 @@
           "$ref": "#/definitions/Tiles"
         },
         "staticUrl": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js)",
+          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js) only when `featureFlags.useStaticMapServer` is enabled.",
           "type": "string",
           "format": "uri"
         },

@@ -3,34 +3,45 @@
 import convertValue from '.'
 
 describe('The convert value service', () => {
-  it('should return undefined by default', () => {
+  it('returnd undefined by default', () => {
     expect(convertValue()).toBeUndefined()
   })
 
-  it('should return text', () => {
+  it('returns a string', () => {
     expect(convertValue('This is a beautiful phrase')).toBe(
       'This is a beautiful phrase'
     )
   })
 
-  it('should return 0', () => {
-    expect(convertValue(0)).toBe(0)
+  it('returns 0', () => {
+    expect(convertValue(0)).toStrictEqual(0)
   })
 
-  it('should return "ja"', () => {
-    expect(convertValue(true)).toBe('ja')
+  it('returns "ja" for a truthy value', () => {
+    expect(convertValue(true)).toStrictEqual('ja')
   })
 
-  it('should return "nee"', () => {
-    expect(convertValue(false)).toBe('nee')
+  it('returns "nee" for a falsy value', () => {
+    expect(convertValue(false)).toStrictEqual('nee')
   })
 
-  it('should pass through an array', () => {
+  it('returns selection prop from object', () => {
+    const selection = {
+      foo: 'bar',
+    }
+    const value = {
+      selection,
+    }
+
+    expect(convertValue(value)).toStrictEqual(selection)
+  })
+
+  it('does not convert array values', () => {
     const array = [42, 'foo', 'bar']
-    expect(convertValue(array)).toBe(array)
+    expect(convertValue(array)).toStrictEqual(array)
   })
 
-  it('should pass through an object', () => {
+  it('does not convert object values', () => {
     const object = {
       foo: 1,
       bar: {
@@ -38,6 +49,6 @@ describe('The convert value service', () => {
         y: 42,
       },
     }
-    expect(convertValue(object)).toBe(object)
+    expect(convertValue(object)).toStrictEqual(object)
   })
 })

@@ -27,7 +27,11 @@ export const createRequired = (message: string) =>
 
 export const validateObjectLocation = (objectType: string) =>
   function required(control: AbstractControl) {
-    if (control.value) return null
+    if (
+      control.value?.location?.coordinates?.lng &&
+      control.value?.location?.coordinates?.lat
+    )
+      return null
 
     return {
       custom: `Kies een locatie of een ${objectType} op de kaart of vul een adres in`,

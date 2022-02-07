@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+
 import type { LatLngLiteral, LatLngTuple } from 'leaflet'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import type { Address } from './address'
 
 export type ValueObject = {
@@ -8,7 +11,14 @@ export type ValueObject = {
   value: boolean
 }
 
-export interface Incident {
+type ExtraProps = {
+  [key: string]: {
+    [prop: string]: any
+    selection?: Item
+    location?: Location
+  }
+}
+export interface Incident extends Record<string, any>, ExtraProps {
   category: string
   classification: Classification | null
   datetime: Datetime
@@ -78,6 +88,13 @@ export const mock: Incident = {
     'Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
   phone: '14 020',
   images_previews: [],
+  extra_container: {
+    selection: {
+      id: '0872453',
+      label: 'Dit is het object',
+      type: UNKNOWN_TYPE,
+    },
+  },
   location: {
     coordinates: {
       lat: 52.38931218069618,

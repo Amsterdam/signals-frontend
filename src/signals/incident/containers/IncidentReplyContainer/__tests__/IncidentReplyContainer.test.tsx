@@ -5,7 +5,7 @@ import * as actions from 'containers/App/actions'
 import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 
 import * as constants from '../constants'
 import * as API from '../../../../../../internals/testing/api'

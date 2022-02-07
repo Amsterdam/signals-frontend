@@ -1,5 +1,5 @@
 import fetchMock from 'jest-fetch-mock'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 import { renderHook, act } from '@testing-library/react-hooks'
 import JSONresponse from 'utils/__tests__/fixtures/user.json'
 

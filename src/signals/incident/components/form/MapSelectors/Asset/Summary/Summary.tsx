@@ -15,6 +15,7 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { formatAddress } from 'shared/services/format-address'
 import configuration from 'shared/services/configuration/configuration'
+import { selectionIsUndetermined } from '../../constants'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -44,26 +45,35 @@ const StyledMarker = styled(Marker)`
   cursor: none;
 `
 
+const defaultCenter = {
+  lat: configuration.map.options.center[0],
+  lng: configuration.map.options.center[1],
+}
+
 const Summary: FC = () => {
   const { address, coordinates, selection, edit, meta } =
     useContext(AssetSelectContext)
   const { id, type } = selection || {}
   const { description } =
     meta.featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+  const center = coordinates || defaultCenter
 
   const options = {
     ...MAP_OPTIONS,
     zoom: mapZoom,
     attributionControl: false,
-    center: coordinates,
+    center,
   }
 
   const summaryDescription = [description, id].filter(Boolean).join(' - ')
-  let summaryAddress = coordinates ? 'Locatie is gepind op de kaart' : ''
-  if (address) summaryAddress = formatAddress(address)
+  let summaryAddress = address ? formatAddress(address) : ''
+  summaryAddress =
+    !summaryAddress && coordinates
+      ? 'Locatie is gepind op de kaart'
+      : summaryAddress
 
   const iconSrc = useMemo(() => {
-    if (!selection?.type || selection.type === 'not-on-map') {
+    if (!selection?.type || selectionIsUndetermined(selection)) {
       return undefined
     }
 
@@ -72,7 +82,7 @@ const Summary: FC = () => {
     )
 
     return featureType && featureType.icon.iconUrl
-  }, [selection?.type, meta.featureTypes])
+  }, [selection, meta.featureTypes])
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
@@ -85,19 +95,18 @@ const Summary: FC = () => {
 
   return (
     <Wrapper data-testid="assetSelectSummary">
-      {coordinates &&
-        (configuration.featureFlags.useStaticMapServer ? (
-          <StyledMapStatic
-            height={mapHeight}
-            iconSrc={iconSrc}
-            width={mapWidth}
-            coordinates={coordinates}
-          />
-        ) : (
-          <StyledMap mapOptions={options}>
-            <StyledMarker args={[coordinates]} options={{ icon: markerIcon }} />
-          </StyledMap>
-        ))}
+      {configuration.featureFlags.useStaticMapServer ? (
+        <StyledMapStatic
+          height={mapHeight}
+          iconSrc={iconSrc}
+          width={mapWidth}
+          coordinates={center}
+        />
+      ) : (
+        <StyledMap mapOptions={options}>
+          <StyledMarker args={[center]} options={{ icon: markerIcon }} />
+        </StyledMap>
+      )}
 
       {selection && (
         <div data-testid="assetSelectSummaryDescription">
@@ -106,6 +115,7 @@ const Summary: FC = () => {
       )}
       <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
       <StyledLink
+        data-testid="mapEditButton"
         onClick={edit}
         onKeyUp={onKeyUp}
         variant="inline"

@@ -18,6 +18,7 @@ import type { DataLayerProps } from '../../../types'
 import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import { AssetSelectProvider } from '../../context'
+import { contextValue as assetSelectContextValue } from '../../__tests__/withAssetSelectContext'
 
 import WfsDataContext, { NO_DATA } from './context'
 import { SRS_NAME } from './WfsLayer'
@@ -41,19 +42,13 @@ const consoleErrorSpy = jest.spyOn(global.console, 'error')
 const endpoint = 'https://endpoint/?version=2'
 const promise = Promise.resolve()
 const assetSelectProviderValue: AssetSelectValue = {
+  ...assetSelectContextValue,
   selection: undefined,
   coordinates: { lat: 0, lng: 0 },
   meta: {
     endpoint,
     featureTypes: [],
   },
-  setItem: jest.fn(() => promise),
-  removeItem: jest.fn(),
-  edit: jest.fn(),
-  close: jest.fn(),
-  setMessage: jest.fn(),
-  fetchLocation: jest.fn(),
-  setLocation: jest.fn(),
 }
 
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
@@ -150,6 +145,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const endpoint = 'https://endpoint/?version=2'
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
+      ...assetSelectContextValue,
       selection: undefined,
       coordinates: { lat: 0, lng: 0 },
       meta: {
@@ -157,12 +153,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
         featureTypes: [],
       },
       setItem: jest.fn(() => promise),
-      removeItem: jest.fn(),
-      edit: jest.fn(),
-      close: jest.fn(),
-      setMessage: jest.fn(),
-      fetchLocation: jest.fn(),
-      setLocation: jest.fn(),
     }
 
     render(
@@ -189,6 +179,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const expectedEndpoint = `https://endpoint/?version=2&srsName=${SRS_NAME}&bbox=52.37309163108818,4.879893974954347,52.37309163108818,4.879893974954347`
     const promise = Promise.resolve()
     const assetSelectProviderValue: AssetSelectValue = {
+      ...assetSelectContextValue,
       selection: undefined,
       coordinates: { lat: 0, lng: 0 },
       meta: {
@@ -196,12 +187,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
         featureTypes: [],
       },
       setItem: jest.fn(() => promise),
-      removeItem: jest.fn(),
-      edit: jest.fn(),
-      close: jest.fn(),
-      setMessage: jest.fn(),
-      fetchLocation: jest.fn(),
-      setLocation: jest.fn(),
     }
 
     render(
@@ -226,6 +211,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     const wfsFilter =
       '<PropertyIsEqualTo><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope>'
     const assetSelectProviderValue: AssetSelectValue = {
+      ...assetSelectContextValue,
       selection: undefined,
       coordinates: { lat: 0, lng: 0 },
       meta: {
@@ -234,12 +220,6 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
         featureTypes: [],
       },
       setItem: jest.fn(() => promise),
-      removeItem: jest.fn(),
-      edit: jest.fn(),
-      close: jest.fn(),
-      setMessage: jest.fn(),
-      fetchLocation: jest.fn(),
-      setLocation: jest.fn(),
     }
 
     const urlWithFilter =

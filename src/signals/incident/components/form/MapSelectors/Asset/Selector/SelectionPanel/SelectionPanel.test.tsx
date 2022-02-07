@@ -5,7 +5,7 @@ import { withAppContext } from 'test/utils'
 
 import userEvent from '@testing-library/user-event'
 
-import { UNREGISTERED_TYPE } from '../../../constants'
+import { UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
@@ -43,12 +43,12 @@ describe('SelectionPanel', () => {
     },
     idField: 'id',
     typeField: 'type',
-    typeValue: UNREGISTERED_TYPE,
+    typeValue: UNKNOWN_TYPE,
   }
   const UNREGISTERED_CONTAINER = {
     description: 'Het object staat niet op de kaart',
     id: '',
-    type: 'not-on-map',
+    type: UNKNOWN_TYPE,
   }
   const GLAS_CONTAINER = {
     id: 'GLAS123',
@@ -77,7 +77,7 @@ describe('SelectionPanel', () => {
   }
 
   afterEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
   })
 
   it('renders the panel', () => {
@@ -151,27 +151,33 @@ describe('SelectionPanel', () => {
       screen.queryByText('Nummer van de container')
     ).not.toBeInTheDocument()
 
+    expect(contextValue.setItem).not.toHaveBeenCalled()
+
     userEvent.click(
       screen.getByRole('checkbox', {
         name: 'Het object staat niet op de kaart',
       })
     )
+    expect(contextValue.setItem).toHaveBeenCalledTimes(1)
+    expect(contextValue.setItem).toHaveBeenCalledWith({
+      id: '',
+      label: 'Het object staat niet op de kaart',
+      type: UNKNOWN_TYPE,
+    })
 
     expect(screen.getByText('Nummer van de container')).toBeInTheDocument()
 
     const unregisteredObjectId = '8976238'
 
-    expect(contextValue.setItem).not.toHaveBeenCalled()
-
     userEvent.type(screen.getByRole('textbox'), unregisteredObjectId)
 
     fireEvent.blur(screen.getByRole('textbox'))
 
-    expect(contextValue.setItem).toHaveBeenCalledWith({
+    expect(contextValue.setItem).toHaveBeenCalledTimes(2)
+    expect(contextValue.setItem).toHaveBeenLastCalledWith({
       id: unregisteredObjectId,
-      location: {},
-      type: UNREGISTERED_TYPE,
-      label: `De container staat niet op de kaart - ${unregisteredObjectId}`,
+      type: UNKNOWN_TYPE,
+      label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
     })
   })
 
@@ -213,9 +219,8 @@ describe('SelectionPanel', () => {
 
     expect(contextValue.setItem).toHaveBeenCalledWith({
       id: '5',
-      location: {},
-      type: UNREGISTERED_TYPE,
-      label: 'De container staat niet op de kaart - 5',
+      type: UNKNOWN_TYPE,
+      label: 'Het object staat niet op de kaart - 5',
     })
     expect(contextValue.close).toHaveBeenCalled()
   })
