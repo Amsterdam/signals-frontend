@@ -173,7 +173,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
   it('dispatches the location when the map is clicked', async () => {
     const { coordinates, fetchLocation } = contextValue
-    jest.spyOn(global, 'setTimeout')
 
     render(withAssetSelectContext(<Selector />))
 
