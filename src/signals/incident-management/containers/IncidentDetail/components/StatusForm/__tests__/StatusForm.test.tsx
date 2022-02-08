@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { fireEvent, render, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  getQueriesForElement,
+  render,
+  screen,
+} from '@testing-library/react'
 import { ThemeProvider } from '@amsterdam/asc-ui'
 
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -10,9 +15,6 @@ import {
   INGEPLAND,
   AFGEHANDELD,
   GEANNULEERD,
-  REACTIE_GEVRAAGD,
-  HEROPEND,
-  AFWACHTING,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
@@ -117,13 +119,22 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
     expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
-
-    Object.values(changeStatusOptionList).forEach(({ value }) => {
-      expect(screen.getByLabelText(value)).toBeInTheDocument()
-    })
-
     expect(screen.getByTestId('sendEmailCheckbox')).toBeInTheDocument()
     expect(screen.getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
+  })
+
+  it('it shows a select component with all status options', () => {
+    render(renderWithContext())
+    const selectElement = screen.getByTestId('selectStatus')
+    const selectOptions =
+      getQueriesForElement(selectElement).getAllByRole('option')
+    expect(selectOptions.length).toEqual(changeStatusOptionList.length + 1)
+
+    Object.values(changeStatusOptionList).forEach(({ key }) => {
+      expect(selectOptions).toContain(
+        document.querySelector(`option[value="${key}"]`)
+      )
+    })
   })
 
   it('shows the number of available standard texts', () => {
@@ -154,7 +165,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
 
     // select a status that will not disable the checkbox
-    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Gemeld,
+    ])
 
     // verify that checkbox is NOT checked and NOT disabled
     expect(checkbox).not.toBeChecked()
@@ -173,14 +186,18 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render status verzoek tot heropenen
     render(renderWithContext(withHeropenenStatus))
 
-    userEvent.click(screen.getByText('Heropend'))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Heropend,
+    ])
 
     const checkbox = screen.getByTestId('sendEmailCheckbox')
 
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
 
-    userEvent.click(screen.getByText('Afgehandeld'))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(checkbox).not.toBeChecked()
     expect(checkbox).not.toBeDisabled()
@@ -298,7 +315,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
 
     // select another status
-    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Gemeld,
+    ])
 
     // verify that the text field is empty again
     expect(screen.getByRole('textbox')).toHaveTextContent('')
@@ -320,7 +339,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(textarea).toHaveTextContent(value)
 
     // select another status
-    userEvent.click(screen.getByRole('radio', { name: AFWACHTING.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afwachting,
+    ])
 
     // verify that the text field is NOT empty
     expect(textarea).toHaveTextContent(value)
@@ -407,7 +428,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -418,10 +441,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
     // select another status
-    const otherStatus = screen.getByRole('radio', {
-      name: REACTIE_GEVRAAGD.value,
-    })
-    userEvent.click(otherStatus)
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
 
     // verify that an error message is NOT shown
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
@@ -431,7 +453,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     expect(screen.queryByTestId('end-status-warning')).not.toBeInTheDocument()
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     expect(screen.getByTestId('end-status-warning')).toBeInTheDocument()
   })
 
@@ -442,7 +466,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
   })
 
@@ -453,7 +479,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
   })
 
@@ -479,11 +507,11 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container } = render(renderWithContext(deelmelding))
+    render(renderWithContext(deelmelding))
 
-    userEvent.click(
-      container.querySelector('input[value="i"]') as HTMLInputElement
-    )
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afwachting,
+    ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
@@ -503,11 +531,11 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container } = render(renderWithContext(deelmelding))
+    render(renderWithContext(deelmelding))
 
-    userEvent.click(
-      container.querySelector('input[value="o"]') as HTMLInputElement
-    )
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument()
@@ -535,14 +563,17 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     // select a status that will show a warning
-    userEvent.click(screen.getByRole('radio', { name: HEROPEND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Heropend,
+    ])
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
     expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-
-    userEvent.click(screen.getByText(REACTIE_GEVRAAGD.value))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(
       screen.getByTestId('split-incident-reply-warning')
     ).toBeInTheDocument()
@@ -556,7 +587,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(
       screen.getByTestId('has-open-child-incidents-warning').textContent
@@ -565,13 +598,17 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.getByTestId('has-open-child-incidents-warning').textContent
     ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
 
-    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Ingepland,
+    ])
 
     expect(
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Geannuleerd,
+    ])
     expect(
       screen.getByTestId('has-open-child-incidents-warning').textContent
     ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
@@ -589,19 +626,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Ingepland,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Geannuleerd,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
@@ -619,7 +662,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const submitButton = screen.getByRole('button', { name: 'Opslaan' })
 
     expect(submitButton).not.toBeDisabled()
-    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(submitButton).toBeDisabled()
   })
 

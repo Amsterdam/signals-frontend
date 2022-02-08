@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
-import { Alert, Heading, Label, Modal } from '@amsterdam/asc-ui'
+import { Alert, Heading, Label, Modal, Select } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import useEventEmitter from 'hooks/useEventEmitter'
 
@@ -16,7 +16,7 @@ import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import IncidentDetailContext from '../../context'
@@ -94,10 +94,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     state.warnings.some(({ level }) => level === 'error')
   )
 
-  const onRadioChange = useCallback((_name, selectedStatus) => {
-    dispatch({ type: 'SET_STATUS', payload: selectedStatus })
-  }, [])
-
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault()
@@ -169,6 +165,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     dispatch({ type: 'SET_TEXT', payload: event.target.value })
   }, [])
 
+  const onStatusChange = useCallback((event) => {
+    const selectedStatus = changeStatusOptionList.find(
+      (status) => event.target.value === status.key
+    )
+    selectedStatus && dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+  }, [])
+
   const defaultTextTemplatesLength = useCallback(
     (defaultTexts: DefaultTextsType) => {
       if (!defaultTexts || defaultTexts.length === 0) {
@@ -203,14 +206,19 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
       <StyledSection>
         <StyledLabel htmlFor="status" label="Status" />
-        <input type="hidden" name="status" value={state.originalStatus.key} />
-        <RadioButtonList
-          defaultValue={state.status.key}
-          groupName="status"
-          hasEmptySelectionButton={false}
-          onChange={onRadioChange}
-          options={changeStatusOptionList}
-        />
+        <Select
+          data-testid="selectStatus"
+          id="status"
+          value={state.status.key}
+          onChange={onStatusChange}
+        >
+          <option key="default">Kies status</option>
+          {changeStatusOptionList.map((status: Status) => (
+            <option key={status.key} value={status.key}>
+              {status.value}
+            </option>
+          ))}
+        </Select>
       </StyledSection>
 
       <StyledSection>
