@@ -208,23 +208,14 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     const editStatusButton = await screen.findByTestId('editStatusButton')
 
     expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
-    expect(window.scrollTo).not.toHaveBeenCalled()
 
     userEvent.click(editStatusButton)
 
     expect(screen.queryByTestId('statusForm')).toBeInTheDocument()
 
-    expect(window.scrollTo).toHaveBeenCalledTimes(1)
-
     userEvent.click(screen.getByTestId('statusFormCancelButton'))
 
-    await screen.findByTestId('incidentDetail')
-
     expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
-
-    expect(window.scrollTo).toHaveBeenCalledTimes(2)
-
-    await screen.findByTestId('incidentDetail')
   })
 
   it('renders attachment viewer', async () => {

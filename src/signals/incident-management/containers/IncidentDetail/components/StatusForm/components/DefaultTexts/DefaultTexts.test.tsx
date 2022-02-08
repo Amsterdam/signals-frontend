@@ -45,7 +45,7 @@ describe('<DefaultTexts />', () => {
 
     expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(1)
     expect(queryByTestId('defaultTextsTitle')).toHaveTextContent(
-      /^Standaard teksten$/
+      /^Standaardtekst$/
     )
 
     expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(3)

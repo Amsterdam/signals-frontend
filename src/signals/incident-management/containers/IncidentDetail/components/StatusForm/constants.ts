@@ -15,7 +15,7 @@ export const DEELMELDINGEN_STILL_OPEN_CONTENT = `Als je de hoofdmelding nu afhan
 export const NO_REPORTER_EMAIL = `De melder heeft geen e-mailadres opgegeven, er wordt geen bericht verstuurd.`
 
 export const DEFAULT_TEXT_MAX_LENGTH = 3000
-export const DEFAULT_TEXT_LABEL = 'Toelichting'
+export const DEFAULT_TEXT_LABEL = 'Bericht aan melder'
 export const DEFAULT_TEXT_SUBTITLE = `Het bericht aan de melder bevat al een aanhef en afsluiting`
 
 export const REPLY_MAIL_MAX_LENGTH = 400

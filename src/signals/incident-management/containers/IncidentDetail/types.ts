@@ -9,7 +9,7 @@ export interface Context {
   update: (action: AnyAction) => void
   preview?: (section: string, payload?: Partial<State>) => void
   edit?: (section: string, payload?: Partial<State>) => void
-  close: () => void
+  close?: () => void
 }
 
 export interface State {
