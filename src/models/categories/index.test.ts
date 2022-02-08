@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 
 import loadModel from '..'
 import reducer from './reducer'

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import 'jest-localstorage-mock'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 import configuration from '../../../configuration/configuration'
 import queryStringParser from '../query-string-parser'
 import randomStringGenerator from '../random-string-generator'

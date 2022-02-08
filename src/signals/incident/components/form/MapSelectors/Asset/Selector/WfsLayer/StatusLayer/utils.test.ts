@@ -7,6 +7,7 @@ import type {
   ReportedFeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import { meta } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 import {
   getCheckedFeatureType,
   getIsChecked,
@@ -14,9 +15,11 @@ import {
   getReportedFeatureType,
 } from './utils'
 
+const typedMeta = meta as unknown as Meta
+
 describe('utils', () => {
-  const reportedFeatureType = meta.featureTypes[1] as ReportedFeatureType
-  const checkedFeatureType = meta.featureTypes[2] as CheckedFeatureType
+  const reportedFeatureType = typedMeta.featureTypes[1] as ReportedFeatureType
+  const checkedFeatureType = typedMeta.featureTypes[2] as CheckedFeatureType
 
   describe('getIsReported', () => {
     it('should return if the feature has been reported or not', () => {
@@ -61,9 +64,9 @@ describe('utils', () => {
 
   describe('getReportedFeatureType', () => {
     it('should return the reportedFeatureType when there is one', () => {
-      const otherFeatureTypes = [meta.featureTypes[0]]
+      const otherFeatureTypes = [typedMeta.featureTypes[0]]
 
-      expect(getReportedFeatureType(meta.featureTypes)).toEqual(
+      expect(getReportedFeatureType(typedMeta.featureTypes)).toEqual(
         reportedFeatureType
       )
       expect(getReportedFeatureType(otherFeatureTypes)).toEqual(undefined)
@@ -72,9 +75,9 @@ describe('utils', () => {
 
   describe('getCheckedFeatureType', () => {
     it('should return the checkedFeatureType when there is one', () => {
-      const otherFeatureTypes = [meta.featureTypes[0]]
+      const otherFeatureTypes = [typedMeta.featureTypes[0]]
 
-      expect(getCheckedFeatureType(meta.featureTypes)).toEqual(
+      expect(getCheckedFeatureType(typedMeta.featureTypes)).toEqual(
         checkedFeatureType
       )
       expect(getCheckedFeatureType(otherFeatureTypes)).toEqual(undefined)

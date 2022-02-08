@@ -71,6 +71,9 @@ export const CaterpillarLayer: FC = () => {
         }
 
         const { description, typeValue } = featureType
+        const location = {
+          coordinates,
+        }
 
         const item: Item = {
           id: featureId,
@@ -78,9 +81,7 @@ export const CaterpillarLayer: FC = () => {
           description,
           isReported,
           isChecked,
-          location: {
-            coordinates,
-          },
+          location,
           label: [description, featureId].filter(Boolean).join(' - '),
         }
 
@@ -88,7 +89,7 @@ export const CaterpillarLayer: FC = () => {
           item[propertyKey] = feature.properties[propertyKey]
         })
 
-        setItem(item)
+        setItem(item, location)
       }
 
       return (

@@ -18,6 +18,7 @@ import type {
   FeatureType,
   Item,
 } from 'signals/incident/components/form/MapSelectors/types'
+import { selectionIsObject } from 'signals/incident/components/form/MapSelectors/constants'
 
 const mapWidth = 640
 const mapHeight = 300
@@ -39,7 +40,7 @@ const StyledMarker = styled(Marker)`
 
 interface MapPreviewProps {
   incident: Incident
-  value: Item
+  value: { selection: Item }
   featureTypes?: FeatureType[]
 }
 
@@ -55,9 +56,9 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
 
   let iconSrc = undefined
 
-  if (value?.type !== 'not-on-map') {
+  if (value?.selection && selectionIsObject(value.selection)) {
     const featureType = featureTypes?.find(
-      ({ typeValue }) => typeValue === value.type
+      ({ typeValue }) => typeValue === value.selection.type
     )
 
     if (featureType) {

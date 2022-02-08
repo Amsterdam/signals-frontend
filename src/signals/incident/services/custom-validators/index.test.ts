@@ -84,8 +84,16 @@ describe('The custom validators service', () => {
 
     it('returns null when valid', () => {
       const validationFunc = validateObjectLocation('zork')
+      const value = {
+        location: {
+          coordinates: {
+            lat: 52.3731081,
+            lng: 4.8932945,
+          },
+        },
+      }
 
-      expect(validationFunc({ value: 'foobar' } as AbstractControl)).toBeNull()
+      expect(validationFunc({ value } as AbstractControl)).toBeNull()
     })
 
     it('returns a custom error message when invalid', () => {

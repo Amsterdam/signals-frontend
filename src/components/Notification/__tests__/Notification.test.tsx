@@ -4,7 +4,7 @@ import { render, act, screen } from '@testing-library/react'
 import { history, withAppContext } from 'test/utils'
 import { ascDefaultTheme as theme } from '@amsterdam/asc-ui'
 import 'jest-styled-components'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 

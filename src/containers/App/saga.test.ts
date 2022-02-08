@@ -3,7 +3,7 @@
 import 'jest-localstorage-mock'
 import { call, put, take, takeLatest } from 'redux-saga/effects'
 import { channel } from 'redux-saga'
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'jest-mock'
 import { push } from 'connected-react-router/immutable'
 import { testSaga, expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -169,11 +169,6 @@ describe('containers/App/saga', () => {
   })
 
   describe('callAuthorize', () => {
-    beforeEach(() => {
-      // mocking reload function in global location object, since jsdom doesn't support reload and will throw an error
-      mocked(global.location).reload = jest.fn()
-    })
-
     afterEach(() => {
       mocked(global.location).reload.mockRestore()
     })
