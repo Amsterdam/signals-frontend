@@ -85,7 +85,7 @@ const IncidentDetail: FunctionComponent<IncidentDetailProps> = ({
     }, [incident, subcategories])
 
   return (
-    <IncidentStyle>
+    <IncidentStyle data-testid="incidentDetail">
       <StyledLink
         variant="inline"
         forwardedAs={Link}

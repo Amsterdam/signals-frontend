@@ -22,11 +22,15 @@ describe('ReporterContainer', () => {
   it('should render correctly', async () => {
     render(withAppContext(<ReporterContainer />))
 
+    expect(screen.getByTestId('reporterContainer')).toBeInTheDocument()
+
     await screen.findByRole('link', { name: 'Terug naar melding' })
     screen.getByRole('heading', {
       name: 'Meldingen van me@email.com (2)',
     })
     screen.getByRole('link', { name: 'Hoofdmelding 4440' })
-    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+
+    expect(screen.getByTestId('incidentList')).toBeInTheDocument()
+    expect(screen.getByTestId('incidentDetail')).toBeInTheDocument()
   })
 })
