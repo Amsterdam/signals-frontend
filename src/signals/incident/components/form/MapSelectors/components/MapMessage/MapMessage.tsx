@@ -4,46 +4,73 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanelContext } from '@amsterdam/arm-core'
+import { Close } from '@amsterdam/asc-assets'
 
-import type { FC, PropsWithChildren, HTMLAttributes } from 'react'
+import type {
+  FC,
+  PropsWithChildren,
+  HTMLAttributes,
+  MouseEventHandler,
+} from 'react'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 
 import useLayerVisible from '../../hooks/useLayerVisible'
 
 export const MessageStyle = styled.div<{ leftOffset?: string }>`
-  background-color: ${themeColor('support', 'focus')};
   height: auto;
-  margin: ${themeSpacing(4, 0)};
+  margin: ${themeSpacing(4, 0, 0)};
   min-height: ${themeSpacing(11)};
   padding: ${themeSpacing(3, 4, 3, 4)};
-  position: absolute;
   z-index: 400;
-  left: calc(${({ leftOffset }) => leftOffset || '0px'} + ${themeSpacing(4)});
-  top: calc(${themeSpacing(4)} + ${themeSpacing(11)});
-  width: auto;
+  align-self: flex-start;
+  position: relative;
 
   @media only screen and ${breakpoint('max-width', 'tabletS')} {
     max-width: calc(100vw - (44px + 16px + 16px + 16px));
   }
 `
 
-const MessageOverlay: FC<PropsWithChildren<HTMLAttributes<HTMLDivElement>>> = ({
-  children,
-  ...rest
-}) => {
+const ZoomMessageStyle = styled(MessageStyle)`
+  background-color: ${themeColor('support', 'focus')};
+  color: black;
+`
+
+const CloseIcon = styled(Close)`
+  position: absolute;
+  top: ${themeSpacing(3)};
+  right: ${themeSpacing(4)};
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const MapMessageStyle = styled(MessageStyle)<{ leftOffset?: string }>`
+  background-color: ${themeColor('primary')};
+  color: white;
+  padding-right: calc(16px + 16px + 22px);
+`
+
+type MessageType = 'map' | 'zoom'
+
+interface ZoomMessageProps {
+  zoomLevel: ZoomLevel
+}
+
+const MessageOverlay: FC<
+  PropsWithChildren<HTMLAttributes<HTMLDivElement>> & { type: MessageType }
+> = ({ children, type, ...rest }) => {
   const { drawerPosition, variant } = useContext(MapPanelContext)
   const isDrawerVariant = variant === 'panel'
   const leftOffset = isDrawerVariant ? drawerPosition : '0px'
 
-  return (
-    <MessageStyle leftOffset={leftOffset} {...rest}>
-      {children}
-    </MessageStyle>
-  )
-}
+  const Component = type === 'zoom' ? ZoomMessageStyle : MapMessageStyle
 
-interface ZoomMessageProps {
-  zoomLevel: ZoomLevel
+  return (
+    <Component leftOffset={leftOffset} {...rest}>
+      {children}
+    </Component>
+  )
 }
 
 export const ZoomMessage: FC<PropsWithChildren<ZoomMessageProps>> = ({
@@ -54,8 +81,21 @@ export const ZoomMessage: FC<PropsWithChildren<ZoomMessageProps>> = ({
 
   if (layerVisible) return null
 
-  return <MessageOverlay data-testid="zoomMessage" {...props} />
+  return <MessageOverlay {...props} data-testid="zoomMessage" type="zoom" />
 }
 
-export const MapMessage: FC<PropsWithChildren<HTMLAttributes<HTMLDivElement>>> =
-  (props) => <MessageOverlay data-testid="mapMessage" {...props} />
+interface MapMessageProps
+  extends PropsWithChildren<Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>> {
+  onClick: MouseEventHandler<SVGElement>
+}
+
+export const MapMessage: FC<MapMessageProps> = ({
+  children,
+  onClick,
+  ...props
+}) => (
+  <MessageOverlay {...props} data-testid="mapMessage" type="map">
+    {children}
+    <CloseIcon onClick={onClick} width={22} fill="white" />
+  </MessageOverlay>
+)
