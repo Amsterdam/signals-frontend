@@ -128,7 +128,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const selectElement = screen.getByTestId('selectStatus')
     const selectOptions =
       getQueriesForElement(selectElement).getAllByRole('option')
-    expect(selectElement).toBeInTheDocument()
     expect(selectOptions.length).toEqual(changeStatusOptionList.length + 1)
 
     Object.values(changeStatusOptionList).forEach(({ key }) => {
