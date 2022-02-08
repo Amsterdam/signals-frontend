@@ -8,7 +8,7 @@ import useDebounce from './useDebounce'
  * Increasing the value lead to a perceivable delay between click and the placement of the marker. Decreasing the value
  * could lead to a double click never being captured, because of the limited time to have both click registered.
  */
-export const CLICK_TIMEOUT = 200
+export const CLICK_TIMEOUT = 300
 
 const useDelayedDoubleClick = (clickFunc) => {
   const doubleClicking = useRef(false)
