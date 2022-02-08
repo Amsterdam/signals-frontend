@@ -1,14 +1,30 @@
 import styled, { css } from 'styled-components'
-import { Link, Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Link,
+  Heading,
+  themeColor,
+  themeSpacing,
+  Button,
+} from '@amsterdam/asc-ui'
 
-export const StyledH4 = styled(Heading)`
-  margin-bottom: ${themeSpacing(2)};
+export const CloseButton = styled(Button)`
+  border: none;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+`
+
+export const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${themeSpacing(3, 4, 3, 4)};
+  margin: 0;
+  border-bottom: 1px solid ${themeColor('tint', 'level5')};
 `
 
 export const StyledDefaultText = styled.div<{ empty?: boolean }>`
-  background-color: ${themeColor('tint', 'level3')};
-  padding: ${themeSpacing(3)};
-  margin-bottom: ${themeSpacing(1)};
+  margin-bottom: ${themeSpacing(5)};
 
   ${({ empty }) =>
     empty &&
@@ -17,9 +33,8 @@ export const StyledDefaultText = styled.div<{ empty?: boolean }>`
     `}
 `
 
-export const StyledTitle = styled.div`
-  font-weight: 700;
-  margin-bottom: ${themeSpacing(2)};
+export const StyledHeading = styled(Heading)`
+  margin: 0;
 `
 
 export const StyledLink = styled(Link)`
@@ -28,4 +43,13 @@ export const StyledLink = styled(Link)`
   text-decoration: underline;
   display: inline-block;
   cursor: pointer;
+`
+
+export const StyledTitle = styled.div`
+  font-weight: 700;
+  margin-bottom: ${themeSpacing(2)};
+`
+
+export const Wrapper = styled.div`
+  padding: ${themeSpacing(5, 3, 5, 3)};
 `

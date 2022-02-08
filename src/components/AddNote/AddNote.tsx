@@ -24,6 +24,7 @@ export interface AddNoteProps {
     value?: string | null
   ) => boolean
   rows?: number
+  value?: string
 }
 
 const NoteButton = styled(Button)`
@@ -70,6 +71,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       onChange,
       onSubmit,
       rows,
+      value,
       ...rest
     },
     ref: any
@@ -113,7 +115,9 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 
     return (
       <section className={className} data-testid="addNote">
-        <Label htmlFor="addNoteText">{label}</Label>
+        <Label htmlFor="addNoteText" className="addNoteText">
+          {label}
+        </Label>
         <TextArea
           data-testid="addNoteText"
           errorMessage={error}
@@ -124,6 +128,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           onChange={onChange}
           ref={ref}
           rows={rows}
+          value={value || ''}
           {...rest}
         />
 

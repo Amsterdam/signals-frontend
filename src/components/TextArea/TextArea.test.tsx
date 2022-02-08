@@ -89,9 +89,7 @@ describe('components/TextArea', () => {
 
     render(withAppContext(<TextArea maxContentLength={maxContentLength} />))
 
-    expect(
-      screen.getByText(`0 / ${maxContentLength} tekens`)
-    ).toBeInTheDocument()
+    expect(screen.getByText(`0/${maxContentLength} tekens`)).toBeInTheDocument()
 
     render(
       withAppContext(
@@ -103,7 +101,7 @@ describe('components/TextArea', () => {
     )
 
     expect(
-      screen.getByText(`10 / ${maxContentLength} tekens`)
+      screen.getByText(`10/${maxContentLength} tekens`)
     ).toBeInTheDocument()
 
     render(
@@ -112,8 +110,6 @@ describe('components/TextArea', () => {
       )
     )
 
-    expect(
-      screen.getByText(`8 / ${maxContentLength} tekens`)
-    ).toBeInTheDocument()
+    expect(screen.getByText(`8/${maxContentLength} tekens`)).toBeInTheDocument()
   })
 })

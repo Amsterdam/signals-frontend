@@ -1,37 +1,38 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent, Reducer } from 'react'
-import { useCallback, useReducer, useContext } from 'react'
-import { Label, Alert, Heading } from '@amsterdam/asc-ui'
+import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
+import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
+import { Alert, Heading, Label, Modal, Select } from '@amsterdam/asc-ui'
+import { disablePageScroll, enablePageScroll } from 'scroll-lock'
+import useEventEmitter from 'hooks/useEventEmitter'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import Paragraph from 'components/Paragraph'
-import TextArea from 'components/TextArea'
 import Checkbox from 'components/Checkbox'
+import AddNote from 'components/AddNote'
+import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
-import styled from 'styled-components'
+
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
+  AddNoteWrapper,
   Form,
-  FormArea,
-  HeaderArea,
-  StyledLabel,
-  OptionsArea,
-  QuestionLabel,
+  StandardTextsButton,
+  StyledAlert,
   StyledButton,
-  StyledColumn,
   StyledH4,
-  TextsArea,
-  Wrapper,
+  StyledLabel,
+  StyledParagraph,
+  StyledSection,
 } from './styled'
 import * as constants from './constants'
 import type { State } from './reducer'
@@ -41,32 +42,57 @@ import type { StatusFormActions } from './actions'
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
   childIncidents: IncidentChild[]
+  onClose: () => void
 }
 
-const StyledParagraph = styled.p`
-  color: themeColor('tint', 'level5');
-  margin: 0;
-`
+let lastActiveElement: HTMLElement | null = null
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
   defaultTexts,
   childIncidents,
+  onClose,
 }) => {
-  const { incident, update, close } = useContext(IncidentDetailContext)
+  const { incident, update } = useContext(IncidentDetailContext)
   const incidentAsIncident = incident as Incident
+  const { listenFor, unlisten } = useEventEmitter()
 
+  const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
 
+  const openStandardTextModal = useCallback(
+    (event: SyntheticEvent) => {
+      event.preventDefault()
+      disablePageScroll()
+      setModalStandardTextIsOpen(true)
+      lastActiveElement = document.activeElement as HTMLElement
+    },
+    [setModalStandardTextIsOpen]
+  )
+
+  const closeStandardTextModal = useCallback(() => {
+    enablePageScroll()
+    setModalStandardTextIsOpen(false)
+
+    if (lastActiveElement) {
+      lastActiveElement.focus()
+    }
+  }, [setModalStandardTextIsOpen])
+
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        closeStandardTextModal()
+      }
+    },
+    [closeStandardTextModal]
+  )
+
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
   )
-
-  const onRadioChange = useCallback((_name, selectedStatus) => {
-    dispatch({ type: 'SET_STATUS', payload: selectedStatus })
-  }, [])
 
   const handleSubmit = useCallback(
     (event) => {
@@ -113,7 +139,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         },
       })
 
-      close()
+      onClose()
     },
     [
       state.text.value,
@@ -123,7 +149,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.status.key,
       state.check.checked,
       update,
-      close,
+      onClose,
     ]
   )
 
@@ -139,100 +165,122 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     dispatch({ type: 'SET_TEXT', payload: event.target.value })
   }, [])
 
+  const onStatusChange = useCallback((event) => {
+    const selectedStatus = changeStatusOptionList.find(
+      (status) => event.target.value === status.key
+    )
+    selectedStatus && dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+  }, [])
+
+  const defaultTextTemplatesLength = useCallback(
+    (defaultTexts: DefaultTextsType) => {
+      if (!defaultTexts || defaultTexts.length === 0) {
+        return 0
+      }
+      const statusDefaultTexts = defaultTexts.filter(
+        (text) => text.state === state.status.key
+      )
+      return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
+    },
+    [state.status.key]
+  )
+
+  const useDefaultText = useCallback(
+    (event: SyntheticEvent, text: string) => {
+      setDefaultText(event, text)
+      closeStandardTextModal()
+    },
+    [closeStandardTextModal, setDefaultText]
+  )
+
+  useEffect(() => {
+    listenFor('keydown', escFunction)
+    return () => {
+      unlisten('keydown', escFunction)
+    }
+  }, [escFunction, listenFor, unlisten])
+
   return (
-    <Wrapper>
-      <StyledColumn span={12}>
-        <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
-          <HeaderArea>
-            <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+    <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
+      <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
-            <div data-testid="originalStatus">
-              <StyledLabel label="Huidige status" />
-              <div>{state.originalStatus.value}</div>
-            </div>
-          </HeaderArea>
+      <StyledSection>
+        <StyledLabel htmlFor="status" label="Status" />
+        <Select
+          data-testid="selectStatus"
+          id="status"
+          value={state.status.key}
+          onChange={onStatusChange}
+        >
+          <option key="default">Kies status</option>
+          {changeStatusOptionList.map((status: Status) => (
+            <option key={status.key} value={status.key}>
+              {status.value}
+            </option>
+          ))}
+        </Select>
+      </StyledSection>
 
-          <OptionsArea>
-            <div>
-              <StyledLabel htmlFor="status" label="Nieuwe status" />
-              <input
-                type="hidden"
-                name="status"
-                value={state.originalStatus.key}
-              />
-              <RadioButtonList
-                defaultValue={state.status.key}
-                groupName="status"
-                hasEmptySelectionButton={false}
-                onChange={onRadioChange}
-                options={changeStatusOptionList}
-              />
-            </div>
-          </OptionsArea>
-
-          <FormArea>
-            {state.warnings.length > 0 &&
-              state.warnings.map((warning) => (
-                <Alert
-                  key={warning.key}
-                  data-testid={warning.key}
-                  level={warning.level}
-                >
-                  {warning.heading && (
-                    <Heading as="h3">{warning.heading}</Heading>
-                  )}
-                  {warning.content && (
-                    <StyledParagraph>{warning.content}</StyledParagraph>
-                  )}
-                </Alert>
-              ))}
-            <div>
-              <QuestionLabel>
-                <strong>Versturen</strong>
-              </QuestionLabel>
-
-              {state.flags.isSplitIncident &&
-                (state.status.key === StatusCode.ReactieGevraagd ? (
-                  <Alert
-                    data-testid="split-incident-reply-warning"
-                    level="info"
-                  >
-                    {constants.REPLY_DEELMELDING_EXPLANATION}
-                  </Alert>
-                ) : (
-                  <Alert data-testid="split-incident-warning" level="info">
-                    {constants.DEELMELDING_EXPLANATION}
-                  </Alert>
-                ))}
-
-              {!state.flags.isSplitIncident && (
-                <div>
-                  {state.flags.hasEmail ? (
-                    <Label
-                      disabled={state.check.disabled}
-                      htmlFor="send_email"
-                      label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                      noActiveState
-                    >
-                      <Checkbox
-                        checked={state.check.checked}
-                        data-testid="sendEmailCheckbox"
-                        disabled={state.check.disabled}
-                        id="send_email"
-                        onClick={onCheck}
-                      />
-                    </Label>
-                  ) : (
-                    <Alert data-testid="no-email-warning">
-                      {constants.NO_REPORTER_EMAIL}
-                    </Alert>
-                  )}
-                </div>
+      <StyledSection>
+        {state.warnings.length > 0 &&
+          state.warnings.map((warning) => (
+            <StyledAlert
+              key={warning.key}
+              data-testid={warning.key}
+              level={warning.level}
+            >
+              {warning.heading && <Heading as="h3">{warning.heading}</Heading>}
+              {warning.content && (
+                <StyledParagraph>{warning.content}</StyledParagraph>
               )}
-            </div>
+            </StyledAlert>
+          ))}
 
-            <div>
-              <QuestionLabel>
+        <StyledLabel label="Versturen" />
+
+        {state.flags.isSplitIncident &&
+          (state.status.key === StatusCode.ReactieGevraagd ? (
+            <Alert data-testid="split-incident-reply-warning" level="info">
+              {constants.REPLY_DEELMELDING_EXPLANATION}
+            </Alert>
+          ) : (
+            <Alert data-testid="split-incident-warning" level="info">
+              {constants.DEELMELDING_EXPLANATION}
+            </Alert>
+          ))}
+
+        {!state.flags.isSplitIncident && (
+          <div>
+            {state.flags.hasEmail ? (
+              <Label
+                disabled={state.check.disabled}
+                htmlFor="send_email"
+                label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                noActiveState
+              >
+                <Checkbox
+                  checked={state.check.checked}
+                  data-testid="sendEmailCheckbox"
+                  disabled={state.check.disabled}
+                  id="send_email"
+                  onClick={onCheck}
+                />
+              </Label>
+            ) : (
+              <div data-testid="no-email-warning">
+                {constants.NO_REPORTER_EMAIL}
+              </div>
+            )}
+          </div>
+        )}
+      </StyledSection>
+
+      <StyledSection>
+        <AddNoteWrapper>
+          <Label
+            htmlFor="addNoteText"
+            label={
+              <>
                 <strong>{state.text.label}</strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
                 {state.text.required &&
@@ -240,49 +288,77 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   state.flags.hasEmail && (
                     <Paragraph light>{state.text.subtitle}</Paragraph>
                   )}
-              </QuestionLabel>
-              <TextArea
-                data-testid="text"
-                error={Boolean(state.errors.text)}
-                errorMessage={state.errors.text}
-                infoText={`${state.text.value.length}/${state.text.maxLength} tekens`}
-                name="text"
-                onChange={onTextChange}
-                required={state.text.required}
-                rows={state.text.rows}
-                value={state.text.value || state.text.defaultValue}
-              />
+              </>
+            }
+          />
+          <ErrorWrapper invalid={Boolean(state.errors.text)}>
+            <div role="status">
+              {state.errors.text && (
+                <ErrorMessage
+                  id="textareaErrorMessage"
+                  message={state.errors.text}
+                />
+              )}
             </div>
 
-            <div>
-              <StyledButton
-                data-testid="statusFormSubmitButton"
-                type="submit"
-                variant="secondary"
-                disabled={disableSubmit}
+            <StandardTextsButton
+              data-testid="standardTextButton"
+              variant="primaryInverted"
+              onClick={openStandardTextModal}
+            >
+              <div>{`Standaardtekst (${defaultTextTemplatesLength(
+                defaultTexts
+              )})`}</div>
+            </StandardTextsButton>
+            {modalStandardTextIsOpen && (
+              <Modal
+                data-testid="standardTextModal"
+                open
+                onClose={closeStandardTextModal}
+                title="Standard texts"
               >
-                Opslaan
-              </StyledButton>
+                <DefaultTexts
+                  defaultTexts={defaultTexts}
+                  onHandleUseDefaultText={useDefaultText}
+                  status={state.status.key}
+                  onClose={closeStandardTextModal}
+                />
+              </Modal>
+            )}
 
-              <StyledButton
-                data-testid="statusFormCancelButton"
-                variant="tertiary"
-                onClick={close}
-              >
-                Annuleer
-              </StyledButton>
-            </div>
-          </FormArea>
-          <TextsArea>
-            <DefaultTexts
-              defaultTexts={defaultTexts}
-              onHandleUseDefaultText={setDefaultText}
-              status={state.status.key}
+            <AddNote
+              data-testid="text"
+              isStandalone={false}
+              label={''}
+              maxContentLength={state.text.maxLength}
+              name="text"
+              onChange={onTextChange}
+              rows={state.text.rows}
+              value={state.text.value || state.text.defaultValue}
             />
-          </TextsArea>
-        </Form>
-      </StyledColumn>
-    </Wrapper>
+          </ErrorWrapper>
+        </AddNoteWrapper>
+      </StyledSection>
+
+      <div>
+        <StyledButton
+          data-testid="statusFormSubmitButton"
+          type="submit"
+          variant="secondary"
+          disabled={disableSubmit}
+        >
+          Opslaan
+        </StyledButton>
+
+        <StyledButton
+          data-testid="statusFormCancelButton"
+          variant="tertiary"
+          onClick={onClose}
+        >
+          Annuleer
+        </StyledButton>
+      </div>
+    </Form>
   )
 }
 
