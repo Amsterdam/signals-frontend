@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useMemo, useContext, useState, useCallback, useEffect } from 'react'
+import {
+  useMemo,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from 'react'
 import ReactDOM from 'react-dom'
 import { Marker } from '@amsterdam/react-maps'
 import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
@@ -29,6 +36,7 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
+import LocationMarker from 'components/LocationMarker'
 import { selectionIsUndetermined, UNREGISTERED_TYPE } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
@@ -108,6 +116,7 @@ const Selector = () => {
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
+  const [geolocation, setGeolocation] = useState<LocationResult>()
   const addressValue = address ? formatAddress(address) : ''
   const hasFeatureTypes = meta.featureTypes.length > 0
 
@@ -147,6 +156,19 @@ const Selector = () => {
     pinMarker.setLatLng(coordinates)
   }, [map, coordinates, pinMarker, selection])
 
+  useLayoutEffect(() => {
+    if (!map || !geolocation) return
+
+    map.flyTo(
+      [geolocation.latitude, geolocation.longitude] as LatLngTuple,
+      16,
+      {
+        animate: true,
+        noMoveStart: true,
+      }
+    )
+  }, [geolocation, map])
+
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
       <MapPanelProvider
@@ -175,6 +197,7 @@ const Selector = () => {
                       } as LatLngLiteral
 
                       setLocation({ coordinates })
+                      setGeolocation(location)
                     }}
                     onLocationError={() => {
                       setMapMessage(
@@ -196,14 +219,20 @@ const Selector = () => {
                 </ControlWrapper>
 
                 {hasFeatureTypes && (
-                  <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+                  <ZoomMessage
+                    data-testid="zoomMessage"
+                    zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}
+                  >
                     Zoom in om de{' '}
                     {meta?.language?.objectTypePlural || 'objecten'} te zien
                   </ZoomMessage>
                 )}
 
                 {mapMessage && (
-                  <MapMessage onClick={() => setMapMessage('')}>
+                  <MapMessage
+                    data-testid="mapMessage"
+                    onClick={() => setMapMessage('')}
+                  >
                     {mapMessage}
                   </MapMessage>
                 )}
@@ -245,6 +274,8 @@ const Selector = () => {
           <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
             <Layer featureTypes={meta.featureTypes} />
           </WfsLayer>
+
+          {geolocation && <LocationMarker geolocation={geolocation} />}
 
           {showMarker && (
             <span data-testid="assetPinMarker">
