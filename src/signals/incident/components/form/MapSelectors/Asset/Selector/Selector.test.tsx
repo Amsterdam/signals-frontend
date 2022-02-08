@@ -19,6 +19,8 @@ import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector from './Selector'
 
+jest.useFakeTimers()
+
 jest.mock('../../hooks/useLayerVisible', () => ({
   __esModule: true,
   default: () => false,
@@ -184,6 +186,8 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       clientX: 10,
       clientY: 10,
     })
+
+    jest.runOnlyPendingTimers()
 
     expect(fetchLocation).toHaveBeenCalledWith(
       expect.not.objectContaining(coordinates)

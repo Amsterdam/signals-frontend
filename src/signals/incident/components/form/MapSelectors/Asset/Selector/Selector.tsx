@@ -28,6 +28,7 @@ import type { Variant } from '@amsterdam/arm-core/lib/components/MapPanel/MapPan
 import type { PdokResponse } from 'shared/services/map-location'
 import type { LocationResult } from 'types/location'
 
+import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
 import { formatAddress } from 'shared/services/format-address'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
@@ -105,6 +106,7 @@ const Selector = () => {
       center,
       dragging: true,
       zoomControl: false,
+      scrollWheelZoom: true,
       minZoom: 7,
       maxZoom: 16,
       zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
@@ -129,6 +131,8 @@ const Selector = () => {
     },
     [fetchLocation]
   )
+
+  const { click, doubleClick } = useDelayedDoubleClick(mapClick)
 
   const toggleLegend = useCallback(() => {
     setShowLegendPanel(!showLegendPanel)
@@ -180,7 +184,7 @@ const Selector = () => {
         <StyledMap
           hasZoomControls={desktopView}
           mapOptions={mapOptions}
-          events={{ click: mapClick }}
+          events={{ click, dblclick: doubleClick }}
           setInstance={setMap}
           hasGPSControl
         >
