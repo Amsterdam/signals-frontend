@@ -33,7 +33,7 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   z-index: 1;
 
   //                  left page margin + gps button width + margin to gps button + margin to close button + close button width + right page margin
-  width: calc(100vw - (16px + 44px + 8px + 8px + 44px + 16px));
+  width: calc(100vw - (16px + 44px + 16px + 16px + 44px + 16px));
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: 50vw;
@@ -47,4 +47,9 @@ export const ControlWrapper = styled.div`
   * + * {
     margin-left: 8px;
   }
+`
+
+export const TopLeftWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `

@@ -30,18 +30,19 @@ import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
 import { selectionIsUndetermined, UNREGISTERED_TYPE } from '../../constants'
-import { ZoomMessage } from '../../components/MapMessage'
+import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import LegendToggleButton from './LegendToggleButton'
 import LegendPanel from './LegendPanel'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import SelectionPanel from './SelectionPanel'
 import {
+  ControlWrapper,
   StyledMap,
   StyledPDOKAutoSuggest,
   StyledViewerContainer,
+  TopLeftWrapper,
   Wrapper,
-  ControlWrapper,
 } from './styled'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {
@@ -163,35 +164,50 @@ const Selector = () => {
         >
           <StyledViewerContainer
             topLeft={
-              <ControlWrapper>
-                <GPSButton
-                  onLocationSuccess={(location: LocationResult) => {
-                    const { latitude, longitude } = location
-                    const coordinates = {
-                      lat: latitude,
-                      lng: longitude,
-                    } as LatLngLiteral
+              <TopLeftWrapper>
+                <ControlWrapper>
+                  <GPSButton
+                    onLocationSuccess={(location: LocationResult) => {
+                      const { latitude, longitude } = location
+                      const coordinates = {
+                        lat: latitude,
+                        lng: longitude,
+                      } as LatLngLiteral
 
-                    setLocation({ coordinates })
-                  }}
-                  onLocationError={() => {
-                    setMapMessage(
-                      `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.
+                      setLocation({ coordinates })
+                    }}
+                    onLocationError={() => {
+                      setMapMessage(
+                        `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.
                       Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.`
-                    )
-                  }}
-                  onLocationOutOfBounds={() => {
-                    setMapMessage(
-                      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
-                    )
-                  }}
-                />
-                <StyledPDOKAutoSuggest
-                  onSelect={onAddressSelect}
-                  placeholder="Zoek adres"
-                  value={addressValue}
-                />
-              </ControlWrapper>
+                      )
+                    }}
+                    onLocationOutOfBounds={() => {
+                      setMapMessage(
+                        'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+                      )
+                    }}
+                  />
+                  <StyledPDOKAutoSuggest
+                    onSelect={onAddressSelect}
+                    placeholder="Zoek adres"
+                    value={addressValue}
+                  />
+                </ControlWrapper>
+
+                {hasFeatureTypes && (
+                  <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+                    Zoom in om de{' '}
+                    {meta?.language?.objectTypePlural || 'objecten'} te zien
+                  </ZoomMessage>
+                )}
+
+                {mapMessage && (
+                  <MapMessage onClick={() => setMapMessage('')}>
+                    {mapMessage}
+                  </MapMessage>
+                )}
+              </TopLeftWrapper>
             }
             bottomLeft={
               hasFeatureTypes ? (
@@ -225,15 +241,6 @@ const Selector = () => {
               />
             ) : null}
           </Panel>
-
-          {hasFeatureTypes && (
-            <ZoomMessage zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-              Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te
-              zien
-            </ZoomMessage>
-          )}
-
-          {mapMessage}
 
           <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
             <Layer featureTypes={meta.featureTypes} />
