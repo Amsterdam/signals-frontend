@@ -11,6 +11,7 @@ import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
+import configuration from 'shared/services/configuration/configuration'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
@@ -82,6 +83,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
 
     expect(await screen.findByTestId('assetSelectSelector')).toBeInTheDocument()
+    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
   })
 
   it('should render the layer when passed as prop', () => {
@@ -211,6 +213,43 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     })
   })
 
+  it('dispatches the location when a location is retrieved via geolocation', async () => {
+    const coordinates = { lat: 52.3731081, lng: 4.8932945 }
+    const coords = {
+      accuracy: 50,
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+    }
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
+
+    const { setLocation } = contextValue
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(setLocation).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('gpsButton'))
+
+    await screen.findByTestId('pdokAutoSuggest')
+
+    expect(setLocation).toHaveBeenCalledWith({
+      coordinates,
+    })
+  })
+
   it('renders already selected address', () => {
     const predefinedAddress = {
       postcode: '1234BR',
@@ -255,5 +294,106 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     expect(screen.queryByText('Legenda')).toBeInTheDocument()
     expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
+  })
+
+  it('renders a location marker', () => {
+    const coords = {
+      accuracy: 50,
+      latitude: 52.3731081,
+      longitude: 4.8932945,
+    }
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(screen.queryByTestId('locationMarker')).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('gpsButton'))
+
+    expect(screen.getByTestId('locationMarker')).toBeInTheDocument()
+  })
+
+  it('shows a notification whenever the location cannot be retrieved', () => {
+    const code = 1
+    const message = 'User denied geolocation'
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((_, error) =>
+        Promise.resolve(
+          error({
+            code,
+            message,
+          })
+        )
+      ),
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('gpsButton'))
+
+    expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
+    expect(screen.getByTestId('mapMessage')).toHaveTextContent(
+      `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`
+    )
+  })
+
+  it('shows a notification whenever the location is out of bounds', () => {
+    const coords = {
+      accuracy: 50,
+      latitude: 55.3731081,
+      longitude: 4.8932945,
+    }
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    })
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('gpsButton'))
+
+    expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
+    expect(screen.getByTestId('mapMessage')).toHaveTextContent(
+      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+    )
+
+    // closing notification
+    userEvent.click(
+      within(screen.getByTestId('mapMessage')).getByRole('button')
+    )
+
+    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
   })
 })

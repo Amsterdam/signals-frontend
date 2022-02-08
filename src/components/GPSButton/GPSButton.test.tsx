@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, waitFor } from '@testing-library/react'
+import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
@@ -8,7 +8,7 @@ import GPSButton from './GPSButton'
 
 describe('components/GPSButton', () => {
   it('should render button with icon', () => {
-    const { container, getByTestId } = render(
+    render(
       withAppContext(
         <GPSButton
           onLocationSuccess={() => {}}
@@ -18,10 +18,10 @@ describe('components/GPSButton', () => {
       )
     )
 
-    const button = getByTestId('gpsButton')
+    const button = screen.getByTestId('gpsButton')
 
     expect(button.nodeName).toEqual('BUTTON')
-    expect(container.querySelector('svg')).toBeInTheDocument()
+    expect(document.querySelector('svg')).toBeInTheDocument()
   })
 
   it('should render the loadingIndicator', async () => {
@@ -45,7 +45,7 @@ describe('components/GPSButton', () => {
 
     const onLocationSuccess = jest.fn()
 
-    const { getByTestId, queryByTestId } = render(
+    render(
       withAppContext(
         <GPSButton
           onLocationSuccess={onLocationSuccess}
@@ -57,18 +57,21 @@ describe('components/GPSButton', () => {
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
     await waitFor(
-      () => expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument(),
+      () =>
+        expect(
+          screen.queryByTestId('loadingIndicator')
+        ).not.toBeInTheDocument(),
       { timeout: 10 }
     )
   })
@@ -95,7 +98,7 @@ describe('components/GPSButton', () => {
 
     const onLocationSuccess = jest.fn()
 
-    const { getByTestId } = render(
+    render(
       withAppContext(
         <GPSButton
           onLocationSuccess={onLocationSuccess}
@@ -107,18 +110,9 @@ describe('components/GPSButton', () => {
 
     expect(onLocationSuccess).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
-    expect(onLocationSuccess).toHaveBeenCalledWith({
-      ...coords,
-      toggled: true,
-    })
-
-    userEvent.click(getByTestId('gpsButton'))
-
-    expect(onLocationSuccess).toHaveBeenLastCalledWith({
-      toggled: false,
-    })
+    expect(onLocationSuccess).toHaveBeenCalledWith(coords)
   })
 
   it('should call onLocationError', () => {
@@ -142,7 +136,7 @@ describe('components/GPSButton', () => {
     const onLocationError = jest.fn()
     const onLocationSuccess = jest.fn()
 
-    const { getByTestId } = render(
+    render(
       withAppContext(
         <GPSButton
           onLocationSuccess={onLocationSuccess}
@@ -154,7 +148,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationError).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(onLocationError).toHaveBeenCalledWith({
       code,
@@ -185,7 +179,7 @@ describe('components/GPSButton', () => {
     const onLocationOutOfBounds = jest.fn()
     const onLocationSuccess = jest.fn()
 
-    const { getByTestId, rerender, unmount } = render(
+    const { rerender, unmount } = render(
       withAppContext(
         <GPSButton
           onLocationSuccess={onLocationSuccess}
@@ -197,7 +191,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
@@ -215,7 +209,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gpsButton'))
 
     expect(onLocationOutOfBounds).toHaveBeenCalled()
   })

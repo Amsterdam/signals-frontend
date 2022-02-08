@@ -44,7 +44,8 @@ describe('ZoomMessage', () => {
 
 describe('MapMessage', () => {
   it('should render the message in the map', () => {
-    render(<MapMessage>the-message</MapMessage>)
+    const onClick = jest.fn()
+    render(<MapMessage onClick={onClick}>the-message</MapMessage>)
 
     expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
     expect(screen.getByText('the-message')).toBeInTheDocument()
