@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { breakpoint } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
@@ -52,4 +52,5 @@ export const ControlWrapper = styled.div`
 export const TopLeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: ${themeSpacing(4)};
 `

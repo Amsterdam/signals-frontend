@@ -14,7 +14,7 @@ import { MapPanel, MapPanelDrawer, MapPanelProvider } from '@amsterdam/arm-core'
 import { SnapPoint } from '@amsterdam/arm-core/lib/components/MapPanel/constants'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 
-import type { FunctionComponent } from 'react'
+import type { FunctionComponent, ReactElement } from 'react'
 import type {
   MapOptions,
   LeafletMouseEvent,
@@ -112,7 +112,7 @@ const Selector = () => {
     [center, coordinates]
   )
 
-  const [mapMessage, setMapMessage] = useState<string>()
+  const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
@@ -201,8 +201,16 @@ const Selector = () => {
                     }}
                     onLocationError={() => {
                       setMapMessage(
-                        `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.
-                      Dit kunt u wijzigen in de voorkeuren of instellingen van uw browser of systeem.`
+                        <>
+                          <strong>
+                            {`${configuration.language.siteAddress} heeft geen
+                            toestemming om uw locatie te gebruiken.`}
+                          </strong>
+                          <p>
+                            Dit kunt u wijzigen in de voorkeuren of instellingen
+                            van uw browser of systeem.
+                          </p>
+                        </>
                       )
                     }}
                     onLocationOutOfBounds={() => {

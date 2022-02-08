@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useContext } from 'react'
 import styled from 'styled-components'
-import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanelContext } from '@amsterdam/arm-core'
 import { Close } from '@amsterdam/asc-assets'
 
@@ -24,10 +24,6 @@ export const MessageStyle = styled.div<{ leftOffset?: string }>`
   z-index: 400;
   align-self: flex-start;
   position: relative;
-
-  @media only screen and ${breakpoint('max-width', 'tabletS')} {
-    max-width: calc(100vw - (44px + 16px + 16px + 16px));
-  }
 `
 
 const ZoomMessageStyle = styled(MessageStyle)`
