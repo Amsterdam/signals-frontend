@@ -18,6 +18,8 @@ import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector from './Selector'
 
+jest.useFakeTimers()
+
 jest.mock('../../hooks/useLayerVisible', () => ({
   __esModule: true,
   default: () => false,
@@ -171,6 +173,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
   it('dispatches the location when the map is clicked', async () => {
     const { coordinates, fetchLocation } = contextValue
+    jest.spyOn(global, 'setTimeout')
 
     render(withAssetSelectContext(<Selector />))
 
@@ -183,11 +186,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       clientY: 10,
     })
 
-    setTimeout(() => {
-      expect(fetchLocation).toHaveBeenCalledWith(
-        expect.not.objectContaining(coordinates)
-      )
-    }, 300)
+    jest.runOnlyPendingTimers()
+
+    expect(fetchLocation).toHaveBeenCalledWith(
+      expect.not.objectContaining(coordinates)
+    )
   })
 
   it('dispatches the location when an address is selected', async () => {
