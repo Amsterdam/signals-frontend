@@ -43,8 +43,10 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
 
 export const ControlWrapper = styled.div`
   display: flex;
+  position: relative;
+  z-index: 401;
 
-  * + * {
+  & > * + * {
     margin-left: 8px;
   }
 `
