@@ -305,6 +305,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               data-testid="standardTextButton"
               variant="primaryInverted"
               onClick={openStandardTextModal}
+              templatesAvailable={defaultTextTemplatesLength(defaultTexts) > 0}
             >
               <div>{`Standaardtekst (${defaultTextTemplatesLength(
                 defaultTexts
