@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import {
   Alert,
   Heading,
@@ -35,7 +35,9 @@ export const Form = styled.form`
   width: 100%;
 `
 
-export const StandardTextsButton = styled(Button)`
+export const StandardTextsButton = styled(Button)<{
+  templatesAvailable: boolean
+}>`
   margin-top: ${themeSpacing(2)};
   border-bottom: none;
   border-color: ${themeColor('tint', 'level5')};
@@ -52,7 +54,11 @@ export const StandardTextsButton = styled(Button)`
     height: 100%;
     padding-bottom: ${themeSpacing(3)};
     border-bottom: 1px solid ${themeColor('tint', 'level4')};
-  }
+    ${({ templatesAvailable }) =>
+      !templatesAvailable &&
+      css`
+        color: ${themeColor('tint', 'level5')};
+      `}
 `
 
 export const StyledAlert = styled(Alert)<{ level?: AlertLevel }>`
