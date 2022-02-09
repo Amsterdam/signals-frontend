@@ -15,7 +15,6 @@ jest.mock('shared/services/configuration/configuration')
 describe('components/Logo', () => {
   beforeEach(() => {
     configuration.logo = {
-      url: 'https://logoipsum.com/logo/logo-8.svg',
       width: '80px',
       height: '80px',
       smallWidth: '20%',
@@ -35,9 +34,6 @@ describe('components/Logo', () => {
 
     expect(
       container.querySelector(`a[href="${configuration.links.home}"]`)
-    ).toBeInTheDocument()
-    expect(
-      container.querySelector(`img[src="${configuration.logo.url}"]`)
     ).toBeInTheDocument()
 
     expect(getByTestId('logo-link')).toHaveStyleRule(
@@ -96,9 +92,6 @@ describe('components/Logo', () => {
     )}`
 
     expect(container.querySelector('a[href="/"]')).toBeInTheDocument()
-    expect(
-      container.querySelector(`img[src="${configuration.logo.url}"]`)
-    ).toBeInTheDocument()
 
     expect(getByTestId('logo-link')).toHaveStyleRule(
       'height',
