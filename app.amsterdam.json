@@ -16,10 +16,7 @@
     "useStaticMapServer": true
   },
   "head": {
-    "androidIcon": "/icon_192x192.png",
     "backgroundColor": "#ffffff",
-    "favicon": "/favicon.png",
-    "iosIcon": "/icon_180x180.png",
     "statusBarStyle": "default",
     "themeColor": "#ec0000"
   },
@@ -47,7 +44,6 @@
     "accessibility": "/toegankelijkheidsverklaring"
   },
   "logo": {
-    "url": "/assets/images/amsterdam-logo.svg",
     "width": "153px",
     "height": "68px",
     "smallWidth": "68px",

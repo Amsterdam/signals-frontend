@@ -23,11 +23,8 @@ const matomo = config.matomo
   : ''
 
 const placeholders = {
-  $SIGNALS_ANDROID_ICON: config.head.androidIcon,
   $SIGNALS_BACKGROUND_COLOR: config.head.backgroundColor,
   $SIGNALS_CONFIG: JSON.stringify(config),
-  $SIGNALS_FAVICON: config.head.favicon,
-  $SIGNALS_IOS_ICON: config.head.iosIcon,
   $SIGNALS_MATOMO: matomo,
   $SIGNALS_SITE_TITLE: config.language.siteTitle,
   $SIGNALS_PWA_SHORT_TITLE: config.language.shortTitle,

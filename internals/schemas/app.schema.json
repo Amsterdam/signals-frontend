@@ -135,21 +135,9 @@
       "additionalProperties": false,
       "description": "Site head configuration",
       "properties": {
-        "androidIcon": {
-          "type": "string",
-          "description": "PNG image in `src/images` folder. Should be an absolute URL since Webpack copies it in the web root on build"
-        },
         "backgroundColor": {
           "type": "string",
           "description": "Background color for the splash screen when the application is first launched on mobile"
-        },
-        "favicon": {
-          "description": "PNG image in `src/images` folder",
-          "type": "string"
-        },
-        "iosIcon": {
-          "description": "PNG image in `src/images` folder",
-          "type": "string"
         },
         "statusBarStyle": {
           "type": "string",
@@ -161,10 +149,7 @@
         }
       },
       "required": [
-        "androidIcon",
         "backgroundColor",
-        "favicon",
-        "iosIcon",
         "statusBarStyle",
         "themeColor"
       ],
@@ -292,13 +277,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "url": {
-          "description": "Any URL that will hold the image for the application's logo. Can be a URI or an absolute URL that points to the webroot",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "width": {
           "description": "Length value that sets the logo image's width. See https://developer.mozilla.org/en-US/docs/Web/CSS/width for reference",
           "type": [
@@ -332,7 +310,6 @@
         "height",
         "smallHeight",
         "smallWidth",
-        "url",
         "width"
       ],
       "title": "Logo"

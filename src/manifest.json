@@ -3,12 +3,12 @@
   "display": "fullscreen",
   "icons": [
     {
-      "src": "$SIGNALS_IOS_ICON",
+      "src": "/assets/images/icon_180x180.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "$SIGNALS_ANDROID_ICON",
+      "src": "/assets/images/icon_192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
