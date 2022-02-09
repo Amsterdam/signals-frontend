@@ -150,7 +150,7 @@ const OverviewMap: FC<OverviewMapProps> = ({
     map.eachLayer((markerClustLayer) => {
       const layer = markerClustLayer as MarkerClusterType
 
-      if (layer.getIcon() && !layer.getAllChildMarkers) {
+      if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
         layer.setIcon(incidentIcon)
       }
     })
