@@ -3,7 +3,8 @@
 import { fireEvent, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import 'jest-styled-components'
-import FormFooter from '..'
+
+import FormFooter from './FormFooter'
 
 describe('src/components/FormFooter', () => {
   it('should render correctly', () => {
