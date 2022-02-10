@@ -66,6 +66,10 @@ describe('<IncidentPreview />', () => {
             ),
           },
         },
+        summary: {},
+        opslaan: {},
+        bedankt: {},
+        fout: {},
       },
       sectionLabels: {
         heading: {
