@@ -1,83 +1,54 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
 import {
-  Heading,
-  themeSpacing,
   StepByStepNav,
   breakpoint,
   Paragraph,
   ascDefaultTheme,
 } from '@amsterdam/asc-ui'
-import styled, { css } from 'styled-components'
+
+import type { FC } from 'react'
+import type {
+  createIncident,
+  getClassification,
+  removeQuestionData,
+  updateIncident,
+} from 'signals/incident/containers/IncidentContainer/actions'
+import type { Incident } from 'types/incident'
+import type { WizardSection } from 'signals/incident/definitions/wizard'
 
 import LoadingIndicator from 'components/LoadingIndicator'
+import AppContext from 'containers/App/context'
 
-import AppContext from '../../../../containers/App/context'
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
 
-const StyledH1 = styled(Heading)`
-  margin-top: ${themeSpacing(6)};
-  margin-bottom: ${themeSpacing(5)};
-`
+import {
+  FormWrapper,
+  Header,
+  Progress,
+  StepWrapper,
+  StyledH1,
+  Wrapper,
+} from './styled'
 
-const Wrapper = styled.div`
-  width: 100%;
-`
-const Header = styled.header``
-const Progress = styled.div``
-const FormWrapper = styled.div``
-
-const StepWrapper = styled.article`
-  display: grid;
-  grid-template-areas:
-    ${({ showProgress }) => (showProgress ? "'progress'" : '')}
-    'header'
-    'form';
-
-  grid-column-gap: ${themeSpacing(5)};
-
-  ${Header} {
-    grid-area: header;
+interface IncidentWizardProps {
+  wizardDefinition: WizardSection
+  getClassification: typeof getClassification
+  updateIncident: typeof updateIncident
+  createIncident: typeof createIncident
+  removeQuestionData: typeof removeQuestionData
+  incidentContainer: {
+    incident: Incident
+    loading: boolean
   }
+}
 
-  ${Progress} {
-    padding-top: ${themeSpacing(8)};
-    grid-area: progress;
-    display: ${({ showProgress }) => (showProgress ? 'block' : 'none')};
-
-    @media screen and ${breakpoint('max-width', 'tabletM')} {
-      margin-left: ${themeSpacing(4)};
-    }
-
-    li {
-      line-height: 20px;
-    }
-  }
-
-  ${FormWrapper} {
-    grid-area: form;
-  }
-
-  ${({ showProgress }) =>
-    showProgress
-      ? css`
-          @media screen and ${breakpoint('min-width', 'tabletM')} {
-            grid-template-areas:
-              'progress header'
-              'progress form';
-            grid-template-columns: 4fr 8fr;
-          }
-        `
-      : ''};
-`
-
-const IncidentWizard = ({
+const IncidentWizard: FC<IncidentWizardProps> = ({
   wizardDefinition,
   getClassification,
   updateIncident,
@@ -94,7 +65,7 @@ const IncidentWizard = ({
 
   const steps = Object.values(wizardDefinition)
     .filter(({ countAsStep }) => countAsStep)
-    .map(({ stepLabel }) => ({ label: stepLabel }))
+    .map(({ stepLabel }) => ({ label: stepLabel || '' }))
 
   return (
     <Wrapper>
@@ -122,7 +93,7 @@ const IncidentWizard = ({
                         postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
-                      } = wizardDefinition[key]
+                      } = wizardDefinition[key as keyof WizardSection]
 
                       const showProgress = index < steps.length
 
@@ -186,15 +157,6 @@ const IncidentWizard = ({
       />
     </Wrapper>
   )
-}
-
-IncidentWizard.propTypes = {
-  incidentContainer: PropTypes.object.isRequired,
-  wizardDefinition: PropTypes.object.isRequired,
-  getClassification: PropTypes.func.isRequired,
-  removeQuestionData: PropTypes.func.isRequired,
-  updateIncident: PropTypes.func.isRequired,
-  createIncident: PropTypes.func.isRequired,
 }
 
 export default IncidentWizard
