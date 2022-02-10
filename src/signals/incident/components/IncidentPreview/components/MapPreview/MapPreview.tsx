@@ -20,13 +20,21 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 import { selectionIsObject } from 'signals/incident/components/form/MapSelectors/constants'
 
+const ICON_SIZE = 40
 const mapWidth = 640
 const mapHeight = 300
 const mapZoom = 12
 
-const Address = styled.address`
-  margin-bottom: ${themeSpacing(4)};
-  font-style: normal;
+const LocationDescription = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: ${themeSpacing(2)};
+`
+
+const StyledImg = styled.img`
+  margin-right: ${themeSpacing(4)};
+  flex-shrink: 0;
 `
 
 const StyledMap = styled(Map)`
@@ -68,10 +76,6 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
 
   return (
     <>
-      <Address data-testid="mapAddress">
-        {address ? formatAddress(address) : 'Locatie gepind op de kaart'}
-      </Address>
-
       {coordinates &&
         (configuration.featureFlags.useStaticMapServer ? (
           <MapStatic
@@ -85,6 +89,25 @@ const MapPreview: FC<MapPreviewProps> = ({ incident, value, featureTypes }) => {
             <StyledMarker args={[coordinates]} options={{ icon: markerIcon }} />
           </StyledMap>
         ))}
+      <LocationDescription data-testid="locationDescription">
+        {iconSrc && (
+          <StyledImg
+            data-testid="typeIcon"
+            alt=""
+            src={iconSrc}
+            height={ICON_SIZE}
+            width={ICON_SIZE}
+          />
+        )}
+        <div>
+          {value?.selection?.label && (
+            <div data-testid="selectionLabel">{value?.selection.label}</div>
+          )}
+          <div data-testid="mapAddress">
+            {address ? formatAddress(address) : 'Locatie gepind op de kaart'}
+          </div>
+        </div>
+      </LocationDescription>
     </>
   )
 }

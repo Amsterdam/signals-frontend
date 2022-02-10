@@ -10,6 +10,7 @@ import type { Incident } from 'types/incident'
 import { mock } from 'types/incident'
 import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
 import { formatAddress } from 'shared/services/format-address'
+import { UNKNOWN_TYPE } from '../../../form/MapSelectors/constants'
 import MapPreview from '.'
 
 jest.mock('shared/services/configuration/configuration')
@@ -158,5 +159,53 @@ describe('signals/incident/components/IncidentPreview/components/MapPreview', ()
 
     rerender(withAppContext(<MapPreview {...specificFeatureTypes} />))
     expect(screen.queryByTestId('mapStaticMarker')).not.toBeInTheDocument()
+  })
+
+  describe('Location description', () => {
+    it('When an object is selected', () => {
+      render(withAppContext(<MapPreview {...props} />))
+      expect(screen.queryByTestId('locationDescription')).toBeInTheDocument()
+      expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
+      expect(screen.queryByTestId('selectionLabel')).toBeInTheDocument()
+      expect(screen.queryByTestId('mapAddress')).toBeInTheDocument()
+    })
+
+    it('When the selection has an address and a gps location', () => {
+      const propsAddress = {
+        ...props,
+        value: {
+          ...value,
+          selection: {
+            location: {
+              coordinates,
+            },
+          },
+        },
+      }
+      render(withAppContext(<MapPreview {...propsAddress} />))
+      expect(screen.queryByTestId('locationDescription')).toBeInTheDocument()
+      expect(screen.queryByTestId('typeIcon')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('selectionLabel')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('mapAddress')).toBeInTheDocument()
+    })
+
+    it('A selected object is not on the map', () => {
+      const propsNotOnMap = {
+        ...props,
+        value: {
+          ...value,
+          selection: {
+            ...value.selection,
+            type: UNKNOWN_TYPE,
+          },
+        },
+      }
+
+      render(withAppContext(<MapPreview {...propsNotOnMap} />))
+      expect(screen.queryByTestId('locationDescription')).toBeInTheDocument()
+      expect(screen.queryByTestId('typeIcon')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('selectionLabel')).toBeInTheDocument()
+      expect(screen.queryByTestId('mapAddress')).toBeInTheDocument()
+    })
   })
 })
