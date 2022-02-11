@@ -181,6 +181,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('renders a MapStatic component with the correct iconSrc prop', () => {
+    configuration.featureFlags.useStaticMapServer = true
     render(<Summary {...summaryProps} />)
 
     const mapStatic = screen.getByTestId('mapStatic')
