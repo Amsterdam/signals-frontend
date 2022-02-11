@@ -36,7 +36,7 @@ const featureType = {
   typeValue: 'plastic',
 }
 
-const address = {
+export const address = {
   postcode: '1000 AA',
   huisnummer: 100,
   woonplaats: 'Amsterdam',
@@ -117,7 +117,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(
       screen.queryByTestId('assetSelectSummaryDescription')
     ).not.toBeInTheDocument()
-    expect(screen.queryByText(formatAddress(address))).toBeInTheDocument()
+    expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
   })
 
   it('should call edit by mouse click', () => {
