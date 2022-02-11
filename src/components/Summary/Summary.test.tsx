@@ -5,6 +5,9 @@ import userEvent from '@testing-library/user-event'
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 
+import { contextValue as assetSelectContextValue } from 'signals/incident/components/form/MapSelectors/Asset//__tests__/withAssetSelectContext'
+import { withAppContext } from 'test/utils'
+import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { Address } from 'types/address'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
@@ -51,6 +54,14 @@ export const summaryProps: SummaryProps = {
   coordinates: { lat: 0, lng: 0 },
 }
 
+export const withContext = (
+  Component: JSX.Element,
+  context = assetSelectContextValue
+) =>
+  withAppContext(
+    <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
+  )
+
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
   beforeEach(() => {
     configuration.featureFlags.useStaticMapServer = true
@@ -65,7 +76,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('should render interactive map with useStaticMapServer disabled', () => {
     configuration.featureFlags.useStaticMapServer = false
-    render(<Summary {...summaryProps} />)
+    render(withContext(<Summary {...summaryProps} />))
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
     expect(
@@ -79,8 +90,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should render static map with useStaticMapServer enabled', () => {
-    configuration.featureFlags.useStaticMapServer = true
-    render(<Summary {...summaryProps} />)
+    render(withContext(<Summary {...summaryProps} />))
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
     expect(
@@ -98,7 +108,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
       ...summaryProps,
       featureTypes: [],
     }
-    render(<Summary {...propsNoFeatureTypes} />)
+    render(withContext(<Summary {...propsNoFeatureTypes} />))
 
     const idRe = new RegExp(`${selection.id}$`)
     const undefinedRe = new RegExp('undefined')
@@ -113,7 +123,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
       ...summaryProps,
       selection: undefined,
     }
-    render(<Summary {...propsNoSelection} />)
+    render(withContext(<Summary {...propsNoSelection} />))
 
     expect(
       screen.queryByTestId('assetSelectSummaryDescription')
@@ -122,7 +132,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should call edit by mouse click', () => {
-    render(<Summary {...summaryProps} />)
+    render(withContext(<Summary {...summaryProps} />))
     expect(summaryProps.edit).not.toHaveBeenCalled()
 
     const element = screen.getByText(/wijzigen/i)
@@ -135,7 +145,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should call edit by return key', () => {
-    render(<Summary {...summaryProps} />)
+    render(withContext(<Summary {...summaryProps} />))
     expect(summaryProps.edit).not.toHaveBeenCalled()
 
     const element = screen.getByText(/wijzigen/i)
@@ -155,7 +165,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
       ...summaryProps,
       edit: undefined,
     }
-    render(<Summary {...propsNoEdit} />)
+    render(withContext(<Summary {...propsNoEdit} />))
     expect(screen.queryByText(/wijzigen/i)).not.toBeInTheDocument()
   })
 
@@ -166,13 +176,13 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
       address: undefined,
     }
 
-    const { rerender } = render(<Summary {...summaryProps} />)
+    const { rerender } = render(withContext(<Summary {...summaryProps} />))
     expect(
       screen.queryByText('Locatie is gepind op de kaart')
     ).not.toBeInTheDocument()
     expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
 
-    rerender(<Summary {...propsNoAddress} />)
+    rerender(withContext(<Summary {...propsNoAddress} />))
 
     expect(
       screen.getByText('Locatie is gepind op de kaart')
@@ -181,8 +191,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('renders a MapStatic component with the correct iconSrc prop', () => {
-    configuration.featureFlags.useStaticMapServer = true
-    render(<Summary {...summaryProps} />)
+    render(withContext(<Summary {...summaryProps} />))
 
     const mapStatic = screen.getByTestId('mapStatic')
 
