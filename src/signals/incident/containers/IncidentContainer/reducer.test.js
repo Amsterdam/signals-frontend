@@ -28,6 +28,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   it('default wizard state should contain date, time, and priority', () => {
     expect(initialState.get('incident').toJS()).toEqual(
       expect.objectContaining({
+        datetime: { id: 'Nu' },
         incident_date: 'Vandaag',
         incident_time_hours: 9,
         incident_time_minutes: 0,
