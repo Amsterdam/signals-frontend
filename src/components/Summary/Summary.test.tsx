@@ -7,9 +7,9 @@ import { formatAddress } from 'shared/services/format-address'
 
 import type { Address } from 'types/address'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
-import type { SummaryProps } from '../types'
+import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
-import Summary from '../Summary'
+import Summary from './Summary'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
@@ -79,6 +79,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should render static map with useStaticMapServer enabled', () => {
+    configuration.featureFlags.useStaticMapServer = true
     render(<Summary {...summaryProps} />)
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()

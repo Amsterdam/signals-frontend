@@ -5,7 +5,7 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import { QuestionFieldType } from 'types/question'
-import Summary from 'signals/incident/components/form/MapSelectors/Asset/Summary'
+import Summary from 'components/Summary'
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
