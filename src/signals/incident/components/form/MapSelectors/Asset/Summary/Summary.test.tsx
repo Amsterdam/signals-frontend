@@ -36,16 +36,18 @@ const featureType = {
   typeValue: 'plastic',
 }
 
+const address = {
+  postcode: '1000 AA',
+  huisnummer: 100,
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+
 export const summaryProps: SummaryProps = {
   edit: jest.fn(),
   selection,
   featureTypes: [featureType],
-  address: {
-    postcode: '1000 AA',
-    huisnummer: 100,
-    woonplaats: 'Amsterdam',
-    openbare_ruimte: 'West',
-  },
+  address,
   coordinates: { lat: 0, lng: 0 },
 }
 
@@ -71,6 +73,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+    expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
     expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
     expect(screen.queryByTestId('map-base')).toBeInTheDocument()
   })
@@ -84,6 +87,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
+    expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
     expect(screen.getByTestId('mapStatic')).toBeInTheDocument()
     expect(screen.queryByTestId('map-base')).not.toBeInTheDocument()
   })
@@ -99,6 +103,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     const undefinedRe = new RegExp('undefined')
 
     expect(screen.getByText(idRe)).toBeInTheDocument()
+    expect(screen.queryByTestId('typeIcon')).not.toBeInTheDocument()
     expect(screen.queryByText(undefinedRe)).not.toBeInTheDocument()
   })
 
@@ -112,6 +117,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(
       screen.queryByTestId('assetSelectSummaryDescription')
     ).not.toBeInTheDocument()
+    expect(screen.queryByText(formatAddress(address))).toBeInTheDocument()
   })
 
   it('should call edit by mouse click', () => {
@@ -141,6 +147,15 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     userEvent.keyboard('{Enter}')
 
     expect(summaryProps.edit).toHaveBeenCalled()
+  })
+
+  it("does not show 'wijzigen' link when edit is undefined", () => {
+    const propsNoEdit = {
+      ...summaryProps,
+      edit: undefined,
+    }
+    render(<Summary {...propsNoEdit} />)
+    expect(screen.queryByText(/wijzigen/i)).not.toBeInTheDocument()
   })
 
   it('renders summary address', () => {
