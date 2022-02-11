@@ -1,24 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import userEvent from '@testing-library/user-event'
-
-import type { Address } from 'types/address'
-
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
-import { withAppContext } from 'test/utils'
 
+import type { Address } from 'types/address'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
-import type { AssetSelectValue } from '../types'
-
-import { contextValue as assetSelectContextValue } from '../__tests__/withAssetSelectContext'
+import type { SummaryProps } from '../types'
 
 import Summary from '../Summary'
 
 jest.mock('shared/services/configuration/configuration')
-
 jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
   <span data-testid="mapStatic">
     <img src={iconSrc} alt="" />
@@ -43,13 +36,10 @@ const featureType = {
   typeValue: 'plastic',
 }
 
-const contextValue: AssetSelectValue = {
-  ...assetSelectContextValue,
+export const summaryProps: SummaryProps = {
+  edit: jest.fn(),
   selection,
-  meta: {
-    endpoint: '',
-    featureTypes: [featureType],
-  },
+  featureTypes: [featureType],
   address: {
     postcode: '1000 AA',
     huisnummer: 100,
@@ -58,11 +48,6 @@ const contextValue: AssetSelectValue = {
   },
   coordinates: { lat: 0, lng: 0 },
 }
-
-export const withContext = (Component: JSX.Element, context = contextValue) =>
-  withAppContext(
-    <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
-  )
 
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
   beforeEach(() => {
@@ -78,7 +63,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('should render interactive map with useStaticMapServer disabled', () => {
     configuration.featureFlags.useStaticMapServer = false
-    render(withContext(<Summary />))
+    render(<Summary {...summaryProps} />)
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
     expect(
@@ -91,7 +76,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should render static map with useStaticMapServer enabled', () => {
-    render(withContext(<Summary />))
+    render(<Summary {...summaryProps} />)
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
     expect(
@@ -104,15 +89,11 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('does not render empty values', () => {
-    render(
-      withContext(<Summary />, {
-        ...contextValue,
-        meta: {
-          ...contextValue.meta,
-          featureTypes: [],
-        },
-      })
-    )
+    const propsNoFeatureTypes = {
+      ...summaryProps,
+      featureTypes: [],
+    }
+    render(<Summary {...propsNoFeatureTypes} />)
 
     const idRe = new RegExp(`${selection.id}$`)
     const undefinedRe = new RegExp('undefined')
@@ -122,7 +103,11 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('renders without selection', () => {
-    render(withContext(<Summary />, { ...contextValue, selection: undefined }))
+    const propsNoSelection = {
+      ...summaryProps,
+      selection: undefined,
+    }
+    render(<Summary {...propsNoSelection} />)
 
     expect(
       screen.queryByTestId('assetSelectSummaryDescription')
@@ -130,50 +115,48 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it('should call edit by mouse click', () => {
-    render(withContext(<Summary />))
-    expect(contextValue.edit).not.toHaveBeenCalled()
+    render(<Summary {...summaryProps} />)
+    expect(summaryProps.edit).not.toHaveBeenCalled()
 
     const element = screen.getByText(/wijzigen/i)
 
-    expect(contextValue.edit).not.toHaveBeenCalled()
+    expect(summaryProps.edit).not.toHaveBeenCalled()
 
     userEvent.click(element)
 
-    expect(contextValue.edit).toHaveBeenCalled()
+    expect(summaryProps.edit).toHaveBeenCalled()
   })
 
   it('should call edit by return key', () => {
-    render(withContext(<Summary />))
-    expect(contextValue.edit).not.toHaveBeenCalled()
+    render(<Summary {...summaryProps} />)
+    expect(summaryProps.edit).not.toHaveBeenCalled()
 
     const element = screen.getByText(/wijzigen/i)
     element.focus()
 
     userEvent.keyboard('a')
 
-    expect(contextValue.edit).not.toHaveBeenCalled()
+    expect(summaryProps.edit).not.toHaveBeenCalled()
 
     userEvent.keyboard('{Enter}')
 
-    expect(contextValue.edit).toHaveBeenCalled()
+    expect(summaryProps.edit).toHaveBeenCalled()
   })
 
   it('renders summary address', () => {
-    const address = contextValue.address as Address
+    const address = summaryProps.address as Address
+    const propsNoAddress = {
+      ...summaryProps,
+      address: undefined,
+    }
 
-    const { rerender } = render(withContext(<Summary />))
+    const { rerender } = render(<Summary {...summaryProps} />)
     expect(
       screen.queryByText('Locatie is gepind op de kaart')
     ).not.toBeInTheDocument()
     expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
 
-    rerender(
-      withContext(<Summary />, {
-        ...contextValue,
-        selection: undefined,
-        address: undefined,
-      })
-    )
+    rerender(<Summary {...propsNoAddress} />)
 
     expect(
       screen.getByText('Locatie is gepind op de kaart')
@@ -181,8 +164,8 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
   })
 
-  it('renders a MapStatic component witht the correct iconSrc prop', () => {
-    render(withContext(<Summary />))
+  it('renders a MapStatic component with the correct iconSrc prop', () => {
+    render(<Summary {...summaryProps} />)
 
     const mapStatic = screen.getByTestId('mapStatic')
 

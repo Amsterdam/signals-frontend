@@ -206,7 +206,15 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
 
       {showMap && <Selector />}
 
-      {!showMap && hasSelection && <Summary />}
+      {!showMap && hasSelection && (
+        <Summary
+          address={address}
+          coordinates={coordinates}
+          selection={selection}
+          edit={edit}
+          featureTypes={featureTypes}
+        />
+      )}
     </AssetSelectProvider>
   )
 }

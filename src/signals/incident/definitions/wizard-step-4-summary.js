@@ -5,6 +5,7 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import { QuestionFieldType } from 'types/question'
+import Summary from 'signals/incident/components/form/MapSelectors/Asset/Summary'
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
@@ -48,12 +49,10 @@ export const renderPreview = ({ render, meta }) => {
     case QuestionFieldType.StreetlightSelect:
       return (props) => (
         <>
-          {PreviewComponents.MapPreview({
-            ...props,
-            featureTypes: meta.featureTypes,
-          })}
-          {PreviewComponents.AssetListPreview({
-            ...props,
+          {Summary({
+            address: props.incident.location.address,
+            coordinates: props.incident.location.coordinates,
+            selection: props.value.selection,
             featureTypes: meta.featureTypes,
           })}
         </>

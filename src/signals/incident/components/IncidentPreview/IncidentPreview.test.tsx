@@ -8,6 +8,8 @@ import { withAppContext } from 'test/utils'
 import { formatAddress } from 'shared/services/format-address'
 import { mock } from 'types/incident'
 
+import Summary from 'signals/incident/components/form/MapSelectors/Asset/Summary'
+import { summaryProps } from 'signals/incident/components/form/MapSelectors/Asset/Summary/Summary.test'
 import type { IncidentPreviewProps } from './IncidentPreview'
 
 import PreviewComponents from './components'
@@ -175,7 +177,7 @@ describe('<IncidentPreview />', () => {
           },
           location: {
             label: 'Locatie',
-            render: PreviewComponents.MapPreview,
+            render: () => Summary(summaryProps),
           },
         },
         vulaan: {},
@@ -215,7 +217,7 @@ describe('<IncidentPreview />', () => {
       expect(queryByText(incident.datetime.label)).toBeInTheDocument()
       expect(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-non-null-asserted-optional-chain
-        queryByText(formatAddress(incident.location?.address!))
+        queryByText(formatAddress(summaryProps.address!))
       ).toBeInTheDocument()
     })
   })
