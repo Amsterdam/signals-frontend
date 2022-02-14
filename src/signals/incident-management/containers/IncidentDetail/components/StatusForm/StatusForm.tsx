@@ -4,7 +4,7 @@ import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Modal, Select } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import useEventEmitter from 'hooks/useEventEmitter'
+import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -19,9 +19,10 @@ import type { Incident } from 'types/api/incident'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
+import configuration from 'shared/services/configuration/configuration'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
-import type { IncidentChild } from '../../types'
+import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
@@ -61,6 +62,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
+
+  const { get: getEmailTemplate, data: emailTemplate } =
+    useFetch<EmailTemplate>()
+
+  // eslint-disable-next-line no-console
+  console.log(emailTemplate)
 
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
@@ -199,6 +206,21 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       unlisten('keydown', escFunction)
     }
   }, [escFunction, listenFor, unlisten])
+
+  useEffect(() => {
+    const emailText = 'email text'
+    if (incident?.id && state.status.key) {
+      getEmailTemplate(
+        `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview/?status=${state.status.key}&text=${emailText}`
+      )
+    }
+  }, [state.status.key, incident?.id, getEmailTemplate])
+
+  useEffect(() => {
+    if (!emailTemplate) return
+
+    dispatch({ type: 'SET_EMAIL_TEMPLATE', payload: emailTemplate })
+  }, [emailTemplate])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>

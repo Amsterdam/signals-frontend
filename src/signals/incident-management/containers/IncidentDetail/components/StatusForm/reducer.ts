@@ -9,7 +9,7 @@ import type { Status } from 'signals/incident-management/definitions/types'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 
-import type { IncidentChild } from '../../types'
+import type { EmailTemplate, IncidentChild } from '../../types'
 import type { StatusFormActions } from './actions'
 import {
   determineWarnings,
@@ -25,6 +25,7 @@ export type State = {
     checked: boolean
     disabled: boolean
   }
+  emailTemplate: EmailTemplate
   errors: {
     text?: string
   }
@@ -83,6 +84,7 @@ export const init = ({
       checked: initialEmailSentState,
       disabled: initialEmailSentState,
     },
+    emailTemplate: { subject: undefined, body: undefined },
     errors: {},
     text: {
       ...getTextConfig(incidentStatus.key),
@@ -169,6 +171,9 @@ const reducer = (state: State, action: StatusFormActions): State => {
 
     case 'SET_ERRORS':
       return { ...state, errors: { ...state.errors, ...action.payload } }
+
+    case 'SET_EMAIL_TEMPLATE':
+      return { ...state, emailTemplate: action.payload }
 
     default:
       return state
