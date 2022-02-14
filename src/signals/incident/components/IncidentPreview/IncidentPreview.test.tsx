@@ -10,17 +10,26 @@ import { mock } from 'types/incident'
 
 import Summary from 'components/Summary'
 import { address, summaryProps } from 'components/Summary/Summary.test'
+import configuration from 'shared/services/configuration/configuration'
+import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { IncidentPreviewProps } from './IncidentPreview'
 
 import PreviewComponents from './components'
 import IncidentPreview from '.'
 
 jest.mock('shared/services/auth/auth')
+jest.mock('shared/services/configuration/configuration')
+jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
+  <span data-testid="mapStatic">
+    <img src={iconSrc} alt="" />
+  </span>
+))
 
 describe('<IncidentPreview />', () => {
   let props: IncidentPreviewProps
 
   beforeEach(() => {
+    configuration.featureFlags.useStaticMapServer = true
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     props = {
