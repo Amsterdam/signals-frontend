@@ -43,10 +43,8 @@ describe('<DefaultTexts />', () => {
       <DefaultTexts {...props} />
     )
 
-    expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(1)
-    expect(queryByTestId('defaultTextsTitle')).toHaveTextContent(
-      /^Standaardtekst$/
-    )
+    expect(queryAllByTestId('modalTitle')).toHaveLength(1)
+    expect(queryByTestId('modalTitle')).toHaveTextContent(/^Standaardtekst$/)
 
     expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(3)
     expect(queryAllByTestId('defaultTextsItemTitle')[0]).toHaveTextContent(
