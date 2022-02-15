@@ -8,13 +8,13 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
+import Summary from 'components/Summary'
 import type { EventHandler, FeatureType, Item, Meta } from '../types'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
-import Summary from './Summary'
 
 const defaultIconConfig: FeatureType['icon'] = {
   options: {
@@ -206,7 +206,15 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
 
       {showMap && <Selector />}
 
-      {!showMap && hasSelection && <Summary />}
+      {!showMap && hasSelection && (
+        <Summary
+          address={address}
+          coordinates={coordinates}
+          selection={selection}
+          edit={edit}
+          featureTypes={featureTypes}
+        />
+      )}
     </AssetSelectProvider>
   )
 }
