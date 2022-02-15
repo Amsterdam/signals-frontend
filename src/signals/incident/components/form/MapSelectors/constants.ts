@@ -8,3 +8,5 @@ export const selectionIsObject = (selection: Item) =>
 
 export const selectionIsUndetermined = (selection: Item) =>
   !selectionIsObject(selection)
+
+export const DETAIL_PANEL_WIDTH = 400
