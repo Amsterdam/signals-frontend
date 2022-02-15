@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+import 'jest-styled-components'
+
 import { withAppContext } from 'test/utils'
 
-import LegendPanel from '../LegendPanel'
+import LegendPanel from './LegendPanel'
 import type { LegendPanelProps } from './LegendPanel'
 
 describe('LegendPanel', () => {
   const props: LegendPanelProps = {
     onClose: () => {},
-    variant: 'drawer',
     items: [
       {
         iconUrl: 'url',
@@ -18,7 +19,8 @@ describe('LegendPanel', () => {
       },
     ],
   }
-  it('should render', () => {
+
+  it('render correctly', () => {
     render(withAppContext(<LegendPanel {...props} />))
 
     expect(screen.getByRole('list')).toBeInTheDocument()
@@ -28,17 +30,39 @@ describe('LegendPanel', () => {
     expect(screen.getAllByRole('listitem').length).toBe(props.items?.length)
   })
 
-  it('should render with empty items', () => {
-    render(
-      withAppContext(
-        <LegendPanel
-          items={[]}
-          onClose={props.onClose}
-          variant={props.variant}
-        />
-      )
-    )
+  it('renders with empty items', () => {
+    render(withAppContext(<LegendPanel items={[]} onClose={props.onClose} />))
 
     expect(screen.queryAllByRole('listitem').length).toBe(0)
+  })
+
+  it('renders visible panel', () => {
+    const { rerender } = render(withAppContext(<LegendPanel {...props} />))
+
+    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+      'transform',
+      'translate3d( 0,200%,0 )',
+      { media: 'only screen and (max-width:767px)' }
+    )
+
+    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+      'transform',
+      'translate3d( -200%,0,0 )',
+      { media: 'only screen and (min-width:768px)' }
+    )
+
+    rerender(withAppContext(<LegendPanel {...props} slide="in" />))
+
+    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+      'transform',
+      'translate3d( 0,0,0 )',
+      { media: 'only screen and (max-width:767px)' }
+    )
+
+    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+      'transform',
+      'translate3d( 0,0,0 )',
+      { media: 'only screen and (min-width:768px)' }
+    )
   })
 })
