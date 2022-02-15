@@ -2,7 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import 'jest-styled-components'
 
 import { withAppContext } from 'test/utils'
 
@@ -88,7 +87,7 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByRole('heading', { name: 'Locatie' })).toBeInTheDocument()
+    expect(screen.getByText('Locatie')).toBeInTheDocument()
 
     expect(
       screen.getByRole('checkbox', {
@@ -291,30 +290,10 @@ describe('DetailPanel', () => {
   it('toggles the position of the legend panel', () => {
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
-      'transform',
-      'translate3d( 0,200%,0 )',
-      { media: 'only screen and (max-width:767px)' }
-    )
-
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
-      'transform',
-      'translate3d( -200%,0,0 )',
-      { media: 'only screen and (min-width:768px)' }
-    )
+    expect(screen.getByTestId('legendPanel')).toHaveClass('out')
 
     userEvent.click(screen.getByTestId('legendToggleButton'))
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
-      'transform',
-      'translate3d( 0,0,0 )',
-      { media: 'only screen and (max-width:767px)' }
-    )
-
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
-      'transform',
-      'translate3d( 0,0,0 )',
-      { media: 'only screen and (min-width:768px)' }
-    )
+    expect(screen.getByTestId('legendPanel')).toHaveClass('in')
   })
 })

@@ -1,12 +1,6 @@
 import styled from 'styled-components'
 
-import {
-  Button,
-  themeSpacing,
-  themeColor,
-  breakpoint,
-  Heading,
-} from '@amsterdam/asc-ui'
+import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 
 import AssetList from '../../AssetList'
 import LegendToggle from '../LegendToggleButton'
@@ -36,9 +30,9 @@ export const LegendToggleButton = styled(LegendToggle)`
   }
 `
 
-export const StyledMapPanelContent = styled.div`
+export const PanelContent = styled.div`
   background-color: white;
-  padding: ${themeSpacing(4, 4, 0, 4)};
+  padding: ${themeSpacing(4)};
   position: relative;
   z-index: 1;
 
@@ -46,6 +40,7 @@ export const StyledMapPanelContent = styled.div`
     bottom: 0;
     box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
     flex: 0 0 50vh;
+    max-height: 50vh;
     order: 1;
     width: 100vw;
   }
@@ -66,13 +61,4 @@ export const Description = styled.span`
   display: block;
   font-size: 16px;
   font-weight: 400;
-`
-
-export const Title = styled(Heading)`
-  margin: ${themeSpacing(-4, -4, 5)};
-  padding: ${themeSpacing(3, 4)};
-
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    border-bottom: 1px solid ${themeColor('tint', 'level3')};
-  }
 `

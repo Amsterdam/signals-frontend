@@ -14,14 +14,14 @@ import {
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 
 import AssetSelectContext from '../../context'
+import { ScrollWrapper, Title } from '../styled'
 import {
-  StyledMapPanelContent,
+  PanelContent,
   Description,
   StyledAssetList,
   StyledButton,
   StyledLegendPanel,
   LegendToggleButton,
-  Title,
 } from './styled'
 
 export interface DetailPanelProps {
@@ -102,63 +102,66 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
   }, [showLegendPanel])
 
   return (
-    <StyledMapPanelContent data-testid="detailPanel">
+    <PanelContent data-testid="detailPanel">
       <Title>{language.title || 'Locatie'}</Title>
 
-      <Paragraph strong>
-        {language.subTitle || 'U kunt maar een object kiezen'}
-        <Description>
-          {language.description ||
-            'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
-        </Description>
-      </Paragraph>
+      <ScrollWrapper>
+        <Paragraph strong>
+          {language.subTitle || 'U kunt maar een object kiezen'}
+          <Description>
+            {language.description ||
+              'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
+          </Description>
+        </Paragraph>
 
-      {selection && selectionOnMap && (
-        <StyledAssetList
-          selection={selection}
-          onRemove={removeItem}
-          featureTypes={featureTypes}
-        />
-      )}
-
-      {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
-        <div data-testid="unregisteredObjectPanel">
-          <Checkbox
-            id="unregisteredAssetCheckbox"
-            checked={showObjectIdInput}
-            onChange={onCheck}
+        {selection && selectionOnMap && (
+          <StyledAssetList
+            selection={selection}
+            onRemove={removeItem}
+            featureTypes={featureTypes}
           />
-          <Label
-            htmlFor="unregisteredAssetCheckbox"
-            label={unregisteredLabel}
-          />
+        )}
 
-          {showObjectIdInput && language.unregisteredId && (
-            <>
-              <Label
-                htmlFor="unregisteredAssetInput"
-                label={
-                  <>
-                    <strong>{language.unregisteredId}</strong> (niet verplicht)
-                  </>
-                }
-              />
-              <Input
-                id="unregisteredAssetInput"
-                onBlur={onSetItem}
-                onChange={onChange}
-                onKeyUp={onKeyUp}
-                onSubmit={close}
-                value={unregisteredAssetValue}
-              />
-            </>
-          )}
-        </div>
-      )}
+        {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
+          <div data-testid="unregisteredObjectPanel">
+            <Checkbox
+              id="unregisteredAssetCheckbox"
+              checked={showObjectIdInput}
+              onChange={onCheck}
+            />
+            <Label
+              htmlFor="unregisteredAssetCheckbox"
+              label={unregisteredLabel}
+            />
 
-      <StyledButton onClick={close} variant="primary">
-        {language.submit || 'Meld dit object'}
-      </StyledButton>
+            {showObjectIdInput && language.unregisteredId && (
+              <>
+                <Label
+                  htmlFor="unregisteredAssetInput"
+                  label={
+                    <>
+                      <strong>{language.unregisteredId}</strong> (niet
+                      verplicht)
+                    </>
+                  }
+                />
+                <Input
+                  id="unregisteredAssetInput"
+                  onBlur={onSetItem}
+                  onChange={onChange}
+                  onKeyUp={onKeyUp}
+                  onSubmit={close}
+                  value={unregisteredAssetValue}
+                />
+              </>
+            )}
+          </div>
+        )}
+
+        <StyledButton onClick={close} variant="primary">
+          {language.submit || 'Meld dit object'}
+        </StyledButton>
+      </ScrollWrapper>
 
       {legendItems.length > 0 && (
         <>
@@ -171,7 +174,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
           <LegendToggleButton onClick={toggleLegend} />
         </>
       )}
-    </StyledMapPanelContent>
+    </PanelContent>
   )
 }
 
