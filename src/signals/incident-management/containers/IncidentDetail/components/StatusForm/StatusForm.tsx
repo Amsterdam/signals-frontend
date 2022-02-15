@@ -77,14 +77,15 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     [setModalStandardTextIsOpen]
   )
 
-  const closeStandardTextModal = useCallback(() => {
+  const closeModal = useCallback(() => {
     enablePageScroll()
     setModalStandardTextIsOpen(false)
+    setModalEmailPreviewIsOpen(false)
 
     if (lastActiveElement) {
       lastActiveElement.focus()
     }
-  }, [setModalStandardTextIsOpen])
+  }, [setModalStandardTextIsOpen, setModalEmailPreviewIsOpen])
 
   const openEmailPreviewModal = useCallback(() => {
     disablePageScroll()
@@ -92,22 +93,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     lastActiveElement = document.activeElement as HTMLElement
   }, [setModalEmailPreviewIsOpen])
 
-  const closeEmailPreviewModal = useCallback(() => {
-    enablePageScroll()
-    setModalEmailPreviewIsOpen(false)
-
-    if (lastActiveElement) {
-      lastActiveElement.focus()
-    }
-  }, [setModalEmailPreviewIsOpen])
-
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
-        closeStandardTextModal()
+        closeModal()
       }
     },
-    [closeStandardTextModal]
+    [closeModal]
   )
 
   const disableSubmit = Boolean(
@@ -219,9 +211,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const useDefaultText = useCallback(
     (event: SyntheticEvent, text: string) => {
       setDefaultText(event, text)
-      closeStandardTextModal()
+      closeModal()
     },
-    [closeStandardTextModal, setDefaultText]
+    [closeModal, setDefaultText]
   )
 
   useEffect(() => {
@@ -346,14 +338,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               <Modal
                 data-testid="standardTextModal"
                 open
-                onClose={closeStandardTextModal}
+                onClose={closeModal}
                 title="Standard texts"
               >
                 <DefaultTexts
                   defaultTexts={defaultTexts}
                   onHandleUseDefaultText={useDefaultText}
                   status={state.status.key}
-                  onClose={closeStandardTextModal}
+                  onClose={closeModal}
                 />
               </Modal>
             )}
@@ -393,7 +385,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           <Modal
             data-testid="emailPreviewModal"
             open
-            onClose={closeEmailPreviewModal}
+            onClose={closeModal}
             title="Email Preview"
           >
             <EmailPreview
