@@ -114,6 +114,22 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     state.warnings.some(({ level }) => level === 'error')
   )
 
+  const onUpdate = () => {
+    const textValue = state.text.value || state.text.defaultValue
+    update({
+      type: PATCH_TYPE_STATUS,
+      patch: {
+        status: {
+          state: state.status.key,
+          text: textValue,
+          send_email: state.check.checked,
+        },
+      },
+    })
+
+    onClose()
+  }
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault()
@@ -156,30 +172,17 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       }
     },
     [
+      state.flags.hasEmail,
       state.text.value,
       state.text.defaultValue,
       state.text.required,
       state.text.maxLength,
       state.status.key,
       state.check.checked,
+      onUpdate,
+      openEmailPreviewModal,
     ]
   )
-
-  const onUpdate = () => {
-    const textValue = state.text.value || state.text.defaultValue
-    update({
-      type: PATCH_TYPE_STATUS,
-      patch: {
-        status: {
-          state: state.status.key,
-          text: textValue,
-          send_email: state.check.checked,
-        },
-      },
-    })
-
-    onClose()
-  }
 
   const setDefaultText = useCallback((_event, text) => {
     dispatch({ type: 'SET_DEFAULT_TEXT', payload: text })
