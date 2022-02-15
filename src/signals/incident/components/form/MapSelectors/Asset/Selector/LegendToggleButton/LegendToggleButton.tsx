@@ -25,6 +25,7 @@ const LegendToggleButton: FC<LegendToggleButtonProps> = ({
   onClick,
 }) => (
   <StyledButton
+    data-testid="legendToggleButton"
     className={className}
     type="button"
     variant="blank"
