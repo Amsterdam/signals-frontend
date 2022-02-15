@@ -3,16 +3,8 @@
 import type { FC, SyntheticEvent } from 'react'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
-import { Close } from '@amsterdam/asc-assets'
-import {
-  CloseButton,
-  ModalHeader,
-  StyledHeading,
-  StyledDefaultText,
-  StyledTitle,
-  StyledLink,
-  Wrapper,
-} from './styled'
+import ModalHeader from '../ModalHeader/ModalHeader'
+import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>
@@ -36,19 +28,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
 
   return (
     <>
-      <ModalHeader>
-        <StyledHeading as="h3" data-testid="defaultTextsTitle">
-          Standaardtekst
-        </StyledHeading>
-        <CloseButton
-          variant="application"
-          onClick={onClose}
-          icon={<Close />}
-          size={20}
-          title="Sluiten"
-        />
-      </ModalHeader>
-
+      <ModalHeader title="Standaardtekst" onClose={onClose} />
       <Wrapper>
         {(!allText || allText.templates.length === 0) && (
           <StyledDefaultText key={`empty_${status}`} empty>
