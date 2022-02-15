@@ -32,17 +32,19 @@ interface ModalHeaderProps {
 
 const ModalHeader: FC<ModalHeaderProps> = ({ title, onClose }) => {
   return (
-    <Header>
+    <Header data-testid="modalHeader">
       <StyledHeading as="h3" data-testid="modalTitle">
         {title}
       </StyledHeading>
-      <CloseButton
-        variant="application"
-        onClick={onClose}
-        icon={<Close />}
-        size={20}
-        title="Sluiten"
-      />
+      {onClose && (
+        <CloseButton
+          variant="application"
+          onClick={onClose}
+          icon={<Close />}
+          size={20}
+          title="Sluiten"
+        />
+      )}
     </Header>
   )
 }

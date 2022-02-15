@@ -38,6 +38,7 @@ import * as constants from './constants'
 import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import type { StatusFormActions } from './actions'
+import EmailPreview from './components/EmailPreview/EmailPreview'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
@@ -46,6 +47,8 @@ interface StatusFormProps {
 }
 
 let lastActiveElement: HTMLElement | null = null
+const htmlString =
+  '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>Uw melding SIA-1</title></head><body><p>Geachte melder,</p><p>Op 9 februari 2022 om 13.00 uur hebt u een melding gedaan bij de gemeente. In deze e-mail leest u de stand van zaken van uw melding.</p><p><strong>U liet ons het volgende weten</strong><br />Just some text<br /> Some text on the next line</p><p><strong>Stand van zaken</strong><br />Wij pakken dit z.s.m. op</p><p><strong>Gegevens van uw melding</strong><br />Nummer: SIA-1<br />Gemeld op: 9 februari 2022, 13.00 uur<br />Plaats: Amstel 1, 1011 PN Amsterdam</p><p><strong>Meer weten?</strong><br />Voor vragen over uw melding in Amsterdam kunt u bellen met telefoonnummer 14 020, maandag tot en met vrijdag van 08.00 tot 18.00 uur. Voor Weesp kunt u bellen met 0294 491 391, maandag tot en met vrijdag van 08.30 tot 17.00 uur. Geef dan ook het nummer van uw melding door: SIA-1.</p><p>Met vriendelijke groet,</p><p>Gemeente Amsterdam</p></body></html>'
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
   defaultTexts,
@@ -57,6 +60,8 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const { listenFor, unlisten } = useEventEmitter()
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
+  const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
+  const [emailBody, setEmailBody] = useState<string>('')
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
@@ -80,6 +85,21 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       lastActiveElement.focus()
     }
   }, [setModalStandardTextIsOpen])
+
+  const openEmailPreviewModal = useCallback(() => {
+    disablePageScroll()
+    setModalEmailPreviewIsOpen(true)
+    lastActiveElement = document.activeElement as HTMLElement
+  }, [setModalEmailPreviewIsOpen])
+
+  const closeEmailPreviewModal = useCallback(() => {
+    enablePageScroll()
+    setModalEmailPreviewIsOpen(false)
+
+    if (lastActiveElement) {
+      lastActiveElement.focus()
+    }
+  }, [setModalEmailPreviewIsOpen])
 
   const escFunction = useCallback(
     (event) => {
@@ -128,18 +148,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      update({
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: {
-            state: state.status.key,
-            text: textValue,
-            send_email: state.check.checked,
-          },
-        },
-      })
-
-      onClose()
+      if (state.flags.hasEmail && state.check.checked) {
+        setEmailBody(htmlString)
+        openEmailPreviewModal()
+      } else {
+        onUpdate()
+      }
     },
     [
       state.text.value,
@@ -148,10 +162,24 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.text.maxLength,
       state.status.key,
       state.check.checked,
-      update,
-      onClose,
     ]
   )
+
+  const onUpdate = () => {
+    const textValue = state.text.value || state.text.defaultValue
+    update({
+      type: PATCH_TYPE_STATUS,
+      patch: {
+        status: {
+          state: state.status.key,
+          text: textValue,
+          send_email: state.check.checked,
+        },
+      },
+    })
+
+    onClose()
+  }
 
   const setDefaultText = useCallback((_event, text) => {
     dispatch({ type: 'SET_DEFAULT_TEXT', payload: text })
@@ -358,6 +386,20 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         >
           Annuleer
         </StyledButton>
+        {modalEmailPreviewIsOpen && (
+          <Modal
+            data-testid="emailPreviewModal"
+            open
+            onClose={closeEmailPreviewModal}
+            title="Email Preview"
+          >
+            <EmailPreview
+              emailBody={emailBody}
+              onClose={onClose}
+              onUpdate={onUpdate}
+            />
+          </Modal>
+        )}
       </div>
     </Form>
   )
