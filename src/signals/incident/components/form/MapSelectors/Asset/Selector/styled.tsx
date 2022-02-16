@@ -7,7 +7,6 @@ import {
 } from '@amsterdam/asc-ui'
 
 import Map from 'components/Map'
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import ViewerContainer from 'components/ViewerContainer'
 import { DETAIL_PANEL_WIDTH } from '../../constants'
 
@@ -40,28 +39,6 @@ export const StyledMap = styled(Map)`
   width: 100%;
   position: relative;
   z-index: 0;
-`
-
-export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  position: relative;
-  z-index: 1;
-  max-width: 375px;
-  margin-left: ${themeSpacing(2)};
-
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
-    width: calc(100vw - (16px + 44px + 8px) * 2);
-  }
-
-  @media screen and ${breakpoint('min-width', 'tabletM')} {
-    //                  detail panel width + (page margin + button width + button margin) * 2
-    width: calc(100vw - (${DETAIL_PANEL_WIDTH}px + (16px + 44px + 8px) * 2));
-  }
-`
-
-export const ControlWrapper = styled.div`
-  display: flex;
-  position: relative;
-  z-index: 401;
 `
 
 export const TopLeftWrapper = styled.div`
