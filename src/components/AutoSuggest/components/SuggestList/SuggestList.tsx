@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Fragment, useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
 import { ChevronRight } from '@amsterdam/asc-assets'
@@ -49,12 +49,12 @@ type SuggestListProps = {
 }
 
 const SuggestList: FC<SuggestListProps> = ({
-  activeIndex,
-  className,
+  activeIndex = 0,
+  className = '',
   id,
   onSelectOption,
   options,
-  role,
+  role = 'listbox',
   ...rest
 }) => {
   const listRef = useRef<HTMLUListElement>(null)
@@ -121,22 +121,16 @@ const SuggestList: FC<SuggestListProps> = ({
           role="option"
           tabIndex={-1}
         >
-          <Fragment>
-            <StyledIcon size={12}>
+          <>
+            <StyledIcon className="chrevronIcon" size={12}>
               <Chevron />
             </StyledIcon>
             {option.value}
-          </Fragment>
+          </>
         </Li>
       ))}
     </StyledList>
   )
-}
-
-SuggestList.defaultProps = {
-  activeIndex: 0,
-  className: '',
-  role: 'listbox',
 }
 
 export default SuggestList

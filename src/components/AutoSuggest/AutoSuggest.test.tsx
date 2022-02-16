@@ -518,6 +518,47 @@ describe('src/components/AutoSuggest', () => {
     userEvent.click(screen.getByTestId('clearInput'))
 
     expect(onClear).toHaveBeenCalled()
+
+    expect(screen.getByRole('textbox')).not.toHaveFocus()
+  })
+
+  it('focuses the input on clear', async () => {
+    const onClear = jest.fn()
+    const value = 'Rembrandt van Rijnweg 2, 1191GG Ouderkerk aan de Amstel'
+
+    render(
+      withAppContext(
+        <AutoSuggest
+          {...props}
+          value={value}
+          onClear={onClear}
+          showInlineList={false}
+        />
+      )
+    )
+
+    userEvent.click(screen.getByTestId('clearInput'))
+
+    expect(screen.getByRole('textbox')).toHaveFocus()
+  })
+
+  it('calls onData', async () => {
+    const onData = jest.fn()
+
+    render(withAppContext(<AutoSuggest {...props} onData={onData} />))
+    const input = screen.getByRole('textbox')
+
+    userEvent.type(input, 'Rembrandt')
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
+
+    expect(onData).not.toHaveBeenCalled()
+
+    await screen.findByTestId('autoSuggest')
+
+    expect(onData).toHaveBeenCalled()
   })
 
   it('should work without onClear defined', async () => {

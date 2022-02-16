@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
 import type { FC } from 'react'
 import type { PdokResponse } from 'shared/services/map-location'
@@ -13,16 +13,19 @@ import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350
 
-export type AutoSuggestProps = {
+export interface AutoSuggestProps {
+  autoFocus?: boolean
   className?: string
   disabled?: boolean
   formatResponse: (data?: RevGeo) => Array<PdokResponse>
   id?: string
   numOptionsDeterminer: (data?: RevGeo) => number
   onClear?: () => void
+  onData?: (optionsList: any) => void
   onFocus?: () => void
   onSelect: (option: PdokResponse) => void
   placeholder?: string
+  showInlineList?: boolean
   url: string
   value?: string
 }
@@ -41,15 +44,18 @@ export type AutoSuggestProps = {
  * - End key focuses the input field at the last character
  */
 const AutoSuggest: FC<AutoSuggestProps> = ({
+  autoFocus = false,
   className = '',
   disabled = false,
   formatResponse,
   id = '',
   numOptionsDeterminer,
   onClear,
+  onData,
   onFocus,
   onSelect,
   placeholder = '',
+  showInlineList = true,
   url,
   value = '',
   ...rest
@@ -60,7 +66,10 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   const [activeIndex, setActiveIndex] = useState(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const options = data && formatResponse(data)
+  const options = useMemo(
+    () => data && formatResponse(data),
+    [data, formatResponse]
+  )
   const activeId = options?.[activeIndex]?.id || ''
 
   const handleInputKeyDown = useCallback((event) => {
@@ -77,6 +86,10 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   const clearInput = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.value = ''
+
+      if (!showInlineList) {
+        inputRef.current.focus()
+      }
     }
 
     setActiveIndex(-1)
@@ -85,7 +98,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     if (onClear) {
       onClear()
     }
-  }, [onClear])
+  }, [onClear, showInlineList])
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -258,6 +271,27 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     inputRef.current.value = value
   }, [value])
 
+  const optionsList = useMemo(
+    () =>
+      (options && (
+        <List
+          activeIndex={activeIndex}
+          id="as-listbox"
+          onSelectOption={onSelectOption}
+          options={options}
+          role="listbox"
+        />
+      )) ||
+      null,
+    [activeIndex, options, onSelectOption]
+  )
+
+  useEffect(() => {
+    if (onData && options) {
+      onData(optionsList)
+    }
+  }, [options, optionsList, onData])
+
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div
@@ -267,6 +301,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         role="combobox"
       >
         <Input
+          autoFocus={autoFocus}
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
@@ -290,15 +325,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           />
         )}
       </div>
-      {options && showList && (
-        <List
-          activeIndex={activeIndex}
-          id="as-listbox"
-          onSelectOption={onSelectOption}
-          options={options}
-          role="listbox"
-        />
-      )}
+      {showInlineList && showList && optionsList}
     </Wrapper>
   )
 }
