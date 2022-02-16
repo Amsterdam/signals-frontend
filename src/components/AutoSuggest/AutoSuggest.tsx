@@ -20,6 +20,7 @@ export type AutoSuggestProps = {
   id?: string
   numOptionsDeterminer: (data?: RevGeo) => number
   onClear?: () => void
+  onFocus?: () => void
   onSelect: (option: PdokResponse) => void
   placeholder?: string
   url: string
@@ -46,6 +47,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   id = '',
   numOptionsDeterminer,
   onClear,
+  onFocus,
   onSelect,
   placeholder = '',
   url,
@@ -272,6 +274,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           disabled={disabled}
           id={id}
           onChange={onChange}
+          onFocus={onFocus}
           placeholder={placeholder}
           ref={inputRef}
           {...rest}

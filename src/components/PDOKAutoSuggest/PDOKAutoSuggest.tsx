@@ -29,6 +29,7 @@ export type PDOKAutoSuggestProps = {
   fieldList?: Array<string>
   municipality?: string | Array<string>
   onClear?: () => void
+  onFocus?: () => void
   onSelect: (option: PdokResponse) => void
   placeholder?: string
   value?: string
@@ -44,6 +45,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   fieldList,
   municipality,
   onClear,
+  onFocus,
   onSelect,
   placeholder,
   value,
@@ -72,6 +74,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
       formatResponse={formatPDOKResponse}
       numOptionsDeterminer={numOptionsDeterminer}
       onClear={onClear}
+      onFocus={onFocus}
       onSelect={onSelect}
       placeholder={placeholder}
       url={url}

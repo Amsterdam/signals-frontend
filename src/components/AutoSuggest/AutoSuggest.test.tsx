@@ -542,4 +542,16 @@ describe('src/components/AutoSuggest', () => {
 
     await screen.findByTestId('autoSuggest')
   })
+
+  it('calls onFocus', () => {
+    const onFocus = jest.fn()
+
+    render(withAppContext(<AutoSuggest {...props} onFocus={onFocus} />))
+
+    expect(onFocus).not.toHaveBeenCalled()
+
+    fireEvent.focus(screen.getByRole('textbox'))
+
+    expect(onFocus).toHaveBeenCalled()
+  })
 })
