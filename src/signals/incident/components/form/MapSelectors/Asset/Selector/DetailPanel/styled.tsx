@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 
@@ -66,4 +66,68 @@ export const Description = styled.span`
 
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   margin: ${themeSpacing(4, 0)};
+  width: 100%;
+`
+const slideUp = keyframes`
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+`
+
+export const AddressPanel = styled.article`
+  background-color: white;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    transform: translate3d(0, 0, 0);
+  }
+
+  header {
+    border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+    padding: ${themeSpacing(4)};
+    display: flex;
+    align-items: center;
+
+    > * {
+      margin: 0;
+    }
+
+    button {
+      border: 0;
+      margin-right: ${themeSpacing(4)};
+    }
+  }
+
+  .instruction {
+    color: ${themeColor('tint', 'level4')};
+    font-size: 18px;
+    margin-top: ${themeSpacing(6)};
+    text-align: center;
+  }
+`
+
+export const OptionsList = styled.div`
+  ul {
+    border: 0;
+    margin: ${themeSpacing(2, 0)};
+
+    li {
+      line-height: 22px;
+      padding: ${themeSpacing(2, 4)};
+    }
+  }
+
+  .chrevronIcon {
+    display: none;
+  }
 `
