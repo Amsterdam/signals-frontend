@@ -14,7 +14,7 @@ export const StyledViewerContainer = styled(ViewerContainer)`
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     left: ${DETAIL_PANEL_WIDTH}px;
   }
-  z-index: 401;
+  z-index: 1;
 `
 
 export const Wrapper = styled.div`
