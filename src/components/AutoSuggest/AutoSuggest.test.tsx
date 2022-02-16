@@ -479,7 +479,7 @@ describe('src/components/AutoSuggest', () => {
     expect(onSelect).toHaveBeenCalledWith(firstOption)
   })
 
-  it('should call onClear', async () => {
+  it('calls onClear', async () => {
     const onClear = jest.fn()
     render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
     const input = screen.getByRole('textbox')
@@ -501,6 +501,21 @@ describe('src/components/AutoSuggest', () => {
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
+
+    expect(onClear).toHaveBeenCalled()
+  })
+
+  it('calls onClear when ClearInput button clicked', async () => {
+    const onClear = jest.fn()
+    const value = 'Rembrandt van Rijnweg 2, 1191GG Ouderkerk aan de Amstel'
+
+    render(
+      withAppContext(<AutoSuggest {...props} value={value} onClear={onClear} />)
+    )
+
+    expect(onClear).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('clearInput'))
 
     expect(onClear).toHaveBeenCalled()
   })

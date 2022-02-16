@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef } from 'react'
-import styled from 'styled-components'
 
 import type { FC } from 'react'
 import type { PdokResponse } from 'shared/services/map-location'
@@ -9,29 +8,10 @@ import type { RevGeo } from 'types/pdok/revgeo'
 
 import useDebounce from 'hooks/useDebounce'
 import useFetch from 'hooks/useFetch'
-import Input from 'components/Input'
-import SuggestList from './components/SuggestList'
+import { Close } from '@amsterdam/asc-assets'
+import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350
-
-const Wrapper = styled.div`
-  position: relative;
-`
-
-const StyledInput = styled(Input)`
-  outline: 2px solid rgb(0, 0, 0, 0.1);
-
-  & > * {
-    margin: 0;
-  }
-`
-
-const AbsoluteList = styled(SuggestList)`
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  z-index: 2;
-`
 
 export type AutoSuggestProps = {
   className?: string
@@ -60,16 +40,16 @@ export type AutoSuggestProps = {
  * - End key focuses the input field at the last character
  */
 const AutoSuggest: FC<AutoSuggestProps> = ({
-  className,
+  className = '',
   disabled = false,
   formatResponse,
   id = '',
   numOptionsDeterminer,
   onClear,
   onSelect,
-  placeholder,
+  placeholder = '',
   url,
-  value,
+  value = '',
   ...rest
 }) => {
   const { get, data } = useFetch<RevGeo>()
@@ -91,6 +71,19 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         break
     }
   }, [])
+
+  const clearInput = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.value = ''
+    }
+
+    setActiveIndex(-1)
+    setShowList(false)
+
+    if (onClear) {
+      onClear()
+    }
+  }, [onClear])
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -127,13 +120,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
 
         case 'Esc':
         case 'Escape':
-          if (inputRef.current) {
-            inputRef.current.value = ''
-          }
-
-          setActiveIndex(-1)
-          setShowList(false)
-          if (onClear) onClear()
+          clearInput()
           break
 
         case 'Home':
@@ -163,7 +150,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           break
       }
     },
-    [data, numOptionsDeterminer, showList, onClear]
+    [data, numOptionsDeterminer, showList, clearInput]
   )
 
   const handleFocusOut = useCallback((event) => {
@@ -277,7 +264,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         aria-haspopup="listbox"
         role="combobox"
       >
-        <StyledInput
+        <Input
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
@@ -289,9 +276,19 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           ref={inputRef}
           {...rest}
         />
+        {value && (
+          <ClearInput
+            data-testid="clearInput"
+            icon={<Close />}
+            iconSize={20}
+            onClick={clearInput}
+            size={44}
+            variant="blank"
+          />
+        )}
       </div>
       {options && showList && (
-        <AbsoluteList
+        <List
           activeIndex={activeIndex}
           id="as-listbox"
           onSelectOption={onSelectOption}
@@ -301,13 +298,6 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
       )}
     </Wrapper>
   )
-}
-
-AutoSuggest.defaultProps = {
-  className: '',
-  id: '',
-  placeholder: '',
-  value: '',
 }
 
 export default AutoSuggest
