@@ -65,6 +65,18 @@ describe('wktPointToLocation', () => {
     })
   })
 
+  it('should work when the lng is alphabetically bigger than the lon', () => {
+    expect(wktPointToLocation('POINT(6.90225668 52.36150435)')).toEqual({
+      lat: 52.36150435,
+      lng: 6.90225668,
+    })
+
+    expect(wktPointToLocation('POINT(6.90225668,52.36150435)')).toEqual({
+      lat: 52.36150435,
+      lng: 6.90225668,
+    })
+  })
+
   it('should throw an error', () => {
     expect(() => {
       wktPointToLocation('POLYGON(4.90225668 52.36150435)')
