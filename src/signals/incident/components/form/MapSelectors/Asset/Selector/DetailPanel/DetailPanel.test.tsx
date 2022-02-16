@@ -48,9 +48,12 @@ const mockPDOKResponse: PdokResponse = {
 jest.mock(
   'components/PDOKAutoSuggest',
   () =>
-    ({ className, onSelect, value }: PDOKAutoSuggestProps) =>
+    ({ className, onSelect, value, onClear }: PDOKAutoSuggestProps) =>
       (
         <span data-testid="pdokAutoSuggest" className={className}>
+          <button data-testid="autoSuggestClear" onClick={onClear}>
+            Clear input
+          </button>
           <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
           <span>{value}</span>
         </span>
@@ -168,6 +171,23 @@ describe('DetailPanel', () => {
     expect(contextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(removeButton)
+
+    expect(contextValue.removeItem).toHaveBeenCalled()
+  })
+
+  it('calls remove on autosuggest clear', () => {
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+        selection,
+      })
+    )
+
+    const autoSuggestClear = screen.getByTestId('autoSuggestClear')
+
+    expect(contextValue.removeItem).not.toHaveBeenCalled()
+
+    userEvent.click(autoSuggestClear)
 
     expect(contextValue.removeItem).toHaveBeenCalled()
   })
