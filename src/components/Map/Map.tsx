@@ -24,7 +24,7 @@ const StyledMap = styled(MapComponent)`
 `
 
 const StyledViewerContainer = styled(ViewerContainer)`
-  z-index: 1;
+  z-index: 0;
 `
 
 interface MapProps {
