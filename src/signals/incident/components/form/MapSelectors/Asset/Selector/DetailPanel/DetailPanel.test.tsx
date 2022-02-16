@@ -2,9 +2,12 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
 import { withAppContext } from 'test/utils'
 
+import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
+import type { PdokResponse } from 'shared/services/map-location'
+
+import { formatAddress } from 'shared/services/format-address'
 import { UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -21,6 +24,37 @@ jest.mock('../../AssetList', () =>
       <input type="button" onClick={onRemove} />
     </span>
   )
+)
+
+const mockAddress = {
+  postcode: '1000 AA',
+  huisnummer: '100',
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+
+const mockPDOKResponse: PdokResponse = {
+  id: 'foo',
+  value: 'Zork',
+  data: {
+    location: {
+      lat: 12.282,
+      lng: 3.141,
+    },
+    address: mockAddress,
+  },
+}
+
+jest.mock(
+  'components/PDOKAutoSuggest',
+  () =>
+    ({ className, onSelect, value }: PDOKAutoSuggestProps) =>
+      (
+        <span data-testid="pdokAutoSuggest" className={className}>
+          <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
+          <span>{value}</span>
+        </span>
+      )
 )
 
 describe('DetailPanel', () => {
@@ -168,9 +202,12 @@ describe('DetailPanel', () => {
 
     const unregisteredObjectId = '8976238'
 
-    userEvent.type(screen.getByRole('textbox'), unregisteredObjectId)
+    userEvent.type(
+      screen.getByTestId('unregisteredAssetInput'),
+      unregisteredObjectId
+    )
 
-    fireEvent.blur(screen.getByRole('textbox'))
+    fireEvent.blur(screen.getByTestId('unregisteredAssetInput'))
 
     expect(contextValue.setItem).toHaveBeenCalledTimes(2)
     expect(contextValue.setItem).toHaveBeenLastCalledWith({
@@ -178,6 +215,46 @@ describe('DetailPanel', () => {
       type: UNKNOWN_TYPE,
       label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
     })
+  })
+
+  it('dispatches the location when an address is selected', async () => {
+    const { setLocation } = contextValue
+
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    await screen.findByTestId('pdokAutoSuggest')
+
+    expect(setLocation).not.toHaveBeenCalled()
+
+    const setLocationButton = screen.getByRole('button', { name: 'selectItem' })
+
+    userEvent.click(setLocationButton)
+
+    expect(setLocation).toHaveBeenCalledWith({
+      coordinates: mockPDOKResponse.data.location,
+      address: mockPDOKResponse.data.address,
+    })
+  })
+
+  it('renders already selected address', () => {
+    const predefinedAddress = {
+      postcode: '1234BR',
+      huisnummer: 1,
+      huisnummer_toevoeging: 'A',
+      woonplaats: 'Amsterdam',
+      openbare_ruimte: '',
+    }
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+        address: predefinedAddress,
+      })
+    )
+
+    expect(
+      screen.getByText(formatAddress(predefinedAddress))
+    ).toBeInTheDocument()
   })
 
   it('closes/submits the panel', () => {

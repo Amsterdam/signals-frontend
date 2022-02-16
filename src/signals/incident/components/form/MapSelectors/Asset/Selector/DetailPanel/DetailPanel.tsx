@@ -13,6 +13,8 @@ import {
 
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 
+import { formatAddress } from 'shared/services/format-address'
+import type { PdokResponse } from 'shared/services/map-location'
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
 import {
@@ -22,6 +24,7 @@ import {
   StyledButton,
   StyledLegendPanel,
   LegendToggleButton,
+  StyledPDOKAutoSuggest,
 } from './styled'
 
 export interface DetailPanelProps {
@@ -31,8 +34,10 @@ export interface DetailPanelProps {
 
 const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
   const [showLegendPanel, setShowLegendPanel] = useState(false)
-  const { selection, removeItem, setItem, close } =
+  const { address, selection, removeItem, setItem, setLocation, close } =
     useContext(AssetSelectContext)
+
+  const addressValue = address ? formatAddress(address) : ''
 
   const selectionOnMap =
     selection && selectionIsObject(selection) ? selection : undefined
@@ -101,18 +106,33 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
     setShowLegendPanel(!showLegendPanel)
   }, [showLegendPanel])
 
+  const onAddressSelect = useCallback(
+    (option: PdokResponse) => {
+      const { location, address } = option.data
+
+      setLocation({ coordinates: location, address })
+    },
+    [setLocation]
+  )
+
   return (
     <PanelContent data-testid="detailPanel">
       <Title>{language.title || 'Locatie'}</Title>
 
       <ScrollWrapper>
-        <Paragraph strong>
+        <Paragraph strong gutterBottom={16}>
           {language.subTitle || 'U kunt maar een object kiezen'}
           <Description>
             {language.description ||
               'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
           </Description>
         </Paragraph>
+
+        <StyledPDOKAutoSuggest
+          onSelect={onAddressSelect}
+          placeholder="Zoek adres"
+          value={addressValue}
+        />
 
         {selection && selectionOnMap && (
           <StyledAssetList
@@ -146,6 +166,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
                   }
                 />
                 <Input
+                  data-testid="unregisteredAssetInput"
                   id="unregisteredAssetInput"
                   onBlur={onSetItem}
                   onChange={onChange}
