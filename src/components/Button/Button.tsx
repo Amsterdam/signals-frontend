@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import styled, { css } from 'styled-components'
+import type { ButtonProps } from '@amsterdam/asc-ui'
 import {
   Button as AscButton,
   themeColor,
@@ -18,7 +19,7 @@ const Button = styled(AscButton)`
     fill: inherit;
   }
 
-  ${({ variant, type }) =>
+  ${({ variant, type }: ButtonProps) =>
     variant === 'application' &&
     type === 'button' &&
     css`

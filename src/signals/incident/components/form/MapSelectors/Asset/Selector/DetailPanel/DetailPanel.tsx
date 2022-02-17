@@ -129,8 +129,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
         </Paragraph>
 
         <StyledPDOKAutoSuggest
+          onClear={removeItem}
           onSelect={onAddressSelect}
-          placeholder="Zoek adres"
           value={addressValue}
         />
 
