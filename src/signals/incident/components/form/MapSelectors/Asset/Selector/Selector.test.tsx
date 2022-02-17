@@ -6,10 +6,7 @@ import fetchMock from 'jest-fetch-mock'
 import userEvent from '@testing-library/user-event'
 
 import type { FC } from 'react'
-import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
-import type { PdokResponse } from 'shared/services/map-location'
 
-import { formatAddress } from 'shared/services/format-address'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import configuration from 'shared/services/configuration/configuration'
 import withAssetSelectContext, {
@@ -36,37 +33,6 @@ jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
     <input type="button" name="closeLegend" onClick={onClose} />
   </span>
 ))
-
-const mockAddress = {
-  postcode: '1000 AA',
-  huisnummer: '100',
-  woonplaats: 'Amsterdam',
-  openbare_ruimte: 'West',
-}
-
-const mockPDOKResponse: PdokResponse = {
-  id: 'foo',
-  value: 'Zork',
-  data: {
-    location: {
-      lat: 12.282,
-      lng: 3.141,
-    },
-    address: mockAddress,
-  },
-}
-
-jest.mock(
-  'components/PDOKAutoSuggest',
-  () =>
-    ({ className, onSelect, value }: PDOKAutoSuggestProps) =>
-      (
-        <span data-testid="pdokAutoSuggest" className={className}>
-          <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
-          <span>{value}</span>
-        </span>
-      )
-)
 
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
@@ -159,25 +125,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
   })
 
-  it('dispatches the location when an address is selected', async () => {
-    const { setLocation } = contextValue
-
-    render(withAssetSelectContext(<Selector />))
-
-    await screen.findByTestId('pdokAutoSuggest')
-
-    expect(setLocation).not.toHaveBeenCalled()
-
-    const setLocationButton = screen.getByRole('button', { name: 'selectItem' })
-
-    userEvent.click(setLocationButton)
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates: mockPDOKResponse.data.location,
-      address: mockPDOKResponse.data.address,
-    })
-  })
-
   it('dispatches the location when a location is retrieved via geolocation', async () => {
     const coordinates = { lat: 52.3731081, lng: 4.8932945 }
     const coords = {
@@ -208,32 +155,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
-    await screen.findByTestId('pdokAutoSuggest')
+    await screen.findByTestId('gpsButton')
 
     expect(setLocation).toHaveBeenCalledWith({
       coordinates,
     })
-  })
-
-  it('renders already selected address', () => {
-    const predefinedAddress = {
-      postcode: '1234BR',
-      huisnummer: 1,
-      huisnummer_toevoeging: 'A',
-      woonplaats: 'Amsterdam',
-      openbare_ruimte: '',
-    }
-
-    render(
-      withAssetSelectContext(<Selector />, {
-        ...contextValue,
-        address: predefinedAddress,
-      })
-    )
-
-    expect(
-      screen.getByText(formatAddress(predefinedAddress))
-    ).toBeInTheDocument()
   })
 
   it('only renders the zoom message when feature types are available', () => {

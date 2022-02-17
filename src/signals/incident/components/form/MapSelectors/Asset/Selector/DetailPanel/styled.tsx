@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import AssetList from '../../AssetList'
 import LegendToggle from '../LegendToggleButton'
 import LegendPanel from '../LegendPanel'
@@ -61,4 +62,8 @@ export const Description = styled.span`
   display: block;
   font-size: 16px;
   font-weight: 400;
+`
+
+export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
+  margin: ${themeSpacing(4, 0)};
 `

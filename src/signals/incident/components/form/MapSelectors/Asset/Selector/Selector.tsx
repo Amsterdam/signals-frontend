@@ -23,11 +23,9 @@ import type {
   LatLngLiteral,
 } from 'leaflet'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
-import type { PdokResponse } from 'shared/services/map-location'
 import type { LocationResult } from 'types/location'
 
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
-import { formatAddress } from 'shared/services/format-address'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
@@ -41,9 +39,7 @@ import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import {
-  ControlWrapper,
   StyledMap,
-  StyledPDOKAutoSuggest,
   StyledViewerContainer,
   TopLeftWrapper,
   Wrapper,
@@ -62,7 +58,6 @@ const Selector: FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
   const {
-    address,
     close,
     coordinates,
     layer,
@@ -93,7 +88,6 @@ const Selector: FC = () => {
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const [geolocation, setGeolocation] = useState<LocationResult>()
-  const addressValue = address ? formatAddress(address) : ''
   const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
@@ -107,16 +101,6 @@ const Selector: FC = () => {
   )
 
   const { click, doubleClick } = useDelayedDoubleClick(mapClick)
-
-  const onAddressSelect = useCallback(
-    (option: PdokResponse) => {
-      const { location, address } = option.data
-      setLocation({ coordinates: location, address })
-
-      map?.flyTo(option.data.location, MAP_LOCATION_ZOOM)
-    },
-    [setLocation, map]
-  )
 
   const Layer = layer || AssetLayer
 
@@ -138,6 +122,12 @@ const Selector: FC = () => {
       }
     )
   }, [geolocation, map])
+
+  useLayoutEffect(() => {
+    if (!map || !coordinates) return
+
+    map.flyTo(coordinates, MAP_LOCATION_ZOOM)
+  }, [coordinates, map])
 
   useEffect(() => {
     disablePageScroll()
@@ -161,44 +151,37 @@ const Selector: FC = () => {
         <StyledViewerContainer
           topLeft={
             <TopLeftWrapper>
-              <ControlWrapper>
-                <GPSButton
-                  onLocationSuccess={(location: LocationResult) => {
-                    const { latitude, longitude } = location
-                    const coordinates = {
-                      lat: latitude,
-                      lng: longitude,
-                    } as LatLngLiteral
+              <GPSButton
+                onLocationSuccess={(location: LocationResult) => {
+                  const { latitude, longitude } = location
+                  const coordinates = {
+                    lat: latitude,
+                    lng: longitude,
+                  } as LatLngLiteral
 
-                    setLocation({ coordinates })
-                    setGeolocation(location)
-                  }}
-                  onLocationError={() => {
-                    setMapMessage(
-                      <>
-                        <strong>
-                          {`${configuration.language.siteAddress} heeft geen
+                  setLocation({ coordinates })
+                  setGeolocation(location)
+                }}
+                onLocationError={() => {
+                  setMapMessage(
+                    <>
+                      <strong>
+                        {`${configuration.language.siteAddress} heeft geen
                             toestemming om uw locatie te gebruiken.`}
-                        </strong>
-                        <p>
-                          Dit kunt u wijzigen in de voorkeuren of instellingen
-                          van uw browser of systeem.
-                        </p>
-                      </>
-                    )
-                  }}
-                  onLocationOutOfBounds={() => {
-                    setMapMessage(
-                      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
-                    )
-                  }}
-                />
-                <StyledPDOKAutoSuggest
-                  onSelect={onAddressSelect}
-                  placeholder="Zoek adres"
-                  value={addressValue}
-                />
-              </ControlWrapper>
+                      </strong>
+                      <p>
+                        Dit kunt u wijzigen in de voorkeuren of instellingen van
+                        uw browser of systeem.
+                      </p>
+                    </>
+                  )
+                }}
+                onLocationOutOfBounds={() => {
+                  setMapMessage(
+                    'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+                  )
+                }}
+              />
 
               {hasFeatureTypes && (
                 <ZoomMessage
