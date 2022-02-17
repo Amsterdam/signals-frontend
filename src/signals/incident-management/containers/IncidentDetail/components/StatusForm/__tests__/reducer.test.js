@@ -25,6 +25,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         checked: false,
         disabled: false,
       },
+      emailTemplate: {
+        subject: undefined,
+        html: undefined,
+      },
       errors: {},
       flags: {
         hasEmail: true,
@@ -156,5 +160,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         errors: { ...intermediateState.errors, ...payload },
       }
     )
+  })
+
+  it('should handle SET_EMAIL_TEMPLATE', () => {
+    const payload = { subject: 'subject', html: 'html' }
+    expect(
+      reducer(initialisedState, { type: 'SET_EMAIL_TEMPLATE', payload })
+    ).toEqual({
+      ...initialisedState,
+      emailTemplate: payload,
+    })
   })
 })

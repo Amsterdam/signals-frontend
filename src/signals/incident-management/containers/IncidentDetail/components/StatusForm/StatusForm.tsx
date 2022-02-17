@@ -4,7 +4,7 @@ import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Modal, Select } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import useEventEmitter from 'hooks/useEventEmitter'
+import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -12,6 +12,7 @@ import Paragraph from 'components/Paragraph'
 import Checkbox from 'components/Checkbox'
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
+import LoadingIndicator from 'components/LoadingIndicator'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
@@ -19,9 +20,10 @@ import type { Incident } from 'types/api/incident'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
+import configuration from 'shared/services/configuration/configuration'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
-import type { IncidentChild } from '../../types'
+import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
@@ -47,8 +49,6 @@ interface StatusFormProps {
 }
 
 let lastActiveElement: HTMLElement | null = null
-const htmlString =
-  '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>Uw melding SIA-1</title></head><body><p>Geachte melder,</p><p>Op 9 februari 2022 om 13.00 uur hebt u een melding gedaan bij de gemeente. In deze e-mail leest u de stand van zaken van uw melding.</p><p><strong>U liet ons het volgende weten</strong><br />Just some text<br /> Some text on the next line</p><p><strong>Stand van zaken</strong><br />Wij pakken dit z.s.m. op</p><p><strong>Gegevens van uw melding</strong><br />Nummer: SIA-1<br />Gemeld op: 9 februari 2022, 13.00 uur<br />Plaats: Amstel 1, 1011 PN Amsterdam</p><p><strong>Meer weten?</strong><br />Voor vragen over uw melding in Amsterdam kunt u bellen met telefoonnummer 14 020, maandag tot en met vrijdag van 08.00 tot 18.00 uur. Voor Weesp kunt u bellen met 0294 491 391, maandag tot en met vrijdag van 08.30 tot 17.00 uur. Geef dan ook het nummer van uw melding door: SIA-1.</p><p>Met vriendelijke groet,</p><p>Gemeente Amsterdam</p></body></html>'
 
 const StatusForm: FunctionComponent<StatusFormProps> = ({
   defaultTexts,
@@ -61,11 +61,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
-  const [emailBody, setEmailBody] = useState('')
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
+
+  const {
+    get: getEmailTemplate,
+    data: emailTemplate,
+    isLoading,
+  } = useFetch<EmailTemplate>()
 
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
@@ -156,14 +161,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      if (state.flags.hasEmail && state.check.checked) {
-        setEmailBody(htmlString)
-        openEmailPreviewModal()
+      if (incident?.id && state.flags.hasEmail && state.check.checked) {
+        getEmailTemplate(
+          `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview/?status=${state.status.key}&text=${textValue}`
+        )
       } else {
         onUpdate()
       }
     },
     [
+      incident?.id,
       state.flags.hasEmail,
       state.text.value,
       state.text.defaultValue,
@@ -222,6 +229,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       unlisten('keydown', escFunction)
     }
   }, [escFunction, listenFor, unlisten])
+
+  useEffect(() => {
+    if (!emailTemplate) return
+
+    openEmailPreviewModal()
+    dispatch({ type: 'SET_EMAIL_TEMPLATE', payload: emailTemplate })
+  }, [emailTemplate, openEmailPreviewModal])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
@@ -388,11 +402,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             onClose={closeModal}
             title="Email Preview"
           >
-            <EmailPreview
-              emailBody={emailBody}
-              onClose={onClose}
-              onUpdate={onUpdate}
-            />
+            {isLoading && <LoadingIndicator />}
+            {emailTemplate?.html && (
+              <EmailPreview
+                emailBody={emailTemplate.html}
+                onClose={onClose}
+                onUpdate={onUpdate}
+              />
+            )}
           </Modal>
         )}
       </div>

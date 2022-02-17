@@ -77,3 +77,8 @@ export interface User {
     updated_at: string
   }
 }
+
+export type EmailTemplate = {
+  subject?: string
+  html?: string
+}
