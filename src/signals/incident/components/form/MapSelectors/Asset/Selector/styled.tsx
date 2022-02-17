@@ -53,7 +53,8 @@ export const ScrollWrapper = styled.div.attrs({
   -webkit-overflow-scrolling: touch;
   height: 100%;
   overflow-y: auto;
-  padding: ${themeSpacing(4, 0, 10)};
+  padding: ${themeSpacing(4, 4, 10)};
+  margin: ${themeSpacing(0, -4)};
 `
 
 export const Title = styled(Paragraph).attrs({

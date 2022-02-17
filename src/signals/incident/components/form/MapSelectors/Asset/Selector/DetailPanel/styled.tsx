@@ -102,7 +102,7 @@ export const AddressPanel = styled.article`
       margin: 0;
     }
 
-    button {
+    > button {
       border: 0;
       margin-right: ${themeSpacing(4)};
     }
