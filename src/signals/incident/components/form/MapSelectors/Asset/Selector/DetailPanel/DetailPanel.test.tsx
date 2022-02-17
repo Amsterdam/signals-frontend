@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-
 import userEvent from '@testing-library/user-event'
+
+import { withAppContext } from 'test/utils'
 
 import { UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
-import SelectionPanel from '../SelectionPanel'
+import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
-import type { SelectionPanelProps } from './SelectionPanel'
+import type { DetailPanelProps } from './DetailPanel'
 
 jest.mock('../../AssetList', () =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,7 +23,7 @@ jest.mock('../../AssetList', () =>
   )
 )
 
-describe('SelectionPanel', () => {
+describe('DetailPanel', () => {
   const GLAS_FEATURE = {
     label: 'Glas',
     description: 'Glas container',
@@ -56,9 +56,8 @@ describe('SelectionPanel', () => {
     type: 'Glas',
   }
 
-  const props: SelectionPanelProps = {
+  const props: DetailPanelProps = {
     featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
-    variant: 'drawer',
     language: {
       unregisteredId: 'Nummer van de container',
     },
@@ -82,13 +81,13 @@ describe('SelectionPanel', () => {
 
   it('renders the panel', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection: undefined,
       })
     )
 
-    expect(screen.getByRole('heading', { name: 'Locatie' })).toBeInTheDocument()
+    expect(screen.getByText('Locatie')).toBeInTheDocument()
 
     expect(
       screen.getByRole('checkbox', {
@@ -105,7 +104,7 @@ describe('SelectionPanel', () => {
 
   it('renders selected asset', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection,
       })
@@ -122,7 +121,7 @@ describe('SelectionPanel', () => {
 
   it('calls remove on selected asset', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection,
       })
@@ -141,7 +140,7 @@ describe('SelectionPanel', () => {
 
   it('adds asset not on map', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection: undefined,
       })
@@ -183,7 +182,7 @@ describe('SelectionPanel', () => {
 
   it('closes/submits the panel', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection: selectionUnregistered,
       })
@@ -198,7 +197,7 @@ describe('SelectionPanel', () => {
 
   it('handles Enter key on input', () => {
     render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection: selectionUnregistered,
       })
@@ -233,7 +232,7 @@ describe('SelectionPanel', () => {
       language,
     }
 
-    render(withAppContext(<SelectionPanel {...propsWithLanguage} />))
+    render(withAppContext(<DetailPanel {...propsWithLanguage} />))
 
     expect(screen.getByText('Locatie')).toBeInTheDocument()
     expect(
@@ -254,7 +253,7 @@ describe('SelectionPanel', () => {
       language,
     }
 
-    render(withAppContext(<SelectionPanel {...propsWithLanguage} />))
+    render(withAppContext(<DetailPanel {...propsWithLanguage} />))
 
     Object.values(language).forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument()
@@ -263,16 +262,18 @@ describe('SelectionPanel', () => {
 
   it('renders the object panel only when feature types are available', () => {
     const { rerender } = render(
-      withAssetSelectContext(<SelectionPanel {...props} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection: undefined,
       })
     )
 
     expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+    expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
+    expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
 
     rerender(
-      withAssetSelectContext(<SelectionPanel {...props} featureTypes={[]} />, {
+      withAssetSelectContext(<DetailPanel {...props} featureTypes={[]} />, {
         ...contextValue,
         selection: undefined,
       })
@@ -281,5 +282,18 @@ describe('SelectionPanel', () => {
     expect(
       screen.queryByTestId('unregisteredObjectPanel')
     ).not.toBeInTheDocument()
+
+    expect(screen.queryByTestId('legendPanel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('legendToggleButton')).not.toBeInTheDocument()
+  })
+
+  it('toggles the position of the legend panel', () => {
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    expect(screen.getByTestId('legendPanel')).toHaveClass('out')
+
+    userEvent.click(screen.getByTestId('legendToggleButton'))
+
+    expect(screen.getByTestId('legendPanel')).toHaveClass('in')
   })
 })

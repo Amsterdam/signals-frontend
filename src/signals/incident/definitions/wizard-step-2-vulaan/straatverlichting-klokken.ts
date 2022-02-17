@@ -272,7 +272,7 @@ const straatverlichtingKlokken = {
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: 'assets/images/featureUnknownMarker.svg',
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
           },
           idField: 'id',
           typeField: 'type',

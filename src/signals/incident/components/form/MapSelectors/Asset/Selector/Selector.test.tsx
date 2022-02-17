@@ -104,46 +104,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(contextValue.close).toHaveBeenCalled()
   })
 
-  it('should render selection panel', async () => {
+  it('renders detail panel', async () => {
     mockShowDesktopVariant = true
     render(withAssetSelectContext(<Selector />))
 
-    expect(await screen.findByTestId('selectionPanel')).toBeInTheDocument()
-  })
-
-  it('handles closing the legend panel', () => {
-    render(withAssetSelectContext(<Selector />))
-
-    const legendToggleButton = screen.getByText('Legenda')
-
-    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
-
-    userEvent.click(legendToggleButton)
-
-    expect(screen.getByTestId('mockLegendPanel')).toBeInTheDocument()
-
-    const mockLegendPanel = screen.getByTestId('mockLegendPanel')
-
-    const legendCloseButton = within(mockLegendPanel).getByRole('button')
-
-    userEvent.click(legendCloseButton)
-
-    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
-  })
-
-  it('should show desktop version on desktop', async () => {
-    mockShowDesktopVariant = true
-    render(withAssetSelectContext(<Selector />))
-
-    expect(await screen.findByTestId('panelDesktop')).toBeInTheDocument()
-    expect(screen.queryByTestId('panelMobile')).not.toBeInTheDocument()
-  })
-
-  it('should show mobile version on mobile', async () => {
-    render(withAssetSelectContext(<Selector />))
-
-    expect(await screen.findByTestId('panelMobile')).toBeInTheDocument()
-    expect(screen.queryByTestId('panelDesktop')).not.toBeInTheDocument()
+    expect(await screen.findByTestId('detailPanel')).toBeInTheDocument()
   })
 
   it('renders a pin marker when there is a location', async () => {
@@ -271,7 +236,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     ).toBeInTheDocument()
   })
 
-  it('only renders legend button and the zoom message when feature types are available', () => {
+  it('only renders the zoom message when feature types are available', () => {
     render(
       withAssetSelectContext(<Selector />, {
         ...contextValue,
@@ -279,7 +244,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByText('Legenda')).not.toBeInTheDocument()
     expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument()
 
     render(
@@ -292,7 +256,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByText('Legenda')).toBeInTheDocument()
     expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
   })
 
