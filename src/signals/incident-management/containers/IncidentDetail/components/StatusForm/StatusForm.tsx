@@ -120,7 +120,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     })
 
     onClose()
-  }, [update, onClose, state.text.value, state.status.key, state.check.checked])
+  }, [
+    update,
+    onClose,
+    state.text.value,
+    state.status.key,
+    state.check.checked,
+    state.text.defaultValue,
+  ])
 
   const handleSubmit = useCallback(
     (event) => {
@@ -169,7 +176,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.text.defaultValue,
       state.text.required,
       state.text.maxLength,
-      state.status.key,
       state.check.checked,
       onUpdate,
       openEmailPreviewModal,
