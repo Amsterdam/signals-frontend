@@ -12,3 +12,10 @@ export default interface Location {
   stadsdeel?: string
   geometrie?: Geometrie
 }
+
+export interface LocationResult
+  extends Partial<
+    Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
+  > {
+  toggled?: boolean
+}

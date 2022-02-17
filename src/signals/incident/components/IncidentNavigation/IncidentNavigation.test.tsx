@@ -103,22 +103,6 @@ describe('signals/incident/components/IncidentNavigation', () => {
     expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
   })
 
-  it('renders first step navigation for a step id that is not the correct format', () => {
-    const { queryByTestId } = render(
-      withAppContext(
-        <Wizard history={history}>
-          <Steps>
-            <Step>
-              <IncidentNavigation {...props} />
-            </Step>
-          </Steps>
-        </Wizard>
-      )
-    )
-
-    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
-  })
-
   it('should call onSubmit', () => {
     const { getByTestId } = render(
       withAppContext(

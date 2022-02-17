@@ -2,10 +2,10 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 import { useEffect } from 'react'
-import type { LatLngTuple, Map } from 'leaflet'
 import Leaflet from 'leaflet'
 
-import type { LocationResult } from 'components/GPSButton/GPSButton'
+import type { LatLngTuple, Map } from 'leaflet'
+import type { LocationResult } from 'types/location'
 
 import { useMapInstance } from '@amsterdam/react-maps'
 import configuration from 'shared/services/configuration/configuration'
@@ -60,6 +60,8 @@ const LocationMarker: FC<LocationMarkerProps> = ({ geolocation }) => {
 
     accuracyCircle.addTo(mapInstance)
     accuracyCircle.setLatLng(coordinates)
+
+    addLocationDot(mapInstance, coordinates)
 
     if (accuracy) {
       accuracyCircle.setRadius(accuracy)

@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, act, fireEvent, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
 import { withAppContext } from 'test/utils'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { showGlobalNotification } from 'containers/App/actions'
-import { TYPE_LOCAL, VARIANT_NOTICE } from 'containers/Notification/constants'
 import configuration from 'shared/services/configuration/configuration'
 import Map from './Map'
 
@@ -57,153 +55,6 @@ describe('components/Map', () => {
     expect(
       container.querySelector('button[title="Inzoomen"]')
     ).toBeInTheDocument()
-  })
-
-  it('should render a gps button', () => {
-    const { getByTestId, queryByTestId, unmount, rerender } = render(
-      withAppContext(<Map mapOptions={MAP_OPTIONS} />)
-    )
-
-    expect(queryByTestId('gpsButton')).not.toBeInTheDocument()
-
-    unmount()
-    rerender(withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />))
-
-    expect(getByTestId('gpsButton')).toBeInTheDocument()
-  })
-
-  it('should NOT render the gps button when the functions is not present', () => {
-    const geolocation = global.navigator.geolocation
-
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: undefined,
-      writable: true,
-    })
-
-    render(withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />))
-
-    expect(screen.queryByTestId('gpsButton')).not.toBeInTheDocument()
-
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: geolocation,
-      writable: true,
-    })
-  })
-
-  it('should render a location marker', () => {
-    const coords = {
-      accuracy: 50,
-      latitude: 52.3731081,
-      longitude: 4.8932945,
-    }
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
-    }
-
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
-      writable: true,
-    })
-
-    const { getByTestId, queryByTestId } = render(
-      withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
-    )
-
-    expect(queryByTestId('locationMarker')).not.toBeInTheDocument()
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(getByTestId('locationMarker')).toBeInTheDocument()
-  })
-
-  it('should show a notification whenever the location cannot be retrieved', () => {
-    const code = 1
-    const message = 'User denied geolocation'
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((_, error) =>
-        Promise.resolve(
-          error({
-            code,
-            message,
-          })
-        )
-      ),
-    }
-
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
-      writable: true,
-    })
-
-    const { getByTestId } = render(
-      withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
-    )
-
-    expect(dispatch).not.toHaveBeenCalled()
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification(
-        expect.objectContaining({
-          title: `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`,
-          type: TYPE_LOCAL,
-          variant: VARIANT_NOTICE,
-        })
-      )
-    )
-  })
-
-  it('should show a notification whenever the location is out of bounds', () => {
-    const coords = {
-      accuracy: 50,
-      latitude: 55.3731081,
-      longitude: 4.8932945,
-    }
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
-    }
-
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
-      writable: true,
-    })
-
-    const { getByTestId } = render(
-      withAppContext(<Map mapOptions={MAP_OPTIONS} hasGPSControl />)
-    )
-
-    expect(dispatch).not.toHaveBeenCalled()
-
-    act(() => {
-      fireEvent.click(getByTestId('gpsButton'))
-    })
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification(
-        expect.objectContaining({
-          title: 'Uw locatie valt buiten de kaart en is daardoor niet te zien',
-          type: TYPE_LOCAL,
-          variant: VARIANT_NOTICE,
-        })
-      )
-    )
   })
 
   it('should fall back to configuration settings', () => {

@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  getQueriesForElement,
+  render,
+  screen,
+} from '@testing-library/react'
 import { ThemeProvider } from '@amsterdam/asc-ui'
 
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -10,9 +15,6 @@ import {
   INGEPLAND,
   AFGEHANDELD,
   GEANNULEERD,
-  REACTIE_GEVRAAGD,
-  HEROPEND,
-  AFWACHTING,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
@@ -55,16 +57,20 @@ const defaultTexts = [
   },
 ]
 
-const close = jest.fn()
 const update = jest.fn()
 
 const renderWithContext = (
   incident = incidentFixture,
-  childIncidents: IncidentChild[] = []
+  childIncidents: IncidentChild[] = [],
+  onClose: () => void = () => {}
 ) => (
-  <IncidentDetailContext.Provider value={{ incident, update, close }}>
+  <IncidentDetailContext.Provider value={{ incident, update }}>
     <ThemeProvider>
-      <StatusForm defaultTexts={defaultTexts} childIncidents={childIncidents} />
+      <StatusForm
+        defaultTexts={defaultTexts}
+        childIncidents={childIncidents}
+        onClose={onClose}
+      />
     </ThemeProvider>
   </IncidentDetailContext.Provider>
 )
@@ -103,23 +109,42 @@ const getChildIncidents = (statuses: Status[]) => {
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   afterEach(() => {
-    close.mockReset()
     update.mockReset()
   })
 
   it('renders correctly', () => {
     render(renderWithContext())
-
+    expect(screen.queryByTestId('standardTextButton')).toBeInTheDocument()
+    expect(screen.getByText('Standaardtekst (0)')).toBeInTheDocument()
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
     expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
-
-    Object.values(changeStatusOptionList).forEach(({ value }) => {
-      expect(screen.getByLabelText(value)).toBeInTheDocument()
-    })
-
     expect(screen.getByTestId('sendEmailCheckbox')).toBeInTheDocument()
     expect(screen.getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
+  })
+
+  it('it shows a select component with all status options', () => {
+    render(renderWithContext())
+    const selectElement = screen.getByTestId('selectStatus')
+    const selectOptions =
+      getQueriesForElement(selectElement).getAllByRole('option')
+    expect(selectOptions.length).toEqual(changeStatusOptionList.length + 1)
+
+    Object.values(changeStatusOptionList).forEach(({ key }) => {
+      expect(selectOptions).toContain(
+        document.querySelector(`option[value="${key}"]`)
+      )
+    })
+  })
+
+  it('shows the number of available standard texts', () => {
+    const withSendEmailStatus = { ...incidentFixture }
+    if (withSendEmailStatus?.status?.state) {
+      withSendEmailStatus.status.state = statusSendsEmailWhenSet.key
+    }
+
+    render(renderWithContext(withSendEmailStatus))
+    expect(screen.getByText('Standaardtekst (4)')).toBeInTheDocument()
   })
 
   it('renders a disabled checkbox', () => {
@@ -140,7 +165,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
 
     // select a status that will not disable the checkbox
-    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Gemeld,
+    ])
 
     // verify that checkbox is NOT checked and NOT disabled
     expect(checkbox).not.toBeChecked()
@@ -159,14 +186,18 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render status verzoek tot heropenen
     render(renderWithContext(withHeropenenStatus))
 
-    userEvent.click(screen.getByText('Heropend'))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Heropend,
+    ])
 
     const checkbox = screen.getByTestId('sendEmailCheckbox')
 
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
 
-    userEvent.click(screen.getByText('Afgehandeld'))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(checkbox).not.toBeChecked()
     expect(checkbox).not.toBeDisabled()
@@ -193,9 +224,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is shown
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
-    // verify that 'update' and 'close' have NOT been called
+    // verify that 'update' has NOT been called
     expect(update).not.toHaveBeenCalled()
-    expect(close).not.toHaveBeenCalled()
 
     // type text in textarea
     const textarea = screen.getByRole('textbox')
@@ -210,7 +240,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     await screen.findByTestId('statusForm')
 
-    // verify that 'update' and 'close' have been called
+    // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         type: PATCH_TYPE_STATUS,
@@ -219,7 +249,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         },
       })
     )
-    expect(close).toHaveBeenCalled()
   })
 
   it('toggles the requirement for the text field', () => {
@@ -261,25 +290,34 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component with incident status that will render default texts
     render(renderWithContext(withDefaultTextsSelectedState))
 
-    // verify that there are default texts visible
-    expect(screen.getByTestId('defaultTextsTitle')).toBeInTheDocument()
+    // verify that there are default texts button is visible
+    expect(screen.getByTestId('standardTextButton')).toBeInTheDocument()
 
     // verify that the text field is empty
     expect(screen.getByRole('textbox')).toHaveTextContent('')
 
-    // click a default text link
-    const link = screen.getAllByTestId('defaultTextsItemButton')[0]
+    // click the standard text button
+    const link = screen.getByTestId('standardTextButton')
+
+    userEvent.click(link)
+
+    // verify that the default texts are shown
+    expect(screen.getAllByTestId('defaultTextsItemText')[0]).toBeInTheDocument()
     const { textContent } = screen.getAllByTestId(
       'defaultTextsItemText'
     )[0] as HTMLElement
 
-    userEvent.click(link)
+    const defaultTextsItemButton = screen.getAllByTestId(
+      'defaultTextsItemButton'
+    )[0]
+    userEvent.click(defaultTextsItemButton)
 
-    // verify that the text field is NOT empty
     expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
 
     // select another status
-    userEvent.click(screen.getByRole('radio', { name: GEMELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Gemeld,
+    ])
 
     // verify that the text field is empty again
     expect(screen.getByRole('textbox')).toHaveTextContent('')
@@ -301,7 +339,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(textarea).toHaveTextContent(value)
 
     // select another status
-    userEvent.click(screen.getByRole('radio', { name: AFWACHTING.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afwachting,
+    ])
 
     // verify that the text field is NOT empty
     expect(textarea).toHaveTextContent(value)
@@ -341,9 +381,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is shown
     expect(screen.getByRole('alert')).toBeInTheDocument()
 
-    // verify that 'update' and 'close' have NOT been called
+    // verify that 'update' has NOT been called
     expect(update).not.toHaveBeenCalled()
-    expect(close).not.toHaveBeenCalled()
 
     // clear textarea
     const clearText = '{selectall}{backspace}'
@@ -372,7 +411,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     await screen.findByTestId('statusForm')
 
-    // verify that 'update' and 'close' have been called
+    // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         type: PATCH_TYPE_STATUS,
@@ -381,7 +420,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         },
       })
     )
-    expect(close).toHaveBeenCalled()
   })
 
   it('clears the error message when another status is selected', async () => {
@@ -390,7 +428,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -401,10 +441,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
     // select another status
-    const otherStatus = screen.getByRole('radio', {
-      name: REACTIE_GEVRAAGD.value,
-    })
-    userEvent.click(otherStatus)
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
 
     // verify that an error message is NOT shown
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
@@ -414,7 +453,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     expect(screen.queryByTestId('end-status-warning')).not.toBeInTheDocument()
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     expect(screen.getByTestId('end-status-warning')).toBeInTheDocument()
   })
 
@@ -425,7 +466,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
   })
 
@@ -436,7 +479,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
   })
 
@@ -462,11 +507,11 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container } = render(renderWithContext(deelmelding))
+    render(renderWithContext(deelmelding))
 
-    userEvent.click(
-      container.querySelector('input[value="i"]') as HTMLInputElement
-    )
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afwachting,
+    ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
@@ -486,11 +531,11 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     // render component with incident that has a parent
-    const { container } = render(renderWithContext(deelmelding))
+    render(renderWithContext(deelmelding))
 
-    userEvent.click(
-      container.querySelector('input[value="o"]') as HTMLInputElement
-    )
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
     expect(screen.getByText('Dit veld is verplicht')).toBeInTheDocument()
@@ -518,14 +563,17 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     // select a status that will show a warning
-    userEvent.click(screen.getByRole('radio', { name: HEROPEND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Heropend,
+    ])
 
     // verify that explanation with text DEELMELDING_EXPLANATION is visible
     expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-
-    userEvent.click(screen.getByText(REACTIE_GEVRAAGD.value))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(
       screen.getByTestId('split-incident-reply-warning')
     ).toBeInTheDocument()
@@ -539,7 +587,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(
       screen.getByTestId('has-open-child-incidents-warning').textContent
@@ -548,13 +598,17 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.getByTestId('has-open-child-incidents-warning').textContent
     ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
 
-    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Ingepland,
+    ])
 
     expect(
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Geannuleerd,
+    ])
     expect(
       screen.getByTestId('has-open-child-incidents-warning').textContent
     ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
@@ -572,19 +626,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: AFGEHANDELD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: INGEPLAND.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Ingepland,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('radio', { name: GEANNULEERD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Geannuleerd,
+    ])
 
     expect(
       screen.queryByTestId('statusHasChildrenOpen')
@@ -602,7 +662,23 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const submitButton = screen.getByRole('button', { name: 'Opslaan' })
 
     expect(submitButton).not.toBeDisabled()
-    userEvent.click(screen.getByRole('radio', { name: REACTIE_GEVRAAGD.value }))
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.ReactieGevraagd,
+    ])
     expect(submitButton).toBeDisabled()
+  })
+
+  it('closes the standard text modal on ESC', () => {
+    render(renderWithContext())
+
+    // click the standard text button
+    const link = screen.getByTestId('standardTextButton')
+    userEvent.click(link)
+
+    expect(screen.queryByTestId('standardTextModal')).not.toBeNull()
+
+    fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 })
+
+    expect(screen.queryByTestId('standardTextModal')).toBeNull()
   })
 })

@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useCallback, useContext, useEffect, useMemo } from 'react'
+import type { FC } from 'react'
+import {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -38,10 +46,13 @@ import Status from 'signals/incident-management/components/Status'
 
 import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
+import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Result, User } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import IncidentDetailContext from '../../context'
+import type { IncidentChild } from '../../types'
+import StatusForm from '../StatusForm'
 
 const StyledMetaList = styled.dl`
   contain: content;
@@ -64,6 +75,18 @@ const StyledMetaList = styled.dl`
       margin-left: ${themeSpacing(2)};
     }
   }
+
+  @media (min-width: ${({ theme }) => theme.layouts.big.max}px) {
+    padding-left: ${themeSpacing(23)};
+
+    dd {
+      padding-left: ${themeSpacing(5)};
+    }
+
+    dt {
+      padding-left: ${themeSpacing(5)};
+    }
+  }
 `
 
 const EditButton = styled(Button)`
@@ -73,8 +96,14 @@ const EditButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `
 
-const MetaList = () => {
-  const { incident, edit } = useContext(IncidentDetailContext)
+interface MetaListProps {
+  defaultTexts: DefaultTextsType
+  childIncidents: IncidentChild[]
+}
+
+const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
+  const [showEditStatus, setShowEditStatus] = useState(false)
+  const { incident } = useContext(IncidentDetailContext)
   const { data: usersData, get: getUsers, isLoading } = useFetch<Result<User>>()
   const departments = useSelector<unknown, { list: Department[] }>(
     makeSelectDepartments
@@ -309,14 +338,16 @@ const MetaList = () => {
 
       <Highlight type="status">
         <dt data-testid="meta-list-status-definition">
-          <EditButton
-            data-testid="editStatusButton"
-            icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
-            iconSize={18}
-            variant="application"
-            type="button"
-            onClick={() => edit && edit('status')}
-          />
+          {!showEditStatus && (
+            <EditButton
+              data-testid="editStatusButton"
+              icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
+              iconSize={18}
+              variant="application"
+              type="button"
+              onClick={() => setShowEditStatus(true)}
+            />
+          )}
           Status
         </dt>
         <dd className="status" data-testid="meta-list-status-value">
@@ -325,6 +356,13 @@ const MetaList = () => {
           )}
         </dd>
       </Highlight>
+      {showEditStatus && (
+        <StatusForm
+          defaultTexts={defaultTexts}
+          childIncidents={childIncidents}
+          onClose={() => setShowEditStatus(false)}
+        />
+      )}
 
       {incident?.priority && (
         <Highlight type="priority">

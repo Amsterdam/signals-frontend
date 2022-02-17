@@ -8,17 +8,28 @@ import { withAppContext } from 'test/utils'
 import { formatAddress } from 'shared/services/format-address'
 import { mock } from 'types/incident'
 
+import Summary from 'components/Summary'
+import { address, summaryProps } from 'components/Summary/Summary.test'
+import configuration from 'shared/services/configuration/configuration'
+import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { IncidentPreviewProps } from './IncidentPreview'
 
 import PreviewComponents from './components'
 import IncidentPreview from '.'
 
 jest.mock('shared/services/auth/auth')
+jest.mock('shared/services/configuration/configuration')
+jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
+  <span data-testid="mapStatic">
+    <img src={iconSrc} alt="" />
+  </span>
+))
 
 describe('<IncidentPreview />', () => {
   let props: IncidentPreviewProps
 
   beforeEach(() => {
+    configuration.featureFlags.useStaticMapServer = true
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     props = {
@@ -66,6 +77,10 @@ describe('<IncidentPreview />', () => {
             ),
           },
         },
+        summary: {},
+        opslaan: {},
+        bedankt: {},
+        fout: {},
       },
       sectionLabels: {
         heading: {
@@ -175,7 +190,7 @@ describe('<IncidentPreview />', () => {
           },
           location: {
             label: 'Locatie',
-            render: PreviewComponents.MapPreview,
+            render: () => Summary(summaryProps),
           },
         },
         vulaan: {},
@@ -213,10 +228,7 @@ describe('<IncidentPreview />', () => {
       expect(queryByText(contact.sharing_allowed.label)).toBeInTheDocument()
 
       expect(queryByText(incident.datetime.label)).toBeInTheDocument()
-      expect(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-non-null-asserted-optional-chain
-        queryByText(formatAddress(incident.location?.address!))
-      ).toBeInTheDocument()
+      expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
     })
   })
 })

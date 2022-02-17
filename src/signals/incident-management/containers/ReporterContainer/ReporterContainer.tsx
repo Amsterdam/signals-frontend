@@ -78,7 +78,7 @@ const ReporterContainer: FunctionComponent = () => {
 
       <Content>
         {incidents.data && incident.id && (
-          <div>
+          <div data-testid="incidentList">
             <StyledIncidentList
               list={incidents.data.list}
               selectedIncidentId={incident.id}
