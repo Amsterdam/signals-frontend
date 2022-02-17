@@ -2,24 +2,23 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 import styled from 'styled-components'
-import Button from 'components/Button'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { themeSpacing } from '@amsterdam/asc-ui'
+import FormFooter from 'components/FormFooter'
 import ModalHeader from '../ModalHeader/ModalHeader'
-
-const ButtonWrapper = styled.div`
-  box-sizing: border-box;
-  padding: ${themeSpacing(4)};
-  border-top: 1px solid ${themeColor('tint', 'level4')};
-`
 
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const StyledButton = styled(Button)`
-  height: ${themeSpacing(11)};
-  margin-right: ${themeSpacing(2)};
+const StyledFormFooter = styled(FormFooter)`
+  height: auto;
+  div {
+    padding-left: ${themeSpacing(4)};
+    div {
+      padding-left: 0;
+    }
+  }
 `
 
 const StyledIframe = styled.iframe`
@@ -39,35 +38,21 @@ const EmailPreview: FC<EmailPreviewProps> = ({
   emailBody,
   onUpdate,
   onClose,
-}) => {
-  return (
-    <ModalContainer>
-      <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
-      <StyledIframe
-        data-testid="emailBodyIframe"
-        srcDoc={emailBody.concat(fontStyling)}
-        height={'500vh'}
-      />
-      <ButtonWrapper>
-        <StyledButton
-          data-testid="emailPreviewSubmitButton"
-          type="submit"
-          variant="secondary"
-          onClick={onUpdate}
-        >
-          Verstuur
-        </StyledButton>
-
-        <StyledButton
-          data-testid="emailPreviewCancelButton"
-          variant="tertiary"
-          onClick={onClose}
-        >
-          Wijzig
-        </StyledButton>
-      </ButtonWrapper>
-    </ModalContainer>
-  )
-}
+}) => (
+  <ModalContainer>
+    <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
+    <StyledIframe
+      data-testid="emailBodyIframe"
+      srcDoc={emailBody.concat(fontStyling)}
+      height={'500vh'}
+    />
+    <StyledFormFooter
+      cancelBtnLabel="Wijzig"
+      onCancel={onClose}
+      submitBtnLabel="Verstuur"
+      onSubmitForm={onUpdate}
+    />
+  </ModalContainer>
+)
 
 export default EmailPreview

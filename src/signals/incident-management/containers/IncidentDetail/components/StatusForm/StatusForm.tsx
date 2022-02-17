@@ -61,7 +61,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
-  const [emailBody, setEmailBody] = useState<string>('')
+  const [emailBody, setEmailBody] = useState('')
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
@@ -106,7 +106,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     state.warnings.some(({ level }) => level === 'error')
   )
 
-  const onUpdate = () => {
+  const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
     update({
       type: PATCH_TYPE_STATUS,
@@ -120,7 +120,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     })
 
     onClose()
-  }
+  }, [update, onClose, state.text.value, state.status.key, state.check.checked])
 
   const handleSubmit = useCallback(
     (event) => {
