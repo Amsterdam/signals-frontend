@@ -1,7 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useCallback, useState, useContext } from 'react'
-import { Paragraph, Label, Input, Checkbox } from '@amsterdam/asc-ui'
+import {
+  Paragraph,
+  Label,
+  Input,
+  Checkbox,
+  Button,
+  breakpoint,
+  ascDefaultTheme,
+} from '@amsterdam/asc-ui'
+import { useMediaQuery } from 'react-responsive'
 
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
@@ -15,15 +24,18 @@ import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors
 
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
+import { ChevronLeft } from '@amsterdam/asc-assets'
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
 import {
-  PanelContent,
+  AddressPanel,
   Description,
+  LegendToggleButton,
+  OptionsList,
+  PanelContent,
   StyledAssetList,
   StyledButton,
   StyledLegendPanel,
-  LegendToggleButton,
   StyledPDOKAutoSuggest,
 } from './styled'
 
@@ -33,7 +45,12 @@ export interface DetailPanelProps {
 }
 
 const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
+  const shouldRenderAddressPanel = useMediaQuery({
+    query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
+  })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
+  const [optionsList, setOptionsList] = useState(null)
+  const [showAddressPanel, setShowAddressPanel] = useState(false)
   const { address, selection, removeItem, setItem, setLocation, close } =
     useContext(AssetSelectContext)
 
@@ -106,13 +123,19 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
     setShowLegendPanel(!showLegendPanel)
   }, [showLegendPanel])
 
+  const closeAddressPanel = useCallback(() => {
+    setShowAddressPanel(false)
+    setOptionsList(null)
+  }, [])
+
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       const { location, address } = option.data
 
       setLocation({ coordinates: location, address })
+      closeAddressPanel()
     },
-    [setLocation]
+    [closeAddressPanel, setLocation]
   )
 
   return (
@@ -129,6 +152,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
         </Paragraph>
 
         <StyledPDOKAutoSuggest
+          onFocus={() => {
+            setShowAddressPanel(true)
+          }}
           onClear={removeItem}
           onSelect={onAddressSelect}
           value={addressValue}
@@ -194,6 +220,36 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
 
           <LegendToggleButton onClick={toggleLegend} />
         </>
+      )}
+
+      {showAddressPanel && shouldRenderAddressPanel && (
+        <AddressPanel data-testid="addressPanel">
+          <header>
+            <Button
+              icon={<ChevronLeft />}
+              iconSize={16}
+              onClick={closeAddressPanel}
+              size={24}
+              variant="blank"
+            />
+            <StyledPDOKAutoSuggest
+              autoFocus
+              onClear={removeItem}
+              onData={setOptionsList}
+              onSelect={onAddressSelect}
+              showInlineList={false}
+              value={addressValue}
+            />
+          </header>
+
+          {optionsList ? (
+            <OptionsList data-testid="optionsList">{optionsList}</OptionsList>
+          ) : (
+            <Paragraph className="instruction">
+              Zoek adres of postcode
+            </Paragraph>
+          )}
+        </AddressPanel>
       )}
     </PanelContent>
   )

@@ -14,7 +14,7 @@ export const StyledViewerContainer = styled(ViewerContainer)`
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     left: ${DETAIL_PANEL_WIDTH}px;
   }
-  z-index: 401;
+  z-index: 0;
 `
 
 export const Wrapper = styled.div`
@@ -53,7 +53,8 @@ export const ScrollWrapper = styled.div.attrs({
   -webkit-overflow-scrolling: touch;
   height: 100%;
   overflow-y: auto;
-  padding: ${themeSpacing(4, 0, 10)};
+  padding: ${themeSpacing(4, 4, 10)};
+  margin: ${themeSpacing(0, -4)};
 `
 
 export const Title = styled(Paragraph).attrs({

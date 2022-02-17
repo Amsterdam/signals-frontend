@@ -3,11 +3,13 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
+import * as reactResponsive from 'react-responsive'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
+import type { ReactPropTypes } from 'react'
 import { UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -15,6 +17,8 @@ import withAssetSelectContext, {
 import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import type { DetailPanelProps } from './DetailPanel'
+
+jest.mock('react-responsive')
 
 jest.mock('../../AssetList', () =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,16 +49,38 @@ const mockPDOKResponse: PdokResponse = {
   },
 }
 
+const mockList = (props: ReactPropTypes) => (
+  <ul className="suggestList" {...props}>
+    <li>Suggestion #1</li>
+    <li>Suggestion #2</li>
+  </ul>
+)
+
 jest.mock(
   'components/PDOKAutoSuggest',
   () =>
-    ({ className, onSelect, value, onClear }: PDOKAutoSuggestProps) =>
+    ({
+      className,
+      onSelect,
+      value,
+      onClear,
+      onFocus,
+      onData,
+    }: PDOKAutoSuggestProps) =>
       (
         <span data-testid="pdokAutoSuggest" className={className}>
           <button data-testid="autoSuggestClear" onClick={onClear}>
             Clear input
           </button>
           <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
+          <button
+            data-testid="getDataMockButton"
+            type="button"
+            onClick={() => {
+              onData && onData(mockList)
+            }}
+          />
+          <input data-testid="autoSuggestInput" type="text" onFocus={onFocus} />
           <span>{value}</span>
         </span>
       )
@@ -392,5 +418,51 @@ describe('DetailPanel', () => {
     userEvent.click(screen.getByTestId('legendToggleButton'))
 
     expect(screen.getByTestId('legendPanel')).toHaveClass('in')
+  })
+
+  it('does not render the address panel', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+
+    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+
+    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+  })
+
+  it('renders the address panel', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+
+    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+
+    expect(screen.getByTestId('addressPanel')).toBeInTheDocument()
+
+    expect(screen.getByText('Zoek adres of postcode')).toBeInTheDocument()
+  })
+
+  it('renders a list of options in the address panel', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+
+    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+
+    expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
+
+    // simulate data retrieval
+    userEvent.click(
+      within(screen.getByTestId('addressPanel')).getByTestId(
+        'getDataMockButton'
+      )
+    )
+
+    expect(screen.getByTestId('optionsList')).toBeInTheDocument()
   })
 })
