@@ -2,28 +2,22 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { render, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import MatchMediaMock from 'match-media-mock'
 import 'jest-styled-components'
+import * as reactResponsive from 'react-responsive'
 
 import * as auth from 'shared/services/auth/auth'
 import { history, withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
-import SiteHeader, { menuBreakpoint } from '..'
+import SiteHeader from '.'
 
-const mmm = MatchMediaMock.create()
-
+jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint + 1 })
-
-    // eslint-disable-next-line no-undef
-    Object.defineProperty(window, 'matchMedia', {
-      value: mmm,
-    })
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
   })
 
   afterEach(() => {
@@ -51,7 +45,7 @@ describe('components/SiteHeader', () => {
     unmount()
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
     act(() => {
       history.push('/manage')
@@ -87,7 +81,7 @@ describe('components/SiteHeader', () => {
     unmount()
 
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
     act(() => {
       history.push('/manage')
@@ -305,7 +299,7 @@ describe('components/SiteHeader', () => {
 
   it('should hide the menu when clicking a link', async () => {
     // narrow window toggle
-    mmm.setConfig({ type: 'screen', width: menuBreakpoint - 1 })
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
