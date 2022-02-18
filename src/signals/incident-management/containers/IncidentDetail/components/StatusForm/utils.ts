@@ -123,13 +123,11 @@ export const getTextConfig = (statusCode: StatusCode) => {
   return statusCode === StatusCode.ReactieGevraagd
     ? {
         label: constants.REPLY_MAIL_LABEL,
-        subtitle: constants.REPLY_MAIL_SUBTITLE,
         maxLength: constants.REPLY_MAIL_MAX_LENGTH,
         rows: 6,
       }
     : {
         label: constants.DEFAULT_TEXT_LABEL,
-        subtitle: constants.DEFAULT_TEXT_SUBTITLE,
         maxLength: constants.DEFAULT_TEXT_MAX_LENGTH,
         rows: 9,
       }

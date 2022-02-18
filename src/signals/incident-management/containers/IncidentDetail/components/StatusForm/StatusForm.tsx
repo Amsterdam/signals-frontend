@@ -8,7 +8,6 @@ import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
-import Paragraph from 'components/Paragraph'
 import Checkbox from 'components/Checkbox'
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
@@ -341,11 +340,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               <>
                 <strong>{state.text.label}</strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-                {state.text.required &&
-                  state.check.checked &&
-                  state.flags.hasEmail && (
-                    <Paragraph light>{state.text.subtitle}</Paragraph>
-                  )}
               </>
             }
           />
