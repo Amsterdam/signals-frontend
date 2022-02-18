@@ -24,7 +24,7 @@ const StyledFormFooter = styled(FormFooter)`
 const StyledIframe = styled.iframe`
   border: none;
   padding-left: ${themeSpacing(2)};
-  padding-bottom: ${themeSpacing(18)};
+  padding-bottom: ${themeSpacing(16)};
 `
 
 interface EmailPreviewProps {
