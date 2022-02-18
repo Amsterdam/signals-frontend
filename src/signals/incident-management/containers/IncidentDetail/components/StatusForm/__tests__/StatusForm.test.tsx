@@ -22,6 +22,7 @@ import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 
 import userEvent from '@testing-library/user-event'
+import fetch from 'jest-fetch-mock'
 import { PATCH_TYPE_STATUS } from '../../../constants'
 import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
@@ -109,6 +110,7 @@ const getChildIncidents = (statuses: Status[]) => {
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
   afterEach(() => {
+    fetch.resetMocks()
     update.mockReset()
   })
 
@@ -234,26 +236,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // verify that an error message is NOT shown
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
-
-    // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-
-    // verify that the email preview is shown and onUpdate has not been called yet
-    expect(update).not.toHaveBeenCalled()
-    await screen.findByTestId('emailPreviewModal')
-
-    // send the email
-    userEvent.click(screen.getByText('Verstuur'))
-
-    // verify that 'update' has been called
-    expect(update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: expect.objectContaining({ text: value }),
-        },
-      })
-    )
   })
 
   it('toggles the requirement for the text field', () => {
@@ -686,4 +668,50 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(screen.queryByTestId('standardTextModal')).toBeNull()
   })
+
+  it('opens the email preview modal and calls update after hitting the send button', async () => {
+    const htmlString =
+      '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8"><title>Uw melding SIA-1</title></head><body><p>Geachte melder,</p><p>Op 9 februari 2022 om 13.00 uur hebt u een melding gedaan bij de gemeente. In deze e-mail leest u de stand van zaken van uw melding.</p><p><strong>U liet ons het volgende weten</strong><br />Just some text<br /> Some text on the next line</p><p><strong>Stand van zaken</strong><br />Wij pakken dit z.s.m. op</p><p><strong>Gegevens van uw melding</strong><br />Nummer: SIA-1<br />Gemeld op: 9 februari 2022, 13.00 uur<br />Plaats: Amstel 1, 1011 PN Amsterdam</p><p><strong>Meer weten?</strong><br />Voor vragen over uw melding in Amsterdam kunt u bellen met telefoonnummer 14 020, maandag tot en met vrijdag van 08.00 tot 18.00 uur. Voor Weesp kunt u bellen met 0294 491 391, maandag tot en met vrijdag van 08.30 tot 17.00 uur. Geef dan ook het nummer van uw melding door: SIA-1.</p><p>Met vriendelijke groet,</p><p>Gemeente Amsterdam</p></body></html>'
+    const mockResponse = JSON.stringify({
+      subject: 'melding 123',
+      html: htmlString,
+    })
+    fetch.mockResponseOnce(mockResponse)
+    const withReporterEmailAndStatus = { ...incidentFixture }
+    if (withReporterEmailAndStatus?.status?.state) {
+      withReporterEmailAndStatus.status.state = statusSendsEmailWhenSet.key
+    }
+
+    // render component with incident status that automatically sends an email to the reporter
+    render(renderWithContext(withReporterEmailAndStatus))
+
+    // Type a message in the text field
+    const textarea = screen.getByRole('textbox')
+    const value = 'Foo bar baz'
+    userEvent.type(textarea, value)
+
+    // submit the form
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    // verify that the email preview is shown and update has not been called yet
+    await screen.findByTestId('emailPreviewModal')
+    expect(update).not.toHaveBeenCalled()
+
+    // send the email
+    userEvent.click(screen.getByText('Verstuur'))
+
+    // verify that 'update' has been called
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: PATCH_TYPE_STATUS,
+        patch: {
+          status: expect.objectContaining({ text: value }),
+        },
+      })
+    )
+  })
+
+  // it('shows an global error notification when no email preview is available', async() => {
+  //
+  // })
 })

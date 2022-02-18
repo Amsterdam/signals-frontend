@@ -69,6 +69,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const {
     get: getEmailTemplate,
     data: emailTemplate,
+    error: emailTemplateError,
     isLoading,
   } = useFetch<EmailTemplate>()
 
@@ -180,6 +181,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       openEmailPreviewModal,
+      getEmailTemplate,
     ]
   )
 
@@ -233,9 +235,22 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   useEffect(() => {
     if (!emailTemplate) return
 
-    openEmailPreviewModal()
-    dispatch({ type: 'SET_EMAIL_TEMPLATE', payload: emailTemplate })
-  }, [emailTemplate, openEmailPreviewModal])
+    if (emailTemplate?.html) {
+      openEmailPreviewModal()
+      dispatch({ type: 'SET_EMAIL_TEMPLATE', payload: emailTemplate })
+    }
+  }, [emailTemplate, openEmailPreviewModal, dispatch])
+
+  useEffect(() => {
+    if (emailTemplateError) {
+      dispatch({
+        type: 'SET_ERRORS',
+        payload: {
+          text: 'Er is geen email template beschikbaar voor de gegeven status transitie',
+        },
+      })
+    }
+  }, [emailTemplateError, dispatch])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
