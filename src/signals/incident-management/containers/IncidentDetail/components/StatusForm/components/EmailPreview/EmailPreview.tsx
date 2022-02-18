@@ -24,6 +24,7 @@ const StyledFormFooter = styled(FormFooter)`
 const StyledIframe = styled.iframe`
   border: none;
   padding-left: ${themeSpacing(2)};
+  padding-bottom: ${themeSpacing(16)};
 `
 
 interface EmailPreviewProps {
@@ -44,7 +45,7 @@ const EmailPreview: FC<EmailPreviewProps> = ({
     <StyledIframe
       data-testid="emailBodyIframe"
       srcDoc={emailBody.concat(fontStyling)}
-      height={'500vh'}
+      height="500"
     />
     <StyledFormFooter
       cancelBtnLabel="Wijzig"
