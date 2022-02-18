@@ -676,10 +676,14 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       subject: 'melding 123',
       html: htmlString,
     })
-    fetch.mockResponseOnce(mockResponse)
+    fetch.mockResponseOnce(mockResponse, { status: 200 })
     const withReporterEmailAndStatus = { ...incidentFixture }
     if (withReporterEmailAndStatus?.status?.state) {
       withReporterEmailAndStatus.status.state = statusSendsEmailWhenSet.key
+    }
+
+    if (withReporterEmailAndStatus?.reporter) {
+      withReporterEmailAndStatus.reporter.email = 'me@email.com'
     }
 
     // render component with incident status that automatically sends an email to the reporter
@@ -711,7 +715,33 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
   })
 
-  // it('shows an global error notification when no email preview is available', async() => {
-  //
-  // })
+  it('shows an error notification when no email preview is available', async () => {
+    const mockErrorResponse = JSON.stringify({
+      detail: 'No email preview available for given status transition',
+    })
+    fetch.mockResponseOnce(mockErrorResponse, { status: 404 })
+    const withReporterEmailAndStatus = { ...incidentFixture }
+    if (withReporterEmailAndStatus?.status?.state) {
+      withReporterEmailAndStatus.status.state = statusSendsEmailWhenSet.key
+    }
+
+    if (withReporterEmailAndStatus?.reporter) {
+      withReporterEmailAndStatus.reporter.email = 'me@email.com'
+    }
+
+    // render component with incident status that automatically sends an email to the reporter
+    render(renderWithContext(withReporterEmailAndStatus))
+
+    // Type a message in the text field
+    const textarea = screen.getByRole('textbox')
+    const value = 'Foo bar baz'
+    userEvent.type(textarea, value)
+
+    // submit the form
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    await screen.findByText(
+      'Er is geen email template beschikbaar voor de gegeven status transitie'
+    )
+  })
 })
