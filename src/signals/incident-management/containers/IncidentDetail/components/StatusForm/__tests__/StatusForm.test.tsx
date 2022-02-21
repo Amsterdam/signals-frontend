@@ -695,14 +695,14 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.type(textarea, value)
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
     // verify that the email preview is shown and update has not been called yet
     await screen.findByTestId('emailPreviewModal')
     expect(update).not.toHaveBeenCalled()
 
     // send the email
-    userEvent.click(screen.getByText('Verstuur'))
+    userEvent.click(screen.getByTestId('submitBtn'))
 
     // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
@@ -738,7 +738,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.type(textarea, value)
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
     await screen.findByText(
       'Er is geen email template beschikbaar voor de gegeven status transitie'
