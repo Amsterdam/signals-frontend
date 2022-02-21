@@ -36,6 +36,6 @@ export const List = styled(SuggestList)`
 
 export const ClearInput = styled(Button)`
   position: absolute;
-  top: 1px;
-  right: 1px;
+  top: 11px;
+  right: 11px;
 `

@@ -322,7 +322,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
             icon={<Close />}
             iconSize={20}
             onClick={clearInput}
-            size={44}
+            size={24}
             variant="blank"
           />
         )}
