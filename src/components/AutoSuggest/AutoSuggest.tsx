@@ -98,11 +98,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     if (onClear) {
       onClear()
     }
-
-    if (onData) {
-      onData(null)
-    }
-  }, [onClear, onData])
+  }, [onClear])
 
   const handleKeyDown = useCallback(
     (event) => {
