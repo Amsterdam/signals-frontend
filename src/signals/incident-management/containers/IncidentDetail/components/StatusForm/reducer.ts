@@ -34,7 +34,6 @@ export type State = {
     value: string
     required: boolean
     label: string
-    subtitle: string
     maxLength: number
     rows: number
   }
