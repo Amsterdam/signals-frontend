@@ -400,7 +400,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           variant="secondary"
           disabled={disableSubmit}
         >
-          Opslaan
+          {state.flags.hasEmail && state.check.checked ? 'Verstuur' : 'Opslaan'}
         </StyledButton>
 
         <StyledButton

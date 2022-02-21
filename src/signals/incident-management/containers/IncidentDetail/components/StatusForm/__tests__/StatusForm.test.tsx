@@ -219,7 +219,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(checkbox).toBeDisabled()
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
     await screen.findByTestId('statusForm')
 
@@ -420,7 +420,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     ])
 
     // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
     await screen.findByTestId('statusForm')
 
