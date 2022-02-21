@@ -180,6 +180,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     [
       incident?.id,
       state.flags.hasEmail,
+      state.status.key,
       state.text.value,
       state.text.defaultValue,
       state.text.required,
