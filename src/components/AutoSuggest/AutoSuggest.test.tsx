@@ -499,6 +499,7 @@ describe('src/components/AutoSuggest', () => {
     userEvent.click(screen.getByTestId('clearInput'))
 
     expect(screen.queryByTestId('clearInput')).not.toBeInTheDocument()
+    expect(input).toBeEmptyDOMElement()
   })
 
   it('calls onClear', async () => {
