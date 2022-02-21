@@ -138,6 +138,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
     [closeAddressPanel, setLocation]
   )
 
+  const clearInput = useCallback(() => {
+    removeItem()
+    setOptionsList(null)
+  }, [removeItem])
+
   return (
     <PanelContent data-testid="detailPanel">
       <Title>{language.title || 'Locatie'}</Title>
@@ -234,7 +239,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
             />
             <StyledPDOKAutoSuggest
               autoFocus
-              onClear={removeItem}
+              onClear={clearInput}
               onData={setOptionsList}
               onSelect={onAddressSelect}
               showInlineList={false}
