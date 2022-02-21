@@ -272,7 +272,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       )
     }
     onUpdate()
-  }, [emailTemplateError, storeDispatch, showGlobalNotification, onUpdate])
+  }, [emailTemplateError, storeDispatch, onUpdate])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
