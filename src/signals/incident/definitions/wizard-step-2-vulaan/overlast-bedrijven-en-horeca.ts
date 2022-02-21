@@ -3,14 +3,13 @@
 
 import { QuestionFieldType } from 'types/question'
 import locatie from './locatie'
+import dateTime from './dateTime'
 
-export const overlastBedrijvenEnHoreca = {
+const overlastBedrijvenEnHoreca = {
   locatie,
+  dateTime,
   extra_bedrijven_horeca_wat: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
-      },
       label: 'Uw melding gaat over:',
       shortLabel: 'Soort bedrijf',
       pathMerge: 'extra_properties',
@@ -29,9 +28,6 @@ export const overlastBedrijvenEnHoreca = {
   },
   extra_bedrijven_horeca_naam: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
-      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
@@ -48,9 +44,6 @@ export const overlastBedrijvenEnHoreca = {
   },
   extra_bedrijven_horeca_adres: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
-      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
@@ -347,9 +340,6 @@ export const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_vaker: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
-      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
@@ -372,7 +362,6 @@ export const overlastBedrijvenEnHoreca = {
   extra_bedrijven_horeca_tijdstippen: {
     meta: {
       ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
         extra_bedrijven_horeca_vaker: 'ja',
       },
       ifOneOf: {
@@ -522,9 +511,6 @@ export const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_caution: {
     meta: {
-      ifAllOf: {
-        category: 'overlast-bedrijven-en-horeca',
-      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
