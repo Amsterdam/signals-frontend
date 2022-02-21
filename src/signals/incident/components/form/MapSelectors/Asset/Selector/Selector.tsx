@@ -130,11 +130,11 @@ const Selector: FC = () => {
   }, [coordinates, map])
 
   useEffect(() => {
+    global.window.scrollTo(0, 0)
+
     disablePageScroll()
 
-    return () => {
-      enablePageScroll()
-    }
+    return enablePageScroll
   }, [])
 
   const mapWrapper = (

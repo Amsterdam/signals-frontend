@@ -4,6 +4,7 @@ import 'jest-styled-components'
 import { render, screen, within } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
 import userEvent from '@testing-library/user-event'
+import * as scrollLock from 'scroll-lock'
 
 import type { FC } from 'react'
 
@@ -18,6 +19,7 @@ import Selector from './Selector'
 
 jest.useFakeTimers()
 
+jest.mock('scroll-lock')
 jest.mock('../../hooks/useLayerVisible', () => ({
   __esModule: true,
   default: () => false,
@@ -43,6 +45,10 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
   afterEach(() => {
     jest.resetAllMocks()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   it('should render the component', async () => {
@@ -284,5 +290,25 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
 
     expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+  })
+
+  it('disables page scroll on mount', () => {
+    const enablePageScroll = jest.spyOn(scrollLock, 'enablePageScroll')
+    const disablePageScroll = jest.spyOn(scrollLock, 'disablePageScroll')
+
+    const scrollTo = jest.fn()
+    global.window.scrollTo = scrollTo
+
+    expect(disablePageScroll).not.toHaveBeenCalled()
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    const { unmount } = render(withAssetSelectContext(<Selector />))
+
+    expect(scrollTo).toHaveBeenCalledWith(0, 0)
+    expect(disablePageScroll).toHaveBeenCalledTimes(1)
+
+    unmount()
+
+    expect(enablePageScroll).toHaveBeenCalled()
   })
 })
