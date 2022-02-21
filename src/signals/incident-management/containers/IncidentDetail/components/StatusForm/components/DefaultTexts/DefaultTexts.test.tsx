@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent } from '@testing-library/react'
+import { screen, render, fireEvent } from '@testing-library/react'
 
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
@@ -39,12 +39,9 @@ describe('<DefaultTexts />', () => {
   })
 
   it('should render correctly', () => {
-    const { queryByTestId, queryAllByTestId } = render(
-      <DefaultTexts {...props} />
-    )
+    const { queryAllByTestId } = render(<DefaultTexts {...props} />)
 
-    expect(queryAllByTestId('defaultTextsTitle')).toHaveLength(1)
-    expect(queryByTestId('defaultTextsTitle')).toHaveTextContent(
+    expect(screen.getByTestId('modalTitle')).toHaveTextContent(
       /^Standaardtekst$/
     )
 

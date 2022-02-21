@@ -72,7 +72,7 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
   submitBtnLabel,
 }) => (
   <FooterWrapper data-testid="formFooter" className={className} inline={inline}>
-    <Row hasMargin={!inline}>
+    <Row hasMargin={!inline} className="formFooterRow">
       <ButtonContainer span={12}>
         {resetBtnLabel && (
           <ResetButton

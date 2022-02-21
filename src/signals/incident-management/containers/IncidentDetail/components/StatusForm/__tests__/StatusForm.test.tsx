@@ -238,7 +238,12 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-    await screen.findByTestId('statusForm')
+    // verify that the email preview is shown and onUpdate has not been called yet
+    expect(update).not.toHaveBeenCalled()
+    expect(screen.getByTestId('emailPreviewModal')).toBeInTheDocument()
+
+    // send the email
+    userEvent.click(screen.getByText('Verstuur'))
 
     // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
