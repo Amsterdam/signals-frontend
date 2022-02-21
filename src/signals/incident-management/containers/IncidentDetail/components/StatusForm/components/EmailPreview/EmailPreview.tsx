@@ -4,24 +4,24 @@ import type { FC } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 import FormFooter from 'components/FormFooter'
+import { FORM_FOOTER_HEIGHT } from 'components/FormFooter/FormFooter'
 import ModalHeader from '../ModalHeader/ModalHeader'
 
-const formFooterHeight = 16
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
 
 const StyledFormFooter = styled(FormFooter)`
-  height: auto;
-  div.formFooterRow {
+  box-sizing: border-box;
+  .formFooterRow {
     padding-left: ${themeSpacing(4)};
   }
 `
 
 const StyledIframe = styled.iframe`
   border: none;
-  padding: ${themeSpacing(2, 0, formFooterHeight)};
+  padding: 0 ${themeSpacing(2)} ${FORM_FOOTER_HEIGHT}px;
 `
 
 interface EmailPreviewProps {
