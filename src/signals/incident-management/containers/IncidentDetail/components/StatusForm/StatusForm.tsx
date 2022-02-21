@@ -270,8 +270,8 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           type: TYPE_LOCAL,
         })
       )
+      onUpdate()
     }
-    onUpdate()
   }, [emailTemplateError, storeDispatch, onUpdate])
 
   return (
