@@ -21,6 +21,9 @@ import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
 import configuration from 'shared/services/configuration/configuration'
+import { useDispatch } from 'react-redux'
+import { showGlobalNotification } from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild, EmailTemplate } from '../../types'
@@ -56,6 +59,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   onClose,
 }) => {
   const { incident, update } = useContext(IncidentDetailContext)
+  const storeDispatch = useDispatch()
   const incidentAsIncident = incident as Incident
   const { listenFor, unlisten } = useEventEmitter()
 
@@ -83,15 +87,23 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     [setModalStandardTextIsOpen]
   )
 
-  const closeModal = useCallback(() => {
+  const closeStandardTextModal = useCallback(() => {
     enablePageScroll()
     setModalStandardTextIsOpen(false)
+
+    if (lastActiveElement) {
+      lastActiveElement.focus()
+    }
+  }, [setModalStandardTextIsOpen])
+
+  const closeEmailPreview = useCallback(() => {
+    enablePageScroll()
     setModalEmailPreviewIsOpen(false)
 
     if (lastActiveElement) {
       lastActiveElement.focus()
     }
-  }, [setModalStandardTextIsOpen, setModalEmailPreviewIsOpen])
+  }, [setModalEmailPreviewIsOpen])
 
   const openEmailPreviewModal = useCallback(() => {
     disablePageScroll()
@@ -102,10 +114,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
-        closeModal()
+        closeStandardTextModal()
+        closeEmailPreview()
       }
     },
-    [closeModal]
+    [closeEmailPreview, closeStandardTextModal]
   )
 
   const disableSubmit = Boolean(
@@ -226,9 +239,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const useDefaultText = useCallback(
     (event: SyntheticEvent, text: string) => {
       setDefaultText(event, text)
-      closeModal()
+      closeStandardTextModal()
     },
-    [closeModal, setDefaultText]
+    [closeStandardTextModal, setDefaultText]
   )
 
   useEffect(() => {
@@ -249,14 +262,17 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   useEffect(() => {
     if (emailTemplateError) {
-      dispatch({
-        type: 'SET_ERRORS',
-        payload: {
-          text: 'Er is geen email template beschikbaar voor de gegeven status transitie',
-        },
-      })
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Er is geen email template beschikbaar voor de gegeven statustransitie',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
     }
-  }, [emailTemplateError, dispatch])
+    onUpdate()
+  }, [emailTemplateError, storeDispatch, showGlobalNotification, onUpdate])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
@@ -373,14 +389,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               <Modal
                 data-testid="standardTextModal"
                 open
-                onClose={closeModal}
+                onClose={closeStandardTextModal}
                 title="Standard texts"
               >
                 <DefaultTexts
                   defaultTexts={defaultTexts}
                   onHandleUseDefaultText={useDefaultText}
                   status={state.status.key}
-                  onClose={closeModal}
+                  onClose={closeStandardTextModal}
                 />
               </Modal>
             )}
@@ -420,14 +436,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           <Modal
             data-testid="emailPreviewModal"
             open
-            onClose={closeModal}
+            onClose={closeEmailPreview}
             title="Email Preview"
           >
             {isLoading && <LoadingIndicator />}
             {emailTemplate?.html && (
               <EmailPreview
                 emailBody={emailTemplate.html}
-                onClose={onClose}
+                onClose={closeEmailPreview}
                 onUpdate={onUpdate}
               />
             )}

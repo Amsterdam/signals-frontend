@@ -5,6 +5,7 @@ import {
   getQueriesForElement,
   render,
   screen,
+  waitFor,
 } from '@testing-library/react'
 import { ThemeProvider } from '@amsterdam/asc-ui'
 
@@ -23,6 +24,8 @@ import type { Incident } from 'types/api/incident'
 
 import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
+import * as actions from 'containers/App/actions'
+import { withAppContext } from 'test/utils'
 import { PATCH_TYPE_STATUS } from '../../../constants'
 import IncidentDetailContext from '../../../context'
 import StatusForm from '..'
@@ -59,22 +62,24 @@ const defaultTexts = [
 ]
 
 const update = jest.fn()
+jest.spyOn(actions, 'showGlobalNotification')
 
 const renderWithContext = (
   incident = incidentFixture,
   childIncidents: IncidentChild[] = [],
   onClose: () => void = () => {}
-) => (
-  <IncidentDetailContext.Provider value={{ incident, update }}>
-    <ThemeProvider>
-      <StatusForm
-        defaultTexts={defaultTexts}
-        childIncidents={childIncidents}
-        onClose={onClose}
-      />
-    </ThemeProvider>
-  </IncidentDetailContext.Provider>
-)
+) =>
+  withAppContext(
+    <IncidentDetailContext.Provider value={{ incident, update }}>
+      <ThemeProvider>
+        <StatusForm
+          defaultTexts={defaultTexts}
+          childIncidents={childIncidents}
+          onClose={onClose}
+        />
+      </ThemeProvider>
+    </IncidentDetailContext.Provider>
+  )
 
 const statusSendsEmailWhenSet = AFGEHANDELD
 
@@ -662,7 +667,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const link = screen.getByTestId('standardTextButton')
     userEvent.click(link)
 
-    expect(screen.queryByTestId('standardTextModal')).not.toBeNull()
+    expect(screen.getByTestId('standardTextModal')).toBeInTheDocument()
 
     fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 })
 
@@ -740,8 +745,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-    await screen.findByText(
-      'Er is geen email template beschikbaar voor de gegeven status transitie'
-    )
+    await waitFor(() => {
+      expect(actions.showGlobalNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title:
+            'Er is geen email template beschikbaar voor de gegeven statustransitie',
+        })
+      )
+    })
   })
 })
