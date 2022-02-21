@@ -62,6 +62,9 @@ export const renderPreview = ({ render, meta }) => {
     case QuestionFieldType.TextareaInput:
       return Label
 
+    case QuestionFieldType.DateTimeInput:
+      return PreviewComponents.DateTime
+
     default:
       return Null
   }
