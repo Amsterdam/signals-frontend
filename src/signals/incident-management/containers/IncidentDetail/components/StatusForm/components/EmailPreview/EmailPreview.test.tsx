@@ -24,10 +24,10 @@ describe('StatusForm EmailPreview component', () => {
     )
 
     expect(
-      screen.queryByText('Controleer bericht aan melder')
+      screen.getByText('Controleer bericht aan melder')
     ).toBeInTheDocument()
     expect(screen.getByTitle('Sluiten')).toBeInTheDocument()
-    expect(screen.queryByTestId('emailBodyIframe')).toBeInTheDocument()
+    expect(screen.getByTestId('emailBodyIframe')).toBeInTheDocument()
     expect(screen.getByText('Wijzig')).toBeInTheDocument()
 
     userEvent.click(screen.getByText('Verstuur'))

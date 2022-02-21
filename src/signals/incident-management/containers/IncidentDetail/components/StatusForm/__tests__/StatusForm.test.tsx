@@ -240,7 +240,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // verify that the email preview is shown and onUpdate has not been called yet
     expect(update).not.toHaveBeenCalled()
-    await screen.findByTestId('emailPreviewModal')
+    expect(screen.getByTestId('emailPreviewModal')).toBeInTheDocument()
 
     // send the email
     userEvent.click(screen.getByText('Verstuur'))
