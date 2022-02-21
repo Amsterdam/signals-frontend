@@ -6,6 +6,7 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import FormFooter from 'components/FormFooter'
 import ModalHeader from '../ModalHeader/ModalHeader'
 
+const formFooterHeight = 16
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,18 +14,14 @@ const ModalContainer = styled.div`
 
 const StyledFormFooter = styled(FormFooter)`
   height: auto;
-  div {
+  div.formFooterRow {
     padding-left: ${themeSpacing(4)};
-    div {
-      padding-left: 0;
-    }
   }
 `
 
 const StyledIframe = styled.iframe`
   border: none;
-  padding-left: ${themeSpacing(2)};
-  padding-bottom: ${themeSpacing(16)};
+  padding: ${themeSpacing(2, 0, formFooterHeight)};
 `
 
 interface EmailPreviewProps {
@@ -45,7 +42,7 @@ const EmailPreview: FC<EmailPreviewProps> = ({
     <StyledIframe
       data-testid="emailBodyIframe"
       srcDoc={emailBody.concat(fontStyling)}
-      height={'500vh'}
+      height="500"
     />
     <StyledFormFooter
       cancelBtnLabel="Wijzig"

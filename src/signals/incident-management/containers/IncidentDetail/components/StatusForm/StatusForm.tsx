@@ -184,7 +184,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.text.defaultValue,
       state.text.required,
       state.text.maxLength,
-      state.status.key,
       state.check.checked,
       onUpdate,
       getEmailTemplate,

@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FC } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Button, Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 
-export const CloseButton = styled(Button)`
+export const CloseButton = styled(Button)<{ iconSize: number }>`
   border: none;
   padding: 0;
-  width: 20px;
-  height: 20px;
+  ${({ iconSize }) =>
+    css`
+      height: ${iconSize}px;
+    `}
 `
 
 export const Header = styled.div`
@@ -40,7 +42,7 @@ const ModalHeader: FC<ModalHeaderProps> = ({ title, onClose }) => (
         variant="application"
         onClick={onClose}
         icon={<Close />}
-        size={20}
+        iconSize={20}
         title="Sluiten"
       />
     )}
