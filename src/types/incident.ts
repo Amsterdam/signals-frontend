@@ -19,6 +19,8 @@ type ExtraProps = {
   }
 }
 export interface Incident extends Record<string, any>, ExtraProps {
+  timestamp: number | null
+
   category: string
   classification: Classification | null
   datetime: Datetime
@@ -68,6 +70,7 @@ export interface Priority {
 }
 
 export const mock: Incident = {
+  timestamp: null,
   priority: {
     id: 'normal',
     label: 'Normaal',
