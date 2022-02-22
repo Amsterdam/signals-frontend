@@ -78,7 +78,12 @@ const Selector: FC = () => {
       dragging: true,
       zoomControl: false,
       scrollWheelZoom: true,
-      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_OPTIONS.zoom,
+      zoom: coordinates
+        ? Math.min(
+            MAP_LOCATION_ZOOM,
+            MAP_OPTIONS.maxZoom || Number.POSITIVE_INFINITY
+          )
+        : MAP_OPTIONS.zoom,
     }),
     [center, coordinates]
   )
