@@ -46,6 +46,15 @@ describe('The check visibility service', () => {
     expect(checkVisibility(control, incident)).toBe(false)
   })
 
+  it('shows control when ignoreVisibility is set', () => {
+    const alwaysVisibleControl = {
+      meta: {
+        ignoreVisibility: true,
+      },
+    }
+    expect(checkVisibility(alwaysVisibleControl, incident)).toBe(true)
+  })
+
   describe('ifAllOf', () => {
     it('string: should be visible when category and subcategory are valid', () => {
       control.meta.ifAllOf = {
