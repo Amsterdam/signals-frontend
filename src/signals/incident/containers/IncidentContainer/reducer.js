@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { fromJS, Seq } from 'immutable'
+import configuration from 'shared/services/configuration/configuration'
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -47,6 +48,7 @@ export const initialState = fromJS({
     },
   },
   loadingClassification: false,
+  loadingQuestions: false,
   usePredictions: true,
   classificationPrediction: null,
 })
@@ -110,6 +112,10 @@ export default (state = initialState, action) => {
           })
         )
         .set('classificationPrediction', fromJS(classification))
+        .set(
+          'loadingQuestions',
+          configuration.featureFlags.fetchQuestionsFromBackend
+        )
     }
 
     case GET_CLASSIFICATION_ERROR: {
@@ -167,10 +173,12 @@ export default (state = initialState, action) => {
     }
 
     case GET_QUESTIONS_SUCCESS:
-      return state.set(
-        'incident',
-        state.get('incident').set('questions', action.payload.questions)
-      )
+      return state
+        .set(
+          'incident',
+          state.get('incident').set('questions', action.payload.questions)
+        )
+        .set('loadingQuestions', false)
 
     default:
       return state

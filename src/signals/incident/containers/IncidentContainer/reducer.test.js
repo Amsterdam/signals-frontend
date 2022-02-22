@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { has, fromJS } from 'immutable'
+import configuration from 'shared/services/configuration/configuration'
 import incidentContainerReducer, { initialState } from './reducer'
 
 import {
@@ -18,7 +19,13 @@ import {
   REMOVE_QUESTION_DATA,
 } from './constants'
 
+jest.mock('shared/services/configuration/configuration')
+
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
+  afterEach(() => {
+    configuration.__reset()
+  })
+
   it('returns the initial state', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(
       fromJS(initialState)
@@ -197,8 +204,20 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             handling_message,
           },
           loadingClassification: false,
+          loadingQuestions: false,
           classificationPrediction: classification,
         })
+      })
+
+      it('sets loadingQuestions with feature flag enabled', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        const newState = incidentContainerReducer(intermediateState, {
+          type: GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+
+        expect(newState.get('loadingQuestions')).toEqual(true)
       })
 
       it('removes all extra_ props', () => {
@@ -328,6 +347,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {},
+            loadingQuestions: true,
           }),
           {
             type: GET_QUESTIONS_SUCCESS,
@@ -344,6 +364,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
+        loadingQuestions: false,
       })
     })
   })

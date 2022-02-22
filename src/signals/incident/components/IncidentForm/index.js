@@ -33,7 +33,9 @@ class IncidentForm extends Component {
       return null
     }
 
-    const loading = get(props, props.postponeSubmitWhenLoading)
+    const loading = Array.isArray(props.postponeSubmitWhenLoading)
+      ? props.postponeSubmitWhenLoading.some((prop) => get(props, prop))
+      : get(props, props.postponeSubmitWhenLoading)
     if (loading !== prevState.loading) {
       return {
         loading,
@@ -219,7 +221,10 @@ IncidentForm.propTypes = {
   removeQuestionData: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-  postponeSubmitWhenLoading: PropTypes.string,
+  postponeSubmitWhenLoading: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
 }
 
 export default IncidentForm
