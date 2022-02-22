@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import format from 'date-fns/format'
 import subDays from 'date-fns/subDays'
 import nl from 'date-fns/locale/nl'
@@ -10,6 +10,7 @@ import { capitalize } from 'shared/services/date-utils'
 import Select from 'components/Select'
 import Radio from 'components/RadioButton'
 
+import type { Incident } from 'types/incident'
 import {
   FieldWrapper,
   Info,
@@ -34,7 +35,7 @@ const dateIndicators: DateIndicator[] = [
   },
 ]
 
-const defaultTimestamp = new Date()
+export const defaultTimestamp = new Date()
 defaultTimestamp.setHours(9)
 defaultTimestamp.setMinutes(0)
 defaultTimestamp.setSeconds(0)
@@ -54,62 +55,69 @@ const formatDate = (offset: number, type: 'label' | 'value' = 'value') => {
   return capitalize(format(date, dateFormat[type], { locale: nl }))
 }
 
-const daysOptions = [...Array(7).keys()].map((offset) => {
+export const daysOptions = [...Array(7).keys()].map((offset) => {
   const name = formatDate(offset, 'label')
 
   return {
-    value: formatDate(offset),
     key: name,
     name,
+    value: formatDate(offset),
   }
 })
 
-const hoursOptions = [...Array(24).keys()].map((value) => ({
-  value: value.toString(),
+export const hoursOptions = [...Array(24).keys()].map((value) => ({
   key: value.toString(),
   name: value.toString(),
+  value: value.toString(),
 }))
 
-const minutesOptions = [...Array(12).keys()].map((minute) => ({
-  value: (minute * 5).toString(),
-  name: (minute * 5).toString(),
+export const minutesOptions = [...Array(12).keys()].map((minute) => ({
   key: (minute * 5).toString(),
+  name: (minute * 5).toString(),
+  value: (minute * 5).toString(),
 }))
 
-interface DateTimeProps {
-  onUpdate: (timestamp: number) => void
+export interface DateTimeProps {
+  onUpdate: (timestamp: Incident['timestamp']) => void
+  value: Incident['timestamp']
 }
 
-const DateTime: FC<DateTimeProps> = ({ onUpdate }) => {
-  const [datetime, setDatetime] = useState(defaultTimestamp)
-  const [dateIndication, setDateIndication] =
-    useState<DateIndicator['id']>('now')
+const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
+  const [datetime, setDatetime] = useState(
+    value ? new Date(value) : defaultTimestamp
+  )
+
+  const [dateIndication, setDateIndication] = useState<DateIndicator['id']>(
+    typeof value === 'number' ? 'earlier' : 'now'
+  )
 
   const updateTimestamp = useCallback(
     (event) => {
-      const { name, value } = event.target
+      const { name, value: targetValue } = event.target
       const cloned = new Date(datetime)
 
       switch (name) {
         case 'day':
-          cloned.setDate(value)
+          cloned.setDate(targetValue)
           break
         case 'hours':
-          cloned.setHours(value)
+          cloned.setHours(targetValue)
           break
         case 'minutes':
-          cloned.setMinutes(value)
+          cloned.setMinutes(targetValue)
           break
       }
 
       setDatetime(cloned)
-      onUpdate(datetime.getTime())
+      onUpdate(cloned.getTime())
     },
     [datetime, onUpdate]
   )
 
   const updateIndication = useCallback(
     (indication: DateIndicator['id']) => {
+      setDateIndication(indication)
+
       if (indication === 'now') {
         const cloned = new Date()
 
@@ -118,18 +126,14 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate }) => {
         cloned.setSeconds(0)
 
         setDatetime(cloned)
-        onUpdate(new Date().getTime())
+        onUpdate(null)
+      } else {
+        setDatetime(defaultTimestamp)
+        onUpdate(defaultTimestamp.getTime())
       }
-
-      setDateIndication(indication)
     },
     [onUpdate]
   )
-
-  useEffect(() => {
-    onUpdate(new Date().getTime())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
@@ -137,7 +141,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate }) => {
         {Object.values(dateIndicators).map(({ id, label }) => (
           <Label key={id} label={label} noActiveState>
             <Radio
-              checked={dateIndication === id}
+              checked={id === dateIndication}
               id={id}
               name="dateIndicator"
               onChange={() => updateIndication(id)}
