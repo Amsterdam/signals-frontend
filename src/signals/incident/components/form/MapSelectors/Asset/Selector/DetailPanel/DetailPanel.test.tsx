@@ -202,6 +202,8 @@ describe('DetailPanel', () => {
   })
 
   it('calls remove on autosuggest clear', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
@@ -209,13 +211,27 @@ describe('DetailPanel', () => {
       })
     )
 
-    const autoSuggestClear = screen.getByTestId('autoSuggestClear')
+    userEvent.type(screen.getByTestId('autoSuggestInput'), 'Meeuw')
+
+    // simulate data retrieval
+    userEvent.click(
+      within(screen.getByTestId('addressPanel')).getByTestId(
+        'getDataMockButton'
+      )
+    )
+
+    expect(screen.getByTestId('optionsList')).toBeInTheDocument()
+
+    const autoSuggestClear = within(
+      screen.getByTestId('addressPanel')
+    ).getByTestId('autoSuggestClear')
 
     expect(contextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(autoSuggestClear)
 
     expect(contextValue.removeItem).toHaveBeenCalled()
+    expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
   })
 
   it('adds asset not on map', () => {

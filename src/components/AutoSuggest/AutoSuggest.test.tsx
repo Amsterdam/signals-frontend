@@ -479,6 +479,29 @@ describe('src/components/AutoSuggest', () => {
     expect(onSelect).toHaveBeenCalledWith(firstOption)
   })
 
+  it('renders clear button when user types', async () => {
+    render(withAppContext(<AutoSuggest {...props} />))
+
+    expect(screen.queryByTestId('clearInput')).not.toBeInTheDocument()
+
+    const input = screen.getByRole('textbox')
+
+    userEvent.type(input, 'Rembrandt')
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
+
+    await screen.findByTestId('autoSuggest')
+
+    expect(screen.getByTestId('clearInput')).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('clearInput'))
+
+    expect(screen.queryByTestId('clearInput')).not.toBeInTheDocument()
+    expect(input).toBeEmptyDOMElement()
+  })
+
   it('calls onClear', async () => {
     const onClear = jest.fn()
     render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
@@ -519,7 +542,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).toHaveBeenCalled()
 
-    expect(screen.getByRole('textbox')).not.toHaveFocus()
+    expect(screen.getByRole('textbox')).toHaveFocus()
   })
 
   it('focuses the input on clear', async () => {

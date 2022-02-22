@@ -60,6 +60,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   value = '',
   ...rest
 }) => {
+  const [defaultValue, setDefaultValue] = useState(value)
   const { get, data } = useFetch<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
@@ -87,18 +88,17 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     if (inputRef.current) {
       inputRef.current.value = ''
 
-      if (!showInlineList) {
-        inputRef.current.focus()
-      }
+      inputRef.current.focus()
     }
 
     setActiveIndex(-1)
     setShowList(false)
+    setDefaultValue('')
 
     if (onClear) {
       onClear()
     }
-  }, [onClear, showInlineList])
+  }, [onClear])
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -196,6 +196,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   const onChange = useCallback(
     (event) => {
       event.persist()
+      setDefaultValue(event.target.value)
       debouncedServiceRequest(event.target.value)
     },
     [debouncedServiceRequest]
@@ -205,6 +206,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     (option) => {
       setActiveIndex(-1)
       setShowList(false)
+      setDefaultValue(option.value)
 
       if (inputRef.current) {
         inputRef.current.value = option.value
@@ -305,7 +307,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
-          defaultValue={value}
+          defaultValue={defaultValue}
           disabled={disabled}
           id={id}
           onChange={onChange}
@@ -314,13 +316,13 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           ref={inputRef}
           {...rest}
         />
-        {value && (
+        {defaultValue && (
           <ClearInput
             data-testid="clearInput"
             icon={<Close />}
             iconSize={20}
             onClick={clearInput}
-            size={44}
+            size={24}
             variant="blank"
           />
         )}
