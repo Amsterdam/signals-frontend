@@ -8,11 +8,15 @@ import type { Incident } from 'types/incident'
 import type { FC } from 'react'
 
 interface DateTimeProps {
-  value: number
+  value: Incident['timestamp']
   incident?: Incident
 }
 
-const getValue = (value: number, incident?: Incident) => {
+const getValue = (value: Incident['timestamp'], incident?: Incident) => {
+  if (value === null) {
+    return 'Nu'
+  }
+
   if (!incident) {
     return ''
   }
@@ -33,7 +37,7 @@ const getValue = (value: number, incident?: Incident) => {
 }
 
 const DateTime: FC<DateTimeProps> = ({ value, incident }) => (
-  <span>{getValue(value, incident)}</span>
+  <span data-testid="previewDateTime">{getValue(value, incident)}</span>
 )
 
 export default DateTime
