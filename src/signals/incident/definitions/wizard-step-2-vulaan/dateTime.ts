@@ -1,15 +1,16 @@
-import { Validators } from 'react-reactive-form'
+import { nullOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 const dateTime = {
   meta: {
+    ignoreVisibility: true,
     label: 'Wanneer was het?',
     ifAllOf: {
       datetime: 'Eerder',
     },
   },
   options: {
-    validators: [Validators.required],
+    validators: [nullOrNumber],
   },
   render: QuestionFieldType.DateTimeInput,
 }
