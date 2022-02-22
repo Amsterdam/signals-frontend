@@ -17,7 +17,7 @@ const getValue = (value: Incident['timestamp'], incident?: Incident) => {
     return 'Nu'
   }
 
-  if (!incident) {
+  if (!value || !incident) {
     return ''
   }
 

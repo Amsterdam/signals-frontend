@@ -11,7 +11,11 @@ today.setMinutes(0)
 
 describe('DateTime', () => {
   it('renders an empty element', () => {
-    render(<DateTime value={today.getTime()} />)
+    const { rerender } = render(<DateTime value={today.getTime()} />)
+
+    expect(screen.getByTestId('previewDateTime')).toBeEmptyDOMElement()
+
+    rerender(<DateTime value={undefined} />)
 
     expect(screen.getByTestId('previewDateTime')).toBeEmptyDOMElement()
   })

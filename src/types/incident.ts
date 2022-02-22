@@ -19,19 +19,14 @@ type ExtraProps = {
   }
 }
 export interface Incident extends Record<string, any>, ExtraProps {
-  timestamp: number | null
-
   category: string
   classification: Classification | null
-  datetime: Datetime
+  dateTime: number | null
   description: string
   email: string
   handling_message: string
-  images: string[]
   images_previews: string[]
-  incident_date: string
-  incident_time_hours: number
-  incident_time_minutes: number
+  images: string[]
   location: Location
   phone?: string
   priority: Priority
@@ -70,7 +65,7 @@ export interface Priority {
 }
 
 export const mock: Incident = {
-  timestamp: null,
+  dateTime: null,
   priority: {
     id: 'normal',
     label: 'Normaal',
@@ -85,7 +80,6 @@ export const mock: Incident = {
     name: 'Overig groen en water',
     slug: 'overig-groen-en-water',
   },
-  incident_time_hours: 9,
   questions: [],
   handling_message:
     'Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
@@ -115,14 +109,7 @@ export const mock: Incident = {
     id: 'SIG',
     label: 'Melding',
   },
-  incident_time_minutes: 0,
   source: 'online',
-  incident_date: 'Vandaag',
-  datetime: {
-    id: 'Nu',
-    label: 'Nu',
-    info: '',
-  },
   email: 'noreply@amsterdam.nl',
   description: 'bomen',
   category: 'openbaar-groen-en-water',

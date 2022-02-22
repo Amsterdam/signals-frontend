@@ -22,12 +22,7 @@ import { getIncidentClassification } from './services'
 
 export const initialState = fromJS({
   incident: {
-    datetime: {
-      id: 'Nu',
-    },
-    incident_date: 'Vandaag',
-    incident_time_hours: 9,
-    incident_time_minutes: 0,
+    dateTime: null,
     category: '',
     subcategory: '',
     classification: null,

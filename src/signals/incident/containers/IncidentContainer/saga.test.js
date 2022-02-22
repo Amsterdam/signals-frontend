@@ -5,6 +5,7 @@ import { replace } from 'connected-react-router/immutable'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { formatISO } from 'date-fns'
 
 import request from 'utils/request'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -14,9 +15,7 @@ import configuration from 'shared/services/configuration/configuration'
 import * as auth from 'shared/services/auth/auth'
 import { authPostCall, postCall } from 'shared/services/api/api'
 import { coordinatesToAPIFeature } from 'shared/services/map-location'
-
 import { uploadFile } from 'containers/App/saga'
-
 import { subCategories } from 'utils/__tests__/fixtures'
 
 import * as mapControlsToParams from '../../services/map-controls-to-params'
@@ -138,6 +137,7 @@ const payloadIncident = {
     },
     coordinates,
   },
+  dateTime: new Date().getTime(),
 }
 
 const action = {
@@ -433,6 +433,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, invalidAction).returns(postData).run(false)
@@ -452,6 +453,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()
@@ -477,6 +479,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()
@@ -492,6 +495,7 @@ describe('IncidentContainer saga', () => {
             value: true,
           },
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
       jest
         .spyOn(mapControlsToParams, 'default')
@@ -517,6 +521,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()
