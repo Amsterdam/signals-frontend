@@ -22,7 +22,7 @@ jest.mock('react-responsive')
 
 jest.mock('../../AssetList', () =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ onRemove, featureTypes, selection, ...props }: AssetListProps) => (
+  ({ onRemove, featureTypes, featureStatusTypes, selection, ...props }: AssetListProps) => (
     <span data-testid="mockAssetList" {...props}>
       {`${selection.description} - ${selection.id}`}
       <input type="button" onClick={onRemove} />
@@ -121,6 +121,7 @@ describe('DetailPanel', () => {
 
   const props: DetailPanelProps = {
     featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
+    featureStatusTypes: [],
     language: {
       unregisteredId: 'Nummer van de container',
     },

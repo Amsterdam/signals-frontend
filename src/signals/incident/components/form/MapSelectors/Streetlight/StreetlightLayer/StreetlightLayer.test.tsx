@@ -22,7 +22,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     id: '031346',
     type: '4',
     description: 'Overig lichtpunt',
-    isReported: true,
+    status: 'reported',
     location: {},
     label: 'Overig lichtpunt - 031346',
   },

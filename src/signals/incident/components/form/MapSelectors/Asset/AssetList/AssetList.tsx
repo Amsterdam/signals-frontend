@@ -8,12 +8,7 @@ import type { FunctionComponent } from 'react'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
-
-import type { FeatureType, Item } from '../../types'
-import {
-  getCheckedFeatureType,
-  getReportedFeatureType,
-} from '../Selector/WfsLayer/StatusLayer/utils'
+import type { FeatureStatusType, FeatureType, Item } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -34,9 +29,11 @@ const ItemWrapper = styled.div`
   width: 100%;
 `
 
-const StyledStatusDescription = styled.div<{ isReported?: boolean }>`
-  color: ${({ isReported }) =>
-    isReported ? themeColor('secondary') : themeColor('support', 'valid')};
+const StyledStatusDescription = styled.div<{ status?: string }>`
+  color: ${({ status }) =>
+    status === 'reported'
+      ? themeColor('secondary')
+      : themeColor('support', 'valid')};
 `
 
 const StyledLabel = styled.div`
@@ -46,6 +43,7 @@ const StyledLabel = styled.div`
 export interface AssetListProps {
   className?: string
   featureTypes: FeatureType[]
+  featureStatusTypes: FeatureStatusType[]
   onRemove?: () => void
   selection: Item
 }
@@ -55,8 +53,9 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   selection,
   className,
   featureTypes,
+  featureStatusTypes,
 }) => {
-  const { id, type, isReported, isChecked } = selection
+  const { id, type, status } = selection
   const { description, icon }: Partial<FeatureType> =
     featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
@@ -64,15 +63,12 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
   if (!id) return null
 
-  const reportedFeatureType = getReportedFeatureType(featureTypes)
-  const checkedFeatureType = getCheckedFeatureType(featureTypes)
-
-  let extendedId = `assetListItem-${id}`
-  if (isChecked) {
-    extendedId = `assetListItem-${id}-checked`
-  } else if (isReported) {
-    extendedId = `assetListItem-${id}-reported`
-  }
+  const featureStatusType = status
+    ? featureStatusTypes.find(({ typeValue }) => typeValue === status)
+    : undefined
+  const extendedId = featureStatusType
+    ? `assetListItem-${id}-hasStatus`
+    : `assetListItem-${id}`
 
   return (
     <IconList data-testid="assetList" className={className}>
@@ -80,20 +76,14 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         key={id}
         id={extendedId}
         iconUrl={icon?.iconUrl}
-        isReported={isReported}
-        isChecked={isChecked}
+        featureStatusType={featureStatusType}
       >
         <ItemWrapper>
           <StyledLabel>
             {label}
-            {checkedFeatureType && isChecked && (
-              <StyledStatusDescription>
-                {checkedFeatureType.description}
-              </StyledStatusDescription>
-            )}
-            {!isChecked && reportedFeatureType && isReported && (
-              <StyledStatusDescription isReported>
-                {reportedFeatureType.description}
+            {featureStatusType && (
+              <StyledStatusDescription status={featureStatusType.typeValue}>
+                {featureStatusType?.description}
               </StyledStatusDescription>
             )}
           </StyledLabel>

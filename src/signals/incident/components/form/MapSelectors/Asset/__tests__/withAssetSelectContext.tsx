@@ -16,7 +16,11 @@ export const contextValue: AssetSelectValue = {
   coordinates: { lat: 25.3546456, lng: 3.45645645 },
   close: jest.fn(),
   edit: jest.fn(),
-  meta: { endpoint, featureTypes: featureTypes as FeatureType[] },
+  meta: {
+    endpoint,
+    featureTypes: featureTypes as FeatureType[],
+    featureStatusTypes: [],
+  },
   removeItem: jest.fn(),
   selection: {
     location: {

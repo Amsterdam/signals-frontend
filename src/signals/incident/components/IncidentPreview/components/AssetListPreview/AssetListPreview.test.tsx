@@ -41,10 +41,15 @@ describe('AssetListPreview', () => {
           },
         } as FeatureType,
       ],
+      featureStatusTypes: [],
     }
 
     render(
-      <AssetListPreview value={props.value} featureTypes={props.featureTypes} />
+      <AssetListPreview
+        value={props.value}
+        featureTypes={props.featureTypes}
+        featureStatusTypes={[]}
+      />
     )
     expect(AssetList).toHaveBeenCalledWith(
       expect.objectContaining({

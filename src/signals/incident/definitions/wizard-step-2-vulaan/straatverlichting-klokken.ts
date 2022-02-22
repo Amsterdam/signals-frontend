@@ -109,6 +109,18 @@ const straatverlichtingKlokken = {
           typeValue: '4',
         },
         {
+          description: 'Het lichtpunt staat niet op de kaart',
+          label: 'Onbekend',
+          icon: {
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
+          },
+          idField: 'id',
+          typeField: 'type',
+          typeValue: UNKNOWN_TYPE,
+        },
+      ],
+      featureStatusTypes: [
+        {
           label: 'Is gemeld',
           description: 'Is gemeld',
           icon: {
@@ -118,18 +130,8 @@ const straatverlichtingKlokken = {
           idField: 'objectnummer',
           typeField: 'objecttype',
           typeValue: 'reported',
-          isReportedField: 'meldingstatus',
-          isReportedValue: 1,
-        },
-        {
-          description: 'Het lichtpunt staat niet op de kaart',
-          label: 'Onbekend',
-          icon: {
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
-          },
-          idField: 'id',
-          typeField: 'type',
-          typeValue: UNKNOWN_TYPE,
+          statusField: 'meldingstatus',
+          statusValues: [1],
         },
       ],
       pathMerge: 'extra_properties',
@@ -256,6 +258,18 @@ const straatverlichtingKlokken = {
           typeValue: '1',
         },
         {
+          description: 'De klok staat niet op de kaart',
+          label: 'Onbekend',
+          icon: {
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
+          },
+          idField: 'id',
+          typeField: 'type',
+          typeValue: UNKNOWN_TYPE,
+        },
+      ],
+      featureStatusTypes: [
+        {
           label: 'Is gemeld',
           description: 'Is gemeld',
           icon: {
@@ -265,18 +279,8 @@ const straatverlichtingKlokken = {
           idField: 'objectnummer',
           typeField: 'objecttype',
           typeValue: 'reported',
-          isReportedField: 'meldingstatus',
-          isReportedValue: 1,
-        },
-        {
-          description: 'De klok staat niet op de kaart',
-          label: 'Onbekend',
-          icon: {
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
-          },
-          idField: 'id',
-          typeField: 'type',
-          typeValue: UNKNOWN_TYPE,
+          statusField: 'meldingstatus',
+          statusValues: [1],
         },
       ],
       pathMerge: 'extra_properties',

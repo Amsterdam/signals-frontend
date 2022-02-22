@@ -42,6 +42,18 @@ export const controls = {
           typeField: '',
         },
         {
+          label: 'Onbekend',
+          description: 'De boom staat niet op de kaart',
+          icon: {
+            options,
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
+          },
+          typeValue: UNKNOWN_TYPE,
+          typeField: '',
+        },
+      ],
+      featureStatusTypes: [
+        {
           label: 'Is gemeld',
           description: 'Eikenboom is reeds gemeld',
           icon: {
@@ -51,8 +63,8 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'reported',
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
+          statusField: 'Registratie',
+          statusValues: ['Deels bestreden', 'Melding', 'Registratie'],
         },
         {
           label: 'Vrij van eikenprocessierups',
@@ -64,18 +76,8 @@ export const controls = {
           idField: 'OBJECTID',
           typeValue: 'checked',
           typeField: '',
-          isCheckedField: 'Registratie',
-          isCheckedValues: ['Bestreden', 'Geen EPR'],
-        },
-        {
-          label: 'Onbekend',
-          description: 'De boom staat niet op de kaart',
-          icon: {
-            options,
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
-          },
-          typeValue: UNKNOWN_TYPE,
-          typeField: '',
+          statusField: 'Registratie',
+          statusValues: ['Bestreden', 'Geen EPR', 'EPR (niet bestrijden)'],
         },
       ],
       extraProperties: ['GlobalID'],

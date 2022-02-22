@@ -5,51 +5,42 @@ import './style.css'
 
 import type { FC } from 'react'
 import type {
-  CheckedFeatureType,
   Feature,
-  ReportedFeatureType,
+  FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import { Marker } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
-import { getIsChecked, getIsReported } from './utils'
+import { getFeatureStatusType } from './utils'
 
 const STATUS_CLASS_MODIFIER = 'marker-status'
 
 export interface StatusLayerProps {
   statusFeatures: Feature[]
-  reportedFeatureType: ReportedFeatureType
-  checkedFeatureType?: CheckedFeatureType
+  featureStatusTypes: FeatureStatusType[]
 }
 
 const StatusLayer: FC<StatusLayerProps> = ({
   statusFeatures,
-  reportedFeatureType,
-  checkedFeatureType,
+  featureStatusTypes,
 }) => {
   const getMarker = (feat: any, index: number) => {
     const feature = feat as Feature
     const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
-    const isReported = getIsReported(feature, reportedFeatureType)
-    const isChecked = getIsChecked(feature, checkedFeatureType)
+    const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
+    if (!featureStatusType) {
+      return null
+    }
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: isChecked
-        ? '/assets/images/icon-checked-marker.svg'
-        : '/assets/images/icon-reported-marker.svg',
+      iconUrl: featureStatusType.icon.iconUrl,
       className: STATUS_CLASS_MODIFIER,
     })
 
-    const featureId = feature.properties[reportedFeatureType.idField] || index
-
-    let altText = ''
-    if (isChecked && checkedFeatureType) {
-      altText = `${checkedFeatureType.description} - ${featureId}`
-    } else if (isReported) {
-      altText = `${reportedFeatureType.description} - ${featureId}`
-    }
+    const featureId = feature.properties[featureStatusType.idField] || index
+    const altText = `${featureStatusType.description} - ${featureId}`
 
     return (
       <Marker

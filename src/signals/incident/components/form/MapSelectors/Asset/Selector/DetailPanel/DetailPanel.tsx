@@ -13,7 +13,10 @@ import {
 import { useMediaQuery } from 'react-responsive'
 
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
-import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  FeatureStatusType,
+  FeatureType,
+} from 'signals/incident/components/form/MapSelectors/types'
 import {
   selectionIsObject,
   selectionIsUndetermined,
@@ -41,10 +44,15 @@ import {
 
 export interface DetailPanelProps {
   featureTypes: FeatureType[]
+  featureStatusTypes: FeatureStatusType[]
   language?: Record<string, string>
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
+const DetailPanel: FC<DetailPanelProps> = ({
+  featureTypes,
+  featureStatusTypes,
+  language = {},
+}) => {
   const shouldRenderAddressPanel = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
@@ -72,7 +80,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
   const unregisteredLabel =
     language.unregistered || 'Het object staat niet op de kaart'
 
-  const legendItems = featureTypes
+  const legendItems = [...featureTypes, ...featureStatusTypes]
     .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
     .map((featureType) => ({
       label: featureType.label,
@@ -170,6 +178,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
             selection={selection}
             onRemove={removeItem}
             featureTypes={featureTypes}
+            featureStatusTypes={featureStatusTypes}
           />
         )}
 

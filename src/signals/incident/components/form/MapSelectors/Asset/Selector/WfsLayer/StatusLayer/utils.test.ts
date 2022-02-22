@@ -1,86 +1,45 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import type {
-  CheckedFeatureType,
-  Feature,
-  ReportedFeatureType,
-} from 'signals/incident/components/form/MapSelectors/types'
-import { meta } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
-import {
-  getCheckedFeatureType,
-  getIsChecked,
-  getIsReported,
-  getReportedFeatureType,
-} from './utils'
+import { getFeatureStatusType } from './utils'
 
-const typedMeta = meta as unknown as Meta
+const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 
 describe('utils', () => {
-  const reportedFeatureType = typedMeta.featureTypes[1] as ReportedFeatureType
-  const checkedFeatureType = typedMeta.featureTypes[2] as CheckedFeatureType
+  const featureStatusTypes = typedMeta.featureStatusTypes || []
+  const reportedFeatureType = featureStatusTypes.find(
+    ({ typeValue }) => typeValue === 'reported'
+  )
+  const checkedFeatureType = featureStatusTypes.find(
+    ({ typeValue }) => typeValue === 'checked'
+  )
 
-  describe('getIsReported', () => {
+  describe('getFeatureStatusType', () => {
     it('should return if the feature has been reported or not', () => {
       const reportedFeature = caterpillarsJson.features[1]
       const unreportedFeature = caterpillarsJson.features[0]
-      expect(
-        getIsReported(
-          reportedFeature as unknown as Feature,
-          reportedFeatureType
-        )
-      ).toBeTruthy()
-      expect(
-        getIsReported(
-          unreportedFeature as unknown as Feature,
-          reportedFeatureType
-        )
-      ).toBeFalsy()
-      expect(
-        getIsReported(reportedFeature as unknown as Feature, undefined)
-      ).toBeFalsy()
-      expect(getIsReported(undefined, reportedFeatureType)).toBeFalsy()
-    })
-  })
-
-  describe('getIsChecked', () => {
-    it('should return if the feature has been checked or not', () => {
       const checkedFeature = caterpillarsJson.features[2]
-      const uncheckedFeature = caterpillarsJson.features[0]
-
       expect(
-        getIsChecked(checkedFeature as unknown as Feature, checkedFeatureType)
-      ).toBeTruthy()
+        getFeatureStatusType(
+          reportedFeature as unknown as Feature,
+          featureStatusTypes
+        )
+      ).toEqual(reportedFeatureType)
       expect(
-        getIsChecked(uncheckedFeature as unknown as Feature, checkedFeatureType)
-      ).toBeFalsy()
-      expect(getIsChecked(undefined, checkedFeatureType)).toBeFalsy()
+        getFeatureStatusType(
+          checkedFeature as unknown as Feature,
+          featureStatusTypes
+        )
+      ).toEqual(checkedFeatureType)
       expect(
-        getIsChecked(checkedFeature as unknown as Feature, undefined)
-      ).toBeFalsy()
-    })
-  })
-
-  describe('getReportedFeatureType', () => {
-    it('should return the reportedFeatureType when there is one', () => {
-      const otherFeatureTypes = [typedMeta.featureTypes[0]]
-
-      expect(getReportedFeatureType(typedMeta.featureTypes)).toEqual(
-        reportedFeatureType
-      )
-      expect(getReportedFeatureType(otherFeatureTypes)).toEqual(undefined)
-    })
-  })
-
-  describe('getCheckedFeatureType', () => {
-    it('should return the checkedFeatureType when there is one', () => {
-      const otherFeatureTypes = [typedMeta.featureTypes[0]]
-
-      expect(getCheckedFeatureType(typedMeta.featureTypes)).toEqual(
-        checkedFeatureType
-      )
-      expect(getCheckedFeatureType(otherFeatureTypes)).toEqual(undefined)
+        getFeatureStatusType(
+          unreportedFeature as unknown as Feature,
+          featureStatusTypes
+        )
+      ).toBeUndefined()
     })
   })
 })

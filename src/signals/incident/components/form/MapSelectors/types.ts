@@ -20,8 +20,7 @@ export interface BaseItem {
 export interface Item extends Record<string, unknown> {
   description?: string
   id?: string | number
-  isReported?: boolean
-  isChecked?: boolean
+  status?: string
   type?: typeof UNREGISTERED_TYPE | typeof UNKNOWN_TYPE | string
   label?: string
 }
@@ -33,6 +32,11 @@ export interface FeatureType {
   idField: string
   typeField: string
   typeValue: string
+}
+
+export interface FeatureStatusType extends FeatureType {
+  statusField: string
+  statusValues: string[] | number[]
 }
 
 export interface ReportedFeatureType extends FeatureType {
@@ -61,6 +65,7 @@ export interface WfsFilter {
 
 export interface DataLayerProps {
   featureTypes: FeatureType[]
+  featureStatusTypes?: FeatureStatusType[]
   desktopView?: boolean
 }
 
@@ -68,6 +73,7 @@ export interface Meta extends Record<string, unknown> {
   name?: string
   endpoint: string
   featureTypes: FeatureType[]
+  featureStatusTypes?: FeatureStatusType[]
   language?: Record<string, string>
   wfsFilter?: string
   extraProperties?: string[]
