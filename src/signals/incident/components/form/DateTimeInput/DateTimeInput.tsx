@@ -1,21 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+import type { FC } from 'react'
+import type { FormInputProps } from 'types/reactive-form'
 
 import FormField from '../FormField'
 import DateTime from './DateTime'
 
-const DateTimeInput = ({
+type DateTimeInputProps = Omit<FormInputProps<number | null>, 'handler'>
+
+const DateTimeInput: FC<DateTimeInputProps> = ({
   touched,
   hasError,
   meta,
   parent,
   getError,
   validatorsOrOpts,
+  value,
 }) => {
-  if (!meta?.isVisible) return null
+  if (!meta?.isVisible || typeof value === 'undefined') return null
 
-  const updateTimestamp = (timestamp) => {
+  const updateTimestamp = (timestamp: number) => {
     parent.meta.updateIncident({ dateTime: timestamp })
   }
 
@@ -27,22 +31,9 @@ const DateTimeInput = ({
       hasError={hasError}
       getError={getError}
     >
-      <DateTime onUpdate={updateTimestamp} />
+      <DateTime onUpdate={updateTimestamp} value={value} />
     </FormField>
   )
-}
-
-DateTimeInput.defaultProps = {
-  hasError: () => {},
-}
-
-DateTimeInput.propTypes = {
-  touched: PropTypes.bool,
-  hasError: PropTypes.func,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
-  getError: PropTypes.func,
-  validatorsOrOpts: PropTypes.object,
 }
 
 export default DateTimeInput
