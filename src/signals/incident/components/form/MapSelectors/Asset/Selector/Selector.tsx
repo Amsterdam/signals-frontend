@@ -51,7 +51,6 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
 }
 
 const MAP_LOCATION_ZOOM = 14
-const MAP_NO_LOCATION_ZOOM = 9
 
 const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
@@ -72,14 +71,14 @@ const Selector: FC = () => {
 
   const mapOptions: MapOptions = useMemo(
     () => ({
+      minZoom: 7,
+      maxZoom: 16,
       ...MAP_OPTIONS,
       center,
       dragging: true,
       zoomControl: false,
       scrollWheelZoom: true,
-      minZoom: 7,
-      maxZoom: 16,
-      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
+      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_OPTIONS.zoom,
     }),
     [center, coordinates]
   )
