@@ -10,10 +10,13 @@ import ModalHeader from '../ModalHeader/ModalHeader'
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  * {
+    box-sizing: border-box;
+  }
 `
 
 const StyledFormFooter = styled(FormFooter)`
-  box-sizing: border-box;
   .formFooterRow {
     padding-left: ${themeSpacing(4)};
   }
@@ -21,7 +24,9 @@ const StyledFormFooter = styled(FormFooter)`
 
 const StyledIframe = styled.iframe`
   border: none;
-  padding: 0 ${themeSpacing(2)} ${FORM_FOOTER_HEIGHT}px;
+  padding: 0 0 ${FORM_FOOTER_HEIGHT}px ${themeSpacing(2)};
+  width: 100%;
+  height: 100%;
 `
 
 interface EmailPreviewProps {
