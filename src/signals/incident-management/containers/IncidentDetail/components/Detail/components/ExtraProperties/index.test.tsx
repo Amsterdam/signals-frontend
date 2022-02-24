@@ -235,4 +235,53 @@ describe('<ExtraProperties />', () => {
       /^In huis$/
     )
   })
+
+  it('should handle null and undefined values in the answer property', () => {
+    const items = [
+      {
+        id: 'extra_bedrijven_horeca_terrassen',
+        label: 'Oorzaak overlast',
+        answer: null,
+        category_url:
+          '/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen',
+      },
+      {
+        id: 'extra_bedrijven_gezien',
+        label: 'Heeft u het gezien?',
+        category_url:
+          '/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/straatverlichting-openbare-klok',
+        answer: undefined,
+      },
+    ]
+
+    // this test is about handling unexpected values, therefore typing cannot be applied
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    render(<ExtraProperties items={items} />)
+
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(
+      Object.values(items).length
+    )
+  })
+
+  it('should handle null and undefined values in the array of the answer property', () => {
+    const items = [
+      {
+        id: 'extra_bedrijven_horeca_terrassen',
+        label: 'Oorzaak overlast',
+        answer: [null, undefined],
+        category_url:
+          '/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen',
+      },
+    ]
+
+    // this test is about handling unexpected values, therefore typing cannot be applied
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    render(<ExtraProperties items={items} />)
+
+    expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(
+      Object.values(items).length
+    )
+  })
 })
