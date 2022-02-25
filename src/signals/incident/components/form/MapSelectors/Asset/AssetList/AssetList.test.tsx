@@ -7,7 +7,7 @@ import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
 import type { IconListItemProps } from 'components/IconList/IconList'
 import type { HTMLAttributes, PropsWithChildren } from 'react'
-import type { FeatureType, Item } from '../../types'
+import type { Item } from '../../types'
 import type { AssetListProps } from './AssetList'
 
 import AssetList from './AssetList'
@@ -62,7 +62,7 @@ describe('AssetList', () => {
   ]
   const props: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: featureTypes as FeatureType[],
+    featureTypes: featureTypes,
     featureStatusTypes,
     selection: {
       description: 'Description',
@@ -75,7 +75,7 @@ describe('AssetList', () => {
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: featureTypes as FeatureType[],
+    featureTypes: featureTypes,
     featureStatusTypes,
     selection: { ...selection[0], location: {}, label: 'Rest container - 234' },
   }

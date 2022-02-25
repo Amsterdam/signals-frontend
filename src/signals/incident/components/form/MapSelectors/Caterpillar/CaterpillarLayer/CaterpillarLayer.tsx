@@ -7,7 +7,6 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
-  FeatureType,
   Feature,
   Item,
   FeatureStatusType,
@@ -30,9 +29,7 @@ export const CaterpillarLayer: FC = () => {
       const feature = feat as Feature
       const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
-      const featureType = meta.featureTypes.find(
-        ({ typeValue }) => typeValue === 'Eikenboom'
-      ) as FeatureType
+      const featureType = meta.featureTypes[0]
 
       const featureId = feature.properties[featureType.idField] as string
       const isSelected = selection?.id === featureId

@@ -5,7 +5,6 @@ import { withAppContext } from 'test/utils'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
 
 import type { AssetSelectValue } from '../types'
-import type { FeatureType } from '../../types'
 import { AssetSelectProvider } from '../context'
 
 ReactDOM.createPortal = (node) => node as ReactPortal
@@ -18,7 +17,7 @@ export const contextValue: AssetSelectValue = {
   edit: jest.fn(),
   meta: {
     endpoint,
-    featureTypes: featureTypes as FeatureType[],
+    featureTypes,
     featureStatusTypes: [],
   },
   removeItem: jest.fn(),
