@@ -19,6 +19,7 @@ export const controls = {
     meta: {
       ifOneOf: {
         subcategory: [
+          'container-bijplaatsing',
           'container-glas-kapot',
           'container-glas-vol',
           'container-is-kapot',
