@@ -76,7 +76,7 @@ describe('AssetList', () => {
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: featureTypes as FeatureType[],
-    featureStatusTypes: [],
+    featureStatusTypes,
     selection: { ...selection[0], location: {}, label: 'Rest container - 234' },
   }
 
