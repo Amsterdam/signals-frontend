@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
-import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  Feature,
+  FeatureStatusType,
+  Meta,
+} from 'signals/incident/components/form/MapSelectors/types'
 import { getFeatureStatusType } from './utils'
 
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
@@ -31,6 +34,20 @@ describe('utils', () => {
       expect(
         getFeatureStatusType(unreportedFeature as Feature, featureStatusTypes)
       ).toBeUndefined()
+    })
+
+    it('should return if feature or featureStatusTypes is undefined', () => {
+      const feature = undefined
+      const noFeatureStatusTypes: FeatureStatusType[] = []
+      expect(
+        getFeatureStatusType(feature as unknown as Feature, featureStatusTypes)
+      ).toEqual(undefined)
+      expect(
+        getFeatureStatusType(
+          feature as unknown as Feature,
+          noFeatureStatusTypes
+        )
+      ).toEqual(undefined)
     })
   })
 })
