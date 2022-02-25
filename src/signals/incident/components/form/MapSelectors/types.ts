@@ -73,5 +73,5 @@ export interface Meta extends Record<string, unknown> {
   pathMerge?: string
 }
 
-export type FeatureProps = Record<string, string | number | undefined>
+export type FeatureProps = Record<string, string | number | undefined | null>
 export type Feature = GeoJSONFeature<Point, FeatureProps>

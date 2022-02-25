@@ -32,8 +32,7 @@ const featureStatusTypes = typedMeta.featureStatusTypes || []
 
 const statusFeatures = caterpillarsJson.features.filter(
   (feature) =>
-    getFeatureStatusType(feature as unknown as Feature, featureStatusTypes) !==
-    undefined
+    getFeatureStatusType(feature as Feature, featureStatusTypes) !== undefined
 )
 
 describe('StatusLayer', () => {
@@ -42,7 +41,7 @@ describe('StatusLayer', () => {
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
           <StatusLayer
-            statusFeatures={statusFeatures as unknown as Feature[]}
+            statusFeatures={statusFeatures as Feature[]}
             featureStatusTypes={featureStatusTypes}
           />
         </WfsDataProvider>

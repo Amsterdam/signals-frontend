@@ -23,22 +23,13 @@ describe('utils', () => {
       const unreportedFeature = caterpillarsJson.features[0]
       const checkedFeature = caterpillarsJson.features[2]
       expect(
-        getFeatureStatusType(
-          reportedFeature as unknown as Feature,
-          featureStatusTypes
-        )
+        getFeatureStatusType(reportedFeature as Feature, featureStatusTypes)
       ).toEqual(reportedFeatureType)
       expect(
-        getFeatureStatusType(
-          checkedFeature as unknown as Feature,
-          featureStatusTypes
-        )
+        getFeatureStatusType(checkedFeature as Feature, featureStatusTypes)
       ).toEqual(checkedFeatureType)
       expect(
-        getFeatureStatusType(
-          unreportedFeature as unknown as Feature,
-          featureStatusTypes
-        )
+        getFeatureStatusType(unreportedFeature as Feature, featureStatusTypes)
       ).toBeUndefined()
     })
   })
