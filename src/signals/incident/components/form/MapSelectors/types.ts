@@ -39,16 +39,6 @@ export interface FeatureStatusType extends FeatureType {
   statusValues: string[] | number[]
 }
 
-export interface ReportedFeatureType extends FeatureType {
-  isReportedField: string
-  isReportedValue: number
-}
-
-export interface CheckedFeatureType extends FeatureType {
-  isCheckedField: string
-  isCheckedValues: string[]
-}
-
 export interface FeatureIcon {
   options?: Partial<IconOptions>
   iconUrl: string

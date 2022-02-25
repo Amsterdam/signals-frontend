@@ -14,11 +14,10 @@ export const getFeatureStatusType = (
   const statusValue = feature.properties[featureStatusTypes[0]?.statusField]
 
   if (statusValue) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const featureStatusType = featureStatusTypes.find(({ statusValues }) =>
-      statusValues.includes(statusValue)
+    const featureStatusType = featureStatusTypes.find((statusType) =>
+      statusType.statusValues.some((value) => value === statusValue)
     )
+
     return featureStatusType
   }
 }
