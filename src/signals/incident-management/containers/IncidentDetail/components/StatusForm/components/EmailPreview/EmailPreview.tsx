@@ -44,23 +44,12 @@ const EmailPreview: FC<EmailPreviewProps> = ({
   onUpdate,
   onClose,
 }) => {
-  const htmlParts = emailBody.split(/(<head>)/)
-  const styledHtml = [
-    ...htmlParts[0],
-    ...htmlParts[1],
-    ...fontSrc,
-    ...styling,
-    ...htmlParts[2],
-  ].join('')
+  const styledHtml = emailBody.replace('</head>', `${fontSrc}${styling}</head>`)
 
   return (
     <ModalContainer>
       <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
-      <StyledIframe
-        data-testid="emailBodyIframe"
-        srcDoc={styledHtml}
-        height="500"
-      />
+      <StyledIframe data-testid="emailBodyIframe" srcDoc={styledHtml} />
       <StyledFormFooter
         cancelBtnLabel="Wijzig"
         onCancel={onClose}
