@@ -17,19 +17,6 @@ const options: Partial<IconOptions> = {
 export const controls = {
   extra_container: {
     meta: {
-      ifOneOf: {
-        subcategory: [
-          'container-bijplaatsing',
-          'container-glas-kapot',
-          'container-glas-vol',
-          'container-is-kapot',
-          'container-is-vol',
-          'container-voor-papier-is-stuk',
-          'container-voor-papier-is-vol',
-          'container-voor-plastic-afval-is-vol',
-          'container-voor-plastic-afval-is-kapot',
-        ],
-      },
       language: {
         title: 'Locatie',
         subTitle: 'Kies een container op de kaart',
