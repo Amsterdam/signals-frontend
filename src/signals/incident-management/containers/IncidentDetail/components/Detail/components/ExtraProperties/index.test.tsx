@@ -253,10 +253,6 @@ describe('<ExtraProperties />', () => {
         answer: undefined,
       },
     ]
-
-    // this test is about handling unexpected values, therefore typing cannot be applied
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     render(<ExtraProperties items={items} />)
 
     expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(
@@ -275,9 +271,6 @@ describe('<ExtraProperties />', () => {
       },
     ]
 
-    // this test is about handling unexpected values, therefore typing cannot be applied
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     render(<ExtraProperties items={items} />)
 
     expect(screen.queryAllByTestId('extra-properties-definition')).toHaveLength(
