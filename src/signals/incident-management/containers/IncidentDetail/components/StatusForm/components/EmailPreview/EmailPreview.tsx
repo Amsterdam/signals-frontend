@@ -10,10 +10,13 @@ import ModalHeader from '../ModalHeader/ModalHeader'
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  * {
+    box-sizing: border-box;
+  }
 `
 
 const StyledFormFooter = styled(FormFooter)`
-  box-sizing: border-box;
   .formFooterRow {
     padding-left: ${themeSpacing(4)};
   }
@@ -21,7 +24,9 @@ const StyledFormFooter = styled(FormFooter)`
 
 const StyledIframe = styled.iframe`
   border: none;
-  padding: 0 ${themeSpacing(2)} ${FORM_FOOTER_HEIGHT}px;
+  padding: 0 0 ${FORM_FOOTER_HEIGHT}px ${themeSpacing(2)};
+  width: 100%;
+  height: 100%;
 `
 
 interface EmailPreviewProps {
@@ -30,27 +35,29 @@ interface EmailPreviewProps {
   onUpdate: () => void
 }
 
-const fontStyling = '<style>*{font-family:Avenir Next;}</style>'
+const styling = '<style>*{font-family:"Avenir Next";}</style>'
+const fontSrc =
+  '<link rel="stylesheet" href="https://static.amsterdam.nl/fonts/fonts.css"/>'
 
 const EmailPreview: FC<EmailPreviewProps> = ({
   emailBody,
   onUpdate,
   onClose,
-}) => (
-  <ModalContainer>
-    <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
-    <StyledIframe
-      data-testid="emailBodyIframe"
-      srcDoc={emailBody.concat(fontStyling)}
-      height="500"
-    />
-    <StyledFormFooter
-      cancelBtnLabel="Wijzig"
-      onCancel={onClose}
-      submitBtnLabel="Verstuur"
-      onSubmitForm={onUpdate}
-    />
-  </ModalContainer>
-)
+}) => {
+  const styledHtml = emailBody.replace('</head>', `${fontSrc}${styling}</head>`)
+
+  return (
+    <ModalContainer>
+      <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
+      <StyledIframe data-testid="emailBodyIframe" srcDoc={styledHtml} />
+      <StyledFormFooter
+        cancelBtnLabel="Wijzig"
+        onCancel={onClose}
+        submitBtnLabel="Verstuur"
+        onSubmitForm={onUpdate}
+      />
+    </ModalContainer>
+  )
+}
 
 export default EmailPreview

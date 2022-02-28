@@ -35,6 +35,7 @@ import {
   StyledButton,
   StyledH4,
   StyledLabel,
+  StyledModal,
   StyledParagraph,
   StyledSection,
 } from './styled'
@@ -427,7 +428,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           Annuleer
         </StyledButton>
         {modalEmailPreviewIsOpen && (
-          <Modal
+          <StyledModal
             data-testid="emailPreviewModal"
             open
             onClose={closeEmailPreview}
@@ -441,7 +442,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 onUpdate={onUpdate}
               />
             )}
-          </Modal>
+          </StyledModal>
         )}
       </div>
     </Form>
