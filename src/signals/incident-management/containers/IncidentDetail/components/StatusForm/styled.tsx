@@ -82,7 +82,7 @@ export const StyledLabel = styled(Label)`
 
 export const StyledModal = styled(Modal)`
   overflow: hidden;
-  height: 75%;
+  height: 50%;
 `
 
 export const StyledParagraph = styled.p`
