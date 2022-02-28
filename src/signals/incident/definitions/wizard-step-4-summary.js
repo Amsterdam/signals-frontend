@@ -22,6 +22,7 @@ import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverli
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import locatie from './wizard-step-2-vulaan/locatie'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -130,8 +131,13 @@ const getExtraQuestions = (category, subcategory, questions) => {
     case 'overlast-bedrijven-en-horeca':
       return summary(overlastBedrijvenEnHorecaControls)
 
-    case 'overlast-in-de-openbare-ruimte':
+    case 'overlast-in-de-openbare-ruimte': {
+      if (subcategory === 'bouw-sloopoverlast') {
+        return expandQuestions(bouwSloopOverlast, category, subcategory)
+      }
+
       return summary(overlastInDeOpenbareRuimteControls)
+    }
 
     case 'overlast-op-het-water':
       return summary(overlastOpHetWaterControls)

@@ -21,6 +21,7 @@ import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-st
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
 import locatie from './wizard-step-2-vulaan/locatie'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -122,12 +123,17 @@ export default {
       case 'overlast-bedrijven-en-horeca':
         return expandQuestions(overlastBedrijvenEnHoreca, category, subcategory)
 
-      case 'overlast-in-de-openbare-ruimte':
+      case 'overlast-in-de-openbare-ruimte': {
+        if (subcategory === 'bouw-sloopoverlast') {
+          return expandQuestions(bouwSloopOverlast, category, subcategory)
+        }
+
         return expandQuestions(
           overlastInDeOpenbareRuimte,
           category,
           subcategory
         )
+      }
 
       case 'overlast-op-het-water':
         return expandQuestions(overlastOpHetWater, category, subcategory)
