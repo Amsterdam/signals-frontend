@@ -5,9 +5,6 @@ const dateTime = {
   meta: {
     ignoreVisibility: true,
     label: 'Wanneer was het?',
-    ifAllOf: {
-      datetime: 'Eerder',
-    },
   },
   options: {
     validators: [nullOrNumber],
