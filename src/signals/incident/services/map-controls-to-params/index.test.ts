@@ -2,7 +2,9 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import formatISO from 'date-fns/formatISO'
 import { mock } from 'types/incident'
+import { mocked } from 'jest-mock'
 
+import type { WizardSection } from 'signals/incident/definitions/wizard'
 import mapValues from '../map-values'
 import mapPaths from '../map-paths'
 
@@ -13,31 +15,40 @@ jest.mock('../map-paths')
 
 const someDate = new Date('2018-07-21')
 const incident = { ...mock, dateTime: someDate.getTime() }
+const wizard: WizardSection = {
+  beschrijf: {},
+  vulaan: {},
+  contact: {},
+  summary: {},
+  opslaan: {},
+  bedankt: {},
+  fout: {},
+}
 
 describe('The map controls to params service', () => {
   beforeEach(() => {
-    mapValues.mockImplementation((params) => params)
-    mapPaths.mockImplementation((params) => params)
+    mocked(mapValues).mockImplementation((params) => params)
+    mocked(mapPaths).mockImplementation((params) => params)
   })
 
   it('should map reporter and dateTime by default', () => {
-    expect(mapControlsToParams(incident, {})).toEqual({
+    expect(mapControlsToParams(incident, wizard)).toEqual({
       reporter: {},
       incident_date_start: formatISO(incident.dateTime),
     })
   })
 
   it('should expect to receive values from paths and values services', () => {
-    mapValues.mockImplementation((params) => ({
+    mocked(mapValues).mockImplementation((params) => ({
       ...params,
       varFromMapValues: 'foo',
     }))
-    mapPaths.mockImplementation((params) => ({
+    mocked(mapPaths).mockImplementation((params) => ({
       ...params,
       varFromMapPaths: 'bar',
     }))
 
-    expect(mapControlsToParams(incident, {})).toEqual({
+    expect(mapControlsToParams(incident, wizard)).toEqual({
       reporter: {},
       incident_date_start: formatISO(incident.dateTime),
       varFromMapValues: 'foo',
