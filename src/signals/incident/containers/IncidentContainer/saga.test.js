@@ -32,6 +32,10 @@ import { resolveQuestions } from './services'
 import { createIncidentSuccess, createIncidentError } from './actions'
 import { getClassificationData, makeSelectIncidentContainer } from './selectors'
 
+jest.mock('../../services/map-controls-to-params', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../services/map-controls-to-params'),
+}))
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),

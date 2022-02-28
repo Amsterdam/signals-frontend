@@ -25,7 +25,7 @@ const wizard: WizardSection = {
   fout: {},
 }
 
-describe('The map controls to params service', () => {
+describe('map-controls-to-params', () => {
   beforeEach(() => {
     mocked(mapValues).mockImplementation((params) => params)
     mocked(mapPaths).mockImplementation((params) => params)
