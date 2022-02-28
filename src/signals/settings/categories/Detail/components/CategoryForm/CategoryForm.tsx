@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FunctionComponent, MouseEvent, ElementType } from 'react'
-import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui'
+import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import type { History as HistoryType } from 'types/history'
 import type { Category as CategoryType } from 'types/category'
 
+import Checkbox from 'components/Checkbox'
 import History from 'components/History'
-import Label from 'components/Label'
 import Input from 'components/Input'
 import TextArea from 'components/TextArea'
 import FormFooter from 'components/FormFooter'
@@ -85,6 +85,8 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   onSubmitForm,
   readOnly,
 }) => {
+  const [isPublicAccessible, setIsPublicAccessible] = useState(false)
+  const [publicName, setPublicName] = useState('')
   const responsibleDepartments = useMemo(
     () =>
       data
@@ -93,6 +95,27 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             .map((department) => department.code)
         : [],
     [data]
+  )
+
+  useEffect(() => {
+    if (data?.is_public_accessible) {
+      setIsPublicAccessible(data.is_public_accessible)
+    }
+    if (data?.public_name) {
+      setPublicName(data.public_name)
+    }
+  }, [
+    data?.is_public_accessible,
+    data?.public_name,
+    setIsPublicAccessible,
+    setPublicName,
+  ])
+
+  const onCheck = useCallback(
+    (evt) => {
+      setIsPublicAccessible(evt.target.checked)
+    },
+    [setIsPublicAccessible]
   )
 
   return (
@@ -139,7 +162,40 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             ) : null}
 
             <FieldGroup>
-              <Label>Afhandeltermijn</Label>
+              <StyledDefinitionTerm>
+                <strong>Openbaar tonen</strong>
+              </StyledDefinitionTerm>
+              <div>
+                <Label
+                  htmlFor="is_public_accessible"
+                  label="Toon meldingen van deze subcategorie op een openbare kaart"
+                  data-testid="subcategoryIsPublicAccessible"
+                >
+                  <Checkbox
+                    checked={isPublicAccessible}
+                    id="is_public_accessible"
+                    onClick={onCheck}
+                  />
+                </Label>
+              </div>
+            </FieldGroup>
+
+            {isPublicAccessible && (
+              <FieldGroup>
+                <Input
+                  defaultValue={publicName}
+                  id="public_name"
+                  label="Naam openbaar"
+                  name="public_name"
+                  type="text"
+                />
+              </FieldGroup>
+            )}
+
+            <FieldGroup>
+              <StyledDefinitionTerm>
+                <strong>Afhandeltermijn</strong>
+              </StyledDefinitionTerm>
 
               <CombinedFields>
                 <Input
@@ -178,7 +234,10 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             </FieldGroup>
 
             <FieldGroup>
-              <Label as="span">Status</Label>
+              <StyledDefinitionTerm>
+                <strong>Status</strong>
+              </StyledDefinitionTerm>
+
               <RadioButtonList
                 defaultValue={
                   data?.is_active === undefined
