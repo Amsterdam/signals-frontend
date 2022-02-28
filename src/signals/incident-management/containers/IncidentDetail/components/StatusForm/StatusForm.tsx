@@ -270,9 +270,8 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           type: TYPE_LOCAL,
         })
       )
-      onUpdate()
     }
-  }, [emailTemplateError, storeDispatch, onUpdate])
+  }, [emailTemplateError, storeDispatch])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
