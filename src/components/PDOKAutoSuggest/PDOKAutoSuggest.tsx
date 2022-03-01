@@ -36,6 +36,7 @@ export interface PDOKAutoSuggestProps
  * Geocoder component that specifically uses the PDOK location service to request information from
  *
  * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
+ * @see {@link https://github.com/PDOK/locatieserver/wiki/API-Locatieserver}
  */
 const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   fieldList = [],
