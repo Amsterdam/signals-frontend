@@ -41,7 +41,6 @@ const styling = `
     font-family:"Avenir Next";
     line-height: 22px;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     word-break: break-all;
     word-break: break-word;
     hyphens: auto;
