@@ -47,8 +47,8 @@ export const initialState = fromJS({
       label: 'Melding',
     },
   },
-  loadingClassification: false,
-  loadingQuestions: false,
+  loading: false,
+  loadingData: false,
   usePredictions: true,
   classificationPrediction: null,
 })
@@ -95,12 +95,15 @@ export default (state = initialState, action) => {
       return state.set('error', true).set('loading', false)
 
     case GET_CLASSIFICATION:
-      return state.set('loadingClassification', true)
+      return state.set('loadingData', true)
 
     case GET_CLASSIFICATION_SUCCESS: {
       const { classification } = action.payload
       return state
-        .set('loadingClassification', false)
+        .set(
+          'loadingData',
+          configuration.featureFlags.fetchQuestionsFromBackend
+        )
         .set(
           'incident',
           fromJS({
@@ -112,17 +115,13 @@ export default (state = initialState, action) => {
           })
         )
         .set('classificationPrediction', fromJS(classification))
-        .set(
-          'loadingQuestions',
-          configuration.featureFlags.fetchQuestionsFromBackend
-        )
     }
 
     case GET_CLASSIFICATION_ERROR: {
       const { category, subcategory, handling_message, classification } =
         action.payload
       return state
-        .set('loadingClassification', false)
+        .set('loadingData', false)
         .set(
           'incident',
           state
@@ -178,7 +177,7 @@ export default (state = initialState, action) => {
           'incident',
           state.get('incident').set('questions', action.payload.questions)
         )
-        .set('loadingQuestions', false)
+        .set('loadingData', false)
 
     default:
       return state
