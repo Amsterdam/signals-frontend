@@ -50,7 +50,12 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,
 }
 
-const MAP_LOCATION_ZOOM = 14
+export const MAP_LOCATION_ZOOM = Math.min(
+  14,
+  MAP_OPTIONS.maxZoom || Number.POSITIVE_INFINITY
+)
+
+const MAP_NO_LOCATION_ZOOM = MAP_OPTIONS.zoom
 
 const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
@@ -78,12 +83,7 @@ const Selector: FC = () => {
       dragging: true,
       zoomControl: false,
       scrollWheelZoom: true,
-      zoom: coordinates
-        ? Math.min(
-            MAP_LOCATION_ZOOM,
-            MAP_OPTIONS.maxZoom || Number.POSITIVE_INFINITY
-          )
-        : MAP_OPTIONS.zoom,
+      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
     }),
     [center, coordinates]
   )
