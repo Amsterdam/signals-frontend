@@ -517,6 +517,9 @@
         "attribution": {
           "type": "string"
         },
+        "maxNativeZoom": {
+          "type": "integer"
+        },
         "subdomains": {
           "type": "array",
           "items": {

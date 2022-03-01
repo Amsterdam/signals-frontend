@@ -71,7 +71,7 @@
           5.10737
         ]
       ],
-      "maxZoom": 14,
+      "maxZoom": 16,
       "minZoom": 8,
       "zoom": 10
     },
@@ -86,6 +86,7 @@
       ],
       "options": {
         "attribution": "Kaartgegevens &copy; Kadaster",
+        "maxNativeZoom": 14,
         "tms": false
       }
     },
