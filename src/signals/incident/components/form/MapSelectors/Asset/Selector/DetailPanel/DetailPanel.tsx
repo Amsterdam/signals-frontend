@@ -144,7 +144,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
   }, [removeItem])
 
   return (
-    <PanelContent data-testid="detailPanel">
+    <PanelContent
+      data-testid="detailPanel"
+      posAbsolute={showAddressPanel && shouldRenderAddressPanel}
+    >
       <Title>{language.title || 'Locatie'}</Title>
 
       <ScrollWrapper>
@@ -156,14 +159,16 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
           </Description>
         </Paragraph>
 
-        <StyledPDOKAutoSuggest
-          onFocus={() => {
-            setShowAddressPanel(true)
-          }}
-          onClear={removeItem}
-          onSelect={onAddressSelect}
-          value={addressValue}
-        />
+        {!(showAddressPanel && shouldRenderAddressPanel) && (
+          <StyledPDOKAutoSuggest
+            onFocus={() => {
+              setShowAddressPanel(true)
+            }}
+            onClear={removeItem}
+            onSelect={onAddressSelect}
+            value={addressValue}
+          />
+        )}
 
         {selection && selectionOnMap && (
           <StyledAssetList
@@ -238,7 +243,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
               variant="blank"
             />
             <StyledPDOKAutoSuggest
-              autoFocus
               onClear={clearInput}
               onData={setOptionsList}
               onSelect={onAddressSelect}
