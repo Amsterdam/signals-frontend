@@ -40,6 +40,6 @@ export const TimeWrapper = styled.div`
   }
 
   select {
-    width: 70px; /* fixed value from design */
+    width: 75px; /* fixed value from design */
   }
 `
