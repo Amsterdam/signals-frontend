@@ -212,7 +212,7 @@ describe('IncidentContainer saga', () => {
   describe('getQuestionsSaga', () => {
     const payload = resolvedPrediction
 
-    it('should dispatch error when fetchQuestionsFromBackend disabled', () =>
+    it('should dispatch loading state when fetchQuestionsFromBackend disabled', () =>
       expectSaga(getQuestionsSaga, {
         type: constants.GET_CLASSIFICATION_SUCCESS,
         payload,
@@ -230,10 +230,10 @@ describe('IncidentContainer saga', () => {
         ])
         .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
         .not.call(request)
-        .put.actionType(constants.GET_QUESTIONS_ERROR)
+        .put.actionType(constants.SET_LOADING_DATA)
         .run())
 
-    it('should dispatch error when category is falsy', () => {
+    it('should dispatch loading state when category is falsy', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
       return expectSaga(getQuestionsSaga, {
         type: constants.GET_CLASSIFICATION_SUCCESS,
@@ -252,11 +252,11 @@ describe('IncidentContainer saga', () => {
         ])
         .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
         .not.call(request)
-        .put.actionType(constants.GET_QUESTIONS_ERROR)
+        .put.actionType(constants.SET_LOADING_DATA)
         .run()
     })
 
-    it('should dispatch error when subcategory is falsy', () => {
+    it('should dispatch loading state when subcategory is falsy', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
       return expectSaga(getQuestionsSaga, {
         type: constants.GET_CLASSIFICATION_SUCCESS,
@@ -275,7 +275,7 @@ describe('IncidentContainer saga', () => {
         ])
         .not.call(request)
         .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-        .put.actionType(constants.GET_QUESTIONS_ERROR)
+        .put.actionType(constants.SET_LOADING_DATA)
         .run()
     })
 

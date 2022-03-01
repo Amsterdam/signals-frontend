@@ -15,6 +15,7 @@ import {
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
+  SET_LOADING_DATA,
 } from './constants'
 
 export const updateIncident = (payload) => ({
@@ -77,6 +78,11 @@ export const getQuestionsSuccess = (payload) => ({
 
 export const getQuestionsError = (payload) => ({
   type: GET_QUESTIONS_ERROR,
+  payload,
+})
+
+export const setLoadingData = (payload) => ({
+  type: SET_LOADING_DATA,
   payload,
 })
 

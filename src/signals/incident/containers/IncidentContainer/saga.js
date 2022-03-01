@@ -28,6 +28,7 @@ import {
   getClassificationError,
   getQuestionsSuccess,
   getQuestionsError,
+  setLoadingData,
 } from './actions'
 
 export function* getClassification(action) {
@@ -74,7 +75,7 @@ export function* getQuestionsSaga(action) {
     !category ||
     !subcategory
   ) {
-    yield put(getQuestionsError())
+    yield put(setLoadingData(false))
     return
   }
   const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`

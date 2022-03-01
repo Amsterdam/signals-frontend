@@ -18,6 +18,7 @@ import {
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
   GET_QUESTIONS_ERROR,
+  SET_LOADING_DATA,
 } from './constants'
 
 jest.mock('shared/services/configuration/configuration')
@@ -384,6 +385,42 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
                 key1: {},
               },
             },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: false,
+      })
+    })
+  })
+
+  describe('SET_LOADING_DATA', () => {
+    it('sets loading state', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: false,
+          }),
+          {
+            type: SET_LOADING_DATA,
+            payload: true,
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: true,
+      })
+
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: true,
+          }),
+          {
+            type: SET_LOADING_DATA,
+            payload: false,
           }
         ).toJS()
       ).toEqual({
