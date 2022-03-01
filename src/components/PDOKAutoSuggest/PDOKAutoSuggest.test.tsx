@@ -83,6 +83,14 @@ describe('components/PDOKAutoSuggest', () => {
         expect.objectContaining({ method: 'GET' })
       )
     })
+
+    it('should not put quotes around a value starting with "-"', async () => {
+      await renderAndSearch('Dam', { municipality: ['utrecht', '-amsterdam'] })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${municipalityQs}("utrecht" -amsterdam)`),
+        expect.objectContaining({ method: 'GET' })
+      )
+    })
   })
 
   describe('fieldList', () => {

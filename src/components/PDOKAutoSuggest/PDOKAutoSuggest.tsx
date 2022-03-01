@@ -46,7 +46,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
     ? municipality
     : [municipality].filter(Boolean)
   const municipalityString = municipalityArray
-    .map((item) => `"${item}"`)
+    .map((item) => (item.indexOf('-') === 0 ? item : `"${item}"`))
     .join(' ')
   const fq = municipality
     ? [['fq', `${municipalityFilterName}:(${municipalityString})`]]
