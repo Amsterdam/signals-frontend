@@ -726,6 +726,29 @@ describe('signals/incident-management/selectors', () => {
       })
     })
 
+    it('should not add area_type_code when area is null', () => {
+      configuration.areaTypeCodeForDistrict = 'district'
+      const state = {
+        incidentManagement: fromJS({
+          ...initialState.toJS(),
+          activeFilter: {
+            ...areaFilter,
+            options: {
+              ...areaFilter.options,
+              area: ['null'],
+            },
+          },
+        }),
+      }
+
+      expect(makeSelectFilterParams(state)).toEqual({
+        ordering: '-created_at',
+        page: 1,
+        area_code: ['null'],
+        page_size: FILTER_PAGE_SIZE,
+      })
+    })
+
     it('should reformat days_open', () => {
       const state1 = {
         incidentManagement: fromJS({
