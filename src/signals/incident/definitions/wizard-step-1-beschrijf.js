@@ -160,6 +160,5 @@ export default {
   },
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
-  postponeSubmitWhenLoading: 'incidentContainer.loadingClassification',
   formFactory: (incident, sources) => getControls(sources),
 }

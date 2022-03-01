@@ -28,7 +28,6 @@ export type WizardSection = {
     formFactory?: any
     label?: string
     subHeader?: string
-    postponeSubmitWhenLoading?: string
     previewFactory?: (incident: Incident) => any
     sectionLabels?: SectionLabels
     previousButtonLabel?: string
