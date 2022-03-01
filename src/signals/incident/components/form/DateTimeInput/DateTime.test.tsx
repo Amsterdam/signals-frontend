@@ -103,18 +103,24 @@ describe('DateTime', () => {
     userEvent.click(screen.getByLabelText('Eerder'))
 
     expect(onUpdate).toHaveBeenCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledWith(defaultTimestamp.getTime())
+
+    const index = 2
 
     userEvent.selectOptions(
       screen.getByRole('combobox', { name: 'Welke dag was het?' }),
-      screen.getByRole('option', { name: daysOptions[1].name })
+      screen.getByRole('option', { name: daysOptions[index].name })
     )
 
-    const dayInMs = 24 * 60 * 60 * 1000
+    const daysInMs = 24 * index * 60 * 60 * 1000
+    const selectedDate = new Date(defaultTimestamp.getTime() - daysInMs)
+    selectedDate.setHours(defaultTimestamp.getHours())
+    selectedDate.setMinutes(defaultTimestamp.getMinutes())
+    selectedDate.setSeconds(defaultTimestamp.getSeconds())
+    selectedDate.setMilliseconds(0)
 
     expect(onUpdate).toHaveBeenCalledTimes(2)
-    expect(onUpdate).toHaveBeenLastCalledWith(
-      defaultTimestamp.getTime() - dayInMs
-    )
+    expect(onUpdate).toHaveBeenLastCalledWith(selectedDate.getTime())
   })
 
   it('calls onUpdate on selecting hours', () => {

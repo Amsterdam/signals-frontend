@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import format from 'date-fns/format'
 import subDays from 'date-fns/subDays'
-import nl from 'date-fns/locale/nl'
+import locale from 'date-fns/locale/nl'
+import parse from 'date-fns/parse'
 import { Label, RadioGroup } from '@amsterdam/asc-ui'
 
 import type { FC } from 'react'
@@ -40,10 +41,8 @@ defaultTimestamp.setHours(9)
 defaultTimestamp.setMinutes(0)
 defaultTimestamp.setSeconds(0)
 
-const dateFormat = {
-  label: 'eeee d MMMM',
-  value: 'dd',
-}
+const getFormattedDate = (date: Date) =>
+  capitalize(format(date, 'EEEE d MMMM', { locale }))
 
 const formatDate = (offset: number, type: 'label' | 'value' = 'value') => {
   if (type === 'label' && offset === 0) {
@@ -52,7 +51,7 @@ const formatDate = (offset: number, type: 'label' | 'value' = 'value') => {
 
   const date = subDays(new Date(), offset)
 
-  return capitalize(format(date, dateFormat[type], { locale: nl }))
+  return getFormattedDate(date)
 }
 
 export const daysOptions = [...Array(7).keys()].map((offset) => {
@@ -97,9 +96,19 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
       const cloned = new Date(datetime)
 
       switch (name) {
-        case 'day':
-          cloned.setDate(targetValue)
+        case 'day': {
+          const dateStr = `${targetValue} ${cloned.getFullYear()}`
+          const parsedDate = parse(dateStr, 'EEEE d MMMM yyyy', datetime, {
+            locale,
+          })
+          parsedDate.setHours(cloned.getHours())
+          parsedDate.setMinutes(cloned.getMinutes())
+
+          cloned.setTime(parsedDate.getTime())
+
           break
+        }
+
         case 'hours':
           cloned.setHours(targetValue)
           break
@@ -160,7 +169,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
                 id="day"
                 name="day"
                 data-testid="selectDay"
-                value={datetime.getDate().toString()}
+                value={getFormattedDate(datetime)}
                 onChange={updateTimestamp}
                 options={daysOptions}
               />
