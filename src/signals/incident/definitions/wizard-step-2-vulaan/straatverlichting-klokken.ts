@@ -4,7 +4,7 @@ import appConfiguration from 'shared/services/configuration/configuration'
 
 import { QuestionFieldType } from 'types/question'
 import type { IconOptions } from 'leaflet'
-import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 import { validateObjectLocation } from '../../services/custom-validators'
@@ -129,7 +129,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: UNKNOWN_TYPE,
+          typeValue: UNREGISTERED_TYPE,
         },
       ],
       pathMerge: 'extra_properties',
@@ -276,7 +276,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: UNKNOWN_TYPE,
+          typeValue: UNREGISTERED_TYPE,
         },
       ],
       pathMerge: 'extra_properties',
