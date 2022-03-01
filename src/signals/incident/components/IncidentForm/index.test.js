@@ -266,15 +266,15 @@ describe('<IncidentForm />', () => {
     })
 
     describe('async submit', () => {
-      it('should postpone submit when postponeSubmitWhenLoading is defined and no action defined', () => {
+      it('should postpone submit when loading data (classification or questions)', () => {
         const props = {
           ...defaultProps,
-          postponeSubmitWhenLoading: 'loadingClassification',
+          incidentContainer: { incident: {}, loadingData: false },
         }
 
         const { rerender } = renderIncidentForm({
           ...props,
-          loadingClassification: true,
+          incidentContainer: { incident: {}, loadingData: true },
         })
 
         expect(nextSpy).toHaveBeenCalledTimes(1)
@@ -284,97 +284,6 @@ describe('<IncidentForm />', () => {
         renderIncidentForm(props, rerender)
 
         expect(nextSpy).toHaveBeenCalledTimes(2)
-      })
-
-      it('should postpone submit when postponeSubmitWhenLoading is defined for loadingQuestions', () => {
-        const props = {
-          ...defaultProps,
-          postponeSubmitWhenLoading: 'loadingQuestions',
-        }
-
-        const { rerender } = renderIncidentForm({
-          ...props,
-          loadingQuestions: true,
-        })
-
-        expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(1)
-
-        renderIncidentForm(props, rerender)
-
-        expect(nextSpy).toHaveBeenCalledTimes(2)
-      })
-
-      it('should postpone submit when postponeSubmitWhenLoading is defined for both loadingClassification and loadingQuestions', () => {
-        const props = {
-          ...defaultProps,
-          postponeSubmitWhenLoading: [
-            'loadingClassification',
-            'loadingQuestions',
-          ],
-        }
-
-        const { rerender } = renderIncidentForm({
-          ...props,
-          loadingQuestions: true,
-          loadingClassification: true,
-        })
-
-        expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(1)
-
-        renderIncidentForm(props, rerender)
-
-        expect(nextSpy).toHaveBeenCalledTimes(2)
-
-        renderIncidentForm(
-          {
-            ...props,
-            loadingQuestions: false,
-            loadingClassification: true,
-          },
-          rerender
-        )
-
-        expect(nextSpy).toHaveBeenCalledTimes(2)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(2)
-
-        renderIncidentForm(props, rerender)
-
-        expect(nextSpy).toHaveBeenCalledTimes(3)
-
-        renderIncidentForm(
-          {
-            ...props,
-            loadingQuestions: true,
-            loadingClassification: false,
-          },
-          rerender
-        )
-
-        expect(nextSpy).toHaveBeenCalledTimes(3)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(3)
-
-        renderIncidentForm(props, rerender)
-
-        expect(nextSpy).toHaveBeenCalledTimes(4)
-
-        renderIncidentForm(
-          {
-            ...props,
-            loadingQuestions: false,
-            loadingClassification: false,
-          },
-          rerender
-        )
-
-        expect(nextSpy).toHaveBeenCalledTimes(4)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(5)
       })
     })
 
@@ -382,8 +291,7 @@ describe('<IncidentForm />', () => {
       const props = {
         ...defaultProps,
         fieldConfig: requiredFieldConfig,
-        loadingClassification: true,
-        postponeSubmitWhenLoading: 'loadingClassification',
+        incidentContainer: { incident: {}, loadingData: true },
       }
 
       const { rerender } = renderIncidentForm(props)
@@ -400,6 +308,7 @@ describe('<IncidentForm />', () => {
           incident: {
             phone: '',
           },
+          loadingData: false,
         },
       }
 

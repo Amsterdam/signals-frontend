@@ -15,6 +15,7 @@ import {
   RESET_EXTRA_STATE,
   GET_QUESTIONS_SUCCESS,
   REMOVE_QUESTION_DATA,
+  GET_QUESTIONS_ERROR,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -178,6 +179,9 @@ export default (state = initialState, action) => {
           state.get('incident').set('questions', action.payload.questions)
         )
         .set('loadingData', false)
+
+    case GET_QUESTIONS_ERROR:
+      return state.set('loadingData', false)
 
     default:
       return state

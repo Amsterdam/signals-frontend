@@ -69,7 +69,12 @@ export function* getQuestionsSaga(action) {
     incident,
     action.payload
   )
-  if (!configuration.featureFlags.fetchQuestionsFromBackend) {
+  if (
+    !configuration.featureFlags.fetchQuestionsFromBackend ||
+    !category ||
+    !subcategory
+  ) {
+    yield put(getQuestionsError())
     return
   }
   const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`

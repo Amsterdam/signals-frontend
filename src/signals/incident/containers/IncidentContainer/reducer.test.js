@@ -17,6 +17,7 @@ import {
   GET_QUESTIONS_SUCCESS,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
+  GET_QUESTIONS_ERROR,
 } from './constants'
 
 jest.mock('shared/services/configuration/configuration')
@@ -171,7 +172,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           }).toJS()
         ).toEqual({
           incident: {},
-          loadingClassification: true,
+          loadingData: true,
         })
       })
     })
@@ -203,13 +204,12 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             classification,
             handling_message,
           },
-          loadingClassification: false,
-          loadingQuestions: false,
+          loadingData: false,
           classificationPrediction: classification,
         })
       })
 
-      it('sets loadingQuestions with feature flag enabled', () => {
+      it('sets loadingData when feature flag enabled', () => {
         configuration.featureFlags.fetchQuestionsFromBackend = true
 
         const newState = incidentContainerReducer(intermediateState, {
@@ -217,7 +217,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           payload,
         })
 
-        expect(newState.get('loadingQuestions')).toEqual(true)
+        expect(newState.get('loadingData')).toEqual(true)
       })
 
       it('removes all extra_ props', () => {
@@ -310,7 +310,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             classification,
             handling_message,
           },
-          loadingClassification: false,
+          loadingData: false,
           classificationPrediction: null,
         })
       })
@@ -347,7 +347,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {},
-            loadingQuestions: true,
+            loadingData: true,
           }),
           {
             type: GET_QUESTIONS_SUCCESS,
@@ -364,7 +364,31 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
-        loadingQuestions: false,
+        loadingData: false,
+      })
+    })
+  })
+
+  describe('GET_QUESTIONS_ERROR', () => {
+    it('resets loading state', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: true,
+          }),
+          {
+            type: GET_QUESTIONS_ERROR,
+            payload: {
+              questions: {
+                key1: {},
+              },
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: false,
       })
     })
   })
