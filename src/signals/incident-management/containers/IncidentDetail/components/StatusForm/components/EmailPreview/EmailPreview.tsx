@@ -35,7 +35,13 @@ interface EmailPreviewProps {
   onUpdate: () => void
 }
 
-const styling = '<style>*{font-family:"Avenir Next";}</style>'
+const styling =
+  '<style>*{font-family:"Avenir Next"; line-height: 22px;\n' +
+  '  overflow-wrap: break-word;\n' +
+  '  word-wrap: break-word;\n' +
+  '  -ms-word-break: break-all;\n' +
+  '  word-break: break-all;\n' +
+  '  word-break: break-word;}</style>'
 const fontSrc =
   '<link rel="stylesheet" href="https://static.amsterdam.nl/fonts/fonts.css"/>'
 
