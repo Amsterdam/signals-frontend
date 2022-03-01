@@ -12,7 +12,12 @@ interface DateTimeProps {
   incident?: Incident
 }
 
-const getValue = (value: Incident['timestamp'], incident?: Incident) => {
+type DateTimeValue = 'Nu' | string
+
+const getValue = (
+  value: Incident['timestamp'],
+  incident?: Incident
+): DateTimeValue => {
   if (value === null) {
     return 'Nu'
   }

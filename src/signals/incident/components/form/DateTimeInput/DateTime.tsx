@@ -44,7 +44,12 @@ defaultTimestamp.setSeconds(0)
 const getFormattedDate = (date: Date) =>
   capitalize(format(date, 'EEEE d MMMM', { locale }))
 
-const formatDate = (offset: number, type: 'label' | 'value' = 'value') => {
+type FormattedDate = 'Vandaag' | ReturnType<typeof getFormattedDate>
+
+const formatDate = (
+  offset: number,
+  type: 'label' | 'value' = 'value'
+): FormattedDate => {
   if (type === 'label' && offset === 0) {
     return 'Vandaag'
   }
