@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import styled from 'styled-components'
-import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
+import {
+  themeSpacing,
+  Heading,
+  themeColor,
+  Button as AscButton,
+} from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
@@ -83,6 +88,13 @@ const StyledEmployee = styled(StyledDate)`
   bottom: 30px;
 `
 
+const StyledButton = styled(AscButton)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: ${themeSpacing(0, 1.5)};
+`
+
 interface StyledUploadProgressProps {
   progress: number
 }
@@ -113,6 +125,7 @@ interface AttachmentsProps {
   attachments: Array<Attachment>
   className: string
   add: (file: File) => void
+  deleteAttachment: (attachment: Attachment) => void
 }
 
 type Files = Array<{
@@ -120,7 +133,12 @@ type Files = Array<{
   src: string
 }>
 
-const Attachments: FC<AttachmentsProps> = ({ attachments, className, add }) => {
+const Attachments: FC<AttachmentsProps> = ({
+  attachments,
+  className,
+  add,
+  deleteAttachment,
+}) => {
   const { preview } = useContext(IncidentDetailContext)
   const uploadProgress = useSelector(makeSelectUploadProgress)
   const [files, setFiles] = useState<Files>([])
@@ -165,6 +183,15 @@ const Attachments: FC<AttachmentsProps> = ({ attachments, className, add }) => {
           <StyledDate>
             {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
           </StyledDate>
+          <StyledButton
+            icon={<img src="/assets/images/icon-delete.svg" alt="Bewerken" />}
+            iconSize={18}
+            onClick={(event) => {
+              event.stopPropagation()
+              window.confirm('bla') && deleteAttachment(attachment)
+            }}
+            variant="application"
+          />
           <StyledUploadProgress progress={0.5} />
         </StyledBox>
       ))}

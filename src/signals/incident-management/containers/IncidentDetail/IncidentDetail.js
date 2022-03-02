@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback } from 'react'
+import { useReducer, useEffect, useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -14,7 +14,10 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
-import { UPLOAD_ATTACHMENTS } from 'signals/incident-management/constants'
+import {
+  UPLOAD_ATTACHMENTS,
+  DELETE_ATTACHMENT,
+} from 'signals/incident-management/constants'
 import { makeSelectUploadProgress } from 'containers/App/selectors'
 import reducer, { initialState } from './reducer'
 
@@ -301,6 +304,18 @@ const IncidentDetail = () => {
     [incident, incidentDispatch]
   )
 
+  const deleteAttachment = useCallback(
+    (attachment) => {
+      if (incident) {
+        incidentDispatch({
+          type: DELETE_ATTACHMENT,
+          payload: { attachment, id: incident.id },
+        })
+      }
+    },
+    [incident, incidentDispatch]
+  )
+
   useEffect(() => {
     if (isUploading && !uploadProgress) {
       setUploading(false)
@@ -338,6 +353,7 @@ const IncidentDetail = () => {
           <StyledAttachments
             attachments={state.attachments || []}
             add={addAttachment}
+            deleteAttachment={deleteAttachment}
           />
 
           <AddNote maxContentLength={3000} />

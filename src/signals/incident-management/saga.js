@@ -64,6 +64,7 @@ import {
   UPDATE_FILTER,
   PATCH_INCIDENT_SUCCESS,
   UPLOAD_ATTACHMENTS,
+  DELETE_ATTACHMENT,
 } from './constants'
 
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors'
@@ -274,22 +275,24 @@ export function* updateFilter(action) {
 }
 
 export function* uploadAttachments(action) {
+  yield all([
+    ...action.payload.files.map((file) =>
+      call(uploadFile, {
+        payload: {
+          file,
+          id: action.payload.id,
+          private: true,
+        },
+      })
+    ),
+  ])
+}
+
+export function* deleteAttachment(action) {
   try {
-    yield all([
-      ...action.payload.files.map((file) =>
-        call(uploadFile, {
-          payload: {
-            file,
-            id: action.payload.id,
-            private: true,
-          },
-        })
-      ),
-    ])
-    // yield put(createIncidentSuccess(incident))
-  } catch {
-    // yield put(createIncidentError())
-  }
+    yield call(authDeleteCall, action.payload.attachment._links.self.href)
+    // eslint-disable-next-line no-empty
+  } catch (error) {}
 }
 
 export default function* watchIncidentManagementSaga() {
@@ -300,6 +303,7 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
     takeLatest(UPLOAD_ATTACHMENTS, uploadAttachments),
+    takeLatest(DELETE_ATTACHMENT, deleteAttachment),
     takeLatest(
       [
         APPLY_FILTER,
