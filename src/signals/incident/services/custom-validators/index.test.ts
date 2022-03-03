@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { AbstractControl } from 'react-reactive-form'
-import { validatePhoneNumber, createRequired, validateObjectLocation } from '.'
+import {
+  validatePhoneNumber,
+  createRequired,
+  validateObjectLocation,
+  nullOrNumber,
+} from '.'
 
 describe('The custom validators service', () => {
   describe('validatePhoneNumber', () => {
@@ -103,6 +108,22 @@ describe('The custom validators service', () => {
       expect(validationFunc({ value: '' } as AbstractControl)).toStrictEqual({
         custom: `Kies een locatie of een ${objectType} op de kaart of vul een adres in`,
       })
+    })
+  })
+
+  describe('nullOrNumber', () => {
+    it('evaluates null values', () => {
+      const inputNull = {
+        value: null,
+      } as AbstractControl
+
+      const inputNumber = {
+        value: 1234567890,
+      } as AbstractControl
+
+      expect(nullOrNumber()).toBeNull()
+      expect(nullOrNumber(inputNull)).toBeNull()
+      expect(nullOrNumber(inputNumber)).toBeNull()
     })
   })
 })

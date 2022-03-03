@@ -1,5 +1,6 @@
 export {
-  validatePhoneNumber,
   createRequired,
+  nullOrNumber,
   validateObjectLocation,
+  validatePhoneNumber,
 } from './custom-validators'
