@@ -45,6 +45,7 @@
     "privacy": "https://vng.nl/privacyverklaring-vereniging-van-nederlandse-gemeenten"
   },
   "logo": {
+    "url": "/assets/images/logo.svg",
     "width": "153px",
     "height": "68px",
     "smallWidth": "68px",
