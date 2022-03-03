@@ -54,7 +54,7 @@ export const Logo = ({ tall, ...props }) => (
       data-testid="logo"
       alt={configuration.language.logoDescription}
       tall={tall}
-      src="/assets/images/logo.svg"
+      src={configuration.logo.url}
       {...props}
     />
   </StyledA>

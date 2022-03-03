@@ -44,6 +44,7 @@
     "accessibility": "/toegankelijkheidsverklaring"
   },
   "logo": {
+    "url": "/assets/images/logo.svg",
     "width": "153px",
     "height": "68px",
     "smallWidth": "68px",

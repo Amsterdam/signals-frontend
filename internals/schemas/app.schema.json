@@ -277,6 +277,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "url": {
+          "description": "Any URL that will hold the image for the application's logo. Can be a URI or an absolute URL that points to the webroot",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "width": {
           "description": "Length value that sets the logo image's width. See https://developer.mozilla.org/en-US/docs/Web/CSS/width for reference",
           "type": [
@@ -310,6 +317,7 @@
         "height",
         "smallHeight",
         "smallWidth",
+        "url",
         "width"
       ],
       "title": "Logo"
