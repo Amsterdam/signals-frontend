@@ -31,13 +31,13 @@ export const LegendToggleButton = styled(LegendToggle)`
   }
 `
 
-export const PanelContent = styled.div<{ posAbsolute?: boolean }>`
+export const PanelContent = styled.div<{ smallViewport?: boolean }>`
   background-color: white;
   padding: ${themeSpacing(4)};
   z-index: 1;
   position: relative;
-  ${({ posAbsolute }) =>
-    posAbsolute &&
+  ${({ smallViewport }) =>
+    smallViewport &&
     css`
       top: 0;
       left: 0;

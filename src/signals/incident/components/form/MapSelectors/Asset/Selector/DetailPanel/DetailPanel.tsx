@@ -146,7 +146,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ featureTypes, language = {} }) => {
   return (
     <PanelContent
       data-testid="detailPanel"
-      posAbsolute={showAddressPanel && shouldRenderAddressPanel}
+      smallViewport={showAddressPanel && shouldRenderAddressPanel}
     >
       <Title>{language.title || 'Locatie'}</Title>
 
