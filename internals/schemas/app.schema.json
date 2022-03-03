@@ -342,6 +342,7 @@
       "additionalProperties": false,
       "properties": {
         "municipality": {
+          "description": "Allows to filter address lookup by municipality. For example a value of 'amsterdam' will be used in the following format: `fq=gemeentenaam:(amsterdam)`. If a municipality has spaces, surround it by quotes, which in the config will look like `\"\\\"den bosch\\\"\"`. In case of an array, the values will be joined with a space in between. For more information see https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get",
           "type": [
             "string",
             "array"
