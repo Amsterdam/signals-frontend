@@ -13,10 +13,6 @@ import {
 import { useMediaQuery } from 'react-responsive'
 
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
-import type {
-  FeatureStatusType,
-  FeatureType,
-} from 'signals/incident/components/form/MapSelectors/types'
 import {
   selectionIsObject,
   selectionIsUndetermined,
@@ -43,24 +39,20 @@ import {
 } from './styled'
 
 export interface DetailPanelProps {
-  featureTypes: FeatureType[]
-  featureStatusTypes: FeatureStatusType[]
   language?: Record<string, string>
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({
-  featureTypes,
-  featureStatusTypes,
-  language = {},
-}) => {
+const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [optionsList, setOptionsList] = useState(null)
   const [showAddressPanel, setShowAddressPanel] = useState(false)
-  const { address, selection, removeItem, setItem, setLocation, close } =
+  const { address, selection, removeItem, setItem, setLocation, close, meta } =
     useContext(AssetSelectContext)
+  const { featureTypes } = meta
+  const featureStatusTypes = meta.featureStatusTypes || []
 
   const addressValue = address ? formatAddress(address) : ''
 

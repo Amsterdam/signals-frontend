@@ -4,6 +4,7 @@ import type { IconOptions } from 'leaflet'
 import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
 import { validateObjectLocation } from '../../services/custom-validators'
+import { FeatureStatus } from '../../components/form/MapSelectors/types'
 
 export const ICON_SIZE = 40
 
@@ -61,7 +62,7 @@ export const controls = {
             iconUrl: '/assets/images/icon-reported-marker.svg',
           },
           idField: 'OBJECTID',
-          typeValue: 'reported',
+          typeValue: FeatureStatus.REPORTED,
           typeField: '',
           statusField: 'Registratie',
           statusValues: ['Deels bestreden', 'Melding', 'Registratie'],
@@ -74,7 +75,7 @@ export const controls = {
             iconUrl: '/assets/images/icon-checked-marker.svg',
           },
           idField: 'OBJECTID',
-          typeValue: 'checked',
+          typeValue: FeatureStatus.CHECKED,
           typeField: '',
           statusField: 'Registratie',
           statusValues: ['Bestreden', 'Geen EPR', 'EPR (niet bestrijden)'],

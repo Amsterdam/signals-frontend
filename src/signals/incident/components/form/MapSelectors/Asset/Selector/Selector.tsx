@@ -139,11 +139,7 @@ const Selector: FC = () => {
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
-      <DetailPanel
-        featureTypes={meta.featureTypes}
-        featureStatusTypes={meta.featureStatusTypes || []}
-        language={meta.language}
-      />
+      <DetailPanel language={meta.language} />
 
       <StyledMap
         hasZoomControls={desktopView}
@@ -211,10 +207,7 @@ const Selector: FC = () => {
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <Layer
-            featureTypes={meta.featureTypes}
-            featureStatusTypes={meta.featureStatusTypes || []}
-          />
+          <Layer />
         </WfsLayer>
 
         {geolocation && <LocationMarker geolocation={geolocation} />}

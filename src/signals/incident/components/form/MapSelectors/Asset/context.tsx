@@ -13,6 +13,7 @@ export const initialValue: AssetSelectValue = {
   meta: {
     endpoint: '',
     featureTypes: [],
+    featureStatusTypes: [],
     extraProperties: [],
   },
   selection: undefined,

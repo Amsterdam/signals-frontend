@@ -30,7 +30,7 @@ const StatusLayer: FC<StatusLayerProps> = ({
 
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
     if (!featureStatusType) {
-      return null
+      return
     }
 
     const icon = L.icon({

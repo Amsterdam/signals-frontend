@@ -15,6 +15,7 @@ import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import type { Meta } from '../../types'
+import { FeatureStatus } from '../../types'
 
 import ClockLayer from './ClockLayer'
 
@@ -27,7 +28,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     id: '79522',
     type: '1',
     description: 'Klok',
-    status: 'reported',
+    status: FeatureStatus.REPORTED,
     location: {},
     label: 'Klok - 79522',
   },

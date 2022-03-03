@@ -16,16 +16,12 @@ export const StreetlightLayer = () => {
   const statusFeatures =
     data.features.filter(
       (feature) =>
-        getFeatureStatusType(feature as Feature, featureStatusTypes) !==
-        undefined
+        getFeatureStatusType(feature, featureStatusTypes) !== undefined
     ) || []
 
   return (
     <>
-      <AssetLayer
-        featureTypes={meta.featureTypes}
-        featureStatusTypes={meta.featureStatusTypes || []}
-      />
+      <AssetLayer />
       {statusFeatures.length > 0 && featureStatusTypes && (
         <StatusLayer
           statusFeatures={statusFeatures as Feature[]}

@@ -3,10 +3,10 @@
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
 import type {
-  Feature,
   FeatureStatusType,
   Meta,
 } from 'signals/incident/components/form/MapSelectors/types'
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import { getFeatureStatusType } from './utils'
 
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
@@ -14,10 +14,10 @@ const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 describe('utils', () => {
   const featureStatusTypes = typedMeta.featureStatusTypes || []
   const reportedFeatureType = featureStatusTypes.find(
-    ({ typeValue }) => typeValue === 'reported'
+    ({ typeValue }) => typeValue === FeatureStatus.REPORTED
   )
   const checkedFeatureType = featureStatusTypes.find(
-    ({ typeValue }) => typeValue === 'checked'
+    ({ typeValue }) => typeValue === FeatureStatus.CHECKED
   )
 
   describe('getFeatureStatusType', () => {
@@ -25,29 +25,26 @@ describe('utils', () => {
       const reportedFeature = caterpillarsJson.features[1]
       const unreportedFeature = caterpillarsJson.features[0]
       const checkedFeature = caterpillarsJson.features[2]
+      expect(getFeatureStatusType(reportedFeature, featureStatusTypes)).toEqual(
+        reportedFeatureType
+      )
+      expect(getFeatureStatusType(checkedFeature, featureStatusTypes)).toEqual(
+        checkedFeatureType
+      )
       expect(
-        getFeatureStatusType(reportedFeature as Feature, featureStatusTypes)
-      ).toEqual(reportedFeatureType)
-      expect(
-        getFeatureStatusType(checkedFeature as Feature, featureStatusTypes)
-      ).toEqual(checkedFeatureType)
-      expect(
-        getFeatureStatusType(unreportedFeature as Feature, featureStatusTypes)
+        getFeatureStatusType(unreportedFeature, featureStatusTypes)
       ).toBeUndefined()
     })
 
     it('should return if feature or featureStatusTypes is undefined', () => {
       const feature = undefined
       const noFeatureStatusTypes: FeatureStatusType[] = []
-      expect(
-        getFeatureStatusType(feature as unknown as Feature, featureStatusTypes)
-      ).toEqual(undefined)
-      expect(
-        getFeatureStatusType(
-          feature as unknown as Feature,
-          noFeatureStatusTypes
-        )
-      ).toEqual(undefined)
+      expect(getFeatureStatusType(feature, featureStatusTypes)).toEqual(
+        undefined
+      )
+      expect(getFeatureStatusType(feature, noFeatureStatusTypes)).toEqual(
+        undefined
+      )
     })
   })
 })

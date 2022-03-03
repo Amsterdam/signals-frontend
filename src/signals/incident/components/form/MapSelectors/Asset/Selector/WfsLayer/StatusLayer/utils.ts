@@ -1,10 +1,7 @@
-import type {
-  Feature,
-  FeatureStatusType,
-} from 'signals/incident/components/form/MapSelectors/types'
+import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
 
 export const getFeatureStatusType = (
-  feature: Feature,
+  feature: any,
   featureStatusTypes: FeatureStatusType[]
 ): FeatureStatusType | undefined => {
   if (!feature || !featureStatusTypes) {
@@ -14,10 +11,10 @@ export const getFeatureStatusType = (
   const statusValue = feature.properties[featureStatusTypes[0]?.statusField]
 
   if (statusValue) {
-    const featureStatusType = featureStatusTypes.find((statusType) =>
+    return featureStatusTypes.find((statusType) =>
       statusType.statusValues.some((value) => value === statusValue)
     )
-
-    return featureStatusType
   }
+
+  return
 }

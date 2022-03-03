@@ -18,6 +18,7 @@ import withAssetSelectContext, {
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import StatusLayer from './StatusLayer'
 import { getFeatureStatusType } from './utils'
 
@@ -31,8 +32,7 @@ const assetSelectProviderValue: AssetSelectValue = {
 const featureStatusTypes = typedMeta.featureStatusTypes || []
 
 const statusFeatures = caterpillarsJson.features.filter(
-  (feature) =>
-    getFeatureStatusType(feature as Feature, featureStatusTypes) !== undefined
+  (feature) => getFeatureStatusType(feature, featureStatusTypes) !== undefined
 )
 
 describe('StatusLayer', () => {
@@ -53,14 +53,14 @@ describe('StatusLayer', () => {
     render(withMapCaterpillar())
     const reportedFeatureId = statusFeatures[0].properties['OBJECTID']
     const reportedFeatureType = featureStatusTypes.find(
-      ({ typeValue }) => typeValue === 'reported'
+      ({ typeValue }) => typeValue === FeatureStatus.REPORTED
     )
     const reportedDescription = `${reportedFeatureType?.description} - ${reportedFeatureId}`
     expect(screen.getByAltText(reportedDescription)).toBeInTheDocument()
 
     const checkedFeatureId = statusFeatures[2].properties['OBJECTID']
     const checkedFeatureType = featureStatusTypes.find(
-      ({ typeValue }) => typeValue === 'checked'
+      ({ typeValue }) => typeValue === FeatureStatus.CHECKED
     )
     const checkedDescription = `${checkedFeatureType?.description} - ${checkedFeatureId}`
     expect(screen.getByAltText(checkedDescription)).toBeInTheDocument()

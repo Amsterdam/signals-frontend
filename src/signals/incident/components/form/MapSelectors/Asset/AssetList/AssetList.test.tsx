@@ -8,8 +8,8 @@ import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import type { IconListItemProps } from 'components/IconList/IconList'
 import type { HTMLAttributes, PropsWithChildren } from 'react'
 import type { Item } from '../../types'
+import { FeatureStatus } from '../../types'
 import type { AssetListProps } from './AssetList'
-
 import AssetList from './AssetList'
 
 jest.mock('components/IconList/IconList', () => ({
@@ -54,7 +54,7 @@ describe('AssetList', () => {
         iconUrl: '',
       },
       idField: 'OBJECTID',
-      typeValue: 'reported',
+      typeValue: FeatureStatus.REPORTED,
       typeField: '',
       statusField: 'AMS_Meldingstatus',
       statusValues: [1],
@@ -123,7 +123,10 @@ describe('AssetList', () => {
         )
       )
 
-      if (status === 'reported' || status === 'checked') {
+      if (
+        status === FeatureStatus.REPORTED ||
+        status === FeatureStatus.CHECKED
+      ) {
         expect(
           screen.getByTestId(`assetListItem-${id}-hasStatus`)
         ).toBeInTheDocument()

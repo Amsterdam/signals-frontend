@@ -17,10 +17,15 @@ export interface BaseItem {
   description?: string
 }
 
+export enum FeatureStatus {
+  CHECKED = 'checked',
+  REPORTED = 'reported',
+}
+
 export interface Item extends Record<string, unknown> {
   description?: string
   id?: string | number
-  status?: string
+  status?: typeof FeatureStatus | string
   type?: typeof UNREGISTERED_TYPE | typeof UNKNOWN_TYPE | string
   label?: string
 }

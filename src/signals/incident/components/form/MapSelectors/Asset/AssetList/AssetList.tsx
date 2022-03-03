@@ -9,6 +9,7 @@ import type { FunctionComponent } from 'react'
 import IconList, { IconListItem } from 'components/IconList/IconList'
 import Button from 'components/Button'
 import type { FeatureStatusType, FeatureType, Item } from '../../types'
+import { FeatureStatus } from '../../types'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',
@@ -31,7 +32,7 @@ const ItemWrapper = styled.div`
 
 const StyledStatusDescription = styled.div<{ status?: string }>`
   color: ${({ status }) =>
-    status === 'reported'
+    status === FeatureStatus.REPORTED
       ? themeColor('secondary')
       : themeColor('support', 'valid')};
 `
@@ -63,9 +64,9 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 
   if (!id) return null
 
-  const featureStatusType = status
-    ? featureStatusTypes.find(({ typeValue }) => typeValue === status)
-    : undefined
+  const featureStatusType = featureStatusTypes.find(
+    ({ typeValue }) => typeValue === status
+  )
   const extendedId = featureStatusType
     ? `assetListItem-${id}-hasStatus`
     : `assetListItem-${id}`
@@ -81,7 +82,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         <ItemWrapper>
           <StyledLabel>
             {label}
-            {featureStatusType && (
+            {featureStatusType?.description && (
               <StyledStatusDescription status={featureStatusType.typeValue}>
                 {featureStatusType?.description}
               </StyledStatusDescription>

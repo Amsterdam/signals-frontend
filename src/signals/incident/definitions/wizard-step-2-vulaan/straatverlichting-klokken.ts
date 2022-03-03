@@ -8,6 +8,7 @@ import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/cons
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 import { validateObjectLocation } from '../../services/custom-validators'
+import { FeatureStatus } from '../../components/form/MapSelectors/types'
 
 export const ICON_SIZE = 40
 
@@ -129,7 +130,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
-          typeValue: 'reported',
+          typeValue: FeatureStatus.REPORTED,
           statusField: 'meldingstatus',
           statusValues: [1],
         },
@@ -278,7 +279,7 @@ const straatverlichtingKlokken = {
           },
           idField: 'objectnummer',
           typeField: 'objecttype',
-          typeValue: 'reported',
+          typeValue: FeatureStatus.REPORTED,
           statusField: 'meldingstatus',
           statusValues: [1],
         },

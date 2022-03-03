@@ -18,6 +18,7 @@ import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import { featureToCoordinates } from 'shared/services/map-location'
 
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import withAssetSelectContext, {
   contextValue,
 } from '../../Asset/__tests__/withAssetSelectContext'
@@ -78,7 +79,7 @@ describe('CaterpillarLayer', () => {
     expect(setItem).toHaveBeenCalledWith(
       {
         id: featureId,
-        status: 'reported',
+        status: FeatureStatus.REPORTED,
         description: 'Eikenboom',
         type: 'Eikenboom',
         GlobalID: feature?.properties.GlobalID,
