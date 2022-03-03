@@ -12,7 +12,7 @@ import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalControls from './wizard-step-2-vulaan/afval'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
-import openbaarGroenEnWaterControls from './wizard-step-2-vulaan/openbaarGroenEnWater'
+import eikenprocessierupsControls from './wizard-step-2-vulaan/eikenprocessierups'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
@@ -21,6 +21,8 @@ import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import locatie from './wizard-step-2-vulaan/locatie'
+import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -61,6 +63,9 @@ export const renderPreview = ({ render, meta }) => {
     case QuestionFieldType.TextInput:
     case QuestionFieldType.TextareaInput:
       return Label
+
+    case QuestionFieldType.DateTimeInput:
+      return PreviewComponents.DateTime
 
     default:
       return Null
@@ -126,8 +131,13 @@ const getExtraQuestions = (category, subcategory, questions) => {
     case 'overlast-bedrijven-en-horeca':
       return summary(overlastBedrijvenEnHorecaControls)
 
-    case 'overlast-in-de-openbare-ruimte':
+    case 'overlast-in-de-openbare-ruimte': {
+      if (subcategory === 'bouw-sloopoverlast') {
+        return expandQuestions(bouwSloopOverlast, category, subcategory)
+      }
+
       return summary(overlastInDeOpenbareRuimteControls)
+    }
 
     case 'overlast-op-het-water':
       return summary(overlastOpHetWaterControls)
@@ -153,7 +163,9 @@ const getExtraQuestions = (category, subcategory, questions) => {
 
     case 'openbaar-groen-en-water': {
       if (subcategory === 'eikenprocessierups') {
-        return summary(openbaarGroenEnWaterControls)
+        return summary(eikenprocessierupsControls)
+      } else if (subcategory === 'boom-illegale-kap') {
+        return summary(boomIllegaleKap)
       } else {
         return fallback
       }

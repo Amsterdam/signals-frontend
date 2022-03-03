@@ -10,7 +10,8 @@ import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
-import openbaarGroenEnWater from './wizard-step-2-vulaan/openbaarGroenEnWater'
+import eikenprocessierups from './wizard-step-2-vulaan/eikenprocessierups'
+import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
@@ -20,6 +21,7 @@ import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-st
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wonen from './wizard-step-2-vulaan/wonen'
 import locatie from './wizard-step-2-vulaan/locatie'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -97,12 +99,15 @@ export default {
     }
 
     switch (category) {
-      case 'openbaar-groen-en-water':
+      case 'openbaar-groen-en-water': {
         if (subcategory === 'eikenprocessierups') {
-          return expandQuestions(openbaarGroenEnWater, category, subcategory)
+          return expandQuestions(eikenprocessierups, category, subcategory)
+        } else if (subcategory === 'boom-illegale-kap') {
+          return expandQuestions(boomIllegaleKap, category, subcategory)
         } else {
           return fallback
         }
+      }
 
       case 'afval': {
         if (subcategory.startsWith('container')) {
@@ -118,12 +123,17 @@ export default {
       case 'overlast-bedrijven-en-horeca':
         return expandQuestions(overlastBedrijvenEnHoreca, category, subcategory)
 
-      case 'overlast-in-de-openbare-ruimte':
+      case 'overlast-in-de-openbare-ruimte': {
+        if (subcategory === 'bouw-sloopoverlast') {
+          return expandQuestions(bouwSloopOverlast, category, subcategory)
+        }
+
         return expandQuestions(
           overlastInDeOpenbareRuimte,
           category,
           subcategory
         )
+      }
 
       case 'overlast-op-het-water':
         return expandQuestions(overlastOpHetWater, category, subcategory)

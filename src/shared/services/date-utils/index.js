@@ -11,6 +11,10 @@ export const dateToISOString = (date) =>
 
 export const dateToString = (date) => date && format(date, 'dd-MM-yyyy', date)
 
+/**
+ * @param {string} value
+ * @returns string
+ */
 export const capitalize = (value) =>
   value && value[0].toUpperCase() + value.substring(1)
 

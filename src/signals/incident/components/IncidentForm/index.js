@@ -3,7 +3,6 @@
 import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormGenerator } from 'react-reactive-form'
-import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 
@@ -28,20 +27,16 @@ class IncidentForm extends Component {
     this.setIncident = this.setIncident.bind(this)
   }
 
-  static getDerivedStateFromProps(props, prevState) {
-    if (!props.postponeSubmitWhenLoading) {
-      return null
-    }
-
-    const loading = get(props, props.postponeSubmitWhenLoading)
-    if (loading !== prevState.loading) {
-      return {
-        loading,
-        submitting: !loading ? false : prevState.submitting,
-      }
-    }
-
-    return null
+  static getDerivedStateFromProps(
+    { incidentContainer: { loadingData } },
+    prevState
+  ) {
+    return loadingData === prevState.loading
+      ? null
+      : {
+          loading: loadingData,
+          submitting: loadingData ? prevState.submitting : false,
+        }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -143,16 +138,14 @@ class IncidentForm extends Component {
     e.preventDefault()
 
     if (next) {
-      if (this.props.postponeSubmitWhenLoading) {
-        if (this.state.loading) {
-          this.setState({
-            submitting: true,
-            formAction,
-            next,
-          })
+      if (this.state.loading) {
+        this.setState({
+          submitting: true,
+          formAction,
+          next,
+        })
 
-          return
-        }
+        return
       }
 
       if (this.form.valid || this.form.status === 'DISABLED') {
@@ -208,7 +201,6 @@ IncidentForm.defaultProps = {
   fieldConfig: {
     controls: {},
   },
-  postponeSubmitWhenLoading: '',
 }
 
 IncidentForm.propTypes = {
@@ -219,7 +211,6 @@ IncidentForm.propTypes = {
   removeQuestionData: PropTypes.func.isRequired,
   updateIncident: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
-  postponeSubmitWhenLoading: PropTypes.string,
 }
 
 export default IncidentForm

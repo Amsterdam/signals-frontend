@@ -25,6 +25,11 @@ jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
   </span>
 ))
 
+const incident = {
+  ...mock,
+  dateTime: new Date().getTime(),
+}
+
 describe('<IncidentPreview />', () => {
   let props: IncidentPreviewProps
 
@@ -33,7 +38,7 @@ describe('<IncidentPreview />', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     props = {
-      incident: mock,
+      incident,
       preview: {
         beschrijf: {
           phone: {
@@ -102,42 +107,42 @@ describe('<IncidentPreview />', () => {
   })
 
   it('expect to render correctly', async () => {
-    const { queryByText, findByTestId } = render(
-      withAppContext(<IncidentPreview {...props} />)
-    )
+    render(withAppContext(<IncidentPreview {...props} />))
 
-    await findByTestId('incidentPreview')
+    await screen.findByTestId('incidentPreview')
 
-    expect(queryByText(props.incident.phone || '')).toBeInTheDocument()
-    expect(queryByText(props.preview.beschrijf.phone.label)).toBeInTheDocument()
+    expect(screen.queryByText(props.incident.phone || '')).toBeInTheDocument()
+    expect(
+      screen.queryByText(props.preview.beschrijf.phone.label)
+    ).toBeInTheDocument()
 
-    expect(queryByText(props.incident.email)).toBeInTheDocument()
-    expect(queryByText(props.preview.vulaan.email.label)).toBeInTheDocument()
+    expect(screen.queryByText(props.incident.email)).toBeInTheDocument()
+    expect(
+      screen.queryByText(props.preview.vulaan.email.label)
+    ).toBeInTheDocument()
 
     expect(
-      queryByText(props.preview.beschrijf.other_prop.label)
+      screen.queryByText(props.preview.beschrijf.other_prop.label)
     ).not.toBeInTheDocument()
 
     // optional prop without value should not be in the DOM
     expect(
-      queryByText(props.preview.beschrijf.optional_prop.label)
+      screen.queryByText(props.preview.beschrijf.optional_prop.label)
     ).not.toBeInTheDocument()
     expect(
-      queryByText(props.preview.beschrijf.optional_array_prop.label)
+      screen.queryByText(props.preview.beschrijf.optional_array_prop.label)
     ).not.toBeInTheDocument()
 
     // required prop without value should be in the DOM
     expect(
-      queryByText(props.preview.beschrijf.required_prop.label)
+      screen.queryByText(props.preview.beschrijf.required_prop.label)
     ).toBeInTheDocument()
   })
 
   it('should have links', async () => {
-    const { container, findByTestId } = render(
-      withAppContext(<IncidentPreview {...props} />)
-    )
+    const { container } = render(withAppContext(<IncidentPreview {...props} />))
 
-    await findByTestId('incidentPreview')
+    await screen.findByTestId('incidentPreview')
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'))
 
@@ -167,7 +172,7 @@ describe('<IncidentPreview />', () => {
           contact: 'Wijzig contact',
         },
       },
-      incident: mock,
+      incident,
       preview: {
         beschrijf: {
           plain_text: {
@@ -210,24 +215,26 @@ describe('<IncidentPreview />', () => {
     }
 
     it('expect to render correctly', async () => {
-      const { queryByText, findByTestId } = render(
+      render(
         // Disabling linter; ts compiler is complaining about untyped components. When all components have been ported to TS, the comments can be removed
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         withAppContext(<IncidentPreview {...allTypesProps} />)
       )
 
-      await findByTestId('incidentPreview')
+      await screen.findByTestId('incidentPreview')
 
-      const { incident } = allTypesProps
       const { beschrijf, contact } = allTypesProps.preview
 
-      expect(queryByText(beschrijf.plain_text.label)).toBeInTheDocument()
+      expect(screen.queryByText(beschrijf.plain_text.label)).toBeInTheDocument()
 
-      expect(queryByText(beschrijf.objectValue.label)).toBeInTheDocument()
-      expect(queryByText(contact.sharing_allowed.label)).toBeInTheDocument()
+      expect(
+        screen.queryByText(beschrijf.objectValue.label)
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText(contact.sharing_allowed.label)
+      ).toBeInTheDocument()
 
-      expect(queryByText(incident.datetime.label)).toBeInTheDocument()
       expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
     })
   })

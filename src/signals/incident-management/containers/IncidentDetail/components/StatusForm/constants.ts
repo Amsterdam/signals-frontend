@@ -14,7 +14,7 @@ export const DEELMELDINGEN_STILL_OPEN_CONTENT = `Als je de hoofdmelding nu afhan
   Handel de hoofdmelding pas af als alle deelmeldingen zijn opgelost of als de deelmeldingen niet meer nodig zijn.`
 export const NO_REPORTER_EMAIL = `De melder heeft geen e-mailadres opgegeven, er wordt geen bericht verstuurd.`
 
-export const DEFAULT_TEXT_MAX_LENGTH = 3000
+export const DEFAULT_TEXT_MAX_LENGTH = 1800
 export const DEFAULT_TEXT_LABEL = 'Bericht aan melder'
 
 export const REPLY_MAIL_MAX_LENGTH = 400

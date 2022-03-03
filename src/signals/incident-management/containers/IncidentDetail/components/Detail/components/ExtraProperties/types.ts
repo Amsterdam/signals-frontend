@@ -29,7 +29,9 @@ export type Answer =
   | TextInput
   | CheckboxInput
   | RadioInput
-  | (MapInput | ContainerMapInput | MultiCheckboxInput)[]
+  | null
+  | undefined
+  | (MapInput | ContainerMapInput | MultiCheckboxInput | null | undefined)[]
 
 export interface Item {
   id: string

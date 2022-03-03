@@ -5,6 +5,7 @@ import {
   Alert,
   Heading,
   Label,
+  Modal,
   Row,
   themeColor,
   themeSpacing,
@@ -77,6 +78,11 @@ export const StyledH4 = styled(Heading)`
 
 export const StyledLabel = styled(Label)`
   font-weight: 700;
+`
+
+export const StyledModal = styled(Modal)`
+  overflow: hidden;
+  height: 75%;
 `
 
 export const StyledParagraph = styled.p`

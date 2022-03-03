@@ -266,15 +266,15 @@ describe('<IncidentForm />', () => {
     })
 
     describe('async submit', () => {
-      it('should postpone submit when postponeSubmitWhenLoading is defined and no action defined', () => {
+      it('should postpone submit when loading data (classification or questions)', () => {
         const props = {
           ...defaultProps,
-          postponeSubmitWhenLoading: 'loadingClassification',
+          incidentContainer: { incident: {}, loadingData: false },
         }
 
         const { rerender } = renderIncidentForm({
           ...props,
-          loadingClassification: true,
+          incidentContainer: { incident: {}, loadingData: true },
         })
 
         expect(nextSpy).toHaveBeenCalledTimes(1)
@@ -291,8 +291,7 @@ describe('<IncidentForm />', () => {
       const props = {
         ...defaultProps,
         fieldConfig: requiredFieldConfig,
-        loadingClassification: true,
-        postponeSubmitWhenLoading: 'loadingClassification',
+        incidentContainer: { incident: {}, loadingData: true },
       }
 
       const { rerender } = renderIncidentForm(props)
@@ -309,6 +308,7 @@ describe('<IncidentForm />', () => {
           incident: {
             phone: '',
           },
+          loadingData: false,
         },
       }
 

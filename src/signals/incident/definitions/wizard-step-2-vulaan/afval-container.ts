@@ -5,7 +5,7 @@ import type { IconOptions } from 'leaflet'
 import configuration from 'shared/services/configuration/configuration'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
-import { UNKNOWN_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 
 export const ICON_SIZE = 40
 
@@ -17,18 +17,6 @@ const options: Partial<IconOptions> = {
 export const controls = {
   extra_container: {
     meta: {
-      ifOneOf: {
-        subcategory: [
-          'container-glas-kapot',
-          'container-glas-vol',
-          'container-is-kapot',
-          'container-is-vol',
-          'container-voor-papier-is-stuk',
-          'container-voor-papier-is-vol',
-          'container-voor-plastic-afval-is-vol',
-          'container-voor-plastic-afval-is-kapot',
-        ],
-      },
       language: {
         title: 'Locatie',
         subTitle: 'Kies een container op de kaart',
@@ -132,7 +120,7 @@ export const controls = {
           },
           idField: 'id',
           typeField: 'type',
-          typeValue: UNKNOWN_TYPE,
+          typeValue: UNREGISTERED_TYPE,
         },
       ],
     },
