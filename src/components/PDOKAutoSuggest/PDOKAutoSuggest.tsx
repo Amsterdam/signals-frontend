@@ -42,13 +42,10 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   municipality = configuration.map.municipality,
   ...rest
 }) => {
-  const municipalityArray = Array.isArray(municipality)
-    ? municipality
-    : [municipality].filter(Boolean)
-  const municipalityString = municipalityArray
-    .map((item) => (item.indexOf('-') === 0 ? item : `"${item}"`))
-    .join(' ')
-  const fq = municipality
+  const municipalityString = Array.isArray(municipality)
+    ? municipality.filter(Boolean).join(' ')
+    : municipality
+  const fq = municipalityString
     ? [['fq', `${municipalityFilterName}:(${municipalityString})`]]
     : []
   // ['fl', '*'], // undocumented; requests all available field values from the API
