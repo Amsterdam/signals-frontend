@@ -9,6 +9,7 @@ const StyledButton = styled(Button)`
   top: 0;
   right: 0;
   padding: ${themeSpacing(0, 1.5)};
+  color: black;
 `
 
 const EditButton = ({ className, disabled, onClick, ...rest }) => (
