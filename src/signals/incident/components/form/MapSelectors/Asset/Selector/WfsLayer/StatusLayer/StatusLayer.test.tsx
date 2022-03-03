@@ -17,7 +17,7 @@ import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import StatusLayer from './StatusLayer'
 import { getFeatureStatusType } from './utils'

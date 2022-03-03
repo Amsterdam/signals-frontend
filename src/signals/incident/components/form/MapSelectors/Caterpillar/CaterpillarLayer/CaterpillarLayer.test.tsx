@@ -9,7 +9,7 @@ import type { Geometrie } from 'types/incident'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'

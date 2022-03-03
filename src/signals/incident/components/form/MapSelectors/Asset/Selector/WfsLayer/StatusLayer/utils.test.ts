@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/openbaarGroenEnWater'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import type {
   FeatureStatusType,
   Meta,
