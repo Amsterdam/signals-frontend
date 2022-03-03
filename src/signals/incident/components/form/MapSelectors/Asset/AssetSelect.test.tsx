@@ -167,7 +167,7 @@ describe('AssetSelect', () => {
   it('should render the Selector', () => {
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByText(/kies locatie/i))
 
     expect(screen.queryByTestId('assetSelectIntro')).not.toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSelector')).toBeInTheDocument()
@@ -176,7 +176,7 @@ describe('AssetSelect', () => {
   it('should close the selector component', () => {
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByText(/kies locatie/i))
 
     expect(screen.queryByTestId('assetSelectSelector')).toBeInTheDocument()
 
@@ -236,7 +236,7 @@ describe('AssetSelect', () => {
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByText(/kies locatie/i))
 
     const assetSelectSelector = screen.getByTestId('assetSelectSelector')
 
@@ -288,7 +288,7 @@ describe('AssetSelect', () => {
 
     render(withAssetSelectContext(<AssetSelect {...props} />))
 
-    userEvent.click(screen.getByText(/kies op kaart/i))
+    userEvent.click(screen.getByText(/kies locatie/i))
 
     const assetSelectSelector = screen.getByTestId('assetSelectSelector')
 
