@@ -100,7 +100,8 @@ export const CaterpillarLayer: FC = () => {
   const featureStatusTypes = meta.featureStatusTypes || []
 
   const statusFeatures = features.filter(
-    (feature) => getFeatureStatusType(feature, featureStatusTypes) !== undefined
+    (feature) =>
+      getFeatureStatusType(feature as Feature, featureStatusTypes) !== undefined
   )
 
   return (

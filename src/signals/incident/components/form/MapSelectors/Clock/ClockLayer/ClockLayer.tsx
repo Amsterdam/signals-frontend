@@ -17,7 +17,8 @@ export const ClockLayer = () => {
   const statusFeatures =
     data.features.filter(
       (feature) =>
-        getFeatureStatusType(feature, featureStatusTypes) !== undefined
+        getFeatureStatusType(feature as Feature, featureStatusTypes) !==
+        undefined
     ) || []
 
   return (
