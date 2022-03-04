@@ -5,9 +5,10 @@ const dateTime = {
   meta: {
     ignoreVisibility: true,
     label: 'Wanneer was het?',
+    canBeNull: true,
   },
   options: {
-    validators: [nullOrNumber],
+    validators: [nullOrNumber()],
   },
   render: QuestionFieldType.DateTimeInput,
 }

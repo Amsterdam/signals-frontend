@@ -112,6 +112,10 @@ describe('The custom validators service', () => {
   })
 
   describe('nullOrNumber', () => {
+    it('returns a function', () => {
+      expect(nullOrNumber).toBeInstanceOf(Function)
+    })
+
     it('evaluates null values', () => {
       const inputNull = {
         value: null,
@@ -121,9 +125,8 @@ describe('The custom validators service', () => {
         value: 1234567890,
       } as AbstractControl
 
-      expect(nullOrNumber()).toBeNull()
-      expect(nullOrNumber(inputNull)).toBeNull()
-      expect(nullOrNumber(inputNumber)).toBeNull()
+      expect(nullOrNumber()(inputNull)).toBeNull()
+      expect(nullOrNumber()(inputNumber)).toBeNull()
     })
   })
 })
