@@ -481,6 +481,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     userEvent.click(screen.getByText('Afgehandeld'))
+    userEvent.click(screen.getByTestId('sendEmailCheckbox'))
 
     expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
   })
