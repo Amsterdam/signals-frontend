@@ -27,7 +27,7 @@ jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
 
 const incident = {
   ...mock,
-  dateTime: new Date().getTime(),
+  dateTime: null,
 }
 
 describe('<IncidentPreview />', () => {
@@ -72,6 +72,12 @@ describe('<IncidentPreview />', () => {
             label: 'Uw e-mailadres',
             render: ({ value }: { value: string }) => <span>{value}</span>,
           },
+          dateTime: {
+            label: 'Tijdstip',
+            optional: true,
+            canBeNull: true,
+            render: PreviewComponents.DateTime,
+          },
         },
         contact: {
           sharing_allowed: {
@@ -111,14 +117,14 @@ describe('<IncidentPreview />', () => {
 
     await screen.findByTestId('incidentPreview')
 
-    expect(screen.queryByText(props.incident.phone || '')).toBeInTheDocument()
+    expect(screen.getByText(props.incident.phone || '')).toBeInTheDocument()
     expect(
-      screen.queryByText(props.preview.beschrijf.phone.label)
+      screen.getByText(props.preview.beschrijf.phone.label)
     ).toBeInTheDocument()
 
-    expect(screen.queryByText(props.incident.email)).toBeInTheDocument()
+    expect(screen.getByText(props.incident.email)).toBeInTheDocument()
     expect(
-      screen.queryByText(props.preview.vulaan.email.label)
+      screen.getByText(props.preview.vulaan.email.label)
     ).toBeInTheDocument()
 
     expect(
@@ -135,8 +141,11 @@ describe('<IncidentPreview />', () => {
 
     // required prop without value should be in the DOM
     expect(
-      screen.queryByText(props.preview.beschrijf.required_prop.label)
+      screen.getByText(props.preview.beschrijf.required_prop.label)
     ).toBeInTheDocument()
+
+    // null-value element should be in the DOM
+    expect(screen.getByText('Nu')).toBeInTheDocument()
   })
 
   it('should have links', async () => {
@@ -189,7 +198,7 @@ describe('<IncidentPreview />', () => {
             label: 'List object value',
             render: PreviewComponents.ListObjectValue,
           },
-          datetime: {
+          dateTime: {
             label: 'Tijdstip',
             render: PreviewComponents.DateTime,
           },
