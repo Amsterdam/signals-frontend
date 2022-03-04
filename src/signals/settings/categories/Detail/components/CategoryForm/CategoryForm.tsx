@@ -170,6 +170,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                   htmlFor="is_public_accessible"
                   label="Toon meldingen van deze subcategorie op een openbare kaart"
                   data-testid="subcategoryIsPublicAccessible"
+                  disabled={readOnly}
                 >
                   <Checkbox
                     checked={isPublicAccessible}
@@ -188,6 +189,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                   label="Naam openbaar"
                   name="public_name"
                   type="text"
+                  readOnly={readOnly}
                 />
               </FieldGroup>
             )}
