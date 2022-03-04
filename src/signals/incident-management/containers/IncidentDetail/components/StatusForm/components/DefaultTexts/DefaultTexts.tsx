@@ -3,6 +3,7 @@
 import type { FC, SyntheticEvent } from 'react'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
+
 import ModalHeader from '../ModalHeader/ModalHeader'
 import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
 
