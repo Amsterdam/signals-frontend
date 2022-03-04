@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 
@@ -31,17 +31,25 @@ export const LegendToggleButton = styled(LegendToggle)`
   }
 `
 
-export const PanelContent = styled.div`
+export const PanelContent = styled.div<{ smallViewport?: boolean }>`
   background-color: white;
   padding: ${themeSpacing(4)};
-  position: relative;
   z-index: 1;
+  position: relative;
+  ${({ smallViewport }) =>
+    smallViewport &&
+    css`
+      top: 0;
+      left: 0;
+      position: absolute;
+      height: 100%;
+    `}
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
     bottom: 0;
     box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
-    flex: 0 0 50vh;
-    max-height: 50vh;
+    flex: 0 0 50%;
+    max-height: 50%;
     order: 1;
     width: 100vw;
   }
@@ -80,13 +88,14 @@ const slideUp = keyframes`
 
 export const AddressPanel = styled.article`
   background-color: white;
-  position: fixed;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   z-index: 2;
   left: 0;
   top: 0;
   animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  translate3d(0, 100%, 0);
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
     transform: translate3d(0, 0, 0);
