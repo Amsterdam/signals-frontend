@@ -28,6 +28,7 @@ const expectedLocation = {
     label: 'Waar is het?',
     optional: true,
     render: expect.any(Function),
+    canBeNull: false,
   },
 }
 
@@ -57,6 +58,7 @@ describe('Wizard summary', () => {
       extra_bedrijven_horeca_wat: {
         meta: {
           label: 'Uw melding gaat over:',
+          canBeNull: true,
         },
         options: { validators: [Validators.required] },
         render: 'RadioInputGroup',
@@ -70,16 +72,18 @@ describe('Wizard summary', () => {
     }
 
     it('should return mapped values', () => {
-      expect(summary(controls)).toEqual({
+      expect(summary(controls)).toStrictEqual({
         extra_bedrijven_horeca_wat: {
           label: 'Uw melding gaat over:',
           optional: true,
           render: ObjectLabel,
+          canBeNull: true,
         },
         extra_bedrijven_horeca_naam: {
           label: 'Wie of wat zorgt voor deze overlast, denkt u?',
           optional: true,
           render: Label,
+          canBeNull: false,
         },
       })
     })
@@ -146,6 +150,7 @@ describe('Wizard summary', () => {
             label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,
             render: expect.any(Function),
+            canBeNull: false,
           },
           ...expectedLocation,
         },
