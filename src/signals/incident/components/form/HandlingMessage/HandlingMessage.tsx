@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Heading, Paragraph } from '@amsterdam/asc-ui'
+import { Heading } from '@amsterdam/asc-ui'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
 
@@ -29,7 +29,7 @@ const renderText = (
     )
   }
 
-  return <Paragraph>We gaan zo snel mogelijk aan de slag.</Paragraph>
+  return <p>We gaan zo snel mogelijk aan de slag.</p>
 }
 
 interface HandlingMessageProps {
