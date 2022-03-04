@@ -3,7 +3,6 @@
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
 import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import type {
-  Feature,
   FeatureStatusType,
   Meta,
 } from 'signals/incident/components/form/MapSelectors/types'
@@ -40,15 +39,12 @@ describe('utils', () => {
     it('should return if feature or featureStatusTypes is undefined', () => {
       const feature = undefined
       const noFeatureStatusTypes: FeatureStatusType[] = []
-      expect(
-        getFeatureStatusType(feature as unknown as Feature, featureStatusTypes)
-      ).toEqual(undefined)
-      expect(
-        getFeatureStatusType(
-          feature as unknown as Feature,
-          noFeatureStatusTypes
-        )
-      ).toEqual(undefined)
+      expect(getFeatureStatusType(feature, featureStatusTypes)).toEqual(
+        undefined
+      )
+      expect(getFeatureStatusType(feature, noFeatureStatusTypes)).toEqual(
+        undefined
+      )
     })
   })
 })

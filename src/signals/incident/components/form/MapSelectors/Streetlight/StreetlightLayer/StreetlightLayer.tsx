@@ -16,8 +16,7 @@ export const StreetlightLayer = () => {
   const statusFeatures =
     data.features.filter(
       (feature) =>
-        getFeatureStatusType(feature as Feature, featureStatusTypes) !==
-        undefined
+        getFeatureStatusType(feature, featureStatusTypes) !== undefined
     ) || []
 
   return (

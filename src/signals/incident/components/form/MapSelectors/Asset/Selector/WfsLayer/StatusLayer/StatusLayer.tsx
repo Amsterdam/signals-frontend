@@ -29,19 +29,18 @@ const StatusLayer: FC<StatusLayerProps> = ({
     const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
+    if (!featureStatusType) {
+      return
+    }
 
     const icon = L.icon({
       iconSize: [20, 20],
-      iconUrl: featureStatusType?.icon.iconUrl || '',
+      iconUrl: featureStatusType.icon.iconUrl,
       className: STATUS_CLASS_MODIFIER,
     })
 
-    const featureId = featureStatusType
-      ? feature.properties[featureStatusType.idField]
-      : index
-    const altText = featureStatusType
-      ? `${featureStatusType.description} - ${featureId}`
-      : `${featureId}`
+    const featureId = feature.properties[featureStatusType.idField] || index
+    const altText = `${featureStatusType.description} - ${featureId}`
 
     return (
       <Marker

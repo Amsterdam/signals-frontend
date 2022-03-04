@@ -1,27 +1,20 @@
-import type {
-  FeatureIcon,
-  FeatureProps,
-} from 'signals/incident/components/form/MapSelectors/types'
+import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
 
-interface Feature {
-  properties: FeatureProps
-}
+export const getFeatureStatusType = (
+  feature: any,
+  featureStatusTypes: FeatureStatusType[]
+): FeatureStatusType | undefined => {
+  if (!feature || !featureStatusTypes) {
+    return
+  }
 
-interface FeatureStatusType {
-  statusValues: string[] | number[]
-  statusField: string
-  idField: string
-  description: string
-  icon: FeatureIcon
-}
+  const statusValue = feature.properties[featureStatusTypes[0]?.statusField]
 
-export function getFeatureStatusType<
-  Type1 extends Feature,
-  Type2 extends FeatureStatusType
->(feature: Type1, featureStatusTypes: Type2[]): Type2 | undefined {
-  const statusValue = feature?.properties[featureStatusTypes[0].statusField]
+  if (statusValue) {
+    return featureStatusTypes.find((statusType) =>
+      statusType.statusValues.some((value) => value === statusValue)
+    )
+  }
 
-  return featureStatusTypes.find((statusType) =>
-    statusType.statusValues.some((value) => value === statusValue)
-  )
+  return
 }
