@@ -54,17 +54,6 @@ describe('DateTimeInput', () => {
     expect(screen.queryByTestId('dateTime')).not.toBeInTheDocument()
   })
 
-  it('does not render when value is undefined', () => {
-    const notVisible = {
-      ...props,
-      value: undefined,
-    }
-
-    render(withAppContext(<DateTimeInput {...notVisible} />))
-
-    expect(screen.queryByTestId('dateTime')).not.toBeInTheDocument()
-  })
-
   it('renders', () => {
     render(withAppContext(<DateTimeInput {...props} />))
 
