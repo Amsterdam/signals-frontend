@@ -6,12 +6,12 @@ import { Button, Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 
 export const Header = styled.div`
+  align-items: center;
+  border-bottom: 1px solid ${themeColor('tint', 'level5')};
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: ${themeSpacing(3, 4, 3, 4)};
   margin: 0;
-  border-bottom: 1px solid ${themeColor('tint', 'level5')};
+  padding: ${themeSpacing(3, 4)};
 `
 
 export const StyledHeading = styled(Heading)`
