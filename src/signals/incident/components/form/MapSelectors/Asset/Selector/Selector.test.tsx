@@ -39,7 +39,7 @@ jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
   </span>
 ))
 
-let actualMapOptions: MapOptions
+let actualMapOptions: MapOptions | null = null
 jest.mock('components/Map', () => {
   const originalModule = jest.requireActual('components/Map')
   return {
@@ -56,6 +56,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     fetchMock.resetMocks()
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
+    actualMapOptions = null
   })
 
   afterEach(() => {
