@@ -27,7 +27,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 0;
 `
 
-interface MapProps {
+export interface MapProps {
   className?: string
   'data-testid'?: string
   /**
