@@ -88,7 +88,6 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   const [isPublicAccessible, setIsPublicAccessible] = useState(
     data?.is_public_accessible ?? false
   )
-  // const [publicName, setPublicName] = useState(data.public_name)
   const responsibleDepartments = useMemo(
     () =>
       data
@@ -98,20 +97,6 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
         : [],
     [data]
   )
-
-  // useEffect(() => {
-  //   // if (data?.is_public_accessible) {
-  //   //   setIsPublicAccessible(data.is_public_accessible)
-  //   // }
-  //   if (data?.public_name) {
-  //     setPublicName(data.public_name)
-  //   }
-  // }, [
-  //   // data?.is_public_accessible,
-  //   data?.public_name,
-  //   // setIsPublicAccessible,
-  //   setPublicName,
-  // ])
 
   const onCheck = useCallback(
     (evt) => {
@@ -172,6 +157,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                   htmlFor="is_public_accessible"
                   label="Toon meldingen van deze subcategorie op een openbare kaart"
                   data-testid="subcategoryIsPublicAccessible"
+                  disabled={readOnly}
                 >
                   <input
                     type="hidden"
