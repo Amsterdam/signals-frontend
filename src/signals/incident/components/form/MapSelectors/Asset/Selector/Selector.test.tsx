@@ -10,12 +10,15 @@ import type { FC } from 'react'
 
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import type { MapOptions } from 'leaflet'
+import type { MapProps } from 'components/Map/Map'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
-import Selector from './Selector'
+import Selector, { MAP_LOCATION_ZOOM } from './Selector'
 
 jest.useFakeTimers()
 
@@ -36,11 +39,24 @@ jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
   </span>
 ))
 
+let actualMapOptions: MapOptions | null = null
+jest.mock('components/Map', () => {
+  const originalModule = jest.requireActual('components/Map')
+  return {
+    __esModule: true,
+    default: ({ mapOptions, ...props }: MapProps) => {
+      actualMapOptions = mapOptions
+      return originalModule.default({ mapOptions, ...props })
+    },
+  }
+})
+
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
     fetchMock.resetMocks()
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
+    actualMapOptions = null
   })
 
   afterEach(() => {
@@ -65,6 +81,44 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
 
     expect(screen.getByTestId('testLayer')).toBeInTheDocument()
+  })
+
+  describe('zoom levels', () => {
+    it('should use configuration defaults when no coordinates', async () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+          coordinates: undefined,
+        })
+      )
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({
+          maxZoom: configuration.map.options.maxZoom,
+          minZoom: configuration.map.options.minZoom,
+          zoom: configuration.map.options.zoom,
+        })
+      )
+    })
+
+    it('should zoom to MAP_LOCATION_ZOOM', async () => {
+      render(withAssetSelectContext(<Selector />))
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({ zoom: MAP_LOCATION_ZOOM })
+      )
+    })
+
+    it('should not zoom in further than maxZoom in config', async () => {
+      const maxZoom = MAP_OPTIONS.maxZoom
+      MAP_OPTIONS.maxZoom = MAP_LOCATION_ZOOM - 1
+      render(withAssetSelectContext(<Selector />))
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({ zoom: MAP_OPTIONS.maxZoom })
+      )
+      MAP_OPTIONS.maxZoom = maxZoom
+    })
   })
 
   it('should call close when closing the selector', async () => {

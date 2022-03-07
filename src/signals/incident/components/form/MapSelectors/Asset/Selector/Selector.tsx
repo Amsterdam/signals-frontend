@@ -50,8 +50,7 @@ const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,
 }
 
-const MAP_LOCATION_ZOOM = 14
-const MAP_NO_LOCATION_ZOOM = 9
+export const MAP_LOCATION_ZOOM = 14
 
 const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
@@ -72,14 +71,19 @@ const Selector: FC = () => {
 
   const mapOptions: MapOptions = useMemo(
     () => ({
+      minZoom: 7,
+      maxZoom: 16,
       ...MAP_OPTIONS,
       center,
       dragging: true,
       zoomControl: false,
       scrollWheelZoom: true,
-      minZoom: 7,
-      maxZoom: 16,
-      zoom: coordinates ? MAP_LOCATION_ZOOM : MAP_NO_LOCATION_ZOOM,
+      zoom: coordinates
+        ? Math.min(
+            MAP_LOCATION_ZOOM,
+            MAP_OPTIONS.maxZoom || Number.POSITIVE_INFINITY
+          )
+        : MAP_OPTIONS.zoom,
     }),
     [center, coordinates]
   )
@@ -126,8 +130,8 @@ const Selector: FC = () => {
   useLayoutEffect(() => {
     if (!map || !coordinates) return
 
-    map.flyTo(coordinates, MAP_LOCATION_ZOOM)
-  }, [coordinates, map])
+    map.flyTo(coordinates, mapOptions.zoom)
+  }, [coordinates, map, mapOptions.zoom])
 
   useEffect(() => {
     global.window.scrollTo(0, 0)
