@@ -119,6 +119,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     update.mockReset()
   })
 
+  it('shows an explanation text when email will be sent', () => {
+    render(renderWithContext())
+
+    userEvent.click(screen.getByText('Afgehandeld'))
+    userEvent.click(screen.getByTestId('sendEmailCheckbox'))
+
+    expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
+  })
+
   it('renders correctly', () => {
     render(renderWithContext())
     expect(screen.queryByTestId('standardTextButton')).toBeInTheDocument()
@@ -475,15 +484,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.ReactieGevraagd,
     ])
     expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
-  })
-
-  it('shows an explanation text when email will be sent', () => {
-    render(renderWithContext())
-
-    userEvent.click(screen.getByText('Afgehandeld'))
-    userEvent.click(screen.getByTestId('sendEmailCheckbox'))
-
-    expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
   })
 
   it('is not required to provide text when new status is not an end state of a split incident', () => {
