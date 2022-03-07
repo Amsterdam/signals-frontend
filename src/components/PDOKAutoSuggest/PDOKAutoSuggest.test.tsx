@@ -76,17 +76,17 @@ describe('components/PDOKAutoSuggest', () => {
       )
     })
 
-    it('should work with an array for municipality', async () => {
-      await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] })
+    it('should work with multiple municipalities', async () => {
+      await renderAndSearch('Dam', { municipality: 'utrecht amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}(utrecht amsterdam)`),
         expect.objectContaining({ method: 'GET' })
       )
     })
 
-    it('should work with quotes', async () => {
+    it('should work with quotes and negations', async () => {
       await renderAndSearch('Dam', {
-        municipality: ['"den bosch"', '-amsterdam'],
+        municipality: '"den bosch" -amsterdam',
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}("den bosch" -amsterdam)`),
@@ -97,36 +97,6 @@ describe('components/PDOKAutoSuggest', () => {
     it('should ignore an empty string', async () => {
       await renderAndSearch('Dam', {
         municipality: '',
-      })
-      expect(fetch).toHaveBeenCalledWith(
-        expect.not.stringContaining(municipalityQs),
-        expect.objectContaining({ method: 'GET' })
-      )
-    })
-
-    it('should ignore an empty array', async () => {
-      await renderAndSearch('Dam', {
-        municipality: [],
-      })
-      expect(fetch).toHaveBeenCalledWith(
-        expect.not.stringContaining(municipalityQs),
-        expect.objectContaining({ method: 'GET' })
-      )
-    })
-
-    it('should ignore an empty string in an array', async () => {
-      await renderAndSearch('Dam', {
-        municipality: ['', 'amsterdam', ''],
-      })
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}(amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
-      )
-    })
-
-    it('should ignore an array with only empty strings', async () => {
-      await renderAndSearch('Dam', {
-        municipality: ['', ''],
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.not.stringContaining(municipalityQs),
