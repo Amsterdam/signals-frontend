@@ -65,6 +65,9 @@ export const StandardTextsButton = styled(Button)<{
 export const StyledAlert = styled(Alert)<{ level?: AlertLevel }>`
   ${({ level }) =>
     level === 'neutral' ? 'background-color: transparent; padding: 0;' : ''}
+  & + & {
+    margin-top: ${themeSpacing(4)};
+  }
 `
 
 export const StyledButton = styled(Button)`
