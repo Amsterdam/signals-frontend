@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type { FunctionComponent, MouseEvent, ElementType } from 'react'
 import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -85,8 +85,10 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   onSubmitForm,
   readOnly,
 }) => {
-  const [isPublicAccessible, setIsPublicAccessible] = useState(false)
-  const [publicName, setPublicName] = useState('')
+  const [isPublicAccessible, setIsPublicAccessible] = useState(
+    data?.is_public_accessible ?? false
+  )
+  // const [publicName, setPublicName] = useState(data.public_name)
   const responsibleDepartments = useMemo(
     () =>
       data
@@ -97,19 +99,19 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
     [data]
   )
 
-  useEffect(() => {
-    if (data?.is_public_accessible) {
-      setIsPublicAccessible(data.is_public_accessible)
-    }
-    if (data?.public_name) {
-      setPublicName(data.public_name)
-    }
-  }, [
-    data?.is_public_accessible,
-    data?.public_name,
-    setIsPublicAccessible,
-    setPublicName,
-  ])
+  // useEffect(() => {
+  //   // if (data?.is_public_accessible) {
+  //   //   setIsPublicAccessible(data.is_public_accessible)
+  //   // }
+  //   if (data?.public_name) {
+  //     setPublicName(data.public_name)
+  //   }
+  // }, [
+  //   // data?.is_public_accessible,
+  //   data?.public_name,
+  //   // setIsPublicAccessible,
+  //   setPublicName,
+  // ])
 
   const onCheck = useCallback(
     (evt) => {
@@ -165,26 +167,33 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               <StyledDefinitionTerm>
                 <strong>Openbaar tonen</strong>
               </StyledDefinitionTerm>
-              <div>
+              <>
                 <Label
                   htmlFor="is_public_accessible"
                   label="Toon meldingen van deze subcategorie op een openbare kaart"
                   data-testid="subcategoryIsPublicAccessible"
-                  disabled={readOnly}
                 >
+                  <input
+                    type="hidden"
+                    name="is_public_accessible"
+                    value="false"
+                  />
+
                   <Checkbox
                     checked={isPublicAccessible}
+                    name="is_public_accessible"
                     id="is_public_accessible"
                     onClick={onCheck}
+                    value={isPublicAccessible.toString()}
                   />
                 </Label>
-              </div>
+              </>
             </FieldGroup>
 
             {isPublicAccessible && (
               <FieldGroup>
                 <Input
-                  defaultValue={publicName}
+                  defaultValue={data?.public_name ?? ''}
                   id="public_name"
                   label="Naam openbaar"
                   name="public_name"
