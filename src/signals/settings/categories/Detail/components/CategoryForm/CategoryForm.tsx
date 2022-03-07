@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useMemo, useState } from 'react'
-import type { FunctionComponent, MouseEvent, ElementType } from 'react'
+import type {
+  ChangeEvent,
+  FunctionComponent,
+  MouseEvent,
+  ElementType,
+} from 'react'
 import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -99,8 +104,8 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   )
 
   const onCheck = useCallback(
-    (evt) => {
-      setIsPublicAccessible(evt.target.checked)
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setIsPublicAccessible(event.target.checked)
     },
     [setIsPublicAccessible]
   )
@@ -169,7 +174,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                     checked={isPublicAccessible}
                     name="is_public_accessible"
                     id="is_public_accessible"
-                    onClick={onCheck}
+                    onChange={onCheck}
                     value={isPublicAccessible.toString()}
                   />
                 </Label>
