@@ -13,7 +13,7 @@ import type { FeatureType, Item } from '../../types'
 import {
   getCheckedFeatureType,
   getReportedFeatureType,
-} from '../Selector/WfsLayer/StatusLayer/utils'
+} from '../Selector/VectorLayer/StatusLayer/utils'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',

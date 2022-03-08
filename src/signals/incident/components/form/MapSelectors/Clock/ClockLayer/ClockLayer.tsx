@@ -3,14 +3,14 @@
 import { useContext } from 'react'
 import type { FeatureCollection } from 'geojson'
 import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
-import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
+import StatusLayer from '../../Asset/Selector/VectorLayer/StatusLayer'
 import AssetSelectContext from '../../Asset/context'
 import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
 import type { Feature, ReportedFeatureType } from '../../types'
 import {
   getIsReported,
   getReportedFeatureType,
-} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
+} from '../../Asset/Selector/VectorLayer/StatusLayer/utils'
 
 export const ClockLayer = () => {
   const { meta } = useContext(AssetSelectContext)

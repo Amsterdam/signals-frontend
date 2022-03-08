@@ -19,13 +19,13 @@ import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { featureToCoordinates } from 'shared/services/map-location'
-import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
+import StatusLayer from '../../Asset/Selector/VectorLayer/StatusLayer'
 import {
   getCheckedFeatureType,
   getIsChecked,
   getIsReported,
   getReportedFeatureType,
-} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
+} from '../../Asset/Selector/VectorLayer/StatusLayer/utils'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
