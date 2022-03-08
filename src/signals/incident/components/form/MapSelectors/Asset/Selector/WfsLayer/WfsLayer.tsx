@@ -2,25 +2,17 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useContext, useEffect, useState } from 'react'
 import type { FunctionComponent, ReactElement } from 'react'
-import { useMapInstance } from '@amsterdam/react-maps'
 import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
-import type { Map as MapType } from 'leaflet'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 import useLayerVisible from '../../../hooks/useLayerVisible'
+import useBoundingBox from '../../../hooks/useBoundingBox'
 import { NO_DATA, WfsDataProvider } from './context'
 
 export const SRS_NAME = 'EPSG:4326'
-
-interface Bbox {
-  east: string
-  north: string
-  south: string
-  west: string
-}
 
 export interface WfsLayerProps {
   children: ReactElement<DataLayerProps>
@@ -31,23 +23,10 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   children,
   zoomLevel = {},
 }) => {
-  const mapInstance = useMapInstance()
   const { meta, setMessage } = useContext(AssetSelectContext)
   const layerVisible = useLayerVisible(zoomLevel)
-
-  const getBbox = (map: MapType): Bbox => {
-    const bounds = map.getBounds()
-
-    return {
-      east: bounds.getEast().toString(),
-      north: bounds.getNorth().toString(),
-      south: bounds.getSouth().toString(),
-      west: bounds.getWest().toString(),
-    }
-  }
-
-  const [bbox, setBbox] = useState<Bbox>()
   const [data, setData] = useState<FeatureCollection>(NO_DATA)
+  const bbox = useBoundingBox()
 
   const endpoint = meta?.endpoint
   const urlReplacements = endpoint &&
@@ -73,21 +52,6 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   const filter = meta.wfsFilter
     ? `<Filter><And>${wfsFilterReplaced}</And></Filter>`
     : ''
-
-  /* istanbul ignore next */
-  useEffect(() => {
-    setBbox(getBbox(mapInstance))
-
-    function onMoveEnd() {
-      setBbox(getBbox(mapInstance))
-    }
-
-    mapInstance.on('moveend', onMoveEnd)
-
-    return () => {
-      mapInstance.off('moveend', onMoveEnd)
-    }
-  }, [mapInstance])
 
   useEffect(() => {
     setMessage(undefined)
