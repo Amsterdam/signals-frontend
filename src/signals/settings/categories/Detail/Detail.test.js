@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, act, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
 import userEvent from '@testing-library/user-event'
@@ -13,8 +13,8 @@ import { showGlobalNotification } from 'containers/App/actions'
 import * as appSelectors from 'containers/App/selectors'
 
 import { subCategories } from 'utils/__tests__/fixtures'
-import useConfirmedCancel from '../../../hooks/useConfirmedCancel'
-import CategoryDetailContainer from '..'
+import useConfirmedCancel from '../../hooks/useConfirmedCancel'
+import CategoryDetailContainer from '.'
 
 const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])
 
@@ -33,7 +33,7 @@ jest.mock('models/categories/actions', () => ({
   ...jest.requireActual('models/categories/actions'),
 }))
 
-jest.mock('../../../hooks/useConfirmedCancel')
+jest.mock('../../hooks/useConfirmedCancel')
 
 const userCan = jest.fn(() => () => true)
 jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(userCan)
@@ -62,7 +62,7 @@ describe('signals/settings/categories/Detail', () => {
     fetch.mockClear()
   })
 
-  it('should render a backlink', async () => {
+  it('Renders a backlink', async () => {
     render(withAppContext(<CategoryDetailContainer />))
 
     const backLink = await screen.findByTestId('backlink')
@@ -70,7 +70,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(backLink.getAttribute('href')).toEqual(routes.categories)
   })
 
-  it('should render a backlink with the proper referrer', async () => {
+  it('Renders a backlink with the proper referrer', async () => {
     const referrer = '/some-page-we-came-from'
 
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
@@ -84,14 +84,14 @@ describe('signals/settings/categories/Detail', () => {
     expect(backLink.getAttribute('href')).toEqual(referrer)
   })
 
-  it('should render the correct page title for a new category', async () => {
+  it('Renders the correct page title for a new category', async () => {
     render(withAppContext(<CategoryDetailContainer />))
 
     const title = await screen.findByText('Subcategorie toevoegen')
     expect(title).toBeInTheDocument()
   })
 
-  it('should render the correct page title for an existing category', async () => {
+  it('Renders the correct page title for an existing category', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: categoryJSON.id,
     }))
@@ -102,7 +102,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(title).toBeInTheDocument()
   })
 
-  it('should render a form for a new category', () => {
+  it('Renders a form for a new category', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: undefined,
     }))
@@ -117,7 +117,7 @@ describe('signals/settings/categories/Detail', () => {
     })
   })
 
-  it('should render a form for an existing category', async () => {
+  it('Renders a form for an existing category', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 123,
     }))
@@ -132,7 +132,7 @@ describe('signals/settings/categories/Detail', () => {
     )
   })
 
-  it('should call confirmedCancel', async () => {
+  it('Calls confirmedCancel', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 456,
     }))
@@ -144,41 +144,31 @@ describe('signals/settings/categories/Detail', () => {
     const nameField = screen.getByRole('textbox', { name: 'Naam' })
     const cancelButton = screen.getByTestId('cancelBtn')
 
-    act(() => {
-      // no changes to data in form fields
-      userEvent.click(cancelButton)
-    })
+    // no changes to data in form fields
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(1)
     expect(confirmedCancel).toHaveBeenCalledWith(true)
 
-    act(() => {
-      // changes made, but data remains the same
-      userEvent.clear(nameField)
-      userEvent.type(nameField, categoryJSON.name)
-    })
+    // changes made, but data remains the same
+    userEvent.clear(nameField)
+    userEvent.type(nameField, categoryJSON.name)
 
-    act(() => {
-      userEvent.click(cancelButton)
-    })
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(2)
     expect(confirmedCancel).toHaveBeenLastCalledWith(true)
 
-    act(() => {
-      // changes made, data differs from initial API data
-      userEvent.type(nameField, 'Some other value')
-    })
+    // changes made, data differs from initial API data
+    userEvent.type(nameField, 'Some other value')
 
-    act(() => {
-      userEvent.click(cancelButton)
-    })
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(3)
     expect(confirmedCancel).toHaveBeenLastCalledWith(false)
   })
 
-  it('should not update NULL values with empty string', async () => {
+  it('Does not update NULL values with empty string', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 10101,
     }))
@@ -211,7 +201,41 @@ describe('signals/settings/categories/Detail', () => {
     })
   })
 
-  it('should call confirmedCancel when data has NULL values', async () => {
+  it("Converts stringified boolean values to actual booleans for 'is_active' and 'is_public_accessible'", async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      categoryId: 10101,
+    }))
+    const categoryData = {
+      ...categoryJSON,
+      is_active: 'true',
+      is_public_accessible: 'false',
+    }
+    fetch.resetMocks()
+    fetch.mockResponses(
+      [JSON.stringify(categoryData), { status: 200 }],
+      [JSON.stringify(historyJSON), { status: 200 }],
+      [JSON.stringify(categoryData), { status: 200 }]
+    )
+
+    render(withAppContext(<CategoryDetailContainer />))
+
+    await screen.findByTestId('detailCategoryForm')
+
+    userEvent.click(screen.getByTestId('submitBtn'))
+
+    const actualRequestBody = JSON.parse(
+      fetch.mock.calls[fetch.mock.calls.length - 1][1].body
+    )
+    expect(actualRequestBody).toEqual(
+      expect.objectContaining({ is_active: true, is_public_accessible: false })
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    })
+  })
+
+  it('Calls confirmedCancel when data has NULL values', async () => {
     const dataWithNullValue = { ...categoryJSON, description: null }
 
     fetch.resetMocks()
@@ -235,44 +259,34 @@ describe('signals/settings/categories/Detail', () => {
     })
     const cancelButton = screen.getByTestId('cancelBtn')
 
-    act(() => {
-      // no changes to data in form fields
-      userEvent.click(cancelButton)
-    })
+    // no changes to data in form fields
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(1)
     expect(confirmedCancel).toHaveBeenCalledWith(true)
 
-    act(() => {
-      // changes made, but data remains the same
-      userEvent.clear(descriptionField)
-    })
+    // changes made, but data remains the same
+    userEvent.clear(descriptionField)
 
     await screen.findByTestId('detailCategoryForm')
 
-    act(() => {
-      userEvent.click(cancelButton)
-    })
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(2)
     expect(confirmedCancel).toHaveBeenLastCalledWith(true)
 
-    act(() => {
-      // changes made, data differs from initial API data
-      userEvent.type(descriptionField, 'Here be a description')
-    })
+    // changes made, data differs from initial API data
+    userEvent.type(descriptionField, 'Here be a description')
 
     await screen.findByTestId('detailCategoryForm')
 
-    act(() => {
-      userEvent.click(cancelButton)
-    })
+    userEvent.click(cancelButton)
 
     expect(confirmedCancel).toHaveBeenCalledTimes(3)
     expect(confirmedCancel).toHaveBeenLastCalledWith(false)
   })
 
-  it('should call patch on submit', async () => {
+  it('Calls patch on submit', async () => {
     fetch.resetMocks()
 
     fetch
@@ -293,9 +307,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const submitBtn = screen.getByTestId('submitBtn')
 
-    act(() => {
-      userEvent.click(submitBtn)
-    })
+    userEvent.click(submitBtn)
 
     expect(dispatch).not.toHaveBeenCalled()
 
@@ -311,7 +323,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(dispatch).toHaveBeenCalledWith(fetchCategories())
   })
 
-  it('should redirect on patch success', async () => {
+  it('Redirects on patch success', async () => {
     fetch.resetMocks()
 
     fetch
@@ -331,9 +343,7 @@ describe('signals/settings/categories/Detail', () => {
 
     const submitBtn = screen.getByTestId('submitBtn')
 
-    act(() => {
-      userEvent.click(submitBtn)
-    })
+    userEvent.click(submitBtn)
 
     expect(dispatch).not.toHaveBeenCalled()
     expect(push).not.toHaveBeenCalled()
@@ -347,7 +357,7 @@ describe('signals/settings/categories/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1)
   })
 
-  it('does not request history when category is not passed', async () => {
+  it('Does not request history when category is not passed', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: undefined,
     }))
@@ -362,7 +372,7 @@ describe('signals/settings/categories/Detail', () => {
     )
   })
 
-  it('requests history for existing category', async () => {
+  it('Requests history for existing category', async () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       categoryId: 900,
     }))

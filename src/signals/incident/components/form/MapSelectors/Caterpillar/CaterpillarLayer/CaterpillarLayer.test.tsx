@@ -8,7 +8,9 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import type { Geometrie } from 'types/incident'
 
 import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import { meta, selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import userEvent from '@testing-library/user-event'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
@@ -16,12 +18,13 @@ import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
 import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import { featureToCoordinates } from 'shared/services/map-location'
 
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import withAssetSelectContext, {
   contextValue,
 } from '../../Asset/__tests__/withAssetSelectContext'
 import CaterpillarLayer from '.'
 
-const typedMeta = meta as unknown as Meta
+const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: selection[0],
@@ -76,8 +79,7 @@ describe('CaterpillarLayer', () => {
     expect(setItem).toHaveBeenCalledWith(
       {
         id: featureId,
-        isReported: true,
-        isChecked: false,
+        status: FeatureStatus.REPORTED,
         description: 'Eikenboom',
         type: 'Eikenboom',
         GlobalID: feature?.properties.GlobalID,

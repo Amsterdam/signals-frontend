@@ -18,11 +18,20 @@ export const validatePhoneNumber = (control?: AbstractControl) => {
   }
 }
 
-export const nullOrNumber = (control?: AbstractControl) => {
-  if (!control || typeof control.value === 'number' || control.value === null) {
-    return null
+export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
+  function required(control: AbstractControl) {
+    if (
+      !control ||
+      typeof control.value === 'number' ||
+      control.value === null
+    ) {
+      return null
+    }
+
+    return {
+      required: message,
+    }
   }
-}
 
 export const createRequired = (message: string) =>
   function required({ value }: AbstractControl) {

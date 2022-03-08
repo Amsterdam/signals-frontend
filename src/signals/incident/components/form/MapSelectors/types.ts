@@ -17,11 +17,15 @@ export interface BaseItem {
   description?: string
 }
 
+export enum FeatureStatus {
+  CHECKED = 'checked',
+  REPORTED = 'reported',
+}
+
 export interface Item extends Record<string, unknown> {
   description?: string
   id?: string | number
-  isReported?: boolean
-  isChecked?: boolean
+  status?: typeof FeatureStatus | string
   type?: typeof UNREGISTERED_TYPE | typeof UNKNOWN_TYPE | string
   label?: string
 }
@@ -35,14 +39,9 @@ export interface FeatureType {
   typeValue: string
 }
 
-export interface ReportedFeatureType extends FeatureType {
-  isReportedField: string
-  isReportedValue: number
-}
-
-export interface CheckedFeatureType extends FeatureType {
-  isCheckedField: string
-  isCheckedValues: string[]
+export interface FeatureStatusType extends FeatureType {
+  statusField: string
+  statusValues: string[] | number[]
 }
 
 export interface FeatureIcon {
@@ -61,6 +60,7 @@ export interface WfsFilter {
 
 export interface DataLayerProps {
   featureTypes: FeatureType[]
+  featureStatusTypes?: FeatureStatusType[]
   desktopView?: boolean
 }
 
@@ -68,6 +68,7 @@ export interface Meta extends Record<string, unknown> {
   name?: string
   endpoint: string
   featureTypes: FeatureType[]
+  featureStatusTypes?: FeatureStatusType[]
   language?: Record<string, string>
   wfsFilter?: string
   extraProperties?: string[]
@@ -77,5 +78,5 @@ export interface Meta extends Record<string, unknown> {
   pathMerge?: string
 }
 
-export type FeatureProps = Record<string, string | number | undefined>
+export type FeatureProps = Record<string, string | number | undefined | null>
 export type Feature = GeoJSONFeature<Point, FeatureProps>

@@ -354,7 +354,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             htmlFor="addNoteText"
             label={
               <>
-                <strong>{state.text.label}</strong>
+                <strong>
+                  {state.check.checked ? state.text.label : 'Toelichting'}
+                </strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
               </>
             }

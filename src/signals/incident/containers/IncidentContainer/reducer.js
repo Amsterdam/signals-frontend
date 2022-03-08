@@ -22,7 +22,7 @@ import { getIncidentClassification } from './services'
 
 export const initialState = fromJS({
   incident: {
-    dateTime: null,
+    dateTime: undefined,
     category: '',
     subcategory: '',
     classification: null,

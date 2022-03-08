@@ -145,6 +145,8 @@ describe('AssetSelect', () => {
         meta: {
           incidentContainer: { incident: { location } },
           updateIncident,
+          featureTypes: initialValue.meta.featureTypes,
+          featureStatusTypes: [],
         },
       },
     }

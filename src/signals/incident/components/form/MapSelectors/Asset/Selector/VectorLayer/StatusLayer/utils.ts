@@ -1,40 +1,20 @@
-import type {
-  CheckedFeatureType,
-  Feature,
-  FeatureType,
-  ReportedFeatureType,
-} from 'signals/incident/components/form/MapSelectors/types'
+import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
 
-export const getIsReported = (
-  feature: Feature | undefined,
-  reportedFeatureType: ReportedFeatureType | undefined
-) => {
-  if (!feature || !reportedFeatureType) {
-    return false
+export const getFeatureStatusType = (
+  feature: any,
+  featureStatusTypes: FeatureStatusType[]
+): FeatureStatusType | undefined => {
+  if (!feature || !featureStatusTypes) {
+    return
   }
-  return Boolean(
-    feature.properties[reportedFeatureType.isReportedField] ===
-      reportedFeatureType.isReportedValue
-  )
-}
 
-export const getIsChecked = (
-  feature: Feature | undefined,
-  checkedFeatureType: CheckedFeatureType | undefined
-): boolean => {
-  if (!feature || !checkedFeatureType) {
-    return false
+  const statusValue = feature.properties[featureStatusTypes[0]?.statusField]
+
+  if (statusValue) {
+    return featureStatusTypes.find((statusType) =>
+      statusType.statusValues.some((value) => value === statusValue)
+    )
   }
-  const isCheckedValue = feature.properties[checkedFeatureType.isCheckedField]
-  return isCheckedValue
-    ? Boolean(
-        checkedFeatureType.isCheckedValues.includes(isCheckedValue.toString())
-      )
-    : false
+
+  return
 }
-
-export const getReportedFeatureType = (featureTypes: FeatureType[]) =>
-  featureTypes.find(({ typeValue }) => typeValue === 'reported')
-
-export const getCheckedFeatureType = (featureTypes: FeatureType[]) =>
-  featureTypes.find(({ typeValue }) => typeValue === 'checked')

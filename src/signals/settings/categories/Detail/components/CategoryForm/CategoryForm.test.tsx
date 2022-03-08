@@ -5,8 +5,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
-import CategoryForm from '..'
-import type { CategoryFormProps } from '../CategoryForm'
+import type { CategoryFormProps } from './CategoryForm'
+import CategoryForm from './CategoryForm'
 
 const mockDepartment = {
   can_view: true,
@@ -37,6 +37,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
       handling_message: 'Mock handling message',
       note: 'Mock note',
       is_active: true,
+      is_public_accessible: false,
       name: 'Mock name',
       sla: {
         n_days: 5,
@@ -55,7 +56,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     jest.restoreAllMocks()
   })
 
-  it('should render the correct fields', () => {
+  it('Renders the correct fields', () => {
     render(withAppContext(<CategoryForm {...defaultProps} />))
 
     expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
@@ -67,13 +68,18 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toHaveValue(
       'Mock note'
     )
+    expect(
+      screen.getByRole('checkbox', {
+        name: 'Toon meldingen van deze subcategorie op een openbare kaart',
+      })
+    ).not.toBeChecked()
     expect(screen.getByRole('spinbutton')).toHaveValue(5)
     expect(screen.getByRole('combobox')).toHaveValue('0')
     expect(screen.getByRole('radio', { name: 'Actief' })).toBeChecked()
     expect(screen.getByRole('radio', { name: 'Niet actief' })).not.toBeChecked()
   })
 
-  it('should render category history', () => {
+  it('Renders category history', () => {
     const { rerender } = render(
       withAppContext(<CategoryForm {...defaultProps} />)
     )
@@ -98,7 +104,27 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(screen.getByTestId('history')).toBeInTheDocument()
   })
 
-  it('should make fields disabled', () => {
+  it('Renders the public name field when the is_public_accessible checkbox is checked', () => {
+    render(withAppContext(<CategoryForm {...defaultProps} />))
+
+    expect(
+      screen.queryByRole('textbox', { name: 'Naam openbaar' })
+    ).not.toBeInTheDocument()
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Toon meldingen van deze subcategorie op een openbare kaart',
+    })
+    expect(checkbox).not.toBeChecked()
+
+    userEvent.click(checkbox)
+
+    expect(checkbox).toBeChecked()
+    expect(
+      screen.getByRole('textbox', { name: 'Naam openbaar' })
+    ).toBeInTheDocument()
+  })
+
+  it('Disables fields', () => {
     const { rerender } = render(
       withAppContext(<CategoryForm {...defaultProps} />)
     )
@@ -107,6 +133,9 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
       expect(element).not.toBeDisabled()
     })
     screen.getAllByRole('spinbutton').forEach((element) => {
+      expect(element).not.toBeDisabled()
+    })
+    screen.getAllByRole('checkbox').forEach((element) => {
       expect(element).not.toBeDisabled()
     })
     screen.getAllByRole('combobox').forEach((element) => {
@@ -123,6 +152,9 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     screen.getAllByRole('textbox').forEach((element) => {
       expect(element).toBeDisabled()
     })
+    screen.getAllByRole('checkbox').forEach((element) => {
+      expect(element).toBeDisabled()
+    })
     screen.getAllByRole('spinbutton').forEach((element) => {
       expect(element).toBeDisabled()
     })
@@ -137,7 +169,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should set field values', () => {
+  it('Sets field values', () => {
     const props: CategoryFormProps = {
       ...defaultProps,
       data: {
@@ -146,6 +178,8 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
         description: 'Bar',
         handling_message: 'foo@bar',
         is_active: true,
+        is_public_accessible: true,
+        public_name: 'Foo Bar',
         sla: {
           n_days: 10,
           use_calendar_days: false,
@@ -184,6 +218,15 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(screen.getByRole('textbox', { name: 'Servicebelofte' })).toHaveValue(
       'foo@bar'
     )
+    expect(
+      screen.getByRole('checkbox', {
+        name: 'Toon meldingen van deze subcategorie op een openbare kaart',
+      })
+    ).toBeChecked()
+    expect(screen.getByRole('textbox', { name: 'Naam openbaar' })).toHaveValue(
+      'Foo Bar'
+    )
+
     expect(screen.getByRole('spinbutton')).toHaveValue(props.data?.sla.n_days)
     expect(screen.getByRole('combobox')).toHaveValue('0')
     expect(screen.getByRole('radio', { name: 'Actief' })).toBeChecked()
@@ -212,7 +255,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(screen.getByRole('combobox')).toHaveValue('1')
   })
 
-  it('should call onCancel callback', () => {
+  it('Calls onCancel callback', () => {
     render(withAppContext(<CategoryForm {...defaultProps} />))
 
     expect(defaultProps.onCancel).not.toHaveBeenCalled()
@@ -220,7 +263,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     expect(defaultProps.onCancel).toHaveBeenCalled()
   })
 
-  it('should call onSubmit callback', () => {
+  it('Calls onSubmit callback', () => {
     render(withAppContext(<CategoryForm {...defaultProps} />))
 
     expect(defaultProps.onSubmitForm).not.toHaveBeenCalled()

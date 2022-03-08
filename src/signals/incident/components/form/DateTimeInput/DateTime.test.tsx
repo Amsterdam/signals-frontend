@@ -20,7 +20,21 @@ describe('DateTime', () => {
     onUpdate.mockReset()
   })
 
-  it('renders', () => {
+  /**
+   * The component can have three different states:
+   * - nothing selected (value equals undefined)
+   * - current date/time (value equals null)
+   * - custom date/time (value equals a number value)
+   */
+  it('renders when value is undefined', () => {
+    render(withAppContext(<DateTime {...props} value={undefined} />))
+
+    expect(screen.getAllByRole('radio')).toHaveLength(2)
+    expect(screen.getByLabelText('Nu')).not.toBeChecked()
+    expect(screen.getByLabelText('Eerder')).not.toBeChecked()
+  })
+
+  it('renders when value is null', () => {
     render(withAppContext(<DateTime {...props} />))
 
     expect(screen.getAllByRole('radio')).toHaveLength(2)
