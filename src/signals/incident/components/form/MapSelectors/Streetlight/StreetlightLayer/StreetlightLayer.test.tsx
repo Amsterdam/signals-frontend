@@ -13,6 +13,7 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import { FeatureStatus } from '../../types'
 import StreetlightLayer from './StreetlightLayer'
 
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
@@ -22,7 +23,7 @@ const assetSelectProviderValue: AssetSelectValue = {
     id: '031346',
     type: '4',
     description: 'Overig lichtpunt',
-    isReported: true,
+    status: FeatureStatus.REPORTED,
     location: {},
     label: 'Overig lichtpunt - 031346',
   },

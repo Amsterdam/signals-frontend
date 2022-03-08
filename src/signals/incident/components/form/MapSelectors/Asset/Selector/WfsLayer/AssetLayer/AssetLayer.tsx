@@ -12,17 +12,22 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import { featureToCoordinates } from 'shared/services/map-location'
 
 import type {
-  DataLayerProps,
   Item,
   Feature,
+  FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
 
 import { Marker } from '@amsterdam/arm-core'
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
+import { getFeatureStatusType } from '../StatusLayer/utils'
 
-export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
+export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, removeItem, setItem } = useContext(AssetSelectContext)
+  const { selection, removeItem, setItem, meta } =
+    useContext(AssetSelectContext)
+  const { featureTypes } = meta
+  const featureStatusTypes = meta.featureStatusTypes || []
 
   const getFeatureType = useCallback(
     (feature: Feature) => {
@@ -34,7 +39,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
     [featureTypes]
   )
 
-  const getMarker = (feat: any) => {
+  const getMarker = (feat: any, featureStatusTypes: FeatureStatusType[]) => {
     const feature = feat as Feature
     const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
 
@@ -53,8 +58,10 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       iconUrl: iconUrl || '/assets/images/featureDefaultMarker.svg',
     })
 
+    const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
+
     const onClick = async () => {
-      if (typeValue === 'reported') {
+      if (typeValue === FeatureStatus.REPORTED) {
         return
       }
 
@@ -63,7 +70,6 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         return
       }
 
-      const isReported = feature.properties.meldingstatus === 1
       const location: Location = {
         coordinates,
       }
@@ -72,7 +78,7 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
         id,
         type: typeValue,
         description,
-        isReported,
+        status: featureStatusType?.typeValue,
         label: [description, id].filter(Boolean).join(' - '),
       }
 
@@ -103,7 +109,11 @@ export const AssetLayer: FC<DataLayerProps> = ({ featureTypes }) => {
       />
     )
   }
-  return <>{data.features.map(getMarker)}</>
+  return (
+    <>
+      {data.features.map((feat) => getMarker(feat, featureStatusTypes || []))}
+    </>
+  )
 }
 
 export default AssetLayer

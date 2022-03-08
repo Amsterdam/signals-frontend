@@ -8,6 +8,7 @@ import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 import { validateObjectLocation } from '../../services/custom-validators'
+import { FeatureStatus } from '../../components/form/MapSelectors/types'
 
 export const ICON_SIZE = 40
 
@@ -109,19 +110,6 @@ const straatverlichtingKlokken = {
           typeValue: '4',
         },
         {
-          label: 'Is gemeld',
-          description: 'Is gemeld',
-          icon: {
-            options,
-            iconUrl: '/assets/images/icon-reported-marker.svg',
-          },
-          idField: 'objectnummer',
-          typeField: 'objecttype',
-          typeValue: 'reported',
-          isReportedField: 'meldingstatus',
-          isReportedValue: 1,
-        },
-        {
           description: 'Het lichtpunt staat niet op de kaart',
           label: 'Onbekend',
           icon: {
@@ -130,6 +118,21 @@ const straatverlichtingKlokken = {
           idField: 'id',
           typeField: 'type',
           typeValue: UNREGISTERED_TYPE,
+        },
+      ],
+      featureStatusTypes: [
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconUrl: '/assets/images/icon-reported-marker.svg',
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: FeatureStatus.REPORTED,
+          statusField: 'meldingstatus',
+          statusValues: [1],
         },
       ],
       pathMerge: 'extra_properties',
@@ -256,19 +259,6 @@ const straatverlichtingKlokken = {
           typeValue: '1',
         },
         {
-          label: 'Is gemeld',
-          description: 'Is gemeld',
-          icon: {
-            options,
-            iconUrl: '/assets/images/icon-reported-marker.svg',
-          },
-          idField: 'objectnummer',
-          typeField: 'objecttype',
-          typeValue: 'reported',
-          isReportedField: 'meldingstatus',
-          isReportedValue: 1,
-        },
-        {
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
@@ -277,6 +267,21 @@ const straatverlichtingKlokken = {
           idField: 'id',
           typeField: 'type',
           typeValue: UNREGISTERED_TYPE,
+        },
+      ],
+      featureStatusTypes: [
+        {
+          label: 'Is gemeld',
+          description: 'Is gemeld',
+          icon: {
+            options,
+            iconUrl: '/assets/images/icon-reported-marker.svg',
+          },
+          idField: 'objectnummer',
+          typeField: 'objecttype',
+          typeValue: FeatureStatus.REPORTED,
+          statusField: 'meldingstatus',
+          statusValues: [1],
         },
       ],
       pathMerge: 'extra_properties',

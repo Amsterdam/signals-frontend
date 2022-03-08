@@ -13,7 +13,6 @@ import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import type { AssetSelectValue } from '../../types'
-import type { DataLayerProps } from '../../../types'
 
 import WfsLayer from '../WfsLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
@@ -53,7 +52,7 @@ const assetSelectProviderValue: AssetSelectValue = {
 
 describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   const setContextData = jest.fn()
-  const TestLayer: FunctionComponent<DataLayerProps> = () => {
+  const TestLayer: FunctionComponent = () => {
     const data = useContext<FeatureCollection>(WfsDataContext)
     setContextData(data)
 
@@ -76,7 +75,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     render(
       withMapAsset(
         <WfsLayer zoomLevel={{ max: 15 }}>
-          <TestLayer featureTypes={[]} desktopView />
+          <TestLayer />
         </WfsLayer>
       )
     )
@@ -91,7 +90,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer zoomLevel={{ max: 12 }}>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )
@@ -110,7 +109,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )
@@ -128,7 +127,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )
@@ -159,7 +158,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )
@@ -193,7 +192,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )
@@ -229,7 +228,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
           <WfsLayer>
-            <TestLayer featureTypes={[]} desktopView />
+            <TestLayer />
           </WfsLayer>
         </AssetSelectProvider>
       )

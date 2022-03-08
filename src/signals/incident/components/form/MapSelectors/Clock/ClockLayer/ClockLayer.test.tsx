@@ -14,20 +14,25 @@ import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/A
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import type { Meta } from '../../types'
+import { FeatureStatus } from '../../types'
+
 import ClockLayer from './ClockLayer'
 
-const { meta } = straatverlichtingKlokken.extra_klok_nummer
+const typedMeta = straatverlichtingKlokken.extra_klok_nummer
+  .meta as unknown as Meta
+
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
   selection: {
     id: '79522',
     type: '1',
     description: 'Klok',
-    isReported: true,
+    status: FeatureStatus.REPORTED,
     location: {},
     label: 'Klok - 79522',
   },
-  meta,
+  meta: typedMeta,
 }
 
 describe('ClockLayer', () => {

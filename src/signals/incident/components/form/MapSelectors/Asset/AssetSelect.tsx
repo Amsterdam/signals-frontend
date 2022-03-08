@@ -9,7 +9,13 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import Summary from 'components/Summary'
-import type { EventHandler, FeatureType, Item, Meta } from '../types'
+import type {
+  EventHandler,
+  FeatureStatusType,
+  FeatureType,
+  Item,
+  Meta,
+} from '../types'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
@@ -44,6 +50,8 @@ export interface AssetSelectProps {
   meta: Meta
   parent: {
     meta: {
+      featureTypes: FeatureType[]
+      featureStatusTypes: FeatureStatusType[]
       incidentContainer: { incident: Pick<Incident, 'location'> }
       updateIncident: (data: { [key: string]: any }) => void
     }

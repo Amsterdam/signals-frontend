@@ -7,9 +7,9 @@ import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
 import type { IconListItemProps } from 'components/IconList/IconList'
 import type { HTMLAttributes, PropsWithChildren } from 'react'
-import type { FeatureType, Item } from '../../types'
+import type { Item } from '../../types'
+import { FeatureStatus } from '../../types'
 import type { AssetListProps } from './AssetList'
-
 import AssetList from './AssetList'
 
 jest.mock('components/IconList/IconList', () => ({
@@ -20,8 +20,7 @@ jest.mock('components/IconList/IconList', () => ({
   IconListItem: ({
     children,
     iconUrl,
-    isReported,
-    isChecked,
+    featureStatusType,
     id,
     ...props
   }: PropsWithChildren<IconListItemProps>) => (
@@ -44,6 +43,9 @@ describe('AssetList', () => {
       typeField: 'fractie_omschrijving',
       typeValue: 'Rest',
     },
+  ]
+
+  const featureStatusTypes = [
     {
       label: 'Is gemeld',
       description: 'Object is reeds gemeld',
@@ -52,15 +54,16 @@ describe('AssetList', () => {
         iconUrl: '',
       },
       idField: 'OBJECTID',
-      typeValue: 'reported',
+      typeValue: FeatureStatus.REPORTED,
       typeField: '',
-      isReportedField: 'AMS_Meldingstatus',
-      isReportedValue: 1,
+      statusField: 'AMS_Meldingstatus',
+      statusValues: [1],
     },
   ]
   const props: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: featureTypes as FeatureType[],
+    featureTypes: featureTypes,
+    featureStatusTypes,
     selection: {
       description: 'Description',
       id: '234',
@@ -72,7 +75,8 @@ describe('AssetList', () => {
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
-    featureTypes: featureTypes as FeatureType[],
+    featureTypes: featureTypes,
+    featureStatusTypes,
     selection: { ...selection[0], location: {}, label: 'Rest container - 234' },
   }
 
@@ -109,7 +113,7 @@ describe('AssetList', () => {
 
   it('shows reported items', () => {
     selection.forEach((selected: Item) => {
-      const { id, isReported } = selected
+      const { id, status } = selected
       render(
         withAppContext(
           <AssetList
@@ -119,13 +123,16 @@ describe('AssetList', () => {
         )
       )
 
-      if (isReported) {
+      if (
+        status === FeatureStatus.REPORTED ||
+        status === FeatureStatus.CHECKED
+      ) {
         expect(
-          screen.getByTestId(`assetListItem-${id}-reported`)
+          screen.getByTestId(`assetListItem-${id}-hasStatus`)
         ).toBeInTheDocument()
       } else {
         expect(
-          screen.queryByTestId(`assetListItem-${id}-reported`)
+          screen.queryByTestId(`assetListItem-${id}-hasStatus`)
         ).not.toBeInTheDocument()
       }
     })
