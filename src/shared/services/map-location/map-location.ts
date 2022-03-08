@@ -38,10 +38,9 @@ export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
     throw new TypeError('Provided WKT geometry is not a point.')
   }
 
-  const [lat, lng] = pointMatch
-    .sort()
-    .reverse()
+  const [lng, lat] = pointMatch
     .map((str) => Number.parseFloat(str))
+    .sort((a, b) => (a > b ? 1 : -1))
 
   return {
     lat,

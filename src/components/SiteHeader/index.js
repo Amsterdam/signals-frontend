@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import Media from 'react-media'
-
+import { useMediaQuery } from 'react-responsive'
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
-
 import {
   Header as HeaderComponent,
   MenuButton,
@@ -18,6 +16,7 @@ import {
   themeSpacing,
   breakpoint,
 } from '@amsterdam/asc-ui'
+
 import SearchBar from 'containers/SearchBar'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
@@ -25,7 +24,7 @@ import Notification from 'containers/Notification'
 import Logo from 'components/Logo'
 import configuration from 'shared/services/configuration/configuration'
 
-export const menuBreakpoint = 1200
+const MENU_BREAKPOINT = 1320
 
 const StyledHeader = styled(HeaderComponent)`
   ${({ isFrontOffice, tall }) =>
@@ -72,7 +71,7 @@ const SearchBarMenuItem = styled(MenuItem)`
   justify-content: center;
   margin-right: 0;
   max-width: 365px;
-  @media screen and (min-width: ${menuBreakpoint + 1}px) {
+  @media screen and (min-width: ${MENU_BREAKPOINT + 1}px) {
     margin-right: auto;
     flex-basis: 365px;
   }
@@ -179,9 +178,9 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
   const isAuthenticated = getIsAuthenticated()
 
   return (
-    <Fragment>
+    <>
       {getIsAuthenticated() && (
-        <Fragment>
+        <>
           <SearchBarMenuItem>
             <SearchBar />
           </SearchBarMenuItem>
@@ -195,7 +194,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
               Overzicht
             </StyledMenuButton>
           </MenuItem>
-        </Fragment>
+        </>
       )}
 
       <MenuItem element="span">
@@ -246,7 +245,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       )}
 
       {isAuthenticated && (
-        <Fragment>
+        <>
           {configuration.links?.help && (
             <MenuItem>
               <StyledMenuButton
@@ -274,13 +273,16 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
               Uitloggen
             </StyledMenuButton>
           </MenuItem>
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   )
 }
 
 export const SiteHeader = (props) => {
+  const rendersMenuToggle = useMediaQuery({
+    query: `(max-width: ${MENU_BREAKPOINT}px)`,
+  })
   const isFrontOffice = useIsFrontOffice()
   const tall = isFrontOffice && !getIsAuthenticated()
   const title = tall
@@ -290,26 +292,21 @@ export const SiteHeader = (props) => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navigation = useMemo(
-    () => (
-      <Media query={`(max-width: ${menuBreakpoint}px)`}>
-        {(matches) =>
-          matches ? (
-            <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
-              <MenuItems {...props} onLinkClick={() => setMenuOpen(false)} />
-            </MenuToggle>
-          ) : (
-            <MenuInline>
-              <MenuItems {...props} />
-            </MenuInline>
-          )
-        }
-      </Media>
-    ),
-    [props, menuOpen]
+    () =>
+      rendersMenuToggle ? (
+        <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+          <MenuItems {...props} onLinkClick={() => setMenuOpen(false)} />
+        </MenuToggle>
+      ) : (
+        <MenuInline>
+          <MenuItems {...props} />
+        </MenuInline>
+      ),
+    [props, menuOpen, rendersMenuToggle]
   )
 
   return (
-    <Fragment>
+    <>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
         tall={tall}
@@ -330,7 +327,7 @@ export const SiteHeader = (props) => {
       </HeaderWrapper>
 
       {tall && <Notification />}
-    </Fragment>
+    </>
   )
 }
 

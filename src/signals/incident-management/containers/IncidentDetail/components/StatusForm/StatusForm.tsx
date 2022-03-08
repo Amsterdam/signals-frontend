@@ -4,14 +4,14 @@ import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Modal, Select } from '@amsterdam/asc-ui'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import useEventEmitter from 'hooks/useEventEmitter'
+import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
-import Paragraph from 'components/Paragraph'
 import Checkbox from 'components/Checkbox'
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
+import LoadingIndicator from 'components/LoadingIndicator'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
@@ -19,9 +19,13 @@ import type { Incident } from 'types/api/incident'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
 
+import configuration from 'shared/services/configuration/configuration'
+import { useDispatch } from 'react-redux'
+import { showGlobalNotification } from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
-import type { IncidentChild } from '../../types'
+import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
@@ -31,6 +35,7 @@ import {
   StyledButton,
   StyledH4,
   StyledLabel,
+  StyledModal,
   StyledParagraph,
   StyledSection,
 } from './styled'
@@ -38,6 +43,7 @@ import * as constants from './constants'
 import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import type { StatusFormActions } from './actions'
+import EmailPreview from './components/EmailPreview/EmailPreview'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
@@ -53,14 +59,23 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   onClose,
 }) => {
   const { incident, update } = useContext(IncidentDetailContext)
+  const storeDispatch = useDispatch()
   const incidentAsIncident = incident as Incident
   const { listenFor, unlisten } = useEventEmitter()
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
+  const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
+
+  const {
+    get: getEmailTemplate,
+    data: emailTemplate,
+    error: emailTemplateError,
+    isLoading,
+  } = useFetch<EmailTemplate>()
 
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
@@ -81,18 +96,57 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     }
   }, [setModalStandardTextIsOpen])
 
+  const closeEmailPreview = useCallback(() => {
+    enablePageScroll()
+    setModalEmailPreviewIsOpen(false)
+
+    if (lastActiveElement) {
+      lastActiveElement.focus()
+    }
+  }, [setModalEmailPreviewIsOpen])
+
+  const openEmailPreviewModal = useCallback(() => {
+    disablePageScroll()
+    setModalEmailPreviewIsOpen(true)
+    lastActiveElement = document.activeElement as HTMLElement
+  }, [setModalEmailPreviewIsOpen])
+
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
         closeStandardTextModal()
+        closeEmailPreview()
       }
     },
-    [closeStandardTextModal]
+    [closeEmailPreview, closeStandardTextModal]
   )
 
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
   )
+
+  const onUpdate = useCallback(() => {
+    const textValue = state.text.value || state.text.defaultValue
+    update({
+      type: PATCH_TYPE_STATUS,
+      patch: {
+        status: {
+          state: state.status.key,
+          text: textValue,
+          send_email: state.check.checked,
+        },
+      },
+    })
+
+    onClose()
+  }, [
+    update,
+    onClose,
+    state.text.value,
+    state.status.key,
+    state.check.checked,
+    state.text.defaultValue,
+  ])
 
   const handleSubmit = useCallback(
     (event) => {
@@ -128,28 +182,25 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      update({
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: {
-            state: state.status.key,
-            text: textValue,
-            send_email: state.check.checked,
-          },
-        },
-      })
-
-      onClose()
+      if (incident?.id && state.flags.hasEmail && state.check.checked) {
+        getEmailTemplate(
+          `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview/?status=${state.status.key}&text=${textValue}`
+        )
+      } else {
+        onUpdate()
+      }
     },
     [
+      incident?.id,
+      state.flags.hasEmail,
+      state.status.key,
       state.text.value,
       state.text.defaultValue,
       state.text.required,
       state.text.maxLength,
-      state.status.key,
       state.check.checked,
-      update,
-      onClose,
+      onUpdate,
+      getEmailTemplate,
     ]
   )
 
@@ -199,6 +250,28 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       unlisten('keydown', escFunction)
     }
   }, [escFunction, listenFor, unlisten])
+
+  useEffect(() => {
+    if (!emailTemplate) return
+
+    if (emailTemplate?.html) {
+      openEmailPreviewModal()
+      dispatch({ type: 'SET_EMAIL_TEMPLATE', payload: emailTemplate })
+    }
+  }, [emailTemplate, openEmailPreviewModal, dispatch])
+
+  useEffect(() => {
+    if (emailTemplateError) {
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Er is geen email template beschikbaar voor de gegeven statustransitie',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    }
+  }, [emailTemplateError, storeDispatch])
 
   return (
     <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
@@ -283,11 +356,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               <>
                 <strong>{state.text.label}</strong>
                 {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
-                {state.text.required &&
-                  state.check.checked &&
-                  state.flags.hasEmail && (
-                    <Paragraph light>{state.text.subtitle}</Paragraph>
-                  )}
               </>
             }
           />
@@ -348,7 +416,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           variant="secondary"
           disabled={disableSubmit}
         >
-          Opslaan
+          {state.flags.hasEmail && state.check.checked ? 'Verstuur' : 'Opslaan'}
         </StyledButton>
 
         <StyledButton
@@ -358,6 +426,23 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         >
           Annuleer
         </StyledButton>
+        {modalEmailPreviewIsOpen && (
+          <StyledModal
+            data-testid="emailPreviewModal"
+            open
+            onClose={closeEmailPreview}
+            title="Email Preview"
+          >
+            {isLoading && <LoadingIndicator />}
+            {emailTemplate?.html && (
+              <EmailPreview
+                emailBody={emailTemplate.html}
+                onClose={closeEmailPreview}
+                onUpdate={onUpdate}
+              />
+            )}
+          </StyledModal>
+        )}
       </div>
     </Form>
   )

@@ -62,7 +62,7 @@ const Intro = () => {
 
       <ButtonBar>
         <Button data-testid="chooseOnMap" onClick={edit} variant="primary">
-          Kies op kaart
+          Kies locatie
         </Button>
       </ButtonBar>
     </Wrapper>

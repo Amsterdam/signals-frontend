@@ -26,6 +26,7 @@ export const GET_QUESTIONS = 'sia/IncidentContainer/GET_QUESTIONS'
 export const GET_QUESTIONS_SUCCESS =
   'sia/IncidentContainer/GET_QUESTIONS_SUCCESS'
 export const GET_QUESTIONS_ERROR = 'sia/IncidentContainer/GET_QUESTIONS_ERROR'
+export const SET_LOADING_DATA = 'sia/IncidentContainer/SET_LOADING_DATA'
 
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,

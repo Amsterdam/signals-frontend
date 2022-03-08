@@ -83,6 +83,10 @@ const evaluateConditions = (conditions, objToCompareTo) => {
  * @returns {Boolean}
  */
 const checkVisibility = (control, objToCompareTo) => {
+  if (control.meta?.ignoreVisibility) {
+    return true
+  }
+
   const isVisible = evaluateConditions(control.meta, objToCompareTo)
 
   if (control.authenticated) {

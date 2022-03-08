@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { fromJS, Seq } from 'immutable'
+import configuration from 'shared/services/configuration/configuration'
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -14,17 +15,14 @@ import {
   RESET_EXTRA_STATE,
   GET_QUESTIONS_SUCCESS,
   REMOVE_QUESTION_DATA,
+  GET_QUESTIONS_ERROR,
+  SET_LOADING_DATA,
 } from './constants'
 import { getIncidentClassification } from './services'
 
 export const initialState = fromJS({
   incident: {
-    datetime: {
-      id: 'Nu',
-    },
-    incident_date: 'Vandaag',
-    incident_time_hours: 9,
-    incident_time_minutes: 0,
+    dateTime: null,
     category: '',
     subcategory: '',
     classification: null,
@@ -46,7 +44,8 @@ export const initialState = fromJS({
       label: 'Melding',
     },
   },
-  loadingClassification: false,
+  loading: false,
+  loadingData: false,
   usePredictions: true,
   classificationPrediction: null,
 })
@@ -93,12 +92,15 @@ export default (state = initialState, action) => {
       return state.set('error', true).set('loading', false)
 
     case GET_CLASSIFICATION:
-      return state.set('loadingClassification', true)
+      return state.set('loadingData', true)
 
     case GET_CLASSIFICATION_SUCCESS: {
       const { classification } = action.payload
       return state
-        .set('loadingClassification', false)
+        .set(
+          'loadingData',
+          configuration.featureFlags.fetchQuestionsFromBackend
+        )
         .set(
           'incident',
           fromJS({
@@ -116,7 +118,7 @@ export default (state = initialState, action) => {
       const { category, subcategory, handling_message, classification } =
         action.payload
       return state
-        .set('loadingClassification', false)
+        .set('loadingData', false)
         .set(
           'incident',
           state
@@ -167,10 +169,18 @@ export default (state = initialState, action) => {
     }
 
     case GET_QUESTIONS_SUCCESS:
-      return state.set(
-        'incident',
-        state.get('incident').set('questions', action.payload.questions)
-      )
+      return state
+        .set(
+          'incident',
+          state.get('incident').set('questions', action.payload.questions)
+        )
+        .set('loadingData', false)
+
+    case GET_QUESTIONS_ERROR:
+      return state.set('loadingData', false)
+
+    case SET_LOADING_DATA:
+      return state.set('loadingData', action.payload)
 
     default:
       return state

@@ -54,7 +54,7 @@
     "smallHeight": "29px"
   },
   "map": {
-    "municipality": ["amsterdam", "ouder-amstel"],
+    "municipality": "amsterdam \"ouder-amstel\"",
     "options": {
       "center": [
         52.3731081,

@@ -15,7 +15,8 @@ import type {
 
 const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
   if (Array.isArray(answer)) {
-    return answer.map((item) => {
+    const cleanAnswer = answer.filter((i) => i)
+    return cleanAnswer.map((item) => {
       if (typeof item === 'string') {
         return <div key={item}>{item}</div>
       }
@@ -36,6 +37,10 @@ const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
   }
 
   if (typeof answer !== 'string') {
+    if (answer === null || answer === undefined) {
+      return ''
+    }
+
     if (typeof (answer as CheckboxInput).value === 'boolean') {
       return (answer as CheckboxInput).value ? answer.label : 'Nee'
     }

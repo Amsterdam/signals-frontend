@@ -4,23 +4,25 @@ import 'jest-styled-components'
 import { render, screen, within } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
 import userEvent from '@testing-library/user-event'
+import * as scrollLock from 'scroll-lock'
 
 import type { FC } from 'react'
-import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
-import type { PdokResponse } from 'shared/services/map-location'
 
-import { formatAddress } from 'shared/services/format-address'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import type { MapOptions } from 'leaflet'
+import type { MapProps } from 'components/Map/Map'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
-import Selector from './Selector'
+import Selector, { MAP_LOCATION_ZOOM } from './Selector'
 
 jest.useFakeTimers()
 
+jest.mock('scroll-lock')
 jest.mock('../../hooks/useLayerVisible', () => ({
   __esModule: true,
   default: () => false,
@@ -37,46 +39,32 @@ jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
   </span>
 ))
 
-const mockAddress = {
-  postcode: '1000 AA',
-  huisnummer: '100',
-  woonplaats: 'Amsterdam',
-  openbare_ruimte: 'West',
-}
-
-const mockPDOKResponse: PdokResponse = {
-  id: 'foo',
-  value: 'Zork',
-  data: {
-    location: {
-      lat: 12.282,
-      lng: 3.141,
+let actualMapOptions: MapOptions | null = null
+jest.mock('components/Map', () => {
+  const originalModule = jest.requireActual('components/Map')
+  return {
+    __esModule: true,
+    default: ({ mapOptions, ...props }: MapProps) => {
+      actualMapOptions = mapOptions
+      return originalModule.default({ mapOptions, ...props })
     },
-    address: mockAddress,
-  },
-}
-
-jest.mock(
-  'components/PDOKAutoSuggest',
-  () =>
-    ({ className, onSelect, value }: PDOKAutoSuggestProps) =>
-      (
-        <span data-testid="pdokAutoSuggest" className={className}>
-          <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
-          <span>{value}</span>
-        </span>
-      )
-)
+  }
+})
 
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
     fetchMock.resetMocks()
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
+    actualMapOptions = null
   })
 
   afterEach(() => {
     jest.resetAllMocks()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   it('should render the component', async () => {
@@ -95,6 +83,44 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(screen.getByTestId('testLayer')).toBeInTheDocument()
   })
 
+  describe('zoom levels', () => {
+    it('should use configuration defaults when no coordinates', async () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+          coordinates: undefined,
+        })
+      )
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({
+          maxZoom: configuration.map.options.maxZoom,
+          minZoom: configuration.map.options.minZoom,
+          zoom: configuration.map.options.zoom,
+        })
+      )
+    })
+
+    it('should zoom to MAP_LOCATION_ZOOM', async () => {
+      render(withAssetSelectContext(<Selector />))
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({ zoom: MAP_LOCATION_ZOOM })
+      )
+    })
+
+    it('should not zoom in further than maxZoom in config', async () => {
+      const maxZoom = MAP_OPTIONS.maxZoom
+      MAP_OPTIONS.maxZoom = MAP_LOCATION_ZOOM - 1
+      render(withAssetSelectContext(<Selector />))
+      await screen.findByTestId('assetSelectSelector')
+      expect(actualMapOptions).toEqual(
+        expect.objectContaining({ zoom: MAP_OPTIONS.maxZoom })
+      )
+      MAP_OPTIONS.maxZoom = maxZoom
+    })
+  })
+
   it('should call close when closing the selector', async () => {
     render(withAssetSelectContext(<Selector />))
     expect(contextValue.close).not.toHaveBeenCalled()
@@ -104,46 +130,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(contextValue.close).toHaveBeenCalled()
   })
 
-  it('should render selection panel', async () => {
+  it('renders detail panel', async () => {
     mockShowDesktopVariant = true
     render(withAssetSelectContext(<Selector />))
 
-    expect(await screen.findByTestId('selectionPanel')).toBeInTheDocument()
-  })
-
-  it('handles closing the legend panel', () => {
-    render(withAssetSelectContext(<Selector />))
-
-    const legendToggleButton = screen.getByText('Legenda')
-
-    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
-
-    userEvent.click(legendToggleButton)
-
-    expect(screen.getByTestId('mockLegendPanel')).toBeInTheDocument()
-
-    const mockLegendPanel = screen.getByTestId('mockLegendPanel')
-
-    const legendCloseButton = within(mockLegendPanel).getByRole('button')
-
-    userEvent.click(legendCloseButton)
-
-    expect(screen.queryByTestId('mockLegendPanel')).not.toBeInTheDocument()
-  })
-
-  it('should show desktop version on desktop', async () => {
-    mockShowDesktopVariant = true
-    render(withAssetSelectContext(<Selector />))
-
-    expect(await screen.findByTestId('panelDesktop')).toBeInTheDocument()
-    expect(screen.queryByTestId('panelMobile')).not.toBeInTheDocument()
-  })
-
-  it('should show mobile version on mobile', async () => {
-    render(withAssetSelectContext(<Selector />))
-
-    expect(await screen.findByTestId('panelMobile')).toBeInTheDocument()
-    expect(screen.queryByTestId('panelDesktop')).not.toBeInTheDocument()
+    expect(await screen.findByTestId('detailPanel')).toBeInTheDocument()
   })
 
   it('renders a pin marker when there is a location', async () => {
@@ -194,25 +185,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
   })
 
-  it('dispatches the location when an address is selected', async () => {
-    const { setLocation } = contextValue
-
-    render(withAssetSelectContext(<Selector />))
-
-    await screen.findByTestId('pdokAutoSuggest')
-
-    expect(setLocation).not.toHaveBeenCalled()
-
-    const setLocationButton = screen.getByRole('button', { name: 'selectItem' })
-
-    userEvent.click(setLocationButton)
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates: mockPDOKResponse.data.location,
-      address: mockPDOKResponse.data.address,
-    })
-  })
-
   it('dispatches the location when a location is retrieved via geolocation', async () => {
     const coordinates = { lat: 52.3731081, lng: 4.8932945 }
     const coords = {
@@ -243,35 +215,14 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
-    await screen.findByTestId('pdokAutoSuggest')
+    await screen.findByTestId('gpsButton')
 
     expect(setLocation).toHaveBeenCalledWith({
       coordinates,
     })
   })
 
-  it('renders already selected address', () => {
-    const predefinedAddress = {
-      postcode: '1234BR',
-      huisnummer: 1,
-      huisnummer_toevoeging: 'A',
-      woonplaats: 'Amsterdam',
-      openbare_ruimte: '',
-    }
-
-    render(
-      withAssetSelectContext(<Selector />, {
-        ...contextValue,
-        address: predefinedAddress,
-      })
-    )
-
-    expect(
-      screen.getByText(formatAddress(predefinedAddress))
-    ).toBeInTheDocument()
-  })
-
-  it('only renders legend button and the zoom message when feature types are available', () => {
+  it('only renders the zoom message when feature types are available', () => {
     render(
       withAssetSelectContext(<Selector />, {
         ...contextValue,
@@ -279,7 +230,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByText('Legenda')).not.toBeInTheDocument()
     expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument()
 
     render(
@@ -292,7 +242,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByText('Legenda')).toBeInTheDocument()
     expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
   })
 
@@ -395,5 +344,25 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
 
     expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+  })
+
+  it('disables page scroll on mount', () => {
+    const enablePageScroll = jest.spyOn(scrollLock, 'enablePageScroll')
+    const disablePageScroll = jest.spyOn(scrollLock, 'disablePageScroll')
+
+    const scrollTo = jest.fn()
+    global.window.scrollTo = scrollTo
+
+    expect(disablePageScroll).not.toHaveBeenCalled()
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    const { unmount } = render(withAssetSelectContext(<Selector />))
+
+    expect(scrollTo).toHaveBeenCalledWith(0, 0)
+    expect(disablePageScroll).toHaveBeenCalledTimes(1)
+
+    unmount()
+
+    expect(enablePageScroll).toHaveBeenCalled()
   })
 })

@@ -21,7 +21,7 @@ const StyledButton = styled(Button).attrs(() => ({
   size: 32,
   iconSize: 12,
 }))`
-  margin-left: 8px;
+  margin-right: 2px;
   flex-shrink: 0;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   min-width: auto;

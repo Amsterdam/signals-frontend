@@ -18,6 +18,12 @@ export const validatePhoneNumber = (control?: AbstractControl) => {
   }
 }
 
+export const nullOrNumber = (control?: AbstractControl) => {
+  if (!control || typeof control.value === 'number' || control.value === null) {
+    return null
+  }
+}
+
 export const createRequired = (message: string) =>
   function required({ value }: AbstractControl) {
     return value === null || value === undefined || value.length === 0

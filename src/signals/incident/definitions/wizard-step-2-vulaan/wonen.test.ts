@@ -29,6 +29,7 @@ describe('definition wonen', () => {
       'extra_wonen_leegstand_naam_persoon',
       'extra_wonen_leegstand_activiteit_in_woning',
       'extra_wonen_leegstand_iemand_aanwezig',
+      'dateTime',
       'extra_wonen_vakantieverhuur_toeristen_aanwezig',
       'extra_wonen_vakantieverhuur_aantal_mensen',
       'extra_wonen_vakantieverhuur_hoe_vaak',

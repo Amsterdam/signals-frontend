@@ -3,8 +3,7 @@
 import type { FC } from 'react'
 import type { RevGeo } from 'types/pdok/revgeo'
 
-import type { PdokResponse } from 'shared/services/map-location'
-
+import type { AutoSuggestProps } from 'components/AutoSuggest'
 import AutoSuggest from 'components/AutoSuggest'
 import {
   pdokResponseFieldList,
@@ -24,39 +23,27 @@ const serviceUrl =
 const numOptionsDeterminer = (data?: RevGeo) =>
   data?.response?.docs?.length || 0
 
-export type PDOKAutoSuggestProps = {
-  className?: string
+export interface PDOKAutoSuggestProps
+  extends Omit<
+    AutoSuggestProps,
+    'url' | 'formatResponse' | 'numOptionsDeterminer'
+  > {
   fieldList?: Array<string>
   municipality?: string | Array<string>
-  onClear?: () => void
-  onSelect: (option: PdokResponse) => void
-  placeholder?: string
-  value?: string
 }
 
 /**
  * Geocoder component that specifically uses the PDOK location service to request information from
  *
- * @see {@link https://www.pdok.nl/restful-api/-/article/pdok-locatieserver#/paths/~1suggest/get}
+ * @see {@link https://github.com/PDOK/locatieserver/wiki/API-Locatieserver}
  */
 const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
-  className,
-  fieldList,
-  municipality,
-  onClear,
-  onSelect,
-  placeholder,
-  value,
+  fieldList = [],
+  municipality = configuration.map.municipality,
   ...rest
 }) => {
-  const municipalityArray = Array.isArray(municipality)
-    ? municipality
-    : [municipality].filter(Boolean)
-  const municipalityString = municipalityArray
-    .map((item) => `"${item}"`)
-    .join(' ')
   const fq = municipality
-    ? [['fq', `${municipalityFilterName}:(${municipalityString})`]]
+    ? [['fq', `${municipalityFilterName}:(${municipality})`]]
     : []
   // ['fl', '*'], // undocumented; requests all available field values from the API
   const fl = [
@@ -68,24 +55,12 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
 
   return (
     <AutoSuggest
-      className={className}
+      {...rest}
+      url={url}
       formatResponse={formatPDOKResponse}
       numOptionsDeterminer={numOptionsDeterminer}
-      onClear={onClear}
-      onSelect={onSelect}
-      placeholder={placeholder}
-      url={url}
-      value={value}
-      {...rest}
     />
   )
-}
-
-PDOKAutoSuggest.defaultProps = {
-  className: '',
-  fieldList: [],
-  municipality: configuration.map.municipality,
-  value: '',
 }
 
 export default PDOKAutoSuggest

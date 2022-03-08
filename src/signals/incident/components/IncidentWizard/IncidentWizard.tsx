@@ -90,7 +90,6 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                         formFactory,
                         label,
                         subHeader,
-                        postponeSubmitWhenLoading,
                         previewFactory,
                         sectionLabels,
                       } = wizardDefinition[key as keyof WizardSection]
@@ -139,9 +138,6 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                                 updateIncident={updateIncident}
                                 createIncident={createIncident}
                                 wizard={wizardDefinition}
-                                postponeSubmitWhenLoading={
-                                  postponeSubmitWhenLoading
-                                }
                               />
                             )}
                           </FormWrapper>

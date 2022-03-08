@@ -14,13 +14,11 @@ export const DEELMELDINGEN_STILL_OPEN_CONTENT = `Als je de hoofdmelding nu afhan
   Handel de hoofdmelding pas af als alle deelmeldingen zijn opgelost of als de deelmeldingen niet meer nodig zijn.`
 export const NO_REPORTER_EMAIL = `De melder heeft geen e-mailadres opgegeven, er wordt geen bericht verstuurd.`
 
-export const DEFAULT_TEXT_MAX_LENGTH = 3000
+export const DEFAULT_TEXT_MAX_LENGTH = 1800
 export const DEFAULT_TEXT_LABEL = 'Bericht aan melder'
-export const DEFAULT_TEXT_SUBTITLE = `Het bericht aan de melder bevat al een aanhef en afsluiting`
 
 export const REPLY_MAIL_MAX_LENGTH = 400
 export const REPLY_MAIL_LABEL = 'Vraag aan melder'
-export const REPLY_MAIL_SUBTITLE = `Schrijf alleen de vraag op, het bericht aan de melder bevat al een aanhef en afsluiting`
 export const REPLY_NO_MAIL_HEADING = `De melder heeft geen e-mailadres opgegeven`
 export const REPLY_NO_MAIL_CONTENT = `Je kunt hem dus geen vraag stellen. Is het telefoonnummer wel bekend? Bel dan de melder.`
 export const REPLY_CHANGE_STATUS_HEADING = `Let op, er staat een vraag uit bij de melder!`

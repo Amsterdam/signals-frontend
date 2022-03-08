@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { has, fromJS } from 'immutable'
+import configuration from 'shared/services/configuration/configuration'
 import incidentContainerReducer, { initialState } from './reducer'
 
 import {
@@ -16,9 +17,17 @@ import {
   GET_QUESTIONS_SUCCESS,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
+  GET_QUESTIONS_ERROR,
+  SET_LOADING_DATA,
 } from './constants'
 
+jest.mock('shared/services/configuration/configuration')
+
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
+  afterEach(() => {
+    configuration.__reset()
+  })
+
   it('returns the initial state', () => {
     expect(incidentContainerReducer(undefined, {})).toEqual(
       fromJS(initialState)
@@ -28,10 +37,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   it('default wizard state should contain date, time, and priority', () => {
     expect(initialState.get('incident').toJS()).toEqual(
       expect.objectContaining({
-        datetime: { id: 'Nu' },
-        incident_date: 'Vandaag',
-        incident_time_hours: 9,
-        incident_time_minutes: 0,
+        dateTime: null,
         priority: {
           id: 'normal',
           label: 'Normaal',
@@ -164,7 +170,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           }).toJS()
         ).toEqual({
           incident: {},
-          loadingClassification: true,
+          loadingData: true,
         })
       })
     })
@@ -196,9 +202,20 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             classification,
             handling_message,
           },
-          loadingClassification: false,
+          loadingData: false,
           classificationPrediction: classification,
         })
+      })
+
+      it('sets loadingData when feature flag enabled', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        const newState = incidentContainerReducer(intermediateState, {
+          type: GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+
+        expect(newState.get('loadingData')).toEqual(true)
       })
 
       it('removes all extra_ props', () => {
@@ -291,7 +308,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             classification,
             handling_message,
           },
-          loadingClassification: false,
+          loadingData: false,
           classificationPrediction: null,
         })
       })
@@ -328,6 +345,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {},
+            loadingData: true,
           }),
           {
             type: GET_QUESTIONS_SUCCESS,
@@ -344,6 +362,67 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
             key1: {},
           },
         },
+        loadingData: false,
+      })
+    })
+  })
+
+  describe('GET_QUESTIONS_ERROR', () => {
+    it('resets loading state', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: true,
+          }),
+          {
+            type: GET_QUESTIONS_ERROR,
+            payload: {
+              questions: {
+                key1: {},
+              },
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: false,
+      })
+    })
+  })
+
+  describe('SET_LOADING_DATA', () => {
+    it('sets loading state', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: false,
+          }),
+          {
+            type: SET_LOADING_DATA,
+            payload: true,
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: true,
+      })
+
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {},
+            loadingData: true,
+          }),
+          {
+            type: SET_LOADING_DATA,
+            payload: false,
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {},
+        loadingData: false,
       })
     })
   })

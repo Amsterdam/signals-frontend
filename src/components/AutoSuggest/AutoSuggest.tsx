@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useCallback, useEffect, useState, useRef } from 'react'
-import styled from 'styled-components'
+import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
 import type { FC } from 'react'
 import type { PdokResponse } from 'shared/services/map-location'
@@ -9,39 +8,24 @@ import type { RevGeo } from 'types/pdok/revgeo'
 
 import useDebounce from 'hooks/useDebounce'
 import useFetch from 'hooks/useFetch'
-import Input from 'components/Input'
-import SuggestList from './components/SuggestList'
+import { Close } from '@amsterdam/asc-assets'
+import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350
 
-const Wrapper = styled.div`
-  position: relative;
-`
-
-const StyledInput = styled(Input)`
-  outline: 2px solid rgb(0, 0, 0, 0.1);
-
-  & > * {
-    margin: 0;
-  }
-`
-
-const AbsoluteList = styled(SuggestList)`
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  z-index: 2;
-`
-
-export type AutoSuggestProps = {
+export interface AutoSuggestProps {
+  autoFocus?: boolean
   className?: string
   disabled?: boolean
   formatResponse: (data?: RevGeo) => Array<PdokResponse>
   id?: string
   numOptionsDeterminer: (data?: RevGeo) => number
   onClear?: () => void
+  onData?: (optionsList: any) => void
+  onFocus?: () => void
   onSelect: (option: PdokResponse) => void
   placeholder?: string
+  showInlineList?: boolean
   url: string
   value?: string
 }
@@ -60,25 +44,33 @@ export type AutoSuggestProps = {
  * - End key focuses the input field at the last character
  */
 const AutoSuggest: FC<AutoSuggestProps> = ({
-  className,
+  autoFocus = false,
+  className = '',
   disabled = false,
   formatResponse,
   id = '',
   numOptionsDeterminer,
   onClear,
+  onData,
+  onFocus,
   onSelect,
-  placeholder,
+  placeholder = '',
+  showInlineList = true,
   url,
-  value,
+  value = '',
   ...rest
 }) => {
+  const [defaultValue, setDefaultValue] = useState(value)
   const { get, data } = useFetch<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const options = data && formatResponse(data)
+  const options = useMemo(
+    () => data && formatResponse(data),
+    [data, formatResponse]
+  )
   const activeId = options?.[activeIndex]?.id || ''
 
   const handleInputKeyDown = useCallback((event) => {
@@ -91,6 +83,22 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         break
     }
   }, [])
+
+  const clearInput = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.value = ''
+
+      inputRef.current.focus()
+    }
+
+    setActiveIndex(-1)
+    setShowList(false)
+    setDefaultValue('')
+
+    if (onClear) {
+      onClear()
+    }
+  }, [onClear])
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -127,13 +135,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
 
         case 'Esc':
         case 'Escape':
-          if (inputRef.current) {
-            inputRef.current.value = ''
-          }
-
-          setActiveIndex(-1)
-          setShowList(false)
-          if (onClear) onClear()
+          clearInput()
           break
 
         case 'Home':
@@ -163,7 +165,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           break
       }
     },
-    [data, numOptionsDeterminer, showList, onClear]
+    [data, numOptionsDeterminer, showList, clearInput]
   )
 
   const handleFocusOut = useCallback((event) => {
@@ -194,6 +196,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   const onChange = useCallback(
     (event) => {
       event.persist()
+      setDefaultValue(event.target.value)
       debouncedServiceRequest(event.target.value)
     },
     [debouncedServiceRequest]
@@ -203,6 +206,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     (option) => {
       setActiveIndex(-1)
       setShowList(false)
+      setDefaultValue(option.value)
 
       if (inputRef.current) {
         inputRef.current.value = option.value
@@ -269,6 +273,27 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     inputRef.current.value = value
   }, [value])
 
+  const optionsList = useMemo(
+    () =>
+      (options && (
+        <List
+          activeIndex={activeIndex}
+          id="as-listbox"
+          onSelectOption={onSelectOption}
+          options={options}
+          role="listbox"
+        />
+      )) ||
+      null,
+    [activeIndex, options, onSelectOption]
+  )
+
+  useEffect(() => {
+    if (onData && options) {
+      onData(optionsList)
+    }
+  }, [options, optionsList, onData])
+
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
       <div
@@ -277,37 +302,34 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         aria-haspopup="listbox"
         role="combobox"
       >
-        <StyledInput
+        <Input
+          autoFocus={autoFocus}
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
-          defaultValue={value}
+          defaultValue={defaultValue}
           disabled={disabled}
           id={id}
           onChange={onChange}
+          onFocus={onFocus}
           placeholder={placeholder}
           ref={inputRef}
           {...rest}
         />
+        {defaultValue && (
+          <ClearInput
+            data-testid="clearInput"
+            icon={<Close />}
+            iconSize={20}
+            onClick={clearInput}
+            size={24}
+            variant="blank"
+          />
+        )}
       </div>
-      {options && showList && (
-        <AbsoluteList
-          activeIndex={activeIndex}
-          id="as-listbox"
-          onSelectOption={onSelectOption}
-          options={options}
-          role="listbox"
-        />
-      )}
+      {showInlineList && showList && optionsList}
     </Wrapper>
   )
-}
-
-AutoSuggest.defaultProps = {
-  className: '',
-  id: '',
-  placeholder: '',
-  value: '',
 }
 
 export default AutoSuggest

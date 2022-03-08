@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 
 import configuration from 'shared/services/configuration/configuration'
+import { nullOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -604,6 +605,19 @@ const woningkwaliteit = {
 }
 
 const vakantieverhuur = {
+  dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'vakantieverhuur',
+        wonen_overig: 'vakantieverhuur',
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [nullOrNumber],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
   extra_wonen_vakantieverhuur_toeristen_aanwezig: {
     meta: {
       ifOneOf: {

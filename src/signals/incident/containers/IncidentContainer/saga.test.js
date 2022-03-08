@@ -5,6 +5,7 @@ import { replace } from 'connected-react-router/immutable'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { formatISO } from 'date-fns'
 
 import request from 'utils/request'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -14,9 +15,7 @@ import configuration from 'shared/services/configuration/configuration'
 import * as auth from 'shared/services/auth/auth'
 import { authPostCall, postCall } from 'shared/services/api/api'
 import { coordinatesToAPIFeature } from 'shared/services/map-location'
-
 import { uploadFile } from 'containers/App/saga'
-
 import { subCategories } from 'utils/__tests__/fixtures'
 
 import * as mapControlsToParams from '../../services/map-controls-to-params'
@@ -33,6 +32,10 @@ import { resolveQuestions } from './services'
 import { createIncidentSuccess, createIncidentError } from './actions'
 import { getClassificationData, makeSelectIncidentContainer } from './selectors'
 
+jest.mock('../../services/map-controls-to-params', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../services/map-controls-to-params'),
+}))
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
   ...jest.requireActual('shared/services/auth/auth'),
@@ -138,6 +141,7 @@ const payloadIncident = {
     },
     coordinates,
   },
+  dateTime: new Date().getTime(),
 }
 
 const action = {
@@ -162,10 +166,7 @@ describe('IncidentContainer saga', () => {
       .next()
       .all([
         takeLatest(constants.GET_CLASSIFICATION, getClassification),
-        takeLatest(
-          [constants.GET_CLASSIFICATION_SUCCESS, constants.UPDATE_INCIDENT],
-          getQuestionsSaga
-        ),
+        takeLatest(constants.GET_CLASSIFICATION_SUCCESS, getQuestionsSaga),
         takeLatest(constants.CREATE_INCIDENT, createIncident),
       ])
   })
@@ -215,24 +216,145 @@ describe('IncidentContainer saga', () => {
   describe('getQuestionsSaga', () => {
     const payload = resolvedPrediction
 
-    it('should do nothing when fetchQuestionsFromBackend disabled', () =>
-      expectSaga(getQuestionsSaga, { type: constants.UPDATE_INCIDENT, payload })
-        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-        .run())
-
-    it('should dispatch success on UPDATE_INCIDENT', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-
-      return expectSaga(getQuestionsSaga, {
-        type: constants.UPDATE_INCIDENT,
+    it('should dispatch loading state when fetchQuestionsFromBackend disabled', () =>
+      expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
         payload,
       })
         .provide([
-          [select(makeSelectIncidentContainer), {}],
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: { slug: 'slug' },
+              incident: { classification: { slug: 'slug' } },
+            },
+          ],
           [matchers.call.fn(request), { results: questionsResponse }],
           [matchers.call.fn(resolveQuestions), resolvedQuestions],
         ])
-        .select(makeSelectIncidentContainer)
+        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+        .not.call(request)
+        .put.actionType(constants.SET_LOADING_DATA)
+        .run())
+
+    it('should dispatch loading state when category is falsy', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true
+      return expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
+        payload: { subcategory: 'subcategory' },
+      })
+        .provide([
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: { slug: 'slug' },
+              incident: { classification: { slug: 'slug' } },
+            },
+          ],
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+        .not.call(request)
+        .put.actionType(constants.SET_LOADING_DATA)
+        .run()
+    })
+
+    it('should dispatch loading state when subcategory is falsy', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true
+      return expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
+        payload: { category: 'category' },
+      })
+        .provide([
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: { slug: 'slug' },
+              incident: { classification: { slug: 'slug' } },
+            },
+          ],
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .not.call(request)
+        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+        .put.actionType(constants.SET_LOADING_DATA)
+        .run()
+    })
+
+    it('should dispatch success without classification prediction', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true
+
+      return expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
+        payload,
+      })
+        .provide([
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: null,
+              incident: { classification: { slug: 'slug' } },
+            },
+          ],
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .call(request, questionsUrl)
+        .call(resolveQuestions, questionsResponse)
+        .put({
+          type: constants.GET_QUESTIONS_SUCCESS,
+          payload: { questions: resolvedQuestions },
+        })
+        .run()
+    })
+
+    it('should dispatch success without incident classification', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true
+
+      return expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
+        payload,
+      })
+        .provide([
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: { slug: 'slug' },
+              incident: { classification: null },
+            },
+          ],
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
+        .call(request, questionsUrl)
+        .call(resolveQuestions, questionsResponse)
+        .put({
+          type: constants.GET_QUESTIONS_SUCCESS,
+          payload: { questions: resolvedQuestions },
+        })
+        .run()
+    })
+
+    it('should dispatch success with matching classification prediction and incident classification', () => {
+      configuration.featureFlags.fetchQuestionsFromBackend = true
+
+      return expectSaga(getQuestionsSaga, {
+        type: constants.GET_CLASSIFICATION_SUCCESS,
+        payload,
+      })
+        .provide([
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: { slug: 'slug' },
+              incident: { classification: { slug: 'slug' } },
+            },
+          ],
+          [matchers.call.fn(request), { results: questionsResponse }],
+          [matchers.call.fn(resolveQuestions), resolvedQuestions],
+        ])
         .call(request, questionsUrl)
         .call(resolveQuestions, questionsResponse)
         .put({
@@ -246,149 +368,22 @@ describe('IncidentContainer saga', () => {
       configuration.featureFlags.fetchQuestionsFromBackend = true
 
       return expectSaga(getQuestionsSaga, {
-        type: constants.UPDATE_INCIDENT,
+        type: constants.GET_CLASSIFICATION_SUCCESS,
         payload,
       })
         .provide([
-          [select(makeSelectIncidentContainer), {}],
+          [
+            select(makeSelectIncidentContainer),
+            {
+              classificationPrediction: null,
+              incident: { classification: null },
+            },
+          ],
           [matchers.call.fn(request), throwError(new Error('whoops!!!1!'))],
         ])
         .call(request, questionsUrl)
         .put.actionType(constants.GET_QUESTIONS_ERROR)
         .run()
-    })
-
-    describe('GET_CLASSIFICATION_SUCCESS', () => {
-      it('should do nothing when fetchQuestionsFromBackend disabled', () =>
-        expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload,
-        })
-          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-          .run())
-
-      it('should do nothing when category is falsy', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload: { subcategory: 'subcategory' },
-        })
-          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-          .run()
-      })
-
-      it('should do nothing when subcategory is falsy', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload: { category: 'category' },
-        })
-          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-          .run()
-      })
-
-      it('should dispatch success without classification prediction', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload,
-        })
-          .provide([
-            [
-              select(makeSelectIncidentContainer),
-              {
-                classificationPrediction: null,
-                incident: { classification: { slug: 'slug' } },
-              },
-            ],
-            [matchers.call.fn(request), { results: questionsResponse }],
-            [matchers.call.fn(resolveQuestions), resolvedQuestions],
-          ])
-          .call(request, questionsUrl)
-          .call(resolveQuestions, questionsResponse)
-          .put({
-            type: constants.GET_QUESTIONS_SUCCESS,
-            payload: { questions: resolvedQuestions },
-          })
-          .run()
-      })
-
-      it('should dispatch success without incident classification', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload,
-        })
-          .provide([
-            [
-              select(makeSelectIncidentContainer),
-              {
-                classificationPrediction: { slug: 'slug' },
-                incident: { classification: null },
-              },
-            ],
-            [matchers.call.fn(request), { results: questionsResponse }],
-            [matchers.call.fn(resolveQuestions), resolvedQuestions],
-          ])
-          .call(request, questionsUrl)
-          .call(resolveQuestions, questionsResponse)
-          .put({
-            type: constants.GET_QUESTIONS_SUCCESS,
-            payload: { questions: resolvedQuestions },
-          })
-          .run()
-      })
-
-      it('should dispatch success with matching classification prediction and incident classification', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload,
-        })
-          .provide([
-            [
-              select(makeSelectIncidentContainer),
-              {
-                classificationPrediction: { slug: 'slug' },
-                incident: { classification: { slug: 'slug' } },
-              },
-            ],
-            [matchers.call.fn(request), { results: questionsResponse }],
-            [matchers.call.fn(resolveQuestions), resolvedQuestions],
-          ])
-          .call(request, questionsUrl)
-          .call(resolveQuestions, questionsResponse)
-          .put({
-            type: constants.GET_QUESTIONS_SUCCESS,
-            payload: { questions: resolvedQuestions },
-          })
-          .run()
-      })
-
-      it('should dispatch error', () => {
-        configuration.featureFlags.fetchQuestionsFromBackend = true
-
-        return expectSaga(getQuestionsSaga, {
-          type: constants.GET_CLASSIFICATION_SUCCESS,
-          payload,
-        })
-          .provide([
-            [
-              select(makeSelectIncidentContainer),
-              {
-                classificationPrediction: null,
-                incident: { classification: null },
-              },
-            ],
-            [matchers.call.fn(request), throwError(new Error('whoops!!!1!'))],
-          ])
-          .call(request, questionsUrl)
-          .put.actionType(constants.GET_QUESTIONS_ERROR)
-          .run()
-      })
     })
   })
 
@@ -442,6 +437,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, invalidAction).returns(postData).run(false)
@@ -461,6 +457,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()
@@ -486,6 +483,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()
@@ -501,6 +499,7 @@ describe('IncidentContainer saga', () => {
             value: true,
           },
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
       jest
         .spyOn(mapControlsToParams, 'default')
@@ -526,6 +525,7 @@ describe('IncidentContainer saga', () => {
           address: payloadIncident.location.address,
           geometrie: coordinatesToAPIFeature(coordinates),
         },
+        incident_date_start: formatISO(payloadIncident.dateTime),
       }
 
       return expectSaga(getPostData, action).returns(postData).run()

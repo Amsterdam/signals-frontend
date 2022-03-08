@@ -71,15 +71,35 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with municipality', async () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}("amsterdam")`),
+        expect.stringContaining(`${municipalityQs}(amsterdam)`),
         expect.objectContaining({ method: 'GET' })
       )
     })
 
-    it('should work with an array for municipality', async () => {
-      await renderAndSearch('Dam', { municipality: ['utrecht', 'amsterdam'] })
+    it('should work with multiple municipalities', async () => {
+      await renderAndSearch('Dam', { municipality: 'utrecht amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${municipalityQs}("utrecht" "amsterdam")`),
+        expect.stringContaining(`${municipalityQs}(utrecht amsterdam)`),
+        expect.objectContaining({ method: 'GET' })
+      )
+    })
+
+    it('should work with quotes and negations', async () => {
+      await renderAndSearch('Dam', {
+        municipality: '"den bosch" -amsterdam',
+      })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${municipalityQs}("den bosch" -amsterdam)`),
+        expect.objectContaining({ method: 'GET' })
+      )
+    })
+
+    it('should ignore an empty string', async () => {
+      await renderAndSearch('Dam', {
+        municipality: '',
+      })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.not.stringContaining(municipalityQs),
         expect.objectContaining({ method: 'GET' })
       )
     })

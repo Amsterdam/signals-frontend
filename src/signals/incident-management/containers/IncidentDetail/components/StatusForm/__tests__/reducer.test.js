@@ -25,6 +25,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         checked: false,
         disabled: false,
       },
+      emailTemplate: {
+        subject: undefined,
+        html: undefined,
+      },
       errors: {},
       flags: {
         hasEmail: true,
@@ -36,7 +40,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         value: '',
         required: false,
         label: constants.DEFAULT_TEXT_LABEL,
-        subtitle: constants.DEFAULT_TEXT_SUBTITLE,
         maxLength: constants.DEFAULT_TEXT_MAX_LENGTH,
         rows: 9,
       },
@@ -80,7 +83,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         defaultValue: '',
         required: true,
         label: constants.REPLY_MAIL_LABEL,
-        subtitle: constants.REPLY_MAIL_SUBTITLE,
         maxLength: constants.REPLY_MAIL_MAX_LENGTH,
         rows: 6,
       },
@@ -156,5 +158,15 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         errors: { ...intermediateState.errors, ...payload },
       }
     )
+  })
+
+  it('should handle SET_EMAIL_TEMPLATE', () => {
+    const payload = { subject: 'subject', html: 'html' }
+    expect(
+      reducer(initialisedState, { type: 'SET_EMAIL_TEMPLATE', payload })
+    ).toEqual({
+      ...initialisedState,
+      emailTemplate: payload,
+    })
   })
 })
