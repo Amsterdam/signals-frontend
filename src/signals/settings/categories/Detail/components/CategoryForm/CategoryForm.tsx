@@ -68,6 +68,13 @@ const StyledDefinitionTerm = styled.dt`
   margin-bottom: ${themeSpacing(1)};
 `
 
+const StyledHeading = styled.p`
+  margin-bottom: ${themeSpacing(1)};
+  font-weight: bold;
+  line-height: 22px;
+  font-size: 16px;
+`
+
 const statusOptions = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
@@ -154,9 +161,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             ) : null}
 
             <FieldGroup>
-              <StyledDefinitionTerm>
-                <strong>Openbaar tonen</strong>
-              </StyledDefinitionTerm>
+              <StyledHeading>Openbaar tonen</StyledHeading>
               <>
                 <Label
                   htmlFor="is_public_accessible"
@@ -195,10 +200,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             )}
 
             <FieldGroup>
-              <StyledDefinitionTerm>
-                <strong>Afhandeltermijn</strong>
-              </StyledDefinitionTerm>
-
+              <StyledHeading>Afhandeltermijn</StyledHeading>
               <CombinedFields>
                 <Input
                   defaultValue={data?.sla.n_days ?? undefined}
@@ -236,10 +238,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             </FieldGroup>
 
             <FieldGroup>
-              <StyledDefinitionTerm>
-                <strong>Status</strong>
-              </StyledDefinitionTerm>
-
+              <StyledHeading>Status</StyledHeading>
               <RadioButtonList
                 defaultValue={
                   data?.is_active === undefined
