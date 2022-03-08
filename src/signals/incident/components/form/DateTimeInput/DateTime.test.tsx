@@ -20,6 +20,12 @@ describe('DateTime', () => {
     onUpdate.mockReset()
   })
 
+  /**
+   * The component can have three different states:
+   * - nothing selected (value equals undefined)
+   * - current date/time (value equals null)
+   * - custom date/time (value equals a number value)
+   */
   it('renders when value is undefined', () => {
     render(withAppContext(<DateTime {...props} value={undefined} />))
 
