@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import format from 'date-fns/format'
 import subDays from 'date-fns/subDays'
 import locale from 'date-fns/locale/nl'
@@ -86,13 +86,21 @@ export interface DateTimeProps {
   value: Incident['timestamp']
 }
 
+type DateIndication = DateIndicator['id'] | ''
+
+const dateIndicationValue: Record<string, DateIndication> = {
+  undefined: '',
+  object: 'now',
+  number: 'earlier',
+}
+
 const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   const [datetime, setDatetime] = useState(
     value ? new Date(value) : defaultTimestamp
   )
 
-  const [dateIndication, setDateIndication] = useState<DateIndicator['id']>(
-    typeof value === 'number' ? 'earlier' : 'now'
+  const [dateIndication, setDateIndication] = useState<DateIndication>(
+    dateIndicationValue[typeof value]
   )
 
   const updateTimestamp = useCallback(
@@ -148,6 +156,10 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
     },
     [onUpdate]
   )
+
+  useEffect(() => {
+    setDateIndication(dateIndicationValue[typeof value])
+  }, [value])
 
   return (
     <>

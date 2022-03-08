@@ -6,13 +6,14 @@ import { Heading, Link as AscLink } from '@amsterdam/asc-ui'
 
 import type { FC } from 'react'
 import type { Incident, ValueObject } from 'types/incident'
+import type { Sections } from 'signals/incident/definitions/wizard'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
-import type { Sections } from 'signals/incident/definitions/wizard'
 import { Dl, Header, LinkContainer, Section, Wrapper } from './styled'
 
 type Section = {
   authenticated?: boolean
+  canBeNull?: boolean
   label: string
   optional?: boolean
   render: FC<{ value: any; incident: Incident }> | FC<{ value: any }>
@@ -46,7 +47,7 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
         sectionLabels.heading[sectionId as keyof Preview]
 
       const visibleEntries = Object.entries(value).filter(
-        ([entryKey, { optional, authenticated }]) => {
+        ([entryKey, { optional, authenticated, canBeNull }]) => {
           const incidentProp = entryKey as keyof Incident
 
           if (authenticated && !getIsAuthenticated()) {
@@ -54,6 +55,10 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
           }
 
           if (!optional) {
+            return true
+          }
+
+          if (canBeNull && incident[incidentProp] === null) {
             return true
           }
 

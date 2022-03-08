@@ -17,7 +17,7 @@ const DateTimeInput: FC<DateTimeInputProps> = ({
   validatorsOrOpts,
   value,
 }) => {
-  if (!meta?.isVisible || typeof value === 'undefined') return null
+  if (!meta?.isVisible) return null
 
   const updateTimestamp = (timestamp: number) => {
     parent.meta.updateIncident({ dateTime: timestamp })
