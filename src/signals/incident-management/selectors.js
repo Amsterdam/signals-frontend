@@ -150,9 +150,10 @@ export const makeSelectFilterParams = createSelector(
       ordering: mapOrdering(ordering),
       page_size: FILTER_PAGE_SIZE,
     }
-    const filterOptions = filter.options.area
-      ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
-      : filter.options
+    const filterOptions =
+      filter.options.area && filter.options.area[0] !== 'null'
+        ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
+        : filter.options
 
     return {
       ...mapFilterParams(filterOptions),
