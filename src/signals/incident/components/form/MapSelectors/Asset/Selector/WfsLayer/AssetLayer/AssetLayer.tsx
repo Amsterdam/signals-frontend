@@ -20,7 +20,7 @@ import type {
 import { Marker } from '@amsterdam/arm-core'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
 import WfsDataContext from '../context'
-import { getFeatureStatusType } from '../../VectorLayer/StatusLayer/utils'
+import { getFeatureStatusType } from '../../StatusLayer/utils'
 
 export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)
