@@ -15,10 +15,10 @@ import configuration from 'shared/services/configuration/configuration'
 import { featureToCoordinates } from 'shared/services/map-location'
 
 import { formatDate } from 'signals/incident/containers/IncidentReplyContainer/utils'
-import useBoundingBox from '../../../../hooks/useBoundingBox'
-import type { Item } from '../../../../types'
-import { NEARBY_TYPE } from '../../../../constants'
-import AssetSelectContext from '../../../context'
+import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
+import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
