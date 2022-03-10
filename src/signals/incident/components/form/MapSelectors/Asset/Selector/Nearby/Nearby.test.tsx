@@ -10,7 +10,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { withAppContext } from 'test/utils'
 
 import Map from 'components/Map'
-import withAssetSelectContext from '../../../__tests__/withAssetSelectContext'
+import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import Nearby, { nearbyMarkerIcon } from './Nearby'
 
 const east = 4.899032528058569
