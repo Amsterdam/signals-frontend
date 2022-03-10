@@ -23,10 +23,6 @@ const StyledMap = styled(MapComponent)`
   }
 `
 
-const StyledViewerContainer = styled(ViewerContainer)`
-  z-index: 0;
-`
-
 export interface MapProps {
   className?: string
   'data-testid'?: string
@@ -90,7 +86,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       {children}
 
       {/* Render zoom buttons after children to maintain correct focus order */}
-      <StyledViewerContainer
+      <ViewerContainer
         bottomRight={
           showZoom && (
             <div data-testid="mapZoom">
