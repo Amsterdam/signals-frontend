@@ -73,7 +73,12 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     request
       .then(async (result) => result.json())
       .then((result) => {
-        setData(result)
+        if (result.error) {
+          // eslint-disable-next-line no-console
+          console.error('Unhandled Error in wfs call', result.error.message)
+        } else {
+          setData(result)
+        }
         return null
       })
       .catch((error) => {

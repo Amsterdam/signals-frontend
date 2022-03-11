@@ -228,4 +228,26 @@ const proxyConfig = [
       body: me,
     },
   },
+  {
+    request: {
+      url: 'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+    response: {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        error: {
+          code: 400,
+          message: 'Invalid URL',
+          details: [''],
+        },
+      },
+    },
+  },
 ]
