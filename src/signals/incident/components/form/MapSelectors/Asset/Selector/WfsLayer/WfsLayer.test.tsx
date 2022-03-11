@@ -19,6 +19,7 @@ import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import { AssetSelectProvider } from '../../context'
 import { contextValue as assetSelectContextValue } from '../../__tests__/withAssetSelectContext'
 
+import CaterpillarLayer from '../../../Caterpillar/CaterpillarLayer'
 import WfsDataContext, { NO_DATA } from './context'
 import { SRS_NAME } from './WfsLayer'
 
@@ -137,6 +138,36 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     await screen.findByTestId('map-test')
     expect(consoleErrorSpy).toHaveBeenCalled()
     expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('Shows a map without objects and a console error when the caterpillar api returns an error', async () => {
+    jest.spyOn(global.console, 'error').mockImplementation()
+
+    const errorJson = {
+      error: {
+        code: 400,
+        message: 'Invalid URL',
+        details: [''],
+      },
+    }
+    fetchMock.mockResponse(JSON.stringify(errorJson))
+    render(
+      withMapAsset(
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <CaterpillarLayer />
+          </WfsLayer>
+        </AssetSelectProvider>
+      )
+    )
+
+    await screen.findByTestId('map-test')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(console.error).toBeCalledTimes(1)
+    expect(console.error).toBeCalledWith(
+      'Unhandled Error in wfs call',
+      'Invalid URL'
+    )
   })
 
   it('supports no additional wfs filters', async () => {
