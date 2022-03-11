@@ -167,7 +167,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   useEffect(() => {
     if (!meta.featureTypes.length) return
 
-    setFeatureTypes(
+    /* istanbul ignore next */ setFeatureTypes(
       meta.featureTypes.map((featureType) => {
         const defaultConfig =
           featureType.typeValue === UNREGISTERED_TYPE

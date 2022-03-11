@@ -52,7 +52,7 @@ export const nearbyMarkerSelectedIcon = L.icon({
 const formattedDate = (date: string) =>
   formatDate(new Date(date), `'Gemeld op:' dd MMMM`)
 
-const onFeatureGroupClick = ({
+const onFeatureGroupClick = /* istanbul ignore next */ ({
   sourceTarget, // clicked marker
   target, // feature group
 }: LeafletMouseEvent) => {
@@ -84,7 +84,7 @@ const Nearby: FC = () => {
   const featureGroup = useRef<L.FeatureGroup<NearbyMarker>>(L.featureGroup())
 
   const onMarkerClick = useCallback(
-    (feature: Feature<Point, Properties>) =>
+    /* istanbul ignore next */ (feature: Feature<Point, Properties>) =>
       async ({ sourceTarget }: MarkerMouseEvent) => {
         sourceTarget.setIcon(nearbyMarkerSelectedIcon)
 
