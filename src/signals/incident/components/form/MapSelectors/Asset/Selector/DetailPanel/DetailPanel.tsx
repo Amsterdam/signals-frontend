@@ -51,12 +51,24 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [optionsList, setOptionsList] = useState(null)
   const [showAddressPanel, setShowAddressPanel] = useState(false)
-  const { address, selection, removeItem, setItem, setLocation, close, meta } =
-    useContext(AssetSelectContext)
+  const {
+    coordinates,
+    address,
+    selection,
+    removeItem,
+    setItem,
+    setLocation,
+    close,
+    meta,
+  } = useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
 
-  const addressValue = address ? formatAddress(address) : ''
+  let addressValue = address ? formatAddress(address) : ''
+  addressValue =
+    coordinates && !addressValue
+      ? 'Locatie is gepind op de kaart'
+      : addressValue
 
   const selectionOnMap =
     selection && selectionIsObject(selection) ? selection : undefined

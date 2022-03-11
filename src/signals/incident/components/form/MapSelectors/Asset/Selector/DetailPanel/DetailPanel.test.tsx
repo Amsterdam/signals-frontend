@@ -446,6 +446,16 @@ describe('DetailPanel', () => {
     expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
     expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
 
+    const unregisteredAssetCheckbox = within(
+      screen.getByTestId('unregisteredObjectPanel')
+    ).getByRole('checkbox')
+
+    userEvent.click(unregisteredAssetCheckbox)
+    expect(unregisteredAssetCheckbox).toBeChecked()
+
+    userEvent.click(unregisteredAssetCheckbox)
+    expect(unregisteredAssetCheckbox).not.toBeChecked()
+
     rerender(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...noFeatureTypesContext,
@@ -533,5 +543,32 @@ describe('DetailPanel', () => {
 
     expect(screen.getByText(selection.label)).toBeInTheDocument()
     expect(screen.getByText(selection.description)).toBeInTheDocument()
+  })
+
+  it('shows pinned location label', () => {
+    // only when a location has been pinned on the map that does not have a corresponding address
+
+    const { rerender } = render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        address: undefined,
+        coordinates: undefined,
+      })
+    )
+
+    expect(
+      screen.queryByText('Locatie is gepind op de kaart')
+    ).not.toBeInTheDocument()
+
+    rerender(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        address: undefined,
+      })
+    )
+
+    expect(
+      screen.getByText('Locatie is gepind op de kaart')
+    ).toBeInTheDocument()
   })
 })
