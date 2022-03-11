@@ -45,6 +45,7 @@ import {
   Wrapper,
 } from './styled'
 import DetailPanel from './DetailPanel'
+import Nearby from './Nearby'
 
 const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,
@@ -213,6 +214,8 @@ const Selector: FC = () => {
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <Layer />
         </WfsLayer>
+
+        <Nearby />
 
         {geolocation && <LocationMarker geolocation={geolocation} />}
 
