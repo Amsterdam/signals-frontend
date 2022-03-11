@@ -58,6 +58,10 @@ const StyledSelect = styled(Select)`
   height: 44px;
 `
 
+const StyledLabel = styled(Label)`
+  font-weight: 400;
+`
+
 const StyledHistory = styled(History as ElementType)`
   h2 {
     font-size: 16px;
@@ -163,7 +167,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             <FieldGroup>
               <StyledHeading>Openbaar tonen</StyledHeading>
               <>
-                <Label
+                <StyledLabel
                   htmlFor="is_public_accessible"
                   label="Toon meldingen van deze subcategorie op een openbare kaart"
                   data-testid="subcategoryIsPublicAccessible"
@@ -182,7 +186,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                     onChange={onCheck}
                     value={isPublicAccessible.toString()}
                   />
-                </Label>
+                </StyledLabel>
               </>
             </FieldGroup>
 
