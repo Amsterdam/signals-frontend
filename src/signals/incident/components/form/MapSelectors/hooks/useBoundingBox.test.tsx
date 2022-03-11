@@ -31,7 +31,6 @@ jest.mock('@amsterdam/react-maps', () => ({
 
 describe('useBoundingBox', () => {
   beforeEach(() => {
-    // jest.spyOn(reactMaps, 'useMapInstance').mockReturnValue(mockUseMapInstance)
     mockEventDispatcher.events = {}
   })
 
