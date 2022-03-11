@@ -61,6 +61,10 @@ ul li {
   list-style-type: none;
 }
 
+strong {
+  font-weight: bold;
+}
+
 table {
   text-align: left;
   border-collapse: collapse;
