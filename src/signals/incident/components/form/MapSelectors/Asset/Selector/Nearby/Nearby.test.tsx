@@ -131,7 +131,6 @@ describe('Nearby', () => {
     }))
 
     expect(mockUseMapInstance.removeLayer).not.toHaveBeenCalled()
-    // expect(mockFeatureGroup.clearLayers).not.toHaveBeenCalled()
     expect(
       Leaflet.FeatureGroup.prototype.clearAllEventListeners
     ).not.toHaveBeenCalled()
@@ -143,7 +142,6 @@ describe('Nearby', () => {
     expect(
       Leaflet.FeatureGroup.prototype.clearAllEventListeners
     ).toHaveBeenCalled()
-    // expect(mockFeatureGroup.clearLayers).toHaveBeenCalled()
     expect(mockUseMapInstance.removeLayer).toHaveBeenCalled()
   })
 })
