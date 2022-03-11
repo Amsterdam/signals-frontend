@@ -14,6 +14,7 @@ import { useMediaQuery } from 'react-responsive'
 
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 import {
+  selectionIsNearby,
   selectionIsObject,
   selectionIsUndetermined,
   UNKNOWN_TYPE,
@@ -36,6 +37,7 @@ import {
   StyledButton,
   StyledLegendPanel,
   StyledPDOKAutoSuggest,
+  SelectionNearby,
 } from './styled'
 
 export interface DetailPanelProps {
@@ -61,6 +63,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
 
   const unregisteredAsset =
     selection && selectionIsUndetermined(selection) ? selection : undefined
+
+  const selectionNearyby =
+    selection && selectionIsNearby(selection) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
     selection?.type === UNKNOWN_TYPE
@@ -177,6 +182,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             featureTypes={featureTypes}
             featureStatusTypes={featureStatusTypes}
           />
+        )}
+
+        {selectionNearyby && (
+          <SelectionNearby>
+            <Paragraph strong>Deze melding is al bij ons bekend:</Paragraph>
+            <strong>{selection?.label}</strong>
+            <span>{selection?.description}</span>
+          </SelectionNearby>
         )}
 
         {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
