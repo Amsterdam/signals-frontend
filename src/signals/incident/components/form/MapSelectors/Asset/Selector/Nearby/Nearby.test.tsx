@@ -7,8 +7,6 @@ import useFetch from 'hooks/useFetch'
 import geography from 'utils/__tests__/fixtures/geography_public.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
-import { withAppContext } from 'test/utils'
-
 import Map from 'components/Map'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import Nearby, { nearbyMarkerIcon } from './Nearby'
@@ -58,6 +56,8 @@ jest.mock('@amsterdam/react-maps', () => ({
 
 jest.mock('hooks/useFetch')
 jest.mock('react-redux', () => jest.requireActual('react-redux'))
+
+const numFeatures = geography.features.length
 
 const renderWithContext = () =>
   render(
@@ -113,8 +113,6 @@ describe('Nearby', () => {
 
     renderWithContext()
 
-    const numFeatures = geography.features.length
-
     expect(Leaflet.FeatureGroup.prototype.addLayer).toHaveBeenCalledTimes(
       numFeatures
     )
@@ -138,7 +136,7 @@ describe('Nearby', () => {
       Leaflet.FeatureGroup.prototype.clearAllEventListeners
     ).not.toHaveBeenCalled()
 
-    render(withAppContext(<Nearby />))
+    renderWithContext()
 
     await screen.findByTestId('nearby')
 
