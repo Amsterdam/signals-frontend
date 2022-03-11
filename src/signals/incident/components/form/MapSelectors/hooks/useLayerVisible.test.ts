@@ -4,7 +4,7 @@ import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { act, renderHook } from '@testing-library/react-hooks'
 import '@amsterdam/react-maps'
 import EventDispathcher from 'test/EventDispatcher'
-import useLayerVisible, { isLayerVisible } from '../useLayerVisible'
+import useLayerVisible, { isLayerVisible } from './useLayerVisible'
 
 const mockGetZoom = jest.fn()
 const mockEventDispatcher = new EventDispathcher()
