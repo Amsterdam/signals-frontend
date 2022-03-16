@@ -5,7 +5,13 @@ import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 
 import ModalHeader from '../ModalHeader/ModalHeader'
-import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
+import {
+  StyledDefaultText,
+  StyledTitle,
+  StyledLink,
+  Container,
+  Wrapper,
+} from './styled'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>
@@ -28,9 +34,9 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
     defaultTexts.find((text) => text.state === status)
 
   return (
-    <>
+    <Container>
       <ModalHeader title="Standaardtekst" onClose={onClose} />
-      <Wrapper>
+      <Wrapper data-scroll-lock-scrollable>
         {(!allText || allText.templates.length === 0) && (
           <StyledDefaultText key={`empty_${status}`} empty>
             Er is geen standaard tekst voor deze subcategorie en status
@@ -58,7 +64,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
             </StyledDefaultText>
           ))}
       </Wrapper>
-    </>
+    </Container>
   )
 }
 
