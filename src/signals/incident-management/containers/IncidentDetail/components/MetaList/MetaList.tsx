@@ -302,6 +302,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
     if (incidentDepartmentCodes && incidentDepartmentCodes.length) {
       getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, {
         profile_department_code: incidentDepartmentCodes,
+        is_active: true,
       })
     }
   }, [getUsers, incidentDepartmentCodes])
