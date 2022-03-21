@@ -2,7 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
 import * as reactResponsive from 'react-responsive'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
@@ -20,14 +19,22 @@ import type { DetailPanelProps } from './DetailPanel'
 
 jest.mock('react-responsive')
 
-jest.mock('../../AssetList', () =>
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ onRemove, featureTypes, selection, ...props }: AssetListProps) => (
-    <span data-testid="mockAssetList" {...props}>
-      {`${selection.description} - ${selection.id}`}
-      <input type="button" onClick={onRemove} />
-    </span>
-  )
+jest.mock(
+  '../../AssetList',
+  () =>
+    ({
+      onRemove,
+      featureTypes,
+      featureStatusTypes,
+      selection,
+      ...props
+    }: AssetListProps) =>
+      (
+        <span data-testid="mockAssetList" {...props}>
+          {`${selection.description} - ${selection.id}`}
+          <input type="button" onClick={onRemove} />
+        </span>
+      )
 )
 
 const mockAddress = {
@@ -120,7 +127,6 @@ describe('DetailPanel', () => {
   }
 
   const props: DetailPanelProps = {
-    featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     language: {
       unregisteredId: 'Nummer van de container',
     },
@@ -138,6 +144,14 @@ describe('DetailPanel', () => {
     label: 'foo bar',
   }
 
+  const currentContextValue = {
+    ...contextValue,
+    meta: {
+      ...contextValue.meta,
+      featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
+    },
+  }
+
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -145,7 +159,7 @@ describe('DetailPanel', () => {
   it('renders the panel', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection: undefined,
       })
     )
@@ -168,7 +182,7 @@ describe('DetailPanel', () => {
   it('renders selected asset', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection,
       })
     )
@@ -185,7 +199,7 @@ describe('DetailPanel', () => {
   it('calls remove on selected asset', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection,
       })
     )
@@ -194,11 +208,11 @@ describe('DetailPanel', () => {
 
     const removeButton = within(mockAssetList).getByRole('button')
 
-    expect(contextValue.removeItem).not.toHaveBeenCalled()
+    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(removeButton)
 
-    expect(contextValue.removeItem).toHaveBeenCalled()
+    expect(currentContextValue.removeItem).toHaveBeenCalled()
   })
 
   it('calls remove on autosuggest clear', () => {
@@ -206,7 +220,7 @@ describe('DetailPanel', () => {
 
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection,
       })
     )
@@ -226,18 +240,18 @@ describe('DetailPanel', () => {
       screen.getByTestId('addressPanel')
     ).getByTestId('autoSuggestClear')
 
-    expect(contextValue.removeItem).not.toHaveBeenCalled()
+    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(autoSuggestClear)
 
-    expect(contextValue.removeItem).toHaveBeenCalled()
+    expect(currentContextValue.removeItem).toHaveBeenCalled()
     expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
   })
 
   it('adds asset not on map', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection: undefined,
       })
     )
@@ -246,15 +260,15 @@ describe('DetailPanel', () => {
       screen.queryByText('Nummer van de container')
     ).not.toBeInTheDocument()
 
-    expect(contextValue.setItem).not.toHaveBeenCalled()
+    expect(currentContextValue.setItem).not.toHaveBeenCalled()
 
     userEvent.click(
       screen.getByRole('checkbox', {
         name: 'Het object staat niet op de kaart',
       })
     )
-    expect(contextValue.setItem).toHaveBeenCalledTimes(1)
-    expect(contextValue.setItem).toHaveBeenCalledWith({
+    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
+    expect(currentContextValue.setItem).toHaveBeenCalledWith({
       id: '',
       label: 'Het object staat niet op de kaart',
       type: UNKNOWN_TYPE,
@@ -271,8 +285,8 @@ describe('DetailPanel', () => {
 
     fireEvent.blur(screen.getByTestId('unregisteredAssetInput'))
 
-    expect(contextValue.setItem).toHaveBeenCalledTimes(2)
-    expect(contextValue.setItem).toHaveBeenLastCalledWith({
+    expect(currentContextValue.setItem).toHaveBeenCalledTimes(2)
+    expect(currentContextValue.setItem).toHaveBeenLastCalledWith({
       id: unregisteredObjectId,
       type: UNKNOWN_TYPE,
       label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
@@ -280,9 +294,13 @@ describe('DetailPanel', () => {
   })
 
   it('dispatches the location when an address is selected', async () => {
-    const { setLocation } = contextValue
+    const { setLocation } = currentContextValue
 
-    render(withAssetSelectContext(<DetailPanel {...props} />))
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+      })
+    )
 
     await screen.findByTestId('pdokAutoSuggest')
 
@@ -309,7 +327,7 @@ describe('DetailPanel', () => {
 
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         address: predefinedAddress,
       })
     )
@@ -322,22 +340,22 @@ describe('DetailPanel', () => {
   it('closes/submits the panel', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection: selectionUnregistered,
       })
     )
 
-    expect(contextValue.close).not.toHaveBeenCalled()
+    expect(currentContextValue.close).not.toHaveBeenCalled()
 
     userEvent.click(screen.getByRole('button', { name: 'Meld dit object' }))
 
-    expect(contextValue.close).toHaveBeenCalled()
+    expect(currentContextValue.close).toHaveBeenCalled()
   })
 
   it('handles Enter key on input', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+        ...currentContextValue,
         selection: selectionUnregistered,
       })
     )
@@ -347,20 +365,20 @@ describe('DetailPanel', () => {
       '5'
     )
 
-    expect(contextValue.setItem).not.toHaveBeenCalled()
-    expect(contextValue.close).not.toHaveBeenCalled()
+    expect(currentContextValue.setItem).not.toHaveBeenCalled()
+    expect(currentContextValue.close).not.toHaveBeenCalled()
 
     userEvent.type(
       screen.getByLabelText('Nummer van de container (niet verplicht)'),
       '{Enter}'
     )
 
-    expect(contextValue.setItem).toHaveBeenCalledWith({
+    expect(currentContextValue.setItem).toHaveBeenCalledWith({
       id: '5',
       type: UNKNOWN_TYPE,
       label: 'Het object staat niet op de kaart - 5',
     })
-    expect(contextValue.close).toHaveBeenCalled()
+    expect(currentContextValue.close).toHaveBeenCalled()
   })
 
   it('renders default labels', () => {
@@ -371,7 +389,12 @@ describe('DetailPanel', () => {
       language,
     }
 
-    render(withAppContext(<DetailPanel {...propsWithLanguage} />))
+    render(
+      withAssetSelectContext(<DetailPanel {...propsWithLanguage} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
 
     expect(screen.getByText('Locatie')).toBeInTheDocument()
     expect(
@@ -392,7 +415,12 @@ describe('DetailPanel', () => {
       language,
     }
 
-    render(withAppContext(<DetailPanel {...propsWithLanguage} />))
+    render(
+      withAssetSelectContext(<DetailPanel {...propsWithLanguage} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
 
     Object.values(language).forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument()
@@ -400,6 +428,13 @@ describe('DetailPanel', () => {
   })
 
   it('renders the object panel only when feature types are available', () => {
+    const noFeatureTypesContext = {
+      ...contextValue,
+      meta: {
+        ...contextValue.meta,
+        featureTypes: [],
+      },
+    }
     const { rerender } = render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
@@ -412,8 +447,8 @@ describe('DetailPanel', () => {
     expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
 
     rerender(
-      withAssetSelectContext(<DetailPanel {...props} featureTypes={[]} />, {
-        ...contextValue,
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...noFeatureTypesContext,
         selection: undefined,
       })
     )

@@ -2,8 +2,6 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import AssetList from 'signals/incident/components/form/MapSelectors/Asset/AssetList'
-import type { FeatureType } from 'signals/incident/components/form/MapSelectors/types'
-
 import AssetListPreview from './AssetListPreview'
 import type { AssetListPreviewProps } from './AssetListPreview'
 
@@ -34,17 +32,25 @@ describe('AssetListPreview', () => {
       },
       featureTypes: [
         {
+          label: 'label',
+          idField: 'idField',
+          description: 'description',
           typeField: 'type',
           typeValue: 'type',
           icon: {
             iconUrl: 'svg',
           },
-        } as FeatureType,
+        },
       ],
+      featureStatusTypes: [],
     }
 
     render(
-      <AssetListPreview value={props.value} featureTypes={props.featureTypes} />
+      <AssetListPreview
+        value={props.value}
+        featureTypes={props.featureTypes}
+        featureStatusTypes={[]}
+      />
     )
     expect(AssetList).toHaveBeenCalledWith(
       expect.objectContaining({

@@ -80,6 +80,7 @@ export const summary = (controls) =>
         label: val.meta.label || val.meta.shortLabel,
         optional: true,
         render: renderPreview(val),
+        canBeNull: val.meta?.canBeNull ?? false,
       },
     }),
     {}

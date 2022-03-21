@@ -4,6 +4,7 @@ import type { IconOptions } from 'leaflet'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
 import { validateObjectLocation } from '../../services/custom-validators'
+import { FeatureStatus } from '../../components/form/MapSelectors/types'
 
 export const ICON_SIZE = 40
 
@@ -42,6 +43,18 @@ export const controls = {
           typeField: '',
         },
         {
+          label: 'Onbekend',
+          description: 'De boom staat niet op de kaart',
+          icon: {
+            options,
+            iconUrl: '/assets/images/featureUnknownMarker.svg',
+          },
+          typeValue: UNREGISTERED_TYPE,
+          typeField: '',
+        },
+      ],
+      featureStatusTypes: [
+        {
           label: 'Is gemeld',
           description: 'Eikenboom is reeds gemeld',
           icon: {
@@ -49,10 +62,10 @@ export const controls = {
             iconUrl: '/assets/images/icon-reported-marker.svg',
           },
           idField: 'OBJECTID',
-          typeValue: 'reported',
+          typeValue: FeatureStatus.REPORTED,
           typeField: '',
-          isReportedField: 'AMS_Meldingstatus',
-          isReportedValue: 1,
+          statusField: 'Registratie',
+          statusValues: ['Deels bestreden', 'Melding', 'Registratie'],
         },
         {
           label: 'Vrij van eikenprocessierups',
@@ -62,20 +75,10 @@ export const controls = {
             iconUrl: '/assets/images/icon-checked-marker.svg',
           },
           idField: 'OBJECTID',
-          typeValue: 'checked',
+          typeValue: FeatureStatus.CHECKED,
           typeField: '',
-          isCheckedField: 'Registratie',
-          isCheckedValues: ['Bestreden', 'Geen EPR'],
-        },
-        {
-          label: 'Onbekend',
-          description: 'De boom staat niet op de kaart',
-          icon: {
-            options,
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
-          },
-          typeValue: UNREGISTERED_TYPE,
-          typeField: '',
+          statusField: 'Registratie',
+          statusValues: ['Bestreden', 'Geen EPR', 'EPR (niet bestrijden)'],
         },
       ],
       extraProperties: ['GlobalID'],

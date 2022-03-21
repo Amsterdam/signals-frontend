@@ -7,11 +7,9 @@ import { Marker } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
 import type {
-  FeatureType,
   Feature,
   Item,
-  ReportedFeatureType,
-  CheckedFeatureType,
+  FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie } from 'types/incident'
 
@@ -19,39 +17,30 @@ import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { featureToCoordinates } from 'shared/services/map-location'
-import StatusLayer from '../../Asset/Selector/WfsLayer/StatusLayer'
-import {
-  getCheckedFeatureType,
-  getIsChecked,
-  getIsReported,
-  getReportedFeatureType,
-} from '../../Asset/Selector/WfsLayer/StatusLayer/utils'
+import StatusLayer from '../../Asset/Selector/StatusLayer'
+import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
   const { selection, meta, setItem, removeItem } = useContext(SelectContext)
 
   const getMarker = useCallback(
-    (feat: any, reportedFeatureType, checkedFeatureType) => {
+    (feat: any, featureStatusTypes: FeatureStatusType[]) => {
       const feature = feat as Feature
       const coordinates = featureToCoordinates(feature.geometry as Geometrie)
       // Caterpillar layer renders only a single feature type (oak tree)
-      const featureType = meta.featureTypes.find(
-        ({ typeValue }) => typeValue === 'Eikenboom'
-      ) as FeatureType
+      const featureType = meta.featureTypes[0]
 
       const featureId = feature.properties[featureType.idField] as string
       const isSelected = selection?.id === featureId
 
-      const isReported = getIsReported(feature, reportedFeatureType)
-      const isChecked = getIsChecked(feature, checkedFeatureType)
-
-      let { description } = featureType
-      if (isChecked && checkedFeatureType) {
-        description = checkedFeatureType.description
-      } else if (isReported) {
-        description = reportedFeatureType.description
-      }
+      const featureStatusType = getFeatureStatusType(
+        feature,
+        featureStatusTypes
+      )
+      const description = featureStatusType
+        ? featureStatusType.description
+        : featureType.description
 
       const altText = isSelected
         ? `${description}, is geselecteerd (${featureId})`
@@ -79,8 +68,7 @@ export const CaterpillarLayer: FC = () => {
           id: featureId,
           type: typeValue,
           description,
-          isReported,
-          isChecked,
+          status: featureStatusType?.typeValue,
           location,
           label: [description, featureId].filter(Boolean).join(' - '),
         }
@@ -109,35 +97,21 @@ export const CaterpillarLayer: FC = () => {
     [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
   )
 
-  const reportedFeatureType = getReportedFeatureType(meta.featureTypes)
-  const checkedFeatureType = getCheckedFeatureType(meta.featureTypes)
+  const featureStatusTypes = meta.featureStatusTypes || []
 
   const statusFeatures = features.filter(
-    (feature) =>
-      getIsReported(
-        feature as unknown as Feature,
-        reportedFeatureType as ReportedFeatureType
-      ) ||
-      getIsChecked(
-        feature as unknown as Feature,
-        checkedFeatureType as CheckedFeatureType
-      )
+    (feature) => getFeatureStatusType(feature, featureStatusTypes) !== undefined
   )
 
   return (
     <>
-      {features.map((feat) =>
-        getMarker(feat, reportedFeatureType, checkedFeatureType)
+      {features.map((feat) => getMarker(feat, featureStatusTypes))}
+      {statusFeatures.length > 0 && featureStatusTypes && (
+        <StatusLayer
+          statusFeatures={statusFeatures as Feature[]}
+          featureStatusTypes={featureStatusTypes}
+        />
       )}
-      {statusFeatures.length > 0 &&
-        reportedFeatureType &&
-        checkedFeatureType && (
-          <StatusLayer
-            statusFeatures={statusFeatures as Feature[]}
-            reportedFeatureType={reportedFeatureType as ReportedFeatureType}
-            checkedFeatureType={checkedFeatureType as CheckedFeatureType}
-          />
-        )}
     </>
   )
 }

@@ -40,10 +40,19 @@ describe('AssetLayer', () => {
     withAssetSelectContext(
       <Map data-testid="map-test" options={MAP_OPTIONS}>
         <WfsDataProvider value={containerJson as FeatureCollection}>
-          <AssetLayer featureTypes={featureTypes} />
+          <AssetLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, setItem, removeItem, ...contextOverride }
+      {
+        ...assetSelectProviderValue,
+        setItem,
+        removeItem,
+        meta: {
+          ...contextValue.meta,
+          featureTypes,
+        },
+        ...contextOverride,
+      }
     )
 
   afterEach(() => {

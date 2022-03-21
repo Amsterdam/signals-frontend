@@ -34,6 +34,8 @@
       "name": "Afval",
       "slug": "afval",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": null,
       "handling_message": "Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
       "sla": {
@@ -69,6 +71,8 @@
       "name": "Afwatering brug",
       "slug": "afwatering-brug",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "Dit is het verhaal van de brug die moest afwateren.",
       "handling_message": "Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.",
       "sla": {
@@ -169,6 +173,8 @@
       "name": "Asbest / accu",
       "slug": "asbest-accu",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "Alles met betrekking tot asbest gerelateerd afval en bijtende/corrosieve vloeistoffen. test 233",
       "handling_message": "We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail. test",
       "sla": {
@@ -285,6 +291,8 @@
       "name": "Auto- / scooter- / bromfiets(wrak)",
       "slug": "auto-scooter-bromfietswrak",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "Het wrak van een auto, scooter of bromfiets.",
       "handling_message": "We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
@@ -401,6 +409,8 @@
       "name": "Autom. Verzinkbare palen",
       "slug": "autom-verzinkbare-palen",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "",
       "handling_message": "Wij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
       "sla": {
@@ -509,6 +519,8 @@
       "name": "Bedrijfsafval",
       "slug": "bedrijfsafval",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "Afval van een bedrijf en andere gebouwen en dingen",
       "handling_message": "We laten u binnen 5 dagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
       "sla": {
@@ -553,6 +565,8 @@
       "name": "Beplanting",
       "slug": "beplanting",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "",
       "handling_message": "Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
       "sla": {
@@ -773,6 +787,8 @@
       "name": "Bewegwijzering",
       "slug": "bewegwijzering",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "test",
       "handling_message": "Wij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",
       "sla": {
@@ -881,6 +897,8 @@
       "name": "Blokkade van de vaarweg",
       "slug": "blokkade-van-de-vaarweg",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": "",
       "handling_message": "Gevaarlijke situaties pakken wij zo snel mogelijk op. We laten u binnen 3 werkdagen weten wat we hebben gedaan. We houden u op de hoogte via e-mail.",
       "sla": {
@@ -1077,6 +1095,8 @@
       "name": "Boom - aanvraag plaatsing",
       "slug": "boom-aanvraag-plaatsing",
       "is_active": true,
+      "is_public_accessible": false,
+      "public_name": null,
       "description": null,
       "handling_message": "Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
       "sla": {

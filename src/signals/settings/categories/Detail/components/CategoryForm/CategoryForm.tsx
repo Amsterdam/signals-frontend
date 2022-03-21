@@ -1,16 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useMemo } from 'react'
-import type { FunctionComponent, MouseEvent, ElementType } from 'react'
-import { themeSpacing, Row, Column, Select } from '@amsterdam/asc-ui'
+import { useCallback, useMemo, useState } from 'react'
+import type {
+  ChangeEvent,
+  FunctionComponent,
+  MouseEvent,
+  ElementType,
+} from 'react'
+import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import type { History as HistoryType } from 'types/history'
 import type { Category as CategoryType } from 'types/category'
 
+import Checkbox from 'components/Checkbox'
 import History from 'components/History'
-import Label from 'components/Label'
 import Input from 'components/Input'
 import TextArea from 'components/TextArea'
 import FormFooter from 'components/FormFooter'
@@ -53,6 +58,10 @@ const StyledSelect = styled(Select)`
   height: 44px;
 `
 
+const StyledLabel = styled(Label)`
+  font-weight: 400;
+`
+
 const StyledHistory = styled(History as ElementType)`
   h2 {
     font-size: 16px;
@@ -61,6 +70,13 @@ const StyledHistory = styled(History as ElementType)`
 
 const StyledDefinitionTerm = styled.dt`
   margin-bottom: ${themeSpacing(1)};
+`
+
+const StyledHeading = styled.p`
+  margin-bottom: ${themeSpacing(1)};
+  font-weight: bold;
+  line-height: 22px;
+  font-size: 16px;
 `
 
 const statusOptions = [
@@ -85,6 +101,9 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   onSubmitForm,
   readOnly,
 }) => {
+  const [isPublicAccessible, setIsPublicAccessible] = useState(
+    data?.is_public_accessible ?? false
+  )
   const responsibleDepartments = useMemo(
     () =>
       data
@@ -93,6 +112,13 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             .map((department) => department.code)
         : [],
     [data]
+  )
+
+  const onCheck = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setIsPublicAccessible(event.target.checked)
+    },
+    [setIsPublicAccessible]
   )
 
   return (
@@ -139,8 +165,46 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             ) : null}
 
             <FieldGroup>
-              <Label>Afhandeltermijn</Label>
+              <StyledHeading>Openbaar tonen</StyledHeading>
+              <>
+                <StyledLabel
+                  htmlFor="is_public_accessible"
+                  label="Toon meldingen van deze subcategorie op een openbare kaart"
+                  data-testid="subcategoryIsPublicAccessible"
+                  disabled={readOnly}
+                >
+                  <input
+                    type="hidden"
+                    name="is_public_accessible"
+                    value="false"
+                  />
 
+                  <Checkbox
+                    checked={isPublicAccessible}
+                    name="is_public_accessible"
+                    id="is_public_accessible"
+                    onChange={onCheck}
+                    value={isPublicAccessible.toString()}
+                  />
+                </StyledLabel>
+              </>
+            </FieldGroup>
+
+            {isPublicAccessible && (
+              <FieldGroup>
+                <Input
+                  defaultValue={data?.public_name ?? ''}
+                  id="public_name"
+                  label="Naam openbaar"
+                  name="public_name"
+                  type="text"
+                  readOnly={readOnly}
+                />
+              </FieldGroup>
+            )}
+
+            <FieldGroup>
+              <StyledHeading>Afhandeltermijn</StyledHeading>
               <CombinedFields>
                 <Input
                   defaultValue={data?.sla.n_days ?? undefined}
@@ -178,7 +242,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             </FieldGroup>
 
             <FieldGroup>
-              <Label as="span">Status</Label>
+              <StyledHeading>Status</StyledHeading>
               <RadioButtonList
                 defaultValue={
                   data?.is_active === undefined

@@ -3,6 +3,7 @@
 import type { FunctionComponent } from 'react'
 import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -24,8 +25,7 @@ export interface IconListItemProps {
   id?: string
   className?: string
   iconSize?: number
-  isChecked?: boolean
-  isReported?: boolean
+  featureStatusType?: FeatureStatusType
 }
 
 export const IconListItem: FunctionComponent<IconListItemProps> = ({
@@ -34,26 +34,17 @@ export const IconListItem: FunctionComponent<IconListItemProps> = ({
   className,
   iconSize = 40,
   id,
-  isChecked,
-  isReported,
+  featureStatusType,
 }) => (
   <StyledListItem data-testid={id} className={className}>
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}
-    {isChecked && (
+    {featureStatusType && (
       <StatusIcon
         alt=""
         height={20}
-        src="/assets/images/icon-checked-marker.svg"
-        width={20}
-      />
-    )}
-    {!isChecked && isReported && (
-      <StatusIcon
-        alt=""
-        height={20}
-        src="/assets/images/icon-reported-marker.svg"
+        src={featureStatusType.icon.iconUrl}
         width={20}
       />
     )}

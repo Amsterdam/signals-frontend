@@ -42,10 +42,11 @@ const getTransformedData = (formData) => {
  * @returns {Boolean}
  */
 const isEqual = (
-  { description, handling_message, is_active, name, sla },
+  { description, handling_message, is_active, name, sla, is_public_accessible },
   othValue
 ) =>
   [
+    is_public_accessible === othValue.is_public_accessible,
     description === othValue.description,
     handling_message === othValue.handling_message,
     is_active === othValue.is_active,
@@ -96,7 +97,12 @@ const CategoryDetail = () => {
     (event) => {
       const formData = [...new FormData(event.target.form).entries()]
         // convert stringified boolean values to actual booleans
-        .map(([key, val]) => [key, key === 'is_active' ? val === 'true' : val])
+        .map(([key, val]) => [
+          key,
+          key === 'is_active' || key === 'is_public_accessible'
+            ? val === 'true'
+            : val,
+        ])
         // convert line endings
         // by spec, the HTML value should contain \r\n, but the API only contains \n
         .map(([key, val]) => [
@@ -116,6 +122,7 @@ const CategoryDetail = () => {
         use_calendar_days: Boolean(
           Number.parseInt(formData.use_calendar_days, 10)
         ),
+        isEqual,
       }
 
       delete formData.n_days
