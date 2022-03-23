@@ -20,6 +20,7 @@ import {
   CREATE_INCIDENT,
   GET_CLASSIFICATION,
   GET_CLASSIFICATION_SUCCESS,
+  UPDATE_INCIDENT,
 } from './constants'
 import {
   createIncidentSuccess,
@@ -66,10 +67,10 @@ export function* getClassification(action) {
 
 export function* getQuestionsSaga(action) {
   const incident = yield select(makeSelectIncidentContainer)
-  const { category, subcategory } = getIncidentClassification(
-    incident,
-    action.payload
-  )
+  const { category, subcategory } =
+    action.type === UPDATE_INCIDENT
+      ? action.payload
+      : getIncidentClassification(incident, action.payload)
   if (
     !configuration.featureFlags.fetchQuestionsFromBackend ||
     !category ||
@@ -207,7 +208,7 @@ export function* getPostData(action) {
 export default function* watchIncidentContainerSaga() {
   yield all([
     takeLatest(GET_CLASSIFICATION, getClassification),
-    takeLatest(GET_CLASSIFICATION_SUCCESS, getQuestionsSaga),
+    takeLatest([GET_CLASSIFICATION_SUCCESS, UPDATE_INCIDENT], getQuestionsSaga),
     takeLatest(CREATE_INCIDENT, createIncident),
   ])
 }
