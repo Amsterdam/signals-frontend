@@ -212,13 +212,13 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
     if (!configuration.featureFlags.assignSignalToDepartment) return []
 
     const options =
-      categoryDepartments?.length > 1 &&
+      categoryDepartments?.length > 0 &&
       categoryDepartments.map((department) => ({
         key: `${department?.id}`,
         value: department.name,
       }))
 
-    return routingDepartments
+    return routingDepartments || categoryDepartments?.length === 1
       ? options
       : options && [{ key: null, value: 'Niet gekoppeld' }, ...options]
   }, [categoryDepartments, routingDepartments])
@@ -302,6 +302,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
     if (incidentDepartmentCodes && incidentDepartmentCodes.length) {
       getUsers(`${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}`, {
         profile_department_code: incidentDepartmentCodes,
+        is_active: true,
       })
     }
   }, [getUsers, incidentDepartmentCodes])
@@ -406,6 +407,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
           <Highlight type="routing_departments">
             <ChangeValue
               component={SelectInput}
+              disabled={categoryDepartments?.length <= 1}
               display="Afdeling"
               options={departmentOptions}
               path="routing_departments"

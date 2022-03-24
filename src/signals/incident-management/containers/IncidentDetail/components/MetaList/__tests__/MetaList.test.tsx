@@ -1028,7 +1028,7 @@ describe('MetaList', () => {
       expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument()
     })
 
-    it('should not show assigned department with only one category department', () => {
+    it('should show assigned department when only one category department', () => {
       configuration.featureFlags.assignSignalToDepartment = true
       render(
         renderWithContext({
@@ -1040,10 +1040,10 @@ describe('MetaList', () => {
         })
       )
 
-      expect(screen.queryByText(departmentLabel)).not.toBeInTheDocument()
+      expect(screen.queryByText(departmentLabel)).toBeInTheDocument()
     })
 
-    it('should show assigned department with more than one category department and assignSignalToDepartment enabled', () => {
+    it('should show assigned department when more than one category department and assignSignalToDepartment enabled', () => {
       configuration.featureFlags.assignSignalToDepartment = true
       render(
         renderWithContext({
@@ -1063,7 +1063,29 @@ describe('MetaList', () => {
         configuration.featureFlags.assignSignalToDepartment = true
       })
 
-      it('should be visible', () => {
+      it('should be visible for one category department, but not editable', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: `${departmentAscCode}`,
+            },
+            routing_departments: [],
+          })
+        )
+
+        expect(
+          (screen.getByTestId('editRouting_departmentsButton') as any).disabled
+        ).toBe(true)
+        expect(screen.queryByText(notFound)).not.toBeInTheDocument()
+        expect(screen.queryByText(notLinked)).not.toBeInTheDocument()
+        expect(screen.getByText(departmentAscName)).toBeInTheDocument()
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument()
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument()
+      })
+
+      it('should be visible for more than one category department and be editable', () => {
         render(
           renderWithContext({
             ...incidentFixture,
@@ -1081,6 +1103,9 @@ describe('MetaList', () => {
           })
         )
 
+        expect(
+          (screen.getByTestId('editRouting_departmentsButton') as any).disabled
+        ).toBe(false)
         expect(screen.queryByText(notFound)).not.toBeInTheDocument()
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument()
         expect(screen.getByText(departmentAscName)).toBeInTheDocument()

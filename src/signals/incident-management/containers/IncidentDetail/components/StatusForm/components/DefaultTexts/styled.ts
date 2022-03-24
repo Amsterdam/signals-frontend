@@ -24,6 +24,14 @@ export const StyledTitle = styled.div`
   margin-bottom: ${themeSpacing(1)};
 `
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
 export const Wrapper = styled.div`
   padding: ${themeSpacing(5, 4)};
+  overflow: auto;
+  height: 100%;
 `
