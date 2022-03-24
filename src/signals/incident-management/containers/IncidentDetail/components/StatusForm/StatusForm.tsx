@@ -71,7 +71,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
 
   const {
-    get: getEmailTemplate,
+    post: getEmailTemplate,
     data: emailTemplate,
     error: emailTemplateError,
     isLoading,
@@ -184,7 +184,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
       if (incident?.id && state.flags.hasEmail && state.check.checked) {
         getEmailTemplate(
-          `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview/?status=${state.status.key}&text=${textValue}`
+          `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
+          {
+            status: state.status.key,
+            text: textValue,
+          }
         )
       } else {
         onUpdate()
