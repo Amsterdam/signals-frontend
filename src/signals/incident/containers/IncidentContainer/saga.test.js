@@ -219,7 +219,7 @@ describe('IncidentContainer saga', () => {
   describe('getQuestionsSaga', () => {
     const payload = resolvedPrediction
 
-    describe('UPDATE_INCIDENT', () => {
+    describe('UPDATE_INCIDENT, on change of category, when logged in', () => {
       it('should dispatch loading state when fetchQuestionsFromBackend disabled', () =>
         expectSaga(getQuestionsSaga, {
           type: constants.UPDATE_INCIDENT,
