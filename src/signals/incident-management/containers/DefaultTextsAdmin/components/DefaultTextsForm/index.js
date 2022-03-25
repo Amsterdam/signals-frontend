@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { FormBuilder, FieldGroup } from 'react-reactive-form'
-import { Button, themeColor } from '@amsterdam/asc-ui'
+import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { dataListType, defaultTextsType } from 'shared/types'
@@ -16,6 +16,7 @@ import { reCategory } from 'shared/services/resolveClassification'
 import { statusList } from 'signals/incident-management/definitions'
 
 import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
+import Checkbox from 'components/Checkbox'
 
 const StyledWrapper = styled.div`
   margin-top: 33px;
@@ -27,6 +28,9 @@ const StyledLeftColumn = styled.div`
   width: 70%;
   margin-right: 5%;
   vertical-align: top;
+  padding-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(6)};
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
 `
 
 const StyledRightColumn = styled.div`
@@ -43,6 +47,10 @@ const StyledButton = styled(Button)`
   }
 `
 
+const StyledLabel = styled(Label)`
+  font-weight: 400;
+`
+
 const DEFAULT_TEXT_FIELDS = 20
 
 const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
@@ -51,6 +59,7 @@ const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
     [`item${key}`]: FormBuilder.group({
       title: [''],
       text: [''],
+      is_active: [false],
     }),
   }),
   {}
@@ -74,6 +83,14 @@ const DefaultTextsForm = ({
     []
   )
   const items = Object.keys(form.controls).slice(0, -2)
+
+  const onCheck = useCallback(
+    (item, oldValue) => {
+      const itemData = form.get(item)
+      form.get(item).patchValue({ ...itemData, is_active: !oldValue })
+    },
+    [defaultTexts, form, items]
+  )
 
   const handleSubmit = useCallback(
     (e) => {
@@ -166,48 +183,65 @@ const DefaultTextsForm = ({
               control={form.get('categoryUrl')}
             />
 
-            {items.map((item, index) => (
-              <Fragment key={item}>
-                <StyledLeftColumn>
-                  <FieldControlWrapper
-                    placeholder="Titel"
-                    render={TextInput}
-                    name={`title${index}`}
-                    control={form.get(`${item}.title`)}
-                  />
+            {items.map((item, index) => {
+              const checkedValue = form.get(`${item}.is_active`).value
+              return (
+                <Fragment key={item}>
+                  <StyledLeftColumn>
+                    <FieldControlWrapper
+                      placeholder="Titel"
+                      render={TextInput}
+                      name={`title${index}`}
+                      control={form.get(`${item}.title`)}
+                    />
 
-                  <FieldControlWrapper
-                    placeholder="Tekst"
-                    render={TextAreaInput}
-                    name={`text${index}`}
-                    control={form.get(`${item}.text`)}
-                  />
-                </StyledLeftColumn>
-                <StyledRightColumn>
-                  <StyledButton
-                    size={44}
-                    variant="blank"
-                    data-testid={`defaultTextFormItemButton${index}Up`}
-                    disabled={index === 0 || !form.get(`${item}.text`).value}
-                    iconSize={16}
-                    icon={<ChevronUp />}
-                    onClick={(e) => changeOrdering(e, index, 'up')}
-                  />
-                  <StyledButton
-                    size={44}
-                    variant="blank"
-                    data-testid={`defaultTextFormItemButton${index}Down`}
-                    disabled={
-                      index === items.length - 1 ||
-                      !form.get(`item${index + 1}.text`).value
-                    }
-                    iconSize={16}
-                    icon={<ChevronDown />}
-                    onClick={(e) => changeOrdering(e, index, 'down')}
-                  />
-                </StyledRightColumn>
-              </Fragment>
-            ))}
+                    <FieldControlWrapper
+                      placeholder="Tekst"
+                      render={TextAreaInput}
+                      name={`text${index}`}
+                      control={form.get(`${item}.text`)}
+                    />
+
+                    <StyledLabel
+                      htmlFor={`formis_active${index}`}
+                      label="Actief"
+                      data-testid={`is_active${index}`}
+                    >
+                      <Checkbox
+                        checked={checkedValue}
+                        name={`is_active${index}`}
+                        id={`formis_active${index}`}
+                        onChange={() => onCheck(item, checkedValue)}
+                        value={checkedValue}
+                      />
+                    </StyledLabel>
+                  </StyledLeftColumn>
+                  <StyledRightColumn>
+                    <StyledButton
+                      size={44}
+                      variant="blank"
+                      data-testid={`defaultTextFormItemButton${index}Up`}
+                      disabled={index === 0 || !form.get(`${item}.text`).value}
+                      iconSize={16}
+                      icon={<ChevronUp />}
+                      onClick={(e) => changeOrdering(e, index, 'up')}
+                    />
+                    <StyledButton
+                      size={44}
+                      variant="blank"
+                      data-testid={`defaultTextFormItemButton${index}Down`}
+                      disabled={
+                        index === items.length - 1 ||
+                        !form.get(`item${index + 1}.text`).value
+                      }
+                      iconSize={16}
+                      icon={<ChevronDown />}
+                      onClick={(e) => changeOrdering(e, index, 'down')}
+                    />
+                  </StyledRightColumn>
+                </Fragment>
+              )
+            })}
 
             <div>
               <Button

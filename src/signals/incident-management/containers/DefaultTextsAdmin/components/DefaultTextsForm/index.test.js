@@ -23,14 +23,17 @@ describe('<DefaultTextsForm />', () => {
         {
           title: 'title 1',
           text: 'text 1',
+          is_active: false,
         },
         {
           title: 'title 2',
           text: 'text 2',
+          is_active: false,
         },
         {
           title: 'title 3',
           text: 'text 3',
+          is_active: false,
         },
       ],
       subCategories,
