@@ -9,7 +9,7 @@ import type { FormArray } from 'react-reactive-form'
 
 import DefaultTextsForm from './DefaultTextsForm'
 
-const fields = [...new Array(2).keys()].reduce(
+const fields = [...new Array(3).keys()].reduce(
   (acc, key) => ({
     ...acc,
     [`item${key}`]: FormBuilder.group({
@@ -28,20 +28,19 @@ describe('<DefaultTextsForm />', () => {
     state: null,
   })
 
-  const props = {
-    item: 'item1',
-    form: form as unknown as FormArray,
-    itemsLength: 2,
-    index: 1,
-    onCheck: jest.fn(),
-    changeOrdering: jest.fn(),
-  }
-
   afterEach(() => {
     jest.resetAllMocks()
   })
 
   it('renders the form correctly', () => {
+    const props = {
+      item: 'item0',
+      form: form as unknown as FormArray,
+      itemsLength: 3,
+      index: 0,
+      onCheck: jest.fn(),
+      changeOrdering: jest.fn(),
+    }
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
@@ -51,10 +50,26 @@ describe('<DefaultTextsForm />', () => {
     expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
     expect(
       screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
-    ).not.toBeDisabled()
+    ).toBeDisabled()
     expect(
       screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
-    ).toBeDisabled()
+    ).not.toBeDisabled()
+  })
+
+  it('interacts with the form correctly', () => {
+    const props = {
+      item: 'item1',
+      form: form as unknown as FormArray,
+      itemsLength: 3,
+      index: 1,
+      onCheck: jest.fn(),
+      changeOrdering: jest.fn(),
+    }
+    render(withAppContext(<DefaultTextsForm {...props} />))
+
+    expect(
+      screen.getByTestId(`defaultTextFormForm${props.index}`)
+    ).toBeInTheDocument()
 
     const checkbox = screen.getByText('Actief')
     userEvent.click(checkbox)
@@ -67,5 +82,10 @@ describe('<DefaultTextsForm />', () => {
       screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(1)
+
+    userEvent.click(
+      screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
+    )
+    expect(props.changeOrdering).toHaveBeenCalledTimes(2)
   })
 })
