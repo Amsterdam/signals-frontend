@@ -44,7 +44,9 @@ describe('<DefaultTextsForm />', () => {
   it('renders the form correctly', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
-    expect(screen.getByTestId('defaultTextFormForm')).toBeInTheDocument()
+    expect(
+      screen.getByTestId(`defaultTextFormForm${props.index}`)
+    ).toBeInTheDocument()
     expect(screen.getByTestId(`title${props.index}`)).toBeInTheDocument()
     expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
     expect(
