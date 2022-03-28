@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import Enzyme, { mount } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList'
 import * as categoriesSelectors from 'models/categories/selectors'
@@ -11,6 +11,7 @@ import {
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures'
 
+import userEvent from '@testing-library/user-event'
 import DefaultTextsAdmin, { DefaultTextsAdminContainer } from '.'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -25,6 +26,10 @@ describe('<DefaultTextsAdmin />', () => {
           {
             title: 'Accu',
             text: 'accutekst',
+          },
+          {
+            title: 'Accu 2',
+            text: 'accutekst 2',
           },
         ],
         defaultTextsOptionList,
@@ -69,13 +74,17 @@ describe('<DefaultTextsAdmin />', () => {
 
   describe('rendering', () => {
     it('should render correctly', () => {
-      const { queryByTestId, rerender } = render(
-        withAppContext(<DefaultTextsAdminContainer {...props} />)
+      const { rerender } = render(
+        withAppContext(
+          <DefaultTextsAdminContainer {...props} subCategories={undefined} />
+        )
       )
 
-      expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
-      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument()
-      expect(queryByTestId('selectFormForm')).not.toBeInTheDocument()
+      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+      expect(
+        screen.queryByTestId('defaultTextFormForm0')
+      ).not.toBeInTheDocument()
+      expect(screen.queryByTestId('selectFormForm')).not.toBeInTheDocument()
 
       rerender(
         withAppContext(
@@ -86,13 +95,21 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(queryByTestId('defaultTextFormForm')).toBeInTheDocument()
-      expect(queryByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.getByTestId('defaultTextFormForm0')).toBeInTheDocument()
+      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
+
+      const index = 1
+      userEvent.click(screen.getByTestId(`defaultTextFormItemButton${index}Up`))
+
+      expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({
+        index,
+        type: 'up',
+      })
     })
 
     it('should not render the texts form without categoryUrl', () => {
-      const { queryByTestId } = render(
+      render(
         withAppContext(
           <DefaultTextsAdminContainer
             {...{
@@ -107,13 +124,15 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument()
-      expect(queryByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('defaultTextFormForm')
+      ).not.toBeInTheDocument()
+      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
     })
 
     it('should not render the texts form when loading', () => {
-      const { queryByTestId } = render(
+      render(
         withAppContext(
           <DefaultTextsAdminContainer
             {...{
@@ -128,13 +147,15 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument()
-      expect(queryByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('defaultTextFormForm')
+      ).not.toBeInTheDocument()
+      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
     })
 
     it('should not render the texts on error', () => {
-      const { queryByTestId } = render(
+      render(
         withAppContext(
           <DefaultTextsAdminContainer
             {...{
@@ -149,9 +170,11 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(queryByTestId('defaultTextFormForm')).not.toBeInTheDocument()
-      expect(queryByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(
+        screen.queryByTestId('defaultTextFormForm')
+      ).not.toBeInTheDocument()
+      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
     })
   })
 })

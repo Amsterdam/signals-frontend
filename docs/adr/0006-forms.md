@@ -93,7 +93,7 @@ Rewrite the forms by rewriting:
 
 The default texts admin page with the texts form and select form.
 
-- [DefaultTextsAdmin/components/DefaultTextsForm/index.js](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/DefaultTextsForm/index.js)
+- [DefaultTextsAdmin/components/DefaultTextsForm/index.js](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/DefaultTextsForm.tsx)
 - [DefaultTextsAdmin/components/SelectForm/index.js](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/SelectForm/index.js)
 
 The incident detail location form with the location input component.
