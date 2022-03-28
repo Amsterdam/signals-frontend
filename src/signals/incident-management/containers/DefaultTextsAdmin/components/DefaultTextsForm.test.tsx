@@ -9,7 +9,7 @@ import type { FormArray } from 'react-reactive-form'
 
 import DefaultTextsForm from './DefaultTextsForm'
 
-const fields = [...new Array(1).keys()].reduce(
+const fields = [...new Array(2).keys()].reduce(
   (acc, key) => ({
     ...acc,
     [`item${key}`]: FormBuilder.group({
@@ -29,10 +29,10 @@ describe('<DefaultTextsForm />', () => {
   })
 
   const props = {
-    item: 'item0',
+    item: 'item1',
     form: form as unknown as FormArray,
-    itemsLength: 1,
-    index: 0,
+    itemsLength: 2,
+    index: 1,
     onCheck: jest.fn(),
     changeOrdering: jest.fn(),
   }
@@ -51,7 +51,7 @@ describe('<DefaultTextsForm />', () => {
     expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
     expect(
       screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
-    ).toBeDisabled()
+    ).not.toBeDisabled()
     expect(
       screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
     ).toBeDisabled()
@@ -62,5 +62,10 @@ describe('<DefaultTextsForm />', () => {
       props.item,
       props.form.get(`${props.item}.is_active`).value
     )
+
+    userEvent.click(
+      screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
+    )
+    expect(props.changeOrdering).toHaveBeenCalledTimes(1)
   })
 })
