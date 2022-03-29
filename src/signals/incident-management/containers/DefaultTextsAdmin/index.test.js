@@ -106,6 +106,9 @@ describe('<DefaultTextsAdmin />', () => {
         index,
         type: 'up',
       })
+
+      userEvent.click(screen.getByText('Opslaan'))
+      expect(props.onSubmitTexts).toHaveBeenCalledTimes(1)
     })
 
     it('should not render the texts form without categoryUrl', () => {

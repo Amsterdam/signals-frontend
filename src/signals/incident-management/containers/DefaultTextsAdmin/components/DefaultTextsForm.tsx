@@ -77,12 +77,9 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
           control={form.get(`${item}.text`)}
         />
 
-        <StyledLabel
-          htmlFor={`formis_active${index}`}
-          label="Actief"
-          data-testid={`is_active${index}`}
-        >
+        <StyledLabel htmlFor={`formis_active${index}`} label="Actief">
           <Checkbox
+            data-testid={`is_active${index}`}
             checked={checkedValue}
             name={`is_active${index}`}
             id={`formis_active${index}`}
