@@ -23,10 +23,19 @@ const testAddress = {
 }
 
 const coordinates = { lng: 4, lat: 52 }
+const coordinatesWithLngAlphabeticallyBigger = { lng: 6, lat: 52 }
 
 const testFeature = {
   type: 'Point',
   coordinates: [coordinates.lat, coordinates.lng] as LatLngTuple,
+}
+
+const testFeatureWithLngAlphabeticallyBigger = {
+  type: 'Point',
+  coordinates: [
+    coordinatesWithLngAlphabeticallyBigger.lat,
+    coordinatesWithLngAlphabeticallyBigger.lng,
+  ] as LatLngTuple,
 }
 
 const apiCompatibleFeature = {
@@ -34,9 +43,21 @@ const apiCompatibleFeature = {
   coordinates: [coordinates.lng, coordinates.lat] as LatLngTuple,
 }
 
-describe('locationToFeature', () => {
+describe('coordinatesToFeature', () => {
   it('should convert', () => {
     expect(coordinatesToFeature(coordinates)).toEqual(testFeature)
+  })
+
+  it('should work with lat and lng swapped around', () => {
+    expect(
+      coordinatesToFeature({ lng: coordinates.lat, lat: coordinates.lng })
+    ).toEqual(testFeature)
+  })
+
+  it('should work when the lng is alphabetically bigger than the lat', () => {
+    expect(
+      coordinatesToFeature(coordinatesWithLngAlphabeticallyBigger)
+    ).toEqual(testFeatureWithLngAlphabeticallyBigger)
   })
 })
 
@@ -49,6 +70,21 @@ describe('coordinatesToAPIFeature', () => {
 describe('featureToCoordinates', () => {
   it('should convert', () => {
     expect(featureToCoordinates(testFeature)).toEqual(coordinates)
+  })
+
+  it('should work with lat and lng swapped around', () => {
+    expect(
+      featureToCoordinates({
+        ...testFeature,
+        coordinates: [coordinates.lat, coordinates.lng],
+      })
+    ).toEqual(coordinates)
+  })
+
+  it('should work when the lng is alphabetically bigger than the lat', () => {
+    expect(
+      featureToCoordinates(testFeatureWithLngAlphabeticallyBigger)
+    ).toEqual(coordinatesWithLngAlphabeticallyBigger)
   })
 })
 
@@ -65,7 +101,7 @@ describe('wktPointToLocation', () => {
     })
   })
 
-  it('should work when the lng is alphabetically bigger than the lon', () => {
+  it('should work when the lng is alphabetically bigger than the lat', () => {
     expect(wktPointToLocation('POINT(6.90225668 52.36150435)')).toEqual({
       lat: 52.36150435,
       lng: 6.90225668,
@@ -234,5 +270,43 @@ describe('pointWithinBounds', () => {
     expect(pointWithinBounds(outsideRight, bounds)).toEqual(false)
     expect(pointWithinBounds(outsideTop, bounds)).toEqual(false)
     expect(pointWithinBounds(outsideBottom, bounds)).toEqual(false)
+  })
+
+  it('works with lat and lng swapped', () => {
+    const minLat = 2
+    const maxLat = 9
+
+    const minLng = 4
+    const maxLng = 7
+
+    const bounds = [
+      [minLat, minLng],
+      [maxLat, maxLng],
+    ]
+
+    const middle: LatLngTuple = [8, 6]
+    const swapped: LatLngTuple = [6, 8]
+    const outside: LatLngTuple = [3, 6]
+
+    expect(pointWithinBounds(middle, bounds)).toEqual(true)
+    expect(pointWithinBounds(swapped, bounds)).toEqual(true)
+    expect(pointWithinBounds(outside, bounds)).toEqual(false)
+  })
+
+  it('works when the lng is alphabetically bigger than the lat', () => {
+    const minLat = 2
+    const maxLat = 12
+
+    const minLng = 4
+    const maxLng = 7
+
+    const bounds = [
+      [minLat, minLng],
+      [maxLat, maxLng],
+    ]
+
+    const middle: LatLngTuple = [11, 6]
+
+    expect(pointWithinBounds(middle, bounds)).toEqual(true)
   })
 })
