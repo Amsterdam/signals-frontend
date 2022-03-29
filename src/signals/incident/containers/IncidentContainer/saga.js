@@ -67,16 +67,18 @@ export function* getClassification(action) {
 
 export function* getQuestionsSaga(action) {
   const incident = yield select(makeSelectIncidentContainer)
-  const { category, subcategory } =
-    action.type === UPDATE_INCIDENT
-      ? action.payload
-      : getIncidentClassification(incident, action.payload)
+  const isUpdate = action.type === UPDATE_INCIDENT
+  const { category, subcategory } = isUpdate
+    ? action.payload
+    : getIncidentClassification(incident, action.payload)
   if (
     !configuration.featureFlags.fetchQuestionsFromBackend ||
     !category ||
     !subcategory
   ) {
-    yield put(setLoadingData(false))
+    if (!isUpdate) {
+      yield put(setLoadingData(false))
+    }
     return
   }
   const url = `${configuration.QUESTIONS_ENDPOINT}?main_slug=${category}&sub_slug=${subcategory}`

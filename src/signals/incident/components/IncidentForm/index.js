@@ -52,6 +52,8 @@ class IncidentForm extends Component {
       if (this.form.valid) {
         this.setIncident(this.state.formAction)
         this.state.next()
+      } else {
+        this.handleSubmit(null, this.state.next, this.state.formAction)
       }
     }
   }
@@ -135,7 +137,9 @@ class IncidentForm extends Component {
   }
 
   handleSubmit(e, next, formAction) {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
 
     if (next) {
       if (this.state.loading) {
