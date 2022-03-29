@@ -166,7 +166,10 @@ describe('IncidentContainer saga', () => {
       .next()
       .all([
         takeLatest(constants.GET_CLASSIFICATION, getClassification),
-        takeLatest(constants.GET_CLASSIFICATION_SUCCESS, getQuestionsSaga),
+        takeLatest(
+          [constants.GET_CLASSIFICATION_SUCCESS, constants.UPDATE_INCIDENT],
+          getQuestionsSaga
+        ),
         takeLatest(constants.CREATE_INCIDENT, createIncident),
       ])
   })
@@ -216,174 +219,236 @@ describe('IncidentContainer saga', () => {
   describe('getQuestionsSaga', () => {
     const payload = resolvedPrediction
 
-    it('should dispatch loading state when fetchQuestionsFromBackend disabled', () =>
-      expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload,
-      })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: { slug: 'slug' },
-              incident: { classification: { slug: 'slug' } },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-        .not.call(request)
-        .put.actionType(constants.SET_LOADING_DATA)
-        .run())
-
-    it('should dispatch loading state when category is falsy', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload: { subcategory: 'subcategory' },
-      })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: { slug: 'slug' },
-              incident: { classification: { slug: 'slug' } },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-        .not.call(request)
-        .put.actionType(constants.SET_LOADING_DATA)
-        .run()
-    })
-
-    it('should dispatch loading state when subcategory is falsy', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload: { category: 'category' },
-      })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: { slug: 'slug' },
-              incident: { classification: { slug: 'slug' } },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .not.call(request)
-        .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
-        .put.actionType(constants.SET_LOADING_DATA)
-        .run()
-    })
-
-    it('should dispatch success without classification prediction', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload,
-      })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: null,
-              incident: { classification: { slug: 'slug' } },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .call(request, questionsUrl)
-        .call(resolveQuestions, questionsResponse)
-        .put({
-          type: constants.GET_QUESTIONS_SUCCESS,
-          payload: { questions: resolvedQuestions },
+    describe('UPDATE_INCIDENT, on change of category, when logged in', () => {
+      it('should not dispatch loading state when fetchQuestionsFromBackend disabled', () =>
+        expectSaga(getQuestionsSaga, {
+          type: constants.UPDATE_INCIDENT,
+          payload,
         })
-        .run()
-    })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+          .not.call(request)
+          .not.put.actionType(constants.SET_LOADING_DATA)
+          .run())
 
-    it('should dispatch success without incident classification', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
+      it('should dispatch success on UPDATE_INCIDENT', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
 
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload,
-      })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: { slug: 'slug' },
-              incident: { classification: null },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .call(request, questionsUrl)
-        .call(resolveQuestions, questionsResponse)
-        .put({
-          type: constants.GET_QUESTIONS_SUCCESS,
-          payload: { questions: resolvedQuestions },
+        return expectSaga(getQuestionsSaga, {
+          type: constants.UPDATE_INCIDENT,
+          payload,
         })
-        .run()
-    })
-
-    it('should dispatch success with matching classification prediction and incident classification', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload,
+          .provide([
+            [select(makeSelectIncidentContainer), {}],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .select(makeSelectIncidentContainer)
+          .call(request, questionsUrl)
+          .call(resolveQuestions, questionsResponse)
+          .put({
+            type: constants.GET_QUESTIONS_SUCCESS,
+            payload: { questions: resolvedQuestions },
+          })
+          .run()
       })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: { slug: 'slug' },
-              incident: { classification: { slug: 'slug' } },
-            },
-          ],
-          [matchers.call.fn(request), { results: questionsResponse }],
-          [matchers.call.fn(resolveQuestions), resolvedQuestions],
-        ])
-        .call(request, questionsUrl)
-        .call(resolveQuestions, questionsResponse)
-        .put({
-          type: constants.GET_QUESTIONS_SUCCESS,
-          payload: { questions: resolvedQuestions },
+
+      it('should dispatch error', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        return expectSaga(getQuestionsSaga, {
+          type: constants.UPDATE_INCIDENT,
+          payload,
         })
-        .run()
-    })
-
-    it('should dispatch error', () => {
-      configuration.featureFlags.fetchQuestionsFromBackend = true
-
-      return expectSaga(getQuestionsSaga, {
-        type: constants.GET_CLASSIFICATION_SUCCESS,
-        payload,
+          .provide([
+            [select(makeSelectIncidentContainer), {}],
+            [matchers.call.fn(request), throwError(new Error('whoops!!!1!'))],
+          ])
+          .call(request, questionsUrl)
+          .put.actionType(constants.GET_QUESTIONS_ERROR)
+          .run()
       })
-        .provide([
-          [
-            select(makeSelectIncidentContainer),
-            {
-              classificationPrediction: null,
-              incident: { classification: null },
-            },
-          ],
-          [matchers.call.fn(request), throwError(new Error('whoops!!!1!'))],
-        ])
-        .call(request, questionsUrl)
-        .put.actionType(constants.GET_QUESTIONS_ERROR)
-        .run()
+    })
+    describe('GET_CLASSIFICATION_SUCCESS', () => {
+      it('should dispatch loading state when fetchQuestionsFromBackend disabled', () =>
+        expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+          .not.call(request)
+          .put.actionType(constants.SET_LOADING_DATA)
+          .run())
+
+      it('should dispatch loading state when category is falsy', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload: { subcategory: 'subcategory' },
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+          .not.call(request)
+          .put.actionType(constants.SET_LOADING_DATA)
+          .run()
+      })
+
+      it('should dispatch loading state when subcategory is falsy', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload: { category: 'category' },
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .not.call(request)
+          .not.put.actionType(constants.GET_QUESTIONS_SUCCESS)
+          .put.actionType(constants.SET_LOADING_DATA)
+          .run()
+      })
+
+      it('should dispatch success without classification prediction', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: null,
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .call(request, questionsUrl)
+          .call(resolveQuestions, questionsResponse)
+          .put({
+            type: constants.GET_QUESTIONS_SUCCESS,
+            payload: { questions: resolvedQuestions },
+          })
+          .run()
+      })
+
+      it('should dispatch success without incident classification', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: null },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .call(request, questionsUrl)
+          .call(resolveQuestions, questionsResponse)
+          .put({
+            type: constants.GET_QUESTIONS_SUCCESS,
+            payload: { questions: resolvedQuestions },
+          })
+          .run()
+      })
+
+      it('should dispatch success with matching classification prediction and incident classification', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: { slug: 'slug' },
+                incident: { classification: { slug: 'slug' } },
+              },
+            ],
+            [matchers.call.fn(request), { results: questionsResponse }],
+            [matchers.call.fn(resolveQuestions), resolvedQuestions],
+          ])
+          .call(request, questionsUrl)
+          .call(resolveQuestions, questionsResponse)
+          .put({
+            type: constants.GET_QUESTIONS_SUCCESS,
+            payload: { questions: resolvedQuestions },
+          })
+          .run()
+      })
+
+      it('should dispatch error', () => {
+        configuration.featureFlags.fetchQuestionsFromBackend = true
+
+        return expectSaga(getQuestionsSaga, {
+          type: constants.GET_CLASSIFICATION_SUCCESS,
+          payload,
+        })
+          .provide([
+            [
+              select(makeSelectIncidentContainer),
+              {
+                classificationPrediction: null,
+                incident: { classification: null },
+              },
+            ],
+            [matchers.call.fn(request), throwError(new Error('whoops!!!1!'))],
+          ])
+          .call(request, questionsUrl)
+          .put.actionType(constants.GET_QUESTIONS_ERROR)
+          .run()
+      })
     })
   })
 

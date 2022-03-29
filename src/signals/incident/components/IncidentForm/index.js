@@ -45,14 +45,13 @@ class IncidentForm extends Component {
     this.form.meta.incident = this.props.incidentContainer.incident
     this.form.meta.submitting = this.state.submitting
     if (
-      this.state.loading !== prevState.loading &&
+      prevState.loading &&
       !this.state.loading &&
-      this.state.next
+      this.state.next &&
+      this.form.valid
     ) {
-      if (this.form.valid) {
-        this.setIncident(this.state.formAction)
-        this.state.next()
-      }
+      this.setIncident(this.state.formAction)
+      this.state.next()
     }
   }
 
