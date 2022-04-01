@@ -182,6 +182,7 @@ const straatverlichtingKlokken = {
         ],
       },
       values: {
+        niet_gevaarlijk: 'Nee, niet gevaarlijk',
         drie_of_meer_kapot: 'Ja, 3 of meer lampen in de straat zijn kapot',
         is_gevolg_van_aanrijding: 'Ja, het is een gevolg van een aanrijding',
         lamp_op_grond_of_scheef:
@@ -190,7 +191,6 @@ const straatverlichtingKlokken = {
           'Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open',
         losse_kabels_zichtbaar_of_lamp_los:
           'Ja, er hangen losse stroomkabels of de lamp hangt los',
-        niet_gevaarlijk: 'Nee, niet gevaarlijk',
       },
       pathMerge: 'extra_properties',
     },
@@ -300,6 +300,7 @@ const straatverlichtingKlokken = {
         subcategory: 'klok',
       },
       values: {
+        niet_gevaarlijk: 'Niet gevaarlijk',
         is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
         klok_op_grond_of_scheef:
           'Klok ligt op de grond of staat gevaarlijk scheef',
@@ -307,7 +308,6 @@ const straatverlichtingKlokken = {
           'Deurtje in de mast is niet aanwezig of staat open',
         losse_kabels_zichtbaar_of_lamp_los:
           'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
-        niet_gevaarlijk: 'Niet gevaarlijk',
       },
       pathMerge: 'extra_properties',
     },
