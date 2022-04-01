@@ -10,7 +10,8 @@ import type { FieldProps } from '../../types'
 export const DEFAULT_MAX_LENGTH = 1000
 const DEFAULT_ROWS = 6
 const StyledLabel = styled.strong`
-  word-break: break-all;
+  white-space: pre-wrap;
+  word-break: break-word;
 `
 
 const TextArea: FunctionComponent<FieldProps> = ({
