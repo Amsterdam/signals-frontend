@@ -254,12 +254,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             />
           </header>
 
-          {optionsList ? (
+          {optionsList && (
             <OptionsList data-testid="optionsList">{optionsList}</OptionsList>
-          ) : (
-            <Paragraph className="instruction">
-              Zoek adres of postcode
-            </Paragraph>
           )}
         </AddressPanel>
       )}
