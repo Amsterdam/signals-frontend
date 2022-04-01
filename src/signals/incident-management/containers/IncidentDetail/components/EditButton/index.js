@@ -11,23 +11,22 @@ const StyledButton = styled(Button)`
   padding: ${themeSpacing(0, 1.5)};
 `
 
-const EditIcon = styled.img`
-  ${({ disabled }) => (disabled ? 'filter: invert(0.5);' : '')};
-`
-
 const EditButton = ({ className, disabled, onClick, ...rest }) => (
   <StyledButton
     className={className}
     data-testid={rest['data-testid'] || 'editButton'}
     disabled={disabled}
     icon={
-      <EditIcon
-        disabled={disabled}
-        src="/assets/images/icon-edit.svg"
+      <img
+        src={
+          disabled
+            ? '/assets/images/icon-edit-disabled.svg'
+            : '/assets/images/icon-edit.svg'
+        }
         alt="Bewerken"
       />
     }
-    iconSize={18}
+    iconSize={disabled ? 20 : 18}
     onClick={onClick}
     variant="application"
   />
