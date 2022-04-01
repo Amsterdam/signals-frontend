@@ -3,11 +3,15 @@
 import type { FunctionComponent } from 'react'
 import { useMemo } from 'react'
 import { useWatch } from 'react-hook-form'
+import styled from 'styled-components'
 import TextAreaComponent from 'components/TextArea'
 import type { FieldProps } from '../../types'
 
 export const DEFAULT_MAX_LENGTH = 1000
 const DEFAULT_ROWS = 6
+const StyledLabel = styled.strong`
+  word-break: break-all;
+`
 
 const TextArea: FunctionComponent<FieldProps> = ({
   errorMessage,
@@ -29,7 +33,7 @@ const TextArea: FunctionComponent<FieldProps> = ({
     [maxLength, value.length]
   )
 
-  const labelComponent = <strong>{label}</strong>
+  const labelComponent = <StyledLabel>{label}</StyledLabel>
 
   return (
     <TextAreaComponent
