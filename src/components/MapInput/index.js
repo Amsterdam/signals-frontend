@@ -105,9 +105,7 @@ const MapInput = ({
       const addressText = response?.value || ''
       const address = response?.data?.address || ''
 
-      if (response) {
-        onChangePayload.address = response.data.address
-      }
+      onChangePayload.address = response ? response.data.address : {}
 
       dispatch(setValuesAction({ addressText, address }))
 

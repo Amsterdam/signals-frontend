@@ -232,7 +232,10 @@ describe('components/MapInput', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith({ coordinates: expect.any(Object) })
+    expect(onChange).toHaveBeenCalledWith({
+      coordinates: expect.any(Object),
+      address: {},
+    })
   })
 
   it('should render marker and center the map', async () => {
