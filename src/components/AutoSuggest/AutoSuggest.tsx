@@ -316,7 +316,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           ref={inputRef}
           {...rest}
         />
-        {defaultValue && (
+        {(defaultValue || value) && (
           <ClearInput
             data-testid="clearInput"
             icon={<Close />}
