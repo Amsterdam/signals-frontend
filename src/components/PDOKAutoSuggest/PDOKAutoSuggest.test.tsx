@@ -13,6 +13,7 @@ const mockResponse = JSON.stringify(JSONResponse)
 
 const onSelect = jest.fn()
 const municipalityQs = 'fq=gemeentenaam:'
+const fieldTypeQs = 'fq=type:'
 const fieldListQs = 'fl='
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
@@ -64,6 +65,34 @@ describe('components/PDOKAutoSuggest', () => {
     it('should be called on change', async () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('fieldType', () => {
+    it('should call fetch with field type', async () => {
+      await renderAndSearch('Dam', { fieldType: 'adres' })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${fieldTypeQs}(adres)`),
+        expect.objectContaining({ method: 'GET' })
+      )
+    })
+
+    it('should work with multiple field types', async () => {
+      await renderAndSearch('Dam', { fieldType: 'adres weg' })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining(`${fieldTypeQs}(adres weg)`),
+        expect.objectContaining({ method: 'GET' })
+      )
+    })
+
+    it('should ignore an empty string', async () => {
+      await renderAndSearch('Dam', {
+        fieldType: '',
+      })
+      expect(fetch).toHaveBeenCalledWith(
+        expect.not.stringContaining(fieldTypeQs),
+        expect.objectContaining({ method: 'GET' })
+      )
     })
   })
 

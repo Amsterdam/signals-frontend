@@ -56,6 +56,7 @@
   },
   "map": {
     "municipality": "amsterdam",
+    "fieldType": "adres",
     "options": {
       "center": [
         52.3731081,

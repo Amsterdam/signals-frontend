@@ -12,9 +12,9 @@ import {
 import configuration from 'shared/services/configuration/configuration'
 
 const municipalityFilterName = 'gemeentenaam'
+const fieldTypeFilterName = 'type'
 const serviceParams = [
   ['fq', 'bron:BAG'],
-  ['fq', 'type:adres'],
   ['q', ''],
 ]
 const serviceUrl =
@@ -29,7 +29,8 @@ export interface PDOKAutoSuggestProps
     'url' | 'formatResponse' | 'numOptionsDeterminer'
   > {
   fieldList?: Array<string>
-  municipality?: string | Array<string>
+  municipality?: string
+  fieldType?: string
 }
 
 /**
@@ -40,16 +41,26 @@ export interface PDOKAutoSuggestProps
 const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   fieldList = [],
   municipality = configuration.map.municipality,
+  fieldType = configuration.map.fieldType,
   ...rest
 }) => {
-  const fq = municipality
+  const fieldTypeParam = fieldType
+    ? [['fq', `${fieldTypeFilterName}:(${fieldType})`]]
+    : []
+  const municipalityParam = municipality
     ? [['fq', `${municipalityFilterName}:(${municipality})`]]
     : []
   // ['fl', '*'], // undocumented; requests all available field values from the API
   const fl = [
     ['fl', [...pdokResponseFieldList, ...(fieldList || [])].join(',')],
   ]
-  const params = [...fq, ...fl, ...serviceParams]
+
+  const params = [
+    ...fieldTypeParam,
+    ...municipalityParam,
+    ...fl,
+    ...serviceParams,
+  ]
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&')
   const url = `${serviceUrl}${queryParams}`
 
