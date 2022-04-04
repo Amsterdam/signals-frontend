@@ -532,6 +532,29 @@ describe('MetaList', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should show assigned user with a category with only one department', async () => {
+      configuration.featureFlags.assignSignalToEmployee = true
+      configuration.featureFlags.assignSignalToDepartment = true
+      render(
+        renderWithContext({
+          ...incidentFixture,
+          category: {
+            ...incidentFixture.category,
+            departments: departmentAscCode,
+          },
+        })
+      )
+      await screen.findByTestId('meta-list-date-definition')
+
+      expect(
+        screen.getByTestId('meta-list-assigned_user_email-definition')
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTestId('meta-list-assigned_user_email-value')
+      ).toBeInTheDocument()
+      expect(screen.getByText('Niet toegewezen')).toBeInTheDocument()
+    })
+
     it('should show assigned user with a selected department', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       configuration.featureFlags.assignSignalToDepartment = true
