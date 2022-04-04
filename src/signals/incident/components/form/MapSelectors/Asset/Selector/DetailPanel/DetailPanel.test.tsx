@@ -482,20 +482,6 @@ describe('DetailPanel', () => {
     expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
   })
 
-  it('renders the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
-
-    expect(screen.getByTestId('addressPanel')).toBeInTheDocument()
-
-    expect(screen.getByText('Zoek adres of postcode')).toBeInTheDocument()
-  })
-
   it('renders a list of options in the address panel', () => {
     jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
