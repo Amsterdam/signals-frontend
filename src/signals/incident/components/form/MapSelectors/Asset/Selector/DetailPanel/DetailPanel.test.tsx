@@ -9,7 +9,7 @@ import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
-import { UNKNOWN_TYPE } from '../../../constants'
+import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
@@ -515,5 +515,23 @@ describe('DetailPanel', () => {
     )
 
     expect(screen.getByTestId('optionsList')).toBeInTheDocument()
+  })
+
+  it('selection nearby details', () => {
+    const selection = {
+      label: 'Huisafval',
+      description: 'Gemeld op: 01-01-1970',
+      type: NEARBY_TYPE,
+    }
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+        selection,
+      })
+    )
+
+    expect(screen.getByText(selection.label)).toBeInTheDocument()
+    expect(screen.getByText(selection.description)).toBeInTheDocument()
   })
 })

@@ -36,38 +36,63 @@ const statusFeatures = caterpillarsJson.features.filter(
 )
 
 describe('StatusLayer', () => {
-  const withMapCaterpillar = () =>
-    withAssetSelectContext(
-      <Map data-testid="map-test" options={MAP_OPTIONS}>
-        <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
-          <StatusLayer
-            statusFeatures={statusFeatures as Feature[]}
-            featureStatusTypes={featureStatusTypes}
-          />
-        </WfsDataProvider>
-      </Map>,
-      { ...assetSelectProviderValue }
-    )
+  const reportedFeatureId = statusFeatures[0].properties['OBJECTID']
+  const reportedFeatureType = featureStatusTypes.find(
+    ({ typeValue }) => typeValue === FeatureStatus.REPORTED
+  )
+  const reportedDescription = `${reportedFeatureType?.description} - ${reportedFeatureId}`
 
-  it('should render reported and checked features in the map', () => {
-    render(withMapCaterpillar())
-    const reportedFeatureId = statusFeatures[0].properties['OBJECTID']
-    const reportedFeatureType = featureStatusTypes.find(
-      ({ typeValue }) => typeValue === FeatureStatus.REPORTED
-    )
-    const reportedDescription = `${reportedFeatureType?.description} - ${reportedFeatureId}`
-    expect(screen.getByAltText(reportedDescription)).toBeInTheDocument()
+  const checkedFeatureId = statusFeatures[2].properties['OBJECTID']
+  const checkedFeatureType = featureStatusTypes.find(
+    ({ typeValue }) => typeValue === FeatureStatus.CHECKED
+  )
+  const checkedDescription = `${checkedFeatureType?.description} - ${checkedFeatureId}`
 
-    const checkedFeatureId = statusFeatures[2].properties['OBJECTID']
-    const checkedFeatureType = featureStatusTypes.find(
-      ({ typeValue }) => typeValue === FeatureStatus.CHECKED
-    )
-    const checkedDescription = `${checkedFeatureType?.description} - ${checkedFeatureId}`
-    expect(screen.getByAltText(checkedDescription)).toBeInTheDocument()
+  describe('it renders correctly', () => {
+    const withMapCaterpillar = () =>
+      withAssetSelectContext(
+        <Map data-testid="map-test" options={MAP_OPTIONS}>
+          <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
+            <StatusLayer
+              statusFeatures={statusFeatures as Feature[]}
+              featureStatusTypes={featureStatusTypes}
+            />
+          </WfsDataProvider>
+        </Map>,
+        { ...assetSelectProviderValue }
+      )
+
+    it('should render reported and checked features in the map', () => {
+      render(withMapCaterpillar())
+
+      expect(screen.getByAltText(reportedDescription)).toBeInTheDocument()
+      expect(screen.getByAltText(checkedDescription)).toBeInTheDocument()
+    })
+
+    it('To render Asset layer icons in the correct location with respect to the status icons, featureTypes should have the proper iconSize', () => {
+      const iconSize = typedMeta.featureTypes[0].icon?.options?.iconSize
+      expect(iconSize).toEqual([40, 40])
+    })
   })
 
-  it('To render Asset layer icons in the correct location with respect to the status icons, featureTypes should have the proper iconSize', () => {
-    const iconSize = typedMeta.featureTypes[0].icon?.options?.iconSize
-    expect(iconSize).toEqual([40, 40])
+  describe('no featureStatusType', () => {
+    const mapWithoutFeatureStatusTypes = () =>
+      withAssetSelectContext(
+        <Map data-testid="map-test" options={MAP_OPTIONS}>
+          <WfsDataProvider value={caterpillarsJson as FeatureCollection}>
+            <StatusLayer
+              statusFeatures={statusFeatures as Feature[]}
+              featureStatusTypes={[]}
+            />
+          </WfsDataProvider>
+        </Map>,
+        { ...assetSelectProviderValue }
+      )
+
+    it('does not render a status layer', () => {
+      render(mapWithoutFeatureStatusTypes())
+      expect(screen.queryByAltText(reportedDescription)).not.toBeInTheDocument()
+      expect(screen.queryByAltText(checkedDescription)).not.toBeInTheDocument()
+    })
   })
 })
