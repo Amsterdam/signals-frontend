@@ -16,6 +16,7 @@ import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 import {
   selectionIsObject,
   selectionIsUndetermined,
+  selectionIsNearby,
   UNKNOWN_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
 
@@ -32,6 +33,7 @@ import {
   LegendToggleButton,
   OptionsList,
   PanelContent,
+  SelectionNearby,
   StyledAssetList,
   StyledButton,
   StyledLegendPanel,
@@ -61,6 +63,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
 
   const unregisteredAsset =
     selection && selectionIsUndetermined(selection) ? selection : undefined
+
+  const selectionNearby =
+    selection && selectionIsNearby(selection) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
     selection?.type === UNKNOWN_TYPE
@@ -178,6 +183,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             featureTypes={featureTypes}
             featureStatusTypes={featureStatusTypes}
           />
+        )}
+
+        {selectionNearby && (
+          <SelectionNearby>
+            <Paragraph strong>Deze melding is al bij ons bekend:</Paragraph>
+            <strong>{selection?.label}</strong>
+            <span>{selection?.description}</span>
+          </SelectionNearby>
         )}
 
         {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
