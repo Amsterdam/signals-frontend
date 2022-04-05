@@ -22,14 +22,17 @@ describe('<DefaultTexts />', () => {
             {
               title: 'Titel 1',
               text: 'Er is een accu gevonden en deze is meegenomen',
+              is_active: true,
             },
             {
               title: '222',
               text: 'sdfsdfsdf',
+              is_active: true,
             },
             {
               title: 'Asbest',
               text: 'Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd.',
+              is_active: true,
             },
           ],
         },
