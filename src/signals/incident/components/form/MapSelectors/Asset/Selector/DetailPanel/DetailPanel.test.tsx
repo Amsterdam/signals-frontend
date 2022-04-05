@@ -427,7 +427,7 @@ describe('DetailPanel', () => {
     })
   })
 
-  it('renders the object panel only when feature types are available', () => {
+  it('renders the legend panel, always containing the nearby type item', () => {
     const noFeatureTypesContext = {
       ...contextValue,
       meta: {
@@ -444,6 +444,7 @@ describe('DetailPanel', () => {
 
     expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
     expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
+    expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
     expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
 
     rerender(
@@ -457,8 +458,9 @@ describe('DetailPanel', () => {
       screen.queryByTestId('unregisteredObjectPanel')
     ).not.toBeInTheDocument()
 
-    expect(screen.queryByTestId('legendPanel')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('legendToggleButton')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('legendPanel')).toBeInTheDocument()
+    expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
+    expect(screen.queryByTestId('legendToggleButton')).toBeInTheDocument()
   })
 
   it('toggles the position of the legend panel', () => {

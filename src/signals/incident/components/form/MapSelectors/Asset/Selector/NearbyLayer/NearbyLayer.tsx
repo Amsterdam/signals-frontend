@@ -101,7 +101,6 @@ export const NearbyLayer: FC = () => {
   }, [selection])
 
   useEffect(() => {
-    //featureGroup.current.on('click', onFeatureGroupClick)
     featureGroup.current.addTo(mapInstance)
   }, [mapInstance])
 
