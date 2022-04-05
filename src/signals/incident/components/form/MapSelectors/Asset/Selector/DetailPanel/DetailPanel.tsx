@@ -167,6 +167,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onClear={removeItem}
             onSelect={onAddressSelect}
             value={addressValue}
+            placeholder="Zoek adres of postcode"
           />
         )}
 
@@ -249,15 +250,12 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               onSelect={onAddressSelect}
               showInlineList={false}
               value={addressValue}
+              placeholder="Zoek adres of postcode"
             />
           </header>
 
-          {optionsList ? (
+          {optionsList && (
             <OptionsList data-testid="optionsList">{optionsList}</OptionsList>
-          ) : (
-            <Paragraph className="instruction">
-              Zoek adres of postcode
-            </Paragraph>
           )}
         </AddressPanel>
       )}

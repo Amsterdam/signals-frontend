@@ -492,8 +492,6 @@ describe('DetailPanel', () => {
     fireEvent.focus(screen.getByTestId('autoSuggestInput'))
 
     expect(screen.getByTestId('addressPanel')).toBeInTheDocument()
-
-    expect(screen.getByText('Zoek adres of postcode')).toBeInTheDocument()
   })
 
   it('renders a list of options in the address panel', () => {
