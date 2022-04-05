@@ -77,6 +77,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     isLoading,
   } = useFetch<EmailTemplate>()
 
+  const activeDefaultTexts = defaultTexts.map((defaultText) => {
+    const templates = defaultText.templates.filter(
+      (template) => template.is_active
+    )
+    return {
+      ...defaultText,
+      templates,
+    }
+  })
+
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
       event.preventDefault()
@@ -379,10 +389,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               data-testid="standardTextButton"
               variant="primaryInverted"
               onClick={openStandardTextModal}
-              templatesAvailable={defaultTextTemplatesLength(defaultTexts) > 0}
+              templatesAvailable={
+                defaultTextTemplatesLength(activeDefaultTexts) > 0
+              }
             >
               <div>{`Standaardtekst (${defaultTextTemplatesLength(
-                defaultTexts
+                activeDefaultTexts
               )})`}</div>
             </StandardTextsButton>
             {modalStandardTextIsOpen && (
@@ -393,7 +405,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 title="Standard texts"
               >
                 <DefaultTexts
-                  defaultTexts={defaultTexts}
+                  defaultTexts={activeDefaultTexts}
                   onHandleUseDefaultText={useDefaultText}
                   status={state.status.key}
                   onClose={closeStandardTextModal}

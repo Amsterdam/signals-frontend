@@ -45,18 +45,26 @@ const defaultTexts = [
   {
     state: StatusCode.Ingepland,
     templates: [
-      { title: 'Ingepland', text: 'Over 1 dag' },
-      { title: 'Ingepland', text: 'Over 2 dagen' },
-      { title: '', text: '' },
+      { title: 'Ingepland', text: 'Over 1 dag', is_active: true },
+      { title: 'Ingepland', text: 'Over 2 dagen', is_active: true },
+      { title: '', text: '', is_active: true },
     ],
   },
   {
     state: StatusCode.Afgehandeld,
     templates: [
-      { title: 'Niet opgelost', text: 'Geen probleem gevonden' },
-      { title: 'Niet opgelost', text: 'Niet voor regio Amsterdam' },
-      { title: 'Opgelost', text: 'Lamp vervangen' },
-      { title: 'Opgelost', text: 'Lantaarnpaal vervangen' },
+      {
+        title: 'Niet opgelost',
+        text: 'Geen probleem gevonden',
+        is_active: false,
+      },
+      {
+        title: 'Niet opgelost',
+        text: 'Niet voor regio Amsterdam',
+        is_active: true,
+      },
+      { title: 'Opgelost', text: 'Lamp vervangen', is_active: true },
+      { title: 'Opgelost', text: 'Lantaarnpaal vervangen', is_active: true },
     ],
   },
 ]
@@ -160,7 +168,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
 
     render(renderWithContext(withSendEmailStatus))
-    expect(screen.getByText('Standaardtekst (4)')).toBeInTheDocument()
+    expect(screen.getByText('Standaardtekst (3)')).toBeInTheDocument()
   })
 
   it('renders a disabled checkbox', () => {
