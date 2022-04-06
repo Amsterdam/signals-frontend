@@ -8,7 +8,6 @@ import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
-import Checkbox from 'components/Checkbox'
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -29,7 +28,9 @@ import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
+  StyledCheckbox,
   Form,
+  StyledCheckboxLabel,
   StandardTextsButton,
   StyledAlert,
   StyledButton,
@@ -329,20 +330,20 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         {!state.flags.isSplitIncident && (
           <div>
             {state.flags.hasEmail ? (
-              <Label
+              <StyledCheckboxLabel
                 disabled={state.check.disabled}
                 htmlFor="send_email"
                 label={constants.MELDING_CHECKBOX_DESCRIPTION}
                 noActiveState
               >
-                <Checkbox
+                <StyledCheckbox
                   checked={state.check.checked}
                   data-testid="sendEmailCheckbox"
                   disabled={state.check.disabled}
                   id="send_email"
                   onClick={onCheck}
                 />
-              </Label>
+              </StyledCheckboxLabel>
             ) : (
               <div data-testid="no-email-warning">
                 {constants.NO_REPORTER_EMAIL}

@@ -13,6 +13,7 @@ import {
 import type { AlertLevel } from '@amsterdam/asc-ui'
 
 import Button from 'components/Button'
+import Checkbox from 'components/Checkbox'
 
 export const AddNoteWrapper = styled.div`
   label.addNoteText {
@@ -81,6 +82,14 @@ export const StyledH4 = styled(Heading)`
 
 export const StyledLabel = styled(Label)`
   font-weight: 700;
+`
+
+export const StyledCheckbox = styled(Checkbox)`
+  opacity: 0.3;
+`
+
+export const StyledCheckboxLabel = styled(Label)`
+  color: #767676;
 `
 
 export const StyledModal = styled(Modal)`
