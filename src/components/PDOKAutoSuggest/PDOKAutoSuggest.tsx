@@ -29,7 +29,7 @@ export interface PDOKAutoSuggestProps
     'url' | 'formatResponse' | 'numOptionsDeterminer'
   > {
   fieldList?: Array<string>
-  municipality?: string
+  municipality?: string | Array<string>
   fieldType?: string
 }
 
