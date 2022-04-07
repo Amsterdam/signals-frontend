@@ -77,7 +77,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     isLoading,
   } = useFetch<EmailTemplate>()
 
-  const activeDefaultTexts = defaultTexts.map((defaultText) => {
+  const activeDefaultTexts = defaultTexts?.map((defaultText) => {
     const templates = defaultText.templates.filter(
       (template) => template.is_active
     )
