@@ -10,6 +10,8 @@ import { makeSelectCategory } from 'signals/incident/containers/IncidentContaine
 import configuration from 'shared/services/configuration/configuration'
 
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import useLayerVisible from 'signals/incident/components/form/MapSelectors/hooks/useLayerVisible'
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { LatLngTuple, LeafletMouseEvent } from 'leaflet'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
@@ -41,6 +43,10 @@ interface MarkerMouseEvent extends LeafletMouseEvent {
   sourceTarget: NearbyMarker
 }
 
+interface NearbyLayerProps {
+  zoomLevel: ZoomLevel
+}
+
 export const nearbyMarkerIcon = L.icon({
   iconSize: [24, 32],
   iconUrl: '/assets/images/area-map/icon-pin.svg',
@@ -54,9 +60,10 @@ export const nearbyMarkerSelectedIcon = L.icon({
 const formattedDate = (date: string) =>
   formatDate(new Date(date), `'Gemeld op:' dd MMMM`)
 
-export const NearbyLayer: FC = () => {
+export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const { selection, setItem } = useContext(AssetSelectContext)
   const bbox = useBoundingBox()
+  const layerVisible = useLayerVisible(zoomLevel)
   const mapInstance = useMapInstance()
   const { category, subcategory } = useSelector(makeSelectCategory)
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
@@ -105,7 +112,13 @@ export const NearbyLayer: FC = () => {
   }, [mapInstance])
 
   useEffect(() => {
-    if (!bbox || !category || !subcategory) return
+    if (!layerVisible) {
+      featureGroup.current.clearLayers()
+    }
+  })
+
+  useEffect(() => {
+    if (!layerVisible || !bbox || !category || !subcategory) return
 
     const { west, south, east, north } = bbox
     const searchParams = new URLSearchParams({
@@ -115,7 +128,7 @@ export const NearbyLayer: FC = () => {
     })
 
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [get, bbox, category, subcategory])
+  }, [layerVisible, get, bbox, category, subcategory])
 
   useEffect(() => {
     featureGroup.current.clearLayers()

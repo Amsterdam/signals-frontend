@@ -8,6 +8,7 @@ import geography from 'utils/__tests__/fixtures/geography_public.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import Map from 'components/Map'
+import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import NearbyLayer, { nearbyMarkerIcon } from './NearbyLayer'
 
@@ -23,12 +24,17 @@ const mockGetBounds = jest.fn(() => ({
   getWest: () => west,
 }))
 
+const mockGetZoom = jest.fn(() => ({
+  max: 12,
+}))
+
 const mockUseMapInstance = {
   addLayer: jest.fn(),
   getBounds: mockGetBounds,
   removeLayer: jest.fn(),
   on: jest.fn(),
   off: jest.fn(),
+  getZoom: mockGetZoom,
 }
 const category = 'afval'
 const subcategory = 'huisvuil'
@@ -63,7 +69,7 @@ const renderWithContext = () =>
   render(
     withAssetSelectContext(
       <Map mapOptions={MAP_OPTIONS}>
-        <NearbyLayer />
+        <NearbyLayer zoomLevel={{ max: 13 }} />
       </Map>
     )
   )
@@ -90,7 +96,8 @@ describe('NearbyLayer', () => {
     expect(screen.getByTestId('nearbyLayer')).toBeInTheDocument()
   })
 
-  it('sends a request to the API on mount ', async () => {
+  it('sends a request to the API on mount when the zoom level is sufficiently deep', async () => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true)
     expect(get).not.toHaveBeenCalled()
 
     renderWithContext()
@@ -143,5 +150,23 @@ describe('NearbyLayer', () => {
       Leaflet.FeatureGroup.prototype.clearAllEventListeners
     ).toHaveBeenCalled()
     expect(mockUseMapInstance.removeLayer).toHaveBeenCalled()
+  })
+
+  it('clears the nearby markers when sufficiently zoomed out', async () => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true)
+    const { rerender } = renderWithContext()
+
+    await screen.findByTestId('nearbyLayer')
+
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false)
+    rerender(
+      withAssetSelectContext(
+        <Map mapOptions={MAP_OPTIONS}>
+          <NearbyLayer zoomLevel={{ max: 13 }} />
+        </Map>
+      )
+    )
+
+    expect(Leaflet.FeatureGroup.prototype.clearLayers).toHaveBeenCalled()
   })
 })
