@@ -24,17 +24,13 @@ const mockGetBounds = jest.fn(() => ({
   getWest: () => west,
 }))
 
-const mockGetZoom = jest.fn(() => ({
-  max: 12,
-}))
-
 const mockUseMapInstance = {
   addLayer: jest.fn(),
   getBounds: mockGetBounds,
   removeLayer: jest.fn(),
   on: jest.fn(),
   off: jest.fn(),
-  getZoom: mockGetZoom,
+  getZoom: jest.fn(),
 }
 const category = 'afval'
 const subcategory = 'huisvuil'
