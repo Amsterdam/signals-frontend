@@ -7,6 +7,7 @@ export type DefaultText = {
   templates: {
     text: string
     title: string
+    is_active: boolean
   }[]
 }
 

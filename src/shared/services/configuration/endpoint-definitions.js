@@ -37,6 +37,7 @@ export default {
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_geography
   // for reference.
   GEOGRAPHY_ENDPOINT: '/signals/v1/private/signals/geography',
+  GEOGRAPHY_PUBLIC_ENDPOINT: '/signals/v1/public/signals/geography',
   // Private. Used to GET sets of incidents. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_
   // for reference.

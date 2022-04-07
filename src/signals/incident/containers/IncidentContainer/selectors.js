@@ -25,3 +25,12 @@ export const makeSelectIncidentContainer = createSelector(
   selectIncidentContainerDomain,
   (substate) => substate.toJS()
 )
+
+export const makeSelectCategory = createSelector(
+  selectIncidentContainerDomain,
+  (state) => {
+    const { category, subcategory } = state.toJS().incident
+
+    return { category, subcategory }
+  }
+)

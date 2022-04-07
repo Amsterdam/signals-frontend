@@ -140,3 +140,14 @@ export const OptionsList = styled.div`
     display: none;
   }
 `
+
+export const SelectionNearby = styled.div`
+  margin: ${themeSpacing(6, 0, 0)};
+  p {
+    margin: ${themeSpacing(6, 0, 3)};
+    color: ${themeColor('secondary')};
+  }
+  strong {
+    display: block;
+  }
+`

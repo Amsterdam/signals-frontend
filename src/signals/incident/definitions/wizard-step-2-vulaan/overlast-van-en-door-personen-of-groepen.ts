@@ -92,9 +92,6 @@ export const overlastPersonenEnGroepen = {
         extra_personen_overig_vaker: 'ja',
       },
     },
-    options: {
-      validators: ['required'],
-    },
     render: QuestionFieldType.TextareaInput,
   },
 }

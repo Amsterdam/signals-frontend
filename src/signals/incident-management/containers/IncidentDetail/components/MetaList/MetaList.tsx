@@ -205,7 +205,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
     userOptions &&
     (incident?.assigned_user_email ||
       (configuration.featureFlags.assignSignalToDepartment &&
-        incident?.routing_departments) ||
+        (incident?.routing_departments || categoryDepartments?.length === 1)) ||
       !configuration.featureFlags.assignSignalToDepartment)
 
   const departmentOptions = useMemo(() => {

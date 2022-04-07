@@ -5,6 +5,7 @@ import { initialState } from './reducer'
 import {
   selectIncidentContainerDomain,
   makeSelectIncidentContainer,
+  makeSelectCategory,
 } from './selectors'
 
 describe('signals/incident/containers/IncidentContainer/selectors', () => {
@@ -34,5 +35,18 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
 
       expect(makeSelectIncidentContainer.resultFunc(mockedState)).toEqual(state)
     })
+  })
+
+  it('returns category and subcategory slugs', () => {
+    const catSubcat = {
+      category: 'afval',
+      subcategory: 'huisafval',
+    }
+    const state = {
+      incident: catSubcat,
+    }
+    const mockedState = fromJS(state)
+
+    expect(makeSelectCategory.resultFunc(mockedState)).toEqual(catSubcat)
   })
 })

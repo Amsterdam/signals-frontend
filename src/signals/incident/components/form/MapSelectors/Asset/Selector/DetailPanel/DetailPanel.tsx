@@ -16,7 +16,9 @@ import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 import {
   selectionIsObject,
   selectionIsUndetermined,
+  selectionIsNearby,
   UNKNOWN_TYPE,
+  NEARBY_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
 
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
@@ -32,6 +34,7 @@ import {
   LegendToggleButton,
   OptionsList,
   PanelContent,
+  SelectionNearby,
   StyledAssetList,
   StyledButton,
   StyledLegendPanel,
@@ -40,6 +43,15 @@ import {
 
 export interface DetailPanelProps {
   language?: Record<string, string>
+}
+
+const nearbyLegendItem = {
+  label: 'Bestaande melding',
+  icon: {
+    iconUrl: '/assets/images/area-map/icon-pin.svg',
+    iconSize: [40, 40],
+  },
+  typeValue: NEARBY_TYPE,
 }
 
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
@@ -62,6 +74,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const unregisteredAsset =
     selection && selectionIsUndetermined(selection) ? selection : undefined
 
+  const selectionNearby =
+    selection && selectionIsNearby(selection) ? selection : undefined
+
   const [showObjectIdInput, setShowObjectIdInput] = useState(
     selection?.type === UNKNOWN_TYPE
   )
@@ -72,7 +87,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const unregisteredLabel =
     language.unregistered || 'Het object staat niet op de kaart'
 
-  const legendItems = [...featureTypes, ...featureStatusTypes]
+  const legendItems = [...featureTypes, ...featureStatusTypes, nearbyLegendItem]
     .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
     .map((featureType) => ({
       label: featureType.label,
@@ -178,6 +193,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             featureTypes={featureTypes}
             featureStatusTypes={featureStatusTypes}
           />
+        )}
+
+        {selectionNearby && (
+          <SelectionNearby>
+            <Paragraph strong>Deze melding is al bij ons bekend:</Paragraph>
+            <strong>{selection?.label}</strong>
+            <span>{selection?.description}</span>
+          </SelectionNearby>
         )}
 
         {featureTypes.length > 0 && (!selection || unregisteredAsset) && (

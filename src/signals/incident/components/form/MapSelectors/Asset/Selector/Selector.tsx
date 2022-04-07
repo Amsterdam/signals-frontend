@@ -38,6 +38,7 @@ import { selectionIsUndetermined } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
+import NearbyLayer from './NearbyLayer'
 import {
   StyledMap,
   StyledViewerContainer,
@@ -213,6 +214,8 @@ const Selector: FC = () => {
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
           <Layer />
         </WfsLayer>
+
+        <NearbyLayer />
 
         {geolocation && <LocationMarker geolocation={geolocation} />}
 
