@@ -1,6 +1,10 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
+
 import L from 'leaflet'
 import type { FC } from 'react'
 import { useFetch } from 'hooks'
+import './style.css'
 
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -49,6 +53,7 @@ export const nearbyMarkerIcon = L.icon({
 export const nearbyMarkerSelectedIcon = L.icon({
   iconSize: [40, 40],
   iconUrl: '/assets/images/area-map/icon-pin-red.svg',
+  className: 'selected-nearby-marker',
 })
 
 const formattedDate = (date: string) =>
