@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
+
 import { render, screen } from '@testing-library/react'
 import Leaflet from 'leaflet'
 import * as reactRedux from 'react-redux'
