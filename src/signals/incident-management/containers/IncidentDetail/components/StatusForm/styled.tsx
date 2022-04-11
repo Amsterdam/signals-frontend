@@ -3,6 +3,7 @@
 import styled, { css } from 'styled-components'
 import {
   Alert,
+  Checkbox,
   Heading,
   Label,
   Modal,
@@ -81,6 +82,22 @@ export const StyledH4 = styled(Heading)`
 
 export const StyledLabel = styled(Label)`
   font-weight: 700;
+`
+
+export const StyledCheckboxLabel = styled(Label)<{ disabled: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      color: ${themeColor('tint', 'level5')};
+      opacity: 1;
+    `}
+`
+export const StyledCheckbox = styled(Checkbox)<{ disabled: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.3;
+    `}
 `
 
 export const StyledModal = styled(Modal)`
