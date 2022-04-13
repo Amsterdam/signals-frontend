@@ -208,7 +208,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           setInstance={setMarkers}
           getIsSelectedCluster={getIsSelectedCluster}
         />
-        <ViewerContainer topRight={<MapCloseButton onClick={onClose} />} />
+        <ViewerContainer topRight={<MapCloseButton onClick={onClose} tabIndex={4} />} />
       </Map>
     </Wrapper>
   )

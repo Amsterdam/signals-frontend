@@ -31,11 +31,12 @@ export interface GPSButtonProps {
   onLocationOutOfBounds: () => void
 }
 
-const GPSButton: FunctionComponent<GPSButtonProps> = ({
+const GPSButton: FunctionComponent<GPSButtonProps & React.HTMLProps<HTMLElement>> = ({
   className,
   onLocationSuccess,
   onLocationError,
   onLocationOutOfBounds,
+  tabIndex,
 }) => {
   const [loading, setLoading] = useState(false)
 
@@ -90,6 +91,7 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       size={144}
       variant="blank"
       type="button"
+      tabIndex={tabIndex}
     >
       Mijn locatie
     </StyledButton>
