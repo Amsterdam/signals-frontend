@@ -240,7 +240,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           </div>
         )}
 
-        <StyledButton onClick={close} variant="primary">
+        <StyledButton onClick={close} variant="primary" tabIndex={2}>
           {language.submit || 'Meld dit object'}
         </StyledButton>
       </ScrollWrapper>

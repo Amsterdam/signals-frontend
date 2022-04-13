@@ -157,6 +157,7 @@ const Selector: FC = () => {
           topLeft={
             <TopLeftWrapper>
               <GPSButton
+                tabIndex={3}
                 onLocationSuccess={(location: LocationResult) => {
                   const { latitude, longitude } = location
                   const coordinates = {
@@ -208,7 +209,7 @@ const Selector: FC = () => {
               )}
             </TopLeftWrapper>
           }
-          topRight={<MapCloseButton onClick={close} />}
+          topRight={<MapCloseButton onClick={close} tabIndex={4}/>}
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>

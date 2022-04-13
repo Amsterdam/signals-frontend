@@ -26,6 +26,7 @@ export interface AutoSuggestProps {
   onSelect: (option: PdokResponse) => void
   placeholder?: string
   showInlineList?: boolean
+  tabIndex?: number
   url: string
   value?: string
 }
