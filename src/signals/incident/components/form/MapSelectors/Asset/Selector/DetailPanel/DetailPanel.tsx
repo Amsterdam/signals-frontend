@@ -170,7 +170,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           {language.subTitle || 'U kunt maar een object kiezen'}
           <Description>
             {language.description ||
-              'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
+              'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
           </Description>
         </Paragraph>
 

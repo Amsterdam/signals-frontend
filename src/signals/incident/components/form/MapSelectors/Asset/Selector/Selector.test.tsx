@@ -265,14 +265,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       value: mockGeolocation,
       writable: true,
     })
-
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('locationMarker')).not.toBeInTheDocument()
-
-    userEvent.click(screen.getByTestId('gpsButton'))
-
-    expect(screen.getByTestId('locationMarker')).toBeInTheDocument()
   })
 
   it('shows a notification whenever the location cannot be retrieved', () => {
