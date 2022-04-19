@@ -205,7 +205,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
     userOptions &&
     (incident?.assigned_user_email ||
       (configuration.featureFlags.assignSignalToDepartment &&
-        (incident?.routing_departments || categoryDepartments?.length === 1)) ||
+        incident?.routing_departments) ||
       !configuration.featureFlags.assignSignalToDepartment)
 
   const departmentOptions = useMemo(() => {
@@ -218,7 +218,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
         value: department.name,
       }))
 
-    return routingDepartments || categoryDepartments?.length === 1
+    return routingDepartments
       ? options
       : options && [{ key: null, value: 'Niet gekoppeld' }, ...options]
   }, [categoryDepartments, routingDepartments])
@@ -407,7 +407,6 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
           <Highlight type="routing_departments">
             <ChangeValue
               component={SelectInput}
-              disabled={categoryDepartments?.length <= 1}
               display="Afdeling"
               options={departmentOptions}
               path="routing_departments"

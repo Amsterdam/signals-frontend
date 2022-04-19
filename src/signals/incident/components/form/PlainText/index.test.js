@@ -195,6 +195,23 @@ describe('Form component <PlainText />', () => {
       expect(element).toHaveStyleRule('padding', '16px')
     })
 
+    it('should render plain text message correctly', () => {
+      const props = getProps({
+        ...metaProps,
+        type: 'message',
+      })
+
+      const { getByTestId, getByText } = render(
+        withAppContext(<PlainText {...props} />)
+      )
+
+      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByText(props.meta.value)).toBeInTheDocument()
+
+      const element = getByTestId('plainText')
+      expect(element).toHaveStyleRule('color', '#000000')
+    })
+
     it('should render no plain text when not visible', () => {
       const props = getProps({
         ...metaProps,

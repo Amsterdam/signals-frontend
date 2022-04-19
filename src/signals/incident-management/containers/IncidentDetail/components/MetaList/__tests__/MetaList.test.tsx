@@ -532,7 +532,7 @@ describe('MetaList', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should show assigned user with a category with only one department', async () => {
+    it('should not show assigned user with a category with only one department without it being selected', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       configuration.featureFlags.assignSignalToDepartment = true
       render(
@@ -547,12 +547,11 @@ describe('MetaList', () => {
       await screen.findByTestId('meta-list-date-definition')
 
       expect(
-        screen.getByTestId('meta-list-assigned_user_email-definition')
-      ).toBeInTheDocument()
+        screen.queryByTestId('meta-list-assigned_user_email-definition')
+      ).not.toBeInTheDocument()
       expect(
-        screen.getByTestId('meta-list-assigned_user_email-value')
-      ).toBeInTheDocument()
-      expect(screen.getByText('Niet toegewezen')).toBeInTheDocument()
+        screen.queryByTestId('meta-list-assigned_user_email-value')
+      ).not.toBeInTheDocument()
     })
 
     it('should show assigned user with a selected department', async () => {
@@ -1086,21 +1085,24 @@ describe('MetaList', () => {
         configuration.featureFlags.assignSignalToDepartment = true
       })
 
-      it('should be visible for one category department, but not editable', () => {
+      it('should be visible for one category department', () => {
         render(
           renderWithContext({
             ...incidentFixture,
             category: {
               ...incidentFixture.category,
-              departments: `${departmentAscCode}`,
+              departments: departmentAscCode,
             },
-            routing_departments: [],
+            routing_departments: [
+              {
+                id: departmentAscId,
+                code: departmentAscCode,
+                name: departmentAscName,
+              },
+            ],
           })
         )
 
-        expect(
-          (screen.getByTestId('editRouting_departmentsButton') as any).disabled
-        ).toBe(true)
         expect(screen.queryByText(notFound)).not.toBeInTheDocument()
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument()
         expect(screen.getByText(departmentAscName)).toBeInTheDocument()
@@ -1126,9 +1128,6 @@ describe('MetaList', () => {
           })
         )
 
-        expect(
-          (screen.getByTestId('editRouting_departmentsButton') as any).disabled
-        ).toBe(false)
         expect(screen.queryByText(notFound)).not.toBeInTheDocument()
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument()
         expect(screen.getByText(departmentAscName)).toBeInTheDocument()
@@ -1157,6 +1156,25 @@ describe('MetaList', () => {
         expect(screen.getByText(departmentLabel)).toBeInTheDocument()
         expect(screen.getByText(notFound)).toBeInTheDocument()
         expect(screen.queryByText(notLinked)).not.toBeInTheDocument()
+        expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument()
+        expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument()
+        expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument()
+      })
+
+      it('should indicate when not linked yet, with only one category department', () => {
+        render(
+          renderWithContext({
+            ...incidentFixture,
+            category: {
+              ...incidentFixture.category,
+              departments: departmentAscCode,
+            },
+            routing_departments: [],
+          })
+        )
+
+        expect(screen.queryByText(notFound)).not.toBeInTheDocument()
+        expect(screen.getByText(notLinked)).toBeInTheDocument()
         expect(screen.queryByText(departmentAscName)).not.toBeInTheDocument()
         expect(screen.queryByText(departmentAegName)).not.toBeInTheDocument()
         expect(screen.queryByText(departmentThoName)).not.toBeInTheDocument()

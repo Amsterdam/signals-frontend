@@ -54,7 +54,7 @@
     "smallHeight": "29px"
   },
   "map": {
-    "municipality": ["amsterdam", "ouder-amstel", "weesp"],
+    "municipality": "amsterdam \"ouder-amstel\" weesp",
     "options": {
       "center": [
         52.3731081,

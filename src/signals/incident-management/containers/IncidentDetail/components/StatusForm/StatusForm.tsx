@@ -8,7 +8,6 @@ import { useFetch, useEventEmitter } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
-import Checkbox from 'components/Checkbox'
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -29,7 +28,9 @@ import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
 import {
   AddNoteWrapper,
+  StyledCheckbox,
   Form,
+  StyledCheckboxLabel,
   StandardTextsButton,
   StyledAlert,
   StyledButton,
@@ -76,6 +77,16 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     error: emailTemplateError,
     isLoading,
   } = useFetch<EmailTemplate>()
+
+  const activeDefaultTexts = defaultTexts?.map((defaultText) => {
+    const templates = defaultText.templates.filter(
+      (template) => template.is_active
+    )
+    return {
+      ...defaultText,
+      templates,
+    }
+  })
 
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
@@ -329,20 +340,20 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         {!state.flags.isSplitIncident && (
           <div>
             {state.flags.hasEmail ? (
-              <Label
+              <StyledCheckboxLabel
                 disabled={state.check.disabled}
                 htmlFor="send_email"
                 label={constants.MELDING_CHECKBOX_DESCRIPTION}
                 noActiveState
               >
-                <Checkbox
+                <StyledCheckbox
                   checked={state.check.checked}
                   data-testid="sendEmailCheckbox"
                   disabled={state.check.disabled}
                   id="send_email"
                   onClick={onCheck}
                 />
-              </Label>
+              </StyledCheckboxLabel>
             ) : (
               <div data-testid="no-email-warning">
                 {constants.NO_REPORTER_EMAIL}
@@ -379,10 +390,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               data-testid="standardTextButton"
               variant="primaryInverted"
               onClick={openStandardTextModal}
-              templatesAvailable={defaultTextTemplatesLength(defaultTexts) > 0}
+              templatesAvailable={
+                defaultTextTemplatesLength(activeDefaultTexts) > 0
+              }
             >
               <div>{`Standaardtekst (${defaultTextTemplatesLength(
-                defaultTexts
+                activeDefaultTexts
               )})`}</div>
             </StandardTextsButton>
             {modalStandardTextIsOpen && (
@@ -393,7 +406,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 title="Standard texts"
               >
                 <DefaultTexts
-                  defaultTexts={defaultTexts}
+                  defaultTexts={activeDefaultTexts}
                   onHandleUseDefaultText={useDefaultText}
                   status={state.status.key}
                   onClose={closeStandardTextModal}
