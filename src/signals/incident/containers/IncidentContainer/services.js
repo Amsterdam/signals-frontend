@@ -14,10 +14,13 @@ export const resolveQuestions = (questions) =>
     (acc, question) => ({
       ...acc,
       [question.key]: {
-        meta: {
-          ...question.meta,
-          pathMerge: 'extra_properties',
-        },
+        meta:
+          question.meta.saveQuestion === false
+            ? question.meta
+            : {
+                ...question.meta,
+                pathMerge: 'extra_properties',
+              },
         options: {
           validators: [
             ...new Set([
