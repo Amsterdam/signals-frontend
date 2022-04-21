@@ -89,7 +89,6 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
       variant="blank"
       type="button"
     >
-      {' '}
       Mijn locatie
     </StyledButton>
   )
