@@ -169,7 +169,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .put(
           actions.showGlobalNotification({
-            title: `1 Standaard tekst opgeslagen voor ${subcategory.value}, ${status.value}`,
+            title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${status.value}`,
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -195,7 +195,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .put(
           actions.showGlobalNotification({
-            title: `2 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${status.value}`,
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -213,7 +213,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .put(
           actions.showGlobalNotification({
-            title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${status.value}`,
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })
@@ -240,7 +240,7 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .put(
           actions.showGlobalNotification({
-            title: `0 Standaard teksten opgeslagen voor ${subcategory.value}, ${status.value}`,
+            title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${status.value}`,
             variant: VARIANT_SUCCESS,
             type: TYPE_LOCAL,
           })

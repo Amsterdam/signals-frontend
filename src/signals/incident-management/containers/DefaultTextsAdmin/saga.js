@@ -63,13 +63,9 @@ export function* storeDefaultTexts(action) {
 
     yield put(storeDefaultTextsSuccess(found?.templates || []))
 
-    const numStoredTemplates = found?.templates?.length || 0
-
     yield put(
       showGlobalNotification({
-        title: `${numStoredTemplates} Standaard tekst${
-          numStoredTemplates === 0 || numStoredTemplates > 1 ? 'en' : ''
-        } opgeslagen voor ${subcategory.value}, ${payload.status.value}`,
+        title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${payload.status.value}`,
         variant: VARIANT_SUCCESS,
         type: TYPE_LOCAL,
       })
