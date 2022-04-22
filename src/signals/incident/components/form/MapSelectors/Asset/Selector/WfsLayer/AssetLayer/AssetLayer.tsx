@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
-import { useFetch } from 'hooks'
-import L, {LatLngLiteral} from 'leaflet'
+import L from 'leaflet'
 
 import type { FeatureCollection } from 'geojson'
 import type { Geometrie, Location } from 'types/incident'
@@ -20,20 +19,13 @@ import type {
 
 import { Marker } from '@amsterdam/arm-core'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
-import configuration from 'shared/services/configuration/configuration'
-import { useSelector } from 'react-redux'
-import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
 import WfsDataContext from '../context'
 import { getFeatureStatusType } from '../../StatusLayer/utils'
 
-
 export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const [clickedLocation, setClickedLocation] = useState<LatLngLiteral>()
   const { selection, removeItem, setItem, meta } =
     useContext(AssetSelectContext)
-  const { category, subcategory } = useSelector(makeSelectCategory)
-  const { get } = useFetch<FeatureCollection>()
 
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -70,8 +62,6 @@ export const AssetLayer: FC = () => {
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
 
     const onClick = async () => {
-      setClickedLocation(coordinates)
-
       if (typeValue === FeatureStatus.REPORTED) {
         return
       }
@@ -91,6 +81,7 @@ export const AssetLayer: FC = () => {
         description,
         status: featureStatusType?.typeValue,
         label: [description, id].filter(Boolean).join(' - '),
+        coordinates,
       }
 
       setItem(item, location)
@@ -121,19 +112,6 @@ export const AssetLayer: FC = () => {
     )
   }
 
-  useEffect(() => {
-    if (!clickedLocation || !category || !subcategory) return
-
-    const searchParams = new URLSearchParams({
-      maincategory_slug: category,
-      category_slug: subcategory,
-      lat: clickedLocation.lat.toString(),
-      lon: clickedLocation.lng.toString(),
-      group_by: 'category',
-    })
-
-    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [get, clickedLocation, category, subcategory])
   return (
     <>
       {data.features.map((feat) => getMarker(feat, featureStatusTypes || []))}
