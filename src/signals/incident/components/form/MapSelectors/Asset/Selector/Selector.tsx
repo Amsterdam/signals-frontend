@@ -212,10 +212,11 @@ const Selector: FC = () => {
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <Layer />
+          <>
+            <Layer />
+            <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
+          </>
         </WfsLayer>
-
-        <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
 
         {geolocation && <LocationMarker geolocation={geolocation} />}
 
