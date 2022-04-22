@@ -26,7 +26,6 @@ export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)
   const { selection, removeItem, setItem, meta } =
     useContext(AssetSelectContext)
-
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
 
@@ -111,7 +110,6 @@ export const AssetLayer: FC = () => {
       />
     )
   }
-
   return (
     <>
       {data.features.map((feat) => getMarker(feat, featureStatusTypes || []))}

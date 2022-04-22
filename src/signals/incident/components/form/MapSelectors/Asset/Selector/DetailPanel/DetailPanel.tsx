@@ -30,8 +30,8 @@ import { ChevronLeft } from '@amsterdam/asc-assets'
 import configuration from 'shared/services/configuration/configuration'
 import { useSelector } from 'react-redux'
 import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
-import { formatDate } from 'signals/incident/containers/IncidentReplyContainer/utils'
 import type { LatLngTuple } from 'leaflet'
+import { formattedDate } from '../utils'
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
 import {
@@ -76,9 +76,6 @@ interface SelectionIncident {
   categoryName?: string
   createdAt?: string
 }
-
-const formattedDate = (date: string) =>
-  formatDate(new Date(date), `'Gemeld op:' dd MMMM`)
 
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({

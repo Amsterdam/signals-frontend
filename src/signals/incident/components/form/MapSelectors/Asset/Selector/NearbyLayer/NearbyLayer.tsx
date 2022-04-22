@@ -24,11 +24,11 @@ import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/const
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureToCoordinates } from 'shared/services/map-location'
-import { formatDate } from 'signals/incident/containers/IncidentReplyContainer/utils'
 
 import { useMapInstance } from '@amsterdam/react-maps'
 import type { Location } from 'types/incident'
 import WfsDataContext from '../WfsLayer/context'
+import { formattedDate } from '../utils'
 
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
@@ -63,9 +63,6 @@ export const nearbyMarkerSelectedIcon = L.icon({
   iconUrl: '/assets/images/area-map/icon-pin-red.svg',
   className: 'selected-nearby-marker',
 })
-
-const formattedDate = (date: string) =>
-  formatDate(new Date(date), `'Gemeld op:' dd MMMM`)
 
 export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const { selection, setItem } = useContext(AssetSelectContext)
@@ -183,7 +180,15 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
       featureGroup.current.addLayer(marker)
     })
-  }, [activeLayer, data, featureGroup, mapInstance, onMarkerClick, error])
+  }, [
+    activeLayer,
+    data,
+    featureGroup,
+    mapInstance,
+    onMarkerClick,
+    error,
+    assetData.features,
+  ])
   return (
     <>
       <span data-testid="nearbyLayer" />
