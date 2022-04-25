@@ -64,6 +64,19 @@ export const nearbyMarkerSelectedIcon = L.icon({
   className: 'selected-nearby-marker',
 })
 
+export function findAssetMatch(
+  assetData: FeatureCollection,
+  lat: number,
+  lng: number
+) {
+  return assetData.features.find(
+    (assetFeature) =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      intersection(assetFeature.geometry?.coordinates, [lat, lng]).length === 2
+  )
+}
+
 export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const { selection, setItem } = useContext(AssetSelectContext)
   const bbox = useBoundingBox()
@@ -149,16 +162,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     data.features.forEach((feature) => {
       const { lat, lng } = featureToCoordinates(feature.geometry)
 
-      if (
-        assetData.features.find(
-          (assetFeature) =>
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            intersection(assetFeature.geometry?.coordinates, [lat, lng])
-              .length === 2
-        )
-      )
-        return
+      if (findAssetMatch(assetData, lat, lng)) return
 
       const uniqueId = `${lat}.${lng}.${feature.properties.created_at}`
       const marker = L.marker(

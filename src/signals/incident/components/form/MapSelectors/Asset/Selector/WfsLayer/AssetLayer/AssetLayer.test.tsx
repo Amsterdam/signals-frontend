@@ -60,6 +60,22 @@ describe('AssetLayer', () => {
     removeItem.mockReset()
   })
 
+  const featureId = 'PAB00022'
+  const feature = containerJson.features.find(
+    ({ properties }) => properties.id_nummer === featureId
+  )
+  const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
+  const newSelection = {
+    id: featureId,
+    isReported: false,
+    description: 'Papier container',
+    type: 'Papier',
+    label: 'Papier container - PAB00022',
+    location: {
+      coordinates: coordinates,
+    },
+  }
+
   it('should render the asset layer in the map', () => {
     render(withAssetMap())
     expect(
@@ -73,20 +89,18 @@ describe('AssetLayer', () => {
   })
 
   it('should handle selecting a container', async () => {
-    const featureId = 'PAB00022'
-    const feature = containerJson.features.find(
-      ({ properties }) => properties.id_nummer === featureId
-    )
-    const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
-    const newSelection = {
-      id: featureId,
-      isReported: false,
-      description: 'Papier container',
+    const coordinates = {
+      lat: 52.3731455533363,
+      lng: 4.87999327142592,
+    }
+
+    const item = {
+      id: 'PAB00022',
       type: 'Papier',
+      description: 'Papier container',
       label: 'Papier container - PAB00022',
-      location: {
-        coordinates: coordinates,
-      },
+      status: undefined,
+      coordinates,
     }
 
     render(withAssetMap())
@@ -94,6 +108,8 @@ describe('AssetLayer', () => {
     const container = screen.getByAltText(`Papier container (${featureId})`)
 
     userEvent.click(container)
+
+    expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
 
     expect(
       screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
@@ -104,6 +120,17 @@ describe('AssetLayer', () => {
     expect(
       screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
     ).toBeInTheDocument()
+  })
+
+  it('should handle deselecting a container', async () => {
+    render(withAssetMap({ selection: newSelection }))
+
+    const container = screen.getByAltText(
+      `Papier container, is geselecteerd (${featureId})`
+    )
+    userEvent.click(container)
+    expect(removeItem).toHaveBeenCalled()
+    expect(setItem).not.toHaveBeenCalled()
   })
 
   it('To render icons in the asset layer in the correct location, corresponding featureTypes should have an iconSize', () => {
