@@ -191,7 +191,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     mapInstance,
     onMarkerClick,
     error,
-    assetData.features,
+    assetData,
   ])
   return (
     <>
