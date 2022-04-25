@@ -12,6 +12,7 @@ export const DEPARTMENT_URL = `${BASE_URL}/afdeling`
 export const CATEGORY_URL = `${BASE_URL}/categorie`
 export const CATEGORIES_URL = `${BASE_URL}/categorieen`
 export const CATEGORIES_PAGED_URL = `${CATEGORIES_URL}/page`
+export const EXPORT_URL = `${BASE_URL}/export`
 
 const routes = {
   overview: OVERVIEW_URL,
@@ -28,6 +29,8 @@ const routes = {
   categories: CATEGORIES_URL,
   categoriesPaged: `${CATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
   category: `${CATEGORY_URL}/:categoryId(\\d+)`,
+
+  export: EXPORT_URL,
 }
 
 export default routes

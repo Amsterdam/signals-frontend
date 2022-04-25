@@ -23,6 +23,7 @@ import routes, {
   CATEGORIES_PAGED_URL,
   CATEGORY_URL,
   BASE_URL,
+  EXPORT_URL,
 } from './routes'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -52,6 +53,10 @@ const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
 const CategoriesOverviewContainer = lazy(() => import('./categories/Overview'))
 // istanbul ignore next
 const CategoryDetailContainer = lazy(() => import('./categories/Detail'))
+
+// istanbul ignore next
+const ExportContainer = lazy(() => import('./export'))
+
 // istanbul ignore next
 const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
@@ -156,6 +161,14 @@ const SettingsModule = () => {
           component={CategoryDetailContainer}
           role="add_category"
         />
+
+        <ProtectedRoute
+          exact
+          path={EXPORT_URL}
+          component={ExportContainer}
+          role="sia_signal_report"
+        />
+
         <Route path={BASE_URL} component={NotFoundPage} />
       </Switch>
     </Suspense>

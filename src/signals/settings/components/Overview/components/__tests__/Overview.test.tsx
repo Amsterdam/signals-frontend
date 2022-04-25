@@ -12,6 +12,7 @@ describe('Overview component', () => {
           groups: false,
           users: false,
           categories: false,
+          export: false,
         }}
       />
     )
@@ -27,6 +28,7 @@ describe('Overview component', () => {
             groups: true,
             users: true,
             categories: true,
+            export: false,
           }}
         />
       )
@@ -48,6 +50,7 @@ describe('Overview component', () => {
             groups: true,
             users: true,
             categories: false,
+            export: false,
           }}
         />
       )
@@ -69,6 +72,7 @@ describe('Overview component', () => {
             groups: false,
             users: false,
             categories: false,
+            export: false,
           }}
         />
       )
@@ -90,6 +94,7 @@ describe('Overview component', () => {
             groups: true,
             users: false,
             categories: false,
+            export: false,
           }}
         />
       )
@@ -111,6 +116,7 @@ describe('Overview component', () => {
             groups: false,
             users: true,
             categories: true,
+            export: false,
           }}
         />
       )
@@ -132,6 +138,7 @@ describe('Overview component', () => {
             groups: true,
             users: true,
             categories: true,
+            export: false,
           }}
         />
       )
