@@ -1,4 +1,4 @@
-import { Button, Column, Row } from '@amsterdam/asc-ui'
+import { Button, Column, ErrorMessage, Label, Row } from '@amsterdam/asc-ui'
 import PageHeader from 'signals/settings/components/PageHeader'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useFetch } from 'hooks'
@@ -23,17 +23,23 @@ const ExportContainer = () => {
       <PageHeader title="Export" />
       <Row>
         <Column span={12} wrap>
-          <Button variant="primary" onClick={download}>
+          <Button variant="primary" onClick={download} disabled={isLoading}>
             Download export
           </Button>
         </Column>
       </Row>
-      {isLoading && <Row>Downloading...</Row>}
-      {error && (
-        <Row>
-          Er ging iets mis: {(error as any).name} {(error as any).message}
-        </Row>
-      )}
+      <Row>
+        <Column span={12} wrap>
+          {isLoading && <Label label="Downloading..." />}
+          {error && (
+            <ErrorMessage
+              message={`Er ging iets mis: ${(error as any).name} ${
+                (error as any).message
+              }`}
+            />
+          )}
+        </Column>
+      </Row>
     </Fragment>
   )
 }
