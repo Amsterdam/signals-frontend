@@ -177,32 +177,6 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
         .next()
         .isDone()
 
-      const resultMoreThanOneTemplate = [
-        {
-          state: 'm',
-          templates: [
-            { title: 'gemend', text: 'foo' },
-            { title: 'foo bar baz', text: 'qux' },
-          ],
-        },
-      ]
-
-      testSaga(storeDefaultTexts, postAction)
-        .next()
-        .call(authPostCall, requestURL, [postAction.payload.post])
-        .next(resultMoreThanOneTemplate)
-        .put(storeDefaultTextsSuccess(resultMoreThanOneTemplate[0].templates))
-        .next()
-        .put(
-          actions.showGlobalNotification({
-            title: `Standaard teksten bijgewerkt voor ${subcategory.value}, ${status.value}`,
-            variant: VARIANT_SUCCESS,
-            type: TYPE_LOCAL,
-          })
-        )
-        .next()
-        .isDone()
-
       const resultNoTemplates = [{}]
 
       testSaga(storeDefaultTexts, postAction)
