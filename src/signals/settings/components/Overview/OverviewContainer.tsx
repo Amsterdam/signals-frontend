@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
 import {
   makeSelectUserCan,
   makeSelectUserCanAccess,
@@ -17,7 +18,9 @@ export default function () {
         groups: userCanAccess('groups'),
         users: userCanAccess('userForm'),
         categories: userCanAccess('categories'),
-        export: userCan('sia_signal_report'),
+        export:
+          configuration.featureFlags.enableCsvExport &&
+          userCan('sia_signal_report'),
       }}
     />
   )

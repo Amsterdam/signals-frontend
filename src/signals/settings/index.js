@@ -4,6 +4,7 @@ import { useEffect, lazy, Suspense } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
+import configuration from 'shared/services/configuration/configuration'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import ProtectedRoute from 'components/ProtectedRoute'
 
@@ -162,12 +163,14 @@ const SettingsModule = () => {
           role="add_category"
         />
 
-        <ProtectedRoute
-          exact
-          path={EXPORT_URL}
-          component={ExportContainer}
-          role="sia_signal_report"
-        />
+        {configuration.featureFlags.enableCsvExport && (
+          <ProtectedRoute
+            exact
+            path={EXPORT_URL}
+            component={ExportContainer}
+            role="sia_signal_report"
+          />
+        )}
 
         <Route path={BASE_URL} component={NotFoundPage} />
       </Switch>

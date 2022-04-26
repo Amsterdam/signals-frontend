@@ -4,9 +4,10 @@
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableCsvExport": false,
+    "enableNearIncidents": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
-    "enableNearIncidents": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
