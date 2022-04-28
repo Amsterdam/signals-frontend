@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 export const AFGEHANDELD_CONTENT = `
   Gebruik deze status alleen als de melding ook echt is afgehandeld,
   gebruik anders de status Ingepland. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.

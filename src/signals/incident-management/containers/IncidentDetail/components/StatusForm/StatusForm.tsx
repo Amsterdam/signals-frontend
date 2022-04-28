@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
