@@ -217,7 +217,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         createdAt: formattedDate(data.features[0].properties.created_at),
       })
     }
-  }, [data.features, selectionOnMap, selectionNearby, selection])
+  }, [data?.features, selectionOnMap, selectionNearby, selection])
 
   return (
     <PanelContent

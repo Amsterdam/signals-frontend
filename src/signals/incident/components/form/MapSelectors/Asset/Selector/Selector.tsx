@@ -33,7 +33,6 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
-import LocationMarker from 'components/LocationMarker'
 import { selectionIsUndetermined } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import AssetLayer from './WfsLayer/AssetLayer'
@@ -217,8 +216,6 @@ const Selector: FC = () => {
             <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
           </>
         </WfsLayer>
-
-        {geolocation && <LocationMarker geolocation={geolocation} />}
 
         {showMarker && (
           <span data-testid="assetPinMarker">
