@@ -141,6 +141,15 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
+  it('should call close when clicking mapCloseButton', async () => {
+    render(withAssetSelectContext(<Selector />))
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+
+    const button = screen.queryByTestId('mapCloseButton')!
+    userEvent.click(button)
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
+  })
+
   it('renders detail panel', async () => {
     mockShowDesktopVariant = true
     render(withAssetSelectContext(<Selector />))
