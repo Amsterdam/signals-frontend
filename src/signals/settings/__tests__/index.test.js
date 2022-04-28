@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { render, waitFor, act } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
 
 import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
 import * as auth from 'shared/services/auth/auth'
@@ -23,7 +24,10 @@ import {
   DEPARTMENT_URL,
   CATEGORIES_URL,
   CATEGORY_URL,
+  EXPORT_URL,
 } from '../routes'
+
+jest.mock('shared/services/configuration/configuration')
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -48,6 +52,7 @@ const withSuspense = () =>
 describe('signals/settings', () => {
   beforeEach(() => {
     dispatch.mockReset()
+    configuration.featureFlags.useStaticMapServer = true
 
     jest.spyOn(reactRouterDom, 'useLocation')
     jest
@@ -59,6 +64,7 @@ describe('signals/settings', () => {
   })
 
   afterEach(() => {
+    configuration.__reset()
     history.entries = []
     reactRouterDom.useLocation.mockRestore()
   })
@@ -297,6 +303,40 @@ describe('signals/settings', () => {
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).toEqual(ROLE_URL)
+    )
+  })
+
+  it('should allow routing to export page when csv export feature flag enabled', async () => {
+    configuration.featureFlags.enableCsvExport = true
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => (section) => section === 'sia_signal_report')
+
+    render(withSuspense())
+
+    act(() => history.push(EXPORT_URL))
+
+    await waitFor(() =>
+      expect(
+        reactRouterDom.useLocation.mock.results.pop().value.pathname
+      ).toEqual(EXPORT_URL)
+    )
+  })
+
+  it('should not allow routing to export page when csv export feature flag not enabled', async () => {
+    configuration.featureFlags.enableCsvExport = false
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => (section) => section === 'sia_signal_report')
+
+    render(withSuspense())
+
+    act(() => history.push(EXPORT_URL))
+
+    await waitFor(() =>
+      expect(reactRouterDom.useLocation.mock.results.pop()).toBeUndefined()
     )
   })
 })
