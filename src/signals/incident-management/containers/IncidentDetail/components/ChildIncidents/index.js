@@ -27,7 +27,6 @@ const ButtonContainer = styled.div`
 `
 
 const Title = styled(Heading)`
-  font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `
 

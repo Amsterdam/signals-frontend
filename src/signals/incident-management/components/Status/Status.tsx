@@ -12,6 +12,7 @@ type StatusProps = {
 }
 
 const StyledStatus = styled.span<{ statusCode?: StatusCode; theme: Theme }>`
+  font-weight: 700;
   color: ${({ statusCode, theme }) =>
     statusCode && isStatusEnd(statusCode)
       ? theme.colors.support.valid
