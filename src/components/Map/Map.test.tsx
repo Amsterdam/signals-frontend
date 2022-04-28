@@ -107,7 +107,7 @@ describe('components/Map', () => {
     expect(maxZoomFromConfig).toEqual(configuration.map.options.maxZoom)
     expect(minZoomFromConfig).toEqual(configuration.map.options.minZoom)
   })
-  it('should call dispatch with...', () => {
+  it('should call dispatch with closeMap when unmounting', () => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue({ mapActive: true })
 
     const { unmount } = render(withAppContext(<Map mapOptions={MAP_OPTIONS} />))

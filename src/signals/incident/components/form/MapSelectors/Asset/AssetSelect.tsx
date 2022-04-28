@@ -196,7 +196,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       }}
     >
       {!mapActive && !hasSelection && <Intro />}
-      {mapActive && 'osjdiofsjifojsdo'}
+
       {mapActive && <Selector />}
 
       {!mapActive && hasSelection && (

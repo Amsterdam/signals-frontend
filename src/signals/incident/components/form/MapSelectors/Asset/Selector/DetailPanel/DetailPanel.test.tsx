@@ -118,11 +118,6 @@ jest.mock(
 )
 
 const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
-const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
-  global.document,
-  'dispatchEvent'
-)
 
 describe('DetailPanel', () => {
   const GLAS_FEATURE = {
@@ -184,6 +179,11 @@ describe('DetailPanel', () => {
   }
 
   beforeEach(() => {
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+      global.document,
+      'dispatchEvent'
+    )
     dispatch.mockReset()
     dispatchEventSpy.mockReset()
 

@@ -13,8 +13,9 @@ import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import * as reactRedux from 'react-redux'
-import { closeMap } from '../../signals/incident/containers/IncidentContainer/actions'
+import { showMap } from '../../signals/incident/containers/IncidentContainer/actions'
 import Summary from './Summary'
+import MockInstance = jest.MockInstance
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
@@ -64,12 +65,17 @@ export const withContext = (
   )
 
 const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
-jest.spyOn(global.document, 'dispatchEvent')
 
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
   beforeEach(() => {
     configuration.featureFlags.useStaticMapServer = true
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+      global.document,
+      'dispatchEvent'
+    )
+    dispatch.mockReset()
+    dispatchEventSpy.mockReset()
   })
 
   afterEach(() => {
@@ -138,39 +144,31 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('should call edit by mouse click', () => {
     render(withContext(<Summary {...summaryProps} />))
+    expect(dispatch).not.toHaveBeenCalledWith(showMap())
 
     const element = screen.getByText(/wijzigen/i)
 
-    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+    expect(dispatch).not.toHaveBeenCalledWith(showMap())
 
     userEvent.click(element)
 
-    expect(dispatch).toHaveBeenCalledWith(closeMap())
+    expect(dispatch).toHaveBeenCalledWith(showMap())
   })
 
   it('should call edit by return key', () => {
     render(withContext(<Summary {...summaryProps} />))
-    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+    expect(dispatch).not.toHaveBeenCalledWith(showMap())
 
     const element = screen.getByText(/wijzigen/i)
     element.focus()
 
     userEvent.keyboard('a')
 
-    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+    expect(dispatch).not.toHaveBeenCalledWith(showMap())
 
     userEvent.keyboard('{Enter}')
 
-    expect(dispatch).toHaveBeenCalledWith(closeMap())
-  })
-
-  it("does not show 'wijzigen' link when edit is undefined", () => {
-    const propsNoEdit = {
-      ...summaryProps,
-      edit: undefined,
-    }
-    render(withContext(<Summary {...propsNoEdit} />))
-    expect(screen.queryByText(/wijzigen/i)).not.toBeInTheDocument()
+    expect(dispatch).toHaveBeenCalledWith(showMap())
   })
 
   it('renders summary address', () => {

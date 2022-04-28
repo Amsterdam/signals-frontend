@@ -82,6 +82,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
     const inputElement = screen.getByRole('textbox', {
       name: calendarInputProps.label,
     })
+
     inputElement.focus()
 
     expect(onSelect).not.toHaveBeenCalled()
