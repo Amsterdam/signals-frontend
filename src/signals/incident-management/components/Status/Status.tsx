@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import styled from 'styled-components'
 
 import type { ReactNode, FC } from 'react'
@@ -12,6 +14,7 @@ type StatusProps = {
 }
 
 const StyledStatus = styled.span<{ statusCode?: StatusCode; theme: Theme }>`
+  font-weight: 700;
   color: ${({ statusCode, theme }) =>
     statusCode && isStatusEnd(statusCode)
       ? theme.colors.support.valid
