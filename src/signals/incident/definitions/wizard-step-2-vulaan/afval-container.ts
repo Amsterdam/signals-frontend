@@ -26,7 +26,7 @@ export const controls = {
         objectTypePlural: 'containers',
         submit: 'Gebruik deze locatie',
         description:
-          'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart',
+          'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"',
       },
       label: 'Kies de container waar het om gaat',
       shortLabel: 'Container(s)',

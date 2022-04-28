@@ -90,7 +90,7 @@ export const checkHeaderFooter = () => {
 export const checkDescriptionPage = () => {
   commandsGeneral.checkHeaderText('Beschrijf uw melding');
   cy.contains('Waar is het?').should('be.visible');
-  cy.contains('Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart').should('be.visible');
+  cy.contains('Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"').should('be.visible');
   cy.get(CREATE_SIGNAL.buttonGPS).should('be.visible');
   cy.contains('Waar gaat het om?').should('be.visible');
   cy.contains('Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd').should('be.visible');
