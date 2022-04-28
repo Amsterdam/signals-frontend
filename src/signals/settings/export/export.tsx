@@ -2,14 +2,13 @@ import { Button, Column, ErrorMessage, Label, Row } from '@amsterdam/asc-ui'
 import PageHeader from 'signals/settings/components/PageHeader'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useFetch } from 'hooks'
-
-const EXPORT_URL = 'http://localhost:8000/signals/v1/private/csv'
+import configuration from 'shared/services/configuration/configuration'
 
 const ExportContainer = () => {
   const { get, data, error, isLoading } = useFetch<Blob>()
 
   const download = useCallback(() => {
-    get(EXPORT_URL, {}, { responseType: 'blob' })
+    get(configuration.EXPORT_ENDPOINT, {}, { responseType: 'blob' })
   }, [get])
 
   useEffect(() => {
