@@ -88,4 +88,41 @@ describe('<DefaultTextsForm />', () => {
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(2)
   })
+
+  // describe('<checkbox disabled', () => {
+
+  //   const fields = {
+  //     item0: FormBuilder.group({
+  //     title: ['title'],
+  //     text: ['text'],
+  //     is_active: [true],
+  //   })}
+
+  //   const form = FormBuilder.group({
+  //     ...fields,
+  //     categoryUrl: null,
+  //     state: null,
+  //   })
+  //   const props = {
+  //     item: 'item0',
+  //     form: form as unknown as FormArray,
+  //     itemsLength: 1,
+  //     index: 0,
+  //     onCheck: jest.fn(),
+  //     changeOrdering: jest.fn(),
+  //   }
+
+  //   it('disables the checkbox correctly', () => {
+  // render(withAppContext(<DefaultTextsForm {...props} />))
+
+  // expect(screen.getByTestId(`defaultTextFormForm${props.index}`)).toBeInTheDocument()
+  // expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+  // expect(screen.getByTestId(`is_active0`)).not.toBeDisabled()
+  // expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+  // expect(screen.getByTestId(`is_active0`)).not.toBeDisabled
+  // form.get(`${props.item}.text`).value = `test 1`
+  // form.get(`${props.item}.title`).value = `text of test 1`
+
+  // })
+  // })
 })
