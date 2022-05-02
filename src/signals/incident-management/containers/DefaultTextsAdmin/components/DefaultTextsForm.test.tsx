@@ -93,7 +93,7 @@ describe('<DefaultTextsForm />', () => {
     const fields = {
       item0: FormBuilder.group({
         title: [''],
-        text: ['text'],
+        text: [''],
         is_active: [true],
       }),
     }
@@ -123,8 +123,26 @@ describe('<DefaultTextsForm />', () => {
       ).toBeInTheDocument()
 
       expect(screen.getByTestId(`is_active0`)).toBeDisabled()
-      const title0 = screen.getByTestId(`title0`)
-      fireEvent.change(title0, { target: { value: 'eenwaarde' } })
+      let title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, {
+        target: { value: 'een titel in het titelveld' },
+      })
+
+      rerender(withAppContext(<DefaultTextsForm {...props} />))
+
+      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+      let text0 = screen.getByTestId(`text0`)
+      title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, { target: { value: '' } })
+      fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
+
+      rerender(withAppContext(<DefaultTextsForm {...props} />))
+
+      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+      text0 = screen.getByTestId(`text0`)
+      title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, { target: { value: 'titel in het titelveld' } })
+      fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
 
       rerender(withAppContext(<DefaultTextsForm {...props} />))
 
