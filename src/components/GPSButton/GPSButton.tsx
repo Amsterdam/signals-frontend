@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { Button, themeSpacing } from '@amsterdam/asc-ui'
+import { themeColor } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 import type { LocationResult } from 'types/location'
@@ -16,6 +17,7 @@ const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   width: ${themeSpacing(36)};
   height: ${themeSpacing(11)};
+  color: ${themeColor('tint', 'level7')};
 `
 
 const GPSIcon = styled(GPS)`
