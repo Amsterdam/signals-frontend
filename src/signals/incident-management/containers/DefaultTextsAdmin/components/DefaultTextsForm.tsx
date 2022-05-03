@@ -60,6 +60,10 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
   changeOrdering,
 }) => {
   const checkedValue = form.get(`${item}.is_active`).value
+  const setDisabled =
+    form.get(`${item}.text`).value === '' ||
+    form.get(`${item}.title`).value === ''
+
   return (
     <>
       <StyledLeftColumn data-testid={`defaultTextFormForm${index}`}>
@@ -77,7 +81,11 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
           control={form.get(`${item}.text`)}
         />
 
-        <StyledLabel htmlFor={`formis_active${index}`} label="Actief">
+        <StyledLabel
+          htmlFor={`formis_active${index}`}
+          disabled={setDisabled}
+          label="Actief"
+        >
           <Checkbox
             data-testid={`is_active${index}`}
             checked={checkedValue}
