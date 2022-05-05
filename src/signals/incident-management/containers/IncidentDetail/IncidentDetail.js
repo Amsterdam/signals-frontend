@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback, useState } from 'react'
+import { useReducer, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -14,11 +14,7 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
-import {
-  UPLOAD_ATTACHMENTS,
-  DELETE_ATTACHMENT,
-} from 'signals/incident-management/constants'
-import { makeSelectUploadProgress } from 'containers/App/selectors'
+import { DELETE_ATTACHMENT } from 'signals/incident-management/constants'
 import reducer, { initialState } from './reducer'
 
 import Attachments from './components/Attachments'
@@ -50,6 +46,7 @@ import {
   SET_HISTORY,
   SET_INCIDENT,
 } from './constants'
+import useUpload from './hooks/useUpload'
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -84,8 +81,6 @@ const IncidentDetail = () => {
   const { id } = useParams()
   const [state, dispatch] = useReducer(reducer, initialState)
   const incidentDispatch = useDispatch()
-  const uploadProgress = useSelector(makeSelectUploadProgress)
-  const [isUploading, setUploading] = useState(false)
   const {
     error,
     get: getIncident,
@@ -100,6 +95,7 @@ const IncidentDetail = () => {
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
   const { get: getContext, data: context } = useFetch()
   const { get: getChildIncidents, data: childIncidents } = useFetchAll()
+  const { upload, uploadSuccess, uploadProgress, uploadError } = useUpload()
 
   const subcategories = useSelector(makeSelectSubCategories)
 
@@ -294,14 +290,10 @@ const IncidentDetail = () => {
   const addAttachment = useCallback(
     (files) => {
       if (incident) {
-        setUploading(true)
-        incidentDispatch({
-          type: UPLOAD_ATTACHMENTS,
-          payload: { files, id: incident.id },
-        })
+        upload(files, incident.id)
       }
     },
-    [incident, incidentDispatch]
+    [incident, upload]
   )
 
   const deleteAttachment = useCallback(
@@ -317,13 +309,12 @@ const IncidentDetail = () => {
   )
 
   useEffect(() => {
-    if (isUploading && !uploadProgress) {
-      setUploading(false)
+    if (uploadSuccess) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
     }
-  }, [getAttachments, id, isUploading, uploadProgress])
+  }, [getAttachments, id, uploadSuccess])
 
   if (!state.incident || !subcategories) return null
 
@@ -354,6 +345,9 @@ const IncidentDetail = () => {
             attachments={state.attachments || []}
             add={addAttachment}
             deleteAttachment={deleteAttachment}
+            uploadProgress={uploadProgress}
+            uploadSuccess={uploadSuccess}
+            uploadError={uploadError}
           />
 
           <AddNote maxContentLength={3000} />

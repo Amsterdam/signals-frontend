@@ -11,8 +11,6 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
 import LoadingIndicator from 'components/LoadingIndicator'
-import { useSelector } from 'react-redux'
-import { makeSelectUploadProgress } from 'containers/App/selectors'
 import type { Attachment } from 'types/attachment'
 import { useEffect } from 'react'
 import type { FC } from 'react'
@@ -126,6 +124,9 @@ interface AttachmentsProps {
   className: string
   add: (file: File) => void
   deleteAttachment: (attachment: Attachment) => void
+  uploadProgress: number
+  uploadSuccess: boolean
+  uploadError: boolean
 }
 
 type Files = Array<{
@@ -138,9 +139,9 @@ const Attachments: FC<AttachmentsProps> = ({
   className,
   add,
   deleteAttachment,
+  uploadProgress,
 }) => {
   const { preview } = useContext(IncidentDetailContext)
-  const uploadProgress = useSelector(makeSelectUploadProgress)
   const [files, setFiles] = useState<Files>([])
   const hasAttachments = attachments.length > 0 || files.length > 0
 
