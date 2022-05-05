@@ -19,7 +19,7 @@ const ExportContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader title="Export CSV" />
+      <PageHeader title="CSV Export" />
       <Row>
         <Column span={12} wrap>
           <Button variant="primary" onClick={download} disabled={isLoading}>

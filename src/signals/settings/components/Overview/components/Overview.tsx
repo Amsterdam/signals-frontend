@@ -174,7 +174,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 <StyledTopTaskLink
                   forwardedAs="div"
                   icon={Download}
-                  title="Export CSV"
+                  title="CSV Export"
                 />
               </StyledLink>
               <p>Voor het downloaden van alle meldingen in CSV formaat.</p>
