@@ -19,10 +19,7 @@ const mockedQuestions = [
   },
   {
     key: 'key3',
-    meta: {
-      saveQuestion: false,
-    },
-    field_type: 'select_input',
+    field_type: 'location',
     required: true,
   },
   {
@@ -64,7 +61,7 @@ describe('Incident container services', () => {
       })
     })
 
-    it('should not add extra_properties prop to meta when saveQuestion is false', () => {
+    it('should not add extra_properties prop to meta when field type is location', () => {
       const result = resolveQuestions(mockedQuestions)
       expect(result.key1).toMatchObject({
         meta: {
