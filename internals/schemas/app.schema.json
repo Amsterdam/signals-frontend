@@ -76,7 +76,7 @@
           "type": "boolean"
         },
         "enableCsvExport": {
-          "description": "Enables a extra item in the settings page to go to a page where you can download the latest csv export",
+          "description": "Enables an extra item in the settings page to go to a page where you can download the latest csv export. The user will also need the right permissions to be able to see the export page.",
           "type": "boolean"
         },
         "enableNearIncidents": {
@@ -84,7 +84,7 @@
           "type": "boolean"
         },
         "enablePublicSignalMap": {
-          "description": "Feature switch to enable the publicly accessable page which shows a map with all incidents. This makes use of the 'MAP_SIGNALS_ENDPOINT' endpoint and needs to have the feature flag 'ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT' enabled in the backend. The user will also need the right permissions to be able to see the export page.",
+          "description": "Feature switch to enable the publicly accessable page which shows a map with all incidents. This makes use of the 'MAP_SIGNALS_ENDPOINT' endpoint and needs to have the feature flag 'ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT' enabled in the backend.",
           "type": "boolean"
         },
         "enableReporter": {
