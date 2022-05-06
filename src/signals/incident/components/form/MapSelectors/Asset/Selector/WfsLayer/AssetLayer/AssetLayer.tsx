@@ -101,6 +101,7 @@ export const AssetLayer: FC = () => {
           alt: `${featureType.description}${
             isSelected ? ', is geselecteerd' : ''
           } (${id})`,
+          keyboard: false,
         }}
         latLng={coordinates}
         events={{

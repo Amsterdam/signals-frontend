@@ -198,6 +198,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
             options={{
               icon: currentIncidentIcon,
               interactive: false,
+              keyboard: false,
               zIndexOffset: CURRENT_INCIDENT_MARKER_Z,
             }}
           />
