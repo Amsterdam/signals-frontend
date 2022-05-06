@@ -86,6 +86,7 @@ export const CaterpillarLayer: FC = () => {
           options={{
             icon,
             alt: altText,
+            keyboard: false,
           }}
           latLng={coordinates}
           events={{

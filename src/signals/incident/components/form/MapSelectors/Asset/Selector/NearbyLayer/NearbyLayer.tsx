@@ -156,6 +156,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
           title: `${feature.properties.category.name}, ${formattedDate(
             feature.properties.created_at
           )}`,
+          keyboard: false,
         }
       )
 
