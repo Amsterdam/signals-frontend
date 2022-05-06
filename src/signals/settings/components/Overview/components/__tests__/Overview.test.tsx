@@ -28,16 +28,17 @@ describe('Overview component', () => {
             groups: true,
             users: true,
             categories: true,
-            export: false,
+            export: true,
           }}
         />
       )
     )
 
-    expect(screen.queryByTestId('users')).toBeInTheDocument()
-    expect(screen.queryByTestId('groups')).toBeInTheDocument()
-    expect(screen.queryByTestId('departments')).toBeInTheDocument()
-    expect(screen.queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('users')).toBeInTheDocument()
+    expect(screen.getByTestId('groups')).toBeInTheDocument()
+    expect(screen.getByTestId('departments')).toBeInTheDocument()
+    expect(screen.getByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('export')).toBeInTheDocument()
   })
 
   it('should show specific settings based on props', () => {
@@ -60,6 +61,7 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
 
@@ -82,6 +84,7 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
 
@@ -101,9 +104,10 @@ describe('Overview component', () => {
     )
 
     expect(screen.queryByTestId('users')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('groups')).toBeInTheDocument()
-    expect(screen.queryByTestId('departments')).toBeInTheDocument()
+    expect(screen.getByTestId('groups')).toBeInTheDocument()
+    expect(screen.getByTestId('departments')).toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
 
@@ -122,10 +126,11 @@ describe('Overview component', () => {
       )
     )
 
-    expect(screen.queryByTestId('users')).toBeInTheDocument()
+    expect(screen.getByTestId('users')).toBeInTheDocument()
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('categories')).toBeInTheDocument()
+    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
 
@@ -138,15 +143,16 @@ describe('Overview component', () => {
             groups: true,
             users: true,
             categories: true,
-            export: false,
+            export: true,
           }}
         />
       )
     )
 
-    expect(screen.queryByTestId('users')).toBeInTheDocument()
-    expect(screen.queryByTestId('groups')).toBeInTheDocument()
-    expect(screen.queryByTestId('departments')).toBeInTheDocument()
-    expect(screen.queryByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('users')).toBeInTheDocument()
+    expect(screen.getByTestId('groups')).toBeInTheDocument()
+    expect(screen.getByTestId('departments')).toBeInTheDocument()
+    expect(screen.getByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('export')).toBeInTheDocument()
   })
 })

@@ -54,12 +54,6 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `
 
-const StyledLink = styled.a`
-  margin-bottom: ${themeSpacing(4)};
-  display: block;
-  text-decoration: none;
-`
-
 const StyledTopTaskLink = styled(TopTaskLink)`
   min-height: 132px;
   font-weight: 700;
@@ -170,13 +164,13 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.export && (
             <Item data-testid="export">
-              <StyledLink href={EXPORT_URL}>
+              <StyledNavLink to={EXPORT_URL}>
                 <StyledTopTaskLink
                   forwardedAs="div"
                   icon={Download}
                   title="CSV Export"
                 />
-              </StyledLink>
+              </StyledNavLink>
               <p>Voor het downloaden van alle meldingen in CSV formaat.</p>
             </Item>
           )}

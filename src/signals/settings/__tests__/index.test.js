@@ -52,7 +52,6 @@ const withSuspense = () =>
 describe('signals/settings', () => {
   beforeEach(() => {
     dispatch.mockReset()
-    configuration.featureFlags.useStaticMapServer = true
 
     jest.spyOn(reactRouterDom, 'useLocation')
     jest
