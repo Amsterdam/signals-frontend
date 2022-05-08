@@ -59,6 +59,3 @@ export const SEARCH_INCIDENTS_ERROR =
 
 export const PATCH_INCIDENT_SUCCESS =
   'sia/incidentManagement/PATCH_INCIDENT_SUCCESS'
-
-export const UPLOAD_ATTACHMENTS = 'sia/incidentManagement/UPLOAD_ATTACHMENTS'
-export const DELETE_ATTACHMENT = 'sia/incidentManagement/DELETE_ATTACHMENT'

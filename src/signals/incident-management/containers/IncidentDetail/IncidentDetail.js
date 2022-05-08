@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback } from 'react'
+import { useReducer, useEffect, useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -14,7 +14,6 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
-import { DELETE_ATTACHMENT } from 'signals/incident-management/constants'
 import reducer, { initialState } from './reducer'
 
 import Attachments from './components/Attachments'
@@ -79,8 +78,8 @@ const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter()
   const storeDispatch = useDispatch()
   const { id } = useParams()
+  const [isRemovingAttachment, setRemovingAttachment] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
-  const incidentDispatch = useDispatch()
   const {
     error,
     get: getIncident,
@@ -89,7 +88,16 @@ const IncidentDetail = () => {
     patch,
   } = useFetch()
   const { get: getHistory, data: history } = useFetch()
-  const { get: getAttachments, data: attachments } = useFetch()
+  const {
+    get: getAttachments,
+    data: attachments,
+    isLoading: isAttachmentsLoading,
+  } = useFetch()
+  const {
+    del: deleteAttachment,
+    isLoading: isDeleteAttachmentLoading,
+    isSuccess: isDeleteAttachmentSuccess,
+  } = useFetch()
   const { get: getDefaultTexts, data: defaultTexts } = useFetch()
   const { get: getChildren, data: children } = useFetch()
   const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
@@ -296,25 +304,38 @@ const IncidentDetail = () => {
     [incident, upload]
   )
 
-  const deleteAttachment = useCallback(
+  const removeAttachment = useCallback(
     (attachment) => {
-      if (incident) {
-        incidentDispatch({
-          type: DELETE_ATTACHMENT,
-          payload: { attachment, id: incident.id },
-        })
-      }
+      deleteAttachment(attachment._links.self.href)
     },
-    [incident, incidentDispatch]
+    [deleteAttachment]
   )
 
   useEffect(() => {
-    if (uploadSuccess) {
+    if (
+      uploadSuccess ||
+      (!isDeleteAttachmentLoading && isDeleteAttachmentSuccess)
+    ) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
     }
-  }, [getAttachments, id, uploadSuccess])
+  }, [
+    getAttachments,
+    id,
+    uploadSuccess,
+    isDeleteAttachmentSuccess,
+    isDeleteAttachmentLoading,
+  ])
+
+  useEffect(() => {
+    if (isAttachmentsLoading || isDeleteAttachmentLoading)
+      setRemovingAttachment(true)
+  }, [isAttachmentsLoading, isDeleteAttachmentLoading])
+
+  useEffect(() => {
+    if (!isAttachmentsLoading) setRemovingAttachment(false)
+  }, [isAttachmentsLoading])
 
   if (!state.incident || !subcategories) return null
 
@@ -344,7 +365,8 @@ const IncidentDetail = () => {
           <StyledAttachments
             attachments={state.attachments || []}
             add={addAttachment}
-            deleteAttachment={deleteAttachment}
+            remove={removeAttachment}
+            isRemoving={isRemovingAttachment}
             uploadProgress={uploadProgress}
             uploadSuccess={uploadSuccess}
             uploadError={uploadError}

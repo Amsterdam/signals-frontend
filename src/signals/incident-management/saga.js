@@ -26,7 +26,6 @@ import CONFIGURATION from 'shared/services/configuration/configuration'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 
-import { uploadFile } from 'containers/App/saga'
 import {
   applyFilterRefresh,
   applyFilterRefreshStop,
@@ -63,8 +62,6 @@ import {
   SEARCH_INCIDENTS,
   UPDATE_FILTER,
   PATCH_INCIDENT_SUCCESS,
-  UPLOAD_ATTACHMENTS,
-  DELETE_ATTACHMENT,
 } from './constants'
 
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors'
@@ -274,27 +271,6 @@ export function* updateFilter(action) {
   yield spawn(doUpdateFilter, action)
 }
 
-export function* uploadAttachments(action) {
-  yield all([
-    ...action.payload.files.map((file) =>
-      call(uploadFile, {
-        payload: {
-          file,
-          id: action.payload.id,
-          private: true,
-        },
-      })
-    ),
-  ])
-}
-
-export function* deleteAttachment(action) {
-  try {
-    yield call(authDeleteCall, action.payload.attachment._links.self.href)
-    // eslint-disable-next-line no-empty
-  } catch (error) {}
-}
-
 export default function* watchIncidentManagementSaga() {
   yield all([
     takeLatest(GET_DISTRICTS, fetchDistricts),
@@ -302,8 +278,6 @@ export default function* watchIncidentManagementSaga() {
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),
     takeLatest(UPDATE_FILTER, updateFilter),
-    takeLatest(UPLOAD_ATTACHMENTS, uploadAttachments),
-    takeLatest(DELETE_ATTACHMENT, deleteAttachment),
     takeLatest(
       [
         APPLY_FILTER,

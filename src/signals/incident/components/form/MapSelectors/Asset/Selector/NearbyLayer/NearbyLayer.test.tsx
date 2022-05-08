@@ -38,12 +38,14 @@ const mockUseMapInstance = {
 }
 const category = 'afval'
 const subcategory = 'huisvuil'
+const del = jest.fn()
 const get = jest.fn()
 const patch = jest.fn()
 const post = jest.fn()
 const put = jest.fn()
 
 const useFetchResponse = {
+  del,
   get,
   patch,
   post,

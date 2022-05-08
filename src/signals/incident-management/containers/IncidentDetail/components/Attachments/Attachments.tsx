@@ -19,6 +19,7 @@ import { useCallback, useState } from 'react'
 import { useContext } from 'react'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
+import type { Files } from '../../hooks/useUpload'
 
 const Wrapper = styled.article`
   contain: content;
@@ -123,22 +124,19 @@ interface AttachmentsProps {
   attachments: Array<Attachment>
   className: string
   add: (file: File) => void
-  deleteAttachment: (attachment: Attachment) => void
+  remove: (attachment: Attachment) => void
+  isRemoving: boolean
   uploadProgress: number
   uploadSuccess: boolean
   uploadError: boolean
 }
 
-type Files = Array<{
-  name: string
-  src: string
-}>
-
 const Attachments: FC<AttachmentsProps> = ({
   attachments,
   className,
   add,
-  deleteAttachment,
+  remove,
+  isRemoving,
   uploadProgress,
 }) => {
   const { preview } = useContext(IncidentDetailContext)
@@ -189,9 +187,12 @@ const Attachments: FC<AttachmentsProps> = ({
             iconSize={18}
             onClick={(event) => {
               event.stopPropagation()
-              window.confirm('bla') && deleteAttachment(attachment)
+              window.confirm(
+                'Weet je zeker dat je deze bijlage wilt verwijderen?'
+              ) && remove(attachment)
             }}
             variant="application"
+            disabled={isRemoving}
           />
           <StyledUploadProgress progress={0.5} />
         </StyledBox>

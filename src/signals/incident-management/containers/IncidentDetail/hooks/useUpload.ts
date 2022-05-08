@@ -5,9 +5,20 @@ import { useEffect, useState } from 'react'
 import fileUploadChannel from 'shared/services/file-upload-channel'
 import configuration from 'shared/services/configuration/configuration'
 
-const channel = stdChannel()
+export type Files = Array<{
+  name: string
+  src: string
+}>
 
-export function* uploadAttachments(action) {
+interface UploadAttachmentsAction {
+  type: 'upload'
+  payload: {
+    files: Files
+    id: number
+  }
+}
+
+function* uploadAttachments(action: UploadAttachmentsAction) {
   yield all([
     ...action.payload.files.map((file) =>
       call(uploadFile, {
@@ -21,13 +32,15 @@ export function* uploadAttachments(action) {
   ])
 }
 
-interface UploadFile {
-  id?: number
-  file?: { name: string }
-  private?: boolean
+interface UploadFileAction {
+  payload: {
+    id?: number
+    file?: { name: string }
+    private?: boolean
+  }
 }
 
-export function* uploadFile(action: { payload: UploadFile }): any {
+function* uploadFile(action: UploadFileAction): any {
   const id = action.payload?.id ?? ''
   const isPrivate = action.payload?.private ?? false
   const endpoint = isPrivate
@@ -67,17 +80,24 @@ export function* uploadFile(action: { payload: UploadFile }): any {
   }
 }
 
+type DispatchType = 'UPLOAD_PROGRESS' | 'UPLOAD_SUCCESS' | 'UPLOAD_FAILURE'
+
+interface DispatchAction {
+  type: DispatchType
+  payload: number
+}
+
+const channel = stdChannel()
+
 const useUpload = () => {
   const [progress, setProgress] = useState(0)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   useEffect(() => {
-    const dispatchFn = (output) => {
-      // console.debug('output', output)
-      // dispatch(output)
-      switch (output.type) {
+    const dispatchFn = (action: DispatchAction) => {
+      switch (action.type) {
         case 'UPLOAD_PROGRESS':
-          setProgress(output.payload)
+          setProgress(action.payload)
           break
         case 'UPLOAD_SUCCESS':
           setSuccess(true)
@@ -101,7 +121,8 @@ const useUpload = () => {
     }
   }, [])
 
-  const upload = (files, id) => {
+  const upload = (files: File[], id: number) => {
+    setSuccess(false)
     channel.put({
       type: 'upload',
       payload: { files, id },
