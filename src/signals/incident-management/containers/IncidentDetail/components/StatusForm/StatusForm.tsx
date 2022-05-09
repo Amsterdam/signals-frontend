@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
@@ -66,6 +66,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
+  const [emailIsNotSent, setEmailIsNotSend] = useState(false)
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
@@ -232,6 +233,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [])
 
   const onStatusChange = useCallback((event) => {
+    setEmailIsNotSend(
+      event.target.value === StatusCode.Afgehandeld &&
+        state.status.key === StatusCode.VerzoekTotHeropenen
+    )
+
     const selectedStatus = changeStatusOptionList.find(
       (status) => event.target.value === status.key
     )
@@ -337,7 +343,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             </Alert>
           ))}
 
-        {!state.flags.isSplitIncident && (
+        {!state.flags.isSplitIncident && !emailIsNotSent && (
           <div>
             {state.flags.hasEmail ? (
               <StyledCheckboxLabel
@@ -361,6 +367,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             )}
           </div>
         )}
+        {emailIsNotSent && (
+          <div data-testid="no-email-is-sent-warning">
+            {constants.NO_EMAIL_IS_SENT}
+          </div>
+        )}
       </StyledSection>
 
       <StyledSection>
@@ -372,7 +383,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 <strong>
                   {state.check.checked ? state.text.label : 'Toelichting'}
                 </strong>
-                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
+                {!state.text.required && !emailIsNotSent && (
+                  <span>&nbsp;(niet verplicht)</span>
+                )}
               </>
             }
           />

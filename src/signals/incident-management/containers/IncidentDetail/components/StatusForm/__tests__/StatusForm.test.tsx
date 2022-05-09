@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import {
   fireEvent,
   getQueriesForElement,
@@ -36,6 +36,7 @@ import {
   DEELMELDINGEN_STILL_OPEN_CONTENT,
   DEFAULT_TEXT_LABEL,
   DEFAULT_TEXT_MAX_LENGTH,
+  NO_EMAIL_IS_SENT,
 } from '../constants'
 
 import type { IncidentChild } from '../../../types'
@@ -223,8 +224,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.Afgehandeld,
     ])
 
-    expect(checkbox).not.toBeChecked()
-    expect(checkbox).not.toBeDisabled()
+    expect(checkbox).not.toBeInTheDocument()
+    expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
+    expect(screen.getByText(NO_EMAIL_IS_SENT)).toBeInTheDocument()
   })
 
   it('requires a text value when the checkbox is selected', async () => {

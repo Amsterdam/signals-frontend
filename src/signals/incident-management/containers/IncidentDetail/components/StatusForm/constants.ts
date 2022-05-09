@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 export const AFGEHANDELD_CONTENT = `
   Gebruik deze status alleen als de melding ook echt is afgehandeld,
   gebruik anders de status Ingepland. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.
@@ -13,6 +13,7 @@ export const DEELMELDINGEN_STILL_OPEN_CONTENT = `Als je de hoofdmelding nu afhan
   De deelmelding zal dan niet meer verder behandeld worden en je kunt ook niet meer communiceren met de melder over de deelmelding.
   Handel de hoofdmelding pas af als alle deelmeldingen zijn opgelost of als de deelmeldingen niet meer nodig zijn.`
 export const NO_REPORTER_EMAIL = `De melder heeft geen e-mailadres opgegeven, er wordt geen bericht verstuurd.`
+export const NO_EMAIL_IS_SENT = 'Er wordt geen bericht verstuurd.'
 
 export const DEFAULT_TEXT_MAX_LENGTH = 3000
 export const DEFAULT_TEXT_LABEL = 'Bericht aan melder'
