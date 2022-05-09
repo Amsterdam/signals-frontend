@@ -74,17 +74,28 @@ const StyledReporter = styled.div`
   text-transform: uppercase;
 `
 
-const StyledDate = styled.div`
+const StyledDetails = styled.div`
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  bottom: 10px;
+  right: 10px;
+  bottom: 7px;
   left: 10px;
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
-  line-height: 14px;
+  line-height: 20px;
 `
 
-const StyledEmployee = styled(StyledDate)`
-  bottom: 30px;
+const StyledDate = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const StyledEmployee = StyledDate
+
+const StyledName = styled(StyledDate)`
+  font-weight: bold;
 `
 
 const StyledButton = styled(AscButton)`
@@ -121,7 +132,7 @@ const StyledLoadingIndicator = styled(LoadingIndicator)`
 `
 
 interface AttachmentsProps {
-  attachments: Array<Attachment>
+  attachments: Attachment[]
   className: string
   add: (file: File) => void
   remove: (attachment: Attachment) => void
@@ -167,42 +178,56 @@ const Attachments: FC<AttachmentsProps> = ({
           Foto
         </Title>
       )}
-      {attachments.map((attachment) => (
-        <StyledBox
-          key={attachment.location}
-          onClick={() =>
-            preview &&
-            preview('attachment', { attachmentHref: attachment.location })
-          }
-        >
-          <StyledImg src={attachment.location} />
-          <StyledGradient />
-          <StyledReporter>Melder</StyledReporter>
-          <StyledEmployee>Employee</StyledEmployee>
-          <StyledDate>
-            {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
-          </StyledDate>
-          <StyledButton
-            icon={<img src="/assets/images/icon-delete.svg" alt="Bewerken" />}
-            iconSize={18}
-            onClick={(event) => {
-              event.stopPropagation()
-              window.confirm(
-                'Weet je zeker dat je deze bijlage wilt verwijderen?'
-              ) && remove(attachment)
-            }}
-            variant="application"
-            disabled={isRemoving}
-          />
-          <StyledUploadProgress progress={0.5} />
-        </StyledBox>
-      ))}
+      {attachments.map((attachment) => {
+        const locationParts = attachment.location?.split('/')
+        const fileName = locationParts?.length
+          ? locationParts[locationParts.length - 1]
+          : ''
+
+        return (
+          <StyledBox
+            key={attachment.location}
+            onClick={() =>
+              preview &&
+              preview('attachment', { attachmentHref: attachment.location })
+            }
+            title={fileName}
+          >
+            <StyledImg src={attachment.location} />
+            <StyledGradient />
+            {!attachment.created_by && <StyledReporter>Melder</StyledReporter>}
+            <StyledDetails>
+              {fileName && <StyledName>{fileName}</StyledName>}
+              {attachment.created_by && (
+                <StyledEmployee>{attachment.created_by}</StyledEmployee>
+              )}
+              <StyledDate>
+                {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
+              </StyledDate>
+            </StyledDetails>
+            <StyledButton
+              icon={<img src="/assets/images/icon-delete.svg" alt="Bewerken" />}
+              iconSize={18}
+              onClick={(event) => {
+                event.stopPropagation()
+                window.confirm(
+                  `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
+                ) && remove(attachment)
+              }}
+              variant="application"
+              disabled={isRemoving}
+            />
+          </StyledBox>
+        )
+      })}
       {files.map((file) => (
         <StyledBox key={file.src}>
           <StyledImg src={file.src} />
           <StyledGradient />
-          <StyledEmployee>{file.name}</StyledEmployee>
-          <StyledDate>wordt geüpload</StyledDate>
+          <StyledDetails>
+            <StyledName>{file.name}</StyledName>
+            <StyledDate>wordt geüpload</StyledDate>
+          </StyledDetails>
           {uploadProgress === 1 ? (
             <StyledLoadingIndicator />
           ) : (
