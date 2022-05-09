@@ -179,10 +179,7 @@ const Attachments: FC<AttachmentsProps> = ({
         </Title>
       )}
       {attachments.map((attachment) => {
-        const locationParts = attachment.location?.split('/')
-        const fileName = locationParts?.length
-          ? locationParts[locationParts.length - 1]
-          : ''
+        const fileName = attachment.location?.split('/').pop() || ''
 
         return (
           <StyledBox

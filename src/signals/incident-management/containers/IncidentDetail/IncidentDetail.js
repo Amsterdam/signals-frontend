@@ -316,12 +316,14 @@ const IncidentDetail = () => {
       uploadSuccess ||
       (!isDeleteAttachmentLoading && isDeleteAttachmentSuccess)
     ) {
+      getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
     }
   }, [
     getAttachments,
+    getHistory,
     id,
     uploadSuccess,
     isDeleteAttachmentSuccess,
