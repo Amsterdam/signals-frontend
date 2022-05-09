@@ -185,41 +185,33 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
   })
 
-  it('dispatches the location when a location is retrieved via geolocation', async () => {
-    const coordinates = { lat: 52.3731081, lng: 4.8932945 }
+  it('gets the current position when a location is retrieved via geolocation', async () => {
+    const { coordinates } = contextValue
     const coords = {
       accuracy: 50,
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
-    }
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
+      latitude: coordinates?.lat,
+      longitude: coordinates?.lng,
     }
 
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
-      writable: true,
-    })
+    const getCurrentPosition = jest.fn().mockImplementation((success) =>
+      Promise.resolve(
+        success({
+          coords,
+        })
+      )
+    )
 
-    const { setLocation } = contextValue
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    global.navigator.geolocation = { getCurrentPosition }
 
     render(withAssetSelectContext(<Selector />))
 
-    expect(setLocation).not.toHaveBeenCalled()
+    expect(getCurrentPosition).not.toHaveBeenCalled()
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
-    await screen.findByTestId('gpsButton')
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates,
-    })
+    expect(getCurrentPosition).toHaveBeenCalled()
   })
 
   it('only renders the zoom message when feature types are available', () => {
