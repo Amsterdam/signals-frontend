@@ -162,7 +162,8 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     data.features.forEach((feature) => {
       const { lat, lng } = featureToCoordinates(feature.geometry)
 
-      if (findAssetMatch(assetData, lat, lng)) return
+      // if an asset exists in the exact same location, then don't draw a marker
+      if (findAssetMatch(assetData, lat, lng)) return null
 
       const uniqueId = `${lat}.${lng}.${feature.properties.created_at}`
       const marker = L.marker(

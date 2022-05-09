@@ -211,13 +211,13 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       })
     }
 
-    if (selectionOnMap && data.features) {
+    if (selectionOnMap && data?.features) {
       setSelectionIncident({
-        categoryName: data.features[0].properties.category.name,
-        createdAt: formattedDate(data.features[0].properties.created_at),
+        categoryName: data?.features[0].properties.category.name,
+        createdAt: formattedDate(data?.features[0].properties.created_at),
       })
     }
-  }, [data.features, selectionOnMap, selectionNearby, selection])
+  }, [data?.features, selectionOnMap, selectionNearby, selection])
 
   return (
     <PanelContent
