@@ -21,6 +21,11 @@
 
 <body>
   <div id="app">
+    <svg id='spinner' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' focusable='false'>
+      <path
+        d='M50 100C22.4 99.967.033 77.6 0 50h10c0 22.091 17.909 40 40 40s40-17.909 40-40-17.909-40-40-40V0c27.614 0 50 22.386 50 50s-22.386 50-50 50z'></path>
+    </svg>
+    <div id='spinner-background'></div>
     <noscript>
       <p>
         Deze website werkt helaas niet zonder javascript. Sta het uitvoeren
@@ -29,6 +34,10 @@
       </p>
     </noscript>
   </div>
+<script>
+  var spinner = document.getElementById('spinner')
+  spinner.style.fill =  window.CONFIG.head.themeColor;
+</script>
 </body>
 
 $SIGNALS_MATOMO
