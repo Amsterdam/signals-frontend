@@ -226,7 +226,6 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(checkbox).not.toBeInTheDocument()
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
-
     expect(screen.getByText(NO_EMAIL_IS_SENT)).toBeInTheDocument()
   })
 
