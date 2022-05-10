@@ -60,6 +60,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
       formatResponse={formatPDOKResponse}
       numOptionsDeterminer={numOptionsDeterminer}
       tabIndex={0}
+      autoFocus
     />
   )
 }

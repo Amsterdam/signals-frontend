@@ -14,7 +14,7 @@ import type {
 } from 'signals/incident/definitions/wizard'
 import { useSelector } from 'react-redux'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
-import { makeSelectIncidentContainer } from '../../containers/IncidentContainer/selectors'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const Nav = styled.div`
   align-items: center;

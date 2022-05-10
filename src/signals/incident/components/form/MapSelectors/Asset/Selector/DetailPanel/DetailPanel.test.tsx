@@ -12,13 +12,13 @@ import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
 import configuration from 'shared/services/configuration/configuration'
 import * as reactRedux from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
 import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
-import { closeMap } from '../../../../../../containers/IncidentContainer/actions'
 import type { DetailPanelProps } from './DetailPanel'
 import MockInstance = jest.MockInstance
 

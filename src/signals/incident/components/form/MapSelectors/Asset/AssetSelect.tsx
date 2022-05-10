@@ -10,10 +10,10 @@ import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import Summary from 'components/Summary'
 import { useSelector } from 'react-redux'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
-import { makeSelectIncidentContainer } from '../../../../containers/IncidentContainer/selectors'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
@@ -57,9 +57,6 @@ export interface AssetSelectProps {
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
-  /**
-   * We should refactor reducers to use typescript, then use following types here instead of any.
-   */
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}

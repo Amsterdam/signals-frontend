@@ -13,7 +13,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import Map from 'components/Map'
 import { useDispatch } from 'react-redux'
-import { showMap } from '../../../../../containers/IncidentContainer/actions'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 const Wrapper = styled.div`
   position: relative;
