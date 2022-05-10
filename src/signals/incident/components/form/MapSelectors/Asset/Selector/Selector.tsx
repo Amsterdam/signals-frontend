@@ -136,10 +136,9 @@ const Selector: FC = () => {
             <TopLeftWrapper>
               <GPSButton
                 onLocationSuccess={(location: LocationResult) => {
-                  const { latitude, longitude } = location
                   const coordinates = {
-                    lat: latitude,
-                    lng: longitude,
+                    lat: location.latitude,
+                    lng: location.longitude,
                   } as LatLngLiteral
 
                   fetchLocation(coordinates)
