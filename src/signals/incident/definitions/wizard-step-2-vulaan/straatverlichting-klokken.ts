@@ -301,7 +301,7 @@ const straatverlichtingKlokken = {
       },
       values: {
         niet_gevaarlijk: 'Nee, niet gevaarlijk',
-        is_gevolg_van_aanrijding: 'Het is een gevolg van een aanrijding',
+        is_gevolg_van_aanrijding: 'Ja, het is een gevolg van een aanrijding',
         klok_op_grond_of_scheef:
           'Ja, de klok ligt op de grond of staat gevaarlijk scheef',
         deurtje_weg_of_open:
