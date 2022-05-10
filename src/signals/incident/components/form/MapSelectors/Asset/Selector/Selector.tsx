@@ -33,8 +33,10 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
+import { useDispatch } from 'react-redux'
 import { selectionIsUndetermined } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
+import { closeMap } from '../../../../../containers/IncidentContainer/actions'
 import AssetLayer from './WfsLayer/AssetLayer'
 import WfsLayer from './WfsLayer'
 import NearbyLayer from './NearbyLayer'
@@ -56,9 +58,12 @@ const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const { close, coordinates, layer, meta, selection, fetchLocation } =
+  const { coordinates, layer, meta, selection, fetchLocation } =
     useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
+
+  const dispatch = useDispatch()
+
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
 
@@ -135,7 +140,7 @@ const Selector: FC = () => {
           topLeft={
             <TopLeftWrapper>
               <GPSButton
-                tabIndex={3}
+                tabIndex={0}
                 onLocationSuccess={(location: LocationResult) => {
                   const coordinates = {
                     lat: location.latitude,
@@ -185,7 +190,9 @@ const Selector: FC = () => {
               )}
             </TopLeftWrapper>
           }
-          topRight={<MapCloseButton onClick={close} tabIndex={4}/>}
+          topRight={
+            <MapCloseButton onClick={() => dispatch(closeMap())} tabIndex={0} />
+          }
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>

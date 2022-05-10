@@ -12,6 +12,8 @@ import type { Address } from 'types/address'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
+import * as reactRedux from 'react-redux'
+import { closeMap } from '../../signals/incident/containers/IncidentContainer/actions'
 import Summary from './Summary'
 
 jest.mock('shared/services/configuration/configuration')
@@ -47,7 +49,6 @@ export const address = {
 }
 
 export const summaryProps: SummaryProps = {
-  edit: jest.fn(),
   selection,
   featureTypes: [featureType],
   address,
@@ -61,6 +62,10 @@ export const withContext = (
   withAppContext(
     <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
   )
+
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+jest.spyOn(global.document, 'dispatchEvent')
 
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
   beforeEach(() => {
@@ -133,31 +138,30 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('should call edit by mouse click', () => {
     render(withContext(<Summary {...summaryProps} />))
-    expect(summaryProps.edit).not.toHaveBeenCalled()
 
     const element = screen.getByText(/wijzigen/i)
 
-    expect(summaryProps.edit).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     userEvent.click(element)
 
-    expect(summaryProps.edit).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('should call edit by return key', () => {
     render(withContext(<Summary {...summaryProps} />))
-    expect(summaryProps.edit).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     const element = screen.getByText(/wijzigen/i)
     element.focus()
 
     userEvent.keyboard('a')
 
-    expect(summaryProps.edit).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     userEvent.keyboard('{Enter}')
 
-    expect(summaryProps.edit).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it("does not show 'wijzigen' link when edit is undefined", () => {

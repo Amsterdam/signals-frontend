@@ -9,15 +9,11 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import Summary from 'components/Summary'
-import type {
-  EventHandler,
-  FeatureStatusType,
-  FeatureType,
-  Item,
-  Meta,
-} from '../types'
+import { useSelector } from 'react-redux'
+import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
+import { makeSelectIncidentContainer } from '../../../../containers/IncidentContainer/selectors'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
@@ -60,8 +56,11 @@ export interface AssetSelectProps {
 
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
-  const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
+  /**
+   * We should refactor reducers to use typescript, then use following types here instead of any.
+   */
+  const { mapActive } = useSelector(makeSelectIncidentContainer)
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
@@ -152,18 +151,6 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     [updateIncident, getUpdatePayload]
   )
 
-  const edit = useCallback<EventHandler>(
-    (event) => {
-      event.preventDefault()
-      setShowMap(true)
-    },
-    [setShowMap]
-  )
-
-  const close = useCallback<() => void>(() => {
-    setShowMap(false)
-  }, [setShowMap])
-
   useEffect(() => {
     if (!meta.featureTypes.length) return
 
@@ -194,8 +181,6 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       value={{
         address,
         coordinates,
-        close,
-        edit,
         layer,
         message,
         meta: {
@@ -210,16 +195,15 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         setMessage,
       }}
     >
-      {!showMap && !hasSelection && <Intro />}
+      {!mapActive && !hasSelection && <Intro />}
+      {mapActive && 'osjdiofsjifojsdo'}
+      {mapActive && <Selector />}
 
-      {showMap && <Selector />}
-
-      {!showMap && hasSelection && (
+      {!mapActive && hasSelection && (
         <Summary
           address={address}
           coordinates={coordinates}
           selection={selection}
-          edit={edit}
           featureTypes={featureTypes}
         />
       )}

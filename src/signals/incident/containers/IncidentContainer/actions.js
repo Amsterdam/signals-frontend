@@ -16,6 +16,8 @@ import {
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
   SET_LOADING_DATA,
+  SHOW_MAP,
+  CLOSE_MAP,
 } from './constants'
 
 export const updateIncident = (payload) => ({
@@ -88,4 +90,12 @@ export const setLoadingData = (payload) => ({
 
 export const resetExtraState = () => ({
   type: RESET_EXTRA_STATE,
+})
+
+export const showMap = () => ({
+  type: SHOW_MAP,
+})
+
+export const closeMap = () => ({
+  type: CLOSE_MAP,
 })

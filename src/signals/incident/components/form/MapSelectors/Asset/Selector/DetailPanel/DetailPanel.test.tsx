@@ -4,7 +4,6 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactResponsive from 'react-responsive'
 import useFetch from 'hooks/useFetch'
-import * as reactRedux from 'react-redux'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
@@ -12,13 +11,16 @@ import type { PdokResponse } from 'shared/services/map-location'
 import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
 import configuration from 'shared/services/configuration/configuration'
+import * as reactRedux from 'react-redux'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
 import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
+import { closeMap } from '../../../../../../containers/IncidentContainer/actions'
 import type { DetailPanelProps } from './DetailPanel'
+import MockInstance = jest.MockInstance
 
 const category = 'afval'
 const subcategory = 'huisvuil'
@@ -115,6 +117,13 @@ jest.mock(
       )
 )
 
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+  global.document,
+  'dispatchEvent'
+)
+
 describe('DetailPanel', () => {
   const GLAS_FEATURE = {
     label: 'Glas',
@@ -175,6 +184,9 @@ describe('DetailPanel', () => {
   }
 
   beforeEach(() => {
+    dispatch.mockReset()
+    dispatchEventSpy.mockReset()
+
     jest
       .spyOn(reactRedux, 'useSelector')
       .mockReturnValue({ category, subcategory })
@@ -374,11 +386,11 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(currentContextValue.close).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     userEvent.click(screen.getByRole('button', { name: 'Meld dit object' }))
 
-    expect(currentContextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('handles Enter key on input', () => {
@@ -395,7 +407,6 @@ describe('DetailPanel', () => {
     )
 
     expect(currentContextValue.setItem).not.toHaveBeenCalled()
-    expect(currentContextValue.close).not.toHaveBeenCalled()
 
     userEvent.type(
       screen.getByLabelText('Nummer van de container (niet verplicht)'),
@@ -407,7 +418,7 @@ describe('DetailPanel', () => {
       type: UNKNOWN_TYPE,
       label: 'Het object staat niet op de kaart - 5',
     })
-    expect(currentContextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('renders default labels', () => {

@@ -13,8 +13,7 @@ const { endpoint, featureTypes } = controls.extra_container.meta
 
 export const contextValue: AssetSelectValue = {
   coordinates: { lat: 25.3546456, lng: 3.45645645 },
-  close: jest.fn(),
-  edit: jest.fn(),
+  // edit: jest.fn(),
   meta: {
     endpoint,
     featureTypes,

@@ -16,6 +16,8 @@ import { formatAddress } from 'shared/services/format-address'
 import configuration from 'shared/services/configuration/configuration'
 import { selectionIsUndetermined } from 'signals/incident/components/form/MapSelectors/constants'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import { useDispatch } from 'react-redux'
+import { closeMap } from '../../signals/incident/containers/IncidentContainer/actions'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -67,7 +69,6 @@ const Summary: FC<SummaryProps> = ({
   address,
   coordinates,
   selection,
-  edit,
   featureTypes,
 }) => {
   const { id, type } = selection || {}
@@ -101,13 +102,15 @@ const Summary: FC<SummaryProps> = ({
     return featureType && featureType.icon.iconUrl
   }, [selection, featureTypes])
 
+  const dispatch = useDispatch()
+
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
       if (event?.key === 'Enter') {
-        edit && edit(event)
+        dispatch(closeMap())
       }
     },
-    [edit]
+    [dispatch]
   )
 
   return (
@@ -143,17 +146,15 @@ const Summary: FC<SummaryProps> = ({
           <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
         </div>
       </LocationDescription>
-      {edit && (
-        <StyledLink
-          data-testid="mapEditButton"
-          onClick={edit}
-          onKeyUp={onKeyUp}
-          variant="inline"
-          tabIndex={0}
-        >
-          Wijzigen
-        </StyledLink>
-      )}
+      <StyledLink
+        data-testid="mapEditButton"
+        onClick={() => dispatch(closeMap())}
+        onKeyUp={onKeyUp}
+        variant="inline"
+        tabIndex={0}
+      >
+        Wijzigen
+      </StyledLink>
     </Wrapper>
   )
 }

@@ -31,6 +31,8 @@ import configuration from 'shared/services/configuration/configuration'
 import { useSelector } from 'react-redux'
 import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { LatLngTuple } from 'leaflet'
+import { useDispatch } from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { formattedDate } from '../utils'
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
@@ -87,7 +89,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     {}
   )
   const [showAddressPanel, setShowAddressPanel] = useState(false)
-  const { address, selection, removeItem, setItem, setLocation, close, meta } =
+  const dispatch = useDispatch()
+  const { address, selection, removeItem, setItem, setLocation, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -156,10 +159,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         onSetItem()
-        close()
+        dispatch(closeMap())
       }
     },
-    [close, onSetItem]
+    [onSetItem, dispatch]
   )
 
   const toggleLegend = useCallback(() => {
@@ -193,8 +196,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     const searchParams = new URLSearchParams({
       maincategory_slug: category,
       category_slug: subcategory,
-      lat: selection.coordinates.lat.toString(),
-      lon: selection.coordinates.lng.toString(),
+      lat: selection?.coordinates.lat.toString(),
+      lon: selection?.coordinates.lng.toString(),
       group_by: 'category',
     })
 
@@ -293,7 +296,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
                   onBlur={onSetItem}
                   onChange={onChange}
                   onKeyUp={onKeyUp}
-                  onSubmit={close}
+                  onSubmit={() => dispatch(closeMap())}
                   value={unregisteredAssetValue}
                 />
               </>
@@ -301,7 +304,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           </div>
         )}
 
-        <StyledButton onClick={close} variant="primary" tabIndex={2}>
+        <StyledButton
+          onClick={() => dispatch(closeMap())}
+          variant="primary"
+          tabIndex={0}
+        >
           {language.submit || 'Meld dit object'}
         </StyledButton>
       </ScrollWrapper>
