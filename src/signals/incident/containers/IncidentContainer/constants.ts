@@ -28,7 +28,7 @@ export const GET_QUESTIONS_SUCCESS =
 export const GET_QUESTIONS_ERROR = 'sia/IncidentContainer/GET_QUESTIONS_ERROR'
 export const SET_LOADING_DATA = 'sia/IncidentContainer/SET_LOADING_DATA'
 
-export const LOCATION_FIELD_TYPE = 'location'
+export const LOCATION_SELECT_FIELD_TYPE = 'location_select'
 
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,
@@ -42,7 +42,7 @@ export const FIELD_TYPE_MAP = {
   handling_message: QuestionFieldType.HandlingMessage,
   header: QuestionFieldType.Header,
   hidden_input: QuestionFieldType.HiddenInput,
-  [LOCATION_FIELD_TYPE]: QuestionFieldType.Location,
+  [LOCATION_SELECT_FIELD_TYPE]: QuestionFieldType.LocationSelect,
   map_input: QuestionFieldType.MapInput,
   multi_text_input: QuestionFieldType.MultiTextInput,
   plain_text: QuestionFieldType.PlainText,

@@ -19,7 +19,7 @@ const mockedQuestions = [
   },
   {
     key: 'key3',
-    field_type: 'location',
+    field_type: 'location_select',
     required: true,
   },
   {

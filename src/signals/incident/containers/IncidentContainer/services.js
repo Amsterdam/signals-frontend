@@ -3,7 +3,7 @@
 import {
   FIELD_TYPE_MAP,
   INPUT_VALIDATOR_MAP,
-  LOCATION_FIELD_TYPE,
+  LOCATION_SELECT_FIELD_TYPE,
 } from './constants'
 
 const mapValidatorWithArgs = ([key, ...args]) => [
@@ -19,7 +19,7 @@ export const resolveQuestions = (questions) =>
       ...acc,
       [question.key]: {
         meta:
-          question.field_type === LOCATION_FIELD_TYPE
+          question.field_type === LOCATION_SELECT_FIELD_TYPE
             ? question.meta
             : {
                 ...question.meta,

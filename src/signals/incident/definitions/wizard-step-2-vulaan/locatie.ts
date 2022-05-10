@@ -13,7 +13,7 @@ const locatie = {
     },
     shortLabel: 'Waar is het?',
   },
-  render: QuestionFieldType.Location,
+  render: QuestionFieldType.LocationSelect,
   options: {
     validators: ['required'],
   },
