@@ -3,6 +3,7 @@ import PageHeader from 'signals/settings/components/PageHeader'
 import { Fragment, useCallback, useEffect } from 'react'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
+import type { FetchError } from 'hooks/useFetch'
 
 const ExportContainer = () => {
   const { get, data, error, isLoading } = useFetch<Blob>()
@@ -32,8 +33,8 @@ const ExportContainer = () => {
           {isLoading && <Label label="Downloading..." />}
           {error && (
             <ErrorMessage
-              message={`Er ging iets mis: ${(error as any).name || ''} ${
-                (error as any).message || ''
+              message={`Er ging iets mis: ${
+                (error as FetchError).message || ''
               }`}
             />
           )}
