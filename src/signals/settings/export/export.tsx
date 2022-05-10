@@ -32,8 +32,8 @@ const ExportContainer = () => {
           {isLoading && <Label label="Downloading..." />}
           {error && (
             <ErrorMessage
-              message={`Er ging iets mis: ${(error as any).name} ${
-                (error as any).message
+              message={`Er ging iets mis: ${(error as any).name || ''} ${
+                (error as any).message || ''
               }`}
             />
           )}
