@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactResponsive from 'react-responsive'
+import useFetch from 'hooks/useFetch'
+import * as reactRedux from 'react-redux'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
+import configuration from 'shared/services/configuration/configuration'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -17,6 +20,25 @@ import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import type { DetailPanelProps } from './DetailPanel'
 
+const category = 'afval'
+const subcategory = 'huisvuil'
+const get = jest.fn()
+const patch = jest.fn()
+const post = jest.fn()
+const put = jest.fn()
+
+const useFetchResponse = {
+  get,
+  patch,
+  post,
+  put,
+  data: undefined,
+  isLoading: false,
+  error: false,
+  isSuccess: false,
+}
+
+jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
 
 jest.mock(
@@ -151,6 +173,13 @@ describe('DetailPanel', () => {
       featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     },
   }
+
+  beforeEach(() => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValue({ category, subcategory })
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+  })
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -533,5 +562,27 @@ describe('DetailPanel', () => {
 
     expect(screen.getByText(selection.label)).toBeInTheDocument()
     expect(screen.getByText(selection.description)).toBeInTheDocument()
+  })
+
+  it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {
+    const selection = {
+      label: 'Huisafval',
+      description: 'Gemeld op: 01-01-1970',
+      type: 'Rest',
+      coordinates: { lat: 1, lng: 2 },
+    }
+
+    expect(get).not.toHaveBeenCalled()
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+        selection,
+      })
+    )
+
+    expect(get).toHaveBeenCalledTimes(1)
+    expect(get).toHaveBeenCalledWith(
+      expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
+    )
   })
 })

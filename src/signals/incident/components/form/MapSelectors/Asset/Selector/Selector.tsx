@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import {
   useMemo,
   useContext,
@@ -211,10 +211,11 @@ const Selector: FC = () => {
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <Layer />
+          <>
+            <Layer />
+            <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
+          </>
         </WfsLayer>
-
-        <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
 
         {showMarker && (
           <span data-testid="assetPinMarker">

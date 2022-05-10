@@ -9,6 +9,7 @@ import './style.css'
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import type { FeatureCollection, Feature } from 'geojson'
+import intersection from 'lodash/intersection'
 
 import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -23,10 +24,11 @@ import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/const
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { featureToCoordinates } from 'shared/services/map-location'
-import { formatDate } from 'signals/incident/containers/IncidentReplyContainer/utils'
 
 import { useMapInstance } from '@amsterdam/react-maps'
 import type { Location } from 'types/incident'
+import WfsDataContext from '../WfsLayer/context'
+import { formattedDate } from '../utils'
 
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
@@ -62,8 +64,18 @@ export const nearbyMarkerSelectedIcon = L.icon({
   className: 'selected-nearby-marker',
 })
 
-const formattedDate = (date: string) =>
-  formatDate(new Date(date), `'Gemeld op:' dd MMMM`)
+export function findAssetMatch(
+  assetData: FeatureCollection,
+  lat: number,
+  lng: number
+) {
+  return assetData.features.find(
+    (assetFeature) =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      intersection(assetFeature.geometry?.coordinates, [lat, lng]).length === 2
+  )
+}
 
 export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const { selection, setItem } = useContext(AssetSelectContext)
@@ -74,6 +86,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
   const [activeLayer, setActiveLayer] = useState<NearbyMarker>()
   const featureGroup = useRef<L.FeatureGroup<NearbyMarker>>(L.featureGroup())
+  const assetData = useContext<FeatureCollection>(WfsDataContext)
 
   const onMarkerClick = useCallback(
     (feature: Feature<Point, Properties>) =>
@@ -148,6 +161,10 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
     data.features.forEach((feature) => {
       const { lat, lng } = featureToCoordinates(feature.geometry)
+
+      // if an asset exists in the exact same location, then don't draw a marker
+      if (findAssetMatch(assetData, lat, lng)) return null
+
       const uniqueId = `${lat}.${lng}.${feature.properties.created_at}`
       const marker = L.marker(
         { lat, lng },
@@ -169,7 +186,15 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
       featureGroup.current.addLayer(marker)
     })
-  }, [activeLayer, data, featureGroup, mapInstance, onMarkerClick, error])
+  }, [
+    activeLayer,
+    data,
+    featureGroup,
+    mapInstance,
+    onMarkerClick,
+    error,
+    assetData,
+  ])
   return (
     <>
       <span data-testid="nearbyLayer" />
