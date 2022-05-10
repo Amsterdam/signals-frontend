@@ -80,6 +80,19 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument()
   })
 
+  it('should render "not found" through catch', async () => {
+    fetch.mockResponses([
+      JSON.stringify({ typo: 'not found' }),
+      { status: 410 },
+    ])
+
+    const { getByText, findByTestId } = render(withAppContext(<KTOContainer />))
+
+    await findByTestId('ktoFormContainer')
+
+    expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument()
+  })
+
   it('should render a correct header', async () => {
     fetch.mockResponses(
       [JSON.stringify({}), { status: 200 }],
