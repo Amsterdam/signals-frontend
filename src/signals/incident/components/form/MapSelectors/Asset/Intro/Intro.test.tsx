@@ -5,8 +5,8 @@ import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import * as reactRedux from 'react-redux'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 import type { AssetSelectValue } from '../types'
-import { showMap } from '../../../../../containers/IncidentContainer/actions'
 import type { Meta } from '../../types'
 
 import { contextValue as assetSelectContextValue } from '../__tests__/withAssetSelectContext'

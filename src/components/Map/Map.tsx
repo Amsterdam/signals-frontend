@@ -11,8 +11,8 @@ import type { LeafletEventHandlerFnMap, MapOptions } from 'leaflet'
 import ViewerContainer from 'components/ViewerContainer'
 import configuration from 'shared/services/configuration/configuration'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeMap } from '../../signals/incident/containers/IncidentContainer/actions'
-import { makeSelectIncidentContainer } from '../../signals/incident/containers/IncidentContainer/selectors'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const StyledMap = styled(MapComponent)`
   cursor: default;

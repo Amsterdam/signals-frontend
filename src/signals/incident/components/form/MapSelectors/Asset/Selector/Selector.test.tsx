@@ -14,10 +14,10 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { MapOptions } from 'leaflet'
 import type { MapProps } from 'components/Map/Map'
 import * as reactRedux from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
-import { closeMap } from '../../../../../containers/IncidentContainer/actions'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector, { MAP_LOCATION_ZOOM } from './Selector'

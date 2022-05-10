@@ -11,8 +11,7 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'jest-mock'
 import type { Location } from 'types/incident'
 import { Provider } from 'react-redux'
-import { setupStore } from '../../../../containers/IncidentContainer/testReducer'
-
+import { setupStore } from 'signals/incident/containers/IncidentContainer/testReducer'
 import {
   UNKNOWN_TYPE,
   UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
@@ -37,6 +36,8 @@ const mockItem = {
 const mockItemCoordinates = { lat: 4, lng: 36 }
 
 jest.mock('shared/services/reverse-geocoder')
+
+const mockMapClose = jest.fn()
 
 jest.mock('./Selector', () => () => {
   const { fetchLocation, removeItem, setItem, setLocation } = mockUseContext(
@@ -77,7 +78,7 @@ jest.mock('./Selector', () => () => {
       <span
         aria-hidden="true"
         data-testid="mapCloseButton"
-        onClick={() => {}}
+        onClick={() => mockMapClose()}
         role="button"
         tabIndex={0}
       />
@@ -128,8 +129,6 @@ const geocodedResponse = {
     address: mockAddress,
   },
 }
-
-jest.mock('react-redux', () => jest.requireActual('react-redux'))
 
 describe('AssetSelect', () => {
   let props: AssetSelectProps
@@ -188,9 +187,11 @@ describe('AssetSelect', () => {
   })
 
   it('should close the selector component', () => {
+    const store = setupStore()
+
     render(
       withAppContext(
-        <Provider store={setupStore()}>
+        <Provider store={store}>
           <AssetSelect {...props} />
         </Provider>
       )
@@ -201,6 +202,8 @@ describe('AssetSelect', () => {
     expect(screen.queryByTestId('assetSelectSelector')).toBeInTheDocument()
 
     userEvent.click(screen.getByTestId('mapCloseButton'))
+
+    expect(mockMapClose).toBeCalled()
   })
 
   it('renders the Summary when an object has been selected', () => {
