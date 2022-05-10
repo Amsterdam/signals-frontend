@@ -242,6 +242,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       (status) => event.target.value === status.key
     )
     selectedStatus && dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const defaultTextTemplatesLength = useCallback(
