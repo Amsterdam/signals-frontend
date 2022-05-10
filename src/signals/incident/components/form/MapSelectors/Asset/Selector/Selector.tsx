@@ -56,15 +56,8 @@ const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const {
-    close,
-    coordinates,
-    layer,
-    meta,
-    selection,
-    setLocation,
-    fetchLocation,
-  } = useContext(AssetSelectContext)
+  const { close, coordinates, layer, meta, selection, fetchLocation } =
+    useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
@@ -91,7 +84,6 @@ const Selector: FC = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
-  const [geolocation, setGeolocation] = useState<LocationResult>()
   const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
@@ -113,19 +105,6 @@ const Selector: FC = () => {
 
     pinMarker.setLatLng(coordinates)
   }, [map, coordinates, pinMarker, selection])
-
-  useLayoutEffect(() => {
-    if (!map || !geolocation) return
-
-    map.flyTo(
-      [geolocation.latitude, geolocation.longitude] as LatLngTuple,
-      16,
-      {
-        animate: true,
-        noMoveStart: true,
-      }
-    )
-  }, [geolocation, map])
 
   useLayoutEffect(() => {
     if (!map || !coordinates) return
@@ -157,14 +136,12 @@ const Selector: FC = () => {
             <TopLeftWrapper>
               <GPSButton
                 onLocationSuccess={(location: LocationResult) => {
-                  const { latitude, longitude } = location
                   const coordinates = {
-                    lat: latitude,
-                    lng: longitude,
+                    lat: location.latitude,
+                    lng: location.longitude,
                   } as LatLngLiteral
 
-                  setLocation({ coordinates })
-                  setGeolocation(location)
+                  fetchLocation(coordinates)
                 }}
                 onLocationError={() => {
                   setMapMessage(
