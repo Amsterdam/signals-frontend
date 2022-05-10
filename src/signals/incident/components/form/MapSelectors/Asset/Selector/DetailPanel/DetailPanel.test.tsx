@@ -332,6 +332,10 @@ describe('DetailPanel', () => {
       type: UNKNOWN_TYPE,
       label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
     })
+
+    fireEvent.submit(screen.getByTestId('unregisteredAssetInput'))
+
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('dispatches the location when an address is selected', async () => {
@@ -483,6 +487,11 @@ describe('DetailPanel', () => {
     )
 
     expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByTestId('unregisteredAssetCheckbox'))
+
+    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
+
     expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
     expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()

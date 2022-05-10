@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { makeSelectUserCanAccess } from 'containers/App/selectors'
 import Overview from './components/Overview'
 
-export default function () {
+export default function OverviewContainer() {
   const userCanAccess = useSelector(makeSelectUserCanAccess)
 
   return (

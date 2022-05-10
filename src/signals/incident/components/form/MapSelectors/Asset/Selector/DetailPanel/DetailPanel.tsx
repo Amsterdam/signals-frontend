@@ -271,6 +271,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           <div data-testid="unregisteredObjectPanel">
             <Checkbox
               id="unregisteredAssetCheckbox"
+              data-testid="unregisteredAssetCheckbox"
               checked={showObjectIdInput}
               onChange={onCheck}
             />
