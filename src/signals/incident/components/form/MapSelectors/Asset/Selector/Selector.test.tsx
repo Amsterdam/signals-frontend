@@ -13,12 +13,15 @@ import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { MapOptions } from 'leaflet'
 import type { MapProps } from 'components/Map/Map'
+import * as reactRedux from 'react-redux'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
+import { closeMap } from '../../../../../containers/IncidentContainer/actions'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector, { MAP_LOCATION_ZOOM } from './Selector'
+import MockInstance = jest.MockInstance
 
 jest.useFakeTimers()
 
@@ -51,8 +54,16 @@ jest.mock('components/Map', () => {
   }
 })
 
+const dispatch = jest.fn()
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+      global.document,
+      'dispatchEvent'
+    )
+    dispatch.mockReset()
+    dispatchEventSpy.mockReset()
     fetchMock.resetMocks()
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
@@ -123,11 +134,11 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
   it('should call close when closing the selector', async () => {
     render(withAssetSelectContext(<Selector />))
-    expect(contextValue.close).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     const button = await screen.findByText('Meld dit object')
     userEvent.click(button)
-    expect(contextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('renders detail panel', async () => {

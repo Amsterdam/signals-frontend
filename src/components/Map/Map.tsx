@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, PropsWithChildren } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import { TileLayer } from '@amsterdam/react-maps'
@@ -9,6 +10,9 @@ import type { LeafletEventHandlerFnMap, MapOptions } from 'leaflet'
 
 import ViewerContainer from 'components/ViewerContainer'
 import configuration from 'shared/services/configuration/configuration'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeMap } from '../../signals/incident/containers/IncidentContainer/actions'
+import { makeSelectIncidentContainer } from '../../signals/incident/containers/IncidentContainer/selectors'
 
 const StyledMap = styled(MapComponent)`
   cursor: default;
@@ -69,6 +73,17 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
     ...mapOptions,
   }
 
+  const dispatch = useDispatch()
+  const { mapActive } = useSelector(makeSelectIncidentContainer)
+
+  useEffect(() => {
+    return () => {
+      if (mapActive) {
+        dispatch(closeMap())
+      }
+    }
+  }, [mapActive, dispatch])
+
   return (
     <StyledMap
       // Disabling linter; without className prop, the Map component cannot be styled
@@ -82,6 +97,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       options={options}
       fullScreen={fullScreen}
       setInstance={setInstance}
+      tabIndex={-1}
     >
       {children}
 

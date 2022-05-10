@@ -38,8 +38,9 @@ const mockItemCoordinates = { lat: 4, lng: 36 }
 jest.mock('shared/services/reverse-geocoder')
 
 jest.mock('./Selector', () => () => {
-  const { fetchLocation, close, removeItem, setItem, setLocation } =
-    mockUseContext(mockAssetSelectContext)
+  const { fetchLocation, removeItem, setItem, setLocation } = mockUseContext(
+    mockAssetSelectContext
+  )
 
   const item: Item = {
     ...mockItem,

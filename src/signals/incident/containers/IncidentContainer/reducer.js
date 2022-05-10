@@ -17,6 +17,8 @@ import {
   REMOVE_QUESTION_DATA,
   GET_QUESTIONS_ERROR,
   SET_LOADING_DATA,
+  SHOW_MAP,
+  CLOSE_MAP,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -46,6 +48,7 @@ export const initialState = fromJS({
   },
   loading: false,
   loadingData: false,
+  mapActive: false,
   usePredictions: true,
   classificationPrediction: null,
 })
@@ -181,6 +184,12 @@ export default (state = initialState, action) => {
 
     case SET_LOADING_DATA:
       return state.set('loadingData', action.payload)
+
+    case SHOW_MAP:
+      return state.set('mapActive', true)
+
+    case CLOSE_MAP:
+      return state.set('mapActive', false)
 
     default:
       return state

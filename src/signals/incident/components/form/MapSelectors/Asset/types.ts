@@ -5,13 +5,11 @@ import type { LatLngLiteral } from 'leaflet'
 import type { Location } from 'types/incident'
 import type { Address } from 'types/address'
 import type { FormOptions } from 'types/reactive-form'
-import type { EventHandler, Meta, Item, FeatureType } from '../types'
+import type { Meta, Item, FeatureType } from '../types'
 import type { FormFieldProps } from '../../FormField/FormField'
 
 export interface AssetSelectValue {
   address?: Address
-  close: () => void
-  edit: EventHandler
   layer?: FC
   coordinates?: LatLngLiteral
   message?: string
@@ -35,6 +33,5 @@ export interface SummaryProps {
   address?: Address
   coordinates?: LatLngLiteral
   selection?: Item
-  edit?: EventHandler
   featureTypes: FeatureType[]
 }

@@ -11,6 +11,7 @@ export interface ApplicationRootState {
   readonly global: AppState
   readonly categories: CategoriesState
   readonly test?: any
+  readonly incidentContainer?: any
 }
 
 export interface InjectedStore extends Store {
