@@ -381,7 +381,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             label={
               <>
                 <strong>
-                  {state.check.checked ? state.text.label : 'Toelichting'}
+                  {state.check.checked && state.flags.hasEmail
+                    ? state.text.label
+                    : 'Toelichting'}
                 </strong>
                 {!state.text.required && !emailIsNotSent && (
                   <span>&nbsp;(niet verplicht)</span>
