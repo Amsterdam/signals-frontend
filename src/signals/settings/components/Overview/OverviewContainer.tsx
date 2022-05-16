@@ -1,9 +1,14 @@
 import { useSelector } from 'react-redux'
-import { makeSelectUserCanAccess } from 'containers/App/selectors'
+import configuration from 'shared/services/configuration/configuration'
+import {
+  makeSelectUserCan,
+  makeSelectUserCanAccess,
+} from 'containers/App/selectors'
 import Overview from './components/Overview'
 
 export default function OverviewContainer() {
   const userCanAccess = useSelector(makeSelectUserCanAccess)
+  const userCan = useSelector(makeSelectUserCan)
 
   return (
     <Overview
@@ -13,6 +18,9 @@ export default function OverviewContainer() {
         groups: userCanAccess('groups'),
         users: userCanAccess('userForm'),
         categories: userCanAccess('categories'),
+        export:
+          configuration.featureFlags.enableCsvExport &&
+          userCan('sia_signal_report'),
       }}
     />
   )
