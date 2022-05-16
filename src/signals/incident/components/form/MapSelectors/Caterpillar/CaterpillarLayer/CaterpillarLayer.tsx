@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
 import L from 'leaflet'
 import { Marker } from '@amsterdam/arm-core'
@@ -69,7 +69,7 @@ export const CaterpillarLayer: FC = () => {
           type: typeValue,
           description,
           status: featureStatusType?.typeValue,
-          location,
+          coordinates,
           label: [description, featureId].filter(Boolean).join(' - '),
         }
 
