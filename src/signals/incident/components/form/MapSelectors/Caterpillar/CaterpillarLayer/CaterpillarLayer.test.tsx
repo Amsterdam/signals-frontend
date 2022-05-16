@@ -83,9 +83,7 @@ describe('CaterpillarLayer', () => {
         description: 'Eikenboom',
         type: 'Eikenboom',
         GlobalID: feature?.properties.GlobalID,
-        location: {
-          coordinates,
-        },
+        coordinates,
         label: `Eikenboom - ${featureId}`,
       },
       { coordinates }

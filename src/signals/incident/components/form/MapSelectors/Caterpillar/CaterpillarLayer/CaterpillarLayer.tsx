@@ -69,7 +69,7 @@ export const CaterpillarLayer: FC = () => {
           type: typeValue,
           description,
           status: featureStatusType?.typeValue,
-          location,
+          coordinates,
           label: [description, featureId].filter(Boolean).join(' - '),
         }
 
