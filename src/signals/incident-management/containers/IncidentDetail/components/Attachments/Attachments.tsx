@@ -17,9 +17,16 @@ import type { FC } from 'react'
 import Button from 'components/Button'
 import { useCallback, useState } from 'react'
 import { useContext } from 'react'
+import { useSelector } from 'react-redux'
+import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
+
+const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
+const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
+const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
+const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
 
 const Wrapper = styled.article`
   contain: content;
@@ -136,6 +143,8 @@ interface AttachmentsProps {
   className: string
   add: (file: File) => void
   remove: (attachment: Attachment) => void
+  isChildIncident: boolean
+  isParentIncident: boolean
   isRemoving: boolean
   uploadProgress: number
   uploadSuccess: boolean
@@ -147,12 +156,16 @@ const Attachments: FC<AttachmentsProps> = ({
   className,
   add,
   remove,
+  isChildIncident,
+  isParentIncident,
   isRemoving,
   uploadProgress,
 }) => {
   const { preview } = useContext(IncidentDetailContext)
   const [files, setFiles] = useState<Files>([])
   const hasAttachments = attachments.length > 0 || files.length > 0
+  const userCan = useSelector(makeSelectUserCan)
+  const user = useSelector(makeSelectUser)
 
   const handleChange = useCallback(
     (newFiles) => {
@@ -170,6 +183,21 @@ const Attachments: FC<AttachmentsProps> = ({
   useEffect(() => {
     setFiles([])
   }, [attachments])
+
+  const canDeleteAttachment = useCallback(
+    (attachment) => {
+      const canUser =
+        userCan(DELETE_OTHER) ||
+        (attachment.created_by && attachment.created_by === user?.username)
+      const canChild = isChildIncident && userCan(DELETE_CHILD)
+      const canParent = isParentIncident && userCan(DELETE_PARENT)
+      const canNormal =
+        !isChildIncident && !isParentIncident && userCan(DELETE_NORMAL)
+
+      return canUser && (canChild || canParent || canNormal)
+    },
+    [isChildIncident, isParentIncident, user, userCan]
+  )
 
   return (
     <Wrapper className={className}>
@@ -202,18 +230,22 @@ const Attachments: FC<AttachmentsProps> = ({
                 {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
               </StyledDate>
             </StyledDetails>
-            <StyledButton
-              icon={<img src="/assets/images/icon-delete.svg" alt="Bewerken" />}
-              iconSize={18}
-              onClick={(event) => {
-                event.stopPropagation()
-                window.confirm(
-                  `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
-                ) && remove(attachment)
-              }}
-              variant="application"
-              disabled={isRemoving}
-            />
+            {canDeleteAttachment(attachment) && (
+              <StyledButton
+                icon={
+                  <img src="/assets/images/icon-delete.svg" alt="Bewerken" />
+                }
+                iconSize={18}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  window.confirm(
+                    `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
+                  ) && remove(attachment)
+                }}
+                variant="application"
+                disabled={isRemoving}
+              />
+            )}
           </StyledBox>
         )
       })}
@@ -232,7 +264,12 @@ const Attachments: FC<AttachmentsProps> = ({
           )}
         </StyledBox>
       ))}
-      <FileInput name="addPhoto" label="Foto toevoegen" onChange={handleChange}>
+      <FileInput
+        multiple={false}
+        name="addPhoto"
+        label="Foto toevoegen"
+        onChange={handleChange}
+      >
         <Button
           forwardedAs="span"
           variant={hasAttachments ? 'textButton' : 'application'}

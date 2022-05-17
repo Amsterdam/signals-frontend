@@ -8,6 +8,7 @@ interface FileInputProps {
   minFileSize?: number
   maxFileSize?: number
   allowedFileTypes?: string[]
+  multiple?: boolean
   name: string
   label: string
   helpText?: string
@@ -21,6 +22,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
   allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
   files = [],
   errorMessages = [],
+  multiple = true,
   name,
   helpText,
   onChange,
@@ -49,7 +51,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
             accept={allowedFileTypes.join(',')}
             onChange={addFiles}
             name={name}
-            multiple
+            multiple={multiple}
             aria-label="Toevoegen foto"
           />
 

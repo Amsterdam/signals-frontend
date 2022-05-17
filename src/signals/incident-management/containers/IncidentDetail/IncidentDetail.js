@@ -79,6 +79,8 @@ const IncidentDetail = () => {
   const storeDispatch = useDispatch()
   const { id } = useParams()
   const [isRemovingAttachment, setRemovingAttachment] = useState(false)
+  const [isParent, setIsParent] = useState(false)
+  const [isChild, setIsChild] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
     error,
@@ -215,17 +217,18 @@ const IncidentDetail = () => {
   const retrieveUnderlyingData = useCallback(() => {
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
 
-    // retrieve attachments only once per page load
     if (!state.attachments) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
     }
 
-    // retrieve children only when an incident has children
-    const hasChildren = incident._links['sia:children']?.length > 0
+    const isParent = incident._links['sia:children']?.length > 0
+    setIsParent(isParent)
+    const isChild = Boolean(incident._links['sia:parent'])
+    setIsChild(isChild)
 
-    if (hasChildren) {
+    if (isParent) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
@@ -368,6 +371,8 @@ const IncidentDetail = () => {
             attachments={state.attachments || []}
             add={addAttachment}
             remove={removeAttachment}
+            isChildIncident={isChild}
+            isParentIncident={isParent}
             isRemoving={isRemovingAttachment}
             uploadProgress={uploadProgress}
             uploadSuccess={uploadSuccess}
