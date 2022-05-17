@@ -15,7 +15,9 @@ const Markdown: FC<ReactMarkdownOptions> = ({ children, ...props }) => (
   <ReactMarkdown
     components={{
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      a: ({ node, ...props }) => <Link variant="inline" {...props} />,
+      a: ({ node, ...props }) => (
+        <Link tabIndex={-1} variant="inline" {...props} />
+      ),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       p: ({ node, color, ...props }) => <Paragraph {...props} />,
     }}
