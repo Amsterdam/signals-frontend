@@ -12,6 +12,8 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import Map from 'components/Map'
+import { useDispatch } from 'react-redux'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 const Wrapper = styled.div`
   position: relative;
@@ -34,9 +36,11 @@ const StyledMap = styled(Map)`
 `
 
 const Intro = () => {
-  const { edit, coordinates } = useContext(AssetSelectContext)
+  const { coordinates } = useContext(AssetSelectContext)
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
+
+  const dispatch = useDispatch()
 
   const mapOptions = useMemo<MapOptions>(
     () => ({
@@ -61,7 +65,11 @@ const Intro = () => {
       />
 
       <ButtonBar>
-        <Button data-testid="chooseOnMap" onClick={edit} variant="primary">
+        <Button
+          data-testid="chooseOnMap"
+          onClick={() => dispatch(showMap())}
+          variant="primary"
+        >
           Kies locatie
         </Button>
       </ButtonBar>

@@ -7,11 +7,14 @@ import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import PreviousButton from 'components/PreviousButton'
 import NextButton from 'components/NextButton'
 
-import type { FC, SyntheticEvent } from 'react'
+import type { SyntheticEvent } from 'react'
 import type {
   FormAction,
   WizardSection,
 } from 'signals/incident/definitions/wizard'
+import { useSelector } from 'react-redux'
+import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const Nav = styled.div`
   align-items: center;
@@ -43,8 +46,8 @@ interface IncidentNavigationProps {
   }
 }
 
-const IncidentNavigation: FC<IncidentNavigationProps> = ({ meta }) => {
-  const { wizard, handleSubmit } = meta
+const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
+  const { wizard } = meta
 
   return (
     <WithWizard
@@ -53,31 +56,14 @@ const IncidentNavigation: FC<IncidentNavigationProps> = ({ meta }) => {
         const wizardStep = currentStep !== 'bedankt' && wizard[currentStep]
 
         if (!wizardStep) return null
-
         return (
           wizardStep && (
-            <Nav className="incident-navigation">
-              {wizardStep.nextButtonLabel && (
-                <NextButton
-                  onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
-                  data-testid="nextButton"
-                >
-                  <span className="value">{wizardStep.nextButtonLabel}</span>
-                </NextButton>
-              )}
-
-              {wizardStep.previousButtonLabel ? (
-                <PreviousButton
-                  className={wizardStep.previousButtonClass}
-                  onClick={previous}
-                  data-testid="previousButton"
-                >
-                  {wizardStep.previousButtonLabel}
-                </PreviousButton>
-              ) : (
-                <span />
-              )}
-            </Nav>
+            <WizardStep
+              wizardStep={wizardStep}
+              meta={meta}
+              next={next}
+              previous={previous}
+            />
           )
         )
       }}
@@ -85,4 +71,46 @@ const IncidentNavigation: FC<IncidentNavigationProps> = ({ meta }) => {
   )
 }
 
+interface WizardStepProps extends IncidentNavigationProps {
+  wizardStep: WizardSectionProp
+  next: () => void
+  previous: () => void
+}
+
+const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
+  const { handleSubmit } = meta
+
+  /**
+   * We should refactor reducers to use typescript, then use following types here instead of any.
+   */
+  const { mapActive } = useSelector(makeSelectIncidentContainer)
+
+  return (
+    (!mapActive && (
+      <Nav className="incident-navigation">
+        {wizardStep.nextButtonLabel && (
+          <NextButton
+            onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
+            data-testid="nextButton"
+          >
+            <span className="value">{wizardStep.nextButtonLabel}</span>
+          </NextButton>
+        )}
+
+        {wizardStep.previousButtonLabel ? (
+          <PreviousButton
+            className={wizardStep.previousButtonClass}
+            onClick={previous}
+            data-testid="previousButton"
+          >
+            {wizardStep.previousButtonLabel}
+          </PreviousButton>
+        ) : (
+          <span />
+        )}
+      </Nav>
+    )) ||
+    null
+  )
+}
 export default IncidentNavigation

@@ -100,9 +100,16 @@ export const makeSelectUserCanAccess = createSelector(
       const departmentForm = ['add_department', 'change_department']
       const categories = ['view_category', 'add_category', 'change_category']
       const categoryForm = ['add_category', 'change_category']
+      const csvExport = ['sia_signal_report']
 
       const requiredPerms: Record<string, string[]> = {
-        settings: [...groups, ...userForm, ...departments, ...categories],
+        settings: [
+          ...groups,
+          ...userForm,
+          ...departments,
+          ...categories,
+          ...csvExport,
+        ],
         groups,
         groupForm,
         users,
@@ -111,6 +118,7 @@ export const makeSelectUserCanAccess = createSelector(
         departmentForm,
         categories,
         categoryForm,
+        csvExport,
       }
 
       if (!Object.keys(requiredPerms).includes(section)) {

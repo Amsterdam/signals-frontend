@@ -9,13 +9,9 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import Summary from 'components/Summary'
-import type {
-  EventHandler,
-  FeatureStatusType,
-  FeatureType,
-  Item,
-  Meta,
-} from '../types'
+import { useSelector } from 'react-redux'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
+import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import { AssetSelectProvider } from './context'
@@ -60,8 +56,8 @@ export interface AssetSelectProps {
 
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
-  const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
+  const { mapActive } = useSelector(makeSelectIncidentContainer)
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
@@ -152,18 +148,6 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     [updateIncident, getUpdatePayload]
   )
 
-  const edit = useCallback<EventHandler>(
-    (event) => {
-      event.preventDefault()
-      setShowMap(true)
-    },
-    [setShowMap]
-  )
-
-  const close = useCallback<() => void>(() => {
-    setShowMap(false)
-  }, [setShowMap])
-
   useEffect(() => {
     if (!meta.featureTypes.length) return
 
@@ -194,8 +178,6 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       value={{
         address,
         coordinates,
-        close,
-        edit,
         layer,
         message,
         meta: {
@@ -210,16 +192,15 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         setMessage,
       }}
     >
-      {!showMap && !hasSelection && <Intro />}
+      {!mapActive && !hasSelection && <Intro />}
 
-      {showMap && <Selector />}
+      {mapActive && <Selector />}
 
-      {!showMap && hasSelection && (
+      {!mapActive && hasSelection && (
         <Summary
           address={address}
           coordinates={coordinates}
           selection={selection}
-          edit={edit}
           featureTypes={featureTypes}
         />
       )}

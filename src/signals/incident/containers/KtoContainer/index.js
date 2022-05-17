@@ -98,7 +98,7 @@ export const KtoContainer = () => {
 
     const opts = options.results
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
-      .map((option, index) => ({ key: `${index}`, value: option.text }))
+      .map((option, index) => ({ key: `key-${index}`, value: option.text }))
 
     opts.push({ key: 'anders', value: 'Anders, namelijk...' })
 

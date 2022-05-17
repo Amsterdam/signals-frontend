@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import 'jest-styled-components'
 import { render, screen, within } from '@testing-library/react'
 import fetchMock from 'jest-fetch-mock'
@@ -13,12 +13,15 @@ import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { MapOptions } from 'leaflet'
 import type { MapProps } from 'components/Map/Map'
+import * as reactRedux from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 
 import Selector, { MAP_LOCATION_ZOOM } from './Selector'
+import MockInstance = jest.MockInstance
 
 jest.useFakeTimers()
 
@@ -51,8 +54,16 @@ jest.mock('components/Map', () => {
   }
 })
 
+const dispatch = jest.fn()
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+      global.document,
+      'dispatchEvent'
+    )
+    dispatch.mockReset()
+    dispatchEventSpy.mockReset()
     fetchMock.resetMocks()
     fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
@@ -123,11 +134,20 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
   it('should call close when closing the selector', async () => {
     render(withAssetSelectContext(<Selector />))
-    expect(contextValue.close).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     const button = await screen.findByText('Meld dit object')
     userEvent.click(button)
-    expect(contextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
+  })
+
+  it('should call close when clicking mapCloseButton', async () => {
+    render(withAssetSelectContext(<Selector />))
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+
+    const button = screen.queryByTestId('mapCloseButton')!
+    userEvent.click(button)
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('renders detail panel', async () => {
@@ -185,41 +205,33 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
   })
 
-  it('dispatches the location when a location is retrieved via geolocation', async () => {
-    const coordinates = { lat: 52.3731081, lng: 4.8932945 }
+  it('gets the current position when a location is retrieved via geolocation', async () => {
+    const { coordinates } = contextValue
     const coords = {
       accuracy: 50,
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
-    }
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn().mockImplementation((success) =>
-        Promise.resolve(
-          success({
-            coords,
-          })
-        )
-      ),
+      latitude: coordinates?.lat,
+      longitude: coordinates?.lng,
     }
 
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
-      writable: true,
-    })
+    const getCurrentPosition = jest.fn().mockImplementation((success) =>
+      Promise.resolve(
+        success({
+          coords,
+        })
+      )
+    )
 
-    const { setLocation } = contextValue
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    global.navigator.geolocation = { getCurrentPosition }
 
     render(withAssetSelectContext(<Selector />))
 
-    expect(setLocation).not.toHaveBeenCalled()
+    expect(getCurrentPosition).not.toHaveBeenCalled()
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
-    await screen.findByTestId('gpsButton')
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates,
-    })
+    expect(getCurrentPosition).toHaveBeenCalled()
   })
 
   it('only renders the zoom message when feature types are available', () => {
@@ -265,14 +277,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       value: mockGeolocation,
       writable: true,
     })
-
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('locationMarker')).not.toBeInTheDocument()
-
-    userEvent.click(screen.getByTestId('gpsButton'))
-
-    expect(screen.getByTestId('locationMarker')).toBeInTheDocument()
   })
 
   it('shows a notification whenever the location cannot be retrieved', () => {

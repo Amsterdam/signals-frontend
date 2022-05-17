@@ -3,15 +3,15 @@
 import { useContext as mockUseContext } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as reactRedux from 'react-redux'
 
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import { withAppContext } from 'test/utils'
 import mockAssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'jest-mock'
-
 import type { Location } from 'types/incident'
+import { Provider } from 'react-redux'
+import { setupStore } from 'signals/incident/containers/IncidentContainer/testReducer'
 import {
   UNKNOWN_TYPE,
   UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
@@ -37,9 +37,12 @@ const mockItemCoordinates = { lat: 4, lng: 36 }
 
 jest.mock('shared/services/reverse-geocoder')
 
+const mockMapClose = jest.fn()
+
 jest.mock('./Selector', () => () => {
-  const { fetchLocation, close, removeItem, setItem, setLocation } =
-    mockUseContext(mockAssetSelectContext)
+  const { fetchLocation, removeItem, setItem, setLocation } = mockUseContext(
+    mockAssetSelectContext
+  )
 
   const item: Item = {
     ...mockItem,
@@ -75,7 +78,7 @@ jest.mock('./Selector', () => () => {
       <span
         aria-hidden="true"
         data-testid="mapCloseButton"
-        onClick={close}
+        onClick={() => mockMapClose()}
         role="button"
         tabIndex={0}
       />
@@ -127,8 +130,6 @@ const geocodedResponse = {
   },
 }
 
-jest.mock('react-redux', () => jest.requireActual('react-redux'))
-
 describe('AssetSelect', () => {
   let props: AssetSelectProps
   const updateIncident = jest.fn()
@@ -150,8 +151,6 @@ describe('AssetSelect', () => {
         },
       },
     }
-
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(undefined)
   })
 
   afterEach(() => {
@@ -159,7 +158,13 @@ describe('AssetSelect', () => {
   })
 
   it('should render the Intro', () => {
-    render(withAppContext(<AssetSelect {...props} />))
+    render(
+      withAppContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} />
+        </Provider>
+      )
+    )
 
     expect(screen.queryByTestId('assetSelectIntro')).toBeInTheDocument()
     expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
@@ -167,7 +172,13 @@ describe('AssetSelect', () => {
   })
 
   it('should render the Selector', () => {
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    render(
+      withAppContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByText(/kies locatie/i))
 
@@ -176,7 +187,15 @@ describe('AssetSelect', () => {
   })
 
   it('should close the selector component', () => {
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    const store = setupStore()
+
+    render(
+      withAppContext(
+        <Provider store={store}>
+          <AssetSelect {...props} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByText(/kies locatie/i))
 
@@ -184,7 +203,7 @@ describe('AssetSelect', () => {
 
     userEvent.click(screen.getByTestId('mapCloseButton'))
 
-    expect(screen.queryByTestId('assetSelectSelector')).not.toBeInTheDocument()
+    expect(mockMapClose).toBeCalled()
   })
 
   it('renders the Summary when an object has been selected', () => {
@@ -210,11 +229,6 @@ describe('AssetSelect', () => {
   })
 
   it('renders the Summary when a location has been pinned', () => {
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockImplementationOnce(() => mockLatLng)
-      .mockImplementationOnce(() => mockAddress)
-
     const value = {
       selection: {
         type: UNREGISTERED_TYPE,
@@ -235,8 +249,13 @@ describe('AssetSelect', () => {
     mocked(reverseGeocoderService).mockImplementation(() =>
       Promise.resolve(geocodedResponse)
     )
-
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByText(/kies locatie/i))
 
@@ -288,7 +307,13 @@ describe('AssetSelect', () => {
       Promise.resolve(geocodedResponse)
     )
 
-    render(withAssetSelectContext(<AssetSelect {...props} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByText(/kies locatie/i))
 
@@ -329,11 +354,18 @@ describe('AssetSelect', () => {
       name: 'FooBar',
     }
 
+    const store = setupStore()
+
     const { rerender } = render(
-      withAssetSelectContext(<AssetSelect {...props} value={value} />, {
-        ...contextValue,
-        meta,
-      })
+      withAssetSelectContext(
+        <Provider store={store}>
+          <AssetSelect {...props} value={value} />
+        </Provider>,
+        {
+          ...contextValue,
+          meta,
+        }
+      )
     )
 
     // open map
@@ -352,9 +384,12 @@ describe('AssetSelect', () => {
 
     // setting an item will dispatch an action to the global store and, in turn, will rerender
     // the AssetSelect component, so we need to do that as well:
+
     rerender(
       withAssetSelectContext(
-        <AssetSelect {...props} value={{ selection: item }} />,
+        <Provider store={store}>
+          <AssetSelect {...props} value={{ selection: item }} />
+        </Provider>,
         {
           ...contextValue,
           meta,
@@ -362,7 +397,7 @@ describe('AssetSelect', () => {
       )
     )
 
-    // simulate click on map
+    // // simulate click on map
     userEvent.click(screen.getByTestId('assetSelectSelector'))
 
     await screen.findByTestId('assetSelectSelector')
@@ -396,7 +431,13 @@ describe('AssetSelect', () => {
       location,
     }
 
-    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} value={value} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -432,7 +473,13 @@ describe('AssetSelect', () => {
       location,
     }
 
-    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} value={value} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -470,7 +517,13 @@ describe('AssetSelect', () => {
       location,
     }
 
-    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} value={value} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 
@@ -495,7 +548,13 @@ describe('AssetSelect', () => {
       },
     }
 
-    render(withAssetSelectContext(<AssetSelect {...props} value={value} />))
+    render(
+      withAssetSelectContext(
+        <Provider store={setupStore()}>
+          <AssetSelect {...props} value={value} />
+        </Provider>
+      )
+    )
 
     userEvent.click(screen.getByTestId('mapEditButton'))
 

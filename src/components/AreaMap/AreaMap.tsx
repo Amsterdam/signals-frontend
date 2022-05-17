@@ -198,6 +198,7 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
             options={{
               icon: currentIncidentIcon,
               interactive: false,
+              keyboard: false,
               zIndexOffset: CURRENT_INCIDENT_MARKER_Z,
             }}
           />
@@ -207,7 +208,9 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
           setInstance={setMarkers}
           getIsSelectedCluster={getIsSelectedCluster}
         />
-        <ViewerContainer topRight={<MapCloseButton onClick={onClose} />} />
+        <ViewerContainer
+          topRight={<MapCloseButton onClick={onClose} tabIndex={0} />}
+        />
       </Map>
     </Wrapper>
   )

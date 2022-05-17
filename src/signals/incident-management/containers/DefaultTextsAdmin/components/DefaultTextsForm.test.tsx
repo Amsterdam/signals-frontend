@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
@@ -87,5 +87,66 @@ describe('<DefaultTextsForm />', () => {
       screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(2)
+  })
+
+  describe('<checkbox disabled', () => {
+    const fields = {
+      item0: FormBuilder.group({
+        title: [''],
+        text: [''],
+        is_active: [true],
+      }),
+    }
+
+    const form = FormBuilder.group({
+      ...fields,
+      categoryUrl: null,
+      state: null,
+    })
+
+    const props = {
+      item: 'item0',
+      form: form as unknown as FormArray,
+      itemsLength: 1,
+      index: 0,
+      onCheck: jest.fn(),
+      changeOrdering: jest.fn(),
+    }
+
+    it('disables the checkbox correctly', () => {
+      const { rerender } = render(
+        withAppContext(<DefaultTextsForm {...props} />)
+      )
+
+      expect(
+        screen.getByTestId(`defaultTextFormForm${props.index}`)
+      ).toBeInTheDocument()
+
+      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+      let title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, {
+        target: { value: 'een titel in het titelveld' },
+      })
+
+      rerender(withAppContext(<DefaultTextsForm {...props} />))
+
+      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+      let text0 = screen.getByTestId(`text0`)
+      title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, { target: { value: '' } })
+      fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
+
+      rerender(withAppContext(<DefaultTextsForm {...props} />))
+
+      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
+      text0 = screen.getByTestId(`text0`)
+      title0 = screen.getByTestId(`title0`)
+      fireEvent.change(title0, { target: { value: 'titel in het titelveld' } })
+      fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
+
+      rerender(withAppContext(<DefaultTextsForm {...props} />))
+
+      expect(screen.getByTestId(`is_active0`)).not.toBeDisabled()
+    })
   })
 })

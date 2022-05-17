@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import { useCallback, useState, useContext } from 'react'
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+import { useCallback, useState, useContext, useEffect } from 'react'
+import { useFetch } from 'hooks'
 import {
   Paragraph,
   Label,
@@ -19,13 +20,20 @@ import {
   selectionIsNearby,
   UNKNOWN_TYPE,
   NEARBY_TYPE,
+  UNREGISTERED_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
 
-import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
-
-import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
+import type { FeatureCollection } from 'geojson'
+import { formatAddress } from 'shared/services/format-address'
 import { ChevronLeft } from '@amsterdam/asc-assets'
+import configuration from 'shared/services/configuration/configuration'
+import { useSelector } from 'react-redux'
+import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
+import type { LatLngTuple } from 'leaflet'
+import { useDispatch } from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import { formattedDate } from '../utils'
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
 import {
@@ -54,17 +62,40 @@ const nearbyLegendItem = {
   typeValue: NEARBY_TYPE,
 }
 
+type Point = {
+  type: 'Point'
+  coordinates: LatLngTuple
+}
+
+type Properties = {
+  category: {
+    name: string
+  }
+  created_at: string
+}
+
+type SelectionIncident = {
+  categoryName?: string
+  createdAt?: string
+}
+
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [optionsList, setOptionsList] = useState(null)
+  const [selectionIncident, setSelectionIncident] = useState<SelectionIncident>(
+    {}
+  )
   const [showAddressPanel, setShowAddressPanel] = useState(false)
-  const { address, selection, removeItem, setItem, setLocation, close, meta } =
+  const dispatch = useDispatch()
+  const { address, selection, removeItem, setItem, setLocation, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
+  const { category, subcategory } = useSelector(makeSelectCategory)
+  const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
 
   const addressValue = address ? formatAddress(address) : ''
 
@@ -128,10 +159,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         onSetItem()
-        close()
+        dispatch(closeMap())
       }
     },
-    [close, onSetItem]
+    [onSetItem, dispatch]
   )
 
   const toggleLegend = useCallback(() => {
@@ -158,6 +189,39 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setOptionsList(null)
   }, [removeItem])
 
+  useEffect(() => {
+    if (!selectionOnMap || !selection?.coordinates || !category || !subcategory)
+      return
+
+    const searchParams = new URLSearchParams({
+      maincategory_slug: category,
+      category_slug: subcategory,
+      lat: selection?.coordinates.lat.toString(),
+      lon: selection?.coordinates.lng.toString(),
+      group_by: 'category',
+    })
+
+    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
+  }, [get, selectionOnMap, selection, category, subcategory])
+
+  useEffect(() => {
+    setSelectionIncident({})
+
+    if (selectionNearby) {
+      setSelectionIncident({
+        categoryName: selection?.label,
+        createdAt: selection?.description,
+      })
+    }
+
+    if (selectionOnMap && data?.features) {
+      setSelectionIncident({
+        categoryName: data?.features[0].properties.category.name,
+        createdAt: formattedDate(data?.features[0].properties.created_at),
+      })
+    }
+  }, [data?.features, selectionOnMap, selectionNearby, selection])
+
   return (
     <PanelContent
       data-testid="detailPanel"
@@ -170,7 +234,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           {language.subTitle || 'U kunt maar een object kiezen'}
           <Description>
             {language.description ||
-              'Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart'}
+              'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
           </Description>
         </Paragraph>
 
@@ -195,11 +259,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           />
         )}
 
-        {selectionNearby && (
+        {selectionIncident?.categoryName && selectionIncident?.createdAt && (
           <SelectionNearby>
             <Paragraph strong>Deze melding is al bij ons bekend:</Paragraph>
-            <strong>{selection?.label}</strong>
-            <span>{selection?.description}</span>
+            <strong>{selectionIncident.categoryName}</strong>
+            <span>{selectionIncident.createdAt}</span>
           </SelectionNearby>
         )}
 
@@ -207,6 +271,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           <div data-testid="unregisteredObjectPanel">
             <Checkbox
               id="unregisteredAssetCheckbox"
+              data-testid="unregisteredAssetCheckbox"
               checked={showObjectIdInput}
               onChange={onCheck}
             />
@@ -232,7 +297,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
                   onBlur={onSetItem}
                   onChange={onChange}
                   onKeyUp={onKeyUp}
-                  onSubmit={close}
+                  onSubmit={() => dispatch(closeMap())}
                   value={unregisteredAssetValue}
                 />
               </>
@@ -240,7 +305,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           </div>
         )}
 
-        <StyledButton onClick={close} variant="primary">
+        <StyledButton
+          onClick={() => dispatch(closeMap())}
+          variant="primary"
+          tabIndex={0}
+        >
           {language.submit || 'Meld dit object'}
         </StyledButton>
       </ScrollWrapper>

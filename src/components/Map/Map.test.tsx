@@ -6,14 +6,21 @@ import * as reactRedux from 'react-redux'
 import { withAppContext } from 'test/utils'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import Map from './Map'
+import MockInstance = jest.MockInstance
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+  global.document,
+  'dispatchEvent'
+)
 
 describe('components/Map', () => {
   beforeEach(() => {
     dispatch.mockReset()
+    dispatchEventSpy.mockReset()
   })
 
   it('should render the map', () => {
@@ -99,5 +106,16 @@ describe('components/Map', () => {
 
     expect(maxZoomFromConfig).toEqual(configuration.map.options.maxZoom)
     expect(minZoomFromConfig).toEqual(configuration.map.options.minZoom)
+  })
+  it('should call dispatch with closeMap when unmounting', () => {
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue({ mapActive: true })
+
+    const { unmount } = render(withAppContext(<Map mapOptions={MAP_OPTIONS} />))
+
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
+
+    unmount()
+
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 })

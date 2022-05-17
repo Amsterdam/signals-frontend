@@ -117,6 +117,35 @@ dd {
   height: 100vh;
 }
 
+#spinner {
+  position: absolute;
+  left: calc(50% - 50px);
+  top: 100px;
+  transform: translate(-50%, -50%);
+  fill: #ec0000;
+  transform-origin: 50% 50%;
+  animation: rotate 2s linear infinite;
+  width: 100px;
+  height: 100px;
+}
+
+#spinner-background {
+  min-height: 100%;
+  min-width: 100%;
+  background-color: #fff;
+  height: 100vh;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media print {
   html,
   body {

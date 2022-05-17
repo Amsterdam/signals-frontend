@@ -21,20 +21,22 @@ export type Sections =
 export type FormAction = 'UPDATE_INCIDENT' | 'CREATE_INCIDENT'
 
 export type WizardSection = {
-  [key in Sections]: {
-    stepLabel?: string
-    countAsStep?: boolean
-    form?: any
-    formFactory?: any
-    label?: string
-    subHeader?: string
-    previewFactory?: (incident: Incident) => any
-    sectionLabels?: SectionLabels
-    previousButtonLabel?: string
-    previousButtonClass?: string
-    nextButtonLabel?: string
-    formAction?: FormAction
-  }
+  [key in Sections]: WizardSectionProp
+}
+
+export type WizardSectionProp = {
+  stepLabel?: string
+  countAsStep?: boolean
+  form?: any
+  formFactory?: any
+  label?: string
+  subHeader?: string
+  previewFactory?: (incident: Incident) => any
+  sectionLabels?: SectionLabels
+  previousButtonLabel?: string
+  previousButtonClass?: string
+  nextButtonLabel?: string
+  formAction?: FormAction
 }
 
 export default {
