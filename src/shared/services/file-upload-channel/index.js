@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { buffers, eventChannel, END } from 'redux-saga'
+import { getAuthHeaders } from '../auth/auth'
 
 export default (endpoint, file, id) =>
   eventChannel((emitter) => {
@@ -40,6 +41,10 @@ export default (endpoint, file, id) =>
     }
 
     xhr.open('POST', endpoint, true)
+    const authHeaders = getAuthHeaders()
+    Object.entries(authHeaders).forEach(([header, value]) => {
+      xhr.setRequestHeader(header, value)
+    })
     xhr.send(formData)
 
     return () => {

@@ -25,7 +25,6 @@ function* uploadAttachments(action: UploadAttachmentsAction) {
         payload: {
           file,
           id: action.payload.id,
-          private: true,
         },
       })
     ),
@@ -36,21 +35,16 @@ interface UploadFileAction {
   payload: {
     id?: number
     file?: { name: string }
-    private?: boolean
   }
 }
 
 function* uploadFile(action: UploadFileAction): any {
   const id = action.payload?.id ?? ''
-  const isPrivate = action.payload?.private ?? false
-  const endpoint = isPrivate
-    ? configuration.INCIDENT_PRIVATE_ENDPOINT
-    : configuration.INCIDENT_PUBLIC_ENDPOINT
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel: EventChannel<any> = yield call(
     fileUploadChannel,
-    `${endpoint}${id}/attachments/`,
+    `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`,
     action.payload?.file,
     id
   )
