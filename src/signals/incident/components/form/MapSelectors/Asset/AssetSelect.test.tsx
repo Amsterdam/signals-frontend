@@ -5,19 +5,19 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
-import { withAppContext } from 'test/utils'
+import { history, withAppContext } from 'test/utils'
 import mockAssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'jest-mock'
 import type { Location } from 'types/incident'
 import { Provider } from 'react-redux'
-import { setupStore } from 'signals/incident/containers/IncidentContainer/testReducer'
 import {
   UNKNOWN_TYPE,
   UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
   UNREGISTERED_TYPE,
 } from '../constants'
 import type { Item } from '../types'
+import configureStore from '../../../../../../configureStore'
 import type { AssetSelectProps } from './AssetSelect'
 
 import { initialValue } from './context'
@@ -160,7 +160,7 @@ describe('AssetSelect', () => {
   it('should render the Intro', () => {
     render(
       withAppContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} />
         </Provider>
       )
@@ -174,7 +174,7 @@ describe('AssetSelect', () => {
   it('should render the Selector', () => {
     render(
       withAppContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} />
         </Provider>
       )
@@ -187,7 +187,7 @@ describe('AssetSelect', () => {
   })
 
   it('should close the selector component', () => {
-    const store = setupStore()
+    const store = configureStore({}, history)
 
     render(
       withAppContext(
@@ -251,7 +251,7 @@ describe('AssetSelect', () => {
     )
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} />
         </Provider>
       )
@@ -309,7 +309,7 @@ describe('AssetSelect', () => {
 
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} />
         </Provider>
       )
@@ -354,7 +354,7 @@ describe('AssetSelect', () => {
       name: 'FooBar',
     }
 
-    const store = setupStore()
+    const store = configureStore({}, history)
 
     const { rerender } = render(
       withAssetSelectContext(
@@ -433,7 +433,7 @@ describe('AssetSelect', () => {
 
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} value={value} />
         </Provider>
       )
@@ -475,7 +475,7 @@ describe('AssetSelect', () => {
 
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} value={value} />
         </Provider>
       )
@@ -519,7 +519,7 @@ describe('AssetSelect', () => {
 
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} value={value} />
         </Provider>
       )
@@ -550,7 +550,7 @@ describe('AssetSelect', () => {
 
     render(
       withAssetSelectContext(
-        <Provider store={setupStore()}>
+        <Provider store={configureStore({}, history)}>
           <AssetSelect {...props} value={value} />
         </Provider>
       )
