@@ -47,18 +47,30 @@ export const renderSections = {
   },
 }
 
-export const successSections = {
-  ja: {
-    title: 'Bedankt voor uw reactie!',
-    body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
-  },
-  nee: {
-    title: 'Bedankt voor uw reactie!',
-    body: `Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.
+export const successSections = configuration.featureFlags
+  .reporterMailHandledNegativeContactEnabled
+  ? {
+      ja: {
+        title: 'Bedankt voor uw reactie!',
+        body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
+      },
+      nee: {
+        title: 'Bedankt voor uw reactie!',
+        body: `Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.
     U ontvangt een email met uw reactie. En u hoort binnen 3 werkdagen wat
     wij ermee gaan doen.`,
-  },
-}
+      },
+    }
+  : {
+      ja: {
+        title: 'Bedankt voor uw feedback!',
+        body: 'We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+      },
+      nee: {
+        title: 'Bedankt voor uw feedback!',
+        body: `We zijn voortdurend bezig onze dienstverlening te verbeteren.`,
+      },
+    }
 
 // eslint-disable-next-line consistent-return
 const reducer = (state, action) => {

@@ -16,6 +16,8 @@ jest.mock('react-router-dom', () => ({
 
 const uuid = 'a7ec1966-1f88-0f9c-d0cb-c64a6f3b05c3'
 
+jest.mock('shared/services/configuration/configuration')
+
 describe('signals/incident/containers/KtoContainer', () => {
   beforeEach(() => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -161,6 +163,25 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     expect(screen.getByTestId('succesSectionBody')).toContainHTML(
       successSections['nee'].body
+    )
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+
+    rerender(withAppContext(<KTOContainer />))
+
+    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+      successSections['nee'].body
+    )
+
+    useParams.mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+      uuid,
+    }))
+
+    rerender(withAppContext(<KTOContainer />))
+
+    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+      successSections['ja'].body
     )
   })
 })
