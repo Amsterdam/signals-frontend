@@ -9,6 +9,10 @@ import {
 } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
+import {
+  Close as CloseIcon,
+  TrashBin as DeleteIcon,
+} from '@amsterdam/asc-assets'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import type { Attachment } from 'types/attachment'
@@ -99,6 +103,12 @@ const StyledDate = styled.div`
   text-overflow: ellipsis;
 `
 
+const StyledError = styled(StyledDate)`
+  padding: 0 4px;
+  border-radius: 2px;
+  background-color: ${themeColor('error')};
+`
+
 const StyledEmployee = StyledDate
 
 const StyledName = styled(StyledDate)`
@@ -132,6 +142,11 @@ const StyledUploadProgress = styled.div<StyledUploadProgressProps>`
     background-color: ${themeColor('primary')};
   }
 `
+const StyledUploadProgressError = styled(StyledUploadProgress)`
+  &::after {
+    background-color: ${themeColor('error')};
+  }
+`
 
 const StyledLoadingIndicator = styled(LoadingIndicator)`
   width: 50px;
@@ -160,6 +175,7 @@ const Attachments: FC<AttachmentsProps> = ({
   isParentIncident,
   isRemoving,
   uploadProgress,
+  uploadError,
 }) => {
   const { preview } = useContext(IncidentDetailContext)
   const [files, setFiles] = useState<Files>([])
@@ -232,9 +248,7 @@ const Attachments: FC<AttachmentsProps> = ({
             </StyledDetails>
             {canDeleteAttachment(attachment) && (
               <StyledButton
-                icon={
-                  <img src="/assets/images/icon-delete.svg" alt="Bewerken" />
-                }
+                icon={<DeleteIcon />}
                 iconSize={18}
                 onClick={(event) => {
                   event.stopPropagation()
@@ -249,21 +263,42 @@ const Attachments: FC<AttachmentsProps> = ({
           </StyledBox>
         )
       })}
-      {files.map((file) => (
-        <StyledBox key={file.src}>
-          <StyledImg src={file.src} />
-          <StyledGradient />
-          <StyledDetails>
-            <StyledName>{file.name}</StyledName>
-            <StyledDate>wordt geüpload</StyledDate>
-          </StyledDetails>
-          {uploadProgress === 1 ? (
-            <StyledLoadingIndicator />
-          ) : (
-            <StyledUploadProgress progress={uploadProgress || 0} />
-          )}
-        </StyledBox>
-      ))}
+      {files.map((file) =>
+        uploadError ? (
+          <StyledBox key={file.src}>
+            <StyledImg src={file.src} />
+            <StyledGradient />
+            <StyledDetails>
+              <StyledName>{file.name}</StyledName>
+              <StyledError>Uploaden mislukt</StyledError>
+            </StyledDetails>
+            <StyledUploadProgressError progress={1} />
+            <StyledButton
+              icon={<CloseIcon />}
+              iconSize={18}
+              onClick={(event) => {
+                event.stopPropagation()
+                setFiles([])
+              }}
+              variant="application"
+            />
+          </StyledBox>
+        ) : (
+          <StyledBox key={file.src}>
+            <StyledImg src={file.src} />
+            <StyledGradient />
+            <StyledDetails>
+              <StyledName>{file.name}</StyledName>
+              <StyledDate>wordt geüpload</StyledDate>
+            </StyledDetails>
+            {uploadProgress === 1 ? (
+              <StyledLoadingIndicator />
+            ) : (
+              <StyledUploadProgress progress={uploadProgress || 0} />
+            )}
+          </StyledBox>
+        )
+      )}
       <FileInput
         multiple={false}
         name="addPhoto"
