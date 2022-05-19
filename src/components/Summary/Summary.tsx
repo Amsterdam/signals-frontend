@@ -17,7 +17,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { selectionIsUndetermined } from 'signals/incident/components/form/MapSelectors/constants'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { useDispatch } from 'react-redux'
-import { showMap } from '../../signals/incident/containers/IncidentContainer/actions'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 const mapWidth = 640
 const mapHeight = 180
