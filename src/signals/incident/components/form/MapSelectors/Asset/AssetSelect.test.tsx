@@ -11,13 +11,13 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { mocked } from 'jest-mock'
 import type { Location } from 'types/incident'
 import { Provider } from 'react-redux'
+import configureStore from 'configureStore'
 import {
   UNKNOWN_TYPE,
   UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
   UNREGISTERED_TYPE,
 } from '../constants'
 import type { Item } from '../types'
-import configureStore from '../../../../../../configureStore'
 import type { AssetSelectProps } from './AssetSelect'
 
 import { initialValue } from './context'

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import configuration from 'shared/services/configuration/configuration'
 import { useSelector } from 'react-redux'
-import { makeSelectIncidentContainer } from '../../signals/incident/containers/IncidentContainer/selectors'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const StyledFooterTop = styled(FooterTop)`
   margin-top: 80px;
