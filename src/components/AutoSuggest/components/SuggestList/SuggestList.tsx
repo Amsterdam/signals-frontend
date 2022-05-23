@@ -20,6 +20,7 @@ const Li = styled.li`
   padding: ${themeSpacing(2, 5)};
   cursor: pointer;
   display: flex;
+  white-space: pre-line;
 
   &:hover,
   &:focus {
@@ -98,7 +99,23 @@ const SuggestList: FC<SuggestListProps> = ({
     [onSelect]
   )
 
-  if (!options.length) {
+  if (options.length === 0) {
+    options = [
+      {
+        id: 'feedback_empty_result',
+        value: 'Wij kennen dit adres niet. \n Probeer het opnieuw.',
+        data: {
+          location: { lat: 0, lng: 0 },
+          address: {
+            openbare_ruimte: '',
+            huisnummer: '',
+            postcode: '',
+            woonplaats: '',
+          },
+        },
+      },
+    ]
+  } else if (!Number.isInteger(options.length)) {
     return null
   }
 
