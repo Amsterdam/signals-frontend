@@ -24,6 +24,7 @@ const StyledHeading = styled(Heading)`
 
 const StyledParagraph = styled(Paragraph)`
   margin-top: ${themeSpacing(5)};
+  white-space: pre-line;
 `
 
 const initialState = {
@@ -45,6 +46,31 @@ export const renderSections = {
     title: 'Het feedback formulier voor deze melding kon niet gevonden worden',
   },
 }
+
+export const successSections = configuration.featureFlags
+  .reporterMailHandledNegativeContactEnabled
+  ? {
+      ja: {
+        title: 'Bedankt voor uw reactie!',
+        body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
+      },
+      nee: {
+        title: 'Bedankt voor uw reactie!',
+        body: `Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.
+    U ontvangt een email met uw reactie. En u hoort binnen 3 werkdagen wat
+    wij ermee gaan doen.`,
+      },
+    }
+  : {
+      ja: {
+        title: 'Bedankt voor uw feedback!',
+        body: 'We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+      },
+      nee: {
+        title: 'Bedankt voor uw feedback!',
+        body: `We zijn voortdurend bezig onze dienstverlening te verbeteren.`,
+      },
+    }
 
 // eslint-disable-next-line consistent-return
 const reducer = (state, action) => {
@@ -108,17 +134,11 @@ export const KtoContainer = () => {
   const parseResponse = useCallback(async () => {
     let payload = ''
 
-    try {
-      const { detail } = errorCheck
-
-      if (detail === 'filled out') {
-        payload = 'FILLED_OUT'
-      } else if (detail === 'too late') {
-        payload = 'TOO_LATE'
-      } else {
-        payload = 'NOT_FOUND'
-      }
-    } catch {
+    if (errorCheck?.detail === 'filled out') {
+      payload = 'FILLED_OUT'
+    } else if (errorCheck?.detail === 'too late') {
+      payload = 'TOO_LATE'
+    } else {
       payload = 'NOT_FOUND'
     }
 
@@ -144,9 +164,11 @@ export const KtoContainer = () => {
         <Column span={12}>
           {isSuccess && (
             <header>
-              <StyledHeading>Bedankt voor uw feedback!</StyledHeading>
-              <StyledParagraph>
-                We zijn voortdurend bezig onze dienstverlening te verbeteren.
+              <StyledHeading>
+                {successSections[satisfactionIndication].title}
+              </StyledHeading>
+              <StyledParagraph data-testid="succesSectionBody">
+                {successSections[satisfactionIndication].body}
               </StyledParagraph>
             </header>
           )}

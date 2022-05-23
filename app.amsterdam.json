@@ -14,7 +14,8 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useStaticMapServer": true
+    "useStaticMapServer": true,
+    "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
