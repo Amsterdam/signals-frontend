@@ -71,9 +71,17 @@ export function findAssetMatch(
 ) {
   return assetData.features.find(
     (assetFeature) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      intersection(assetFeature.geometry?.coordinates, [lat, lng]).length === 2
+      intersection(
+        [
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          assetFeature.geometry?.coordinates[0].toFixed(5),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          assetFeature.geometry?.coordinates[1].toFixed(5),
+        ],
+        [lat.toFixed(5), lng.toFixed(5)]
+      ).length === 2
   )
 }
 
