@@ -71,7 +71,9 @@ const SuggestList: FC<SuggestListProps> = ({
 
   const onSelect = useCallback(
     (option) => {
-      onSelectOption(option)
+      if (option.id !== 'feedbackEmpty') {
+        onSelectOption(option)
+      }
     },
     [onSelectOption]
   )
@@ -99,10 +101,13 @@ const SuggestList: FC<SuggestListProps> = ({
     [onSelect]
   )
 
+  /**
+   * Give feedback when address cannot be found
+   */
   if (options.length === 0) {
     options = [
       {
-        id: 'feedback_empty_result',
+        id: 'feedbackEmpty',
         value: 'Wij kennen dit adres niet. \n Probeer het opnieuw.',
         data: {
           location: { lat: 0, lng: 0 },
