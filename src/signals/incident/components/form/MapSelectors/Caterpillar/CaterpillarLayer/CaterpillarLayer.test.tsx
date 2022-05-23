@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
 
@@ -83,9 +83,7 @@ describe('CaterpillarLayer', () => {
         description: 'Eikenboom',
         type: 'Eikenboom',
         GlobalID: feature?.properties.GlobalID,
-        location: {
-          coordinates,
-        },
+        coordinates,
         label: `Eikenboom - ${featureId}`,
       },
       { coordinates }

@@ -145,7 +145,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
-    const button = screen.queryByTestId('mapCloseButton')!
+    const button = await screen.findByTestId('mapCloseButton')
     userEvent.click(button)
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })

@@ -242,6 +242,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       (status) => event.target.value === status.key
     )
     selectedStatus && dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const defaultTextTemplatesLength = useCallback(
@@ -381,7 +382,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             label={
               <>
                 <strong>
-                  {state.check.checked ? state.text.label : 'Toelichting'}
+                  {state.check.checked && state.flags.hasEmail
+                    ? state.text.label
+                    : 'Toelichting'}
                 </strong>
                 {!state.text.required && !emailIsNotSent && (
                   <span>&nbsp;(niet verplicht)</span>
