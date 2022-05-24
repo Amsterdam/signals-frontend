@@ -10,9 +10,9 @@ export default {
       confirmation_message: {
         meta: {
           type: 'message',
-          value: `Uw melding is bij ons bekend onder nummer: {incident.id}.
+          value: `Uw melding is bij ons bekend onder nummer: {incident.id_display}.
             \n Hebt u een e-mailadres ingevuld? Dan ontvangt u een e-mail met alle gegevens van uw melding.`,
-          valueAuthenticated: `Uw melding is bij ons bekend onder nummer: [{incident.id}](/manage/incident/{incident.id}).
+          valueAuthenticated: `Uw melding is bij ons bekend onder nummer: [{incident.id_display}](/manage/incident/{incident.id}).
             \n Hebt u een e-mailadres ingevuld? Dan ontvangt u een e-mail met alle gegevens van uw melding.`,
         },
         render: FormComponents.PlainText,
