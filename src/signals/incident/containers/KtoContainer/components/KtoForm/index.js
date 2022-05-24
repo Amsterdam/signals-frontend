@@ -3,7 +3,7 @@
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
@@ -11,6 +11,7 @@ import Label from 'components/Label'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
+import { useParams } from 'react-router-dom'
 
 export const andersOptionText = 'Anders, namelijk...'
 
@@ -49,6 +50,13 @@ const HelpText = styled.p`
 const StyledTextArea = styled(TextArea)`
   margin-top: ${themeSpacing(3)};
 `
+
+const StyledHeading = styled(Heading)`
+  font-weight: 500;
+  margin: ${themeSpacing(2, 0, 5)};
+`
+
+const StyledParagraph = styled.p``
 
 const initialState = {
   areaVisibility: false,
@@ -165,6 +173,8 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
     [onSubmit, state]
   )
 
+  const { satisfactionIndication } = useParams()
+
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
@@ -215,23 +225,28 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
         />
       </GridArea>
 
-      <GridArea>
-        <StyledLabel id="subtitle-allows-contact">
-          Mogen wij contact met u opnemen naar aanleiding van uw feedback?{' '}
-          <Optional>(niet verplicht)</Optional>
-        </StyledLabel>
+      {satisfactionIndication === 'nee' && (
+        <GridArea>
+          <StyledHeading as="h2">Contact</StyledHeading>
+          <StyledParagraph id="subtitle-allows-contact">
+            Uw reactie is belangrijk voor ons. Wij laten u graag weten wat wij
+            ermee doen. En misschien willen wij u nog iets vragen of vertellen.
+            Wij bellen u dan of sturen een e-mail.?{' '}
+          </StyledParagraph>
 
-        <CheckboxWrapper inline htmlFor="allows-contact">
-          <Checkbox
-            data-testid="ktoAllowsContact"
-            id="allows-contact"
-            aria-describedby="subtitle-allows-contact"
-            name="allows-contact"
-            onChange={onChangeAllowsContact}
-          />
-          Ja
-        </CheckboxWrapper>
-      </GridArea>
+          <CheckboxWrapper inline htmlFor="allows-contact">
+            <Checkbox
+              data-testid="ktoAllowsContact"
+              id="allows-contact"
+              aria-describedby="subtitle-allows-contact"
+              name="allows-contact"
+              onChange={onChangeAllowsContact}
+            />
+            Nee, bel of e-mail mij niet meer over deze melding of over mijn
+            reactie.
+          </CheckboxWrapper>
+        </GridArea>
+      )}
 
       <GridArea>
         <Button data-testid="ktoSubmit" type="submit" variant="secondary">
