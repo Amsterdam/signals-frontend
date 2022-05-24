@@ -4,7 +4,10 @@ import { screen, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
+import { Provider } from 'react-redux'
+import { history } from 'test/utils'
 import Footer from '..'
+import configureStore from '../../../configureStore'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -20,7 +23,11 @@ describe('<FooterContainer />', () => {
     configuration.links.about = 'https://www.amsterdam.nl/overdezesite/'
     configuration.links.accessibility = '/toegankelijkheid/'
 
-    render(withAppContext(<Footer />))
+    render(
+      <Provider store={configureStore({}, history)}>
+        {withAppContext(<Footer />)}
+      </Provider>
+    )
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute(
       'href',
       configuration.links.privacy

@@ -5,16 +5,18 @@
     "appMode": false,
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableCsvExport": false,
     "enableNearIncidents": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
-    "showVulaanControls": false,
     "showThorButton": false,
+    "showVulaanControls": false,
     "useProjectenSignalType": false,
-    "useStaticMapServer": false
+    "useStaticMapServer": false,
+    "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

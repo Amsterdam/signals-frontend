@@ -7,6 +7,7 @@ import {
   Student,
   Buildings,
   ThumbnailResults,
+  Download,
 } from '@amsterdam/asc-assets'
 import {
   TopTaskLink,
@@ -19,9 +20,16 @@ import {
   ROLES_URL,
   DEPARTMENTS_URL,
   CATEGORIES_URL,
+  EXPORT_URL,
 } from 'signals/settings/routes'
 
-type Keys = 'departments' | 'groups' | 'settings' | 'users' | 'categories'
+type Keys =
+  | 'departments'
+  | 'groups'
+  | 'settings'
+  | 'users'
+  | 'categories'
+  | 'export'
 
 interface Props {
   showItems: Record<Keys, boolean | undefined>
@@ -29,6 +37,7 @@ interface Props {
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `
 
 const Item = styled.div`
@@ -151,6 +160,18 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 deze instellingspagina is het mogelijk om de gegevens per
                 subcategorie aan te passen.
               </p>
+            </Item>
+          )}
+          {showItems.export && (
+            <Item data-testid="export">
+              <StyledNavLink to={EXPORT_URL}>
+                <StyledTopTaskLink
+                  forwardedAs="div"
+                  icon={Download}
+                  title="CSV Export"
+                />
+              </StyledNavLink>
+              <p>Voor het downloaden van alle meldingen in CSV formaat.</p>
             </Item>
           )}
         </Wrapper>

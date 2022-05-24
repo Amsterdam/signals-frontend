@@ -1,14 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactResponsive from 'react-responsive'
+import useFetch from 'hooks/useFetch'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
+import configuration from 'shared/services/configuration/configuration'
+import * as reactRedux from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -16,7 +20,27 @@ import withAssetSelectContext, {
 import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import type { DetailPanelProps } from './DetailPanel'
+import MockInstance = jest.MockInstance
 
+const category = 'afval'
+const subcategory = 'huisvuil'
+const get = jest.fn()
+const patch = jest.fn()
+const post = jest.fn()
+const put = jest.fn()
+
+const useFetchResponse = {
+  get,
+  patch,
+  post,
+  put,
+  data: undefined,
+  isLoading: false,
+  error: false,
+  isSuccess: false,
+}
+
+jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
 
 jest.mock(
@@ -93,6 +117,8 @@ jest.mock(
       )
 )
 
+const dispatch = jest.fn()
+
 describe('DetailPanel', () => {
   const GLAS_FEATURE = {
     label: 'Glas',
@@ -151,6 +177,21 @@ describe('DetailPanel', () => {
       featureTypes: [GLAS_FEATURE, UNREGISTERED_FEATURE],
     },
   }
+
+  beforeEach(() => {
+    jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
+      global.document,
+      'dispatchEvent'
+    )
+    dispatch.mockReset()
+    dispatchEventSpy.mockReset()
+
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValue({ category, subcategory })
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+  })
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -291,6 +332,10 @@ describe('DetailPanel', () => {
       type: UNKNOWN_TYPE,
       label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
     })
+
+    fireEvent.submit(screen.getByTestId('unregisteredAssetInput'))
+
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('dispatches the location when an address is selected', async () => {
@@ -345,11 +390,11 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(currentContextValue.close).not.toHaveBeenCalled()
+    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     userEvent.click(screen.getByRole('button', { name: 'Meld dit object' }))
 
-    expect(currentContextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('handles Enter key on input', () => {
@@ -366,7 +411,6 @@ describe('DetailPanel', () => {
     )
 
     expect(currentContextValue.setItem).not.toHaveBeenCalled()
-    expect(currentContextValue.close).not.toHaveBeenCalled()
 
     userEvent.type(
       screen.getByLabelText('Nummer van de container (niet verplicht)'),
@@ -378,7 +422,7 @@ describe('DetailPanel', () => {
       type: UNKNOWN_TYPE,
       label: 'Het object staat niet op de kaart - 5',
     })
-    expect(currentContextValue.close).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
   it('renders default labels', () => {
@@ -443,6 +487,11 @@ describe('DetailPanel', () => {
     )
 
     expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByTestId('unregisteredAssetCheckbox'))
+
+    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
+
     expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
     expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
@@ -533,5 +582,27 @@ describe('DetailPanel', () => {
 
     expect(screen.getByText(selection.label)).toBeInTheDocument()
     expect(screen.getByText(selection.description)).toBeInTheDocument()
+  })
+
+  it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {
+    const selection = {
+      label: 'Huisafval',
+      description: 'Gemeld op: 01-01-1970',
+      type: 'Rest',
+      coordinates: { lat: 1, lng: 2 },
+    }
+
+    expect(get).not.toHaveBeenCalled()
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+        selection,
+      })
+    )
+
+    expect(get).toHaveBeenCalledTimes(1)
+    expect(get).toHaveBeenCalledWith(
+      expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
+    )
   })
 })

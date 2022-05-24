@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useMemo, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -27,7 +27,6 @@ const ButtonContainer = styled.div`
 `
 
 const Title = styled(Heading)`
-  font-weight: 400;
   margin: ${themeSpacing(4)} 0;
 `
 

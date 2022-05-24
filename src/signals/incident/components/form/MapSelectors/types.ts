@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { MouseEvent, KeyboardEvent } from 'react'
-import type { IconOptions } from 'leaflet'
+import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
 import type { UNKNOWN_TYPE, UNREGISTERED_TYPE } from './constants'
 
@@ -28,6 +28,7 @@ export interface Item extends Record<string, unknown> {
   status?: typeof FeatureStatus | string
   type?: typeof UNREGISTERED_TYPE | typeof UNKNOWN_TYPE | string
   label?: string
+  coordinates?: LatLngLiteral
 }
 
 export interface FeatureType {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import {
   useMemo,
   useContext,
@@ -33,7 +33,8 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
-import LocationMarker from 'components/LocationMarker'
+import { useDispatch } from 'react-redux'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { selectionIsUndetermined } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import AssetLayer from './WfsLayer/AssetLayer'
@@ -57,16 +58,12 @@ const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
-  const {
-    close,
-    coordinates,
-    layer,
-    meta,
-    selection,
-    setLocation,
-    fetchLocation,
-  } = useContext(AssetSelectContext)
+  const { coordinates, layer, meta, selection, fetchLocation } =
+    useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
+
+  const dispatch = useDispatch()
+
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
 
@@ -92,7 +89,6 @@ const Selector: FC = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
-  const [geolocation, setGeolocation] = useState<LocationResult>()
   const hasFeatureTypes = meta.featureTypes.length > 0
 
   const showMarker =
@@ -114,19 +110,6 @@ const Selector: FC = () => {
 
     pinMarker.setLatLng(coordinates)
   }, [map, coordinates, pinMarker, selection])
-
-  useLayoutEffect(() => {
-    if (!map || !geolocation) return
-
-    map.flyTo(
-      [geolocation.latitude, geolocation.longitude] as LatLngTuple,
-      16,
-      {
-        animate: true,
-        noMoveStart: true,
-      }
-    )
-  }, [geolocation, map])
 
   useLayoutEffect(() => {
     if (!map || !coordinates) return
@@ -157,15 +140,14 @@ const Selector: FC = () => {
           topLeft={
             <TopLeftWrapper>
               <GPSButton
+                tabIndex={0}
                 onLocationSuccess={(location: LocationResult) => {
-                  const { latitude, longitude } = location
                   const coordinates = {
-                    lat: latitude,
-                    lng: longitude,
+                    lat: location.latitude,
+                    lng: location.longitude,
                   } as LatLngLiteral
 
-                  setLocation({ coordinates })
-                  setGeolocation(location)
+                  fetchLocation(coordinates)
                 }}
                 onLocationError={() => {
                   setMapMessage(
@@ -208,16 +190,17 @@ const Selector: FC = () => {
               )}
             </TopLeftWrapper>
           }
-          topRight={<MapCloseButton onClick={close} />}
+          topRight={
+            <MapCloseButton onClick={() => dispatch(closeMap())} tabIndex={0} />
+          }
         />
 
         <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
-          <Layer />
+          <>
+            <Layer />
+            <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
+          </>
         </WfsLayer>
-
-        <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
-
-        {geolocation && <LocationMarker geolocation={geolocation} />}
 
         {showMarker && (
           <span data-testid="assetPinMarker">

@@ -6,7 +6,7 @@ Object {
     "featureTypes": Array [],
     "label": "Waar is het?",
     "language": Object {
-      "description": "Typ het dichtstbijzijnde adres of klik de locatie aan op de kaart",
+      "description": "Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik \\"Mijn locatie\\"",
       "subTitle": "Waar is het?",
       "submit": "Gebruik deze locatie",
       "title": "Locatie",

@@ -4,16 +4,18 @@
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableCsvExport": false,
+    "enableNearIncidents": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
-    "enableNearIncidents": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useStaticMapServer": true
+    "useStaticMapServer": true,
+    "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

@@ -59,6 +59,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
       url={url}
       formatResponse={formatPDOKResponse}
       numOptionsDeterminer={numOptionsDeterminer}
+      tabIndex={0}
     />
   )
 }

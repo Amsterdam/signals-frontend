@@ -188,7 +188,7 @@ const straatverlichtingKlokken = {
         lamp_op_grond_of_scheef:
           'Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef',
         deurtje_weg_of_open:
-          'Ja, er zit geen deurtje in de lantaarnpaal of het deurtje staat open',
+          'Ja, er zit geen deurtje meer in de mast of het deurtje staat open',
         losse_kabels_zichtbaar_of_lamp_los:
           'Ja, er hangen losse stroomkabels of de lamp hangt los',
       },
@@ -300,14 +300,14 @@ const straatverlichtingKlokken = {
         subcategory: 'klok',
       },
       values: {
-        niet_gevaarlijk: 'Niet gevaarlijk',
-        is_gevolg_van_aanrijding: 'Het is het gevolg van een aanrijding',
+        niet_gevaarlijk: 'Nee, niet gevaarlijk',
+        is_gevolg_van_aanrijding: 'Ja, het is een gevolg van een aanrijding',
         klok_op_grond_of_scheef:
-          'Klok ligt op de grond of staat gevaarlijk scheef',
+          'Ja, de klok ligt op de grond of staat gevaarlijk scheef',
         deurtje_weg_of_open:
-          'Deurtje in de mast is niet aanwezig of staat open',
+          'Ja, er zit geen deurtje meer in de mast of het deurtje staat open',
         losse_kabels_zichtbaar_of_lamp_los:
-          'Er zijn losse electriciteitskabels zichtbaar of er hangt een lamp los',
+          'Ja, er hangen losse stroomkabels of de klok hangt los',
       },
       pathMerge: 'extra_properties',
     },
@@ -353,7 +353,9 @@ const straatverlichtingKlokken = {
       values: {
         klok_staat_niet_op_tijd_of_stil:
           'Klok staat niet op tijd of staat stil',
-        klok_is_zichtbaar_beschadigd: 'Klok is zichtbaar beschadigd',
+        klok_staat_stil_op_12_uur: 'Klok staat stil op 12 uur',
+        verlichting_klok_brandt_niet: 'Verlichting klok brandt niet',
+        klok_is_zichtbaar_beschadigd: 'Klok is beschadigd',
         overig: 'Overig',
       },
       pathMerge: 'extra_properties',

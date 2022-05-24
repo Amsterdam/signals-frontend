@@ -53,6 +53,11 @@ const render = () => {
   const urlBase = configuration?.matomo?.urlBase
   const siteId = configuration?.matomo?.siteId
 
+  const spinner = document.getElementById('spinner')
+  const spinnerBackground = document.getElementById('spinner-background')
+  spinner.remove()
+  spinnerBackground.remove()
+
   if (urlBase && siteId) {
     const matomoInstance = createInstance({
       urlBase,

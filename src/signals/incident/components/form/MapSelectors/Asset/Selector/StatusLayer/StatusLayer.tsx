@@ -46,6 +46,7 @@ const StatusLayer: FC<StatusLayerProps> = ({
           options={{
             zIndexOffset: 1000,
             icon,
+            keyboard: false,
             alt: altText,
           }}
         />

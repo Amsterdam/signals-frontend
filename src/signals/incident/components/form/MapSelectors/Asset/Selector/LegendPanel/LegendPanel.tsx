@@ -26,7 +26,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
   >
     <Title>Uitleg</Title>
 
-    <CloseBtn title="Sluit uitleg" onClick={onClose} />
+    <CloseBtn tabIndex={-1} title="Sluit uitleg" onClick={onClose} />
 
     <ScrollWrapper>
       <IconList data-testid="legendPanelList">

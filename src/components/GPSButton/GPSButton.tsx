@@ -2,7 +2,8 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
-import { Button } from '@amsterdam/asc-ui'
+import { Button, themeSpacing } from '@amsterdam/asc-ui'
+import { themeColor } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 import type { LocationResult } from 'types/location'
@@ -14,6 +15,9 @@ import GPS from '../../images/icon-gps.svg'
 
 const StyledButton = styled(Button)`
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  width: ${themeSpacing(36)};
+  height: ${themeSpacing(11)};
+  color: ${themeColor('tint', 'level7')};
 `
 
 const GPSIcon = styled(GPS)`
@@ -27,11 +31,12 @@ export interface GPSButtonProps {
   onLocationOutOfBounds: () => void
 }
 
-const GPSButton: FunctionComponent<GPSButtonProps> = ({
+const GPSButton: FunctionComponent<GPSButtonProps & React.HTMLProps<HTMLElement>> = ({
   className,
   onLocationSuccess,
   onLocationError,
   onLocationOutOfBounds,
+  tabIndex,
 }) => {
   const [loading, setLoading] = useState(false)
 
@@ -79,14 +84,17 @@ const GPSButton: FunctionComponent<GPSButtonProps> = ({
     <StyledButton
       className={className}
       data-testid="gpsButton"
-      icon={loading ? <LoadingIndicator color="black" /> : <GPSIcon />}
+      iconLeft={loading ? <LoadingIndicator color="black" /> : <GPSIcon />}
       aria-label="Huidige locatie"
       iconSize={20}
       onClick={onClick}
-      size={44}
+      size={144}
       variant="blank"
       type="button"
-    />
+      tabIndex={tabIndex}
+    >
+      Mijn locatie
+    </StyledButton>
   )
 }
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 import L from 'leaflet'
@@ -80,6 +80,7 @@ export const AssetLayer: FC = () => {
         description,
         status: featureStatusType?.typeValue,
         label: [description, id].filter(Boolean).join(' - '),
+        coordinates,
       }
 
       setItem(item, location)
@@ -101,6 +102,7 @@ export const AssetLayer: FC = () => {
           alt: `${featureType.description}${
             isSelected ? ', is geselecteerd' : ''
           } (${id})`,
+          keyboard: false,
         }}
         latLng={coordinates}
         events={{

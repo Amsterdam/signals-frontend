@@ -32,6 +32,7 @@ const LegendToggleButton: FC<LegendToggleButtonProps> = ({
     type="button"
     variant="blank"
     onClick={onClick}
+    tabIndex={0}
   >
     Uitleg
   </StyledButton>
