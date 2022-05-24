@@ -483,6 +483,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
   })
 
+  it('shows a warning when contact is now allowed by user', () => {
+    const contactNotAllowed = { ...incidentFixture }
+
+    if (contactNotAllowed?.reporter?.contact_allowed) {
+      contactNotAllowed.reporter.contact_allowed = false
+    }
+    render(renderWithContext(contactNotAllowed))
+
+    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+      StatusCode.Afgehandeld,
+    ])
+    expect(screen.getByTestId('no-contact-allowed-warning')).toBeInTheDocument()
+  })
+
   it('shows a warning when switching to reply status user has no email', () => {
     const withoutReporterEmail = { ...incidentFixture }
     if (withoutReporterEmail?.reporter?.email) {

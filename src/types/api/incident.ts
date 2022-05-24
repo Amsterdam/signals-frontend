@@ -83,6 +83,7 @@ export interface Incident {
     email: string | null
     phone: string | null
     sharing_allowed: boolean
+    contact_allowed: boolean
   } | null
   priority: {
     priority: Priority
