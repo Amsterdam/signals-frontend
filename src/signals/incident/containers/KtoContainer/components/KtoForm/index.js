@@ -3,7 +3,7 @@
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
@@ -50,13 +50,6 @@ const HelpText = styled.p`
 const StyledTextArea = styled(TextArea)`
   margin-top: ${themeSpacing(3)};
 `
-
-const StyledHeading = styled(Heading)`
-  font-weight: 500;
-  margin: ${themeSpacing(2, 0, 5)};
-`
-
-const StyledParagraph = styled.p``
 
 const initialState = {
   areaVisibility: false,
@@ -226,12 +219,12 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
       {satisfactionIndication === 'nee' && (
         <GridArea>
-          <StyledHeading as="h2">Contact</StyledHeading>
-          <StyledParagraph id="subtitle-allows-contact">
+          <Heading forwardedAs="h2">Contact</Heading>
+          <Paragraph id="subtitle-allows-contact">
             Uw reactie is belangrijk voor ons. Wij laten u graag weten wat wij
             ermee doen. En misschien willen wij u nog iets vragen of vertellen.
             Wij bellen u dan of sturen een e-mail.?{' '}
-          </StyledParagraph>
+          </Paragraph>
 
           <CheckboxWrapper inline htmlFor="allows-contact">
             <Checkbox
