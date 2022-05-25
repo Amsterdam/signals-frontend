@@ -62,7 +62,7 @@ const initialState = {
   areaVisibility: false,
   errors: {},
   formData: {
-    allows_contact: false,
+    allows_contact: true,
     is_satisfied: undefined,
     text_extra: '',
     text: '',
@@ -143,7 +143,6 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
 
   const onChangeAllowsContact = useCallback((event) => {
     const { checked } = event.target
-
     dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: !checked } })
   }, [])
 
