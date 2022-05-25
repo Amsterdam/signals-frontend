@@ -144,7 +144,7 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   const onChangeAllowsContact = useCallback((event) => {
     const { checked } = event.target
 
-    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
+    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: !checked } })
   }, [])
 
   const handleSubmit = useCallback(

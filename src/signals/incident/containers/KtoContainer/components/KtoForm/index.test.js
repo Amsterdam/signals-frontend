@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
+import * as reactRouterDom from 'react-router-dom'
+import { mocked } from 'jest-mock'
 import KtoForm from '.'
 
 const onSubmit = jest.fn()
@@ -14,13 +16,22 @@ const options = [
   { key: 'anders', value: 'Here be dragons' },
 ]
 
+const mockedUseParams = mocked(reactRouterDom.useParams)
+jest.mock('react-router-dom', () => ({
+  useParams: jest.fn(),
+}))
+
 describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
     onSubmit.mockReset()
   })
 
   it('renders correctly', () => {
-    const { container, getByTestId } = render(
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
+    const { container, getByTestId, rerender } = render(
       withAppContext(
         <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
       )
@@ -33,9 +44,21 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(getByTestId('ktoTextExtra')).toBeInTheDocument()
     expect(getByTestId('ktoAllowsContact')).toBeInTheDocument()
     expect(getByTestId('ktoSubmit')).toBeInTheDocument()
+
+    mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
+
+    rerender(
+      withAppContext(
+        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+      )
+    )
+
+    expect(screen.queryByTestId('ktoAllowsContact')).toBeFalsy()
   })
 
   it('renders the correct title', () => {
+    mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
+
     const { getByText, unmount, rerender } = render(
       withAppContext(
         <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
@@ -46,13 +69,17 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     unmount()
 
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
     rerender(
       withAppContext(
         <KtoForm isSatisfied={false} onSubmit={onSubmit} options={options} />
       )
     )
 
-    expect(getByText('Waarom bent u ontevreden?')).toBeInTheDocument()
+    expect(screen.queryByText('Waarom bent u ontevreden?')).toBeInTheDocument()
   })
 
   it('requires one of the options to be selected', () => {
@@ -223,7 +250,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     })
 
     expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: true,
+      allows_contact: false,
       is_satisfied: isSatisfied,
       text_extra: value,
       text: options[1].value,
