@@ -13,6 +13,9 @@ import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
+import FileInput from '../../../../components/form/FileInput'
+
+export const andersOptionText = 'Anders, namelijk...'
 
 const Form = styled.form`
   display: grid;
@@ -231,6 +234,35 @@ const KtoForm = ({ options, onSubmit }) => {
           onChange={onChangeText('SET_TEXT_EXTRA')}
         />
       </GridArea>
+
+      {satisfactionIndication === 'nee' && (
+        <GridArea>
+          <StyledLabel htmlFor="text_extra">
+            {"Foto's toevoegen? "}
+            <Optional>(niet verplicht)</Optional>
+          </StyledLabel>
+          <HelpText id="subtitle-kto">
+            Voeg een foto toe om de situatie te verduidelijken.
+          </HelpText>
+          <FileInput
+            handler={() => {}}
+            parent={{ meta: { updateIncident: () => {} } }}
+            meta={{
+              label: "Foto's toevoegen",
+              subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+              minFileSize: 30 * 2 ** 10, // 30 KiB.
+              maxFileSize: 20 * 2 ** 20, // 20 MiB.
+              allowedFileTypes: [
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'image/gif',
+              ],
+              maxNumberOfFiles: 3,
+            }}
+          />
+        </GridArea>
+      )}
 
       {(negativeContactEnabled ||
         configuration.featureFlags.reporterMailHandledNegativeContactEnabled ===
