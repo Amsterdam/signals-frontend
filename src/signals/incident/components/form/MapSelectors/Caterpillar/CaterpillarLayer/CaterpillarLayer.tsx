@@ -11,12 +11,13 @@ import type {
   Item,
   FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
-import type { Geometrie } from 'types/incident'
+import type { Geometrie, Location } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import StatusLayer from '../../Asset/Selector/StatusLayer'
 import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 
@@ -53,14 +54,14 @@ export const CaterpillarLayer: FC = () => {
           : featureType.icon.iconUrl,
       })
 
-      const onClick = () => {
+      const onClick = async () => {
         if (isSelected) {
           removeItem()
           return
         }
 
         const { description, typeValue } = featureType
-        const location = {
+        const location: Location = {
           coordinates,
         }
 
@@ -76,6 +77,14 @@ export const CaterpillarLayer: FC = () => {
         meta.extraProperties?.forEach((propertyKey) => {
           item[propertyKey] = feature.properties[propertyKey]
         })
+
+        setItem(item, location)
+
+        const response = await reverseGeocoderService(coordinates)
+
+        if (response) {
+          location.address = response.data.address
+        }
 
         setItem(item, location)
       }
