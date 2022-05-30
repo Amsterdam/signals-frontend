@@ -13,7 +13,7 @@ import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import * as reactRedux from 'react-redux'
-import { showMap } from '../../signals/incident/containers/IncidentContainer/actions'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 import Summary from './Summary'
 import MockInstance = jest.MockInstance
 

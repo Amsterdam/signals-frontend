@@ -70,6 +70,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
     tap: false,
     scrollWheelZoom: false,
     center,
+    keyboard: false,
     ...mapOptions,
   }
 
@@ -77,7 +78,25 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 
   useEffect(() => {
+    /**
+     *  Set the link .leaflet-control-attribution a tabindex property -1, after
+     *  Leaflet map is fully loaded. This happens synchronous so surrounding with a timeout
+     *  0 will set the tabindex after the a element is loaded.
+     */
+    const timeout = setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const leafletControlAttribution: HTMLLinkElement = document.querySelector(
+        '.leaflet-control-attribution a'
+      )
+
+      if (leafletControlAttribution) {
+        leafletControlAttribution.tabIndex = -1
+      }
+    }, 0)
+
     return () => {
+      clearTimeout(timeout)
       if (mapActive) {
         dispatch(closeMap())
       }
@@ -97,7 +116,6 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       options={options}
       fullScreen={fullScreen}
       setInstance={setInstance}
-      tabIndex={-1}
     >
       {children}
 

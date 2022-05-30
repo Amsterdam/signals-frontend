@@ -103,7 +103,6 @@ const Wrapper = styled.div`
 const PlainText = ({ className, meta, parent }) => {
   const valueAuthenticated = getIsAuthenticated() && meta?.valueAuthenticated
   const value = !valueAuthenticated && meta?.value
-
   return meta?.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plainText">
       {meta.label && (

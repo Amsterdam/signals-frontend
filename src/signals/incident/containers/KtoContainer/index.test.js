@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, act, fireEvent } from '@testing-library/react'
+import { render, act, fireEvent, screen } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
 import { withAppContext } from 'test/utils'
-import KTOContainer, { renderSections } from '.'
+import { useParams } from 'react-router-dom'
+import KTOContainer, { renderSections, successSections } from '.'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -14,6 +15,8 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const uuid = 'a7ec1966-1f88-0f9c-d0cb-c64a6f3b05c3'
+
+jest.mock('shared/services/configuration/configuration')
 
 describe('signals/incident/containers/KtoContainer', () => {
   beforeEach(() => {
@@ -80,19 +83,6 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument()
   })
 
-  it('should render "not found" through catch', async () => {
-    fetch.mockResponses([
-      JSON.stringify({ typo: 'not found' }),
-      { status: 410 },
-    ])
-
-    const { getByText, findByTestId } = render(withAppContext(<KTOContainer />))
-
-    await findByTestId('ktoFormContainer')
-
-    expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument()
-  })
-
   it('should render a correct header', async () => {
     fetch.mockResponses(
       [JSON.stringify({}), { status: 200 }],
@@ -126,10 +116,9 @@ describe('signals/incident/containers/KtoContainer', () => {
       [JSON.stringify({}), { status: 200 }] // 'PUT'
     )
 
-    const successHeaderText = 'Bedankt voor uw feedback!'
-    const { container, findByTestId, queryByText, getByText } = render(
-      withAppContext(<KTOContainer />)
-    )
+    const successHeaderText = 'Bedankt voor uw reactie!'
+    const { container, findByTestId, queryByText, getByText, rerender } =
+      render(withAppContext(<KTOContainer />))
 
     await findByTestId('ktoFormContainer')
 
@@ -142,6 +131,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     const ktoSubmit = await findByTestId('ktoSubmit')
 
     expect(fetch).toHaveBeenCalledTimes(2)
+
     expect(queryByText(successHeaderText)).not.toBeInTheDocument()
 
     act(() => {
@@ -161,5 +151,37 @@ describe('signals/incident/containers/KtoContainer', () => {
     )
 
     expect(getByText(successHeaderText)).toBeInTheDocument()
+
+    expect(getByText(successSections['ja'].body)).toBeInTheDocument()
+
+    useParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+      uuid,
+    }))
+
+    rerender(withAppContext(<KTOContainer />))
+
+    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+      successSections['nee'].body
+    )
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+
+    rerender(withAppContext(<KTOContainer />))
+
+    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+      successSections['nee'].body
+    )
+
+    useParams.mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+      uuid,
+    }))
+
+    rerender(withAppContext(<KTOContainer />))
+
+    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+      successSections['ja'].body
+    )
   })
 })
