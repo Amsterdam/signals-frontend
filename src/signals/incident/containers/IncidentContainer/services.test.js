@@ -19,7 +19,7 @@ const mockedQuestions = [
   },
   {
     key: 'key3',
-    field_type: 'location_select',
+    field_type: 'select_input',
     required: true,
   },
   {
@@ -58,30 +58,6 @@ describe('Incident container services', () => {
       })
       expect(result.key2).toMatchObject({
         meta: {},
-      })
-    })
-
-    it('should not add extra_properties prop to meta when field type is location', () => {
-      const result = resolveQuestions(mockedQuestions)
-      expect(result.key1).toMatchObject({
-        meta: {
-          pathMerge: 'extra_properties',
-        },
-      })
-      expect(result.key2).toMatchObject({
-        meta: {
-          pathMerge: 'extra_properties',
-        },
-      })
-      expect(result.key3).not.toMatchObject({
-        meta: {
-          pathMerge: 'extra_properties',
-        },
-      })
-      expect(result.key4).toMatchObject({
-        meta: {
-          pathMerge: 'extra_properties',
-        },
       })
     })
 
