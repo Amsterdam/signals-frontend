@@ -48,7 +48,7 @@ export const AssetLayer: FC = () => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField] || ''
-    const isSelected = Boolean(selection?.id === id)
+    const isSelected = Boolean(selection && selection.find(item => item.id === id))
 
     const iconUrl = isSelected
       ? '/assets/images/featureSelectedMarker.svg'
@@ -65,11 +65,6 @@ export const AssetLayer: FC = () => {
         return
       }
 
-      if (isSelected) {
-        removeItem()
-        return
-      }
-
       const location: Location = {
         coordinates,
       }
@@ -83,15 +78,20 @@ export const AssetLayer: FC = () => {
         coordinates,
       }
 
-      setItem(item, location)
-
-      const response = await reverseGeocoderService(coordinates)
-
-      if (response) {
-        location.address = response.data.address
+      if (isSelected) {
+        removeItem(item)
+        return
       }
 
       setItem(item, location)
+
+      // const response = await reverseGeocoderService(coordinates)
+      //
+      // if (response) {
+      //   location.address = response.data.address
+      // }
+      //
+      // setItem(item, location)
     }
 
     return (

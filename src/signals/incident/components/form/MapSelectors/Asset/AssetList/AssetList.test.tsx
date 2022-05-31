@@ -11,6 +11,7 @@ import type { Item } from '../../types'
 import { FeatureStatus } from '../../types'
 import type { AssetListProps } from './AssetList'
 import AssetList from './AssetList'
+import { AssetListItem } from './AssetList'
 
 jest.mock('components/IconList/IconList', () => ({
   __esModule: true,
@@ -64,42 +65,43 @@ describe('AssetList', () => {
     onRemove: jest.fn(),
     featureTypes: featureTypes,
     featureStatusTypes,
-    selection: {
+    selection: [{
       description: 'Description',
       id: '234',
       type: 'Rest',
       location: {},
       label: 'Rest container - 234',
-    },
+    }],
   }
 
   const reportedProps: AssetListProps = {
     onRemove: jest.fn(),
     featureTypes: featureTypes,
     featureStatusTypes,
-    selection: { ...selection[0], location: {}, label: 'Rest container - 234' },
+    selection,
   }
+  describe('AssetListItem', () => {
+    it('does not render with empty selection props', () => {
+      const emptyId = {
+        id: '',
+        label: 'Here be a label',
+        location: {},
+      }
 
-  it('does not render with empty selection props', () => {
-    const emptyId = {
-      id: '',
-      label: 'Here be a label',
-      location: {},
-    }
+      const { rerender } = render(
+        withAppContext(<AssetListItem {...props} item={emptyId} />)
+      )
+      expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
 
-    const { rerender } = render(
-      withAppContext(<AssetList {...props} selection={emptyId} />)
-    )
-    expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
+      const emptyLabel = {
+        id: '2983764827364',
+        label: '',
+        location: {},
+      }
 
-    const emptyLabel = {
-      id: '2983764827364',
-      label: '',
-      location: {},
-    }
-
-    rerender(withAppContext(<AssetList {...props} selection={emptyLabel} />))
-    expect(screen.getByTestId('assetList')).toBeInTheDocument()
+      rerender(withAppContext(<AssetListItem {...props} item={emptyLabel} />))
+      expect(screen.getByTestId('assetList')).toBeInTheDocument()
+    })
   })
 
   it('renders a selection', () => {
@@ -107,7 +109,7 @@ describe('AssetList', () => {
 
     expect(screen.getByTestId('assetList')).toBeInTheDocument()
     expect(
-      screen.getByTestId(`assetListItem-${props.selection.id}`)
+      screen.getByTestId(`assetListItem-${props.selection[0].id}`)
     ).toBeInTheDocument()
   })
 
@@ -116,9 +118,9 @@ describe('AssetList', () => {
       const { id, status } = selected
       render(
         withAppContext(
-          <AssetList
+          <AssetListItem
             {...reportedProps}
-            selection={{ ...selected, location: {} }}
+            item={{ ...selected, location: {} }}
           />
         )
       )

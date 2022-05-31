@@ -19,6 +19,8 @@ import {
   SET_LOADING_DATA,
   SHOW_MAP,
   CLOSE_MAP,
+  ADD_TO_SELECTION,
+  REMOVE_FROM_SELECTION,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -78,7 +80,36 @@ export default (state = initialState, action) => {
           ...action.payload,
         })
       )
+    case ADD_TO_SELECTION: {
+      const updated = [
+        ...state.get('incident').toJS()[action.payload.meta_name]?.selection || [],
+        action.payload[action.payload.meta_name]?.selection[0]
+      ]
 
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{[action.payload.meta_name]: { selection: updated }}
+        })
+      )
+    }
+    case REMOVE_FROM_SELECTION: {
+      const updated =
+        state
+          .get('incident')
+          .toJS()[action.payload.meta_name]?.selection
+          .filter(({id}) => id !== action.payload[action.payload.meta_name]?.selection[0].id)
+
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{[action.payload.meta_name]: { selection: updated }
+          }
+        })
+      )
+    }
     case RESET_INCIDENT:
       return initialState
 

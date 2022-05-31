@@ -18,6 +18,8 @@ import {
   SET_LOADING_DATA,
   SHOW_MAP,
   CLOSE_MAP,
+  ADD_TO_SELECTION,
+  REMOVE_FROM_SELECTION,
 } from './constants'
 
 export const updateIncident = (payload) => ({
@@ -98,4 +100,14 @@ export const showMap = () => ({
 
 export const closeMap = () => ({
   type: CLOSE_MAP,
+})
+
+export const addToSelection = (payload) => ({
+  type: ADD_TO_SELECTION,
+  payload,
+})
+
+export const removeFromSelection = (payload) => ({
+  type: REMOVE_FROM_SELECTION,
+  payload,
 })

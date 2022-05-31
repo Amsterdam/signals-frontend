@@ -14,8 +14,8 @@ export interface AssetSelectValue {
   coordinates?: LatLngLiteral
   message?: string
   meta: Meta
-  removeItem: () => void
-  selection?: Item
+  removeItem: (item: Item) => void
+  selection?: Item[]
   setItem: (item: Item, location?: Location) => void
   fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
@@ -32,6 +32,6 @@ export interface AssetSelectRendererProps extends FormFieldProps {
 export interface SummaryProps {
   address?: Address
   coordinates?: LatLngLiteral
-  selection?: Item
+  selection?: Item[]
   featureTypes: FeatureType[]
 }

@@ -14,7 +14,7 @@ export type ValueObject = {
 type ExtraProps = {
   [key: string]: {
     [prop: string]: any
-    selection?: Item
+    selection?: Item[]
     location?: Location
   }
 }

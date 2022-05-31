@@ -19,7 +19,7 @@ export const contextValue: AssetSelectValue = {
     featureStatusTypes: [],
   },
   removeItem: jest.fn(),
-  selection: {
+  selection: [{
     location: {
       coordinates: { lat: 0, lng: 0 },
     },
@@ -27,7 +27,7 @@ export const contextValue: AssetSelectValue = {
     id: 'PL734',
     type: 'plastic',
     label: 'Plastic container - PL734',
-  },
+  }],
   setItem: jest.fn(),
   fetchLocation: jest.fn(),
   setLocation: jest.fn(),

@@ -34,12 +34,12 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 }
 
 interface UpdatePayload {
-  selection?: Item
+  selection?: Item[]
   location?: Location
 }
 export interface AssetSelectProps {
   value?: {
-    selection?: Item
+    selection?: Item[]
     location?: Location
   }
   layer?: FC
@@ -50,6 +50,8 @@ export interface AssetSelectProps {
       featureStatusTypes: FeatureStatusType[]
       incidentContainer: { incident: Pick<Incident, 'location'> }
       updateIncident: (data: { [key: string]: any }) => void
+      addToSelection: (data: { [key: string]: any }) => void
+      removeFromSelection: (data: { [key: string]: any }) => void
     }
   }
 }
@@ -67,6 +69,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       parent.meta.updateIncident({
         location: payload?.location,
         [meta.name as string]: payload,
+        meta_name: meta.name,
       })
     },
     [meta.name, parent.meta]
@@ -75,38 +78,42 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   /**
    * Selecting an object on the map
    */
-  const setItem = useCallback(
-    (selectedItem: Item, itemLocation?: Location) => {
-      const payload = {
-        selection: selectedItem,
-        location: itemLocation || location,
-      }
+  const setItem = (selectedItem: Item, itemLocation?: Location) => {
+    const payload = {
+      selection: [selectedItem],
+      location: itemLocation || location,
+    }
+    parent.meta.addToSelection({
+      location: payload?.location,
+      [meta.name as string]: payload,
+      meta_name: meta.name,
+    })
+  }
 
-      updateIncident(payload)
-    },
-    [location, updateIncident]
-  )
+  const removeItem = (selectedItem: Item) => {
+    const payload = {
+      selection: [selectedItem],
+    }
+    parent.meta.removeFromSelection({
+      [meta.name as string]: payload,
+      meta_name: meta.name,
+    })
+  }
 
-  const removeItem = useCallback(() => {
-    updateIncident(undefined)
-  }, [updateIncident])
+  const getUpdatePayload = useCallback((location: Location) => {
+    // Clicking the map should unset a previous selection and preset it with an item that we know
+    // doesn't exist on the map.
+    const payload: UpdatePayload = { location, selection }
 
-  const getUpdatePayload = useCallback(
-    (location: Location) => {
-      // Clicking the map should unset a previous selection and preset it with an item that we know
-      // doesn't exist on the map.
-      const payload: UpdatePayload = { location }
+    const item = selection ? selection[0] : undefined
 
-      if (selection?.type === UNKNOWN_TYPE) {
-        payload.selection = selection
-      } else {
-        payload.selection = undefined
-      }
-
-      return payload
-    },
-    [selection]
-  )
+    if (item?.type === UNKNOWN_TYPE) {
+      payload.selection = selection
+    } else {
+      payload.selection = undefined
+    }
+    return payload
+  }, [selection])
 
   /**
    * Callback handler for map clicks; will fetch the address and dispatches both coordinates and

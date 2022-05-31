@@ -24,13 +24,13 @@ jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
   </span>
 ))
 
-const selection = {
+const selection = [{
   id: 'PL734',
   type: 'plastic',
   description: 'Plastic asset',
   location: {},
   label: 'Plastic container - PL734',
-}
+}]
 const featureType = {
   label: 'Plastic',
   description: 'Plastic asset',
@@ -121,7 +121,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     }
     render(withContext(<Summary {...propsNoFeatureTypes} />))
 
-    const idRe = new RegExp(`${selection.id}$`)
+    const idRe = new RegExp(`${selection[0].id}$`)
     const undefinedRe = new RegExp('undefined')
 
     expect(screen.getByText(idRe)).toBeInTheDocument()
@@ -195,10 +195,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   it('renders a MapStatic component with the correct iconSrc prop', () => {
     render(withContext(<Summary {...summaryProps} />))
 
-    const mapStatic = screen.getByTestId('mapStatic')
-
     expect(
-      mapStatic.querySelector(`img[src="${featureType.icon.iconUrl}"]`)
-    ).toBeInTheDocument()
-  })
+      screen.getByTestId('mapStatic').querySelector(`img[src="${featureType.icon.iconUrl}"]`)
+    ).toBeInTheDocument()  })
 })

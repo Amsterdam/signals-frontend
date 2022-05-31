@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useCallback, useMemo } from 'react'
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import { useCallback } from 'react'
 import styled from 'styled-components'
 import { Link, themeSpacing } from '@amsterdam/asc-ui'
 import { Marker } from '@amsterdam/react-maps'
@@ -18,6 +18,7 @@ import { selectionIsUndetermined } from 'signals/incident/components/form/MapSel
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { useDispatch } from 'react-redux'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
+import {FeatureType, Item} from "../../signals/incident/components/form/MapSelectors/types";
 
 const mapWidth = 640
 const mapHeight = 180
@@ -65,15 +66,25 @@ const defaultCenter = {
   lng: configuration.map.options.center[1],
 }
 
+const getIconSrc = (item: Item, featureTypes: FeatureType[]) => {
+  if (!item?.type || selectionIsUndetermined(item)) {
+    return undefined
+  }
+
+  const featureType = featureTypes.find(
+    ({ typeValue }) => typeValue === item.type
+  )
+
+  return featureType && featureType.icon.iconUrl
+}
+
 const Summary: FC<SummaryProps> = ({
   address,
   coordinates,
   selection,
   featureTypes,
 }) => {
-  const { id, type } = selection || {}
-  const { description } =
-    featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+
   const center = coordinates || defaultCenter
 
   const options = {
@@ -83,24 +94,11 @@ const Summary: FC<SummaryProps> = ({
     center,
   }
 
-  const summaryDescription = [description, id].filter(Boolean).join(' - ')
   let summaryAddress = address ? formatAddress(address) : ''
   summaryAddress =
     !summaryAddress && coordinates
       ? 'Locatie is gepind op de kaart'
       : summaryAddress
-
-  const iconSrc = useMemo(() => {
-    if (!selection?.type || selectionIsUndetermined(selection)) {
-      return undefined
-    }
-
-    const featureType = featureTypes.find(
-      ({ typeValue }) => typeValue === selection.type
-    )
-
-    return featureType && featureType.icon.iconUrl
-  }, [selection, featureTypes])
 
   const dispatch = useDispatch()
 
@@ -113,12 +111,14 @@ const Summary: FC<SummaryProps> = ({
     [dispatch]
   )
 
+  const iconSrc = selection && getIconSrc(selection[0], featureTypes)
+
   return (
     <Wrapper data-testid="assetSelectSummary">
       {configuration.featureFlags.useStaticMapServer ? (
         <StyledMapStatic
-          height={mapHeight}
           iconSrc={iconSrc}
+          height={mapHeight}
           width={mapWidth}
           coordinates={center}
         />
@@ -127,25 +127,38 @@ const Summary: FC<SummaryProps> = ({
           <StyledMarker args={[center]} options={{ icon: markerIcon }} />
         </StyledMap>
       )}
-      <LocationDescription>
-        {iconSrc && (
-          <StyledImg
-            data-testid="typeIcon"
-            alt=""
-            src={iconSrc}
-            height={iconSize}
-            width={iconSize}
-          />
-        )}
-        <div>
-          {selection && (
-            <div data-testid="assetSelectSummaryDescription">
-              {summaryDescription}
-            </div>
-          )}
-          <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
-        </div>
-      </LocationDescription>
+      {selection?.map((item) => {
+          const { id, type } = item || {}
+          const { description } =
+            featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
+
+          const summaryDescription = [description, id].filter(Boolean).join(' - ')
+          const iconSrc = getIconSrc(item, featureTypes)
+
+          return (
+            <LocationDescription key={id}>
+              {getIconSrc(item, featureTypes) && (
+                <StyledImg
+                  data-testid="typeIcon"
+                  alt=""
+                  src={iconSrc}
+                  height={iconSize}
+                  width={iconSize}
+                />
+              )}
+              <div>
+                {selection && (
+                  <div data-testid="assetSelectSummaryDescription">
+                    {summaryDescription}
+                  </div>
+                )}
+              </div>
+            </LocationDescription>
+          )
+        })
+      }
+      <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
+
       <StyledLink
         data-testid="mapEditButton"
         onClick={() => dispatch(showMap())}

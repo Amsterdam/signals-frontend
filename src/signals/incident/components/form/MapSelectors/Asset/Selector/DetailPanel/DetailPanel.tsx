@@ -97,6 +97,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const { category, subcategory } = useSelector(makeSelectCategory)
   const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
 
+  console.log('detail selection', selection)
+
   const addressValue = address ? formatAddress(address) : ''
 
   const selectionOnMap =
@@ -189,38 +191,38 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setOptionsList(null)
   }, [removeItem])
 
-  useEffect(() => {
-    if (!selectionOnMap || !selection?.coordinates || !category || !subcategory)
-      return
+  // useEffect(() => {
+  //   if (!selectionOnMap || !selection[0].coordinates || !category || !subcategory)
+  //     return
+  //
+  //   const searchParams = new URLSearchParams({
+  //     maincategory_slug: category,
+  //     category_slug: subcategory,
+  //     lat: selection[0].coordinates?.lat.toString(),
+  //     lon: selection[0].coordinates?.lng.toString(),
+  //     group_by: 'category',
+  //   })
+  //
+  //   get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
+  // }, [get, selectionOnMap, selection, category, subcategory])
 
-    const searchParams = new URLSearchParams({
-      maincategory_slug: category,
-      category_slug: subcategory,
-      lat: selection?.coordinates.lat.toString(),
-      lon: selection?.coordinates.lng.toString(),
-      group_by: 'category',
-    })
-
-    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [get, selectionOnMap, selection, category, subcategory])
-
-  useEffect(() => {
-    setSelectionIncident({})
-
-    if (selectionNearby) {
-      setSelectionIncident({
-        categoryName: selection?.label,
-        createdAt: selection?.description,
-      })
-    }
-
-    if (selectionOnMap && data?.features) {
-      setSelectionIncident({
-        categoryName: data?.features[0].properties.category.name,
-        createdAt: formattedDate(data?.features[0].properties.created_at),
-      })
-    }
-  }, [data?.features, selectionOnMap, selectionNearby, selection])
+  // useEffect(() => {
+  //   setSelectionIncident({})
+  //
+  //   if (selectionNearby) {
+  //     setSelectionIncident({
+  //       categoryName: selection?.label,
+  //       createdAt: selection?.description,
+  //     })
+  //   }
+  //
+  //   if (selectionOnMap && data?.features) {
+  //     setSelectionIncident({
+  //       categoryName: data?.features[0].properties.category.name,
+  //       createdAt: formattedDate(data?.features[0].properties.created_at),
+  //     })
+  //   }
+  // }, [data?.features, selectionOnMap, selectionNearby, selection])
 
   return (
     <PanelContent

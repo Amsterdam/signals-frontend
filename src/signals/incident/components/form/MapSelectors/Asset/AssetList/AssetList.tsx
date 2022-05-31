@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
@@ -45,20 +45,21 @@ export interface AssetListProps {
   className?: string
   featureTypes: FeatureType[]
   featureStatusTypes: FeatureStatusType[]
-  onRemove?: () => void
-  selection: Item
+  onRemove?: (item: Item) => void
+  selection: Item[]
 }
 
-const AssetList: FunctionComponent<AssetListProps> = ({
-  onRemove,
-  selection,
-  className,
-  featureTypes,
-  featureStatusTypes,
-}) => {
-  const { id, type, status } = selection
+interface AssetListItem {
+  featureTypes: FeatureType[]
+  featureStatusTypes: FeatureStatusType[]
+  onRemove?: (item: Item) => void
+  item: Item
+}
+
+export const AssetListItem: FunctionComponent<AssetListItem> = ({featureStatusTypes, featureTypes, item, onRemove}) => {
+  const { id, type, status } = item
   const { description, icon }: Partial<FeatureType> =
-    featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
+  featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
   const label = [description, id].filter(Boolean).join(' - ')
 
@@ -72,34 +73,54 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     : `assetListItem-${id}`
 
   return (
-    <IconList data-testid="assetList" className={className}>
-      <IconListItem
-        key={id}
-        id={extendedId}
-        iconUrl={icon?.iconUrl}
-        featureStatusType={featureStatusType}
-      >
-        <ItemWrapper>
-          <StyledLabel>
-            {label}
-            {featureStatusType?.description && (
-              <StyledStatusDescription status={featureStatusType.typeValue}>
-                {featureStatusType?.description}
-              </StyledStatusDescription>
-            )}
-          </StyledLabel>
-          {onRemove && (
-            <StyledButton
-              data-testid={`assetListRemove-${id}`}
-              aria-label="Verwijder"
-              icon={<Close />}
-              onClick={onRemove}
-            />
+    <IconListItem
+      key={id}
+      id={extendedId}
+      iconUrl={icon?.iconUrl}
+      featureStatusType={featureStatusType}
+    >
+      <ItemWrapper>
+        <StyledLabel>
+          {label}
+          {featureStatusType?.description && (
+            <StyledStatusDescription status={featureStatusType.typeValue}>
+              {featureStatusType?.description}
+            </StyledStatusDescription>
           )}
-        </ItemWrapper>
-      </IconListItem>
-    </IconList>
+        </StyledLabel>
+        {onRemove && (
+          <StyledButton
+            data-testid={`assetListRemove-${id}`}
+            aria-label="Verwijder"
+            icon={<Close />}
+            onClick={() => onRemove(item)}
+          />
+        )}
+      </ItemWrapper>
+    </IconListItem>
   )
 }
+
+const AssetList: FunctionComponent<AssetListProps> = ({
+  onRemove,
+  selection,
+  className,
+  featureTypes,
+  featureStatusTypes,
+}) => {
+  console.log(selection)
+  return (
+    <IconList data-testid="assetList" className={className}>
+      {selection.length > 0 && selection.map(item => (
+        <AssetListItem
+          key={item.id}
+          item={item}
+          featureTypes={featureTypes}
+          featureStatusTypes={featureStatusTypes}
+          onRemove={() => onRemove && onRemove(item)}
+        />)
+      )}
+    </IconList>
+)}
 
 export default AssetList

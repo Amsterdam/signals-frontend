@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`signals/incident/components/form/AssetSelect/Summary renders a MapStatic component with the correct iconSrc prop 1`] = `
+<span
+  data-testid="mapStatic"
+>
+  <img
+    alt=""
+  />
+</span>
+`;

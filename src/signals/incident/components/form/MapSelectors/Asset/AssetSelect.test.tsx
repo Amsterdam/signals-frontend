@@ -99,7 +99,7 @@ jest.mock('./Selector', () => () => {
       <span
         aria-hidden="true"
         data-testid="removeItemContainer"
-        onClick={removeItem}
+        onClick={() => removeItem(item)}
         role="button"
         tabIndex={0}
       />
@@ -133,6 +133,8 @@ const geocodedResponse = {
 describe('AssetSelect', () => {
   let props: AssetSelectProps
   const updateIncident = jest.fn()
+  const addToSelection = jest.fn()
+  const removeFromSelection = jest.fn()
   const location = incidentJson.location as unknown as Location
 
   beforeEach(() => {
@@ -148,6 +150,8 @@ describe('AssetSelect', () => {
           updateIncident,
           featureTypes: initialValue.meta.featureTypes,
           featureStatusTypes: [],
+          addToSelection,
+          removeFromSelection,
         },
       },
     }
@@ -212,13 +216,13 @@ describe('AssetSelect', () => {
         <AssetSelect
           {...props}
           value={{
-            selection: {
+            selection: [{
               id: 'PL734',
               type: 'plastic',
               description: 'Plastic asset',
               iconUrl: '',
               label: 'foo bar',
-            },
+            }],
           }}
         />
       )
@@ -230,9 +234,9 @@ describe('AssetSelect', () => {
 
   it('renders the Summary when a location has been pinned', () => {
     const value = {
-      selection: {
+      selection: [{
         type: UNREGISTERED_TYPE,
-      },
+      }],
       location: {
         coordinates: mockLatLng,
         address: mockAddress,
@@ -340,9 +344,9 @@ describe('AssetSelect', () => {
     )
 
     const value = {
-      selection: {
+      selection: [{
         type: UNKNOWN_TYPE,
-      },
+      }],
       location: {
         coordinates: mockLatLng,
         address: mockAddress,
@@ -388,7 +392,7 @@ describe('AssetSelect', () => {
     rerender(
       withAssetSelectContext(
         <Provider store={store}>
-          <AssetSelect {...props} value={{ selection: item }} />
+          <AssetSelect {...props} value={{ selection: [item] }} />
         </Provider>,
         {
           ...contextValue,
@@ -402,7 +406,9 @@ describe('AssetSelect', () => {
 
     await screen.findByTestId('assetSelectSelector')
 
-    expect(updateIncident).toHaveBeenCalledTimes(3)
+    expect(updateIncident).toHaveBeenCalledTimes(2)
+    expect(removeFromSelection).toHaveBeenCalled()
+    expect(addToSelection).toHaveBeenCalled()
     expect(updateIncident).toHaveBeenLastCalledWith({
       Zork: {
         selection: undefined,
@@ -424,10 +430,10 @@ describe('AssetSelect', () => {
     }
 
     const value = {
-      selection: {
+      selection: [{
         type: UNKNOWN_TYPE,
         id: '08u2349823',
-      },
+      }],
       location,
     }
 
@@ -451,12 +457,12 @@ describe('AssetSelect', () => {
       location,
       Zork: {
         location,
-        selection: {
+        selection: [{
           ...mockItem,
           location: {
             coordinates: mockItemCoordinates,
           },
-        },
+        }],
       },
     })
   })
@@ -466,10 +472,10 @@ describe('AssetSelect', () => {
       coordinates: mockLatLng,
     }
     const value = {
-      selection: {
+      selection: [{
         type: UNREGISTERED_TYPE,
         id: '08u2349823',
-      },
+      }],
       location,
     }
 
@@ -496,11 +502,11 @@ describe('AssetSelect', () => {
       location,
       Zork: {
         location,
-        selection: {
+        selection: [{
           ...mockItem,
           type: mockUNREGISTERED_TYPE,
           location,
-        },
+        }],
       },
     })
   })
@@ -510,10 +516,10 @@ describe('AssetSelect', () => {
       coordinates: mockLatLng,
     }
     const value = {
-      selection: {
+      selection: [{
         type: UNREGISTERED_TYPE,
         id: '08u2349823',
-      },
+      }],
       location,
     }
 
@@ -542,10 +548,10 @@ describe('AssetSelect', () => {
 
   it('handles setting a location, without having to fetch the address', () => {
     const value = {
-      selection: {
+      selection: [{
         type: UNKNOWN_TYPE,
         id: '08u2349823',
-      },
+      }],
     }
 
     render(
@@ -571,10 +577,10 @@ describe('AssetSelect', () => {
         address: mockAddress,
       },
       Zork: {
-        selection: {
+        selection: [{
           type: UNKNOWN_TYPE,
           id: '08u2349823',
-        },
+        }],
         location: {
           coordinates: mockLatLng,
           address: mockAddress,

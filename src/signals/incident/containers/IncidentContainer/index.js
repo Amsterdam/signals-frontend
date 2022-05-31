@@ -19,6 +19,8 @@ import {
   updateIncident,
   createIncident,
   removeQuestionData,
+  addToSelection,
+  removeFromSelection,
 } from './actions'
 import { makeSelectIncidentContainer } from './selectors'
 import reducer from './reducer'
@@ -33,6 +35,8 @@ export const IncidentContainerComponent = ({
   getClassificationAction,
   incidentContainer,
   updateIncidentAction,
+  addToSelectionAction,
+  removeFromSelectionAction,
   removeQuestionDataAction,
 }) => {
   const { pathname } = useLocation()
@@ -49,6 +53,8 @@ export const IncidentContainerComponent = ({
               wizardDefinition={wizardDefinition}
               getClassification={getClassificationAction}
               updateIncident={updateIncidentAction}
+              addToSelection={addToSelectionAction}
+              removeFromSelection={removeFromSelectionAction}
               createIncident={createIncidentAction}
               incidentContainer={incidentContainer}
               removeQuestionData={removeQuestionDataAction}
@@ -66,6 +72,8 @@ IncidentContainerComponent.propTypes = {
   getClassificationAction: PropTypes.func.isRequired,
   incidentContainer: PropTypes.object.isRequired,
   updateIncidentAction: PropTypes.func.isRequired,
+  addToSelectionAction: PropTypes.func.isRequired,
+  removeFromSelectionAction: PropTypes.func.isRequired,
   removeQuestionDataAction: PropTypes.func.isRequired,
 }
 
@@ -79,6 +87,8 @@ const mapDispatchToProps = (dispatch) =>
       createIncidentAction: createIncident,
       getClassificationAction: getClassification,
       updateIncidentAction: updateIncident,
+      addToSelectionAction: addToSelection,
+      removeFromSelectionAction: removeFromSelection,
       removeQuestionDataAction: removeQuestionData,
     },
     dispatch
