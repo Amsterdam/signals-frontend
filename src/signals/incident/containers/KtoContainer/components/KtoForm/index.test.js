@@ -53,7 +53,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(screen.queryByTestId('ktoAllowsContact')).toBeFalsy()
+    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('ja')
   })
 
   it('renders the correct title', () => {

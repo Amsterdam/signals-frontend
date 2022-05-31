@@ -12,6 +12,7 @@ import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 import { useParams } from 'react-router-dom'
+import configuration from 'shared/services/configuration/configuration'
 
 export const andersOptionText = 'Anders, namelijk...'
 
@@ -55,7 +56,8 @@ const initialState = {
   areaVisibility: false,
   errors: {},
   formData: {
-    allows_contact: true,
+    allows_contact:
+      configuration.featureFlags.reporterMailHandledNegativeContactEnabled,
     is_satisfied: undefined,
     text_extra: '',
     text: '',
@@ -135,8 +137,11 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   )
 
   const onChangeAllowsContact = useCallback((event) => {
-    const { checked } = event.target
-    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: !checked } })
+    let { checked } = event.target
+    if (configuration.featureFlags.reporterMailHandledNegativeContactEnabled) {
+      checked = !checked
+    }
+    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
   }, [])
 
   const handleSubmit = useCallback(
@@ -166,6 +171,10 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   )
 
   const { satisfactionIndication } = useParams()
+
+  const negativeContactEnabled =
+    satisfactionIndication === 'nee' &&
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
@@ -217,28 +226,41 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
         />
       </GridArea>
 
-      {satisfactionIndication === 'nee' && (
-        <GridArea>
-          <Heading forwardedAs="h2">Contact</Heading>
-          <Paragraph id="subtitle-allows-contact">
-            Uw reactie is belangrijk voor ons. Wij laten u graag weten wat wij
-            ermee doen. En misschien willen wij u nog iets vragen of vertellen.
-            Wij bellen u dan of sturen een e-mail.?{' '}
-          </Paragraph>
+      <GridArea>
+        {negativeContactEnabled ? (
+          <>
+            <Heading forwardedAs="h2">Contact</Heading>
+            <Paragraph id="subtitle-allows-contact">
+              Uw reactie is belangrijk voor ons. Wij laten u graag weten wat wij
+              ermee doen. En misschien willen wij u nog iets vragen of
+              vertellen. Wij bellen u dan of sturen een e-mail.{' '}
+            </Paragraph>
+          </>
+        ) : (
+          <StyledLabel id="subtitle-allows-contact">
+            Mogen wij contact met u opnemen naar aanleiding van uw feedback?{' '}
+            <Optional>(niet verplicht)</Optional>
+          </StyledLabel>
+        )}
 
-          <CheckboxWrapper inline htmlFor="allows-contact">
-            <Checkbox
-              data-testid="ktoAllowsContact"
-              id="allows-contact"
-              aria-describedby="subtitle-allows-contact"
-              name="allows-contact"
-              onChange={onChangeAllowsContact}
-            />
-            Nee, bel of e-mail mij niet meer over deze melding of over mijn
-            reactie.
-          </CheckboxWrapper>
-        </GridArea>
-      )}
+        <CheckboxWrapper
+          inline
+          htmlFor="allows-contact"
+          data-testid="allowsContact"
+        >
+          <Checkbox
+            data-testid="ktoAllowsContact"
+            id="allows-contact"
+            aria-describedby="subtitle-allows-contact"
+            name="allows-contact"
+            onChange={onChangeAllowsContact}
+          />
+
+          {negativeContactEnabled
+            ? 'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
+            : 'ja'}
+        </CheckboxWrapper>
+      </GridArea>
 
       <GridArea>
         <Button data-testid="ktoSubmit" type="submit" variant="secondary">
