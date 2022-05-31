@@ -309,7 +309,7 @@ describe('components/SiteHeader', () => {
       )
     )
 
-    const toggle = screen.getByRole('button', { name: 'Menu' })
+    const toggle = screen.getByRole('button', { 'aria-label': 'Menu' })
 
     expect(
       screen.queryByRole('link', { name: 'Instellingen' })
