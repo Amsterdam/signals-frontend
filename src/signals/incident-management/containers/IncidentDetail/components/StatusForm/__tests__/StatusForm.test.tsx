@@ -480,24 +480,31 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     userEvent.selectOptions(screen.getByTestId('selectStatus'), [
       StatusCode.Afgehandeld,
     ])
-    expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
+    expect(screen.getByTestId('noEmailWarning')).toBeInTheDocument()
   })
 
   it('shows a warning when contact is now allowed by user', () => {
     const contactNotAllowed = { ...incidentFixture }
 
-    if (contactNotAllowed?.reporter?.contact_allowed) {
+    if (contactNotAllowed?.reporter) {
       contactNotAllowed.reporter.contact_allowed = false
+      contactNotAllowed.reporter.email = 'me@gmail.com'
     }
+
     render(renderWithContext(contactNotAllowed))
 
     userEvent.selectOptions(screen.getByTestId('selectStatus'), [
       StatusCode.Afgehandeld,
     ])
-    expect(screen.getByTestId('no-contact-allowed-warning')).toBeInTheDocument()
+    expect(screen.getByTestId('noContactAllowedWarning')).toBeInTheDocument()
   })
 
   it('shows a warning when switching to reply status user has no email', () => {
+    const texts = defaultTexts[0]
+    const withDefaultTextsSelectedState = { ...incidentFixture }
+    if (withDefaultTextsSelectedState?.status?.state) {
+      withDefaultTextsSelectedState.status.state = texts.state
+    }
     const withoutReporterEmail = { ...incidentFixture }
     if (withoutReporterEmail?.reporter?.email) {
       withoutReporterEmail.reporter.email = ''
@@ -714,6 +721,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     if (withReporterEmailAndStatus?.reporter) {
       withReporterEmailAndStatus.reporter.email = 'me@email.com'
+      withReporterEmailAndStatus.reporter.contact_allowed = true
     }
 
     // render component with incident status that automatically sends an email to the reporter

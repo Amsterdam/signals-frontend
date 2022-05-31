@@ -85,7 +85,8 @@
   "reporter": {
     "email": "me@email.com",
     "phone": "14020",
-    "sharing_allowed": false
+    "sharing_allowed": false,
+    "contact_allowed": true
   },
   "priority": {
     "priority": "normal",

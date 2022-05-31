@@ -368,19 +368,19 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                   />
                 </StyledCheckboxLabel>
               ) : (
-                <div data-testid="no-contact-allowed-warning">
+                <div data-testid="noContactAllowedWarning">
                   {constants.NO_CONTACT_ALLOWED}
                 </div>
               )
             ) : (
-              <div data-testid="no-email-warning">
+              <div data-testid="noEmailWarning">
                 {constants.NO_REPORTER_EMAIL}
               </div>
             )}
           </div>
         )}
         {emailIsNotSent && (
-          <div data-testid="no-email-is-sent-warning">
+          <div data-testid="noEmaiIIsSentWarning">
             {constants.NO_EMAIL_IS_SENT}
           </div>
         )}
