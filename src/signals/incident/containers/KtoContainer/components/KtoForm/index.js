@@ -12,8 +12,6 @@ import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 
-export const andersOptionText = 'Anders, namelijk...'
-
 const Form = styled.form`
   display: grid;
   grid-row-gap: 32px;

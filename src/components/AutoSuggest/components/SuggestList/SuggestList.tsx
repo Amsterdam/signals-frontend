@@ -21,6 +21,7 @@ const Li = styled.li<{ id: string }>`
   cursor: pointer;
   display: flex;
   white-space: pre-line;
+  cursor: ${({ id }) => (id === 'feedbackEmpty' ? 'default' : 'pointer')};
 
   &:hover,
   &:focus {
