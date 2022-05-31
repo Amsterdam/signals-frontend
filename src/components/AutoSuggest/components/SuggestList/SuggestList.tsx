@@ -15,7 +15,7 @@ const StyledList = styled.ul`
   margin: 0;
 `
 
-const Li = styled.li`
+const Li = styled.li<{ id: string }>`
   line-height: ${themeSpacing(5)};
   padding: ${themeSpacing(2, 5)};
   cursor: pointer;
@@ -24,7 +24,8 @@ const Li = styled.li`
 
   &:hover,
   &:focus {
-    background-color: ${themeColor('tint', 'level3')};
+    background-color: ${({ id }) =>
+      id !== 'feedbackEmpty' && themeColor('tint', 'level3')};
   }
 `
 
@@ -144,9 +145,11 @@ const SuggestList: FC<SuggestListProps> = ({
           tabIndex={-1}
         >
           <>
-            <StyledIcon className="chrevronIcon" size={12}>
-              <Chevron />
-            </StyledIcon>
+            {option.id !== 'feedbackEmpty' && (
+              <StyledIcon className="chrevronIcon" size={12}>
+                <Chevron />
+              </StyledIcon>
+            )}
             {option.value}
           </>
         </Li>
