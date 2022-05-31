@@ -57,8 +57,9 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
     })
 
     form.controls.state.valueChanges.subscribe((state) => {
-      if (!form.value.category_url) return
-      handleChange({ state })
+      if (form.value.category_url) {
+        handleChange({ state })
+      }
     })
 
     const firstCategoryUrl = subcategoryOptions[0]?.key
