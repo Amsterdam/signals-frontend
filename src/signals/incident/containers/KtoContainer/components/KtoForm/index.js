@@ -13,9 +13,10 @@ import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
+import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
+import { useDispatch, useSelector } from 'react-redux'
 import FileInput from '../../../../components/form/FileInput'
-
-export const andersOptionText = 'Anders, namelijk...'
+import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
 const Form = styled.form`
   display: grid;
@@ -118,6 +119,7 @@ const KtoForm = ({ options, onSubmit }) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
+  const dispatchRedux = useDispatch()
   const [state, dispatch] = useReducer(
     reducer,
     {
@@ -128,6 +130,7 @@ const KtoForm = ({ options, onSubmit }) => {
     init
   )
 
+  const { incident } = useSelector(makeSelectIncidentContainer)
   const extraTextMaxLength = 1000
 
   const onChangeOption = useCallback((groupName, option) => {
@@ -236,32 +239,38 @@ const KtoForm = ({ options, onSubmit }) => {
       </GridArea>
 
       {satisfactionIndication === 'nee' && (
-        <GridArea>
-          <StyledLabel htmlFor="text_extra">
-            {"Foto's toevoegen? "}
-            <Optional>(niet verplicht)</Optional>
-          </StyledLabel>
-          <HelpText id="subtitle-kto">
-            Voeg een foto toe om de situatie te verduidelijken.
-          </HelpText>
-          <FileInput
-            handler={() => {}}
-            parent={{ meta: { updateIncident: () => {} } }}
-            meta={{
-              label: "Foto's toevoegen",
-              subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-              minFileSize: 30 * 2 ** 10, // 30 KiB.
-              maxFileSize: 20 * 2 ** 20, // 20 MiB.
-              allowedFileTypes: [
-                'image/jpeg',
-                'image/jpg',
-                'image/png',
-                'image/gif',
-              ],
-              maxNumberOfFiles: 3,
-            }}
-          />
-        </GridArea>
+          <GridArea>
+            <StyledLabel htmlFor="text_extra">
+              {"Foto's toevoegen? "}
+              <Optional>(niet verplicht)</Optional>
+            </StyledLabel>
+            <HelpText id="subtitle-kto">
+              Voeg een foto toe om de situatie te verduidelijken.
+            </HelpText>
+            <FileInput
+              handler={() => ({ value: incident.images })}
+              parent={{
+                meta: {
+                  updateIncident: (payload) =>
+                    dispatchRedux(updateIncident(payload)),
+                },
+              }}
+              meta={{
+                name: 'images',
+                label: "Foto's toevoegen",
+                subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+                minFileSize: 30 * 2 ** 10, // 30 KiB.
+                maxFileSize: 20 * 2 ** 20, // 20 MiB.
+                allowedFileTypes: [
+                  'image/jpeg',
+                  'image/jpg',
+                  'image/png',
+                  'image/gif',
+                ],
+                maxNumberOfFiles: 3,
+              }}
+            />
+          </GridArea>
       )}
 
       {(negativeContactEnabled ||
