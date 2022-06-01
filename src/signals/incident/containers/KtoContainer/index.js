@@ -10,12 +10,14 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import { useParams } from 'react-router-dom'
+import { compose } from 'redux'
 
 import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
 
 import LoadingIndicator from 'components/LoadingIndicator'
-
+import reducer from 'signals/incident/containers/IncidentContainer/reducer'
+import injectReducer from '../../../../utils/injectReducer'
 import KtoForm from './components/KtoForm'
 
 const StyledHeading = styled(Heading)`
@@ -73,7 +75,7 @@ export const successSections = configuration.featureFlags
     }
 
 // eslint-disable-next-line consistent-return
-const reducer = (state, action) => {
+const reactReducer = (state, action) => {
   // eslint-disable-next-line default-case
   switch (action.type) {
     case 'SET_FORM_OPTIONS':
@@ -85,7 +87,7 @@ const reducer = (state, action) => {
 }
 
 export const KtoContainer = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reactReducer, initialState)
   const {
     get: getCheck,
     isLoading: isLoadingCheck,
@@ -211,4 +213,6 @@ export const KtoContainer = () => {
   )
 }
 
-export default KtoContainer
+const withReducer = injectReducer({ key: 'incidentContainer', reducer })
+
+export default compose(withReducer)(KtoContainer)
