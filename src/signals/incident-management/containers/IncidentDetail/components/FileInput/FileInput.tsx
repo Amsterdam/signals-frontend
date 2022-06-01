@@ -1,7 +1,6 @@
-import { ErrorWrapper } from 'components/ErrorMessage'
 import type { FunctionComponent } from 'react'
 import { useCallback } from 'react'
-import { FileInputStyle, FileInputUploadButton } from './styles'
+import { FileInputUploadButton } from './styles'
 
 interface FileInputProps {
   maxNumberOfFiles?: number
@@ -21,10 +20,8 @@ interface FileInputProps {
 const FileInput: FunctionComponent<FileInputProps> = ({
   allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
   files = [],
-  errorMessages = [],
   multiple = true,
   name,
-  helpText,
   onChange,
   children,
 }) => {
@@ -37,28 +34,20 @@ const FileInput: FunctionComponent<FileInputProps> = ({
   )
 
   return (
-    <ErrorWrapper invalid={errorMessages.length > 0}>
-      <FileInputStyle
-        id={name}
-        data-testid="fileInput"
-        aria-describedby={helpText && `subtitle-${name}`}
-      >
-        <FileInputUploadButton data-testid="fileInputUploadButton">
-          <input
-            type="file"
-            id="fileUpload"
-            data-testid="fileInputUpload"
-            accept={allowedFileTypes.join(',')}
-            onChange={addFiles}
-            name={name}
-            multiple={multiple}
-            aria-label="Toevoegen foto"
-          />
+    <FileInputUploadButton data-testid="fileInputUploadButton">
+      <input
+        type="file"
+        id="fileUpload"
+        data-testid="fileInputUpload"
+        accept={allowedFileTypes.join(',')}
+        onChange={addFiles}
+        name={name}
+        multiple={multiple}
+        aria-label="Toevoegen foto"
+      />
 
-          <label htmlFor="fileUpload">{children}</label>
-        </FileInputUploadButton>
-      </FileInputStyle>
-    </ErrorWrapper>
+      <label htmlFor="fileUpload">{children}</label>
+    </FileInputUploadButton>
   )
 }
 

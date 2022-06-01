@@ -20,7 +20,6 @@ import Attachments from './components/Attachments'
 import ChildIncidents from './components/ChildIncidents'
 import DetailHeader from './components/DetailHeader'
 import MetaList from './components/MetaList'
-import AddNote from './components/AddNote'
 import LocationForm from './components/LocationForm'
 import AttachmentViewer from './components/AttachmentViewer'
 import Detail from './components/Detail'
@@ -365,7 +364,7 @@ const IncidentDetail = () => {
         <DetailContainer
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
-          <Detail attachments={state.attachments} context={state.context} />
+          <Detail context={state.context} />
 
           <StyledAttachments
             attachments={state.attachments || []}
@@ -378,8 +377,6 @@ const IncidentDetail = () => {
             uploadSuccess={uploadSuccess}
             uploadError={uploadError}
           />
-
-          <AddNote maxContentLength={3000} />
 
           {state.children?.results && state.childrenHistory && (
             <ChildIncidents

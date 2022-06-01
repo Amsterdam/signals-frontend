@@ -44,12 +44,12 @@ const FileInput: FunctionComponent<FieldProps> = ({
         },
         minFileSize: (files) =>
           (files as File[]).find((file) => file.size < MIN) &&
-          `Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(
+          `Dit bestand is te klein. De minimale bestandsgrootte is ${fileSize(
             MIN
           )}.`,
         maxFileSize: (files) =>
           (files as File[]).find((file) => file.size > MAX) &&
-          `Dit bestand is te groot. De minimale bestandgrootte is ${fileSize(
+          `Dit bestand is te groot. De maximale bestandsgrootte is ${fileSize(
             MAX
           )}.`,
       },

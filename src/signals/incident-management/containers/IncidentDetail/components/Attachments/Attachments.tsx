@@ -7,6 +7,7 @@ import {
   themeColor,
   Button as AscButton,
 } from '@amsterdam/asc-ui'
+import ErrorMessage from 'components/ErrorMessage'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -23,19 +24,30 @@ import { useCallback, useState } from 'react'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
+import fileSize from 'signals/incident/services/file-size'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
+import AddNote from '../AddNote'
 
 const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
 const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
 const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
 const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
 
-const Wrapper = styled.article`
+const MIN = 30 * 2 ** 10 // 30 KiB
+const MAX = 20 * 2 ** 20 // 20 MiB
+
+const Wrapper = styled.section`
   contain: content;
   position: relative;
   z-index: 0;
+`
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  margin-top: ${themeSpacing(2)};
+  gap: 8px;
 `
 
 const Title = styled(Heading)`
@@ -45,6 +57,8 @@ const Title = styled(Heading)`
 const StyledBox = styled.div`
   position: relative;
   display: inline-block;
+  margin-right: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(2)};
   width: 180px;
   height: 135px;
   border: 1px solid ${themeColor('tint', 'level3')} !important;
@@ -54,8 +68,6 @@ const StyledBox = styled.div`
 const StyledImg = styled.img`
   width: 100%;
   height: 100%;
-  margin-right: 10px;
-  margin-bottom: ${themeSpacing(2)};
   object-fit: cover;
 `
 
@@ -77,7 +89,7 @@ const StyledReporter = styled.div`
   top: 10px;
   left: 10px;
   padding: 6px 8px;
-  background-color: rgba(50, 50, 50, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
   line-height: 14px;
@@ -153,6 +165,14 @@ const StyledLoadingIndicator = styled(LoadingIndicator)`
   height: 50px;
 `
 
+const StyledErrorMessage = styled(ErrorMessage)`
+  margin-bottom: ${themeSpacing(8)};
+`
+
+const StyledAddNote = styled(AddNote)`
+  flex-grow: 1;
+`
+
 interface AttachmentsProps {
   attachments: Attachment[]
   className: string
@@ -179,12 +199,29 @@ const Attachments: FC<AttachmentsProps> = ({
 }) => {
   const { preview } = useContext(IncidentDetailContext)
   const [files, setFiles] = useState<Files>([])
+  const [error, setError] = useState('')
   const hasAttachments = attachments.length > 0 || files.length > 0
   const userCan = useSelector(makeSelectUserCan)
   const user = useSelector(makeSelectUser)
 
   const handleChange = useCallback(
     (newFiles) => {
+      if (newFiles.find((file: File) => file.size < MIN)) {
+        setError(
+          `Dit bestand is te klein. De minimale bestandsgrootte is ${fileSize(
+            MIN
+          )}.`
+        )
+        return
+      }
+      if (newFiles.find((file: File) => file.size > MAX)) {
+        setError(
+          `Dit bestand is te groot. De maximale bestandsgrootte is ${fileSize(
+            MAX
+          )}.`
+        )
+        return
+      }
       setFiles(
         newFiles.map((file: File) => ({
           name: file.name,
@@ -299,19 +336,26 @@ const Attachments: FC<AttachmentsProps> = ({
           </StyledBox>
         )
       )}
-      <FileInput
-        multiple={false}
-        name="addPhoto"
-        label="Foto toevoegen"
-        onChange={handleChange}
-      >
-        <Button
-          forwardedAs="span"
-          variant={hasAttachments ? 'textButton' : 'application'}
+      <StyledErrorMessage message={error} />
+      <StyledButtonWrapper>
+        <FileInput
+          multiple={false}
+          name="addPhoto"
+          label="Foto toevoegen"
+          onChange={handleChange}
         >
-          Foto toevoegen
-        </Button>
-      </FileInput>
+          {files.length > 0 && !uploadError ? (
+            <Button variant="application" disabled={true} type="button">
+              Foto toevoegen
+            </Button>
+          ) : (
+            <Button forwardedAs="span" variant="application" type="button">
+              Foto toevoegen
+            </Button>
+          )}
+        </FileInput>
+        <StyledAddNote maxContentLength={3000} />
+      </StyledButtonWrapper>
     </Wrapper>
   )
 }

@@ -13,7 +13,7 @@ const Section = styled.section`
 
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
-    margin: ${themeSpacing(2)} 0;
+    margin: ${themeSpacing(4)} 0 ${themeSpacing(2)};
   }
 `
 
