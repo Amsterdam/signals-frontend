@@ -393,7 +393,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             label={
               <>
                 <strong>
-                  {state.check.checked && state.flags.hasEmail
+                  {state.check.checked &&
+                  state.flags.hasEmail &&
+                  incident?.reporter?.contact_allowed
                     ? state.text.label
                     : 'Toelichting'}
                 </strong>
