@@ -222,6 +222,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       getEmailTemplate,
+      incident?.reporter?.contact_allowed,
     ]
   )
 
