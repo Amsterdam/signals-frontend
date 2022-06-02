@@ -97,6 +97,7 @@ const Attachments: FC<AttachmentsProps> = ({
         )
         return
       }
+      setError('')
       setFiles(
         newFiles.map((file: File) => ({
           name: file.name,
