@@ -1,13 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import {
-  themeSpacing,
-  Heading,
-  themeColor,
-  Button as AscButton,
-} from '@amsterdam/asc-ui'
-import ErrorMessage from 'components/ErrorMessage'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -15,7 +7,6 @@ import {
   TrashBin as DeleteIcon,
 } from '@amsterdam/asc-assets'
 
-import LoadingIndicator from 'components/LoadingIndicator'
 import type { Attachment } from 'types/attachment'
 import { useEffect } from 'react'
 import type { FC } from 'react'
@@ -28,7 +19,26 @@ import fileSize from 'signals/incident/services/file-size'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
-import AddNote from '../AddNote'
+import {
+  StyledAddNote,
+  StyledBox,
+  StyledButton,
+  StyledButtonWrapper,
+  StyledDate,
+  StyledDetails,
+  StyledEmployee,
+  StyledError,
+  StyledErrorMessage,
+  StyledGradient,
+  StyledImg,
+  StyledLoadingIndicator,
+  StyledName,
+  StyledReporter,
+  StyledUploadProgress,
+  StyledUploadProgressError,
+  Title,
+  Wrapper,
+} from './styles'
 
 const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
 const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
@@ -37,141 +47,6 @@ const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
 
 const MIN = 30 * 2 ** 10 // 30 KiB
 const MAX = 20 * 2 ** 20 // 20 MiB
-
-const Wrapper = styled.section`
-  contain: content;
-  position: relative;
-  z-index: 0;
-`
-
-const StyledButtonWrapper = styled.div`
-  display: flex;
-  margin-top: ${themeSpacing(2)};
-  gap: 8px;
-`
-
-const Title = styled(Heading)`
-  margin: ${themeSpacing(4)} 0;
-`
-
-const StyledBox = styled.div`
-  position: relative;
-  display: inline-block;
-  margin-right: ${themeSpacing(2)};
-  margin-bottom: ${themeSpacing(2)};
-  width: 180px;
-  height: 135px;
-  border: 1px solid ${themeColor('tint', 'level3')} !important;
-  cursor: pointer;
-`
-
-const StyledImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
-
-const StyledGradient = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0) 75%
-  );
-`
-
-const StyledReporter = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 6px 8px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: ${themeColor('tint', 'level1')};
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-`
-
-const StyledDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 10px;
-  bottom: 7px;
-  left: 10px;
-  color: ${themeColor('tint', 'level1')};
-  font-size: 14px;
-  line-height: 20px;
-`
-
-const StyledDate = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
-const StyledError = styled(StyledDate)`
-  padding: 0 4px;
-  border-radius: 2px;
-  background-color: ${themeColor('error')};
-`
-
-const StyledEmployee = StyledDate
-
-const StyledName = styled(StyledDate)`
-  font-weight: bold;
-`
-
-const StyledButton = styled(AscButton)`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: ${themeSpacing(0, 1.5)};
-`
-
-interface StyledUploadProgressProps {
-  progress: number
-}
-
-const StyledUploadProgress = styled.div<StyledUploadProgressProps>`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height 5px;
-  background-color: ${themeColor('tint', 'level4')};
-
-  &::after {
-    content: '';
-    display: block;
-    width: ${({ progress }) => progress * 100}%;
-    height: 100%;
-    background-color: ${themeColor('primary')};
-  }
-`
-const StyledUploadProgressError = styled(StyledUploadProgress)`
-  &::after {
-    background-color: ${themeColor('error')};
-  }
-`
-
-const StyledLoadingIndicator = styled(LoadingIndicator)`
-  width: 50px;
-  height: 50px;
-`
-
-const StyledErrorMessage = styled(ErrorMessage)`
-  margin-bottom: ${themeSpacing(8)};
-`
-
-const StyledAddNote = styled(AddNote)`
-  flex-grow: 1;
-`
 
 interface AttachmentsProps {
   attachments: Attachment[]
