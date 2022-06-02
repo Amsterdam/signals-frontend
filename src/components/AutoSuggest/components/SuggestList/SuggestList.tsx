@@ -15,16 +15,18 @@ const StyledList = styled.ul`
   margin: 0;
 `
 
-const Li = styled.li`
+const Li = styled.li<{ id: string }>`
   line-height: ${themeSpacing(5)};
   padding: ${themeSpacing(2, 5)};
   cursor: pointer;
   display: flex;
   white-space: pre-line;
+  cursor: ${({ id }) => (id === 'feedbackEmpty' ? 'default' : 'pointer')};
 
   &:hover,
   &:focus {
-    background-color: ${themeColor('tint', 'level3')};
+    background-color: ${({ id }) =>
+      id !== 'feedbackEmpty' && themeColor('tint', 'level3')};
   }
 `
 
@@ -62,7 +64,7 @@ const SuggestList: FC<SuggestListProps> = ({
 
   useEffect(() => {
     const list = listRef.current
-    if (!list || activeIndex === undefined || activeIndex === null) return
+    if (!list || activeIndex === undefined) return
 
     if (activeIndex >= 0 && activeIndex < options.length) {
       ;(list.children[activeIndex] as HTMLLIElement).focus()
@@ -120,8 +122,6 @@ const SuggestList: FC<SuggestListProps> = ({
         },
       },
     ]
-  } else if (!Number.isInteger(options.length)) {
-    return null
   }
 
   return (
@@ -144,9 +144,11 @@ const SuggestList: FC<SuggestListProps> = ({
           tabIndex={-1}
         >
           <>
-            <StyledIcon className="chrevronIcon" size={12}>
-              <Chevron />
-            </StyledIcon>
+            {option.id !== 'feedbackEmpty' && (
+              <StyledIcon className="chrevronIcon" size={12}>
+                <Chevron />
+              </StyledIcon>
+            )}
             {option.value}
           </>
         </Li>

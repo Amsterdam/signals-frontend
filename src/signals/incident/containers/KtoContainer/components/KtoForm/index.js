@@ -14,8 +14,6 @@ import ErrorMessage from 'components/ErrorMessage'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 
-export const andersOptionText = 'Anders, namelijk...'
-
 const Form = styled.form`
   display: grid;
   grid-row-gap: 32px;

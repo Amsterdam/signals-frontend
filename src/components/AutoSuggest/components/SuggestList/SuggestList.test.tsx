@@ -106,6 +106,18 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     )
 
     expect(document.activeElement).toEqual(document.body)
+
+    rerender(
+      withAppContext(
+        <SuggestList
+          options={options}
+          onSelectOption={onSelectOption}
+          activeIndex={undefined}
+        />
+      )
+    )
+
+    expect(document.activeElement).not.toEqual(document.body)
   })
 
   it('should call onSelectOption', () => {
