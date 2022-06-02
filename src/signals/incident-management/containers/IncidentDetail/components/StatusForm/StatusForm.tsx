@@ -194,7 +194,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         return
       }
 
-      if (incident?.id && state.flags.hasEmail && state.check.checked) {
+      if (
+        incident?.id &&
+        state.flags.hasEmail &&
+        state.check.checked &&
+        incident?.reporter?.contact_allowed
+      ) {
         getEmailTemplate(
           `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
           {
@@ -217,6 +222,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       getEmailTemplate,
+      incident?.reporter?.contact_allowed,
     ]
   )
 
@@ -347,34 +353,39 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         {!state.flags.isSplitIncident && !emailIsNotSent && (
           <div>
             {state.flags.hasEmail ? (
-              <StyledCheckboxLabel
-                disabled={state.check.disabled}
-                htmlFor="send_email"
-                label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                noActiveState
-              >
-                <StyledCheckbox
-                  checked={state.check.checked}
-                  data-testid="sendEmailCheckbox"
+              incident?.reporter?.contact_allowed ? (
+                <StyledCheckboxLabel
                   disabled={state.check.disabled}
-                  id="send_email"
-                  onClick={onCheck}
-                />
-              </StyledCheckboxLabel>
+                  htmlFor="send_email"
+                  label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                  noActiveState
+                >
+                  <StyledCheckbox
+                    checked={state.check.checked}
+                    data-testid="sendEmailCheckbox"
+                    disabled={state.check.disabled}
+                    id="send_email"
+                    onClick={onCheck}
+                  />
+                </StyledCheckboxLabel>
+              ) : (
+                <div data-testid="noContactAllowedWarning">
+                  {constants.NO_CONTACT_ALLOWED}
+                </div>
+              )
             ) : (
-              <div data-testid="no-email-warning">
+              <div data-testid="noEmailWarning">
                 {constants.NO_REPORTER_EMAIL}
               </div>
             )}
           </div>
         )}
         {emailIsNotSent && (
-          <div data-testid="no-email-is-sent-warning">
+          <div data-testid="noEmaiIIsSentWarning">
             {constants.NO_EMAIL_IS_SENT}
           </div>
         )}
       </StyledSection>
-
       <StyledSection>
         <AddNoteWrapper>
           <Label
@@ -382,7 +393,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             label={
               <>
                 <strong>
-                  {state.check.checked && state.flags.hasEmail
+                  {state.check.checked &&
+                  state.flags.hasEmail &&
+                  incident?.reporter?.contact_allowed
                     ? state.text.label
                     : 'Toelichting'}
                 </strong>
@@ -443,7 +456,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           </ErrorWrapper>
         </AddNoteWrapper>
       </StyledSection>
-
       <div>
         <StyledButton
           data-testid="statusFormSubmitButton"
