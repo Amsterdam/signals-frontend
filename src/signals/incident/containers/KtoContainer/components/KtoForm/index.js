@@ -3,7 +3,7 @@
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
@@ -11,8 +11,8 @@ import Label from 'components/Label'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
-
-export const andersOptionText = 'Anders, namelijk...'
+import { useParams } from 'react-router-dom'
+import configuration from 'shared/services/configuration/configuration'
 
 const Form = styled.form`
   display: grid;
@@ -54,7 +54,8 @@ const initialState = {
   areaVisibility: false,
   errors: {},
   formData: {
-    allows_contact: false,
+    allows_contact:
+      configuration.featureFlags.reporterMailHandledNegativeContactEnabled,
     is_satisfied: undefined,
     text_extra: '',
     text: '',
@@ -134,8 +135,10 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
   )
 
   const onChangeAllowsContact = useCallback((event) => {
-    const { checked } = event.target
-
+    let { checked } = event.target
+    if (configuration.featureFlags.reporterMailHandledNegativeContactEnabled) {
+      checked = !checked
+    }
     dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
   }, [])
 
@@ -164,6 +167,12 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
     },
     [onSubmit, state]
   )
+
+  const { satisfactionIndication } = useParams()
+
+  const negativeContactEnabled =
+    satisfactionIndication === 'nee' &&
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
@@ -216,12 +225,27 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
       </GridArea>
 
       <GridArea>
-        <StyledLabel id="subtitle-allows-contact">
-          Mogen wij contact met u opnemen naar aanleiding van uw feedback?{' '}
-          <Optional>(niet verplicht)</Optional>
-        </StyledLabel>
+        {negativeContactEnabled ? (
+          <>
+            <Heading forwardedAs="h2">Contact</Heading>
+            <Paragraph id="subtitle-allows-contact">
+              Uw reactie is belangrijk voor ons. Wij laten u graag weten wat wij
+              ermee doen. En misschien willen wij u nog iets vragen of
+              vertellen. Wij bellen u dan of sturen een e-mail.{' '}
+            </Paragraph>
+          </>
+        ) : (
+          <StyledLabel id="subtitle-allows-contact">
+            Mogen wij contact met u opnemen naar aanleiding van uw feedback?{' '}
+            <Optional>(niet verplicht)</Optional>
+          </StyledLabel>
+        )}
 
-        <CheckboxWrapper inline htmlFor="allows-contact">
+        <CheckboxWrapper
+          inline
+          htmlFor="allows-contact"
+          data-testid="allowsContact"
+        >
           <Checkbox
             data-testid="ktoAllowsContact"
             id="allows-contact"
@@ -229,7 +253,10 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
             name="allows-contact"
             onChange={onChangeAllowsContact}
           />
-          Ja
+
+          {negativeContactEnabled
+            ? 'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
+            : 'ja'}
         </CheckboxWrapper>
       </GridArea>
 
