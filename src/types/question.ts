@@ -10,6 +10,7 @@ export enum QuestionFieldType {
   HandlingMessage = 'HandlingMessage',
   Header = 'Header',
   HiddenInput = 'HiddenInput',
+  LocationSelect = 'AssetSelectRenderer',
   MapInput = 'MapInput',
   MultiTextInput = 'MultiTextInput',
   PlainText = 'PlainText',

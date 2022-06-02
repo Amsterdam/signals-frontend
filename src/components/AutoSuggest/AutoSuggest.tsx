@@ -269,6 +269,12 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   }, [data, numOptionsDeterminer])
 
   useEffect(() => {
+    if (data?.response?.numFound === 0) {
+      setShowList(true)
+    }
+  }, [data])
+
+  useEffect(() => {
     if (!inputRef.current || value === undefined) return
 
     inputRef.current.value = value
