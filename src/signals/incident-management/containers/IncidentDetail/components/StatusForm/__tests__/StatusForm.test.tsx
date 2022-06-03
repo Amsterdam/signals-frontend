@@ -487,7 +487,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const contactNotAllowed = { ...incidentFixture }
 
     if (contactNotAllowed?.reporter) {
-      contactNotAllowed.reporter.contact_allowed = false
+      contactNotAllowed.reporter.allows_contact = false
       contactNotAllowed.reporter.email = 'me@gmail.com'
     }
 
@@ -721,7 +721,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     if (withReporterEmailAndStatus?.reporter) {
       withReporterEmailAndStatus.reporter.email = 'me@email.com'
-      withReporterEmailAndStatus.reporter.contact_allowed = true
+      withReporterEmailAndStatus.reporter.allows_contact = true
     }
 
     // render component with incident status that automatically sends an email to the reporter
