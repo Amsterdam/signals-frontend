@@ -94,7 +94,9 @@ export const KtoContainer = () => {
     error: errorCheck,
     put,
     isSuccess,
+    data: dataFeedbackForms,
   } = useFetch()
+
   const {
     get: getOptions,
     isLoading: isLoadingOptions,
@@ -205,7 +207,12 @@ export const KtoContainer = () => {
               xLarge: 8,
             }}
           >
-            <KtoForm options={state.formOptions} onSubmit={onSubmit} />
+            <KtoForm
+              isSatisfied={isSatisfied}
+              dataFeedbackForms={dataFeedbackForms}
+              options={state.formOptions}
+              onSubmit={onSubmit}
+            />
           </Column>
         </Row>
       )}

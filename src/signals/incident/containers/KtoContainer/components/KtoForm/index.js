@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { filesUpload } from 'shared/services/files-upload/files-upload'
 import FileInput from '../../../../components/form/FileInput'
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
@@ -115,7 +116,7 @@ const reducer = (state, action) => {
   }
 }
 
-const KtoForm = ({ options, onSubmit }) => {
+const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
@@ -162,7 +163,7 @@ const KtoForm = ({ options, onSubmit }) => {
   )
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault()
 
       const { formData } = state
@@ -182,10 +183,16 @@ const KtoForm = ({ options, onSubmit }) => {
       }
 
       if (!Object.keys(errors).length) {
+        if (incident.images.length > 0) {
+          await filesUpload({
+            url: `${configuration.INCIDENT_PUBLIC_ENDPOINT}${dataFeedbackForms.signal_id}/attachments/`,
+            files: incident.images,
+          })
+        }
         onSubmit(formData)
       }
     },
-    [onSubmit, state]
+    [dataFeedbackForms.signal_id, incident.images, onSubmit, state]
   )
 
   return (
