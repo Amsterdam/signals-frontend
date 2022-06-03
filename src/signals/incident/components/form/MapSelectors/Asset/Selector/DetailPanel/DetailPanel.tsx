@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import { useCallback, useState, useContext, useEffect } from 'react'
-import { useFetch } from 'hooks'
+import { useCallback, useState, useContext } from 'react'
 import {
   Paragraph,
   Label,
@@ -17,23 +16,17 @@ import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 import {
   selectionIsObject,
   selectionIsUndetermined,
-  selectionIsNearby,
   UNKNOWN_TYPE,
   NEARBY_TYPE,
   UNREGISTERED_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
 
 import type { PdokResponse } from 'shared/services/map-location'
-import type { FeatureCollection } from 'geojson'
 import { formatAddress } from 'shared/services/format-address'
 import { ChevronLeft } from '@amsterdam/asc-assets'
-import configuration from 'shared/services/configuration/configuration'
-import { useSelector } from 'react-redux'
-import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
-import type { LatLngTuple } from 'leaflet'
 import { useDispatch } from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
-import { formattedDate } from '../utils'
+
 import AssetSelectContext from '../../context'
 import { ScrollWrapper, Title } from '../styled'
 import {
@@ -42,7 +35,6 @@ import {
   LegendToggleButton,
   OptionsList,
   PanelContent,
-  SelectionNearby,
   StyledAssetList,
   StyledButton,
   StyledLegendPanel,
@@ -62,63 +54,35 @@ const nearbyLegendItem = {
   typeValue: NEARBY_TYPE,
 }
 
-type Point = {
-  type: 'Point'
-  coordinates: LatLngTuple
-}
-
-type Properties = {
-  category: {
-    name: string
-  }
-  created_at: string
-}
-
-type SelectionIncident = {
-  categoryName?: string
-  createdAt?: string
-}
-
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [optionsList, setOptionsList] = useState(null)
-  const [selectionIncident, setSelectionIncident] = useState<SelectionIncident>(
-    {}
-  )
+
   const [showAddressPanel, setShowAddressPanel] = useState(false)
   const dispatch = useDispatch()
-  const { address, selection, removeItem, setItem, setLocation, meta } =
+  const { address, selection, removeItem, removeAllItems, setItem, setLocation, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
-  const { category, subcategory } = useSelector(makeSelectCategory)
-  const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
-
-  console.log('detail selection', selection)
 
   const addressValue = address ? formatAddress(address) : ''
 
-  const selectionOnMap =
-    selection && selectionIsObject(selection) ? selection : undefined
-
   const unregisteredAsset =
-    selection && selectionIsUndetermined(selection) ? selection : undefined
+    selection && selectionIsUndetermined(selection[0]) ? selection[0] : undefined
 
-  const selectionNearby =
-    selection && selectionIsNearby(selection) ? selection : undefined
+  const selectionOnMap = selection && selectionIsObject(selection[0]) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
-    selection?.type === UNKNOWN_TYPE
+    selection && selection[0].type === UNKNOWN_TYPE
   )
   const [unregisteredAssetValue, setUnregisteredAssetValue] = useState(
     unregisteredAsset?.id || ''
   )
 
-  const unregisteredLabel =
-    language.unregistered || 'Het object staat niet op de kaart'
+  const unregisteredLabel = language.unregistered || 'Het object staat niet op de kaart'
 
   const legendItems = [...featureTypes, ...featureStatusTypes, nearbyLegendItem]
     .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
@@ -187,42 +151,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   )
 
   const clearInput = useCallback(() => {
-    removeItem()
+    removeAllItems()
     setOptionsList(null)
-  }, [removeItem])
+  }, [removeAllItems])
 
-  // useEffect(() => {
-  //   if (!selectionOnMap || !selection[0].coordinates || !category || !subcategory)
-  //     return
-  //
-  //   const searchParams = new URLSearchParams({
-  //     maincategory_slug: category,
-  //     category_slug: subcategory,
-  //     lat: selection[0].coordinates?.lat.toString(),
-  //     lon: selection[0].coordinates?.lng.toString(),
-  //     group_by: 'category',
-  //   })
-  //
-  //   get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  // }, [get, selectionOnMap, selection, category, subcategory])
-
-  // useEffect(() => {
-  //   setSelectionIncident({})
-  //
-  //   if (selectionNearby) {
-  //     setSelectionIncident({
-  //       categoryName: selection?.label,
-  //       createdAt: selection?.description,
-  //     })
-  //   }
-  //
-  //   if (selectionOnMap && data?.features) {
-  //     setSelectionIncident({
-  //       categoryName: data?.features[0].properties.category.name,
-  //       createdAt: formattedDate(data?.features[0].properties.created_at),
-  //     })
-  //   }
-  // }, [data?.features, selectionOnMap, selectionNearby, selection])
 
   return (
     <PanelContent
@@ -245,7 +177,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onFocus={() => {
               setShowAddressPanel(true)
             }}
-            onClear={removeItem}
+            onClear={removeAllItems}
             onSelect={onAddressSelect}
             value={addressValue}
             placeholder="Zoek adres of postcode"
@@ -259,14 +191,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             featureTypes={featureTypes}
             featureStatusTypes={featureStatusTypes}
           />
-        )}
-
-        {selectionIncident?.categoryName && selectionIncident?.createdAt && (
-          <SelectionNearby>
-            <Paragraph strong>Deze melding is al bij ons bekend:</Paragraph>
-            <strong>{selectionIncident.categoryName}</strong>
-            <span>{selectionIncident.createdAt}</span>
-          </SelectionNearby>
         )}
 
         {featureTypes.length > 0 && (!selection || unregisteredAsset) && (

@@ -18,7 +18,7 @@ import { selectionIsUndetermined } from 'signals/incident/components/form/MapSel
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { useDispatch } from 'react-redux'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
-import {FeatureType, Item} from "../../signals/incident/components/form/MapSelectors/types";
+import type { FeatureType, Item } from 'signals/incident/components/form/MapSelectors/types'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -37,12 +37,13 @@ const StyledLink = styled(Link)`
 `
 
 const StyledMapStatic = styled(MapStatic)`
-  margin: ${themeSpacing(0, 0, 2, 0)};
+  margin: ${themeSpacing(0, 0, 3, 0)};
 `
 
 const StyledMap = styled(Map)`
   max-width: ${mapWidth}px;
   height: ${mapHeight}px;
+  margin: ${themeSpacing(0, 0, 4, 0)};
 `
 
 const StyledMarker = styled(Marker)`
@@ -58,6 +59,10 @@ const LocationDescription = styled.div`
   display: flex;
   align-items: center;
   margin-top: ${themeSpacing(2)};
+  margin-bottom: ${themeSpacing(3)};
+`
+
+const Address = styled.div`
   margin-bottom: ${themeSpacing(3)};
 `
 
@@ -111,13 +116,11 @@ const Summary: FC<SummaryProps> = ({
     [dispatch]
   )
 
-  const iconSrc = selection && getIconSrc(selection[0], featureTypes)
-
   return (
     <Wrapper data-testid="assetSelectSummary">
       {configuration.featureFlags.useStaticMapServer ? (
         <StyledMapStatic
-          iconSrc={iconSrc}
+          iconSrc={'/assets/images/icon-select-marker.svg'}
           height={mapHeight}
           width={mapWidth}
           coordinates={center}
@@ -127,7 +130,11 @@ const Summary: FC<SummaryProps> = ({
           <StyledMarker args={[center]} options={{ icon: markerIcon }} />
         </StyledMap>
       )}
-      {selection?.map((item) => {
+
+      <Address data-testid="assetSelectSummaryAddress">{summaryAddress}</Address>
+
+      <div>
+        {selection?.map((item) => {
           const { id, type } = item || {}
           const { description } =
             featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
@@ -155,10 +162,8 @@ const Summary: FC<SummaryProps> = ({
               </div>
             </LocationDescription>
           )
-        })
-      }
-      <div data-testid="assetSelectSummaryAddress">{summaryAddress}</div>
-
+        })}
+      </div>
       <StyledLink
         data-testid="mapEditButton"
         onClick={() => dispatch(showMap())}

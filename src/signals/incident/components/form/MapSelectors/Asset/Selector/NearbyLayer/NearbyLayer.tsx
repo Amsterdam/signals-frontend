@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
+/* Copyright (C) 2022 Gemeente Amsterdam */
 
 import L from 'leaflet'
 import type { FC } from 'react'
@@ -78,7 +78,7 @@ export function findAssetMatch(
 }
 
 export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
-  const { selection, setItem } = useContext(AssetSelectContext)
+  const { selection, setItem, removeAllItems } = useContext(AssetSelectContext)
   const bbox = useBoundingBox()
   const layerVisible = useLayerVisible(zoomLevel)
   const mapInstance = useMapInstance()
@@ -91,6 +91,9 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const onMarkerClick = useCallback(
     (feature: Feature<Point, Properties>) =>
       async ({ sourceTarget }: MarkerMouseEvent) => {
+        console.log('selection on marker click', selection)
+
+        removeAllItems()
         sourceTarget.setIcon(nearbyMarkerSelectedIcon)
         setActiveLayer(sourceTarget)
 
@@ -104,23 +107,25 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
           label: feature.properties.category.name,
           description: formattedDate(feature.properties.created_at),
           type: NEARBY_TYPE,
+          coordinates,
         }
 
-        setItem(item, location)
+        //setItem(item, location)
 
         const response = await reverseGeocoderService(coordinates)
 
         if (response) {
           location.address = response.data.address
+          item.address = response.data.address
         }
 
         setItem(item, location)
       },
-    [setItem]
+    [setItem, setActiveLayer, removeAllItems, reverseGeocoderService, selection]
   )
 
   useEffect(() => {
-    if (!selection || selection.type !== NEARBY_TYPE) {
+    if (!selection || selection[0].type !== NEARBY_TYPE) {
       setActiveLayer(undefined)
     }
   }, [selection])

@@ -55,8 +55,8 @@ jest.mock(
     }: AssetListProps) =>
       (
         <span data-testid="mockAssetList" {...props}>
-          {`${selection.description} - ${selection.id}`}
-          <input type="button" onClick={onRemove} />
+          {`${selection[0].description} - ${selection[0].id}`}
+          <input type="button" onClick={() => onRemove && onRemove(selection[0])} />
         </span>
       )
 )
@@ -158,17 +158,17 @@ describe('DetailPanel', () => {
     },
   }
 
-  const selection = {
+  const selection = [{
     ...GLAS_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
     label: 'foo bar',
-  }
+  }]
 
-  const selectionUnregistered = {
+  const selectionUnregistered = [{
     ...UNREGISTERED_CONTAINER,
     location: { coordinates: { lat: 0, lng: 12.345345 } },
     label: 'foo bar',
-  }
+  }]
 
   const currentContextValue = {
     ...contextValue,
@@ -233,7 +233,7 @@ describe('DetailPanel', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
     expect(
-      screen.getByText(`${selection.description} - ${selection.id}`)
+      screen.getByText(`${selection[0].description} - ${selection[0].id}`)
     ).toBeInTheDocument()
   })
 
@@ -567,11 +567,11 @@ describe('DetailPanel', () => {
   })
 
   it('selection nearby details', () => {
-    const selection = {
+    const selection = [{
       label: 'Huisafval',
       description: 'Gemeld op: 01-01-1970',
       type: NEARBY_TYPE,
-    }
+    }]
 
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
@@ -580,17 +580,17 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByText(selection.label)).toBeInTheDocument()
-    expect(screen.getByText(selection.description)).toBeInTheDocument()
+    expect(screen.getByText(selection[0].label)).toBeInTheDocument()
+    expect(screen.getByText(selection[0].description)).toBeInTheDocument()
   })
 
   it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {
-    const selection = {
+    const selection = [{
       label: 'Huisafval',
       description: 'Gemeld op: 01-01-1970',
       type: 'Rest',
       coordinates: { lat: 1, lng: 2 },
-    }
+    }]
 
     expect(get).not.toHaveBeenCalled()
     render(

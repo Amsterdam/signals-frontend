@@ -135,6 +135,7 @@ describe('AssetSelect', () => {
   const updateIncident = jest.fn()
   const addToSelection = jest.fn()
   const removeFromSelection = jest.fn()
+  const removeSelection = jest.fn()
   const location = incidentJson.location as unknown as Location
 
   beforeEach(() => {
@@ -152,6 +153,7 @@ describe('AssetSelect', () => {
           featureStatusTypes: [],
           addToSelection,
           removeFromSelection,
+          removeSelection,
         },
       },
     }

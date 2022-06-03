@@ -15,6 +15,7 @@ export interface AssetSelectValue {
   message?: string
   meta: Meta
   removeItem: (item: Item) => void
+  removeAllItems: () => void
   selection?: Item[]
   setItem: (item: Item, location?: Location) => void
   fetchLocation: (latLng: LatLngLiteral) => void

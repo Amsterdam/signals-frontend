@@ -33,6 +33,7 @@ export const CLOSE_MAP = 'sia/IncidentContainer/CLOSE_MAP'
 
 export const ADD_TO_SELECTION = 'sia/IncidentContainer/ADD_TO_SELECTION'
 export const REMOVE_FROM_SELECTION = 'sia/IncidentContainer/REMOVE_FROM_SELECTION'
+export const REMOVE_SELECTION = 'sia/IncidentContainer/REMOVE_SELECTION'
 
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,

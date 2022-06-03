@@ -20,6 +20,7 @@ import {
   CLOSE_MAP,
   ADD_TO_SELECTION,
   REMOVE_FROM_SELECTION,
+  REMOVE_SELECTION,
 } from './constants'
 
 export const updateIncident = (payload) => ({
@@ -111,3 +112,9 @@ export const removeFromSelection = (payload) => ({
   type: REMOVE_FROM_SELECTION,
   payload,
 })
+
+export const removeSelection = (payload) => ({
+  type: REMOVE_SELECTION,
+  payload,
+})
+

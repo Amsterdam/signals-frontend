@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { fromJS, Seq } from 'immutable'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+import { fromJS, mergeDeep, Seq } from 'immutable'
 import configuration from 'shared/services/configuration/configuration'
 import {
   UPDATE_INCIDENT,
@@ -21,6 +21,7 @@ import {
   CLOSE_MAP,
   ADD_TO_SELECTION,
   REMOVE_FROM_SELECTION,
+  REMOVE_SELECTION,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -85,12 +86,14 @@ export default (state = initialState, action) => {
         ...state.get('incident').toJS()[action.payload.meta_name]?.selection || [],
         action.payload[action.payload.meta_name]?.selection[0]
       ]
-
       return state.set(
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{[action.payload.meta_name]: { selection: updated }}
+          ...{[action.payload.meta_name]: {
+            selection: updated,
+            location: action.payload.location,
+          }}
         })
       )
     }
@@ -105,8 +108,25 @@ export default (state = initialState, action) => {
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{[action.payload.meta_name]: { selection: updated }
-          }
+          ...{[action.payload.meta_name]: {
+            selection: updated.length > 0 ? updated : undefined,
+            location: {
+              address: updated[0]?.address,
+              coordinates: updated[0]?.coordinates,
+            }
+          }}
+        })
+      )
+    }
+    case REMOVE_SELECTION: {
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{[action.payload.meta_name]: {
+            selection: undefined,
+            location: undefined,
+          }}
         })
       )
     }

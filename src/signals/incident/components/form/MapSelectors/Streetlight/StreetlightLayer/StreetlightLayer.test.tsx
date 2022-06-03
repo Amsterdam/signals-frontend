@@ -19,14 +19,14 @@ import StreetlightLayer from './StreetlightLayer'
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: {
+  selection: [{
     id: '031346',
     type: '4',
     description: 'Overig lichtpunt',
     status: FeatureStatus.REPORTED,
     location: {},
     label: 'Overig lichtpunt - 031346',
-  },
+  }],
   meta,
 }
 

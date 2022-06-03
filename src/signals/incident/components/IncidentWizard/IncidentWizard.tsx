@@ -18,6 +18,7 @@ import type {
   updateIncident,
   addToSelection,
   removeFromSelection,
+  removeSelection,
 } from 'signals/incident/containers/IncidentContainer/actions'
 import type { Incident } from 'types/incident'
 import type { WizardSection } from 'signals/incident/definitions/wizard'
@@ -44,6 +45,7 @@ interface IncidentWizardProps {
   updateIncident: typeof updateIncident
   addToSelection: typeof addToSelection
   removeFromSelection: typeof removeFromSelection
+  removeSelection: typeof removeSelection
   createIncident: typeof createIncident
   removeQuestionData: typeof removeQuestionData
   incidentContainer: {
@@ -59,6 +61,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   createIncident,
   addToSelection,
   removeFromSelection,
+  removeSelection,
   removeQuestionData,
   incidentContainer,
 }) => {
@@ -144,6 +147,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                                 updateIncident={updateIncident}
                                 addToSelection={addToSelection}
                                 removeFromSelection={removeFromSelection}
+                                removeSelection={removeSelection}
                                 createIncident={createIncident}
                                 wizard={wizardDefinition}
                               />

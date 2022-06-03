@@ -21,13 +21,13 @@ import AssetLayer from '.'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: {
+  selection: [{
     description: 'Glas container',
     id: 'GLB00072',
     type: 'Glas',
     location: {},
     label: 'Glas container - GLB00072',
-  },
+  }],
 }
 
 const { featureTypes } = contextValue.meta
@@ -65,7 +65,7 @@ describe('AssetLayer', () => {
     ({ properties }) => properties.id_nummer === featureId
   )
   const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
-  const newSelection = {
+  const newSelection = [{
     id: featureId,
     isReported: false,
     description: 'Papier container',
@@ -74,7 +74,7 @@ describe('AssetLayer', () => {
     location: {
       coordinates: coordinates,
     },
-  }
+  }]
 
   it('should render the asset layer in the map', () => {
     render(withAssetMap())

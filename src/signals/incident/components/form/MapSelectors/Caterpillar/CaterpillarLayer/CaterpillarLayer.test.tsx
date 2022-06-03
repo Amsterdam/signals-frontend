@@ -27,7 +27,7 @@ import CaterpillarLayer from '.'
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: selection[0],
+  selection: selection,
   meta: typedMeta,
 }
 

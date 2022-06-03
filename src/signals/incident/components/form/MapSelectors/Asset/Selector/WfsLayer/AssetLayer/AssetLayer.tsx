@@ -3,6 +3,7 @@
 import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 import L from 'leaflet'
+import 'types/address'
 
 import type { FeatureCollection } from 'geojson'
 import type { Geometrie, Location } from 'types/incident'
@@ -69,7 +70,7 @@ export const AssetLayer: FC = () => {
         coordinates,
       }
 
-      const item: Item = {
+      let item: Item = {
         id,
         type: typeValue,
         description,
@@ -83,15 +84,14 @@ export const AssetLayer: FC = () => {
         return
       }
 
-      setItem(item, location)
+      const response = await reverseGeocoderService(coordinates)
 
-      // const response = await reverseGeocoderService(coordinates)
-      //
-      // if (response) {
-      //   location.address = response.data.address
-      // }
-      //
-      // setItem(item, location)
+      if (response) {
+        location.address = response.data.address
+        item.address = response.data.address
+      }
+
+      setItem(item, location)
     }
 
     return (

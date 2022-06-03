@@ -24,14 +24,14 @@ const typedMeta = straatverlichtingKlokken.extra_klok_nummer
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: {
+  selection: [{
     id: '79522',
     type: '1',
     description: 'Klok',
     status: FeatureStatus.REPORTED,
     location: {},
     label: 'Klok - 79522',
-  },
+  }],
   meta: typedMeta,
 }
 

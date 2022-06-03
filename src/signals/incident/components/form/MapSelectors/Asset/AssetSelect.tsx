@@ -52,6 +52,7 @@ export interface AssetSelectProps {
       updateIncident: (data: { [key: string]: any }) => void
       addToSelection: (data: { [key: string]: any }) => void
       removeFromSelection: (data: { [key: string]: any }) => void
+      removeSelection: (data: { [key: string]: any }) => void
     }
   }
 }
@@ -78,7 +79,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   /**
    * Selecting an object on the map
    */
-  const setItem = (selectedItem: Item, itemLocation?: Location) => {
+  const setItem = useCallback((selectedItem: Item, itemLocation?: Location) => {
     const payload = {
       selection: [selectedItem],
       location: itemLocation || location,
@@ -88,13 +89,23 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       [meta.name as string]: payload,
       meta_name: meta.name,
     })
-  }
+  }, [location])
 
   const removeItem = (selectedItem: Item) => {
     const payload = {
       selection: [selectedItem],
     }
     parent.meta.removeFromSelection({
+      [meta.name as string]: payload,
+      meta_name: meta.name,
+    })
+  }
+
+  const removeAllItems = () => {
+    const payload = {
+      selection: undefined,
+    }
+    parent.meta.removeSelection({
       [meta.name as string]: payload,
       meta_name: meta.name,
     })
@@ -192,6 +203,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
           featureTypes,
         },
         removeItem,
+        removeAllItems,
         selection,
         setLocation,
         setItem,

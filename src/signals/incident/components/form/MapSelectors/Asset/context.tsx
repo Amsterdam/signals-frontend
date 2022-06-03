@@ -20,6 +20,7 @@ export const initialValue: AssetSelectValue = {
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},
   removeItem: /* istanbul ignore next */ () => {},
+  removeAllItems: /* istanbul ignore next */ () => {},
 }
 
 const AssetSelectContext = createContext(initialValue)
