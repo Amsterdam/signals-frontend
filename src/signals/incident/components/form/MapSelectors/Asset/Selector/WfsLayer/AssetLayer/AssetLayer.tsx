@@ -49,7 +49,9 @@ export const AssetLayer: FC = () => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField] || ''
-    const isSelected = Boolean(selection && selection.find(item => item.id === id))
+    const isSelected = Boolean(
+      selection && selection.find((item) => item.id === id)
+    )
 
     const iconUrl = isSelected
       ? '/assets/images/featureSelectedMarker.svg'
@@ -70,7 +72,7 @@ export const AssetLayer: FC = () => {
         coordinates,
       }
 
-      let item: Item = {
+      const item: Item = {
         id,
         type: typeValue,
         description,

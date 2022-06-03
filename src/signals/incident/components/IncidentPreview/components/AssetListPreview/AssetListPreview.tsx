@@ -14,7 +14,7 @@ const StyledAssetList = styled(AssetList)`
 
 export interface AssetListPreviewProps
   extends Omit<AssetListProps, 'selection'> {
-  value: Item
+  value: Item[]
 }
 
 const AssetListPreview: FunctionComponent<AssetListPreviewProps> = ({

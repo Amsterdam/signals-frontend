@@ -11,12 +11,13 @@ import type {
   Item,
   FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
-import type { Geometrie } from 'types/incident'
+import type { Geometrie, Location } from 'types/incident'
 
 import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 
 import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import StatusLayer from '../../Asset/Selector/StatusLayer'
 import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 
@@ -32,7 +33,9 @@ export const CaterpillarLayer: FC = () => {
       const featureType = meta.featureTypes[0]
 
       const featureId = feature.properties[featureType.idField] as string
-      const isSelected = selection?.id === featureId
+      const isSelected = Boolean(
+        selection && selection.find((item) => item.id === featureId)
+      )
 
       const featureStatusType = getFeatureStatusType(
         feature,
@@ -53,14 +56,9 @@ export const CaterpillarLayer: FC = () => {
           : featureType.icon.iconUrl,
       })
 
-      const onClick = () => {
-        if (isSelected) {
-          removeItem()
-          return
-        }
-
+      const onClick = async () => {
         const { description, typeValue } = featureType
-        const location = {
+        const location: Location = {
           coordinates,
         }
 
@@ -73,9 +71,21 @@ export const CaterpillarLayer: FC = () => {
           label: [description, featureId].filter(Boolean).join(' - '),
         }
 
+        if (isSelected) {
+          removeItem(item)
+          return
+        }
+
         meta.extraProperties?.forEach((propertyKey) => {
           item[propertyKey] = feature.properties[propertyKey]
         })
+
+        const response = await reverseGeocoderService(coordinates)
+
+        if (response) {
+          location.address = response.data.address
+          item.address = response.data.address
+        }
 
         setItem(item, location)
       }
