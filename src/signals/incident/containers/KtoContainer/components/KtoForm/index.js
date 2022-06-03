@@ -140,13 +140,16 @@ const KtoForm = ({ options, isSatisfied, onSubmit }) => {
     satisfactionIndication === 'nee' &&
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
-  const onChangeAllowsContact = useCallback((event) => {
-    let { checked } = event.target
-    if (negativeContactEnabled) {
-      checked = !checked
-    }
-    dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
-  }, [])
+  const onChangeAllowsContact = useCallback(
+    (event) => {
+      let { checked } = event.target
+      if (negativeContactEnabled) {
+        checked = !checked
+      }
+      dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
+    },
+    [negativeContactEnabled]
+  )
 
   const handleSubmit = useCallback(
     (event) => {
