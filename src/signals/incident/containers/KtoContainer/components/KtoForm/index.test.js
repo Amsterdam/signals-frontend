@@ -6,6 +6,7 @@ import { withAppContext } from 'test/utils'
 import * as reactRouterDom from 'react-router-dom'
 import { mocked } from 'jest-mock'
 import configuration from 'shared/services/configuration/configuration'
+import userEvent from '@testing-library/user-event'
 import KtoForm from '.'
 
 const onSubmit = jest.fn()
@@ -50,6 +51,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
 
     expect(getByTestId('ktoTextExtra')).toBeInTheDocument()
+    expect(getByTestId('fileInput')).toBeInTheDocument()
     expect(getByTestId('ktoAllowsContact')).toBeInTheDocument()
     expect(getByTestId('ktoSubmit')).toBeInTheDocument()
 
@@ -326,5 +328,20 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       text_extra: value,
       text: options[1].value,
     })
+  })
+  it('should upload a picture', () => {
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
+    render(withAppContext(<KtoForm onSubmit={onSubmit} options={options} />))
+
+    const fileInput = screen.getByTestId('fileInputUpload')
+    const file = new File(['hello'], 'hello.png', { type: 'image/png' })
+    Object.defineProperty(file, 'size', { value: 1024 * 1024 + 1 }) // 1 MB
+    userEvent.upload(fileInput, file)
+
+    const value = 'Bar baz foo'
+    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
   })
 })
