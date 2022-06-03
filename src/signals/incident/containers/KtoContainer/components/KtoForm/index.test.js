@@ -5,6 +5,7 @@ import { withAppContext } from 'test/utils'
 
 import * as reactRouterDom from 'react-router-dom'
 import { mocked } from 'jest-mock'
+import configuration from 'shared/services/configuration/configuration'
 import KtoForm from '.'
 
 const onSubmit = jest.fn()
@@ -21,12 +22,19 @@ jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
 }))
 
+jest.mock('shared/services/configuration/configuration')
+
 describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
     onSubmit.mockReset()
   })
 
+  afterEach(() => {
+    configuration.__reset()
+  })
+
   it('renders correctly', () => {
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
     }))
@@ -45,6 +53,32 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(getByTestId('ktoAllowsContact')).toBeInTheDocument()
     expect(getByTestId('ktoSubmit')).toBeInTheDocument()
 
+    expect(screen.queryByTestId('allowsContact')).toHaveTextContent(
+      'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
+    )
+
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+    }))
+
+    rerender(
+      withAppContext(
+        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+      )
+    )
+
+    expect(screen.queryByTestId('allowsContact')).toBeFalsy()
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+
+    rerender(
+      withAppContext(
+        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+      )
+    )
+
+    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('Ja')
+
     mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
 
     rerender(
@@ -53,7 +87,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('ja')
+    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('Ja')
   })
 
   it('renders the correct title', () => {
@@ -155,15 +189,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   })
 
   it('should handle submit for all but last option', () => {
-    const isSatisfied = true
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+    }))
+
     const { getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          isSatisfied={isSatisfied}
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
     )
 
     const firstOption = getByTestId(`kto-${options[0].key}`)
@@ -180,7 +211,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({
-        is_satisfied: isSatisfied,
+        is_satisfied: true,
         text: options[0].value,
       })
     )
@@ -217,41 +248,81 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   })
 
   it('should contain the correct values in the submit payload', () => {
-    const isSatisfied = false
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
 
     const { getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          isSatisfied={isSatisfied}
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
     )
 
     const secondOption = getByTestId(`kto-${options[1].key}`)
 
-    act(() => {
-      fireEvent.click(secondOption)
-    })
+    fireEvent.click(secondOption)
 
     const value = 'Bar baz foo'
 
-    act(() => {
-      fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
-    })
+    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoAllowsContact'))
-    })
+    fireEvent.click(getByTestId('ktoAllowsContact'))
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    fireEvent.click(getByTestId('ktoSubmit'))
 
+    // Be default allowscontact equals true but after clicking
     expect(onSubmit).toHaveBeenCalledWith({
       allows_contact: false,
-      is_satisfied: isSatisfied,
+      is_satisfied: false,
+      text_extra: value,
+      text: options[1].value,
+    })
+  })
+  it('should have the correct values in the submit payload of the old flow', () => {
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
+    const { getByTestId, rerender } = render(
+      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
+    )
+
+    const secondOption = getByTestId(`kto-${options[1].key}`)
+
+    fireEvent.click(secondOption)
+
+    const value = 'Bar baz foo'
+
+    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
+
+    fireEvent.click(getByTestId('ktoSubmit'))
+
+    // By default allow_contact equals false is in the old flow
+    expect(onSubmit).toHaveBeenCalledWith({
+      allows_contact: false,
+      is_satisfied: false,
+      text_extra: value,
+      text: options[1].value,
+    })
+
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
+    rerender(withAppContext(<KtoForm onSubmit={onSubmit} options={options} />))
+
+    fireEvent.click(secondOption)
+
+    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
+
+    fireEvent.click(getByTestId('ktoAllowsContact'))
+
+    fireEvent.click(getByTestId('ktoSubmit'))
+
+    // By default allow_contact equals false is in the old flow
+    expect(onSubmit).toHaveBeenCalledWith({
+      allows_contact: true,
+      is_satisfied: false,
       text_extra: value,
       text: options[1].value,
     })
