@@ -86,7 +86,7 @@
     "email": "me@email.com",
     "phone": "14020",
     "sharing_allowed": false,
-    "contact_allowed": true
+    "allows_contact": true
   },
   "priority": {
     "priority": "normal",

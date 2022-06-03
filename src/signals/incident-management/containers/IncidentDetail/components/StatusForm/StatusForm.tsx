@@ -198,7 +198,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         incident?.id &&
         state.flags.hasEmail &&
         state.check.checked &&
-        incident?.reporter?.contact_allowed
+        incident?.reporter?.allows_contact
       ) {
         getEmailTemplate(
           `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
@@ -222,7 +222,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       getEmailTemplate,
-      incident?.reporter?.contact_allowed,
+      incident?.reporter?.allows_contact,
     ]
   )
 
@@ -349,11 +349,10 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               {constants.DEELMELDING_EXPLANATION}
             </Alert>
           ))}
-
         {!state.flags.isSplitIncident && !emailIsNotSent && (
           <div>
             {state.flags.hasEmail ? (
-              incident?.reporter?.contact_allowed ? (
+              incident?.reporter?.allows_contact ? (
                 <StyledCheckboxLabel
                   disabled={state.check.disabled}
                   htmlFor="send_email"
@@ -395,7 +394,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 <strong>
                   {state.check.checked &&
                   state.flags.hasEmail &&
-                  incident?.reporter?.contact_allowed
+                  incident?.reporter?.allows_contact
                     ? state.text.label
                     : 'Toelichting'}
                 </strong>
