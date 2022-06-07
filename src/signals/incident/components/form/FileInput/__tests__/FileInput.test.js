@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
 import FileInput from '..'
@@ -227,6 +227,35 @@ describe('Form component <FileInput />', () => {
           'input-field-name': [],
         })
         expect(queryByTestId('fileInputError')).toBeInTheDocument()
+      })
+
+      it('should not upload more files than maxNumberOfFiles', async () => {
+        handler.mockImplementation(() => ({ value: [file1, file2] }))
+
+        render(
+          withAppContext(
+            <FileInput
+              parent={parent}
+              handler={handler}
+              meta={{
+                ...metaFields,
+                maxNumberOfFiles: 0,
+              }}
+            />
+          )
+        )
+
+        const fileInputElement = screen.getByTestId('fileInputUpload')
+
+        act(() => {
+          fireEvent.change(fileInputElement, {
+            target: { files: [file1, file2] },
+          })
+        })
+
+        screen.getByTestId('fileInputUpload')
+
+        expect(screen.getByTestId('fileInputError')).toBeInTheDocument()
       })
     })
   })
