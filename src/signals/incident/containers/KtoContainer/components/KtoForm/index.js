@@ -315,7 +315,7 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
 
             {negativeContactEnabled
               ? 'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
-              : 'ja'}
+              : 'Ja'}
           </CheckboxWrapper>
         </GridArea>
       )}

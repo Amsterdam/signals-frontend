@@ -88,6 +88,7 @@ const FileInput = ({ handler, parent, meta }) => {
         .filter(maxFileSizeFilter)
         .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter)
+
       setErrors(getErrorMessages(batchFiles))
       parent.meta.updateIncident({
         [meta.name]: files,

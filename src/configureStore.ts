@@ -16,6 +16,7 @@ import { getErrorMessage } from 'shared/services/api/api'
 import type { History } from 'history'
 import type { InjectedStore } from 'types'
 import type { ResponseError } from 'utils/request'
+import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 import createReducer from './reducers'
 
 export default function configureStore(
@@ -55,10 +56,11 @@ export default function configureStore(
   }
 
   const store = createStore(
-    createReducer(),
+    createReducer({ incidentContainer: reducer }),
     initialState,
     enhancers
   ) as InjectedStore
+
   // Extensions
   // eslint-disable-next-line @typescript-eslint/unbound-method
   store.runSaga = sagaMiddleware.run
