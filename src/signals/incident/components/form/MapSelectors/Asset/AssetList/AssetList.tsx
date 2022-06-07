@@ -105,13 +105,20 @@ type Properties = {
   created_at: string
 }
 
-export const AssetListItem: FunctionComponent<AssetListItem> = ({featureStatusTypes, featureTypes, item, onRemove}) => {
-  const [selectionIncident, setSelectionIncident] = useState<SelectionIncident>({})
+export const AssetListItem: FunctionComponent<AssetListItem> = ({
+  featureStatusTypes,
+  featureTypes,
+  item,
+  onRemove,
+}) => {
+  const [selectionIncident, setSelectionIncident] = useState<SelectionIncident>(
+    {}
+  )
   const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
   const { category, subcategory } = useSelector(makeSelectCategory)
   const { id, type, status } = item
   const { description, icon }: Partial<FeatureType> =
-  featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
+    featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
 
   const label = [description, id].filter(Boolean).join(' - ')
 
@@ -126,9 +133,8 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({featureStatusTy
   const selectionNearby = selectionIsNearby(item) ? item : undefined
 
   useEffect(() => {
-    if (!selectionOnMap || !item.coordinates || !category || !subcategory) return
-
-    console.log('item', item)
+    if (!selectionOnMap || !item.coordinates || !category || !subcategory)
+      return
 
     const searchParams = new URLSearchParams({
       maincategory_slug: category,
@@ -157,11 +163,11 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({featureStatusTy
         createdAt: formattedDate(data?.features[0].properties.created_at),
       })
     }
-  }, [data?.features, selectionOnMap, selectionNearby, item])
+  }, [data?.features, selectionOnMap, selectionNearby])
 
   return (
-    <ListItem key={id}>
-      {!selectionNearby &&
+    <ListItem>
+      {!selectionNearby && (
         <IconListItem
           id={extendedId}
           iconUrl={icon?.iconUrl}
@@ -180,13 +186,13 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({featureStatusTy
               <StyledButton
                 data-testid={`assetListRemove-${id}`}
                 aria-label="Verwijder"
-                icon={<Close/>}
+                icon={<Close />}
                 onClick={() => onRemove(item)}
               />
             )}
           </ItemWrapper>
         </IconListItem>
-      }
+      )}
       {selectionIncident?.categoryName && selectionIncident?.createdAt && (
         <SelectionNearby key={selectionIncident.createdAt}>
           <strong>Deze melding is al bij ons bekend:</strong>
@@ -207,16 +213,18 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 }) => {
   return (
     <IconList data-testid="assetList" className={className}>
-      {selection.length > 0 && selection.map(item => (
-        <AssetListItem
-          key={item.id}
-          item={item}
-          featureTypes={featureTypes}
-          featureStatusTypes={featureStatusTypes}
-          onRemove={() => onRemove && onRemove(item)}
-        />)
-      )}
+      {selection.length > 0 &&
+        selection.map((item, index) => (
+          <AssetListItem
+            key={index}
+            item={item}
+            featureTypes={featureTypes}
+            featureStatusTypes={featureStatusTypes}
+            onRemove={() => onRemove && onRemove(item)}
+          />
+        ))}
     </IconList>
-)}
+  )
+}
 
 export default AssetList

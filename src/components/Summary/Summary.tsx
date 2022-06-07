@@ -14,11 +14,17 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import { formatAddress } from 'shared/services/format-address'
 import configuration from 'shared/services/configuration/configuration'
-import { selectionIsUndetermined } from 'signals/incident/components/form/MapSelectors/constants'
+import {
+  NEARBY_TYPE,
+  selectionIsUndetermined,
+} from 'signals/incident/components/form/MapSelectors/constants'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import { useDispatch } from 'react-redux'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
-import type { FeatureType, Item } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  FeatureType,
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -89,7 +95,6 @@ const Summary: FC<SummaryProps> = ({
   selection,
   featureTypes,
 }) => {
-
   const center = coordinates || defaultCenter
 
   const options = {
@@ -131,7 +136,9 @@ const Summary: FC<SummaryProps> = ({
         </StyledMap>
       )}
 
-      <Address data-testid="assetSelectSummaryAddress">{summaryAddress}</Address>
+      <Address data-testid="assetSelectSummaryAddress">
+        {summaryAddress}
+      </Address>
 
       <div>
         {selection?.map((item) => {
@@ -139,7 +146,10 @@ const Summary: FC<SummaryProps> = ({
           const { description } =
             featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
-          const summaryDescription = [description, id].filter(Boolean).join(' - ')
+          const summaryDescription =
+            type !== NEARBY_TYPE
+              ? [description, id].filter(Boolean).join(' - ')
+              : undefined
           const iconSrc = getIconSrc(item, featureTypes)
 
           return (

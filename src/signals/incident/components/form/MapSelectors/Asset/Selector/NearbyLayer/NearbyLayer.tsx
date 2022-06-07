@@ -91,19 +91,14 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const onMarkerClick = useCallback(
     (feature: Feature<Point, Properties>) =>
       async ({ sourceTarget }: MarkerMouseEvent) => {
-        console.log('selection on marker click', selection)
-
-        removeAllItems()
         sourceTarget.setIcon(nearbyMarkerSelectedIcon)
         setActiveLayer(sourceTarget)
 
         const coordinates = featureToCoordinates(feature.geometry)
 
-        const location: Location = {
-          coordinates,
-        }
-
+        const location: Location = { coordinates }
         const item: Item = {
+          id: `${coordinates.lat}.${coordinates.lng}.${feature.properties.created_at}`,
           label: feature.properties.category.name,
           description: formattedDate(feature.properties.created_at),
           type: NEARBY_TYPE,
@@ -164,6 +159,8 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
     if (!data?.features) return
 
+    const hasNearbySelection = selection && selection[0].type === NEARBY_TYPE
+
     data.features.forEach((feature) => {
       const { lat, lng } = featureToCoordinates(feature.geometry)
 
@@ -182,7 +179,9 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
         }
       )
 
-      const isActiveMarker = activeLayer?.options.alt === marker.options.alt
+      const isActiveMarker = activeLayer
+        ? activeLayer?.options.alt === marker.options.alt
+        : Boolean(hasNearbySelection && selection[0].id === marker.options.alt)
 
       marker.setIcon(
         isActiveMarker ? nearbyMarkerSelectedIcon : nearbyMarkerIcon

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { fromJS, mergeDeep, Seq } from 'immutable'
+import { fromJS, Seq } from 'immutable'
 import configuration from 'shared/services/configuration/configuration'
+import { NEARBY_TYPE } from '../../components/form/MapSelectors/constants'
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -82,39 +83,58 @@ export default (state = initialState, action) => {
         })
       )
     case ADD_TO_SELECTION: {
-      const updated = [
-        ...state.get('incident').toJS()[action.payload.meta_name]?.selection || [],
-        action.payload[action.payload.meta_name]?.selection[0]
-      ]
-      return state.set(
-        'incident',
-        fromJS({
-          ...state.get('incident').toJS(),
-          ...{[action.payload.meta_name]: {
-            selection: updated,
-            location: action.payload.location,
-          }}
-        })
-      )
-    }
-    case REMOVE_FROM_SELECTION: {
-      const updated =
-        state
-          .get('incident')
-          .toJS()[action.payload.meta_name]?.selection
-          .filter(({id}) => id !== action.payload[action.payload.meta_name]?.selection[0].id)
+      const selected = action.payload[action.payload.meta_name]?.selection[0]
+      const previousSelection = state.get('incident').toJS()[
+        action.payload.meta_name
+      ]?.selection
+      let selection = [selected]
+      if (
+        selected.type !== NEARBY_TYPE &&
+        previousSelection &&
+        previousSelection[0].type !== NEARBY_TYPE
+      ) {
+        selection = [
+          ...(state.get('incident').toJS()[action.payload.meta_name]
+            ?.selection || []),
+          selected,
+        ]
+      }
 
       return state.set(
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{[action.payload.meta_name]: {
-            selection: updated.length > 0 ? updated : undefined,
-            location: {
-              address: updated[0]?.address,
-              coordinates: updated[0]?.coordinates,
-            }
-          }}
+          ...{
+            [action.payload.meta_name]: {
+              selection,
+              location: action.payload.location,
+            },
+          },
+        })
+      )
+    }
+    case REMOVE_FROM_SELECTION: {
+      const updated = state
+        .get('incident')
+        .toJS()
+        [action.payload.meta_name]?.selection.filter(
+          ({ id }) =>
+            id !== action.payload[action.payload.meta_name]?.selection[0].id
+        )
+
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{
+            [action.payload.meta_name]: {
+              selection: updated.length > 0 ? updated : undefined,
+              location: {
+                address: updated[0]?.address,
+                coordinates: updated[0]?.coordinates,
+              },
+            },
+          },
         })
       )
     }
@@ -123,10 +143,12 @@ export default (state = initialState, action) => {
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{[action.payload.meta_name]: {
-            selection: undefined,
-            location: undefined,
-          }}
+          ...{
+            [action.payload.meta_name]: {
+              selection: undefined,
+              location: undefined,
+            },
+          },
         })
       )
     }

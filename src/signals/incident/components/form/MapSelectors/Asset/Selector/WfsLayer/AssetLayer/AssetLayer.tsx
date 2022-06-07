@@ -68,10 +68,7 @@ export const AssetLayer: FC = () => {
         return
       }
 
-      const location: Location = {
-        coordinates,
-      }
-
+      const location: Location = { coordinates }
       const item: Item = {
         id,
         type: typeValue,
