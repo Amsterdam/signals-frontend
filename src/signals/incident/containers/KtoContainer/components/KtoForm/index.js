@@ -3,7 +3,7 @@
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Heading, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
@@ -239,11 +239,11 @@ const KtoForm = ({ options, onSubmit }) => {
           {negativeContactEnabled ? (
             <>
               <Heading forwardedAs="h2">Contact</Heading>
-              <Paragraph id="subtitle-allows-contact">
+              <p id="subtitle-allows-contact">
                 Uw reactie is belangrijk voor ons. Wij laten u graag weten wat
                 wij ermee doen. En misschien willen wij u nog iets vragen of
                 vertellen. Wij bellen u dan of sturen een e-mail.{' '}
-              </Paragraph>
+              </p>
             </>
           ) : (
             <StyledLabel id="subtitle-allows-contact">
