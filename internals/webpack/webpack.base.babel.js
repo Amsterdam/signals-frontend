@@ -103,6 +103,11 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
       filename: devMode ? 'css/[name].css' : 'css/[name].[contenthash].css',
       chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[contenthash].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
+      /*
+      Chunks aren't split properly for CSS when using mini-css-extract-plugin
+      Solution is found at https://github.com/koggdal/sample-mini-css-extract-plugin-issue-850
+      */
+      experimentalUseImportModule: false,
     }),
 
     new CopyPlugin({

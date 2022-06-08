@@ -35,6 +35,9 @@ export const ADD_TO_SELECTION = 'sia/IncidentContainer/ADD_TO_SELECTION'
 export const REMOVE_FROM_SELECTION = 'sia/IncidentContainer/REMOVE_FROM_SELECTION'
 export const REMOVE_SELECTION = 'sia/IncidentContainer/REMOVE_SELECTION'
 
+export const LOCATION_SELECT_FIELD_TYPE = 'location_select'
+
+
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,
   caterpillar_select: QuestionFieldType.CaterpillarSelect,
@@ -47,6 +50,7 @@ export const FIELD_TYPE_MAP = {
   handling_message: QuestionFieldType.HandlingMessage,
   header: QuestionFieldType.Header,
   hidden_input: QuestionFieldType.HiddenInput,
+  [LOCATION_SELECT_FIELD_TYPE]: QuestionFieldType.LocationSelect,
   map_input: QuestionFieldType.MapInput,
   multi_text_input: QuestionFieldType.MultiTextInput,
   plain_text: QuestionFieldType.PlainText,

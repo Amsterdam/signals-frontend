@@ -195,9 +195,7 @@ describe('DetailPanel', () => {
       })
     ).toBeInTheDocument()
 
-    expect(
-      screen.queryByRole('button', { name: 'Meld dit object' })
-    ).toBeInTheDocument()
+    expect(screen.getByTestId('assetSelectSubmitButton')).toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
   })
@@ -210,9 +208,7 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(
-      screen.getByRole('button', { name: 'Meld dit object' })
-    ).toBeInTheDocument()
+    expect(screen.getByTestId('assetSelectSubmitButton')).toBeInTheDocument()
     expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
     expect(
       screen.getByText(`${selection[0].description} - ${selection[0].label}`)
@@ -333,7 +329,7 @@ describe('DetailPanel', () => {
 
     expect(setLocation).not.toHaveBeenCalled()
 
-    const setLocationButton = screen.getByRole('button', { name: 'selectItem' })
+    const setLocationButton = screen.getByText('selectItem')
 
     userEvent.click(setLocationButton)
 
@@ -374,7 +370,7 @@ describe('DetailPanel', () => {
 
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
-    userEvent.click(screen.getByRole('button', { name: 'Meld dit object' }))
+    userEvent.click(screen.getByTestId('assetSelectSubmitButton'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })

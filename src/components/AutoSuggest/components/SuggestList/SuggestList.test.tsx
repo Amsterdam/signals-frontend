@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { createEvent, render, fireEvent } from '@testing-library/react'
+import { createEvent, render, fireEvent, screen } from '@testing-library/react'
 
 import type { PdokResponse } from 'shared/services/map-location'
 
@@ -41,7 +41,9 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
       )
     )
 
-    expect(queryByTestId('suggestList')).toBeNull()
+    expect(screen.getByTestId('suggestList')).toHaveTextContent(
+      'Probeer het opnieuw.'
+    )
 
     rerender(
       withAppContext(
@@ -104,6 +106,18 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
     )
 
     expect(document.activeElement).toEqual(document.body)
+
+    rerender(
+      withAppContext(
+        <SuggestList
+          options={options}
+          onSelectOption={onSelectOption}
+          activeIndex={undefined}
+        />
+      )
+    )
+
+    expect(document.activeElement).not.toEqual(document.body)
   })
 
   it('should call onSelectOption', () => {

@@ -45,6 +45,7 @@ export const renderPreview = ({ render, meta }) => {
     case QuestionFieldType.MultiTextInput:
       return SCSVLabel
 
+    case QuestionFieldType.LocationSelect:
     case QuestionFieldType.AssetSelect:
     case QuestionFieldType.CaterpillarSelect:
     case QuestionFieldType.ClockSelect:

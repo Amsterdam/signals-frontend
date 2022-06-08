@@ -143,7 +143,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       const { location, address } = option.data
-
       setLocation({ coordinates: location, address })
       closeAddressPanel()
     },
@@ -234,6 +233,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         <StyledButton
           onClick={() => dispatch(closeMap())}
           variant="primary"
+          data-testid="assetSelectSubmitButton"
           tabIndex={0}
         >
           {language.submit || 'Meld dit object'}

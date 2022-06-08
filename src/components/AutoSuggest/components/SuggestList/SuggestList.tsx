@@ -15,15 +15,18 @@ const StyledList = styled.ul`
   margin: 0;
 `
 
-const Li = styled.li`
+const Li = styled.li<{ id: string }>`
   line-height: ${themeSpacing(5)};
   padding: ${themeSpacing(2, 5)};
   cursor: pointer;
   display: flex;
+  white-space: pre-line;
+  cursor: ${({ id }) => (id === 'feedbackEmpty' ? 'default' : 'pointer')};
 
   &:hover,
   &:focus {
-    background-color: ${themeColor('tint', 'level3')};
+    background-color: ${({ id }) =>
+      id !== 'feedbackEmpty' && themeColor('tint', 'level3')};
   }
 `
 
@@ -61,7 +64,7 @@ const SuggestList: FC<SuggestListProps> = ({
 
   useEffect(() => {
     const list = listRef.current
-    if (!list || activeIndex === undefined || activeIndex === null) return
+    if (!list || activeIndex === undefined) return
 
     if (activeIndex >= 0 && activeIndex < options.length) {
       ;(list.children[activeIndex] as HTMLLIElement).focus()
@@ -70,7 +73,9 @@ const SuggestList: FC<SuggestListProps> = ({
 
   const onSelect = useCallback(
     (option) => {
-      onSelectOption(option)
+      if (option.id !== 'feedbackEmpty') {
+        onSelectOption(option)
+      }
     },
     [onSelectOption]
   )
@@ -98,8 +103,25 @@ const SuggestList: FC<SuggestListProps> = ({
     [onSelect]
   )
 
-  if (!options.length) {
-    return null
+  /**
+   * Give feedback when address cannot be found
+   */
+  if (options.length === 0) {
+    options = [
+      {
+        id: 'feedbackEmpty',
+        value: 'Wij kennen dit adres niet. \n Probeer het opnieuw.',
+        data: {
+          location: { lat: 0, lng: 0 },
+          address: {
+            openbare_ruimte: '',
+            huisnummer: '',
+            postcode: '',
+            woonplaats: '',
+          },
+        },
+      },
+    ]
   }
 
   return (
@@ -122,9 +144,11 @@ const SuggestList: FC<SuggestListProps> = ({
           tabIndex={-1}
         >
           <>
-            <StyledIcon className="chrevronIcon" size={12}>
-              <Chevron />
-            </StyledIcon>
+            {option.id !== 'feedbackEmpty' && (
+              <StyledIcon className="chrevronIcon" size={12}>
+                <Chevron />
+              </StyledIcon>
+            )}
             {option.value}
           </>
         </Li>

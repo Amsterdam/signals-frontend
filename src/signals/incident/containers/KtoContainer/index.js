@@ -203,11 +203,7 @@ export const KtoContainer = () => {
               xLarge: 8,
             }}
           >
-            <KtoForm
-              isSatisfied={isSatisfied}
-              options={state.formOptions}
-              onSubmit={onSubmit}
-            />
+            <KtoForm options={state.formOptions} onSubmit={onSubmit} />
           </Column>
         </Row>
       )}

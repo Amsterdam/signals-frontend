@@ -88,6 +88,14 @@ export const CaterpillarLayer: FC = () => {
         }
 
         setItem(item, location)
+
+        const response = await reverseGeocoderService(coordinates)
+
+        if (response) {
+          location.address = response.data.address
+        }
+
+        setItem(item, location)
       }
 
       return (
