@@ -21,6 +21,6 @@ export const selection = [
     description: 'Eikenboom',
     status: FeatureStatus.REPORTED,
     location: {},
-    label: 'Eikenboom - is gemeld - 308778',
+    label: 'Eikenboom - is gemeld (308778)',
   },
 ]

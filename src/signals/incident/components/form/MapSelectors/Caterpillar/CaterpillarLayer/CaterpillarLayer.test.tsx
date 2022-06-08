@@ -27,7 +27,7 @@ import CaterpillarLayer from '.'
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: selection,
+  selection: [selection[0]],
   meta: typedMeta,
 }
 
@@ -72,7 +72,7 @@ describe('CaterpillarLayer', () => {
 
     const { rerender } = render(withMapCaterpillar())
 
-    const tree = screen.getByAltText(`Eikenboom is reeds gemeld (${featureId})`)
+    const tree = screen.getByAltText(`Eikenboom is reeds gemeld - ${featureId}`)
 
     userEvent.click(tree)
 
@@ -114,7 +114,7 @@ describe('CaterpillarLayer', () => {
 
     render(
       withMapCaterpillar({
-        selection: selected,
+        selection: [selected],
       })
     )
 

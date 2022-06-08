@@ -15,20 +15,42 @@ import withAssetSelectContext, {
 import type { Geometrie } from 'types/incident'
 import userEvent from '@testing-library/user-event'
 import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import { mocked } from 'jest-mock'
 import { WfsDataProvider } from '../context'
 
 import AssetLayer from '.'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: [{
-    description: 'Glas container',
-    id: 'GLB00072',
-    type: 'Glas',
-    location: {},
-    label: 'Glas container - GLB00072',
-  }],
+  selection: [
+    {
+      description: 'Glas container',
+      id: 'GLB00072',
+      type: 'Glas',
+      location: {},
+      label: 'Glas container - GLB00072',
+    },
+  ],
 }
+
+const mockLatLng = { lat: 10, lng: 20 }
+const mockAddress = {
+  postcode: '1000 AA',
+  huisnummer: '100',
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+const geocodedResponse = {
+  id: 'foo',
+  value: 'bar',
+  data: {
+    location: mockLatLng,
+    address: mockAddress,
+  },
+}
+
+jest.mock('shared/services/reverse-geocoder')
 
 const { featureTypes } = contextValue.meta
 
@@ -65,16 +87,18 @@ describe('AssetLayer', () => {
     ({ properties }) => properties.id_nummer === featureId
   )
   const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
-  const newSelection = [{
-    id: featureId,
-    isReported: false,
-    description: 'Papier container',
-    type: 'Papier',
-    label: 'Papier container - PAB00022',
-    location: {
-      coordinates: coordinates,
+  const newSelection = [
+    {
+      id: featureId,
+      isReported: false,
+      description: 'Papier container',
+      type: 'Papier',
+      label: 'Papier container - PAB00022',
+      location: {
+        coordinates: coordinates,
+      },
     },
-  }]
+  ]
 
   it('should render the asset layer in the map', () => {
     render(withAssetMap())
@@ -89,19 +113,13 @@ describe('AssetLayer', () => {
   })
 
   it('should handle selecting a container', async () => {
-    const coordinates = {
-      lat: 52.3731455533363,
-      lng: 4.87999327142592,
-    }
-
-    const item = {
-      id: 'PAB00022',
-      type: 'Papier',
-      description: 'Papier container',
-      label: 'Papier container - PAB00022',
-      status: undefined,
-      coordinates,
-    }
+    mocked(reverseGeocoderService).mockImplementation(() =>
+      Promise.resolve(geocodedResponse)
+    )
+    // const coordinates = {
+    //   lat: 52.3731455533363,
+    //   lng: 4.87999327142592,
+    // }
 
     render(withAssetMap())
 
@@ -109,7 +127,11 @@ describe('AssetLayer', () => {
 
     userEvent.click(container)
 
-    expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
+    expect(reverseGeocoderService).toHaveBeenCalledWith(coordinates)
+
+    expect(setItem).toHaveBeenCalled()
+
+    //expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
 
     expect(
       screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)

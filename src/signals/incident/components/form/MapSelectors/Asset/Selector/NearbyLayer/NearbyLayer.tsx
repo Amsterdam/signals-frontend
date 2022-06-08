@@ -78,7 +78,7 @@ export function findAssetMatch(
 }
 
 export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
-  const { selection, setItem, removeAllItems } = useContext(AssetSelectContext)
+  const { selection, setItem } = useContext(AssetSelectContext)
   const bbox = useBoundingBox()
   const layerVisible = useLayerVisible(zoomLevel)
   const mapInstance = useMapInstance()
@@ -116,7 +116,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
         setItem(item, location)
       },
-    [setItem, setActiveLayer, removeAllItems, reverseGeocoderService, selection]
+    [setItem, setActiveLayer]
   )
 
   useEffect(() => {
@@ -198,6 +198,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     onMarkerClick,
     error,
     assetData,
+    selection,
   ])
   return (
     <>

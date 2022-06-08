@@ -3,14 +3,12 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactResponsive from 'react-responsive'
-import useFetch from 'hooks/useFetch'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
-import configuration from 'shared/services/configuration/configuration'
 import * as reactRedux from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
@@ -21,24 +19,6 @@ import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import type { DetailPanelProps } from './DetailPanel'
 import MockInstance = jest.MockInstance
-
-const category = 'afval'
-const subcategory = 'huisvuil'
-const get = jest.fn()
-const patch = jest.fn()
-const post = jest.fn()
-const put = jest.fn()
-
-const useFetchResponse = {
-  get,
-  patch,
-  post,
-  put,
-  data: undefined,
-  isLoading: false,
-  error: false,
-  isSuccess: false,
-}
 
 jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
@@ -55,8 +35,11 @@ jest.mock(
     }: AssetListProps) =>
       (
         <span data-testid="mockAssetList" {...props}>
-          {`${selection[0].description} - ${selection[0].id}`}
-          <input type="button" onClick={() => onRemove && onRemove(selection[0])} />
+          {`${selection[0].description} - ${selection[0].label}`}
+          <input
+            type="button"
+            onClick={() => onRemove && onRemove(selection[0])}
+          />
         </span>
       )
 )
@@ -158,17 +141,21 @@ describe('DetailPanel', () => {
     },
   }
 
-  const selection = [{
-    ...GLAS_CONTAINER,
-    location: { coordinates: { lat: 0, lng: 12.345345 } },
-    label: 'foo bar',
-  }]
+  const selection = [
+    {
+      ...GLAS_CONTAINER,
+      location: { coordinates: { lat: 0, lng: 12.345345 } },
+      label: 'foo bar',
+    },
+  ]
 
-  const selectionUnregistered = [{
-    ...UNREGISTERED_CONTAINER,
-    location: { coordinates: { lat: 0, lng: 12.345345 } },
-    label: 'foo bar',
-  }]
+  const selectionUnregistered = [
+    {
+      ...UNREGISTERED_CONTAINER,
+      location: { coordinates: { lat: 0, lng: 12.345345 } },
+      label: 'foo bar',
+    },
+  ]
 
   const currentContextValue = {
     ...contextValue,
@@ -186,11 +173,6 @@ describe('DetailPanel', () => {
     )
     dispatch.mockReset()
     dispatchEventSpy.mockReset()
-
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValue({ category, subcategory })
-    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
 
   afterEach(() => {
@@ -233,7 +215,7 @@ describe('DetailPanel', () => {
     ).toBeInTheDocument()
     expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
     expect(
-      screen.getByText(`${selection[0].description} - ${selection[0].id}`)
+      screen.getByText(`${selection[0].description} - ${selection[0].label}`)
     ).toBeInTheDocument()
   })
 
@@ -281,11 +263,11 @@ describe('DetailPanel', () => {
       screen.getByTestId('addressPanel')
     ).getByTestId('autoSuggestClear')
 
-    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
+    expect(currentContextValue.removeAllItems).not.toHaveBeenCalled()
 
     userEvent.click(autoSuggestClear)
 
-    expect(currentContextValue.removeItem).toHaveBeenCalled()
+    expect(currentContextValue.removeAllItems).toHaveBeenCalled()
     expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
   })
 
@@ -567,42 +549,25 @@ describe('DetailPanel', () => {
   })
 
   it('selection nearby details', () => {
-    const selection = [{
-      label: 'Huisafval',
-      description: 'Gemeld op: 01-01-1970',
-      type: NEARBY_TYPE,
-    }]
+    const selection = [
+      {
+        id: 'bla',
+        label: 'Huisafval',
+        description: 'Gemeld op: 01-01-1970',
+        type: NEARBY_TYPE,
+      },
+    ]
 
-    render(
+    const yes = render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection,
       })
     )
 
-    expect(screen.getByText(selection[0].label)).toBeInTheDocument()
-    expect(screen.getByText(selection[0].description)).toBeInTheDocument()
-  })
-
-  it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {
-    const selection = [{
-      label: 'Huisafval',
-      description: 'Gemeld op: 01-01-1970',
-      type: 'Rest',
-      coordinates: { lat: 1, lng: 2 },
-    }]
-
-    expect(get).not.toHaveBeenCalled()
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
-        selection,
-      })
-    )
-
-    expect(get).toHaveBeenCalledTimes(1)
-    expect(get).toHaveBeenCalledWith(
-      expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
-    )
+    expect(yes).toMatchSnapshot()
+    expect(
+      screen.getByText(`${selection[0].description} - ${selection[0].label}`)
+    ).toBeInTheDocument()
   })
 })

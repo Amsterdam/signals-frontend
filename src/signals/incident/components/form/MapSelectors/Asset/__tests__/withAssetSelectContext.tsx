@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import ReactDOM from 'react-dom'
 import type { ReactNode, ReactPortal } from 'react'
 
@@ -19,16 +21,18 @@ export const contextValue: AssetSelectValue = {
     featureStatusTypes: [],
   },
   removeItem: jest.fn(),
-  removeAllItems: jest.fn,
-  selection: [{
-    location: {
-      coordinates: { lat: 0, lng: 0 },
+  removeAllItems: jest.fn(),
+  selection: [
+    {
+      location: {
+        coordinates: { lat: 0, lng: 0 },
+      },
+      description: 'Plastic asset',
+      id: 'PL734',
+      type: 'plastic',
+      label: 'Plastic container - PL734',
     },
-    description: 'Plastic asset',
-    id: 'PL734',
-    type: 'plastic',
-    label: 'Plastic container - PL734',
-  }],
+  ],
   setItem: jest.fn(),
   fetchLocation: jest.fn(),
   setLocation: jest.fn(),

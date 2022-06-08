@@ -163,10 +163,10 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
         createdAt: formattedDate(data?.features[0].properties.created_at),
       })
     }
-  }, [data?.features, selectionOnMap, selectionNearby])
+  }, [data?.features, item, selectionOnMap, selectionNearby])
 
   return (
-    <ListItem>
+    <ListItem data-testid="assetListItem">
       {!selectionNearby && (
         <IconListItem
           id={extendedId}
@@ -210,11 +210,12 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   className,
   featureTypes,
   featureStatusTypes,
-}) => {
-  return (
-    <IconList data-testid="assetList" className={className}>
-      {selection.length > 0 &&
-        selection.map((item, index) => (
+}) => (
+  <IconList data-testid="assetList" className={className}>
+    {selection.length > 0 &&
+      selection
+        .filter(({ id }) => id !== '' && id !== undefined)
+        .map((item, index) => (
           <AssetListItem
             key={index}
             item={item}
@@ -223,8 +224,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
             onRemove={() => onRemove && onRemove(item)}
           />
         ))}
-    </IconList>
-  )
-}
+  </IconList>
+)
 
 export default AssetList
