@@ -79,17 +79,20 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   /**
    * Selecting an object on the map
    */
-  const setItem = useCallback((selectedItem: Item, itemLocation?: Location) => {
-    const payload = {
-      selection: [selectedItem],
-      location: itemLocation || location,
-    }
-    parent.meta.addToSelection({
-      location: payload?.location,
-      [meta.name as string]: payload,
-      meta_name: meta.name,
-    })
-  }, [location])
+  const setItem = useCallback(
+    (selectedItem: Item, itemLocation?: Location) => {
+      const payload = {
+        selection: [selectedItem],
+        location: itemLocation || location,
+      }
+      parent.meta.addToSelection({
+        location: payload?.location,
+        [meta.name as string]: payload,
+        meta_name: meta.name,
+      })
+    },
+    [location, meta.name, parent.meta]
+  )
 
   const removeItem = (selectedItem: Item) => {
     const payload = {
@@ -111,20 +114,23 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     })
   }
 
-  const getUpdatePayload = useCallback((location: Location) => {
-    // Clicking the map should unset a previous selection and preset it with an item that we know
-    // doesn't exist on the map.
-    const payload: UpdatePayload = { location, selection }
+  const getUpdatePayload = useCallback(
+    (location: Location) => {
+      // Clicking the map should unset a previous selection and preset it with an item that we know
+      // doesn't exist on the map.
+      const payload: UpdatePayload = { location, selection }
 
-    const item = selection ? selection[0] : undefined
+      const item = selection ? selection[0] : undefined
 
-    if (item?.type === UNKNOWN_TYPE) {
-      payload.selection = selection
-    } else {
-      payload.selection = undefined
-    }
-    return payload
-  }, [selection])
+      if (item?.type === UNKNOWN_TYPE) {
+        payload.selection = selection
+      } else {
+        payload.selection = undefined
+      }
+      return payload
+    },
+    [selection]
+  )
 
   /**
    * Callback handler for map clicks; will fetch the address and dispatches both coordinates and

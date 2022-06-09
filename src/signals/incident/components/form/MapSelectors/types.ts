@@ -3,8 +3,8 @@
 import type { MouseEvent, KeyboardEvent } from 'react'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
+import type { Address } from 'types/address'
 import type { UNKNOWN_TYPE, UNREGISTERED_TYPE } from './constants'
-import {Address} from "../../../../../types/address";
 
 export type EventHandler = (
   event:
