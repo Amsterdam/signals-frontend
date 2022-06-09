@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { QuestionFieldType } from 'types/question'
 
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 export const UPDATE_INCIDENT = 'sia/IncidentContainer/UPDATE_INCIDENT'
 export const RESET_INCIDENT = 'sia/IncidentContainer/RESET_INCIDENT'
 export const REMOVE_QUESTION_DATA = 'src/IncidentContainer/REMOVE_QUESTION_DATA'
@@ -32,11 +31,11 @@ export const SHOW_MAP = 'sia/IncidentContainer/SHOW_MAP'
 export const CLOSE_MAP = 'sia/IncidentContainer/CLOSE_MAP'
 
 export const ADD_TO_SELECTION = 'sia/IncidentContainer/ADD_TO_SELECTION'
-export const REMOVE_FROM_SELECTION = 'sia/IncidentContainer/REMOVE_FROM_SELECTION'
+export const REMOVE_FROM_SELECTION =
+  'sia/IncidentContainer/REMOVE_FROM_SELECTION'
 export const REMOVE_SELECTION = 'sia/IncidentContainer/REMOVE_SELECTION'
 
 export const LOCATION_SELECT_FIELD_TYPE = 'location_select'
-
 
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,

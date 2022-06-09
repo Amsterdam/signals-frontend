@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import styled, { css, keyframes } from 'styled-components'
 
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FeatureCollection } from 'geojson'
 
 import { render, screen } from '@testing-library/react'
@@ -19,14 +19,16 @@ import StreetlightLayer from './StreetlightLayer'
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: [{
-    id: '031346',
-    type: '4',
-    description: 'Overig lichtpunt',
-    status: FeatureStatus.REPORTED,
-    location: {},
-    label: 'Overig lichtpunt - 031346',
-  }],
+  selection: [
+    {
+      id: '031346',
+      type: '4',
+      description: 'Overig lichtpunt',
+      status: FeatureStatus.REPORTED,
+      location: {},
+      label: 'Overig lichtpunt - 031346',
+    },
+  ],
   meta,
 }
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -117,4 +117,3 @@ export const removeSelection = (payload) => ({
   type: REMOVE_SELECTION,
   payload,
 })
-
