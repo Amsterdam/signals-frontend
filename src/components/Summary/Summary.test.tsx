@@ -9,7 +9,6 @@ import { contextValue as assetSelectContextValue } from 'signals/incident/compon
 import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { Address } from 'types/address'
-import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 
 import * as reactRedux from 'react-redux'
@@ -18,19 +17,21 @@ import Summary from './Summary'
 import MockInstance = jest.MockInstance
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
+jest.mock('components/MapStatic', () => () => (
   <span data-testid="mapStatic">
-    <img src={iconSrc} alt="" />
+    <img src={'/assets/images/icon-select-marker.svg'} alt="" />
   </span>
 ))
 
-const selection = [{
-  id: 'PL734',
-  type: 'plastic',
-  description: 'Plastic asset',
-  location: {},
-  label: 'Plastic container - PL734',
-}]
+const selection = [
+  {
+    id: 'PL734',
+    type: 'plastic',
+    description: 'Plastic asset',
+    location: {},
+    label: 'Plastic container - PL734',
+  },
+]
 const featureType = {
   label: 'Plastic',
   description: 'Plastic asset',
@@ -194,8 +195,10 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('renders a MapStatic component with the correct iconSrc prop', () => {
     render(withContext(<Summary {...summaryProps} />))
-
     expect(
-      screen.getByTestId('mapStatic').querySelector(`img[src="${featureType.icon.iconUrl}"]`)
-    ).toBeInTheDocument()  })
+      screen
+        .getByTestId('mapStatic')
+        .querySelector(`img[src='/assets/images/icon-select-marker.svg']`)
+    ).toBeInTheDocument()
+  })
 })
