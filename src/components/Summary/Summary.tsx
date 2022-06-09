@@ -153,7 +153,7 @@ const Summary: FC<SummaryProps> = ({
           const iconSrc = getIconSrc(item, featureTypes)
 
           return (
-            <LocationDescription key={id}>
+            <LocationDescription key={`${id}-address`}>
               {getIconSrc(item, featureTypes) && (
                 <StyledImg
                   data-testid="typeIcon"
