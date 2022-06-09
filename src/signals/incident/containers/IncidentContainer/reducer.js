@@ -94,8 +94,13 @@ export default (state = initialState, action) => {
         previousSelection[0].type !== NEARBY_TYPE
       ) {
         selection = [
-          ...(state.get('incident').toJS()[action.payload.meta_name]
-            ?.selection || []),
+          ...(state
+            .get('incident')
+            .toJS()
+            [action.payload.meta_name]?.selection.filter(
+              ({ id }) =>
+                id !== action.payload[action.payload.meta_name]?.selection[0].id
+            ) || []),
           selected,
         ]
       }

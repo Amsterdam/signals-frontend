@@ -83,6 +83,8 @@ export const AssetLayer: FC = () => {
         return
       }
 
+      setItem(item, location)
+
       const response = await reverseGeocoderService(coordinates)
 
       if (response) {
