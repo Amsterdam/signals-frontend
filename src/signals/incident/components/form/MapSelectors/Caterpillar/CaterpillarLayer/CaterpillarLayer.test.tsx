@@ -19,6 +19,8 @@ import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/A
 import { featureToCoordinates } from 'shared/services/map-location'
 
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+import { mocked } from 'jest-mock'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import withAssetSelectContext, {
   contextValue,
 } from '../../Asset/__tests__/withAssetSelectContext'
@@ -31,6 +33,24 @@ const assetSelectProviderValue: AssetSelectValue = {
   meta: typedMeta,
 }
 
+const mockLatLng = { lat: 10, lng: 20 }
+const mockAddress = {
+  postcode: '1000 AA',
+  huisnummer: '100',
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+const geocodedResponse = {
+  id: 'foo',
+  value: 'bar',
+  data: {
+    location: mockLatLng,
+    address: mockAddress,
+  },
+}
+
+jest.mock('shared/services/reverse-geocoder')
+
 describe('CaterpillarLayer', () => {
   const setItem = jest.fn()
   const removeItem = jest.fn()
@@ -42,7 +62,12 @@ describe('CaterpillarLayer', () => {
           <CaterpillarLayer />
         </WfsDataProvider>
       </Map>,
-      { ...assetSelectProviderValue, setItem, removeItem, ...contextOverride }
+      {
+        ...assetSelectProviderValue,
+        setItem,
+        removeItem,
+        ...contextOverride,
+      }
     )
 
   afterEach(() => {
@@ -66,16 +91,20 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle selecting a tree', async () => {
+    mocked(reverseGeocoderService).mockImplementation(() =>
+      Promise.resolve(geocodedResponse)
+    )
     const featureId = 308778
+    const selected = selection.filter(({ id }) => id !== featureId)
     const feature = caterpillarsJson.features.find(({ id }) => id === featureId)
     const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
 
-    const { rerender } = render(withMapCaterpillar())
-
-    const tree = screen.getByAltText(`Eikenboom is reeds gemeld - ${featureId}`)
+    const { rerender } = render(withMapCaterpillar({ selection: selected }))
+    const tree = screen.getByAltText(`Eikenboom is reeds gemeld (${featureId})`)
 
     userEvent.click(tree)
 
+    expect(reverseGeocoderService).toHaveBeenCalledWith(coordinates)
     expect(setItem).toHaveBeenCalledWith(
       {
         id: featureId,
@@ -97,7 +126,7 @@ describe('CaterpillarLayer', () => {
 
     rerender(
       withMapCaterpillar({
-        selection: selection.find(({ id }) => id === featureId),
+        selection: [selection.find(({ id }) => id === featureId)],
       })
     )
 

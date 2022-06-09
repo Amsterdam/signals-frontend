@@ -116,10 +116,19 @@ describe('AssetLayer', () => {
     mocked(reverseGeocoderService).mockImplementation(() =>
       Promise.resolve(geocodedResponse)
     )
-    // const coordinates = {
-    //   lat: 52.3731455533363,
-    //   lng: 4.87999327142592,
-    // }
+    const coordinates = {
+      lat: 52.3731455533363,
+      lng: 4.87999327142592,
+    }
+
+    const item = {
+      id: 'PAB00022',
+      type: 'Papier',
+      description: 'Papier container',
+      label: 'Papier container - PAB00022',
+      status: undefined,
+      coordinates,
+    }
 
     render(withAssetMap())
 
@@ -128,10 +137,7 @@ describe('AssetLayer', () => {
     userEvent.click(container)
 
     expect(reverseGeocoderService).toHaveBeenCalledWith(coordinates)
-
-    expect(setItem).toHaveBeenCalled()
-
-    //expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
+    expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
 
     expect(
       screen.queryByAltText(`Papier container, is geselecteerd (${featureId})`)
