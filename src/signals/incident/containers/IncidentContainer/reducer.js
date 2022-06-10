@@ -88,7 +88,7 @@ export default (state = initialState, action) => {
       ]?.selection
       let selection = [selected]
       if (
-        selected.type !== NEARBY_TYPE &&
+        selected?.type !== NEARBY_TYPE &&
         previousSelection &&
         previousSelection[0].type !== NEARBY_TYPE
       ) {
