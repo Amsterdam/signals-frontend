@@ -554,14 +554,13 @@ describe('DetailPanel', () => {
       },
     ]
 
-    const yes = render(
+    render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
         selection,
       })
     )
 
-    expect(yes).toMatchSnapshot()
     expect(
       screen.getByText(`${selection[0].description} - ${selection[0].label}`)
     ).toBeInTheDocument()

@@ -64,35 +64,33 @@ export const AssetLayer: FC = () => {
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
 
     const onClick = async () => {
-      if (typeValue === FeatureStatus.REPORTED) {
-        return
+      if (typeValue !== FeatureStatus.REPORTED) {
+        const location: Location = { coordinates }
+        const item: Item = {
+          id,
+          type: typeValue,
+          description,
+          status: featureStatusType?.typeValue,
+          label: [description, id].filter(Boolean).join(' - '),
+          coordinates,
+        }
+
+        if (isSelected) {
+          removeItem(item)
+          return
+        }
+
+        setItem(item, location)
+
+        const response = await reverseGeocoderService(coordinates)
+
+        if (response) {
+          location.address = response.data.address
+          item.address = response.data.address
+        }
+
+        setItem(item, location)
       }
-
-      const location: Location = { coordinates }
-      const item: Item = {
-        id,
-        type: typeValue,
-        description,
-        status: featureStatusType?.typeValue,
-        label: [description, id].filter(Boolean).join(' - '),
-        coordinates,
-      }
-
-      if (isSelected) {
-        removeItem(item)
-        return
-      }
-
-      setItem(item, location)
-
-      const response = await reverseGeocoderService(coordinates)
-
-      if (response) {
-        location.address = response.data.address
-        item.address = response.data.address
-      }
-
-      setItem(item, location)
     }
 
     return (

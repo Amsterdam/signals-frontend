@@ -38,6 +38,9 @@ describe('<IncidentWizard />', () => {
     wizardDefinition: {},
     getClassification: jest.fn(),
     updateIncident: jest.fn(),
+    addToSelection: jest.fn(),
+    removeFromSelection: jest.fn(),
+    removeSelection: jest.fn(),
     createIncident: jest.fn(),
     removeQuestionData: jest.fn(),
     incidentContainer: {

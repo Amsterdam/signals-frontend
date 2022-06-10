@@ -105,7 +105,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
           coordinates,
         }
 
-        //setItem(item, location)
+        setItem(item, location)
 
         const response = await reverseGeocoderService(coordinates)
 
