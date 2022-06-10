@@ -34,6 +34,7 @@ export const controls = {
       wfsFilter:
         '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers.containers,
+      maxNumberOfAssets: 2,
       featureTypes: [
         {
           label: 'Restafval',

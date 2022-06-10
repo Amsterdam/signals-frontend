@@ -71,6 +71,7 @@ export interface Meta extends Record<string, unknown> {
   name?: string
   endpoint: string
   featureTypes: FeatureType[]
+  maxNumberOfAssets?: number
   featureStatusTypes?: FeatureStatusType[]
   language?: Record<string, string>
   wfsFilter?: string

@@ -48,6 +48,7 @@ export interface AssetSelectProps {
     meta: {
       featureTypes: FeatureType[]
       featureStatusTypes: FeatureStatusType[]
+      maxNumberOfAssets?: number
       incidentContainer: { incident: Pick<Incident, 'location'> }
       updateIncident: (data: { [key: string]: any }) => void
       addToSelection: (data: { [key: string]: any }) => void
@@ -64,6 +65,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
+  const { maxNumberOfAssets } = meta
 
   const updateIncident = useCallback(
     (payload?: UpdatePayload) => {
@@ -84,6 +86,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       const payload = {
         selection: [selectedItem],
         location: itemLocation || location,
+        maxNumberOfAssets: maxNumberOfAssets || 1,
       }
       parent.meta.addToSelection({
         location: payload?.location,
