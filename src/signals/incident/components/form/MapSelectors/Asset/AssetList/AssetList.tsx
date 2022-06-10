@@ -214,7 +214,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   <IconList data-testid="assetList" className={className}>
     {selection.length > 0 &&
       selection
-        .filter(({ id }) => id !== '' && id !== undefined)
+        .filter(({ id }) => id)
         .map((item, index) => (
           <AssetListItem
             key={index}

@@ -74,7 +74,6 @@ class IncidentForm extends Component {
       updateIncident: this.props.updateIncident,
       addToSelection: this.props.addToSelection,
       removeFromSelection: this.props.removeFromSelection,
-      removeSelection: this.props.removeSelection,
     }
 
     this.setValues(this.props.incidentContainer.incident)
@@ -214,7 +213,6 @@ IncidentForm.propTypes = {
   updateIncident: PropTypes.func.isRequired,
   addToSelection: PropTypes.func.isRequired,
   removeFromSelection: PropTypes.func.isRequired,
-  removeSelection: PropTypes.func.isRequired,
   createIncident: PropTypes.func.isRequired,
 }
 

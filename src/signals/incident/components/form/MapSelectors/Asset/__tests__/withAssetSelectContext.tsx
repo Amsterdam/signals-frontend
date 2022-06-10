@@ -21,7 +21,6 @@ export const contextValue: AssetSelectValue = {
     featureStatusTypes: [],
   },
   removeItem: jest.fn(),
-  removeAllItems: jest.fn(),
   selection: [
     {
       location: {

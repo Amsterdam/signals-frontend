@@ -52,7 +52,6 @@ export interface AssetSelectProps {
       updateIncident: (data: { [key: string]: any }) => void
       addToSelection: (data: { [key: string]: any }) => void
       removeFromSelection: (data: { [key: string]: any }) => void
-      removeSelection: (data: { [key: string]: any }) => void
     }
   }
 }
@@ -86,7 +85,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         location: itemLocation || location,
       }
       parent.meta.addToSelection({
-        location: payload?.location,
+        location: payload.location,
         [meta.name as string]: payload,
         meta_name: meta.name,
       })
@@ -94,21 +93,12 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     [location, meta.name, parent.meta]
   )
 
-  const removeItem = (selectedItem: Item) => {
+  const removeItem = (selectedItem?: Item) => {
     const payload = {
-      selection: [selectedItem],
+      selection: selectedItem ? [selectedItem] : undefined,
     }
-    parent.meta.removeFromSelection({
-      [meta.name as string]: payload,
-      meta_name: meta.name,
-    })
-  }
 
-  const removeAllItems = () => {
-    const payload = {
-      selection: undefined,
-    }
-    parent.meta.removeSelection({
+    parent.meta.removeFromSelection({
       [meta.name as string]: payload,
       meta_name: meta.name,
     })
@@ -209,7 +199,6 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
           featureTypes,
         },
         removeItem,
-        removeAllItems,
         selection,
         setLocation,
         setItem,

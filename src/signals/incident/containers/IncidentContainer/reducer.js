@@ -22,7 +22,6 @@ import {
   CLOSE_MAP,
   ADD_TO_SELECTION,
   REMOVE_FROM_SELECTION,
-  REMOVE_SELECTION,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -119,6 +118,21 @@ export default (state = initialState, action) => {
       )
     }
     case REMOVE_FROM_SELECTION: {
+      if (action.payload[action.payload.meta_name].selection === undefined) {
+        return state.set(
+          'incident',
+          fromJS({
+            ...state.get('incident').toJS(),
+            ...{
+              [action.payload.meta_name]: {
+                selection: undefined,
+                location: undefined,
+              },
+            },
+          })
+        )
+      }
+
       const updated = state
         .get('incident')
         .toJS()
@@ -138,20 +152,6 @@ export default (state = initialState, action) => {
                 address: updated[0]?.address,
                 coordinates: updated[0]?.coordinates,
               },
-            },
-          },
-        })
-      )
-    }
-    case REMOVE_SELECTION: {
-      return state.set(
-        'incident',
-        fromJS({
-          ...state.get('incident').toJS(),
-          ...{
-            [action.payload.meta_name]: {
-              selection: undefined,
-              location: undefined,
             },
           },
         })

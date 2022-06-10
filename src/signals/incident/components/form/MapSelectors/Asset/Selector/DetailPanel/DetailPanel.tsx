@@ -63,7 +63,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
 
   const [showAddressPanel, setShowAddressPanel] = useState(false)
   const dispatch = useDispatch()
-  const { address, selection, removeItem, removeAllItems, setItem, setLocation, meta } =
+  const { address, selection, removeItem, setItem, setLocation, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -71,9 +71,12 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const addressValue = address ? formatAddress(address) : ''
 
   const unregisteredAsset =
-    selection && selectionIsUndetermined(selection[0]) ? selection[0] : undefined
+    selection && selectionIsUndetermined(selection[0])
+      ? selection[0]
+      : undefined
 
-  const selectionOnMap = selection && selectionIsObject(selection[0]) ? selection : undefined
+  const selectionOnMap =
+    selection && selectionIsObject(selection[0]) ? selection : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
     selection && selection[0].type === UNKNOWN_TYPE
@@ -82,7 +85,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     unregisteredAsset?.id || ''
   )
 
-  const unregisteredLabel = language.unregistered || 'Het object staat niet op de kaart'
+  const unregisteredLabel =
+    language.unregistered || 'Het object staat niet op de kaart'
 
   const legendItems = [...featureTypes, ...featureStatusTypes, nearbyLegendItem]
     .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
@@ -150,10 +154,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   )
 
   const clearInput = useCallback(() => {
-    removeAllItems()
+    removeItem()
     setOptionsList(null)
-  }, [removeAllItems])
-
+  }, [removeItem])
 
   return (
     <PanelContent
@@ -176,7 +179,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onFocus={() => {
               setShowAddressPanel(true)
             }}
-            onClear={removeAllItems}
+            onClear={removeItem}
             onSelect={onAddressSelect}
             value={addressValue}
             placeholder="Zoek adres of postcode"

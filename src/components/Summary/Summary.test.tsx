@@ -10,6 +10,7 @@ import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { Address } from 'types/address'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 
 import * as reactRedux from 'react-redux'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
@@ -23,7 +24,7 @@ jest.mock('components/MapStatic', () => () => (
   </span>
 ))
 
-const selection = [
+const selection: Item[] = [
   {
     id: 'PL734',
     type: 'plastic',

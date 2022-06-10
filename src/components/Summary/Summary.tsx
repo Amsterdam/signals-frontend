@@ -157,7 +157,7 @@ const Summary: FC<SummaryProps> = ({
               {getIconSrc(item, featureTypes) && (
                 <StyledImg
                   data-testid="typeIcon"
-                  alt=""
+                  alt={item.label}
                   src={iconSrc}
                   height={iconSize}
                   width={iconSize}

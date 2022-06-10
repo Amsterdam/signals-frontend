@@ -11,6 +11,7 @@ import { formatAddress } from 'shared/services/format-address'
 import type { ReactPropTypes } from 'react'
 import * as reactRedux from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -141,7 +142,7 @@ describe('DetailPanel', () => {
     },
   }
 
-  const selection = [
+  const selection: Item[] = [
     {
       ...GLAS_CONTAINER,
       location: { coordinates: { lat: 0, lng: 12.345345 } },
@@ -149,7 +150,7 @@ describe('DetailPanel', () => {
     },
   ]
 
-  const selectionUnregistered = [
+  const selectionUnregistered: Item[] = [
     {
       ...UNREGISTERED_CONTAINER,
       location: { coordinates: { lat: 0, lng: 12.345345 } },
@@ -259,11 +260,11 @@ describe('DetailPanel', () => {
       screen.getByTestId('addressPanel')
     ).getByTestId('autoSuggestClear')
 
-    expect(currentContextValue.removeAllItems).not.toHaveBeenCalled()
+    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(autoSuggestClear)
 
-    expect(currentContextValue.removeAllItems).toHaveBeenCalled()
+    expect(currentContextValue.removeItem).toHaveBeenCalled()
     expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
   })
 
@@ -561,8 +562,8 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(
-      screen.getByText(`${selection[0].description} - ${selection[0].label}`)
-    ).toBeInTheDocument()
+    expect(screen.getByTestId('mockAssetList')).toHaveTextContent(
+      `${selection[0].description} - ${selection[0].label}`
+    )
   })
 })

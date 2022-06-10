@@ -34,7 +34,7 @@ export const CaterpillarLayer: FC = () => {
 
       const featureId = feature.properties[featureType.idField] as string
       const isSelected = Boolean(
-        selection && selection.find((item) => item.id === featureId)
+        selection?.find((item) => item.id === featureId)
       )
 
       const featureStatusType = getFeatureStatusType(
