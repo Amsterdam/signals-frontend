@@ -6,7 +6,13 @@ import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
 import type { Geography } from 'types/api/geography'
 
+import {
+  closedIncidentIcon,
+  openIncidentIcon,
+  pointerSelectIcon,
+} from 'shared/services/configuration/map-markers'
 import AreaMap from '..'
+import { getIcon } from '../AreaMap'
 import type { AreaMapProps } from '../AreaMap'
 import type { Feature } from '../types'
 
@@ -76,5 +82,17 @@ describe('<AreaMap />', () => {
     userEvent.click(screen.getByTestId('mapCloseButton'))
 
     expect(props.onClose).toHaveBeenCalled()
+  })
+
+  describe('getIncidentIcon', () => {
+    it('returns a pointerSelectIcon if the feature is selected', () => {
+      expect(getIcon(features[0], features[0])).toEqual(pointerSelectIcon)
+    })
+    it('returns a closedIncidentIcon if the feature status is closed', () => {
+      expect(getIcon(features[1], features[0])).toEqual(closedIncidentIcon)
+    })
+    it('returns an openIncidentIcon in other cases', () => {
+      expect(getIcon(features[0], features[1])).toEqual(openIncidentIcon)
+    })
   })
 })
