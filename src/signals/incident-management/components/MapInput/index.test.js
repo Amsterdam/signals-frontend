@@ -40,10 +40,7 @@ describe('<MapInput />', () => {
   })
 
   it('should render correctly', () => {
-    const MapInputRender = MapInput(props)
-    const { queryByTestId } = render(
-      withMapContext(<MapInputRender {...props} />)
-    )
+    const { queryByTestId } = render(withMapContext(<MapInput {...props} />))
 
     expect(queryByTestId('mapInput')).toBeInTheDocument()
     expect(queryByTestId('autoSuggest')).toBeInTheDocument()

@@ -27,6 +27,7 @@ const formatValues = (props) => {
 }
 
 class FieldControlWrapper extends Component {
+  // initialiseer values/location
   constructor(props) {
     super(props)
 
@@ -35,6 +36,7 @@ class FieldControlWrapper extends Component {
     }
   }
 
+  // wanneer er iets verandert met de locatie, verwijder de lege
   static getDerivedStateFromProps(props, state) {
     if (!isEqual(props.values, state.values)) {
       return {
@@ -45,6 +47,7 @@ class FieldControlWrapper extends Component {
     return null
   }
 
+  // Bij een update, update values and valideer
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props.values, prevProps.values)) {
       this.props.control.updateValueAndValidity()
@@ -53,7 +56,6 @@ class FieldControlWrapper extends Component {
 
   render() {
     const { name, control, render, meta, parent, ...props } = this.props
-
     return (
       <FieldControlContainer>
         <FieldControl
