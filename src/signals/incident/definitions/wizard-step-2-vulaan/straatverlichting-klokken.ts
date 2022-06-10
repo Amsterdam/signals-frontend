@@ -365,6 +365,17 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.RadioInput,
   },
+  extra_klok_toelichting_overig: {
+    meta: {
+      ifAllOf: {
+        extra_klok_probleem: 'overig',
+      },
+      label: 'Toelichting',
+      shortLabel: 'Toelichting',
+      pathMerge: 'extra_properties',
+    },
+    render: QuestionFieldType.TextareaInput,
+  },
 }
 
 export default straatverlichtingKlokken

@@ -1,11 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
+import { history, withAppContext } from 'test/utils'
 
 import * as reactRouterDom from 'react-router-dom'
 import { mocked } from 'jest-mock'
 import configuration from 'shared/services/configuration/configuration'
+import { filesUpload } from 'shared/services/files-upload/files-upload'
+import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
+import userEvent from '@testing-library/user-event'
+import { Provider } from 'react-redux'
+import configureStore from 'configureStore'
+import * as reactRedux from 'react-redux'
 import KtoForm from '.'
 
 const onSubmit = jest.fn()
@@ -17,12 +23,18 @@ const options = [
   { key: 'anders', value: 'Here be dragons' },
 ]
 
+const value = 'Bar baz foo'
+let fileInput, file
+
 const mockedUseParams = mocked(reactRouterDom.useParams)
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
 }))
 
 jest.mock('shared/services/configuration/configuration')
+jest.mock('shared/services/files-upload/files-upload')
+
+jest.spyOn(incidentContainerActions, 'updateIncident')
 
 describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
@@ -41,7 +53,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     const { container, getByTestId, rerender } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -50,6 +67,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
 
     expect(getByTestId('ktoTextExtra')).toBeInTheDocument()
+    expect(getByTestId('fileInput')).toBeInTheDocument()
     expect(getByTestId('ktoAllowsContact')).toBeInTheDocument()
     expect(getByTestId('ktoSubmit')).toBeInTheDocument()
 
@@ -63,7 +81,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     rerender(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -73,7 +96,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     rerender(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -83,7 +111,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     rerender(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -95,7 +128,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     const { getByText, unmount, rerender } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -109,7 +147,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     rerender(
       withAppContext(
-        <KtoForm isSatisfied={false} onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied={false}
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -119,7 +162,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   it('requires one of the options to be selected', () => {
     const { queryByText, getByText, getByTestId } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -137,7 +185,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   it('requires text area to contain content when last option is selected', () => {
     const { queryByText, getByText, queryByTestId, getByTestId } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -162,7 +215,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   it('should clear error message', () => {
     const { queryByText, getByText, queryByTestId, getByTestId } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -194,7 +252,13 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     }))
 
     const { getByTestId } = render(
-      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
+      withAppContext(
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          onSubmit={onSubmit}
+          options={options}
+        />
+      )
     )
 
     const firstOption = getByTestId(`kto-${options[0].key}`)
@@ -220,7 +284,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   it('should handle submit for last option', () => {
     const { getByTestId } = render(
       withAppContext(
-        <KtoForm isSatisfied onSubmit={onSubmit} options={options} />
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          isSatisfied
+          onSubmit={onSubmit}
+          options={options}
+        />
       )
     )
 
@@ -254,16 +323,16 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     }))
 
     const { getByTestId } = render(
-      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
+      withAppContext(
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          onSubmit={onSubmit}
+          options={options}
+        />
+      )
     )
 
-    const secondOption = getByTestId(`kto-${options[1].key}`)
-
-    fireEvent.click(secondOption)
-
-    const value = 'Bar baz foo'
-
-    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
+    fillForm()
 
     fireEvent.click(getByTestId('ktoAllowsContact'))
 
@@ -284,16 +353,16 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     }))
 
     const { getByTestId, rerender } = render(
-      withAppContext(<KtoForm onSubmit={onSubmit} options={options} />)
+      withAppContext(
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          onSubmit={onSubmit}
+          options={options}
+        />
+      )
     )
 
-    const secondOption = getByTestId(`kto-${options[1].key}`)
-
-    fireEvent.click(secondOption)
-
-    const value = 'Bar baz foo'
-
-    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
+    fillForm()
 
     fireEvent.click(getByTestId('ktoSubmit'))
 
@@ -309,11 +378,17 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
-    rerender(withAppContext(<KtoForm onSubmit={onSubmit} options={options} />))
+    rerender(
+      withAppContext(
+        <KtoForm
+          dataFeedbackForms={{ signal_id: 123 }}
+          onSubmit={onSubmit}
+          options={options}
+        />
+      )
+    )
 
-    fireEvent.click(secondOption)
-
-    fireEvent.change(getByTestId('ktoTextExtra'), { target: { value } })
+    fillForm()
 
     fireEvent.click(getByTestId('ktoAllowsContact'))
 
@@ -327,4 +402,70 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       text: options[1].value,
     })
   })
+  it('should upload a picture', () => {
+    mockedUseParams.mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+    }))
+
+    render(
+      withAppContext(
+        <Provider store={configureStore({}, history)}>
+          <KtoForm
+            onSubmit={onSubmit}
+            options={options}
+            dataFeedbackForms={{ signal_id: 123 }}
+          />
+        </Provider>
+      )
+    )
+
+    uploadFile()
+    fillForm()
+
+    expect(incidentContainerActions.updateIncident).toBeCalledWith({
+      images: [file],
+      images_previews: ['https://url-from-data/image.jpg'],
+    })
+  })
+  it('should call filesUpload when submitting', () => {
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue({
+      incident: {
+        images: [file],
+        images_previews: ['https://url-from-data/image.jpg'],
+      },
+    })
+
+    render(
+      withAppContext(
+        <Provider store={configureStore({}, history)}>
+          <KtoForm
+            onSubmit={onSubmit}
+            options={options}
+            dataFeedbackForms={{ signal_id: 123 }}
+          />
+        </Provider>
+      )
+    )
+    fillForm()
+
+    fireEvent.click(screen.getByTestId('ktoSubmit'))
+
+    expect(filesUpload).toBeCalledWith({
+      files: [file],
+      url: 'http://localhost:8000/signals/v1/public/signals/123/attachments/',
+    })
+  })
 })
+
+function uploadFile() {
+  fileInput = screen.getByTestId('fileInputUpload')
+  file = new File(['hello'], 'hello.png', { type: 'image/png' })
+  Object.defineProperty(file, 'size', { value: 1024 * 1024 + 1 }) // 1 MB
+  userEvent.upload(fileInput, file)
+}
+
+function fillForm() {
+  const secondOption = screen.getByTestId(`kto-${options[1].key}`)
+  fireEvent.click(secondOption)
+  fireEvent.change(screen.getByTestId('ktoTextExtra'), { target: { value } })
+}
