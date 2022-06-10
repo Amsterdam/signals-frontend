@@ -5,6 +5,8 @@ import type { FunctionComponent, MouseEventHandler } from 'react'
 import styled, { css } from 'styled-components'
 
 import Button from 'components/Button'
+import { useContext } from 'react'
+import MapContext from 'containers/MapContext/context'
 
 export const FORM_FOOTER_HEIGHT = 66
 
@@ -67,47 +69,57 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
   onCancel,
   onResetForm,
   onSubmitForm,
-  canSubmitForm = true,
   resetBtnLabel,
   submitBtnLabel,
-}) => (
-  <FooterWrapper data-testid="formFooter" className={className} inline={inline}>
-    <Row hasMargin={!inline} className="formFooterRow">
-      <ButtonContainer span={12}>
-        {resetBtnLabel && (
-          <ResetButton
-            data-testid="resetBtn"
-            onClick={onResetForm}
-            type="reset"
-          >
-            {resetBtnLabel}
-          </ResetButton>
-        )}
+}) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const {
+    state: { loading },
+  } = useContext(MapContext)
+  return (
+    <FooterWrapper
+      data-testid="formFooter"
+      className={className}
+      inline={inline}
+    >
+      <Row hasMargin={!inline} className="formFooterRow">
+        <ButtonContainer span={12}>
+          {resetBtnLabel && (
+            <ResetButton
+              data-testid="resetBtn"
+              onClick={onResetForm}
+              type="reset"
+            >
+              {resetBtnLabel}
+            </ResetButton>
+          )}
 
-        {submitBtnLabel && (
-          <SubmitButton
-            data-testid="submitBtn"
-            name="submit_button"
-            disabled={!canSubmitForm}
-            onClick={onSubmitForm}
-            type="submit"
-          >
-            {submitBtnLabel}
-          </SubmitButton>
-        )}
+          {submitBtnLabel && (
+            <SubmitButton
+              data-testid="submitBtn"
+              name="submit_button"
+              disabled={loading}
+              onClick={onSubmitForm}
+              type="submit"
+            >
+              {submitBtnLabel}
+            </SubmitButton>
+          )}
 
-        {cancelBtnLabel && (
-          <CancelButton
-            data-testid="cancelBtn"
-            onClick={onCancel}
-            type="button"
-          >
-            {cancelBtnLabel}
-          </CancelButton>
-        )}
-      </ButtonContainer>
-    </Row>
-  </FooterWrapper>
-)
+          {cancelBtnLabel && (
+            <CancelButton
+              data-testid="cancelBtn"
+              onClick={onCancel}
+              type="button"
+            >
+              {cancelBtnLabel}
+            </CancelButton>
+          )}
+        </ButtonContainer>
+      </Row>
+    </FooterWrapper>
+  )
+}
 
 export default FormFooter
