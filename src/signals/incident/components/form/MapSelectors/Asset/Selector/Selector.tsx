@@ -134,7 +134,13 @@ const Selector: FC = () => {
           : meta?.language?.objectTypePlural || 'objecten'
       setMapMessage(`U kunt maximaal ${maxNumberOfAssets} ${number} kiezen.`)
     }
-  }, [selection, maxNumberOfAssets, mapMessage])
+  }, [
+    selection,
+    maxNumberOfAssets,
+    mapMessage,
+    meta?.language?.objectTypePlural,
+    meta?.language?.objectTypeSingular,
+  ])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">

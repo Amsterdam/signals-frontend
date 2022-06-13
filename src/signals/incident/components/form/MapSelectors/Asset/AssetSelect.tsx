@@ -93,7 +93,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         meta_name: meta.name,
       })
     },
-    [location, meta.name, parent.meta]
+    [location, meta.name, parent.meta, maxNumberOfAssets]
   )
 
   const removeItem = (selectedItem?: Item) => {
