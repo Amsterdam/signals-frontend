@@ -13,6 +13,7 @@ export const initialValue: AssetSelectValue = {
     featureTypes: [],
     featureStatusTypes: [],
     extraProperties: [],
+    maxNumberOfAssets: undefined,
   },
   selection: undefined,
   fetchLocation: /* istanbul ignore next */ () => {},

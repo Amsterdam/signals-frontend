@@ -19,6 +19,10 @@ export const contextValue: AssetSelectValue = {
     endpoint,
     featureTypes,
     featureStatusTypes: [],
+    language: {
+      objectTypeSingular: 'container',
+      objectTypePlural: 'containers',
+    },
   },
   removeItem: jest.fn(),
   selection: [
