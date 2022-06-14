@@ -46,6 +46,8 @@ const selection = [
   },
 ]
 
+const location = { coordinates, address }
+
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
   afterEach(() => {
     configuration.__reset()
@@ -107,12 +109,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {
-              extra_container: {
-                location: {
-                  coordinates: coordinates,
-                  address,
-                },
-              },
+              extra_container: { location },
               category: 'bar',
               subcategory: 'foo',
             },
@@ -120,17 +117,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           {
             type: ADD_TO_SELECTION,
             payload: {
-              extra_container: {
-                selection,
-                location: {
-                  coordinates,
-                  address,
-                },
-              },
-              location: {
-                coordinates,
-                address,
-              },
+              extra_container: { selection, location },
+              location,
               meta_name: 'extra_container',
             },
           }
@@ -139,13 +127,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
-          extra_container: {
-            selection,
-            location: {
-              coordinates,
-              address,
-            },
-          },
+          extra_container: { selection, location },
         },
       })
     })
@@ -154,13 +136,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {
-              extra_container: {
-                location: {
-                  coordinates,
-                  address,
-                },
-                selection,
-              },
+              extra_container: { location, selection },
               category: 'bar',
               subcategory: 'foo',
             },
@@ -181,10 +157,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
                 ],
                 maxNumberOfAssets: 1,
               },
-              location: {
-                coordinates,
-                address,
-              },
+              location,
               meta_name: 'extra_container',
             },
           }
@@ -193,13 +166,35 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
-          extra_container: {
-            selection,
-            location: {
-              coordinates,
-              address,
+          extra_container: { selection, location },
+        },
+      })
+    })
+
+    it('does not add an item to the selection of an incident when the item is already in the selection', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: { location, selection },
+              category: 'bar',
+              subcategory: 'foo',
             },
-          },
+          }),
+          {
+            type: ADD_TO_SELECTION,
+            payload: {
+              extra_container: { selection, location },
+              location,
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
         },
       })
     })
@@ -211,13 +206,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incidentContainerReducer(
           fromJS({
             incident: {
-              extra_container: {
-                selection,
-                location: {
-                  coordinates: coordinates,
-                  address,
-                },
-              },
+              extra_container: { selection, location },
               category: 'bar',
               subcategory: 'foo',
             },
@@ -225,9 +214,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           {
             type: REMOVE_FROM_SELECTION,
             payload: {
-              extra_container: {
-                selection: undefined,
-              },
+              extra_container: { selection: undefined },
               meta_name: 'extra_container',
             },
           }
@@ -236,10 +223,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
-          extra_container: {
-            selection: undefined,
-            location: undefined,
-          },
+          extra_container: { selection: undefined, location: undefined },
         },
       })
     })
