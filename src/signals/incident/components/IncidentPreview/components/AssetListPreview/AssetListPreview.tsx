@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
@@ -14,7 +14,7 @@ const StyledAssetList = styled(AssetList)`
 
 export interface AssetListPreviewProps
   extends Omit<AssetListProps, 'selection'> {
-  value: Item
+  value: Item[]
 }
 
 const AssetListPreview: FunctionComponent<AssetListPreviewProps> = ({

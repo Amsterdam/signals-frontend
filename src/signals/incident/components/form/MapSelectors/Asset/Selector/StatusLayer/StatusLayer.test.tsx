@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FeatureCollection } from 'geojson'
 
 import { render, screen } from '@testing-library/react'
@@ -25,7 +25,7 @@ import { getFeatureStatusType } from './utils'
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: selection[0],
+  selection: selection,
   meta: typedMeta,
 }
 

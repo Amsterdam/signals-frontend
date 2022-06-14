@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
@@ -16,6 +16,8 @@ import type {
   getClassification,
   removeQuestionData,
   updateIncident,
+  addToSelection,
+  removeFromSelection,
 } from 'signals/incident/containers/IncidentContainer/actions'
 import type { Incident } from 'types/incident'
 import type { WizardSection } from 'signals/incident/definitions/wizard'
@@ -40,6 +42,8 @@ interface IncidentWizardProps {
   wizardDefinition: WizardSection
   getClassification: typeof getClassification
   updateIncident: typeof updateIncident
+  addToSelection: typeof addToSelection
+  removeFromSelection: typeof removeFromSelection
   createIncident: typeof createIncident
   removeQuestionData: typeof removeQuestionData
   incidentContainer: {
@@ -53,6 +57,8 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   getClassification,
   updateIncident,
   createIncident,
+  addToSelection,
+  removeFromSelection,
   removeQuestionData,
   incidentContainer,
 }) => {
@@ -136,6 +142,8 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                                 getClassification={getClassification}
                                 removeQuestionData={removeQuestionData}
                                 updateIncident={updateIncident}
+                                addToSelection={addToSelection}
+                                removeFromSelection={removeFromSelection}
                                 createIncident={createIncident}
                                 wizard={wizardDefinition}
                               />

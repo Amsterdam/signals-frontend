@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { createContext } from 'react'
 
 import type { FC } from 'react'
@@ -13,6 +13,7 @@ export const initialValue: AssetSelectValue = {
     featureTypes: [],
     featureStatusTypes: [],
     extraProperties: [],
+    maxNumberOfAssets: undefined,
   },
   selection: undefined,
   fetchLocation: /* istanbul ignore next */ () => {},

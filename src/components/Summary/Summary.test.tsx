@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import configuration from 'shared/services/configuration/configuration'
@@ -9,8 +9,8 @@ import { contextValue as assetSelectContextValue } from 'signals/incident/compon
 import { withAppContext } from 'test/utils'
 import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { Address } from 'types/address'
-import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 
 import * as reactRedux from 'react-redux'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
@@ -18,19 +18,21 @@ import Summary from './Summary'
 import MockInstance = jest.MockInstance
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
+jest.mock('components/MapStatic', () => () => (
   <span data-testid="mapStatic">
-    <img src={iconSrc} alt="" />
+    <img src={'/assets/images/icon-select-marker.svg'} alt="" />
   </span>
 ))
 
-const selection = {
-  id: 'PL734',
-  type: 'plastic',
-  description: 'Plastic asset',
-  location: {},
-  label: 'Plastic container - PL734',
-}
+const selection: Item[] = [
+  {
+    id: 'PL734',
+    type: 'plastic',
+    description: 'Plastic asset',
+    location: {},
+    label: 'Plastic container - PL734',
+  },
+]
 const featureType = {
   label: 'Plastic',
   description: 'Plastic asset',
@@ -121,7 +123,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     }
     render(withContext(<Summary {...propsNoFeatureTypes} />))
 
-    const idRe = new RegExp(`${selection.id}$`)
+    const idRe = new RegExp(`${selection[0].id}$`)
     const undefinedRe = new RegExp('undefined')
 
     expect(screen.getByText(idRe)).toBeInTheDocument()
@@ -194,11 +196,10 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
   it('renders a MapStatic component with the correct iconSrc prop', () => {
     render(withContext(<Summary {...summaryProps} />))
-
-    const mapStatic = screen.getByTestId('mapStatic')
-
     expect(
-      mapStatic.querySelector(`img[src="${featureType.icon.iconUrl}"]`)
+      screen
+        .getByTestId('mapStatic')
+        .querySelector(`img[src='/assets/images/icon-select-marker.svg']`)
     ).toBeInTheDocument()
   })
 })

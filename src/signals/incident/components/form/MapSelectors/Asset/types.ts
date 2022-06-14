@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 import type { LatLngLiteral } from 'leaflet'
 import type { Location } from 'types/incident'
@@ -14,8 +14,8 @@ export interface AssetSelectValue {
   coordinates?: LatLngLiteral
   message?: string
   meta: Meta
-  removeItem: () => void
-  selection?: Item
+  removeItem: (item?: Item) => void
+  selection?: Item[]
   setItem: (item: Item, location?: Location) => void
   fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
@@ -32,6 +32,6 @@ export interface AssetSelectRendererProps extends FormFieldProps {
 export interface SummaryProps {
   address?: Address
   coordinates?: LatLngLiteral
-  selection?: Item
+  selection?: Item[]
   featureTypes: FeatureType[]
 }

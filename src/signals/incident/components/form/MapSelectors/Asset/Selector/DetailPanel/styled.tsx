@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import styled, { css, keyframes } from 'styled-components'
 
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
@@ -138,16 +140,5 @@ export const OptionsList = styled.div`
 
   .chrevronIcon {
     display: none;
-  }
-`
-
-export const SelectionNearby = styled.div`
-  margin: ${themeSpacing(6, 0, 0)};
-  p {
-    margin: ${themeSpacing(6, 0, 3)};
-    color: ${themeColor('secondary')};
-  }
-  strong {
-    display: block;
   }
 `

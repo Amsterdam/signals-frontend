@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useContext, useEffect, useState } from 'react'
 import type { FunctionComponent, ReactElement } from 'react'
 import { fetchWithAbort } from '@amsterdam/arm-core'
