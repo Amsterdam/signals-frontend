@@ -74,50 +74,54 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       ...rest
     },
     ref
-  ) => (
-    <AscSelect
-      value={value}
-      onChange={onChange}
-      data-testid={rest.name}
-      // eslint-disable-next-line
-      // @ts-ignore
-      label={label}
-      ref={ref}
-      id={id}
-      {...rest}
-    >
-      {emptyOption && (
-        <option
-          key={`${rest.name}-${emptyOption[optionKey]}`}
-          value={emptyOption[optionValue]?.toString()}
-        >
-          {emptyOption[optionName]}
-        </option>
-      )}
+  ) => {
+    return (
+      <AscSelect
+        value={value}
+        onChange={onChange}
+        data-testid={rest.name}
+        // eslint-disable-next-line
+        // @ts-ignore
+        label={label}
+        ref={ref}
+        id={id}
+        {...rest}
+      >
+        {emptyOption && (
+          <option
+            key={`${rest.name}-${emptyOption[optionKey]}`}
+            value={emptyOption[optionValue]?.toString()}
+          >
+            {emptyOption[optionName]}
+          </option>
+        )}
 
-      {groups && groups?.length > 1 ? (
-        groups.map((group) => (
-          <optgroup key={group.name} label={group.name}>
-            <SelectOptions
-              name={rest.name}
-              options={options.filter((option) => option.group === group.value)}
-              optionKey={optionKey}
-              optionValue={optionValue}
-              optionName={optionName}
-            />
-          </optgroup>
-        ))
-      ) : (
-        <SelectOptions
-          name={rest.name}
-          options={options}
-          optionKey={optionKey}
-          optionValue={optionValue}
-          optionName={optionName}
-        />
-      )}
-    </AscSelect>
-  )
+        {groups && groups?.length > 1 ? (
+          groups.map((group) => (
+            <optgroup key={group.name} label={group.name}>
+              <SelectOptions
+                name={rest.name}
+                options={options.filter(
+                  (option) => option.group === group.value
+                )}
+                optionKey={optionKey}
+                optionValue={optionValue}
+                optionName={optionName}
+              />
+            </optgroup>
+          ))
+        ) : (
+          <SelectOptions
+            name={rest.name}
+            options={options}
+            optionKey={optionKey}
+            optionValue={optionValue}
+            optionName={optionName}
+          />
+        )}
+      </AscSelect>
+    )
+  }
 )
 
 export default Select
