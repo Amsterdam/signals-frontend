@@ -115,6 +115,25 @@ describe('Form component <MultiTextInput />', () => {
           })
       })
 
+      it('should expect multiTextInput to add another empty string', () => {
+        ;(props.handler as jest.Mock).mockImplementation(() => ({
+          value: [],
+        }))
+
+        render(
+          withAppContext(
+            <MultiTextInput {...props} meta={{ ...meta, isVisible: true }} />
+          )
+        )
+
+        const button = screen.getByRole('button')
+        userEvent.click(button)
+        meta.name &&
+          expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
+            [meta.name]: ['', ''],
+          })
+      })
+
       it('should prevent invalid character input', () => {
         render(
           withAppContext(
