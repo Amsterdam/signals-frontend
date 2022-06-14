@@ -149,6 +149,60 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         },
       })
     })
+    it('does not add an item to the selection when the max number of assets has been reached', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: {
+                location: {
+                  coordinates,
+                  address,
+                },
+                selection,
+              },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: ADD_TO_SELECTION,
+            payload: {
+              extra_container: {
+                selection: [
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+                maxNumberOfAssets: 1,
+              },
+              location: {
+                coordinates,
+                address,
+              },
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: {
+            selection,
+            location: {
+              coordinates,
+              address,
+            },
+          },
+        },
+      })
+    })
   })
 
   describe('REMOVE_FROM_SELECTION', () => {
