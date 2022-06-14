@@ -1,6 +1,7 @@
-import { FeatureStatus } from '../../../signals/incident/components/form/MapSelectors/types'
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 
-export const selection = [
+export const selection: Item[] = [
   {
     id: 308777,
     type: 'Eikenboom',
@@ -21,6 +22,6 @@ export const selection = [
     description: 'Eikenboom',
     status: FeatureStatus.REPORTED,
     location: {},
-    label: 'Eikenboom - is gemeld - 308778',
+    label: 'Eikenboom - is gemeld (308778)',
   },
 ]

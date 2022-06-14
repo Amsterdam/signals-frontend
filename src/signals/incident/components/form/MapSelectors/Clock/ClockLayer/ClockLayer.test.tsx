@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FeatureCollection } from 'geojson'
 
 import { render, screen } from '@testing-library/react'
@@ -24,14 +24,16 @@ const typedMeta = straatverlichtingKlokken.extra_klok_nummer
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,
-  selection: {
-    id: '79522',
-    type: '1',
-    description: 'Klok',
-    status: FeatureStatus.REPORTED,
-    location: {},
-    label: 'Klok - 79522',
-  },
+  selection: [
+    {
+      id: '79522',
+      type: '1',
+      description: 'Klok',
+      status: FeatureStatus.REPORTED,
+      location: {},
+      label: 'Klok - 79522',
+    },
+  ],
   meta: typedMeta,
 }
 

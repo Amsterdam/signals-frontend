@@ -64,10 +64,13 @@ const SuggestList: FC<SuggestListProps> = ({
 
   useEffect(() => {
     const list = listRef.current
-    if (!list || activeIndex === undefined) return
 
-    if (activeIndex >= 0 && activeIndex < options.length) {
-      ;(list.children[activeIndex] as HTMLLIElement).focus()
+    if (
+      (list || activeIndex !== undefined) &&
+      activeIndex >= 0 &&
+      activeIndex < options.length
+    ) {
+      ;(list?.children[activeIndex] as HTMLLIElement).focus()
     }
   }, [activeIndex, options.length])
 
