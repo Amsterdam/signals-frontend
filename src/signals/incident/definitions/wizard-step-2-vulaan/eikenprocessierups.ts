@@ -30,6 +30,7 @@ export const controls = {
       pathMerge: 'extra_properties',
       endpoint:
         'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
+      maxNumberOfAssets: 4,
       featureTypes: [
         {
           label: 'Eikenboom',
