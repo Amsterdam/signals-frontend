@@ -322,12 +322,15 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
+    const setContactAllowed = jest.fn()
+
     const { getByTestId } = render(
       withAppContext(
         <KtoForm
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )
@@ -335,6 +338,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     fillForm()
 
     fireEvent.click(getByTestId('ktoAllowsContact'))
+
+    expect(setContactAllowed).toHaveBeenCalled()
 
     fireEvent.click(getByTestId('ktoSubmit'))
 

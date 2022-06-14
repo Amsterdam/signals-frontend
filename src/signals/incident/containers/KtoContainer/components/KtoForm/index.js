@@ -116,7 +116,12 @@ const reducer = (state, action) => {
   }
 }
 
-const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
+const KtoForm = ({
+  options,
+  onSubmit,
+  dataFeedbackForms,
+  setContactAllowed,
+}) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
@@ -157,6 +162,7 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
       if (negativeContactEnabled) {
         checked = !checked
       }
+      setContactAllowed(checked)
       dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
     },
     [negativeContactEnabled]
@@ -246,38 +252,38 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
       </GridArea>
 
       {satisfactionIndication === 'nee' && (
-          <GridArea>
-            <StyledLabel htmlFor="text_extra">
-              {"Foto's toevoegen? "}
-              <Optional>(niet verplicht)</Optional>
-            </StyledLabel>
-            <HelpText id="subtitle-kto">
-              Voeg een foto toe om de situatie te verduidelijken.
-            </HelpText>
-            <FileInput
-              handler={() => ({ value: incident.images })}
-              parent={{
-                meta: {
-                  updateIncident: (payload) =>
-                    dispatchRedux(updateIncident(payload)),
-                },
-              }}
-              meta={{
-                name: 'images',
-                label: "Foto's toevoegen",
-                subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-                minFileSize: 30 * 2 ** 10, // 30 KiB.
-                maxFileSize: 20 * 2 ** 20, // 20 MiB.
-                allowedFileTypes: [
-                  'image/jpeg',
-                  'image/jpg',
-                  'image/png',
-                  'image/gif',
-                ],
-                maxNumberOfFiles: 3,
-              }}
-            />
-          </GridArea>
+        <GridArea>
+          <StyledLabel htmlFor="text_extra">
+            {"Foto's toevoegen? "}
+            <Optional>(niet verplicht)</Optional>
+          </StyledLabel>
+          <HelpText id="subtitle-kto">
+            Voeg een foto toe om de situatie te verduidelijken.
+          </HelpText>
+          <FileInput
+            handler={() => ({ value: incident.images })}
+            parent={{
+              meta: {
+                updateIncident: (payload) =>
+                  dispatchRedux(updateIncident(payload)),
+              },
+            }}
+            meta={{
+              name: 'images',
+              label: "Foto's toevoegen",
+              subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+              minFileSize: 30 * 2 ** 10, // 30 KiB.
+              maxFileSize: 20 * 2 ** 20, // 20 MiB.
+              allowedFileTypes: [
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'image/gif',
+              ],
+              maxNumberOfFiles: 3,
+            }}
+          />
+        </GridArea>
       )}
 
       {(negativeContactEnabled ||
