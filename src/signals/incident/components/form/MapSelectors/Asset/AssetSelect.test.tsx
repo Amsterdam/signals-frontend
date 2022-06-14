@@ -470,6 +470,7 @@ describe('AssetSelect', () => {
       location,
       Zork: {
         location,
+        maxNumberOfAssets: 1,
         selection: [
           {
             ...mockItem,
@@ -494,6 +495,7 @@ describe('AssetSelect', () => {
           id: '08u2349823',
         },
       ],
+      maxNumberOfAssets: 1,
       location,
     }
 
@@ -520,6 +522,7 @@ describe('AssetSelect', () => {
       location,
       Zork: {
         location,
+        maxNumberOfAssets: 1,
         selection: [
           {
             ...mockItem,

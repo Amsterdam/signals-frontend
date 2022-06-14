@@ -87,7 +87,13 @@ export default (state = initialState, action) => {
         action.payload.meta_name
       ]?.selection
       let selection = [selected]
+
       if (
+        previousSelection?.length >=
+        action.payload[action.payload.meta_name].maxNumberOfAssets
+      ) {
+        selection = previousSelection
+      } else if (
         selected?.type !== NEARBY_TYPE &&
         previousSelection &&
         previousSelection[0].type !== NEARBY_TYPE

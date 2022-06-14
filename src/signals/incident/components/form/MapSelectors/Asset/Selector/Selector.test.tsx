@@ -55,6 +55,9 @@ jest.mock('components/Map', () => {
 })
 
 const dispatch = jest.fn()
+const objectTypeSingular = contextValue?.meta?.language?.objectTypeSingular
+const objectTypePlural = contextValue?.meta?.language?.objectTypePlural
+
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
@@ -298,9 +301,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       writable: true,
     })
 
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
@@ -331,9 +337,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       writable: true,
     })
 
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
@@ -368,5 +377,61 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     unmount()
 
     expect(enablePageScroll).toHaveBeenCalled()
+  })
+
+  it('shows a notification when the default maximum number of assets (1) has been selected', () => {
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        selection: [
+          {
+            id: 'PL734',
+            type: 'plastic',
+            description: 'Plastic asset',
+            iconUrl: '',
+            label: 'foo bar',
+          },
+        ],
+      })
+    )
+
+    expect(
+      screen.getByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+    ).toBeInTheDocument()
+  })
+
+  it('shows a notification when a set maximum number of assets has been selected', () => {
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        meta: {
+          ...contextValue.meta,
+          maxNumberOfAssets: 2,
+        },
+        selection: [
+          {
+            id: 'PL734',
+            type: 'plastic',
+            description: 'Plastic asset',
+            iconUrl: '',
+            label: 'foo bar',
+          },
+          {
+            id: 'GL735',
+            type: 'glas',
+            description: 'Glas asset',
+            iconUrl: '',
+            label: 'foo bar',
+          },
+        ],
+      })
+    )
+
+    expect(
+      screen.queryByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByText(`U kunt maximaal 2 ${objectTypePlural} kiezen.`)
+    ).toBeInTheDocument()
   })
 })

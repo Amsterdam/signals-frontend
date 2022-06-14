@@ -60,6 +60,7 @@ const Selector: FC = () => {
   const appHtmlElement = document.getElementById('app')!
   const { coordinates, layer, meta, selection, fetchLocation } =
     useContext(AssetSelectContext)
+  const maxNumberOfAssets = meta?.maxNumberOfAssets || 1
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
 
   const dispatch = useDispatch()
@@ -124,6 +125,22 @@ const Selector: FC = () => {
 
     return enablePageScroll
   }, [])
+
+  useEffect(() => {
+    if (selection?.length === maxNumberOfAssets) {
+      const number =
+        maxNumberOfAssets === 1
+          ? meta?.language?.objectTypeSingular || 'object'
+          : meta?.language?.objectTypePlural || 'objecten'
+      setMapMessage(`U kunt maximaal ${maxNumberOfAssets} ${number} kiezen.`)
+    }
+  }, [
+    selection,
+    maxNumberOfAssets,
+    mapMessage,
+    meta?.language?.objectTypePlural,
+    meta?.language?.objectTypeSingular,
+  ])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
