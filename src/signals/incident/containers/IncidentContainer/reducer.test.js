@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { has, fromJS } from 'immutable'
 import configuration from 'shared/services/configuration/configuration'
 import incidentContainerReducer, { initialState } from './reducer'
@@ -19,9 +19,34 @@ import {
   REMOVE_QUESTION_DATA,
   GET_QUESTIONS_ERROR,
   SET_LOADING_DATA,
+  ADD_TO_SELECTION,
+  REMOVE_FROM_SELECTION,
 } from './constants'
 
 jest.mock('shared/services/configuration/configuration')
+
+const address = {
+  openbare_ruimte: 'Rokin',
+  huisnummer: '12',
+  postcode: '1012KR',
+  woonplaat: 'Amsterdam',
+}
+const coordinates = {
+  lat: 52.372146435414884,
+  lng: 4.892930321735494,
+}
+const selection = [
+  {
+    id: 'Inleverpunt Textiel Fashion for Good',
+    type: 'Textiel',
+    description: 'Textiel container',
+    label: 'Textiel container - Inleverpunt Textiel Fashion for Good',
+    coordinates,
+    address,
+  },
+]
+
+const location = { coordinates, address }
 
 describe('signals/incident/containers/IncidentContainer/reducer', () => {
   afterEach(() => {
@@ -73,6 +98,183 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
+        },
+      })
+    })
+  })
+
+  describe('ADD_TO_SELECTION', () => {
+    it('adds an item to the selection of an incident', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: { location },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: ADD_TO_SELECTION,
+            payload: {
+              extra_container: { selection, location },
+              location,
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
+        },
+      })
+    })
+    it('does not add an item to the selection when the max number of assets has been reached', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: { location, selection },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: ADD_TO_SELECTION,
+            payload: {
+              extra_container: {
+                selection: [
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+                maxNumberOfAssets: 1,
+              },
+              location,
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
+        },
+      })
+    })
+
+    it('does not add an item to the selection of an incident when the item is already in the selection', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: { location, selection },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: ADD_TO_SELECTION,
+            payload: {
+              extra_container: { selection, location },
+              location,
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
+        },
+      })
+    })
+  })
+
+  describe('REMOVE_FROM_SELECTION', () => {
+    it('removes all items from the selection of an incident', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: { selection, location },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: REMOVE_FROM_SELECTION,
+            payload: {
+              extra_container: { selection: undefined },
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection: undefined, location: undefined },
+        },
+      })
+    })
+
+    it('removes one item from the selection of an incident', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: {
+                selection: [
+                  ...selection,
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+                location,
+              },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: REMOVE_FROM_SELECTION,
+            payload: {
+              extra_container: {
+                selection: [
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+              },
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
         },
       })
     })

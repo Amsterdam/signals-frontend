@@ -3,7 +3,7 @@
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Heading, Paragraph, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
@@ -13,6 +13,11 @@ import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
+import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { filesUpload } from 'shared/services/files-upload/files-upload'
+import FileInput from '../../../../components/form/FileInput'
+import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
 const Form = styled.form`
   display: grid;
@@ -111,10 +116,11 @@ const reducer = (state, action) => {
   }
 }
 
-const KtoForm = ({ options, onSubmit }) => {
+const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
+  const dispatchRedux = useDispatch()
   const [state, dispatch] = useReducer(
     reducer,
     {
@@ -125,6 +131,7 @@ const KtoForm = ({ options, onSubmit }) => {
     init
   )
 
+  const { incident } = useSelector(makeSelectIncidentContainer)
   const extraTextMaxLength = 1000
 
   const onChangeOption = useCallback((groupName, option) => {
@@ -156,7 +163,7 @@ const KtoForm = ({ options, onSubmit }) => {
   )
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault()
 
       const { formData } = state
@@ -176,10 +183,16 @@ const KtoForm = ({ options, onSubmit }) => {
       }
 
       if (!Object.keys(errors).length) {
+        if (incident.images.length > 0) {
+          await filesUpload({
+            url: `${configuration.INCIDENT_PUBLIC_ENDPOINT}${dataFeedbackForms.signal_id}/attachments/`,
+            files: incident.images,
+          })
+        }
         onSubmit(formData)
       }
     },
-    [onSubmit, state]
+    [dataFeedbackForms.signal_id, incident.images, onSubmit, state]
   )
 
   return (
@@ -232,6 +245,41 @@ const KtoForm = ({ options, onSubmit }) => {
         />
       </GridArea>
 
+      {satisfactionIndication === 'nee' && (
+          <GridArea>
+            <StyledLabel htmlFor="text_extra">
+              {"Foto's toevoegen? "}
+              <Optional>(niet verplicht)</Optional>
+            </StyledLabel>
+            <HelpText id="subtitle-kto">
+              Voeg een foto toe om de situatie te verduidelijken.
+            </HelpText>
+            <FileInput
+              handler={() => ({ value: incident.images })}
+              parent={{
+                meta: {
+                  updateIncident: (payload) =>
+                    dispatchRedux(updateIncident(payload)),
+                },
+              }}
+              meta={{
+                name: 'images',
+                label: "Foto's toevoegen",
+                subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+                minFileSize: 30 * 2 ** 10, // 30 KiB.
+                maxFileSize: 20 * 2 ** 20, // 20 MiB.
+                allowedFileTypes: [
+                  'image/jpeg',
+                  'image/jpg',
+                  'image/png',
+                  'image/gif',
+                ],
+                maxNumberOfFiles: 3,
+              }}
+            />
+          </GridArea>
+      )}
+
       {(negativeContactEnabled ||
         configuration.featureFlags.reporterMailHandledNegativeContactEnabled ===
           false) && (
@@ -239,11 +287,11 @@ const KtoForm = ({ options, onSubmit }) => {
           {negativeContactEnabled ? (
             <>
               <Heading forwardedAs="h2">Contact</Heading>
-              <Paragraph id="subtitle-allows-contact">
+              <p id="subtitle-allows-contact">
                 Uw reactie is belangrijk voor ons. Wij laten u graag weten wat
                 wij ermee doen. En misschien willen wij u nog iets vragen of
                 vertellen. Wij bellen u dan of sturen een e-mail.{' '}
-              </Paragraph>
+              </p>
             </>
           ) : (
             <StyledLabel id="subtitle-allows-contact">

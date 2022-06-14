@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { fromJS, Seq } from 'immutable'
 import configuration from 'shared/services/configuration/configuration'
+import { NEARBY_TYPE } from '../../components/form/MapSelectors/constants'
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -19,6 +20,8 @@ import {
   SET_LOADING_DATA,
   SHOW_MAP,
   CLOSE_MAP,
+  ADD_TO_SELECTION,
+  REMOVE_FROM_SELECTION,
 } from './constants'
 import { getIncidentClassification } from './services'
 
@@ -78,7 +81,88 @@ export default (state = initialState, action) => {
           ...action.payload,
         })
       )
+    case ADD_TO_SELECTION: {
+      const selected = action.payload[action.payload.meta_name]?.selection[0]
+      const previousSelection = state.get('incident').toJS()[
+        action.payload.meta_name
+      ]?.selection
+      let selection = [selected]
 
+      if (
+        previousSelection?.length >=
+        action.payload[action.payload.meta_name].maxNumberOfAssets
+      ) {
+        selection = previousSelection
+      } else if (
+        selected?.type !== NEARBY_TYPE &&
+        previousSelection &&
+        previousSelection[0].type !== NEARBY_TYPE
+      ) {
+        selection = [
+          ...(state
+            .get('incident')
+            .toJS()
+            [action.payload.meta_name]?.selection.filter(
+              ({ id }) =>
+                id !== action.payload[action.payload.meta_name]?.selection[0].id
+            ) || []),
+          selected,
+        ]
+      }
+
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{
+            [action.payload.meta_name]: {
+              selection,
+              location: action.payload.location,
+            },
+          },
+        })
+      )
+    }
+    case REMOVE_FROM_SELECTION: {
+      if (action.payload[action.payload.meta_name].selection === undefined) {
+        return state.set(
+          'incident',
+          fromJS({
+            ...state.get('incident').toJS(),
+            ...{
+              [action.payload.meta_name]: {
+                selection: undefined,
+                location: undefined,
+              },
+            },
+          })
+        )
+      }
+
+      const updated = state
+        .get('incident')
+        .toJS()
+        [action.payload.meta_name]?.selection.filter(
+          ({ id }) =>
+            id !== action.payload[action.payload.meta_name]?.selection[0].id
+        )
+
+      return state.set(
+        'incident',
+        fromJS({
+          ...state.get('incident').toJS(),
+          ...{
+            [action.payload.meta_name]: {
+              selection: updated.length > 0 ? updated : undefined,
+              location: {
+                address: updated[0]?.address,
+                coordinates: updated[0]?.coordinates,
+              },
+            },
+          },
+        })
+      )
+    }
     case RESET_INCIDENT:
       return initialState
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import AssetList from 'signals/incident/components/form/MapSelectors/Asset/AssetList'
 import AssetListPreview from './AssetListPreview'
@@ -12,24 +12,26 @@ jest.mock('signals/incident/components/form/MapSelectors/Asset/AssetList', () =>
 describe('AssetListPreview', () => {
   it('should render AssetList with props', () => {
     const props: AssetListPreviewProps = {
-      value: {
-        id: 'id',
-        type: 'type',
-        description: 'description',
-        location: {
-          address: {
-            postcode: '1234AB',
-            huisnummer: 1,
-            woonplaats: 'Hole in the ground',
-            openbare_ruimte: '',
+      value: [
+        {
+          id: 'id',
+          type: 'type',
+          description: 'description',
+          location: {
+            address: {
+              postcode: '1234AB',
+              huisnummer: 1,
+              woonplaats: 'Hole in the ground',
+              openbare_ruimte: '',
+            },
+            coordinates: {
+              lat: 0.12,
+              lng: 12.0,
+            },
           },
-          coordinates: {
-            lat: 0.12,
-            lng: 12.0,
-          },
+          label: 'description - id',
         },
-        label: 'description - id',
-      },
+      ],
       featureTypes: [
         {
           label: 'label',

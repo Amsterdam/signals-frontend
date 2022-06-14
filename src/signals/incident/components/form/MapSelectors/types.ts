@@ -3,6 +3,7 @@
 import type { MouseEvent, KeyboardEvent } from 'react'
 import type { IconOptions, LatLngLiteral } from 'leaflet'
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
+import type { Address } from 'types/address'
 import type { UNKNOWN_TYPE, UNREGISTERED_TYPE } from './constants'
 
 export type EventHandler = (
@@ -29,6 +30,7 @@ export interface Item extends Record<string, unknown> {
   type?: typeof UNREGISTERED_TYPE | typeof UNKNOWN_TYPE | string
   label?: string
   coordinates?: LatLngLiteral
+  address?: Address
 }
 
 export interface FeatureType {
@@ -70,6 +72,7 @@ export interface Meta extends Record<string, unknown> {
   endpoint: string
   featureTypes: FeatureType[]
   featureStatusTypes?: FeatureStatusType[]
+  maxNumberOfAssets?: number
   language?: Record<string, string>
   wfsFilter?: string
   extraProperties?: string[]

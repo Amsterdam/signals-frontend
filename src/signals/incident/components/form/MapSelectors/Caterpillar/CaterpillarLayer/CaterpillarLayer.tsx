@@ -33,7 +33,9 @@ export const CaterpillarLayer: FC = () => {
       const featureType = meta.featureTypes[0]
 
       const featureId = feature.properties[featureType.idField] as string
-      const isSelected = selection?.id === featureId
+      const isSelected = Boolean(
+        selection?.find((item) => item.id === featureId)
+      )
 
       const featureStatusType = getFeatureStatusType(
         feature,
@@ -55,11 +57,6 @@ export const CaterpillarLayer: FC = () => {
       })
 
       const onClick = async () => {
-        if (isSelected) {
-          removeItem()
-          return
-        }
-
         const { description, typeValue } = featureType
         const location: Location = {
           coordinates,
@@ -74,6 +71,11 @@ export const CaterpillarLayer: FC = () => {
           label: [description, featureId].filter(Boolean).join(' - '),
         }
 
+        if (isSelected) {
+          removeItem(item)
+          return
+        }
+
         meta.extraProperties?.forEach((propertyKey) => {
           item[propertyKey] = feature.properties[propertyKey]
         })
@@ -84,6 +86,7 @@ export const CaterpillarLayer: FC = () => {
 
         if (response) {
           location.address = response.data.address
+          item.address = response.data.address
         }
 
         setItem(item, location)
