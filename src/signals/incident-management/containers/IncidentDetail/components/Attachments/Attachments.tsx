@@ -75,6 +75,7 @@ const Attachments: FC<AttachmentsProps> = ({
   const { preview } = useContext(IncidentDetailContext)
   const [files, setFiles] = useState<Files>([])
   const [error, setError] = useState('')
+  const [showNoteForm, setShowNoteForm] = useState(false)
   const hasAttachments = attachments.length > 0 || files.length > 0
   const userCan = useSelector(makeSelectUserCan)
   const user = useSelector(makeSelectUser)
@@ -230,8 +231,20 @@ const Attachments: FC<AttachmentsProps> = ({
             </Button>
           )}
         </FileInput>
-        <StyledAddNote maxContentLength={3000} />
+        <Button
+          type="button"
+          variant="application"
+          onClick={() => setShowNoteForm(!showNoteForm)}
+        >
+          Notitie toevoegen
+        </Button>
       </StyledButtonWrapper>
+      {showNoteForm && (
+        <StyledAddNote
+          maxContentLength={3000}
+          onClose={() => setShowNoteForm(false)}
+        />
+      )}
     </Wrapper>
   )
 }

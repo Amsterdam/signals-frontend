@@ -23,8 +23,10 @@ export interface AddNoteProps {
     event: SyntheticEvent<HTMLInputElement>,
     value?: string | null
   ) => boolean
+  onCancel?: () => void
   rows?: number
   value?: string
+  withToggle?: boolean
 }
 
 const NoteButton = styled(Button)`
@@ -64,19 +66,21 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       className,
       error,
       isStandalone,
+      withToggle,
       label,
       maxContentLength,
       name,
       onBlur,
       onChange,
       onSubmit,
+      onCancel,
       rows,
       value,
       ...rest
     },
     ref: any
   ) => {
-    const [showForm, setShowForm] = useState(!isStandalone)
+    const [showForm, setShowForm] = useState(!withToggle || !isStandalone)
     const handleSubmit = useCallback(
       (event) => {
         event.preventDefault()
@@ -84,13 +88,18 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
         if (typeof onSubmit === 'function') {
           const successfulSubmit = onSubmit(event, ref?.current?.value)
 
-          if (successfulSubmit) {
+          if (successfulSubmit && withToggle) {
             setShowForm(false)
           }
         }
       },
-      [onSubmit, ref]
+      [onSubmit, ref, withToggle]
     )
+
+    const handleCancel = useCallback(() => {
+      withToggle && setShowForm(false)
+      onCancel && onCancel()
+    }, [onCancel, withToggle])
 
     useEffect(() => {
       if (!showForm || !ref?.current || !isStandalone) return
@@ -147,7 +156,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
               data-testid="addNoteCancelNoteButton"
               variant="tertiary"
               type="button"
-              onClick={() => setShowForm(false)}
+              onClick={handleCancel}
             >
               Annuleer
             </NoteButton>
@@ -163,6 +172,7 @@ AddNote.defaultProps = {
   isStandalone: true,
   label: 'Notitie toevoegen',
   rows: 10,
+  withToggle: true,
 }
 
 export default AddNote

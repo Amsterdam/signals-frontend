@@ -141,5 +141,5 @@ export const StyledErrorMessage = styled(ErrorMessage)`
 `
 
 export const StyledAddNote = styled(AddNote)`
-  flex-grow: 1;
+  margin-top: ${themeSpacing(8)};
 `
