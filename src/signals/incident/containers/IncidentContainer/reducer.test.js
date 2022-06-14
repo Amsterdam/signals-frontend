@@ -201,7 +201,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
   })
 
   describe('REMOVE_FROM_SELECTION', () => {
-    it('removes an item from the selection of an incident', () => {
+    it('removes all items from the selection of an incident', () => {
       expect(
         incidentContainerReducer(
           fromJS({
@@ -224,6 +224,57 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           category: 'bar',
           subcategory: 'foo',
           extra_container: { selection: undefined, location: undefined },
+        },
+      })
+    })
+
+    it('removes one item from the selection of an incident', () => {
+      expect(
+        incidentContainerReducer(
+          fromJS({
+            incident: {
+              extra_container: {
+                selection: [
+                  ...selection,
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+                location,
+              },
+              category: 'bar',
+              subcategory: 'foo',
+            },
+          }),
+          {
+            type: REMOVE_FROM_SELECTION,
+            payload: {
+              extra_container: {
+                selection: [
+                  {
+                    id: 'GL-365',
+                    type: 'Glas',
+                    description: 'Glas container',
+                    label: 'Glas container',
+                    coordinates,
+                    address,
+                  },
+                ],
+              },
+              meta_name: 'extra_container',
+            },
+          }
+        ).toJS()
+      ).toEqual({
+        incident: {
+          category: 'bar',
+          subcategory: 'foo',
+          extra_container: { selection, location },
         },
       })
     })
