@@ -9,6 +9,7 @@ export const FileInputStyle = styled.div`
 
 export const FileInputUploadButton = styled.div`
   input[type='file'] {
+    display: none;
     opacity: 0;
     width: 0;
     height: 0;
