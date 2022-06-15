@@ -9,7 +9,9 @@ import AddNote from './AddNote'
 
 describe('AddNote', () => {
   it('renders a generic AddNote component', () => {
-    render(withAppContext(<AddNote maxContentLength={100} />))
+    render(
+      withAppContext(<AddNote maxContentLength={100} onClose={() => {}} />)
+    )
 
     expect(screen.getByTestId('addNote')).toBeInTheDocument()
   })
@@ -22,7 +24,7 @@ describe('AddNote', () => {
     render(
       withAppContext(
         <IncidentDetailContext.Provider value={{ update, close }}>
-          <AddNote maxContentLength={maxContentLength} />
+          <AddNote maxContentLength={maxContentLength} onClose={() => {}} />
         </IncidentDetailContext.Provider>
       )
     )
