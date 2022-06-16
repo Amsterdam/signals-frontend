@@ -280,7 +280,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
-          extra_container: { selection, location: undefined },
+          extra_container: { selection, location },
           location,
         },
       })

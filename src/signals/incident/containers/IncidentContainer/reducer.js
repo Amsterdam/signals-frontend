@@ -164,6 +164,11 @@ export default (state = initialState, action) => {
           ...{
             [action.payload.meta_name]: {
               selection: updated.length > 0 ? updated : undefined,
+              location: {
+                address: updated.length > 0 ? updated[0]?.address : undefined,
+                coordinates:
+                  updated.length > 0 ? updated[0]?.coordinates : undefined,
+              },
             },
           },
           ...{
