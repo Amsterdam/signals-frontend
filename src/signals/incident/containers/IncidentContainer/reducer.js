@@ -89,6 +89,7 @@ export default (state = initialState, action) => {
       ]?.selection
       let selection = [selected]
       let maxAssetWarning = false
+      let location = action.payload.location
 
       if (
         selected?.type !== NEARBY_TYPE &&
@@ -113,6 +114,7 @@ export default (state = initialState, action) => {
       ) {
         maxAssetWarning = true
         selection = previousSelection
+        location = state.get('incident').toJS().location
       }
 
       return state.set(
@@ -122,9 +124,10 @@ export default (state = initialState, action) => {
           ...{
             [action.payload.meta_name]: {
               selection,
-              location: action.payload.location,
+              location,
             },
           },
+          ...{ location },
           ...{ maxAssetWarning },
         })
       )
@@ -141,6 +144,7 @@ export default (state = initialState, action) => {
                 location: undefined,
               },
             },
+            ...{ location: undefined },
           })
         )
       }
@@ -160,10 +164,12 @@ export default (state = initialState, action) => {
           ...{
             [action.payload.meta_name]: {
               selection: updated.length > 0 ? updated : undefined,
-              location: {
-                address: updated[0]?.address,
-                coordinates: updated[0]?.coordinates,
-              },
+            },
+          },
+          ...{
+            location: {
+              address: updated[0]?.address,
+              coordinates: updated[0]?.coordinates,
             },
           },
         })

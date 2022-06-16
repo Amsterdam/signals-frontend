@@ -129,6 +129,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           subcategory: 'foo',
           maxAssetWarning: false,
           extra_container: { selection, location },
+          location,
         },
       })
     })
@@ -168,7 +169,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           category: 'bar',
           subcategory: 'foo',
           maxAssetWarning: true,
-          extra_container: { selection, location },
+          extra_container: { selection, location: undefined },
+          location: undefined,
         },
       })
     })
@@ -198,6 +200,7 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
           subcategory: 'foo',
           maxAssetWarning: false,
           extra_container: { selection, location },
+          location,
         },
       })
     })
@@ -277,7 +280,8 @@ describe('signals/incident/containers/IncidentContainer/reducer', () => {
         incident: {
           category: 'bar',
           subcategory: 'foo',
-          extra_container: { selection, location },
+          extra_container: { selection, location: undefined },
+          location,
         },
       })
     })
