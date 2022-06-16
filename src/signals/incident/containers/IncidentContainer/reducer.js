@@ -48,6 +48,7 @@ export const initialState = fromJS({
       id: 'SIG',
       label: 'Melding',
     },
+    maxAssetWarning: false,
   },
   loading: false,
   loadingData: false,
@@ -87,13 +88,9 @@ export default (state = initialState, action) => {
         action.payload.meta_name
       ]?.selection
       let selection = [selected]
+      let maxAssetWarning = false
 
       if (
-        previousSelection?.length >=
-        action.payload[action.payload.meta_name].maxNumberOfAssets
-      ) {
-        selection = previousSelection
-      } else if (
         selected?.type !== NEARBY_TYPE &&
         previousSelection &&
         previousSelection[0].type !== NEARBY_TYPE
@@ -110,6 +107,14 @@ export default (state = initialState, action) => {
         ]
       }
 
+      if (
+        selection.length >
+        action.payload[action.payload.meta_name].maxNumberOfAssets
+      ) {
+        maxAssetWarning = true
+        selection = previousSelection
+      }
+
       return state.set(
         'incident',
         fromJS({
@@ -120,6 +125,7 @@ export default (state = initialState, action) => {
               location: action.payload.location,
             },
           },
+          ...{ maxAssetWarning },
         })
       )
     }
@@ -196,6 +202,7 @@ export default (state = initialState, action) => {
               action.payload
             ).toJS(),
             ...getIncidentClassification(state.toJS(), action.payload),
+            ...{ maxAssetWarning: false },
           })
         )
         .set('classificationPrediction', fromJS(classification))
