@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { Link, themeSpacing } from '@amsterdam/asc-ui'
 import { Marker } from '@amsterdam/react-maps'
@@ -104,6 +105,9 @@ const Summary: FC<SummaryProps> = ({
     center,
   }
 
+  const { pathname } = useLocation()
+  const atExpandQuestions = pathname.includes('vulaan')
+
   let summaryAddress = address ? formatAddress(address) : ''
   summaryAddress =
     !summaryAddress && coordinates
@@ -174,15 +178,17 @@ const Summary: FC<SummaryProps> = ({
           )
         })}
       </div>
-      <StyledLink
-        data-testid="mapEditButton"
-        onClick={() => dispatch(showMap())}
-        onKeyUp={onKeyUp}
-        variant="inline"
-        tabIndex={0}
-      >
-        Wijzigen
-      </StyledLink>
+      {atExpandQuestions && (
+        <StyledLink
+          data-testid="mapEditButton"
+          onClick={() => dispatch(showMap())}
+          onKeyUp={onKeyUp}
+          variant="inline"
+          tabIndex={0}
+        >
+          Wijzigen
+        </StyledLink>
+      )}
     </Wrapper>
   )
 }
