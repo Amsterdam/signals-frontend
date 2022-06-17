@@ -106,7 +106,7 @@ const Summary: FC<SummaryProps> = ({
   }
 
   const { pathname } = useLocation()
-  const atExpandQuestions = pathname.includes('vulaan')
+  const atFinalSummary = pathname.includes('summary')
 
   let summaryAddress = address ? formatAddress(address) : ''
   summaryAddress =
@@ -178,7 +178,7 @@ const Summary: FC<SummaryProps> = ({
           )
         })}
       </div>
-      {atExpandQuestions && (
+      {!atFinalSummary && (
         <StyledLink
           data-testid="mapEditButton"
           onClick={() => dispatch(showMap())}

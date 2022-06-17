@@ -210,15 +210,13 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it("renders the mapEditButton at 'incident/vulaan'", () => {
-    jest
-      .spyOn(reactRouterDom, 'useLocation')
-      .mockImplementation(() => ({
-        pathname: '/incident/vulaan',
-        referrer: '/',
-        search: '',
-        state: {},
-        hash: '',
-      }))
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      pathname: '/incident/vulaan',
+      referrer: '/',
+      search: '',
+      state: {},
+      hash: '',
+    }))
 
     render(withContext(<Summary {...summaryProps} />))
 
@@ -226,15 +224,13 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it("does not render the mapEditButton at 'incident/summary'", () => {
-    jest
-      .spyOn(reactRouterDom, 'useLocation')
-      .mockImplementation(() => ({
-        pathname: '/incident/summary',
-        referrer: '/',
-        search: '',
-        state: {},
-        hash: '',
-      }))
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      pathname: '/incident/summary',
+      referrer: '/',
+      search: '',
+      state: {},
+      hash: '',
+    }))
 
     render(withContext(<Summary {...summaryProps} />))
 
