@@ -21,8 +21,14 @@ export const MapInput = (props: Props) => {
   const value = formatMapLocation(valueFromProps)
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const defaultCenter =
-    configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center
+  const optionsBackOffice: {
+    center: number
+    maxZoom: number
+    minZoom: number
+    zoom: number
+  } = configuration.map.optionsBackOffice
+
+  const defaultCenter = optionsBackOffice?.center || MAP_OPTIONS.center
 
   const center = value?.coordinates || defaultCenter
 
