@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import { history, withAppContext } from 'test/utils'
 
@@ -322,12 +322,15 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
+    const setContactAllowed = jest.fn()
+
     const { getByTestId } = render(
       withAppContext(
         <KtoForm
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )
@@ -335,6 +338,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     fillForm()
 
     fireEvent.click(getByTestId('ktoAllowsContact'))
+
+    expect(setContactAllowed).toHaveBeenCalled()
 
     fireEvent.click(getByTestId('ktoSubmit'))
 
@@ -351,6 +356,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
     }))
+    const setContactAllowed = jest.fn()
 
     const { getByTestId, rerender } = render(
       withAppContext(
@@ -358,6 +364,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )
@@ -384,6 +391,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )

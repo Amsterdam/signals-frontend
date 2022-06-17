@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, act, fireEvent, screen } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -7,6 +7,8 @@ import configuration from 'shared/services/configuration/configuration'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
 import { withAppContext } from 'test/utils'
 import { useParams } from 'react-router-dom'
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
 import KTOContainer, { renderSections, successSections } from '.'
 
 jest.mock('react-router-dom', () => ({
@@ -116,7 +118,7 @@ describe('signals/incident/containers/KtoContainer', () => {
       [JSON.stringify({}), { status: 200 }] // 'PUT'
     )
 
-    const successHeaderText = 'Bedankt voor uw reactie!'
+    const successHeaderText = 'Bedankt voor uw reactie'
     const { container, findByTestId, queryByText, getByText, rerender } =
       render(withAppContext(<KTOContainer />))
 
@@ -164,6 +166,9 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(screen.getByTestId('succesSectionBody')).toContainHTML(
       successSections['nee'].body
     )
+    expect(
+      screen.queryByTestId('succesContactAllowedText')
+    ).not.toBeInTheDocument()
 
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
 
@@ -183,5 +188,44 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(screen.getByTestId('succesSectionBody')).toContainHTML(
       successSections['ja'].body
     )
+  })
+
+  it('shows the contact question when contact has been allowed', async () => {
+    fetch.mockResponses(
+      [JSON.stringify({}), { status: 200 }], // 'GET'
+      [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
+      [JSON.stringify({}), { status: 200 }] // 'PUT'
+    )
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      satisfactionIndication: 'nee',
+      uuid,
+    }))
+
+    jest
+      .spyOn(React, 'useState')
+      .mockImplementationOnce(() => React.useState([true, () => null]))
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
+
+    const { container, findByTestId } = render(withAppContext(<KTOContainer />))
+
+    await findByTestId('ktoFormContainer')
+
+    expect(screen.getByTestId('subtitleAllowsContact')).toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(container.querySelector('input[type="radio"]'))
+    })
+
+    const ktoSubmit = await findByTestId('ktoSubmit')
+
+    act(() => {
+      fireEvent.click(ktoSubmit)
+    })
+
+    await findByTestId('ktoFormContainer')
+
+    expect(screen.queryByTestId('succesContactAllowedText')).toBeInTheDocument()
   })
 })
