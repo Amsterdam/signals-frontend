@@ -356,6 +356,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
     }))
+    const setContactAllowed = jest.fn()
 
     const { getByTestId, rerender } = render(
       withAppContext(
@@ -363,6 +364,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )
@@ -389,6 +391,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={setContactAllowed}
         />
       )
     )
