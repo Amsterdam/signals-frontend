@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useCallback, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -293,7 +293,10 @@ const KtoForm = ({
           {negativeContactEnabled ? (
             <>
               <Heading forwardedAs="h2">Contact</Heading>
-              <p id="subtitle-allows-contact">
+              <p
+                id="subtitle-allows-contact"
+                data-testid="subtitleAllowsContact"
+              >
                 Uw reactie is belangrijk voor ons. Wij laten u graag weten wat
                 wij ermee doen. En misschien willen wij u nog iets vragen of
                 vertellen. Wij bellen u dan of sturen een e-mail.{' '}
