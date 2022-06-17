@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { Fragment, useEffect, useState, useCallback, useContext } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
@@ -84,7 +84,7 @@ const ChangeValue = ({
       reset()
       setShowForm(false)
     },
-    [patch, control, options, path, keyToRawData, update, type]
+    [patch, getValues, options, path, keyToRawData, update, type, reset]
   )
 
   const handleCancel = useCallback(() => {
