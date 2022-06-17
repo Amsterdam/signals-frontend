@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { forwardRef } from 'react'
 
 import type { FC, ReactNode } from 'react'
@@ -74,54 +74,50 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       ...rest
     },
     ref
-  ) => {
-    return (
-      <AscSelect
-        value={value}
-        onChange={onChange}
-        data-testid={rest.name}
-        // eslint-disable-next-line
-        // @ts-ignore
-        label={label}
-        ref={ref}
-        id={id}
-        {...rest}
-      >
-        {emptyOption && (
-          <option
-            key={`${rest.name}-${emptyOption[optionKey]}`}
-            value={emptyOption[optionValue]?.toString()}
-          >
-            {emptyOption[optionName]}
-          </option>
-        )}
+  ) => (
+    <AscSelect
+      value={value}
+      onChange={onChange}
+      data-testid={rest.name}
+      // eslint-disable-next-line
+      // @ts-ignore
+      label={label}
+      ref={ref}
+      id={id}
+      {...rest}
+    >
+      {emptyOption && (
+        <option
+          key={`${rest.name}-${emptyOption[optionKey]}`}
+          value={emptyOption[optionValue]?.toString()}
+        >
+          {emptyOption[optionName]}
+        </option>
+      )}
 
-        {groups && groups?.length > 1 ? (
-          groups.map((group) => (
-            <optgroup key={group.name} label={group.name}>
-              <SelectOptions
-                name={rest.name}
-                options={options.filter(
-                  (option) => option.group === group.value
-                )}
-                optionKey={optionKey}
-                optionValue={optionValue}
-                optionName={optionName}
-              />
-            </optgroup>
-          ))
-        ) : (
-          <SelectOptions
-            name={rest.name}
-            options={options}
-            optionKey={optionKey}
-            optionValue={optionValue}
-            optionName={optionName}
-          />
-        )}
-      </AscSelect>
-    )
-  }
+      {groups && groups?.length > 1 ? (
+        groups.map((group) => (
+          <optgroup key={group.name} label={group.name}>
+            <SelectOptions
+              name={rest.name}
+              options={options.filter((option) => option.group === group.value)}
+              optionKey={optionKey}
+              optionValue={optionValue}
+              optionName={optionName}
+            />
+          </optgroup>
+        ))
+      ) : (
+        <SelectOptions
+          name={rest.name}
+          options={options}
+          optionKey={optionKey}
+          optionValue={optionValue}
+          optionName={optionName}
+        />
+      )}
+    </AscSelect>
+  )
 )
 
 export default Select
