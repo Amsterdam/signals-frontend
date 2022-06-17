@@ -48,6 +48,7 @@ export const initialState = fromJS({
       id: 'SIG',
       label: 'Melding',
     },
+    maxAssetWarning: false,
   },
   loading: false,
   loadingData: false,
@@ -87,13 +88,10 @@ export default (state = initialState, action) => {
         action.payload.meta_name
       ]?.selection
       let selection = [selected]
+      let maxAssetWarning = false
+      let location = action.payload.location
 
       if (
-        previousSelection?.length >=
-        action.payload[action.payload.meta_name].maxNumberOfAssets
-      ) {
-        selection = previousSelection
-      } else if (
         selected?.type !== NEARBY_TYPE &&
         previousSelection &&
         previousSelection[0].type !== NEARBY_TYPE
@@ -110,16 +108,25 @@ export default (state = initialState, action) => {
         ]
       }
 
+      if (
+        selection.length >
+        action.payload[action.payload.meta_name].maxNumberOfAssets
+      ) {
+        maxAssetWarning = true
+        selection = previousSelection
+        location = state.get('incident').toJS().location
+      }
+
       return state.set(
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{
-            [action.payload.meta_name]: {
-              selection,
-              location: action.payload.location,
-            },
+          [action.payload.meta_name]: {
+            selection,
+            location,
           },
+          location,
+          maxAssetWarning,
         })
       )
     }
@@ -129,12 +136,11 @@ export default (state = initialState, action) => {
           'incident',
           fromJS({
             ...state.get('incident').toJS(),
-            ...{
-              [action.payload.meta_name]: {
-                selection: undefined,
-                location: undefined,
-              },
+            [action.payload.meta_name]: {
+              selection: undefined,
+              location: undefined,
             },
+            location: undefined,
           })
         )
       }
@@ -151,14 +157,16 @@ export default (state = initialState, action) => {
         'incident',
         fromJS({
           ...state.get('incident').toJS(),
-          ...{
-            [action.payload.meta_name]: {
-              selection: updated.length > 0 ? updated : undefined,
-              location: {
-                address: updated[0]?.address,
-                coordinates: updated[0]?.coordinates,
-              },
+          [action.payload.meta_name]: {
+            selection: updated.length > 0 ? updated : undefined,
+            location: {
+              address: updated[0]?.address,
+              coordinates: updated[0]?.coordinates,
             },
+          },
+          location: {
+            address: updated[0]?.address,
+            coordinates: updated[0]?.coordinates,
           },
         })
       )
@@ -196,6 +204,7 @@ export default (state = initialState, action) => {
               action.payload
             ).toJS(),
             ...getIncidentClassification(state.toJS(), action.payload),
+            ...{ maxAssetWarning: false },
           })
         )
         .set('classificationPrediction', fromJS(classification))

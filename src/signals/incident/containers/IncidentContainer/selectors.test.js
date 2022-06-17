@@ -6,6 +6,7 @@ import {
   selectIncidentContainerDomain,
   makeSelectIncidentContainer,
   makeSelectCategory,
+  makeSelectMaxAssetWarning,
 } from './selectors'
 
 describe('signals/incident/containers/IncidentContainer/selectors', () => {
@@ -48,5 +49,19 @@ describe('signals/incident/containers/IncidentContainer/selectors', () => {
     const mockedState = fromJS(state)
 
     expect(makeSelectCategory.resultFunc(mockedState)).toEqual(catSubcat)
+  })
+
+  describe('makeSelectMaxAssetWarning', () => {
+    it('returns the maxAssetWarning state', () => {
+      const warning = {
+        maxAssetWarning: false,
+      }
+      const state = {
+        incident: warning,
+      }
+      const mockedState = fromJS(state)
+
+      expect(makeSelectMaxAssetWarning.resultFunc(mockedState)).toEqual(warning)
+    })
   })
 })
