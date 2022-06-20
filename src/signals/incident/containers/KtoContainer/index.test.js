@@ -118,6 +118,8 @@ describe('signals/incident/containers/KtoContainer', () => {
       [JSON.stringify({}), { status: 200 }] // 'PUT'
     )
 
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+
     const successHeaderText = 'Bedankt voor uw reactie'
     const { container, findByTestId, queryByText, getByText, rerender } =
       render(withAppContext(<KTOContainer />))
@@ -169,8 +171,6 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(
       screen.queryByTestId('succesContactAllowedText')
     ).not.toBeInTheDocument()
-
-    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
 
     rerender(withAppContext(<KTOContainer />))
 

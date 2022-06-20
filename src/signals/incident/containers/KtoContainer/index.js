@@ -89,7 +89,9 @@ const reactReducer = (state, action) => {
 
 export const KtoContainer = () => {
   const [state, dispatch] = useReducer(reactReducer, initialState)
-  const [contactAllowed, setContactAllowed] = useState(false)
+  const [contactAllowed, setContactAllowed] = useState(
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled
+  )
   const {
     get: getCheck,
     isLoading: isLoadingCheck,
