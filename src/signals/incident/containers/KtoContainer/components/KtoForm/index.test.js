@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import { history, withAppContext } from 'test/utils'
-
 import * as reactRouterDom from 'react-router-dom'
 import { mocked } from 'jest-mock'
 import configuration from 'shared/services/configuration/configuration'
@@ -39,6 +38,11 @@ jest.spyOn(incidentContainerActions, 'updateIncident')
 describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
     onSubmit.mockReset()
+    jest.useFakeTimers()
+
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
+      satisfactionIndication: 'ja',
+    }))
   })
 
   afterEach(() => {
@@ -62,8 +66,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(
-      options.length
+    expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(
+      options.length + 1
     )
 
     expect(getByTestId('ktoTextExtra')).toBeInTheDocument()
@@ -159,8 +163,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(screen.queryByText('Waarom bent u ontevreden?')).toBeInTheDocument()
   })
 
-  it('requires one of the options to be selected', () => {
-    const { queryByText, getByText, getByTestId } = render(
+  it('requires one of the options to be selected', async () => {
+    const { queryByText, getByTestId } = render(
       withAppContext(
         <KtoForm
           dataFeedbackForms={{ signal_id: 123 }}
@@ -178,12 +182,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       fireEvent.click(getByTestId('ktoSubmit'))
     })
 
-    expect(getByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('requires text area to contain content when last option is selected', () => {
-    const { queryByText, getByText, queryByTestId, getByTestId } = render(
+  it('requires text area to contain content when last option is selected', async () => {
+    const { queryByTestId, getByTestId } = render(
       withAppContext(
         <KtoForm
           dataFeedbackForms={{ signal_id: 123 }}
@@ -194,26 +198,28 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`)
+    const lastOption = getByTestId(
+      `checkbox-input_${[...options].reverse()[0].key}`
+    )
     expect(queryByTestId('ktoText')).not.toBeInTheDocument()
 
     act(() => {
       fireEvent.click(lastOption)
     })
 
-    expect(getByTestId('ktoText')).toBeInTheDocument()
-    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
     act(() => {
       fireEvent.click(getByTestId('ktoSubmit'))
     })
 
-    expect(getByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('should clear error message', () => {
-    const { queryByText, getByText, queryByTestId, getByTestId } = render(
+  it('should clear error message', async () => {
+    const { queryByTestId, getByTestId } = render(
       withAppContext(
         <KtoForm
           dataFeedbackForms={{ signal_id: 123 }}
@@ -224,29 +230,37 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`)
+    const lastOption = getByTestId(
+      `checkbox-input_${[...options].reverse()[0].key}`
+    )
     expect(queryByTestId('ktoText')).not.toBeInTheDocument()
 
     act(() => {
       fireEvent.click(lastOption)
     })
 
+    expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+
     act(() => {
       fireEvent.click(getByTestId('ktoSubmit'))
     })
 
-    expect(getByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
 
     const value = 'Qux Baz'
 
+    const ktoText = await screen.findByTestId('ktoText')
+
     act(() => {
-      fireEvent.change(getByTestId('ktoText'), { target: { value } })
+      fireEvent.change(ktoText, { target: { value } })
     })
 
-    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(
+      await screen.findByText('Dit veld is verplicht')
+    ).not.toBeInTheDocument()
   })
-
-  it('should handle submit for all but last option', () => {
+  it('should handle submit for all but last option', async () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'ja',
     }))
@@ -261,27 +275,33 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    const firstOption = getByTestId(`kto-${options[0].key}`)
+    const firstOption = getByTestId(`checkbox-input_${[...options][0].key}`)
 
     act(() => {
-      fireEvent.click(firstOption)
+      userEvent.click(firstOption)
     })
+
+    expect(firstOption).toBeChecked()
+    expect(screen.queryByTestId('ktoText')).not.toBeInTheDocument()
+    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
     expect(onSubmit).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
+      userEvent.click(getByTestId('ktoSubmit'))
     })
 
-    expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({
-        is_satisfied: true,
-        text: options[0].value,
-      })
-    )
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          is_satisfied: true,
+          text: options[0].value,
+        })
+      )
+    })
   })
 
-  it('should handle submit for last option', () => {
+  it('should handle submit for last option', async () => {
     const { getByTestId } = render(
       withAppContext(
         <KtoForm
@@ -293,30 +313,34 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    const lastOption = getByTestId(`kto-${[...options].reverse()[0].key}`)
+    const lastOption = getByTestId(
+      `checkbox-input_${[...options].reverse()[0].key}`
+    )
 
     act(() => {
       fireEvent.click(lastOption)
     })
 
     const value = 'Qux Baz'
-
+    const ktoText = await screen.findByTestId('ktoText')
     act(() => {
-      fireEvent.change(getByTestId('ktoText'), { target: { value } })
+      fireEvent.change(ktoText, { target: { value } })
     })
 
     act(() => {
       fireEvent.click(getByTestId('ktoSubmit'))
     })
 
-    expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({
-        text: value,
-      })
-    )
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          text_anders: value,
+        })
+      )
+    })
   })
 
-  it('should contain the correct values in the submit payload', () => {
+  it('should contain the correct values in the submit payload', async () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
@@ -337,21 +361,28 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    fireEvent.click(getByTestId('ktoAllowsContact'))
+    act(() => {
+      fireEvent.click(getByTestId('ktoAllowsContact'))
+    })
 
     expect(setContactAllowed).toHaveBeenCalled()
 
-    fireEvent.click(getByTestId('ktoSubmit'))
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'))
+    })
 
     // Be default allowscontact equals true but after clicking
-    expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: false,
-      is_satisfied: false,
-      text_extra: value,
-      text: options[1].value,
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith({
+        allows_contact: false,
+        is_satisfied: false,
+        text_extra: value,
+        text_anders: '',
+        text: options[1].value,
+      })
     })
   })
-  it('should have the correct values in the submit payload of the old flow', () => {
+  it('should have the correct values in the submit payload of the old flow', async () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
@@ -371,15 +402,22 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    fireEvent.click(getByTestId('ktoSubmit'))
+    act(() => {
+      fireEvent.click(getByTestId('ktoSubmit'))
+    })
 
     // By default allow_contact equals false is in the old flow
-    expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: false,
-      is_satisfied: false,
-      text_extra: value,
-      text: options[1].value,
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith({
+        allows_contact: false,
+        is_satisfied: false,
+        text_extra: value,
+        text: options[1].value,
+        text_anders: '',
+      })
     })
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
 
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
@@ -398,19 +436,23 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    fireEvent.click(getByTestId('ktoAllowsContact'))
+    act(() => {
+      fireEvent.click(getByTestId('ktoAllowsContact'))
+      fireEvent.click(getByTestId('ktoSubmit'))
+    })
 
-    fireEvent.click(getByTestId('ktoSubmit'))
-
+    expect(setContactAllowed).toHaveBeenCalled()
     // By default allow_contact equals false is in the old flow
     expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: true,
+      allows_contact: false,
       is_satisfied: false,
       text_extra: value,
       text: options[1].value,
+      text_anders: '',
     })
   })
-  it('should upload a picture', () => {
+
+  it('should upload a picture', async () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
     }))
@@ -435,7 +477,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       images_previews: ['https://url-from-data/image.jpg'],
     })
   })
-  it('should call filesUpload when submitting', () => {
+
+  it('should call filesUpload when submitting', async () => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue({
       incident: {
         images: [file],
@@ -456,11 +499,15 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
     fillForm()
 
-    fireEvent.click(screen.getByTestId('ktoSubmit'))
+    act(() => {
+      fireEvent.click(screen.getByTestId('ktoSubmit'))
+    })
 
-    expect(filesUpload).toBeCalledWith({
-      files: [file],
-      url: 'http://localhost:8000/signals/v1/public/signals/123/attachments/',
+    await waitFor(() => {
+      expect(filesUpload).toBeCalledWith({
+        files: [file],
+        url: 'http://localhost:8000/signals/v1/public/signals/123/attachments/',
+      })
     })
   })
 })
@@ -473,7 +520,10 @@ function uploadFile() {
 }
 
 function fillForm() {
-  const secondOption = screen.getByTestId(`kto-${options[1].key}`)
-  fireEvent.click(secondOption)
-  fireEvent.change(screen.getByTestId('ktoTextExtra'), { target: { value } })
+  const secondOption = screen.getByTestId(`checkbox-input_${options[1].key}`)
+
+  act(() => {
+    fireEvent.click(secondOption)
+    fireEvent.change(screen.getByTestId('ktoTextExtra'), { target: { value } })
+  })
 }
