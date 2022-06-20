@@ -220,11 +220,12 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         subcategory: 'fietsrek-nietje',
         extra_fietsrek_aanvragen: 'ja',
       },
-      label: "Fietsenrek of 'nietje' aanvragen",
-      shortLabel: "Aanvraag fietsenrek of 'nietje'",
+      value:
+        'Een nieuw fietsenrek of ‘nietje’ kunt u aanvragen met het [aanvraagformulier](https://formulier.amsterdam.nl/thema/wonen/aanvraagformulier-fietsenrek-fietsvak).',
+      type: 'info',
       pathMerge: 'extra_properties',
     },
-    render: QuestionFieldType.TextareaInput,
+    render: QuestionFieldType.PlainText,
   },
 }
 
