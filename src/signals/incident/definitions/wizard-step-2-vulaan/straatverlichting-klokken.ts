@@ -53,7 +53,7 @@ const straatverlichtingKlokken = {
       wfsFilter:
         '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.verlichting,
-      maxNumberOfAssets: 3,
+      maxNumberOfAssets: 1,
       featureTypes: [
         {
           label: 'Grachtmast',
