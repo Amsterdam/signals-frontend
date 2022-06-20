@@ -165,7 +165,7 @@ const KtoForm = ({
       setContactAllowed(checked)
       dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
     },
-    [negativeContactEnabled]
+    [negativeContactEnabled, setContactAllowed]
   )
 
   const handleSubmit = useCallback(
