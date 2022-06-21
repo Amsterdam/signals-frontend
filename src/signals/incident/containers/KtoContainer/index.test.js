@@ -129,7 +129,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     // assuming the form renders a list of radio buttons and that only a checked button in that list is required
 
     act(() => {
-      fireEvent.click(container.querySelector('input[type="radio"]'))
+      fireEvent.click(container.querySelector('input[type="checkbox"]'))
     })
 
     const ktoSubmit = await findByTestId('ktoSubmit')
@@ -215,7 +215,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(screen.getByTestId('subtitleAllowsContact')).toBeInTheDocument()
 
     act(() => {
-      fireEvent.click(container.querySelector('input[type="radio"]'))
+      fireEvent.click(container.querySelector('input[type="checkbox"]'))
     })
 
     const ktoSubmit = await findByTestId('ktoSubmit')
