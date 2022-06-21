@@ -295,7 +295,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       expect(onSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
           is_satisfied: true,
-          text: options[0].value,
+          text_list: [options[0].value],
         })
       )
     })
@@ -334,7 +334,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
-          text_anders: value,
+          text_list: [options.slice(-1)[0].value, value],
         })
       )
     })
@@ -377,8 +377,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
         allows_contact: false,
         is_satisfied: false,
         text_extra: value,
-        text_anders: '',
-        text: options[1].value,
+        text_list: [options[1].value],
       })
     })
   })
@@ -412,8 +411,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
         allows_contact: false,
         is_satisfied: false,
         text_extra: value,
-        text: options[1].value,
-        text_anders: '',
+        text_list: [options[1].value],
       })
     })
 
@@ -447,8 +445,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       allows_contact: false,
       is_satisfied: false,
       text_extra: value,
-      text: options[1].value,
-      text_anders: '',
+      text_list: [options[1].value],
     })
   })
 
