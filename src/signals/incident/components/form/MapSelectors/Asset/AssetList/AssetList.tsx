@@ -59,7 +59,6 @@ const SelectionNearby = styled.div`
     color: ${themeColor('secondary')};
   }
   p {
-    font-weight: regular;
     display: block;
     margin: ${themeSpacing(2, 0, 0)};
   }
