@@ -79,9 +79,12 @@ const KtoForm = ({
     .object({
       allows_contact: yup.boolean().required(),
       is_satisfied: yup.boolean().required(),
-      text: yup.string().required('Dit veld is verplicht'),
-      text_anders: yup.string().when('text', (text, schema) => {
-        return text.includes(options.slice(-1)[0].value)
+      text_list: yup
+        .array()
+        .min(1, 'Dit veld is verplicht')
+        .required('Dit veld is verplicht'),
+      text_list_extra: yup.string().when('text_list', (text_list, schema) => {
+        return text_list.includes(options.slice(-1)[0].value)
           ? schema.required('Dit veld is verplicht')
           : schema
       }),
@@ -101,13 +104,13 @@ const KtoForm = ({
       allows_contact:
         configuration.featureFlags.reporterMailHandledNegativeContactEnabled,
       is_satisfied: isSatisfied,
-      text: '',
-      text_anders: '',
+      text_list: [],
+      text_list_extra: '',
       text_extra: '',
     },
   })
 
-  async function handleSubmit_b(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     // Trigger form validation
     const isValid = await trigger()
@@ -123,14 +126,23 @@ const KtoForm = ({
           files: incident.images,
         })
       }
-      let formData = getValues()
+      let allFormData = getValues()
+      allFormData.text_list = [
+        ...allFormData.text_list,
+        allFormData.text_list_extra,
+      ].filter(Boolean)
+
+      // eslint-disable-next-line no-unused-vars
+      const { text_list_extra, ...formData } = allFormData
       onSubmit(formData)
     }
   }
-  const watchText = watch('text')
+
+  const watchTextList = watch('text_list')
   const watchTextExtra = watch('text_extra')
+
   return (
-    <Form data-testid="ktoForm_b" onSubmit={handleSubmit_b}>
+    <Form data-testid="ktoForm" onSubmit={handleSubmit}>
       <GridArea>
         <FieldSet>
           <StyledLabel as="legend" ref={firstLabelRef}>
@@ -141,36 +153,44 @@ const KtoForm = ({
           </HelpText>
 
           <CheckboxList
+            aria-describedby="subtitle-kto"
             options={options}
             name={'input'}
             onChange={(key, options) => {
-              setValue('text', options.map((option) => option.value).join(', '))
-              trigger('text')
-              if (!getValues().text?.includes(options.slice(-1)[0]?.value)) {
-                trigger('text_anders')
+              setValue(
+                'text_list',
+                options.map((option) => option.value)
+              )
+              trigger('text_list')
+              if (
+                !getValues().text_list?.includes(options.slice(-1)[0]?.value)
+              ) {
+                trigger('text_list_extra')
               }
             }}
           />
 
-          {watchText?.includes(options.slice(-1)[0].value) && (
+          {watchTextList?.includes(options.slice(-1)[0].value) && (
             <StyledTextArea
               data-testid="ktoText"
               maxRows={5}
               name="text"
               onChange={(event) => {
-                setValue('text_anders', event.target.value)
-                trigger('text_anders')
+                setValue('text_list_extra', event.target.value)
+                trigger('text_list_extra')
               }}
               rows="2"
             />
           )}
 
           <div role="status">
-            {errors.text && <ErrorMessage message={errors.text.message} />}
+            {errors.text_list && (
+              <ErrorMessage message={errors.text_list.message} />
+            )}
           </div>
           <div role="status">
-            {errors.text_anders && (
-              <ErrorMessage message={errors.text_anders.message} />
+            {errors.text_list_extra && (
+              <ErrorMessage message={errors.text_list_extra.message} />
             )}
           </div>
         </FieldSet>
