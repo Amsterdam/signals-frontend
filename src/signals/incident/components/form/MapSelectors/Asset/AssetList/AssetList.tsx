@@ -64,13 +64,13 @@ const SelectionNearby = styled.div`
   }
   span {
     display: block;
-    margin-bottom: ${themeSpacing(4)};
+    margin-bottom: ${themeSpacing(3)};
   }
 `
 
 const ListItem = styled.div`
+  padding-bottom: ${themeSpacing(3)};
   border-bottom: 1px solid ${themeColor('tint', 'level3')};
-  margin-bottom: ${themeSpacing(2)};
 `
 
 export interface AssetListProps {

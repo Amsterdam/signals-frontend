@@ -8,6 +8,7 @@ import type { FeatureStatusType } from 'signals/incident/components/form/MapSele
 const StyledListItem = styled(ListItem)`
   display: flex;
   align-items: center;
+  margin: ${themeSpacing(3, 0, 0)};
 `
 
 const StyledImg = styled.img`
