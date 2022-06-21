@@ -59,18 +59,19 @@ const SelectionNearby = styled.div`
     color: ${themeColor('secondary')};
   }
   p {
+    font-weight: regular;
     display: block;
     margin: ${themeSpacing(2, 0, 0)};
   }
   span {
     display: block;
-    margin-bottom: ${themeSpacing(4)};
+    margin-bottom: ${themeSpacing(3)};
   }
 `
 
 const ListItem = styled.div`
+  padding-bottom: ${themeSpacing(3)};
   border-bottom: 1px solid ${themeColor('tint', 'level3')};
-  margin-bottom: ${themeSpacing(2)};
 `
 
 export interface AssetListProps {
