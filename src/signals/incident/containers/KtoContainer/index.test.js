@@ -9,6 +9,8 @@ import { withAppContext } from 'test/utils'
 import { useParams } from 'react-router-dom'
 // eslint-disable-next-line no-restricted-imports
 import React from 'react'
+import userEvent from '@testing-library/user-event'
+import { waitFor } from '@babel/core/lib/gensync-utils/async'
 import KTOContainer, { renderSections, successSections } from '.'
 
 jest.mock('react-router-dom', () => ({
@@ -202,20 +204,16 @@ describe('signals/incident/containers/KtoContainer', () => {
       uuid,
     }))
 
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementationOnce(() => React.useState([true, () => null]))
-
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
 
-    const { container, findByTestId } = render(withAppContext(<KTOContainer />))
+    const { findByTestId } = render(withAppContext(<KTOContainer />))
 
     await findByTestId('ktoFormContainer')
 
     expect(screen.getByTestId('subtitleAllowsContact')).toBeInTheDocument()
 
     act(() => {
-      fireEvent.click(container.querySelector('input[type="checkbox"]'))
+      userEvent.click(screen.getByTestId('ktoAllowsContact'))
     })
 
     const ktoSubmit = await findByTestId('ktoSubmit')
@@ -226,6 +224,10 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     await findByTestId('ktoFormContainer')
 
-    expect(screen.queryByTestId('succesContactAllowedText')).toBeInTheDocument()
+    waitFor(() => {
+      expect(
+        screen.queryByTestId('succesContactAllowedText')
+      ).toBeInTheDocument()
+    })
   })
 })

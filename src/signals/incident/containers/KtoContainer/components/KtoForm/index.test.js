@@ -109,7 +109,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('Ja')
+    expect(screen.queryByTestId('allowsContact')).not.toBeInTheDocument()
 
     mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
 
@@ -124,7 +124,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(screen.queryByTestId('allowsContact')).toHaveTextContent('Ja')
+    expect(screen.queryByTestId('allowsContact')).not.toBeInTheDocument()
   })
 
   it('renders the correct title', () => {
@@ -262,7 +262,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   })
   it('should handle submit for all but last option', async () => {
     mockedUseParams.mockImplementation(() => ({
-      satisfactionIndication: 'ja',
+      satisfactionIndication: 'nee',
     }))
 
     const { getByTestId } = render(
@@ -271,6 +271,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={() => jest.fn()}
+          contactAllowed={true}
         />
       )
     )
@@ -294,7 +296,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
-          is_satisfied: true,
+          is_satisfied: false,
           text_list: [options[0].value],
         })
       )
@@ -309,6 +311,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           isSatisfied
           onSubmit={onSubmit}
           options={options}
+          setContactAllowed={() => jest.fn()}
+          contactAllowed={true}
         />
       )
     )
@@ -395,6 +399,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           onSubmit={onSubmit}
           options={options}
           setContactAllowed={setContactAllowed}
+          contactAllowed={true}
         />
       )
     )
@@ -408,7 +413,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     // By default allow_contact equals false is in the old flow
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
-        allows_contact: false,
+        allows_contact: true,
         is_satisfied: false,
         text_extra: value,
         text_list: [options[1].value],
@@ -442,7 +447,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(setContactAllowed).toHaveBeenCalled()
     // By default allow_contact equals false is in the old flow
     expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: false,
+      allows_contact: true,
       is_satisfied: false,
       text_extra: value,
       text_list: [options[1].value],
@@ -490,6 +495,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
             onSubmit={onSubmit}
             options={options}
             dataFeedbackForms={{ signal_id: 123 }}
+            setContactAllowed={() => jest.fn()}
+            contactAllowed={true}
           />
         </Provider>
       )
