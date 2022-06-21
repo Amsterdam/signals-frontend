@@ -89,8 +89,11 @@ const reactReducer = (state, action) => {
 
 export const KtoContainer = () => {
   const [state, dispatch] = useReducer(reactReducer, initialState)
+  const { satisfactionIndication, uuid } = useParams()
+  const isSatisfied = satisfactionIndication === 'ja'
   const [contactAllowed, setContactAllowed] = useState(
-    configuration.featureFlags.reporterMailHandledNegativeContactEnabled
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+      satisfactionIndication === 'nee'
   )
   const {
     get: getCheck,
@@ -106,8 +109,6 @@ export const KtoContainer = () => {
     isLoading: isLoadingOptions,
     data: options,
   } = useFetch()
-  const { satisfactionIndication, uuid } = useParams()
-  const isSatisfied = satisfactionIndication === 'ja'
 
   // first, retrieve the status of the feedback
   useEffect(() => {
@@ -222,6 +223,7 @@ export const KtoContainer = () => {
               options={state.formOptions}
               onSubmit={onSubmit}
               setContactAllowed={setContactAllowed}
+              contactAllowed={contactAllowed}
             />
           </Column>
         </Row>

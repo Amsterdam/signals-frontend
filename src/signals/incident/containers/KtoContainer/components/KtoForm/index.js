@@ -63,6 +63,7 @@ const KtoForm = ({
   onSubmit,
   dataFeedbackForms,
   setContactAllowed,
+  contactAllowed,
 }) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
@@ -73,7 +74,6 @@ const KtoForm = ({
   const extraTextMaxLength = 1000
 
   const negativeContactEnabled =
-    satisfactionIndication === 'nee' &&
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
   const schema = yup
     .object({
@@ -101,8 +101,7 @@ const KtoForm = ({
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      allows_contact:
-        configuration.featureFlags.reporterMailHandledNegativeContactEnabled,
+      allows_contact: contactAllowed,
       is_satisfied: isSatisfied,
       text_list: [],
       text_list_extra: '',
@@ -246,9 +245,7 @@ const KtoForm = ({
         />
       </GridArea>
 
-      {(negativeContactEnabled ||
-        configuration.featureFlags.reporterMailHandledNegativeContactEnabled ===
-          false) && (
+      {!isSatisfied && (
         <GridArea>
           {negativeContactEnabled ? (
             <>
