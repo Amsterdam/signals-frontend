@@ -118,7 +118,11 @@ const Selector: FC = () => {
   useLayoutEffect(() => {
     if (!map || !coordinates) return
 
-    map.flyTo(coordinates, mapOptions.zoom)
+    const zoomLevel = mapOptions.zoom
+      ? Math.max(map.getZoom(), mapOptions.zoom)
+      : map.getZoom()
+
+    map.flyTo(coordinates, zoomLevel)
   }, [coordinates, map, mapOptions.zoom])
 
   useEffect(() => {
