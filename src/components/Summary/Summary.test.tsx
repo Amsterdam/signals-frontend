@@ -13,6 +13,7 @@ import type { SummaryProps } from 'signals/incident/components/form/MapSelectors
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 
 import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 import Summary from './Summary'
 import MockInstance = jest.MockInstance
@@ -23,6 +24,11 @@ jest.mock('components/MapStatic', () => () => (
     <img src={'/assets/images/icon-select-marker.svg'} alt="" />
   </span>
 ))
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
 
 const selection: Item[] = [
   {
@@ -201,5 +207,33 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
         .getByTestId('mapStatic')
         .querySelector(`img[src='/assets/images/icon-select-marker.svg']`)
     ).toBeInTheDocument()
+  })
+
+  it("renders the mapEditButton at 'incident/vulaan'", () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      pathname: '/incident/vulaan',
+      referrer: '/',
+      search: '',
+      state: {},
+      hash: '',
+    }))
+
+    render(withContext(<Summary {...summaryProps} />))
+
+    expect(screen.getByTestId('mapEditButton')).toBeInTheDocument()
+  })
+
+  it("does not render the mapEditButton at 'incident/summary'", () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      pathname: '/incident/summary',
+      referrer: '/',
+      search: '',
+      state: {},
+      hash: '',
+    }))
+
+    render(withContext(<Summary {...summaryProps} />))
+
+    expect(screen.queryByTestId('mapEditButton')).not.toBeInTheDocument()
   })
 })
