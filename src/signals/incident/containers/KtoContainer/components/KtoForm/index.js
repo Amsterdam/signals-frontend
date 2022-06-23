@@ -147,9 +147,6 @@ const KtoForm = ({
           <StyledLabel as="legend" ref={firstLabelRef}>
             Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
           </StyledLabel>
-          <HelpText id="subtitle-kto">
-            Een antwoord mogelijk, kies de belangrijkste reden
-          </HelpText>
 
           <CheckboxList
             aria-describedby="subtitle-kto"
