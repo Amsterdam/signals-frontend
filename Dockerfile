@@ -1,7 +1,7 @@
 ################################
 # Base
 ################################
-FROM node:16-stretch AS base
+FROM node:14-stretch AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
