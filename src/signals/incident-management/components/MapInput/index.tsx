@@ -19,9 +19,9 @@ export const MapInput = (props: Props) => {
   const { name, display, onQueryResult, value: valueFromProps } = props
 
   const value = formatMapLocation(valueFromProps)
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const defaultCenter =
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center
 
   const center = value?.coordinates || defaultCenter

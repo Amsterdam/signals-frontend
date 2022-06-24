@@ -47,14 +47,13 @@ const RadioInput = ({
         {display && (
           <Label htmlFor={`form${name}`} label={<strong>{display}</strong>} />
         )}
-
         <RadioGroup name={name}>
           {values?.map(({ key, value }) => (
             <StyledLabel key={key} label={value}>
               <Radio
                 checked={current === key}
                 id={`${name}-${key}`}
-                value={value}
+                value={key}
                 data-testid={`${name}-${key}`}
                 onChange={() => {
                   props.onChange(key)
