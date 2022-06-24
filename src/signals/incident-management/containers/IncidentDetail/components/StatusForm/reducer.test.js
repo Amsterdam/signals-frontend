@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import statusList, {
   changeStatusOptionList,
 } from 'signals/incident-management/definitions/statusList'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import * as constants from '../constants'
+import * as constants from './constants'
 
-import reducer, { init } from '../reducer'
+import reducer, { init } from './reducer'
 
 const initialisedState = init({ incident: incidentFixture })
 const state = {
