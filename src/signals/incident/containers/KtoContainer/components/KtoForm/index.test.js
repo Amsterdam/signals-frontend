@@ -271,7 +271,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           dataFeedbackForms={{ signal_id: 123 }}
           onSubmit={onSubmit}
           options={options}
-          setContactAllowed={() => jest.fn()}
           contactAllowed={true}
         />
       )
@@ -311,7 +310,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
           isSatisfied
           onSubmit={onSubmit}
           options={options}
-          setContactAllowed={() => jest.fn()}
           contactAllowed={true}
         />
       )
@@ -495,7 +493,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
             onSubmit={onSubmit}
             options={options}
             dataFeedbackForms={{ signal_id: 123 }}
-            setContactAllowed={() => jest.fn()}
             contactAllowed={true}
           />
         </Provider>
