@@ -351,4 +351,71 @@ describe('hooks/useFetch', () => {
       )
     })
   })
+
+  describe('delete', () => {
+    it('should send DELETE request', async () => {
+      const { result } = renderHook(() => useFetch())
+
+      const expectRequest = [
+        URL,
+        expect.objectContaining({
+          method: 'DELETE',
+        }),
+      ]
+
+      expect(fetchMock).not.toHaveBeenCalledWith(...expectRequest)
+
+      const del = act(() => result.current.del(URL))
+
+      expect(result.current.isSuccess).not.toEqual(true)
+
+      await del
+
+      expect(fetchMock).toHaveBeenCalledWith(...expectRequest)
+
+      expect(result.current.isSuccess).toEqual(true)
+      expect(result.current.isLoading).toEqual(false)
+    })
+
+    it('should throw on error response', async () => {
+      const response = { status: 401, ok: false, statusText: 'Unauthorized' }
+      const message = getErrorMessage(response)
+      const { result } = renderHook(() => useFetch())
+
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ detail: 'invalid token' }),
+        response
+      )
+
+      const del = act(() => result.current.del(URL))
+
+      expect(result.current.isLoading).toEqual(true)
+      expect(result.current.error).not.toEqual(
+        expect.objectContaining(response)
+      )
+      expect(result.current.isSuccess).not.toEqual(false)
+
+      await del
+
+      expect(result.current.error).toEqual(expect.objectContaining(response))
+      expect((result.current.error as FetchError).message).toEqual(message)
+      expect(result.current.isSuccess).toEqual(false)
+      expect(result.current.isLoading).toEqual(false)
+    })
+
+    it('should apply request options', async () => {
+      const { result } = renderHook(() => useFetch())
+      const requestOptions = { responseType: 'blob' }
+
+      await act(() => result.current.del(URL, requestOptions))
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        URL,
+        expect.objectContaining({
+          method: 'DELETE',
+          ...requestOptions,
+        })
+      )
+    })
+  })
 })

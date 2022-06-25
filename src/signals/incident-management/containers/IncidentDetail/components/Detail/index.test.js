@@ -76,7 +76,6 @@ describe('<Detail />', () => {
     expect(
       getByText(incidentFixture.extra_properties[1].label)
     ).toBeInTheDocument()
-    expect(getByTestId('attachmentsDefinition')).toBeInTheDocument()
     expect(getByTestId('detail-location')).toBeInTheDocument()
   })
 

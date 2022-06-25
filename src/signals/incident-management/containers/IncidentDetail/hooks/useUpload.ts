@@ -39,7 +39,7 @@ interface UploadFileAction {
 }
 
 function* uploadFile(action: UploadFileAction): any {
-  const id = action.payload?.id ?? ''
+  const id = action.payload.id
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel: EventChannel<any> = yield call(

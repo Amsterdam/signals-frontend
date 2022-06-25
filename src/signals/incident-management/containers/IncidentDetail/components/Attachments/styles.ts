@@ -8,6 +8,7 @@ import {
 import ErrorMessage from 'components/ErrorMessage'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AddNote from '../AddNote'
+import StyledUploadProgress from './UploadProgress'
 
 export const Wrapper = styled.section`
   contain: content;
@@ -105,26 +106,6 @@ export const StyledButton = styled(AscButton)`
   padding: ${themeSpacing(0, 1.5)};
 `
 
-interface StyledUploadProgressProps {
-  progress: number
-}
-
-export const StyledUploadProgress = styled.div<StyledUploadProgressProps>`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height 5px;
-  background-color: ${themeColor('tint', 'level4')};
-
-  &::after {
-    content: '';
-    display: block;
-    width: ${({ progress }) => progress * 100}%;
-    height: 100%;
-    background-color: ${themeColor('primary')};
-  }
-`
 export const StyledUploadProgressError = styled(StyledUploadProgress)`
   &::after {
     background-color: ${themeColor('error')};

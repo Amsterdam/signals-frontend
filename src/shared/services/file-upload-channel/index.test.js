@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import { mocked } from 'jest-mock'
+import { getAuthHeaders } from '../auth/auth'
 import fileUploadChannel from '.'
+
+jest.mock('../auth/auth')
+
+const mockGetAuthHeaders = mocked(getAuthHeaders)
 
 describe('The file upload channel service', () => {
   let addEventListener
@@ -8,6 +14,7 @@ describe('The file upload channel service', () => {
   let abort
   let open
   let send
+  let setRequestHeader
 
   beforeEach(() => {
     addEventListener = jest.fn()
@@ -15,12 +22,14 @@ describe('The file upload channel service', () => {
     abort = jest.fn()
     open = jest.fn()
     send = jest.fn()
+    setRequestHeader = jest.fn()
 
     window.XMLHttpRequest = jest.fn()
     window.XMLHttpRequest.mockImplementation(() => ({
       abort,
       open,
       send,
+      setRequestHeader,
       upload: {
         addEventListener,
         removeEventListener,
@@ -31,6 +40,8 @@ describe('The file upload channel service', () => {
   afterEach(() => {})
 
   it('should map status by default', () => {
+    mockGetAuthHeaders.mockImplementation(() => ({}))
+
     const channel = fileUploadChannel(
       'https://acc.api.data.amsterdam.nl/signals/signal/image/',
       'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c',
@@ -42,6 +53,7 @@ describe('The file upload channel service', () => {
       'https://acc.api.data.amsterdam.nl/signals/signal/image/',
       true
     )
+    expect(setRequestHeader).not.toHaveBeenCalled()
     expect(send).toHaveBeenCalledWith(expect.any(Object))
 
     expect(addEventListener).toHaveBeenCalledWith(
@@ -67,5 +79,22 @@ describe('The file upload channel service', () => {
     )
 
     expect(abort).toHaveBeenCalledWith()
+  })
+
+  it('should pass auth headers', () => {
+    const authKey = 'Authorization'
+    const authValue = 'Bearer token'
+    const authHeader = { [authKey]: authValue }
+    mockGetAuthHeaders.mockImplementation(() => authHeader)
+
+    const channel = fileUploadChannel(
+      'https://acc.api.data.amsterdam.nl/signals/signal/image/',
+      'blob:http://host/c00d2e14-ae1c-4bb3-b67c-86ea93130b1c',
+      666
+    )
+
+    expect(setRequestHeader).toHaveBeenCalledWith(authKey, authValue)
+
+    channel.close()
   })
 })

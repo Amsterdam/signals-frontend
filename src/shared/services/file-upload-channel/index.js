@@ -21,7 +21,7 @@ export default (endpoint, file, id) =>
 
     /* istanbul ignore next */
     const onFailure = () => {
-      emitter({ error: new Error('Upload failed'), progress: 1 })
+      emitter({ error: new Error('Upload failed') })
       emitter(END)
     }
 
@@ -33,7 +33,7 @@ export default (endpoint, file, id) =>
     xhr.onload = () => {
       // upload success
       if (xhr.readyState === 4 && xhr.status > 200 && xhr.status < 400) {
-        emitter({ success: true, progress: 1 })
+        emitter({ success: true })
         emitter(END)
       } else {
         onFailure()

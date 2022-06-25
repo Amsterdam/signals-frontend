@@ -19,6 +19,7 @@ import fileSize from 'signals/incident/services/file-size'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
+import StyledUploadProgress from './UploadProgress'
 import {
   StyledAddNote,
   StyledBox,
@@ -34,30 +35,28 @@ import {
   StyledLoadingIndicator,
   StyledName,
   StyledReporter,
-  StyledUploadProgress,
   StyledUploadProgressError,
   Title,
   Wrapper,
 } from './styles'
 
-const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
-const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
-const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
-const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
+export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
+export const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
+export const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
+export const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
 
 const MIN = 30 * 2 ** 10 // 30 KiB
 const MAX = 20 * 2 ** 20 // 20 MiB
 
 interface AttachmentsProps {
   attachments: Attachment[]
-  className: string
+  className?: string
   add: (file: File) => void
   remove: (attachment: Attachment) => void
   isChildIncident: boolean
   isParentIncident: boolean
   isRemoving: boolean
   uploadProgress: number
-  uploadSuccess: boolean
   uploadError: boolean
 }
 
@@ -130,7 +129,7 @@ const Attachments: FC<AttachmentsProps> = ({
   )
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} data-testid="attachmentsDefinition">
       {hasAttachments && (
         <Title forwardedAs="h2" styleAs="h4">
           Foto
@@ -170,6 +169,7 @@ const Attachments: FC<AttachmentsProps> = ({
                     `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
                   ) && remove(attachment)
                 }}
+                title="Bijlage verwijderen"
                 variant="application"
                 disabled={isRemoving}
               />
@@ -195,6 +195,7 @@ const Attachments: FC<AttachmentsProps> = ({
                 setFiles([])
               }}
               variant="application"
+              title="Bijlage sluiten"
             />
           </StyledBox>
         ) : (

@@ -3,16 +3,9 @@ import { useCallback } from 'react'
 import { FileInputUploadButton } from './styles'
 
 interface FileInputProps {
-  maxNumberOfFiles?: number
-  minFileSize?: number
-  maxFileSize?: number
   allowedFileTypes?: string[]
   multiple?: boolean
   name: string
-  label: string
-  helpText?: string
-  required?: boolean
-  errorMessages?: string[]
   onChange: (files: File[]) => void
   files?: File[]
 }
