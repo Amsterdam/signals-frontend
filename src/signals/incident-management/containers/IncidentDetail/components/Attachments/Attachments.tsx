@@ -216,12 +216,7 @@ const Attachments: FC<AttachmentsProps> = ({
       )}
       <StyledErrorMessage message={error} />
       <StyledButtonWrapper>
-        <FileInput
-          multiple={false}
-          name="addPhoto"
-          label="Foto toevoegen"
-          onChange={handleChange}
-        >
+        <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
           {files.length > 0 && !uploadError ? (
             <Button variant="application" disabled={true} type="button">
               Foto toevoegen
