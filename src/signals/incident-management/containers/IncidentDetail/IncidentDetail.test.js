@@ -15,13 +15,13 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 
-import * as API from '../../../../../../internals/testing/api'
+import * as API from '../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
-} from '../../../../../../internals/testing/msw-server'
+} from '../../../../../internals/testing/msw-server'
 
-import IncidentDetail from '..'
+import IncidentDetail from './index'
 
 jest.spyOn(window, 'scrollTo')
 jest

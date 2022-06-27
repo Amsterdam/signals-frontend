@@ -98,11 +98,7 @@ const IncidentDetail = () => {
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
 
-  type KeyUpEvent = {
-    key: string
-  }
-
-  const handleKeyUp = (event: KeyUpEvent) => {
+  const handleKeyUp = useCallback((event: KeyboardEvent) => {
     switch (event.key) {
       case 'Esc':
       case 'Escape':
@@ -112,7 +108,7 @@ const IncidentDetail = () => {
       default:
         break
     }
-  }
+  }, [listenFor, unlisten])
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp)
@@ -308,7 +304,7 @@ const IncidentDetail = () => {
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
           <Detail
-            attachments={state?.attachments?.results}
+            attachments={state.attachments?.results}
             context={state.context}
           />
 

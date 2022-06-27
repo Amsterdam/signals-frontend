@@ -1,16 +1,47 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import statusList, {
-  changeStatusOptionList,
+  changeStatusOptionList, GEMELD,
 } from 'signals/incident-management/definitions/statusList'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import type { Status } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import * as constants from './constants'
 
 import reducer, { init } from './reducer'
 
+const someStatus = {
+  key: StatusCode.Gemeld,
+  email_sent_when_set: false,
+  shows_remaining_sla_days: true,
+  value: 'foo',
+}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const initialisedState = init({ incident: incidentFixture })
 const state = {
-  foo: 'bar',
+  originalStatus: GEMELD,
+  status: someStatus,
+  check: {
+    checked: false,
+    disabled: false,
+  },
+  emailTemplate: {},
+  errors: { text: undefined },
+  text: {
+    defaultValue: '',
+    value: 'bar',
+    required: false,
+    label: 'Bericht aan melder',
+    maxLength: 3000,
+    rows: 9,
+  },
+  flags: {
+    isSplitIncident: false,
+    hasEmail: true,
+    hasOpenChildren: false,
+  },
+  warnings: [],
 }
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm/reducer', () => {
@@ -49,7 +80,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('should return the state', () => {
-    expect(reducer(state, {})).toEqual(state)
+    expect(reducer(state, { type: 'SET_STATUS', payload: someStatus })).toEqual(state)
   })
 
   it('should handle SET_STATUS', () => {
@@ -91,13 +122,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(
       reducer(intermediateState, {
         type: 'SET_STATUS',
-        payload: statusSendsEmailWhenSet,
+        payload: statusSendsEmailWhenSet as Status,
       })
     ).toEqual(expect.objectContaining(expectedState))
   })
 
   it('should handle TOGGLE_CHECK', () => {
-    const afterToggle = reducer(initialisedState, { type: 'TOGGLE_CHECK' })
+    const afterToggle = reducer(initialisedState, { type: 'TOGGLE_CHECK', payload: undefined })
 
     expect(afterToggle).toEqual({
       ...initialisedState,
@@ -105,7 +136,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       text: { ...initialisedState.text, required: true },
     })
 
-    expect(reducer(afterToggle, { type: 'TOGGLE_CHECK' })).toEqual(
+    expect(reducer(afterToggle, { type: 'TOGGLE_CHECK', payload: undefined })).toEqual(
       initialisedState
     )
   })
@@ -151,7 +182,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       errors: { someOther: 'This be required', text: 'Whoops' },
     }
 
-    const payload = { email: 'Here be dragons' }
+    const payload = { text: 'Here be dragons' }
     expect(reducer(intermediateState, { type: 'SET_ERRORS', payload })).toEqual(
       {
         ...intermediateState,
