@@ -55,6 +55,9 @@ jest.mock('components/Map', () => {
 })
 
 const dispatch = jest.fn()
+const objectTypeSingular = contextValue?.meta?.language?.objectTypeSingular
+const objectTypePlural = contextValue?.meta?.language?.objectTypePlural
+
 describe('signals/incident/components/form/AssetSelect/Selector', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
@@ -298,9 +301,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       writable: true,
     })
 
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
@@ -331,9 +337,12 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       writable: true,
     })
 
-    render(withAssetSelectContext(<Selector />))
-
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+    render(
+      withAssetSelectContext(<Selector />, {
+        ...contextValue,
+        selection: undefined,
+      })
+    )
 
     userEvent.click(screen.getByTestId('gpsButton'))
 
@@ -368,5 +377,52 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     unmount()
 
     expect(enablePageScroll).toHaveBeenCalled()
+  })
+
+  describe('notification when more than the max number of assets has been selected', () => {
+    beforeEach(() => {
+      const maxAssetWarning = true
+
+      jest.spyOn(reactRedux, 'useSelector').mockReturnValue({ maxAssetWarning })
+    })
+
+    afterEach(() => {
+      jest.resetAllMocks()
+    })
+
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('shows a notification when 1 asset is maximum and removes it when hitting the close button', () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+        })
+      )
+
+      expect(
+        screen.getByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+      ).toBeInTheDocument()
+    })
+
+    it('shows a notification when more than 1 asset is maximum', () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+          meta: {
+            ...contextValue.meta,
+            maxNumberOfAssets: 2,
+          },
+        })
+      )
+
+      expect(
+        screen.queryByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+      ).not.toBeInTheDocument()
+      expect(
+        screen.getByText(`U kunt maximaal 2 ${objectTypePlural} kiezen.`)
+      ).toBeInTheDocument()
+    })
   })
 })

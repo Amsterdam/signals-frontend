@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
@@ -34,12 +34,12 @@ const defaultUnregisteredIconConfig: FeatureType['icon'] = {
 }
 
 interface UpdatePayload {
-  selection?: Item
+  selection?: Item[]
   location?: Location
 }
 export interface AssetSelectProps {
   value?: {
-    selection?: Item
+    selection?: Item[]
     location?: Location
   }
   layer?: FC
@@ -49,7 +49,10 @@ export interface AssetSelectProps {
       featureTypes: FeatureType[]
       featureStatusTypes: FeatureStatusType[]
       incidentContainer: { incident: Pick<Incident, 'location'> }
+      maxNumberOfObjects?: number
       updateIncident: (data: { [key: string]: any }) => void
+      addToSelection: (data: { [key: string]: any }) => void
+      removeFromSelection: (data: { [key: string]: any }) => void
     }
   }
 }
@@ -61,12 +64,14 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
+  const { maxNumberOfAssets } = meta
 
   const updateIncident = useCallback(
     (payload?: UpdatePayload) => {
       parent.meta.updateIncident({
         location: payload?.location,
         [meta.name as string]: payload,
+        meta_name: meta.name,
       })
     },
     [meta.name, parent.meta]
@@ -78,31 +83,43 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const setItem = useCallback(
     (selectedItem: Item, itemLocation?: Location) => {
       const payload = {
-        selection: selectedItem,
+        selection: [selectedItem],
         location: itemLocation || location,
+        maxNumberOfAssets: maxNumberOfAssets || 1,
       }
-
-      updateIncident(payload)
+      parent.meta.addToSelection({
+        location: payload.location,
+        [meta.name as string]: payload,
+        meta_name: meta.name,
+      })
     },
-    [location, updateIncident]
+    [location, meta.name, parent.meta, maxNumberOfAssets]
   )
 
-  const removeItem = useCallback(() => {
-    updateIncident(undefined)
-  }, [updateIncident])
+  const removeItem = (selectedItem?: Item) => {
+    const payload = {
+      selection: selectedItem ? [selectedItem] : undefined,
+    }
+
+    parent.meta.removeFromSelection({
+      [meta.name as string]: payload,
+      meta_name: meta.name,
+    })
+  }
 
   const getUpdatePayload = useCallback(
     (location: Location) => {
       // Clicking the map should unset a previous selection and preset it with an item that we know
       // doesn't exist on the map.
-      const payload: UpdatePayload = { location }
+      const payload: UpdatePayload = { location, selection }
 
-      if (selection?.type === UNKNOWN_TYPE) {
+      const item = selection ? selection[0] : undefined
+
+      if (item?.type === UNKNOWN_TYPE) {
         payload.selection = selection
       } else {
         payload.selection = undefined
       }
-
       return payload
     },
     [selection]

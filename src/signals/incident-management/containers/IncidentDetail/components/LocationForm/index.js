@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useMemo, useContext } from 'react'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { Row, Column } from '@amsterdam/asc-ui'
-import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
 import { coordinatesToFeature } from 'shared/services/map-location'
 
 import MapContext from 'containers/MapContext'
 
+import { useForm, Controller } from 'react-hook-form'
+import FormFooter from 'components/FormFooter'
+import MapInput from '../../../../components/MapInput'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
-import LocationInput from './components/LocationInput'
 
 const StyledColumn = styled(Column)`
   display: block;
@@ -26,61 +27,61 @@ const LocationForm = () => {
     close,
   } = useContext(IncidentDetailContext)
 
-  const form = useMemo(
-    () =>
-      FormBuilder.group({
-        location,
-      }),
-    [location]
-  )
-
-  const onQueryResult = useCallback(
-    (queryLocation) => {
-      form.controls.location.setValue(queryLocation)
+  const { getValues, control, setValue } = useForm({
+    defaultValues: {
+      location,
     },
-    [form.controls.location]
-  )
+  })
 
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault()
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const { coordinates, ...formValueLocation } = getValues().location
 
-      const { coordinates, ...formValueLocation } = form.value.location
-      const patch = { location: { ...location, ...formValueLocation } }
+    const patch = { location: { ...location, ...formValueLocation } }
 
-      if (coordinates) {
-        patch.location.geometrie = coordinatesToFeature(coordinates)
-        // the API expects a specifc order of coordinates: lng,lat
-        patch.location.geometrie.coordinates.reverse()
-      }
+    if (coordinates) {
+      patch.location.geometrie = coordinatesToFeature(coordinates)
+      // the API expects a specifc order of coordinates: lng,lat
+      patch.location.geometrie.coordinates.reverse()
+    }
 
-      update({
-        type: PATCH_TYPE_LOCATION,
-        patch,
-      })
+    update({
+      type: PATCH_TYPE_LOCATION,
+      patch,
+    })
 
-      close()
-    },
-    [update, form.value, close, location]
-  )
+    close()
+  }
 
   return (
     <Row>
       <StyledColumn span={12}>
-        <FieldGroup
-          control={form}
-          render={() => (
-            <MapContext>
-              <LocationInput
-                data-testid="locationForm"
-                locationControl={form.get('location')}
-                onClose={close}
-                onQueryResult={onQueryResult}
-                handleSubmit={handleSubmit}
-              />
-            </MapContext>
-          )}
-        />
+        <form data-testid="locationForm" onSubmit={onSubmit}>
+          <MapContext>
+            <Controller
+              name="location"
+              control={control}
+              render={({ field }) => (
+                <MapInput
+                  id="map-input"
+                  value={field.value}
+                  onQueryResult={(location) => {
+                    setValue('location', location)
+                  }}
+                  name={'location'}
+                  display={'location'}
+                />
+              )}
+            />
+            <FormFooter
+              cancelBtnLabel="Annuleer"
+              inline
+              onCancel={close}
+              onSubmitForm={() => {}}
+              submitBtnLabel="Opslaan"
+            />
+          </MapContext>
+        </form>
       </StyledColumn>
     </Row>
   )

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useEffect, useCallback, useReducer } from 'react'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import { Fragment, useEffect, useCallback, useReducer, useState } from 'react'
 import styled from 'styled-components'
 import {
   Row,
@@ -37,12 +37,12 @@ const initialState = {
 
 export const renderSections = {
   TOO_LATE: {
-    title: 'Helaas, de mogelijkheid om feedback te geven is verlopen',
-    body: 'Na het afhandelen van uw melding heeft u 2 weken de gelegenheid om feedback te geven.',
+    title: 'Helaas, u kunt niet meer reageren op deze melding',
+    body: 'Na ons antwoord hebt u 2 weken de tijd om een reactie te geven.',
   },
   FILLED_OUT: {
-    title: 'Er is al feedback gegeven voor deze melding',
-    body: 'Nogmaals bedankt voor uw feedback. We zijn voortdurend bezig onze dienstverlening te verbeteren.',
+    title: 'U hebt al een reactie gegeven op deze melding',
+    body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
   },
   NOT_FOUND: {
     title: 'Het feedback formulier voor deze melding kon niet gevonden worden',
@@ -53,14 +53,12 @@ export const successSections = configuration.featureFlags
   .reporterMailHandledNegativeContactEnabled
   ? {
       ja: {
-        title: 'Bedankt voor uw reactie!',
+        title: 'Bedankt voor uw reactie',
         body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
       },
       nee: {
-        title: 'Bedankt voor uw reactie!',
-        body: `Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.
-    U ontvangt een email met uw reactie. En u hoort binnen 3 werkdagen wat
-    wij ermee gaan doen.`,
+        title: 'Bedankt voor uw reactie',
+        body: `Door uw reactie weten we wat we kunnen verbeteren.`,
       },
     }
   : {
@@ -73,6 +71,9 @@ export const successSections = configuration.featureFlags
         body: `We zijn voortdurend bezig onze dienstverlening te verbeteren.`,
       },
     }
+
+export const contactAllowedText =
+  'U ontvangt een e-mail met uw reactie. U ontvangt binnen 3 werkdagen weer bericht van ons.'
 
 // eslint-disable-next-line consistent-return
 const reactReducer = (state, action) => {
@@ -88,6 +89,12 @@ const reactReducer = (state, action) => {
 
 export const KtoContainer = () => {
   const [state, dispatch] = useReducer(reactReducer, initialState)
+  const { satisfactionIndication, uuid } = useParams()
+  const isSatisfied = satisfactionIndication === 'ja'
+  const [contactAllowed, setContactAllowed] = useState(
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+      satisfactionIndication === 'nee'
+  )
   const {
     get: getCheck,
     isLoading: isLoadingCheck,
@@ -102,8 +109,6 @@ export const KtoContainer = () => {
     isLoading: isLoadingOptions,
     data: options,
   } = useFetch()
-  const { satisfactionIndication, uuid } = useParams()
-  const isSatisfied = satisfactionIndication === 'ja'
 
   // first, retrieve the status of the feedback
   useEffect(() => {
@@ -174,6 +179,11 @@ export const KtoContainer = () => {
               <StyledParagraph data-testid="succesSectionBody">
                 {successSections[satisfactionIndication].body}
               </StyledParagraph>
+              {contactAllowed && (
+                <StyledParagraph data-testid="succesContactAllowedText">
+                  {contactAllowedText}
+                </StyledParagraph>
+              )}
             </header>
           )}
 
@@ -212,6 +222,8 @@ export const KtoContainer = () => {
               dataFeedbackForms={dataFeedbackForms}
               options={state.formOptions}
               onSubmit={onSubmit}
+              setContactAllowed={setContactAllowed}
+              contactAllowed={contactAllowed}
             />
           </Column>
         </Row>

@@ -39,6 +39,8 @@ describe('signals/incident/containers/IncidentContainer', () => {
     updateIncidentAction: jest.fn(),
     createIncidentAction: jest.fn(),
     removeQuestionDataAction: jest.fn(),
+    addToSelectionAction: jest.fn(),
+    removeFromSelectionAction: jest.fn(),
   }
 
   beforeEach(() => {

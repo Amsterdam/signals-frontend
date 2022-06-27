@@ -51,6 +51,18 @@ export interface AreaMapProps {
   location: Incident['location']
 }
 
+export const getIcon = (feature: Feature, selectedFeature: Feature): L.Icon => {
+  // selected
+  if (feature.properties.id === selectedFeature?.properties.id)
+    return pointerSelectIcon
+
+  // closed
+  if (isStatusEnd(feature.properties.status.state)) return closedIncidentIcon
+
+  // open
+  return openIncidentIcon
+}
+
 const AreaMap: FunctionComponent<AreaMapProps> = ({
   geoData,
   location,
@@ -77,17 +89,10 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
   )
 
   const getIncidentIcon = useCallback(
-    (feature: Feature): L.Icon => {
-      // selected
-      if (feature.properties.id === selectedFeature?.properties.id)
-        return pointerSelectIcon
-
-      // closed
-      if (isStatusEnd(feature.properties.status.state))
-        return closedIncidentIcon
-
-      // open
-      return openIncidentIcon
+    (feature: Feature) => {
+      if (feature && selectedFeature) {
+        return getIcon(feature, selectedFeature)
+      }
     },
     [selectedFeature?.properties.id]
   )

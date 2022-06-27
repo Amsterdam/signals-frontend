@@ -30,7 +30,14 @@ export const makeSelectCategory = createSelector(
   selectIncidentContainerDomain,
   (state) => {
     const { category, subcategory } = state.toJS().incident
-
     return { category, subcategory }
+  }
+)
+
+export const makeSelectMaxAssetWarning = createSelector(
+  selectIncidentContainerDomain,
+  (state) => {
+    const { maxAssetWarning } = state.toJS().incident
+    return { maxAssetWarning }
   }
 )

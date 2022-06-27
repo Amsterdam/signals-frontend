@@ -35,6 +35,9 @@ const getStyle = (type) => {
       return css`
         background-color: ${themeColor('primary')};
         padding: ${themeSpacing(5)};
+        a:hover {
+          color: ${themeColor('tint', 'level1')};
+        }
 
         * {
           // Make sure links contrast with blue background

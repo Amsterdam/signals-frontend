@@ -3,6 +3,7 @@
 import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 import L from 'leaflet'
+import 'types/address'
 
 import type { FeatureCollection } from 'geojson'
 import type { Geometrie, Location } from 'types/incident'
@@ -48,7 +49,7 @@ export const AssetLayer: FC = () => {
 
     const { description, typeValue, idField } = featureType
     const id = feature.properties[idField] || ''
-    const isSelected = Boolean(selection?.id === id)
+    const isSelected = Boolean(selection?.find((item) => item.id === id))
 
     const iconUrl = isSelected
       ? '/assets/images/featureSelectedMarker.svg'
@@ -61,37 +62,33 @@ export const AssetLayer: FC = () => {
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
 
     const onClick = async () => {
-      if (typeValue === FeatureStatus.REPORTED) {
-        return
+      if (typeValue !== FeatureStatus.REPORTED) {
+        const location: Location = { coordinates }
+        const item: Item = {
+          id,
+          type: typeValue,
+          description,
+          status: featureStatusType?.typeValue,
+          label: [description, id].filter(Boolean).join(' - '),
+          coordinates,
+        }
+
+        if (isSelected) {
+          removeItem(item)
+          return
+        }
+
+        setItem(item, location)
+
+        const response = await reverseGeocoderService(coordinates)
+
+        if (response) {
+          location.address = response.data.address
+          item.address = response.data.address
+        }
+
+        setItem(item, location)
       }
-
-      if (isSelected) {
-        removeItem()
-        return
-      }
-
-      const location: Location = {
-        coordinates,
-      }
-
-      const item: Item = {
-        id,
-        type: typeValue,
-        description,
-        status: featureStatusType?.typeValue,
-        label: [description, id].filter(Boolean).join(' - '),
-        coordinates,
-      }
-
-      setItem(item, location)
-
-      const response = await reverseGeocoderService(coordinates)
-
-      if (response) {
-        location.address = response.data.address
-      }
-
-      setItem(item, location)
     }
 
     return (

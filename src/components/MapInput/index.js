@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import {
   useLayoutEffect,
   useContext,
@@ -85,18 +85,17 @@ const MapInput = ({
    * This reference ensures the map zooms to the marker location only when the marker location
    * is provided from the parent and not on click action
    */
-  const hasInitalViewRef = useRef(true)
+  const hasInitialViewRef = useRef(true)
 
   useEffect(() => {
     if (!map) return
-
     map.attributionControl._container.setAttribute('aria-hidden', 'true')
     map.attributionControl.setPrefix('')
   }, [map])
 
   const clickFunc = useCallback(
     async ({ latlng }) => {
-      hasInitalViewRef.current = false
+      hasInitialViewRef.current = false
       dispatch(setLoadingAction(true))
       dispatch(setLocationAction(latlng))
 
@@ -157,10 +156,10 @@ const MapInput = ({
   useLayoutEffect(() => {
     if (!map || !marker || !hasLocation) return
 
-    if (hasInitalViewRef.current) {
+    if (hasInitialViewRef.current) {
       const zoomLevel = map.getZoom()
       map.setView(coordinates, zoomLevel < 11 ? 11 : zoomLevel)
-      hasInitalViewRef.current = false
+      hasInitialViewRef.current = false
     }
 
     marker.setLatLng(coordinates)

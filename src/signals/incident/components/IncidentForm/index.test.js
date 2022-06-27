@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, fireEvent, createEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wizard, Step, Steps } from 'react-albus'
@@ -74,6 +74,8 @@ describe('<IncidentForm />', () => {
     defaultProps = {
       getClassification: jest.fn(),
       updateIncident: jest.fn(),
+      addToSelection: jest.fn(),
+      removeFromSelection: jest.fn(),
       createIncident: jest.fn(),
       removeQuestionData: jest.fn(),
       wizard: { mock: mockForm },

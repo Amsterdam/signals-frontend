@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
+/* Copyright (C) 2022 Gemeente Amsterdam */
 
 import L from 'leaflet'
 import type { FC } from 'react'
@@ -96,14 +96,13 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
         const coordinates = featureToCoordinates(feature.geometry)
 
-        const location: Location = {
-          coordinates,
-        }
-
+        const location: Location = { coordinates }
         const item: Item = {
+          id: `${coordinates.lat}.${coordinates.lng}.${feature.properties.created_at}`,
           label: feature.properties.category.name,
           description: formattedDate(feature.properties.created_at),
           type: NEARBY_TYPE,
+          coordinates,
         }
 
         setItem(item, location)
@@ -112,15 +111,16 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
         if (response) {
           location.address = response.data.address
+          item.address = response.data.address
         }
 
         setItem(item, location)
       },
-    [setItem]
+    [setItem, setActiveLayer]
   )
 
   useEffect(() => {
-    if (!selection || selection.type !== NEARBY_TYPE) {
+    if (!selection || selection[0].type !== NEARBY_TYPE) {
       setActiveLayer(undefined)
     }
   }, [selection])
@@ -159,6 +159,8 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
 
     if (!data?.features) return
 
+    const hasNearbySelection = selection && selection[0].type === NEARBY_TYPE
+
     data.features.forEach((feature) => {
       const { lat, lng } = featureToCoordinates(feature.geometry)
 
@@ -177,7 +179,9 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
         }
       )
 
-      const isActiveMarker = activeLayer?.options.alt === marker.options.alt
+      const isActiveMarker = activeLayer
+        ? activeLayer?.options.alt === marker.options.alt
+        : Boolean(hasNearbySelection && selection[0].id === marker.options.alt)
 
       marker.setIcon(
         isActiveMarker ? nearbyMarkerSelectedIcon : nearbyMarkerIcon
@@ -194,6 +198,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     onMarkerClick,
     error,
     assetData,
+    selection,
   ])
   return (
     <>
