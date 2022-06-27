@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import type { DefaultTexts } from 'types/api/default-text'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+import type { Incident } from 'types/api/incident'
 import { StatusCode } from '../../definitions/types'
 import {
   CLOSE_ALL,
@@ -18,11 +21,7 @@ import {
   SET_INCIDENT,
 } from './constants'
 import reducer, { initialState, closedState } from './reducer'
-import type {Attachment, HistoryEntry, IncidentChild, Result, State} from './types'
-import {Incident} from "../../../../types/incident";
-import {DefaultText, DefaultTexts} from "../../../../types/api/default-text";
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-
+import type { Attachment, HistoryEntry, IncidentChild, Result } from './types'
 
 describe('signals/incident-management/containers/IncidentDetail/reducer', () => {
   const state = {
@@ -39,7 +38,9 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
   }
 
   it('should return the state', () => {
-    expect(reducer(state, { type: SET_INCIDENT, payload: state.incident })).toEqual(state)
+    expect(
+      reducer(state, { type: SET_INCIDENT, payload: state.incident })
+    ).toEqual(state)
   })
 
   it('should handle RESET', () => {
@@ -66,8 +67,8 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
       count: 2,
       results: [
         { location: '', is_image: true },
-        { location: '', is_image: false }
-      ]
+        { location: '', is_image: false },
+      ],
     } as Result<Attachment>
     expect(
       reducer(state, { type: SET_ATTACHMENTS, payload: attachments })
@@ -78,8 +79,22 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
     const children = {
       count: 2,
       results: [
-        { _links: 'bar', id: 1, status: someStatus, category: {}, can_view_signal: true, updated_at: '' },
-        { _links: 'bar', id: 2, status: someStatus, category: {}, can_view_signal: true, updated_at: '' },
+        {
+          _links: 'bar',
+          id: 1,
+          status: someStatus,
+          category: {},
+          can_view_signal: true,
+          updated_at: '',
+        },
+        {
+          _links: 'bar',
+          id: 2,
+          status: someStatus,
+          category: {},
+          can_view_signal: true,
+          updated_at: '',
+        },
       ],
     } as unknown as Result<IncidentChild>
 
@@ -90,43 +105,38 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
   })
 
   it('should handle SET_CHILDREN_HISTORY', () => {
-    const childrenHistory = [[
-      { identifier: 'bar', when: '', what: '', action: '', description: '', who: '' },
-      { identifier: 'baz', when: '', what: '', action: '', description: '', who: '' },
-    ]] as HistoryEntry[][]
+    const childrenHistory = [
+      [
+        {
+          identifier: 'bar',
+          when: '',
+          what: '',
+          action: '',
+          description: '',
+          who: '',
+        },
+        {
+          identifier: 'baz',
+          when: '',
+          what: '',
+          action: '',
+          description: '',
+          who: '',
+        },
+      ],
+    ] as HistoryEntry[][]
     expect(
       reducer(state, { type: SET_CHILDREN_HISTORY, payload: childrenHistory })
     ).toEqual({ ...state, childrenHistory })
   })
 
   it('should handle SET_CHILD_INCIDENTS', () => {
-        const incident = {
-      text: 'incident text',
-      created_at: new Date(0).toISOString(),
-      location: {
-        address_text: '124 Conch St., Bikini Bottom',
-      },
-      status: {
-        state_display: 'Gemeld',
-      },
-      category: {
-        sub: 'Spongebob',
-        departments: 'Patrick',
-        sub_slug: 'overig-afval',
-        main: 'foo',
-        main_slug: 'foo',
-        category_url: 'foo',
-        created_by: 'foo',
-        text: null,
-        deadline: 'foo',
-        deadline_factor_3: 'foo',
-      },
-    }
-    const childIncidents = [
-      incidentFixture
-    ]
+    const childIncidents = [incidentFixture]
     expect(
-      reducer(state, { type: SET_CHILD_INCIDENTS, payload: [incidentFixture] })
+      reducer(state, {
+        type: SET_CHILD_INCIDENTS,
+        payload: [incidentFixture as unknown as Incident],
+      })
     ).toEqual({ ...state, childIncidents })
   })
 
@@ -138,7 +148,16 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
   })
 
   it('should handle SET_HISTORY', () => {
-    const history = [{identifier: 'one', when: '', what: '', action: '', description: '', who: '' }]
+    const history = [
+      {
+        identifier: 'one',
+        when: '',
+        what: '',
+        action: '',
+        description: '',
+        who: '',
+      },
+    ]
     expect(reducer(state, { type: SET_HISTORY, payload: history })).toEqual({
       ...state,
       history,
