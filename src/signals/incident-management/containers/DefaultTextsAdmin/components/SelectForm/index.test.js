@@ -106,7 +106,7 @@ describe('SelectForm', () => {
 
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url: newCategory,
-        state: 'o',
+        state: 'ingepland',
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
       })
