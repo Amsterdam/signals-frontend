@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import RadioInput_b from 'signals/incident-management/components/RadioInput_b'
-import SelectInput_b from 'signals/incident-management/components/SelectInput_b'
+import RadioInput from 'signals/incident-management/components/RadioInput_b'
+import SelectInput from 'signals/incident-management/components/SelectInput_b'
 
 import { dataListType } from 'shared/types'
 import { reCategory } from 'shared/services/resolveClassification'
@@ -76,7 +76,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
         name="category_url"
         control={control}
         render={({ field: { name, onChange } }) => (
-          <SelectInput_b
+          <SelectInput
             name={name}
             display="Subcategorie"
             values={subcategoryOptions}
@@ -90,7 +90,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
         name="state"
         control={control}
         render={({ field: { name, value, onChange } }) => (
-          <RadioInput_b
+          <RadioInput
             name={name}
             display="Status"
             values={defaultTextsOptionList}
