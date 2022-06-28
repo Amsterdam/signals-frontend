@@ -3,31 +3,9 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
-
-import { FormBuilder } from 'react-reactive-form'
-import type { FormArray } from 'react-reactive-form'
-
 import DefaultTextsForm from './DefaultTextsForm'
 
-const fields = [...new Array(3).keys()].reduce(
-  (acc, key) => ({
-    ...acc,
-    [`item${key}`]: FormBuilder.group({
-      title: ['title'],
-      text: ['text'],
-      is_active: [true],
-    }),
-  }),
-  {}
-)
-
 describe('<DefaultTextsForm />', () => {
-  const form = FormBuilder.group({
-    ...fields,
-    categoryUrl: null,
-    state: null,
-  })
-
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -35,10 +13,12 @@ describe('<DefaultTextsForm />', () => {
   it('renders the form correctly', () => {
     const props = {
       item: 'item0',
-      form: form as unknown as FormArray,
-      itemsLength: 3,
       index: 0,
+      value: { text: 'fdsfa', title: 'title', is_active: true },
+      nextValue: { text: 'fdsfa', title: 'title', is_active: true },
       onCheck: jest.fn(),
+      setValue: jest.fn(),
+      itemsLength: 3,
       changeOrdering: jest.fn(),
     }
     render(withAppContext(<DefaultTextsForm {...props} />))
@@ -59,10 +39,12 @@ describe('<DefaultTextsForm />', () => {
   it('interacts with the form correctly', () => {
     const props = {
       item: 'item1',
-      form: form as unknown as FormArray,
       itemsLength: 3,
       index: 1,
+      value: { text: 'fdsfa', title: 'title', is_active: true },
+      nextValue: { text: 'fdsfa', title: 'title', is_active: true },
       onCheck: jest.fn(),
+      setValue: jest.fn(),
       changeOrdering: jest.fn(),
     }
     render(withAppContext(<DefaultTextsForm {...props} />))
@@ -73,10 +55,8 @@ describe('<DefaultTextsForm />', () => {
 
     const checkbox = screen.getByText('Actief')
     userEvent.click(checkbox)
-    expect(props.onCheck).toHaveBeenCalledWith(
-      props.item,
-      props.form.get(`${props.item}.is_active`).value
-    )
+
+    expect(screen.getByTestId(`is_active1`)).toBeChecked()
 
     userEvent.click(
       screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
@@ -90,26 +70,14 @@ describe('<DefaultTextsForm />', () => {
   })
 
   describe('<checkbox disabled', () => {
-    const fields = {
-      item0: FormBuilder.group({
-        title: [''],
-        text: [''],
-        is_active: [true],
-      }),
-    }
-
-    const form = FormBuilder.group({
-      ...fields,
-      categoryUrl: null,
-      state: null,
-    })
-
-    const props = {
+    let props = {
       item: 'item0',
-      form: form as unknown as FormArray,
-      itemsLength: 1,
       index: 0,
+      value: { text: '', title: '', is_active: false },
+      nextValue: { text: 'fdsfa', title: 'title', is_active: true },
       onCheck: jest.fn(),
+      setValue: jest.fn(),
+      itemsLength: 3,
       changeOrdering: jest.fn(),
     }
 
@@ -144,6 +112,10 @@ describe('<DefaultTextsForm />', () => {
       fireEvent.change(title0, { target: { value: 'titel in het titelveld' } })
       fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
 
+      props = {
+        ...props,
+        value: { title: 'title', text: 'text', is_active: true },
+      }
       rerender(withAppContext(<DefaultTextsForm {...props} />))
 
       expect(screen.getByTestId(`is_active0`)).not.toBeDisabled()
