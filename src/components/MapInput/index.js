@@ -217,7 +217,7 @@ MapInput.propTypes = {
    * leaflet options
    * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
    */
-  mapOptions: PropTypes.shape({}).isRequired,
+  mapOptions: PropTypes.shape({}),
   /**
    * Callback handler that is fired when a click on the map is registered or when an option in the autosuggest
    * list is selected
