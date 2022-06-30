@@ -17,7 +17,6 @@ This poses a challenge, because there is a lot in the application that is specif
 - Nginx configuration
 - HTML `<title />`
 - [`Sentry` Package](https://www.npmjs.com/package/@sentry/browser) dependency and configuration
-- [`Matomo` Package](https://www.npmjs.com/package/@datapunt/matomo-tracker-js) dependency and configuration
 - PWA manifest
 - Logo
 - Favicon

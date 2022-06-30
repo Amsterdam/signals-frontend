@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Select, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
-import { useMatomo } from '@datapunt/matomo-tracker-react'
 
 import type { FC } from 'react'
 
@@ -53,23 +52,16 @@ const Sort: FC<SortProps> = ({
   className = '',
   onChangeOrdering,
 }) => {
-  const { trackEvent } = useMatomo()
   const [sort, setSort] = useState<SortOptions>()
   const onChange = useCallback(
     (event) => {
       const { value } = event.target
 
       if (sort !== value) {
-        trackEvent({
-          action: 'change',
-          category: 'incidents',
-          name: 'sort',
-          value,
-        })
         setSort(value)
       }
     },
-    [sort, trackEvent]
+    [sort]
   )
 
   useEffect(() => {
