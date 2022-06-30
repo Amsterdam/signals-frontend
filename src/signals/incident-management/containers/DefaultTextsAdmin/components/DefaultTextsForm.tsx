@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import type { FC, SyntheticEvent } from 'react'
+import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 
 import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
@@ -66,21 +66,21 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
     <>
       <StyledLeftColumn data-testid={`defaultTextFormForm${index}`}>
         <TextInput
-          display={'display value'}
+          display={''}
           name={`title${index}`}
           value={value.title}
           placeholder={'Titel'}
-          onChange={(e: { target: { value: any } }) =>
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setValue(item, { ...value, title: e.target.value })
           }
         />
 
         <TextAreaInput
-          display={'display value'}
+          display={''}
           name={`text${index}`}
           value={value.text}
           placeholder="Tekst"
-          onChange={(e: { target: { value: any } }) =>
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setValue(item, { ...value, text: e.target.value })
           }
         />
