@@ -169,7 +169,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               <>
                 <StyledLabel
                   htmlFor="is_public_accessible"
-                  label="Toon meldingen van deze subcategorie op een openbare kaart"
+                  label="Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier"
                   data-testid="subcategoryIsPublicAccessible"
                   disabled={readOnly}
                 >
