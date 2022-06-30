@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { Reducer } from 'react'
 import {
   CLOSE_ALL,
@@ -29,6 +29,7 @@ export const initialState: State = {
   childrenHistory: undefined,
   childIncidents: undefined,
   context: undefined,
+  defaultTexts: undefined,
   error: undefined,
   history: undefined,
   incident: undefined,

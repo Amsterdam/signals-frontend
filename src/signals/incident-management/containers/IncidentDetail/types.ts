@@ -2,6 +2,7 @@ import type { FetchError } from 'hooks/useFetch'
 import type { AnyAction } from 'redux'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
+import type { DefaultTexts } from 'types/api/default-text'
 import type ContextType from 'types/context'
 
 export interface Context {
@@ -18,6 +19,7 @@ export interface State {
   children?: Result<IncidentChild>
   childrenHistory?: HistoryEntry[][]
   childIncidents?: Incident[]
+  defaultTexts?: DefaultTexts
   history?: HistoryEntry[]
   context?: ContextType
   error?: boolean | FetchError
@@ -41,6 +43,7 @@ export interface IncidentChild {
     main: string
     main_slug: string
   }
+  updated_at: string
   can_view_signal: boolean
 }
 
