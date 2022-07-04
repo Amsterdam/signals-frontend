@@ -61,10 +61,14 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
     [handleChange, setValue, subcategoryOptions]
   )
 
+  const firstSubcategory = subcategoryOptions.filter(
+    ({ category_slug }) => category_slug === subcategoryGroups[0].value
+  )
+
   const { control, getValues, watch, setValue } = useForm({
     defaultValues: {
       state: 'o',
-      category_url: subcategoryOptions[0]?.key,
+      category_url: firstSubcategory[0]?.key,
       sub_slug: null,
       main_slug: null,
     },
