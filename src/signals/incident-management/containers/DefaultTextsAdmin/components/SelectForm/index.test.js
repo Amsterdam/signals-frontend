@@ -11,7 +11,7 @@ import SelectForm from '.'
 
 describe('SelectForm', () => {
   const subcategories = subcategoriesGroupedByCategories[1]
-  const category_url = categoriesPrivate.results[1]._links.self.public
+  const category_url = categoriesPrivate.results[0]._links.self.public
   let props
 
   beforeEach(() => {
@@ -53,8 +53,8 @@ describe('SelectForm', () => {
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url,
         state: 'o',
-        sub_slug: 'afwatering-brug',
-        main_slug: 'civiele-constructies',
+        sub_slug: 'asbest-accu',
+        main_slug: 'afval',
       })
     })
 
@@ -68,8 +68,8 @@ describe('SelectForm', () => {
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url,
         state: newStatus,
-        sub_slug: 'afwatering-brug',
-        main_slug: 'civiele-constructies',
+        sub_slug: 'asbest-accu',
+        main_slug: 'afval',
       })
     })
 

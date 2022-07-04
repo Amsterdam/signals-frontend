@@ -20,7 +20,7 @@
         },
         "self": {
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79",
-          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
+          "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu"
         },
         "archives": {
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/categories/79/history"
