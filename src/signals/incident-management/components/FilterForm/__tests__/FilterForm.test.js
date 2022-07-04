@@ -20,6 +20,7 @@ import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
 import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
+import * as actions from 'containers/App/actions'
 
 import FilterForm from '..'
 import {
@@ -30,6 +31,9 @@ import IncidentManagementContext from '../../../context'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
+
+jest.spyOn(actions, 'showGlobalNotification')
+jest.spyOn(actions, 'resetGlobalNotification')
 
 jest.mock('models/categories/selectors', () => {
   const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
@@ -1100,117 +1104,182 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect([...checkboxes].every((element) => !element.checked)).toEqual(false)
     expect(checkboxes[1].checked).toEqual(true)
   })
+})
 
-  describe('submit', () => {
-    let emit
+describe('GlobalNotification', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-    beforeAll(() => {
-      ;({ emit } = window._virtualConsole)
+  it('should show GlobalNotification', () => {
+    const { getAllByTestId } = render(
+      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 75 }} />)
+    )
+    getAllByTestId('checkboxList').forEach((element) => {
+      element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+        userEvent.click(checkbox)
+      })
+      userEvent.click(element.querySelector('input[type="checkbox"]')) //deselect the first checkbox
     })
+    expect(actions.showGlobalNotification).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title:
+          'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
+      })
+    )
+  })
 
-    beforeEach(() => {
-      window._virtualConsole.emit = jest.fn()
-    })
+  it('should remove GlobalNotification from view', () => {
+    render(
+      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 54 }} />)
+    )
 
-    afterAll(() => {
-      window._virtualConsole.emit = emit
-    })
+    // check checkbox to trigger showGlobalNotification
+    userEvent.click(screen.getByTestId('checkbox-status_m'))
 
-    it('should handle submit for new filter', () => {
-      const handlers = {
-        onSubmit: jest.fn(),
-        onSaveFilter: jest.fn(),
-      }
+    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A')) //uncheck the checkbox
+    expect(actions.resetGlobalNotification).toHaveBeenCalled()
+  })
 
-      const { container } = render(
-        withContext(
-          <FilterForm
-            {...{ ...formProps, ...handlers }}
-            filter={{
-              name: '',
-              options: { incident_date: '1970-01-01' },
-            }}
-          />
-        )
+  it('should prohibit save filter', () => {
+    const handlers = {
+      onSubmit: jest.fn(),
+      onSaveFilter: jest.fn(),
+    }
+    render(
+      withContext(
+        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} />
       )
+    )
 
-      expect(handlers.onSaveFilter).not.toHaveBeenCalled()
-      expect(handlers.onSubmit).not.toHaveBeenCalled()
+    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A'))
+    userEvent.click(screen.getByTestId('submitBtn'))
 
-      const nameField = container.querySelector(
-        'input[type="text"][name="name"]'
+    expect(handlers.onSaveFilter).not.toHaveBeenCalled()
+  })
+
+  it('should prohibit update filter', () => {
+    const handlers = {
+      onUpdateFilter: jest.fn(),
+    }
+    render(
+      withContext(
+        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} />
       )
+    )
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
-      })
+    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A'))
+    userEvent.click(screen.getByTestId('submitBtn'))
 
-      expect(handlers.onSubmit).toHaveBeenCalled()
-      expect(handlers.onSaveFilter).not.toHaveBeenCalled() // name field is empty
+    expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
+  })
+})
 
-      act(() => {
-        fireEvent.blur(nameField, { target: { value: 'New name' } })
-      })
+describe('submit', () => {
+  let emit
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
-      })
+  beforeAll(() => {
+    ;({ emit } = window._virtualConsole)
+  })
 
-      expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1)
+  beforeEach(() => {
+    window._virtualConsole.emit = jest.fn()
+  })
+
+  afterAll(() => {
+    window._virtualConsole.emit = emit
+  })
+
+  it('should handle submit for new filter', () => {
+    const handlers = {
+      onSubmit: jest.fn(),
+      onSaveFilter: jest.fn(),
+    }
+
+    const { container } = render(
+      withContext(
+        <FilterForm
+          {...{ ...formProps, ...handlers }}
+          filter={{
+            name: '',
+            options: { incident_date: '1970-01-01' },
+          }}
+        />
+      )
+    )
+
+    expect(handlers.onSaveFilter).not.toHaveBeenCalled()
+    expect(handlers.onSubmit).not.toHaveBeenCalled()
+
+    const nameField = container.querySelector('input[type="text"][name="name"]')
+
+    act(() => {
+      fireEvent.click(container.querySelector('button[type="submit"]'))
     })
 
-    it('should handle submit for existing filter', () => {
-      const handlers = {
-        onUpdateFilter: jest.fn(),
-        onSubmit: jest.fn(),
-      }
+    expect(handlers.onSubmit).toHaveBeenCalled()
+    expect(handlers.onSaveFilter).not.toHaveBeenCalled() // name field is empty
 
-      render(
-        withContext(
-          <FilterForm
-            {...{ ...formProps, ...handlers }}
-            filter={{
-              name: 'My filter',
-              options: {
-                incident_date_start: '1970-01-01',
-              },
-            }}
-          />
-        )
-      )
-
-      act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
-      })
-
-      // values haven't changed, update should not be called
-      expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
-
-      const nameField = screen.getByLabelText('Filternaam')
-
-      act(() => {
-        userEvent.type(nameField, ' ')
-      })
-
-      act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
-      })
-
-      // trimmed field value is empty, update should not be called
-      expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
-
-      act(() => {
-        userEvent.type(nameField, 'My changed filter')
-      })
-
-      act(() => {
-        userEvent.click(
-          screen.getByRole('button', { name: 'Opslaan en filter' })
-        )
-      })
-
-      expect(handlers.onUpdateFilter).toHaveBeenCalled()
-      expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
+    act(() => {
+      fireEvent.blur(nameField, { target: { value: 'New name' } })
     })
+
+    act(() => {
+      fireEvent.click(container.querySelector('button[type="submit"]'))
+    })
+
+    expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1)
+  })
+
+  it('should handle submit for existing filter', () => {
+    const handlers = {
+      onUpdateFilter: jest.fn(),
+      onSubmit: jest.fn(),
+    }
+
+    render(
+      withContext(
+        <FilterForm
+          {...{ ...formProps, ...handlers }}
+          filter={{
+            name: 'My filter',
+            options: {
+              incident_date_start: '1970-01-01',
+            },
+          }}
+        />
+      )
+    )
+
+    act(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Filter' }))
+    })
+
+    // values haven't changed, update should not be called
+    expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
+
+    const nameField = screen.getByLabelText('Filternaam')
+
+    act(() => {
+      userEvent.type(nameField, ' ')
+    })
+
+    act(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Filter' }))
+    })
+
+    // trimmed field value is empty, update should not be called
+    expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
+
+    act(() => {
+      userEvent.type(nameField, 'My changed filter')
+    })
+
+    act(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan en filter' }))
+    })
+
+    expect(handlers.onUpdateFilter).toHaveBeenCalled()
+    expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
   })
 })

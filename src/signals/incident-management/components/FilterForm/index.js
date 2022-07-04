@@ -4,6 +4,7 @@ import {
   Fragment,
   useLayoutEffect,
   useContext,
+  useEffect,
   useMemo,
   useCallback,
   useReducer,
@@ -12,7 +13,7 @@ import {
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Label as AscLabel } from '@amsterdam/asc-ui'
 
 import AutoSuggest from 'components/AutoSuggest'
@@ -25,6 +26,11 @@ import { dateToISOString } from 'shared/services/date-utils'
 import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
+import {
+  showGlobalNotification,
+  resetGlobalNotification,
+} from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 
 import {
   makeSelectDirectingDepartments,
@@ -75,6 +81,7 @@ const getUserCount = (data) => data?.count
  * Component that renders the incident filter form
  */
 const FilterForm = ({
+  maxFilterLength,
   filter,
   onCancel,
   onClearFilter,
@@ -82,6 +89,7 @@ const FilterForm = ({
   onSubmit,
   onUpdateFilter,
 }) => {
+  const MAX_FILTER_LENGTH = !maxFilterLength ? 2700 : maxFilterLength
   const { sources } = useContext(AppContext)
   const { districts } = useContext(IncidentManagementContext)
   const categories = useSelector(makeSelectStructuredCategories)
@@ -91,6 +99,7 @@ const FilterForm = ({
   const notRoutedOption = routingDepartments[0]
 
   const [state, dispatch] = useReducer(reducer, filter, init)
+  const storeDispatch = useDispatch()
 
   const isNewFilter = !filter.name
 
@@ -101,6 +110,7 @@ const FilterForm = ({
     address: state.options.address_text,
     note: state.options.note_keyword,
   })
+  const [filterTooLong, setFilterTooLong] = useState(false)
 
   const dataListValues = useMemo(
     () => ({
@@ -151,12 +161,54 @@ const FilterForm = ({
   const dateBefore =
     state.options.created_before && new Date(state.options.created_before)
 
+  useEffect(() => {
+    /*
+     * The purpose is to calculate the length of the url because it might be too long.
+     * ParseOutputFormData returns all the checked filtersm in the following form:
+     * {status: ['g', 'i', ...], stadsdeel: ['w', ...], date_created_after: '11-11-1911'}
+     * Every key with each of its values is added to the URL as '&key=value', that's why we
+     * calculate for every key and each of its values the length of the key and of the value
+     * and sum that.
+     */
+    const filterLength = Object.entries(
+      parseOutputFormData(state.options)
+    ).reduce((lengthOptions, [key, value]) => {
+      const allArray = Array.isArray(value) ? value : [value] // is dit niet altijd een array?
+      return (
+        lengthOptions +
+        allArray.reduce((valueSum, s) => {
+          return valueSum + key.length + 2 + s.length
+        }, 0)
+      )
+    }, 53) // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
+    // are added to URL
+
+    if (filterLength > MAX_FILTER_LENGTH) {
+      setFilterTooLong(true)
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    } else {
+      setFilterTooLong(false)
+      storeDispatch(resetGlobalNotification())
+    }
+  }, [state.options, filterTooLong, MAX_FILTER_LENGTH, storeDispatch])
+
   const onSubmitForm = useCallback(
     (event) => {
       event.preventDefault()
       const options = parseOutputFormData(state.options)
       const formData = { ...state.filter, options }
       const hasName = formData.name.trim() !== ''
+
+      if (filterTooLong) {
+        return
+      }
 
       if (isNewFilter && hasName) {
         onSaveFilter(formData)
@@ -176,6 +228,7 @@ const FilterForm = ({
       onUpdateFilter,
       state.filter,
       state.options,
+      filterTooLong,
     ]
   )
 
