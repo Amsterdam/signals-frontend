@@ -4,6 +4,7 @@ import {
   Fragment,
   useLayoutEffect,
   useContext,
+  useEffect,
   useMemo,
   useCallback,
   useReducer,
@@ -12,7 +13,7 @@ import {
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
 import cloneDeep from 'lodash/cloneDeep'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Label as AscLabel } from '@amsterdam/asc-ui'
 
 import AutoSuggest from 'components/AutoSuggest'
@@ -25,6 +26,11 @@ import { dateToISOString } from 'shared/services/date-utils'
 import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
+import {
+  showGlobalNotification,
+  resetGlobalNotification,
+} from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 
 import {
   makeSelectDirectingDepartments,
@@ -92,6 +98,8 @@ const FilterForm = ({
 
   const [state, dispatch] = useReducer(reducer, filter, init)
 
+  const storeDispatch = useDispatch()
+
   const isNewFilter = !filter.name
 
   const [assignedSelectValue, setAssignedSelectValue] = useState('')
@@ -150,6 +158,27 @@ const FilterForm = ({
     state.options.created_after && new Date(state.options.created_after)
   const dateBefore =
     state.options.created_before && new Date(state.options.created_before)
+
+  const filterTooLong = () => {
+    return (
+      state.options.category_slug.length + state.options.stadsdeel.length > 1
+    )
+  }
+
+  useEffect(() => {
+    if (filterTooLong()) {
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    } else {
+      resetGlobalNotification()
+    }
+  }, [filterTooLong, storeDispatch])
 
   const onSubmitForm = useCallback(
     (event) => {
