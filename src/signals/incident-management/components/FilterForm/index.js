@@ -74,6 +74,7 @@ const getUserOptions = (data) =>
     id: user.username,
     value: user.username,
   }))
+const MAX_FILTER_LENGTH = 2000
 
 const getUserCount = (data) => data?.count
 
@@ -109,6 +110,7 @@ const FilterForm = ({
     address: state.options.address_text,
     note: state.options.note_keyword,
   })
+  const [filterTooLong, setFilterTooLong] = useState(false)
 
   const dataListValues = useMemo(
     () => ({
@@ -159,14 +161,19 @@ const FilterForm = ({
   const dateBefore =
     state.options.created_before && new Date(state.options.created_before)
 
-  const filterTooLong = () => {
-    return (
-      state.options.category_slug.length + state.options.stadsdeel.length > 1
-    )
+  const calculateFilterLength = (options) => {
+    let lengthOptions = 0
+    Object.entries(options).forEach(([key, value]) => {
+      const allArray = Array.isArray(value) ? value : [value]
+      allArray.forEach((s) => {
+        lengthOptions += key.length + s.length + 2 //plus 2 because of = and & in URL
+      })
+    })
+    return lengthOptions + 37 // + 37 due to extra add-on to URL
   }
 
   useEffect(() => {
-    if (filterTooLong()) {
+    if (filterTooLong) {
       storeDispatch(
         showGlobalNotification({
           title:
@@ -176,7 +183,7 @@ const FilterForm = ({
         })
       )
     } else {
-      resetGlobalNotification()
+      storeDispatch(resetGlobalNotification())
     }
   }, [filterTooLong, storeDispatch])
 
@@ -186,6 +193,12 @@ const FilterForm = ({
       const options = parseOutputFormData(state.options)
       const formData = { ...state.filter, options }
       const hasName = formData.name.trim() !== ''
+
+      if (calculateFilterLength(options) > MAX_FILTER_LENGTH) {
+        setFilterTooLong(true)
+        return
+      }
+      storeDispatch(resetGlobalNotification())
 
       if (isNewFilter && hasName) {
         onSaveFilter(formData)
