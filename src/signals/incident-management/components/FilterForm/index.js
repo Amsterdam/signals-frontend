@@ -218,6 +218,7 @@ const FilterForm = ({
       onUpdateFilter,
       state.filter,
       state.options,
+      storeDispatch,
     ]
   )
 
