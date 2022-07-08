@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import styled from 'styled-components'
-
 import Select from 'components/Select'
 
 const Wrapper = styled.div`
@@ -15,6 +13,8 @@ export const SelectInput = ({
   values,
   groups,
   emptyOption,
+  onChange,
+  value: current,
 }) => {
   const options = values.map(({ key, value, group }) => ({
     key: key || '',
@@ -23,31 +23,20 @@ export const SelectInput = ({
     group,
   }))
 
-  const render = ({ handler }) => (
+  return (
     <Wrapper>
       <Select
+        value={current}
         id={inputName}
         label={<strong>{display}</strong>}
         name={inputName}
-        {...handler()}
         options={options}
         groups={groups}
         emptyOption={emptyOption}
+        onChange={onChange}
       />
     </Wrapper>
   )
-
-  render.defaultProps = {
-    touched: false,
-    size: 10,
-  }
-
-  render.propTypes = {
-    handler: PropTypes.func.isRequired,
-    size: PropTypes.number,
-    touched: PropTypes.bool,
-  }
-  return render
 }
 
 export default SelectInput

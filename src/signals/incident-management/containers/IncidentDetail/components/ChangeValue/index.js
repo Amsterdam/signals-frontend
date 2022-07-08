@@ -1,15 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import {
-  useMemo,
-  Fragment,
-  useEffect,
-  useState,
-  useCallback,
-  useContext,
-} from 'react'
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import { Fragment, useEffect, useState, useCallback, useContext } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
-import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form'
 import get from 'lodash/get'
 import set from 'lodash/set'
 import styled from 'styled-components'
@@ -22,7 +15,6 @@ import {
   getListIconByKey,
 } from 'shared/services/list-helpers/list-helpers'
 import InfoText from 'components/InfoText'
-import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper'
 
 import EditButton from '../EditButton'
 import IncidentDetailContext from '../../context'
@@ -55,7 +47,7 @@ const ButtonBar = styled.div`
 const identity = (value) => value
 
 const ChangeValue = ({
-  component,
+  component: FormComponent,
   disabled = false,
   display,
   infoKey = '',
@@ -63,7 +55,6 @@ const ChangeValue = ({
   groups,
   patch = {},
   path,
-  sort,
   type,
   valueClass = '',
   valuePath = '',
@@ -76,37 +67,30 @@ const ChangeValue = ({
 
   useEffect(() => setShowForm(false), [incident?.id])
 
-  const form = useMemo(
-    () =>
-      FormBuilder.group({
-        input: [rawDataToKey(get(incident, valuePath)), Validators.required],
-      }),
-    [incident, rawDataToKey, valuePath]
-  )
+  const { control, setValue, getValues, reset } = useForm()
 
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault()
 
       const payload = { ...patch }
-      const newValue = form.value.input || options.find(({ key }) => !key)?.key
+      const newValue = getValues().input || options.find(({ key }) => !key)?.key
       set(payload, path, keyToRawData(newValue))
-
       update({
         type,
         patch: { ...payload },
       })
 
-      form.reset()
+      reset()
       setShowForm(false)
     },
-    [patch, form, options, path, keyToRawData, update, type]
+    [patch, getValues, options, path, keyToRawData, update, type, reset]
   )
 
   const handleCancel = useCallback(() => {
-    form.reset()
+    reset()
     setShowForm(false)
-  }, [form])
+  }, [reset])
 
   const handleKeyUp = useCallback(
     (event) => {
@@ -146,13 +130,14 @@ const ChangeValue = ({
   )
 
   const onShowForm = useCallback(() => {
-    const value = rawDataToKey(get(incident, valuePath || path))
+    const value = rawDataToKey(get(incident, valuePath || path)) || ''
 
-    form.controls.input.setValue(value)
+    setValue('input', value)
+
     setShowForm(true)
 
     showInfo(value)
-  }, [incident, rawDataToKey, valuePath, path, showInfo, form])
+  }, [incident, rawDataToKey, valuePath, path, showInfo, setValue])
 
   useEffect(() => {
     setShowForm(false)
@@ -166,54 +151,53 @@ const ChangeValue = ({
   }, [])
 
   const editForm = (
-    <FieldGroup
-      strict={false}
-      control={form}
-      render={() => (
-        <form
-          onSubmit={handleSubmit}
-          onChange={handleChange}
-          data-testid="changeValueForm"
+    <form
+      onSubmit={handleSubmit}
+      onChange={handleChange}
+      data-testid="changeValueForm"
+    >
+      <Controller
+        name="input"
+        control={control}
+        render={({ field: { onChange, value, name } }) => {
+          return (
+            <FormComponent
+              name={name}
+              onChange={onChange}
+              groups={groups}
+              value={value}
+              values={options}
+            />
+          )
+        }}
+      />
+
+      {info && <InfoText text={info} />}
+
+      <ButtonBar>
+        <SaveButton
+          data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(
+            1
+          )}Button`}
+          variant="secondary"
+          type="submit"
         >
-          <FieldControlWrapper
-            control={form.get('input')}
-            disabled={disabled}
-            name="input"
-            render={component}
-            sort={sort}
-            values={options}
-            groups={groups}
-          />
+          Opslaan
+        </SaveButton>
 
-          {info && <InfoText text={info} />}
-
-          <ButtonBar>
-            <SaveButton
-              data-testid={`submit${type.charAt(0).toUpperCase()}${type.slice(
-                1
-              )}Button`}
-              variant="secondary"
-              type="submit"
-            >
-              Opslaan
-            </SaveButton>
-
-            <Button
-              data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(
-                1
-              )}Button`}
-              variant="tertiary"
-              type="button"
-              onClick={handleCancel}
-            >
-              Annuleer
-            </Button>
-          </ButtonBar>
-        </form>
-      )}
-    />
+        <Button
+          data-testid={`cancel${type.charAt(0).toUpperCase()}${type.slice(
+            1
+          )}Button`}
+          variant="tertiary"
+          type="button"
+          onClick={handleCancel}
+        >
+          Annuleer
+        </Button>
+      </ButtonBar>
+    </form>
   )
-
   const key = rawDataToKey(get(incident, valuePath || path))
   const icon = getListIconByKey(options, key)
   const displayValueIcon = icon ? (
@@ -255,7 +239,6 @@ ChangeValue.defaultProps = {
 
 ChangeValue.propTypes = {
   /* The selector component. Possible values: (RadioInput, SelectInput) */
-  component: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   display: PropTypes.string.isRequired,
   /** Indicator that is used to determine which list item prop should be used to display info text between the form field and the buttons */
@@ -266,7 +249,6 @@ ChangeValue.propTypes = {
   groups: PropTypes.array,
   patch: PropTypes.object,
   path: PropTypes.string.isRequired,
-  sort: PropTypes.bool,
   type: PropTypes.string.isRequired,
   valueClass: PropTypes.string,
   valuePath: PropTypes.string,
