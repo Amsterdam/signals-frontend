@@ -120,6 +120,7 @@ const getChildIncidents = (statuses: Status[]) => {
     },
     status: { state: key, state_display: key },
     can_view_signal: true,
+    updated_at: '',
   }))
 
   return childIncidents

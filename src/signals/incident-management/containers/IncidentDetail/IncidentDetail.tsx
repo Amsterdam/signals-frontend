@@ -375,7 +375,6 @@ const IncidentDetail = () => {
             isParentIncident={isParent}
             isRemoving={isRemovingAttachment}
             uploadProgress={uploadProgress}
-            uploadSuccess={uploadSuccess}
             uploadError={uploadError}
           />
 
