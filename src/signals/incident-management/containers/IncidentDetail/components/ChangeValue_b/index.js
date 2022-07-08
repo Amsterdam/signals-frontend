@@ -163,7 +163,6 @@ const ChangeValue = ({
           return (
             <FormComponent
               name={name}
-              display={display}
               onChange={onChange}
               groups={groups}
               value={value}
