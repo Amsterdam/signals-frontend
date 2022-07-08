@@ -127,7 +127,6 @@ describe('ChangeValue', () => {
     expect(screen.getByText('Niet gevonden')).toBeInTheDocument()
   })
 
-  // todo when adding react hook form to SelectInput, add this test.
   it('should not show any value when no option selected', () => {
     render(
       renderWithContext({
@@ -149,7 +148,6 @@ describe('ChangeValue', () => {
     })
   })
 
-  // todo when adding react hook form to SelectInput, add this test.
   it('should render all options', () => {
     render(renderWithContext())
 
@@ -176,7 +174,6 @@ describe('ChangeValue', () => {
     ).toBeInTheDocument()
   })
 
-  // todo when adding react hook form to SelectInput, add this test.
   it('should call update', () => {
     render(renderWithContext())
     const editButton = screen.getByTestId(editTestId)
@@ -252,7 +249,6 @@ describe('ChangeValue', () => {
     expect(screen.getByTestId(editTestId)).toBeInTheDocument()
   })
 
-  // todo when adding react hook form to SelectInput, add this test.
   it('should render info text', () => {
     render(renderWithContext({ ...props, infoKey: 'description' }))
     userEvent.click(screen.getByTestId(editTestId))
@@ -293,7 +289,7 @@ describe('ChangeValue', () => {
 
     expect(screen.getByTestId(editTestId)).toBeInTheDocument()
   })
-  // todo when adding react hook form to SelectInput, add this test.
+
   it('should work with a falsy key', () => {
     const nullValue = 'nullValue'
     render(
