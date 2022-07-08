@@ -57,9 +57,11 @@ export interface HistoryEntry {
 }
 
 export interface Attachment {
-  location: string
-  is_image: boolean
+  _display: string
   created_at: string
+  created_by: string
+  is_image: boolean
+  location: string
 }
 
 export interface Result<T> {

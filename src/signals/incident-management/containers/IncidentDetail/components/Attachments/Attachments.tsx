@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -7,7 +7,6 @@ import {
   TrashBin as DeleteIcon,
 } from '@amsterdam/asc-assets'
 
-import type { Attachment } from 'types/attachment'
 import { useEffect } from 'react'
 import type { FC } from 'react'
 import Button from 'components/Button'
@@ -16,6 +15,7 @@ import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import fileSize from 'signals/incident/services/file-size'
+import type { Attachment } from '../../types'
 import IncidentDetailContext from '../../context'
 import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
