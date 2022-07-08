@@ -12,6 +12,7 @@ import Summary from 'components/Summary'
 import { address, summaryProps } from 'components/Summary/Summary.test'
 import configuration from 'shared/services/configuration/configuration'
 import type { MapStaticProps } from 'components/MapStatic/MapStatic'
+import * as reactRouterDom from 'react-router-dom'
 import type { IncidentPreviewProps } from './IncidentPreview'
 
 import PreviewComponents from './components'
@@ -24,6 +25,10 @@ jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
     <img src={iconSrc} alt="" />
   </span>
 ))
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
 
 const incident = {
   ...mock,
@@ -224,6 +229,13 @@ describe('<IncidentPreview />', () => {
     }
 
     it('expect to render correctly', async () => {
+      jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+        pathname: '/incident/summary',
+        referrer: '/',
+        search: '',
+        state: {},
+        hash: '',
+      }))
       render(
         // Disabling linter; ts compiler is complaining about untyped components. When all components have been ported to TS, the comments can be removed
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

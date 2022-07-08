@@ -89,7 +89,6 @@ const ChangeValue = ({
       event.preventDefault()
 
       const payload = { ...patch }
-
       const newValue = form.value.input || options.find(({ key }) => !key)?.key
       set(payload, path, keyToRawData(newValue))
 

@@ -379,59 +379,50 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(enablePageScroll).toHaveBeenCalled()
   })
 
-  it('shows a notification when the default maximum number of assets (1) has been selected', () => {
-    render(
-      withAssetSelectContext(<Selector />, {
-        ...contextValue,
-        selection: [
-          {
-            id: 'PL734',
-            type: 'plastic',
-            description: 'Plastic asset',
-            iconUrl: '',
-            label: 'foo bar',
-          },
-        ],
-      })
-    )
+  describe('notification when more than the max number of assets has been selected', () => {
+    beforeEach(() => {
+      const maxAssetWarning = true
 
-    expect(
-      screen.getByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
-    ).toBeInTheDocument()
-  })
+      jest.spyOn(reactRedux, 'useSelector').mockReturnValue({ maxAssetWarning })
+    })
 
-  it('shows a notification when a set maximum number of assets has been selected', () => {
-    render(
-      withAssetSelectContext(<Selector />, {
-        ...contextValue,
-        meta: {
-          ...contextValue.meta,
-          maxNumberOfAssets: 2,
-        },
-        selection: [
-          {
-            id: 'PL734',
-            type: 'plastic',
-            description: 'Plastic asset',
-            iconUrl: '',
-            label: 'foo bar',
-          },
-          {
-            id: 'GL735',
-            type: 'glas',
-            description: 'Glas asset',
-            iconUrl: '',
-            label: 'foo bar',
-          },
-        ],
-      })
-    )
+    afterEach(() => {
+      jest.resetAllMocks()
+    })
 
-    expect(
-      screen.queryByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
-    ).not.toBeInTheDocument()
-    expect(
-      screen.getByText(`U kunt maximaal 2 ${objectTypePlural} kiezen.`)
-    ).toBeInTheDocument()
+    afterAll(() => {
+      jest.restoreAllMocks()
+    })
+
+    it('shows a notification when 1 asset is maximum and removes it when hitting the close button', () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+        })
+      )
+
+      expect(
+        screen.getByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+      ).toBeInTheDocument()
+    })
+
+    it('shows a notification when more than 1 asset is maximum', () => {
+      render(
+        withAssetSelectContext(<Selector />, {
+          ...contextValue,
+          meta: {
+            ...contextValue.meta,
+            maxNumberOfAssets: 2,
+          },
+        })
+      )
+
+      expect(
+        screen.queryByText(`U kunt maximaal 1 ${objectTypeSingular} kiezen.`)
+      ).not.toBeInTheDocument()
+      expect(
+        screen.getByText(`U kunt maximaal 2 ${objectTypePlural} kiezen.`)
+      ).toBeInTheDocument()
+    })
   })
 })

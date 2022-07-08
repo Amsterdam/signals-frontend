@@ -17,6 +17,8 @@ import {
   GET_QUESTIONS_ERROR,
   RESET_EXTRA_STATE,
   REMOVE_QUESTION_DATA,
+  ADD_TO_SELECTION,
+  REMOVE_FROM_SELECTION,
 } from './constants'
 
 import {
@@ -34,6 +36,8 @@ import {
   getQuestionsError,
   resetExtraState,
   removeQuestionData,
+  addToSelection,
+  removeFromSelection,
 } from './actions'
 
 describe('Incident container actions', () => {
@@ -49,12 +53,30 @@ describe('Incident container actions', () => {
     handling_message: 'Handling message.',
   }
 
+  const selectionPayload = {
+    location: {},
+    meta_name: 'bla',
+    ['bla']: { selection: [{ id: '123', description: 'container' }] },
+  }
+
   it('should dispatch update incident action', () => {
     testActionCreator(updateIncident, UPDATE_INCIDENT, incident)
   })
 
   it('should dispatch reset incident action', () => {
     testActionCreator(resetIncident, RESET_INCIDENT)
+  })
+
+  it('should dispatch add to selection action', () => {
+    testActionCreator(addToSelection, ADD_TO_SELECTION, selectionPayload)
+  })
+
+  it('should dispatch remove from selection action', () => {
+    testActionCreator(
+      removeFromSelection,
+      REMOVE_FROM_SELECTION,
+      selectionPayload
+    )
   })
 
   it('should dispatch remove question action', () => {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
 
 import { withMapContext } from 'test/utils'
@@ -29,9 +29,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
 
   it('should render a form', () => {
     const { getByTestId } = render(renderWithContext())
-
     expect(getByTestId('locationForm')).toBeInTheDocument()
-    expect(getByTestId('mapInput')).toBeInTheDocument()
   })
 
   it('should call handlers', () => {
@@ -41,6 +39,9 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
     expect(update).not.toHaveBeenCalled()
 
     fireEvent.click(queryByTestId('submitBtn'))
+
+    // the API expects a specifc order of coordinates: lng,lat
+    incidentFixture.location.geometrie.coordinates.reverse()
 
     expect(update).toHaveBeenCalledWith({
       type: PATCH_TYPE_LOCATION,

@@ -54,7 +54,6 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     : ''
 
   useEffect(() => {
-    setMessage(undefined)
     if (!layerVisible) {
       setData(NO_DATA)
       return

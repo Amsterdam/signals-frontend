@@ -33,8 +33,9 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import MapCloseButton from 'components/MapCloseButton'
 import GPSButton from 'components/GPSButton'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
 import { selectionIsUndetermined } from '../../constants'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import AssetLayer from './WfsLayer/AssetLayer'
@@ -60,6 +61,7 @@ const Selector: FC = () => {
   const appHtmlElement = document.getElementById('app')!
   const { coordinates, layer, meta, selection, fetchLocation } =
     useContext(AssetSelectContext)
+  const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
   const maxNumberOfAssets = meta?.maxNumberOfAssets || 1
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
 
@@ -88,6 +90,7 @@ const Selector: FC = () => {
   )
 
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
+  const [maxAssetWarningActive, setMaxAssetWarningActive] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const hasFeatureTypes = meta.featureTypes.length > 0
@@ -115,7 +118,11 @@ const Selector: FC = () => {
   useLayoutEffect(() => {
     if (!map || !coordinates) return
 
-    map.flyTo(coordinates, mapOptions.zoom)
+    const zoomLevel = mapOptions.zoom
+      ? Math.max(map.getZoom(), mapOptions.zoom)
+      : map.getZoom()
+
+    map.flyTo(coordinates, zoomLevel)
   }, [coordinates, map, mapOptions.zoom])
 
   useEffect(() => {
@@ -127,7 +134,7 @@ const Selector: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (selection?.length === maxNumberOfAssets) {
+    if (maxAssetWarning && maxAssetWarningActive) {
       const number =
         maxNumberOfAssets === 1
           ? meta?.language?.objectTypeSingular || 'object'
@@ -135,12 +142,19 @@ const Selector: FC = () => {
       setMapMessage(`U kunt maximaal ${maxNumberOfAssets} ${number} kiezen.`)
     }
   }, [
-    selection,
+    maxAssetWarning,
+    maxAssetWarningActive,
     maxNumberOfAssets,
     mapMessage,
     meta?.language?.objectTypePlural,
     meta?.language?.objectTypeSingular,
   ])
+
+  useEffect(() => {
+    if (!maxAssetWarning || !selection || selection.length === 0) {
+      setMaxAssetWarningActive(true)
+    }
+  }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">
@@ -200,7 +214,10 @@ const Selector: FC = () => {
               {mapMessage && (
                 <MapMessage
                   data-testid="mapMessage"
-                  onClick={() => setMapMessage('')}
+                  onClick={() => {
+                    setMapMessage('')
+                    setMaxAssetWarningActive(false)
+                  }}
                 >
                   {mapMessage}
                 </MapMessage>

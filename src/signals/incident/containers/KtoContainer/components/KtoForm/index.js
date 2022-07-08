@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useReducer, useRef } from 'react'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import { useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import Label from 'components/Label'
 import Button from 'components/Button'
@@ -16,7 +15,11 @@ import configuration from 'shared/services/configuration/configuration'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
-import FileInput from '../../../../components/form/FileInput'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import FileInput from 'signals/incident/components/form/FileInput'
+import CheckboxList from 'signals/incident-management/components/CheckboxList'
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
 const Form = styled.form`
@@ -55,145 +58,87 @@ const StyledTextArea = styled(TextArea)`
   margin-top: ${themeSpacing(3)};
 `
 
-const initialState = {
-  areaVisibility: false,
-  errors: {},
-  formData: {
-    allows_contact: undefined,
-    is_satisfied: undefined,
-    text_extra: '',
-    text: '',
-  },
-  formOptions: undefined,
-  numChars: 0,
-  renderSection: undefined,
-  shouldRender: false,
-}
-
-const init = (formData) => ({
-  ...initialState,
-  formData: {
-    ...initialState.formData,
-    ...formData,
-  },
-})
-
-// eslint-disable-next-line consistent-return
-const reducer = (state, action) => {
-  // eslint-disable-next-line default-case
-  switch (action.type) {
-    case 'SET_AREA_VISIBILITY': {
-      const text = action.payload.key !== 'anders' ? action.payload.value : ''
-
-      return {
-        ...state,
-        areaVisibility: action.payload.key === 'anders',
-        formData: { ...state.formData, text },
-        errors: { ...state.errors, text: undefined },
-      }
-    }
-
-    case 'SET_FORM_DATA':
-      return { ...state, formData: { ...state.formData, ...action.payload } }
-
-    case 'SET_TEXT_EXTRA':
-      return {
-        ...state,
-        numChars: action.payload.length,
-        formData: { ...state.formData, text_extra: action.payload },
-      }
-
-    case 'SET_TEXT': {
-      return {
-        ...state,
-        formData: { ...state.formData, text: action.payload },
-        errors: { ...state.errors, text: undefined },
-      }
-    }
-
-    case 'SET_ERRORS':
-      return { ...state, errors: action.payload }
-  }
-}
-
-const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
+const KtoForm = ({
+  options,
+  onSubmit,
+  dataFeedbackForms,
+  setContactAllowed,
+  contactAllowed,
+}) => {
   const firstLabelRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
   const dispatchRedux = useDispatch()
-  const [state, dispatch] = useReducer(
-    reducer,
-    {
-      is_satisfied: isSatisfied,
-      allows_contact:
-        configuration.featureFlags.reporterMailHandledNegativeContactEnabled,
-    },
-    init
-  )
 
   const { incident } = useSelector(makeSelectIncidentContainer)
   const extraTextMaxLength = 1000
 
-  const onChangeOption = useCallback((groupName, option) => {
-    dispatch({ type: 'SET_AREA_VISIBILITY', payload: option })
-  }, [])
-
-  const onChangeText = useCallback(
-    (type) => (event) => {
-      const { value } = event.target
-
-      dispatch({ type, payload: value })
-    },
-    []
-  )
-
   const negativeContactEnabled =
-    satisfactionIndication === 'nee' &&
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
+  const schema = yup
+    .object({
+      allows_contact: yup.boolean().required(),
+      is_satisfied: yup.boolean().required(),
+      text_list: yup
+        .array()
+        .min(1, 'Dit veld is verplicht')
+        .required('Dit veld is verplicht'),
+      text_list_extra: yup.string().when('text_list', (text_list, schema) => {
+        return text_list.includes(options.slice(-1)[0].value)
+          ? schema.required('Dit veld is verplicht')
+          : schema
+      }),
+      text_extra: yup.string(),
+    })
+    .required()
 
-  const onChangeAllowsContact = useCallback(
-    (event) => {
-      let { checked } = event.target
-      if (negativeContactEnabled) {
-        checked = !checked
-      }
-      dispatch({ type: 'SET_FORM_DATA', payload: { allows_contact: checked } })
+  const {
+    setValue,
+    watch,
+    trigger,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      allows_contact: contactAllowed,
+      is_satisfied: isSatisfied,
+      text_list: [],
+      text_list_extra: '',
+      text_extra: '',
     },
-    [negativeContactEnabled]
-  )
+  })
 
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault()
-
-      const { formData } = state
-
-      const errors = {}
-
-      if (!formData.text) {
-        errors.text = 'Dit veld is verplicht'
+  async function handleSubmit(e) {
+    e.preventDefault()
+    // Trigger form validation
+    const isValid = await trigger()
+    // scrollIntoView not available in unit tests
+    /* istanbul ignore next */
+    if (firstLabelRef.current?.scrollIntoView && Object.keys(errors).length) {
+      firstLabelRef.current.scrollIntoView()
+    }
+    if (isValid) {
+      if (incident.images.length > 0) {
+        await filesUpload({
+          url: `${configuration.INCIDENT_PUBLIC_ENDPOINT}${dataFeedbackForms.signal_id}/attachments/`,
+          files: incident.images,
+        })
       }
+      let allFormData = getValues()
+      allFormData.text_list = [
+        ...allFormData.text_list,
+        allFormData.text_list_extra,
+      ].filter(Boolean)
 
-      dispatch({ type: 'SET_ERRORS', payload: errors })
+      // eslint-disable-next-line no-unused-vars
+      const { text_list_extra, ...formData } = allFormData
+      onSubmit(formData)
+    }
+  }
 
-      // scrollIntoView not available in unit tests
-      /* istanbul ignore next */
-      if (firstLabelRef.current?.scrollIntoView && Object.keys(errors).length) {
-        firstLabelRef.current.scrollIntoView()
-      }
-
-      if (!Object.keys(errors).length) {
-        if (incident.images.length > 0) {
-          await filesUpload({
-            url: `${configuration.INCIDENT_PUBLIC_ENDPOINT}${dataFeedbackForms.signal_id}/attachments/`,
-            files: incident.images,
-          })
-        }
-        onSubmit(formData)
-      }
-    },
-    [dataFeedbackForms.signal_id, incident.images, onSubmit, state]
-  )
+  const watchTextList = watch('text_list')
+  const watchTextExtra = watch('text_extra')
 
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>
@@ -202,33 +147,85 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
           <StyledLabel as="legend" ref={firstLabelRef}>
             Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
           </StyledLabel>
-          <HelpText id="subtitle-kto">
-            Een antwoord mogelijk, kies de belangrijkste reden
-          </HelpText>
 
-          <RadioButtonList
+          <CheckboxList
             aria-describedby="subtitle-kto"
-            error={Boolean(state.errors.text)}
-            groupName="kto"
-            hasEmptySelectionButton={false}
-            onChange={onChangeOption}
             options={options}
+            name={'input'}
+            onChange={(key, options) => {
+              setValue(
+                'text_list',
+                options.map((option) => option.value)
+              )
+              trigger('text_list')
+              if (
+                !getValues().text_list?.includes(options.slice(-1)[0]?.value)
+              ) {
+                trigger('text_list_extra')
+              }
+            }}
           />
-          {state.areaVisibility && (
+
+          {watchTextList?.includes(options.slice(-1)[0].value) && (
             <StyledTextArea
               data-testid="ktoText"
               maxRows={5}
               name="text"
-              onChange={onChangeText('SET_TEXT')}
+              onChange={(event) => {
+                setValue('text_list_extra', event.target.value)
+                trigger('text_list_extra')
+              }}
               rows="2"
             />
           )}
 
           <div role="status">
-            {state.errors.text && <ErrorMessage message={state.errors.text} />}
+            {errors.text_list && (
+              <ErrorMessage message={errors.text_list.message} />
+            )}
+          </div>
+          <div role="status">
+            {errors.text_list_extra && (
+              <ErrorMessage message={errors.text_list_extra.message} />
+            )}
           </div>
         </FieldSet>
       </GridArea>
+
+      {satisfactionIndication === 'nee' && (
+        <GridArea>
+          <StyledLabel htmlFor="text_extra">
+            {"Foto's toevoegen? "}
+            <Optional>(niet verplicht)</Optional>
+          </StyledLabel>
+          <HelpText id="subtitle-kto">
+            Voeg een foto toe om de situatie te verduidelijken.
+          </HelpText>
+          <FileInput
+            handler={() => ({ value: incident.images })}
+            parent={{
+              meta: {
+                updateIncident: (payload) =>
+                  dispatchRedux(updateIncident(payload)),
+              },
+            }}
+            meta={{
+              name: 'images',
+              label: "Foto's toevoegen",
+              subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+              minFileSize: 30 * 2 ** 10, // 30 KiB.
+              maxFileSize: 20 * 2 ** 20, // 20 MiB.
+              allowedFileTypes: [
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'image/gif',
+              ],
+              maxNumberOfFiles: 3,
+            }}
+          />
+        </GridArea>
+      )}
 
       <GridArea>
         <StyledLabel htmlFor="text_extra">
@@ -238,56 +235,22 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
         <StyledTextArea
           id="text_extra"
           data-testid="ktoTextExtra"
-          infoText={`${state.numChars}/${extraTextMaxLength} tekens`}
+          infoText={`${watchTextExtra?.length}/${extraTextMaxLength} tekens`}
           maxLength={extraTextMaxLength}
           name="text_extra"
-          onChange={onChangeText('SET_TEXT_EXTRA')}
+          onChange={(event) => setValue('text_extra', event.target.value)}
         />
       </GridArea>
 
-      {satisfactionIndication === 'nee' && (
-          <GridArea>
-            <StyledLabel htmlFor="text_extra">
-              {"Foto's toevoegen? "}
-              <Optional>(niet verplicht)</Optional>
-            </StyledLabel>
-            <HelpText id="subtitle-kto">
-              Voeg een foto toe om de situatie te verduidelijken.
-            </HelpText>
-            <FileInput
-              handler={() => ({ value: incident.images })}
-              parent={{
-                meta: {
-                  updateIncident: (payload) =>
-                    dispatchRedux(updateIncident(payload)),
-                },
-              }}
-              meta={{
-                name: 'images',
-                label: "Foto's toevoegen",
-                subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-                minFileSize: 30 * 2 ** 10, // 30 KiB.
-                maxFileSize: 20 * 2 ** 20, // 20 MiB.
-                allowedFileTypes: [
-                  'image/jpeg',
-                  'image/jpg',
-                  'image/png',
-                  'image/gif',
-                ],
-                maxNumberOfFiles: 3,
-              }}
-            />
-          </GridArea>
-      )}
-
-      {(negativeContactEnabled ||
-        configuration.featureFlags.reporterMailHandledNegativeContactEnabled ===
-          false) && (
+      {!isSatisfied && (
         <GridArea>
           {negativeContactEnabled ? (
             <>
               <Heading forwardedAs="h2">Contact</Heading>
-              <p id="subtitle-allows-contact">
+              <p
+                id="subtitle-allows-contact"
+                data-testid="subtitleAllowsContact"
+              >
                 Uw reactie is belangrijk voor ons. Wij laten u graag weten wat
                 wij ermee doen. En misschien willen wij u nog iets vragen of
                 vertellen. Wij bellen u dan of sturen een e-mail.{' '}
@@ -310,7 +273,14 @@ const KtoForm = ({ options, onSubmit, dataFeedbackForms }) => {
               id="allows-contact"
               aria-describedby="subtitle-allows-contact"
               name="allows-contact"
-              onChange={onChangeAllowsContact}
+              onChange={(event) => {
+                let { checked } = event.target
+                if (negativeContactEnabled) {
+                  checked = !checked
+                }
+                setValue('allows_contact', checked)
+                setContactAllowed(checked)
+              }}
             />
 
             {negativeContactEnabled

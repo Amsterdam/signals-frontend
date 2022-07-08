@@ -14,6 +14,9 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
+import type { Incident } from 'types/api/incident'
+import type { DefaultTexts } from 'types/api/default-text'
+import type Context from 'types/context'
 import reducer, { initialState } from './reducer'
 
 import Attachments from './components/Attachments'
@@ -45,6 +48,7 @@ import {
   SET_INCIDENT,
 } from './constants'
 import useUpload from './hooks/useUpload'
+import type { Attachment, HistoryEntry, IncidentChild, Result } from './types'
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -76,7 +80,7 @@ const Preview = styled.div`
 const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter()
   const storeDispatch = useDispatch()
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
   const [isRemovingAttachment, setRemovingAttachment] = useState(false)
   const [isParent, setIsParent] = useState(false)
   const [isChild, setIsChild] = useState(false)
@@ -87,26 +91,41 @@ const IncidentDetail = () => {
     data: incident,
     isSuccess,
     patch,
-  } = useFetch()
-  const { get: getHistory, data: history } = useFetch()
+  } = useFetch<Incident>()
+  const { get: getHistory, data: history } = useFetch<HistoryEntry[]>()
   const {
     get: getAttachments,
     data: attachments,
     isLoading: isAttachmentsLoading,
-  } = useFetch()
+  } = useFetch<Result<Attachment>>()
   const {
     del: deleteAttachment,
     isLoading: isDeleteAttachmentLoading,
     isSuccess: isDeleteAttachmentSuccess,
   } = useFetch()
-  const { get: getDefaultTexts, data: defaultTexts } = useFetch()
-  const { get: getChildren, data: children } = useFetch()
-  const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
-  const { get: getContext, data: context } = useFetch()
-  const { get: getChildIncidents, data: childIncidents } = useFetchAll()
+  const { get: getDefaultTexts, data: defaultTexts } = useFetch<DefaultTexts>()
+  const { get: getChildren, data: children } = useFetch<Result<IncidentChild>>()
+  const { get: getChildrenHistory, data: childrenHistory } =
+    useFetchAll<HistoryEntry[]>()
+  const { get: getContext, data: context } = useFetch<Context>()
+  const { get: getChildIncidents, data: childIncidents } =
+    useFetchAll<Incident>()
   const { upload, uploadSuccess, uploadProgress, uploadError } = useUpload()
 
   const subcategories = useSelector(makeSelectSubCategories)
+  const closeDispatch = () => dispatch({ type: CLOSE_ALL })
+
+  const handleKeyUp = useCallback((event: KeyboardEvent) => {
+    switch (event.key) {
+      case 'Esc':
+      case 'Escape':
+        closeDispatch()
+        break
+
+      default:
+        break
+    }
+  }, [])
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp)
@@ -120,8 +139,9 @@ const IncidentDetail = () => {
     dispatch({ type: SET_ERROR, payload: error })
 
     if (error) {
+      const fetchError = error as Response
       const title =
-        error.status === 401 || error.status === 403
+        fetchError?.status === 401 || fetchError.status === 403
           ? 'Geen bevoegdheid'
           : 'Bewerking niet mogelijk'
       const message = getErrorMessage(
@@ -147,9 +167,9 @@ const IncidentDetail = () => {
   }, [history])
 
   useEffect(() => {
-    if (!attachments) return
+    if (!attachments?.results) return
 
-    dispatch({ type: SET_ATTACHMENTS, payload: attachments.results })
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments })
   }, [attachments])
 
   useEffect(() => {
@@ -198,21 +218,6 @@ const IncidentDetail = () => {
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
   }, [getIncident, id])
 
-  useEffect(() => {
-    if (!isSuccess || !state.patching) return
-
-    emit('highlight', { type: state.patching })
-    dispatch({ type: PATCH_SUCCESS, payload: state.patching })
-    storeDispatch(patchIncidentSuccess())
-  }, [isSuccess, state.patching, emit, storeDispatch])
-
-  useEffect(() => {
-    if (!incident) return
-    dispatch({ type: SET_INCIDENT, payload: incident })
-
-    retrieveUnderlyingData()
-  }, [incident, retrieveUnderlyingData])
-
   const retrieveUnderlyingData = useCallback(() => {
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
 
@@ -222,9 +227,9 @@ const IncidentDetail = () => {
       )
     }
 
-    const isParent = incident._links['sia:children']?.length > 0
+    const isParent = Boolean(incident?._links['sia:children'])
     setIsParent(isParent)
-    const isChild = Boolean(incident._links['sia:parent'])
+    const isChild = Boolean(incident?._links['sia:parent'])
     setIsChild(isChild)
 
     if (isParent) {
@@ -243,16 +248,31 @@ const IncidentDetail = () => {
   ])
 
   useEffect(() => {
-    if (children?.results.length > 0) {
+    if (!isSuccess || !state.patching) return
+
+    emit('highlight', { type: state.patching })
+    dispatch({ type: PATCH_SUCCESS, payload: state.patching })
+    storeDispatch(patchIncidentSuccess())
+  }, [isSuccess, state.patching, emit, storeDispatch])
+
+  useEffect(() => {
+    if (!incident) return
+    dispatch({ type: SET_INCIDENT, payload: incident })
+
+    retrieveUnderlyingData()
+  }, [incident, retrieveUnderlyingData])
+
+  useEffect(() => {
+    if (children?.results && children.results?.length > 0) {
       const viewableResults = children.results.filter(
         (result) => result.can_view_signal
       )
 
-      const childIncidentUrls = viewableResults.map(
+      const childIncidentUrls = viewableResults?.map(
         ({ id: childId }) =>
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}`
       )
-      const childrenHistoryUrls = viewableResults.map(
+      const childrenHistoryUrls = viewableResults?.map(
         ({ id: childId }) =>
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}/history`
       )
@@ -261,21 +281,6 @@ const IncidentDetail = () => {
       getChildIncidents(childIncidentUrls)
     }
   }, [children, getChildrenHistory, getChildIncidents])
-
-  const handleKeyUp = useCallback(
-    (event) => {
-      switch (event.key) {
-        case 'Esc':
-        case 'Escape':
-          closeDispatch()
-          break
-
-        default:
-          break
-      }
-    },
-    [closeDispatch]
-  )
 
   const updateDispatch = useCallback(
     (action) => {
@@ -291,10 +296,6 @@ const IncidentDetail = () => {
 
   const editDispatch = useCallback((section, payload) => {
     dispatch({ type: EDIT, payload: { edit: section, ...payload } })
-  }, [])
-
-  const closeDispatch = useCallback(() => {
-    dispatch({ type: CLOSE_ALL })
   }, [])
 
   const addAttachment = useCallback(
@@ -367,7 +368,7 @@ const IncidentDetail = () => {
           <Detail context={state.context} />
 
           <StyledAttachments
-            attachments={state.attachments || []}
+            attachments={state.attachments?.results ?? []}
             add={addAttachment}
             remove={removeAttachment}
             isChildIncident={isChild}
@@ -406,17 +407,17 @@ const IncidentDetail = () => {
 
             {state.edit === 'location' && <LocationForm />}
 
-            {state.preview === 'attachment' && (
-              <AttachmentViewer
-                attachments={state.attachments}
-                href={state.attachmentHref}
-              />
-            )}
+            {state.preview === 'attachment' &&
+              state.attachments &&
+              state.attachmentHref && (
+                <AttachmentViewer
+                  attachments={state.attachments.results}
+                  href={state.attachmentHref}
+                />
+              )}
           </Preview>
         )}
-        {state.preview && (
-          <CloseButton aria-label="Sluiten" onClick={closeDispatch} />
-        )}
+        {state.preview && <CloseButton aria-label="Sluiten" />}
       </StyledRow>
     </IncidentDetailContext.Provider>
   )

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import * as Sentry from '@sentry/browser'
-import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
 import history from 'utils/history'
 
 // Import root app
@@ -50,40 +49,19 @@ const render = () => {
   // eslint-disable-next-line no-console
   if (tags.length > 0) console.log(tags.join('\n'))
 
-  const urlBase = configuration?.matomo?.urlBase
-  const siteId = configuration?.matomo?.siteId
-
   const spinner = document.getElementById('spinner')
   const spinnerBackground = document.getElementById('spinner-background')
   spinner.remove()
   spinnerBackground.remove()
 
-  if (urlBase && siteId) {
-    const matomoInstance = createInstance({
-      urlBase,
-      siteId,
-    })
-
-    ReactDOM.render(
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <MatomoProvider value={matomoInstance}>
-            <App />
-          </MatomoProvider>
-        </ConnectedRouter>
-      </Provider>,
-      MOUNT_NODE
-    )
-  } else {
-    ReactDOM.render(
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>,
-      MOUNT_NODE
-    )
-  }
+  ReactDOM.render(
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>,
+    MOUNT_NODE
+  )
 }
 
 const registerServiceWorkerProxy = () => {

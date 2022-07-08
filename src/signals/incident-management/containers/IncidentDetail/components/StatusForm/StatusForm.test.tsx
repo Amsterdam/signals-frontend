@@ -27,9 +27,9 @@ import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
 import * as actions from 'containers/App/actions'
 import { withAppContext } from 'test/utils'
-import { PATCH_TYPE_STATUS } from '../../../constants'
-import IncidentDetailContext from '../../../context'
-import StatusForm from '..'
+import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
+import type { IncidentChild } from '../../types'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
   DEELMELDING_EXPLANATION,
@@ -38,9 +38,8 @@ import {
   DEFAULT_TEXT_LABEL,
   DEFAULT_TEXT_MAX_LENGTH,
   NO_EMAIL_IS_SENT,
-} from '../constants'
-
-import type { IncidentChild } from '../../../types'
+} from './constants'
+import StatusForm from './index'
 
 const incidentFixture = incidentJSON as unknown as Incident
 const defaultTexts = [
@@ -119,6 +118,7 @@ const getChildIncidents = (statuses: Status[]) => {
       main_slug: category.main_slug,
     },
     status: { state: key, state_display: key },
+    updated_at: incidentFixture.updated_at,
     can_view_signal: true,
   }))
 
