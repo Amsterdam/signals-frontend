@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { Reducer } from 'react'
 import { useCallback, useEffect, useReducer, useMemo } from 'react'
 import { getAuthHeaders } from 'shared/services/auth/auth'

@@ -37,6 +37,22 @@ export const StyledBox = styled.div`
   cursor: pointer;
 `
 
+export const StyledBoxContent = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  padding: 10px 10px 7px;
+  grid-template:
+    'tags . tools' 26px
+    '. . .' 1fr
+    'details details details' min-content
+    / min-content 1fr min-content;
+  gap: 10px;
+`
+
 export const StyledImg = styled.img`
   width: 100%;
   height: 100%;
@@ -57,9 +73,7 @@ export const StyledGradient = styled.div`
 `
 
 export const StyledReporter = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  grid-area: tags;
   padding: 6px 8px;
   background-color: rgba(0, 0, 0, 0.7);
   color: ${themeColor('tint', 'level1')};
@@ -70,12 +84,10 @@ export const StyledReporter = styled.div`
 `
 
 export const StyledDetails = styled.div`
+  grid-area: details;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  right: 10px;
-  bottom: 7px;
-  left: 10px;
+  overflow: hidden;
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
   line-height: 20px;
@@ -100,9 +112,7 @@ export const StyledName = styled(StyledDate)`
 `
 
 export const StyledButton = styled(AscButton)`
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  grid-area: tools;
   padding: ${themeSpacing(0, 1.5)};
 `
 

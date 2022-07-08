@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import {
@@ -23,6 +23,7 @@ import StyledUploadProgress from './UploadProgress'
 import {
   StyledAddNote,
   StyledBox,
+  StyledBoxContent,
   StyledButton,
   StyledButtonWrapper,
   StyledDate,
@@ -149,31 +150,35 @@ const Attachments: FC<AttachmentsProps> = ({
           >
             <StyledImg src={attachment.location} />
             <StyledGradient />
-            {!attachment.created_by && <StyledReporter>Melder</StyledReporter>}
-            <StyledDetails>
-              {fileName && <StyledName>{fileName}</StyledName>}
-              {attachment.created_by && (
-                <StyledEmployee>{attachment.created_by}</StyledEmployee>
+            <StyledBoxContent>
+              {!attachment.created_by && (
+                <StyledReporter>Melder</StyledReporter>
               )}
-              <StyledDate>
-                {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
-              </StyledDate>
-            </StyledDetails>
-            {canDeleteAttachment(attachment) && (
-              <StyledButton
-                icon={<DeleteIcon />}
-                iconSize={18}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  window.confirm(
-                    `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
-                  ) && remove(attachment)
-                }}
-                title="Bijlage verwijderen"
-                variant="application"
-                disabled={isRemoving}
-              />
-            )}
+              <StyledDetails>
+                {fileName && <StyledName>{fileName}</StyledName>}
+                {attachment.created_by && (
+                  <StyledEmployee>{attachment.created_by}</StyledEmployee>
+                )}
+                <StyledDate>
+                  {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
+                </StyledDate>
+              </StyledDetails>
+              {canDeleteAttachment(attachment) && (
+                <StyledButton
+                  icon={<DeleteIcon />}
+                  iconSize={18}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    window.confirm(
+                      `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
+                    ) && remove(attachment)
+                  }}
+                  title="Bijlage verwijderen"
+                  variant="application"
+                  disabled={isRemoving}
+                />
+              )}
+            </StyledBoxContent>
           </StyledBox>
         )
       })}
@@ -182,35 +187,39 @@ const Attachments: FC<AttachmentsProps> = ({
           <StyledBox key={file.src}>
             <StyledImg src={file.src} />
             <StyledGradient />
-            <StyledDetails>
-              <StyledName>{file.name}</StyledName>
-              <StyledError>Uploaden mislukt</StyledError>
-            </StyledDetails>
             <StyledUploadProgressError progress={1} />
-            <StyledButton
-              icon={<CloseIcon />}
-              iconSize={18}
-              onClick={(event) => {
-                event.stopPropagation()
-                setFiles([])
-              }}
-              variant="application"
-              title="Bijlage sluiten"
-            />
+            <StyledBoxContent>
+              <StyledDetails>
+                <StyledName>{file.name}</StyledName>
+                <StyledError>Uploaden mislukt</StyledError>
+              </StyledDetails>
+              <StyledButton
+                icon={<CloseIcon />}
+                iconSize={18}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  setFiles([])
+                }}
+                variant="application"
+                title="Bijlage sluiten"
+              />
+            </StyledBoxContent>
           </StyledBox>
         ) : (
           <StyledBox key={file.src}>
             <StyledImg src={file.src} />
             <StyledGradient />
-            <StyledDetails>
-              <StyledName>{file.name}</StyledName>
-              <StyledDate>wordt geüpload</StyledDate>
-            </StyledDetails>
             {uploadProgress === 1 ? (
               <StyledLoadingIndicator />
             ) : (
               <StyledUploadProgress progress={uploadProgress || 0} />
             )}
+            <StyledBoxContent>
+              <StyledDetails>
+                <StyledName>{file.name}</StyledName>
+                <StyledDate>wordt geüpload</StyledDate>
+              </StyledDetails>
+            </StyledBoxContent>
           </StyledBox>
         )
       )}
