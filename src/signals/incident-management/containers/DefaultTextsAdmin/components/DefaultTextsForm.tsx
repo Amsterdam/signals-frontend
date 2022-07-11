@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import type { FC, SyntheticEvent } from 'react'
-import type { FormArray } from 'react-reactive-form'
+import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 
 import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
 import styled from 'styled-components'
 
-import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper'
-import TextInput from 'signals/incident-management/components/TextInput'
-import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
-
+import TextInput from 'signals/incident-management/components/TextInput_b'
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput_b'
 import Checkbox from 'components/Checkbox'
 
 const StyledLeftColumn = styled.div`
@@ -42,43 +39,50 @@ const StyledLabel = styled(Label)`
   font-weight: 400;
 `
 
+type Value = { title: string; text: string; is_active: boolean }
+
 type DefaultTextsFormProps = {
   item: string
   index: number
   itemsLength: number
-  form: FormArray
-  onCheck: (item: string, checkedValue: boolean) => void
+  value: Value
+  nextValue: Value
+  setValue: (key: string, value: Value) => void
   changeOrdering: (e: SyntheticEvent, index: number, direction: string) => void
 }
 
 const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
   item,
   index,
+  value,
+  nextValue,
+  setValue,
   itemsLength,
-  form,
-  onCheck,
   changeOrdering,
 }) => {
-  const checkedValue = form.get(`${item}.is_active`).value
-  const setDisabled =
-    form.get(`${item}.text`).value === '' ||
-    form.get(`${item}.title`).value === ''
-
+  const checkedValue = value.is_active
+  const setDisabled = !value.text || !value.title
   return (
     <>
       <StyledLeftColumn data-testid={`defaultTextFormForm${index}`}>
-        <FieldControlWrapper
-          placeholder="Titel"
-          render={TextInput}
+        <TextInput
+          display={''}
           name={`title${index}`}
-          control={form.get(`${item}.title`)}
+          value={value.title}
+          placeholder={'Titel'}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setValue(item, { ...value, title: e.target.value })
+          }
         />
 
-        <FieldControlWrapper
-          placeholder="Tekst"
-          render={TextAreaInput}
+        <TextAreaInput
+          display={''}
           name={`text${index}`}
-          control={form.get(`${item}.text`)}
+          value={value.text}
+          placeholder="Tekst"
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+            setValue(item, { ...value, text: e.target.value })
+          }
         />
 
         <StyledLabel
@@ -91,8 +95,9 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
             checked={checkedValue}
             name={`is_active${index}`}
             id={`formis_active${index}`}
-            onChange={() => onCheck(item, checkedValue)}
-            value={checkedValue}
+            onChange={() =>
+              setValue(item, { ...value, is_active: !value.is_active })
+            }
           />
         </StyledLabel>
       </StyledLeftColumn>
@@ -101,7 +106,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
           size={44}
           variant="blank"
           data-testid={`defaultTextFormItemButton${index}Up`}
-          disabled={index === 0 || !form.get(`${item}.text`).value}
+          disabled={index === 0 || !value.text}
           iconSize={16}
           icon={<ChevronUp />}
           onClick={(e) => changeOrdering(e, index, 'up')}
@@ -110,10 +115,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
           size={44}
           variant="blank"
           data-testid={`defaultTextFormItemButton${index}Down`}
-          disabled={
-            index === itemsLength - 1 ||
-            !form.get(`item${index + 1}.text`).value
-          }
+          disabled={index === itemsLength - 1 || !nextValue?.text}
           iconSize={16}
           icon={<ChevronDown />}
           onClick={(e) => changeOrdering(e, index, 'down')}

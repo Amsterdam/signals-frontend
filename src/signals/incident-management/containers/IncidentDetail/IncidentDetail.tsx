@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { useReducer, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Column } from '@amsterdam/asc-ui'
@@ -14,6 +14,9 @@ import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
 import History from 'components/History'
+import type { Incident } from 'types/api/incident'
+import type { DefaultTexts } from 'types/api/default-text'
+import type Context from 'types/context'
 import reducer, { initialState } from './reducer'
 
 import ChildIncidents from './components/ChildIncidents'
@@ -44,6 +47,7 @@ import {
   SET_HISTORY,
   SET_INCIDENT,
 } from './constants'
+import type { Attachment, HistoryEntry, IncidentChild, Result } from './types'
 
 const StyledRow = styled(Row)`
   position: relative;
@@ -71,7 +75,7 @@ const Preview = styled.div`
 const IncidentDetail = () => {
   const { emit, listenFor, unlisten } = useEventEmitter()
   const storeDispatch = useDispatch()
-  const { id } = useParams()
+  const { id } = useParams<{ id: string }>()
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
     error,
@@ -79,16 +83,32 @@ const IncidentDetail = () => {
     data: incident,
     isSuccess,
     patch,
-  } = useFetch()
-  const { get: getHistory, data: history } = useFetch()
-  const { get: getAttachments, data: attachments } = useFetch()
-  const { get: getDefaultTexts, data: defaultTexts } = useFetch()
-  const { get: getChildren, data: children } = useFetch()
-  const { get: getChildrenHistory, data: childrenHistory } = useFetchAll()
-  const { get: getContext, data: context } = useFetch()
-  const { get: getChildIncidents, data: childIncidents } = useFetchAll()
+  } = useFetch<Incident>()
+  const { get: getHistory, data: history } = useFetch<HistoryEntry[]>()
+  const { get: getAttachments, data: attachments } =
+    useFetch<Result<Attachment>>()
+  const { get: getDefaultTexts, data: defaultTexts } = useFetch<DefaultTexts>()
+  const { get: getChildren, data: children } = useFetch<Result<IncidentChild>>()
+  const { get: getChildrenHistory, data: childrenHistory } =
+    useFetchAll<HistoryEntry[]>()
+  const { get: getContext, data: context } = useFetch<Context>()
+  const { get: getChildIncidents, data: childIncidents } =
+    useFetchAll<Incident>()
 
   const subcategories = useSelector(makeSelectSubCategories)
+  const closeDispatch = () => dispatch({ type: CLOSE_ALL })
+
+  const handleKeyUp = useCallback((event: KeyboardEvent) => {
+    switch (event.key) {
+      case 'Esc':
+      case 'Escape':
+        closeDispatch()
+        break
+
+      default:
+        break
+    }
+  }, [listenFor, unlisten])
 
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp)
@@ -102,8 +122,9 @@ const IncidentDetail = () => {
     dispatch({ type: SET_ERROR, payload: error })
 
     if (error) {
+      const fetchError = error as Response
       const title =
-        error.status === 401 || error.status === 403
+        fetchError?.status === 401 || fetchError.status === 403
           ? 'Geen bevoegdheid'
           : 'Bewerking niet mogelijk'
       const message = getErrorMessage(
@@ -129,9 +150,9 @@ const IncidentDetail = () => {
   }, [history])
 
   useEffect(() => {
-    if (!attachments) return
+    if (!attachments?.results) return
 
-    dispatch({ type: SET_ATTACHMENTS, payload: attachments.results })
+    dispatch({ type: SET_ATTACHMENTS, payload: attachments })
   }, [attachments])
 
   useEffect(() => {
@@ -180,21 +201,6 @@ const IncidentDetail = () => {
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
   }, [getIncident, id])
 
-  useEffect(() => {
-    if (!isSuccess || !state.patching) return
-
-    emit('highlight', { type: state.patching })
-    dispatch({ type: PATCH_SUCCESS, payload: state.patching })
-    storeDispatch(patchIncidentSuccess())
-  }, [isSuccess, state.patching, emit, storeDispatch])
-
-  useEffect(() => {
-    if (!incident) return
-    dispatch({ type: SET_INCIDENT, payload: incident })
-
-    retrieveUnderlyingData()
-  }, [incident, retrieveUnderlyingData])
-
   const retrieveUnderlyingData = useCallback(() => {
     getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
 
@@ -206,7 +212,7 @@ const IncidentDetail = () => {
     }
 
     // retrieve children only when an incident has children
-    const hasChildren = incident._links['sia:children']?.length > 0
+    const hasChildren = Boolean(incident?._links['sia:children'])
 
     if (hasChildren) {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
@@ -224,16 +230,31 @@ const IncidentDetail = () => {
   ])
 
   useEffect(() => {
-    if (children?.results.length > 0) {
+    if (!isSuccess || !state.patching) return
+
+    emit('highlight', { type: state.patching })
+    dispatch({ type: PATCH_SUCCESS, payload: state.patching })
+    storeDispatch(patchIncidentSuccess())
+  }, [isSuccess, state.patching, emit, storeDispatch])
+
+  useEffect(() => {
+    if (!incident) return
+    dispatch({ type: SET_INCIDENT, payload: incident })
+
+    retrieveUnderlyingData()
+  }, [incident, retrieveUnderlyingData])
+
+  useEffect(() => {
+    if (children?.results && children.results?.length > 0) {
       const viewableResults = children.results.filter(
         (result) => result.can_view_signal
       )
 
-      const childIncidentUrls = viewableResults.map(
+      const childIncidentUrls = viewableResults?.map(
         ({ id: childId }) =>
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}`
       )
-      const childrenHistoryUrls = viewableResults.map(
+      const childrenHistoryUrls = viewableResults?.map(
         ({ id: childId }) =>
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${childId}/history`
       )
@@ -242,21 +263,6 @@ const IncidentDetail = () => {
       getChildIncidents(childIncidentUrls)
     }
   }, [children, getChildrenHistory, getChildIncidents])
-
-  const handleKeyUp = useCallback(
-    (event) => {
-      switch (event.key) {
-        case 'Esc':
-        case 'Escape':
-          closeDispatch()
-          break
-
-        default:
-          break
-      }
-    },
-    [closeDispatch]
-  )
 
   const updateDispatch = useCallback(
     (action) => {
@@ -272,10 +278,6 @@ const IncidentDetail = () => {
 
   const editDispatch = useCallback((section, payload) => {
     dispatch({ type: EDIT, payload: { edit: section, ...payload } })
-  }, [])
-
-  const closeDispatch = useCallback(() => {
-    dispatch({ type: CLOSE_ALL })
   }, [])
 
   if (!state.incident || !subcategories) return null
@@ -301,7 +303,10 @@ const IncidentDetail = () => {
         <DetailContainer
           span={{ small: 1, medium: 2, big: 5, large: 7, xLarge: 7 }}
         >
-          <Detail attachments={state.attachments} context={state.context} />
+          <Detail
+            attachments={state.attachments?.results}
+            context={state.context}
+          />
 
           <AddNote maxContentLength={3000} />
 
@@ -333,17 +338,17 @@ const IncidentDetail = () => {
 
             {state.edit === 'location' && <LocationForm />}
 
-            {state.preview === 'attachment' && (
-              <AttachmentViewer
-                attachments={state.attachments}
-                href={state.attachmentHref}
-              />
-            )}
+            {state.preview === 'attachment' &&
+              state.attachments &&
+              state.attachmentHref && (
+                <AttachmentViewer
+                  attachments={state.attachments.results}
+                  href={state.attachmentHref}
+                />
+              )}
           </Preview>
         )}
-        {state.preview && (
-          <CloseButton aria-label="Sluiten" onClick={closeDispatch} />
-        )}
+        {state.preview && <CloseButton aria-label="Sluiten" />}
       </StyledRow>
     </IncidentDetailContext.Provider>
   )

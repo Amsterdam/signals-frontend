@@ -18,9 +18,6 @@ const extendedConfig = fs.existsSync(extendedConfigFile)
   ? require(extendedConfigFile)
   : {}
 const config = merge({}, baseConfig, extendedConfig)
-const matomo = config.matomo
-  ? `<noscript><img src="${config.matomo.urlBase}matomo.php?idsite=${config.matomo.siteId}&amp;rec=1" alt="" /></noscript>`
-  : ''
 
 const placeholders = {
   $SIGNALS_ANDROID_ICON: config.head.androidIcon,
@@ -28,7 +25,6 @@ const placeholders = {
   $SIGNALS_CONFIG: JSON.stringify(config),
   $SIGNALS_FAVICON: config.head.favicon,
   $SIGNALS_IOS_ICON: config.head.iosIcon,
-  $SIGNALS_MATOMO: matomo,
   $SIGNALS_SITE_TITLE: config.language.siteTitle,
   $SIGNALS_PWA_SHORT_TITLE: config.language.shortTitle,
   $SIGNALS_PWA_TITLE: config.language.title,

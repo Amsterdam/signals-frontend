@@ -10,7 +10,7 @@ import MapContext from 'containers/MapContext'
 
 import { useForm, Controller } from 'react-hook-form'
 import FormFooter from 'components/FormFooter'
-import MapInput from '../../../../components/MapInput'
+import MapInput from 'signals/incident-management/components/MapInput'
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
 
