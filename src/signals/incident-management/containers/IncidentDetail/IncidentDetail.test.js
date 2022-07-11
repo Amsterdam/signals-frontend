@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
@@ -24,7 +24,7 @@ import {
   server,
 } from '../../../../../internals/testing/msw-server'
 
-import IncidentDetail from './index'
+import IncidentDetail from './'
 
 jest.spyOn(window, 'scrollTo')
 jest
@@ -40,7 +40,7 @@ const mockUseUpload = {
   uploadProgress: jest.fn(),
   uploadError: jest.fn(),
 }
-jest.mock('../hooks/useUpload', () => () => mockUseUpload)
+jest.mock('./hooks/useUpload', () => () => mockUseUpload)
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
