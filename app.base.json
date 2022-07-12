@@ -15,7 +15,6 @@
     "showThorButton": false,
     "showVulaanControls": false,
     "useProjectenSignalType": false,
-    "useStaticMapServer": false,
     "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
@@ -92,7 +91,6 @@
         "tms": false
       }
     },
-    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
       "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
