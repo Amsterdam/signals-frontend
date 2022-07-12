@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -95,23 +95,11 @@ describe('<Location />', () => {
     })
 
     describe('location preview', () => {
-      it('should render static map image with useStaticMapServer enabled', async () => {
-        configuration.featureFlags.useStaticMapServer = true
-
+      it('renders a map', async () => {
         const { findByText, queryByTestId } = render(renderWithContext())
 
         await findByText('Locatie')
 
-        expect(queryByTestId('mapStaticImage')).toBeInTheDocument()
-        expect(queryByTestId('map-base')).not.toBeInTheDocument()
-      })
-
-      it('should render normal map with useStaticMapServer disabled', async () => {
-        const { findByText, queryByTestId } = render(renderWithContext())
-
-        await findByText('Locatie')
-
-        expect(queryByTestId('mapStaticImage')).not.toBeInTheDocument()
         expect(queryByTestId('mapDetail')).toBeInTheDocument()
       })
     })
