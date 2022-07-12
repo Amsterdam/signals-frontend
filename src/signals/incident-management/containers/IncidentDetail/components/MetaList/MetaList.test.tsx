@@ -23,14 +23,14 @@ import { fetchCategoriesSuccess } from 'models/categories/actions'
 import * as departmentsSelectors from 'models/departments/selectors'
 import * as categoriesSelectors from 'models/categories/selectors'
 
-import IncidentDetailContext from '../../../context'
+import IncidentDetailContext from '../../context'
 import {
   mockRequestHandler,
   fetchMock,
-} from '../../../../../../../../internals/testing/msw-server'
-import * as API from '../../../../../../../../internals/testing/api'
-import MetaList from '../MetaList'
-import type { IncidentChild } from '../../../types'
+} from '../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../internals/testing/api'
+import type { IncidentChild } from '../../types'
+import MetaList from './MetaList'
 
 fetchMock.disableMocks()
 jest.mock('shared/services/configuration/configuration')
