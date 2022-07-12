@@ -19,12 +19,6 @@ import Summary from './Summary'
 import MockInstance = jest.MockInstance
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('components/MapStatic', () => () => (
-  <span data-testid="mapStatic">
-    <img src={'/assets/images/icon-select-marker.svg'} alt="" />
-  </span>
-))
-
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
@@ -76,7 +70,6 @@ const dispatch = jest.fn()
 
 describe('signals/incident/components/form/AssetSelect/Summary', () => {
   beforeEach(() => {
-    configuration.featureFlags.useStaticMapServer = true
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
     const dispatchEventSpy: MockInstance<any, any> = jest.spyOn(
       global.document,
@@ -93,8 +86,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     jest.resetAllMocks()
   })
 
-  it('should render interactive map with useStaticMapServer disabled', () => {
-    configuration.featureFlags.useStaticMapServer = false
+  it('renders interactive map correctly', () => {
     render(withContext(<Summary {...summaryProps} />))
 
     expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
@@ -104,22 +96,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
     expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
-    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
     expect(screen.queryByTestId('map-base')).toBeInTheDocument()
-  })
-
-  it('should render static map with useStaticMapServer enabled', () => {
-    render(withContext(<Summary {...summaryProps} />))
-
-    expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
-    expect(
-      screen.getByTestId('assetSelectSummaryDescription')
-    ).toBeInTheDocument()
-    expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
-    expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
-    expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
-    expect(screen.getByTestId('mapStatic')).toBeInTheDocument()
-    expect(screen.queryByTestId('map-base')).not.toBeInTheDocument()
   })
 
   it('does not render empty values', () => {
@@ -200,11 +177,11 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(screen.queryByText(formatAddress(address))).not.toBeInTheDocument()
   })
 
-  it('renders a MapStatic component with the correct iconSrc prop', () => {
+  it('renders a Map component with the correct iconSrc prop', () => {
     render(withContext(<Summary {...summaryProps} />))
     expect(
       screen
-        .getByTestId('mapStatic')
+        .getByTestId('map-base')
         .querySelector(`img[src='/assets/images/icon-select-marker.svg']`)
     ).toBeInTheDocument()
   })
