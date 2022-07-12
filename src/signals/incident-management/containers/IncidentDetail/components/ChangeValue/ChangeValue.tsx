@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+import type { FunctionComponent, ElementType } from 'react'
 import { Fragment, useEffect, useState, useCallback, useContext } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import get from 'lodash/get'
@@ -52,7 +52,7 @@ type OptionType = {
 }
 
 interface ChangeValueProps {
-  component: Element
+  component: ElementType
   /** The selector component. Possible values: (RadioInput, SelectInput) */
   disabled?: boolean
   display: string
