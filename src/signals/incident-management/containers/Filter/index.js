@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { compose, bindActionCreators } from 'redux'
+import { useDispatch } from 'react-redux'
 
 import { makeSelectEditFilter } from 'signals/incident-management/selectors'
 import FilterForm from 'signals/incident-management/components/FilterForm'
@@ -18,6 +19,8 @@ import {
   filterUpdated as onUpdateFilter,
 } from 'signals/incident-management/actions'
 
+import { resetGlobalNotification } from 'containers/App/actions'
+
 export const FilterContainerComponent = ({
   onApplyFilter,
   onCancel,
@@ -28,6 +31,8 @@ export const FilterContainerComponent = ({
 }) => {
   const editFilter = useMemo(() => filter, [filter])
 
+  const storeDispatch = useDispatch()
+
   const onFormSubmit = useCallback(
     (event, filterData) => {
       onApplyFilter(filterData)
@@ -37,9 +42,12 @@ export const FilterContainerComponent = ({
   )
 
   const onEditCancel = useCallback(() => {
+    //In FilterForm a GlobalNotification is shown when too many filters are selected.
+    // Pressing 'annuleren' has to cancel the notification
+    storeDispatch(resetGlobalNotification())
     onFilterEditCancel()
     onCancel()
-  }, [onFilterEditCancel, onCancel])
+  }, [storeDispatch, onFilterEditCancel, onCancel])
 
   return (
     <FilterForm

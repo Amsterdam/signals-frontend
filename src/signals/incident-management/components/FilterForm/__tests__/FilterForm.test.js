@@ -20,6 +20,7 @@ import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
 import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
+import * as actions from 'containers/App/actions'
 
 import FilterForm from '..'
 import {
@@ -30,6 +31,8 @@ import IncidentManagementContext from '../../../context'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
+
+jest.spyOn(actions, 'showGlobalNotification')
 
 jest.mock('models/categories/selectors', () => {
   const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
@@ -1099,6 +1102,34 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     expect([...checkboxes].every((element) => !element.checked)).toEqual(false)
     expect(checkboxes[1].checked).toEqual(true)
+  })
+
+  describe('GlobalNotification', () => {
+    it('should show GlobalNotification', () => {
+      const { getAllByTestId } = render(
+        withContext(<FilterForm {...{ ...formProps, maxFilterLength: 75 }} />)
+      )
+      getAllByTestId('checkboxList').forEach((element) => {
+        element
+          .querySelectorAll('input[type="checkbox"]')
+          .forEach((checkbox) => {
+            userEvent.click(checkbox)
+          })
+        userEvent.click(element.querySelector('input[type="checkbox"]')) //deselect the first checkbox
+      })
+      expect(actions.showGlobalNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title:
+            'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
+        })
+      )
+    })
+
+    // it('should remove GlobalNotification from view', () => {
+    // })
+
+    // it('should prohibit submit', () => {
+    // })
   })
 
   describe('submit', () => {

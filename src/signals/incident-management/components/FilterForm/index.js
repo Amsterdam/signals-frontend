@@ -74,7 +74,6 @@ const getUserOptions = (data) =>
     id: user.username,
     value: user.username,
   }))
-const MAX_FILTER_LENGTH = 2000
 
 const getUserCount = (data) => data?.count
 
@@ -82,6 +81,7 @@ const getUserCount = (data) => data?.count
  * Component that renders the incident filter form
  */
 const FilterForm = ({
+  maxFilterLength,
   filter,
   onCancel,
   onClearFilter,
@@ -89,6 +89,7 @@ const FilterForm = ({
   onSubmit,
   onUpdateFilter,
 }) => {
+  const MAX_FILTER_LENGTH = !maxFilterLength ? 2700 : maxFilterLength
   const { sources } = useContext(AppContext)
   const { districts } = useContext(IncidentManagementContext)
   const categories = useSelector(makeSelectStructuredCategories)
@@ -156,24 +157,37 @@ const FilterForm = ({
     state.options.category_slug
   )
 
+  const sum = (previousValue, currentValue) => previousValue + currentValue
+
   const dateFrom =
     state.options.created_after && new Date(state.options.created_after)
   const dateBefore =
     state.options.created_before && new Date(state.options.created_before)
 
-  const calculateFilterLength = (options) => {
-    let lengthOptions = 0
-    Object.entries(options).forEach(([key, value]) => {
-      const allArray = Array.isArray(value) ? value : [value]
-      allArray.forEach((s) => {
-        lengthOptions += key.length + s.length + 2 //plus 2 because of = and & in URL
-      })
-    })
-    return lengthOptions + 37 // + 37 due to extra add-on to URL
-  }
-
   useEffect(() => {
-    if (filterTooLong) {
+    /*
+     * The purpose is to calculate the length of the url because it might be too long.
+     * ParseOutputFormData returns all the checked filtersm in the following form:
+     * {status: ['g', 'i', ...], stadsdeel: ['w', ...], date_created_after: '11-11-1911'}
+     * Every key with each of its values is added to the URL as '&key=value', that's why we
+     * calculate for every key and each of its values the length of the key and of the value
+     * and sum that.
+     */
+    const filterLength =
+      Object.entries(parseOutputFormData(state.options))
+        .map(([key, values]) => {
+          const turnValuesInArray = Array.isArray(values) ? values : [values]
+          return turnValuesInArray
+            .map((value) => {
+              return key.length + value.length + 2 // + 2 because = an & are added either between keys and value or between URL segments
+            })
+            .reduce(sum, 0)
+        })
+        .reduce(sum, 0) + 37 // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
+    // are added to URL
+
+    if (filterLength > MAX_FILTER_LENGTH) {
+      setFilterTooLong(true)
       storeDispatch(
         showGlobalNotification({
           title:
@@ -183,9 +197,10 @@ const FilterForm = ({
         })
       )
     } else {
+      setFilterTooLong(false)
       storeDispatch(resetGlobalNotification())
     }
-  }, [filterTooLong, storeDispatch])
+  }, [state.options, filterTooLong, MAX_FILTER_LENGTH, storeDispatch])
 
   const onSubmitForm = useCallback(
     (event) => {
@@ -194,11 +209,9 @@ const FilterForm = ({
       const formData = { ...state.filter, options }
       const hasName = formData.name.trim() !== ''
 
-      if (calculateFilterLength(options) > MAX_FILTER_LENGTH) {
-        setFilterTooLong(true)
+      if (filterTooLong) {
         return
       }
-      storeDispatch(resetGlobalNotification())
 
       if (isNewFilter && hasName) {
         onSaveFilter(formData)
@@ -218,7 +231,7 @@ const FilterForm = ({
       onUpdateFilter,
       state.filter,
       state.options,
-      storeDispatch,
+      filterTooLong,
     ]
   )
 
