@@ -75,8 +75,8 @@ const LocationForm = () => {
                   onQueryResult={(location) => {
                     setValue('location', location)
                   }}
-                  name={'location'}
-                  display={'location'}
+                  name="location"
+                  display=""
                 />
               )}
             />
