@@ -3,8 +3,8 @@
 import { useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import RadioInput from 'signals/incident-management/components/RadioInput_b'
-import SelectInput from 'signals/incident-management/components/SelectInput_b'
+import RadioInput from 'signals/incident-management/components/RadioInput'
+import SelectInput from 'signals/incident-management/components/SelectInput'
 
 import { dataListType } from 'shared/types'
 import { reCategory } from 'shared/services/resolveClassification'

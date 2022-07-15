@@ -28,9 +28,8 @@ describe('<SelectInput />', () => {
   })
 
   it('should render correctly', () => {
-    const SelectInputRender = SelectInput(props)
     const { container, queryByTestId } = render(
-      withAppContext(<SelectInputRender {...props} />)
+      withAppContext(<SelectInput {...props} />)
     )
 
     const options = container.firstChild.querySelectorAll('option')
@@ -46,10 +45,8 @@ describe('<SelectInput />', () => {
       value: '',
       group: '',
     }
-    const SelectInputRender = SelectInput({ ...props, emptyOption })
-    const { container } = render(
-      withAppContext(<SelectInputRender {...props} />)
-    )
+    props = { ...props, emptyOption }
+    const { container } = render(withAppContext(<SelectInput {...props} />))
 
     const options = container.firstChild.querySelectorAll('option')
     expect(options).toHaveLength(props.values.length + 1)
@@ -58,10 +55,8 @@ describe('<SelectInput />', () => {
 
   it('should render correctly with using slugs', () => {
     const useSlug = true
-    const SelectInputRender = SelectInput({ ...props, useSlug })
-    const { container } = render(
-      withAppContext(<SelectInputRender {...props} />)
-    )
+    props = { ...props, useSlug }
+    const { container } = render(withAppContext(<SelectInput {...props} />))
 
     const options = container.firstChild.querySelectorAll('option')
     options.forEach((option, index) => {
@@ -73,10 +68,7 @@ describe('<SelectInput />', () => {
 
   describe('falsy keys', () => {
     it('should render correctly with empty string', () => {
-      const SelectInputRender = SelectInput(props)
-      const { container } = render(
-        withAppContext(<SelectInputRender {...props} />)
-      )
+      const { container } = render(withAppContext(<SelectInput {...props} />))
 
       const options = container.firstChild.querySelectorAll('option')
       expect(options).toHaveLength(props.values.length)
@@ -86,16 +78,14 @@ describe('<SelectInput />', () => {
     })
 
     it('should render correctly with undefined', () => {
-      const SelectInputRender = SelectInput({
+      props = {
         ...props,
         values: [
           { value: 'none', slug: '', _display: '' },
           ...props.values.slice(1),
         ],
-      })
-      const { container } = render(
-        withAppContext(<SelectInputRender {...props} />)
-      )
+      }
+      const { container } = render(withAppContext(<SelectInput {...props} />))
 
       const options = container.firstChild.querySelectorAll('option')
       expect(options).toHaveLength(props.values.length)
@@ -105,16 +95,14 @@ describe('<SelectInput />', () => {
     })
 
     it('should render correctly with null', () => {
-      const SelectInputRender = SelectInput({
+      props = {
         ...props,
         values: [
           { key: null, value: 'none', slug: '', _display: '' },
           ...props.values.slice(1),
         ],
-      })
-      const { container } = render(
-        withAppContext(<SelectInputRender {...props} />)
-      )
+      }
+      const { container } = render(withAppContext(<SelectInput {...props} />))
 
       const options = container.firstChild.querySelectorAll('option')
       expect(options).toHaveLength(props.values.length)
@@ -124,16 +112,14 @@ describe('<SelectInput />', () => {
     })
 
     it('should render correctly with false', () => {
-      const SelectInputRender = SelectInput({
+      props = {
         ...props,
         values: [
           { key: false, value: 'none', slug: '', _display: '' },
           ...props.values.slice(1),
         ],
-      })
-      const { container } = render(
-        withAppContext(<SelectInputRender {...props} />)
-      )
+      }
+      const { container } = render(withAppContext(<SelectInput {...props} />))
 
       const options = container.firstChild.querySelectorAll('option')
       expect(options).toHaveLength(props.values.length)
@@ -143,16 +129,14 @@ describe('<SelectInput />', () => {
     })
 
     it('should render correctly with zero', () => {
-      const SelectInputRender = SelectInput({
+      props = {
         ...props,
         values: [
           { key: 0, value: 'none', slug: '', _display: '' },
           ...props.values.slice(1),
         ],
-      })
-      const { container } = render(
-        withAppContext(<SelectInputRender {...props} />)
-      )
+      }
+      const { container } = render(withAppContext(<SelectInput {...props} />))
 
       const options = container.firstChild.querySelectorAll('option')
       expect(options).toHaveLength(props.values.length)
