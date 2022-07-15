@@ -4,6 +4,8 @@ import { lazy, Suspense } from 'react'
 import { Row, Column } from '@amsterdam/asc-ui'
 import LoadingIndicator from 'components/LoadingIndicator'
 
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+// istanbul ignore next
 const IncidentMap = lazy(() => import('./components/IncidentMap'))
 
 const IncidentMapContainer = () => {
