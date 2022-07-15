@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
@@ -23,6 +23,14 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import Notification from 'containers/Notification'
 import Logo from 'components/Logo'
 import configuration from 'shared/services/configuration/configuration'
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
+import {
+  IncidentMapHeader,
+  IncidentMapHeaderWrapper,
+  IncidentMapMenuButton,
+  Title,
+  Wrapper,
+} from './incidentMapStyles'
 
 const MENU_BREAKPOINT = 1320
 
@@ -284,6 +292,7 @@ export const SiteHeader = (props) => {
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
   const isFrontOffice = useIsFrontOffice()
+  const isIncidentMap = useIsIncidentMap()
   const tall = isFrontOffice && !getIsAuthenticated()
   const title = tall
     ? configuration.language.headerTitle
@@ -305,7 +314,19 @@ export const SiteHeader = (props) => {
     [props, menuOpen, rendersMenuToggle]
   )
 
-  return (
+  const IncidentMapNavigation = () => (
+    <MenuItem>
+      <IncidentMapMenuButton
+        forwardedAs="a"
+        href="/incident/beschrijf"
+        target="_blank"
+      >
+        Doe een melding
+      </IncidentMapMenuButton>
+    </MenuItem>
+  )
+
+  return !isIncidentMap ? (
     <>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
@@ -328,6 +349,20 @@ export const SiteHeader = (props) => {
 
       {tall && <Notification />}
     </>
+  ) : (
+    <IncidentMapHeaderWrapper>
+      <IncidentMapHeader>
+        <Title>
+          <Wrapper>
+            <Logo />
+          </Wrapper>
+          <Wrapper>
+            <h2>Meldingenkaart</h2>
+          </Wrapper>
+        </Title>
+        <IncidentMapNavigation />
+      </IncidentMapHeader>
+    </IncidentMapHeaderWrapper>
   )
 }
 

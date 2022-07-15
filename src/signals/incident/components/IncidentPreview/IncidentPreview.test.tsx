@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
@@ -10,8 +10,6 @@ import { mock } from 'types/incident'
 
 import Summary from 'components/Summary'
 import { address, summaryProps } from 'components/Summary/Summary.test'
-import configuration from 'shared/services/configuration/configuration'
-import type { MapStaticProps } from 'components/MapStatic/MapStatic'
 import * as reactRouterDom from 'react-router-dom'
 import type { IncidentPreviewProps } from './IncidentPreview'
 
@@ -20,11 +18,6 @@ import IncidentPreview from '.'
 
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
-jest.mock('components/MapStatic', () => ({ iconSrc }: MapStaticProps) => (
-  <span data-testid="mapStatic">
-    <img src={iconSrc} alt="" />
-  </span>
-))
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
@@ -39,7 +32,6 @@ describe('<IncidentPreview />', () => {
   let props: IncidentPreviewProps
 
   beforeEach(() => {
-    configuration.featureFlags.useStaticMapServer = true
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     props = {
