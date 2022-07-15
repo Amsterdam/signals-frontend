@@ -112,10 +112,6 @@
           "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
-        "useStaticMapServer": {
-          "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
-          "type": "boolean"
-        },
         "reporterMailHandledNegativeContactEnabled": {
           "description": "When true, will show a feedback text based on the satisfaction value yes or no.",
           "type": "boolean"
@@ -137,8 +133,7 @@
         "mapFilter24Hours",
         "showThorButton",
         "showVulaanControls",
-        "useProjectenSignalType",
-        "useStaticMapServer"
+        "useProjectenSignalType"
       ],
       "title": "FeatureFlags"
     },
@@ -365,11 +360,6 @@
         },
         "tiles": {
           "$ref": "#/definitions/Tiles"
-        },
-        "staticUrl": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js) only when `featureFlags.useStaticMapServer` is enabled.",
-          "type": "string",
-          "format": "uri"
         },
         "layers": {
           "type": "object",
