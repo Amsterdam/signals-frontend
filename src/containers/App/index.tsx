@@ -48,22 +48,16 @@ const FooterContent = styled.div`
   padding-top: 0;
 `
 
-// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
-// istanbul ignore next
 const KtoContainer = lazy(
-  async () => import('signals/incident/containers/KtoContainer')
+  () => import('signals/incident/containers/KtoContainer')
 )
-// istanbul ignore next
 const IncidentManagementModule = lazy(
-  async () => import('signals/incident-management')
+  () => import('signals/incident-management')
 )
-// istanbul ignore next
-const SettingsModule = lazy(async () => import('signals/settings'))
-// istanbul ignore next
-const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
-// istanbul ignore next
+const SettingsModule = lazy(() => import('signals/settings'))
+const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 const IncidentMapContainer = lazy(
-  async () => import('signals/IncidentMap/IncidentMapContainer')
+  () => import('signals/IncidentMap/IncidentMapContainer')
 )
 
 export const AppContainer = () => {

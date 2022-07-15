@@ -22,7 +22,7 @@ describe('hooks/useIsIncidentMap', () => {
 
     expect(result.current).toEqual(true)
 
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       hash: '',
       key: '',
       pathname: '/manage',

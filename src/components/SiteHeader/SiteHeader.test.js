@@ -332,7 +332,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('renders the incident map correctly when not authenticated', () => {
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => false)
     useIsIncidentMap.mockReturnValue(true)
 
     const { queryByText } = render(withAppContext(<SiteHeader />))
@@ -346,7 +346,7 @@ describe('components/SiteHeader', () => {
   })
 
   it('renders the incident map correctly when authenticated', () => {
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => true)
     useIsIncidentMap.mockReturnValue(true)
 
     const { queryByText } = render(withAppContext(<SiteHeader />))
