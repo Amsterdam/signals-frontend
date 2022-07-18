@@ -99,7 +99,6 @@ const FilterForm = ({
   const notRoutedOption = routingDepartments[0]
 
   const [state, dispatch] = useReducer(reducer, filter, init)
-
   const storeDispatch = useDispatch()
 
   const isNewFilter = !filter.name
@@ -183,7 +182,7 @@ const FilterForm = ({
             })
             .reduce(sum, 0)
         })
-        .reduce(sum, 0) + 37 // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
+        .reduce(sum, 0) + 53 // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
     // are added to URL
 
     if (filterLength > MAX_FILTER_LENGTH) {
