@@ -170,19 +170,17 @@ const FilterForm = ({
      * calculate for every key and each of its values the length of the key and of the value
      * and sum that.
      */
-    const filterLength = Object.entries(state.options).reduce(
-      (lengthOptions, [key, value]) => {
-        const allArray = Array.isArray(value) ? value : [value] // is dit niet altijd een array?
-        return (
-          lengthOptions +
-          allArray.reduce(
-            (valueSum, s) => valueSum + key.length + 2 + s.length,
-            0
-          )
-        )
-      },
-      53
-    ) // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
+    const filterLength = Object.entries(
+      parseOutputFormData(state.options)
+    ).reduce((lengthOptions, [key, value]) => {
+      const allArray = Array.isArray(value) ? value : [value] // is dit niet altijd een array?
+      return (
+        lengthOptions +
+        allArray.reduce((valueSum, s) => {
+          return valueSum + key.length + 2 + s.length
+        }, 0)
+      )
+    }, 53) // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
     // are added to URL
 
     if (filterLength > MAX_FILTER_LENGTH) {
