@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { render, fireEvent, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { withAppContext } from 'test/utils'
 
 import AttachmentViewer from '.'
 
@@ -13,6 +15,13 @@ describe('<AttachmentViewer />', () => {
         is_image: true,
         created_at: '2019-08-05T08:19:16.372476+02:00',
         created_by: '',
+      },
+      {
+        _display: 'Attachment object (681)',
+        location: 'https://objectstore.eu/mock/image/4/',
+        is_image: true,
+        created_at: '2019-08-05T08:19:17.205236+02:00',
+        created_by: 'test@signalen.dev',
       },
       {
         _display: 'Attachment object (679)',
@@ -35,16 +44,16 @@ describe('<AttachmentViewer />', () => {
   describe('rendering', () => {
     it('on page 1 it should render the correct image and only next button', () => {
       const href = 'https://objectstore.eu/mock/image/1'
-      const { queryByTestId, queryAllByTestId } = render(
-        <AttachmentViewer {...props} href={href} />
-      )
+      render(withAppContext(<AttachmentViewer {...props} href={href} />))
 
       expect(
-        queryAllByTestId('attachment-viewer-button-previous')
+        screen.queryAllByTestId('attachment-viewer-button-previous')
       ).toHaveLength(0)
-      expect(queryAllByTestId('attachment-viewer-button-next')).toHaveLength(1)
+      expect(
+        screen.getAllByTestId('attachment-viewer-button-next')
+      ).toHaveLength(1)
 
-      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
+      expect(screen.getByTestId('attachment-viewer-image')).toHaveAttribute(
         'src',
         href
       )
@@ -53,7 +62,7 @@ describe('<AttachmentViewer />', () => {
     it('on page 2 it should render the correct image and both previous and next button', () => {
       const href = 'https://objectstore.eu/mock/image/2'
       const { queryByTestId, queryAllByTestId } = render(
-        <AttachmentViewer {...props} href={href} />
+        withAppContext(<AttachmentViewer {...props} href={href} />)
       )
 
       expect(
@@ -70,7 +79,7 @@ describe('<AttachmentViewer />', () => {
     it('on page 3 it should render the correct image and only previous button', () => {
       const href = 'https://objectstore.eu/mock/image/3'
       const { queryByTestId, queryAllByTestId } = render(
-        <AttachmentViewer {...props} href={href} />
+        withAppContext(<AttachmentViewer {...props} href={href} />)
       )
 
       expect(
@@ -88,7 +97,9 @@ describe('<AttachmentViewer />', () => {
   describe('events', () => {
     it('should navigate on click', () => {
       const { getByTestId, queryByTestId } = render(
-        <AttachmentViewer {...props} href={props.attachments[1].location} />
+        withAppContext(
+          <AttachmentViewer {...props} href={props.attachments[1].location} />
+        )
       )
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
@@ -127,6 +138,15 @@ describe('<AttachmentViewer />', () => {
         props.attachments[2].location
       )
 
+      act(() => {
+        fireEvent.click(getByTestId('attachment-viewer-button-next'))
+      })
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
+        'src',
+        props.attachments[3].location
+      )
+
       expect(
         queryByTestId('attachment-viewer-button-next')
       ).not.toBeInTheDocument()
@@ -134,7 +154,9 @@ describe('<AttachmentViewer />', () => {
 
     it('should navigate on key press', () => {
       const { queryByTestId } = render(
-        <AttachmentViewer {...props} href={props.attachments[1].location} />
+        withAppContext(
+          <AttachmentViewer {...props} href={props.attachments[1].location} />
+        )
       )
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
@@ -196,13 +218,28 @@ describe('<AttachmentViewer />', () => {
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
         'src',
-        props.attachments[2].location
+        props.attachments[3].location
+      )
+
+      act(() => {
+        fireEvent.keyDown(document, {
+          key: 'ArrowRight',
+          code: 39,
+          keyCode: 39,
+        })
+      })
+
+      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
+        'src',
+        props.attachments[3].location
       )
     })
 
     it('should not navigate on keypress ', () => {
       const { queryByTestId } = render(
-        <AttachmentViewer {...props} href={props.attachments[1].location} />
+        withAppContext(
+          <AttachmentViewer {...props} href={props.attachments[1].location} />
+        )
       )
 
       const initialSrc = props.attachments[1].location
@@ -224,11 +261,13 @@ describe('<AttachmentViewer />', () => {
 
     it('should not navigate on keypress when another element in the tree has the focus', () => {
       const { getByTestId, queryByTestId } = render(
-        <div>
-          <input data-testid="input" />
+        withAppContext(
+          <div>
+            <input data-testid="input" />
 
-          <AttachmentViewer {...props} href={props.attachments[1].location} />
-        </div>
+            <AttachmentViewer {...props} href={props.attachments[1].location} />
+          </div>
+        )
       )
 
       const initialSrc = props.attachments[1].location
@@ -250,6 +289,26 @@ describe('<AttachmentViewer />', () => {
         'src',
         initialSrc
       )
+    })
+
+    it('should close', () => {
+      const onClose = jest.fn()
+
+      render(
+        withAppContext(
+          <AttachmentViewer
+            {...props}
+            href={props.attachments[0].location}
+            onClose={onClose}
+          />
+        )
+      )
+
+      expect(onClose).not.toHaveBeenCalled()
+
+      userEvent.click(screen.getByTitle(/sluiten/i))
+
+      expect(onClose).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -4,7 +4,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import type { FC } from 'react'
 import { useCallback, useEffect, useState, useRef } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { Button, Modal, themeSpacing } from '@amsterdam/asc-ui'
 import { Close as CloseIcon } from '@amsterdam/asc-assets'
@@ -31,20 +31,6 @@ const ModalInner = styled.div`
   height: 100vh;
   overflow: hidden auto;
   text-align: center;
-
-  ${({ theme }) => css`
-    ${theme.breakpoints.laptopM('max-width')} {
-      max-width: 1200px;
-    }
-
-    ${theme.breakpoints.laptop('max-width')} {
-      max-width: 1024px;
-    }
-
-    ${theme.breakpoints.tabletM('max-width')} {
-      max-width: 768px;
-    }
-  `}
 `
 
 const Header = styled.header`
@@ -210,7 +196,6 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
       data-testid="modal"
       open
       onClose={onClose}
-      backdropOpacity={1}
       onClick={onClickModal}
     >
       <Header>
@@ -236,6 +221,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
           size={64}
           iconSize={20}
           variant="blank"
+          title="Sluiten"
           icon={<CloseIcon />}
         />
       </Header>

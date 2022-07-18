@@ -256,19 +256,20 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(
       screen.queryByTestId('attachment-viewer-image')
     ).not.toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
 
     userEvent.click(attachment)
 
     expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).toBeInTheDocument()
+    const closeButton = screen.getByTitle(/sluiten/i)
+    expect(closeButton).toBeInTheDocument()
 
-    userEvent.click(screen.queryByTestId('closeButton'))
+    userEvent.click(closeButton)
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
     ).not.toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
 
     await screen.findByTestId('incidentDetail')
   })
