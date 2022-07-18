@@ -156,8 +156,6 @@ const FilterForm = ({
     state.options.category_slug
   )
 
-  const sum = (previousValue, currentValue) => previousValue + currentValue
-
   const dateFrom =
     state.options.created_after && new Date(state.options.created_after)
   const dateBefore =
@@ -172,17 +170,19 @@ const FilterForm = ({
      * calculate for every key and each of its values the length of the key and of the value
      * and sum that.
      */
-    const filterLength =
-      Object.entries(parseOutputFormData(state.options))
-        .map(([key, values]) => {
-          const turnValuesInArray = Array.isArray(values) ? values : [values]
-          return turnValuesInArray
-            .map((value) => {
-              return key.length + value.length + 2 // + 2 because = an & are added either between keys and value or between URL segments
-            })
-            .reduce(sum, 0)
-        })
-        .reduce(sum, 0) + 53 // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
+    const filterLength = Object.entries(state.options).reduce(
+      (lengthOptions, [key, value]) => {
+        const allArray = Array.isArray(value) ? value : [value] // is dit niet altijd een array?
+        return (
+          lengthOptions +
+          allArray.reduce(
+            (valueSum, s) => valueSum + key.length + 2 + s.length,
+            0
+          )
+        )
+      },
+      53
+    ) // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
     // are added to URL
 
     if (filterLength > MAX_FILTER_LENGTH) {
