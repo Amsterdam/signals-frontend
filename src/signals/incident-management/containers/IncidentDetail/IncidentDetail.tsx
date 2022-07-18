@@ -84,6 +84,7 @@ const IncidentDetail = () => {
   const [isRemovingAttachment, setRemovingAttachment] = useState(false)
   const [isParent, setIsParent] = useState(false)
   const [isChild, setIsChild] = useState(false)
+  const [showAttachmentViewer, setShowAttachmentViewer] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
   const {
     error,
@@ -342,6 +343,21 @@ const IncidentDetail = () => {
     if (!isAttachmentsLoading) setRemovingAttachment(false)
   }, [isAttachmentsLoading])
 
+  useEffect(() => {
+    setShowAttachmentViewer(
+      Boolean(
+        state.preview === 'attachment' &&
+          state.attachments &&
+          state.attachmentHref
+      )
+    )
+  }, [state.attachmentHref, state.attachments, state.preview])
+
+  const onCloseAttachmentViewer = useCallback(() => {
+    setShowAttachmentViewer(false)
+    closeDispatch()
+  }, [setShowAttachmentViewer])
+
   if (!state.incident || !subcategories) return null
 
   return (
@@ -400,24 +416,24 @@ const IncidentDetail = () => {
           />
         </DetailContainer>
 
-        {(state.preview || state.edit) && (
+        {((!showAttachmentViewer && state.preview) || state.edit) && (
           <Preview>
             {state.preview === 'location' && <LocationPreview />}
 
             {state.edit === 'location' && <LocationForm />}
-
-            {state.preview === 'attachment' &&
-              state.attachments &&
-              state.attachmentHref && (
-                <AttachmentViewer
-                  attachments={state.attachments.results}
-                  href={state.attachmentHref}
-                />
-              )}
           </Preview>
         )}
-        {state.preview && <CloseButton aria-label="Sluiten" />}
+        {!showAttachmentViewer && state.preview && (
+          <CloseButton aria-label="Sluiten" />
+        )}
       </StyledRow>
+      {showAttachmentViewer && (
+        <AttachmentViewer
+          attachments={state.attachments?.results || []}
+          href={state.attachmentHref || ''}
+          onClose={onCloseAttachmentViewer}
+        />
+      )}
     </IncidentDetailContext.Provider>
   )
 }

@@ -12,20 +12,24 @@ describe('<AttachmentViewer />', () => {
         location: 'https://objectstore.eu/mock/image/1',
         is_image: true,
         created_at: '2019-08-05T08:19:16.372476+02:00',
+        created_by: '',
       },
       {
         _display: 'Attachment object (679)',
         location: 'https://objectstore.eu/mock/image/2',
         is_image: true,
         created_at: '2019-08-05T08:19:17.205236+02:00',
+        created_by: 'test@signalen.dev',
       },
       {
         _display: 'Attachment object (680)',
         location: 'https://objectstore.eu/mock/image/3',
         is_image: true,
         created_at: '2019-08-05T08:19:18.389461+02:00',
+        created_by: 'employee@signalen.dev',
       },
     ],
+    onClose: () => {},
   }
 
   describe('rendering', () => {
@@ -83,7 +87,7 @@ describe('<AttachmentViewer />', () => {
 
   describe('events', () => {
     it('should navigate on click', () => {
-      const { queryByTestId } = render(
+      const { getByTestId, queryByTestId } = render(
         <AttachmentViewer {...props} href={props.attachments[1].location} />
       )
 
@@ -93,7 +97,7 @@ describe('<AttachmentViewer />', () => {
       )
 
       act(() => {
-        fireEvent.click(queryByTestId('attachment-viewer-button-previous'))
+        fireEvent.click(getByTestId('attachment-viewer-button-previous'))
       })
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
@@ -106,7 +110,7 @@ describe('<AttachmentViewer />', () => {
       ).not.toBeInTheDocument()
 
       act(() => {
-        fireEvent.click(queryByTestId('attachment-viewer-button-next'))
+        fireEvent.click(getByTestId('attachment-viewer-button-next'))
       })
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
@@ -115,7 +119,7 @@ describe('<AttachmentViewer />', () => {
       )
 
       act(() => {
-        fireEvent.click(queryByTestId('attachment-viewer-button-next'))
+        fireEvent.click(getByTestId('attachment-viewer-button-next'))
       })
 
       expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
@@ -219,7 +223,7 @@ describe('<AttachmentViewer />', () => {
     })
 
     it('should not navigate on keypress when another element in the tree has the focus', () => {
-      const { queryByTestId } = render(
+      const { getByTestId, queryByTestId } = render(
         <div>
           <input data-testid="input" />
 
@@ -235,7 +239,7 @@ describe('<AttachmentViewer />', () => {
       )
 
       act(() => {
-        fireEvent.keyDown(queryByTestId('input'), {
+        fireEvent.keyDown(getByTestId('input'), {
           key: 'ArrowLeft',
           code: 37,
           keyCode: 37,
