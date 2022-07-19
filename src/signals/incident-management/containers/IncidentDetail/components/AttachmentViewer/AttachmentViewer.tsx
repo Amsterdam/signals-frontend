@@ -11,6 +11,27 @@ import { Close as CloseIcon } from '@amsterdam/asc-assets'
 import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets'
 import type { Attachment } from '../../types'
 
+const StyledButton = styled(Button)`
+  background-color: #000;
+  min-width: 64px;
+
+  & svg {
+    // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
+      brightness(103%) contrast(103%);
+  }
+
+  &:hover {
+    background-color: rgb(0, 0, 0, 0.7);
+
+    & svg {
+      // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
+        brightness(103%) contrast(103%);
+    }
+  }
+`
+
 export const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -24,12 +45,12 @@ const StyledModal = styled(Modal)`
   height: 100vh;
   max-width: 100vw;
   width: 100vw;
-  background-color: rgb(0, 0, 0, 0.7);
+  background-color: transparent;
 `
 
 const ModalInner = styled.div`
   height: 100vh;
-  overflow: hidden auto;
+  overflow: hidden;
   text-align: center;
 `
 
@@ -38,9 +59,9 @@ const Header = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-gap: 16px;
   height: 64px;
   background-color: rgb(0, 0, 0, 0.7);
   color: #fff;
@@ -50,6 +71,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  white-space: nowrap;
 `
 
 const Reporter = styled.div`
@@ -85,27 +107,16 @@ const Title = styled.div`
   font-size: 16px;
   line-height: 24px;
   font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+`
+const CloseButton = styled(StyledButton)`
+  justify-self: end;
 `
 
-const StyledButton = styled(Button)`
-  background-color: #000;
-  min-width: 64px;
-
-  & svg {
-    // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
-      brightness(103%) contrast(103%);
-  }
-
-  &:hover {
-    background-color: rgb(0, 0, 0, 0.7);
-
-    & svg {
-      // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
-        brightness(103%) contrast(103%);
-    }
-  }
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
 `
 
 const PreviousButton = styled(StyledButton)`
@@ -123,6 +134,7 @@ const NextButton = styled(StyledButton)`
 const Img = styled.img`
   margin: 92px auto 20px;
   max-width: 100%;
+  max-height: calc(100% - 112px);
 `
 
 interface Props {
@@ -133,6 +145,8 @@ interface Props {
 
 const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
   const wrapperRef = useRef(null)
+  const nextButtonRef = useRef(null)
+  const previousButtonRef = useRef(null)
   const [currentHref, setCurrentHref] = useState(href)
   const index = attachments.findIndex((item) => item.location === currentHref)
   const previous = index > 0 ? attachments[index - 1].location : false
@@ -141,12 +155,6 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
 
   const handleKeyDown = useCallback(
     (event) => {
-      const refInTarget = event.target.contains(wrapperRef.current)
-
-      if (!refInTarget) {
-        return
-      }
-
       switch (event.key) {
         case 'ArrowLeft':
           if (previous) {
@@ -191,6 +199,12 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
     [onClose]
   )
 
+  useEffect(() => {
+    if (nextButtonRef.current) (nextButtonRef.current as HTMLElement).focus()
+    else if (previousButtonRef.current)
+      (previousButtonRef.current as HTMLElement).focus()
+  }, [])
+
   return (
     <StyledModal
       data-testid="modal"
@@ -214,7 +228,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
         </Info>
         <Title>{fileName}</Title>
 
-        <StyledButton
+        <CloseButton
           data-testid="closeBtn"
           square
           onClick={onClose}
@@ -227,11 +241,12 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
       </Header>
 
       <ModalInner data-scroll-lock-scrollable>
-        <div ref={wrapperRef}>
+        <Wrapper ref={wrapperRef}>
           {previous && (
             <PreviousButton
               data-testid="attachment-viewer-button-previous"
               square
+              ref={previousButtonRef}
               size={64}
               iconSize={20}
               variant="blank"
@@ -244,6 +259,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
             <NextButton
               data-testid="attachment-viewer-button-next"
               square
+              ref={nextButtonRef}
               size={64}
               iconSize={20}
               variant="blank"
@@ -257,7 +273,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
             data-testid="attachment-viewer-image"
             alt={fileName}
           />
-        </div>
+        </Wrapper>
       </ModalInner>
     </StyledModal>
   )
