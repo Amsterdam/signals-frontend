@@ -259,38 +259,6 @@ describe('<AttachmentViewer />', () => {
       )
     })
 
-    it('should not navigate on keypress when another element in the tree has the focus', () => {
-      const { getByTestId, queryByTestId } = render(
-        withAppContext(
-          <div>
-            <input data-testid="input" />
-
-            <AttachmentViewer {...props} href={props.attachments[1].location} />
-          </div>
-        )
-      )
-
-      const initialSrc = props.attachments[1].location
-
-      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
-        'src',
-        initialSrc
-      )
-
-      act(() => {
-        fireEvent.keyDown(getByTestId('input'), {
-          key: 'ArrowLeft',
-          code: 37,
-          keyCode: 37,
-        })
-      })
-
-      expect(queryByTestId('attachment-viewer-image')).toHaveAttribute(
-        'src',
-        initialSrc
-      )
-    })
-
     it('should close', () => {
       const onClose = jest.fn()
 
