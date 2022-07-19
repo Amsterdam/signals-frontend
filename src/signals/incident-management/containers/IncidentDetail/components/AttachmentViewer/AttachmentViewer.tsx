@@ -6,7 +6,7 @@ import type { FC } from 'react'
 import { useCallback, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
-import { Button, Modal, themeSpacing } from '@amsterdam/asc-ui'
+import { Button, Modal } from '@amsterdam/asc-ui'
 import { Close as CloseIcon } from '@amsterdam/asc-assets'
 import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets'
 import type { Attachment } from '../../types'
@@ -125,13 +125,13 @@ const Wrapper = styled.div`
 const PreviousButton = styled(StyledButton)`
   position: absolute;
   left: 0;
-  top: calc(50% - ${themeSpacing(4)});
+  top: 50%;
 `
 
 const NextButton = styled(StyledButton)`
   position: absolute;
   right: 0;
-  top: calc(50% - ${themeSpacing(4)});
+  top: 50%;
 `
 
 const Img = styled.img`
