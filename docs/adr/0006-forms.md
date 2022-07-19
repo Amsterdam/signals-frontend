@@ -82,7 +82,6 @@ The definition for step 2 should be turned into a component and define logic for
 
 Rewrite the forms by rewriting:
 
-- the render output to use form components directly, without the [wrapper component](../../src/signals/incident-management/components/FieldControlWrapper/index.js);
 - the form initialization;
 - the submit function;
 - validation;

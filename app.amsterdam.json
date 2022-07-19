@@ -14,7 +14,6 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useStaticMapServer": true,
     "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
@@ -96,7 +95,6 @@
         "tms": true
       }
     },
-    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
       "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
       "klokken": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",

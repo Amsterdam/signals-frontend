@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
@@ -51,16 +51,20 @@ const FooterContent = styled.div`
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
 const KtoContainer = lazy(
-  async () => import('signals/incident/containers/KtoContainer')
+  () => import('signals/incident/containers/KtoContainer')
 )
 // istanbul ignore next
 const IncidentManagementModule = lazy(
-  async () => import('signals/incident-management')
+  () => import('signals/incident-management')
 )
 // istanbul ignore next
-const SettingsModule = lazy(async () => import('signals/settings'))
+const SettingsModule = lazy(() => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
+const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
+// istanbul ignore next
+const IncidentMapContainer = lazy(
+  () => import('signals/IncidentMap/IncidentMapContainer')
+)
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -119,6 +123,10 @@ export const AppContainer = () => {
                 <Redirect exact from="/manage" to="/manage/incidents" />
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
+                <Route
+                  path="/meldingenkaart"
+                  component={IncidentMapContainer}
+                />
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}
