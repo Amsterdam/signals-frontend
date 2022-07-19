@@ -117,6 +117,9 @@ const CloseButton = styled(StyledButton)`
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const PreviousButton = styled(StyledButton)`
@@ -132,7 +135,7 @@ const NextButton = styled(StyledButton)`
 `
 
 const Img = styled.img`
-  margin: 92px auto 20px;
+  margin: 92px 0 20px;
   max-width: 100%;
   max-height: calc(100% - 112px);
 `
