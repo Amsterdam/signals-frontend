@@ -1131,7 +1131,7 @@ describe('GlobalNotification', () => {
 
   it('should remove GlobalNotification from view', () => {
     render(
-      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 54 }} />)
+      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 54 }} />) // 54 because thats 1 + minimal value of filterLength (min value = 53)
     )
 
     // check checkbox to trigger showGlobalNotification
@@ -1148,7 +1148,7 @@ describe('GlobalNotification', () => {
     }
     render(
       withContext(
-        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} />
+        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} /> // 54 because thats 1 + minimal value of filterLength (min value = 53)
       )
     )
 
