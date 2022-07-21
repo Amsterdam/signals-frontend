@@ -32,7 +32,7 @@ EmphasisCheckboxInput.propTypes = {
    * rendering a form control component in another component. The '_parent' prop needs to be passed through
    * as 'parent' prop to make the damn thing work.
    */
-  _parent: PropTypes.objectOf(FormGroup).isRequired,
+  _parent: PropTypes.objectOf(FormGroup),
 }
 
 export default EmphasisCheckboxInput

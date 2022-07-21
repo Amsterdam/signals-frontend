@@ -3,7 +3,6 @@
 import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import isObject from 'lodash/isObject'
 
 import formatConditionalForm from '../../services/format-conditional-form'
 import { Form, Fieldset, ProgressContainer } from './styled'
@@ -12,6 +11,7 @@ class IncidentForm extends Component {
   constructor(props) {
     super(props)
 
+    // set state with useState
     this.state = {
       loading: false,
       submitting: false,
@@ -25,6 +25,7 @@ class IncidentForm extends Component {
     this.setIncident = this.setIncident.bind(this)
   }
 
+  // save previous values with prevvalue hook
   static getDerivedStateFromProps(
     { incidentContainer: { loadingData } },
     prevState
@@ -37,6 +38,7 @@ class IncidentForm extends Component {
         }
   }
 
+  // useEffect with ...
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.reactHookMethods.getValues()) return
     this.setValues(this.props.incidentContainer.incident)
@@ -56,6 +58,7 @@ class IncidentForm extends Component {
     }
   }
 
+  // useEffect with empty dep
   componentDidMount() {
     this.setState({
       loading: false,
@@ -117,22 +120,22 @@ class IncidentForm extends Component {
         next()
       } else {
         // RHF REFACTOR: THIS PIECE OF CODE FOCUSES ON THE FIRST INVALID ELEMENT
-        const invalidControl = Object.values(this.form.controls).find(
-          (c) => c.invalid
-        )
-        const { name, values } = invalidControl.meta
-        const valueSelector =
-          !Array.isArray(values) && isObject(values)
-            ? `-${Object.keys(values)[0]}`
-            : ''
-
-        const invalidElement = this.formRef.current.querySelector(
-          `#${name}${valueSelector}`
-        )
-
-        if (invalidElement) {
-          invalidElement.focus()
-        }
+        // const invalidControl = Object.values(this.form.controls).find(
+        //   (c) => c.invalid
+        // )
+        // const { name, values } = invalidControl.meta
+        // const valueSelector =
+        //   !Array.isArray(values) && isObject(values)
+        //     ? `-${Object.keys(values)[0]}`
+        //     : ''
+        //
+        // const invalidElement = this.formRef.current.querySelector(
+        //   `#${name}${valueSelector}`
+        // )
+        //
+        // if (invalidElement) {
+        //   invalidElement.focus()
+        // }
       }
     }
 
