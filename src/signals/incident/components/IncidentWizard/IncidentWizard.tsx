@@ -26,7 +26,7 @@ import type { WizardSection } from 'signals/incident/definitions/wizard'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 
-import IncidentFormVersionHook from '../IncidentForm/index_version_hook'
+import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
 
@@ -139,7 +139,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
 
                             {(form || formFactory) && (
                               <FormProvider {...methods}>
-                                <IncidentFormVersionHook
+                                <IncidentForm
                                   fieldConfig={
                                     form || formFactory(incident, sources)
                                   }
