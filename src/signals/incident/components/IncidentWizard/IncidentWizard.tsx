@@ -3,6 +3,7 @@
 import { useContext, useMemo } from 'react'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
+import { FormProvider, useForm } from 'react-hook-form'
 import {
   StepByStepNav,
   breakpoint,
@@ -73,6 +74,9 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
     .filter(({ countAsStep }) => countAsStep)
     .map(({ stepLabel }) => ({ label: stepLabel || '' }))
 
+  // Init incident form
+  const methods = useForm()
+
   return (
     <Wrapper>
       <Route
@@ -134,19 +138,22 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                             )}
 
                             {(form || formFactory) && (
-                              <IncidentForm
-                                fieldConfig={
-                                  form || formFactory(incident, sources)
-                                }
-                                incidentContainer={incidentContainer}
-                                getClassification={getClassification}
-                                removeQuestionData={removeQuestionData}
-                                updateIncident={updateIncident}
-                                addToSelection={addToSelection}
-                                removeFromSelection={removeFromSelection}
-                                createIncident={createIncident}
-                                wizard={wizardDefinition}
-                              />
+                              <FormProvider {...methods}>
+                                <IncidentForm
+                                  fieldConfig={
+                                    form || formFactory(incident, sources)
+                                  }
+                                  reactHookMethods={methods}
+                                  incidentContainer={incidentContainer}
+                                  getClassification={getClassification}
+                                  removeQuestionData={removeQuestionData}
+                                  updateIncident={updateIncident}
+                                  addToSelection={addToSelection}
+                                  removeFromSelection={removeFromSelection}
+                                  createIncident={createIncident}
+                                  wizard={wizardDefinition}
+                                />
+                              </FormProvider>
                             )}
                           </FormWrapper>
                         </StepWrapper>

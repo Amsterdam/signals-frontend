@@ -97,7 +97,7 @@ const CheckboxInput = ({
             <Checkbox
               id={meta.name}
               name={meta.name}
-              checked={handler().value.value}
+              checked={handler().value?.value}
               onClick={(e) => {
                 parent.meta.updateIncident({
                   [meta.name]: {

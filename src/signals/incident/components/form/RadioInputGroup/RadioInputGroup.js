@@ -54,7 +54,7 @@ const RadioInputGroup = ({
           >
             {Object.entries(meta.values).map(([key, value]) => (
               <RadioInput
-                checked={handler().value.id === key}
+                checked={handler().value?.id === key}
                 id={key}
                 idAttr={`${meta.name}-${key}`}
                 info={value.info}

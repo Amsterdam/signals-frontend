@@ -2,13 +2,12 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { createRef, Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormGenerator } from 'react-reactive-form'
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
 
 import formatConditionalForm from '../../services/format-conditional-form'
 import { Form, Fieldset, ProgressContainer } from './styled'
-
+import IndexRhf from './index_rhf'
 class IncidentForm extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +20,6 @@ class IncidentForm extends Component {
     }
     this.formRef = createRef()
 
-    this.setForm = this.setForm.bind(this)
     this.setValues = this.setValues.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.setIncident = this.setIncident.bind(this)
@@ -40,15 +38,18 @@ class IncidentForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.form) return
+    if (!this.props.reactHookMethods.getValues()) return
     this.setValues(this.props.incidentContainer.incident)
-    this.form.meta.incident = this.props.incidentContainer.incident
-    this.form.meta.submitting = this.state.submitting
+    // RHF: use after refactor?
+    // this.form.meta.incident = this.props.incidentContainer.incident
+    // this.form.meta.submitting = this.state.submitting
+
+    // RHF REFACTOR: THIS.FORM.VALID  VERANDEREN IN VALIDATIE REACT HOOK FORM
     if (
       prevState.loading &&
       !this.state.loading &&
-      this.state.next &&
-      this.form.valid
+      this.state.next
+      //&& this.form.valid
     ) {
       this.setIncident(this.state.formAction)
       this.state.next()
@@ -64,56 +65,16 @@ class IncidentForm extends Component {
     })
   }
 
-  setForm(form) {
-    this.form = form
-    this.form.meta = {
-      wizard: this.props.wizard,
-      incidentContainer: this.props.incidentContainer,
-      handleSubmit: this.handleSubmit,
-      getClassification: this.props.getClassification,
-      updateIncident: this.props.updateIncident,
-      addToSelection: this.props.addToSelection,
-      removeFromSelection: this.props.removeFromSelection,
-    }
-
-    this.setValues(this.props.incidentContainer.incident)
-  }
-
+  // RHF REFACTOR; HIER MOETEN DE ELEMENTEN WEL OF NIET ACTIEF WORDEN GEZET
   setValues(incident) {
-    const controlKeys = Object.keys(this.form.controls)
-
-    controlKeys.forEach((key) => {
-      const control = this.form.controls[key]
-      if (
-        (control.disabled && control.meta.isVisible) ||
-        (control.enabled && !control.meta.isVisible)
-      ) {
-        if (control.meta.isVisible) {
-          control.enable()
-        } else {
-          control.disable()
+    Object.entries(this.props.reactHookMethods.getValues()).map(
+      ([key, value]) => {
+        if (!isEqual(incident[key], value)) {
+          this.props.reactHookMethods.setValue(key, incident[key])
         }
       }
-
-      if (!isEqual(incident[key], control.value)) {
-        control.setValue(incident[key])
-      }
-    })
-
-    // Some extra questions can prevent other controls from being rendered
-    // When this happens, question data from that control should be removed from the incident data
-    const keysToRemoveFromIncident = controlKeys.filter(
-      (key) =>
-        key.startsWith('extra_') &&
-        typeof incident[key] !== 'undefined' &&
-        !this.form.controls[key].meta.isVisible
     )
-
-    if (keysToRemoveFromIncident.length) {
-      this.props.removeQuestionData(keysToRemoveFromIncident)
-    }
-
-    this.form.updateValueAndValidity()
+    this.props.reactHookMethods.trigger()
   }
 
   setIncident(formAction) {
@@ -121,7 +82,7 @@ class IncidentForm extends Component {
       formAction // eslint-disable-line default-case
     ) {
       case 'UPDATE_INCIDENT':
-        this.props.updateIncident(this.form.value)
+        this.props.updateIncident(this.props.reactHookMethods.getValues())
         break
 
       case 'CREATE_INCIDENT':
@@ -137,7 +98,6 @@ class IncidentForm extends Component {
 
   handleSubmit(e, next, formAction) {
     e.preventDefault()
-
     if (next) {
       if (this.state.loading) {
         this.setState({
@@ -149,10 +109,14 @@ class IncidentForm extends Component {
         return
       }
 
-      if (this.form.valid || this.form.status === 'DISABLED') {
+      // RHF REFACTOR: VALIDATE WITH RHF, remove this.form.valid || this.form.status === 'DISABLED'
+      // make sure it can be disabled
+      const valid = true
+      if (valid) {
         this.setIncident(formAction)
         next()
       } else {
+        // RHF REFACTOR: THIS PIECE OF CODE FOCUSES ON THE FIRST INVALID ELEMENT
         const invalidControl = Object.values(this.form.controls).find(
           (c) => c.invalid
         )
@@ -172,24 +136,37 @@ class IncidentForm extends Component {
       }
     }
 
-    Object.values(this.form.controls).map((control) => control.onBlur())
+    // Object.values(this.form.controls).map((control) => control.onBlur())
   }
 
   render() {
     const fields = this?.form?.value || {}
     const isSummary = Object.keys(fields).includes('page_summary')
 
+    // RHF REFACTOR: HERE THE META'S INVISIBLE PROP GETS SET FOR AN BASED ON THE INCIDENT
+    const fc = formatConditionalForm(
+      this.props.fieldConfig,
+      this.props.incidentContainer.incident
+    )
+
     return (
       <div data-testid="incidentForm">
         <ProgressContainer />
         <Form onSubmit={this.handleSubmit} ref={this.formRef}>
           <Fieldset isSummary={isSummary}>
-            <FormGenerator
-              onMount={this.setForm}
-              fieldConfig={formatConditionalForm(
-                this.props.fieldConfig,
-                this.props.incidentContainer.incident
-              )}
+            <IndexRhf
+              fieldConfig={fc}
+              parent={{
+                meta: {
+                  wizard: this.props.wizard,
+                  incidentContainer: this.props.incidentContainer,
+                  handleSubmit: this.handleSubmit,
+                  getClassification: this.props.getClassification,
+                  updateIncident: this.props.updateIncident,
+                  addToSelection: this.props.addToSelection,
+                  removeFromSelection: this.props.removeFromSelection,
+                },
+              }}
             />
           </Fieldset>
         </Form>

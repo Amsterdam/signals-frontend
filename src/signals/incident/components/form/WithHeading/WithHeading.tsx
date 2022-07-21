@@ -9,7 +9,11 @@ type WrapMeta = FormMeta & {
   wrappedComponent?: FC
 }
 
-type WithHeadingProps = FormOptions & { meta: WrapMeta; _parent?: any }
+type WithHeadingProps = FormOptions & {
+  meta: WrapMeta
+  _parent?: any
+  parent?: any
+}
 
 const StyledHeading = styled(Heading)`
   font-weight: 500;
@@ -23,7 +27,10 @@ const WithHeading: FC<WithHeadingProps> = (props) => {
 
   const Component = wrappedComponent
 
-  const propsWithParent = { ...props, parent: props._parent }
+  const propsWithParent = {
+    ...props,
+    parent: props._parent ? props._parent : props.parent,
+  }
 
   return (
     <div>
