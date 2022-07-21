@@ -9,6 +9,7 @@ import {
 } from 'signals/incident-management/definitions'
 import configuration from 'shared/services/configuration/configuration'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
+import * as yup from 'yup'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'
@@ -42,6 +43,7 @@ const getControls = memoize(
   (sources) => ({
     controls: {
       error: {
+        meta: {},
         render: FormComponents.GlobalError,
       },
       source: {
@@ -53,7 +55,7 @@ const getControls = memoize(
           value: configuration.featureFlags.appMode ? 'app' : 'online',
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         render: renderSources(),
       },
@@ -67,7 +69,7 @@ const getControls = memoize(
           maxLength: 1000,
         },
         options: {
-          validators: [Validators.required, Validators.maxLength(1000)],
+          validators: ['required', '1000'],
         },
         render: FormComponents.DescriptionInputRenderer,
       },
@@ -77,7 +79,7 @@ const getControls = memoize(
           path: 'subcategory',
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         render: FormComponents.CategorySelectRenderer,
       },
@@ -88,7 +90,7 @@ const getControls = memoize(
           values: priorityValuesList,
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         authenticated: true,
         render: FormComponents.RadioInputGroup,
@@ -102,7 +104,7 @@ const getControls = memoize(
         authenticated: true,
         render: FormComponents.RadioInputGroup,
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
       },
       images_previews: {

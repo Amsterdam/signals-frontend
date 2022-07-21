@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { Fragment } from 'react'
 import styled from 'styled-components'
@@ -52,7 +52,7 @@ const InputWrapper = styled.div<{ width?: string }>`
   width: ${({ width }) => width || '100%'};
 `
 
-type PickedProps = 'touched' | 'hasError' | 'getError'
+type PickedProps = 'hasError' | 'getError'
 export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   className?: string
   meta: FormMeta
@@ -65,20 +65,17 @@ const FormField: FunctionComponent<FormFieldProps> = ({
   className,
   meta,
   options,
-  touched,
   hasError,
   getError,
   children,
 }) => {
   const containsErrors: boolean =
-    touched &&
-    (hasError('required') ||
-      hasError('email') ||
-      hasError('maxLength') ||
-      hasError('custom'))
-  const isOptional = !options?.validators?.some(
-    (validator) => validator.name === 'required'
-  )
+    hasError('required') ||
+    hasError('email') ||
+    hasError('maxLength') ||
+    hasError('custom')
+
+  const isOptional = !options?.validators?.includes('required')
   const FieldSetWrapper = isFieldSet ? FieldSet : Fragment
 
   return (
@@ -100,7 +97,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
         )}
 
         <div role="status">
-          {touched && containsErrors && (
+          {containsErrors && (
             <Fragment>
               {hasError('required') && (
                 <ErrorMessage
@@ -120,7 +117,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
                 />
               )}
 
-              {hasError('maxLength') && (
+              {hasError('max') && (
                 <ErrorMessage
                   message={`U heeft meer dan de maximale ${String(
                     (getError('maxLength') as { requiredLength: number })

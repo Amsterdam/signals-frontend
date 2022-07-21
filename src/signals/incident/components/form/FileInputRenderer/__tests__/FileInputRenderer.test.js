@@ -14,7 +14,6 @@ describe('Form component <FileInputRenderer />', () => {
 
   const props = {
     handler: jest.fn(),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     parent: {

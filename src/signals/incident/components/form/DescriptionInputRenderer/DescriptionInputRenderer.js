@@ -6,7 +6,6 @@ import DescriptionInput from '../DescriptionInput'
 
 const DescriptionInputRenderer = ({
   handler,
-  touched,
   value,
   hasError,
   meta,
@@ -20,7 +19,6 @@ const DescriptionInputRenderer = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -36,7 +34,6 @@ const DescriptionInputRenderer = ({
 
 DescriptionInputRenderer.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   value: PropTypes.string,
   hasError: PropTypes.func,
   meta: PropTypes.object,

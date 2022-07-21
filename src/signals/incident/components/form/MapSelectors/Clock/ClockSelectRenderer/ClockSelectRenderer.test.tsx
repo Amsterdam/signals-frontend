@@ -19,7 +19,6 @@ describe('signals/incident/components/form/ClockSelectRenderer', () => {
     handler: jest.fn(() => ({
       value: [],
     })),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-value',

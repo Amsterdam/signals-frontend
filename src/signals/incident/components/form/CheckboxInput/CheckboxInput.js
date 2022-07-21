@@ -44,7 +44,6 @@ const CheckboxGroup = styled.div`
 
 const CheckboxInput = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -55,7 +54,6 @@ const CheckboxInput = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -119,7 +117,6 @@ CheckboxInput.defaultProps = {
 
 CheckboxInput.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func,
   hasError: PropTypes.func,
   meta: PropTypes.object.isRequired,

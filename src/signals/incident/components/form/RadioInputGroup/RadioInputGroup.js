@@ -18,7 +18,6 @@ const StyledRadioGroup = styled(RadioGroup)`
 
 const RadioInputGroup = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -41,7 +40,6 @@ const RadioInputGroup = ({
       isFieldSet
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -78,7 +76,6 @@ const RadioInputGroup = ({
 
 RadioInputGroup.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,

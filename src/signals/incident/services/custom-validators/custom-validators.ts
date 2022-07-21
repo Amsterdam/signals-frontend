@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import type { AbstractControl } from 'react-reactive-form'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-export const validatePhoneNumber = (control?: AbstractControl) => {
+type Control ={
+  value: any
+}
+
+export const validatePhoneNumber = (control?: Control) => {
   if (
     !control ||
     control.value === '' ||
@@ -12,14 +15,14 @@ export const validatePhoneNumber = (control?: AbstractControl) => {
     return null
   }
 
-  return {
-    custom:
-      'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.',
+   return {
+      custom:
+        'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.',
   }
 }
 
 export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
-  function required(control: AbstractControl) {
+  function required(control: Control) {
     if (
       !control ||
       typeof control.value === 'number' ||
@@ -34,14 +37,14 @@ export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
   }
 
 export const createRequired = (message: string) =>
-  function required({ value }: AbstractControl) {
+  function required({ value }: Control) {
     return value === null || value === undefined || value.length === 0
       ? { required: message }
       : null
   }
 
 export const validateObjectLocation = (objectType: string) =>
-  function required(control: AbstractControl) {
+  function required(control: Control) {
     if (
       control.value?.location?.coordinates?.lng &&
       control.value?.location?.coordinates?.lat

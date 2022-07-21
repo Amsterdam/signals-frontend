@@ -7,7 +7,7 @@ import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import PreviousButton from 'components/PreviousButton'
 import NextButton from 'components/NextButton'
 
-import type { SyntheticEvent } from 'react'
+import type { BaseSyntheticEvent } from 'react'
 import type {
   FormAction,
   WizardSection,
@@ -39,7 +39,7 @@ interface IncidentNavigationProps {
   meta: {
     wizard: WizardSection
     handleSubmit: (
-      event: SyntheticEvent<HTMLButtonElement>,
+      event: BaseSyntheticEvent | undefined,
       next: () => void,
       formAction?: FormAction
     ) => void
@@ -79,7 +79,7 @@ interface WizardStepProps extends IncidentNavigationProps {
 
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
-
+  // const {handleSubmit: handleSubmitRHF } = useFormContext()
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
    */
@@ -90,6 +90,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
       <Nav className="incident-navigation">
         {wizardStep.nextButtonLabel && (
           <NextButton
+            // onClick={handleSubmitRHF((_, e) => handleSubmit(e, next, wizardStep.formAction))}
             onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
             data-testid="nextButton"
           >

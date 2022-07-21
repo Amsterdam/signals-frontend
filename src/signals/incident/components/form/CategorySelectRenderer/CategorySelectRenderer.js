@@ -29,7 +29,6 @@ const CategorySelectRenderer = ({
 
 CategorySelectRenderer.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,

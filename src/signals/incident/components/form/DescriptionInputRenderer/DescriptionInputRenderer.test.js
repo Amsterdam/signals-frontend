@@ -8,7 +8,6 @@ import DescriptionInputRenderer from '.'
 describe('signals/incident/components/form/DescriptionInputRenderer', () => {
   const props = {
     handler: jest.fn(),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-description',

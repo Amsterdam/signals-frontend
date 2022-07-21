@@ -12,7 +12,6 @@ import DateTimeInput from './DateTimeInput'
 const updateIncident = jest.fn()
 
 const props = {
-  touched: false,
   hasError: () => false,
   meta: {
     isVisible: true,

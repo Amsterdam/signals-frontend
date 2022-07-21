@@ -17,7 +17,6 @@ describe('Form component <TextareaInput />', () => {
   }
 
   const props = {
-    touched: false,
     hasError: jest.fn(),
     getError: jest.fn(),
     parent: {

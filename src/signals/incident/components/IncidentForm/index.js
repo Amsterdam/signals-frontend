@@ -10,7 +10,7 @@ import { Form, Fieldset, ProgressContainer } from './styled'
 
 const IncidentForm = ({
   incidentContainer,
-  reactHookMethods,
+  reactHookFormMethods,
   updateIncident,
   createIncident,
   wizard,
@@ -18,6 +18,7 @@ const IncidentForm = ({
   removeFromSelection,
   getClassification,
   fieldConfig,
+  setControls,
 }) => {
   // set state with useState
   const [loading, setLoading] = useState(false)
@@ -28,36 +29,31 @@ const IncidentForm = ({
   const prevState = useRef({})
 
   useEffect(() => {
-    const state = incidentContainer.loadingData === prevState.current.loading
+    const state = incidentContainer.loadingData !== prevState.current.loading
     prevState.current.loading = loading
     prevState.current.submitting = submitting
-
-    if (state) {
+    if (incidentContainer.loadingData) {
       setSubmitting(
         incidentContainer.loadingData ? prevState.current.submitting : false
       )
+
       setLoading(incidentContainer.loadingData)
+    } else if (loading){
+      setLoading((loading)=> !loading)
     }
   }, [loading, incidentContainer.loadingData, submitting])
 
-  // // useEffect with ...
   useEffect(() => {
-    if (!reactHookMethods.getValues()) return
+    if (!reactHookFormMethods.getValues()) return
 
     setValues(incidentContainer.incident)
 
-    // RHF: use after refactor?
-    // this.form.meta.incident = this.props.incidentContainer.incident
-    // this.form.meta.submitting = this.state.submitting
-
-    // RHF REFACTOR: THIS.FORM.VALID  VERANDEREN IN VALIDATIE REACT HOOK FORM
     if (
       prevState.current.loading &&
       !loading &&
       next
-      //&& this.form.valid
+      && reactHookFormMethods.formState.isValid
     ) {
-      // RHF create setIncident method
       setIncident(formAction)
       next()
     }
@@ -66,23 +62,23 @@ const IncidentForm = ({
     incidentContainer.incident,
     loading,
     next,
-    reactHookMethods,
-    setIncident,
-    setValues,
+    reactHookFormMethods,
   ])
 
-  //
+  useEffect(()=>{
+    setControls(controls)
+  }, [controls])
+
   // // RHF REFACTOR; HIER MOETEN DE ELEMENTEN WEL OF NIET ACTIEF WORDEN GEZET
   const setValues = useCallback(
     (incident) => {
-      Object.entries(reactHookMethods.getValues()).map(([key, value]) => {
+      Object.entries(reactHookFormMethods.getValues()).map(([key, value]) => {
         if (!isEqual(incident[key], value)) {
-          reactHookMethods.setValue(key, incident[key])
+          reactHookFormMethods.setValue(key, incident[key])
         }
       })
-      reactHookMethods.trigger()
     },
-    [reactHookMethods]
+    [reactHookFormMethods]
   )
 
   const setIncident = useCallback(
@@ -91,7 +87,7 @@ const IncidentForm = ({
         formAction // eslint-disable-line default-case
       ) {
         case 'UPDATE_INCIDENT':
-          updateIncident(reactHookMethods.getValues())
+          updateIncident(reactHookFormMethods.getValues())
           break
 
         case 'CREATE_INCIDENT':
@@ -107,14 +103,14 @@ const IncidentForm = ({
     [
       createIncident,
       incidentContainer.incident,
-      reactHookMethods,
+      reactHookFormMethods,
       updateIncident,
       wizard,
     ]
   )
 
   const handleSubmit = useCallback(
-    (e, next, formAction) => {
+    async (e, next, formAction) => {
       e.preventDefault()
       if (next) {
         if (loading) {
@@ -125,25 +121,22 @@ const IncidentForm = ({
           return
         }
 
+
         // RHF REFACTOR: VALIDATE WITH RHF, remove this.form.valid || this.form.status === 'DISABLED'
         // make sure it can be disabled
-        const valid = true
-        if (valid) {
+        reactHookFormMethods.handleSubmit(()=>{
           setIncident(formAction)
           next()
-        } else {
-          // RHF REFACTOR: THIS PIECE OF CODE FOCUSES ON THE FIRST INVALID ELEMENT
-          // also handle other validation rules here
-        }
+        })()
       }
     },
     [loading, setIncident]
   )
 
+  // FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible. This should be changed in the future.
   const fc = formatConditionalForm(fieldConfig, incidentContainer.incident)
 
   const isSummary = Object.keys(fc).includes('page_summary')
-
   const parent = {
     meta: {
       wizard,
@@ -165,39 +158,35 @@ const IncidentForm = ({
   return (
     <div data-testid="incidentForm">
       <ProgressContainer />
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Fieldset isSummary={isSummary}>
-          {Object.entries(controls).map(([_, value]) => {
+          {Object.entries(controls).map(([key, value]) => {
             return (
-              (value.render && parent && (
+              (value.render && parent && reactHookFormMethods?.control && (
                 <Controller
-                  key={_}
+                  key={key}
                   name={value.meta?.name || 'hidden'}
-                  control={reactHookMethods.control}
-                  render={({ field: { value: v } }) => {
+                  control={reactHookFormMethods.control}
+                  render={({ field: { value: v, onChange } }) => {
                     return (
                       <value.render
                         parent={parent}
                         handler={() => ({
                           onChange: (e) => {
                             value.meta &&
-                              reactHookMethods.setValue(
-                                value.meta.name,
-                                e.target.value
-                              )
+                              onChange(e.target.value)
                           },
                           onBlur: (e) => {
-                            value.meta &&
-                              reactHookMethods.setValue(
-                                value.meta.name,
-                                e.target.value
-                              )
+                            value.meta && onChange(e.target.value)
                           },
                           value: v,
                         })}
-                        getError={() => {}}
+                        getError={() => reactHookFormMethods.formState?.errors[key]?.message}
                         meta={value.meta || parent.meta}
-                        hasError={() => {}}
+                        hasError={(errorCode) => {
+                          return errorCode === reactHookFormMethods.formState?.errors[key]?.type
+                        }}
+                        validatorsOrOpts={value.options}
                       />
                     )
                   }}

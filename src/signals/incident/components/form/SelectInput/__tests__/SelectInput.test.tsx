@@ -19,7 +19,6 @@ describe('Form component <SelectInput />', () => {
         updateIncident: jest.fn(),
       },
     },
-    touched: false,
     hasError: jest.fn(),
     getError: jest.fn(),
     value: undefined,

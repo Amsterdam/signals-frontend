@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { useContext, useMemo } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -26,6 +26,9 @@ import type { WizardSection } from 'signals/incident/definitions/wizard'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import type { AnyObject } from 'yup/es/types'
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
@@ -63,8 +66,11 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   removeQuestionData,
   incidentContainer,
 }) => {
+  // Controls is used here for setting the validations rules used in UseForm resolver.
+  const [controls, setControls] = useState()
   const appContext = useContext(AppContext)
   const sources = appContext.sources
+
   const incident = useMemo(
     () => incidentContainer.incident,
     [incidentContainer.incident]
@@ -74,8 +80,75 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
     .filter(({ countAsStep }) => countAsStep)
     .map(({ stepLabel }) => ({ label: stepLabel || '' }))
 
-  // Init incident form
-  const methods = useForm()
+  /**
+   * Init form: when values change, construct yup resolver with validators from wizard.
+   * Use the validations from controls from IncidentForm.
+   */
+  const formMethods = useForm({
+    resolver: yupResolver(constructYupResolver()),
+  })
+
+  function constructYupResolver() {
+    const schema = controls
+      ? Object.fromEntries(
+          Object.entries(controls).reduce(
+            (acc: Array<[string, any]>, [key, control]: [string, any]) => {
+              const validators: any = control?.options?.validators
+
+              // All html fields start as a string
+              let validationField: AnyObject = yup.string()
+
+              // Except for locatie
+              if (key === 'locatie') {
+                validationField = yup.object()
+              }
+
+              // Chain multiple validators per field
+              if (validators) {
+                ;(Array.isArray(validators) ? validators : [validators]).map(
+                  (validator) => {
+                    if (validator === 'required') {
+                      validationField = validationField.required()
+                    }
+
+                    if (validator === 'email') {
+                      validationField = validationField.email()
+                    }
+
+                    if (Number.parseInt(validator)) {
+                      validationField = validationField.max(
+                        Number.parseInt(validator)
+                      )
+                    }
+
+                    if (
+                      Array.isArray(validator) &&
+                      validator[0] === 'maxLength' &&
+                      Number.parseInt(validator[1])
+                    ) {
+                      validationField = validationField.max(
+                        Number.parseInt(validator[1])
+                      )
+                    } else if (typeof validator === 'function') {
+                      validationField = validationField.test(
+                        'custom',
+                        (v: any) => validator({ value: v })?.custom,
+                        (v: any) => !validator({ value: v })?.custom
+                      )
+                    }
+                  }
+                )
+
+                acc.push([key, validationField])
+              }
+              return acc
+            },
+            []
+          )
+        )
+      : {}
+    return yup.object(schema)
+  }
 
   return (
     <Wrapper>
@@ -138,12 +211,13 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                             )}
 
                             {(form || formFactory) && (
-                              <FormProvider {...methods}>
+                              <FormProvider {...formMethods}>
                                 <IncidentForm
                                   fieldConfig={
                                     form || formFactory(incident, sources)
                                   }
-                                  reactHookMethods={methods}
+                                  setControls={setControls}
+                                  reactHookFormMethods={formMethods}
                                   incidentContainer={incidentContainer}
                                   getClassification={getClassification}
                                   removeQuestionData={removeQuestionData}

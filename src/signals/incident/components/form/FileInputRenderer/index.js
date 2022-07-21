@@ -8,7 +8,6 @@ import FileInput from '../FileInput'
 
 const FileInputRenderer = ({
   handler,
-  touched,
   hasError,
   getError,
   parent,
@@ -21,7 +20,6 @@ const FileInputRenderer = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -32,7 +30,6 @@ const FileInputRenderer = ({
 
 FileInputRenderer.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   hasError: PropTypes.func,
   meta: PropTypes.object,
   parent: PropTypes.object,

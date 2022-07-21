@@ -15,7 +15,6 @@ describe('Form component <GlobalError />', () => {
       label: 'Error message',
     },
     parent: {
-      touched: false,
       valid: false,
     },
   }
@@ -31,7 +30,7 @@ describe('Form component <GlobalError />', () => {
       render(
         withAppContext(
           <GlobalError
-            {...{ ...props, parent: { touched: true, valid: false } }}
+            {...{ ...props, parent: { valid: false } }}
           />
         )
       )
@@ -44,7 +43,7 @@ describe('Form component <GlobalError />', () => {
         withAppContext(
           <GlobalError
             meta={{ name: 'global' }}
-            parent={{ touched: true, valid: false }}
+            parent={{ valid: false }}
           />
         )
       )
@@ -56,7 +55,7 @@ describe('Form component <GlobalError />', () => {
       render(
         withAppContext(
           <GlobalError
-            {...{ ...props, parent: { touched: false, valid: true } }}
+            {...{ ...props, parent: { valid: true } }}
           />
         )
       )
@@ -64,11 +63,11 @@ describe('Form component <GlobalError />', () => {
       expect(screen.queryByText(props.meta.label)).not.toBeInTheDocument()
     })
 
-    it('does not render the error message when valid and touched', () => {
+    it('does not render the error message when valid', () => {
       render(
         withAppContext(
           <GlobalError
-            {...{ ...props, parent: { touched: true, valid: true } }}
+            {...{ ...props, parent: { valid: true } }}
           />
         )
       )

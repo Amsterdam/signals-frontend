@@ -13,7 +13,7 @@ const mockedQuestions = [
   {
     key: 'key2',
     meta: {
-      validators: ['required', ['max_length', 100]],
+      validators: ['required', ['maxLength', 100]],
     },
     field_type: 'radio_input',
   },
@@ -25,7 +25,7 @@ const mockedQuestions = [
   {
     key: 'key4',
     meta: {
-      validators: ['required', ['max_length', 100]],
+      validators: ['required', ['maxLength', 100]],
     },
     field_type: 'select_input',
     required: true,

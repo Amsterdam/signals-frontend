@@ -9,7 +9,6 @@ import DateTime from './DateTime'
 type DateTimeInputProps = Omit<FormInputProps<number | null>, 'handler'>
 
 const DateTimeInput: FC<DateTimeInputProps> = ({
-  touched,
   hasError,
   meta,
   parent,
@@ -27,7 +26,6 @@ const DateTimeInput: FC<DateTimeInputProps> = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >

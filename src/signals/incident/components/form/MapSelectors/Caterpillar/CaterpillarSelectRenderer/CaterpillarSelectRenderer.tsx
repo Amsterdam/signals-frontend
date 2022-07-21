@@ -7,12 +7,11 @@ import Layer from '../CaterpillarLayer'
 import type { AssetSelectRendererProps } from '../../Asset/types'
 
 const CaterpillarSelectRenderer: FunctionComponent<AssetSelectRendererProps> =
-  ({ handler, touched, hasError, meta, parent, getError, validatorsOrOpts }) =>
+  ({ handler, hasError, meta, parent, getError, validatorsOrOpts }) =>
     meta.isVisible ? (
       <FormField
         meta={meta}
         options={validatorsOrOpts}
-        touched={touched}
         hasError={hasError}
         getError={getError}
       >

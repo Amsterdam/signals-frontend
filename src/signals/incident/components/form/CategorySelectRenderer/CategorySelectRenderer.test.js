@@ -20,7 +20,6 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
         slug: 'baz',
       },
     })),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-description',

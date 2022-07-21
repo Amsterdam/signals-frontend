@@ -10,7 +10,6 @@ export type TextInputProps = FormInputProps
 
 const TextInput: FunctionComponent<TextInputProps> = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -21,7 +20,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >

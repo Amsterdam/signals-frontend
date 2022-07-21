@@ -12,7 +12,6 @@ describe('Form component <MapInput />', () => {
       name: 'foo',
       isVisible: true,
     },
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     parent: {

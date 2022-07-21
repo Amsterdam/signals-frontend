@@ -25,7 +25,6 @@ describe('Form component <MultiTextInput />', () => {
         updateIncident: jest.fn(),
       },
     },
-    touched: false,
     hasError: jest.fn(),
     getError: jest.fn(),
     value: [''],

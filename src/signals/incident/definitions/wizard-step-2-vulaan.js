@@ -25,7 +25,11 @@ import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
-const mapValidatorToFn = (validator) => Validators?.[validator] || validator
+/**
+ * Options.validators contains only strings, which are mapped to some yup method.
+ */
+// const mapValidatorToFn = (validator) => Validators?.[validator] || validator
+const mapValidatorToFn = (validator) => validator
 
 const expandValidatorFn = ([validator, ...args]) =>
   mapValidatorToFn(validator)(...args)

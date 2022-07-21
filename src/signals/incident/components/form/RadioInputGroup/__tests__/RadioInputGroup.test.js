@@ -7,7 +7,6 @@ import RadioInputGroup from '..'
 
 describe('Form component <RadioInput />', () => {
   const props = {
-    touched: false,
     meta: {
       name: 'input-field-name',
       placeholder: 'type here',
