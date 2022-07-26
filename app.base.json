@@ -9,6 +9,7 @@
     "enableNearIncidents": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
+    "enableAmsterdamSpecificOverigCategories": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
