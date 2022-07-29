@@ -32,6 +32,7 @@ import { ScrollWrapper, Title } from '../styled'
 import {
   AddressPanel,
   Description,
+  DescriptionMeldingenkaart,
   LegendToggleButton,
   OptionsList,
   PanelContent,
@@ -43,6 +44,7 @@ import {
 
 export interface DetailPanelProps {
   language?: Record<string, string>
+  hideLegendButton?: boolean
 }
 
 const nearbyLegendItem = {
@@ -54,7 +56,10 @@ const nearbyLegendItem = {
   typeValue: NEARBY_TYPE,
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
+const DetailPanel: FC<DetailPanelProps> = ({
+  language = {},
+  hideLegendButton,
+}) => {
   const shouldRenderAddressPanel = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
@@ -168,11 +173,20 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       <ScrollWrapper>
         <Paragraph strong gutterBottom={16}>
           {language.subTitle || 'U kunt maar een object kiezen'}
+        </Paragraph>
+        {!hideLegendButton ? (
           <Description>
             {language.description ||
               'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
           </Description>
-        </Paragraph>
+        ) : (
+          <>
+            <DescriptionMeldingenkaart>
+              {language.description}
+            </DescriptionMeldingenkaart>
+            <Paragraph strong>Zoek naar adres of postcode</Paragraph>
+          </>
+        )}
 
         {!(showAddressPanel && shouldRenderAddressPanel) && (
           <StyledPDOKAutoSuggest
@@ -232,18 +246,19 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             )}
           </div>
         )}
-
-        <StyledButton
-          onClick={() => dispatch(closeMap())}
-          variant="primary"
-          data-testid="assetSelectSubmitButton"
-          tabIndex={0}
-        >
-          {language.submit || 'Meld dit object'}
-        </StyledButton>
+        {!hideLegendButton && (
+          <StyledButton
+            onClick={() => dispatch(closeMap())}
+            variant="primary"
+            data-testid="assetSelectSubmitButton"
+            tabIndex={0}
+          >
+            {language.submit || 'Meld dit object'}
+          </StyledButton>
+        )}
       </ScrollWrapper>
 
-      {legendItems.length > 0 && (
+      {!hideLegendButton && legendItems.length > 0 && (
         <>
           <StyledLegendPanel
             onClose={toggleLegend}

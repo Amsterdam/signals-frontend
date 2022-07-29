@@ -13,7 +13,7 @@ const IncidentMapContainer = () => {
     <Row>
       <Column span={12}>
         <Suspense fallback={<LoadingIndicator />}>
-          <IncidentMap />
+          <IncidentMap hideButtons={true} />
         </Suspense>
       </Column>
     </Row>

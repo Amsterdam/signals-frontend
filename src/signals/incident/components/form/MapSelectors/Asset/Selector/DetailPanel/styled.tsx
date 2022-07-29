@@ -74,6 +74,14 @@ export const Description = styled.span`
   font-weight: 400;
 `
 
+export const DescriptionMeldingenkaart = styled.span`
+  color: ${themeColor('tint', 'level7')};
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 16px;
+`
+
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   margin: ${themeSpacing(4, 0)};
   width: 100%;
