@@ -259,7 +259,7 @@ describe('<AttachmentViewer />', () => {
       )
     })
 
-    it('should close', () => {
+    it('should close with close button', () => {
       const onClose = jest.fn()
 
       render(
@@ -275,6 +275,26 @@ describe('<AttachmentViewer />', () => {
       expect(onClose).not.toHaveBeenCalled()
 
       userEvent.click(screen.getByTitle(/sluiten/i))
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    it('should close with click outside', () => {
+      const onClose = jest.fn()
+
+      render(
+        withAppContext(
+          <AttachmentViewer
+            {...props}
+            href={props.attachments[0].location}
+            onClose={onClose}
+          />
+        )
+      )
+
+      expect(onClose).not.toHaveBeenCalled()
+
+      userEvent.click(screen.getByTestId('attachment-viewer-modal-wrapper'))
 
       expect(onClose).toHaveBeenCalledTimes(1)
     })

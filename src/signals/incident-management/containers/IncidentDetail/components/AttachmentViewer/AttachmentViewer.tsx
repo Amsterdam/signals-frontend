@@ -244,7 +244,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
       </Header>
 
       <ModalInner data-scroll-lock-scrollable>
-        <Wrapper ref={wrapperRef}>
+        <Wrapper ref={wrapperRef} data-testid="attachment-viewer-modal-wrapper">
           {previous && (
             <PreviousButton
               data-testid="attachment-viewer-button-previous"
