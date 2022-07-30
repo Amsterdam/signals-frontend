@@ -197,6 +197,7 @@ const DetailPanel: FC<DetailPanelProps> = ({
             onSelect={onAddressSelect}
             value={addressValue}
             placeholder="Zoek adres of postcode"
+            data-testid="inputAddress"
           />
         )}
 

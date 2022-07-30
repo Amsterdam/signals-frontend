@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { Dispatch, FC, SetStateAction } from 'react'
 import { memo, useState, useCallback, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -102,7 +102,7 @@ const IncidentMap: FC<OverviewMapProps> = ({
     [map]
   )
 
-  const meldingenkaartContext: AssetSelectValue = {
+  const incidentMapContext: AssetSelectValue = {
     coordinates: undefined,
     message: undefined,
     meta: {
@@ -219,14 +219,14 @@ const IncidentMap: FC<OverviewMapProps> = ({
   })
 
   return (
-    <AssetSelectProvider value={meldingenkaartContext}>
+    <AssetSelectProvider value={incidentMapContext}>
       <Wrapper {...rest}>
         <DetailPanel
-          language={meldingenkaartContext.meta.language}
+          language={incidentMapContext.meta.language}
           hideLegendButton={hideButtons}
         />
         <StyledMap
-          data-testid="overviewMap"
+          data-testid="incidentMap"
           hasZoomControls
           mapOptions={{
             ...MAP_OPTIONS,
