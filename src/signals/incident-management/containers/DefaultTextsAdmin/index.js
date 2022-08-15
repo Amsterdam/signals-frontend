@@ -19,7 +19,7 @@ import { useCallback, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { reCategory } from '../../../../shared/services/resolveClassification'
 import { statusList } from '../../definitions'
-import HiddenInput_b from '../../components/HiddenInput_b'
+import HiddenInput from '../../components/HiddenInput'
 import SelectForm from './components/SelectForm'
 import DefaultTextsForm from './components/DefaultTextsForm'
 
@@ -154,8 +154,8 @@ export const DefaultTextsAdminContainer = ({
         {subCategories && categoryUrl && !loading && !error && (
           <StyledWrapper>
             <form className="default-texts-form__form">
-              <HiddenInput_b name={'state'} value={state} />
-              <HiddenInput_b name={'categoryUrl'} value={categoryUrl} />
+              <HiddenInput name={'state'} value={state} />
+              <HiddenInput name={'categoryUrl'} value={categoryUrl} />
               {items.map((item, index) => (
                 <Controller
                   key={item}
