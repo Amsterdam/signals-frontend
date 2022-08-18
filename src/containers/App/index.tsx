@@ -22,6 +22,7 @@ import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverv
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
 
 import { getSources } from './actions'
 import AppContext from './context'
@@ -75,6 +76,7 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice()
   const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
+  const isIncidentMap = useIsIncidentMap()
 
   useEffect(() => {
     const { referrer } = location
@@ -152,7 +154,7 @@ export const AppContainer = () => {
             </Suspense>
           </ContentContainer>
           <FooterContent>
-            {!getIsAuthenticated() && <FooterContainer />}
+            {!getIsAuthenticated() && !isIncidentMap && <FooterContainer />}
           </FooterContent>
         </Fragment>
       </AppContext.Provider>
