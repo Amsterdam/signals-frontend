@@ -31,15 +31,18 @@ const ZoomMessageStyle = styled(MessageStyle)`
 `
 
 const CloseButton = styled(Button)`
+  background-color: ${themeColor('primary')};
   height: unset; 
-  min-width: unset;
   padding: 0;
   position: absolute; 
-  top: ${themeSpacing(3)};
   right: ${themeSpacing(3)};
+  top: ${themeSpacing(3)};
   
+  & svg path {
+    fill: ${themeColor('tint', 'level1')};
+  }
+
    &:hover {
-     cursor: pointer; 
       background-color: unset; 
    }
 `
@@ -96,6 +99,6 @@ export const MapMessage: FC<MapMessageProps> = ({
 }) => (
   <MessageOverlay {...props} data-testid="mapMessage" type="map">
     {children}
-    <CloseButton onClick={onClick} icon={<Close />} variant='primary' aria-label='Melding sluiten' />
+    <CloseButton onClick={onClick} icon={<Close />} variant='blank' aria-label='Melding sluiten' />
   </MessageOverlay>
 )
