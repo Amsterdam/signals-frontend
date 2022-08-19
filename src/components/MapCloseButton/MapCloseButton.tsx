@@ -22,7 +22,7 @@ const MapCloseButton: FunctionComponent<MapCloseButtonProps & React.HTMLProps<HT
     onClick={onClick}
     size={MAP_ICON_SIZE}
     title="Sluiten"
-    aria-label='Kaart sluiten'
+    aria-label="Kaart sluiten"
     variant="blank"
     className={className}
     tabIndex={tabIndex}
