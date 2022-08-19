@@ -100,6 +100,6 @@ export const MapMessage: FC<MapMessageProps> = ({
 }) => (
   <MessageOverlay {...props} data-testid="mapMessage" type="map">
     {children}
-    <CloseButton onClick={onClick} icon={<Close />} variant='blank' aria-label='Melding sluiten' />
+    <CloseButton onClick={onClick} icon={<Close />} variant="blank" aria-label="Melding sluiten" />
   </MessageOverlay>
 )
