@@ -10,6 +10,7 @@ import type {
   FC,
   PropsWithChildren,
   HTMLAttributes,
+  MouseEventHandler
 } from 'react'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 
@@ -89,7 +90,7 @@ export const ZoomMessage: FC<PropsWithChildren<ZoomMessageProps>> = ({
 
 interface MapMessageProps
   extends PropsWithChildren<Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>> {
-  onClick: () => void
+  onClick: MouseEventHandler<HTMLAnchorElement> & MouseEventHandler<HTMLButtonElement>
 }
 
 export const MapMessage: FC<MapMessageProps> = ({
