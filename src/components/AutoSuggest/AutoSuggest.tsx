@@ -326,6 +326,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         {(defaultValue || value) && (
           <ClearInput
             aria-label="Input verwijderen"
+            title="Verwijderen"
             data-testid="clearInput"
             icon={<Close />}
             iconSize={20}
