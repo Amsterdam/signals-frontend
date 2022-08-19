@@ -28,7 +28,7 @@ const StyledMap = styled(Map)`
 const IncidentMap = () => (
   <Wrapper>
     <StyledMap
-      data-testid="overviewMap"
+      data-testid="incidentMap"
       hasZoomControls
       fullScreen
       mapOptions={{ ...MAP_OPTIONS, zoom: 9 }}

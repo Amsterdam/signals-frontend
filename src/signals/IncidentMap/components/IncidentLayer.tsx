@@ -4,14 +4,16 @@
 import type { FeatureCollection, Feature as GeoJSONFeature } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
 import type { Geometrie } from 'types/incident'
+import type { ReactElement } from 'react'
 
 import { useFetch } from 'hooks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import configuration from 'shared/services/configuration/configuration'
 import L from 'leaflet'
-import { Marker } from '@amsterdam/arm-core'
+import { Marker, ViewerContainer } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
+import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 
 type Point = {
   type: 'Point'
@@ -28,8 +30,9 @@ type Properties = {
 type Feature = GeoJSONFeature<Point, Properties>
 
 const IncidentLayer = () => {
+  const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const bbox = useBoundingBox()
-  const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
+  const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   const getMarker = (feature: Feature) => {
     const coordinates = featureToCoordinates(feature.geometry as Geometrie)
@@ -54,6 +57,10 @@ const IncidentLayer = () => {
   }
 
   useEffect(() => {
+    if (error) setMapMessage('Er konden geen meldingen worden opgehaald.')
+  })
+
+  useEffect(() => {
     if (!bbox) return
 
     const { west, south, east, north } = bbox
@@ -68,6 +75,15 @@ const IncidentLayer = () => {
     <>
       <span data-testid="incidentLayer" />
       {data?.features.map((feature) => getMarker(feature))}
+      {mapMessage && (
+        <ViewerContainer
+          topLeft={
+            <MapMessage onClick={() => setMapMessage('')}>
+              {mapMessage}
+            </MapMessage>
+          }
+        />
+      )}
     </>
   )
 }
