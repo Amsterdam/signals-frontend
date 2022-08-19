@@ -3,6 +3,7 @@
 import styled from 'styled-components'
 import Map from 'components/Map'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import IncidentLayer from './IncidentLayer'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -30,8 +31,10 @@ const IncidentMap = () => (
       data-testid="overviewMap"
       hasZoomControls
       fullScreen
-      mapOptions={MAP_OPTIONS}
-    ></StyledMap>
+      mapOptions={{ ...MAP_OPTIONS, zoom: 9 }}
+    >
+      <IncidentLayer />
+    </StyledMap>
   </Wrapper>
 )
 
