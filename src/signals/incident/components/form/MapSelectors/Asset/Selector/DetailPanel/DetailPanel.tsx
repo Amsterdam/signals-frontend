@@ -259,10 +259,12 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         <AddressPanel data-testid="addressPanel">
           <header>
             <Button
+              aria-label="Terug"
               icon={<ChevronLeft />}
               iconSize={16}
               onClick={closeAddressPanel}
               size={24}
+              title="Terug"
               variant="blank"
             />
             <StyledPDOKAutoSuggest
