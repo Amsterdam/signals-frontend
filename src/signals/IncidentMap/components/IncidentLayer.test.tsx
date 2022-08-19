@@ -62,4 +62,19 @@ describe('IncidentLayer', () => {
     const container = renderWithContext()
     expect(container.getAllByAltText('Huisafval')).toHaveLength(numFeatures)
   })
+
+  it('shows a message when the API returns an error', async () => {
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+      data: undefined,
+      error: true,
+    }))
+
+    renderWithContext()
+    await screen.findByTestId('incidentLayer')
+
+    expect(
+      screen.getByText('Er konden geen meldingen worden opgehaald.')
+    ).toBeInTheDocument()
+  })
 })
