@@ -256,10 +256,12 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       )}
 
       {showAddressPanel && shouldRenderAddressPanel && (
-        <AddressPanel data-testid="addressPanel">
+        <AddressPanel data-testid="addressPanel" id="addressPanel">
           <header>
             <Button
               aria-label="Terug"
+              aria-expanded={showAddressPanel}
+              aria-controls="addressPanel"
               icon={<ChevronLeft />}
               iconSize={16}
               onClick={closeAddressPanel}
