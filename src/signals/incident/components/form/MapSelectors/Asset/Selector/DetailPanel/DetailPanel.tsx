@@ -56,7 +56,8 @@ const nearbyLegendItem = {
 
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({
-    query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
+    // Set breakpoint to mobile instead of tablet since desktop will get the mobile version when zoom on 200% which is not accesible with keyboard.
+    query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const [optionsList, setOptionsList] = useState(null)
