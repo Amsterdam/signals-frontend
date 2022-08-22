@@ -268,7 +268,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               size={24}
               title="Terug"
               variant="blank"
-            /> 
+            />
             <StyledPDOKAutoSuggest
               onClear={clearInput}
               onData={setOptionsList}
