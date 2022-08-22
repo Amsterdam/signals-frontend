@@ -275,6 +275,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               showInlineList={false}
               value={addressValue}
               placeholder="Zoek adres of postcode"
+              autoFocus={true}
             />
           </header>
 
