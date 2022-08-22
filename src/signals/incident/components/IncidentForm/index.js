@@ -125,7 +125,7 @@ const IncidentForm = ({
         })()
       }
     },
-    [loading, setIncident]
+    [loading, reactHookFormMethods, setIncident, submitting]
   )
 
   // FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible. This should be changed in the future.
@@ -179,9 +179,7 @@ const IncidentForm = ({
                           },
                           value: v,
                         })}
-                        getError={() =>
-                          reactHookFormMethods.formState?.errors[key]?.message
-                        }
+                        getError={() => 'Dit is een verplicht veld'}
                         meta={value.meta || parent.meta}
                         hasError={(errorCode) => {
                           return (
