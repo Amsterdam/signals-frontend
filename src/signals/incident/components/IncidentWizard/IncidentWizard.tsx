@@ -86,6 +86,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
    */
   const formMethods = useForm({
     resolver: yupResolver(constructYupResolver()),
+    reValidateMode: 'onSubmit',
   })
 
   function constructYupResolver() {
@@ -99,7 +100,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
               let validationField: AnyObject = yup.string()
 
               // Except for locatie
-              if (key === 'locatie') {
+              if (key === 'locatie' || key.startsWith('extra')) {
                 validationField = yup.object()
               }
 

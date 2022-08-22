@@ -29,19 +29,13 @@ const IncidentForm = ({
   const prevState = useRef({})
 
   useEffect(() => {
-    const state = incidentContainer.loadingData !== prevState.current.loading
     prevState.current.loading = loading
-    prevState.current.submitting = submitting
     if (incidentContainer.loadingData) {
-      setSubmitting(
-        incidentContainer.loadingData ? prevState.current.submitting : false
-      )
-
       setLoading(incidentContainer.loadingData)
-    } else if (loading){
-      setLoading((loading)=> !loading)
+    } else if (loading) {
+      setLoading((loading) => !loading)
     }
-  }, [loading, incidentContainer.loadingData, submitting])
+  }, [loading, incidentContainer.loadingData])
 
   useEffect(() => {
     if (!reactHookFormMethods.getValues()) return
@@ -51,8 +45,8 @@ const IncidentForm = ({
     if (
       prevState.current.loading &&
       !loading &&
-      next
-      && reactHookFormMethods.formState.isValid
+      next &&
+      reactHookFormMethods.formState.isValid
     ) {
       setIncident(formAction)
       next()
@@ -65,11 +59,10 @@ const IncidentForm = ({
     reactHookFormMethods,
   ])
 
-  useEffect(()=>{
+  useEffect(() => {
     setControls(controls)
   }, [controls])
 
-  // // RHF REFACTOR; HIER MOETEN DE ELEMENTEN WEL OF NIET ACTIEF WORDEN GEZET
   const setValues = useCallback(
     (incident) => {
       Object.entries(reactHookFormMethods.getValues()).map(([key, value]) => {
@@ -115,17 +108,19 @@ const IncidentForm = ({
       if (next) {
         if (loading) {
           setFormAction(formAction)
-          setSubmitting(true)
           setNext(next)
 
           return
         }
 
+        if (!submitting) {
+          setSubmitting(true)
+        }
 
-        // RHF REFACTOR: VALIDATE WITH RHF, remove this.form.valid || this.form.status === 'DISABLED'
         // make sure it can be disabled
-        reactHookFormMethods.handleSubmit(()=>{
+        reactHookFormMethods.handleSubmit(() => {
           setIncident(formAction)
+          setSubmitting(false)
           next()
         })()
       }
@@ -173,18 +168,26 @@ const IncidentForm = ({
                         parent={parent}
                         handler={() => ({
                           onChange: (e) => {
-                            value.meta &&
-                              onChange(e.target.value)
+                            value.meta && onChange(e.target.value)
                           },
                           onBlur: (e) => {
                             value.meta && onChange(e.target.value)
+
+                            if (submitting) {
+                              reactHookFormMethods.trigger()
+                            }
                           },
                           value: v,
                         })}
-                        getError={() => reactHookFormMethods.formState?.errors[key]?.message}
+                        getError={() =>
+                          reactHookFormMethods.formState?.errors[key]?.message
+                        }
                         meta={value.meta || parent.meta}
                         hasError={(errorCode) => {
-                          return errorCode === reactHookFormMethods.formState?.errors[key]?.type
+                          return (
+                            errorCode ===
+                            reactHookFormMethods.formState?.errors[key]?.type
+                          )
                         }}
                         validatorsOrOpts={value.options}
                       />
