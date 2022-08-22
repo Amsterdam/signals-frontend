@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import {
   Fragment,
   useLayoutEffect,
@@ -53,6 +53,8 @@ import {
   FormFooterWrapper,
 } from './styled'
 
+import { MAX_FILTER_LENGTH } from './maxFilterLength'
+
 import {
   reset,
   setAddress,
@@ -81,7 +83,6 @@ const getUserCount = (data) => data?.count
  * Component that renders the incident filter form
  */
 const FilterForm = ({
-  maxFilterLength,
   filter,
   onCancel,
   onClearFilter,
@@ -89,7 +90,6 @@ const FilterForm = ({
   onSubmit,
   onUpdateFilter,
 }) => {
-  const MAX_FILTER_LENGTH = !maxFilterLength ? 2700 : maxFilterLength
   const { sources } = useContext(AppContext)
   const { districts } = useContext(IncidentManagementContext)
   const categories = useSelector(makeSelectStructuredCategories)
@@ -164,7 +164,7 @@ const FilterForm = ({
   useEffect(() => {
     /*
      * The purpose is to calculate the length of the url because it might be too long.
-     * ParseOutputFormData returns all the checked filtersm in the following form:
+     * ParseOutputFormData returns all the checked filters in the following form:
      * {status: ['g', 'i', ...], stadsdeel: ['w', ...], date_created_after: '11-11-1911'}
      * Every key with each of its values is added to the URL as '&key=value', that's why we
      * calculate for every key and each of its values the length of the key and of the value
@@ -173,7 +173,7 @@ const FilterForm = ({
     const filterLength = Object.entries(
       parseOutputFormData(state.options)
     ).reduce((lengthOptions, [key, value]) => {
-      const allArray = Array.isArray(value) ? value : [value] // is dit niet altijd een array?
+      const allArray = Array.isArray(value) ? value : [value]
       return (
         lengthOptions +
         allArray.reduce((valueSum, s) => {

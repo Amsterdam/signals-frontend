@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { store, withAppContext } from 'test/utils'
@@ -31,6 +31,14 @@ import IncidentManagementContext from '../../../context'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
+
+const mockMAX_FILTER_LENGTHGetter = jest.fn()
+jest.mock('../maxFilterLength', () => ({
+  ...jest.requireActual('../maxFilterLength'),
+  get MAX_FILTER_LENGTH() {
+    return mockMAX_FILTER_LENGTHGetter()
+  },
+}))
 
 jest.spyOn(actions, 'showGlobalNotification')
 jest.spyOn(actions, 'resetGlobalNotification')
@@ -1109,17 +1117,18 @@ describe('signals/incident-management/components/FilterForm', () => {
 describe('GlobalNotification', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockMAX_FILTER_LENGTHGetter.mockReturnValue(54) // 54 because that's 1 + minimal value of filterLength (min value = 53)
   })
 
   it('should show GlobalNotification', () => {
     const { getAllByTestId } = render(
-      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 75 }} />)
+      withContext(<FilterForm {...{ ...formProps }} />)
     )
+
     getAllByTestId('checkboxList').forEach((element) => {
       element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
         userEvent.click(checkbox)
       })
-      userEvent.click(element.querySelector('input[type="checkbox"]')) //deselect the first checkbox
     })
     expect(actions.showGlobalNotification).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -1130,14 +1139,35 @@ describe('GlobalNotification', () => {
   })
 
   it('should remove GlobalNotification from view', () => {
-    render(
-      withContext(<FilterForm {...{ ...formProps, maxFilterLength: 54 }} />) // 54 because thats 1 + minimal value of filterLength (min value = 53)
+    const { getAllByTestId, container } = render(
+      withContext(<FilterForm {...{ ...formProps }} />)
     )
 
-    // check checkbox to trigger showGlobalNotification
-    userEvent.click(screen.getByTestId('checkbox-status_m'))
+    // check checkboxes to trigger showGlobalNotification
+    getAllByTestId('checkboxList').forEach((element) => {
+      element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+        userEvent.click(checkbox)
+      })
+    })
 
-    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A')) //uncheck the checkbox
+    expect(actions.showGlobalNotification).toHaveBeenCalled()
+
+    expect(container).toMatchSnapshot()
+
+    expect(
+      screen.getByText(
+        'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
+      )
+    ).toBeInTheDocument()
+
+    //expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
+
+    // // uncheck checkboxes to trigger resetGlobalNotification
+    // getAllByTestId('checkboxList').forEach((element) => {
+    //   element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    //     userEvent.click(checkbox)
+    //   })
+    // })
     expect(actions.resetGlobalNotification).toHaveBeenCalled()
   })
 
@@ -1148,7 +1178,7 @@ describe('GlobalNotification', () => {
     }
     render(
       withContext(
-        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} /> // 54 because thats 1 + minimal value of filterLength (min value = 53)
+        <FilterForm {...{ ...formProps, ...handlers }} /> // 54 because thats 1 + minimal value of filterLength (min value = 53)
       )
     )
 
@@ -1162,11 +1192,7 @@ describe('GlobalNotification', () => {
     const handlers = {
       onUpdateFilter: jest.fn(),
     }
-    render(
-      withContext(
-        <FilterForm {...{ ...formProps, ...handlers, maxFilterLength: 54 }} />
-      )
-    )
+    render(withContext(<FilterForm {...{ ...formProps, ...handlers }} />))
 
     userEvent.click(screen.getByTestId('checkbox-stadsdeel_A'))
     userEvent.click(screen.getByTestId('submitBtn'))
