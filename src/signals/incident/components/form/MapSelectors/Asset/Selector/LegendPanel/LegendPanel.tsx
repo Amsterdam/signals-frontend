@@ -22,6 +22,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
   <Panel
     className={`${className} ${slide}`}
     data-testid="legendPanel"
+    id="legendPanel"
     slide={slide}
   >
     <Title>Uitleg</Title>

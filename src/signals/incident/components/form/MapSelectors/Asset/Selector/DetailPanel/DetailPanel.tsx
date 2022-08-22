@@ -251,7 +251,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             items={legendItems}
           />
 
-          <LegendToggleButton onClick={toggleLegend} />
+          <LegendToggleButton onClick={toggleLegend} isOpen={showLegendPanel} />
         </>
       )}
 
@@ -266,7 +266,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               size={24}
               title="Terug"
               variant="blank"
-            />
+            /> 
             <StyledPDOKAutoSuggest
               onClear={clearInput}
               onData={setOptionsList}

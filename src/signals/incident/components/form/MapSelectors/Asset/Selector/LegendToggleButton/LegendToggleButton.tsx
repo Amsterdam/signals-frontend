@@ -9,6 +9,7 @@ import Button from 'components/Button'
 
 export interface LegendToggleButtonProps {
   className?: string
+  isOpen: boolean
   onClick: () => void
 }
 
@@ -24,15 +25,18 @@ const StyledButton = styled(Button)`
 
 const LegendToggleButton: FC<LegendToggleButtonProps> = ({
   className,
+  isOpen,
   onClick,
 }) => (
   <StyledButton
-    data-testid="legendToggleButton"
+    aria-controls="legendPanel"
+    aria-expanded={isOpen}
     className={className}
-    type="button"
-    variant="blank"
+    data-testid="legendToggleButton"
     onClick={onClick}
     tabIndex={0}
+    type="button"
+    variant="blank"
   >
     Uitleg
   </StyledButton>
