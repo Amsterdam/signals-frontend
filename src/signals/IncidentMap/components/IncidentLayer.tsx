@@ -58,7 +58,7 @@ const IncidentLayer = () => {
 
   useEffect(() => {
     if (error) setMapMessage('Er konden geen meldingen worden opgehaald.')
-  })
+  }, [get])
 
   useEffect(() => {
     if (!bbox) return
