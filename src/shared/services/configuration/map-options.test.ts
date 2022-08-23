@@ -10,7 +10,6 @@ describe('shared/services/configuration/map-options', () => {
 
   it('should return an object with configuration props', () => {
     configuration.map.options = {
-      crs: 'EPSG:28992',
       zoom: 1,
       center: [2],
       maxBounds: [[3]],
