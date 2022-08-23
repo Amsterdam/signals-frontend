@@ -30,6 +30,7 @@ import { makeSelectLoading, makeSelectSources } from './selectors'
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }
 }>`
+  position: relative;
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;

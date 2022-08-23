@@ -27,12 +27,12 @@ import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import {
   IncidentMapHeader,
   IncidentMapHeaderWrapper,
-  IncidentMapMenuButton,
   Title,
   Wrapper,
 } from './incidentMapStyles'
 
 const MENU_BREAKPOINT = 1320
+const INCIDENT_MAP_MENU_BREAKPOINT = 540
 
 const StyledHeader = styled(HeaderComponent)`
   ${({ isFrontOffice, tall }) =>
@@ -291,6 +291,9 @@ export const SiteHeader = (props) => {
   const rendersMenuToggle = useMediaQuery({
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
+  const rendersIncidentMapMenuToggle = useMediaQuery({
+    query: `(max-width: ${INCIDENT_MAP_MENU_BREAKPOINT}px)`,
+  })
   const isFrontOffice = useIsFrontOffice()
   const isIncidentMap = useIsIncidentMap()
   const tall = isFrontOffice && !getIsAuthenticated()
@@ -314,17 +317,22 @@ export const SiteHeader = (props) => {
     [props, menuOpen, rendersMenuToggle]
   )
 
-  const IncidentMapNavigation = () => (
+  const IncidentMapMenuItems = () => (
     <MenuItem>
-      <IncidentMapMenuButton
-        forwardedAs="a"
-        href="/incident/beschrijf"
-        target="_blank"
-      >
+      <MenuButton forwardedAs="a" href="/incident/beschrijf" target="_blank">
         Doe een melding
-      </IncidentMapMenuButton>
+      </MenuButton>
     </MenuItem>
   )
+
+  const IncidentMapNavigation = () =>
+    rendersIncidentMapMenuToggle ? (
+      <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+        <IncidentMapMenuItems />
+      </MenuToggle>
+    ) : (
+      <IncidentMapMenuItems />
+    )
 
   return !isIncidentMap ? (
     <>
