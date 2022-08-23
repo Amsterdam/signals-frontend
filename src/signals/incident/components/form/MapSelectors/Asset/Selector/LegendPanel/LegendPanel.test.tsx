@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
@@ -18,7 +18,6 @@ describe('LegendPanel', () => {
         label: 'label',
       },
     ],
-    buttonRef: jest.fn(),
   }
 
   it('render correctly', () => {
@@ -32,15 +31,7 @@ describe('LegendPanel', () => {
   })
 
   it('renders with empty items', () => {
-    render(
-      withAppContext(
-        <LegendPanel
-          items={[]}
-          onClose={props.onClose}
-          buttonRef={props.buttonRef}
-        />
-      )
-    )
+    render(withAppContext(<LegendPanel items={[]} onClose={props.onClose} />))
 
     expect(screen.queryAllByRole('listitem').length).toBe(0)
   })

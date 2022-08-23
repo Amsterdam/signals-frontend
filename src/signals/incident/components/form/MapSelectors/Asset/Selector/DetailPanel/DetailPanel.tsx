@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import { useCallback, useState, useContext, useRef, useEffect } from 'react'
+import { useCallback, useState, useContext } from 'react'
 import {
   Paragraph,
   Label,
@@ -60,7 +60,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const [optionsList, setOptionsList] = useState(null)
 
   const [showAddressPanel, setShowAddressPanel] = useState(false)
@@ -160,12 +159,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setOptionsList(null)
   }, [removeItem])
 
-  useEffect(() => {
-    if (buttonRef?.current && showLegendPanel) {
-      buttonRef.current.focus()
-    }
-  }, [buttonRef, showLegendPanel])
-
   return (
     <PanelContent
       data-testid="detailPanel"
@@ -257,7 +250,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onClose={toggleLegend}
             slide={showLegendPanel ? 'in' : 'out'}
             items={legendItems}
-            buttonRef={buttonRef}
           />
 
           <LegendToggleButton onClick={toggleLegend} isOpen={showLegendPanel} />
