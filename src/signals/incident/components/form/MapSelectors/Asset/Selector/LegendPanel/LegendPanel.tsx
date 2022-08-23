@@ -11,6 +11,7 @@ export interface LegendPanelProps {
   items: { id: string; iconUrl: string; label: string }[]
   onClose: () => void
   slide?: 'in' | 'out'
+  buttonRef: React.ForwardedRef<HTMLButtonElement>
 }
 
 const LegendPanel: FunctionComponent<LegendPanelProps> = ({
@@ -18,6 +19,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
   items,
   onClose,
   slide = 'out',
+  buttonRef
 }) => (
   <Panel
     className={`${className} ${slide}`}
@@ -27,7 +29,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
   >
     <Title>Uitleg</Title>
 
-    <CloseBtn tabIndex={-1} title="Sluit uitleg" onClick={onClose} />
+    <CloseBtn data-testid="close-button" ref={buttonRef} tabIndex={0} title="Sluit uitleg" onClick={onClose}/>
 
     <ScrollWrapper>
       <IconList data-testid="legendPanelList">
