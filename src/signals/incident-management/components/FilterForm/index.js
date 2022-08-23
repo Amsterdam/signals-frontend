@@ -98,7 +98,9 @@ const FilterForm = ({
   const [, ...otherRoutingDepartments] = routingDepartments
   const notRoutedOption = routingDepartments[0]
 
+
   const [state, dispatch] = useReducer(reducer, filter, init)
+  console.log("--- ~ state", state)
   const storeDispatch = useDispatch()
 
   const isNewFilter = !filter.name
@@ -132,6 +134,7 @@ const FilterForm = ({
     }),
     [state.filter, state.options]
   )
+  console.log("--- ~ currentState", currentState)
 
   const initialState = useMemo(
     () => ({
@@ -182,8 +185,11 @@ const FilterForm = ({
       )
     }, 53) // + 53 because strings like '%20requested&page=1&ordering=-created_at&page_size=50'
     // are added to URL
+    
 
+    console.log('--useEffect--');
     if (filterLength > MAX_FILTER_LENGTH) {
+      console.log('Inside IF STATEMENT');
       setFilterTooLong(true)
       storeDispatch(
         showGlobalNotification({
@@ -193,11 +199,13 @@ const FilterForm = ({
           type: TYPE_LOCAL,
         })
       )
-    } else {
+    } 
+    else if(filterLength && filterLength <= 53) {
+      console.log('Inside IF STATEMENT ELSE');
       setFilterTooLong(false)
       storeDispatch(resetGlobalNotification())
     }
-  }, [state.options, filterTooLong, MAX_FILTER_LENGTH, storeDispatch])
+  }, [currentState])
 
   const onSubmitForm = useCallback(
     (event) => {

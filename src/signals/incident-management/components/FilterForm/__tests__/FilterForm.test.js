@@ -1121,44 +1121,61 @@ describe('GlobalNotification', () => {
   })
 
   it('should show GlobalNotification', () => {
-    const { getAllByTestId } = render(
+    render(
       withContext(<FilterForm {...{ ...formProps }} />)
     )
-
-    getAllByTestId('checkboxList').forEach((element) => {
-      element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-        userEvent.click(checkbox)
-      })
+    userEvent.click(screen.getByTestId('checkbox-directing_department_null'))
+    
+    expect(actions.showGlobalNotification).toHaveBeenCalledWith({
+      title:
+      'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
+    variant: 'error',
+    type:  'local',
     })
-    expect(actions.showGlobalNotification).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title:
-          'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
-      })
-    )
   })
 
-  it('should remove GlobalNotification from view', () => {
-    const { getAllByTestId, container } = render(
+  it.only('should remove GlobalNotification from view', () => {
+    const {container, rerender} = render(
       withContext(<FilterForm {...{ ...formProps }} />)
     )
 
-    // check checkboxes to trigger showGlobalNotification
-    getAllByTestId('checkboxList').forEach((element) => {
-      element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-        userEvent.click(checkbox)
-      })
-    })
+    const checkBox = screen.getByTestId('checkbox-directing_department_null') 
 
+    userEvent.click(checkBox)
+    
+    expect(checkBox.checked).toEqual(true)
     expect(actions.showGlobalNotification).toHaveBeenCalled()
+    expect(actions.showGlobalNotification).toHaveBeenCalledTimes(1)
 
-    expect(container).toMatchSnapshot()
+    const checkboxAfter = screen.getByTestId('checkbox-directing_department_null') 
+    userEvent.click(checkboxAfter)
+    expect(checkboxAfter.checked).toEqual(false)
 
-    expect(
-      screen.getByText(
-        'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
-      )
-    ).toBeInTheDocument()
+        expect(actions.resetGlobalNotification).toHaveBeenCalled()
+    expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
+
+    // screen.debug()
+
+    // userEvent.click(checkBox)
+    // expect(checkBox.checked).toEqual(false)
+
+    // screen.debug()
+    // rerender(withContext(<FilterForm {...{ ...formProps }} />))
+    
+    // expect(actions.resetGlobalNotification).toHaveBeenCalled()
+    // expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
+
+
+
+    // expect(actions.showGlobalNotification).toHaveBeenCalled()
+
+    // expect(container).toMatchSnapshot()
+
+    // expect(
+    //   screen.getByText(
+    //     'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
+    //   )
+    // ).toBeInTheDocument()
 
     //expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
 
