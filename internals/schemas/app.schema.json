@@ -399,15 +399,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "crs": {
-          "description": "The Coordinate Reference System (CRS) of the map",
-          "enum": [
-            "EPSG:28992",
-            "EPSG:3857",
-            "EPSG:4326"
-          ]
-
-        },
         "center": {
           "type": "array",
           "items": {
@@ -434,7 +425,6 @@
         }
       },
       "required": [
-        "crs",
         "center",
         "maxBounds",
         "maxZoom",
@@ -531,9 +521,6 @@
       "properties": {
         "attribution": {
           "type": "string"
-        },
-        "maxZoom": {
-          "type": "integer"
         },
         "maxNativeZoom": {
           "type": "integer"
