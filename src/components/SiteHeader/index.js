@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 import {
   Header as HeaderComponent,
+  Hidden,
   MenuButton,
   MenuInline,
   MenuItem,
@@ -32,7 +33,6 @@ import {
 } from './incidentMapStyles'
 
 const MENU_BREAKPOINT = 1320
-const INCIDENT_MAP_MENU_BREAKPOINT = 540
 
 const StyledHeader = styled(HeaderComponent)`
   ${({ isFrontOffice, tall }) =>
@@ -291,9 +291,6 @@ export const SiteHeader = (props) => {
   const rendersMenuToggle = useMediaQuery({
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
-  const rendersIncidentMapMenuToggle = useMediaQuery({
-    query: `(max-width: ${INCIDENT_MAP_MENU_BREAKPOINT}px)`,
-  })
   const isFrontOffice = useIsFrontOffice()
   const isIncidentMap = useIsIncidentMap()
   const tall = isFrontOffice && !getIsAuthenticated()
@@ -325,14 +322,18 @@ export const SiteHeader = (props) => {
     </MenuItem>
   )
 
-  const IncidentMapNavigation = () =>
-    rendersIncidentMapMenuToggle ? (
-      <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+  const IncidentMapNavigation = () => (
+    <>
+      <Hidden minBreakpoint="tabletS">
+        <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+          <IncidentMapMenuItems />
+        </MenuToggle>
+      </Hidden>
+      <Hidden maxBreakpoint="tabletS">
         <IncidentMapMenuItems />
-      </MenuToggle>
-    ) : (
-      <IncidentMapMenuItems />
-    )
+      </Hidden>
+    </>
+  )
 
   return !isIncidentMap ? (
     <>
