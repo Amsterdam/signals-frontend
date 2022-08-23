@@ -117,7 +117,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
                 />
               )}
 
-              {hasError('max') && (
+              {hasError('maxLength') && (
                 <ErrorMessage
                   message={`U heeft meer dan de maximale ${String(
                     (getError('maxLength') as { requiredLength: number })

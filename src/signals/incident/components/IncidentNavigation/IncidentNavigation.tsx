@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import styled from 'styled-components'
 import { WithWizard } from 'react-albus'
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
@@ -79,7 +79,6 @@ interface WizardStepProps extends IncidentNavigationProps {
 
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
-  // const {handleSubmit: handleSubmitRHF } = useFormContext()
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
    */
@@ -90,8 +89,9 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
       <Nav className="incident-navigation">
         {wizardStep.nextButtonLabel && (
           <NextButton
-            // onClick={handleSubmitRHF((_, e) => handleSubmit(e, next, wizardStep.formAction))}
-            onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
+            onClick={(e) => {
+              handleSubmit(e, next, wizardStep.formAction)
+            }}
             data-testid="nextButton"
           >
             <span className="value">{wizardStep.nextButtonLabel}</span>

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HiddenInput /> should render correctly 1`] = `
+<div
+  className="hidden-input"
+>
+  <input
+    id="formname"
+    type="hidden"
+  />
+</div>
+`;

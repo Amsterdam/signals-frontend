@@ -1,5 +1,4 @@
 export {
-  createRequired,
   nullOrNumber,
   validateObjectLocation,
   validatePhoneNumber,

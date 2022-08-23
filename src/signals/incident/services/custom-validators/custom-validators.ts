@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-type Control ={
+type Control = {
   value: any
 }
 
@@ -15,9 +15,9 @@ export const validatePhoneNumber = (control?: Control) => {
     return null
   }
 
-   return {
-      custom:
-        'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.',
+  return {
+    custom:
+      'Ongeldig telefoonnummer, alleen cijfers, spaties, haakjes, + en - zijn toegestaan.',
   }
 }
 
@@ -34,13 +34,6 @@ export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
     return {
       required: message,
     }
-  }
-
-export const createRequired = (message: string) =>
-  function required({ value }: Control) {
-    return value === null || value === undefined || value.length === 0
-      ? { required: message }
-      : null
   }
 
 export const validateObjectLocation = (objectType: string) =>

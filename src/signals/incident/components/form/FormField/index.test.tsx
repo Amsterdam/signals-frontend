@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { Validators } from 'react-reactive-form'
 
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
-import { createRequired } from '../../../services/custom-validators'
 
 import type { FormFieldProps } from './FormField'
 import FormField from '.'
@@ -72,7 +70,7 @@ describe('signals/incident/components/form/FormField', () => {
 
     rerender(
       withAppContext(
-        <FormField {...props} options={{ validators: [Validators.required] }} />
+        <FormField {...props} options={{ validators: ['required'] }} />
       )
     )
 
@@ -80,10 +78,7 @@ describe('signals/incident/components/form/FormField', () => {
 
     rerender(
       withAppContext(
-        <FormField
-          {...props}
-          options={{ validators: [createRequired('Verplicht')] }}
-        />
+        <FormField {...props} options={{ validators: ['required'] }} />
       )
     )
 
@@ -118,9 +113,7 @@ describe('signals/incident/components/form/FormField', () => {
     const getError = () => true
     const error = 'Dit is een verplicht veld'
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} />)
-    )
+    const { rerender } = render(withAppContext(<FormField {...props} />))
 
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
@@ -138,9 +131,7 @@ describe('signals/incident/components/form/FormField', () => {
     const hasError = (prop: string) => prop === 'required'
     const getError = () => error
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} />)
-    )
+    const { rerender } = render(withAppContext(<FormField {...props} />))
 
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
@@ -158,15 +149,11 @@ describe('signals/incident/components/form/FormField', () => {
     const error =
       'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl'
 
-    const { rerender } = render(
-      withAppContext(<FormField {...props} />)
-    )
+    const { rerender } = render(withAppContext(<FormField {...props} />))
 
     expect(screen.queryByText(error)).not.toBeInTheDocument()
 
-    rerender(
-      withAppContext(<FormField {...props} hasError={hasError} />)
-    )
+    rerender(withAppContext(<FormField {...props} hasError={hasError} />))
 
     expect(screen.queryByText(error)).toBeInTheDocument()
   })
@@ -218,9 +205,7 @@ describe('signals/incident/components/form/FormField', () => {
     const error = 'Dit is een verplicht veld'
 
     const { rerender } = render(
-      withAppContext(
-        <FormField {...props} hasError={hasError} />
-      )
+      withAppContext(<FormField {...props} hasError={hasError} />)
     )
 
     expect(screen.queryByText(error)).not.toBeInTheDocument()

@@ -10,7 +10,12 @@ import usersJSON from 'utils/__tests__/fixtures/users.json'
 import loadModels from 'models'
 import MapContext from 'containers/MapContext'
 
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
 import configureStore from '../configureStore'
+import constructYupResolver from '../signals/incident/services/yupResolver'
 
 export const history = createMemoryHistory()
 
@@ -58,6 +63,23 @@ export const withAppContext = (Component) => (
     </Provider>
   </ThemeProvider>
 )
+
+export const IncidentFormWrapper = ({ fieldConfig, children }) => {
+  const controls = Object.fromEntries(
+    Object.entries(fieldConfig.controls).filter(
+      ([key, value]) => value.meta?.isVisible || key === '$field_0'
+    )
+  )
+
+  const formMethods = useForm({
+    reValidateMode: 'onSubmit',
+    resolver: yupResolver(constructYupResolver(controls)),
+  })
+
+  return React.cloneElement(children, {
+    reactHookFormMethods: formMethods,
+  })
+}
 
 // eslint-disable-next-line
 export const withCustomAppContext =

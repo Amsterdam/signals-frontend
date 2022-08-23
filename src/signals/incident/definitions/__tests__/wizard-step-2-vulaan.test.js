@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Validators } from 'react-reactive-form'
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -32,7 +31,7 @@ jest.mock('lodash/memoize', () => ({
 const locatie = {
   ...location,
   options: {
-    validators: [Validators.required],
+    validators: ['required'],
   },
   render: expect.any(Function),
 }
@@ -130,7 +129,7 @@ describe('Wizard step 2 vulaan, formFactory', () => {
         controls: {
           ...defaultControls,
           key1: {
-            options: { validators: [Validators.required] },
+            options: { validators: ['required'] },
             render: FormComponents.TextInput,
           },
         },
@@ -156,43 +155,12 @@ describe('Wizard step 2 vulaan, formFactory', () => {
         controls: {
           ...defaultControls,
           key1: {
-            options: { validators: [Validators.required, Validators.email] },
+            options: { validators: ['required', 'email'] },
             render: FormComponents.TextInput,
           },
         },
       }
 
-      expect(actual).toEqual(expected)
-    })
-
-    it('should expand validators with arguments', () => {
-      const maxLengthFn = () => null
-      const maxLengthSpy = jest
-        .spyOn(Validators, 'maxLength')
-        .mockReturnValue(maxLengthFn)
-      const actual = formFactory({
-        category: 'category',
-        subcategory: 'subcategory',
-        questions: {
-          key1: {
-            options: {
-              validators: [['maxLength', 16]],
-            },
-            render: 'TextInput',
-          },
-        },
-      })
-      const expected = {
-        controls: {
-          ...defaultControls,
-          key1: {
-            options: { validators: [maxLengthFn] },
-            render: FormComponents.TextInput,
-          },
-        },
-      }
-
-      expect(maxLengthSpy).toHaveBeenCalledWith(16)
       expect(actual).toEqual(expected)
     })
 

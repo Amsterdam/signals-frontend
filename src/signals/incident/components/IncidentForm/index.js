@@ -20,7 +20,6 @@ const IncidentForm = ({
   fieldConfig,
   setControls,
 }) => {
-  // set state with useState
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [formAction, setFormAction] = useState('')
@@ -57,6 +56,8 @@ const IncidentForm = ({
     loading,
     next,
     reactHookFormMethods,
+    setIncident,
+    setValues,
   ])
 
   useEffect(() => {
@@ -118,11 +119,12 @@ const IncidentForm = ({
         }
 
         // make sure it can be disabled
-        reactHookFormMethods.handleSubmit(() => {
+        const valid = await reactHookFormMethods.trigger()
+        if (valid) {
           setIncident(formAction)
           setSubmitting(false)
           next()
-        })()
+        }
       }
     },
     [loading, reactHookFormMethods, setIncident, submitting]

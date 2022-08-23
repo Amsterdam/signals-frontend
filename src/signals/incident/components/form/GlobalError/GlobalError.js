@@ -30,9 +30,6 @@ GlobalError.propTypes = {
   meta: PropTypes.shape({
     label: PropTypes.string,
   }),
-  parent: PropTypes.shape({
-    valid: PropTypes.bool,
-  }),
 }
 
 export default GlobalError

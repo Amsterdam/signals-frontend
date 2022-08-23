@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Validators } from 'react-reactive-form'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -80,7 +79,8 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
-const fallback = expandQuestions({ locatie })
+let location = locatie
+const fallback = expandQuestions({ location })
 
 export default {
   label: 'Locatie en vragen',
