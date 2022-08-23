@@ -58,6 +58,7 @@
   "map": {
     "municipality": "amsterdam \"ouder-amstel\" weesp",
     "options": {
+      "crs": "EPSG:28992",
       "center": [
         52.3731081,
         4.8932945
