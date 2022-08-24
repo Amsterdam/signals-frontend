@@ -39,6 +39,9 @@ const StyledLabel = styled(Label)`
   margin-bottom: 0;
 `
 
+const SubTitle = styled.div`
+  color: ${themeColor('tint', 'level5')};
+`
 const CheckboxWrapper = styled(Label)`
   display: block;
 `
@@ -147,6 +150,7 @@ const KtoForm = ({
           <StyledLabel as="legend" ref={firstLabelRef}>
             Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
           </StyledLabel>
+          <SubTitle> U kunt meer keuzes maken.</SubTitle>
 
           <CheckboxList
             aria-describedby="subtitle-kto"

@@ -135,7 +135,7 @@ export const KtoContainer = () => {
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
       .map((option, index) => ({ key: `key-${index}`, value: option.text }))
 
-    opts.push({ key: 'anders', value: 'Anders, namelijk...' })
+    opts.push({ key: 'anders', value: 'Over iets anders.' })
 
     dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
   }, [options, satisfactionIndication, isLoadingOptions, isSatisfied])
@@ -166,7 +166,6 @@ export const KtoContainer = () => {
   }
 
   if (!state.shouldRender) return null
-
   return (
     <Fragment>
       <Row data-testid="ktoFormContainer">
@@ -199,8 +198,9 @@ export const KtoContainer = () => {
               </header>
             ) : (
               <StyledHeading>
-                {isSatisfied ? 'Ja, ik ben' : 'Nee, ik ben niet'} tevreden met
-                de behandeling van mijn melding
+                {isSatisfied
+                  ? 'Ja, ik ben tevreden'
+                  : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}
               </StyledHeading>
             ))}
         </Column>
