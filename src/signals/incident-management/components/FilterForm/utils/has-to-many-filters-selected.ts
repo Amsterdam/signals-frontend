@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
+
 import { generateParams } from 'shared/services/api/api'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 
