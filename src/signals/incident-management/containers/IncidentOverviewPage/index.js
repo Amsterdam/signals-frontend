@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import { compose, bindActionCreators } from 'redux'
@@ -34,7 +34,6 @@ import {
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors'
-import { resetGlobalNotification } from 'containers/App/actions'
 
 import { MAP_URL } from '../../routes'
 
@@ -75,8 +74,6 @@ export const IncidentOverviewPageContainerComponent = ({
   const location = useLocation()
   const showsMap = location.pathname === MAP_URL
 
-  const storeDispatch = useDispatch()
-
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll()
     toggleMyFiltersModal(true)
@@ -100,7 +97,6 @@ export const IncidentOverviewPageContainerComponent = ({
   }, [toggleFilterModal])
 
   const closeFilterModal = useCallback(() => {
-    storeDispatch(resetGlobalNotification())
     enablePageScroll()
     toggleFilterModal(false)
 
@@ -108,7 +104,7 @@ export const IncidentOverviewPageContainerComponent = ({
     if (lastActiveElement) {
       lastActiveElement.focus()
     }
-  }, [storeDispatch, toggleFilterModal])
+  }, [toggleFilterModal])
 
   const escFunction = useCallback(
     (event) => {

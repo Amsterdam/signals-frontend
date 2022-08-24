@@ -1269,11 +1269,8 @@ describe('Notification', () => {
 
   it('should disable onSubmit', async () => {
     const onSubmit = jest.fn()
-    const onSaveFilter = jest.fn()
 
-    render(
-      withContext(<FilterForm {...{ ...formProps, onSubmit, onSaveFilter }} />)
-    )
+    render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
     const checkbox = screen.getByText('Container glas kapot')
 
     expect(checkbox).toBeInTheDocument()
@@ -1291,6 +1288,6 @@ describe('Notification', () => {
 
     userEvent.click(screen.getByTestId('submitBtn'))
 
-    expect(onSaveFilter).not.toHaveBeenCalled()
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 })
