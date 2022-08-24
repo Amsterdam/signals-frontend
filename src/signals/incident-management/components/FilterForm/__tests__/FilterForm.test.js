@@ -27,14 +27,15 @@ import {
   SAVE_SUBMIT_BUTTON_LABEL,
   DEFAULT_SUBMIT_BUTTON_LABEL,
 } from '../constants'
+import { MAX_FILTER_LENGTH } from '../utils/constants'
 import IncidentManagementContext from '../../../context'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
 
 const mockMAX_FILTER_LENGTHGetter = jest.fn()
-jest.mock('../maxFilterLength', () => ({
-  ...jest.requireActual('../maxFilterLength'),
+jest.mock('../utils/constants', () => ({
+  ...jest.requireActual('../utils/constants'),
   get MAX_FILTER_LENGTH() {
     return mockMAX_FILTER_LENGTHGetter()
   },
@@ -1114,114 +1115,10 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 })
 
-describe('GlobalNotification', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    mockMAX_FILTER_LENGTHGetter.mockReturnValue(54) // 54 because that's 1 + minimal value of filterLength (min value = 53)
-  })
-
-  it('should show GlobalNotification', () => {
-    render(
-      withContext(<FilterForm {...{ ...formProps }} />)
-    )
-    userEvent.click(screen.getByTestId('checkbox-directing_department_null'))
-    
-    expect(actions.showGlobalNotification).toHaveBeenCalledWith({
-      title:
-      'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.',
-    variant: 'error',
-    type:  'local',
-    })
-  })
-
-  it.only('should remove GlobalNotification from view', () => {
-    const {container, rerender} = render(
-      withContext(<FilterForm {...{ ...formProps }} />)
-    )
-
-    const checkBox = screen.getByTestId('checkbox-directing_department_null') 
-
-    userEvent.click(checkBox)
-    
-    expect(checkBox.checked).toEqual(true)
-    expect(actions.showGlobalNotification).toHaveBeenCalled()
-    expect(actions.showGlobalNotification).toHaveBeenCalledTimes(1)
-
-    const checkboxAfter = screen.getByTestId('checkbox-directing_department_null') 
-    userEvent.click(checkboxAfter)
-    expect(checkboxAfter.checked).toEqual(false)
-
-        expect(actions.resetGlobalNotification).toHaveBeenCalled()
-    expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
-
-    // screen.debug()
-
-    // userEvent.click(checkBox)
-    // expect(checkBox.checked).toEqual(false)
-
-    // screen.debug()
-    // rerender(withContext(<FilterForm {...{ ...formProps }} />))
-    
-    // expect(actions.resetGlobalNotification).toHaveBeenCalled()
-    // expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
-
-
-
-    // expect(actions.showGlobalNotification).toHaveBeenCalled()
-
-    // expect(container).toMatchSnapshot()
-
-    // expect(
-    //   screen.getByText(
-    //     'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
-    //   )
-    // ).toBeInTheDocument()
-
-    //expect(actions.resetGlobalNotification).toHaveBeenCalledTimes(1)
-
-    // // uncheck checkboxes to trigger resetGlobalNotification
-    // getAllByTestId('checkboxList').forEach((element) => {
-    //   element.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-    //     userEvent.click(checkbox)
-    //   })
-    // })
-    expect(actions.resetGlobalNotification).toHaveBeenCalled()
-  })
-
-  it('should prohibit save filter', () => {
-    const handlers = {
-      onSubmit: jest.fn(),
-      onSaveFilter: jest.fn(),
-    }
-    render(
-      withContext(
-        <FilterForm {...{ ...formProps, ...handlers }} /> // 54 because thats 1 + minimal value of filterLength (min value = 53)
-      )
-    )
-
-    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A'))
-    userEvent.click(screen.getByTestId('submitBtn'))
-
-    expect(handlers.onSaveFilter).not.toHaveBeenCalled()
-  })
-
-  it('should prohibit update filter', () => {
-    const handlers = {
-      onUpdateFilter: jest.fn(),
-    }
-    render(withContext(<FilterForm {...{ ...formProps, ...handlers }} />))
-
-    userEvent.click(screen.getByTestId('checkbox-stadsdeel_A'))
-    userEvent.click(screen.getByTestId('submitBtn'))
-
-    expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
-  })
-})
-
 describe('submit', () => {
   let emit
-
   beforeAll(() => {
+    jest.clearAllMocks()
     ;({ emit } = window._virtualConsole)
   })
 
@@ -1324,5 +1221,76 @@ describe('submit', () => {
 
     expect(handlers.onUpdateFilter).toHaveBeenCalled()
     expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
+  })
+})
+
+describe('Notification', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    // Set threshold low so it fails with a single filter.
+    mockMAX_FILTER_LENGTHGetter.mockReturnValue(104)
+  })
+
+  afterAll(() => {
+    mockMAX_FILTER_LENGTHGetter.mockReturnValue(MAX_FILTER_LENGTH)
+  })
+
+  const notificationMessage =
+    'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
+
+  it('should show a notification when too many filters are selected and removed when deselected', async () => {
+    const onSubmit = jest.fn()
+
+    render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+    const checkbox = screen.getByText('Container glas kapot')
+
+    expect(checkbox).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: true,
+    })
+
+    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
+    await waitFor(() => {})
+
+    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: false,
+    })
+
+    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+  })
+
+  it('should disable onSubmit', async () => {
+    const onSubmit = jest.fn()
+    const onSaveFilter = jest.fn()
+
+    render(
+      withContext(<FilterForm {...{ ...formProps, onSubmit, onSaveFilter }} />)
+    )
+    const checkbox = screen.getByText('Container glas kapot')
+
+    expect(checkbox).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: true,
+    })
+
+    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
+    await waitFor(() => {})
+
+    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('submitBtn'))
+
+    expect(onSaveFilter).not.toHaveBeenCalled()
   })
 })

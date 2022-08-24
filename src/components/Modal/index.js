@@ -54,6 +54,10 @@ const HeaderRow = styled(Row)`
   flex-wrap: nowrap;
 `
 
+const StyledColumn = styled(Column)`
+  flex-direction: column;
+`
+
 const Header = styled.header`
   background: ${themeColor('bright', 'main')};
   padding: 10px 0;
@@ -83,7 +87,7 @@ const Modal = ({ children, title, onClose, ...rest }) => (
 
       <ModalInner data-scroll-lock-scrollable>
         <Row>
-          <Column span={12}>{children}</Column>
+          <StyledColumn span={12}>{children}</StyledColumn>
         </Row>
       </ModalInner>
     </StyledModal>
