@@ -3,7 +3,6 @@
 import { render, screen } from '@testing-library/react'
 import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
-import geography from 'utils/__tests__/fixtures/geography_public.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import { withAppContext } from 'test/utils'
