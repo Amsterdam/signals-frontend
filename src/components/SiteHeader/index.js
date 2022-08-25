@@ -28,6 +28,7 @@ import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import {
   IncidentMapHeader,
   IncidentMapHeaderWrapper,
+  StyledMenuToggle,
   Title,
   Wrapper,
 } from './incidentMapStyles'
@@ -325,9 +326,9 @@ export const SiteHeader = (props) => {
   const IncidentMapNavigation = () => (
     <>
       <Hidden minBreakpoint="tabletS">
-        <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+        <StyledMenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
           <IncidentMapMenuItems />
-        </MenuToggle>
+        </StyledMenuToggle>
       </Hidden>
       <Hidden maxBreakpoint="tabletS">
         <IncidentMapMenuItems />
