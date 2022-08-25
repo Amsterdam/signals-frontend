@@ -18,8 +18,6 @@ jest.mock('@amsterdam/react-maps', () => ({
 
 jest.mock('hooks/useFetch')
 
-const numFeatures = geography.features.length
-
 const renderWithContext = () =>
   render(
     withAppContext(
@@ -35,7 +33,11 @@ describe('IncidentLayer', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
 
-  it('renders the incident layer', () => {
+  it('renders the incident layer', async () => {
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+      data: geography,
+    }))
     renderWithContext()
 
     expect(screen.getByTestId('incidentLayer')).toBeInTheDocument()
@@ -51,16 +53,6 @@ describe('IncidentLayer', () => {
     expect(get).toHaveBeenCalledWith(
       expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
     )
-  })
-
-  it('renders markers', async () => {
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
-      data: geography,
-    }))
-
-    const container = renderWithContext()
-    expect(container.getAllByAltText('Huisafval')).toHaveLength(numFeatures)
   })
 
   it('shows a message when the API returns an error', async () => {
