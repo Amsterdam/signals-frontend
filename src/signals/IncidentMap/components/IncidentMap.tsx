@@ -7,7 +7,7 @@ import IncidentLayer from './IncidentLayer'
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 65px; // to leave room for the footer
+  top: 65px; // to leave room for the heading
   left: 0;
   right: 0;
   bottom: 0;

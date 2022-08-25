@@ -33,11 +33,7 @@ describe('IncidentLayer', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
 
-  it('renders the incident layer', async () => {
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
-      data: geography,
-    }))
+  it('renders the incident layer', () => {
     renderWithContext()
 
     expect(screen.getByTestId('incidentLayer')).toBeInTheDocument()

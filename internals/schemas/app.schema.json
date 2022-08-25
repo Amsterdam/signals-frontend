@@ -88,6 +88,10 @@
           "description": "Feature switch to enable showing incident reporter context, like other incidents reported by the given reporter or feedback results. Needs to have the feature flags 'API_SIGNAL_CONTEXT' and 'API_SIGNAL_CONTEXT_REPORTER' enabled in the backend.",
           "type": "boolean"
         },
+        "enableAmsterdamSpecificOverigCategories": {
+          "description": "Enable category translations that are specific for Amsterdam.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -128,6 +132,7 @@
         "enableNearIncidents",
         "enablePublicSignalMap",
         "enableReporter",
+        "enableAmsterdamSpecificOverigCategories",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
@@ -394,6 +399,15 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "crs": {
+          "description": "The Coordinate Reference System (CRS) of the map",
+          "enum": [
+            "EPSG:28992",
+            "EPSG:3857",
+            "EPSG:4326"
+          ]
+
+        },
         "center": {
           "type": "array",
           "items": {
@@ -420,6 +434,7 @@
         }
       },
       "required": [
+        "crs",
         "center",
         "maxBounds",
         "maxZoom",
@@ -516,6 +531,9 @@
       "properties": {
         "attribution": {
           "type": "string"
+        },
+        "maxZoom": {
+          "type": "integer"
         },
         "maxNativeZoom": {
           "type": "integer"

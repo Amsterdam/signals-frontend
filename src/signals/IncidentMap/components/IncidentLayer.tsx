@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import configuration from 'shared/services/configuration/configuration'
 import L from 'leaflet'
+
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
@@ -44,6 +45,7 @@ const IncidentLayer = () => {
 
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
   }, [get, bbox])
+
 
   useEffect(() => {
     if (error) {

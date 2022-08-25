@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 import {
   Header as HeaderComponent,
+  Hidden,
   MenuButton,
   MenuInline,
   MenuItem,
@@ -27,7 +28,6 @@ import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import {
   IncidentMapHeader,
   IncidentMapHeaderWrapper,
-  IncidentMapMenuButton,
   Title,
   Wrapper,
 } from './incidentMapStyles'
@@ -314,16 +314,25 @@ export const SiteHeader = (props) => {
     [props, menuOpen, rendersMenuToggle]
   )
 
-  const IncidentMapNavigation = () => (
+  const IncidentMapMenuItems = () => (
     <MenuItem>
-      <IncidentMapMenuButton
-        forwardedAs="a"
-        href="/incident/beschrijf"
-        target="_blank"
-      >
+      <MenuButton forwardedAs="a" href="/incident/beschrijf" target="_blank">
         Doe een melding
-      </IncidentMapMenuButton>
+      </MenuButton>
     </MenuItem>
+  )
+
+  const IncidentMapNavigation = () => (
+    <>
+      <Hidden minBreakpoint="tabletS">
+        <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+          <IncidentMapMenuItems />
+        </MenuToggle>
+      </Hidden>
+      <Hidden maxBreakpoint="tabletS">
+        <IncidentMapMenuItems />
+      </Hidden>
+    </>
   )
 
   return !isIncidentMap ? (

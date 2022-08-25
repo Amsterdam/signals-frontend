@@ -8,6 +8,7 @@
     "enableNearIncidents": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
+    "enableAmsterdamSpecificOverigCategories": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
@@ -30,7 +31,7 @@
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
     "helpTextHeader": "Lukt het niet om een melding te doen? Bel het telefoonnummer [14 020](tel:14020)",
-    "logoDescription": "Logo gemeente Amsterdam, naar amsterdam.nl",
+    "logoDescription": "Gemeente Amsterdam logo - Home",
     "mapDescription": "Weet u het adres niet, bel dan 14 020 om telefonisch de melding te maken.",
     "phoneNumber": "14 020",
     "shortTitle": "Meldingen",
@@ -57,6 +58,7 @@
   "map": {
     "municipality": "amsterdam \"ouder-amstel\" weesp",
     "options": {
+      "crs": "EPSG:28992",
       "center": [
         52.3731081,
         4.8932945
