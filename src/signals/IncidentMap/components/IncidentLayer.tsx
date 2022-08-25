@@ -46,7 +46,6 @@ const IncidentLayer = () => {
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
   }, [get, bbox])
 
-
   useEffect(() => {
     if (error) {
       setMapMessage('Er konden geen meldingen worden opgehaald.')
@@ -72,7 +71,7 @@ const IncidentLayer = () => {
     return () => {
       layerInstance.clearLayers()
     }
-  })
+  }, [setMapMessage, layerInstance, data, error])
 
   return (
     <>
