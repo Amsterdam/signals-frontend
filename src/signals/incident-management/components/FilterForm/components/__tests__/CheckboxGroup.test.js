@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import statusJSON from 'signals/incident-management/definitions/statusList'
-import CheckboxGroup from '../CheckboxGroup'
+import { CheckboxGroup } from '../CheckboxGroup'
 
 describe('signals/incident-management/components/FilterForm/components/CheckboxGroup', () => {
   it('should not render anything', () => {

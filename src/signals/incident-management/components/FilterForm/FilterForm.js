@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import {
   Fragment,
   useCallback,
@@ -39,10 +39,12 @@ import AppContext from '../../../../containers/App/context'
 import IncidentManagementContext from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import { hasTooManyFiltersSelected } from './utils'
-import RadioGroup from './components/RadioGroup'
-import CheckboxGroup from './components/CheckboxGroup'
-import CategoryGroups from './components/CategoryGroups'
-import { Notification } from './components/Notification'
+import {
+  CategoryGroups,
+  CheckboxGroup,
+  Notification,
+  RadioGroup,
+} from './components'
 import {
   ControlsWrapper,
   DatesWrapper,
