@@ -9,6 +9,7 @@ import {
   useMemo,
   useReducer,
   useState,
+  useRef,
 } from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
@@ -41,6 +42,7 @@ import { hasTooManyFiltersSelected } from './utils'
 import RadioGroup from './components/RadioGroup'
 import CheckboxGroup from './components/CheckboxGroup'
 import CategoryGroups from './components/CategoryGroups'
+import { Notification } from './components/Notification'
 import {
   ControlsWrapper,
   DatesWrapper,
@@ -48,7 +50,6 @@ import {
   FilterGroup,
   Form,
   FormFooterWrapper,
-  Notification,
 } from './styled'
 
 import {
@@ -93,6 +94,7 @@ const FilterForm = ({
   const routingDepartments = useSelector(makeSelectRoutingDepartments)
   const params = useSelector(makeSelectFilterParams)
 
+  const notificationRef = useRef(null)
   const [, ...otherRoutingDepartments] = routingDepartments
   const notRoutedOption = routingDepartments[0]
 
@@ -376,7 +378,7 @@ const FilterForm = ({
   return (
     <Fragment>
       {showNotification && (
-        <Notification>
+        <Notification reference={notificationRef}>
           Helaas is de combinatie van deze filters te groot. Maak een kleinere
           selectie.
         </Notification>

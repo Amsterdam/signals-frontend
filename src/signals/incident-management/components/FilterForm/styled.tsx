@@ -3,7 +3,7 @@
 import FormFooter from 'components/FormFooter'
 
 import styled, { css } from 'styled-components'
-import { Alert, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 
 export const Form = styled.form`
   column-count: 2;
@@ -87,9 +87,7 @@ export const FormFooterWrapper = styled(FormFooter)`
     order: 2;
   }
 `
-export const Notification = styled(Alert).attrs({
-  level: 'error',
-  outline: true,
-})`
+export const StyledNotification = styled.div`
   margin-bottom: ${themeSpacing(5)};
+  scroll-margin-top: ${themeSpacing(5)};
 `
