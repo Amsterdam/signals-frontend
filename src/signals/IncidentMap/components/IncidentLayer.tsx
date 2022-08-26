@@ -6,13 +6,12 @@ import type { ReactElement } from 'react'
 
 import { useFetch } from 'hooks'
 import { useEffect, useState } from 'react'
-import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
-import configuration from 'shared/services/configuration/configuration'
+import useBoundingBox, {
+  Bbox,
+} from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import L from 'leaflet'
 
-import { ViewerContainer } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
-import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import MarkerCluster from 'components/MarkerCluster'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
 import type { MarkerCluster as MarkerClusterType } from 'leaflet'
@@ -47,29 +46,21 @@ const IncidentLayer = () => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
 
   const bbox = useBoundingBox()
-  const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
     if (!bbox) return
-
-    const { west, south, east, north } = bbox
-    const searchParams = new URLSearchParams({
-      bbox: `${west},${south},${east},${north}`,
-    })
-
-    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [get, bbox])
+    passBbox(bbox)
+  }, [bbox])
 
   useEffect(() => {
-    if (error) {
-      setMapMessage('Er konden geen meldingen worden opgehaald.')
-      return
-    }
+    if (!layerInstance) return
+  }, [layerInstance])
 
-    if (!data?.features || !layerInstance) return
+  useEffect(() => {
+    if (!incidentData?.features || !layerInstance) return
 
     /* istanbul ignore next */
-    data.features.forEach((feature) => {
+    incidentData.features.forEach((feature) => {
       const latlng = featureToCoordinates(feature.geometry)
       const { name } = feature.properties.category
 
@@ -85,7 +76,7 @@ const IncidentLayer = () => {
     return () => {
       layerInstance.clearLayers()
     }
-  }, [setMapMessage, layerInstance, data, error])
+  }, [layerInstance, incidentData])
 
   return (
     <>
@@ -94,15 +85,6 @@ const IncidentLayer = () => {
         clusterOptions={clusterLayerOptions}
         setInstance={setLayerInstance}
       />
-      {mapMessage && (
-        <ViewerContainer
-          topLeft={
-            <MapMessage onClick={() => setMapMessage('')}>
-              {mapMessage}
-            </MapMessage>
-          }
-        />
-      )}
     </>
   )
 }

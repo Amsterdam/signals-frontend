@@ -3,6 +3,16 @@
 import styled from 'styled-components'
 import Map from 'components/Map'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import type { ReactElement } from 'react'
+import type { FeatureCollection } from 'geojson'
+import type { LatLngTuple } from 'leaflet'
+import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+
+import { useEffect, useState } from 'react'
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
+import { ViewerContainer } from '@amsterdam/arm-core'
+import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import IncidentLayer from './IncidentLayer'
 
 const Wrapper = styled.div`
