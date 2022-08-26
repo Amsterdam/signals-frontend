@@ -7,11 +7,11 @@ import IncidentLayer from './IncidentLayer'
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 65px; // to leave room for the heading
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  height: calc(100% - 65px);
+  height: 100%;
   width: 100%;
   max-width: 1400px;
   margin-left: auto;
@@ -31,7 +31,7 @@ const IncidentMap = () => (
       data-testid="incidentMap"
       hasZoomControls
       fullScreen
-      mapOptions={{ ...MAP_OPTIONS, zoom: 9 }}
+      mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
     >
       <IncidentLayer />
     </StyledMap>

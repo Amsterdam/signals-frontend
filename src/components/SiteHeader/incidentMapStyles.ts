@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import styled from 'styled-components'
-import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  breakpoint,
+  MenuToggle,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 
 export const IncidentMapHeaderWrapper = styled.div`
   position: relative;
@@ -23,9 +28,23 @@ export const IncidentMapHeader = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
-  padding: 0 ${themeSpacing(6)};
   width: 100%;
   height: 100%;
+  padding: 0 ${themeSpacing(6)};
+  @media screen and (${breakpoint('max-width', 'tabletS')}) {
+    padding: 0 0 0 ${themeSpacing(6)};
+  }
+`
+
+export const StyledMenuToggle = styled(MenuToggle)`
+  button {
+    background-color: ${themeColor('tint', 'level2')};
+    width: ${themeSpacing(14)};
+    height: ${themeSpacing(14)};
+  }
+  ul {
+    top: ${themeSpacing(14)} !important;
+  }
 `
 
 export const Title = styled.div`
