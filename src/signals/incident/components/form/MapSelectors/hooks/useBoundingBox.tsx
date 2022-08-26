@@ -2,7 +2,7 @@ import { useMapInstance } from '@amsterdam/react-maps'
 import type { Map } from 'leaflet'
 import { useEffect, useState } from 'react'
 
-type Bbox = {
+export type Bbox = {
   east: string
   north: string
   south: string
