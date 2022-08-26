@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import FormFooter from 'components/FormFooter'
 
 import styled, { css } from 'styled-components'
-import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { Alert, themeSpacing, themeColor } from '@amsterdam/asc-ui'
 
 export const Form = styled.form`
   column-count: 2;
@@ -86,4 +86,10 @@ export const FormFooterWrapper = styled(FormFooter)`
   button[type='button'] {
     order: 2;
   }
+`
+export const Notification = styled(Alert).attrs({
+  level: 'error',
+  outline: true,
+})`
+  margin-bottom: ${themeSpacing(5)};
 `
