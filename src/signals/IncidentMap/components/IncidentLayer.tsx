@@ -28,6 +28,12 @@ type Properties = {
   created_at: string
 }
 
+/* istanbul ignore next */
+const clusterLayerOptions = {
+  zoomToBoundsOnClick: true,
+  chunkedLoading: true,
+}
+
 const IncidentLayer = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [layerInstance, setLayerInstance] = useState<L.LayerGroup>()
@@ -77,6 +83,7 @@ const IncidentLayer = () => {
     <>
       <span data-testid="incidentLayer" />
       <MarkerCluster
+        clusterOptions={clusterLayerOptions}
         setInstance={setLayerInstance as Dispatch<SetStateAction<unknown>>}
       />
       {mapMessage && (
