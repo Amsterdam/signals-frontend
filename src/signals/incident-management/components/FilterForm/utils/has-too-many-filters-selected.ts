@@ -18,9 +18,5 @@ export const hasTooManyFiltersSelected = (
     params ? `?${generateParams(params)}` : ''
   }`
 
-  if (requestUrl.length > MAX_FILTER_LENGTH) {
-    return true
-  }
-
-  return false
+  return requestUrl.length > MAX_FILTER_LENGTH
 }
