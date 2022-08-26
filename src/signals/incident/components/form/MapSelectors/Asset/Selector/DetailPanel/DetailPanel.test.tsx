@@ -501,6 +501,14 @@ describe('DetailPanel', () => {
     expect(screen.getByTestId('legendPanel')).toHaveClass('in')
   })
 
+  it('renders the legend panel with focus on close button', () => {
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    userEvent.click(screen.getByTestId('legendToggleButton'))
+
+    expect(screen.getByTestId('close-button')).toHaveFocus()
+  })
+
   it('does not render the address panel', () => {
     jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
     render(withAssetSelectContext(<DetailPanel {...props} />))
