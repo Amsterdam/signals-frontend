@@ -49,6 +49,8 @@ jest.mock('../utils/constants', () => ({
   },
 }))
 
+global.window.HTMLElement.prototype.scrollIntoView = jest.fn()
+
 const dispatchSpy = jest.spyOn(store, 'dispatch')
 const makeSelectDirectingDepartmentsSpy = jest.spyOn(
   departmentsSelectors,
