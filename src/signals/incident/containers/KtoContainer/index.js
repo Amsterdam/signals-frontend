@@ -73,7 +73,7 @@ export const successSections = configuration.featureFlags
     }
 
 export const contactAllowedText =
-  'U ontvangt een e-mail met uw reactie. U ontvangt binnen 3 werkdagen weer bericht van ons.'
+  '\n U ontvangt direct een e-mail met een overzicht van uw reactie. Binnen 3 werkdagen leest u wat wij ermee doen.'
 
 // eslint-disable-next-line consistent-return
 const reactReducer = (state, action) => {
@@ -178,12 +178,8 @@ export const KtoContainer = () => {
               </StyledHeading>
               <StyledParagraph data-testid="succesSectionBody">
                 {successSections[satisfactionIndication].body}
+                {contactAllowed && contactAllowedText}
               </StyledParagraph>
-              {contactAllowed && (
-                <StyledParagraph data-testid="succesContactAllowedText">
-                  {contactAllowedText}
-                </StyledParagraph>
-              )}
             </header>
           )}
 
