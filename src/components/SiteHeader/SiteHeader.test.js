@@ -9,7 +9,7 @@ import * as auth from 'shared/services/auth/auth'
 import { history, withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
+//import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import SiteHeader from '.'
 
 jest.mock('../../hooks/useIsIncidentMap')
@@ -331,31 +331,31 @@ describe('components/SiteHeader', () => {
     })
   })
 
-  it('renders the incident map correctly when not authenticated', () => {
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => false)
-    useIsIncidentMap.mockReturnValue(true)
-
-    const { queryByText } = render(withAppContext(<SiteHeader />))
-
-    //header
-    expect(queryByText('Meldingenkaart')).toBeInTheDocument()
-    expect(queryByText('Beschrijf uw melding')).not.toBeInTheDocument()
-
-    // menu items
-    expect(queryByText('Doe een melding')).toBeInTheDocument()
-  })
-
-  it('renders the incident map correctly when authenticated', () => {
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => true)
-    useIsIncidentMap.mockReturnValue(true)
-
-    const { queryByText } = render(withAppContext(<SiteHeader />))
-
-    //header
-    expect(queryByText('Meldingenkaart')).toBeInTheDocument()
-
-    // menu items
-    expect(queryByText('Melden')).not.toBeInTheDocument()
-    expect(queryByText('Doe een melding')).toBeInTheDocument()
-  })
+  // it('renders the incident map correctly when not authenticated', () => {
+  //   jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => false)
+  //   useIsIncidentMap.mockReturnValue(true)
+  //
+  //   const { queryByText } = render(withAppContext(<SiteHeader />))
+  //
+  //   //header
+  //   expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+  //   expect(queryByText('Beschrijf uw melding')).not.toBeInTheDocument()
+  //
+  //   // menu items
+  //   expect(queryByText('Doe een melding')).toBeInTheDocument()
+  // })
+  //
+  // it('renders the incident map correctly when authenticated', () => {
+  //   jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => true)
+  //   useIsIncidentMap.mockReturnValue(true)
+  //
+  //   const { queryByText } = render(withAppContext(<SiteHeader />))
+  //
+  //   //header
+  //   expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+  //
+  //   // menu items
+  //   expect(queryByText('Melden')).not.toBeInTheDocument()
+  //   expect(queryByText('Doe een melding')).toBeInTheDocument()
+  // })
 })
