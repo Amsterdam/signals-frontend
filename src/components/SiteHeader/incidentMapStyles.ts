@@ -24,6 +24,7 @@ export const IncidentMapHeaderWrapper = styled.div`
 `
 export const IncidentMapHeader = styled.div`
   background-color: ${themeColor('tint', 'level1')};
+  z-index: 10;
   justify-content: space-between;
   align-items: center;
   display: flex;
