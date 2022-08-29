@@ -64,9 +64,9 @@ const SettingsModule = lazy(() => import('signals/settings'))
 // istanbul ignore next
 const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 // istanbul ignore next
-const IncidentMapContainer = lazy(
-  () => import('signals/IncidentMap/IncidentMapContainer')
-)
+// const IncidentMapContainer = lazy(
+//   () => import('signals/IncidentMap/IncidentMapContainer')
+// )
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -126,10 +126,10 @@ export const AppContainer = () => {
                 <Redirect exact from="/manage" to="/manage/incidents" />
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
-                <Route
-                  path="/meldingenkaart"
-                  component={IncidentMapContainer}
-                />
+                {/*<Route*/}
+                {/*  path="/meldingenkaart"*/}
+                {/*  component={IncidentMapContainer}*/}
+                {/*/>*/}
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}
