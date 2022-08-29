@@ -6,7 +6,6 @@ import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
 import styled from 'styled-components'
-
 import TextInput from 'signals/incident-management/components/TextInput'
 import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
 import Checkbox from 'components/Checkbox'

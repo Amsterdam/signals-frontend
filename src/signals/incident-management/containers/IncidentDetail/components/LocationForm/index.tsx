@@ -13,6 +13,7 @@ import { useForm, Controller } from 'react-hook-form'
 import FormFooter from 'components/FormFooter'
 import MapInput from 'signals/incident-management/components/MapInput'
 import type { Context as IncidentDetailContextType } from 'signals/incident-management/containers/IncidentDetail/types'
+
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
 import type { Incident } from '../../../../../../types/incident'
