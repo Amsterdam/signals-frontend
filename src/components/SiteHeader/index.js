@@ -24,7 +24,7 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import Notification from 'containers/Notification'
 import Logo from 'components/Logo'
 import configuration from 'shared/services/configuration/configuration'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
+//import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import {
   IncidentMapHeader,
   IncidentMapHeaderWrapper,
@@ -293,7 +293,8 @@ export const SiteHeader = (props) => {
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
   const isFrontOffice = useIsFrontOffice()
-  const isIncidentMap = useIsIncidentMap()
+  //const isIncidentMap = useIsIncidentMap()
+  const isIncidentMap = false
   const tall = isFrontOffice && !getIsAuthenticated()
   const title = tall
     ? configuration.language.headerTitle
