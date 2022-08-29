@@ -1,27 +1,16 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
-import configuration from 'shared/services/configuration/configuration'
-import useFetch from 'hooks/useFetch'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import { withAppContext } from 'test/utils'
 import IncidentLayer from './IncidentLayer'
-import { get, mockUseMapInstance, useFetchResponse } from './mapTestUtils'
-
-jest.mock('@amsterdam/react-maps', () => ({
-  __esModule: true,
-  ...jest.requireActual('@amsterdam/react-maps'),
-  useMapInstance: jest.fn(() => mockUseMapInstance),
-}))
-
-jest.mock('hooks/useFetch')
 
 const renderWithContext = () =>
   render(
     withAppContext(
       <Map mapOptions={MAP_OPTIONS}>
-        <IncidentLayer />
+        <IncidentLayer passBbox={jest.fn()} />
       </Map>
     )
   )
