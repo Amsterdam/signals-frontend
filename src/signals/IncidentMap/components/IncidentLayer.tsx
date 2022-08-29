@@ -2,14 +2,15 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import type { FC, Dispatch, SetStateAction } from 'react'
 import { useEffect, useState } from 'react'
-import useBoundingBox, {Bbox} from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import L from 'leaflet'
 
 import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
-import type {FeatureCollection} from 'geojson'
-import type {Point, Properties} from './IncidentMap'
+import type { FeatureCollection } from 'geojson'
+import type { Point, Properties } from './IncidentMap'
 
 /* istanbul ignore next */
 const clusterLayerOptions = {
