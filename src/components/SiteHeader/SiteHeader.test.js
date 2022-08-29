@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import 'jest-styled-components'
@@ -9,8 +9,10 @@ import * as auth from 'shared/services/auth/auth'
 import { history, withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 
+//import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import SiteHeader from '.'
 
+jest.mock('../../hooks/useIsIncidentMap')
 jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
@@ -328,4 +330,32 @@ describe('components/SiteHeader', () => {
       ).not.toBeInTheDocument()
     })
   })
+
+  // it('renders the incident map correctly when not authenticated', () => {
+  //   jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => false)
+  //   useIsIncidentMap.mockReturnValue(true)
+  //
+  //   const { queryByText } = render(withAppContext(<SiteHeader />))
+  //
+  //   //header
+  //   expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+  //   expect(queryByText('Beschrijf uw melding')).not.toBeInTheDocument()
+  //
+  //   // menu items
+  //   expect(queryByText('Doe een melding')).toBeInTheDocument()
+  // })
+  //
+  // it('renders the incident map correctly when authenticated', () => {
+  //   jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => true)
+  //   useIsIncidentMap.mockReturnValue(true)
+  //
+  //   const { queryByText } = render(withAppContext(<SiteHeader />))
+  //
+  //   //header
+  //   expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+  //
+  //   // menu items
+  //   expect(queryByText('Melden')).not.toBeInTheDocument()
+  //   expect(queryByText('Doe een melding')).toBeInTheDocument()
+  // })
 })

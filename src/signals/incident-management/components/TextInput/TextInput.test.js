@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
-import TextInput from '..'
+import TextInput from './index'
 
 describe('<TextInput />', () => {
   it('should render correctly', () => {
@@ -14,8 +14,7 @@ describe('<TextInput />', () => {
       handler: jest.fn(),
     }
 
-    const TextInputRender = TextInput(props)
-    const { container } = render(withAppContext(<TextInputRender {...props} />))
+    const { container } = render(withAppContext(<TextInput {...props} />))
 
     expect(
       container.firstChild.querySelector(

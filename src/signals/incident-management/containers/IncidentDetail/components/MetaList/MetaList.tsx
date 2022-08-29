@@ -33,9 +33,7 @@ import {
 import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import RadioInput from 'signals/incident-management/components/RadioInput'
-import RadioInput_b from 'signals/incident-management/components/RadioInput_b'
 import SelectInput from 'signals/incident-management/components/SelectInput'
-import SelectInput_b from 'signals/incident-management/components/SelectInput_b'
 import {
   typesList,
   priorityList,
@@ -50,7 +48,6 @@ import { useFetch } from 'hooks'
 import LoadingIndicator from 'components/LoadingIndicator'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Result, User } from '../../types'
-import ChangeValue_b from '../ChangeValue_b'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
 import IncidentDetailContext from '../../context'
@@ -368,11 +365,10 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
         />
       )}
 
-      {/* When only RadioInput_b is used in incident/management, remove _b from the end */}
       {incident?.priority && (
         <Highlight type="priority">
-          <ChangeValue_b
-            component={RadioInput_b}
+          <ChangeValue
+            component={RadioInput}
             display="Urgentie"
             valueClass={incident?.priority.priority === 'high' ? 'alert' : ''}
             options={priorityList}
@@ -384,8 +380,8 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
 
       {incident?.type && (
         <Highlight type="type">
-          <ChangeValue_b
-            component={RadioInput_b}
+          <ChangeValue
+            component={RadioInput}
             display="Type"
             options={typesList}
             path="type.code"
@@ -423,8 +419,8 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
 
       {subcategoryOptions.length > 0 && (
         <Highlight type="subcategory">
-          <ChangeValue_b
-            component={SelectInput_b}
+          <ChangeValue
+            component={SelectInput}
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
             options={subcategoryOptions}
