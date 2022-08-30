@@ -22,7 +22,6 @@ import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverv
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
 
 import { getSources } from './actions'
 import AppContext from './context'
@@ -40,14 +39,6 @@ const ContentContainer = styled.div<{
   width: 100%;
   z-index: 0;
   padding-top: ${({ padding }) => padding.top}px;
-`
-
-const FooterContent = styled.div`
-  background-color: #ffffff;
-  margin: 0 auto;
-  max-width: 1400px;
-  width: 100%;
-  padding-top: 0;
 `
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -77,7 +68,6 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice()
   const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
-  const isIncidentMap = useIsIncidentMap()
 
   useEffect(() => {
     const { referrer } = location
@@ -154,9 +144,7 @@ export const AppContainer = () => {
               </Switch>
             </Suspense>
           </ContentContainer>
-          <FooterContent>
-            {!getIsAuthenticated() && !isIncidentMap && <FooterContainer />}
-          </FooterContent>
+          <FooterContainer />
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>
