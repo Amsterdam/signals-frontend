@@ -26,8 +26,8 @@ const FooterWrapper = styled.div`
 `
 
 const StyledFooterTop = styled(FooterTop)`
-  margin-top: 80px;
-  min-height: 80px;
+  margin-top: ${themeSpacing(20)};
+  min-height: ${themeSpacing(20)};
 `
 
 const StyledFooterBottom = styled(FooterBottom)`
@@ -42,7 +42,7 @@ const StyledFooterApp = styled.div`
   background-color: ${themeColor('tint', 'level1')};
 `
 
-const FooterContainer: FC = () => {
+const FooterContainer = () => {
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const isIncidentMap = useIsIncidentMap()
 
