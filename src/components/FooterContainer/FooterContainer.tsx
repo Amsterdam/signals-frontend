@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import {
   Link,
-  Footer as StyledFooter,
+  Footer,
   FooterTop,
   FooterBottom,
   themeSpacing,
@@ -55,7 +55,7 @@ const FooterContainer = () => {
 
   return (
     <FooterWrapper>
-      <StyledFooter>
+      <Footer>
         <StyledFooterTop data-testid="siteFooter" />
         <StyledFooterBottom>
           {!mapActive && (
@@ -76,7 +76,7 @@ const FooterContainer = () => {
             </>
           )}
         </StyledFooterBottom>
-      </StyledFooter>
+      </Footer>
     </FooterWrapper>
   )
 }
