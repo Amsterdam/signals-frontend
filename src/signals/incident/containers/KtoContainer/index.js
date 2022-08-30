@@ -73,7 +73,7 @@ export const successSections = configuration.featureFlags
     }
 
 export const contactAllowedText =
-  '\n U ontvangt direct een e-mail met een overzicht van uw reactie. Binnen 3 werkdagen leest u wat wij ermee doen.'
+  '\n U ontvangt direct een e-mail met een overzicht van uw reactie. Binnen 3 werkdagen leest u wat wij ermee gaan doen.'
 
 // eslint-disable-next-line consistent-return
 const reactReducer = (state, action) => {
