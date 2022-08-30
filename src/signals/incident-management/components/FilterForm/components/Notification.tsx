@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { FC, MutableRefObject } from 'react'
+import type { MutableRefObject } from 'react'
 import { useEffect } from 'react'
 
 import { Alert } from '@amsterdam/asc-ui'
@@ -10,7 +10,7 @@ export type Props = {
   reference: MutableRefObject<HTMLDivElement | null>
 }
 
-export const Notification: FC<Props> = ({ reference }) => {
+export const Notification = ({ reference }: Props) => {
   useEffect(() => {
     if (reference.current) {
       reference.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -19,7 +19,7 @@ export const Notification: FC<Props> = ({ reference }) => {
 
   return (
     <StyledNotification ref={reference}>
-      <Alert level="error" outline={true} tabIndex={-1}>
+      <Alert level="error" outline tabIndex={-1}>
         Helaas is de combinatie van deze filters te groot. Maak een kleinere
         selectie.
       </Alert>

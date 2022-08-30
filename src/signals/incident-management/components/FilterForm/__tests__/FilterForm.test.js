@@ -27,7 +27,7 @@ import {
   DEFAULT_SUBMIT_BUTTON_LABEL,
 } from '../constants'
 import IncidentManagementContext from '../../../context'
-import { MAX_FILTER_LENGTH } from '../utils/constants'
+import * as constants from '../utils/constants'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
@@ -41,12 +41,10 @@ jest.mock('models/categories/selectors', () => {
   }
 })
 
-const mockMAX_FILTER_LENGTHGetter = jest.fn()
 jest.mock('../utils/constants', () => ({
+  __esModule: true,
   ...jest.requireActual('../utils/constants'),
-  get MAX_FILTER_LENGTH() {
-    return mockMAX_FILTER_LENGTHGetter()
-  },
+  MAX_FILTER_LENGTH: 2700,
 }))
 
 global.window.HTMLElement.prototype.scrollIntoView = jest.fn()
@@ -1230,11 +1228,7 @@ describe('Notification', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     // Set threshold low so it fails with a single filter.
-    mockMAX_FILTER_LENGTHGetter.mockReturnValue(104)
-  })
-
-  afterAll(() => {
-    mockMAX_FILTER_LENGTHGetter.mockReturnValue(MAX_FILTER_LENGTH)
+    constants.MAX_FILTER_LENGTH = 104
   })
 
   const notificationMessage =
@@ -1254,6 +1248,7 @@ describe('Notification', () => {
       checked: true,
     })
 
+    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
     // eslint-disable-next-line testing-library/no-wait-for-empty-callback
     await waitFor(() => {})
 
@@ -1283,6 +1278,7 @@ describe('Notification', () => {
       checked: true,
     })
 
+    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
     // eslint-disable-next-line testing-library/no-wait-for-empty-callback
     await waitFor(() => {})
 

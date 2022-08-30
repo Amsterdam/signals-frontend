@@ -7,8 +7,8 @@ import CONFIGURATION from 'shared/services/configuration/configuration'
 import { MAX_FILTER_LENGTH } from './constants'
 
 export const hasTooManyFiltersSelected = (
-  storedParams: any,
-  selectedFilters: any
+  storedParams: { [key: string]: string | number },
+  selectedFilters: { [key: string]: string | string[] }
 ): boolean => {
   const params = {
     ...storedParams,
