@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import type { FC } from 'react'
 import {
   Link,
-  Footer,
+  Footer as StyledFooter,
   FooterTop,
   FooterBottom,
   themeSpacing,
@@ -28,18 +29,20 @@ const StyledFooterTop = styled(FooterTop)`
   margin-top: 80px;
   min-height: 80px;
 `
+
 const StyledFooterBottom = styled(FooterBottom)`
   a {
     font-size: 16px;
     line-height: 20px;
   }
 `
+
 const StyledFooterApp = styled.div`
   min-height: ${themeSpacing(4)};
   background-color: ${themeColor('tint', 'level1')};
 `
 
-const FooterContainer = () => {
+const FooterContainer: FC = () => {
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const isIncidentMap = useIsIncidentMap()
 
@@ -53,7 +56,7 @@ const FooterContainer = () => {
 
   return (
     <FooterWrapper>
-      <Footer>
+      <StyledFooter>
         <StyledFooterTop data-testid="siteFooter" />
         <StyledFooterBottom>
           {!mapActive && (
@@ -74,7 +77,7 @@ const FooterContainer = () => {
             </>
           )}
         </StyledFooterBottom>
-      </Footer>
+      </StyledFooter>
     </FooterWrapper>
   )
 }

@@ -9,7 +9,7 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
-import FooterContainer from 'components/FooterContainer'
+import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
@@ -144,7 +144,7 @@ export const AppContainer = () => {
               </Switch>
             </Suspense>
           </ContentContainer>
-          <FooterContainer />
+          <Footer />
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>

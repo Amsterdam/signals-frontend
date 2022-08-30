@@ -8,8 +8,8 @@ import { Provider } from 'react-redux'
 import { history } from 'test/utils'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { mocked } from 'jest-mock'
-import Footer from '..'
-import configureStore from '../../../configureStore'
+import configureStore from '../../configureStore'
+import FooterContainer from './'
 
 let mockIsIncidentMap = false
 jest.mock('hooks/useIsIncidentMap', () => {
@@ -34,7 +34,7 @@ describe('<FooterContainer />', () => {
   it('should render correctly', () => {
     render(
       <Provider store={configureStore({}, history)}>
-        {withAppContext(<Footer />)}
+        {withAppContext(<FooterContainer />)}
       </Provider>
     )
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute(
@@ -54,7 +54,7 @@ describe('<FooterContainer />', () => {
 
     const { container } = render(
       <Provider store={configureStore({}, history)}>
-        {withAppContext(<Footer />)}
+        {withAppContext(<FooterContainer />)}
       </Provider>
     )
 
@@ -66,7 +66,7 @@ describe('<FooterContainer />', () => {
 
     const { container } = render(
       <Provider store={configureStore({}, history)}>
-        {withAppContext(<Footer />)}
+        {withAppContext(<FooterContainer />)}
       </Provider>
     )
 
@@ -79,7 +79,7 @@ describe('<FooterContainer />', () => {
 
     const { container } = render(
       <Provider store={configureStore({}, history)}>
-        {withAppContext(<Footer />)}
+        {withAppContext(<FooterContainer />)}
       </Provider>
     )
 
