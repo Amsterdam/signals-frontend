@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import type { FC } from 'react'
 import {
   Link,
   Footer as StyledFooter,
