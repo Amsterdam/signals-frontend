@@ -5,7 +5,7 @@ import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
-import CategoryGroups from '../CategoryGroups'
+import { CategoryGroups } from '../CategoryGroups'
 
 describe('signals/incident-management/components/FilterForm/components/CategoryGroups', () => {
   const mainCatSlug = 'afval'
