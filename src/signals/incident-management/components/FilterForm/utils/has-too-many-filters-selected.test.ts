@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
+import type { SelectedFilters, StoredParams } from '../types'
 import { hasTooManyFiltersSelected } from './has-too-many-filters-selected'
 
 jest.mock('./constants', () => ({
@@ -8,13 +9,13 @@ jest.mock('./constants', () => ({
   MAX_FILTER_LENGTH: 100,
 }))
 
-const storedParamsMock: { [key: string]: string | number } = {
+const storedParamsMock: StoredParams = {
   page: 1,
   ordering: '-created_at',
   page_size: 50,
 }
 
-const noFiltersSelectedMock: { [key: string]: string | string[] } = {}
+const noFiltersSelectedMock: SelectedFilters = {}
 
 describe('hasTooManyFiltersSelected', () => {
   it('should return true when too many filters are selected and the requestUrl will be too long', () => {
