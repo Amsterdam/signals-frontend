@@ -69,7 +69,7 @@ module.exports = {
     'jest/valid-expect': 'error',
     'import/first': 'error',
     'import/order': [
-      'error',
+      'warn',
       {
         groups: ['builtin', 'external', 'internal'],
         pathGroups: [
