@@ -14,6 +14,8 @@ import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import IncidentLayer from './IncidentLayer'
+import FilterCategoryPanel from './FilterCategoryPanel'
+import type { FilterCategory } from './FilterCategoryPanel'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -30,9 +32,17 @@ const Wrapper = styled.div`
   display: flex;
 `
 
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+`
+
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
+  z-index: 0;
 `
 
 export type Point = {
@@ -50,17 +60,47 @@ export type Properties = {
 const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
+  const [filterCategories, setFilterCategories] = useState<FilterCategory[]>()
+  const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
-    if (!bbox) return
+    if (!bbox || !filterCategories) return
+
     const { west, south, east, north } = bbox
     const searchParams = new URLSearchParams({
       bbox: `${west},${south},${east},${north}`,
     })
 
-    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [get, bbox])
+    let mainCategoryParam = ''
+    const activeCategories = filterCategories?.filter(
+      ({ filterActive }) => filterActive
+    )
+
+    /* When all category filters are off (i.e., there are no activeCategories), no incidents should be shown on the map.
+    However, when the request has no 'maincategory_slug' in its params, all incidents are returned.
+    Therefore, the incident layer is not shown in this case. */
+    if (activeCategories.length === 0) {
+      setShowIncidentLayer(false)
+      return
+    }
+
+    /* When not all category filters are on, the category slug needs to be added to the params of the request.
+    It is not possible to use URLSearchParams for this because it does not accept the same param more than once. */
+    if (activeCategories.length < filterCategories?.length) {
+      mainCategoryParam = activeCategories.reduce(
+        (result, category) => result + `&maincategory_slug=${category.slug}`,
+        ''
+      )
+    }
+
+    get(
+      `${
+        configuration.GEOGRAPHY_PUBLIC_ENDPOINT
+      }?${searchParams.toString()}${mainCategoryParam}`
+    )
+    setShowIncidentLayer(true)
+  }, [get, bbox, filterCategories, setShowIncidentLayer])
 
   useEffect(() => {
     if (error) {
@@ -71,29 +111,28 @@ const IncidentMap = () => {
 
   return (
     <Wrapper>
-      <StyledMap
-        data-testid="incidentMap"
-        hasZoomControls
-        fullScreen
-        mapOptions={{
-          ...MAP_OPTIONS,
-          zoom: 9,
-          dragging: true,
-          attributionControl: false,
-          scrollWheelZoom: true,
-        }}
-      >
-        <IncidentLayer passBbox={setBbox} incidentData={data} />
-        {mapMessage && (
-          <ViewerContainer
-            topLeft={
-              <MapMessage onClick={() => setMapMessage('')}>
-                {mapMessage}
-              </MapMessage>
-            }
-          />
-        )}
-      </StyledMap>
+      <Container>
+        <FilterCategoryPanel passFilterCategories={setFilterCategories} />
+        <StyledMap
+          data-testid="incidentMap"
+          hasZoomControls
+          fullScreen
+          mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
+        >
+          {showIncidentLayer && (
+            <IncidentLayer passBbox={setBbox} incidents={data?.features} />
+          )}
+          {mapMessage && (
+            <ViewerContainer
+              topLeft={
+                <MapMessage onClick={() => setMapMessage('')}>
+                  {mapMessage}
+                </MapMessage>
+              }
+            />
+          )}
+        </StyledMap>
+      </Container>
     </Wrapper>
   )
 }

@@ -2,7 +2,6 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 
 import type { FC } from 'react'
-import type { FeatureCollection } from 'geojson'
 import { useEffect, useState } from 'react'
 import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
@@ -10,6 +9,8 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import L from 'leaflet'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
+
+import type { Feature } from 'geojson'
 import type { Point, Properties } from './IncidentMap'
 
 /* istanbul ignore next */
@@ -20,10 +21,10 @@ const clusterLayerOptions = {
 
 interface IncidentLayerProps {
   passBbox(bbox: Bbox): void
-  incidentData?: FeatureCollection<Point, Properties>
+  incidents?: Feature<Point, Properties>[]
 }
 
-const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidentData }) => {
+const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidents }) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
@@ -37,12 +38,12 @@ const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidentData }) => {
   }, [layerInstance])
 
   useEffect(() => {
-    if (!incidentData?.features || !layerInstance) return
+    if (!incidents || !layerInstance) return
 
     /* istanbul ignore next */
-    incidentData.features.forEach((feature) => {
-      const latlng = featureToCoordinates(feature.geometry)
-      const { name } = feature.properties.category
+    incidents.forEach((incident) => {
+      const latlng = featureToCoordinates(incident.geometry)
+      const { name } = incident.properties.category
 
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
@@ -56,7 +57,7 @@ const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidentData }) => {
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidentData])
+  }, [layerInstance, incidents])
 
   return (
     <>
