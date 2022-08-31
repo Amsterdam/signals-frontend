@@ -31,7 +31,7 @@ const IncidentMap = () => (
       data-testid="incidentMap"
       hasZoomControls
       fullScreen
-      mapOptions={{ ...MAP_OPTIONS, zoom: 9 }}
+      mapOptions={{ ...MAP_OPTIONS, zoom: 9, scrollWheelZoom: true }}
     >
       <IncidentLayer />
     </StyledMap>

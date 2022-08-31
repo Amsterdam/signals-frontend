@@ -2,7 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import type { FeatureCollection } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
-import type { ReactElement, Dispatch, SetStateAction } from 'react'
+import type { ReactElement } from 'react'
 
 import { useFetch } from 'hooks'
 import { useEffect, useState } from 'react'
@@ -36,7 +36,7 @@ const clusterLayerOptions = {
 
 const IncidentLayer = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
-  const [layerInstance, setLayerInstance] = useState<L.LayerGroup>()
+  const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
 
   const bbox = useBoundingBox()
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
@@ -84,7 +84,7 @@ const IncidentLayer = () => {
       <span data-testid="incidentLayer" />
       <MarkerCluster
         clusterOptions={clusterLayerOptions}
-        setInstance={setLayerInstance as Dispatch<SetStateAction<unknown>>}
+        setInstance={setLayerInstance}
       />
       {mapMessage && (
         <ViewerContainer
