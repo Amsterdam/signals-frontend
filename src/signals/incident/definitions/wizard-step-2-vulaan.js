@@ -79,8 +79,7 @@ const expandQuestions = memoize(
   (questions, category, subcategory) => `${category}${subcategory}`
 )
 
-let location = locatie
-const fallback = expandQuestions({ location })
+const fallback = expandQuestions({ locatie })
 
 export default {
   label: 'Locatie en vragen',

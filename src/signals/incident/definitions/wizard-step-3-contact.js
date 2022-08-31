@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import * as yup from 'yup'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
@@ -19,7 +18,7 @@ export default {
         meta: {
           // https://bytes.grubhub.com/disabling-safari-autofill-for-a-single-line-address-input-b83137b5b1c7
           autoComplete: 'search_tel',
-          // autoRemove: /[^\d ()+-]/g,
+          autoRemove: /[^\d ()+-]/g,
           heading: 'Mogen we u bellen voor vragen?',
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
@@ -31,7 +30,7 @@ export default {
         },
         render: FormComponents.WithHeading,
         options: {
-          validators: [validatePhoneNumber, '17']
+          validators: [validatePhoneNumber, '17'],
         },
       },
       email: {
@@ -48,7 +47,7 @@ export default {
         },
         render: FormComponents.WithHeading,
         options: {
-          validators: ['email', '254']
+          validators: ['email', '254'],
         },
       },
       privacy_text: {

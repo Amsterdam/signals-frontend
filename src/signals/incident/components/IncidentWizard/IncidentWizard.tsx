@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import { Route } from 'react-router-dom'
 import { Wizard, Steps, Step } from 'react-albus'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -26,10 +26,8 @@ import type { WizardSection } from 'signals/incident/definitions/wizard'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 
-import { yupResolver } from '@hookform/resolvers/yup'
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
-import constructYupResolver from '../../services/yupResolver'
 import onNext from './services/on-next'
 
 import {
@@ -55,6 +53,8 @@ interface IncidentWizardProps {
   }
 }
 
+export type Controls = { [s: string]: any }
+
 const IncidentWizard: FC<IncidentWizardProps> = ({
   wizardDefinition,
   getClassification,
@@ -66,7 +66,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   incidentContainer,
 }) => {
   // Controls is used here for setting the validations rules used in UseForm resolver.
-  const [controls, setControls] = useState()
+  const controlsRef = useRef()
   const appContext = useContext(AppContext)
   const sources = appContext.sources
 
@@ -84,7 +84,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
    * Use the validations from controls from IncidentForm.
    */
   const formMethods = useForm({
-    resolver: yupResolver(constructYupResolver(controls)),
+    resolver: controlsRef.current,
     reValidateMode: 'onSubmit',
   })
 
@@ -94,7 +94,9 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
         render={({ history }) => (
           <Wizard
             history={history}
-            onNext={(wiz) => onNext(wizardDefinition, wiz, incident)}
+            onNext={(wiz) => {
+              return onNext(wizardDefinition, wiz, incident)
+            }}
           >
             {incidentContainer.loading || appContext.loading ? (
               <LoadingIndicator />
@@ -151,11 +153,11 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                             {(form || formFactory) && (
                               <FormProvider {...formMethods}>
                                 <IncidentForm
+                                  ref={controlsRef}
+                                  reactHookFormMethods={formMethods}
                                   fieldConfig={
                                     form || formFactory(incident, sources)
                                   }
-                                  setControls={setControls}
-                                  reactHookFormMethods={formMethods}
                                   incidentContainer={incidentContainer}
                                   getClassification={getClassification}
                                   removeQuestionData={removeQuestionData}

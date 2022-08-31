@@ -54,7 +54,6 @@ const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
       render={({ next, previous, step }) => {
         const currentStep = step?.id?.split('/').pop() as keyof WizardSection
         const wizardStep = currentStep !== 'bedankt' && wizard[currentStep]
-
         if (!wizardStep) return null
         return (
           wizardStep && (
@@ -81,6 +80,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
+
    */
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 

@@ -103,7 +103,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
                 <ErrorMessage
                   data-testid={`${meta.name}-required`}
                   message={
-                    getError('required') === true
+                    getError('required')
                       ? 'Dit is een verplicht veld'
                       : (getError('required') as string)
                   }

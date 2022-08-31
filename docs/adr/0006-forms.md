@@ -58,7 +58,7 @@ These libraries can exist side by side in the code base. New forms can be built 
 
 ### Incident form
 
-- [IncidentForm/index.tsx](../../src/signals/incident/components/IncidentForm/index.js)
+- [IncidentForm/index.tsx](../../src/signals/incident/components/IncidentForm/index.tsx)
 
 A form components specifically using the dependency, which can easily be updated when using the new lib.
 

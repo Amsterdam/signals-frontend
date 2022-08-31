@@ -34,7 +34,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({
           if (!meta.name) {
             return
           }
-
           const inputValue = {
             [meta.name]: meta.autoRemove
               ? event.target.value.replace(meta.autoRemove, '')

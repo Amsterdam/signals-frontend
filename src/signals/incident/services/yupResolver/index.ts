@@ -11,12 +11,13 @@ export default function constructYupResolver(
             const validators: any = control?.options?.validators
             // All html fields start as a string
             let validationField: AnyObject = yup.string()
-
             // Except for locatie
             if (
               key === 'locatie' ||
               key === 'location' ||
-              key.startsWith('extra')
+              (key.startsWith('extra') &&
+                Object.keys(control.meta?.values || {})?.length > 0) ||
+              (key.startsWith('extra') && control.meta?.endpoint)
             ) {
               validationField = yup.object()
             }
@@ -27,6 +28,8 @@ export default function constructYupResolver(
                 (validator) => {
                   if (validator === 'required') {
                     validationField = validationField.required()
+                  } else {
+                    validationField = validationField.nullable()
                   }
 
                   if (validator === 'email') {

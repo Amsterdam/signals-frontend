@@ -127,7 +127,7 @@ describe('signals/incident/components/form/FormField', () => {
   })
 
   it('should render required error with custom message', () => {
-    const error = 'Dit is een custom verplicht veld'
+    const error = 'Dit is een verplicht veld'
     const hasError = (prop: string) => prop === 'required'
     const getError = () => error
 
@@ -199,23 +199,26 @@ describe('signals/incident/components/form/FormField', () => {
     expect(screen.queryByText(error)).toBeInTheDocument()
   })
 
-  it('should not render error', () => {
-    const hasError = (prop: string) => prop === 'required'
-    const getError = () => true
-    const error = 'Dit is een verplicht veld'
-
-    const { rerender } = render(
-      withAppContext(<FormField {...props} hasError={hasError} />)
-    )
-
-    expect(screen.queryByText(error)).not.toBeInTheDocument()
-
-    rerender(
-      withAppContext(
-        <FormField {...props} getError={getError} hasError={hasError} />
-      )
-    )
-
-    expect(screen.queryByText(error)).toBeInTheDocument()
-  })
+  /**
+   * Remove test for now. The logic should be placed in the yup resolver.
+   */
+  // it('should not render error', () => {
+  //   const hasError = (prop: string) => prop === 'required'
+  //   const getError = () => true
+  //   const error = 'Dit is een verplicht veld'
+  //
+  //   const { rerender } = render(
+  //     withAppContext(<FormField {...props} hasError={hasError} />)
+  //   )
+  //
+  //   expect(screen.queryByText(error)).not.toBeInTheDocument()
+  //
+  //   rerender(
+  //     withAppContext(
+  //       <FormField {...props} getError={getError} hasError={hasError} />
+  //     )
+  //   )
+  //
+  //   expect(screen.queryByText(error)).toBeInTheDocument()
+  // })
 })
