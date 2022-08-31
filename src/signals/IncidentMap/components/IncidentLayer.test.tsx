@@ -3,7 +3,6 @@
 import { render, screen } from '@testing-library/react'
 import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
-import geography from 'utils/__tests__/fixtures/geography_public.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import { withAppContext } from 'test/utils'
@@ -17,8 +16,6 @@ jest.mock('@amsterdam/react-maps', () => ({
 }))
 
 jest.mock('hooks/useFetch')
-
-const numFeatures = geography.features.length
 
 const renderWithContext = () =>
   render(
@@ -51,16 +48,6 @@ describe('IncidentLayer', () => {
     expect(get).toHaveBeenCalledWith(
       expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
     )
-  })
-
-  it('renders markers', async () => {
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
-      data: geography,
-    }))
-
-    const container = renderWithContext()
-    expect(container.getAllByAltText('Huisafval')).toHaveLength(numFeatures)
   })
 
   it('shows a message when the API returns an error', async () => {

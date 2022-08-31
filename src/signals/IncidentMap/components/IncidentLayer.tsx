@@ -1,9 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-
-import type { FeatureCollection, Feature as GeoJSONFeature } from 'geojson'
+import type { FeatureCollection } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
-import type { Geometrie } from 'types/incident'
 import type { ReactElement } from 'react'
 
 import { useFetch } from 'hooks'
@@ -11,9 +9,12 @@ import { useEffect, useState } from 'react'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import configuration from 'shared/services/configuration/configuration'
 import L from 'leaflet'
-import { Marker, ViewerContainer } from '@amsterdam/arm-core'
+
+import { ViewerContainer } from '@amsterdam/arm-core'
 import { featureToCoordinates } from 'shared/services/map-location'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
+import MarkerCluster from 'components/MarkerCluster'
+import { incidentIcon } from 'shared/services/configuration/map-markers'
 
 type Point = {
   type: 'Point'
@@ -27,38 +28,18 @@ type Properties = {
   created_at: string
 }
 
-type Feature = GeoJSONFeature<Point, Properties>
+/* istanbul ignore next */
+const clusterLayerOptions = {
+  zoomToBoundsOnClick: true,
+  chunkedLoading: true,
+}
 
 const IncidentLayer = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
+  const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
+
   const bbox = useBoundingBox()
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
-
-  const getMarker = (feature: Feature) => {
-    const coordinates = featureToCoordinates(feature.geometry as Geometrie)
-    const icon = L.icon({
-      iconSize: [24, 32],
-      iconUrl: '/assets/images/area-map/icon-pin.svg',
-    })
-    const { name } = feature.properties.category
-    const { created_at } = feature.properties
-
-    return (
-      <Marker
-        key={created_at}
-        options={{
-          icon,
-          alt: name,
-          keyboard: false,
-        }}
-        latLng={coordinates}
-      />
-    )
-  }
-
-  useEffect(() => {
-    if (error) setMapMessage('Er konden geen meldingen worden opgehaald.')
-  }, [get, error])
 
   useEffect(() => {
     if (!bbox) return
@@ -71,10 +52,40 @@ const IncidentLayer = () => {
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
   }, [get, bbox])
 
+  useEffect(() => {
+    if (error) {
+      setMapMessage('Er konden geen meldingen worden opgehaald.')
+      return
+    }
+
+    if (!data?.features || !layerInstance) return
+
+    /* istanbul ignore next */
+    data.features.forEach((feature) => {
+      const latlng = featureToCoordinates(feature.geometry)
+      const { name } = feature.properties.category
+
+      const clusteredMarker = L.marker(latlng, {
+        icon: incidentIcon,
+        alt: name,
+        keyboard: false,
+      })
+
+      layerInstance.addLayer(clusteredMarker)
+    })
+
+    return () => {
+      layerInstance.clearLayers()
+    }
+  }, [setMapMessage, layerInstance, data, error])
+
   return (
     <>
       <span data-testid="incidentLayer" />
-      {data?.features.map((feature) => getMarker(feature))}
+      <MarkerCluster
+        clusterOptions={clusterLayerOptions}
+        setInstance={setLayerInstance}
+      />
       {mapMessage && (
         <ViewerContainer
           topLeft={
