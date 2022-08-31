@@ -1,23 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 import { push } from 'connected-react-router/immutable'
+import * as Sentry from '@sentry/browser'
 
 import { authCall } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import {
-  SET_SEARCH_QUERY,
-  LOGIN,
-  LOGOUT,
   AUTHENTICATE_USER,
   GET_SOURCES,
+  LOGIN,
+  LOGOUT,
+  POST_MESSAGE,
+  SET_SEARCH_QUERY,
 } from 'containers/App/constants'
 
 import type { EventChannel } from '@redux-saga/core'
+import { postMessage } from '../../shared/services/app-post-message'
 import { logout, login } from '../../shared/services/auth/auth'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
-import type { AuthenticateUserAction } from './actions'
+import type { AuthenticateUserAction, PostMessageAction } from './actions'
 import {
   authorizeUser,
   getSourcesFailed,
@@ -150,6 +153,24 @@ export function* fetchSources() {
   }
 }
 
+export function* callPostMessage(action: PostMessageAction) {
+  if (action.payload) {
+    try {
+      yield call(postMessage, action.payload)
+    } catch (error) {
+      yield put(
+        showGlobalNotification({
+          variant: VARIANT_ERROR,
+          title: 'Er is iets misgegaan',
+          type: TYPE_GLOBAL,
+        })
+      )
+
+      yield call([Sentry, 'captureException'], error)
+    }
+  }
+}
+
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGOUT, callLogout),
@@ -157,5 +178,6 @@ export default function* watchAppSaga() {
     takeLatest(AUTHENTICATE_USER, callAuthorize),
     takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
     takeLatest(GET_SOURCES, fetchSources),
+    takeLatest(POST_MESSAGE, callPostMessage),
   ])
 }

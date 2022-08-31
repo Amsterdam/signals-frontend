@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 export const DEFAULT_LOCALE = 'nl'
 
 export const PAGE_SIZE = 50
@@ -26,3 +26,5 @@ export const RESET_SEARCH_QUERY = 'sia/App/RESET_SEARCH_QUERY'
 export const GET_SOURCES = 'sia/App/GET_SOURCES'
 export const GET_SOURCES_FAILED = 'sia/App/GET_SOURCES_FAILED'
 export const GET_SOURCES_SUCCESS = 'sia/App/GET_SOURCES_SUCCESS'
+
+export const POST_MESSAGE = 'sia/App/POST_MESSAGE'

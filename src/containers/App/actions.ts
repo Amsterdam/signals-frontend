@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { Action } from 'types'
 import {
   AUTHENTICATE_USER,
@@ -18,6 +18,7 @@ import {
   GET_SOURCES,
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
+  POST_MESSAGE,
 } from './constants'
 import type { GlobalNotification, UserCredentials, User, Source } from './types'
 
@@ -49,6 +50,7 @@ export type GetSourcesSuccessAction = Action<
   typeof GET_SOURCES_SUCCESS,
   Source[]
 >
+export type PostMessageAction = Action<typeof POST_MESSAGE, string>
 
 export const loginFailed = (payload: string): LoginFailedAction => ({
   type: LOGIN_FAILED,
@@ -129,6 +131,11 @@ export const getSourcesSuccess = (
 ): GetSourcesSuccessAction => ({
   type: GET_SOURCES_SUCCESS,
   payload,
+})
+
+export const postMessage = (message: string): PostMessageAction => ({
+  type: POST_MESSAGE,
+  payload: message,
 })
 
 export type AppActionTypes =
