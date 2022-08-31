@@ -67,13 +67,13 @@ const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   useEffect(() => {
     if (!mainCategories) return
     passFilterCategories(mainCategories)
-  }, [mainCategories])
+  }, [mainCategories, passFilterCategories])
 
   useEffect(() => {
     if (!data) {
       get(configuration.CATEGORIES_ENDPOINT)
     }
-  }, [get])
+  }, [get, data])
 
   useEffect(() => {
     if (data) {

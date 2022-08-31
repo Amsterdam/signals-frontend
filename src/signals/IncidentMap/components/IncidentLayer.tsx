@@ -50,7 +50,7 @@ const IncidentLayer = () => {
   useEffect(() => {
     if (!bbox) return
     passBbox(bbox)
-  }, [bbox])
+  }, [bbox, passBbox])
 
   useEffect(() => {
     if (!layerInstance) return
