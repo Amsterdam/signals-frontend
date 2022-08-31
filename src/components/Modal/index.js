@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import {
@@ -59,6 +59,9 @@ const Header = styled.header`
   padding: 10px 0;
   border-bottom: 2px solid #e6e6e6;
 `
+const StyledColumn = styled(Column)`
+  flex-direction: column;
+`
 
 const Modal = ({ children, title, onClose, ...rest }) => (
   <ModalWrapper>
@@ -83,7 +86,7 @@ const Modal = ({ children, title, onClose, ...rest }) => (
 
       <ModalInner data-scroll-lock-scrollable>
         <Row>
-          <Column span={12}>{children}</Column>
+          <StyledColumn span={12}>{children}</StyledColumn>
         </Row>
       </ModalInner>
     </StyledModal>

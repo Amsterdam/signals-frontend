@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { store, withAppContext } from 'test/utils'
@@ -27,6 +27,7 @@ import {
   DEFAULT_SUBMIT_BUTTON_LABEL,
 } from '../constants'
 import IncidentManagementContext from '../../../context'
+import * as constants from '../utils/constants'
 import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
@@ -39,6 +40,14 @@ jest.mock('models/categories/selectors', () => {
     makeSelectStructuredCategories: () => structuredCategorie,
   }
 })
+
+jest.mock('../utils/constants', () => ({
+  __esModule: true,
+  ...jest.requireActual('../utils/constants'),
+  MAX_FILTER_LENGTH: 2700,
+}))
+
+global.window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
 const dispatchSpy = jest.spyOn(store, 'dispatch')
 const makeSelectDirectingDepartmentsSpy = jest.spyOn(
@@ -1212,5 +1221,71 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(handlers.onUpdateFilter).toHaveBeenCalled()
       expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
     })
+  })
+})
+
+describe('Notification', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    // Set threshold low so it fails with a single filter.
+    constants.MAX_FILTER_LENGTH = 104
+  })
+
+  const notificationMessage =
+    'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
+
+  it('should show a notification when too many filters are selected and removed when deselected', async () => {
+    const onSubmit = jest.fn()
+
+    render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+    const checkbox = screen.getByText('Container glas kapot')
+
+    expect(checkbox).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: true,
+    })
+
+    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
+    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
+    await waitFor(() => {})
+
+    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: false,
+    })
+
+    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+  })
+
+  it('should disable onSubmit', async () => {
+    const onSubmit = jest.fn()
+
+    render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+    const checkbox = screen.getByText('Container glas kapot')
+
+    expect(checkbox).toBeInTheDocument()
+
+    userEvent.click(checkbox)
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: true,
+    })
+
+    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
+    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
+    await waitFor(() => {})
+
+    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('submitBtn'))
+
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 })

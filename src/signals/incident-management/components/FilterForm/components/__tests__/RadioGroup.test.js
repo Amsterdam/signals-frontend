@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import priorityJSON from 'signals/incident-management/definitions/priorityList'
-import RadioGroup from '../RadioGroup'
+import { RadioGroup } from '../RadioGroup'
 
 describe('signals/incident-management/components/FilterForm/components/RadioGroup', () => {
   it('should not render anything', () => {
