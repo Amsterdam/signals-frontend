@@ -57,12 +57,12 @@ const IncidentLayer = () => {
   }, [layerInstance])
 
   useEffect(() => {
-    if (!incidentData?.features || !layerInstance) return
+    if (!incidents || !layerInstance) return
 
     /* istanbul ignore next */
-    incidentData.features.forEach((feature) => {
-      const latlng = featureToCoordinates(feature.geometry)
-      const { name } = feature.properties.category
+    incidents.forEach((incident) => {
+      const latlng = featureToCoordinates(incident.geometry)
+      const { name } = incident.properties.category
 
       const clusteredMarker = L.marker(latlng, {
         icon: incidentIcon,
@@ -76,7 +76,7 @@ const IncidentLayer = () => {
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidentData])
+  }, [layerInstance, incidents])
 
   return (
     <>

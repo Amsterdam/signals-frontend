@@ -14,6 +14,8 @@ import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import IncidentLayer from './IncidentLayer'
+import FilterCategoryPanel from './FilterCategoryPanel'
+import type { FilterCategory } from './FilterCategoryPanel'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -30,9 +32,17 @@ const Wrapper = styled.div`
   display: flex;
 `
 
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+`
+
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
+  z-index: 0;
 `
 
 const IncidentMap = () => (
