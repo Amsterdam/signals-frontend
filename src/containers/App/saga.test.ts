@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import 'jest-localstorage-mock'
+import * as Sentry from '@sentry/browser'
 import { call, put, take, takeLatest } from 'redux-saga/effects'
 import { channel } from 'redux-saga'
 import { mocked } from 'jest-mock'
@@ -17,9 +18,10 @@ import fileUploadChannel from 'shared/services/file-upload-channel'
 import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import userJson from 'utils/__tests__/fixtures/user.json'
-
+import { postMessage } from 'shared/services/app-post-message'
 import type { SagaGeneratorType } from 'types'
 import watchAppSaga, {
+  callPostMessage,
   callLogin,
   callLogout,
   callAuthorize,
@@ -28,13 +30,14 @@ import watchAppSaga, {
   fetchSources,
 } from './saga'
 import {
-  LOGOUT,
   AUTHENTICATE_USER,
-  SET_SEARCH_QUERY,
   GET_SOURCES,
   LOGIN,
+  LOGOUT,
+  POST_MESSAGE,
+  SET_SEARCH_QUERY,
 } from './constants'
-import type { AuthenticateUserAction } from './actions'
+import type { AuthenticateUserAction, PostMessageAction } from './actions'
 import { loginFailed } from './actions'
 import {
   logoutFailed,
@@ -48,6 +51,7 @@ import {
 } from './actions'
 import type { UploadFile, ApiError } from './types'
 
+jest.mock('@sentry/browser')
 jest.mock('shared/services/auth/auth')
 jest.mock(
   'shared/services/auth/services/random-string-generator/random-string-generator'
@@ -110,6 +114,7 @@ describe('containers/App/saga', () => {
         takeLatest(AUTHENTICATE_USER, callAuthorize),
         takeLatest(SET_SEARCH_QUERY, callSearchIncidents),
         takeLatest(GET_SOURCES, fetchSources),
+        takeLatest(POST_MESSAGE, callPostMessage),
       ])
       .next()
       .isDone()
@@ -367,6 +372,37 @@ describe('containers/App/saga', () => {
         .put(getSourcesFailed(message))
         .next()
         .isDone()
+    })
+  })
+
+  describe('postMessage', () => {
+    it('should dispatch postMessage', () => {
+      const action: PostMessageAction = {
+        type: POST_MESSAGE,
+        payload: 'foo',
+      }
+
+      return expectSaga(callPostMessage, action).call(postMessage, 'foo').run()
+    })
+
+    it('should dispatch notification on error', () => {
+      const action: PostMessageAction = {
+        type: POST_MESSAGE,
+        payload: 'foo',
+      }
+      const error = new Error('foo')
+
+      return expectSaga(callPostMessage, action)
+        .provide([[matchers.call.fn(postMessage), throwError(error)]])
+        .put(
+          showGlobalNotification({
+            variant: VARIANT_ERROR,
+            title: 'Er is iets misgegaan',
+            type: TYPE_GLOBAL,
+          })
+        )
+        .call([Sentry, 'captureException'], error)
+        .run()
     })
   })
 })

@@ -6,18 +6,19 @@ import userJson from 'utils/__tests__/fixtures/user.json'
 import {
   AUTHENTICATE_USER,
   AUTHORIZE_USER,
-  SHOW_GLOBAL_NOTIFICATION,
-  RESET_GLOBAL_NOTIFICATION,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
+  GET_SOURCES,
   LOGIN,
   LOGOUT,
+  POST_MESSAGE,
+  RESET_GLOBAL_NOTIFICATION,
+  RESET_SEARCH_QUERY,
+  SET_SEARCH_QUERY,
+  SHOW_GLOBAL_NOTIFICATION,
+  UPLOAD_FAILURE,
   UPLOAD_PROGRESS,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
-  GET_SOURCES,
-  GET_SOURCES_SUCCESS,
-  GET_SOURCES_FAILED,
 } from './constants'
 
 import {
@@ -109,5 +110,10 @@ describe('containers/App/actions', () => {
 
   it('should dispatch getSources action', () => {
     testActionCreator(getSources, GET_SOURCES)
+  })
+
+  it('should dispatch postMessage action', () => {
+    const payload = 'foo'
+    testActionCreator(postMessage, POST_MESSAGE, payload)
   })
 })
