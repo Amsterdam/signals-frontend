@@ -31,7 +31,7 @@ const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidents }) => {
   useEffect(() => {
     if (!bbox) return
     passBbox(bbox)
-  }, [bbox])
+  }, [bbox, passBbox])
 
   useEffect(() => {
     if (!layerInstance) return
