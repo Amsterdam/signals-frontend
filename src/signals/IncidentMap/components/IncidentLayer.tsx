@@ -1,15 +1,15 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import type { FC, Dispatch, SetStateAction } from 'react'
+
+import type { FC } from 'react'
+import type { FeatureCollection } from 'geojson'
 import { useEffect, useState } from 'react'
+import { featureToCoordinates } from 'shared/services/map-location'
+import MarkerCluster from 'components/MarkerCluster'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import L from 'leaflet'
-
-import { featureToCoordinates } from 'shared/services/map-location'
-import MarkerCluster from 'components/MarkerCluster'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
-import type { FeatureCollection } from 'geojson'
 import type { Point, Properties } from './IncidentMap'
 
 /* istanbul ignore next */
@@ -24,7 +24,7 @@ interface IncidentLayerProps {
 }
 
 const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidentData }) => {
-  const [layerInstance, setLayerInstance] = useState<L.LayerGroup>()
+  const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidentData }) => {
       <span data-testid="incidentLayer" />
       <MarkerCluster
         clusterOptions={clusterLayerOptions}
-        setInstance={setLayerInstance as Dispatch<SetStateAction<unknown>>}
+        setInstance={setLayerInstance}
       />
     </>
   )

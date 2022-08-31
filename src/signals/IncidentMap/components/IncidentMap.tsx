@@ -75,7 +75,13 @@ const IncidentMap = () => {
         data-testid="incidentMap"
         hasZoomControls
         fullScreen
-        mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
+        mapOptions={{
+          ...MAP_OPTIONS,
+          zoom: 9,
+          dragging: true,
+          attributionControl: false,
+          scrollWheelZoom: true,
+        }}
       >
         <IncidentLayer passBbox={setBbox} incidentData={data} />
         {mapMessage && (
