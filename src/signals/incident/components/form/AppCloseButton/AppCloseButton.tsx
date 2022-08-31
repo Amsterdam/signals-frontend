@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { breakpoint } from '@amsterdam/asc-ui'
