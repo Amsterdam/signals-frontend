@@ -24,18 +24,19 @@ import {
 import {
   authenticateUser,
   authorizeUser,
-  showGlobalNotification,
-  resetGlobalNotification,
   doLogin,
   doLogout,
+  getSources,
+  getSourcesFailed,
+  getSourcesSuccess,
+  postMessage,
+  resetGlobalNotification,
+  resetSearchQuery,
+  setSearchQuery,
+  showGlobalNotification,
+  uploadFailure,
   uploadProgress,
   uploadSuccess,
-  uploadFailure,
-  setSearchQuery,
-  resetSearchQuery,
-  getSources,
-  getSourcesSuccess,
-  getSourcesFailed,
 } from './actions'
 
 describe('containers/App/actions', () => {
