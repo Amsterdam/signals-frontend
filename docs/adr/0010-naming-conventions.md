@@ -40,7 +40,7 @@ IncidentDetail
   context.ts
   actions.ts
   IncidentDetail.tsx
-  index.tsx
+  PreviousButton.tsx
   reducer.ts
 ```
 
