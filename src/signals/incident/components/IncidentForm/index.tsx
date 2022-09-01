@@ -190,7 +190,6 @@ const IncidentForm = forwardRef<any, any>(
                     control={reactHookFormMethods.control}
                     defaultValue={null}
                     render={({ field: { value: v, onChange } }) => {
-                      reactHookFormMethods.register(value.meta?.name)
                       return (
                         <value.render
                           parent={parent}
@@ -216,6 +215,7 @@ const IncidentForm = forwardRef<any, any>(
                               reactHookFormMethods.formState?.errors[key]?.type
                             )
                           }}
+                          value={v}
                           validatorsOrOpts={value.options}
                         />
                       )
