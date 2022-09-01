@@ -221,7 +221,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         extra_fietsrek_aanvragen: 'ja',
       },
       value:
-        'Een nieuw fietsenrek of ‘nietje’ kunt u aanvragen met het [aanvraagformulier](https://formulier.amsterdam.nl/thema/wonen/aanvraagformulier-fietsenrek-fietsvak).',
+        'Een nieuw fietsenrek of ‘nietje’ kunt u aanvragen met het [aanvraagformulier](https://formulier.amsterdam.nl/thema/wonen/fietsenrek-fietsvak-fietsnietje/aanvragen/).',
       type: 'info',
       pathMerge: 'extra_properties',
     },
