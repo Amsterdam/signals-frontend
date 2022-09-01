@@ -15,6 +15,7 @@ import type {
 import { useSelector } from 'react-redux'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
+import { useFormContext } from 'react-hook-form'
 
 const Nav = styled.div`
   align-items: center;
@@ -48,12 +49,14 @@ interface IncidentNavigationProps {
 
 const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
   const { wizard } = meta
+  const { reset } = useFormContext()
 
   return (
     <WithWizard
       render={({ next, previous, step }) => {
         const currentStep = step?.id?.split('/').pop() as keyof WizardSection
         const wizardStep = currentStep !== 'bedankt' && wizard[currentStep]
+
         if (!wizardStep) return null
         return (
           wizardStep && (
@@ -61,7 +64,13 @@ const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
               wizardStep={wizardStep}
               meta={meta}
               next={next}
-              previous={previous}
+              previous={() => {
+                /**
+                  When calling previous, clear errors in formState.
+                */
+                reset()
+                previous()
+              }}
             />
           )
         )

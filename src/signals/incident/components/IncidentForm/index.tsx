@@ -6,7 +6,6 @@ import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
 import isEqual from 'lodash/isEqual'
 
 import { Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yupResolver'
 import { Form, Fieldset, ProgressContainer } from './styled'
@@ -39,6 +38,12 @@ const IncidentForm = forwardRef<any, any>(
       isMounted: true,
       loading: false,
     })
+
+    useEffect(() => {
+      return () => {
+        prevState.current.isMounted = false
+      }
+    }, [])
 
     useEffect(() => {
       if (prevState.current.loading !== incidentContainer.loadingData) {
@@ -133,12 +138,6 @@ const IncidentForm = forwardRef<any, any>(
       [reactHookFormMethods, setIncident, submitting]
     )
 
-    useEffect(() => {
-      return () => {
-        prevState.current.isMounted = false
-      }
-    }, [])
-
     /**
     FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
     This should be changed in the future.
@@ -175,7 +174,8 @@ const IncidentForm = forwardRef<any, any>(
   */
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    controlsRef.current = yupResolver(constructYupResolver(controls))
+    controlsRef.current = constructYupResolver(controls)
+
     return (
       <div data-testid="incidentForm">
         <ProgressContainer />

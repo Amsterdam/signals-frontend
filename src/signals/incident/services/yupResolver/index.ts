@@ -1,5 +1,6 @@
 import type { AnyObject } from 'yup/es/types'
 import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export default function constructYupResolver(
   controls: { [s: string]: unknown } | ArrayLike<unknown> | undefined
@@ -68,5 +69,5 @@ export default function constructYupResolver(
         )
       )
     : {}
-  return yup.object(schema)
+  return yupResolver(yup.object(schema))
 }
