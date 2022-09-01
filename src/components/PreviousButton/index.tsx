@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import type { FunctionComponent, ReactNode } from 'react'
+// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import styled from 'styled-components'
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'
+
 import Button from 'components/Button'
+import type { FunctionComponent } from 'react'
 
 const StyledButton = styled(Button)`
   height: 44px;
@@ -17,12 +18,12 @@ const Chevron = styled(ChevronLeft)`
 
 export interface PreviousButtonProps {
   className?: string
-  children: ReactNode
+  children: string
   onClick: () => void
 }
 
 const PreviousButton: FunctionComponent<PreviousButtonProps> = ({
-  className,
+  className = '',
   children,
   onClick,
 }) => (
