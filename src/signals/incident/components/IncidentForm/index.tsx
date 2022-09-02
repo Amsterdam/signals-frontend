@@ -7,7 +7,7 @@ import isEqual from 'lodash/isEqual'
 
 import { Controller } from 'react-hook-form'
 import formatConditionalForm from '../../services/format-conditional-form'
-import constructYupResolver from '../../services/yupResolver'
+import constructYupResolver from '../../services/yup-resolver'
 import { Form, Fieldset, ProgressContainer } from './styled'
 
 const IncidentForm = forwardRef<any, any>(
@@ -51,6 +51,10 @@ const IncidentForm = forwardRef<any, any>(
       }
     }, [prevState.current.loading, incidentContainer.loadingData])
 
+    /**
+     * setValues makes sure values from the incident, like dateTime, are added
+     * to react hook form.
+     */
     const setValues = useCallback(
       (incident) => {
         Object.entries(reactHookFormMethods.getValues()).map(([key, value]) => {
@@ -205,9 +209,10 @@ const IncidentForm = forwardRef<any, any>(
                             },
                             value: v || '',
                           })}
-                          getError={() =>
-                            reactHookFormMethods.formState?.errors[key].message
-                          }
+                          getError={() => {
+                            return reactHookFormMethods.formState?.errors[key]
+                              ?.message
+                          }}
                           meta={value.meta || parent.meta}
                           hasError={(errorCode: any) => {
                             return (

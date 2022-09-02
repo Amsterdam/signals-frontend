@@ -72,7 +72,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
   const containsErrors: boolean =
     hasError('required') ||
     hasError('email') ||
-    hasError('maxLength') ||
+    hasError('max') ||
     hasError('custom')
 
   const isOptional = !options?.validators?.includes('required')
@@ -117,11 +117,10 @@ const FormField: FunctionComponent<FormFieldProps> = ({
                 />
               )}
 
-              {hasError('maxLength') && (
+              {hasError('max') && (
                 <ErrorMessage
                   message={`U heeft meer dan de maximale ${String(
-                    (getError('maxLength') as { requiredLength: number })
-                      .requiredLength
+                    getError('max') as { requiredLength: number }
                   )} tekens ingevoerd`}
                 />
               )}

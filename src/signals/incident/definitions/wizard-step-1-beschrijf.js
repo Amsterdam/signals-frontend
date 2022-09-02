@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import some from 'lodash/some'
 import memoize from 'lodash/memoize'
-import { Validators } from 'react-reactive-form'
 import {
   priorityList,
   typesList,
 } from 'signals/incident-management/definitions'
 import configuration from 'shared/services/configuration/configuration'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
-import * as yup from 'yup'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 import checkVisibility from '../services/checkVisibility'

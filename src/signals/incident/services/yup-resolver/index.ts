@@ -10,9 +10,8 @@ export default function constructYupResolver(
         Object.entries(controls).reduce(
           (acc: Array<[string, any]>, [key, control]: [string, any]) => {
             const validators: any = control?.options?.validators
-            // All html fields start as a string
+
             let validationField: AnyObject = yup.string()
-            // Except for locatie
             if (
               key === 'locatie' ||
               key === 'location' ||
@@ -23,7 +22,10 @@ export default function constructYupResolver(
               validationField = yup.object()
             }
 
-            // Chain multiple validators per field
+            /**
+              Chain multiple validators per field. For max, add the
+              validator value as message as the second argument.
+              */
             if (validators) {
               ;(Array.isArray(validators) ? validators : [validators]).map(
                 (validator) => {
@@ -39,7 +41,8 @@ export default function constructYupResolver(
 
                   if (Number.parseInt(validator)) {
                     validationField = validationField.max(
-                      Number.parseInt(validator)
+                      Number.parseInt(validator),
+                      validator
                     )
                   }
 
@@ -49,7 +52,8 @@ export default function constructYupResolver(
                     Number.parseInt(validator[1])
                   ) {
                     validationField = validationField.max(
-                      Number.parseInt(validator[1])
+                      Number.parseInt(validator[1]),
+                      validator[1]
                     )
                   } else if (typeof validator === 'function') {
                     validationField = validationField.test(
