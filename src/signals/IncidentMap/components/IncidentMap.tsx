@@ -13,6 +13,8 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
+import { breakpoint, Button, themeSpacing } from '@amsterdam/asc-ui'
+import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import IncidentLayer from './IncidentLayer'
 import FilterCategoryPanel from './FilterCategoryPanel'
 import type { FilterCategory } from './FilterCategoryPanel'
@@ -37,6 +39,9 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    flex-direction: column;
+  }
 `
 
 const StyledMap = styled(Map)`
