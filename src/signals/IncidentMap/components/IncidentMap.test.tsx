@@ -29,12 +29,15 @@ describe('<IncidentMap />', () => {
     expect(screen.getByTestId('mapZoom')).toBeInTheDocument()
   })
 
-  it('sends a request to fetch publicly available categories', () => {
+  it('sends a request to fetch publicly available categories and incidents', () => {
     expect(get).not.toHaveBeenCalled()
 
     render(withAppContext(<IncidentMap />))
 
-    expect(get).toHaveBeenCalledTimes(1)
+    expect(get).toHaveBeenCalledTimes(2)
+    expect(get).toHaveBeenCalledWith(
+      expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
+    )
     expect(get).toHaveBeenCalledWith(
       expect.stringContaining(configuration.CATEGORIES_ENDPOINT)
     )

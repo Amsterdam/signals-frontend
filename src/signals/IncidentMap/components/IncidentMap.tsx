@@ -94,11 +94,11 @@ const IncidentMap = () => {
   const [filterCategories, setFilterCategories] = useState<FilterCategory[]>()
   const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
   const [showPanel, setShowPanel] = useState<boolean>(true)
-
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
-    if (!bbox || !filterCategories) return
+    /* Get parameters for geography endpoint (bbox and main categories) */
+    if (!bbox) return
 
     const { west, south, east, north } = bbox
     const searchParams = new URLSearchParams({
@@ -106,22 +106,25 @@ const IncidentMap = () => {
     })
 
     let mainCategoryParam = ''
-    const activeCategories = filterCategories?.filter(
-      ({ filterActive }) => filterActive
-    )
+    const activeCategories =
+      filterCategories?.filter(({ filterActive }) => filterActive) || undefined
 
     /* When all category filters are off (i.e., there are no activeCategories), no incidents should be shown on the map.
     However, when the request has no 'maincategory_slug' in its params, all incidents are returned.
     Therefore, the incident layer is not shown in this case. */
-    if (activeCategories.length === 0) {
+    if (activeCategories?.length === 0) {
       setShowIncidentLayer(false)
       return
     }
 
     /* When not all category filters are on, the category slug needs to be added to the params of the request.
-    It is not possible to use URLSearchParams for this because it does not accept the same param more than once. */
-    if (activeCategories.length < filterCategories?.length) {
-      mainCategoryParam = activeCategories.reduce(
+    It is not possible to use URLSearchParams because this method does not accept the same param more than once. */
+    if (
+      activeCategories &&
+      filterCategories &&
+      activeCategories?.length < filterCategories?.length
+    ) {
+      mainCategoryParam = activeCategories?.reduce(
         (result, category) => result + `&maincategory_slug=${category.slug}`,
         ''
       )
@@ -132,6 +135,7 @@ const IncidentMap = () => {
         configuration.GEOGRAPHY_PUBLIC_ENDPOINT
       }?${searchParams.toString()}${mainCategoryParam}`
     )
+
     setShowIncidentLayer(true)
   }, [get, bbox, filterCategories, setShowIncidentLayer])
 
