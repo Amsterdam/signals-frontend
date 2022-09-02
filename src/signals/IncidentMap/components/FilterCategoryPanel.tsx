@@ -50,6 +50,20 @@ type FilterCategoryPanelProps = {
   passFilterCategories: (categories: FilterCategory[]) => void
 }
 
+export const updateCategory = (
+  categoryName: string,
+  category: FilterCategory
+) => {
+  if (category.name === categoryName) {
+    return {
+      ...category,
+      filterActive: !category.filterActive,
+    }
+  } else {
+    return category
+  }
+}
+
 const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   passFilterCategories,
 }) => {
@@ -57,16 +71,9 @@ const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   const [mainCategories, setMainCategories] = useState<FilterCategory[]>()
 
   const toggleFilter = (categoryName: string) => {
-    const updated = mainCategories?.map((category) => {
-      if (category.name === categoryName) {
-        return {
-          ...category,
-          filterActive: !category.filterActive,
-        }
-      } else {
-        return category
-      }
-    })
+    const updated = mainCategories?.map((category) =>
+      updateCategory(categoryName, category)
+    )
     setMainCategories(updated)
   }
 
@@ -97,7 +104,7 @@ const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   }, [data])
 
   return (
-    <StyledPanelContent>
+    <StyledPanelContent data-testid="filterCategoryPanel">
       <Paragraph>
         Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het
         werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
