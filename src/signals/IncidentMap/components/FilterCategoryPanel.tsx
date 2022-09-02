@@ -82,7 +82,7 @@ const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   }, [get, data])
 
   useEffect(() => {
-    if (data) {
+    if (data?.results) {
       const categories = data.results
         .filter(({ is_public_accessible }) => is_public_accessible)
         .map((category) => ({
