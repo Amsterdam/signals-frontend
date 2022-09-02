@@ -13,6 +13,8 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
+import { breakpoint, Button, themeSpacing } from '@amsterdam/asc-ui'
+import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import IncidentLayer from './IncidentLayer'
 import FilterCategoryPanel from './FilterCategoryPanel'
 import type { FilterCategory } from './FilterCategoryPanel'
@@ -37,12 +39,41 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    flex-direction: column;
+  }
 `
 
 const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
   z-index: 0;
+`
+
+const StyledButton = styled(Button)`
+  position: absolute;
+  top: ${themeSpacing(5)};
+  left: calc(33% - ${themeSpacing(2)});
+  z-index: 3;
+  width: ${themeSpacing(9)};
+  box-shadow: ${themeSpacing(1)} ${themeSpacing(1)} ${themeSpacing(1)}
+    rgba(0, 0, 0, 0.1);
+  &.hiddenPanel {
+    left: 0;
+  }
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    transform: rotate(-90deg);
+    top: calc(50% - ${themeSpacing(3)});
+    left: calc(50% - 18px);
+    box-shadow: ${themeSpacing(0)} ${themeSpacing(0)} ${themeSpacing(0)}
+      rgba(0, 0, 0, 0.1);
+    &.hiddenPanel {
+      left: calc(50% - 18px);
+      top: calc(100% - ${themeSpacing(11)});
+      box-shadow: ${themeSpacing(1)} ${themeSpacing(1)} ${themeSpacing(1)}
+        rgba(0, 0, 0, 0.1);
+    }
+  }
 `
 
 export type Point = {
@@ -62,6 +93,8 @@ const IncidentMap = () => {
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [filterCategories, setFilterCategories] = useState<FilterCategory[]>()
   const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
+  const [showPanel, setShowPanel] = useState<boolean>(true)
+
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
@@ -109,10 +142,16 @@ const IncidentMap = () => {
     }
   }, [error])
 
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'))
+  }, [showPanel])
+
   return (
     <Wrapper>
       <Container>
-        <FilterCategoryPanel passFilterCategories={setFilterCategories} />
+        {showPanel && (
+          <FilterCategoryPanel passFilterCategories={setFilterCategories} />
+        )}
         <StyledMap
           data-testid="incidentMap"
           hasZoomControls
@@ -131,6 +170,14 @@ const IncidentMap = () => {
               }
             />
           )}
+          <StyledButton
+            className={showPanel ? '' : 'hiddenPanel'}
+            onClick={() => setShowPanel(!showPanel)}
+            size={60}
+            variant="blank"
+            iconSize={24}
+            icon={showPanel ? <ChevronLeft /> : <ChevronRight />}
+          />
         </StyledMap>
       </Container>
     </Wrapper>

@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { PanelContent } from 'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled'
 import {
+  breakpoint,
   Checkbox,
   Label,
   Paragraph,
@@ -17,7 +18,12 @@ import type Categories from 'types/api/categories'
 
 const StyledPanelContent = styled(PanelContent)`
   padding: ${themeSpacing(10)} ${themeSpacing(5)};
+  height: 100%;
   flex: 0 0 33%;
+  box-shadow: ${themeSpacing(1)} 0 ${themeSpacing(1)} 0 rgba(0, 0, 0, 0.1);
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    box-shadow: 0 -${themeSpacing(1)} ${themeSpacing(1)} rgba(0, 0, 0, 0.1);
+  }
 `
 
 const StyledLabel = styled(Label)`
