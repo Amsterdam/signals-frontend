@@ -15,6 +15,7 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import MarkerCluster from 'components/MarkerCluster'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
+import type { MarkerCluster as MarkerClusterType } from 'leaflet'
 
 type Point = {
   type: 'Point'
@@ -32,6 +33,13 @@ type Properties = {
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
+  iconCreateFunction: (cluster: MarkerClusterType) => {
+    return new L.DivIcon({
+      html: `<div><span>${cluster.getChildCount()}</span></div>`,
+      className: 'marker-cluster large',
+      iconSize: new L.Point(52, 52),
+    })
+  },
 }
 
 const IncidentLayer = () => {
