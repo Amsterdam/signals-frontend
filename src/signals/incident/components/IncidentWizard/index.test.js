@@ -192,7 +192,7 @@ describe('<IncidentWizard />', () => {
   })
 
   it('should pass the sources to the formFactory', () => {
-    const formFactory = jest.fn()
+    const formFactory = jest.fn().mockImplementation(() => ({ controls: {} }))
     const incident = {}
     const propsWithFormFactory = {
       ...props,

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 // eslint-disable-next-line no-restricted-imports
-import type { BaseSyntheticEvent } from 'react'
+import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
-import isEqual from 'lodash/isEqual'
 
+import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
+
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
 import { Form, Fieldset, ProgressContainer } from './styled'
@@ -14,7 +15,7 @@ const IncidentForm = forwardRef<any, any>(
   (
     {
       incidentContainer,
-      reactHookFormMethods,
+      reactHookFormProps,
       updateIncident,
       createIncident,
       wizard,
@@ -23,7 +24,7 @@ const IncidentForm = forwardRef<any, any>(
       getClassification,
       fieldConfig,
     },
-    controlsRef
+    controlsRef: ForwardedRef<any>
   ) => {
     const [submitting, setSubmitting] = useState(false)
     /**
@@ -57,24 +58,19 @@ const IncidentForm = forwardRef<any, any>(
      */
     const setValues = useCallback(
       (incident) => {
-        Object.entries(reactHookFormMethods.getValues()).map(([key, value]) => {
+        Object.entries(reactHookFormProps.getValues()).map(([key, value]) => {
           if (!isEqual(incident[key], value)) {
-            reactHookFormMethods.setValue(key, incident[key])
+            reactHookFormProps.setValue(key, incident[key])
           }
         })
       },
-      [reactHookFormMethods]
+      [reactHookFormProps]
     )
 
     useEffect(() => {
-      if (!reactHookFormMethods.getValues()) return
+      if (!reactHookFormProps.getValues()) return
       setValues(incidentContainer.incident)
-    }, [
-      incidentContainer.incident,
-      reactHookFormMethods,
-      fieldConfig.controls,
-      setValues,
-    ])
+    }, [incidentContainer.incident, reactHookFormProps, setValues])
 
     const setIncident = useCallback(
       (formAction) => {
@@ -82,7 +78,7 @@ const IncidentForm = forwardRef<any, any>(
           formAction // eslint-disable-line default-case
         ) {
           case 'UPDATE_INCIDENT':
-            updateIncident(reactHookFormMethods.getValues())
+            updateIncident(reactHookFormProps.getValues())
             break
 
           case 'CREATE_INCIDENT':
@@ -98,7 +94,7 @@ const IncidentForm = forwardRef<any, any>(
       [
         createIncident,
         incidentContainer.incident,
-        reactHookFormMethods,
+        reactHookFormProps,
         updateIncident,
         wizard,
       ]
@@ -125,8 +121,10 @@ const IncidentForm = forwardRef<any, any>(
            * to make sure useForm takes the latest yupResolver defined right
            * above the return jsx statement.
            */
-          await reactHookFormMethods.trigger()
-          reactHookFormMethods.handleSubmit(function () {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          await reactHookFormProps.trigger()
+          reactHookFormProps.handleSubmit(() => {
             /**
             To prevent memory leaks, make sure to call the functions at
             the button only when this component is mounted.
@@ -139,7 +137,12 @@ const IncidentForm = forwardRef<any, any>(
           })()
         }
       },
-      [reactHookFormMethods, setIncident, submitting]
+      [
+        reactHookFormProps,
+        setIncident,
+        submitting,
+        reactHookFormProps.formState,
+      ]
     )
 
     /**
@@ -150,7 +153,9 @@ const IncidentForm = forwardRef<any, any>(
       fieldConfig,
       incidentContainer.incident
     )
-    const isSummary = Object.keys(fieldConfigModified).includes('page_summary')
+    const isSummary =
+      fieldConfigModified &&
+      Object.keys(fieldConfigModified).includes('page_summary')
 
     const parent = {
       meta: {
@@ -187,11 +192,11 @@ const IncidentForm = forwardRef<any, any>(
           <Fieldset isSummary={isSummary}>
             {Object.entries(controls).map(([key, value]: any) => {
               return (
-                (value.render && parent && reactHookFormMethods?.control && (
+                (value.render && parent && reactHookFormProps?.control && (
                   <Controller
                     key={key}
                     name={value.meta?.name || 'hidden'}
-                    control={reactHookFormMethods.control}
+                    control={reactHookFormProps.control}
                     defaultValue={null}
                     render={({ field: { value: v, onChange } }) => {
                       return (
@@ -204,20 +209,20 @@ const IncidentForm = forwardRef<any, any>(
                             onBlur: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
                               if (submitting) {
-                                reactHookFormMethods.trigger()
+                                reactHookFormProps.trigger()
                               }
                             },
                             value: v || '',
                           })}
                           getError={() => {
-                            return reactHookFormMethods.formState?.errors[key]
+                            return reactHookFormProps.formState?.errors[key]
                               ?.message
                           }}
                           meta={value.meta || parent.meta}
                           hasError={(errorCode: any) => {
                             return (
                               errorCode ===
-                              reactHookFormMethods.formState?.errors[key]?.type
+                              reactHookFormProps.formState?.errors[key]?.type
                             )
                           }}
                           value={v}

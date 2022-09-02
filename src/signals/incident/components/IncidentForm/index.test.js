@@ -9,11 +9,11 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wizard, Step, Steps } from 'react-albus'
-import { IncidentFormWrapper, withAppContext } from 'test/utils'
+import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
+import IncidentForm from '.'
 import FormComponents from '../form'
 import IncidentNavigation from '../IncidentNavigation'
-import IncidentForm from '.'
 
 const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?'
 const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(niet verplicht)`
@@ -24,6 +24,7 @@ const mockForm = {
     controls: {
       phone: {
         meta: {
+          autoRemove: /[^\d ()+-]/g,
           label: 'Wat is uw telefoonnummer?',
         },
         render: FormComponents.TextInput,
@@ -48,6 +49,7 @@ const requiredFieldConfig = {
 }
 
 const nextSpy = jest.fn()
+const ref = { current: null }
 
 const renderIncidentForm = (props, renderFunction = render) =>
   renderFunction(
@@ -55,9 +57,9 @@ const renderIncidentForm = (props, renderFunction = render) =>
       <Wizard onNext={nextSpy}>
         <Steps>
           <Step id="incident/mock">
-            <IncidentFormWrapper {...props}>
-              <IncidentForm {...props} />
-            </IncidentFormWrapper>
+            <FormProviderWithResolver {...props}>
+              <IncidentForm {...props} ref={ref} />
+            </FormProviderWithResolver>
           </Step>
         </Steps>
       </Wizard>
@@ -303,6 +305,38 @@ describe('<IncidentForm />', () => {
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(2)
         })
+      })
+    })
+
+    describe('form events', () => {
+      it('should handle onchange and on blur event', () => {
+        const props = {
+          ...defaultProps,
+          fieldConfig: requiredFieldConfig,
+        }
+
+        renderIncidentForm(props)
+
+        fireEvent.change(document.getElementById('phone'), {
+          target: {
+            value: 12345,
+          },
+        })
+
+        fireEvent.blur(document.getElementById('phone'))
+
+        expect(document.getElementById('phone')).toHaveValue('12345')
+
+        expect(props.updateIncident).toHaveBeenCalledWith({ phone: '12345' })
+
+        fireEvent.change(document.getElementById('phone'), {
+          target: {
+            value: 'asdfg',
+          },
+        })
+
+        // Because of meta.autoRemove updateIncident only gets called once
+        expect(props.updateIncident).toHaveBeenCalledTimes(1)
       })
     })
   })

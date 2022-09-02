@@ -1,10 +1,10 @@
-import type { AnyObject } from 'yup/es/types'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import type { AnyObject } from 'yup/es/types'
 
-export default function constructYupResolver(
-  controls: { [s: string]: unknown } | ArrayLike<unknown> | undefined
-) {
+type Controls = { [s: string]: unknown } | ArrayLike<unknown> | undefined
+
+export function setUpSchema(controls: Controls) {
   const schema = controls
     ? Object.fromEntries(
         Object.entries(controls).reduce(
@@ -13,15 +13,16 @@ export default function constructYupResolver(
 
             let validationField: AnyObject = yup.string()
             if (
-              key === 'locatie' ||
-              key === 'location' ||
+              ['locatie', 'location', 'priority', 'type'].includes(key) ||
               (key.startsWith('extra') &&
                 Object.keys(control.meta?.values || {})?.length > 0) ||
               (key.startsWith('extra') && control.meta?.endpoint)
             ) {
-              validationField = yup.object()
+              validationField = yup.object().shape({})
             }
-
+            if (key === 'source') {
+              validationField = yup.string()
+            }
             /**
               Chain multiple validators per field. For max, add the
               validator value as message as the second argument.
@@ -64,7 +65,6 @@ export default function constructYupResolver(
                   }
                 }
               )
-
               acc.push([key, validationField])
             }
             return acc
@@ -73,5 +73,10 @@ export default function constructYupResolver(
         )
       )
     : {}
-  return yupResolver(yup.object(schema))
+
+  return yup.object(schema)
+}
+
+export default function (controls: Controls) {
+  return yupResolver(setUpSchema(controls))
 }

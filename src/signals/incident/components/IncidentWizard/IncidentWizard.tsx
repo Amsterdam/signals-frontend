@@ -90,71 +90,71 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
 
   return (
     <Wrapper>
-      <Route
-        render={({ history }) => (
-          <Wizard
-            history={history}
-            onNext={(wiz) => {
-              return onNext(wizardDefinition, wiz, incident)
-            }}
-          >
-            {incidentContainer.loading || appContext.loading ? (
-              <LoadingIndicator />
-            ) : (
-              <Steps>
-                {Object.keys(wizardDefinition).map((key, index) => (
-                  <Step
-                    key={key}
-                    id={`incident/${key}`}
-                    render={() => {
-                      const {
-                        countAsStep,
-                        form,
-                        formFactory,
-                        label,
-                        subHeader,
-                        previewFactory,
-                        sectionLabels,
-                      } = wizardDefinition[key as keyof WizardSection]
+      <FormProvider {...formMethods}>
+        <Route
+          render={({ history }) => (
+            <Wizard
+              history={history}
+              onNext={(wiz) => {
+                return onNext(wizardDefinition, wiz, incident)
+              }}
+            >
+              {incidentContainer.loading || appContext.loading ? (
+                <LoadingIndicator />
+              ) : (
+                <Steps>
+                  {Object.keys(wizardDefinition).map((key, index) => (
+                    <Step
+                      key={key}
+                      id={`incident/${key}`}
+                      render={() => {
+                        const {
+                          countAsStep,
+                          form,
+                          formFactory,
+                          label,
+                          subHeader,
+                          previewFactory,
+                          sectionLabels,
+                        } = wizardDefinition[key as keyof WizardSection]
 
-                      const showProgress = index < steps.length
+                        const showProgress = index < steps.length
 
-                      return previewFactory || form || formFactory ? (
-                        <StepWrapper showProgress={showProgress}>
-                          <Header>
-                            <StyledH1>
-                              {countAsStep && `${index + 1}. `}
-                              {label || key}
-                            </StyledH1>
-                            {subHeader && <Paragraph>{subHeader}</Paragraph>}
-                          </Header>
+                        return previewFactory || form || formFactory ? (
+                          <StepWrapper showProgress={showProgress}>
+                            <Header>
+                              <StyledH1>
+                                {countAsStep && `${index + 1}. `}
+                                {label || key}
+                              </StyledH1>
+                              {subHeader && <Paragraph>{subHeader}</Paragraph>}
+                            </Header>
 
-                          <Progress>
-                            <StepByStepNav
-                              steps={steps}
-                              itemType="numeric"
-                              activeItem={index + 1}
-                              breakpoint={breakpoint(
-                                'max-width',
-                                'tabletM'
-                              )({ theme: ascDefaultTheme })}
-                            />
-                          </Progress>
-
-                          <FormWrapper>
-                            {previewFactory && incident && sectionLabels && (
-                              <IncidentPreview
-                                incident={incident}
-                                preview={previewFactory(incident)}
-                                sectionLabels={sectionLabels}
+                            <Progress>
+                              <StepByStepNav
+                                steps={steps}
+                                itemType="numeric"
+                                activeItem={index + 1}
+                                breakpoint={breakpoint(
+                                  'max-width',
+                                  'tabletM'
+                                )({ theme: ascDefaultTheme })}
                               />
-                            )}
+                            </Progress>
 
-                            {(form || formFactory) && (
-                              <FormProvider {...formMethods}>
+                            <FormWrapper>
+                              {previewFactory && incident && sectionLabels && (
+                                <IncidentPreview
+                                  incident={incident}
+                                  preview={previewFactory(incident)}
+                                  sectionLabels={sectionLabels}
+                                />
+                              )}
+
+                              {(form || formFactory) && (
                                 <IncidentForm
                                   ref={controlsRef}
-                                  reactHookFormMethods={formMethods}
+                                  reactHookFormProps={formMethods}
                                   fieldConfig={
                                     form || formFactory(incident, sources)
                                   }
@@ -167,19 +167,19 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                                   createIncident={createIncident}
                                   wizard={wizardDefinition}
                                 />
-                              </FormProvider>
-                            )}
-                          </FormWrapper>
-                        </StepWrapper>
-                      ) : null
-                    }}
-                  />
-                ))}
-              </Steps>
-            )}
-          </Wizard>
-        )}
-      />
+                              )}
+                            </FormWrapper>
+                          </StepWrapper>
+                        ) : null
+                      }}
+                    />
+                  ))}
+                </Steps>
+              )}
+            </Wizard>
+          )}
+        />
+      </FormProvider>
     </Wrapper>
   )
 }

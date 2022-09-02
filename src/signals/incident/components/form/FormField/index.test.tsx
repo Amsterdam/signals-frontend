@@ -160,8 +160,8 @@ describe('signals/incident/components/form/FormField', () => {
 
   it('should render maxLength error', () => {
     const requiredLength = 300
-    const hasError = (prop: string) => prop === 'maxLength'
-    const getError = () => ({ requiredLength })
+    const hasError = (prop: string) => prop === 'max'
+    const getError = () => requiredLength
     const error = `U heeft meer dan de maximale ${requiredLength} tekens ingevoerd`
 
     const { rerender } = render(
