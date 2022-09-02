@@ -27,6 +27,7 @@ describe('<IncidentMap />', () => {
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
     expect(screen.getByTestId('incidentLayer')).toBeInTheDocument()
     expect(screen.getByTestId('mapZoom')).toBeInTheDocument()
+    expect(screen.getByTestId('filterCategoryPanel')).toBeInTheDocument()
   })
 
   it('sends a request to fetch publicly available categories and incidents', () => {
