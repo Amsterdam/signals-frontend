@@ -5,19 +5,21 @@ import configuration from 'shared/services/configuration/configuration'
 import IncidentNavigation from '../components/IncidentNavigation'
 import FormComponents from '../components/form'
 
-const nextAction = configuration.featureFlags.appMode
+const navigation = configuration.featureFlags.appMode
   ? {
       app_close_window_action: {
         meta: {
-          label: 'Sluit venster',
+          title: 'Wilt u nog een andere melding doen?',
+          labelCloseButton: 'Sluit venster',
+          labelLinkButton: 'Doe een melding',
+          hrefLinkButton: '/',
         },
-        render: FormComponents.AppCloseButton,
+        render: FormComponents.AppNavigation,
       },
     }
   : {
       next_incident_action: {
         meta: {
-          title: 'Wilt u nog een andere melding doen?',
           label: 'Doe een melding',
           href: '/',
         },
@@ -46,7 +48,9 @@ export default {
         },
         render: FormComponents.HandlingMessage,
       },
-      ...nextAction,
+
+      ...navigation,
+
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,

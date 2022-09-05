@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import AppCloseButton from './AppCloseButton/AppCloseButton'
+import AppNavigation from './AppNavigationComponent/AppNavigation'
 import AssetSelectRenderer from './MapSelectors/Asset/AssetSelectRenderer'
 import CategorySelectRenderer from './CategorySelectRenderer'
 import CaterpillarSelectRenderer from './MapSelectors/Caterpillar/CaterpillarSelectRenderer'
@@ -25,7 +25,7 @@ import TextInput from './TextInput'
 import WithHeading from './WithHeading'
 
 export default {
-  AppCloseButton,
+  AppNavigation,
   AssetSelectRenderer,
   CategorySelectRenderer,
   CaterpillarSelectRenderer,
