@@ -15,7 +15,7 @@ const Chevron = styled(ChevronLeft)`
   fill: ${themeColor('primary')};
 `
 
-export interface PreviousButtonProps {
+interface PreviousButtonProps {
   className?: string
   children: ReactNode
   onClick: () => void
