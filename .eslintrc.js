@@ -15,6 +15,7 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:redux-saga/recommended',
     'plugin:testing-library/react',
+    'plugin:import/typescript',
     'prettier',
     'prettier/react',
   ],
@@ -67,7 +68,25 @@ module.exports = {
     'jest/no-identical-title': 'error',
     'jest/valid-expect': 'error',
     'import/first': 'error',
-    'import/order': 'error',
+    'import/order': [
+      'warn',
+      {
+        groups: ['builtin', 'external', 'internal'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
     'no-console': [
       'error',
       {
@@ -103,6 +122,10 @@ module.exports = {
   settings: {
     react: {
       version: 'detect',
+    },
+    'import/resolver': {
+      typescript: true,
+      node: true,
     },
   },
 }
