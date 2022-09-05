@@ -19,4 +19,21 @@ describe('LinkButton', () => {
       '/'
     )
   })
+
+  it('renders a link button without heading', () => {
+    render(
+      withAppContext(
+        <LinkButton meta={{ href: '/', label: 'Foo', title: '' }} />
+      )
+    )
+
+    expect(
+      screen.queryByRole('heading', { name: 'Bar' })
+    ).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Foo' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Foo' })).toHaveAttribute(
+      'href',
+      '/'
+    )
+  })
 })
