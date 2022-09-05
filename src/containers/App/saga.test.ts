@@ -2,41 +2,25 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import 'jest-localstorage-mock'
 import * as Sentry from '@sentry/browser'
-import { call, put, take, takeLatest } from 'redux-saga/effects'
-import { channel } from 'redux-saga'
-import { mocked } from 'jest-mock'
 import { push } from 'connected-react-router/immutable'
+import { mocked } from 'jest-mock'
+import { channel } from 'redux-saga'
 import { testSaga, expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
+import { call, put, take, takeLatest } from 'redux-saga/effects'
 
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
+import { authCall } from 'shared/services/api/api'
+import { postMessage } from 'shared/services/app-post-message'
+import { login, logout } from 'shared/services/auth/auth'
+import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator'
 import configuration from 'shared/services/configuration/configuration'
 import type endpointDefinitions from 'shared/services/configuration/endpoint-definitions'
-import { authCall } from 'shared/services/api/api'
-import { login, logout } from 'shared/services/auth/auth'
 import fileUploadChannel from 'shared/services/file-upload-channel'
-import randomStringGenerator from 'shared/services/auth/services/random-string-generator/random-string-generator'
-import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
-import userJson from 'utils/__tests__/fixtures/user.json'
-import { postMessage } from 'shared/services/app-post-message'
 import type { SagaGeneratorType } from 'types'
-import watchAppSaga, {
-  callPostMessage,
-  callLogin,
-  callLogout,
-  callAuthorize,
-  uploadFile,
-  callSearchIncidents,
-  fetchSources,
-} from './saga'
-import {
-  AUTHENTICATE_USER,
-  GET_SOURCES,
-  LOGIN,
-  LOGOUT,
-  POST_MESSAGE,
-  SET_SEARCH_QUERY,
-} from './constants'
+import userJson from 'utils/__tests__/fixtures/user.json'
+
 import type { AuthenticateUserAction, PostMessageAction } from './actions'
 import { loginFailed } from './actions'
 import {
@@ -49,6 +33,23 @@ import {
   getSourcesFailed,
   getSourcesSuccess,
 } from './actions'
+import {
+  AUTHENTICATE_USER,
+  GET_SOURCES,
+  LOGIN,
+  LOGOUT,
+  POST_MESSAGE,
+  SET_SEARCH_QUERY,
+} from './constants'
+import watchAppSaga, {
+  callPostMessage,
+  callLogin,
+  callLogout,
+  callAuthorize,
+  uploadFile,
+  callSearchIncidents,
+  fetchSources,
+} from './saga'
 import type { UploadFile, ApiError } from './types'
 
 jest.mock('@sentry/browser')

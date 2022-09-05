@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { all, call, put, take, takeLatest } from 'redux-saga/effects'
-import { push } from 'connected-react-router/immutable'
+import type { EventChannel } from '@redux-saga/core'
 import * as Sentry from '@sentry/browser'
+import { push } from 'connected-react-router/immutable'
+import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 
-import { authCall } from 'shared/services/api/api'
-import configuration from 'shared/services/configuration/configuration'
-import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import {
   AUTHENTICATE_USER,
   GET_SOURCES,
@@ -15,8 +13,10 @@ import {
   POST_MESSAGE,
   SET_SEARCH_QUERY,
 } from 'containers/App/constants'
+import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
+import { authCall } from 'shared/services/api/api'
+import configuration from 'shared/services/configuration/configuration'
 
-import type { EventChannel } from '@redux-saga/core'
 import { postMessage } from '../../shared/services/app-post-message'
 import { logout, login } from '../../shared/services/auth/auth'
 import fileUploadChannel from '../../shared/services/file-upload-channel'
@@ -32,7 +32,6 @@ import {
   uploadSuccess,
   uploadFailure,
 } from './actions'
-
 import type { User, DataResult, ApiError, UploadFile, Source } from './types'
 
 export function* callLogout() {

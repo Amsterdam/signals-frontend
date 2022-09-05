@@ -2,8 +2,9 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
 import configuration from 'shared/services/configuration/configuration'
-import IncidentNavigation from '../components/IncidentNavigation'
+
 import FormComponents from '../components/form'
+import IncidentNavigation from '../components/IncidentNavigation'
 
 const navigation = configuration.featureFlags.appMode
   ? {

@@ -1,4 +1,5 @@
 import { postMessage } from '.'
+
 describe('postMessage()', () => {
   it('should call postmessage', () => {
     jest.spyOn(parent.window, 'postMessage')

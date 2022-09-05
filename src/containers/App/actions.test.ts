@@ -4,24 +4,6 @@ import { testActionCreator } from 'test/utils'
 import userJson from 'utils/__tests__/fixtures/user.json'
 
 import {
-  AUTHENTICATE_USER,
-  AUTHORIZE_USER,
-  GET_SOURCES_FAILED,
-  GET_SOURCES_SUCCESS,
-  GET_SOURCES,
-  LOGIN,
-  LOGOUT,
-  POST_MESSAGE,
-  RESET_GLOBAL_NOTIFICATION,
-  RESET_SEARCH_QUERY,
-  SET_SEARCH_QUERY,
-  SHOW_GLOBAL_NOTIFICATION,
-  UPLOAD_FAILURE,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-} from './constants'
-
-import {
   authenticateUser,
   authorizeUser,
   doLogin,
@@ -38,6 +20,23 @@ import {
   uploadProgress,
   uploadSuccess,
 } from './actions'
+import {
+  AUTHENTICATE_USER,
+  AUTHORIZE_USER,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
+  GET_SOURCES,
+  LOGIN,
+  LOGOUT,
+  POST_MESSAGE,
+  RESET_GLOBAL_NOTIFICATION,
+  RESET_SEARCH_QUERY,
+  SET_SEARCH_QUERY,
+  SHOW_GLOBAL_NOTIFICATION,
+  UPLOAD_FAILURE,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+} from './constants'
 
 describe('containers/App/actions', () => {
   it('should dispatch authenticate user action', () => {
