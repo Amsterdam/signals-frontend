@@ -88,5 +88,3 @@ const IncidentLayer = () => {
     </>
   )
 }
-
-export default IncidentLayer

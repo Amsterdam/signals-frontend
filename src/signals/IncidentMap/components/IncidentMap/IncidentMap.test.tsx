@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
-import IncidentMap from './IncidentMap'
-import { get, mockUseMapInstance, useFetchResponse } from './mapTestUtils'
+import { get, mockUseMapInstance, useFetchResponse } from '../__test__/utils'
+import { IncidentMap } from './IncidentMap'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,

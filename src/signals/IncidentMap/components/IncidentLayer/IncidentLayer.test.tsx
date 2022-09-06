@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import { withAppContext } from 'test/utils'
-import IncidentLayer from './IncidentLayer'
+import { IncidentLayer } from './IncidentLayer'
 
 const renderWithContext = () =>
   render(

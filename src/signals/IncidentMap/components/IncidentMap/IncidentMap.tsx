@@ -15,9 +15,9 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import { breakpoint, Button, themeSpacing } from '@amsterdam/asc-ui'
 import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
-import IncidentLayer from './IncidentLayer'
-import FilterCategoryPanel from './FilterCategoryPanel'
-import type { FilterCategory } from './FilterCategoryPanel'
+import { IncidentLayer } from '../IncidentLayer'
+import { FilterCategoryPanel } from '../FilterCategoryPanel'
+import type { FilterCategory } from '../FilterCategoryPanel'
 
 const Wrapper = styled.div`
   position: absolute;
