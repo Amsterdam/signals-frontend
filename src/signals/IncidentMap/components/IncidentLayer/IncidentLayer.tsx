@@ -1,10 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import type { FeatureCollection } from 'geojson'
-import type { LatLngTuple } from 'leaflet'
-import type { ReactElement } from 'react'
 
-import { useFetch } from 'hooks'
+import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import useBoundingBox, {
   Bbox,
@@ -13,20 +10,14 @@ import L from 'leaflet'
 
 import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
+import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import L from 'leaflet'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
 import type { MarkerCluster as MarkerClusterType } from 'leaflet'
 
-type Point = {
-  type: 'Point'
-  coordinates: LatLngTuple
-}
-
-type Properties = {
-  category: {
-    name: string
-  }
-  created_at: string
-}
+import type { Feature } from 'geojson'
+import type { Point, Properties } from './IncidentMap'
 
 /* istanbul ignore next */
 const clusterLayerOptions = {
@@ -41,10 +32,13 @@ const clusterLayerOptions = {
   },
 }
 
-const IncidentLayer = () => {
-  const [mapMessage, setMapMessage] = useState<ReactElement | string>()
-  const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
+interface IncidentLayerProps {
+  passBbox(bbox: Bbox): void
+  incidents?: Feature<Point, Properties>[]
+}
 
+const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidents }) => {
+  const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
   useEffect(() => {

@@ -10,7 +10,7 @@ const renderWithContext = () =>
   render(
     withAppContext(
       <Map mapOptions={MAP_OPTIONS}>
-        <IncidentLayer passBbox={jest.fn()} />
+        <IncidentLayer passBbox={jest.fn()} passBbox={jest.fn()} />
       </Map>
     )
   )
