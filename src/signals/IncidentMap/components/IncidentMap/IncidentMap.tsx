@@ -2,7 +2,6 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { ReactElement } from 'react'
 import type { FeatureCollection } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -13,10 +12,9 @@ import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 
-import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import { IncidentLayer } from '../IncidentLayer'
-import { FilterCategoryPanel } from '../FilterCategoryPanel'
-import type { FilterCategory } from '../FilterCategoryPanel'
+import { FilterPanel } from '../FilterPanel'
+import type { Filter } from '../FilterPanel'
 
 const Wrapper = styled.div`
   position: absolute;

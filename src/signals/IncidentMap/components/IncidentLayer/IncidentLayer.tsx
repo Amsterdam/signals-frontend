@@ -79,12 +79,11 @@ const IncidentLayer = () => {
   }, [layerInstance, incidents])
 
   return (
-    <>
-      <span data-testid="incidentLayer" />
+    <Fragment>
       <MarkerCluster
         clusterOptions={clusterLayerOptions}
         setInstance={setLayerInstance}
       />
-    </>
+    </Fragment>
   )
 }
