@@ -2,7 +2,6 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { ReactElement } from 'react'
 import type { FeatureCollection } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -13,12 +12,11 @@ import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 
-import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import { IncidentLayer } from '../IncidentLayer'
-import { FilterCategoryPanel } from '../FilterCategoryPanel'
-import type { FilterCategory } from '../FilterCategoryPanel'
+import { FilterPanel } from '../FilterPanel'
+import type { Filter } from '../FilterPanel'
 
-import { Wrapper, Container, StyledMap, StyledButton } from './styled'
+import { Wrapper, Container, StyledMap } from './styled'
 
 export type Point = {
   type: 'Point'
@@ -34,14 +32,13 @@ export type Properties = {
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
-  const [mapMessage, setMapMessage] = useState<ReactElement | string>()
-  const [filterCategories, setFilterCategories] = useState<FilterCategory[]>()
+  const [mapMessage, setMapMessage] = useState<string>('')
+  const [filters, setFilters] = useState<Filter[]>([])
   const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
   const [showPanel, setShowPanel] = useState<boolean>(true)
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
-    /* Get parameters for geography endpoint (bbox and main categories) */
     if (!bbox) return
 
     const { west, south, east, north } = bbox
@@ -49,39 +46,17 @@ export const IncidentMap = () => {
       bbox: `${west},${south},${east},${north}`,
     })
 
-    let mainCategoryParam = ''
-    const activeCategories =
-      filterCategories?.filter(({ filterActive }) => filterActive) || undefined
-
-    /* When all category filters are off (i.e., there are no activeCategories), no incidents should be shown on the map.
-    However, when the request has no 'maincategory_slug' in its params, all incidents are returned.
-    Therefore, the incident layer is not shown in this case. */
-    if (activeCategories?.length === 0) {
-      setShowIncidentLayer(false)
-      return
-    }
-
-    /* When not all category filters are on, the category slug needs to be added to the params of the request.
-    It is not possible to use URLSearchParams because this method does not accept the same param more than once. */
-    if (
-      activeCategories &&
-      filterCategories &&
-      activeCategories?.length < filterCategories?.length
-    ) {
-      mainCategoryParam = activeCategories?.reduce(
-        (result, category) => result + `&maincategory_slug=${category.slug}`,
-        ''
-      )
-    }
-
-    get(
-      `${
-        configuration.GEOGRAPHY_PUBLIC_ENDPOINT
-      }?${searchParams.toString()}${mainCategoryParam}`
-    )
+    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
 
     setShowIncidentLayer(true)
-  }, [get, bbox, filterCategories, setShowIncidentLayer])
+  }, [get, bbox, setShowIncidentLayer])
+
+  useEffect(() => {
+    /**
+     * TODO: Filter data based on selected filters
+     * and pass them to the incident layer
+     */
+  }, [data])
 
   useEffect(() => {
     if (error) {
@@ -97,9 +72,6 @@ export const IncidentMap = () => {
   return (
     <Wrapper>
       <Container>
-        {showPanel && (
-          <FilterCategoryPanel passFilterCategories={setFilterCategories} />
-        )}
         <StyledMap
           data-testid="incidentMap"
           hasZoomControls
@@ -109,6 +81,15 @@ export const IncidentMap = () => {
           {showIncidentLayer && (
             <IncidentLayer passBbox={setBbox} incidents={data?.features} />
           )}
+
+          <FilterPanel
+            isOpen={showPanel}
+            filters={filters}
+            setFilters={setFilters}
+            setShowPanel={setShowPanel}
+            setMapMessage={setMapMessage}
+          />
+
           {mapMessage && (
             <ViewerContainer
               topLeft={
@@ -118,14 +99,6 @@ export const IncidentMap = () => {
               }
             />
           )}
-          <StyledButton
-            className={showPanel ? '' : 'hiddenPanel'}
-            onClick={() => setShowPanel(!showPanel)}
-            size={60}
-            variant="blank"
-            iconSize={24}
-            icon={showPanel ? <ChevronLeft /> : <ChevronRight />}
-          />
         </StyledMap>
       </Container>
     </Wrapper>

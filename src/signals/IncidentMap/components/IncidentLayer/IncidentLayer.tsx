@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 
-import type { FC } from 'react'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { featureToCoordinates } from 'shared/services/map-location'
 import MarkerCluster from 'components/MarkerCluster'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -19,15 +18,12 @@ const clusterLayerOptions = {
   chunkedLoading: true,
 }
 
-interface IncidentLayerProps {
+interface Props {
   passBbox(bbox: Bbox): void
   incidents?: Feature<Point, Properties>[]
 }
 
-export const IncidentLayer: FC<IncidentLayerProps> = ({
-  passBbox,
-  incidents,
-}) => {
+export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
@@ -63,12 +59,11 @@ export const IncidentLayer: FC<IncidentLayerProps> = ({
   }, [layerInstance, incidents])
 
   return (
-    <>
-      <span data-testid="incidentLayer" />
+    <Fragment>
       <MarkerCluster
         clusterOptions={clusterLayerOptions}
         setInstance={setLayerInstance}
       />
-    </>
+    </Fragment>
   )
 }

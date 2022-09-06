@@ -7,7 +7,7 @@ import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
 import useFetch from '../../../../hooks/useFetch'
 import { get, useFetchResponse } from '../__test__/utils'
-import { FilterCategoryPanel, updateCategory } from './FilterCategoryPanel'
+import { FilterCategoryPanel, updateCategory } from './FilterPanel'
 
 jest.mock('hooks/useFetch')
 

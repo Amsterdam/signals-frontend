@@ -2,7 +2,13 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 
 import { PanelContent } from 'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled'
-import { breakpoint, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Button,
+  breakpoint,
+  Label,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 export const StyledPanelContent = styled(PanelContent)`
@@ -26,4 +32,29 @@ export const CategoryFilter = styled.div`
 
 export const Wrapper = styled.div`
   border-top: 1px solid ${themeColor('tint', 'level3')};
+`
+export const StyledButton = styled(Button)`
+  position: absolute;
+  top: ${themeSpacing(5)};
+  left: calc(33% - ${themeSpacing(2)});
+  z-index: 3;
+  width: ${themeSpacing(9)};
+  box-shadow: ${themeSpacing(1)} ${themeSpacing(1)} ${themeSpacing(1)}
+    rgba(0, 0, 0, 0.1);
+  &.hiddenPanel {
+    left: 0;
+  }
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    transform: rotate(-90deg);
+    top: calc(50% - ${themeSpacing(3)});
+    left: calc(50% - 18px);
+    box-shadow: ${themeSpacing(0)} ${themeSpacing(0)} ${themeSpacing(0)}
+      rgba(0, 0, 0, 0.1);
+    &.hiddenPanel {
+      left: calc(50% - 18px);
+      top: calc(100% - ${themeSpacing(11)});
+      box-shadow: ${themeSpacing(1)} ${themeSpacing(1)} ${themeSpacing(1)}
+        rgba(0, 0, 0, 0.1);
+    }
+  }
 `
