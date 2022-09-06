@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import styled from 'styled-components'
-import Map from 'components/Map'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import type { ReactElement } from 'react'
 import type { FeatureCollection } from 'geojson'
@@ -13,7 +12,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
-import { breakpoint, Button, themeSpacing } from '@amsterdam/asc-ui'
+
 import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import { IncidentLayer } from '../IncidentLayer'
 import { FilterCategoryPanel } from '../FilterCategoryPanel'
