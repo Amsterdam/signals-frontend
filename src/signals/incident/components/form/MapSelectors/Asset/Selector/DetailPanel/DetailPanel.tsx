@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import { useCallback, useState, useContext } from 'react'
+import { useCallback, useState, useContext, useRef, useEffect } from 'react'
 import {
   Paragraph,
   Label,
@@ -56,9 +56,11 @@ const nearbyLegendItem = {
 
 const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   const shouldRenderAddressPanel = useMediaQuery({
-    query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
+    // Set breakpoint to mobile instead of tablet since desktop will get the mobile version when zoom on 200% which is not accesible with keyboard.
+    query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [optionsList, setOptionsList] = useState(null)
 
   const [showAddressPanel, setShowAddressPanel] = useState(false)
@@ -158,6 +160,12 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setOptionsList(null)
   }, [removeItem])
 
+  useEffect(() => {
+    if (buttonRef?.current && showLegendPanel) {
+      buttonRef.current.focus()
+    }
+  }, [buttonRef, showLegendPanel])
+
   return (
     <PanelContent
       data-testid="detailPanel"
@@ -249,20 +257,25 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onClose={toggleLegend}
             slide={showLegendPanel ? 'in' : 'out'}
             items={legendItems}
+            buttonRef={buttonRef}
           />
 
-          <LegendToggleButton onClick={toggleLegend} />
+          <LegendToggleButton onClick={toggleLegend} isOpen={showLegendPanel} />
         </>
       )}
 
       {showAddressPanel && shouldRenderAddressPanel && (
-        <AddressPanel data-testid="addressPanel">
+        <AddressPanel data-testid="addressPanel" id="addressPanel">
           <header>
             <Button
+              aria-label="Terug"
+              aria-expanded={showAddressPanel}
+              aria-controls="addressPanel"
               icon={<ChevronLeft />}
               iconSize={16}
               onClick={closeAddressPanel}
               size={24}
+              title="Terug"
               variant="blank"
             />
             <StyledPDOKAutoSuggest
@@ -272,6 +285,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               showInlineList={false}
               value={addressValue}
               placeholder="Zoek adres of postcode"
+              autoFocus={true}
             />
           </header>
 

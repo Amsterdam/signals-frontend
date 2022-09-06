@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 import type SubCategory from 'types/api/sub-category'
 import type {
@@ -17,7 +17,7 @@ type CategoryGroupsProps = Partial<CheckboxListProps> & {
   filterSlugs?: Array<ExtendedCategory | SubCategory>
 }
 
-const CategoryGroups: FC<CategoryGroupsProps> = ({
+export const CategoryGroups: FC<CategoryGroupsProps> = ({
   categories,
   filterSlugs,
   onChange,
@@ -52,5 +52,3 @@ const CategoryGroups: FC<CategoryGroupsProps> = ({
 CategoryGroups.defaultProps = {
   filterSlugs: [],
 }
-
-export default CategoryGroups

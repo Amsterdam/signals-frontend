@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 
@@ -15,7 +15,7 @@ describe('LegendToggleButton', () => {
   })
 
   it('handles onClick', () => {
-    render(withAppContext(<LegendToggleButton onClick={onClick} />))
+    render(withAppContext(<LegendToggleButton onClick={onClick} isOpen={false}/>))
 
     expect(onClick).not.toHaveBeenCalled()
 

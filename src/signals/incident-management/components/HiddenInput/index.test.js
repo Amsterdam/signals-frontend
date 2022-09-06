@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 
@@ -19,8 +19,7 @@ describe('<HiddenInput />', () => {
       })),
     }
 
-    const HiddenInputRender = HiddenInput(props)
-    wrapper = shallow(<HiddenInputRender {...props} />)
+    wrapper = shallow(<HiddenInput {...props} />)
   })
 
   afterEach(() => {

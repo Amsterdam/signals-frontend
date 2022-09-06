@@ -33,9 +33,6 @@
         "map": {
           "$ref": "#/definitions/Map"
         },
-        "matomo": {
-          "$ref": "#/definitions/Matomo"
-        },
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
@@ -91,6 +88,10 @@
           "description": "Feature switch to enable showing incident reporter context, like other incidents reported by the given reporter or feedback results. Needs to have the feature flags 'API_SIGNAL_CONTEXT' and 'API_SIGNAL_CONTEXT_REPORTER' enabled in the backend.",
           "type": "boolean"
         },
+        "enableAmsterdamSpecificOverigCategories": {
+          "description": "Enable category translations that are specific for Amsterdam.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -115,10 +116,6 @@
           "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
-        "useStaticMapServer": {
-          "description": "When true, will use the static map server defined by map.staticUrl to get a png image for a small map preview, otherwise leaflet without controls will be used.",
-          "type": "boolean"
-        },
         "reporterMailHandledNegativeContactEnabled": {
           "description": "When true, will show a feedback text based on the satisfaction value yes or no.",
           "type": "boolean"
@@ -135,13 +132,13 @@
         "enableNearIncidents",
         "enablePublicSignalMap",
         "enableReporter",
+        "enableAmsterdamSpecificOverigCategories",
         "fetchDistrictsFromBackend",
         "fetchQuestionsFromBackend",
         "mapFilter24Hours",
         "showThorButton",
         "showVulaanControls",
-        "useProjectenSignalType",
-        "useStaticMapServer"
+        "useProjectenSignalType"
       ],
       "title": "FeatureFlags"
     },
@@ -369,11 +366,6 @@
         "tiles": {
           "$ref": "#/definitions/Tiles"
         },
-        "staticUrl": {
-          "description": "URL for the map server that serves static map tile images\n\nUsed in the `MapStatic` (src/components/MapStatic/index.js) only when `featureFlags.useStaticMapServer` is enabled.",
-          "type": "string",
-          "format": "uri"
-        },
         "layers": {
           "type": "object",
           "additionalProperties": false,
@@ -407,6 +399,15 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "crs": {
+          "description": "The Coordinate Reference System (CRS) of the map",
+          "enum": [
+            "EPSG:28992",
+            "EPSG:3857",
+            "EPSG:4326"
+          ]
+
+        },
         "center": {
           "type": "array",
           "items": {
@@ -433,6 +434,7 @@
         }
       },
       "required": [
+        "crs",
         "center",
         "maxBounds",
         "maxZoom",
@@ -530,6 +532,9 @@
         "attribution": {
           "type": "string"
         },
+        "maxZoom": {
+          "type": "integer"
+        },
         "maxNativeZoom": {
           "type": "integer"
         },
@@ -548,26 +553,6 @@
         "tms"
       ],
       "title": "TilesOptions"
-    },
-    "Matomo": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "urlBase": {
-          "type": "string",
-          "format": "uri",
-          "description": "Matomo tracker base URL. See https://www.npmjs.com/package/@datapunt/matomo-tracker-js for reference"
-        },
-        "siteId": {
-          "description": "ID by which the site is tracked in Matomo",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "siteId",
-        "urlBase"
-      ],
-      "title": "Matomo"
     },
     "Sentry": {
       "type": "object",

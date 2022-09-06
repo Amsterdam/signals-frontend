@@ -9,13 +9,13 @@
     "enableNearIncidents": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
+    "enableAmsterdamSpecificOverigCategories": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
     "showThorButton": false,
     "showVulaanControls": false,
     "useProjectenSignalType": false,
-    "useStaticMapServer": false,
     "reporterMailHandledNegativeContactEnabled": true
   },
   "head": {
@@ -59,6 +59,7 @@
   "map": {
     "municipality": "amsterdam",
     "options": {
+      "crs": "EPSG:28992",
       "center": [
         52.3731081,
         4.8932945
@@ -92,7 +93,6 @@
         "tms": false
       }
     },
-    "staticUrl": "https://map.data.amsterdam.nl/maps/topografie",
     "layers": {
       "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }

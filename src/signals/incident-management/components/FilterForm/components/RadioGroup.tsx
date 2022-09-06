@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 
 import Label from 'components/Label'
@@ -13,7 +13,7 @@ type RadioGroupProps = Partial<RadioButtonListProps> & {
   name: string
 }
 
-const RadioGroup: FC<RadioGroupProps> = ({
+export const RadioGroup: FC<RadioGroupProps> = ({
   defaultValue,
   onChange,
   options,
@@ -37,5 +37,3 @@ const RadioGroup: FC<RadioGroupProps> = ({
 RadioGroup.defaultProps = {
   defaultValue: '',
 }
-
-export default RadioGroup

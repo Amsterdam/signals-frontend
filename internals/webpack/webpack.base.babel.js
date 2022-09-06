@@ -19,8 +19,6 @@ const esModules = [
   path.resolve(__rootdir, 'node_modules/@amsterdam/asc-assets'),
   path.resolve(__rootdir, 'node_modules/@amsterdam/asc-ui'),
   path.resolve(__rootdir, 'node_modules/@amsterdam/arm-core'),
-  path.resolve(__rootdir, 'node_modules/@datapunt/matomo-tracker-js'),
-  path.resolve(__rootdir, 'node_modules/@datapunt/matomo-tracker-react'),
   path.resolve(__rootdir, 'node_modules/@amsterdam/react-maps'),
 ]
 

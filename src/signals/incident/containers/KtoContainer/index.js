@@ -73,7 +73,7 @@ export const successSections = configuration.featureFlags
     }
 
 export const contactAllowedText =
-  'U ontvangt een e-mail met uw reactie. U ontvangt binnen 3 werkdagen weer bericht van ons.'
+  '\n U ontvangt direct een e-mail met een overzicht van uw reactie. Binnen 3 werkdagen leest u wat wij ermee gaan doen.'
 
 // eslint-disable-next-line consistent-return
 const reactReducer = (state, action) => {
@@ -135,7 +135,7 @@ export const KtoContainer = () => {
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
       .map((option, index) => ({ key: `key-${index}`, value: option.text }))
 
-    opts.push({ key: 'anders', value: 'Anders, namelijk...' })
+    opts.push({ key: 'anders', value: 'Over iets anders.' })
 
     dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
   }, [options, satisfactionIndication, isLoadingOptions, isSatisfied])
@@ -166,7 +166,6 @@ export const KtoContainer = () => {
   }
 
   if (!state.shouldRender) return null
-
   return (
     <Fragment>
       <Row data-testid="ktoFormContainer">
@@ -178,12 +177,8 @@ export const KtoContainer = () => {
               </StyledHeading>
               <StyledParagraph data-testid="succesSectionBody">
                 {successSections[satisfactionIndication].body}
+                {contactAllowed && contactAllowedText}
               </StyledParagraph>
-              {contactAllowed && (
-                <StyledParagraph data-testid="succesContactAllowedText">
-                  {contactAllowedText}
-                </StyledParagraph>
-              )}
             </header>
           )}
 
@@ -199,8 +194,9 @@ export const KtoContainer = () => {
               </header>
             ) : (
               <StyledHeading>
-                {isSatisfied ? 'Ja, ik ben' : 'Nee, ik ben niet'} tevreden met
-                de behandeling van mijn melding
+                {isSatisfied
+                  ? 'Ja, ik ben tevreden'
+                  : 'Nee, ik ben niet tevreden met de behandeling van mijn melding'}
               </StyledHeading>
             ))}
         </Column>
