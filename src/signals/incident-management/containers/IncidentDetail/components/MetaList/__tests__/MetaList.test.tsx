@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -23,14 +23,14 @@ import { fetchCategoriesSuccess } from 'models/categories/actions'
 import * as departmentsSelectors from 'models/departments/selectors'
 import * as categoriesSelectors from 'models/categories/selectors'
 
-import IncidentDetailContext from '../../context'
+import IncidentDetailContext from '../../../context'
 import {
   mockRequestHandler,
   fetchMock,
-} from '../../../../../../../internals/testing/msw-server'
-import * as API from '../../../../../../../internals/testing/api'
-import type { IncidentChild } from '../../types'
-import MetaList from './MetaList'
+} from '../../../../../../../../internals/testing/msw-server'
+import * as API from '../../../../../../../../internals/testing/api'
+import MetaList from '../MetaList'
+import type { IncidentChild } from '../../../types'
 
 fetchMock.disableMocks()
 jest.mock('shared/services/configuration/configuration')

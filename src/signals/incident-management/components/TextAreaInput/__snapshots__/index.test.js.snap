@@ -14,6 +14,7 @@ exports[`<TextAreaInput /> should render character counter correctly 1`] = `
     name="name"
     placeholder="placeholder"
     rows={2}
+    value=""
   />
 </styled.div>
 `;
@@ -32,7 +33,7 @@ exports[`<TextAreaInput /> should render character counter with value correctly 
     name="name"
     placeholder="placeholder"
     rows={2}
-    value="test"
+    value=""
   />
 </styled.div>
 `;
@@ -47,9 +48,11 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
   <ForwardRef
     data-testid="name"
     id="formname"
+    infoText={false}
     name="name"
     placeholder="placeholder"
     rows={2}
+    value=""
   />
 </styled.div>
 `;

@@ -2,8 +2,9 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import RadioInput from 'signals/incident-management/components/RadioInput'
-import SelectInput from 'signals/incident-management/components/SelectInput'
+
+import RadioInput from 'signals/incident-management/components/RadioInput_b'
+import SelectInput from 'signals/incident-management/components/SelectInput_b'
 
 import { dataListType } from 'shared/types'
 import { reCategory } from 'shared/services/resolveClassification'
@@ -25,7 +26,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
       }
       onFetchDefaultTexts(newValues)
     },
-    [onFetchDefaultTexts]
+    [getValues, onFetchDefaultTexts]
   )
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
     })
     handleForm({ ...getValues(), name: 'category_url' })
     return () => subscription.unsubscribe()
-  }, [handleChange, subcategoryOptions])
+  }, [handleChange, handleForm, setValue, subcategoryOptions, watch, getValues])
 
   const handleForm = useCallback(
     ({ category_url, state, name }) => {
@@ -57,7 +58,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
         }
       }
     },
-    [handleChange, subcategoryOptions]
+    [handleChange, setValue, subcategoryOptions]
   )
 
   const firstSubcategory = subcategoryOptions.filter(

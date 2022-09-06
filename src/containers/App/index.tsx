@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
@@ -22,7 +22,6 @@ import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverv
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
 
 import { getSources } from './actions'
 import AppContext from './context'
@@ -31,7 +30,6 @@ import { makeSelectLoading, makeSelectSources } from './selectors'
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }
 }>`
-  position: relative;
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
@@ -53,20 +51,16 @@ const FooterContent = styled.div`
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
 const KtoContainer = lazy(
-  () => import('signals/incident/containers/KtoContainer')
+  async () => import('signals/incident/containers/KtoContainer')
 )
 // istanbul ignore next
 const IncidentManagementModule = lazy(
-  () => import('signals/incident-management')
+  async () => import('signals/incident-management')
 )
 // istanbul ignore next
-const SettingsModule = lazy(() => import('signals/settings'))
+const SettingsModule = lazy(async () => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
-// istanbul ignore next
-// const IncidentMapContainer = lazy(
-//   () => import('signals/IncidentMap/IncidentMapContainer')
-// )
+const NotFoundPage = lazy(async () => import('components/pages/NotFoundPage'))
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -77,7 +71,6 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice()
   const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
-  const isIncidentMap = useIsIncidentMap()
 
   useEffect(() => {
     const { referrer } = location
@@ -126,10 +119,6 @@ export const AppContainer = () => {
                 <Redirect exact from="/manage" to="/manage/incidents" />
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
-                {/*<Route*/}
-                {/*  path="/meldingenkaart"*/}
-                {/*  component={IncidentMapContainer}*/}
-                {/*/>*/}
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}
@@ -155,7 +144,7 @@ export const AppContainer = () => {
             </Suspense>
           </ContentContainer>
           <FooterContent>
-            {!getIsAuthenticated() && !isIncidentMap && <FooterContainer />}
+            {!getIsAuthenticated() && <FooterContainer />}
           </FooterContent>
         </Fragment>
       </AppContext.Provider>

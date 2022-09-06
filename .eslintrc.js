@@ -74,7 +74,6 @@ module.exports = {
         allow: ['warn', 'error'],
       },
     ],
-    'jsx-quotes': ['error', 'prefer-double'],
     'jsx-a11y/aria-role': 'off',
     'jsx-a11y/no-autofocus': 'off',
     'no-restricted-imports': [

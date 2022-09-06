@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import configuration from 'shared/services/configuration/configuration'
 import resolveClassification, {
   MINIMUM_CERTAINTY,
   DEFAULT_CLASSIFICATION,
 } from '.'
-
-jest.mock('shared/services/configuration/configuration')
 
 describe('The resolve classification service', () => {
   let hoofdrubriek
   let subrubriek
 
   beforeEach(() => {
-    configuration.featureFlags.enableAmsterdamSpecificOverigCategories = false
-
     subrubriek = [
       [
         'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
@@ -32,10 +27,6 @@ describe('The resolve classification service', () => {
       ],
       [0.39, 0.1424216693948545, 0.04586915076913858],
     ]
-  })
-
-  afterEach(() => {
-    configuration.__reset()
   })
 
   it('should return the default classifications', () => {
@@ -69,8 +60,6 @@ describe('The resolve classification service', () => {
   describe('use main classification when sub category fails', () => {
     describe('afval', () => {
       it('should return overig-afval when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -84,8 +73,6 @@ describe('The resolve classification service', () => {
 
     describe('schoon', () => {
       it('should return veegzwerfvuil when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -99,8 +86,6 @@ describe('The resolve classification service', () => {
 
     describe('openbaar-groen-en-water', () => {
       it('should return overig-groen-en-water when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -114,8 +99,6 @@ describe('The resolve classification service', () => {
 
     describe('overlast-bedrijven-en-horeca', () => {
       it('should return overig-horecabedrijven when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -129,8 +112,6 @@ describe('The resolve classification service', () => {
 
     describe('overlast-in-de-openbare-ruimte', () => {
       it('should return overig-openbare-ruimte when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -144,8 +125,6 @@ describe('The resolve classification service', () => {
 
     describe('overlast-op-het-water', () => {
       it('should return overig-boten when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -159,8 +138,6 @@ describe('The resolve classification service', () => {
 
     describe('overlast-van-dieren', () => {
       it('should return overig-dieren when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -174,8 +151,6 @@ describe('The resolve classification service', () => {
 
     describe('overlast-van-en-door-personen-of-groepen', () => {
       it('should return overige-overlast-door-personen when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -189,8 +164,6 @@ describe('The resolve classification service', () => {
 
     describe('wegen-verkeer-straatmeubilair', () => {
       it('should return overig-wegen-verkeer-straatmeubilair when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -204,8 +177,6 @@ describe('The resolve classification service', () => {
 
     describe('wonen', () => {
       it('should return wonen-overig when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wonen'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -217,10 +188,8 @@ describe('The resolve classification service', () => {
       })
     })
 
-    describe('unknown-category-with-amsterdam-overig-categories-on', () => {
+    describe('unknown-category', () => {
       it('should return overig when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = true
-
         hoofdrubriek[0][0] =
           'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/unknown-category'
         hoofdrubriek[1][0] = MINIMUM_CERTAINTY
@@ -228,21 +197,6 @@ describe('The resolve classification service', () => {
         expect(resolveClassification({ subrubriek, hoofdrubriek })).toEqual({
           category: 'unknown-category',
           subcategory: 'overig',
-        })
-      })
-    })
-
-    describe('unknown-category-with-amsterdam-overig-categories-off', () => {
-      it('should return overig when minimum subcategory chance is not met and maincategory chance is met', () => {
-        configuration.featureFlags.enableAmsterdamSpecificOverigCategories = false
-
-        hoofdrubriek[0][0] =
-          'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/unknown-category'
-        hoofdrubriek[1][0] = MINIMUM_CERTAINTY
-
-        expect(resolveClassification({ subrubriek, hoofdrubriek })).toEqual({
-          category: 'unknown-category',
-          subcategory: 'overig-unknown-category',
         })
       })
     })

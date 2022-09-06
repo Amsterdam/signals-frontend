@@ -28,6 +28,9 @@ jest
   .spyOn(categoriesSelectors, 'makeSelectSubCategories')
   .mockImplementation(() => subCategories)
 
+// prevent fetch requests that we don't need to verify
+jest.mock('components/MapStatic', () => () => <span data-testid="mapStatic" />)
+
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
@@ -76,6 +79,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('detail-reporter-value')
     ).toBeInTheDocument()
     expect(await screen.findByTestId('detail-location')).toBeInTheDocument()
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
     expect(await screen.findByTestId('mapDetail')).toBeInTheDocument()
 
     expect(await screen.findByTestId('history')).toBeInTheDocument()
@@ -156,6 +160,21 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     rerender(withAppContext(<IncidentDetail />))
 
     expect(await screen.findByText('Een andere melding')).toBeInTheDocument()
+    await screen.findByTestId('incidentDetail')
+  })
+
+  it('should render correctly with useStaticMapServer enabled', async () => {
+    configuration.featureFlags.useStaticMapServer = true
+    render(withAppContext(<IncidentDetail />))
+
+    expect(screen.queryByTestId('mapStatic')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('mapDetail')).not.toBeInTheDocument()
+
+    await screen.findByTestId('incidentDetail')
+
+    expect(screen.getByTestId('mapStatic')).toBeInTheDocument()
+    expect(screen.queryByTestId('mapDetail')).not.toBeInTheDocument()
+
     await screen.findByTestId('incidentDetail')
   })
 

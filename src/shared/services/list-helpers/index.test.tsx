@@ -50,12 +50,12 @@ describe('The list helper service', () => {
       expect(getListValueByKey()).toEqual(false)
     })
 
-    it('should return the correct value when it exists', () => {
+    it('should return the correct value whem it exists', () => {
       expect(getListValueByKey(list, 'M')).toEqual('Oost')
       expect(getListValueByKey(list, 'F')).toEqual('Nieuw-West')
     })
 
-    it('should return not found value when it does not exist', () => {
+    it('should return not found value whem it does not exist', () => {
       expect(getListValueByKey(list, 'NOT_FOUND')).toEqual('Niet gevonden')
     })
 

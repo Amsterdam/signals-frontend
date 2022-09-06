@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useContext } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
@@ -7,6 +7,7 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import { getListValueByKey } from 'shared/services/list-helpers/list-helpers'
 import { locationType } from 'shared/types'
 import { stadsdeelList } from 'signals/incident-management/definitions'
+import MapStatic from 'components/MapStatic'
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import configuration from 'shared/services/configuration/configuration'
 import { featureToCoordinates } from 'shared/services/map-location'
@@ -84,12 +85,22 @@ const Location = ({ location }) => {
               }}
               data-testid="previewLocationButton"
             >
-              <StyledMap
-                key={`${lat},${lng}`}
-                value={location}
-                icon={smallMarkerIcon}
-                zoom={mapZoom}
-              />
+              {configuration.featureFlags.useStaticMapServer ? (
+                <MapStatic
+                  boundsScaleFactor={0.25}
+                  height={mapHeight}
+                  markerSize={20}
+                  width={mapWidth}
+                  coordinates={{ lat, lng }}
+                />
+              ) : (
+                <StyledMap
+                  key={`${lat},${lng}`}
+                  value={location}
+                  icon={smallMarkerIcon}
+                  zoom={mapZoom}
+                />
+              )}
             </MapTile>
           )}
 

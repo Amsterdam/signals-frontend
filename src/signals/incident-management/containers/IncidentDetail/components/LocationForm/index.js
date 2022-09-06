@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import type { FormEvent } from 'react'
 import { useContext } from 'react'
 import styled from 'styled-components'
 import { Row, Column } from '@amsterdam/asc-ui'
@@ -12,11 +11,8 @@ import MapContext from 'containers/MapContext'
 import { useForm, Controller } from 'react-hook-form'
 import FormFooter from 'components/FormFooter'
 import MapInput from 'signals/incident-management/components/MapInput'
-import type { Context as IncidentDetailContextType } from 'signals/incident-management/containers/IncidentDetail/types'
-
 import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_LOCATION } from '../../constants'
-import type { Incident } from '../../../../../../types/incident'
 
 const StyledColumn = styled(Column)`
   display: block;
@@ -25,23 +21,19 @@ const StyledColumn = styled(Column)`
 `
 
 const LocationForm = () => {
-  const { incident, update, close } = useContext<IncidentDetailContextType>(
-    IncidentDetailContext
-  )
+  const {
+    incident: { location },
+    update,
+    close,
+  } = useContext(IncidentDetailContext)
 
-  const location = incident?.location
-
-  const { getValues, control, setValue } = useForm<{
-    location: Partial<Incident>
-  }>({
+  const { getValues, control, setValue } = useForm({
     defaultValues: {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       location,
     },
   })
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = (e) => {
     e.preventDefault()
     const { coordinates, ...formValueLocation } = getValues().location
 
@@ -58,7 +50,7 @@ const LocationForm = () => {
       patch,
     })
 
-    close && close()
+    close()
   }
 
   return (
@@ -76,8 +68,8 @@ const LocationForm = () => {
                   onQueryResult={(location) => {
                     setValue('location', location)
                   }}
-                  name="location"
-                  display=""
+                  name={'location'}
+                  display={'location'}
                 />
               )}
             />

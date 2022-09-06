@@ -12,9 +12,8 @@ import type { LatLngLiteral } from 'leaflet'
 type Props = {
   display: string
   sort?: boolean
-  id?: string
   onQueryResult: (location: LatLngLiteral) => void
-} & Partial<ControllerRenderProps>
+} & ControllerRenderProps
 
 export const MapInput = (props: Props) => {
   const { name, display, onQueryResult, value: valueFromProps } = props

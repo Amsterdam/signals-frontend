@@ -8,6 +8,7 @@ import { Marker } from '@amsterdam/react-maps'
 
 import type { FC, KeyboardEvent } from 'react'
 
+import MapStatic from 'components/MapStatic'
 import Map from 'components/Map'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -40,6 +41,10 @@ const StyledLink = styled(Link)`
   text-decoration: underline;
   font-size: 16px;
   cursor: pointer;
+`
+
+const StyledMapStatic = styled(MapStatic)`
+  margin: ${themeSpacing(0, 0, 3, 0)};
 `
 
 const StyledMap = styled(Map)`
@@ -122,9 +127,18 @@ const Summary: FC<SummaryProps> = ({
 
   return (
     <Wrapper data-testid="assetSelectSummary">
-      <StyledMap mapOptions={options}>
-        <StyledMarker args={[center]} options={{ icon: markerIcon }} />
-      </StyledMap>
+      {configuration.featureFlags.useStaticMapServer ? (
+        <StyledMapStatic
+          iconSrc={'/assets/images/icon-select-marker.svg'}
+          height={mapHeight}
+          width={mapWidth}
+          coordinates={center}
+        />
+      ) : (
+        <StyledMap mapOptions={options}>
+          <StyledMarker args={[center]} options={{ icon: markerIcon }} />
+        </StyledMap>
+      )}
 
       <Address data-testid="assetSelectSummaryAddress">
         {summaryAddress}
