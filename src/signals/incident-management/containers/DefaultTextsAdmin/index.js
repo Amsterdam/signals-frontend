@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -15,11 +15,12 @@ import injectSaga from 'utils/injectSaga'
 import injectReducer from 'utils/injectReducer'
 
 import FormFooter from 'components/FormFooter'
-import { useCallback, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { FormBuilder, FieldGroup } from 'react-reactive-form'
+import { useCallback, useEffect, useMemo } from 'react'
 import { reCategory } from '../../../../shared/services/resolveClassification'
 import { statusList } from '../../definitions'
-import HiddenInput_b from '../../components/HiddenInput_b'
+import HiddenInput from '../../components/HiddenInput'
+import FieldControlWrapper from '../../components/FieldControlWrapper'
 import SelectForm from './components/SelectForm'
 import DefaultTextsForm from './components/DefaultTextsForm'
 
@@ -51,11 +52,11 @@ const DEFAULT_TEXT_FIELDS = 20
 const fields = [...new Array(DEFAULT_TEXT_FIELDS).keys()].reduce(
   (acc, key) => ({
     ...acc,
-    [`item${key}`]: {
+    [`item${key}`]: FormBuilder.group({
       title: [''],
       text: [''],
       is_active: [false],
-    },
+    }),
   }),
   {}
 )
@@ -74,24 +75,30 @@ export const DefaultTextsAdminContainer = ({
     state,
   },
 }) => {
-  const { setValue, getValues, control } = useForm({
-    ...fields,
-  })
-
-  const items = Object.keys(getValues()) ?? {}
+  const form = useMemo(
+    () =>
+      FormBuilder.group({
+        ...fields,
+        categoryUrl: null,
+        state: null,
+      }),
+    []
+  )
+  const items = Object.keys(form.controls).slice(0, -2)
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
 
+      const category = form.get('categoryUrl').value
       const payload = {
         post: {
-          state: state,
+          state: form.get('state').value,
           templates: [],
         },
       }
       const found = subCategories.find(
-        (sub) => sub?._links?.self?.public === categoryUrl
+        (sub) => sub?._links?.self?.public === category
       )
 
       /* istanbul ignore else */
@@ -99,38 +106,62 @@ export const DefaultTextsAdminContainer = ({
         const [, main_slug] = found._links.self.public.match(reCategory)
         payload.subcategory = found
         payload.main_slug = main_slug
-        payload.status = statusList.find(({ key }) => key === state)
-
-        payload.post.templates = Object.values(getValues()).reduce(
-          (acc, item) => {
-            if (item.text && item.title) {
-              acc.push(item)
-            }
-            return acc
-          },
-          []
+        payload.status = statusList.find(
+          ({ key }) => key === form.get('state').value
         )
+
+        items.forEach((item) => {
+          const data = form.get(item).value
+
+          if (data.text && data.title) {
+            payload.post.templates.push({ ...data })
+          }
+        })
 
         onSubmitTexts(payload)
       }
+
+      form.updateValueAndValidity()
     },
-    [state, subCategories, categoryUrl, getValues, onSubmitTexts]
+    [form, onSubmitTexts, subCategories, items]
   )
 
   useEffect(() => {
-    Object.keys(fields)?.forEach((item, index) => {
+    items.forEach((item, index) => {
       const empty = { title: '', text: '' }
       const data = defaultTexts[index] || {}
-      setValue(item, { ...empty, ...data })
+      form.get(item).patchValue({ ...empty, ...data })
     })
-  }, [defaultTexts, getValues, setValue])
+
+    form.updateValueAndValidity()
+  }, [defaultTexts, form, items])
+
+  useEffect(() => {
+    form.patchValue({ categoryUrl })
+    form.updateValueAndValidity()
+  }, [categoryUrl, form])
+
+  useEffect(() => {
+    form.patchValue({ state })
+    form.updateValueAndValidity()
+  }, [form, state])
 
   const changeOrdering = useCallback(
     (e, index, type) => {
       e.preventDefault()
+
       onOrderDefaultTexts({ index, type })
+      form.updateValueAndValidity()
     },
-    [onOrderDefaultTexts]
+    [form, onOrderDefaultTexts]
+  )
+
+  const onCheck = useCallback(
+    (item, oldValue) => {
+      const itemData = form.get(item)
+      form.get(item).patchValue({ ...itemData, is_active: !oldValue })
+    },
+    [form]
   )
 
   return (
@@ -153,28 +184,34 @@ export const DefaultTextsAdminContainer = ({
       <Column span={8}>
         {subCategories && categoryUrl && !loading && !error && (
           <StyledWrapper>
-            <form className="default-texts-form__form">
-              <HiddenInput_b name={'state'} value={state} />
-              <HiddenInput_b name={'categoryUrl'} value={categoryUrl} />
-              {items.map((item, index) => (
-                <Controller
-                  key={item}
-                  name={item}
-                  control={control}
-                  render={({ field: { name, value } }) => (
+            <FieldGroup
+              control={form}
+              render={() => (
+                <form className="default-texts-form__form">
+                  <FieldControlWrapper
+                    render={HiddenInput}
+                    name="state"
+                    control={form.get('state')}
+                  />
+                  <FieldControlWrapper
+                    render={HiddenInput}
+                    name="categoryUrl"
+                    control={form.get('categoryUrl')}
+                  />
+                  {items.map((item, index) => (
                     <DefaultTextsForm
-                      item={name}
+                      key={item}
+                      item={item}
                       index={index}
                       itemsLength={items.length}
-                      value={value}
-                      nextValue={getValues()[items[index + 1]]}
-                      setValue={setValue}
+                      form={form}
+                      onCheck={onCheck}
                       changeOrdering={changeOrdering}
                     />
-                  )}
-                />
-              ))}
-            </form>
+                  ))}
+                </form>
+              )}
+            />
           </StyledWrapper>
         )}
       </Column>

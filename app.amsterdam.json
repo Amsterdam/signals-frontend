@@ -103,6 +103,10 @@
       "verlichting": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
   },
+  "matomo": {
+    "urlBase": "https://analytics.data.amsterdam.nl/",
+    "siteId": 14
+  },
   "oidc": {
     "authEndpoint": "https://iam.amsterdam.nl/auth",
     "clientId": "sia-frontend",

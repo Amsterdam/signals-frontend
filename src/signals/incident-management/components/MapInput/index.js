@@ -6,22 +6,12 @@ import configuration from 'shared/services/configuration/configuration'
 import { formatMapLocation } from 'shared/services/map-location'
 
 import Label from 'components/Label'
-import type { ControllerRenderProps } from 'react-hook-form'
-import type { LatLngLiteral } from 'leaflet'
 
-type Props = {
-  display: string
-  sort?: boolean
-  onQueryResult: (location: LatLngLiteral) => void
-} & ControllerRenderProps
-
-export const MapInput = (props: Props) => {
+export const MapInput = (props) => {
   const { name, display, onQueryResult, value: valueFromProps } = props
 
   const value = formatMapLocation(valueFromProps)
   const defaultCenter =
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     configuration.map.optionsBackOffice?.center || MAP_OPTIONS.center
 
   const center = value?.coordinates || defaultCenter
@@ -33,7 +23,7 @@ export const MapInput = (props: Props) => {
     zoom: 14,
   }
 
-  const onLocationChange = (location: LatLngLiteral) => {
+  const onLocationChange = (location) => {
     onQueryResult(location)
   }
 
@@ -49,7 +39,6 @@ export const MapInput = (props: Props) => {
             onChange={onLocationChange}
             mapOptions={mapOptions}
             hasZoomControls
-            hasGPSControl={false}
           />
         </div>
       </div>

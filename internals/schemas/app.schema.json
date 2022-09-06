@@ -33,6 +33,9 @@
         "map": {
           "$ref": "#/definitions/Map"
         },
+        "matomo": {
+          "$ref": "#/definitions/Matomo"
+        },
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
@@ -545,6 +548,26 @@
         "tms"
       ],
       "title": "TilesOptions"
+    },
+    "Matomo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "urlBase": {
+          "type": "string",
+          "format": "uri",
+          "description": "Matomo tracker base URL. See https://www.npmjs.com/package/@datapunt/matomo-tracker-js for reference"
+        },
+        "siteId": {
+          "description": "ID by which the site is tracked in Matomo",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "siteId",
+        "urlBase"
+      ],
+      "title": "Matomo"
     },
     "Sentry": {
       "type": "object",

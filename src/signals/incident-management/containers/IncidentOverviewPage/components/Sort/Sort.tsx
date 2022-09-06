@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Select, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+import { useMatomo } from '@datapunt/matomo-tracker-react'
 
 import type { FC } from 'react'
 
@@ -35,8 +36,6 @@ export enum SortOptions {
   ASSIGNED_USER_EMAIL_DESC = '-assigned_user_email',
   BUROUGH_ASC = 'stadsdeel',
   BUROUGH_DESC = '-stadsdeel',
-  DISTRICT_ASC = 'area_name',
-  DISTRICT_DESC = '-area_name',
   CREATED_AT_ASC = '-created_at',
   CREATED_AT_DESC = 'created_at',
   PRIORITY_ASC = 'priority',
@@ -52,22 +51,33 @@ const Sort: FC<SortProps> = ({
   className = '',
   onChangeOrdering,
 }) => {
+  const { trackEvent } = useMatomo()
   const [sort, setSort] = useState<SortOptions>()
   const onChange = useCallback(
     (event) => {
       const { value } = event.target
 
       if (sort !== value) {
+        trackEvent({
+          action: 'change',
+          category: 'incidents',
+          name: 'sort',
+          value,
+        })
         setSort(value)
       }
     },
-    [sort]
+    [sort, trackEvent]
   )
 
   useEffect(() => {
     if (!sort) return
     onChangeOrdering(sort)
   }, [onChangeOrdering, sort])
+
+  const district = configuration.featureFlags.fetchDistrictsFromBackend
+    ? configuration.language.district
+    : 'Stadsdeel'
 
   return (
     <SelectContainer className={className}>
@@ -84,21 +94,8 @@ const Sort: FC<SortProps> = ({
         <option value={SortOptions.SUBCATEGORY_DESC}>Subcategorie: Z-A</option>
         <option value={SortOptions.STATUS_ASC}>Status A-Z</option>
         <option value={SortOptions.STATUS_DESC}>Status Z-A</option>
-        {configuration.featureFlags.fetchDistrictsFromBackend ? (
-          <>
-            <option value={SortOptions.DISTRICT_ASC}>
-              {configuration.language.district} A-Z
-            </option>
-            <option value={SortOptions.DISTRICT_DESC}>
-              {configuration.language.district} Z-A
-            </option>
-          </>
-        ) : (
-          <>
-            <option value={SortOptions.BUROUGH_ASC}>Stadsdeel A-Z</option>
-            <option value={SortOptions.BUROUGH_DESC}>Stadsdeel Z-A</option>
-          </>
-        )}
+        <option value={SortOptions.BUROUGH_ASC}>{district} A-Z</option>
+        <option value={SortOptions.BUROUGH_DESC}>{district} Z-A</option>
         <option value={SortOptions.PRIORITY_ASC}>Urgentie: hoog - laag</option>
         <option value={SortOptions.PRIORITY_DESC}>Urgentie: laag - hoog</option>
         <option value={SortOptions.ADDRESS_ASC}>Adres A-Z</option>

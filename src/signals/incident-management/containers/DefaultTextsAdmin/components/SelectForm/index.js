@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-
-import RadioInput from 'signals/incident-management/components/RadioInput_b'
-import SelectInput from 'signals/incident-management/components/SelectInput_b'
+import { FormBuilder, FieldGroup } from 'react-reactive-form'
 
 import { dataListType } from 'shared/types'
 import { reCategory } from 'shared/services/resolveClassification'
 
-import { Controller, useForm } from 'react-hook-form'
+import FieldControlWrapper from 'signals/incident-management/components/FieldControlWrapper'
+import SelectInput from 'signals/incident-management/components/SelectInput'
+import RadioInput from 'signals/incident-management/components/RadioInput'
 import { useSelector } from 'react-redux'
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+
+const form = FormBuilder.group({
+  category_url: null,
+  state: 'o',
+  sub_slug: null,
+  main_slug: null,
+})
 
 const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(
@@ -21,94 +28,86 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   const handleChange = useCallback(
     (changed) => {
       const newValues = {
-        ...getValues(),
+        ...form.value,
         ...changed,
       }
+
       onFetchDefaultTexts(newValues)
     },
-    [getValues, onFetchDefaultTexts]
+    [onFetchDefaultTexts]
   )
 
   useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      const { category_url, state } = value
-      handleForm({ category_url, state, name })
-    })
-    handleForm({ ...getValues(), name: 'category_url' })
-    return () => subscription.unsubscribe()
-  }, [handleChange, handleForm, setValue, subcategoryOptions, watch, getValues])
+    form.controls.category_url.valueChanges.subscribe((category_url) => {
+      const found =
+        category_url &&
+        subcategoryOptions.find((sub) => sub?.key === category_url)
 
-  const handleForm = useCallback(
-    ({ category_url, state, name }) => {
-      if (name === 'category_url') {
-        const found =
-          category_url &&
-          subcategoryOptions.find((sub) => sub?.key === category_url)
+      /* istanbul ignore else */
+      if (found) {
+        const [, main_slug, sub_slug] = found.key.match(reCategory)
 
-        /* istanbul ignore else */
-        if (found) {
-          const [, main_slug, sub_slug] = found.key.match(reCategory)
-          setValue('sub_slug', sub_slug)
-          setValue('main_slug', main_slug)
-          handleChange({ category_url, sub_slug, main_slug })
-        }
-      } else if (name === 'state') {
-        if (category_url) {
-          handleChange({ state })
-        }
+        form.patchValue({
+          sub_slug,
+          main_slug,
+        })
+
+        handleChange({ category_url })
       }
-    },
-    [handleChange, setValue, subcategoryOptions]
-  )
+    })
 
-  const firstSubcategory = subcategoryOptions.filter(
-    ({ category_slug }) => category_slug === subcategoryGroups[0].value
-  )
+    form.controls.state.valueChanges.subscribe((state) => {
+      if (form.value.category_url) {
+        handleChange({ state })
+      }
+    })
 
-  const { control, getValues, watch, setValue } = useForm({
-    defaultValues: {
-      state: 'o',
-      category_url: firstSubcategory[0]?.key,
-      sub_slug: null,
-      main_slug: null,
-    },
-  })
+    const firstCategoryUrl = subcategoryOptions[0]?.key
+    if (firstCategoryUrl) {
+      form.patchValue({
+        category_url: firstCategoryUrl,
+      })
+    }
+
+    return () => {
+      form.controls.category_url.valueChanges.unsubscribe()
+      form.controls.state.valueChanges.unsubscribe()
+    }
+  }, [handleChange, subcategoryOptions])
+
+  useEffect(() => {
+    form.updateValueAndValidity()
+  }, [subcategoryOptions])
 
   return (
-    <form data-testid="selectFormForm" className="select-form__form">
-      <Controller
-        name="category_url"
-        control={control}
-        render={({ field: { name, onChange } }) => (
-          <SelectInput
-            name={name}
+    <FieldGroup
+      control={form}
+      render={() => (
+        <form data-testid="selectFormForm" className="select-form__form">
+          <FieldControlWrapper
+            render={SelectInput}
             display="Subcategorie"
+            name="category_url"
             values={subcategoryOptions}
             groups={subcategoryGroups}
-            onChange={onChange}
+            control={form.get('category_url')}
           />
-        )}
-      />
-
-      <Controller
-        name="state"
-        control={control}
-        render={({ field: { name, value, onChange } }) => (
-          <RadioInput
-            name={name}
+          <FieldControlWrapper
             display="Status"
+            render={RadioInput}
+            name="state"
             values={defaultTextsOptionList}
-            onChange={onChange}
-            value={value}
+            control={form.get('state')}
           />
-        )}
-      />
-    </form>
+        </form>
+      )}
+    />
   )
 }
 
 SelectForm.propTypes = {
   defaultTextsOptionList: dataListType.isRequired,
+
   onFetchDefaultTexts: PropTypes.func.isRequired,
 }
 

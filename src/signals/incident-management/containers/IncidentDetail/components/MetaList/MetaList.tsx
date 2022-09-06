@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 import {
   Fragment,
@@ -100,8 +100,8 @@ const EditButton = styled(Button)`
 `
 
 interface MetaListProps {
-  defaultTexts?: DefaultTextsType
-  childIncidents?: IncidentChild[]
+  defaultTexts: DefaultTextsType
+  childIncidents: IncidentChild[]
 }
 
 const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
@@ -362,8 +362,8 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
       </Highlight>
       {showEditStatus && (
         <StatusForm
-          defaultTexts={defaultTexts || []}
-          childIncidents={childIncidents || []}
+          defaultTexts={defaultTexts}
+          childIncidents={childIncidents}
           onClose={() => setShowEditStatus(false)}
         />
       )}

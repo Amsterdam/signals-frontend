@@ -70,7 +70,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     )
     expect(
       screen.getByRole('checkbox', {
-        name: 'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier',
+        name: 'Toon meldingen van deze subcategorie op een openbare kaart',
       })
     ).not.toBeChecked()
     expect(screen.getByRole('spinbutton')).toHaveValue(5)
@@ -112,7 +112,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     ).not.toBeInTheDocument()
 
     const checkbox = screen.getByRole('checkbox', {
-      name: 'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier',
+      name: 'Toon meldingen van deze subcategorie op een openbare kaart',
     })
     expect(checkbox).not.toBeChecked()
 
@@ -220,7 +220,7 @@ describe('signals/settings/categories/Detail/components/CategoryForm', () => {
     )
     expect(
       screen.getByRole('checkbox', {
-        name: 'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier',
+        name: 'Toon meldingen van deze subcategorie op een openbare kaart',
       })
     ).toBeChecked()
     expect(screen.getByRole('textbox', { name: 'Naam openbaar' })).toHaveValue(

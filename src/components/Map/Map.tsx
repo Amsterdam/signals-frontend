@@ -61,14 +61,15 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
 }) => {
   const hasTouchCapabilities = 'ontouchstart' in window
   const showZoom = hasZoomControls && !hasTouchCapabilities
-  const maxZoom = mapOptions?.maxZoom || configuration.map.options.maxZoom
-  const minZoom = mapOptions?.minZoom || configuration.map.options.minZoom
+  const maxZoom = mapOptions.maxZoom || configuration.map.options.maxZoom
+  const minZoom = mapOptions.minZoom || configuration.map.options.minZoom
+  const { center } = mapOptions
   const options = {
     maxZoom,
     minZoom,
     tap: false,
     scrollWheelZoom: false,
-    center: mapOptions?.center,
+    center,
     keyboard: false,
     ...mapOptions,
   }

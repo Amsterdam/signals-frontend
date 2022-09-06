@@ -2,7 +2,6 @@ import type { Action } from 'types'
 import type { FetchError } from 'hooks/useFetch'
 import type Context from 'types/context'
 import type { Incident } from 'types/api/incident'
-import type { DefaultTexts } from 'types/api/default-text'
 import type {
   State,
   IncidentChild,
@@ -52,10 +51,7 @@ export type SetChildrenIncidentsAction = Action<
   Incident[]
 >
 export type SetContextAction = Action<typeof SET_CONTEXT, Context>
-export type SetDefaultTextsAction = Action<
-  typeof SET_DEFAULT_TEXTS,
-  DefaultTexts
->
+export type SetDefaultTextsAction = Action<typeof SET_DEFAULT_TEXTS, string[]>
 export type SetIncidentAction = Action<typeof SET_INCIDENT, Incident>
 export type PatchStartAction = Action<typeof PATCH_START, string>
 export type PatchSuccessAction = Action<typeof PATCH_SUCCESS, string>

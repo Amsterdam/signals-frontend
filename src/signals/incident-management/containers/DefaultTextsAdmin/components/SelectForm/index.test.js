@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
+import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import * as categoriesSelectors from 'models/categories/selectors'
 import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
 
@@ -10,8 +11,7 @@ import SelectForm from '.'
 
 describe('SelectForm', () => {
   const subcategories = subcategoriesGroupedByCategories[1]
-  const category_url =
-    'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu'
+  const category_url = categoriesPrivate.results[1]._links.self.public
   let props
 
   beforeEach(() => {
@@ -53,8 +53,8 @@ describe('SelectForm', () => {
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url,
         state: 'o',
-        sub_slug: 'asbest-accu',
-        main_slug: 'afval',
+        sub_slug: 'afwatering-brug',
+        main_slug: 'civiele-constructies',
       })
     })
 
@@ -68,8 +68,8 @@ describe('SelectForm', () => {
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url,
         state: newStatus,
-        sub_slug: 'asbest-accu',
-        main_slug: 'afval',
+        sub_slug: 'afwatering-brug',
+        main_slug: 'civiele-constructies',
       })
     })
 
@@ -106,7 +106,7 @@ describe('SelectForm', () => {
 
       expect(props.onFetchDefaultTexts).toHaveBeenCalledWith({
         category_url: newCategory,
-        state: 'o',
+        state: 'ingepland',
         sub_slug: 'asbest-accu',
         main_slug: 'afval',
       })

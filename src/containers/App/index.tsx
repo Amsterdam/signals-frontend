@@ -4,6 +4,7 @@ import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMatomo } from '@datapunt/matomo-tracker-react'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
@@ -71,6 +72,10 @@ export const AppContainer = () => {
   const isFrontOffice = useIsFrontOffice()
   const headerIsTall = isFrontOffice && !getIsAuthenticated()
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
+
+  const { enableLinkTracking } = useMatomo()
+
+  enableLinkTracking()
 
   useEffect(() => {
     const { referrer } = location
