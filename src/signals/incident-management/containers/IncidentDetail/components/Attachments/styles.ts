@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import {
   themeSpacing,
   Heading,
@@ -7,6 +6,8 @@ import {
 } from '@amsterdam/asc-ui'
 import ErrorMessage from 'components/ErrorMessage'
 import LoadingIndicator from 'components/LoadingIndicator'
+import styled from 'styled-components'
+
 import AddNote from '../AddNote'
 import StyledUploadProgress from './UploadProgress'
 
@@ -19,7 +20,7 @@ export const Wrapper = styled.section`
 export const StyledButtonWrapper = styled.div`
   display: flex;
   margin-top: ${themeSpacing(2)};
-  gap: 8px;
+  gap: ${themeSpacing(2)};
 `
 
 export const Title = styled(Heading)`
@@ -31,7 +32,7 @@ export const StyledBox = styled.div`
   display: inline-block;
   margin-right: ${themeSpacing(2)};
   margin-bottom: ${themeSpacing(2)};
-  width: 180px;
+  width: ${themeSpacing(45)};
   height: 135px;
   border: 1px solid ${themeColor('tint', 'level3')} !important;
   cursor: pointer;
@@ -74,8 +75,8 @@ export const StyledGradient = styled.div`
 
 export const StyledReporter = styled.div`
   grid-area: tags;
-  padding: 6px 8px;
-  background-color: rgba(0, 0, 0, 0.7);
+  padding: ${themeSpacing(1.5, 2)};
+  background-color: ${themeColor('tint', 'level7')}b3;
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
   line-height: 14px;
@@ -90,7 +91,7 @@ export const StyledDetails = styled.div`
   overflow: hidden;
   color: ${themeColor('tint', 'level1')};
   font-size: 14px;
-  line-height: 20px;
+  line-height: ${themeSpacing(5)};
 `
 
 export const StyledDate = styled.div`
@@ -100,8 +101,8 @@ export const StyledDate = styled.div`
 `
 
 export const StyledError = styled(StyledDate)`
-  padding: 0 4px;
-  border-radius: 2px;
+  padding: 0 ${themeSpacing(1)};
+  border-radius: ${themeSpacing(0.5)};
   background-color: ${themeColor('error')};
 `
 

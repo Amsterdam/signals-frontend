@@ -1,144 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
 import type { FC } from 'react'
 import { useCallback, useEffect, useState, useRef } from 'react'
-import styled from 'styled-components'
 
-import { Button, Modal } from '@amsterdam/asc-ui'
 import { Close as CloseIcon } from '@amsterdam/asc-assets'
 import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+
 import type { Attachment } from '../../types'
-
-const StyledButton = styled(Button)`
-  background-color: #000;
-  min-width: 64px;
-
-  & svg {
-    // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
-      brightness(103%) contrast(103%);
-  }
-
-  &:hover {
-    background-color: rgb(0, 0, 0, 0.7);
-
-    & svg {
-      // Make the close icon white (https://codepen.io/sosuke/pen/Pjoqqp)
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(164deg)
-        brightness(103%) contrast(103%);
-    }
-  }
-`
-
-export const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
-const StyledModal = styled(Modal)`
-  max-height: 100vh;
-  height: 100vh;
-  max-width: 100vw;
-  width: 100vw;
-  background-color: transparent;
-`
-
-const ModalInner = styled.div`
-  height: 100vh;
-  overflow: hidden;
-  text-align: center;
-`
-
-const Header = styled.header`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-gap: 16px;
-  height: 64px;
-  background-color: rgb(0, 0, 0, 0.7);
-  color: #fff;
-`
-
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-  white-space: nowrap;
-`
-
-const Reporter = styled.div`
-  width: fit-content;
-  margin-top: 12px;
-  padding 0 8px;
-  background-color: white;
-  color: black;
-  font-size: 12px;
-  line-height: 20px;
-  text-transform: uppercase;
-  font-weight: bold;
-`
-
-const Employee = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 8px;
-  font-size: 16px;
-  line-height: 24px;
-`
-
-const Date = styled.div`
-  margin-bottom: 8px;
-  font-size: 16px;
-  line-height: 24px;
-`
-
-const Title = styled.div`
-  margin-top: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: bold;
-  text-align: center;
-  white-space: nowrap;
-`
-const CloseButton = styled(StyledButton)`
-  justify-self: end;
-`
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const PreviousButton = styled(StyledButton)`
-  position: absolute;
-  left: 0;
-  top: 50%;
-`
-
-const NextButton = styled(StyledButton)`
-  position: absolute;
-  right: 0;
-  top: 50%;
-`
-
-const Img = styled.img`
-  margin: 92px 0 20px;
-  max-width: 100%;
-  max-height: calc(100% - 112px);
-`
+import {
+  CloseButton,
+  Date,
+  Employee,
+  Header,
+  Img,
+  Info,
+  ModalInner,
+  NextButton,
+  PreviousButton,
+  Reporter,
+  StyledModal,
+  Title,
+  Wrapper,
+} from './styles'
 
 interface Props {
   href: string
