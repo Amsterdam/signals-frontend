@@ -5,9 +5,9 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import Map from 'components/Map'
 import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
-import useFetch from '../../../hooks/useFetch'
-import FilterCategoryPanel, { updateCategory } from './FilterCategoryPanel'
-import { get, useFetchResponse } from './mapTestUtils'
+import useFetch from '../../../../hooks/useFetch'
+import { get, useFetchResponse } from '../__test__/utils'
+import { FilterCategoryPanel, updateCategory } from './FilterCategoryPanel'
 
 jest.mock('hooks/useFetch')
 

@@ -64,7 +64,7 @@ export const updateCategory = (
   }
 }
 
-const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
+export const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
   passFilterCategories,
 }) => {
   const { get, data } = useFetch<Categories>()
@@ -135,5 +135,3 @@ const FilterCategoryPanel: FC<FilterCategoryPanelProps> = ({
     </StyledPanelContent>
   )
 }
-
-export default FilterCategoryPanel

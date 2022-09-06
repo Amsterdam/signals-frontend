@@ -11,7 +11,7 @@ import L from 'leaflet'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
 
 import type { Feature } from 'geojson'
-import type { Point, Properties } from './IncidentMap'
+import type { Point, Properties } from '../IncidentMap'
 
 /* istanbul ignore next */
 const clusterLayerOptions = {
@@ -24,7 +24,10 @@ interface IncidentLayerProps {
   incidents?: Feature<Point, Properties>[]
 }
 
-const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidents }) => {
+export const IncidentLayer: FC<IncidentLayerProps> = ({
+  passBbox,
+  incidents,
+}) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
@@ -69,5 +72,3 @@ const IncidentLayer: FC<IncidentLayerProps> = ({ passBbox, incidents }) => {
     </>
   )
 }
-
-export default IncidentLayer

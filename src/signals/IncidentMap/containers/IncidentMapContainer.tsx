@@ -6,9 +6,9 @@ import LoadingIndicator from 'components/LoadingIndicator'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
-const IncidentMap = lazy(() => import('./components/IncidentMap'))
+const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 
-const IncidentMapContainer = () => {
+export const IncidentMapContainer = () => {
   return (
     <Row>
       <Column span={12}>
@@ -19,5 +19,3 @@ const IncidentMapContainer = () => {
     </Row>
   )
 }
-
-export default IncidentMapContainer

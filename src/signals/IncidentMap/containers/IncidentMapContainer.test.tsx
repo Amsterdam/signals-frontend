@@ -3,7 +3,7 @@
 import { Suspense } from 'react'
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
-import IncidentMapContainer from './IncidentMapContainer'
+import { IncidentMapContainer } from './IncidentMapContainer'
 
 const withSuspense = () =>
   withAppContext(
