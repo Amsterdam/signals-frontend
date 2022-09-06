@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+// Copyright (C) 2022 Gemeente Amsterdam
+import type { FunctionComponent, ReactNode } from 'react'
 import styled from 'styled-components'
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'
-
 import Button from 'components/Button'
 
 const StyledButton = styled(Button)`
@@ -16,7 +15,17 @@ const Chevron = styled(ChevronLeft)`
   fill: ${themeColor('primary')};
 `
 
-const PreviousButton = ({ className, children, onClick }) => (
+interface PreviousButtonProps {
+  className?: string
+  children: ReactNode
+  onClick: () => void
+}
+
+const PreviousButton: FunctionComponent<PreviousButtonProps> = ({
+  className,
+  children,
+  onClick,
+}) => (
   <StyledButton
     className={className}
     data-testid="previousButton"
@@ -29,15 +38,4 @@ const PreviousButton = ({ className, children, onClick }) => (
     {children}
   </StyledButton>
 )
-
-PreviousButton.defaultProps = {
-  className: '',
-}
-
-PreviousButton.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-}
-
 export default PreviousButton

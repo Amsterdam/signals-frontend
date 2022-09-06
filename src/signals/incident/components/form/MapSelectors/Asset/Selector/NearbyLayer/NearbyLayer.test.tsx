@@ -1,60 +1,27 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
-import Leaflet from 'leaflet'
-import * as reactRedux from 'react-redux'
-
-import configuration from 'shared/services/configuration/configuration'
-import useFetch from 'hooks/useFetch'
-import geography from 'utils/__tests__/fixtures/geography_public.json'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-
 import Map from 'components/Map'
 import type { FeatureCollection } from 'geojson'
+import useFetch from 'hooks/useFetch'
+import Leaflet from 'leaflet'
+import * as reactRedux from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import {
+  get,
+  mockUseMapInstance,
+  useFetchResponse,
+} from 'signals/IncidentMap/components/mapTestUtils'
+import geography from 'utils/__tests__/fixtures/geography_public.json'
+
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import { WfsDataProvider } from '../WfsLayer/context'
 import NearbyLayer, { findAssetMatch, nearbyMarkerIcon } from './NearbyLayer'
 
-const east = 4.899032528058569
-const north = 52.36966337175116
-const south = 52.36714374096002
-const west = 4.8958566562555035
-
-const mockGetBounds = jest.fn(() => ({
-  getEast: () => east,
-  getNorth: () => north,
-  getSouth: () => south,
-  getWest: () => west,
-}))
-
-const mockUseMapInstance = {
-  addLayer: jest.fn(),
-  getBounds: mockGetBounds,
-  removeLayer: jest.fn(),
-  on: jest.fn(),
-  off: jest.fn(),
-  getZoom: jest.fn(),
-}
 const category = 'afval'
 const subcategory = 'huisvuil'
-const del = jest.fn()
-const get = jest.fn()
-const patch = jest.fn()
-const post = jest.fn()
-const put = jest.fn()
-
-const useFetchResponse = {
-  del,
-  get,
-  patch,
-  post,
-  put,
-  data: undefined,
-  isLoading: false,
-  error: false,
-  isSuccess: false,
-}
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,

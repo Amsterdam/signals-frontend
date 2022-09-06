@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, screen, act } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
@@ -26,6 +26,11 @@ jest.mock('shared/services/auth/auth', () => ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ...jest.requireActual('shared/services/auth/auth')!,
 }))
+
+const mockIsIncidentMap = false
+jest.mock('hooks/useIsIncidentMap', () => {
+  return jest.fn(() => mockIsIncidentMap)
+})
 
 jest.useFakeTimers()
 

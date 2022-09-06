@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useContext } from 'react'
 import styled from 'styled-components'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { MapPanelContext } from '@amsterdam/arm-core'
 import { Close } from '@amsterdam/asc-assets'
 
@@ -31,13 +31,20 @@ const ZoomMessageStyle = styled(MessageStyle)`
   color: black;
 `
 
-const CloseIcon = styled(Close)`
+const CloseButton = styled(Button)`
+  background-color: ${themeColor('primary')};
+  height: unset;
+  padding: 0;
   position: absolute;
+  right: ${themeSpacing(3)};
   top: ${themeSpacing(3)};
-  right: ${themeSpacing(4)};
+
+  & svg path {
+    fill: ${themeColor('tint', 'level1')};
+  }
 
   &:hover {
-    cursor: pointer;
+    background-color: unset;
   }
 `
 
@@ -82,7 +89,8 @@ export const ZoomMessage: FC<PropsWithChildren<ZoomMessageProps>> = ({
 
 interface MapMessageProps
   extends PropsWithChildren<Omit<HTMLAttributes<HTMLDivElement>, 'onClick'>> {
-  onClick: MouseEventHandler<SVGElement>
+  onClick: MouseEventHandler<HTMLAnchorElement> &
+    MouseEventHandler<HTMLButtonElement>
 }
 
 export const MapMessage: FC<MapMessageProps> = ({
@@ -92,6 +100,11 @@ export const MapMessage: FC<MapMessageProps> = ({
 }) => (
   <MessageOverlay {...props} data-testid="mapMessage" type="map">
     {children}
-    <CloseIcon onClick={onClick} width={22} fill="white" role="button" />
+    <CloseButton
+      onClick={onClick}
+      icon={<Close />}
+      variant="blank"
+      aria-label="Melding sluiten"
+    />
   </MessageOverlay>
 )

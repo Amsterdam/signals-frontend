@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 
@@ -20,8 +20,7 @@ describe('<TextAreaInput />', () => {
       rows: 2,
     }
 
-    const TextAreaInputRender = TextAreaInput(props)
-    wrapper = shallow(<TextAreaInputRender {...props} />)
+    wrapper = shallow(<TextAreaInput {...props} />)
   })
 
   afterEach(() => {
@@ -29,16 +28,14 @@ describe('<TextAreaInput />', () => {
   })
 
   it('should render correctly', () => {
-    const TextAreaInputRender = TextAreaInput(props)
-    wrapper = shallow(<TextAreaInputRender {...props} />)
+    wrapper = shallow(<TextAreaInput {...props} />)
 
     expect(wrapper).toMatchSnapshot()
   })
 
   it('should render character counter correctly', () => {
     props.maxLength = 300
-    const TextAreaInputRender = TextAreaInput(props)
-    wrapper = shallow(<TextAreaInputRender {...props} />)
+    wrapper = shallow(<TextAreaInput {...props} />)
 
     expect(wrapper).toMatchSnapshot()
   })
@@ -46,8 +43,7 @@ describe('<TextAreaInput />', () => {
   it('should render character counter with value correctly', () => {
     props.maxLength = 300
     props.value = 'test'
-    const TextAreaInputRender = TextAreaInput(props)
-    wrapper = shallow(<TextAreaInputRender {...props} />)
+    wrapper = shallow(<TextAreaInput {...props} />)
 
     expect(wrapper).toMatchSnapshot()
   })

@@ -9,7 +9,7 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
-import FooterContainer from 'components/FooterContainer'
+import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import ThemeProvider from 'components/ThemeProvider'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
@@ -30,6 +30,7 @@ import { makeSelectLoading, makeSelectSources } from './selectors'
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }
 }>`
+  position: relative;
   background-color: #ffffff;
   flex: 1 0 auto;
   margin: 0 auto;
@@ -38,14 +39,6 @@ const ContentContainer = styled.div<{
   width: 100%;
   z-index: 0;
   padding-top: ${({ padding }) => padding.top}px;
-`
-
-const FooterContent = styled.div`
-  background-color: #ffffff;
-  margin: 0 auto;
-  max-width: 1400px;
-  width: 100%;
-  padding-top: 0;
 `
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -151,9 +144,7 @@ export const AppContainer = () => {
               </Switch>
             </Suspense>
           </ContentContainer>
-          <FooterContent>
-            {!getIsAuthenticated() && <FooterContainer />}
-          </FooterContent>
+          <Footer />
         </Fragment>
       </AppContext.Provider>
     </ThemeProvider>
