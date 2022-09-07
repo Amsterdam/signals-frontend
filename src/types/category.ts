@@ -33,6 +33,6 @@ export interface Category {
   departments: CategoryDepartment[]
   note: string | null
   is_public_accessible?: boolean
-  public_name?: string
+  public_name?: string | null
   _display?: string
 }
