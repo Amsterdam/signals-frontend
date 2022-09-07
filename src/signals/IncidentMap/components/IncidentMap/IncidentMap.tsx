@@ -12,11 +12,11 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Point, Properties } from '../../types'
+import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
-import type { Filter } from '../FilterPanel'
 import { IncidentLayer } from '../IncidentLayer'
 import { Wrapper, Container, StyledMap } from './styled'
+
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<string>('')

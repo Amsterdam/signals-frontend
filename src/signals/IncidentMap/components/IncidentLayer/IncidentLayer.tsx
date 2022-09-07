@@ -12,7 +12,7 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Point, Properties } from '../IncidentMap'
+import type { Point, Properties } from '../../types'
 
 /* istanbul ignore next */
 const clusterLayerOptions = {

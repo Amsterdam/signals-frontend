@@ -1,4 +1,4 @@
-import type { Filter } from '../FilterPanel'
+import type { Filter } from '../../types'
 
 export const updateFilterCategory = (
   categoryName: string,
