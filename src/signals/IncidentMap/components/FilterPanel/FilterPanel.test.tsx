@@ -12,10 +12,15 @@ import {
   fetchCategoriesResponse,
   mockFilters,
 } from '../__test__'
+import { updateFilterCategory } from '../utils'
 import type { Props } from './FilterPanel'
 import { FilterPanel } from './FilterPanel'
 
 jest.mock('hooks/useFetch')
+
+jest.mock('../utils', () => ({
+  updateFilterCategory: jest.fn(),
+}))
 
 const mockSetFilters = jest.fn()
 const mockSetMapFilter = jest.fn()
@@ -94,6 +99,18 @@ describe('FilterPanel', () => {
         name: 'Open filter panel',
       })
     ).toBeInTheDocument()
+  })
+
+  it('should unset a filter when clicked', () => {
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+    renderFilterPanel({ filters: mockFilters })
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Openbaar groen en water',
+    })
+    userEvent.click(checkbox)
+
+    expect(updateFilterCategory).toHaveBeenCalledTimes(1)
   })
 
   it('should not render anything when filters are empty', () => {
