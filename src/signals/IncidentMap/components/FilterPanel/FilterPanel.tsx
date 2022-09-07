@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 
 import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
-import { Checkbox, Paragraph } from '@amsterdam/asc-ui'
+import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -25,21 +25,15 @@ export type Filter = {
   slug: string
 }
 
-type Props = {
-  setFilters: (categories: Filter[]) => void
+export type Props = {
   filters: Filter[]
-  isOpen: boolean
-  setShowPanel: React.Dispatch<React.SetStateAction<boolean>>
+  setFilters: (categories: Filter[]) => void
   setMapMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const FilterPanel = ({
-  filters,
-  setFilters,
-  isOpen,
-  setShowPanel,
-  setMapMessage,
-}: Props) => {
+export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true)
+
   const { get, data, error } = useFetch<Categories>()
 
   const toggleFilter = (categoryName: string) => {
@@ -76,6 +70,10 @@ export const FilterPanel = ({
     }
   }, [error, setMapMessage])
 
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'))
+  }, [isOpen])
+
   if (filters.length === 0) {
     return null
   }
@@ -89,37 +87,33 @@ export const FilterPanel = ({
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </Paragraph>
-          {
-            <>
-              <Paragraph>
-                <strong>Filter op onderwerp</strong>
-              </Paragraph>
-              <Wrapper>
-                {filters.map(({ name, filterActive, _display }) => {
-                  return (
-                    <CategoryFilter key={name}>
-                      <StyledLabel htmlFor={name} label={_display || name}>
-                        <Checkbox
-                          id={name}
-                          checked={filterActive}
-                          onChange={() => toggleFilter(name)}
-                        />
-                      </StyledLabel>
-                    </CategoryFilter>
-                  )
-                })}
-              </Wrapper>
-            </>
-          }
+
+          <Heading as="h4">Filter op onderwerp</Heading>
+          <Wrapper>
+            {filters.map(({ name, filterActive, _display }) => {
+              return (
+                <CategoryFilter key={name}>
+                  <StyledLabel htmlFor={name} label={_display || name}>
+                    <Checkbox
+                      id={name}
+                      checked={filterActive}
+                      onChange={() => toggleFilter(name)}
+                    />
+                  </StyledLabel>
+                </CategoryFilter>
+              )
+            })}
+          </Wrapper>
         </StyledPanelContent>
       )}
       <StyledButton
         className={isOpen ? '' : 'hiddenPanel'}
-        onClick={() => setShowPanel(!isOpen)}
+        onClick={() => setIsOpen(!isOpen)}
         size={60}
         variant="blank"
         iconSize={24}
         icon={isOpen ? <ChevronLeft /> : <ChevronRight />}
+        aria-label={isOpen ? 'Sluit filter panel' : 'Open filter panel'}
       />
     </Fragment>
   )

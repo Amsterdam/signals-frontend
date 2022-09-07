@@ -35,7 +35,7 @@ export const IncidentMap = () => {
   const [mapMessage, setMapMessage] = useState<string>('')
   const [filters, setFilters] = useState<Filter[]>([])
   const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
-  const [showPanel, setShowPanel] = useState<boolean>(true)
+
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
@@ -65,10 +65,6 @@ export const IncidentMap = () => {
     }
   }, [error])
 
-  useEffect(() => {
-    window.dispatchEvent(new Event('resize'))
-  }, [showPanel])
-
   return (
     <Wrapper>
       <Container>
@@ -83,10 +79,8 @@ export const IncidentMap = () => {
           )}
 
           <FilterPanel
-            isOpen={showPanel}
             filters={filters}
             setFilters={setFilters}
-            setShowPanel={setShowPanel}
             setMapMessage={setMapMessage}
           />
 
