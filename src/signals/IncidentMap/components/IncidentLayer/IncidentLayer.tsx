@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { Feature } from 'geojson'
 import L from 'leaflet'
@@ -35,10 +35,6 @@ export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   }, [bbox, passBbox])
 
   useEffect(() => {
-    if (!layerInstance) return
-  }, [layerInstance])
-
-  useEffect(() => {
     if (!incidents || !layerInstance) return
 
     /* istanbul ignore next */
@@ -61,11 +57,9 @@ export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   }, [layerInstance, incidents])
 
   return (
-    <Fragment>
-      <MarkerCluster
-        clusterOptions={clusterLayerOptions}
-        setInstance={setLayerInstance}
-      />
-    </Fragment>
+    <MarkerCluster
+      clusterOptions={clusterLayerOptions}
+      setInstance={setLayerInstance}
+    />
   )
 }
