@@ -16,9 +16,11 @@ export const StyledPanelContent = styled(PanelContent)`
   padding: ${themeSpacing(10)} ${themeSpacing(5)};
   height: 100%;
   flex: 0 0 33%;
+  overflow-y: auto;
   box-shadow: ${themeSpacing(1)} 0 ${themeSpacing(1)} 0 rgba(0, 0, 0, 0.1);
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     box-shadow: 0 -${themeSpacing(1)} ${themeSpacing(1)} rgba(0, 0, 0, 0.1);
+    flex: 0 0 50%;
   }
 `
 
