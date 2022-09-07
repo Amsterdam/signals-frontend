@@ -10,8 +10,7 @@ export const updateFilterCategories = (
         ...category,
         filterActive: !category.filterActive,
       }
-    } else {
-      return category
     }
+    return category
   })
 }

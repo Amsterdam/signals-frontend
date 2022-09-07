@@ -50,7 +50,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
 
   useEffect(() => {
     if (data?.results) {
-      const filters = data.results
+      const filters: Filter[] = data.results
         .filter(({ is_public_accessible }) => is_public_accessible)
         .map((category) => ({
           name: category.name,
