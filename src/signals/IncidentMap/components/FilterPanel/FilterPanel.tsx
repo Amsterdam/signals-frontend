@@ -9,7 +9,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
-import { updateFilterCategories } from '../utils'
+import { updateFilterCategory } from '../utils'
 import {
   StyledPanelContent,
   StyledLabel,
@@ -37,7 +37,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   const { get, data, error } = useFetch<Categories>()
 
   const toggleFilter = (categoryName: string) => {
-    const updated = updateFilterCategories(categoryName, filters)
+    const updated = updateFilterCategory(categoryName, filters)
 
     setFilters(updated)
   }

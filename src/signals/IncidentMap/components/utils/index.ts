@@ -1,1 +1,1 @@
-export { updateFilterCategories } from './update-filter-categories'
+export { updateFilterCategory } from './update-filter-category'
