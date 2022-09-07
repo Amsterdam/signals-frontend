@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
-import type { LatLngTuple } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -13,23 +12,11 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
+import type { Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
 import type { Filter } from '../FilterPanel'
 import { IncidentLayer } from '../IncidentLayer'
 import { Wrapper, Container, StyledMap } from './styled'
-
-export type Point = {
-  type: 'Point'
-  coordinates: LatLngTuple
-}
-
-export type Properties = {
-  category: {
-    name: string
-  }
-  created_at: string
-}
-
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<string>('')
@@ -53,7 +40,7 @@ export const IncidentMap = () => {
      * TODO: Filter data based on selected filters
      * and pass them to the incident layer
      */
-  }, [data])
+  }, [data, filters])
 
   useEffect(() => {
     if (error) {

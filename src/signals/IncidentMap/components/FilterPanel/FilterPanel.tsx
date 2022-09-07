@@ -9,6 +9,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
+import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
 import {
   StyledPanelContent,
@@ -17,14 +18,6 @@ import {
   Wrapper,
   StyledButton,
 } from './styled'
-
-export type Filter = {
-  name: string
-  _display?: string
-  filterActive: boolean
-  slug: string
-}
-
 export type Props = {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
