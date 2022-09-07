@@ -34,7 +34,6 @@ export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<string>('')
   const [filters, setFilters] = useState<Filter[]>([])
-  const [showIncidentLayer, setShowIncidentLayer] = useState<boolean>(true)
 
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
@@ -47,9 +46,7 @@ export const IncidentMap = () => {
     })
 
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-
-    setShowIncidentLayer(true)
-  }, [get, bbox, setShowIncidentLayer])
+  }, [get, bbox])
 
   useEffect(() => {
     /**
@@ -74,9 +71,7 @@ export const IncidentMap = () => {
           fullScreen
           mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
         >
-          {showIncidentLayer && (
-            <IncidentLayer passBbox={setBbox} incidents={data?.features} />
-          )}
+          <IncidentLayer passBbox={setBbox} incidents={data?.features} />
 
           <FilterPanel
             filters={filters}
