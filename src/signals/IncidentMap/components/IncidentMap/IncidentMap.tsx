@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-
 import { useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
-import type { FeatureCollection } from 'geojson'
+import type { Feature, FeatureCollection } from 'geojson'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -15,12 +14,15 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
 import { IncidentLayer } from '../IncidentLayer'
+import { getFilteredIncidents } from '../utils'
 import { Wrapper, Container, StyledMap } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<string>('')
   const [filters, setFilters] = useState<Filter[]>([])
+  const [filteredIncidents, setfilteredIncidents] =
+    useState<Feature<Point, Properties>[]>()
 
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
 
@@ -36,10 +38,11 @@ export const IncidentMap = () => {
   }, [get, bbox])
 
   useEffect(() => {
-    /**
-     * TODO: Filter data based on selected filters
-     * and pass them to the incident layer
-     */
+    if (!data) {
+      return
+    }
+    const filteredIncidents = getFilteredIncidents(filters, data.features)
+    setfilteredIncidents(filteredIncidents)
   }, [data, filters])
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export const IncidentMap = () => {
           fullScreen
           mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
         >
-          <IncidentLayer passBbox={setBbox} incidents={data?.features} />
+          <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
 
           <FilterPanel
             filters={filters}
