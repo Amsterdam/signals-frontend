@@ -14,15 +14,13 @@ export function setUpSchema(controls: Controls) {
             let validationField: AnyObject = yup.string()
             if (
               ['locatie', 'location', 'priority', 'type'].includes(key) ||
-              (key.startsWith('extra') &&
+              ((key.startsWith('extra') || key === 'source') &&
                 Object.keys(control.meta?.values || {})?.length > 0) ||
               (key.startsWith('extra') && control.meta?.endpoint)
             ) {
               validationField = yup.object().shape({})
             }
-            if (key === 'source') {
-              validationField = yup.string()
-            }
+
             /**
               Chain multiple validators per field. For max, add the
               validator value as message as the second argument.
