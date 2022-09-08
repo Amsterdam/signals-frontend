@@ -15,7 +15,7 @@ import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
-import { Wrapper, Container, StyledMap } from './styled'
+import { Wrapper, StyledMap } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -57,32 +57,36 @@ export const IncidentMap = () => {
 
   return (
     <Wrapper>
-      <Container>
-        <StyledMap
-          data-testid="incidentMap"
-          hasZoomControls
-          fullScreen
-          mapOptions={{ ...MAP_OPTIONS, zoom: 9, attributionControl: false }}
-        >
-          <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
+      <StyledMap
+        data-testid="incidentMap"
+        fullScreen={false}
+        hasZoomControls
+        mapOptions={{
+          ...MAP_OPTIONS,
+          dragging: true,
+          scrollWheelZoom: true,
+          zoom: 9,
+          attributionControl: false,
+        }}
+      >
+        <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
 
-          <FilterPanel
-            filters={filters}
-            setFilters={setFilters}
-            setMapMessage={setMapMessage}
+        <FilterPanel
+          filters={filters}
+          setFilters={setFilters}
+          setMapMessage={setMapMessage}
+        />
+
+        {mapMessage && showMessage && (
+          <ViewerContainer
+            topLeft={
+              <MapMessage onClick={() => setShowMessage(false)}>
+                {mapMessage}
+              </MapMessage>
+            }
           />
-
-          {mapMessage && showMessage && (
-            <ViewerContainer
-              topLeft={
-                <MapMessage onClick={() => setShowMessage(false)}>
-                  {mapMessage}
-                </MapMessage>
-              }
-            />
-          )}
-        </StyledMap>
-      </Container>
+        )}
+      </StyledMap>
     </Wrapper>
   )
 }
