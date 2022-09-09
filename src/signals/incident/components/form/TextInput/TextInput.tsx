@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import Input from 'components/Input'
 
+import Input from 'components/Input'
 import type { FormInputProps } from 'types/reactive-form'
+
 import FormField from '../FormField'
 
 export type TextInputProps = FormInputProps

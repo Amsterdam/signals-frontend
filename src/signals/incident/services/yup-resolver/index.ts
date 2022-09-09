@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import type { AnyObject } from 'yup/es/types'

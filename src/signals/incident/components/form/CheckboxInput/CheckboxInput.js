@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import map from 'lodash/map'
-import isObject from 'lodash/isObject'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Label } from '@amsterdam/asc-ui'
-
 import Checkbox from 'components/Checkbox'
-
+import isObject from 'lodash/isObject'
+import map from 'lodash/map'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import FormField from '../FormField'
 
 function updateIncidentCheckboxMulti(

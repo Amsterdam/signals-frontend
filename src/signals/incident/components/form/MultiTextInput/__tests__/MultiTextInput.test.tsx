@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import type { FormMeta } from 'types/reactive-form'
+// Copyright (C) 2022 Gemeente Amsterdam
 
-import { withAppContext } from 'test/utils'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { MultiTextInputProps } from '../MultiTextInput'
+import { withAppContext } from 'test/utils'
+import type { FormMeta } from 'types/reactive-form'
+
 import MultiTextInput from '..'
+import type { MultiTextInputProps } from '../MultiTextInput'
 
 describe('Form component <MultiTextInput />', () => {
   const meta: FormMeta = {

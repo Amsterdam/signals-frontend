@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import configuration from 'shared/services/configuration/configuration'
 import * as auth from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import AppContext from '../../../../containers/App/context'
 import IncidentWizard from '.'
+import AppContext from '../../../../containers/App/context'
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -56,6 +56,7 @@ describe('<IncidentWizard />', () => {
       ...props,
       wizardDefinition: {
         beschrijf: {
+          countAsStep: true,
           form: {
             controls: {},
           },
