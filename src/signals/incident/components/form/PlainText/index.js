@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-import get from 'lodash/get'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-
+import Markdown from 'components/Markdown'
+import get from 'lodash/get'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
-import Markdown from 'components/Markdown'
+import styled, { css } from 'styled-components'
+
+import { makeSelectIncidentContainer } from '../../../containers/IncidentContainer/selectors'
 
 const injectParent = (value, parent) =>
   mapDynamicFields(value, {
@@ -104,13 +106,16 @@ const Wrapper = styled.div`
 `
 
 const PlainText = ({ className, meta, parent }) => {
+  const { mapActive } = useSelector(makeSelectIncidentContainer)
   const valueAuthenticated = getIsAuthenticated() && meta?.valueAuthenticated
   const value = !valueAuthenticated && meta?.value
   return meta?.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plainText">
       {meta.label && (
         <Label>
-          <Markdown>{injectParent(meta.label, parent)}</Markdown>
+          <Markdown hideTabindexLink={mapActive}>
+            {injectParent(meta.label, parent)}
+          </Markdown>
         </Label>
       )}
       {valueAuthenticated && (
