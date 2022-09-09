@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import styled from 'styled-components'
 
 import type { FocusEvent, FunctionComponent } from 'react'
@@ -15,7 +15,6 @@ const ThinLabel = styled.span`
 `
 
 const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
-  touched,
   hasError,
   getError,
   meta,
@@ -54,7 +53,6 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
     <FormField
       meta={metaData}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >

@@ -107,7 +107,6 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
     (event) => {
       const { name, value: targetValue } = event.target
       const cloned = new Date(datetime)
-
       switch (name) {
         case 'day': {
           const dateStr = `${targetValue} ${cloned.getFullYear()}`

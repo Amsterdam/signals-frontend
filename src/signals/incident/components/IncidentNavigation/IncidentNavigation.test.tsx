@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 import { Wizard, Steps, Step } from 'react-albus'
-
 import * as auth from 'shared/services/auth/auth'
-import { withAppContext, history } from 'test/utils'
 import wizardDefinition from 'signals/incident/definitions/wizard'
+import { withAppContext, history } from 'test/utils'
 
 import IncidentNavigation from '.'
 
@@ -28,6 +27,15 @@ const props = {
     handleSubmit,
   },
 }
+
+const mockReset = jest.fn()
+
+jest.mock('react-hook-form', () => ({
+  ...jest.requireActual('react-hook-form'),
+  useFormContext: () => ({
+    reset: mockReset,
+  }),
+}))
 
 describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
@@ -108,7 +116,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
       withAppContext(
         <Wizard history={history}>
           <Steps>
-            <Step id={steps[0]}>
+            <Step id={steps[1]}>
               <IncidentNavigation {...props} />
             </Step>
           </Steps>
@@ -123,5 +131,11 @@ describe('signals/incident/components/IncidentNavigation', () => {
     })
 
     expect(handleSubmit).toHaveBeenCalled()
+
+    act(() => {
+      fireEvent.click(getByTestId('previousButton'))
+    })
+
+    expect(mockReset).toHaveBeenCalled()
   })
 })

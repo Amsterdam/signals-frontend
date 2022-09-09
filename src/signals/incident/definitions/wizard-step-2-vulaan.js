@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Validators } from 'react-reactive-form'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -25,7 +24,11 @@ import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
-const mapValidatorToFn = (validator) => Validators?.[validator] || validator
+/**
+ * Options.validators contains only strings, which are mapped to some yup method.
+ */
+// const mapValidatorToFn = (validator) => Validators?.[validator] || validator
+const mapValidatorToFn = (validator) => validator
 
 const expandValidatorFn = ([validator, ...args]) =>
   mapValidatorToFn(validator)(...args)

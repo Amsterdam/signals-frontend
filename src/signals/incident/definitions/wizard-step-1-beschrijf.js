@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import some from 'lodash/some'
 import memoize from 'lodash/memoize'
-import { Validators } from 'react-reactive-form'
 import {
   priorityList,
   typesList,
@@ -42,6 +41,7 @@ const getControls = memoize(
   (sources) => ({
     controls: {
       error: {
+        meta: {},
         render: FormComponents.GlobalError,
       },
       source: {
@@ -53,7 +53,7 @@ const getControls = memoize(
           value: configuration.featureFlags.appMode ? 'app' : 'online',
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         render: renderSources(),
       },
@@ -67,7 +67,7 @@ const getControls = memoize(
           maxLength: 1000,
         },
         options: {
-          validators: [Validators.required, Validators.maxLength(1000)],
+          validators: ['required', '1000'],
         },
         render: FormComponents.DescriptionInputRenderer,
       },
@@ -77,7 +77,7 @@ const getControls = memoize(
           path: 'subcategory',
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         render: FormComponents.CategorySelectRenderer,
       },
@@ -88,7 +88,7 @@ const getControls = memoize(
           values: priorityValuesList,
         },
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
         authenticated: true,
         render: FormComponents.RadioInputGroup,
@@ -102,7 +102,7 @@ const getControls = memoize(
         authenticated: true,
         render: FormComponents.RadioInputGroup,
         options: {
-          validators: [Validators.required],
+          validators: ['required'],
         },
       },
       images_previews: {

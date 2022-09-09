@@ -2,20 +2,19 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FormEvent } from 'react'
 import { useContext } from 'react'
-import styled from 'styled-components'
+
 import { Row, Column } from '@amsterdam/asc-ui'
-
-import { coordinatesToFeature } from 'shared/services/map-location'
-
-import MapContext from 'containers/MapContext'
-
-import { useForm, Controller } from 'react-hook-form'
 import FormFooter from 'components/FormFooter'
+import MapContext from 'containers/MapContext'
+import { useForm, Controller } from 'react-hook-form'
+import { coordinatesToFeature } from 'shared/services/map-location'
 import MapInput from 'signals/incident-management/components/MapInput'
 import type { Context as IncidentDetailContextType } from 'signals/incident-management/containers/IncidentDetail/types'
-import IncidentDetailContext from '../../context'
-import { PATCH_TYPE_LOCATION } from '../../constants'
+import styled from 'styled-components'
+
 import type { Incident } from '../../../../../../types/incident'
+import { PATCH_TYPE_LOCATION } from '../../constants'
+import IncidentDetailContext from '../../context'
 
 const StyledColumn = styled(Column)`
   display: block;

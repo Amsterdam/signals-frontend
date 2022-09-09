@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import Input from 'components/Input'
 
+import Input from 'components/Input'
 import type { FormInputProps } from 'types/reactive-form'
+
 import FormField from '../FormField'
 
 export type TextInputProps = FormInputProps
 
 const TextInput: FunctionComponent<TextInputProps> = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -21,7 +21,6 @@ const TextInput: FunctionComponent<TextInputProps> = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -33,12 +32,16 @@ const TextInput: FunctionComponent<TextInputProps> = ({
         placeholder={meta.placeholder}
         {...handler()}
         onBlur={(event) => {
-          meta.name &&
-            parent.meta.updateIncident({
-              [meta.name]: meta.autoRemove
-                ? event.target.value.replace(meta.autoRemove, '')
-                : event.target.value,
-            })
+          if (!meta.name) {
+            return
+          }
+          const inputValue = {
+            [meta.name]: meta.autoRemove
+              ? event.target.value.replace(meta.autoRemove, '')
+              : event.target.value,
+          }
+          handler()?.onBlur(event)
+          parent.meta.updateIncident(inputValue)
         }}
       />
     </FormField>

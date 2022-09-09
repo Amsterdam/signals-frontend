@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { Validators } from 'react-reactive-form'
-
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
-import { validatePhoneNumber } from '../services/custom-validators'
-import IncidentNavigation from '../components/IncidentNavigation'
+
 import FormComponents from '../components/form'
+import IncidentNavigation from '../components/IncidentNavigation'
+import { validatePhoneNumber } from '../services/custom-validators/custom-validators'
 
 export default {
   label: 'Contactgegevens',
@@ -32,7 +31,7 @@ export default {
         },
         render: FormComponents.WithHeading,
         options: {
-          validators: [Validators.maxLength(17), validatePhoneNumber],
+          validators: [validatePhoneNumber, '17'],
         },
       },
       email: {
@@ -49,7 +48,7 @@ export default {
         },
         render: FormComponents.WithHeading,
         options: {
-          validators: [Validators.email, Validators.maxLength(254)],
+          validators: ['email', '254'],
         },
       },
       privacy_text: {

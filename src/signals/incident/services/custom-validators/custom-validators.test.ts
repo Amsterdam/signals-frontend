@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { AbstractControl } from 'react-reactive-form'
-import {
-  validatePhoneNumber,
-  createRequired,
-  validateObjectLocation,
-  nullOrNumber,
-} from '.'
+import { validatePhoneNumber, validateObjectLocation, nullOrNumber } from '.'
 
 describe('The custom validators service', () => {
   describe('validatePhoneNumber', () => {
@@ -51,34 +46,6 @@ describe('The custom validators service', () => {
 
     it('with empty value', () => {
       expect(validatePhoneNumber()).toEqual(null)
-    })
-  })
-
-  describe('createRequired', () => {
-    const error = 'Veplicht'
-
-    it('returns error if value is incorrect', () => {
-      let input = {
-        value: null,
-      } as AbstractControl
-
-      expect(createRequired(error)(input)).toEqual({ required: error })
-
-      input = {} as AbstractControl
-      expect(createRequired(error)(input)).toEqual({ required: error })
-
-      input = {
-        value: '',
-      } as AbstractControl
-      expect(createRequired(error)(input)).toEqual({ required: error })
-    })
-
-    it('returns null if value is correct', () => {
-      const input = {
-        value: 'valid',
-      } as AbstractControl
-
-      expect(createRequired(error)(input)).toEqual(null)
     })
   })
 
