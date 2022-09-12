@@ -21,7 +21,7 @@ export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
   const [mapMessage, setMapMessage] = useState<string>('')
   const [filters, setFilters] = useState<Filter[]>([])
-  const [filteredIncidents, setfilteredIncidents] =
+  const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
 
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
@@ -42,7 +42,7 @@ export const IncidentMap = () => {
       return
     }
     const filteredIncidents = getFilteredIncidents(filters, data.features)
-    setfilteredIncidents(filteredIncidents)
+    setFilteredIncidents(filteredIncidents)
   }, [data, filters])
 
   useEffect(() => {
