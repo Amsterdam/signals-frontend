@@ -61,6 +61,7 @@ RUN yarn add @exodus/schemasafe lodash
 
 COPY --from=base /app/build/. /usr/share/nginx/html/
 
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/
 
 COPY start.sh /usr/local/bin/start.sh
@@ -77,4 +78,14 @@ COPY internals/scripts/helpers/config.js /internals/scripts/helpers/config.js
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
   && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Add non-privileged user
+RUN adduser -D -u 1001 appuser
+
+# Make sure appuser can change files that change in runtime
+RUN touch /run/nginx.pid && \
+    chown -R appuser \
+    /usr/share/nginx/html/index.html \
+    /usr/share/nginx/html/manifest.json
+
 CMD ["/usr/local/bin/start.sh"]
+EXPOSE 8080
