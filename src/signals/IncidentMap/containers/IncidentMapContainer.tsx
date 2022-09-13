@@ -2,8 +2,6 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { lazy, Suspense } from 'react'
 
-import { Row, Column } from '@amsterdam/asc-ui'
-
 import LoadingIndicator from 'components/LoadingIndicator'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
@@ -12,12 +10,8 @@ const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 
 export const IncidentMapContainer = () => {
   return (
-    <Row>
-      <Column span={12}>
-        <Suspense fallback={<LoadingIndicator />}>
-          <IncidentMap />
-        </Suspense>
-      </Column>
-    </Row>
+    <Suspense fallback={<LoadingIndicator />}>
+      <IncidentMap />
+    </Suspense>
   )
 }
