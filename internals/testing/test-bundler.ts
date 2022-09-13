@@ -4,9 +4,8 @@ import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
 import crypto from 'crypto'
 
-import L from 'leaflet'
-
 import fetchMock from 'jest-fetch-mock'
+import L from 'leaflet'
 
 import { baseConfig } from '../scripts/helpers/config'
 

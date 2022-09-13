@@ -2,15 +2,16 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 // @ts-check
 const path = require('path')
-const webpack = require('webpack')
-const pkgDir = require('pkg-dir')
+
+const CopyPlugin = require('copy-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const isArray = require('lodash/isArray')
+const mergeWith = require('lodash/mergeWith')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const pkgDir = require('pkg-dir')
+const webpack = require('webpack')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const CopyPlugin = require('copy-webpack-plugin')
-const mergeWith = require('lodash/mergeWith')
-const isArray = require('lodash/isArray')
 
 const devMode = process.env.NODE_ENV !== 'production'
 const __rootdir = pkgDir.sync()
