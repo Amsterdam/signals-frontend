@@ -19,14 +19,8 @@ export const Wrapper = styled.div`
   margin-right: auto;
   box-sizing: border-box;
   display: flex;
-`
-
-export const Container = styled.div`
-  position: relative;
-  display: flex;
   flex-direction: row-reverse;
-  width: 100%;
-  height: 100%;
+
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     flex-direction: column;
   }
