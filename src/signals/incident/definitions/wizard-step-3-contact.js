@@ -41,7 +41,7 @@ export default {
         },
         render: FormComponents.TextInput,
         options: {
-          validators: [validatePhoneNumber, '17'],
+          validators: [validatePhoneNumber, ['maxLength', 17]],
         },
       },
       email: {
@@ -55,7 +55,7 @@ export default {
         },
         render: FormComponents.TextInput,
         options: {
-          validators: ['email', '254'],
+          validators: ['email', ['maxLength', 100]],
         },
       },
       privacy_text: {
