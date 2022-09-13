@@ -31,7 +31,7 @@ export default {
       phone: {
         meta: {
           // https://bytes.grubhub.com/disabling-safari-autofill-for-a-single-line-address-input-b83137b5b1c7
-          autoComplete: 'search_tel',
+          autoComplete: 'tel',
           autoRemove: /[^\d ()+-]/g,
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
@@ -46,7 +46,7 @@ export default {
       },
       email: {
         meta: {
-          autoComplete: 'search_email',
+          autoComplete: 'email',
           autoRemove: /[^\w!#$%&'*+./;=?@^`{|}~-]/g,
           label: 'Wat is uw e-mailadres?',
           path: 'reporter.email',
