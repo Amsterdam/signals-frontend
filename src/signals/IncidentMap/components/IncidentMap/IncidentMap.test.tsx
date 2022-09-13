@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
@@ -40,7 +41,6 @@ describe('IncidentMap', () => {
   it('shows a message when the API returns an error', () => {
     jest.mocked(useFetch).mockImplementation(() => ({
       ...useFetchResponse,
-      data: undefined,
       error: new Error(),
     }))
 
@@ -49,5 +49,27 @@ describe('IncidentMap', () => {
     expect(
       screen.getByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
+  })
+
+  it('should close the message when close button is clicked', () => {
+    jest.mocked(useFetch).mockImplementationOnce(() => ({
+      ...useFetchResponse,
+      error: new Error(),
+    }))
+
+    render(withAppContext(<IncidentMap />))
+    expect(
+      screen.queryByText('Er konden geen meldingen worden opgehaald.')
+    ).toBeInTheDocument()
+
+    const closeButton = screen.getAllByRole('button')[0]
+
+    expect(closeButton).toBeInTheDocument()
+
+    userEvent.click(closeButton)
+
+    expect(
+      screen.queryByText('Er konden geen meldingen worden opgehaald.')
+    ).not.toBeInTheDocument()
   })
 })

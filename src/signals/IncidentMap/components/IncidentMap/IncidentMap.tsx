@@ -18,39 +18,42 @@ import { getFilteredIncidents } from '../utils'
 import { Wrapper, Container, StyledMap } from './styled'
 
 export const IncidentMap = () => {
-  const [bbox, setBbox] = useState<Bbox | undefined>(undefined)
+  const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<string>('')
+  const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
 
-  const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
+  const { get, data, error, isSuccess } =
+    useFetch<FeatureCollection<Point, Properties>>()
 
   useEffect(() => {
-    if (!bbox) return
+    if (bbox) {
+      const { west, south, east, north } = bbox
+      const searchParams = new URLSearchParams({
+        bbox: `${west},${south},${east},${north}`,
+      })
 
-    const { west, south, east, north } = bbox
-    const searchParams = new URLSearchParams({
-      bbox: `${west},${south},${east},${north}`,
-    })
-
-    get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
+      get(
+        `${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`
+      )
+    }
   }, [get, bbox])
 
   useEffect(() => {
-    if (!data) {
-      return
+    if (data) {
+      const filteredIncidents = getFilteredIncidents(filters, data.features)
+      setFilteredIncidents(filteredIncidents)
     }
-    const filteredIncidents = getFilteredIncidents(filters, data.features)
-    setFilteredIncidents(filteredIncidents)
   }, [data, filters])
 
   useEffect(() => {
     if (error) {
       setMapMessage('Er konden geen meldingen worden opgehaald.')
-      return
+      setShowMessage(true)
     }
-  }, [error])
+  }, [error, isSuccess])
 
   return (
     <Wrapper>
@@ -69,10 +72,10 @@ export const IncidentMap = () => {
             setMapMessage={setMapMessage}
           />
 
-          {mapMessage && (
+          {mapMessage && showMessage && (
             <ViewerContainer
               topLeft={
-                <MapMessage onClick={() => setMapMessage('')}>
+                <MapMessage onClick={() => setShowMessage(false)}>
                   {mapMessage}
                 </MapMessage>
               }

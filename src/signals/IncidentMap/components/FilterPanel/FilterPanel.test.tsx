@@ -35,10 +35,6 @@ const renderFilterPanel = (props: Partial<Props> = {}) =>
   render(<FilterPanel {...defaultProps} {...props} />)
 
 describe('FilterPanel', () => {
-  beforeEach(() => {
-    // get.mockReset()
-  })
-
   it('get categories and set filters', () => {
     const fetchResponseWithFilters = {
       ...useFetchResponse,
@@ -93,6 +89,7 @@ describe('FilterPanel', () => {
 
     userEvent.click(toggleButton)
 
+    // the event is also dispatched on initialization, therefore 2 times.
     expect(global.window.dispatchEvent).toBeCalledTimes(2)
     expect(
       screen.getByRole('button', {

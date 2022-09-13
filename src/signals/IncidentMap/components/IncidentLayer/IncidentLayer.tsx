@@ -30,8 +30,9 @@ export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   const bbox = useBoundingBox()
 
   useEffect(() => {
-    if (!bbox) return
-    passBbox(bbox)
+    if (bbox) {
+      passBbox(bbox)
+    }
   }, [bbox, passBbox])
 
   useEffect(() => {

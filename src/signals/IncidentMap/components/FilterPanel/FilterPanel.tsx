@@ -59,7 +59,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   useEffect(() => {
     if (error) {
       setMapMessage('Er konden geen filter categorieën worden opgehaald.')
-      return
     }
   }, [error, setMapMessage])
 
