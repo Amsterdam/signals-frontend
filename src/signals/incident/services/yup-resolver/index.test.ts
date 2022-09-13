@@ -31,11 +31,6 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['email'],
         },
       },
-      maxlen1: {
-        options: {
-          validators: ['required', '1'],
-        },
-      },
       maxlen2: {
         options: {
           validators: ['required', ['maxLength', 1]],
@@ -67,9 +62,6 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
     await expect(
       schema.validateAt('email', { email: 'blackrosemarchesa@mail.com' })
     ).resolves.toBeTruthy()
-    await expect(
-      schema.validateAt('maxlen1', { maxlen1: 'aa' })
-    ).rejects.toBeTruthy()
     await expect(
       schema.validateAt('maxlen2', { maxlen2: 'b' })
     ).resolves.toBeTruthy()
