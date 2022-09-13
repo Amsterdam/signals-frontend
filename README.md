@@ -78,7 +78,7 @@ docker build -t signalen/frontend .
 Start the frontend server with a custom configuration as follows:
 
 ```bash
-docker run -d -p 8080:80 \
+docker run -d -p 8080:8080 \
   -v /branding/app.json:/app.json \
   -v /branding/logo.png:/usr/share/nginx/html/logo.png \
   -v /branding/favicon.png:/usr/share/nginx/html/favicon.png \

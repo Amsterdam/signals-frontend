@@ -23,7 +23,7 @@ services:
       - ./e2e-tests/app.json:/app.json
       - ./app.amsterdam.json:/app.base.json
     ports:
-      - 3001:80
+      - 3001:8080
     depends_on:
       - backend
 
