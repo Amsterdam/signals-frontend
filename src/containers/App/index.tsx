@@ -1,27 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
-import styled from 'styled-components'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { getIsAuthenticated } from 'shared/services/auth/auth'
-
-import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
 import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
-import ThemeProvider from 'components/ThemeProvider'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
+import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
+import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import useLocationReferrer from 'hooks/useLocationReferrer'
+import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
+import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
-import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
-import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
-
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
-import useLocationReferrer from 'hooks/useLocationReferrer'
-import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
+import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
 
 import { getSources } from './actions'
 import AppContext from './context'
@@ -116,10 +115,12 @@ export const AppContainer = () => {
                 <Redirect exact from="/manage" to="/manage/incidents" />
                 <Route path="/manage" component={IncidentManagementModule} />
                 <Route path="/instellingen" component={SettingsModule} />
-                <Route
-                  path="/meldingenkaart"
-                  component={IncidentMapContainer}
-                />
+                {configuration.featureFlags.enablePublicIncidentsMap && (
+                  <Route
+                    path="/meldingenkaart"
+                    component={IncidentMapContainer}
+                  />
+                )}
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}

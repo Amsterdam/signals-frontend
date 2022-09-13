@@ -2,20 +2,22 @@
   "apiBaseUrl": "https://acc.api.data.amsterdam.nl",
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
+    "appMode": true,
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableAmsterdamSpecificOverigCategories": true,
     "enableCsvExport": false,
     "enableNearIncidents": true,
+    "enablePublicIncidentsMap": false,
     "enablePublicSignalMap": false,
     "enableReporter": true,
-    "enableAmsterdamSpecificOverigCategories": true,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
+    "reporterMailHandledNegativeContactEnabled": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false,
-    "reporterMailHandledNegativeContactEnabled": true
+    "useProjectenSignalType": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

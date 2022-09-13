@@ -92,6 +92,10 @@
           "description": "Enable category translations that are specific for Amsterdam.",
           "type": "boolean"
         },
+        "enablePublicIncidentsMap": {
+          "description": "Feature switch to enable the /meldingenkaart route where a public map is shown with all public available incidents.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -118,10 +122,6 @@
         },
         "reporterMailHandledNegativeContactEnabled": {
           "description": "When true, will show a feedback text based on the satisfaction value yes or no.",
-          "type": "boolean"
-        },
-        "appMode": {
-          "description": "When true, will render the application in app mode, hiding specific UI elements",
           "type": "boolean"
         }
       },
