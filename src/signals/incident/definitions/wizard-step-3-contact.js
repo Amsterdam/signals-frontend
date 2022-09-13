@@ -15,21 +15,31 @@ export default {
   formAction: 'UPDATE_INCIDENT',
   form: {
     controls: {
+      phone_email_text: {
+        meta: {
+          type: 'message',
+          heading:
+            'Mogen we u bellen voor vragen? En op de  hoogte houden via e-mail?',
+          value: `Vaak hebben we nog een vraag. Daarmee kunnen we het probleem
+            sneller of beter oplossen. Of we willen iets uitleggen. Wij willen
+            u dan graag even bellen. Of anders e-mailen wij u. Wij gebruiken uw
+            telefoonnummer en e-mailadres alleen voor deze melding.`,
+          wrappedComponent: FormComponents.PlainText,
+        },
+        render: FormComponents.WithHeading,
+      },
       phone: {
         meta: {
           // https://bytes.grubhub.com/disabling-safari-autofill-for-a-single-line-address-input-b83137b5b1c7
           autoComplete: 'search_tel',
           autoRemove: /[^\d ()+-]/g,
-          heading: 'Mogen we u bellen voor vragen?',
           label: 'Wat is uw telefoonnummer?',
           path: 'reporter.phone',
-          subtitle:
-            'We gebruiken uw telefoonnummer alléén om nog iets te kunnen vragen over uw melding.',
+          subtitle: '',
           type: 'tel',
           width: '50%',
-          wrappedComponent: FormComponents.TextInput,
         },
-        render: FormComponents.WithHeading,
+        render: FormComponents.TextInput,
         options: {
           validators: [validatePhoneNumber, '17'],
         },
@@ -38,15 +48,12 @@ export default {
         meta: {
           autoComplete: 'search_email',
           autoRemove: /[^\w!#$%&'*+./;=?@^`{|}~-]/g,
-          heading: 'Wilt u op de hoogte blijven?',
           label: 'Wat is uw e-mailadres?',
           path: 'reporter.email',
-          subtitle:
-            'We gebruiken uw e-mailadres alléén om u op de hoogte te houden, of wanneer wij een vraag hebben en u niet per telefoon kunnen bereiken.',
+          subtitle: '',
           type: 'email',
-          wrappedComponent: FormComponents.TextInput,
         },
-        render: FormComponents.WithHeading,
+        render: FormComponents.TextInput,
         options: {
           validators: ['email', '254'],
         },
