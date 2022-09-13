@@ -15,7 +15,7 @@ import {
   get,
   mockUseMapInstance,
   useFetchResponse,
-} from 'signals/IncidentMap/components/mapTestUtils'
+} from 'signals/IncidentMap/components/__test__/utils'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import { WfsDataProvider } from '../WfsLayer/context'
