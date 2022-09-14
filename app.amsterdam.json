@@ -8,7 +8,7 @@
     "enableAmsterdamSpecificOverigCategories": true,
     "enableCsvExport": false,
     "enableNearIncidents": true,
-    "enablePublicIncidentsMap": false,
+    "enablePublicIncidentsMap": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
     "fetchDistrictsFromBackend": false,
