@@ -1,20 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import configuration from 'shared/services/configuration/configuration'
-
-import { Provider } from 'react-redux'
-import { history } from 'test/utils'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { mocked } from 'jest-mock'
+import { Provider } from 'react-redux'
+
+import { getIsAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+import { history } from 'test/utils'
+
 import configureStore from '../../configureStore'
 import FooterContainer from './'
-
-let mockIsIncidentMap = false
-jest.mock('hooks/useIsIncidentMap', () => {
-  return jest.fn(() => mockIsIncidentMap)
-})
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')
@@ -63,19 +59,6 @@ describe('<FooterContainer />', () => {
 
   it('should render null when authenticated', () => {
     mockedGetIsAuthenticated.mockImplementation(() => true)
-
-    const { container } = render(
-      <Provider store={configureStore({}, history)}>
-        {withAppContext(<FooterContainer />)}
-      </Provider>
-    )
-
-    expect(container.firstChild).toBeNull()
-  })
-
-  it('should render null when incidentMap is rendered', () => {
-    mockedGetIsAuthenticated.mockImplementation(() => false)
-    mockIsIncidentMap = true
 
     const { container } = render(
       <Provider store={configureStore({}, history)}>
