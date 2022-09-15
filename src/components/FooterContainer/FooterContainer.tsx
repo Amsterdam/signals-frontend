@@ -8,12 +8,11 @@ import {
   themeSpacing,
   themeColor,
 } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
-import { useSelector } from 'react-redux'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const FooterWrapper = styled.div`
@@ -43,13 +42,12 @@ const StyledFooterApp = styled.div`
 
 const FooterContainer = () => {
   const { mapActive } = useSelector(makeSelectIncidentContainer)
-  const isIncidentMap = useIsIncidentMap()
 
   if (configuration.featureFlags.appMode) {
     return <StyledFooterApp />
   }
 
-  if (getIsAuthenticated() || isIncidentMap) {
+  if (getIsAuthenticated()) {
     return null
   }
 
