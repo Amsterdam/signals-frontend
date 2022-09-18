@@ -14,8 +14,6 @@ export default interface Location {
 }
 
 export interface LocationResult
-  extends Partial<
-    Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'>
-  > {
+  extends Pick<GeolocationCoordinates, 'accuracy' | 'latitude' | 'longitude'> {
   toggled?: boolean
 }

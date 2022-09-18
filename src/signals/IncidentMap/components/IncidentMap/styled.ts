@@ -20,14 +20,22 @@ export const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row-reverse;
+  flex: 0 0 67%;
+  overflow-y: auto;
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     flex-direction: column;
+    flex: 0 0 50%;
   }
+`
+export const MapWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  z-index: 0;
 `
 
 export const StyledMap = styled(Map)`
   height: 100%;
   width: 100%;
-  z-index: 0;
+  z-index: 1;
 `
