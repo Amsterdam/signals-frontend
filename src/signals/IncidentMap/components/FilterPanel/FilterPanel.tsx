@@ -11,6 +11,7 @@ import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
+import { ZoomToAdressLocation } from '../ZoomToAddressLocation'
 import {
   StyledPanelContent,
   StyledLabel,
@@ -79,6 +80,8 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </Paragraph>
+
+          <ZoomToAdressLocation />
 
           <Heading as="h4">Filter op onderwerp</Heading>
           <Wrapper>
