@@ -28,7 +28,7 @@ export const IncidentMap = () => {
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
-  const [map] = useState<MapType>()
+  const [map, setMap] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
     useFetch<FeatureCollection<Point, Properties>>()
@@ -73,6 +73,7 @@ export const IncidentMap = () => {
         data-testid="incidentMap"
         fullScreen={false}
         hasZoomControls
+        setInstance={setMap}
         mapOptions={{
           ...MAP_OPTIONS,
           dragging: true,
