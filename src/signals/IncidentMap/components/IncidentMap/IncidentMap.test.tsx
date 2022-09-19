@@ -62,8 +62,6 @@ describe('IncidentMap', () => {
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
 
-    // userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
-
     const closeButton = screen.getAllByRole('button')[1]
 
     expect(closeButton).toBeInTheDocument()

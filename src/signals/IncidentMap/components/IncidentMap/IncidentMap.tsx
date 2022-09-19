@@ -15,8 +15,8 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
+import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { ZoomToGPSLocation } from '../ZoomToGPSLocation'
 import { getFilteredIncidents } from '../utils'
 import { Wrapper, StyledMap } from './styled'
 
@@ -28,7 +28,7 @@ export const IncidentMap = () => {
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
-  const [map, setMap] = useState<MapType>()
+  const [map] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
     useFetch<FeatureCollection<Point, Properties>>()
@@ -38,7 +38,7 @@ export const IncidentMap = () => {
       setMapMessage(message)
       setShowMessage(true)
     },
-    [mapMessage]
+    [setMapMessage, setShowMessage]
   )
 
   useEffect(() => {
@@ -65,15 +65,13 @@ export const IncidentMap = () => {
     if (error) {
       setNotification('Er konden geen meldingen worden opgehaald.')
     }
-  }, [error, isSuccess])
+  }, [error, isSuccess, setNotification])
 
   return (
     <Wrapper>
       <StyledMap
         data-testid="incidentMap"
         fullScreen={false}
-        setInstance={setMap}
-        hasGPSControl
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,
@@ -85,10 +83,7 @@ export const IncidentMap = () => {
       >
         <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
         {map && (
-          <ZoomToGPSLocation
-            flyTo={map.flyTo}
-            setNotification={setNotification}
-          />
+          <GPSLocation flyTo={map.flyTo} setNotification={setNotification} />
         )}
 
         {mapMessage && showMessage && (

@@ -6,12 +6,11 @@ import { useEffect, useState } from 'react'
 import { Marker } from '@amsterdam/react-maps'
 import type { LatLngLiteral } from 'leaflet'
 
+import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
 import GPSButton from '../../../../components/GPSButton'
 import configuration from '../../../../shared/services/configuration/configuration'
 import { markerIcon } from '../../../../shared/services/configuration/map-markers'
 import type { LocationResult } from '../../../../types/location'
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
-
 import { StyledViewerContainer } from './styled'
 
 export interface Props {
@@ -19,7 +18,7 @@ export interface Props {
   setNotification: (mapMessage: JSX.Element | string) => void
 }
 
-export const ZoomToGPSLocation = ({ flyTo, setNotification }: Props) => {
+export const GPSLocation = ({ flyTo, setNotification }: Props) => {
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
 
   useEffect(() => {
