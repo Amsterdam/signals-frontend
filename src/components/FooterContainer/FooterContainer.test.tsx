@@ -16,6 +16,11 @@ jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')
 const mockedGetIsAuthenticated = mocked(getIsAuthenticated, false)
 
+let mockIsIncidentMap = false
+jest.mock('hooks/useIsIncidentMap', () => {
+  return jest.fn(() => mockIsIncidentMap)
+})
+
 configuration.links.privacy = 'https://www.amsterdam.nl/privacy/'
 configuration.links.about = 'https://www.amsterdam.nl/overdezesite/'
 configuration.links.accessibility = '/toegankelijkheid/'
@@ -59,6 +64,19 @@ describe('<FooterContainer />', () => {
 
   it('should render null when authenticated', () => {
     mockedGetIsAuthenticated.mockImplementation(() => true)
+
+    const { container } = render(
+      <Provider store={configureStore({}, history)}>
+        {withAppContext(<FooterContainer />)}
+      </Provider>
+    )
+
+    expect(container.firstChild).toBeNull()
+  })
+
+  it('should render null when incidentMap is rendered', () => {
+    mockedGetIsAuthenticated.mockImplementation(() => false)
+    mockIsIncidentMap = true
 
     const { container } = render(
       <Provider store={configureStore({}, history)}>

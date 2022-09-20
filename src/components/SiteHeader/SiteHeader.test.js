@@ -11,6 +11,11 @@ import { history, withAppContext } from 'test/utils'
 
 import SiteHeader from '.'
 
+let mockIsIncidentMap = false
+jest.mock('hooks/useIsIncidentMap', () => {
+  return jest.fn(() => mockIsIncidentMap)
+})
+
 jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
@@ -327,5 +332,15 @@ describe('components/SiteHeader', () => {
         screen.queryByRole('link', { name: 'Instellingen' })
       ).not.toBeInTheDocument()
     })
+  })
+
+  it('should render null when incidentMap is rendered', () => {
+    mockIsIncidentMap = true
+
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
+
+    const { container } = render(withAppContext(<SiteHeader />))
+
+    expect(container.firstChild).toBeNull()
   })
 })

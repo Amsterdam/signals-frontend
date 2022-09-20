@@ -14,7 +14,8 @@ export const HeaderWrapper = styled.div`
   padding: 0 ${themeSpacing(4)};
   background-color: ${themeColor('tint', 'level1')};
   box-shadow: 0 ${themeSpacing(1)} ${themeSpacing(1)} 0 rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  // z-index relative to map
+  z-index: 1;
 
   @media screen and ${breakpoint('max-width', 'tabletS')} {
     height: ${themeSpacing(HEADER_HEIGHT_MOBILE)};

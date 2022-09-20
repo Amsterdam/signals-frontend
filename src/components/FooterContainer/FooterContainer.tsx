@@ -11,6 +11,7 @@ import {
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
@@ -42,12 +43,13 @@ const StyledFooterApp = styled.div`
 
 const FooterContainer = () => {
   const { mapActive } = useSelector(makeSelectIncidentContainer)
+  const isIncidentMap = useIsIncidentMap()
 
   if (configuration.featureFlags.appMode) {
     return <StyledFooterApp />
   }
 
-  if (getIsAuthenticated()) {
+  if (getIsAuthenticated() || isIncidentMap) {
     return null
   }
 

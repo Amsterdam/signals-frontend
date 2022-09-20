@@ -22,6 +22,7 @@ import Logo from 'components/Logo'
 import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
@@ -285,6 +286,7 @@ export const SiteHeader = (props) => {
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
   const isFrontOffice = useIsFrontOffice()
+  const isIncidentMap = useIsIncidentMap()
   const tall = isFrontOffice && !getIsAuthenticated()
   const title = tall
     ? configuration.language.headerTitle
@@ -305,6 +307,10 @@ export const SiteHeader = (props) => {
       ),
     [props, menuOpen, rendersMenuToggle]
   )
+
+  if (isIncidentMap) {
+    return null
+  }
 
   return (
     <>
