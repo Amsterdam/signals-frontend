@@ -111,4 +111,33 @@ describe('GPSLocation', () => {
       </>
     )
   })
+
+  it('should call onLocationOutOfBounds', () => {
+    const coordsOutOfBounds = {
+      accuracy: 1234,
+      latitude: 55,
+      longitude: 5,
+    }
+    const mockGeolocationOutOfBounds = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords: coordsOutOfBounds,
+          })
+        )
+      ),
+    }
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    global.navigator.geolocation = mockGeolocationOutOfBounds
+
+    render(<GPSLocation {...defaultProps} />)
+
+    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
+
+    expect(defaultProps.setNotification).toHaveBeenCalledWith(
+      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+    )
+  })
 })
