@@ -1,20 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { Fragment } from 'react'
-
 import {
-  Hidden,
+  // Hidden,
   MenuButton as Button,
   MenuItem as Item,
   Heading,
   MenuToggle,
 } from '@amsterdam/asc-ui'
+import { useMediaQuery } from 'react-responsive'
 
 import Logo from 'components/Logo'
 
+import { MENU_BREAKPOINT } from './constants'
 import { HeaderWrapper, Title } from './styled'
 
 export const Header = () => {
+  const rendersMenuToggle = useMediaQuery({
+    query: `(max-width: ${MENU_BREAKPOINT}px)`,
+  })
+
   const MenuItems = () => (
     <Item>
       <Button forwardedAs="a" href="/incident/beschrijf" target="_blank">
@@ -23,18 +27,17 @@ export const Header = () => {
     </Item>
   )
 
-  const Navigation = () => (
-    <Fragment>
-      <Hidden minBreakpoint="tabletS">
+  const Navigation = () => {
+    if (rendersMenuToggle) {
+      return (
         <MenuToggle align="right">
           <MenuItems />
         </MenuToggle>
-      </Hidden>
-      <Hidden maxBreakpoint="tabletS">
-        <MenuItems />
-      </Hidden>
-    </Fragment>
-  )
+      )
+    }
+
+    return <MenuItems />
+  }
 
   return (
     <HeaderWrapper>
