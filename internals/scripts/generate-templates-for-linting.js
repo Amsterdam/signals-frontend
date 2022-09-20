@@ -7,8 +7,9 @@
  */
 
 const path = require('path')
-const nodePlop = require('node-plop')
+
 const chalk = require('chalk')
+const nodePlop = require('node-plop')
 const rimraf = require('rimraf')
 
 const xmark = require('./helpers/xmark')

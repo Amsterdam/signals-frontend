@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
@@ -12,7 +12,6 @@ describe('Form component <MapInput />', () => {
       name: 'foo',
       isVisible: true,
     },
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     parent: {

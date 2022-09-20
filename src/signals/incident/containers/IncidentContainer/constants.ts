@@ -62,9 +62,9 @@ export const FIELD_TYPE_MAP = {
 export const INPUT_VALIDATOR_MAP = {
   email: 'email',
   max: 'max',
-  max_length: 'maxLength',
+  maxLength: 'maxLength',
   min: 'min',
-  min_length: 'minLength',
+  minLength: 'minLength',
   pattern: 'pattern',
   required: 'required',
   required_true: 'requiredTrue',

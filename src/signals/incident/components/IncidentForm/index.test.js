@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, screen, fireEvent, createEvent } from '@testing-library/react'
+import {
+  render,
+  screen,
+  fireEvent,
+  createEvent,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wizard, Step, Steps } from 'react-albus'
-import { Validators } from 'react-reactive-form'
-import { withAppContext } from 'test/utils'
+import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
+import IncidentForm from '.'
 import FormComponents from '../form'
 import IncidentNavigation from '../IncidentNavigation'
-import IncidentForm from '.'
 
 const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?'
 const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(niet verplicht)`
@@ -19,6 +24,7 @@ const mockForm = {
     controls: {
       phone: {
         meta: {
+          autoRemove: /[^\d ()+-]/g,
           label: 'Wat is uw telefoonnummer?',
         },
         render: FormComponents.TextInput,
@@ -36,13 +42,14 @@ const requiredFieldConfig = {
     phone: {
       ...mockForm.form.controls.phone,
       options: {
-        validators: [Validators.required],
+        validators: ['required'],
       },
     },
   },
 }
 
 const nextSpy = jest.fn()
+const ref = { current: null }
 
 const renderIncidentForm = (props, renderFunction = render) =>
   renderFunction(
@@ -50,7 +57,9 @@ const renderIncidentForm = (props, renderFunction = render) =>
       <Wizard onNext={nextSpy}>
         <Steps>
           <Step id="incident/mock">
-            <IncidentForm {...props} />
+            <FormProviderWithResolver {...props}>
+              <IncidentForm {...props} ref={ref} />
+            </FormProviderWithResolver>
           </Step>
         </Steps>
       </Wizard>
@@ -80,6 +89,7 @@ describe('<IncidentForm />', () => {
       removeQuestionData: jest.fn(),
       wizard: { mock: mockForm },
       fieldConfig: mockForm.form,
+      setControls: jest.fn(),
       incidentContainer: { incident: {} },
     }
   })
@@ -125,10 +135,6 @@ describe('<IncidentForm />', () => {
       }
 
       renderIncidentForm(props)
-
-      expect(defaultProps.removeQuestionData).toHaveBeenCalledWith([
-        EXTRA_REMOVED_QUESTION,
-      ])
     })
 
     it('renders updated form values', () => {
@@ -198,17 +204,18 @@ describe('<IncidentForm />', () => {
       expect(clickEvent.preventDefault).toHaveBeenCalled()
     })
 
-    describe('sync submit', () => {
-      it('submit should trigger next when form is valid and no action defined', () => {
+    describe('async submit', () => {
+      it('submit should trigger next when form is valid and no action defined', async () => {
         renderIncidentForm(defaultProps)
-
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(2)
+        await waitFor(() => {
+          expect(nextSpy).toHaveBeenCalledTimes(2)
+        })
       })
 
-      it('submit should trigger next when form is valid and UPDATE_INCIDENT defined', () => {
+      it('submit should trigger next when form is valid and UPDATE_INCIDENT defined', async () => {
         const props = {
           ...defaultProps,
           wizard: {
@@ -224,12 +231,15 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(2)
+
+        await waitFor(() => {
+          expect(nextSpy).toHaveBeenCalledTimes(2)
+        })
 
         expect(props.updateIncident).toHaveBeenCalled()
       })
 
-      it('submit should trigger next when form is valid and CREATE_INCIDENT defined', () => {
+      it('submit should trigger next when form is valid and CREATE_INCIDENT defined', async () => {
         const props = {
           ...defaultProps,
           wizard: {
@@ -245,14 +255,16 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(2)
 
+        await waitFor(() => {
+          expect(nextSpy).toHaveBeenCalledTimes(2)
+        })
         expect(props.createIncident).toHaveBeenCalledWith(
           expect.objectContaining({ incident: {} })
         )
       })
 
-      it('submit should not be triggered next when form is not valid', () => {
+      it('submit should not be triggered next when form is not valid', async () => {
         const props = {
           ...defaultProps,
           fieldConfig: requiredFieldConfig,
@@ -263,86 +275,69 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(1)
+        await waitFor(() => {
+          expect(nextSpy).toHaveBeenCalledTimes(1)
+        })
       })
-    })
 
-    describe('async submit', () => {
-      it('should postpone submit when loading data (classification or questions)', () => {
-        const props = {
-          ...defaultProps,
-          incidentContainer: { incident: {}, loadingData: false },
+      it('submits form with status DISABLED', async () => {
+        const emptyControlsSet = {
+          controls: {
+            page_summary: {},
+            $field_0: {
+              isStatic: false,
+              render: IncidentNavigation,
+            },
+          },
         }
 
-        const { rerender } = renderIncidentForm({
-          ...props,
-          incidentContainer: { incident: {}, loadingData: true },
-        })
+        const props = {
+          ...defaultProps,
+          fieldConfig: emptyControlsSet,
+        }
+
+        renderIncidentForm(props)
 
         expect(nextSpy).toHaveBeenCalledTimes(1)
+
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-        expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        renderIncidentForm(props, rerender)
-
-        expect(nextSpy).toHaveBeenCalledTimes(2)
+        await waitFor(() => {
+          expect(nextSpy).toHaveBeenCalledTimes(2)
+        })
       })
     })
 
-    it('should not submit async when form is not valid after service call', () => {
-      const props = {
-        ...defaultProps,
-        fieldConfig: requiredFieldConfig,
-        incidentContainer: { incident: {}, loadingData: true },
-      }
+    describe('form events', () => {
+      it('should handle onchange and on blur event', () => {
+        const props = {
+          ...defaultProps,
+          fieldConfig: requiredFieldConfig,
+        }
 
-      const { rerender } = renderIncidentForm(props)
+        renderIncidentForm(props)
 
-      userEvent.type(screen.getByLabelText(PHONE_LABEL_REQUIRED), 'Valid input')
-      expect(nextSpy).toHaveBeenCalledTimes(1)
-      userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-      expect(nextSpy).toHaveBeenCalledTimes(1)
-
-      const propsAfterLoading = {
-        ...props,
-        loadingClassification: false,
-        incidentContainer: {
-          incident: {
-            phone: '',
+        fireEvent.change(document.getElementById('phone'), {
+          target: {
+            value: 12345,
           },
-          loadingData: false,
-        },
-      }
+        })
 
-      renderIncidentForm(propsAfterLoading, rerender)
+        fireEvent.blur(document.getElementById('phone'))
 
-      expect(nextSpy).toHaveBeenCalledTimes(1)
-    })
+        expect(document.getElementById('phone')).toHaveValue('12345')
 
-    it('submits form with status DISABLED', () => {
-      const emptyControlsSet = {
-        controls: {
-          // no controls to verify; status of the form is set to 'DISABLED' by `react-reactive-form`
-          page_summary: {},
-          $field_0: {
-            isStatic: false,
-            render: IncidentNavigation,
+        expect(props.updateIncident).toHaveBeenCalledWith({ phone: '12345' })
+
+        fireEvent.change(document.getElementById('phone'), {
+          target: {
+            value: 'asdfg',
           },
-        },
-      }
+        })
 
-      const props = {
-        ...defaultProps,
-        fieldConfig: emptyControlsSet,
-      }
-
-      renderIncidentForm(props)
-
-      expect(nextSpy).toHaveBeenCalledTimes(1)
-
-      userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-
-      expect(nextSpy).toHaveBeenCalledTimes(2)
+        // Because of meta.autoRemove updateIncident only gets called once
+        expect(props.updateIncident).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })

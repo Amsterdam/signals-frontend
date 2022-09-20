@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import map from 'lodash/map'
-import isObject from 'lodash/isObject'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Label } from '@amsterdam/asc-ui'
-
 import Checkbox from 'components/Checkbox'
-
+import isObject from 'lodash/isObject'
+import map from 'lodash/map'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import FormField from '../FormField'
 
 function updateIncidentCheckboxMulti(
@@ -44,7 +43,6 @@ const CheckboxGroup = styled.div`
 
 const CheckboxInput = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -55,7 +53,6 @@ const CheckboxInput = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -97,7 +94,7 @@ const CheckboxInput = ({
             <Checkbox
               id={meta.name}
               name={meta.name}
-              checked={handler().value.value}
+              checked={handler().value?.value}
               onClick={(e) => {
                 parent.meta.updateIncident({
                   [meta.name]: {
@@ -119,7 +116,6 @@ CheckboxInput.defaultProps = {
 
 CheckboxInput.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func,
   hasError: PropTypes.func,
   meta: PropTypes.object.isRequired,

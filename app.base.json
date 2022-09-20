@@ -5,18 +5,19 @@
     "appMode": false,
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "enableAmsterdamSpecificOverigCategories": false,
     "enableCsvExport": false,
     "enableNearIncidents": false,
+    "enablePublicIncidentsMap": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
-    "enableAmsterdamSpecificOverigCategories": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
+    "reporterMailHandledNegativeContactEnabled": true,
     "showThorButton": false,
     "showVulaanControls": false,
-    "useProjectenSignalType": false,
-    "reporterMailHandledNegativeContactEnabled": true
+    "useProjectenSignalType": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
@@ -8,7 +8,6 @@ import DescriptionInputRenderer from '.'
 describe('signals/incident/components/form/DescriptionInputRenderer', () => {
   const props = {
     handler: jest.fn(),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-description',

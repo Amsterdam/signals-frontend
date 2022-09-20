@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 
 import type {
   Handler,
@@ -13,8 +13,6 @@ import type {
  */
 export interface ReactiveFormMeta {
   value: any
-  touched: boolean
-  untouched: boolean
   disabled: boolean
   enabled: boolean
   invalid: boolean
@@ -45,14 +43,14 @@ export interface FormMeta extends Record<string, unknown> {
 }
 
 export interface FormOptions {
-  validators?: { name: string }[]
+  validators?: any
 }
 
 export interface ParentType {
   meta: { updateIncident: (data: any) => void }
 }
 
-type ReactiveFormPickedProps = 'handler' | 'touched' | 'hasError' | 'getError'
+type ReactiveFormPickedProps = 'handler' | 'hasError' | 'getError'
 export interface FormInputProps<T = string>
   extends Pick<ReactiveFormMeta, ReactiveFormPickedProps> {
   meta?: FormMeta

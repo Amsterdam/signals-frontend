@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
-
 import type { FormMeta } from 'types/reactive-form'
-import type { TextAreaInputProps } from './TextareaInput'
 
+import type { TextAreaInputProps } from './TextareaInput'
 import TextareaInput from './TextareaInput'
 
 describe('Form component <TextareaInput />', () => {
@@ -17,7 +16,6 @@ describe('Form component <TextareaInput />', () => {
   }
 
   const props = {
-    touched: false,
     hasError: jest.fn(),
     getError: jest.fn(),
     parent: {

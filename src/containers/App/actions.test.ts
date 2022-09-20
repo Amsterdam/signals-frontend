@@ -1,41 +1,42 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { testActionCreator } from 'test/utils'
 import userJson from 'utils/__tests__/fixtures/user.json'
 
 import {
-  AUTHENTICATE_USER,
-  AUTHORIZE_USER,
-  SHOW_GLOBAL_NOTIFICATION,
-  RESET_GLOBAL_NOTIFICATION,
-  LOGIN,
-  LOGOUT,
-  UPLOAD_PROGRESS,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE,
-  SET_SEARCH_QUERY,
-  RESET_SEARCH_QUERY,
-  GET_SOURCES,
-  GET_SOURCES_SUCCESS,
-  GET_SOURCES_FAILED,
-} from './constants'
-
-import {
   authenticateUser,
   authorizeUser,
-  showGlobalNotification,
-  resetGlobalNotification,
   doLogin,
   doLogout,
+  getSources,
+  getSourcesFailed,
+  getSourcesSuccess,
+  postMessage,
+  resetGlobalNotification,
+  resetSearchQuery,
+  setSearchQuery,
+  showGlobalNotification,
+  uploadFailure,
   uploadProgress,
   uploadSuccess,
-  uploadFailure,
-  setSearchQuery,
-  resetSearchQuery,
-  getSources,
-  getSourcesSuccess,
-  getSourcesFailed,
 } from './actions'
+import {
+  AUTHENTICATE_USER,
+  AUTHORIZE_USER,
+  GET_SOURCES_FAILED,
+  GET_SOURCES_SUCCESS,
+  GET_SOURCES,
+  LOGIN,
+  LOGOUT,
+  POST_MESSAGE,
+  RESET_GLOBAL_NOTIFICATION,
+  RESET_SEARCH_QUERY,
+  SET_SEARCH_QUERY,
+  SHOW_GLOBAL_NOTIFICATION,
+  UPLOAD_FAILURE,
+  UPLOAD_PROGRESS,
+  UPLOAD_SUCCESS,
+} from './constants'
 
 describe('containers/App/actions', () => {
   it('should dispatch authenticate user action', () => {
@@ -109,5 +110,10 @@ describe('containers/App/actions', () => {
 
   it('should dispatch getSources action', () => {
     testActionCreator(getSources, GET_SOURCES)
+  })
+
+  it('should dispatch postMessage action', () => {
+    const payload = 'foo'
+    testActionCreator(postMessage, POST_MESSAGE, payload)
   })
 })

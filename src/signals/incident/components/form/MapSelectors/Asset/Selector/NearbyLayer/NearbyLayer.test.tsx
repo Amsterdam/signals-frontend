@@ -12,7 +12,7 @@ import {
   get,
   mockUseMapInstance,
   useFetchResponse,
-} from 'signals/IncidentMap/components/mapTestUtils'
+} from 'signals/IncidentMap/components/__test__/utils'
 import geography from 'utils/__tests__/fixtures/geography_public.json'
 
 import * as useLayerVisible from '../../../hooks/useLayerVisible'

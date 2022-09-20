@@ -19,7 +19,6 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
     handler: jest.fn(() => ({
       value: undefined,
     })),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-value',

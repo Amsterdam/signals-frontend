@@ -1,16 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { ConnectedRouter } from 'connected-react-router/immutable'
-import { createMemoryHistory } from 'history'
-import { Provider } from 'react-redux'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
+
 import { ThemeProvider } from '@amsterdam/asc-ui'
-import MatchMediaMock from 'match-media-mock'
-import isObject from 'lodash/isObject'
-import usersJSON from 'utils/__tests__/fixtures/users.json'
-import loadModels from 'models'
+import { ConnectedRouter } from 'connected-react-router/immutable'
 import MapContext from 'containers/MapContext'
+import { createMemoryHistory } from 'history'
+import isObject from 'lodash/isObject'
+import MatchMediaMock from 'match-media-mock'
+import loadModels from 'models'
+import { useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
+import { Provider } from 'react-redux'
+import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import configureStore from '../configureStore'
+import constructYupResolver from '../signals/incident/services/yup-resolver'
 
 export const history = createMemoryHistory()
 
@@ -58,6 +64,27 @@ export const withAppContext = (Component) => (
     </Provider>
   </ThemeProvider>
 )
+
+export const FormProviderWithResolver = ({ fieldConfig, children }) => {
+  const controls = Object.fromEntries(
+    Object.entries(fieldConfig.controls).filter(
+      ([key, value]) => value.meta?.isVisible || key === '$field_0'
+    )
+  )
+
+  const formProps = useForm({
+    reValidateMode: 'onSubmit',
+    resolver: constructYupResolver(controls),
+  })
+
+  return (
+    <FormProvider {...formProps}>
+      {React.cloneElement(children, {
+        reactHookFormProps: formProps,
+      })}
+    </FormProvider>
+  )
+}
 
 // eslint-disable-next-line
 export const withCustomAppContext =

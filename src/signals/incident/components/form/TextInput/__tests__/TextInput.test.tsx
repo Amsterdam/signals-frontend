@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-
 import userEvent from '@testing-library/user-event'
+import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
+
 import TextInput from '..'
 import type { TextInputProps } from '../TextInput'
 
@@ -25,7 +25,6 @@ describe('Form component <TextInput />', () => {
         updateIncident: jest.fn(),
       },
     },
-    touched: false,
     hasError: jest.fn(),
     getError: jest.fn(),
     value: '',
