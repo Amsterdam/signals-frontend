@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react'
 
 import { Marker } from '@amsterdam/react-maps'
-import type { LatLngLiteral } from 'leaflet'
+import type { Map, LatLngLiteral } from 'leaflet'
 
 import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
 import GPSButton from '../../../../components/GPSButton'
@@ -14,18 +14,19 @@ import type { LocationResult } from '../../../../types/location'
 import { StyledViewerContainer } from './styled'
 
 export interface Props {
-  flyTo: (coordinates: LatLngLiteral, zoom: number) => void
+  map: Map
+  // flyTo: (coordinates: LatLngLiteral, zoom: number) => void
   setNotification: (mapMessage: JSX.Element | string) => void
 }
 
-export const GPSLocation = ({ flyTo, setNotification }: Props) => {
+export const GPSLocation = ({ map, setNotification }: Props) => {
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
 
   useEffect(() => {
     if (coordinates) {
-      flyTo(coordinates, DEFAULT_ZOOM)
+      map.flyTo(coordinates, DEFAULT_ZOOM)
     }
-  }, [flyTo, coordinates])
+  }, [map, coordinates])
 
   return (
     <>

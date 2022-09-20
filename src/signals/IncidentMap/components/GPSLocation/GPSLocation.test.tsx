@@ -2,6 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { Map } from 'leaflet'
 
 import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
 import configuration from '../../../../shared/services/configuration/configuration'
@@ -16,9 +17,12 @@ jest.mock('@amsterdam/react-maps', () => ({
     return <div {...Props}></div>
   },
 }))
+const mockMap = {
+  flyTo: jest.fn(),
+} as unknown as Map
 
 const defaultProps: Props = {
-  flyTo: jest.fn(),
+  map: mockMap,
   setNotification: jest.fn(),
 }
 
@@ -54,7 +58,7 @@ describe('GPSLocation', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
 
-    expect(defaultProps.flyTo).toHaveBeenCalledWith(
+    expect(defaultProps.map.flyTo).toHaveBeenCalledWith(
       { lat: coords.latitude, lng: coords.longitude },
       DEFAULT_ZOOM
     )

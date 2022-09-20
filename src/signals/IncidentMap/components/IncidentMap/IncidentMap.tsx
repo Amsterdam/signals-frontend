@@ -83,9 +83,7 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
-        {map && (
-          <GPSLocation flyTo={map.flyTo} setNotification={setNotification} />
-        )}
+        {map && <GPSLocation map={map} setNotification={setNotification} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer
