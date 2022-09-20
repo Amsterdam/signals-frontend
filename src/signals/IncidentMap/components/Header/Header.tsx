@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import {
-  // Hidden,
   MenuButton as Button,
   MenuItem as Item,
   Heading,
@@ -19,24 +18,26 @@ export const Header = () => {
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
 
-  const MenuItems = () => (
-    <Item>
-      <Button forwardedAs="a" href="/incident/beschrijf" target="_blank">
-        Doe een melding
-      </Button>
-    </Item>
-  )
-
   const Navigation = () => {
     if (rendersMenuToggle) {
       return (
         <MenuToggle align="right">
-          <MenuItems />
+          <Item>
+            <Button forwardedAs="a" href="/incident/beschrijf" target="_blank">
+              Doe een melding
+            </Button>
+          </Item>
         </MenuToggle>
       )
     }
 
-    return <MenuItems />
+    return (
+      <Item>
+        <Button forwardedAs="a" href="/incident/beschrijf" target="_blank">
+          Doe een melding
+        </Button>
+      </Item>
+    )
   }
 
   return (
