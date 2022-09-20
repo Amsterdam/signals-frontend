@@ -169,14 +169,11 @@ const IncidentForm = forwardRef<any, any>(
       },
     }
 
-    const getControls = (controls: any) =>
-      Object.fromEntries(
-        Object.entries(controls).filter(
-          ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
-        )
+    const controls: any = Object.fromEntries(
+      Object.entries(fieldConfigModified.controls).filter(
+        ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
       )
-
-    const controls: any = getControls(fieldConfigModified.controls)
+    )
 
     /**
     Set the yupresolver for the current step of the incident wizard
@@ -205,6 +202,9 @@ const IncidentForm = forwardRef<any, any>(
                           handler={() => ({
                             onChange: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
+                              if (submitting && !e.target.value) {
+                                reactHookFormProps.trigger()
+                              }
                             },
                             onBlur: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
