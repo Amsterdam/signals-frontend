@@ -17,6 +17,7 @@ jest.mock('@amsterdam/react-maps', () => ({
     return <div {...Props}></div>
   },
 }))
+
 const mockMap = {
   flyTo: jest.fn(),
 } as unknown as Map
@@ -32,6 +33,7 @@ describe('GPSLocation', () => {
     latitude: 52.3731081,
     longitude: 4.8932945,
   }
+
   const mockGeolocation = {
     getCurrentPosition: jest.fn().mockImplementation((success) =>
       Promise.resolve(
@@ -49,10 +51,11 @@ describe('GPSLocation', () => {
       screen.getByRole('button', { name: 'Huidige locatie' })
     ).toBeInTheDocument()
   })
+
   it('flies to the location on click', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+    })
 
     render(<GPSLocation {...defaultProps} />)
 
@@ -65,9 +68,9 @@ describe('GPSLocation', () => {
   })
 
   it('shows marker when coordinates are available', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+    })
 
     render(<GPSLocation {...defaultProps} />)
 
@@ -92,9 +95,9 @@ describe('GPSLocation', () => {
       ),
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocationError
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocationError,
+    })
 
     render(<GPSLocation {...defaultProps} />)
 
@@ -122,6 +125,7 @@ describe('GPSLocation', () => {
       latitude: 55,
       longitude: 5,
     }
+
     const mockGeolocationOutOfBounds = {
       getCurrentPosition: jest.fn().mockImplementation((success) =>
         Promise.resolve(
@@ -132,9 +136,9 @@ describe('GPSLocation', () => {
       ),
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocationOutOfBounds
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocationOutOfBounds,
+    })
 
     render(<GPSLocation {...defaultProps} />)
 
