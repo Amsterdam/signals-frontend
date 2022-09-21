@@ -10,5 +10,4 @@ export const StyledViewerContainer = styled(ViewerContainer)`
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     left: 480px; //width of the sidePanel that needs to be build
   }
-  z-index: 1;
 `

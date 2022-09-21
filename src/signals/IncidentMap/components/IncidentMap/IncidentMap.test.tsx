@@ -33,7 +33,7 @@ describe('IncidentMap', () => {
   it('renders the GPSLocation', () => {
     render(withAppContext(<IncidentMap />))
 
-    expect(screen.queryByTestId('gpsButton')).toBeInTheDocument()
+    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
   })
 
   it('sends a request to fetch publicly available incidents', () => {
