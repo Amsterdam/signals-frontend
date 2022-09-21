@@ -109,6 +109,7 @@ const IncidentForm = forwardRef<any, any>(
             Next needs to be part of the local state to rerender.
             When Sia will phase out react albus, this needs to be removed
           */
+            reactHookFormProps.reset()
             setNext(next)
             return
           }
