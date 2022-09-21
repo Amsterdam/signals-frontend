@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useMemo, useState } from 'react'
-
+import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 import {
   Header as HeaderComponent,
+  Hidden,
   MenuButton,
   MenuInline,
   MenuItem,
@@ -13,18 +17,21 @@ import {
   themeSpacing,
   breakpoint,
 } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
-import { useMediaQuery } from 'react-responsive'
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
 
-import Logo from 'components/Logo'
-import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
-import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
+import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import Notification from 'containers/Notification'
+import Logo from 'components/Logo'
 import configuration from 'shared/services/configuration/configuration'
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
+import {
+  IncidentMapHeader,
+  IncidentMapHeaderWrapper,
+  StyledMenuToggle,
+  Title,
+  Wrapper,
+} from './incidentMapStyles'
 
 const MENU_BREAKPOINT = 1320
 
@@ -308,11 +315,28 @@ export const SiteHeader = (props) => {
     [props, menuOpen, rendersMenuToggle]
   )
 
-  if (isIncidentMap) {
-    return null
-  }
+  const IncidentMapMenuItems = () => (
+    <MenuItem>
+      <MenuButton forwardedAs="a" href="/incident/beschrijf" target="_blank">
+        Doe een melding
+      </MenuButton>
+    </MenuItem>
+  )
 
-  return (
+  const IncidentMapNavigation = () => (
+    <>
+      <Hidden minBreakpoint="tabletS">
+        <StyledMenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
+          <IncidentMapMenuItems />
+        </StyledMenuToggle>
+      </Hidden>
+      <Hidden maxBreakpoint="tabletS">
+        <IncidentMapMenuItems />
+      </Hidden>
+    </>
+  )
+
+  return !isIncidentMap ? (
     <>
       <HeaderWrapper
         isFrontOffice={isFrontOffice}
@@ -335,6 +359,20 @@ export const SiteHeader = (props) => {
 
       {tall && <Notification />}
     </>
+  ) : (
+    <IncidentMapHeaderWrapper>
+      <IncidentMapHeader>
+        <Title>
+          <Wrapper>
+            <Logo />
+          </Wrapper>
+          <Wrapper>
+            <h2>Meldingenkaart</h2>
+          </Wrapper>
+        </Title>
+        <IncidentMapNavigation />
+      </IncidentMapHeader>
+    </IncidentMapHeaderWrapper>
   )
 }
 

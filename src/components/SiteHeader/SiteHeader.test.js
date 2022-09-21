@@ -6,16 +6,13 @@ import 'jest-styled-components'
 import * as reactResponsive from 'react-responsive'
 
 import * as auth from 'shared/services/auth/auth'
-import configuration from 'shared/services/configuration/configuration'
 import { history, withAppContext } from 'test/utils'
+import configuration from 'shared/services/configuration/configuration'
 
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import SiteHeader from '.'
 
-let mockIsIncidentMap = false
-jest.mock('hooks/useIsIncidentMap', () => {
-  return jest.fn(() => mockIsIncidentMap)
-})
-
+jest.mock('../../hooks/useIsIncidentMap')
 jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
@@ -334,13 +331,31 @@ describe('components/SiteHeader', () => {
     })
   })
 
-  it('should render null when incidentMap is rendered', () => {
-    mockIsIncidentMap = true
+  it('renders the incident map correctly when not authenticated', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => false)
+    useIsIncidentMap.mockReturnValue(true)
 
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
+    const { queryByText } = render(withAppContext(<SiteHeader />))
 
-    const { container } = render(withAppContext(<SiteHeader />))
+    //header
+    expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+    expect(queryByText('Beschrijf uw melding')).not.toBeInTheDocument()
 
-    expect(container.firstChild).toBeNull()
+    // menu items
+    expect(queryByText('Doe een melding')).toBeInTheDocument()
+  })
+
+  it('renders the incident map correctly when authenticated', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementationOnce(() => true)
+    useIsIncidentMap.mockReturnValue(true)
+
+    const { queryByText } = render(withAppContext(<SiteHeader />))
+
+    //header
+    expect(queryByText('Meldingenkaart')).toBeInTheDocument()
+
+    // menu items
+    expect(queryByText('Melden')).not.toBeInTheDocument()
+    expect(queryByText('Doe een melding')).toBeInTheDocument()
   })
 })

@@ -1,15 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { Suspense } from 'react'
 
-import { withPortal } from '../components/__test__'
+import { render } from '@testing-library/react'
+
+import { withAppContext } from 'test/utils'
+
 import { IncidentMapContainer } from './IncidentMapContainer'
+
+const withSuspense = () =>
+  withAppContext(
+    <Suspense fallback={<div>Loading...</div>}>
+      <IncidentMapContainer />
+    </Suspense>
+  )
 
 describe('signals/IncidentMap/IncidentMapContainer', () => {
   it('should render correctly', async () => {
-    render(withPortal(<IncidentMapContainer />))
+    const { findByTestId, queryByTestId } = render(withSuspense())
 
-    expect(screen.getByText('Meldingenkaart')).toBeInTheDocument()
-    expect(await screen.findByTestId('incidentMap')).toBeInTheDocument()
+    await findByTestId('incidentMap')
+
+    expect(queryByTestId('incidentMap')).toBeInTheDocument()
   })
 })
