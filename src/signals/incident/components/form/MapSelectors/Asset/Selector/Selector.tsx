@@ -20,7 +20,6 @@ import type {
   Marker as MarkerType,
   Map as MapType,
   LatLngTuple,
-  LatLngLiteral,
 } from 'leaflet'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { LocationResult } from 'types/location'
@@ -176,8 +175,7 @@ const Selector: FC = () => {
                   const coordinates = {
                     lat: location.latitude,
                     lng: location.longitude,
-                  } as LatLngLiteral
-
+                  }
                   fetchLocation(coordinates)
                 }}
                 onLocationError={() => {
