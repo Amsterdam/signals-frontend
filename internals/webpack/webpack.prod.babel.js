@@ -2,12 +2,13 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 // @ts-check
 const path = require('path')
-const pkgDir = require('pkg-dir')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+
 const CompressionPlugin = require('compression-webpack-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const pkgDir = require('pkg-dir')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const __rootdir = pkgDir.sync()
 

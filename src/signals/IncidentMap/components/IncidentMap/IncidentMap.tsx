@@ -55,7 +55,7 @@ export const IncidentMap = () => {
   }, [get, bbox])
 
   useEffect(() => {
-    if (data) {
+    if (data?.features) {
       const filteredIncidents = getFilteredIncidents(filters, data.features)
       setFilteredIncidents(filteredIncidents)
     }

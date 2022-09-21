@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, screen, act } from '@testing-library/react'
+import type { UnregisterCallback, History } from 'history'
 import * as reactRedux from 'react-redux'
 
-import { withAppContext, history } from 'test/utils'
+import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
+import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
 import * as auth from 'shared/services/auth/auth'
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'
 import configuration from 'shared/services/configuration/configuration'
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
-import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
-import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
+import { withAppContext, history } from 'test/utils'
 
-import type { UnregisterCallback, History } from 'history'
-import { getSources } from './actions'
 import App, { AppContainer } from '.'
+import { getSources } from './actions'
 
 const mockConfiguration = configuration as typeof configurationType
 const dispatch = jest.fn()
@@ -26,11 +26,6 @@ jest.mock('shared/services/auth/auth', () => ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ...jest.requireActual('shared/services/auth/auth')!,
 }))
-
-const mockIsIncidentMap = false
-jest.mock('hooks/useIsIncidentMap', () => {
-  return jest.fn(() => mockIsIncidentMap)
-})
 
 jest.useFakeTimers()
 

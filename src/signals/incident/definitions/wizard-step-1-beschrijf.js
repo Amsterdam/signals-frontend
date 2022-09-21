@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import some from 'lodash/some'
 import memoize from 'lodash/memoize'
+import some from 'lodash/some'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
 import {
   priorityList,
   typesList,
 } from 'signals/incident-management/definitions'
-import configuration from 'shared/services/configuration/configuration'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
-import IncidentNavigation from '../components/IncidentNavigation'
+
 import FormComponents from '../components/form'
+import IncidentNavigation from '../components/IncidentNavigation'
 import checkVisibility from '../services/checkVisibility'
 import getStepControls from '../services/get-step-controls'
 
@@ -67,7 +68,7 @@ const getControls = memoize(
           maxLength: 1000,
         },
         options: {
-          validators: ['required', '1000'],
+          validators: ['required', ['maxLength', 1000]],
         },
         render: FormComponents.DescriptionInputRenderer,
       },
