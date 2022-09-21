@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import fetchMock from 'jest-fetch-mock'
 import { renderHook, act } from '@testing-library/react-hooks'
-import JSONresponse from 'utils/__tests__/fixtures/user.json'
+import fetchMock from 'jest-fetch-mock'
+import { mocked } from 'jest-mock'
+
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
-import { mocked } from 'jest-mock'
+import JSONresponse from 'utils/__tests__/fixtures/user.json'
 
 import type { FetchError } from '../useFetch'
 import useFetch from '../useFetch'

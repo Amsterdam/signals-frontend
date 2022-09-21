@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useCallback, useReducer } from 'react'
 import type { Reducer } from 'react'
-import { getAuthHeaders } from 'shared/services/auth/auth'
+
 import { getErrorMessage } from 'shared/services/api/api'
+import { getAuthHeaders } from 'shared/services/auth/auth'
+
 import type { FetchError } from './useFetch'
 
 type Data = Record<string, unknown>

@@ -1,7 +1,9 @@
-import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants'
 import type { Reducer } from 'redux'
+
+import { VARIANT_NOTICE, TYPE_LOCAL } from 'containers/Notification/constants'
 import { APPLY_FILTER } from 'signals/incident-management/constants'
 import type { Action } from 'types'
+
 import type { AppActionTypes } from './actions'
 import {
   LOGIN_FAILED,

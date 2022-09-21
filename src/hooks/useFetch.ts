@@ -2,8 +2,9 @@
 // Copyright (C) 2021 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { Reducer } from 'react'
 import { useCallback, useEffect, useReducer, useMemo } from 'react'
-import { getAuthHeaders } from 'shared/services/auth/auth'
+
 import { getErrorMessage } from 'shared/services/api/api'
+import { getAuthHeaders } from 'shared/services/auth/auth'
 
 type Data = Record<string, unknown>
 export type FetchError = (Response | Error) & {

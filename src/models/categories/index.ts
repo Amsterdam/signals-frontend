@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import type { InjectedStore } from 'types'
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
-
-import type { InjectedStore } from 'types'
 
 import reducer from './reducer'
 import saga from './saga'

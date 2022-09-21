@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+
 import categoriesJson from 'utils/__tests__/fixtures/categories_private.json'
 
-import type { CategoriesState } from './reducer'
-
-import reducer, { initialState } from './reducer'
 import {
   fetchCategories,
   fetchCategoriesSuccess,
   fetchCategoriesFailed,
 } from './actions'
+import type { CategoriesState } from './reducer'
+import reducer, { initialState } from './reducer'
 
 const catCount = 9
 

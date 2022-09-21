@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import { mocked } from 'jest-mock'
+
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
-import { mocked } from 'jest-mock'
 
 import loadModel from '..'
 import reducer from './reducer'
