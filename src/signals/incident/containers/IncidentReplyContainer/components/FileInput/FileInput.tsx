@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import FileInputComponent from 'components/FileInput'
 import type { FunctionComponent } from 'react'
 import { useCallback, useState } from 'react'
@@ -44,12 +44,12 @@ const FileInput: FunctionComponent<FieldProps> = ({
         },
         minFileSize: (files) =>
           (files as File[]).find((file) => file.size < MIN) &&
-          `Dit bestand is te klein. De minimale bestandgrootte is ${fileSize(
+          `Dit bestand is te klein. De minimale bestandsgrootte is ${fileSize(
             MIN
           )}.`,
         maxFileSize: (files) =>
           (files as File[]).find((file) => file.size > MAX) &&
-          `Dit bestand is te groot. De minimale bestandgrootte is ${fileSize(
+          `Dit bestand is te groot. De maximale bestandsgrootte is ${fileSize(
             MAX
           )}.`,
       },

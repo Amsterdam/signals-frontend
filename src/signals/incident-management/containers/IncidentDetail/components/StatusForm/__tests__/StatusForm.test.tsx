@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import {
   fireEvent,
   getQueriesForElement,
@@ -19,6 +19,7 @@ import {
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
+import * as scrollLock from 'scroll-lock'
 
 import type { Incident } from 'types/api/incident'
 
@@ -26,9 +27,9 @@ import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
 import * as actions from 'containers/App/actions'
 import { withAppContext } from 'test/utils'
-import { PATCH_TYPE_STATUS } from '../../constants'
-import IncidentDetailContext from '../../context'
-import type { IncidentChild } from '../../types'
+import { PATCH_TYPE_STATUS } from '../../../constants'
+import IncidentDetailContext from '../../../context'
+import StatusForm from '..'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
   DEELMELDING_EXPLANATION,
@@ -37,8 +38,9 @@ import {
   DEFAULT_TEXT_LABEL,
   DEFAULT_TEXT_MAX_LENGTH,
   NO_EMAIL_IS_SENT,
-} from './constants'
-import StatusForm from './index'
+} from '../constants'
+
+import type { IncidentChild } from '../../../types'
 
 const incidentFixture = incidentJSON as unknown as Incident
 const defaultTexts = [
@@ -71,6 +73,9 @@ const defaultTexts = [
 
 const update = jest.fn()
 jest.spyOn(actions, 'showGlobalNotification')
+jest.mock('scroll-lock')
+const disablePageScrollSpy = jest.spyOn(scrollLock, 'disablePageScroll')
+const enablePageScrollSpy = jest.spyOn(scrollLock, 'enablePageScroll')
 
 const renderWithContext = (
   incident = incidentFixture,
@@ -126,6 +131,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   afterEach(() => {
     fetch.resetMocks()
     update.mockReset()
+    disablePageScrollSpy.mockClear()
+    enablePageScrollSpy.mockClear()
   })
 
   it('shows an explanation text when email will be sent', () => {
@@ -734,13 +741,19 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
+    expect(scrollLock.disablePageScroll).toHaveBeenCalledTimes(0)
+    expect(scrollLock.enablePageScroll).toHaveBeenCalledTimes(0)
 
     // verify that the email preview is shown and update has not been called yet
     await screen.findByTestId('emailPreviewModal')
     expect(update).not.toHaveBeenCalled()
+    expect(scrollLock.disablePageScroll).toHaveBeenCalledTimes(1)
+    expect(scrollLock.enablePageScroll).toHaveBeenCalledTimes(0)
 
     // send the email
     userEvent.click(screen.getByTestId('submitBtn'))
+    expect(scrollLock.disablePageScroll).toHaveBeenCalledTimes(1)
+    expect(scrollLock.enablePageScroll).toHaveBeenCalledTimes(1)
 
     // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(

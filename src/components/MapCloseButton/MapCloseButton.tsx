@@ -11,11 +11,9 @@ interface MapCloseButtonProps {
 
 const MAP_ICON_SIZE = 44
 
-const MapCloseButton: FunctionComponent<MapCloseButtonProps & React.HTMLProps<HTMLElement>> = ({
-  className,
-  onClick,
-  tabIndex
-}) => (
+const MapCloseButton: FunctionComponent<
+  MapCloseButtonProps & React.HTMLProps<HTMLElement>
+> = ({ className, onClick, tabIndex }) => (
   <ControlButton
     data-testid="mapCloseButton"
     icon={<Close />}

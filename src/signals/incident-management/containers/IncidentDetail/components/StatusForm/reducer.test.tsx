@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import statusList, {
-  changeStatusOptionList, GEMELD,
+  changeStatusOptionList,
+  GEMELD,
 } from 'signals/incident-management/definitions/statusList'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import type { Status } from 'signals/incident-management/definitions/types'
@@ -80,7 +81,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('should return the state', () => {
-    expect(reducer(state, { type: 'SET_STATUS', payload: someStatus })).toEqual(state)
+    expect(reducer(state, { type: 'SET_STATUS', payload: someStatus })).toEqual(
+      state
+    )
   })
 
   it('should handle SET_STATUS', () => {
@@ -128,7 +131,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   })
 
   it('should handle TOGGLE_CHECK', () => {
-    const afterToggle = reducer(initialisedState, { type: 'TOGGLE_CHECK', payload: undefined })
+    const afterToggle = reducer(initialisedState, {
+      type: 'TOGGLE_CHECK',
+      payload: undefined,
+    })
 
     expect(afterToggle).toEqual({
       ...initialisedState,
@@ -136,9 +142,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       text: { ...initialisedState.text, required: true },
     })
 
-    expect(reducer(afterToggle, { type: 'TOGGLE_CHECK', payload: undefined })).toEqual(
-      initialisedState
-    )
+    expect(
+      reducer(afterToggle, { type: 'TOGGLE_CHECK', payload: undefined })
+    ).toEqual(initialisedState)
   })
 
   it('should handle SET_DEFAULT_TEXT', () => {

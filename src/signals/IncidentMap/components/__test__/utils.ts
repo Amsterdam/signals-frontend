@@ -21,12 +21,14 @@ export const mockUseMapInstance = {
   getZoom: jest.fn(),
 }
 
+export const del = jest.fn()
 export const get = jest.fn()
 export const patch = jest.fn()
 export const post = jest.fn()
 export const put = jest.fn()
 
 export const useFetchResponse = {
+  del,
   get,
   patch,
   post,

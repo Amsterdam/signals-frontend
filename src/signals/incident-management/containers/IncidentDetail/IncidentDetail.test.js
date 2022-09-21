@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { render, act, screen, waitFor } from '@testing-library/react'
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
+import * as appSelectors from 'containers/App/selectors'
 
 import * as categoriesSelectors from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -19,14 +20,24 @@ import * as API from '../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
+  rest,
+  server,
 } from '../../../../../internals/testing/msw-server'
 
-import IncidentDetail from './index'
+import IncidentDetail from './'
 
 jest.spyOn(window, 'scrollTo')
 jest
   .spyOn(categoriesSelectors, 'makeSelectSubCategories')
   .mockImplementation(() => subCategories)
+
+const mockUseUpload = {
+  upload: jest.fn(),
+  uploadSuccess: jest.fn(),
+  uploadProgress: jest.fn(),
+  uploadError: jest.fn(),
+}
+jest.mock('./hooks/useUpload', () => () => mockUseUpload)
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
@@ -202,15 +213,15 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   it('renders attachment viewer', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    const attachmentsValueButton = await screen.findByTestId(
-      'attachmentsValueButton'
+    const attachment = await screen.findByTitle(
+      'ae70d54aca324d0480ca01934240c78f.jpg'
     )
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
     ).not.toBeInTheDocument()
 
-    userEvent.click(attachmentsValueButton)
+    userEvent.click(attachment)
 
     expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
     await screen.findByTestId('incidentDetail')
@@ -219,26 +230,27 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   it('closes previews when close button is clicked', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    const attachmentsValueButton = await screen.findByTestId(
-      'attachmentsValueButton'
+    const attachment = await screen.findByTitle(
+      'ae70d54aca324d0480ca01934240c78f.jpg'
     )
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
     ).not.toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
 
-    userEvent.click(attachmentsValueButton)
+    userEvent.click(attachment)
 
     expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).toBeInTheDocument()
+    const closeButton = screen.getByTitle(/sluiten/i)
+    expect(closeButton).toBeInTheDocument()
 
-    userEvent.click(screen.queryByTestId('closeButton'))
+    userEvent.click(closeButton)
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
     ).not.toBeInTheDocument()
-    expect(screen.queryByTestId('closeButton')).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
 
     await screen.findByTestId('incidentDetail')
   })
@@ -249,7 +261,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incidentDetail')
 
     act(() => {
-      userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+      userEvent.click(screen.getByText('Notitie toevoegen'))
     })
 
     userEvent.type(screen.getByTestId('addNoteText'), 'Foo bar baz')
@@ -270,6 +282,53 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incidentDetail')
   })
 
+  it('should handle attachment upload', async () => {
+    render(withAppContext(<IncidentDetail />))
+
+    await screen.findByTestId('incidentDetail')
+
+    const files = [
+      {
+        name: 'bloem.jpeg',
+        size: 89691,
+        type: 'image/jpeg',
+      },
+    ]
+    const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+    fireEvent.change(fileInputElement, {
+      target: { files },
+    })
+    expect(mockUseUpload.upload).toHaveBeenCalledWith(files, 4440)
+  })
+
+  it('should handle attachment deletion', async () => {
+    let deleteCalled = false
+    jest.spyOn(window, 'confirm').mockImplementation(() => {
+      return true
+    })
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true)
+    server.use(
+      rest.delete(
+        'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
+        async (_req, res, ctx) => {
+          deleteCalled = true
+          return res(ctx.status(201))
+        }
+      )
+    )
+
+    render(withAppContext(<IncidentDetail />))
+
+    await screen.findByTestId('incidentDetail')
+
+    const deleteButton = screen.getByTitle(/bijlage verwijderen/i)
+    userEvent.click(deleteButton)
+    await screen.findByTestId('incidentDetail')
+    expect(deleteCalled).toBe(true)
+  })
+
   describe('handling errors', () => {
     beforeEach(async () => {
       render(withAppContext(<IncidentDetail />))
@@ -277,7 +336,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('incidentDetail')
 
       act(() => {
-        userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+        userEvent.click(screen.getByText('Notitie toevoegen'))
       })
 
       act(() => {

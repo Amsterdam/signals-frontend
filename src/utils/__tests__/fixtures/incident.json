@@ -45,7 +45,7 @@
     "text": null
   },
   "id": 4440,
-  "has_attachments": false,
+  "has_attachmentts": true,
   "location": {
     "id": 4803,
     "stadsdeel": "A",
@@ -124,6 +124,8 @@
   "incident_date_start": "2020-02-06T08:50:15+01:00",
   "incident_date_end": null,
   "routing_departments": null,
-  "attachments": [],
+  "attachments": [
+    "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
+  ],
   "assigned_user_email": null
 }
