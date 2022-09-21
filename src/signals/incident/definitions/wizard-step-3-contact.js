@@ -59,7 +59,7 @@ export default {
       privacy_text: {
         meta: {
           type: 'message',
-          heading: 'Melding doorsturen',
+          heading: 'Mogen we uw melding doorsturen?',
           value:
             'Soms kan de gemeente niets doen. Een andere organisatie moet dan aan het werk. Bijvoorbeeld de politie of de dierenambulance. Als dat zo is kunnen wij uw melding doorsturen. Wij sturen uw telefoonnummer of e-mailadres mee. Maar dat doen we alleen als u dat goed vindt.',
           wrappedComponent: FormComponents.PlainText,
