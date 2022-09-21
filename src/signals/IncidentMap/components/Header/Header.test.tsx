@@ -18,7 +18,7 @@ describe('Header', () => {
     jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
   })
 
-  it('should render heading correctly', () => {
+  it('should render component correctly', () => {
     render(<Header />)
 
     expect(screen.getByText('Meldingenkaart')).toBeInTheDocument()
