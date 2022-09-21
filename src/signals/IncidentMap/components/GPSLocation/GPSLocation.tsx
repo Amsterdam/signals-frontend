@@ -15,7 +15,6 @@ import { StyledViewerContainer } from './styled'
 
 export interface Props {
   map: Map
-  // flyTo: (coordinates: LatLngLiteral, zoom: number) => void
   setNotification: (mapMessage: JSX.Element | string) => void
 }
 

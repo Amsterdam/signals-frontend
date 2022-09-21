@@ -224,9 +224,9 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       )
     )
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = { getCurrentPosition }
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: { getCurrentPosition },
+    })
 
     render(withAssetSelectContext(<Selector />))
 
@@ -276,9 +276,9 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       ),
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = mockGeolocation
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+    })
 
     const { fetchLocation } = contextValue
 

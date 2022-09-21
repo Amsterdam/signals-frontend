@@ -13,8 +13,8 @@ jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ...jest.requireActual('@amsterdam/react-maps')!,
-  Marker: ({ ...Props }) => {
-    return <div {...Props}></div>
+  Marker: ({ ...props }) => {
+    return <div {...props}></div>
   },
 }))
 
