@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
+
 import useIsIncidentMap from '../useIsIncidentMap'
 
 jest.mock('react-router-dom', () => ({
