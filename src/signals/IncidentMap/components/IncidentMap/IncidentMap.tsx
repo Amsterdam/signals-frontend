@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
+
+import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { Feature, FeatureCollection } from 'geojson'
+import type { Map as MapType } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -13,20 +15,31 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
+import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
 import { Wrapper, StyledMap } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
-  const [mapMessage, setMapMessage] = useState<string>('')
+  const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
+
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
+  const [map, setMap] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
     useFetch<FeatureCollection<Point, Properties>>()
+
+  const setNotification = useCallback(
+    (message: JSX.Element | string) => {
+      setMapMessage(message)
+      setShowMessage(true)
+    },
+    [setMapMessage, setShowMessage]
+  )
 
   useEffect(() => {
     if (bbox) {
@@ -42,7 +55,7 @@ export const IncidentMap = () => {
   }, [get, bbox])
 
   useEffect(() => {
-    if (data) {
+    if (data?.features) {
       const filteredIncidents = getFilteredIncidents(filters, data.features)
       setFilteredIncidents(filteredIncidents)
     }
@@ -50,10 +63,9 @@ export const IncidentMap = () => {
 
   useEffect(() => {
     if (error) {
-      setMapMessage('Er konden geen meldingen worden opgehaald.')
-      setShowMessage(true)
+      setNotification('Er konden geen meldingen worden opgehaald.')
     }
-  }, [error, isSuccess])
+  }, [error, isSuccess, setNotification])
 
   return (
     <Wrapper>
@@ -61,6 +73,7 @@ export const IncidentMap = () => {
         data-testid="incidentMap"
         fullScreen={false}
         hasZoomControls
+        setInstance={setMap}
         mapOptions={{
           ...MAP_OPTIONS,
           dragging: true,
@@ -70,12 +83,7 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
-
-        <FilterPanel
-          filters={filters}
-          setFilters={setFilters}
-          setMapMessage={setMapMessage}
-        />
+        {map && <GPSLocation map={map} setNotification={setNotification} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer
@@ -87,6 +95,11 @@ export const IncidentMap = () => {
           />
         )}
       </StyledMap>
+      <FilterPanel
+        filters={filters}
+        setFilters={setFilters}
+        setMapMessage={setMapMessage}
+      />
     </Wrapper>
   )
 }

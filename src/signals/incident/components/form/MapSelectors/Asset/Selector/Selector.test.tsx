@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import 'jest-styled-components'
-import { render, screen, within } from '@testing-library/react'
-import fetchMock from 'jest-fetch-mock'
-import userEvent from '@testing-library/user-event'
-import * as scrollLock from 'scroll-lock'
-
 import type { FC } from 'react'
 
-import assetsJson from 'utils/__tests__/fixtures/assets.json'
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import fetchMock from 'jest-fetch-mock'
+import type { MapOptions } from 'leaflet'
+import * as reactRedux from 'react-redux'
+import * as scrollLock from 'scroll-lock'
+
+import type { MapProps } from 'components/Map/Map'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import type { MapOptions } from 'leaflet'
-import type { MapProps } from 'components/Map/Map'
-import * as reactRedux from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import assetsJson from 'utils/__tests__/fixtures/assets.json'
+
+import MockInstance = jest.MockInstance
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
-
 import Selector, { MAP_LOCATION_ZOOM } from './Selector'
-import MockInstance = jest.MockInstance
 
 jest.useFakeTimers()
 
@@ -224,9 +224,9 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       )
     )
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    global.navigator.geolocation = { getCurrentPosition }
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: { getCurrentPosition },
+    })
 
     render(withAssetSelectContext(<Selector />))
 
@@ -258,6 +258,39 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
 
     expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
+  })
+
+  it('fetches the location when the button is pressed', () => {
+    const coords = {
+      accuracy: 50,
+      latitude: 52.3731081,
+      longitude: 4.8932945,
+    }
+    const mockGeolocation = {
+      getCurrentPosition: jest.fn().mockImplementation((success) =>
+        Promise.resolve(
+          success({
+            coords,
+          })
+        )
+      ),
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: mockGeolocation,
+    })
+
+    const { fetchLocation } = contextValue
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(fetchLocation).not.toHaveBeenCalled()
+    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
+
+    expect(fetchLocation).toHaveBeenCalledWith({
+      lat: coords.latitude,
+      lng: coords.longitude,
+    })
   })
 
   it('renders a location marker', () => {

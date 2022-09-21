@@ -21,7 +21,7 @@ import {
 export type Props = {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
-  setMapMessage: React.Dispatch<React.SetStateAction<string>>
+  setMapMessage: (mapMessage: JSX.Element | string) => void
 }
 
 export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {

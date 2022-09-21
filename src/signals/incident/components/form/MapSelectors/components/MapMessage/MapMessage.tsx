@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam
 import { useContext } from 'react'
-import styled from 'styled-components'
-import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import { MapPanelContext } from '@amsterdam/arm-core'
-import { Close } from '@amsterdam/asc-assets'
-
 import type {
   FC,
   PropsWithChildren,
   HTMLAttributes,
   MouseEventHandler,
 } from 'react'
+
+import { MapPanelContext } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import { Close } from '@amsterdam/asc-assets'
+import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import useLayerVisible from '../../hooks/useLayerVisible'
 
 export const MessageStyle = styled.div<{ leftOffset?: string }>`
   height: auto;
-  margin: ${themeSpacing(4, 0, 0)};
+  margin: ${themeSpacing(0, 4, 0, 0)};
   min-height: ${themeSpacing(11)};
   padding: ${themeSpacing(3, 4, 3, 4)};
   z-index: 400;
@@ -101,6 +101,7 @@ export const MapMessage: FC<MapMessageProps> = ({
   <MessageOverlay {...props} data-testid="mapMessage" type="map">
     {children}
     <CloseButton
+      data-testid="closeMessage"
       onClick={onClick}
       icon={<Close />}
       variant="blank"

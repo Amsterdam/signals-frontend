@@ -8,12 +8,12 @@ import {
   themeSpacing,
   themeColor,
 } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import useIsIncidentMap from 'hooks/useIsIncidentMap'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
-import { useSelector } from 'react-redux'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const FooterWrapper = styled.div`

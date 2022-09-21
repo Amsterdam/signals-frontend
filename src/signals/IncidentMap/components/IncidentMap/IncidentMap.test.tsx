@@ -30,6 +30,12 @@ describe('IncidentMap', () => {
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
   })
 
+  it('renders the GPSLocation', () => {
+    render(withAppContext(<IncidentMap />))
+
+    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
+  })
+
   it('sends a request to fetch publicly available incidents', () => {
     render(withAppContext(<IncidentMap />))
 
@@ -62,7 +68,7 @@ describe('IncidentMap', () => {
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
 
-    const closeButton = screen.getAllByRole('button')[0]
+    const closeButton = screen.getByTestId('closeMessage')
 
     expect(closeButton).toBeInTheDocument()
 
