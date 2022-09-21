@@ -4,7 +4,6 @@ import {
   themeColor,
   Button as AscButton,
 } from '@amsterdam/asc-ui'
-import ErrorMessage from 'components/ErrorMessage'
 import LoadingIndicator from 'components/LoadingIndicator'
 import styled from 'styled-components'
 
@@ -19,7 +18,7 @@ export const Wrapper = styled.section`
 
 export const StyledButtonWrapper = styled.div`
   display: flex;
-  margin-top: ${themeSpacing(2)};
+  margin-top: ${themeSpacing(8)};
   gap: ${themeSpacing(2)};
 `
 
@@ -126,10 +125,6 @@ export const StyledUploadProgressError = styled(StyledUploadProgress)`
 export const StyledLoadingIndicator = styled(LoadingIndicator)`
   width: 50px;
   height: 50px;
-`
-
-export const StyledErrorMessage = styled(ErrorMessage)`
-  margin-bottom: ${themeSpacing(8)};
 `
 
 export const StyledAddNote = styled(AddNote)`

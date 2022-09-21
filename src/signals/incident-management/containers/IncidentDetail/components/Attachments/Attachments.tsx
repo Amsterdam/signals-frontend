@@ -1,25 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+
+import type { FC } from 'react'
+import { useEffect } from 'react'
+import { useCallback, useState } from 'react'
+import { useContext } from 'react'
+
 import {
   Close as CloseIcon,
   TrashBin as DeleteIcon,
 } from '@amsterdam/asc-assets'
-
-import { useEffect } from 'react'
-import type { FC } from 'react'
 import Button from 'components/Button'
-import { useCallback, useState } from 'react'
-import { useContext } from 'react'
-import { useSelector } from 'react-redux'
+import ErrorMessage from 'components/ErrorMessage'
 import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+import { useSelector } from 'react-redux'
 import fileSize from 'signals/incident/services/file-size'
-import type { Attachment } from '../../types'
+
 import IncidentDetailContext from '../../context'
-import FileInput from '../FileInput'
 import type { Files } from '../../hooks/useUpload'
-import StyledUploadProgress from './UploadProgress'
+import type { Attachment } from '../../types'
+import FileInput from '../FileInput'
 import {
   StyledAddNote,
   StyledBox,
@@ -30,7 +32,6 @@ import {
   StyledDetails,
   StyledEmployee,
   StyledError,
-  StyledErrorMessage,
   StyledGradient,
   StyledImg,
   StyledLoadingIndicator,
@@ -40,6 +41,7 @@ import {
   Title,
   Wrapper,
 } from './styles'
+import StyledUploadProgress from './UploadProgress'
 
 export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
 export const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
@@ -223,7 +225,7 @@ const Attachments: FC<AttachmentsProps> = ({
           </StyledBox>
         )
       )}
-      <StyledErrorMessage message={error} />
+      {error && <ErrorMessage message={error} />}
       <StyledButtonWrapper>
         <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
           {files.length > 0 && !uploadError ? (
