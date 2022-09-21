@@ -1,5 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
 import type { Questionnaire } from 'types/api/qa/questionnaire'
+
 import { useBuildGetter } from '../useBuildGetter'
 
 const useGetQuestionnaire = () =>

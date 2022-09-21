@@ -1,5 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
 import type { Geography } from 'types/api/geography'
+
 import { useBuildGetter } from './useBuildGetter'
 
 const useGetIncidentContextGeography = () =>

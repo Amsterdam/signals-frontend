@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterda
+import type { List as ImmutableList, Map as ImmutableMap } from 'immutable'
 import { createSelector } from 'reselect'
+
 import { getDaysString } from 'shared/services/date-utils'
 import { reCategory } from 'shared/services/resolveClassification'
-
-import type { List as ImmutableList, Map as ImmutableMap } from 'immutable'
 import type { ApplicationRootState } from 'types'
-import type { Category } from 'types/category'
 import type SubCategory from 'types/api/sub-category'
+import type { Category } from 'types/category'
 
 import { initialState } from './reducer'
 
