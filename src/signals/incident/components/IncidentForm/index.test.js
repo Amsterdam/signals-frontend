@@ -310,12 +310,18 @@ describe('<IncidentForm />', () => {
 
     describe('form events', () => {
       it('should handle onchange and on blur event', () => {
+        const triggerSpy = jest.fn()
         const props = {
           ...defaultProps,
+          reactHookFormProps: {
+            trigger: triggerSpy,
+          },
           fieldConfig: requiredFieldConfig,
         }
 
         renderIncidentForm(props)
+
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
 
         fireEvent.change(document.getElementById('phone'), {
           target: {
@@ -337,6 +343,14 @@ describe('<IncidentForm />', () => {
 
         // Because of meta.autoRemove updateIncident only gets called once
         expect(props.updateIncident).toHaveBeenCalledTimes(1)
+
+        fireEvent.change(document.getElementById('phone'), {
+          target: {
+            value: '',
+          },
+        })
+
+        expect(triggerSpy).toHaveBeenCalledTimes(3)
       })
     })
   })
