@@ -6,7 +6,6 @@ import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import NextButton from 'components/NextButton'
 import PreviousButton from 'components/PreviousButton'
 import { WithWizard } from 'react-albus'
-import { useFormContext } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type {
@@ -48,7 +47,6 @@ interface IncidentNavigationProps {
 
 const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
   const { wizard } = meta
-  const { reset } = useFormContext()
 
   return (
     <WithWizard
@@ -64,10 +62,6 @@ const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
               meta={meta}
               next={next}
               previous={() => {
-                /**
-                  When calling previous, clear errors in formState.
-                */
-                reset()
                 previous()
               }}
             />
