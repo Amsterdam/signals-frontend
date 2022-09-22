@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { useContext, useMemo, useRef } from 'react'
-import { Route } from 'react-router-dom'
-import { Wizard, Steps, Step } from 'react-albus'
-import { FormProvider, useForm } from 'react-hook-form'
+import type { FC } from 'react'
+
 import {
   StepByStepNav,
   breakpoint,
   Paragraph,
   ascDefaultTheme,
 } from '@amsterdam/asc-ui'
-
-import type { FC } from 'react'
+import LoadingIndicator from 'components/LoadingIndicator'
+import AppContext from 'containers/App/context'
+import { Wizard, Steps, Step } from 'react-albus'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Route } from 'react-router-dom'
 import type {
   createIncident,
   getClassification,
@@ -20,16 +22,12 @@ import type {
   addToSelection,
   removeFromSelection,
 } from 'signals/incident/containers/IncidentContainer/actions'
-import type { Incident } from 'types/incident'
 import type { WizardSection } from 'signals/incident/definitions/wizard'
-
-import LoadingIndicator from 'components/LoadingIndicator'
-import AppContext from 'containers/App/context'
+import type { Incident } from 'types/incident'
 
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
 import onNext from './services/on-next'
-
 import {
   FormWrapper,
   Header,

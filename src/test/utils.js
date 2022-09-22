@@ -65,7 +65,11 @@ export const withAppContext = (Component) => (
   </ThemeProvider>
 )
 
-export const FormProviderWithResolver = ({ fieldConfig, children }) => {
+export const FormProviderWithResolver = ({
+  fieldConfig,
+  children,
+  reactHookFormProps,
+}) => {
   const controls = Object.fromEntries(
     Object.entries(fieldConfig.controls).filter(
       ([key, value]) => value.meta?.isVisible || key === '$field_0'
@@ -80,7 +84,7 @@ export const FormProviderWithResolver = ({ fieldConfig, children }) => {
   return (
     <FormProvider {...formProps}>
       {React.cloneElement(children, {
-        reactHookFormProps: formProps,
+        reactHookFormProps: { ...formProps, ...reactHookFormProps },
       })}
     </FormProvider>
   )
