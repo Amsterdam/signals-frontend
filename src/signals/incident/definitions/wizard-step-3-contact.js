@@ -21,7 +21,7 @@ export default {
           heading:
             'Mogen we u bellen voor vragen? En op de  hoogte houden via e-mail?',
           value: `Vaak hebben we nog een vraag. Daarmee kunnen we het probleem sneller of beter oplossen. Of we willen iets uitleggen. Wij willen u dan graag even bellen. Of anders e-mailen wij u.
-            \n Wij gebruiken uw telefoonnummer en e-mailadres alleen voor deze melding.`,
+            \n Wij gebruiken uw telefoonnummer en e-mailadres alléén voor deze melding.`,
           wrappedComponent: FormComponents.PlainText,
         },
         render: FormComponents.WithHeading,
