@@ -50,6 +50,18 @@ const statusOptions = [
   { key: 'false', value: 'Niet actief' },
 ]
 
+const notificationOptions = [
+  {
+    key: 'notification_on_assigment_to_department',
+    value:
+      'Stuur mij een e-mail als een melding aan mijn afdeling is gekoppeld',
+  },
+  {
+    key: 'notification_on_assigment_to_user',
+    value: 'Stuur mij een e-mail als een melding aan mij is toegewezen',
+  },
+]
+
 const StyledHistory = styled(History)`
   h2 {
     font-size: 16px;
@@ -81,6 +93,11 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
       ?.map((role) => inputRoles.find(({ name }) => name === role.name))
       .filter(Boolean) || []
 
+  const userNotifications =
+    notificationOptions.filter(
+      (notificationOption) => data?.profile?.[notificationOption.key]
+    ) || []
+
   const [state, dispatch] = useReducer(reducer, {
     username: data.username || '',
     first_name: data.first_name || '',
@@ -92,6 +109,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
         : `${data.is_active}`,
     departments: userDepartments,
     roles: userRoles,
+    notifications: userNotifications,
   })
 
   const onChangeEvent = useCallback(
@@ -117,6 +135,12 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
     form.is_active = state.is_active === 'true'
     form.profile.note = state.note
     form.profile.departments = state.departments.map(({ value }) => value)
+
+    const enabledNotifications = state.notifications.map(({ key }) => key)
+    form.profile.notification_on_assigment_to_department =
+      enabledNotifications.includes('notification_on_assigment_to_department')
+    form.profile.notification_on_assigment_to_user =
+      enabledNotifications.includes('notification_on_assigment_to_user')
 
     form.roles = state.roles.map(({ name: stateRoleName }) =>
       roles.find(({ name: dataRoleName }) => dataRoleName === stateRoleName)
@@ -190,6 +214,20 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
                 onChange={onChangeEvent}
                 type="text"
                 value={state.last_name}
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label as="span">Notificatie</Label>
+              <CheckboxList
+                defaultValue={state.notifications}
+                disabled={readOnly}
+                groupName="notifications"
+                name="notifications"
+                options={notificationOptions}
+                onChange={(field, value) => {
+                  onChange(field, value)
+                }}
               />
             </FieldGroup>
 
