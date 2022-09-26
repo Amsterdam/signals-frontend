@@ -11,7 +11,7 @@ import styled, { css } from 'styled-components'
 import type { ModeProp } from './DrawerOverlay'
 import { isDesktop } from './utils'
 
-const HANDLE_SIZE_MOBILE = 40
+export const HANDLE_SIZE_MOBILE = 40
 export const MENU_WIDTH = 420
 
 export const MapOverlay = styled('div')<ModeProp>`
@@ -38,6 +38,8 @@ export const DrawerHandleMobile = styled(Button)`
   flex-shrink: 0;
   width: 100%;
   height: ${HANDLE_SIZE_MOBILE}px;
+  box-shadow: 0px -4px 4px 0 rgb(0 0 0 / 10%);
+
   &::before {
     content: '';
     display: block;
@@ -105,6 +107,7 @@ export const HandleIcon = styled(ChevronRight)<{ $isOpen: boolean }>`
 
 export const DrawerContentWrapper = styled('div')`
   width: 100%;
+  height: 100%;
   padding: ${themeSpacing(0, 5, 0, 5)};
   overflow-y: auto;
 `
