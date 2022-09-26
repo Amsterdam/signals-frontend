@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-
 import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
@@ -14,7 +13,9 @@ import { MapMessage } from 'signals/incident/components/form/MapSelectors/compon
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
 import type { Filter, Point, Properties } from '../../types'
-import { FilterPanel } from '../FilterPanel'
+import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
+import { FilterOrDetails } from '../DrawerOverlay/DrawerOverlay'
+import { FilterPanelSingle } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
@@ -24,6 +25,10 @@ export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
 
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
+  const [filterOrDetails, setFilterOrDetails] = useState<FilterOrDetails>(
+    FilterOrDetails.Details
+  )
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] =
@@ -39,6 +44,11 @@ export const IncidentMap = () => {
       setShowMessage(true)
     },
     [setMapMessage, setShowMessage]
+  )
+
+  const showFilter = useCallback(
+    () => setFilterOrDetails(FilterOrDetails.Filter),
+    [setFilterOrDetails]
   )
 
   useEffect(() => {
@@ -83,7 +93,33 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
-        {map && <GPSLocation map={map} setNotification={setNotification} />}
+
+        {map && (
+          <GPSLocation
+            map={map}
+            setNotification={setNotification}
+            panelIsOpen={drawerState}
+          />
+        )}
+
+        <DrawerOverlay
+          onStateChange={setDrawerState}
+          state={drawerState}
+          ControlledContent={(props) => (
+            <span {...props}>Address Search Input</span>
+          )}
+          onControlClick={() => setFilterOrDetails(FilterOrDetails.Filter)}
+          showFilter={showFilter}
+          filterOrDetails={filterOrDetails}
+        >
+          {
+            <FilterPanelSingle
+              filters={filters}
+              setFilters={setFilters}
+              setMapMessage={setMapMessage}
+            />
+          }
+        </DrawerOverlay>
 
         {mapMessage && showMessage && (
           <ViewerContainer
@@ -95,11 +131,6 @@ export const IncidentMap = () => {
           />
         )}
       </StyledMap>
-      <FilterPanel
-        filters={filters}
-        setFilters={setFilters}
-        setMapMessage={setMapMessage}
-      />
     </Wrapper>
   )
 }

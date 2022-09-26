@@ -11,14 +11,20 @@ import GPSButton from '../../../../components/GPSButton'
 import configuration from '../../../../shared/services/configuration/configuration'
 import { markerIcon } from '../../../../shared/services/configuration/map-markers'
 import type { LocationResult } from '../../../../types/location'
+import { DrawerState } from '../DrawerOverlay'
 import { StyledViewerContainer } from './styled'
 
 export interface Props {
   map: Map
   setNotification: (mapMessage: JSX.Element | string) => void
+  panelIsOpen?: DrawerState
 }
 
-export const GPSLocation = ({ map, setNotification }: Props) => {
+export const GPSLocation = ({
+  map,
+  setNotification,
+  panelIsOpen = DrawerState.Closed,
+}: Props) => {
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
 
   useEffect(() => {
@@ -30,6 +36,7 @@ export const GPSLocation = ({ map, setNotification }: Props) => {
   return (
     <>
       <StyledViewerContainer
+        $hasPanel={panelIsOpen}
         topLeft={
           <GPSButton
             tabIndex={0}
