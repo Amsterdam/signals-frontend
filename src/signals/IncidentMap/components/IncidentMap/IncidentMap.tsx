@@ -18,7 +18,6 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Point, Properties } from '../../types'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
-import { FilterOrDetails } from '../DrawerOverlay/DrawerOverlay'
 import { FilterPanelSingle } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
@@ -28,14 +27,12 @@ import { Wrapper, StyledMap } from './styled'
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
+  const [showMessage, setShowMessage] = useState<boolean>(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
-  const [filterOrDetails, setFilterOrDetails] = useState<FilterOrDetails>(
-    FilterOrDetails.Details
-  )
-  const [showMessage, setShowMessage] = useState<boolean>(false)
+  const [showDetailPanel, setShowDetailPanel] = useState(false)
+
   const [filters, setFilters] = useState<Filter[]>([])
-  const [showDetailPanel, setShowDetailPanel] = useState()
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
   const [map, setMap] = useState<MapType>()
@@ -51,15 +48,11 @@ export const IncidentMap = () => {
     [setMapMessage, setShowMessage]
   )
 
-  const onCloseDetailPanel = useCallback(() => {
-    setShowDetailPanel(undefined)
-  }, [])
-
   /* istanbul ignore next */
   const resetMarkerIcons = useCallback(() => {
     if (!map) return
 
-    map.eachLayer((markerClustLayer) => {
+    map.eachLayer((markerClustLayer: any) => {
       const layer = markerClustLayer as MarkerClusterType
 
       if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
@@ -67,6 +60,11 @@ export const IncidentMap = () => {
       }
     })
   }, [map])
+
+  const onCloseDetailPanel = useCallback(() => {
+    setShowDetailPanel(false)
+    resetMarkerIcons()
+  }, [resetMarkerIcons])
 
   useEffect(() => {
     if (bbox) {
@@ -112,8 +110,8 @@ export const IncidentMap = () => {
         <IncidentLayer
           passBbox={setBbox}
           incidents={filteredIncidents}
-          resetMarkerIcons={resetMarkerIcons}
           setShowDetailPanel={setShowDetailPanel}
+          resetMarkerIcons={resetMarkerIcons}
         />
 
         {map && (
@@ -130,9 +128,8 @@ export const IncidentMap = () => {
           ControlledContent={(props) => (
             <span {...props}>Address Search Input</span>
           )}
-          onControlClick={() => setFilterOrDetails(FilterOrDetails.Filter)}
-          showFilter={onCloseDetailPanel}
-          filterOrDetails={filterOrDetails}
+          onCloseDetailPanel={onCloseDetailPanel}
+          showDetailPanel={showDetailPanel}
           incident={showDetailPanel}
         >
           {

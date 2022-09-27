@@ -32,30 +32,23 @@ export enum DrawerState {
   Closed = 'CLOSED',
 }
 
-export enum FilterOrDetails {
-  Filter = 'FILTER',
-  Details = 'DETAILS',
-}
-
 interface Props {
   ControlledContent: React.ComponentType<ControlledContentProps>
-  filterOrDetails: FilterOrDetails
-  onControlClick: () => void
-  onStateChange?: (state: DrawerState) => void
-  showFilter: () => void
-  state?: DrawerState
   incident: any
+  onCloseDetailPanel: () => void
+  onStateChange?: (state: DrawerState) => void
+  showDetailPanel: boolean
+  state?: DrawerState
 }
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
   children,
   ControlledContent,
-  filterOrDetails,
-  onControlClick,
-  onStateChange,
-  showFilter,
-  state = DrawerState.Closed,
   incident,
+  onCloseDetailPanel,
+  onStateChange,
+  showDetailPanel,
+  state = DrawerState.Closed,
 }) => {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
@@ -107,18 +100,13 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
             ) : null}
           </DrawerHandle>
 
-          {filterOrDetails === FilterOrDetails.Details && (
-            <DetailPanel onClose={showFilter} incident={incident} />
+          {showDetailPanel && (
+            <DetailPanel onClose={onCloseDetailPanel} incident={incident} />
           )}
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
             <ControlsContainer $mode={mode}>
-              <ControlledContent
-                onClose={() => {
-                  drawerClick()
-                  onControlClick()
-                }}
-              />
+              <ControlledContent onClose={drawerClick} />
             </ControlsContainer>
             <DrawerContentWrapper>{children}</DrawerContentWrapper>
           </DrawerContent>

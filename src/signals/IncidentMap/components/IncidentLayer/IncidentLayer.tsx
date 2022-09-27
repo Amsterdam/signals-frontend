@@ -1,6 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-
 import { useEffect, useState } from 'react'
 
 import type { Feature } from 'geojson'
@@ -23,8 +22,8 @@ const clusterLayerOptions = {
 }
 
 interface Props {
-  passBbox(bbox: Bbox): void
   incidents?: Feature<Point, Properties>[]
+  passBbox(bbox: Bbox): void
   resetMarkerIcons: () => void
   setShowDetailPanel: (incident: any) => void
 }
@@ -32,8 +31,8 @@ interface Props {
 /* istanbul ignore next */
 
 export const IncidentLayer = ({
-  passBbox,
   incidents,
+  passBbox,
   resetMarkerIcons,
   setShowDetailPanel,
 }: Props) => {
@@ -76,12 +75,13 @@ export const IncidentLayer = ({
       )
 
       layerInstance.addLayer(clusteredMarker)
+      setShowDetailPanel(false)
     })
 
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidents, resetMarkerIcons, setShowDetailPanel])
+  }, [layerInstance, incidents, setShowDetailPanel, resetMarkerIcons])
 
   return (
     <MarkerCluster
