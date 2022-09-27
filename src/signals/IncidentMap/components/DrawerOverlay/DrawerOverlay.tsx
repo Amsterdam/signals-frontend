@@ -42,6 +42,7 @@ interface Props {
   onStateChange?: (state: DrawerState) => void
   showFilter: () => void
   state?: DrawerState
+  incident: any
 }
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
@@ -52,6 +53,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
   onStateChange,
   showFilter,
   state = DrawerState.Closed,
+  incident,
 }) => {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
@@ -104,7 +106,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
           </DrawerHandle>
 
           {filterOrDetails === FilterOrDetails.Details && (
-            <DetailPanel onClose={showFilter} />
+            <DetailPanel onClose={showFilter} incident={incident} />
           )}
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">

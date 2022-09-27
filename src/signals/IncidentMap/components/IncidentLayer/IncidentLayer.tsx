@@ -7,7 +7,10 @@ import type { Feature } from 'geojson'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
-import { incidentIcon } from 'shared/services/configuration/map-markers'
+import {
+  incidentIcon,
+  markerIcon,
+} from 'shared/services/configuration/map-markers'
 import { featureToCoordinates } from 'shared/services/map-location'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -22,10 +25,18 @@ const clusterLayerOptions = {
 interface Props {
   passBbox(bbox: Bbox): void
   incidents?: Feature<Point, Properties>[]
+  resetMarkerIcons: () => void
+  setShowDetailPanel: (incident: any) => void
 }
 
 /* istanbul ignore next */
-export const IncidentLayer = ({ passBbox, incidents }: Props) => {
+
+export const IncidentLayer = ({
+  passBbox,
+  incidents,
+  resetMarkerIcons,
+  setShowDetailPanel,
+}: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
@@ -48,13 +59,29 @@ export const IncidentLayer = ({ passBbox, incidents }: Props) => {
         keyboard: false,
       })
 
+      /* istanbul ignore next */
+      clusteredMarker.on(
+        'click',
+        (event: {
+          target: { setIcon: (icon: L.Icon<L.IconOptions>) => void }
+        }) => {
+          resetMarkerIcons()
+
+          event.target.setIcon(markerIcon)
+
+          if (incident) {
+            setShowDetailPanel(incident)
+          }
+        }
+      )
+
       layerInstance.addLayer(clusteredMarker)
     })
 
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidents])
+  }, [layerInstance, incidents, resetMarkerIcons, setShowDetailPanel])
 
   return (
     <MarkerCluster

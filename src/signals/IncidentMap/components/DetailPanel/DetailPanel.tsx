@@ -3,8 +3,7 @@ import { Button, themeColor, breakpoint } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { MENU_WIDTH, HANDLE_SIZE_MOBILE } from '../DrawerOverlay/styled'
-
-// TODO: Dummy details. Should be replaced with actual data.
+import { DetailContent } from './DetailContent'
 
 const CloseButton = styled(Button)`
   position: absolute;
@@ -19,6 +18,7 @@ const CloseButton = styled(Button)`
 
 const DetailsWrapper = styled.section`
   position: absolute;
+  padding: 20px;
   top: 0;
   right: 0;
   bottom: 0;
@@ -39,9 +39,14 @@ const DetailsWrapper = styled.section`
 
 interface Props {
   onClose: () => void
+  incident: any
 }
 
-export const DetailPanel = ({ onClose }: Props) => {
+export const DetailPanel = ({ onClose, incident }: Props) => {
+  if (!incident) {
+    return null
+  }
+
   return (
     <DetailsWrapper id="device-details">
       <CloseButton
@@ -53,15 +58,7 @@ export const DetailPanel = ({ onClose }: Props) => {
         onClick={onClose}
         iconLeft={<Close />}
       />
-      <ul>
-        <li>Name</li>
-        <li>Number</li>
-        <li>Street</li>
-        <li>City</li>
-        <li>Phone</li>
-        <li>Test</li>
-        <li>Notes</li>
-      </ul>
+      <DetailContent incident={incident} />
     </DetailsWrapper>
   )
 }

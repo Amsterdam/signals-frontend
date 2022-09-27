@@ -4,10 +4,14 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { Feature, FeatureCollection } from 'geojson'
-import type { Map as MapType } from 'leaflet'
+import type {
+  Map as MapType,
+  MarkerCluster as MarkerClusterType,
+} from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
+import { incidentIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -31,6 +35,7 @@ export const IncidentMap = () => {
   )
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
+  const [showDetailPanel, setShowDetailPanel] = useState()
   const [filteredIncidents, setFilteredIncidents] =
     useState<Feature<Point, Properties>[]>()
   const [map, setMap] = useState<MapType>()
@@ -46,10 +51,22 @@ export const IncidentMap = () => {
     [setMapMessage, setShowMessage]
   )
 
-  const showFilter = useCallback(
-    () => setFilterOrDetails(FilterOrDetails.Filter),
-    [setFilterOrDetails]
-  )
+  const onCloseDetailPanel = useCallback(() => {
+    setShowDetailPanel(undefined)
+  }, [])
+
+  /* istanbul ignore next */
+  const resetMarkerIcons = useCallback(() => {
+    if (!map) return
+
+    map.eachLayer((markerClustLayer) => {
+      const layer = markerClustLayer as MarkerClusterType
+
+      if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
+        layer.setIcon(incidentIcon)
+      }
+    })
+  }, [map])
 
   useEffect(() => {
     if (bbox) {
@@ -92,7 +109,12 @@ export const IncidentMap = () => {
           attributionControl: false,
         }}
       >
-        <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
+        <IncidentLayer
+          passBbox={setBbox}
+          incidents={filteredIncidents}
+          resetMarkerIcons={resetMarkerIcons}
+          setShowDetailPanel={setShowDetailPanel}
+        />
 
         {map && (
           <GPSLocation
@@ -109,8 +131,9 @@ export const IncidentMap = () => {
             <span {...props}>Address Search Input</span>
           )}
           onControlClick={() => setFilterOrDetails(FilterOrDetails.Filter)}
-          showFilter={showFilter}
+          showFilter={onCloseDetailPanel}
           filterOrDetails={filterOrDetails}
+          incident={showDetailPanel}
         >
           {
             <FilterPanelSingle
