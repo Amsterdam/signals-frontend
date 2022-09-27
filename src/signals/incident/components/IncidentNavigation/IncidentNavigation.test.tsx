@@ -28,13 +28,8 @@ const props = {
   },
 }
 
-const mockReset = jest.fn()
-
 jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
-  useFormContext: () => ({
-    reset: mockReset,
-  }),
 }))
 
 describe('signals/incident/components/IncidentNavigation', () => {
@@ -135,7 +130,5 @@ describe('signals/incident/components/IncidentNavigation', () => {
     act(() => {
       fireEvent.click(getByTestId('previousButton'))
     })
-
-    expect(mockReset).toHaveBeenCalled()
   })
 })
