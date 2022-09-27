@@ -1,8 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { CSSProperties, FunctionComponent } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
-import { DetailPanel } from '../DetailPanel'
+import { DetailPanel } from './DetailPanel'
 import {
   ControlsContainer,
   Drawer,

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { ChevronRight } from '@amsterdam/asc-assets'
 import {
   breakpoint,
@@ -180,5 +182,38 @@ export const ControlsContainer = styled.div<ModeProp>`
     padding: ${themeSpacing(4)};
     min-height: 16px;
     flex-direction: row;
+  }
+`
+
+// Detail Panel
+export const CloseButton = styled(Button)`
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  min-width: inherit;
+
+  > span {
+    margin-right: 0;
+  }
+`
+
+export const DetailsWrapper = styled.section`
+  position: absolute;
+  padding: 20px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(${MENU_WIDTH}px - 16px);
+  max-width: 100%;
+  z-index: 2;
+
+  background-color: ${themeColor('tint', 'level1')};
+
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    width: 100vh;
+    overflow-y: scroll;
+    top: unset;
+    height: calc(100% - ${HANDLE_SIZE_MOBILE}px);
   }
 `
