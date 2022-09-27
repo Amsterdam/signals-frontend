@@ -60,7 +60,14 @@ const IncidentForm = forwardRef<any, any>(
       (incident) => {
         Object.entries(reactHookFormProps.getValues()).map(([key, value]) => {
           if (!isEqual(incident[key], value)) {
+            /**
+             * When a value is set in the incident, by redux, but not yet part of
+             * the form validation, add it and trigger the validation for that key.
+             */
             reactHookFormProps.setValue(key, incident[key])
+            if (incident[key]) {
+              reactHookFormProps.trigger(key)
+            }
           }
         })
       },
@@ -71,6 +78,10 @@ const IncidentForm = forwardRef<any, any>(
       if (!reactHookFormProps.getValues()) return
       setValues(incidentContainer.incident)
     }, [incidentContainer.incident, reactHookFormProps, setValues])
+
+    useEffect(() => {
+      reactHookFormProps.clearErrors()
+    }, [])
 
     const setIncident = useCallback(
       (formAction) => {
@@ -106,10 +117,9 @@ const IncidentForm = forwardRef<any, any>(
         if (next) {
           if (prevState.current.loading) {
             /**
-            Next needs to be part of the local state to rerender.
-            When Sia will phase out react albus, this needs to be removed
-          */
-            reactHookFormProps.reset()
+              Next needs to be part of the local state to rerender.
+              When Sia will phase out react albus, this needs to be removed
+            */
             setNext(next)
             return
           }
@@ -138,12 +148,7 @@ const IncidentForm = forwardRef<any, any>(
           })()
         }
       },
-      [
-        reactHookFormProps,
-        setIncident,
-        submitting,
-        reactHookFormProps.formState,
-      ]
+      [reactHookFormProps, setIncident, submitting]
     )
 
     /**
@@ -177,8 +182,8 @@ const IncidentForm = forwardRef<any, any>(
     )
 
     /**
-    Set the yupresolver for the current step of the incident wizard
-  */
+      Set the yupresolver for the current step of the incident wizard
+    */
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     controlsRef.current = constructYupResolver(controls)
@@ -203,14 +208,14 @@ const IncidentForm = forwardRef<any, any>(
                           handler={() => ({
                             onChange: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
-                              if (submitting && !e.target.value) {
-                                reactHookFormProps.trigger()
+                              if (submitting) {
+                                reactHookFormProps.trigger(value.meta.name)
                               }
                             },
                             onBlur: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
                               if (submitting) {
-                                reactHookFormProps.trigger()
+                                reactHookFormProps.trigger(value.meta.name)
                               }
                             },
                             value: v || '',
