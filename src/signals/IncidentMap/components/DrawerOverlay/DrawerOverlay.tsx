@@ -4,6 +4,7 @@ import type { CSSProperties, FunctionComponent } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
+import type { Incident } from '../../types'
 import { DetailPanel } from './DetailPanel'
 import {
   ControlsContainer,
@@ -34,10 +35,9 @@ export enum DrawerState {
 
 interface Props {
   ControlledContent: React.ComponentType<ControlledContentProps>
-  incident: any
+  incident?: Incident
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
-  showDetailPanel: boolean
   state?: DrawerState
 }
 
@@ -47,7 +47,6 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
   incident,
   onCloseDetailPanel,
   onStateChange,
-  showDetailPanel,
   state = DrawerState.Closed,
 }) => {
   const mode = useDeviceMode()
@@ -100,7 +99,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
             ) : null}
           </DrawerHandle>
 
-          {showDetailPanel && (
+          {incident && (
             <DetailPanel onClose={onCloseDetailPanel} incident={incident} />
           )}
 

@@ -2,7 +2,6 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { useEffect, useState } from 'react'
 
-import type { Feature } from 'geojson'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
@@ -14,7 +13,7 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Point, Properties } from '../../types'
+import type { Point, Incident } from '../../types'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -22,10 +21,10 @@ const clusterLayerOptions = {
 }
 
 interface Props {
-  incidents?: Feature<Point, Properties>[]
+  incidents?: Incident[]
   passBbox(bbox: Bbox): void
   resetMarkerIcons: () => void
-  setShowDetailPanel: (incident: any) => void
+  setSelectedIncident: (incident?: Incident) => void
 }
 
 /* istanbul ignore next */
@@ -34,7 +33,7 @@ export const IncidentLayer = ({
   incidents,
   passBbox,
   resetMarkerIcons,
-  setShowDetailPanel,
+  setSelectedIncident,
 }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
@@ -69,19 +68,19 @@ export const IncidentLayer = ({
           event.target.setIcon(markerIcon)
 
           if (incident) {
-            setShowDetailPanel(incident)
+            setSelectedIncident(incident)
           }
         }
       )
 
       layerInstance.addLayer(clusteredMarker)
-      setShowDetailPanel(false)
+      setSelectedIncident(undefined)
     })
 
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidents, setShowDetailPanel, resetMarkerIcons])
+  }, [layerInstance, incidents, resetMarkerIcons, setSelectedIncident])
 
   return (
     <MarkerCluster

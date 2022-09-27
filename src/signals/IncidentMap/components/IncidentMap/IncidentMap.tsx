@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
-import type { Feature, FeatureCollection } from 'geojson'
+import type { FeatureCollection } from 'geojson'
 import type {
   Map as MapType,
   MarkerCluster as MarkerClusterType,
@@ -16,7 +16,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Filter, Point, Properties } from '../../types'
+import type { Filter, Point, Properties, Incident } from '../../types'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanelSingle } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
@@ -30,11 +30,10 @@ export const IncidentMap = () => {
   const [showMessage, setShowMessage] = useState<boolean>(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
-  const [showDetailPanel, setShowDetailPanel] = useState(false)
+  const [selectedIncident, setSelectedIncident] = useState<Incident>()
 
   const [filters, setFilters] = useState<Filter[]>([])
-  const [filteredIncidents, setFilteredIncidents] =
-    useState<Feature<Point, Properties>[]>()
+  const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
   const [map, setMap] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
@@ -62,7 +61,7 @@ export const IncidentMap = () => {
   }, [map])
 
   const onCloseDetailPanel = useCallback(() => {
-    setShowDetailPanel(false)
+    setSelectedIncident(undefined)
     resetMarkerIcons()
   }, [resetMarkerIcons])
 
@@ -110,7 +109,7 @@ export const IncidentMap = () => {
         <IncidentLayer
           passBbox={setBbox}
           incidents={filteredIncidents}
-          setShowDetailPanel={setShowDetailPanel}
+          setSelectedIncident={setSelectedIncident}
           resetMarkerIcons={resetMarkerIcons}
         />
 
@@ -129,8 +128,7 @@ export const IncidentMap = () => {
             <span {...props}>Address Search Input</span>
           )}
           onCloseDetailPanel={onCloseDetailPanel}
-          showDetailPanel={showDetailPanel}
-          incident={showDetailPanel}
+          incident={selectedIncident}
         >
           {
             <FilterPanelSingle

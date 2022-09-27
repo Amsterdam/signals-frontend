@@ -1,3 +1,4 @@
+import type { Feature } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
 
 export type Point = {
@@ -23,3 +24,5 @@ export type Filter = {
   filterActive: boolean
   slug: string
 }
+
+export type Incident = Feature<Point, Properties>
