@@ -60,11 +60,13 @@ export const IncidentMap = () => {
     })
   }, [map])
 
+  /* istanbul ignore next */
   const handleCloseDetailPanel = useCallback(() => {
     setSelectedIncident(undefined)
     resetMarkerIcons()
   }, [resetMarkerIcons])
 
+  /* istanbul ignore next */
   const handleIncidentSelect = useCallback((incident) => {
     setSelectedIncident(incident)
     incident && setDrawerState(DrawerState.Open)

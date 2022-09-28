@@ -7,7 +7,7 @@ import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 
-import { get, mockUseMapInstance, useFetchResponse } from '../__test__/utils'
+import { get, mockUseMapInstance, useFetchResponse } from '../__test__'
 import { IncidentMap } from './IncidentMap'
 
 jest.mock('@amsterdam/react-maps', () => ({
@@ -34,14 +34,9 @@ describe('IncidentMap', () => {
     render(withAppContext(<IncidentMap />))
 
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
+    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
     expect(screen.getByText('Address Search Input')).toBeInTheDocument()
     expect(screen.getByText('[Filter Panel]')).toBeInTheDocument()
-  })
-
-  it('renders the GPSLocation', () => {
-    render(withAppContext(<IncidentMap />))
-
-    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
   })
 
   it('sends a request to fetch publicly available incidents', () => {
@@ -65,7 +60,7 @@ describe('IncidentMap', () => {
     ).toBeInTheDocument()
   })
 
-  it('should close the message when close button is clicked', () => {
+  it('should close the error message when close button is clicked', () => {
     jest.mocked(useFetch).mockImplementationOnce(() => ({
       ...useFetchResponse,
       error: new Error(),
