@@ -4,6 +4,7 @@
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
 
+import { isObject } from 'lodash'
 import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
@@ -39,6 +40,8 @@ const IncidentForm = forwardRef<any, any>(
       isMounted: true,
       loading: false,
     })
+
+    const formRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
       return () => {
@@ -134,18 +137,39 @@ const IncidentForm = forwardRef<any, any>(
            */
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          await reactHookFormProps.trigger()
-          reactHookFormProps.handleSubmit(() => {
-            /**
+          const isValid = await reactHookFormProps.trigger()
+          /**
             To prevent memory leaks, make sure to call the functions at
             the button only when this component is mounted.
           */
-            if (prevState.current.isMounted) {
-              setIncident(formAction)
-              setSubmitting(false)
-              next()
+          if (isValid && prevState.current.isMounted) {
+            setIncident(formAction)
+            setSubmitting(false)
+            next()
+          } else {
+            const invalidControl: any = Object.values(controls).find(
+              (control: any) => {
+                return Object.keys(
+                  reactHookFormProps.formState.errors
+                ).includes(control?.meta?.name)
+              }
+            )
+            const { name, values } = invalidControl.meta
+            const valueSelector =
+              !Array.isArray(values) && isObject(values)
+                ? `-${Object.keys(values)[0]}`
+                : ''
+
+            if (formRef.current) {
+              const invalidElement: any = formRef?.current.querySelector(
+                `#${name}${valueSelector}`
+              )
+
+              if (invalidElement) {
+                invalidElement?.focus()
+              }
             }
-          })()
+          }
         }
       },
       [reactHookFormProps, setIncident, submitting]
@@ -189,7 +213,7 @@ const IncidentForm = forwardRef<any, any>(
     controlsRef.current = constructYupResolver(controls)
 
     return (
-      <div data-testid="incidentForm">
+      <div data-testid="incidentForm" ref={formRef}>
         <ProgressContainer />
         <Form>
           <Fieldset isSummary={isSummary}>
