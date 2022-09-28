@@ -18,20 +18,11 @@ import {
   DrawerMapOverlay,
   HandleIcon,
 } from './styled'
-import type { ControlledContentProps, DeviceMode } from './utils'
+import type { ControlledContentProps } from './types'
+import { DrawerState } from './types'
 import { isMobile, isDesktop, useDeviceMode } from './utils'
 
 const CONTROLS_PADDING = 32
-
-export interface ModeProp {
-  // prefixing mode with $ to prevent prop bleeding through to the DOM
-  $mode: DeviceMode
-}
-
-export enum DrawerState {
-  Open = 'OPEN',
-  Closed = 'CLOSED',
-}
 
 interface Props {
   ControlledContent: React.ComponentType<ControlledContentProps>

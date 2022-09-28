@@ -1,19 +1,43 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { Close } from '@amsterdam/asc-assets'
+import { useEffect, useState } from 'react'
 
-import { DetailContent } from '../DetailContent'
+import { Close } from '@amsterdam/asc-assets'
+import { Heading } from '@amsterdam/asc-ui'
+
+import { string2date, string2time } from 'shared/services/string-parser'
+
+import type { Incident } from '../../types'
+import { StyledList } from './styled'
 import { CloseButton, DetailsWrapper } from './styled'
+import type { DisplayAddress } from './types'
+import { getAddress } from './utils'
+
+interface Props {
+  incident: Incident
+}
+
+const defaultAddress: DisplayAddress = {
+  streetName: 'Onbekend',
+  postalCode: '',
+}
 
 interface Props {
   onClose: () => void
-  incident: any
+  incident: Incident
 }
 
 export const DetailPanel = ({ onClose, incident }: Props) => {
-  if (!incident) {
-    return null
-  }
+  const { properties, geometry } = incident
+  const [address, setAddress] = useState(defaultAddress)
+
+  useEffect(() => {
+    setAddress(defaultAddress)
+  }, [])
+
+  useEffect(() => {
+    getAddress(geometry, setAddress)
+  }, [geometry, incident])
 
   return (
     <DetailsWrapper id="device-details">
@@ -26,7 +50,22 @@ export const DetailPanel = ({ onClose, incident }: Props) => {
         onClick={onClose}
         iconLeft={<Close />}
       />
-      <DetailContent incident={incident} />
+
+      <StyledList>
+        <dt>Melding</dt>
+        <Heading forwardedAs="h2">{properties.category.name}</Heading>
+
+        <dt>Datum melding</dt>
+        <dd>
+          {' '}
+          {string2date(properties.created_at)}{' '}
+          {string2time(properties.created_at)}
+        </dd>
+
+        <dt>Adres dichtbij</dt>
+        <dd>{address.streetName}</dd>
+        <dd>{address.postalCode}</dd>
+      </StyledList>
     </DetailsWrapper>
   )
 }

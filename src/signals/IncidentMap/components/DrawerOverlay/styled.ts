@@ -10,7 +10,7 @@ import {
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
-import type { ModeProp } from './DrawerOverlay'
+import type { ModeProp } from './types'
 import { isDesktop } from './utils'
 
 export const HANDLE_SIZE_MOBILE = 40
@@ -215,5 +215,28 @@ export const DetailsWrapper = styled.section`
     overflow-y: scroll;
     top: unset;
     height: calc(100% - ${HANDLE_SIZE_MOBILE}px);
+  }
+`
+
+export const StyledList = styled.dl`
+  margin: 0;
+
+  dt {
+    color: ${themeColor('tint', 'level5')};
+    margin-bottom: ${themeSpacing(1)};
+    margin-top: ${themeSpacing(5)};
+
+    position: relative;
+    font-weight: 400;
+  }
+
+  dd {
+    &:not(:last-child) {
+      margin-bottom: ${themeSpacing(2)};
+    }
+
+    &.alert {
+      color: ${themeColor('secondary')};
+    }
   }
 `

@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 
 import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints'
 
-export enum DeviceMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
-}
-export interface ControlledContentProps {
-  onClose: () => void
-}
+import { formatAddress } from 'shared/services/format-address'
+import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
+
+import type { Point } from '../../types'
+import { DeviceMode } from './types'
+import type { DisplayAddress } from './types'
 
 function getDeviceMode(size: number) {
   if (size <= sizes.tabletM) {
@@ -38,3 +38,20 @@ export const isMobile = (mode: DeviceMode): mode is DeviceMode.Mobile =>
   mode === DeviceMode.Mobile
 export const isDesktop = (mode: DeviceMode): mode is DeviceMode.Desktop =>
   mode === DeviceMode.Desktop
+
+export const getAddress = async (
+  geometry: Point,
+  setAddress: (address: DisplayAddress) => void
+) => {
+  const coordinates = featureToCoordinates(geometry)
+  const response = await reverseGeocoderService(coordinates)
+
+  if (response) {
+    const formattedAddres = formatAddress(response.data.address).split(',')
+
+    setAddress({
+      streetName: formattedAddres[0],
+      postalCode: formattedAddres[1],
+    })
+  }
+}

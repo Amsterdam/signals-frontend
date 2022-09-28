@@ -1,1 +1,1 @@
-export type { Filter, Point, Properties, Incident } from './incident-map'
+export type { Filter, Incident, Point, Properties } from './incident-map'
