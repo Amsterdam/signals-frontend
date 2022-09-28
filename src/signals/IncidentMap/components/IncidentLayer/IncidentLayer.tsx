@@ -14,7 +14,6 @@ import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/
 
 import type { Point, Properties } from '../../types'
 
-/* istanbul ignore next */
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
@@ -25,6 +24,7 @@ interface Props {
   incidents?: Feature<Point, Properties>[]
 }
 
+/* istanbul ignore next */
 export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
@@ -38,7 +38,6 @@ export const IncidentLayer = ({ passBbox, incidents }: Props) => {
   useEffect(() => {
     if (!incidents || !layerInstance) return
 
-    /* istanbul ignore next */
     incidents.forEach((incident) => {
       const latlng = featureToCoordinates(incident.geometry)
       const { name } = incident.properties.category
