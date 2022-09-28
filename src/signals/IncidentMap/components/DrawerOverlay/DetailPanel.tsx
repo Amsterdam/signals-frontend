@@ -13,16 +13,12 @@ import { CloseButton, DetailsWrapper } from './styled'
 import type { DisplayAddress } from './types'
 import { getAddress } from './utils'
 
-interface Props {
-  incident: Incident
-}
-
 const defaultAddress: DisplayAddress = {
   streetName: 'Onbekend',
   postalCode: '',
 }
 
-interface Props {
+export interface Props {
   onClose: () => void
   incident: Incident
 }
@@ -40,12 +36,12 @@ export const DetailPanel = ({ onClose, incident }: Props) => {
   }, [geometry, incident])
 
   return (
-    <DetailsWrapper id="device-details">
+    <DetailsWrapper>
       <CloseButton
         type="button"
         variant="blank"
-        title="Legenda"
-        data-testid="legenda"
+        title="Sluiten"
+        aria-label="Detail panel sluiten"
         iconSize={20}
         onClick={onClose}
         iconLeft={<Close />}

@@ -16,6 +16,12 @@ jest.mock('@amsterdam/react-maps', () => ({
   useMapInstance: jest.fn(() => mockUseMapInstance),
 }))
 
+jest.mock('../FilterPanel', () => ({
+  __esModule: true,
+  ...jest.requireActual('../FilterPanel'),
+  FilterPanel: () => <div>[Filter Panel]</div>,
+}))
+
 jest.mock('hooks/useFetch')
 
 describe('IncidentMap', () => {
@@ -28,6 +34,8 @@ describe('IncidentMap', () => {
     render(withAppContext(<IncidentMap />))
 
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
+    expect(screen.getByText('Address Search Input')).toBeInTheDocument()
+    expect(screen.getByText('[Filter Panel]')).toBeInTheDocument()
   })
 
   it('renders the GPSLocation', () => {

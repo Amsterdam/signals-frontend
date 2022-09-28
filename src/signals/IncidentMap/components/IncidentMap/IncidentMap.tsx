@@ -131,6 +131,7 @@ export const IncidentMap = () => {
           onStateChange={setDrawerState}
           state={drawerState}
           ControlledContent={(props) => (
+            // TODO: replace this with the actual Address Search (to be build)
             <span {...props}>Address Search Input</span>
           )}
           onCloseDetailPanel={handleCloseDetailPanel}

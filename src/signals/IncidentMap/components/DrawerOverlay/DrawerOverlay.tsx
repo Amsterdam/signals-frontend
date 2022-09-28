@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { CSSProperties, FunctionComponent } from 'react'
+import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
@@ -24,7 +25,7 @@ import { isMobile, isDesktop, useDeviceMode } from './utils'
 
 const CONTROLS_PADDING = 32
 
-interface Props {
+export interface Props {
   ControlledContent: React.ComponentType<ControlledContentProps>
   incident?: Incident
   onCloseDetailPanel: () => void
@@ -60,7 +61,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
 
   drawerContainerStyle.transform = getDrawerPositionTransform()
 
-  const drawerClick = () => {
+  const drawerClick = useCallback(() => {
     if (!onStateChange) {
       return
     }
@@ -68,7 +69,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
     onStateChange(
       state === DrawerState.Closed ? DrawerState.Open : DrawerState.Closed
     )
-  }
+  }, [onStateChange, state])
 
   return (
     <DrawerMapOverlay $mode={mode}>
@@ -78,7 +79,10 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
             type="button"
             variant="blank"
             size={CONTROLS_PADDING}
-            title="Open paneel"
+            title="Toggle paneel"
+            aria-label={
+              state === DrawerState.Open ? 'Paneel sluiten' : 'Paneel openen'
+            }
             onClick={drawerClick}
           >
             {isDesktop(mode) ? (
