@@ -26,7 +26,7 @@ import { isMobile, isDesktop, useDeviceMode } from './utils'
 const CONTROLS_PADDING = 32
 
 export interface Props {
-  ControlledContent: React.ComponentType<ControlledContentProps>
+  ControlledContent?: React.ComponentType<ControlledContentProps>
   incident?: Incident
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
@@ -35,7 +35,7 @@ export interface Props {
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
   children,
-  ControlledContent,
+  ControlledContent = () => null,
   incident,
   onCloseDetailPanel,
   onStateChange,
@@ -100,6 +100,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
             <ControlsContainer $mode={mode}>
+              {/* This component can be used for the Address Search Input */}
               <ControlledContent onClose={drawerClick} />
             </ControlsContainer>
             <DrawerContentWrapper>{children}</DrawerContentWrapper>

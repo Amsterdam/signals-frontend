@@ -49,9 +49,7 @@ export const IncidentMap = () => {
 
   /* istanbul ignore next */
   const resetMarkerIcons = useCallback(() => {
-    if (!map) return
-
-    map.eachLayer((markerClustLayer: any) => {
+    map?.eachLayer((markerClustLayer: any) => {
       const layer = markerClustLayer as MarkerClusterType
 
       if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
@@ -132,10 +130,6 @@ export const IncidentMap = () => {
         <DrawerOverlay
           onStateChange={setDrawerState}
           state={drawerState}
-          ControlledContent={(props) => (
-            // TODO: replace this with the actual Address Search (to be build)
-            <span {...props}>Address Search Input</span>
-          )}
           onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
         >
