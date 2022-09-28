@@ -60,7 +60,7 @@ export const IncidentMap = () => {
     })
   }, [map])
 
-  const onCloseDetailPanel = useCallback(() => {
+  const handleCloseDetailPanel = useCallback(() => {
     setSelectedIncident(undefined)
     resetMarkerIcons()
   }, [resetMarkerIcons])
@@ -115,6 +115,7 @@ export const IncidentMap = () => {
           passBbox={setBbox}
           incidents={filteredIncidents}
           handleIncidentSelect={handleIncidentSelect}
+          handleCloseDetailPanel={handleCloseDetailPanel}
           resetMarkerIcons={resetMarkerIcons}
         />
 
@@ -132,7 +133,7 @@ export const IncidentMap = () => {
           ControlledContent={(props) => (
             <span {...props}>Address Search Input</span>
           )}
-          onCloseDetailPanel={onCloseDetailPanel}
+          onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
         >
           {
