@@ -74,7 +74,6 @@ export const IncidentLayer = ({
       )
 
       layerInstance.addLayer(clusteredMarker)
-      handleIncidentSelect(undefined)
     })
 
     return () => {

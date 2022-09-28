@@ -18,7 +18,7 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Point, Properties, Incident } from '../../types'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
-import { FilterPanelSingle } from '../FilterPanel'
+import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
@@ -67,7 +67,7 @@ export const IncidentMap = () => {
 
   const handleIncidentSelect = useCallback((incident) => {
     setSelectedIncident(incident)
-    setDrawerState(DrawerState.Open)
+    incident && setDrawerState(DrawerState.Open)
   }, [])
 
   useEffect(() => {
@@ -136,7 +136,7 @@ export const IncidentMap = () => {
           incident={selectedIncident}
         >
           {
-            <FilterPanelSingle
+            <FilterPanel
               filters={filters}
               setFilters={setFilters}
               setMapMessage={setMapMessage}
