@@ -1,39 +1,26 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 
-import { useEffect, useState } from 'react'
+import type { LatLngLiteral } from 'leaflet'
 
-import { Marker } from '@amsterdam/react-maps'
-import type { Map, LatLngLiteral } from 'leaflet'
-
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
 import GPSButton from '../../../../components/GPSButton'
 import configuration from '../../../../shared/services/configuration/configuration'
-import { markerIcon } from '../../../../shared/services/configuration/map-markers'
 import type { LocationResult } from '../../../../types/location'
 import { StyledViewerContainer } from './styled'
 
 export interface Props {
-  map: Map
   setNotification: (mapMessage: JSX.Element | string) => void
+  setCoordinates: (coordinates: LatLngLiteral) => void
 }
 
-export const GPSLocation = ({ map, setNotification }: Props) => {
-  const [coordinates, setCoordinates] = useState<LatLngLiteral>()
-
-  useEffect(() => {
-    if (coordinates) {
-      map.flyTo(coordinates, DEFAULT_ZOOM)
-    }
-  }, [map, coordinates])
-
+export const GPSLocation = ({ setNotification, setCoordinates }: Props) => {
   return (
     <>
       <StyledViewerContainer
         topLeft={
           <GPSButton
             tabIndex={0}
-            onLocationSuccess={(location: LocationResult) => {
+            onLocationSuccess={async (location: LocationResult) => {
               const coordinates = {
                 lat: location.latitude,
                 lng: location.longitude,
@@ -62,17 +49,6 @@ export const GPSLocation = ({ map, setNotification }: Props) => {
           />
         }
       />
-      {coordinates && (
-        <Marker
-          data-testid="incidentPinMarker"
-          key={Object.values(coordinates).toString()}
-          args={[coordinates]}
-          options={{
-            icon: markerIcon,
-            keyboard: false,
-          }}
-        />
-      )}
     </>
   )
 }

@@ -4,14 +4,16 @@ import { useState, useEffect, Fragment } from 'react'
 
 import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
+import type { LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
+import type { Address } from '../../../../types/address'
 import type { Filter } from '../../types'
+import { AddressLocation } from '../AddressLocation'
 import { updateFilterCategory } from '../utils'
-import { ZoomToAdressLocation } from '../ZoomToAddressLocation'
 import {
   StyledPanelContent,
   StyledLabel,
@@ -23,9 +25,19 @@ export type Props = {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
   setMapMessage: (mapMessage: JSX.Element | string) => void
+  setPin: (coordinates: LatLngLiteral) => void
+  address?: Address
+  setAddress: (address?: Address) => void
 }
 
-export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
+export const FilterPanel = ({
+  filters,
+  setFilters,
+  setMapMessage,
+  setPin,
+  address,
+  setAddress,
+}: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(true)
 
   const { get, data, error } = useFetch<Categories>()
@@ -81,7 +93,11 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
             niet op de kaart.
           </Paragraph>
 
-          <ZoomToAdressLocation />
+          <AddressLocation
+            setCoordinates={setPin}
+            address={address}
+            setAddress={setAddress}
+          />
 
           <Heading as="h4">Filter op onderwerp</Heading>
           <Wrapper>

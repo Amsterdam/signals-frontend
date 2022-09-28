@@ -29,6 +29,8 @@ const defaultProps: Props = {
   filters: [],
   setFilters: mockSetFilters,
   setMapMessage: mockSetMapFilter,
+  setPin: jest.fn(),
+  setAddress: jest.fn(),
 }
 
 const renderFilterPanel = (props: Partial<Props> = {}) =>

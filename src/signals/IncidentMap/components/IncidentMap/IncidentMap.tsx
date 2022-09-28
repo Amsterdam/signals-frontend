@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { Feature, FeatureCollection } from 'geojson'
-import type { Map as MapType } from 'leaflet'
+import type { Map as MapType, LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -13,16 +13,21 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
+import reverseGeocoderService from '../../../../shared/services/reverse-geocoder'
+import type { Address } from '../../../../types/address'
 import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
+import { Pin } from './Pin'
 import { Wrapper, StyledMap } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
+  const [coordinates, setCoordinates] = useState<LatLngLiteral>()
+  const [address, setAddress] = useState<Address | undefined>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
@@ -67,6 +72,16 @@ export const IncidentMap = () => {
     }
   }, [error, isSuccess, setNotification])
 
+  useEffect(() => {
+    const transformCoordinatesToAddress = async () => {
+      if (coordinates) {
+        const response = await reverseGeocoderService(coordinates)
+        setAddress(response?.data?.address)
+      }
+    }
+    transformCoordinatesToAddress().catch()
+  }, [coordinates])
+
   return (
     <Wrapper>
       <StyledMap
@@ -83,7 +98,21 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
-        {map && <GPSLocation map={map} setNotification={setNotification} />}
+        <GPSLocation
+          setNotification={setNotification}
+          setCoordinates={setCoordinates}
+        />
+
+        <FilterPanel
+          filters={filters}
+          setFilters={setFilters}
+          setMapMessage={setMapMessage}
+          setPin={setCoordinates}
+          address={address}
+          setAddress={setAddress}
+        />
+
+        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer
@@ -95,11 +124,6 @@ export const IncidentMap = () => {
           />
         )}
       </StyledMap>
-      <FilterPanel
-        filters={filters}
-        setFilters={setFilters}
-        setMapMessage={setMapMessage}
-      />
     </Wrapper>
   )
 }
