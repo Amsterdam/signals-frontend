@@ -29,7 +29,6 @@ interface Props {
 }
 
 /* istanbul ignore next */
-
 export const IncidentLayer = ({
   incidents,
   passBbox,
