@@ -24,7 +24,7 @@ interface Props {
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
   resetMarkerIcons: () => void
-  setSelectedIncident: (incident?: Incident) => void
+  handleIncidentSelect: (incident?: Incident) => void
 }
 
 /* istanbul ignore next */
@@ -33,7 +33,7 @@ export const IncidentLayer = ({
   incidents,
   passBbox,
   resetMarkerIcons,
-  setSelectedIncident,
+  handleIncidentSelect,
 }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
@@ -68,19 +68,19 @@ export const IncidentLayer = ({
           event.target.setIcon(markerIcon)
 
           if (incident) {
-            setSelectedIncident(incident)
+            handleIncidentSelect(incident)
           }
         }
       )
 
       layerInstance.addLayer(clusteredMarker)
-      setSelectedIncident(undefined)
+      handleIncidentSelect(undefined)
     })
 
     return () => {
       layerInstance.clearLayers()
     }
-  }, [layerInstance, incidents, resetMarkerIcons, setSelectedIncident])
+  }, [layerInstance, incidents, resetMarkerIcons, handleIncidentSelect])
 
   return (
     <MarkerCluster

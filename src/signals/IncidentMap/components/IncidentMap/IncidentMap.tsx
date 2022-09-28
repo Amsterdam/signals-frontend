@@ -65,6 +65,11 @@ export const IncidentMap = () => {
     resetMarkerIcons()
   }, [resetMarkerIcons])
 
+  const handleIncidentSelect = useCallback((incident) => {
+    setSelectedIncident(incident)
+    setDrawerState(DrawerState.Open)
+  }, [])
+
   useEffect(() => {
     if (bbox) {
       const { west, south, east, north } = bbox
@@ -109,7 +114,7 @@ export const IncidentMap = () => {
         <IncidentLayer
           passBbox={setBbox}
           incidents={filteredIncidents}
-          setSelectedIncident={setSelectedIncident}
+          handleIncidentSelect={handleIncidentSelect}
           resetMarkerIcons={resetMarkerIcons}
         />
 
