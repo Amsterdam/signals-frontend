@@ -193,14 +193,16 @@ describe('<IncidentForm />', () => {
   })
 
   describe('events', () => {
-    it('clicking submit should preventDefault', () => {
+    it('clicking submit should preventDefault', async () => {
       renderIncidentForm(defaultProps)
 
       const submitButton = screen.getByText(mockForm.nextButtonLabel)
       const clickEvent = createEvent.click(submitButton)
       jest.spyOn(clickEvent, 'preventDefault')
 
-      fireEvent(submitButton, clickEvent)
+      act(() => {
+        fireEvent(submitButton, clickEvent)
+      })
 
       expect(clickEvent.preventDefault).toHaveBeenCalled()
     })
@@ -210,7 +212,9 @@ describe('<IncidentForm />', () => {
         renderIncidentForm(defaultProps)
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        act(() => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        })
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(2)
         })
@@ -231,7 +235,10 @@ describe('<IncidentForm />', () => {
 
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+
+        act(() => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        })
 
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(2)
@@ -255,7 +262,9 @@ describe('<IncidentForm />', () => {
 
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        act(() => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        })
 
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(2)
@@ -291,16 +300,14 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        // make sure phone number validation fails
-        fireEvent.input(document.getElementById('phone'), {
-          target: {
-            value: 1234123412341234,
-          },
-        })
-
-        fireEvent.blur(document.getElementById('phone'))
-
-        await act(async () => {
+        act(() => {
+          // make sure phone number validation fails
+          fireEvent.input(document.getElementById('phone'), {
+            target: {
+              value: 1234123412341234,
+            },
+          })
+          fireEvent.blur(document.getElementById('phone'))
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 
@@ -329,7 +336,9 @@ describe('<IncidentForm />', () => {
 
         expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        act(() => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        })
 
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(2)
@@ -338,7 +347,7 @@ describe('<IncidentForm />', () => {
     })
 
     describe('form events', () => {
-      it('should handle onchange and on blur event', () => {
+      it('should handle onchange and on blur event', async () => {
         const triggerSpy = jest.fn()
         const props = {
           ...defaultProps,
@@ -355,33 +364,43 @@ describe('<IncidentForm />', () => {
 
         renderIncidentForm(props)
 
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-
-        fireEvent.change(document.getElementById('phone'), {
-          target: {
-            value: 12345,
-          },
+        act(() => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 
-        fireEvent.blur(document.getElementById('phone'))
+        act(() => {
+          fireEvent.change(document.getElementById('phone'), {
+            target: {
+              value: 12345,
+            },
+          })
+        })
+
+        act(() => {
+          fireEvent.blur(document.getElementById('phone'))
+        })
 
         expect(document.getElementById('phone')).toHaveValue('12345')
 
         expect(props.updateIncident).toHaveBeenCalledWith({ phone: '12345' })
 
-        fireEvent.change(document.getElementById('phone'), {
-          target: {
-            value: 'asdfg',
-          },
+        act(() => {
+          fireEvent.change(document.getElementById('phone'), {
+            target: {
+              value: 'asdfg',
+            },
+          })
         })
 
         // Because of meta.autoRemove updateIncident only gets called once
         expect(props.updateIncident).toHaveBeenCalledTimes(1)
 
-        fireEvent.change(document.getElementById('phone'), {
-          target: {
-            value: '',
-          },
+        act(() => {
+          fireEvent.change(document.getElementById('phone'), {
+            target: {
+              value: '',
+            },
+          })
         })
 
         expect(triggerSpy).toHaveBeenCalledTimes(5)
