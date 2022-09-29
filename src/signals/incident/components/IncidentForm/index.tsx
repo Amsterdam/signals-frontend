@@ -174,11 +174,15 @@ const IncidentForm = forwardRef<any, any>(
             setSubmitting(false)
             next()
           } else {
-            scrollToInvalidElement(controls, formState.errors, formRef)
+            scrollToInvalidElement(
+              controls,
+              reactHookFormProps.formState.errors,
+              formRef
+            )
           }
         }
       },
-      [controls, formState.errors, reactHookFormProps, setIncident, submitting]
+      [controls, reactHookFormProps, setIncident, submitting]
     )
 
     const parent = {
