@@ -6,12 +6,14 @@ import {
   fireEvent,
   createEvent,
   waitFor,
+  act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Wizard, Step, Steps } from 'react-albus'
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'
+import { validatePhoneNumber } from '../../services/custom-validators'
 import FormComponents from '../form'
 import IncidentNavigation from '../IncidentNavigation'
 
@@ -24,7 +26,6 @@ const mockForm = {
     controls: {
       phone: {
         meta: {
-          autoRemove: /[^\d ()+-]/g,
           label: 'Wat is uw telefoonnummer?',
         },
         render: FormComponents.TextInput,
@@ -42,7 +43,7 @@ const requiredFieldConfig = {
     phone: {
       ...mockForm.form.controls.phone,
       options: {
-        validators: ['required'],
+        validators: [validatePhoneNumber, ['maxLength', 5]],
       },
     },
   },
@@ -265,16 +266,44 @@ describe('<IncidentForm />', () => {
       })
 
       it('submit should not be triggered next when form is not valid', async () => {
+        /**
+         * formState.errors needs one field. Currently the jest environment
+         * wont pickup the latest formState errors in handleSubmit, though
+         * within the function components its values are known. For more info
+         * see explanation about formstate using a proxy
+         * https://react-hook-form.com/api/useform/formstate
+         *
+         */
         const props = {
           ...defaultProps,
-          fieldConfig: requiredFieldConfig,
+          fieldConfig: { ...requiredFieldConfig },
+          reactHookFormProps: {
+            formState: {
+              errors: {
+                phone: {},
+              },
+            },
+          },
         }
 
         renderIncidentForm(props)
 
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+
+        // make sure phone number validation fails
+        fireEvent.input(document.getElementById('phone'), {
+          target: {
+            value: 1234123412341234,
+          },
+        })
+
+        fireEvent.blur(document.getElementById('phone'))
+
+        await act(async () => {
+          userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+        })
+
         await waitFor(() => {
           expect(nextSpy).toHaveBeenCalledTimes(1)
         })
@@ -313,10 +342,15 @@ describe('<IncidentForm />', () => {
         const triggerSpy = jest.fn()
         const props = {
           ...defaultProps,
+          fieldConfig: requiredFieldConfig,
           reactHookFormProps: {
             trigger: triggerSpy,
+            formState: {
+              errors: {
+                phone: {},
+              },
+            },
           },
-          fieldConfig: requiredFieldConfig,
         }
 
         renderIncidentForm(props)
