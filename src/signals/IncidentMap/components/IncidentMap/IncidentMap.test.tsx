@@ -35,7 +35,6 @@ describe('IncidentMap', () => {
 
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
     expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
-    expect(screen.getByText('Address Search Input')).toBeInTheDocument()
     expect(screen.getByText('[Filter Panel]')).toBeInTheDocument()
   })
 
