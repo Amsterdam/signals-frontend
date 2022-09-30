@@ -24,12 +24,6 @@ export function scrollToInvalidElement(
       `#${name}${valueSelector}`
     )
 
-    if (invalidElement) {
-      try {
-        invalidElement?.scrollIntoView({ behaviour: 'smooth' })
-      } catch (e) {
-        console.error(e)
-      }
-    }
+    invalidElement?.scrollIntoView({ behaviour: 'smooth' })
   }
 }
