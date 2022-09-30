@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-// eslint-disable-next-line no-restricted-imports
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
 
+import { isEmpty } from 'lodash'
 import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
 import { Form, Fieldset, ProgressContainer } from './styled'
+import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 
 const IncidentForm = forwardRef<any, any>(
   (
@@ -27,6 +28,7 @@ const IncidentForm = forwardRef<any, any>(
     controlsRef: ForwardedRef<any>
   ) => {
     const [submitting, setSubmitting] = useState(false)
+
     /**
      *   When refactoring react-albus, remove this state. Currently its needed to set next to trigger
      *   onNext's method of react albus.
@@ -39,6 +41,8 @@ const IncidentForm = forwardRef<any, any>(
       isMounted: true,
       loading: false,
     })
+
+    const formRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
       return () => {
@@ -75,7 +79,11 @@ const IncidentForm = forwardRef<any, any>(
     )
 
     useEffect(() => {
-      if (!reactHookFormProps.getValues()) return
+      if (
+        !reactHookFormProps.getValues() ||
+        isEmpty(incidentContainer.incident)
+      )
+        return
       setValues(incidentContainer.incident)
     }, [incidentContainer.incident, reactHookFormProps, setValues])
 
@@ -111,6 +119,28 @@ const IncidentForm = forwardRef<any, any>(
       ]
     )
 
+    /**
+      FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
+      This should be changed in the future.
+    */
+    const fieldConfigModified = formatConditionalForm(
+      fieldConfig,
+      incidentContainer.incident
+    )
+
+    const isSummary =
+      fieldConfigModified &&
+      Object.keys(fieldConfigModified).includes('page_summary')
+
+    const controls: any = Object.fromEntries(
+      Object.entries(fieldConfigModified.controls).filter(
+        ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
+      )
+    )
+
+    const { formState } = reactHookFormProps
+    const { errors } = formState
+
     const handleSubmit = useCallback(
       async (e, next, formAction) => {
         e.preventDefault()
@@ -127,41 +157,33 @@ const IncidentForm = forwardRef<any, any>(
           if (!submitting) {
             setSubmitting(true)
           }
+
           /**
            * Trigger the form before before calling handle submit,
            * to make sure useForm takes the latest yupResolver defined right
            * above the return jsx statement.
            */
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          await reactHookFormProps.trigger()
-          reactHookFormProps.handleSubmit(() => {
-            /**
+          const isValid = await reactHookFormProps.trigger()
+
+          /**
             To prevent memory leaks, make sure to call the functions at
             the button only when this component is mounted.
           */
-            if (prevState.current.isMounted) {
-              setIncident(formAction)
-              setSubmitting(false)
-              next()
-            }
-          })()
+          if (isValid && prevState.current.isMounted) {
+            setIncident(formAction)
+            setSubmitting(false)
+            next()
+          } else {
+            scrollToInvalidElement(
+              controls,
+              reactHookFormProps.formState.errors,
+              formRef
+            )
+          }
         }
       },
-      [reactHookFormProps, setIncident, submitting]
+      [controls, reactHookFormProps, setIncident, submitting]
     )
-
-    /**
-    FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
-    This should be changed in the future.
-  */
-    const fieldConfigModified = formatConditionalForm(
-      fieldConfig,
-      incidentContainer.incident
-    )
-    const isSummary =
-      fieldConfigModified &&
-      Object.keys(fieldConfigModified).includes('page_summary')
 
     const parent = {
       meta: {
@@ -175,12 +197,6 @@ const IncidentForm = forwardRef<any, any>(
       },
     }
 
-    const controls: any = Object.fromEntries(
-      Object.entries(fieldConfigModified.controls).filter(
-        ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
-      )
-    )
-
     /**
       Set the yupresolver for the current step of the incident wizard
     */
@@ -189,7 +205,7 @@ const IncidentForm = forwardRef<any, any>(
     controlsRef.current = constructYupResolver(controls)
 
     return (
-      <div data-testid="incidentForm">
+      <div data-testid="incidentForm" ref={formRef}>
         <ProgressContainer />
         <Form>
           <Fieldset isSummary={isSummary}>
@@ -221,15 +237,11 @@ const IncidentForm = forwardRef<any, any>(
                             value: v || '',
                           })}
                           getError={() => {
-                            return reactHookFormProps.formState?.errors[key]
-                              ?.message
+                            return errors[key]?.message
                           }}
                           meta={value.meta || parent.meta}
                           hasError={(errorCode: any) => {
-                            return (
-                              errorCode ===
-                              reactHookFormProps.formState?.errors[key]?.type
-                            )
+                            return errorCode === errors[key]?.type
                           }}
                           value={v}
                           validatorsOrOpts={value.options}
