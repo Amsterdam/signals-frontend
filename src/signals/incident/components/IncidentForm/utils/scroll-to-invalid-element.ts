@@ -25,7 +25,7 @@ export function scrollToInvalidElement(
     )
 
     if (invalidElement) {
-      invalidElement?.focus()
+      invalidElement?.scrollIntoView({ behaviour: 'smooth' })
     }
   }
 }
