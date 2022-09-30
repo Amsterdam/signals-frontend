@@ -3,7 +3,7 @@
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
 
-import { isEmpty } from 'lodash'
+import { isEmpty, isObject } from 'lodash'
 import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
@@ -237,11 +237,19 @@ const IncidentForm = forwardRef<any, any>(
                             value: v || '',
                           })}
                           getError={() => {
-                            return errors[key]?.message
+                            return (
+                              errors[key]?.message ||
+                              (isObject(errors[key]) &&
+                                JSON.stringify(errors[key]).includes('message'))
+                            )
                           }}
                           meta={value.meta || parent.meta}
                           hasError={(errorCode: any) => {
-                            return errorCode === errors[key]?.type
+                            return (
+                              errorCode === errors[key]?.type ||
+                              (isObject(errors[key]) &&
+                                JSON.stringify(errors[key]).includes(errorCode))
+                            )
                           }}
                           value={v}
                           validatorsOrOpts={value.options}
