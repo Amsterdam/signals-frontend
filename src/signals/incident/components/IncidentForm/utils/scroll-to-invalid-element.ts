@@ -25,7 +25,11 @@ export function scrollToInvalidElement(
     )
 
     if (invalidElement) {
-      invalidElement?.scrollIntoView({ behaviour: 'smooth' })
+      try {
+        invalidElement?.scrollIntoView({ behaviour: 'smooth' })
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 }
