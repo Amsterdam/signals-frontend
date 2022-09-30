@@ -24,8 +24,6 @@ export function scrollToInvalidElement(
       `#${name}${valueSelector}`
     )
 
-    if (invalidElement) {
-      invalidElement?.focus()
-    }
+    invalidElement?.scrollIntoView({ behaviour: 'smooth' })
   }
 }

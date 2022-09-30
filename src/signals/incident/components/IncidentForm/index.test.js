@@ -49,6 +49,8 @@ const requiredFieldConfig = {
   },
 }
 
+let scrollIntoViewMock = jest.fn()
+window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
 const nextSpy = jest.fn()
 const ref = { current: null }
 
