@@ -6,8 +6,8 @@ import { useEffect } from 'react'
 import { Marker } from '@amsterdam/react-maps'
 import type { LatLngLiteral, Map } from 'leaflet'
 
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
-import { markerIcon } from '../../../../shared/services/configuration/map-markers'
+import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
+import { markerIcon } from 'shared/services/configuration/map-markers'
 
 export interface Props {
   map: Map
@@ -16,9 +16,7 @@ export interface Props {
 
 export const Pin = ({ map, coordinates }: Props) => {
   useEffect(() => {
-    if (coordinates) {
-      map.flyTo(coordinates, DEFAULT_ZOOM)
-    }
+    map.flyTo(coordinates, DEFAULT_ZOOM)
   }, [map, coordinates])
 
   return (

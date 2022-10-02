@@ -20,7 +20,7 @@ export const GPSLocation = ({ setNotification, setCoordinates }: Props) => {
         topLeft={
           <GPSButton
             tabIndex={0}
-            onLocationSuccess={async (location: LocationResult) => {
+            onLocationSuccess={(location: LocationResult) => {
               const coordinates = {
                 lat: location.latitude,
                 lng: location.longitude,

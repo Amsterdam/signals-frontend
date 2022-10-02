@@ -31,10 +31,9 @@ const mockPdokResponse = {
 jest.mock(
   'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled',
   () => ({
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     ...jest.requireActual(
       'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled'
-    )!,
+    ),
     StyledPDOKAutoSuggest: ({ onSelect, value, ...rest }: any) => {
       onSelect(mockPdokResponse)
       return <div {...rest}>{value}</div>
@@ -49,15 +48,10 @@ const defaultProps: Props = {
 }
 
 describe('AddresLocation', () => {
-  it('renders the StyledPDOKAutoSuggest component', () => {
+  it('tests whether the onAddressSelect actually sets the coordinates', async () => {
     render(<AddressLocation {...defaultProps} />)
 
-    expect(screen.getByTestId('searchAddressBar')).toBeInTheDocument()
-  })
-
-  it('calls onSelect when address is clicked', async () => {
-    render(<AddressLocation {...defaultProps} />)
-
+    //the mocked PDOKAutoSuggest triggers automatically onSelect/onAddressSelect, no userEvents are necessary
     expect(defaultProps.setCoordinates).toHaveBeenCalledWith(coords)
   })
 

@@ -10,11 +10,11 @@ import type { Map as MapType, LatLngLiteral } from 'leaflet'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import type { Address } from 'types/address'
 
-import reverseGeocoderService from '../../../../shared/services/reverse-geocoder'
-import type { Address } from '../../../../types/address'
 import type { Filter, Point, Properties } from '../../types'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
@@ -27,7 +27,7 @@ export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
-  const [address, setAddress] = useState<Address | undefined>()
+  const [address, setAddress] = useState<Address>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filter[]>([])
@@ -79,7 +79,8 @@ export const IncidentMap = () => {
         setAddress(response?.data?.address)
       }
     }
-    transformCoordinatesToAddress().catch()
+    // noinspection JSIgnoredPromiseFromCall
+    transformCoordinatesToAddress()
   }, [coordinates])
 
   return (
