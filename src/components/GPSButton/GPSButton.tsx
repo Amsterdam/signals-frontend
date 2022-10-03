@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
-import type { FunctionComponent } from 'react'
+import type { FunctionComponent, HTMLProps } from 'react'
 
 import { Button, themeSpacing } from '@amsterdam/asc-ui'
 import { themeColor } from '@amsterdam/asc-ui'
@@ -31,9 +31,7 @@ export interface GPSButtonProps {
   onLocationOutOfBounds: () => void
 }
 
-const GPSButton: FunctionComponent<
-  GPSButtonProps & React.HTMLProps<HTMLElement>
-> = ({
+const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
   className,
   onLocationSuccess,
   onLocationError,

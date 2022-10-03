@@ -4,21 +4,11 @@ import { useEffect, useState } from 'react'
 
 import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints'
 
-import { formatAddress } from 'shared/services/format-address'
 import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-
+import type { PdokAddress } from 'shared/services/map-location'
 import type { Point } from '../../types'
 import { DeviceMode } from './types'
-import type { DisplayAddress } from './types'
-
-function getDeviceMode(size: number) {
-  if (size <= sizes.tabletM) {
-    return DeviceMode.Mobile
-  } else {
-    return DeviceMode.Desktop
-  }
-}
 
 export function useDeviceMode(): DeviceMode {
   const [deviceMode, setDeviceMode] = useState(getDeviceMode(window.innerWidth))
@@ -34,24 +24,33 @@ export function useDeviceMode(): DeviceMode {
   return deviceMode
 }
 
+function getDeviceMode(size: number) {
+  if (size <= sizes.tabletM) {
+    return DeviceMode.Mobile
+  } else {
+    return DeviceMode.Desktop
+  }
+}
+
 export const isMobile = (mode: DeviceMode): mode is DeviceMode.Mobile =>
   mode === DeviceMode.Mobile
 export const isDesktop = (mode: DeviceMode): mode is DeviceMode.Desktop =>
   mode === DeviceMode.Desktop
 
-export const getAddress = async (
+export const getAddress = (
   geometry: Point,
-  setAddress: (address: DisplayAddress) => void
+  setAddress: (address: PdokAddress) => void
 ) => {
   const coordinates = featureToCoordinates(geometry)
-  const response = await reverseGeocoderService(coordinates)
+  const mapCoordinatesToAddress = async () => {
+    const response = await reverseGeocoderService(coordinates)
+    console.log('--- ~ response', response)
+    if (response?.data?.address) {
+      console.log('call address')
 
-  if (response) {
-    const formattedAddres = formatAddress(response.data.address).split(',')
-
-    setAddress({
-      streetName: formattedAddres[0],
-      postalCode: formattedAddres[1],
-    })
+      setAddress(response.data.address)
+    }
   }
+
+  mapCoordinatesToAddress()
 }

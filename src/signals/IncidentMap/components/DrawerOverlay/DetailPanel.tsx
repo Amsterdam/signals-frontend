@@ -5,17 +5,19 @@ import { useEffect, useState } from 'react'
 import { Close } from '@amsterdam/asc-assets'
 import { Heading } from '@amsterdam/asc-ui'
 
+import type { PdokAddress } from 'shared/services/map-location'
 import { string2date, string2time } from 'shared/services/string-parser'
 
 import type { Incident } from '../../types'
 import { StyledList } from './styled'
 import { CloseButton, DetailsWrapper } from './styled'
-import type { DisplayAddress } from './types'
 import { getAddress } from './utils'
 
-const defaultAddress: DisplayAddress = {
-  streetName: 'Onbekend',
-  postalCode: '',
+const defaultAddress: PdokAddress = {
+  openbare_ruimte: 'Onbekend',
+  huisnummer: '',
+  postcode: '',
+  woonplaats: '',
 }
 
 export interface Props {
@@ -25,11 +27,11 @@ export interface Props {
 
 export const DetailPanel = ({ onClose, incident }: Props) => {
   const { properties, geometry } = incident
-  const [address, setAddress] = useState(defaultAddress)
+  const [address, setAddress] = useState<PdokAddress>(defaultAddress)
 
   useEffect(() => {
     setAddress(defaultAddress)
-  }, [])
+  }, [incident])
 
   useEffect(() => {
     getAddress(geometry, setAddress)
@@ -59,8 +61,12 @@ export const DetailPanel = ({ onClose, incident }: Props) => {
         </dd>
 
         <dt>Adres dichtbij</dt>
-        <dd>{address.streetName}</dd>
-        <dd>{address.postalCode}</dd>
+        <dd>
+          {address.openbare_ruimte} {address.huisnummer}
+        </dd>
+        <dd>
+          {address.postcode} {address.woonplaats}
+        </dd>
       </StyledList>
     </DetailsWrapper>
   )

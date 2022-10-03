@@ -33,7 +33,7 @@ describe('utils', () => {
       postcode: '1000 AA',
       huisnummer: '100',
       woonplaats: 'Amsterdam',
-      openbare_ruimte: 'West',
+      openbare_ruimte: 'Damstraat',
     }
 
     const geocodedResponse = {
@@ -55,8 +55,10 @@ describe('utils', () => {
       await getAddress(geometry, setAddressMock)
 
       expect(setAddressMock).toHaveBeenCalledWith({
-        postalCode: ' 1000 AA Amsterdam',
-        streetName: 'West 100',
+        huisnummer: '100',
+        openbare_ruimte: 'Damstraat',
+        postcode: '1000 AA',
+        woonplaats: 'Amsterdam',
       })
     })
   })

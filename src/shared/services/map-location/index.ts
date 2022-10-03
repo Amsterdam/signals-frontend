@@ -9,4 +9,4 @@ export {
   serviceResultToAddress,
   wktPointToLocation,
 } from './map-location'
-export type { PdokResponse } from './map-location'
+export type { PdokResponse, PdokAddress } from './map-location'

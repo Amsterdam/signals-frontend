@@ -62,13 +62,10 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
   drawerContainerStyle.transform = getDrawerPositionTransform()
 
   const drawerClick = useCallback(() => {
-    if (!onStateChange) {
-      return
-    }
-
-    onStateChange(
-      state === DrawerState.Closed ? DrawerState.Open : DrawerState.Closed
-    )
+    onStateChange &&
+      onStateChange(
+        state === DrawerState.Closed ? DrawerState.Open : DrawerState.Closed
+      )
   }, [onStateChange, state])
 
   return (
