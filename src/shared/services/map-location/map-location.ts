@@ -72,7 +72,7 @@ export const formatMapLocation = (
   }
 }
 
-type PdokAddress = {
+export type PdokAddress = {
   openbare_ruimte: string
   huisnummer: string
   postcode: string
