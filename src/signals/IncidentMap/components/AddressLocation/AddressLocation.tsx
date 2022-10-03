@@ -10,7 +10,6 @@ import type { PdokResponse } from 'shared/services/map-location'
 import type { Address } from 'types/address'
 
 import { StyledPDOKAutoSuggest } from './styled'
-
 export interface Props {
   setCoordinates: (coordinates: LatLngLiteral) => void
   address?: Address
@@ -22,7 +21,8 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
 
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
-      setCoordinates(option.data.location)
+      const { location } = option.data
+      setCoordinates(location)
     },
     [setCoordinates]
   )

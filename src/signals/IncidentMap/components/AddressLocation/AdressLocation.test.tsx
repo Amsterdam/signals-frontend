@@ -3,7 +3,8 @@
 
 import { render, screen } from '@testing-library/react'
 
-import { formatAddress } from '../../../../shared/services/format-address'
+import { formatAddress } from 'shared/services/format-address'
+
 import type { Props } from './AddressLocation'
 import { AddressLocation } from './AddressLocation'
 
@@ -28,18 +29,13 @@ const mockPdokResponse = {
   },
 }
 
-jest.mock(
-  'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled',
-  () => ({
-    ...jest.requireActual(
-      'signals/incident/components/form/MapSelectors/Asset/Selector/DetailPanel/styled'
-    ),
-    StyledPDOKAutoSuggest: ({ onSelect, value, ...rest }: any) => {
-      onSelect(mockPdokResponse)
-      return <div {...rest}>{value}</div>
-    },
-  })
-)
+jest.mock('./styled', () => ({
+  ...jest.requireActual('./styled'),
+  StyledPDOKAutoSuggest: ({ onSelect, value, ...rest }: any) => {
+    onSelect(mockPdokResponse)
+    return <div {...rest}>{value}</div>
+  },
+}))
 
 const defaultProps: Props = {
   setCoordinates: jest.fn(),
