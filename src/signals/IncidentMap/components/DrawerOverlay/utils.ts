@@ -44,10 +44,8 @@ export const getAddress = (
   const coordinates = featureToCoordinates(geometry)
   const mapCoordinatesToAddress = async () => {
     const response = await reverseGeocoderService(coordinates)
-    console.log('--- ~ response', response)
-    if (response?.data?.address) {
-      console.log('call address')
 
+    if (response?.data?.address) {
       setAddress(response.data.address)
     }
   }
