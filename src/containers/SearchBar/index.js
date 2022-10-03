@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useCallback } from 'react'
-import PropTypes from 'prop-types'
+
 import { SearchBar, styles } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import styled from 'styled-components'
 
 import { setSearchQuery, resetSearchQuery } from 'containers/App/actions'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
-import styled from 'styled-components'
 
 const StyledSearchBar = styled(SearchBar)`
   ${styles.TextFieldStyle} > input {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { createRef } from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -141,6 +141,21 @@ describe('AddNote', () => {
     )
   })
 
+  it('calls onCancel', () => {
+    const onCancel = jest.fn()
+
+    render(withAppContext(<AddNote onCancel={onCancel} />))
+
+    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
+
+    expect(onCancel).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
+
+    expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
   it('hides the form after submit', () => {
     const submitWillNotHide = jest.fn(() => false)
 
@@ -197,5 +212,27 @@ describe('AddNote', () => {
     expect(
       screen.queryByTestId('addNoteCancelNoteButton')
     ).not.toBeInTheDocument()
+  })
+
+  it('renders without toggling', () => {
+    render(
+      withAppContext(
+        <AddNote withToggle={false} onSubmit={() => true} onCancel={() => {}} />
+      )
+    )
+
+    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
+    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+
+    userEvent.type(screen.getByRole('textbox'), 'Here be text 3')
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
+    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
+
+    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
+    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
   })
 })

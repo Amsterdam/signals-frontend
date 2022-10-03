@@ -1,5 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
 import type Reporter from 'types/api/reporter'
+
 import type { QueryParameters } from './types'
 import { useBuildGetter } from './useBuildGetter'
 

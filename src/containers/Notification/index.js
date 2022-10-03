@@ -6,8 +6,8 @@ import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 
 import Notification from 'components/Notification'
-import { makeSelectNotification } from 'containers/App/selectors'
 import { resetGlobalNotification } from 'containers/App/actions'
+import { makeSelectNotification } from 'containers/App/selectors'
 
 export const NotificationContainerComponent = ({
   notification,

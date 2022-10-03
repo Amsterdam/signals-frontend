@@ -1,7 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import IncidentNavigation from '../components/IncidentNavigation'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+
+import configuration from 'shared/services/configuration/configuration'
+
 import FormComponents from '../components/form'
+import IncidentNavigation from '../components/IncidentNavigation'
+
+const navigation = configuration.featureFlags.appMode
+  ? {
+      app_close_window_action: {
+        meta: {
+          title: 'Wilt u nog een andere melding doen?',
+          labelCloseButton: 'Sluit venster',
+          labelLinkButton: 'Doe een melding',
+          hrefLinkButton: '/',
+        },
+        render: FormComponents.AppNavigation,
+      },
+    }
+  : {
+      next_incident_action: {
+        meta: {
+          label: 'Doe een melding',
+          href: '/',
+        },
+        render: FormComponents.LinkButton,
+      },
+    }
 
 export default {
   label: 'Bedankt!',
@@ -24,14 +49,9 @@ export default {
         },
         render: FormComponents.HandlingMessage,
       },
-      next_incident_action: {
-        meta: {
-          title: 'Wilt u nog een andere melding doen?',
-          label: 'Doe een melding',
-          href: '/',
-        },
-        render: FormComponents.LinkButton,
-      },
+
+      ...navigation,
+
       $field_0: {
         isStatic: false,
         render: IncidentNavigation,

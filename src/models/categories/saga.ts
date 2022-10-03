@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { call, put, takeLatest } from 'redux-saga/effects'
 import * as Sentry from '@sentry/browser'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
-import CONFIGURATION from 'shared/services/configuration/configuration'
-import { authCall, getErrorMessage } from 'shared/services/api/api'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
-
+import { authCall, getErrorMessage } from 'shared/services/api/api'
+import CONFIGURATION from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
-import { FETCH_CATEGORIES } from './constants'
 import { fetchCategoriesSuccess, fetchCategoriesFailed } from './actions'
+import { FETCH_CATEGORIES } from './constants'
 
 export function* fetchCategories() {
   const requestURL = CONFIGURATION.CATEGORIES_PRIVATE_ENDPOINT

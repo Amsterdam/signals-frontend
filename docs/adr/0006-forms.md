@@ -58,11 +58,11 @@ These libraries can exist side by side in the code base. New forms can be built 
 
 ### Incident form
 
-- [IncidentForm/index.js](../../src/signals/incident/components/IncidentForm/index.js)
+- [IncidentForm/index.tsx](../../src/signals/incident/components/IncidentForm/index.tsx)
 
 A form components specifically using the dependency, which can easily be updated when using the new lib.
 
-- [form/Header/index.js](../../src/signals/incident/components/form/Header/index.js)
+- [form/Header/index.tsx](../../src/signals/incident/components/form/Header/index.js)
 
 The definitions for all steps in the wizard can be turned into components, defining the form directly.
 
@@ -92,19 +92,19 @@ Rewrite the forms by rewriting:
 
 The default texts admin page with the texts form and select form.
 
-- [DefaultTextsAdmin/components/DefaultTextsForm/index.js](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/DefaultTextsForm.tsx)
-- [DefaultTextsAdmin/components/SelectForm/index.js](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/SelectForm/index.js)
+- [DefaultTextsAdmin/components/DefaultTextsForm/index.tsx](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/DefaultTextsForm.tsx)
+- [DefaultTextsAdmin/components/SelectForm/index.tsx](../../src/signals/incident-management/containers/DefaultTextsAdmin/components/SelectForm/index.js)
 
 The incident detail location form with the location input component.
 
-- [IncidentDetail/components/LocationForm/index.js](../../src/signals/incident-management/containers/IncidentDetail/components/LocationForm/index.js)
-- [IncidentDetail/components/LocationForm/components/LocationInput/index.js](../../src/signals/incident-management/containers/IncidentDetail/components/LocationForm/components/LocationInput/index.js)
+- [IncidentDetail/components/LocationForm/index.tsx](../../src/signals/incident-management/containers/IncidentDetail/components/LocationForm/index.js)
+- [IncidentDetail/components/LocationForm/components/LocationInput/index.tsx](../../src/signals/incident-management/containers/IncidentDetail/components/LocationForm/components/LocationInput/index.js)
 
 The incident detail meta list form with the change value component.
 
-- [IncidentDetail/components/MetaList/components/ChangeValue/index.js](../../src/signals/incident-management/containers/IncidentDetail/components/MetaList/components/ChangeValue/index.js)
+- [IncidentDetail/components/MetaList/components/ChangeValue/index.tsx](../../src/signals/incident-management/containers/IncidentDetail/components/MetaList/components/ChangeValue/index.js)
 
 The incident split form and incident part.
 
-- [LegacyIncidentSplitContainer/components/SplitForm/index.js](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/SplitForm/index.js)
-- [LegacyIncidentSplitContainer/components/IncidentPart/index.js](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/IncidentPart/index.js)
+- [LegacyIncidentSplitContainer/components/SplitForm/index.tsx](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/SplitForm/index.js)
+- [LegacyIncidentSplitContainer/components/IncidentPart/index.tsx](../../src/signals/incident-management/containers/LegacyIncidentSplitContainer/components/IncidentPart/index.js)

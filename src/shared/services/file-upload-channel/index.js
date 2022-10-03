@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { buffers, eventChannel, END } from 'redux-saga'
+import { getAuthHeaders } from '../auth/auth'
 
 export default (endpoint, file, id) =>
   eventChannel((emitter) => {
@@ -20,7 +21,7 @@ export default (endpoint, file, id) =>
 
     /* istanbul ignore next */
     const onFailure = () => {
-      emitter({ error: new Error('Upload failed'), progress: 1 })
+      emitter({ error: new Error('Upload failed') })
       emitter(END)
     }
 
@@ -32,7 +33,7 @@ export default (endpoint, file, id) =>
     xhr.onload = () => {
       // upload success
       if (xhr.readyState === 4 && xhr.status > 200 && xhr.status < 400) {
-        emitter({ success: true, progress: 1 })
+        emitter({ success: true })
         emitter(END)
       } else {
         onFailure()
@@ -40,6 +41,10 @@ export default (endpoint, file, id) =>
     }
 
     xhr.open('POST', endpoint, true)
+    const authHeaders = getAuthHeaders()
+    Object.entries(authHeaders).forEach(([header, value]) => {
+      xhr.setRequestHeader(header, value)
+    })
     xhr.send(formData)
 
     return () => {

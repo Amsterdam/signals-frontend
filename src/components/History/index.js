@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { Heading, styles, themeSpacing } from '@amsterdam/asc-ui'
-
-import { historyType } from 'shared/types'
 import HistoryList from 'components/HistoryList'
+import PropTypes from 'prop-types'
+import { historyType } from 'shared/types'
+import styled from 'styled-components'
 
 const Section = styled.section`
   contain: centent;
@@ -13,7 +12,7 @@ const Section = styled.section`
 
 const H2 = styled(Heading)`
   ${styles.HeaderStyles} {
-    margin: ${themeSpacing(2)} 0;
+    margin: ${themeSpacing(4, 0, 2)};
   }
 `
 

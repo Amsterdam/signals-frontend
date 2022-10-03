@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useContext, useEffect } from 'react'
+
 import { render } from '@testing-library/react'
-import { initialState } from '../reducer'
+
 import MapContext from '..'
-import Context from '../context'
 import { setValuesAction } from '../actions'
+import Context from '../context'
+import { initialState } from '../reducer'
 
 describe('containers/MapContext/index', () => {
   const testLocation = { lat: 42, lng: 4 }

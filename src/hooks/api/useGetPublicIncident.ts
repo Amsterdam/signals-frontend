@@ -1,5 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
 import type { PublicIncident } from 'types/api/public-incident'
+
 import { useBuildGetter } from './useBuildGetter'
 
 const useGetPublicIncident = () =>

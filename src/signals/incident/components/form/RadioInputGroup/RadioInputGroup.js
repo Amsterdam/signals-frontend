@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import isObject from 'lodash/isObject'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
+import isObject from 'lodash/isObject'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import FormField from '../FormField'
 import RadioInput from '../RadioInput'
@@ -18,7 +18,6 @@ const StyledRadioGroup = styled(RadioGroup)`
 
 const RadioInputGroup = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -41,7 +40,6 @@ const RadioInputGroup = ({
       isFieldSet
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -54,7 +52,7 @@ const RadioInputGroup = ({
           >
             {Object.entries(meta.values).map(([key, value]) => (
               <RadioInput
-                checked={handler().value.id === key}
+                checked={handler().value?.id === key}
                 id={key}
                 idAttr={`${meta.name}-${key}`}
                 info={value.info}
@@ -78,7 +76,6 @@ const RadioInputGroup = ({
 
 RadioInputGroup.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,

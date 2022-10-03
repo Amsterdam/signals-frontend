@@ -1,9 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import userJson from 'utils/__tests__/fixtures/user.json'
 import { APPLY_FILTER } from 'signals/incident-management/constants'
-import type { ApplyFilterActionType } from './reducer'
-import appReducer, { initialState } from './reducer'
+import userJson from 'utils/__tests__/fixtures/user.json'
+
+import type {
+  DoLogoutAction,
+  GetSourcesAction,
+  GetSourcesFailedAction,
+  GetSourcesSuccessAction,
+  ResetSearchQueryAction,
+  SetSearchQueryAction,
+} from './actions'
 import {
   AUTHORIZE_USER,
   LOGIN_FAILED,
@@ -20,14 +27,8 @@ import {
   GET_SOURCES_FAILED,
   GET_SOURCES_SUCCESS,
 } from './constants'
-import type {
-  DoLogoutAction,
-  GetSourcesAction,
-  GetSourcesFailedAction,
-  GetSourcesSuccessAction,
-  ResetSearchQueryAction,
-  SetSearchQueryAction,
-} from './actions'
+import type { ApplyFilterActionType } from './reducer'
+import appReducer, { initialState } from './reducer'
 import type { Source } from './types'
 
 describe('containers/App/reducer', () => {

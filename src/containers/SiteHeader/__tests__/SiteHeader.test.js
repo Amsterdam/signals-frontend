@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
+
 import * as appSelectors from 'containers/App/selectors'
 import * as auth from 'shared/services/auth/auth'
-
 import { withAppContext } from 'test/utils'
-import userEvent from '@testing-library/user-event'
+
 import SiteHeader from '..'
 
 describe('containers/SiteHeader', () => {

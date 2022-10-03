@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import PropTypes from 'prop-types'
-import FormField from '../FormField'
+
 import DescriptionInput from '../DescriptionInput'
+import FormField from '../FormField'
 
 const DescriptionInputRenderer = ({
   handler,
-  touched,
   value,
   hasError,
   meta,
@@ -20,7 +20,6 @@ const DescriptionInputRenderer = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >
@@ -36,7 +35,6 @@ const DescriptionInputRenderer = ({
 
 DescriptionInputRenderer.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   value: PropTypes.string,
   hasError: PropTypes.func,
   meta: PropTypes.object,

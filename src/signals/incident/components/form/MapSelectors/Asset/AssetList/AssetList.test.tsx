@@ -20,6 +20,7 @@ import type { AssetListProps } from './AssetList'
 import { AssetListItem } from './AssetList'
 import MockInstance = jest.MockInstance
 
+const del = jest.fn()
 const get = jest.fn()
 const patch = jest.fn()
 const post = jest.fn()
@@ -27,6 +28,7 @@ const put = jest.fn()
 const dispatch = jest.fn()
 
 const useFetchResponse = {
+  del,
   get,
   patch,
   post,

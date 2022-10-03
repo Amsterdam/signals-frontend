@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import isEmpty from 'lodash/isEmpty'
+import PropTypes from 'prop-types'
+import { useFormContext } from 'react-hook-form'
+import styled from 'styled-components'
 
 const ErrorItem = styled.p`
   border: ${themeColor('support', 'invalid')} 2px solid;
@@ -14,21 +16,19 @@ const ErrorItem = styled.p`
   padding: ${themeSpacing(3)};
 `
 
-const GlobalError = ({ meta, parent: { touched, valid } }) =>
-  touched && !valid ? (
+const GlobalError = ({ meta }) => {
+  const { formState } = useFormContext()
+  return !isEmpty(formState?.errors) ? (
     <ErrorItem role="alert">
       {meta.label ||
         'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'}
     </ErrorItem>
   ) : null
+}
 
 GlobalError.propTypes = {
   meta: PropTypes.shape({
     label: PropTypes.string,
-  }),
-  parent: PropTypes.shape({
-    touched: PropTypes.bool,
-    valid: PropTypes.bool,
   }),
 }
 

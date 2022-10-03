@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { Reducer } from 'react'
 import { useCallback, useEffect, useReducer, useMemo } from 'react'
-import { getAuthHeaders } from 'shared/services/auth/auth'
+
 import { getErrorMessage } from 'shared/services/api/api'
+import { getAuthHeaders } from 'shared/services/auth/auth'
 
 type Data = Record<string, unknown>
 export type FetchError = (Response | Error) & {
@@ -19,6 +20,7 @@ export interface State<T> {
 }
 
 interface FetchResponse<T> extends State<T> {
+  del: (url: string, requestOptions?: Data) => Promise<void>
   get: (url: string, params?: Data, requestOptions?: Data) => Promise<void>
   patch: (
     url: string,
@@ -71,6 +73,14 @@ const useFetch = <T>(): FetchResponse<T> => {
         return {
           ...state,
           data: action.payload as T,
+          isLoading: false,
+          error: false,
+          isSuccess: true,
+        }
+
+      case 'SET_DELETE_DATA':
+        return {
+          ...state,
           isLoading: false,
           error: false,
           isSuccess: true,
@@ -236,10 +246,49 @@ const useFetch = <T>(): FetchResponse<T> => {
   const patch = useMemo(() => modify('PATCH'), [modify])
   const put = useMemo(() => modify('PUT'), [modify])
 
+  const del = useCallback(
+    async (url: RequestInfo, requestOptions: Data = {}) => {
+      dispatch({ type: 'SET_LOADING', payload: true })
+
+      try {
+        const deleteResponse = await fetch(url, {
+          headers: requestHeaders(),
+          method: 'DELETE',
+          signal,
+          ...requestOptions,
+        })
+
+        if (deleteResponse.ok) {
+          dispatch({ type: 'SET_DELETE_DATA', payload: {} })
+        } else {
+          Object.defineProperty(deleteResponse, 'message', {
+            value: getErrorMessage(deleteResponse),
+            writable: false,
+          })
+
+          dispatch({
+            type: 'SET_ERROR',
+            payload: deleteResponse as FetchError,
+          })
+        }
+      } catch (exception: unknown) {
+        if (signal.aborted) return
+        Object.defineProperty(exception, 'message', {
+          value: getErrorMessage(exception),
+          writable: false,
+        })
+
+        dispatch({ type: 'SET_ERROR', payload: exception as FetchError })
+      }
+    },
+    [requestHeaders, signal]
+  )
+
   /**
    * @typedef {Object} FetchResponse
    * @property {Object} data - Fetch response
    * @property {Error} error - Error object thrown during fetch and data parsing
+   * @property {Function} del - Function that expects a URL
    * @property {Function} get - Function that expects a URL and a query parameter object
    * @property {Boolean} isLoading - Indicator of fetch request status
    * @property {Boolean} isSuccess - Indicator of post or patch request status
@@ -247,6 +296,7 @@ const useFetch = <T>(): FetchResponse<T> => {
    * @property {Function} post - Function that expects a URL and a data object as parameters
    */
   return {
+    del,
     get,
     patch,
     post,

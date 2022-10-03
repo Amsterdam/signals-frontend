@@ -2,12 +2,13 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 // @ts-check
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const CircularDependencyPlugin = require('circular-dependency-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const { baseConfig, merge } = require('./webpack.base.babel')
 const template = require('./template')
+const { baseConfig, merge } = require('./webpack.base.babel')
 
 const devConfig = /** @type { import('webpack').Configuration } */ {
   mode: 'development',

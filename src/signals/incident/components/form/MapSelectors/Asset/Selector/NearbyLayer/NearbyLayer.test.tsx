@@ -1,21 +1,20 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
-import Leaflet from 'leaflet'
-import * as reactRedux from 'react-redux'
-
-import configuration from 'shared/services/configuration/configuration'
-import useFetch from 'hooks/useFetch'
-import geography from 'utils/__tests__/fixtures/geography_public.json'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-
 import Map from 'components/Map'
 import type { FeatureCollection } from 'geojson'
+import useFetch from 'hooks/useFetch'
+import Leaflet from 'leaflet'
+import * as reactRedux from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import {
   get,
   mockUseMapInstance,
   useFetchResponse,
-} from 'signals/IncidentMap/components/mapTestUtils'
+} from 'signals/IncidentMap/components/__test__/utils'
+import geography from 'utils/__tests__/fixtures/geography_public.json'
+
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import { WfsDataProvider } from '../WfsLayer/context'

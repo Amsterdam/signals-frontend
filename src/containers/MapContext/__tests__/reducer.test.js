@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import reducer, { initialState } from '../reducer'
 import {
   SET_LOCATION,
   SET_ADDRESS,
@@ -8,6 +7,7 @@ import {
   SET_LOADING,
   RESET_LOCATION,
 } from '../constants'
+import reducer, { initialState } from '../reducer'
 
 describe('containers/MapContext/reducer', () => {
   const testLocation = {

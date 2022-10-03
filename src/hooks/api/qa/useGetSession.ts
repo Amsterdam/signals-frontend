@@ -1,5 +1,6 @@
 import configuration from 'shared/services/configuration/configuration'
 import type { Session } from 'types/api/qa/session'
+
 import { useBuildGetter } from '../useBuildGetter'
 
 const useGetSession = () =>

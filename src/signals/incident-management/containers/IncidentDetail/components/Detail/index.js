@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
 import styled from 'styled-components'
 import {
@@ -15,7 +15,6 @@ import configuration from 'shared/services/configuration/configuration'
 
 import IncidentDetailContext from '../../context'
 import Location from './components/Location'
-import Attachments from './components/Attachments'
 import ExtraProperties from './components/ExtraProperties'
 import Reporter from './components/Reporter'
 import Area from './components/Area'
@@ -67,10 +66,9 @@ const StyledLink = styled(AscLink)`
   font-size: inherit;
 `
 
-const Detail = ({ attachments, context }) => {
+const Detail = ({ context }) => {
   const { incident } = useContext(IncidentDetailContext)
   const memoIncident = useMemo(() => incident, [incident])
-  const memoAttachments = useMemo(() => attachments, [attachments])
   const location = useMemo(() => incident.location, [incident.location])
   const showArea = useMemo(
     () =>
@@ -103,8 +101,6 @@ const Detail = ({ attachments, context }) => {
         {showArea && (
           <Area count={context.near.signal_count} id={incident.id} />
         )}
-
-        {memoAttachments && <Attachments attachments={memoAttachments} />}
 
         {memoIncident.extra_properties && (
           <ExtraProperties items={memoIncident.extra_properties} />

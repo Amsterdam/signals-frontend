@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import PropTypes from 'prop-types'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
-import FormField from '../FormField'
+
 import CategorySelect from '../CategorySelect'
+import FormField from '../FormField'
 
 const CategorySelectRenderer = ({
   handler,
@@ -29,7 +30,6 @@ const CategorySelectRenderer = ({
 
 CategorySelectRenderer.propTypes = {
   handler: PropTypes.func,
-  touched: PropTypes.bool,
   getError: PropTypes.func.isRequired,
   hasError: PropTypes.func.isRequired,
   meta: PropTypes.object,

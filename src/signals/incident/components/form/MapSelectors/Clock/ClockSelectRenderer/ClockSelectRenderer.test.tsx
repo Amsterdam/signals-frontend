@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-
+import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
-import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 
 import type { Meta } from '../../types'
-
 import ClockSelectRenderer from './ClockSelectRenderer'
 
 jest.mock('../../Asset/AssetSelect', () => () => (
@@ -19,7 +17,6 @@ describe('signals/incident/components/form/ClockSelectRenderer', () => {
     handler: jest.fn(() => ({
       value: [],
     })),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-value',

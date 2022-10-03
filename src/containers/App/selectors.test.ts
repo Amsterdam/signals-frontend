@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import cloneDeep from 'lodash/cloneDeep'
-import type { ApplicationRootState } from 'types'
 
+import type { ApplicationRootState } from 'types'
 import userJson from 'utils/__tests__/fixtures/user.json'
 
 import { initialState } from './reducer'

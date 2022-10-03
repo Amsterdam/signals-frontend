@@ -9,25 +9,25 @@ import AddNote from './AddNote'
 
 describe('AddNote', () => {
   it('renders a generic AddNote component', () => {
-    render(withAppContext(<AddNote maxContentLength={100} />))
+    render(
+      withAppContext(<AddNote maxContentLength={100} onClose={() => {}} />)
+    )
 
     expect(screen.getByTestId('addNote')).toBeInTheDocument()
   })
 
   it('calls update on AddNote submit', () => {
     const update = jest.fn()
-    const close = jest.fn()
     const maxContentLength = 100
 
     render(
       withAppContext(
-        <IncidentDetailContext.Provider value={{ update, close }}>
-          <AddNote maxContentLength={maxContentLength} />
+        <IncidentDetailContext.Provider value={{ update }}>
+          <AddNote maxContentLength={maxContentLength} onClose={() => {}} />
         </IncidentDetailContext.Provider>
       )
     )
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
     userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
 
     // no content, update is not called
@@ -59,5 +59,26 @@ describe('AddNote', () => {
       type: PATCH_TYPE_NOTES,
       patch: { notes: [{ text }] },
     })
+  })
+
+  it('calls close on AddNote submit', () => {
+    const update = jest.fn()
+    const close = jest.fn()
+    const maxContentLength = 100
+
+    render(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ update }}>
+          <AddNote maxContentLength={maxContentLength} onClose={close} />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    const text = 'Hic sunt dracones'
+    userEvent.clear(screen.getByRole('textbox'))
+    userEvent.type(screen.getByRole('textbox'), text)
+    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+
+    expect(close).toHaveBeenCalledTimes(1)
   })
 })

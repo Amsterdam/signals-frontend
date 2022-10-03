@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import type { FormInputProps } from 'types/reactive-form'
 import type { Location } from 'types/incident'
@@ -14,7 +14,6 @@ import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 import getMapCenter from './getMapCenter'
 
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
-  touched,
   hasError,
   meta,
   parent,
@@ -42,7 +41,6 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
       className="mapInput"
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
       data-testid="mapInput"

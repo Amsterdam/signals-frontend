@@ -9,9 +9,15 @@ import { PATCH_TYPE_NOTES } from '../../constants'
 
 type AddNoteProps = {
   maxContentLength: number
+  className?: string
+  onClose: () => void
 }
 
-const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
+const AddNote: FC<AddNoteProps> = ({
+  className,
+  maxContentLength,
+  onClose,
+}) => {
   const { update } = useContext(IncidentDetailContext)
   const [error, setError] = useState('')
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -36,9 +42,11 @@ const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
         patch: { notes },
       })
 
+      onClose()
+
       return true
     },
-    [maxContentLength, update]
+    [maxContentLength, update, onClose]
   )
 
   const onChange = useCallback((event) => {
@@ -51,11 +59,14 @@ const AddNote: FC<AddNoteProps> = ({ maxContentLength }) => {
 
   return (
     <GenericAddNote
+      className={className}
       error={error}
       maxContentLength={maxContentLength}
       onChange={onChange}
       onSubmit={onSubmit}
+      onCancel={onClose}
       ref={textAreaRef}
+      withToggle={false}
     />
   )
 }

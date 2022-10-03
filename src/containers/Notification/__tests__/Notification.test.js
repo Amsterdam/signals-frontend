@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
-
 import { render } from '@testing-library/react'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Enzyme, { mount } from 'enzyme'
+
 import { withAppContext } from 'test/utils'
 
-import { TYPE_GLOBAL, VARIANT_NOTICE } from '../constants'
-
 import NotificationContainer, { NotificationContainerComponent } from '..'
+import { TYPE_GLOBAL, VARIANT_NOTICE } from '../constants'
 
 Enzyme.configure({ adapter: new Adapter() })
 

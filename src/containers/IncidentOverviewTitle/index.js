@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useMemo } from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
-import * as types from 'shared/types'
 
 import PageHeader from 'components/PageHeader'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
+import * as types from 'shared/types'
 import {
   makeSelectActiveFilter,
   makeSelectIncidentsCount,
 } from 'signals/incident-management/selectors'
-import { makeSelectSearchQuery } from 'containers/App/selectors'
 
 import Refresh from '../../images/icon-refresh.svg'
 

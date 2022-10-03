@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
@@ -12,7 +12,6 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
     handler: jest.fn(() => ({
       value: [],
     })),
-    touched: false,
     getError: jest.fn(),
     hasError: jest.fn(),
     value: 'the-value',

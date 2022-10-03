@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type {
   ForwardRefExoticComponent,
   FunctionComponent,
@@ -27,7 +27,6 @@ export interface SelectChangeEventType {
 
 const SelectInput: FunctionComponent<SelectInputProps> = ({
   handler,
-  touched,
   hasError,
   meta,
   parent,
@@ -38,7 +37,6 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
     <FormField
       meta={meta}
       options={validatorsOrOpts}
-      touched={touched}
       hasError={hasError}
       getError={getError}
     >

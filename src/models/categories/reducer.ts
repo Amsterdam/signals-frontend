@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
-
 import type { Map as ImmutableMap } from 'immutable'
 import type { AnyAction, Reducer } from 'redux'
+
 import type CategoriesType from 'types/api/categories'
+
 import type {
   CategoryActions,
   FetchCategoriesSuccessAction,
   FetchCategoriesFailedAction,
 } from './actions'
-
 import {
   FETCH_CATEGORIES_FAILED,
   FETCH_CATEGORIES_SUCCESS,

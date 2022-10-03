@@ -1,20 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import { WithWizard } from 'react-albus'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+import type { BaseSyntheticEvent } from 'react'
+
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
-
-import PreviousButton from 'components/PreviousButton'
 import NextButton from 'components/NextButton'
-
-import type { SyntheticEvent } from 'react'
+import PreviousButton from 'components/PreviousButton'
+import { WithWizard } from 'react-albus'
+import { useSelector } from 'react-redux'
+import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type {
   FormAction,
   WizardSection,
 } from 'signals/incident/definitions/wizard'
-import { useSelector } from 'react-redux'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
-import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
+import styled from 'styled-components'
 
 const Nav = styled.div`
   align-items: center;
@@ -39,7 +38,7 @@ interface IncidentNavigationProps {
   meta: {
     wizard: WizardSection
     handleSubmit: (
-      event: SyntheticEvent<HTMLButtonElement>,
+      event: BaseSyntheticEvent | undefined,
       next: () => void,
       formAction?: FormAction
     ) => void
@@ -62,7 +61,9 @@ const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
               wizardStep={wizardStep}
               meta={meta}
               next={next}
-              previous={previous}
+              previous={() => {
+                previous()
+              }}
             />
           )
         )
@@ -79,9 +80,9 @@ interface WizardStepProps extends IncidentNavigationProps {
 
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
-
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
+
    */
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 
@@ -90,7 +91,9 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
       <Nav className="incident-navigation">
         {wizardStep.nextButtonLabel && (
           <NextButton
-            onClick={(e) => handleSubmit(e, next, wizardStep.formAction)}
+            onClick={(e) => {
+              handleSubmit(e, next, wizardStep.formAction)
+            }}
             data-testid="nextButton"
           >
             <span className="value">{wizardStep.nextButtonLabel}</span>

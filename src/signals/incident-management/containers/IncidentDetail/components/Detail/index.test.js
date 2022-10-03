@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -76,7 +76,6 @@ describe('<Detail />', () => {
     expect(
       getByText(incidentFixture.extra_properties[1].label)
     ).toBeInTheDocument()
-    expect(getByTestId('attachmentsDefinition')).toBeInTheDocument()
     expect(getByTestId('detail-location')).toBeInTheDocument()
   })
 

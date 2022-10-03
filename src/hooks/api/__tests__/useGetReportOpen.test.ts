@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import fetchMock from 'jest-fetch-mock'
 import { renderHook, act } from '@testing-library/react-hooks'
+import fetchMock from 'jest-fetch-mock'
 
 import configuration from 'shared/services/configuration/configuration'
+
 import signalsOpenReport from '../../../../internals/mocks/fixtures/report_signals-open.json'
 import useGetReportOpen from '../useGetReportOpen'
 

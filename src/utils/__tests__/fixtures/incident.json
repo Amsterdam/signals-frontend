@@ -45,7 +45,7 @@
     "text": null
   },
   "id": 4440,
-  "has_attachments": false,
+  "has_attachmentts": true,
   "location": {
     "id": 4803,
     "stadsdeel": "A",
@@ -61,11 +61,15 @@
       "huisnummer_toevoeging": ""
     },
     "address_text": "Geldersekade 128E 1012BN Amsterdam",
+    "coordinates": {
+      "lat": 4.900631904602052,
+      "lng": 52.37324119761923
+    },
     "geometrie": {
       "type": "Point",
       "coordinates": [
-        4.900631904602052,
-        52.37324119761923
+        52.37324119761923,
+        4.900631904602052
       ]
     },
     "extra_properties": null,
@@ -120,6 +124,8 @@
   "incident_date_start": "2020-02-06T08:50:15+01:00",
   "incident_date_end": null,
   "routing_departments": null,
-  "attachments": [],
+  "attachments": [
+    "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
+  ],
   "assigned_user_email": null
 }

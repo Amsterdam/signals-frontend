@@ -1,12 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
-
+import form from 'react-hook-form'
 import GlobalError from '..'
 
 const defaultErrorMessage =
   'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'
+
+jest.mock('react-hook-form', () => ({
+  ...jest.requireActual('react-hook-form'),
+  useFormContext: () => ({
+    formState: {
+      errors: { name: 'wrong name' },
+    },
+  }),
+}))
 
 describe('Form component <GlobalError />', () => {
   const props = {
@@ -14,66 +23,30 @@ describe('Form component <GlobalError />', () => {
       name: 'global',
       label: 'Error message',
     },
-    parent: {
-      touched: false,
-      valid: false,
-    },
   }
 
   describe('rendering', () => {
-    it('does not render the error message initially', () => {
-      render(withAppContext(<GlobalError {...props} />))
-
-      expect(screen.queryByText(props.meta.label)).not.toBeInTheDocument()
-    })
-
-    it('renders the error message when touched', () => {
-      render(
-        withAppContext(
-          <GlobalError
-            {...{ ...props, parent: { touched: true, valid: false } }}
-          />
-        )
-      )
+    it('renders the error message when there is one in formState', () => {
+      render(withAppContext(<GlobalError {...{ ...props }} />))
 
       expect(screen.getByText(props.meta.label)).toBeInTheDocument()
     })
 
+    it('does not render error message', () => {
+      jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
+        formState: {
+          errors: null,
+        },
+      }))
+      render(withAppContext(<GlobalError {...{ ...props }} />))
+
+      expect(screen.queryByText(props.meta.label)).toBe(null)
+    })
+
     it('renders a default error message', () => {
-      render(
-        withAppContext(
-          <GlobalError
-            meta={{ name: 'global' }}
-            parent={{ touched: true, valid: false }}
-          />
-        )
-      )
+      render(withAppContext(<GlobalError meta={{ name: 'global' }} />))
 
       expect(screen.getByText(defaultErrorMessage)).toBeInTheDocument()
-    })
-
-    it('does not render the error message when valid', () => {
-      render(
-        withAppContext(
-          <GlobalError
-            {...{ ...props, parent: { touched: false, valid: true } }}
-          />
-        )
-      )
-
-      expect(screen.queryByText(props.meta.label)).not.toBeInTheDocument()
-    })
-
-    it('does not render the error message when valid and touched', () => {
-      render(
-        withAppContext(
-          <GlobalError
-            {...{ ...props, parent: { touched: true, valid: true } }}
-          />
-        )
-      )
-
-      expect(screen.queryByText(props.meta.label)).not.toBeInTheDocument()
     })
   })
 })
