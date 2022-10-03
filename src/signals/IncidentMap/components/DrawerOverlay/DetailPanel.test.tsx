@@ -5,15 +5,17 @@ import { render, screen } from '@testing-library/react'
 import { mockIncidents } from '../__test__'
 import type { Props } from './DetailPanel'
 import { DetailPanel } from './DetailPanel'
-import type { DisplayAddress } from './types'
 
 jest.mock('./utils', () => ({
   __esModule: true,
   ...jest.requireActual('./utils'),
-  getAddress: (
-    _geometry: any,
-    setAddress: (incident: DisplayAddress) => void
-  ) => setAddress({ streetName: 'Dam 10', postalCode: '1234AA Amsterdam' }),
+  getAddress: (_geometry: any, setAddress: (address: any) => void) =>
+    setAddress({
+      postcode: '1000 AA',
+      huisnummer: '100',
+      woonplaats: 'Amsterdam',
+      openbare_ruimte: 'Damstraat',
+    }),
 }))
 
 const defaultProps: Props = {
@@ -34,7 +36,7 @@ describe('DetailPanel', () => {
       )
     ).toBeInTheDocument()
     expect(screen.getByText('07-09-2022 12:09')).toBeInTheDocument()
-    expect(screen.getByText('Dam 10')).toBeInTheDocument()
-    expect(screen.getByText('1234AA Amsterdam')).toBeInTheDocument()
+    expect(screen.getByText(/Damstraat 100/)).toBeInTheDocument()
+    expect(screen.getByText(/1000 AA Amsterdam/)).toBeInTheDocument()
   })
 })

@@ -18,8 +18,3 @@ export interface ModeProp {
 export interface ControlledContentProps {
   onClose: () => void
 }
-
-export interface DisplayAddress {
-  streetName: string
-  postalCode: string
-}
