@@ -6,17 +6,24 @@ import type { LatLngLiteral } from 'leaflet'
 import GPSButton from '../../../../components/GPSButton'
 import configuration from '../../../../shared/services/configuration/configuration'
 import type { LocationResult } from '../../../../types/location'
+import { DrawerState } from '../DrawerOverlay'
 import { StyledViewerContainer } from './styled'
 
 export interface Props {
   setNotification: (mapMessage: JSX.Element | string) => void
   setCoordinates: (coordinates: LatLngLiteral) => void
+  panelIsOpen?: DrawerState
 }
 
-export const GPSLocation = ({ setNotification, setCoordinates }: Props) => {
+export const GPSLocation = ({
+  setNotification,
+  setCoordinates,
+  panelIsOpen = DrawerState.Closed,
+}: Props) => {
   return (
     <>
       <StyledViewerContainer
+        $hasPanel={panelIsOpen}
         topLeft={
           <GPSButton
             tabIndex={0}

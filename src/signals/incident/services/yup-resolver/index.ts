@@ -33,6 +33,15 @@ export function setUpSchema(controls: Controls) {
                 (validator) => {
                   if (validator === 'required') {
                     validationField = validationField.required()
+
+                    if (key === 'locatie') {
+                      validationField = validationField.shape({
+                        location: yup.object({
+                          coordinates: yup.mixed().required(),
+                          address: yup.mixed().required(),
+                        }),
+                      })
+                    }
                   } else {
                     validationField = validationField.nullable()
                   }

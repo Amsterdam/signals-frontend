@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
-import styled from 'styled-components'
-import Button from 'components/Button'
+
 import { themeSpacing } from '@amsterdam/asc-ui'
-
-import type { LatLngTuple, MapOptions } from 'leaflet'
-
-import configuration from 'shared/services/configuration/configuration'
-import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-
+import Button from 'components/Button'
 import Map from 'components/Map'
+import type { LatLngTuple, MapOptions } from 'leaflet'
 import { useDispatch } from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -36,7 +34,7 @@ const StyledMap = styled(Map)`
 `
 
 const Intro = () => {
-  const { coordinates } = useContext(AssetSelectContext)
+  const { coordinates, meta } = useContext(AssetSelectContext)
   const center =
     coordinates || (configuration.map.options.center as LatLngTuple)
 
@@ -55,7 +53,7 @@ const Intro = () => {
   )
 
   return (
-    <Wrapper data-testid="assetSelectIntro">
+    <Wrapper id={meta.name} data-testid="assetSelectIntro">
       <StyledMap
         data-testid="mapLocation"
         mapOptions={mapOptions}

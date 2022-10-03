@@ -1,21 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-
 import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
-import type { Feature, FeatureCollection } from 'geojson'
-import type { Map as MapType, LatLngLiteral } from 'leaflet'
+import type { FeatureCollection } from 'geojson'
+import type {
+  Map as MapType,
+  MarkerCluster as MarkerClusterType,
+  LatLngLiteral,
+} from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
+import { incidentIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import type { Address } from 'types/address'
 
-import type { Filter, Point, Properties } from '../../types'
+import type { Filter, Point, Properties, Incident } from '../../types'
+import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
@@ -30,9 +35,12 @@ export const IncidentMap = () => {
   const [address, setAddress] = useState<Address>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
+
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
+  const [selectedIncident, setSelectedIncident] = useState<Incident>()
+
   const [filters, setFilters] = useState<Filter[]>([])
-  const [filteredIncidents, setFilteredIncidents] =
-    useState<Feature<Point, Properties>[]>()
+  const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
   const [map, setMap] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
@@ -45,6 +53,29 @@ export const IncidentMap = () => {
     },
     [setMapMessage, setShowMessage]
   )
+
+  /* istanbul ignore next */
+  const resetMarkerIcons = useCallback(() => {
+    map?.eachLayer((markerClustLayer: any) => {
+      const layer = markerClustLayer as MarkerClusterType
+
+      if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
+        layer.setIcon(incidentIcon)
+      }
+    })
+  }, [map])
+
+  /* istanbul ignore next */
+  const handleCloseDetailPanel = useCallback(() => {
+    setSelectedIncident(undefined)
+    resetMarkerIcons()
+  }, [resetMarkerIcons])
+
+  /* istanbul ignore next */
+  const handleIncidentSelect = useCallback((incident) => {
+    setSelectedIncident(incident)
+    incident && setDrawerState(DrawerState.Open)
+  }, [])
 
   useEffect(() => {
     if (bbox) {
@@ -98,20 +129,37 @@ export const IncidentMap = () => {
           attributionControl: false,
         }}
       >
-        <IncidentLayer passBbox={setBbox} incidents={filteredIncidents} />
-        <GPSLocation
-          setNotification={setNotification}
-          setCoordinates={setCoordinates}
+        <IncidentLayer
+          passBbox={setBbox}
+          incidents={filteredIncidents}
+          handleIncidentSelect={handleIncidentSelect}
+          handleCloseDetailPanel={handleCloseDetailPanel}
+          resetMarkerIcons={resetMarkerIcons}
         />
 
-        <FilterPanel
-          filters={filters}
-          setFilters={setFilters}
-          setMapMessage={setMapMessage}
+        {map && (
+          <GPSLocation
+            setNotification={setNotification}
+            setCoordinates={setCoordinates}
+            panelIsOpen={drawerState}
+          />
+        )}
+
+        <DrawerOverlay
+          onStateChange={setDrawerState}
+          state={drawerState}
+          onCloseDetailPanel={handleCloseDetailPanel}
+          incident={selectedIncident}
           setPin={setCoordinates}
           address={address}
           setAddress={setAddress}
-        />
+        >
+          <FilterPanel
+            filters={filters}
+            setFilters={setFilters}
+            setMapMessage={setMapMessage}
+          />
+        </DrawerOverlay>
 
         {map && coordinates && <Pin map={map} coordinates={coordinates} />}
 

@@ -3,15 +3,10 @@
 import { screen, render } from '@testing-library/react'
 import * as reactResponsive from 'react-responsive'
 
+import { resizeWindow } from '../__test__'
 import { Header } from './Header'
 
 jest.mock('react-responsive')
-
-const resizeWindow = (x: number, y: number) => {
-  window.innerWidth = x
-  window.innerHeight = y
-  window.dispatchEvent(new Event('resize'))
-}
 
 describe('Header', () => {
   beforeEach(() => {

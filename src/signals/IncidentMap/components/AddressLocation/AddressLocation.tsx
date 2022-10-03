@@ -9,7 +9,7 @@ import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { Address } from 'types/address'
 
-import { StyledPDOKAutoSuggest } from './styled'
+import { StyledPDOKAutoSuggest, Wrapper } from './styled'
 export interface Props {
   setCoordinates: (coordinates: LatLngLiteral) => void
   address?: Address
@@ -21,22 +21,22 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
 
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
-      const { location } = option.data
-      setCoordinates(location)
+      setCoordinates(option.data.location)
     },
     [setCoordinates]
   )
 
   return (
     <>
-      <Heading as="h4">Zoom naar adres</Heading>
-
-      <StyledPDOKAutoSuggest
-        data-testid="searchAddressBar"
-        placeholder={'Zoek naar adres'}
-        onSelect={onAddressSelect}
-        value={addressValue}
-      />
+      <Wrapper className={'testing'}>
+        <Heading as="h4">Zoom naar adres</Heading>
+        <StyledPDOKAutoSuggest
+          data-testid="searchAddressBar"
+          placeholder={'Zoek naar adres'}
+          onSelect={onAddressSelect}
+          value={addressValue}
+        />
+      </Wrapper>
     </>
   )
 }

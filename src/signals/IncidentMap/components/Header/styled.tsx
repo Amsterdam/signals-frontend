@@ -17,7 +17,7 @@ export const HeaderWrapper = styled.div`
   // z-index relative to map
   z-index: 1;
 
-  @media screen and ${breakpoint('max-width', 'tabletS')} {
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
     height: ${themeSpacing(HEADER_HEIGHT_MOBILE)};
     padding: ${themeSpacing(0, 0, 0, 4)};
   }

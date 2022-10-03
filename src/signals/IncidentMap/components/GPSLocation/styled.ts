@@ -6,8 +6,17 @@ import styled from 'styled-components'
 
 import ViewerContainer from 'components/ViewerContainer'
 
-export const StyledViewerContainer = styled(ViewerContainer)`
+import { DrawerState } from '../DrawerOverlay'
+import { MENU_WIDTH } from '../DrawerOverlay/styled'
+
+export const StyledViewerContainer = styled(ViewerContainer)<{
+  $hasPanel: DrawerState
+}>`
+  z-index: 0;
   @media screen and ${breakpoint('min-width', 'tabletM')} {
-    left: 480px; //width of the sidePanel that needs to be build
+    transition: left 0.25s ease-in-out;
+    left: ${({ $hasPanel }) =>
+      $hasPanel === DrawerState.Open ? `${MENU_WIDTH}px` : 0};
+    margin-left: 16px;
   }
 `

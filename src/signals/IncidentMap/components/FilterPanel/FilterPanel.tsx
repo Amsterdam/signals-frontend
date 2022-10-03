@@ -1,45 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useState, useEffect, Fragment } from 'react'
+import { useEffect } from 'react'
 
-import { ChevronLeft, ChevronRight } from '@amsterdam/asc-assets'
 import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
-import type { LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
-import type { Address } from '../../../../types/address'
 import type { Filter } from '../../types'
-import { AddressLocation } from '../AddressLocation'
 import { updateFilterCategory } from '../utils'
 import {
   StyledPanelContent,
   StyledLabel,
   CategoryFilter,
   Wrapper,
-  StyledButton,
 } from './styled'
-export type Props = {
+
+export interface Props {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
   setMapMessage: (mapMessage: JSX.Element | string) => void
-  setPin: (coordinates: LatLngLiteral) => void
-  address?: Address
-  setAddress: (address?: Address) => void
 }
 
-export const FilterPanel = ({
-  filters,
-  setFilters,
-  setMapMessage,
-  setPin,
-  address,
-  setAddress,
-}: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true)
-
+export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   const { get, data, error } = useFetch<Categories>()
 
   const toggleFilter = (categoryName: string) => {
@@ -75,57 +59,33 @@ export const FilterPanel = ({
     }
   }, [error, setMapMessage])
 
-  useEffect(() => {
-    window.dispatchEvent(new Event('resize'))
-  }, [isOpen])
-
   if (filters.length === 0) {
     return null
   }
 
   return (
-    <Fragment>
-      {isOpen && (
-        <StyledPanelContent data-testid="filterCategoryPanel">
-          <Paragraph>
-            Op deze kaart staan meldingen in de openbare ruimte waarmee we aan
-            het werk zijn. Vanwege privacy staat een klein deel van de meldingen
-            niet op de kaart.
-          </Paragraph>
-
-          <AddressLocation
-            setCoordinates={setPin}
-            address={address}
-            setAddress={setAddress}
-          />
-
-          <Heading as="h4">Filter op onderwerp</Heading>
-          <Wrapper>
-            {filters.map(({ name, filterActive, _display }) => {
-              return (
-                <CategoryFilter key={name}>
-                  <StyledLabel htmlFor={name} label={_display || name}>
-                    <Checkbox
-                      id={name}
-                      checked={filterActive}
-                      onChange={() => toggleFilter(name)}
-                    />
-                  </StyledLabel>
-                </CategoryFilter>
-              )
-            })}
-          </Wrapper>
-        </StyledPanelContent>
-      )}
-      <StyledButton
-        className={isOpen ? '' : 'hiddenPanel'}
-        onClick={() => setIsOpen(!isOpen)}
-        size={60}
-        variant="blank"
-        iconSize={24}
-        icon={isOpen ? <ChevronLeft /> : <ChevronRight />}
-        aria-label={isOpen ? 'Sluit filter panel' : 'Open filter panel'}
-      />
-    </Fragment>
+    <StyledPanelContent data-testid="filterCategoryPanel">
+      <Paragraph>
+        Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het
+        werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
+        de kaart.
+      </Paragraph>
+      <Heading as="h4">Filter op onderwerp</Heading>
+      <Wrapper>
+        {filters.map(({ name, filterActive, _display }) => {
+          return (
+            <CategoryFilter key={name}>
+              <StyledLabel htmlFor={name} label={_display || name}>
+                <Checkbox
+                  id={name}
+                  checked={filterActive}
+                  onChange={() => toggleFilter(name)}
+                />
+              </StyledLabel>
+            </CategoryFilter>
+          )
+        })}
+      </Wrapper>
+    </StyledPanelContent>
   )
 }

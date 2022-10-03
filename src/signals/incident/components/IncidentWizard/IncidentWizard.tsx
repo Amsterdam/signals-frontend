@@ -51,8 +51,6 @@ interface IncidentWizardProps {
   }
 }
 
-export type Controls = { [s: string]: any }
-
 const IncidentWizard: FC<IncidentWizardProps> = ({
   wizardDefinition,
   getClassification,
