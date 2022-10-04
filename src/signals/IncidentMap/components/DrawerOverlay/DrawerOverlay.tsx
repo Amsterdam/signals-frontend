@@ -12,7 +12,6 @@ import type { Incident } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { DetailPanel } from './DetailPanel'
 import {
-  ControlsContainer,
   Drawer,
   DrawerContainer,
   DrawerContent,
@@ -42,7 +41,6 @@ export interface Props {
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
   children,
-  ControlledContent = () => null,
   incident,
   onCloseDetailPanel,
   onStateChange,
@@ -106,15 +104,14 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
           )}
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
-            <ControlsContainer $mode={mode}>
-              <ControlledContent onClose={drawerClick} />
+            <DrawerContentWrapper>
               <AddressLocation
                 setCoordinates={setPin}
                 address={address}
                 setAddress={setAddress}
               />
-            </ControlsContainer>
-            <DrawerContentWrapper>{children}</DrawerContentWrapper>
+              {children}
+            </DrawerContentWrapper>
           </DrawerContent>
         </Drawer>
       </DrawerContainer>

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 
 import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
 
@@ -10,12 +10,7 @@ import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
-import {
-  StyledPanelContent,
-  StyledLabel,
-  CategoryFilter,
-  Wrapper,
-} from './styled'
+import { StyledLabel, CategoryFilter, Wrapper } from './styled'
 
 export interface Props {
   filters: Filter[]
@@ -64,7 +59,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   }
 
   return (
-    <StyledPanelContent data-testid="filterCategoryPanel">
+    <Fragment>
       <Paragraph>
         Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het
         werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
@@ -86,6 +81,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
           )
         })}
       </Wrapper>
-    </StyledPanelContent>
+    </Fragment>
   )
 }

@@ -10,10 +10,6 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const StyledPanelContent = styled.div`
-  height: 100%;
-`
-
 export const StyledLabel = styled(Label)`
   font-weight: normal;
 `
