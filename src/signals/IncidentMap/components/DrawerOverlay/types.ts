@@ -14,7 +14,3 @@ export interface ModeProp {
   // prefixing mode with $ to prevent prop bleeding through to the DOM
   $mode: DeviceMode
 }
-
-export interface ControlledContentProps {
-  onClose: () => void
-}

@@ -2,7 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useEffect } from 'react'
 
-import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
+import { Checkbox, Heading } from '@amsterdam/asc-ui'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -10,12 +10,7 @@ import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
-import {
-  StyledPanelContent,
-  StyledLabel,
-  CategoryFilter,
-  Wrapper,
-} from './styled'
+import { StyledLabel, CategoryFilter, Wrapper } from './styled'
 
 export interface Props {
   filters: Filter[]
@@ -64,12 +59,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   }
 
   return (
-    <StyledPanelContent data-testid="filterCategoryPanel">
-      <Paragraph>
-        Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het
-        werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
-        de kaart.
-      </Paragraph>
+    <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map(({ name, filterActive, _display }) => {
@@ -86,6 +76,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
           )
         })}
       </Wrapper>
-    </StyledPanelContent>
+    </>
   )
 }

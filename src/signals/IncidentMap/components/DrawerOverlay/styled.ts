@@ -110,8 +110,12 @@ export const HandleIcon = styled(ChevronRight)<{ $isOpen: boolean }>`
 export const DrawerContentWrapper = styled('div')`
   width: 100%;
   height: 100%;
-  padding: ${themeSpacing(0, 5, 0, 5)};
+  padding: ${themeSpacing(5)};
   overflow-y: auto;
+
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    padding-top: 0;
+  }
 `
 
 export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`
@@ -162,26 +166,10 @@ export const DrawerContent = styled.div`
   position: relative;
   background-color: ${themeColor('tint', 'level1')};
   max-width: 100%;
+  overflow-y: auto;
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: ${MENU_WIDTH}px;
-  }
-`
-
-export const ControlsContainer = styled.div<ModeProp>`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  @media print {
-    display: none;
-  }
-
-  @media screen and (min-width: 576px) {
-    padding: ${themeSpacing(4)};
-    min-height: 16px;
-    flex-direction: row;
   }
 `
 

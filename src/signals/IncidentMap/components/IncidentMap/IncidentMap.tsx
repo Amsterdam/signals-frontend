@@ -20,13 +20,14 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import type { Address } from 'types/address'
 
 import type { Filter, Point, Properties, Incident } from '../../types'
+import { AddressLocation } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
 import { Pin } from './Pin'
-import { Wrapper, StyledMap } from './styled'
+import { Wrapper, StyledMap, StyledParagraph } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -137,6 +138,8 @@ export const IncidentMap = () => {
           resetMarkerIcons={resetMarkerIcons}
         />
 
+        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
+
         {map && (
           <GPSLocation
             setNotification={setNotification}
@@ -150,18 +153,23 @@ export const IncidentMap = () => {
           state={drawerState}
           onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
-          setPin={setCoordinates}
-          address={address}
-          setAddress={setAddress}
         >
+          <StyledParagraph>
+            Op deze kaart staan meldingen in de openbare ruimte waarmee we aan
+            het werk zijn. Vanwege privacy staat een klein deel van de meldingen
+            niet op de kaart.
+          </StyledParagraph>
+          <AddressLocation
+            setCoordinates={setCoordinates}
+            address={address}
+            setAddress={setAddress}
+          />
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
             setMapMessage={setMapMessage}
           />
         </DrawerOverlay>
-
-        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer

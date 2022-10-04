@@ -27,16 +27,14 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
   )
 
   return (
-    <>
-      <Wrapper className={'testing'}>
-        <Heading as="h4">Zoom naar adres</Heading>
-        <StyledPDOKAutoSuggest
-          data-testid="searchAddressBar"
-          placeholder={'Zoek naar adres'}
-          onSelect={onAddressSelect}
-          value={addressValue}
-        />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Heading as="h4">Zoom naar adres</Heading>
+      <StyledPDOKAutoSuggest
+        data-testid="searchAddressBar"
+        placeholder={'Zoek naar adres'}
+        onSelect={onAddressSelect}
+        value={addressValue}
+      />
+    </Wrapper>
   )
 }
