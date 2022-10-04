@@ -4,12 +4,8 @@ import type { CSSProperties, FunctionComponent } from 'react'
 import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
-import type { LatLngLiteral } from 'leaflet'
-
-import type { Address } from 'types/address'
 
 import type { Incident } from '../../types'
-import { AddressLocation } from '../AddressLocation'
 import { DetailPanel } from './DetailPanel'
 import {
   Drawer,
@@ -22,21 +18,16 @@ import {
   DrawerMapOverlay,
   HandleIcon,
 } from './styled'
-import type { ControlledContentProps } from './types'
 import { DrawerState } from './types'
 import { isMobile, isDesktop, useDeviceMode } from './utils'
 
 const CONTROLS_PADDING = 32
 
 export interface Props {
-  ControlledContent?: React.ComponentType<ControlledContentProps>
   incident?: Incident
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
-  setPin: (coordinates: LatLngLiteral) => void
-  address?: Address
-  setAddress: (address?: Address) => void
 }
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
@@ -45,9 +36,6 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
   onCloseDetailPanel,
   onStateChange,
   state = DrawerState.Closed,
-  setPin,
-  address,
-  setAddress,
 }) => {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
@@ -104,14 +92,7 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
           )}
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
-            <DrawerContentWrapper>
-              <AddressLocation
-                setCoordinates={setPin}
-                address={address}
-                setAddress={setAddress}
-              />
-              {children}
-            </DrawerContentWrapper>
+            <DrawerContentWrapper>{children}</DrawerContentWrapper>
           </DrawerContent>
         </Drawer>
       </DrawerContainer>

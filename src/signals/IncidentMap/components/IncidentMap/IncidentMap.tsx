@@ -20,6 +20,7 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import type { Address } from 'types/address'
 
 import type { Filter, Point, Properties, Incident } from '../../types'
+import { AddressLocation } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
@@ -137,6 +138,8 @@ export const IncidentMap = () => {
           resetMarkerIcons={resetMarkerIcons}
         />
 
+        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
+
         {map && (
           <GPSLocation
             setNotification={setNotification}
@@ -150,18 +153,18 @@ export const IncidentMap = () => {
           state={drawerState}
           onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
-          setPin={setCoordinates}
-          address={address}
-          setAddress={setAddress}
         >
+          <AddressLocation
+            setCoordinates={setCoordinates}
+            address={address}
+            setAddress={setAddress}
+          />
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
             setMapMessage={setMapMessage}
           />
         </DrawerOverlay>
-
-        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer

@@ -8,21 +8,13 @@ import userEvent from '@testing-library/user-event'
 import { mockIncidents } from '../__test__'
 import { DrawerOverlay } from './DrawerOverlay'
 import type { Props } from './DrawerOverlay'
-import type { ControlledContentProps } from './types'
 import { DrawerState } from './types'
 
-const mockControlledComponent = (props: ControlledContentProps) => (
-  <span {...props}>[Address Search Input]</span>
-)
-
 const defaultProps: PropsWithChildren<Props> = {
-  ControlledContent: mockControlledComponent,
   onCloseDetailPanel: jest.fn(),
   onStateChange: jest.fn(),
   state: DrawerState.Open,
   children: <div>[ChildrenComponent]</div>,
-  setPin: jest.fn(),
-  setAddress: jest.fn(),
 }
 
 const renderComponent = (props?: Partial<Props>) =>
@@ -35,7 +27,6 @@ describe('DrawerOverlay', () => {
     expect(
       screen.getByRole('button', { name: 'Paneel sluiten' })
     ).toBeInTheDocument()
-    expect(screen.getByText('[Address Search Input]')).toBeInTheDocument()
     expect(screen.getByText('[ChildrenComponent]')).toBeInTheDocument()
   })
 
