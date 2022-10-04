@@ -59,7 +59,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map(({ name, filterActive, _display }) => {
@@ -76,6 +76,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
           )
         })}
       </Wrapper>
-    </Fragment>
+    </>
   )
 }
