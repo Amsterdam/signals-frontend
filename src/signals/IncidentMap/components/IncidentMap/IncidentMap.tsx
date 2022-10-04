@@ -27,7 +27,7 @@ import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
 import { Pin } from './Pin'
-import { Wrapper, StyledMap } from './styled'
+import { Wrapper, StyledMap, StyledParagraph } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -154,6 +154,11 @@ export const IncidentMap = () => {
           onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
         >
+          <StyledParagraph>
+            Op deze kaart staan meldingen in de openbare ruimte waarmee we aan
+            het werk zijn. Vanwege privacy staat een klein deel van de meldingen
+            niet op de kaart.
+          </StyledParagraph>
           <AddressLocation
             setCoordinates={setCoordinates}
             address={address}

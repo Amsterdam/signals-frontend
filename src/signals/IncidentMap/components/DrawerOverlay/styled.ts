@@ -110,9 +110,12 @@ export const HandleIcon = styled(ChevronRight)<{ $isOpen: boolean }>`
 export const DrawerContentWrapper = styled('div')`
   width: 100%;
   height: 100%;
-  padding: ${themeSpacing(0, 5, 0, 5)};
-  margin-bottom: ${themeSpacing(4)};
+  padding: ${themeSpacing(5)};
   overflow-y: auto;
+
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    padding-top: 0;
+  }
 `
 
 export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`

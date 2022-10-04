@@ -2,7 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Fragment, useEffect } from 'react'
 
-import { Checkbox, Paragraph, Heading } from '@amsterdam/asc-ui'
+import { Checkbox, Heading } from '@amsterdam/asc-ui'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
@@ -60,11 +60,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
 
   return (
     <Fragment>
-      <Paragraph>
-        Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het
-        werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
-        de kaart.
-      </Paragraph>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map(({ name, filterActive, _display }) => {
