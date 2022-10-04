@@ -111,7 +111,7 @@ export const DrawerContentWrapper = styled('div')`
   width: 100%;
   height: 100%;
   padding: ${themeSpacing(0, 5, 0, 5)};
-  margin-bottom: 16px;
+  margin-bottom: ${themeSpacing(4)};
   overflow-y: auto;
 `
 

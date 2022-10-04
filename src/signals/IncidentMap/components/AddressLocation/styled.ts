@@ -1,4 +1,4 @@
-import { themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest/PDOKAutoSuggest'
@@ -9,5 +9,9 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
 
 export const Wrapper = styled.div`
   width: 100%;
-  margin: ${themeSpacing(5)} 0;
+  margin: ${themeSpacing(5, 0)};
+
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    margin-top: ${themeSpacing(0)};
+  }
 `
