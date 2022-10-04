@@ -7,14 +7,17 @@ import type { FeatureCollection } from 'geojson'
 import type {
   Map as MapType,
   MarkerCluster as MarkerClusterType,
+  LatLngLiteral,
 } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { incidentIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import type { Address } from 'types/address'
 
 import type { Filter, Point, Properties, Incident } from '../../types'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
@@ -22,11 +25,15 @@ import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
+import { Pin } from './Pin'
 import { Wrapper, StyledMap } from './styled'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
+  const [coordinates, setCoordinates] = useState<LatLngLiteral>()
+  const [address, setAddress] = useState<Address>()
+
   const [showMessage, setShowMessage] = useState<boolean>(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
@@ -96,6 +103,17 @@ export const IncidentMap = () => {
     }
   }, [error, isSuccess, setNotification])
 
+  useEffect(() => {
+    const transformCoordinatesToAddress = async () => {
+      if (coordinates) {
+        const response = await reverseGeocoderService(coordinates)
+        setAddress(response?.data?.address)
+      }
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    transformCoordinatesToAddress()
+  }, [coordinates])
+
   return (
     <Wrapper>
       <StyledMap
@@ -121,8 +139,8 @@ export const IncidentMap = () => {
 
         {map && (
           <GPSLocation
-            map={map}
             setNotification={setNotification}
+            setCoordinates={setCoordinates}
             panelIsOpen={drawerState}
           />
         )}
@@ -132,15 +150,18 @@ export const IncidentMap = () => {
           state={drawerState}
           onCloseDetailPanel={handleCloseDetailPanel}
           incident={selectedIncident}
+          setPin={setCoordinates}
+          address={address}
+          setAddress={setAddress}
         >
-          {
-            <FilterPanel
-              filters={filters}
-              setFilters={setFilters}
-              setMapMessage={setMapMessage}
-            />
-          }
+          <FilterPanel
+            filters={filters}
+            setFilters={setFilters}
+            setMapMessage={setMapMessage}
+          />
         </DrawerOverlay>
+
+        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
 
         {mapMessage && showMessage && (
           <ViewerContainer

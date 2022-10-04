@@ -21,6 +21,8 @@ const defaultProps: PropsWithChildren<Props> = {
   onStateChange: jest.fn(),
   state: DrawerState.Open,
   children: <div>[ChildrenComponent]</div>,
+  setPin: jest.fn(),
+  setAddress: jest.fn(),
 }
 
 const renderComponent = (props?: Partial<Props>) =>

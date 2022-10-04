@@ -4,8 +4,12 @@ import type { CSSProperties, FunctionComponent } from 'react'
 import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
+import type { LatLngLiteral } from 'leaflet'
+
+import type { Address } from 'types/address'
 
 import type { Incident } from '../../types'
+import { AddressLocation } from '../AddressLocation'
 import { DetailPanel } from './DetailPanel'
 import {
   ControlsContainer,
@@ -31,6 +35,9 @@ export interface Props {
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
+  setPin: (coordinates: LatLngLiteral) => void
+  address?: Address
+  setAddress: (address?: Address) => void
 }
 
 export const DrawerOverlay: FunctionComponent<Props> = ({
@@ -40,6 +47,9 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
   onCloseDetailPanel,
   onStateChange,
   state = DrawerState.Closed,
+  setPin,
+  address,
+  setAddress,
 }) => {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
@@ -97,8 +107,12 @@ export const DrawerOverlay: FunctionComponent<Props> = ({
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
             <ControlsContainer $mode={mode}>
-              {/* This component can be used for the Address Search Input */}
               <ControlledContent onClose={drawerClick} />
+              <AddressLocation
+                setCoordinates={setPin}
+                address={address}
+                setAddress={setAddress}
+              />
             </ControlsContainer>
             <DrawerContentWrapper>{children}</DrawerContentWrapper>
           </DrawerContent>

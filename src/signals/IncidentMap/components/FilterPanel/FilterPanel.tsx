@@ -70,7 +70,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
         werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op
         de kaart.
       </Paragraph>
-
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map(({ name, filterActive, _display }) => {
