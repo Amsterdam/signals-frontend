@@ -15,6 +15,7 @@ export function setUpSchema(controls: Controls) {
           (acc: Array<[string, any]>, [key, control]: [string, any]) => {
             const validators: any = control?.options?.validators
 
+            if (!validators) return acc
             /**
              * Here all the unknown fields, coming from the backend when
              * showVulaanControls flag is true, are validated on their top
@@ -24,6 +25,7 @@ export function setUpSchema(controls: Controls) {
             // @ts-ignore
             const validationField = yup.lazy((obj) => {
               let validatorForField
+
               if (
                 ['locatie', 'location', 'priority', 'type'].includes(key) ||
                 ((key.startsWith('extra') || key === 'source') &&
@@ -44,12 +46,17 @@ export function setUpSchema(controls: Controls) {
                 validatorForField = yup.object().shape({})
               } else if (typeof obj === 'string') {
                 validatorForField = yup.string()
+              } else if (typeof obj === 'number') {
+                validatorForField = yup.number()
               } else {
                 validatorForField = yup.mixed()
               }
 
-              return addValidators(validators, validatorForField)
+              validatorForField = addValidators(validators, validatorForField)
+
+              return validatorForField
             })
+
             acc.push([key, validationField])
 
             return acc
@@ -62,7 +69,8 @@ export function setUpSchema(controls: Controls) {
   return yup.object(schema)
 }
 
-function addValidators(validators: any, validationField: AnyObject) {
+function addValidators(validators: any, field: AnyObject) {
+  let validationField = field
   if (validators) {
     ;(Array.isArray(validators) ? validators : [validators]).map(
       (validator) => {
@@ -76,17 +84,11 @@ function addValidators(validators: any, validationField: AnyObject) {
           validationField = validationField.email()
         }
 
-        if (Number.parseInt(validator)) {
-          validationField = validationField.max(
-            Number.parseInt(validator),
-            validator
-          )
-        }
-
         if (
           Array.isArray(validator) &&
           validator[0] === 'maxLength' &&
-          Number.parseInt(validator[1])
+          Number.parseInt(validator[1]) &&
+          validationField.max
         ) {
           validationField = validationField.max(
             Number.parseInt(validator[1]),
