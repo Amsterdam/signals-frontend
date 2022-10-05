@@ -16,11 +16,6 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required'],
         },
       },
-      phone2: {
-        options: {
-          validators: [],
-        },
-      },
       location: {
         options: {
           validators: [],
@@ -48,7 +43,7 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       schema.validateAt('source', { source: 'online' })
     ).resolves.toBeTruthy()
     await expect(
-      schema.validateAt('phone', { phone: '123' })
+      schema.validateAt('phone', { phone: '23432423' })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('location', { location: '' })
@@ -61,9 +56,6 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
     ).rejects.toBeTruthy()
     await expect(
       schema.validateAt('email', { email: 'blackrosemarchesa@mail.com' })
-    ).resolves.toBeTruthy()
-    await expect(
-      schema.validateAt('maxlen2', { maxlen2: 'b' })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('maxlen2', { maxlen2: 'b' })
