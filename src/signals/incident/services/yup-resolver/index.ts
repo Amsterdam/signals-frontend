@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
 import { yupResolver } from '@hookform/resolvers/yup'
+import isObject from 'lodash/isObject'
 import * as yup from 'yup'
 import type { AnyObject } from 'yup/es/types'
 
@@ -14,69 +15,43 @@ export function setUpSchema(controls: Controls) {
           (acc: Array<[string, any]>, [key, control]: [string, any]) => {
             const validators: any = control?.options?.validators
 
-            let validationField: AnyObject = yup.string()
-            if (
-              ['locatie', 'location', 'priority', 'type'].includes(key) ||
-              ((key.startsWith('extra') || key === 'source') &&
-                Object.keys(control.meta?.values || {})?.length > 0) ||
-              (key.startsWith('extra') && control.meta?.endpoint)
-            ) {
-              validationField = yup.object().shape({})
-            }
-
             /**
-              Chain multiple validators per field. For max, add the
-              validator value as message as the second argument.
-              */
-            if (validators) {
-              ;(Array.isArray(validators) ? validators : [validators]).map(
-                (validator) => {
-                  if (validator === 'required') {
-                    validationField = validationField.required()
+             * Here all the unknown fields, coming from the backend when
+             * showVulaanControls flag is true, are validated on their top
+             * level types.
+             */
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            const validationField = yup.lazy((obj) => {
+              let validatorForField
+              if (
+                ['locatie', 'location', 'priority', 'type'].includes(key) ||
+                ((key.startsWith('extra') || key === 'source') &&
+                  Object.keys(control.meta?.values || {})?.length > 0) ||
+                (key.startsWith('extra') && control.meta?.endpoint)
+              ) {
+                validatorForField = yup.object().shape({})
 
-                    if (key === 'locatie') {
-                      validationField = validationField.shape({
-                        location: yup.object({
-                          coordinates: yup.mixed().required(),
-                          address: yup.mixed(),
-                        }),
-                      })
-                    }
-                  } else {
-                    validationField = validationField.nullable()
-                  }
-
-                  if (validator === 'email') {
-                    validationField = validationField.email()
-                  }
-
-                  if (Number.parseInt(validator)) {
-                    validationField = validationField.max(
-                      Number.parseInt(validator),
-                      validator
-                    )
-                  }
-
-                  if (
-                    Array.isArray(validator) &&
-                    validator[0] === 'maxLength' &&
-                    Number.parseInt(validator[1])
-                  ) {
-                    validationField = validationField.max(
-                      Number.parseInt(validator[1]),
-                      validator[1]
-                    )
-                  } else if (typeof validator === 'function') {
-                    validationField = validationField.test(
-                      'custom',
-                      (v: any) => validator({ value: v })?.custom,
-                      (v: any) => !validator({ value: v })?.custom
-                    )
-                  }
+                if (key === 'locatie') {
+                  return yup.object().shape({
+                    location: yup.object({
+                      coordinates: yup.mixed().required(),
+                      address: yup.mixed(),
+                    }),
+                  })
                 }
-              )
-              acc.push([key, validationField])
-            }
+              } else if (isObject(obj)) {
+                validatorForField = yup.object().shape({})
+              } else if (typeof obj === 'string') {
+                validatorForField = yup.string()
+              } else {
+                validatorForField = yup.mixed()
+              }
+
+              return addValidators(validators, validatorForField)
+            })
+            acc.push([key, validationField])
+
             return acc
           },
           []
@@ -85,6 +60,49 @@ export function setUpSchema(controls: Controls) {
     : {}
 
   return yup.object(schema)
+}
+
+function addValidators(validators: any, validationField: AnyObject) {
+  if (validators) {
+    ;(Array.isArray(validators) ? validators : [validators]).map(
+      (validator) => {
+        if (validator === 'required') {
+          validationField = validationField.required()
+        } else {
+          validationField = validationField.nullable()
+        }
+
+        if (validator === 'email') {
+          validationField = validationField.email()
+        }
+
+        if (Number.parseInt(validator)) {
+          validationField = validationField.max(
+            Number.parseInt(validator),
+            validator
+          )
+        }
+
+        if (
+          Array.isArray(validator) &&
+          validator[0] === 'maxLength' &&
+          Number.parseInt(validator[1])
+        ) {
+          validationField = validationField.max(
+            Number.parseInt(validator[1]),
+            validator[1]
+          )
+        } else if (typeof validator === 'function') {
+          validationField = validationField.test(
+            'custom',
+            (v: any) => validator({ value: v })?.custom,
+            (v: any) => !validator({ value: v })?.custom
+          )
+        }
+      }
+    )
+  }
+  return validationField
 }
 
 export default function (controls: Controls) {
