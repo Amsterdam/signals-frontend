@@ -38,7 +38,7 @@ export function setUpSchema(controls: Controls) {
                       validationField = validationField.shape({
                         location: yup.object({
                           coordinates: yup.mixed().required(),
-                          address: yup.mixed().required(),
+                          address: yup.mixed(),
                         }),
                       })
                     }
