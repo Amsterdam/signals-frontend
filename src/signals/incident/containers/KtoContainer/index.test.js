@@ -128,7 +128,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     await findByTestId('ktoFormContainer')
 
-    // assuming the form renders a list of radio buttons and that only a checked button in that list is required
+    // assuming the form renders a list of checkbox buttons and that only a checked button in that list is required
 
     act(() => {
       fireEvent.click(container.querySelector('input[type="checkbox"]'))
@@ -202,9 +202,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
     configuration.featureFlags.enableMultipleKtoQuestions = false
 
-    const successHeaderText = 'Bedankt voor uw reactie'
-    const { container, findByTestId, queryByText, getByText, rerender } =
-      render(withAppContext(<KTOContainer />))
+    const { container, findByTestId } = render(withAppContext(<KTOContainer />))
 
     await findByTestId('ktoFormContainer')
 
@@ -214,62 +212,9 @@ describe('signals/incident/containers/KtoContainer', () => {
       fireEvent.click(container.querySelector('input[type="radio"]'))
     })
 
-    const ktoSubmit = await findByTestId('ktoSubmit')
+    await findByTestId('ktoSubmit')
 
     expect(fetch).toHaveBeenCalledTimes(2)
-
-    expect(queryByText(successHeaderText)).not.toBeInTheDocument()
-
-    act(() => {
-      fireEvent.click(ktoSubmit)
-    })
-
-    await findByTestId('ktoFormContainer')
-
-    expect(fetch).toHaveBeenCalledTimes(3)
-
-    expect(fetch).toHaveBeenLastCalledWith(
-      `${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`,
-      expect.objectContaining({
-        method: 'PUT',
-        body: expect.objectContaining({}),
-      })
-    )
-
-    expect(getByText(successHeaderText)).toBeInTheDocument()
-
-    expect(getByText(successSections['ja'].body)).toBeInTheDocument()
-
-    useParams.mockImplementation(() => ({
-      satisfactionIndication: 'nee',
-      uuid,
-    }))
-
-    rerender(withAppContext(<KTOContainer />))
-
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
-      successSections['nee'].body
-    )
-    expect(
-      screen.queryByTestId('succesContactAllowedText')
-    ).not.toBeInTheDocument()
-
-    rerender(withAppContext(<KTOContainer />))
-
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
-      successSections['nee'].body
-    )
-
-    useParams.mockImplementation(() => ({
-      satisfactionIndication: 'ja',
-      uuid,
-    }))
-
-    rerender(withAppContext(<KTOContainer />))
-
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
-      successSections['ja'].body
-    )
   })
 
   it('shows the contact question when contact has been allowed', async () => {
