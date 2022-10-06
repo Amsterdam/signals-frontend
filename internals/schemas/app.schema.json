@@ -96,6 +96,10 @@
           "description": "Feature switch to enable the /meldingenkaart route where a public map is shown with all public available incidents.",
           "type": "boolean"
         },
+        "enableMultipleKtoQuestions": {
+          "description": "Feature switch to enable multiple kto questions.",
+          "type": "boolean"
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
