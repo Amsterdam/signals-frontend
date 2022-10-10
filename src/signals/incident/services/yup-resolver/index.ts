@@ -25,23 +25,15 @@ export function setUpSchema(controls: Controls) {
             // @ts-ignore
             const validationField = yup.lazy((obj) => {
               let validatorForField
-
-              if (
-                ['locatie', 'location', 'priority', 'type'].includes(key) ||
-                ((key.startsWith('extra') || key === 'source') &&
-                  Object.keys(control.meta?.values || {})?.length > 0) ||
-                (key.startsWith('extra') && control.meta?.endpoint)
-              ) {
-                validatorForField = yup.object().shape({})
-
-                if (key === 'locatie') {
-                  return yup.object().shape({
-                    location: yup.object({
-                      coordinates: yup.mixed().required(),
-                      address: yup.mixed(),
-                    }),
-                  })
-                }
+              if (key === 'locatie') {
+                return yup.object().shape({
+                  location: yup.object({
+                    coordinates: yup.mixed().required(),
+                    address: yup.mixed(),
+                  }),
+                })
+              } else if (Array.isArray(obj)) {
+                validatorForField = yup.array()
               } else if (isObject(obj)) {
                 validatorForField = yup.object().shape({})
               } else if (typeof obj === 'string') {
