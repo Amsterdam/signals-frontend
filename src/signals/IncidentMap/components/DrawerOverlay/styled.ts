@@ -10,8 +10,9 @@ import {
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
+import {isDesktop} from "../utils/get-device-mode";
 import type { ModeProp } from './types'
-import { isDesktop } from './utils'
+
 
 export const HANDLE_SIZE_MOBILE = 40
 export const MENU_WIDTH = 420

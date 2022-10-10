@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { act, render, screen } from '@testing-library/react'
+import {act, render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
-import { formatAddress } from 'shared/services/format-address'
+import {formatAddress} from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import { withAppContext } from 'test/utils'
+import {withAppContext} from 'test/utils'
 
-import { get, mockUseMapInstance, useFetchResponse } from '../__test__'
-import { IncidentMap } from './IncidentMap'
+import {get, mockUseMapInstance, useFetchResponse} from '../__test__'
+import {IncidentMap} from './IncidentMap'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,
@@ -44,6 +44,21 @@ const mockPdokResponse = {
     address: mockPdokAddress,
   },
 }
+const mockedIncident = {
+  geometry: coords,
+  id: 1,
+  properties: {
+    category: {
+      name: 'mockCategory',
+      slug: 'mockCategory',
+      parent: {
+        name: 'mockParent',
+        slug: 'mockParent'
+      }, created_at: 'this_day_and_age'
+    }
+  }
+}
+
 
 jest.mock('hooks/useFetch')
 jest.mock('shared/services/reverse-geocoder')
@@ -58,7 +73,7 @@ describe('IncidentMap', () => {
   })
 
   it('should render the incident map correctly', () => {
-    render(withAppContext(<IncidentMap />))
+    render(withAppContext(<IncidentMap/>))
 
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
     expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
@@ -66,7 +81,7 @@ describe('IncidentMap', () => {
   })
 
   it('sends a request to fetch publicly available incidents', () => {
-    render(withAppContext(<IncidentMap />))
+    render(withAppContext(<IncidentMap/>))
 
     expect(get).toHaveBeenCalledWith(
       expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
@@ -79,7 +94,7 @@ describe('IncidentMap', () => {
       error: new Error(),
     }))
 
-    render(withAppContext(<IncidentMap />))
+    render(withAppContext(<IncidentMap/>))
 
     expect(
       screen.getByText('Er konden geen meldingen worden opgehaald.')
@@ -106,7 +121,7 @@ describe('IncidentMap', () => {
       value: mockGeolocation,
     })
 
-    render(withAppContext(<IncidentMap />))
+    render(withAppContext(<IncidentMap/>))
     expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
 
     await act(async () => {
@@ -124,7 +139,7 @@ describe('IncidentMap', () => {
       error: new Error(),
     }))
 
-    render(withAppContext(<IncidentMap />))
+    render(withAppContext(<IncidentMap/>))
     expect(
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
@@ -138,5 +153,14 @@ describe('IncidentMap', () => {
     expect(
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).not.toBeInTheDocument()
+  })
+
+  it('zooms in on incident when selected', () => {
+    const window.innerWidth = 384 // width when mobile
+    render(withAppContext(<IncidentMap/>))
+    screen.debug
+    // userEvent.click(closeButton)
+    //  userEvent.click(mockedIncident)
+
   })
 })

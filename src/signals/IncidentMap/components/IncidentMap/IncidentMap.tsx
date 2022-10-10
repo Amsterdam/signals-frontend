@@ -1,33 +1,37 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect, useState } from 'react'
+import {useCallback, useEffect, useState} from 'react'
 
-import { ViewerContainer } from '@amsterdam/arm-core'
-import type { FeatureCollection } from 'geojson'
+import {ViewerContainer} from '@amsterdam/arm-core'
+import type {FeatureCollection} from 'geojson'
 import type {
   Map as MapType,
   MarkerCluster as MarkerClusterType,
   LatLngLiteral,
 } from 'leaflet'
 
-import { useFetch } from 'hooks'
+import {useFetch} from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
-import { incidentIcon } from 'shared/services/configuration/map-markers'
+import {incidentIcon} from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
-import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
-import type { Address } from 'types/address'
+import {MapMessage} from 'signals/incident/components/form/MapSelectors/components/MapMessage'
+import type {Bbox} from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import type {Address} from 'types/address'
 
-import type { Filter, Point, Properties, Incident } from '../../types'
-import { AddressLocation } from '../AddressLocation'
-import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
-import { FilterPanel } from '../FilterPanel'
-import { GPSLocation } from '../GPSLocation'
-import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents } from '../utils'
-import { Pin } from './Pin'
-import { Wrapper, StyledMap, StyledParagraph } from './styled'
+import {DEFAULT_ZOOM} from "../../../../components/AreaMap/AreaMap";
+import type {Filter, Point, Properties, Incident} from '../../types'
+import {DeviceMode} from "../../types/device-mode";
+import {AddressLocation} from '../AddressLocation'
+import {DrawerOverlay, DrawerState} from '../DrawerOverlay'
+import {FilterPanel} from '../FilterPanel'
+import {GPSLocation} from '../GPSLocation'
+import {IncidentLayer} from '../IncidentLayer'
+import {getFilteredIncidents} from '../utils'
+import {getDeviceMode} from "../utils/get-device-mode";
+import {Pin} from './Pin'
+import {Wrapper, StyledMap, StyledParagraph} from './styled'
+
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -44,7 +48,7 @@ export const IncidentMap = () => {
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
   const [map, setMap] = useState<MapType>()
 
-  const { get, data, error, isSuccess } =
+  const {get, data, error, isSuccess} =
     useFetch<FeatureCollection<Point, Properties>>()
 
   const setNotification = useCallback(
@@ -68,19 +72,31 @@ export const IncidentMap = () => {
 
   /* istanbul ignore next */
   const handleCloseDetailPanel = useCallback(() => {
+
     setSelectedIncident(undefined)
     resetMarkerIcons()
   }, [resetMarkerIcons])
+
+  const ZoomInOn = useCallback((coordinates) => {
+    console.log(window.innerWidth)
+    if (getDeviceMode(window.innerWidth) === DeviceMode.Mobile) {
+      const mobCoordinates = {lat: coordinates[0] - 0.00009, lng: coordinates[1]}
+      map?.flyTo(mobCoordinates, DEFAULT_ZOOM)
+    } else
+      map?.flyTo(coordinates, DEFAULT_ZOOM)
+  },[map])
+
 
   /* istanbul ignore next */
   const handleIncidentSelect = useCallback((incident) => {
     setSelectedIncident(incident)
     incident && setDrawerState(DrawerState.Open)
-  }, [])
+    ZoomInOn(incident.geometry.coordinates)
+  }, [ZoomInOn])
 
   useEffect(() => {
     if (bbox) {
-      const { west, south, east, north } = bbox
+      const {west, south, east, north} = bbox
       const searchParams = new URLSearchParams({
         bbox: `${west},${south},${east},${north}`,
       })
@@ -133,12 +149,13 @@ export const IncidentMap = () => {
         <IncidentLayer
           passBbox={setBbox}
           incidents={filteredIncidents}
+          selectedIncident={selectedIncident}
           handleIncidentSelect={handleIncidentSelect}
           handleCloseDetailPanel={handleCloseDetailPanel}
           resetMarkerIcons={resetMarkerIcons}
         />
 
-        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
+        {map && coordinates && <Pin map={map} coordinates={coordinates}/>}
 
         {map && (
           <GPSLocation
@@ -162,7 +179,7 @@ export const IncidentMap = () => {
           <AddressLocation
             setCoordinates={setCoordinates}
             address={address}
-            setAddress={setAddress}
+            setDrawerState={setDrawerState}
           />
           <FilterPanel
             filters={filters}

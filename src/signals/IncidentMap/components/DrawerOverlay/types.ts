@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import type {DeviceMode} from "../../types/device-mode";
+
 export enum DrawerState {
   Open = 'OPEN',
   Closed = 'CLOSED',
-}
-
-export enum DeviceMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
 }
 
 export interface ModeProp {

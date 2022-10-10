@@ -19,7 +19,8 @@ import {
   HandleIcon,
 } from './styled'
 import { DrawerState } from './types'
-import { isMobile, isDesktop, useDeviceMode } from './utils'
+import {isDesktop, isMobile, useDeviceMode} from "../utils/get-device-mode";
+
 
 const CONTROLS_PADDING = 32
 

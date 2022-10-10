@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import { render, screen } from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 
-import { formatAddress } from 'shared/services/format-address'
+import {formatAddress} from 'shared/services/format-address'
 
-import type { Props } from './AddressLocation'
-import { AddressLocation } from './AddressLocation'
+import type {Props} from './AddressLocation'
+import {AddressLocation} from './AddressLocation'
+import {DeviceMode} from "../../types/device-mode";
+import {DrawerState} from "../DrawerOverlay";
 
 const coords = {
   lat: 52.3731081,
@@ -38,9 +40,9 @@ jest.mock('./styled', () => ({
 }))
 
 const defaultProps: Props = {
+  setDrawerState: jest.fn(),
   setCoordinates: jest.fn(),
-  address: mockPdokAddress,
-  setAddress: jest.fn(),
+  address: mockPdokAddress
 }
 
 describe('AddresLocation', () => {
@@ -57,5 +59,13 @@ describe('AddresLocation', () => {
     expect(screen.getByTestId('searchAddressBar').innerHTML).toEqual(
       formatAddress(mockPdokAddress)
     )
+  })
+  it('closes the sidepanel when an address is selected and app is in mobile state',()=>{
+    const getDeviceMode(window.innerWidth) = DeviceMode.Mobile
+    render(<AddressLocation {...defaultProps} />)
+
+
+    expect(defaultProps.setCoordinates).toHaveBeenCalledWith(coords)
+    expect(defaultProps.setDrawerState).toHaveBeenCalledWith(DrawerState.Closed)
   })
 })

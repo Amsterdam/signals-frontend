@@ -6,7 +6,8 @@ import { mocked } from 'jest-mock'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import { resizeWindow, mockIncidents } from '../__test__'
-import { getAddress, useDeviceMode } from './utils'
+import { getAddress } from './utils'
+import {useDeviceMode} from "../utils/get-device-mode";
 
 jest.mock('shared/services/reverse-geocoder')
 

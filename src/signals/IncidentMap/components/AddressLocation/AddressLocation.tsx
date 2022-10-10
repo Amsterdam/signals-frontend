@@ -9,21 +9,27 @@ import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { Address } from 'types/address'
 
+import {DeviceMode} from "../../types/device-mode";
+import {DrawerState} from "../DrawerOverlay";
+import { getDeviceMode} from "../utils/get-device-mode";
 import { StyledPDOKAutoSuggest, Wrapper } from './styled'
+
+
 export interface Props {
   setCoordinates: (coordinates: LatLngLiteral) => void
   address?: Address
-  setAddress: (address?: Address) => void
+  setDrawerState: (drawerState: DrawerState) => void
 }
 
-export const AddressLocation = ({ setCoordinates, address }: Props) => {
+export const AddressLocation = ({ setCoordinates, address, setDrawerState }: Props) => {
   const addressValue = address ? formatAddress(address) : ''
 
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       setCoordinates(option.data.location)
+      if(getDeviceMode(window.innerWidth) === DeviceMode.Mobile) {setDrawerState(DrawerState.Closed)}
     },
-    [setCoordinates]
+    [setCoordinates, setDrawerState]
   )
 
   return (
