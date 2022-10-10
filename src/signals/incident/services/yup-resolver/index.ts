@@ -75,7 +75,7 @@ export function setupSchema(controls: Controls) {
 }
 
 /**
- * This method returns a custom validator for locatie,
+ * This method returns a custom validator for nested questions,
  * we want to be able to create an incidents' location without
  * specifying the address.
  * @param key
@@ -90,7 +90,7 @@ function addNestedValidation(key: string) {
       }),
     })
   }
-  // add validation for category here
+  // other custom question validation can be placed here
 }
 
 function addRequiredValidation(validators: Validators, validationField: any) {
