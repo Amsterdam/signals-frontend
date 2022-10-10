@@ -8,19 +8,19 @@ export const getFilterCategoriesWithIcons = (
   const result = categories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((category) => {
-      const { _display, _links, name, slug } = category
       let subCategories
+      const { sub_categories, _display, _links, name, slug } = category
 
-      if (subCategories) {
-        subCategories = getSubCategories(subCategories)
+      if (sub_categories) {
+        subCategories = getSubCategories(sub_categories)
       }
 
       return {
-        _display: _display,
+        _display,
         filterActive: true,
         icon: _links['sia:icon']?.href,
-        name: name,
-        slug: slug,
+        name,
+        slug,
         subCategories,
       }
     })
@@ -36,7 +36,7 @@ const getSubCategories = (
     .map((subCategory) => {
       const { name, _display, slug, _links } = subCategory
       return {
-        _display: _display,
+        _display,
         filterActive: true,
         icon: _links['sia:icon']?.href,
         name,
