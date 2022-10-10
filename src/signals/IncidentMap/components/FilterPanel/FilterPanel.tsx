@@ -11,6 +11,7 @@ import type Categories from 'types/api/categories'
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
 import { StyledLabel, CategoryFilter, Wrapper } from './styled'
+import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
   filters: Filter[]
@@ -35,14 +36,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
 
   useEffect(() => {
     if (data?.results) {
-      const filters: Filter[] = data.results
-        .filter(({ is_public_accessible }) => is_public_accessible)
-        .map((category) => ({
-          name: category.name,
-          _display: category._display,
-          filterActive: true,
-          slug: category.slug,
-        }))
+      const filters: Filter[] = getFilterCategoriesWithIcons(data.results)
 
       setFilters(filters)
     }

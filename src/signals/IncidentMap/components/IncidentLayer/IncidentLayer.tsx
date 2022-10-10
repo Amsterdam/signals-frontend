@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
-import {
-  incidentIcon,
-  markerIcon,
-} from 'shared/services/configuration/map-markers'
+import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import { featureToCoordinates } from 'shared/services/map-location'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -50,30 +47,23 @@ export const IncidentLayer = ({
 
     incidents.forEach((incident) => {
       const latlng = featureToCoordinates(incident.geometry)
-      const { name } = incident.properties.category
+      const { category, icon: categoryIcon } = incident.properties
 
-      const clusteredMarker = L.marker(latlng, {
-        icon: incidentIcon,
-        alt: name,
+      const marker = L.marker(latlng, {
+        icon: dynamicIcon(categoryIcon),
+        alt: category.name,
         keyboard: false,
       })
 
       /* istanbul ignore next */
-      clusteredMarker.on(
-        'click',
-        (event: {
-          target: { setIcon: (icon: L.Icon<L.IconOptions>) => void }
-        }) => {
-          resetMarkerIcons()
+      marker.on('click', () => {
+        // TODO: Change icon on select. Also return icon on deselect or close detailPanel.
 
-          event.target.setIcon(markerIcon)
-
-          if (incident) {
-            handleIncidentSelect(incident)
-          }
+        if (incident) {
+          handleIncidentSelect(incident)
         }
-      )
-      layerInstance.addLayer(clusteredMarker)
+      })
+      layerInstance.addLayer(marker)
     })
 
     return () => {

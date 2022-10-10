@@ -15,6 +15,7 @@ export type Properties = {
       slug: string
     }
   }
+  icon?: string
   created_at: string
 }
 
@@ -23,6 +24,10 @@ export type Filter = {
   _display?: string
   filterActive: boolean
   slug: string
+  icon?: string
+  subCategories?: SubCategory[]
 }
+
+export type SubCategory = Omit<Filter, 'subCategories'>
 
 export type Incident = Feature<Point, Properties>
