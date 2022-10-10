@@ -4,15 +4,10 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
-import type {
-  Map as MapType,
-  MarkerCluster as MarkerClusterType,
-  LatLngLiteral,
-} from 'leaflet'
+import type { Map as MapType, LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
-import { incidentIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
@@ -54,29 +49,22 @@ export const IncidentMap = () => {
     },
     [setMapMessage, setShowMessage]
   )
+  /* istanbul ignore next */
+  const handleIncidentSelect = useCallback((incident) => {
+    setSelectedIncident(incident)
+    incident && setDrawerState(DrawerState.Open)
+  }, [])
 
   /* istanbul ignore next */
   const resetMarkerIcons = useCallback(() => {
-    map?.eachLayer((markerClustLayer: any) => {
-      const layer = markerClustLayer as MarkerClusterType
-
-      if (typeof layer.getIcon === 'function' && !layer.getAllChildMarkers) {
-        layer.setIcon(incidentIcon)
-      }
-    })
-  }, [map])
+    // TODO: Should reset the icons to their default
+  }, [])
 
   /* istanbul ignore next */
   const handleCloseDetailPanel = useCallback(() => {
     setSelectedIncident(undefined)
     resetMarkerIcons()
   }, [resetMarkerIcons])
-
-  /* istanbul ignore next */
-  const handleIncidentSelect = useCallback((incident) => {
-    setSelectedIncident(incident)
-    incident && setDrawerState(DrawerState.Open)
-  }, [])
 
   useEffect(() => {
     if (bbox) {

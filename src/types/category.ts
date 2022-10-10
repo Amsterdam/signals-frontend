@@ -19,6 +19,9 @@ export interface Category {
       href: string | null
       public: string
     }
+    'sia:icon'?: {
+      href: string
+    }
   }
   id: number | string
   name: string
@@ -35,4 +38,18 @@ export interface Category {
   is_public_accessible?: boolean
   public_name?: string | null
   _display?: string
+  sub_categories?: SubCategory[]
+}
+
+interface SubCategory {
+  name: string
+  slug: string
+  _display?: string
+  filterActive: boolean
+  is_public_accessible?: boolean
+  _links: {
+    'sia:icon'?: {
+      href: string
+    }
+  }
 }
