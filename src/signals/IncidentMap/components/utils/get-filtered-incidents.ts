@@ -65,7 +65,7 @@ const getListOfIcons = (filters: Filter[]) => {
   const mainCategories: Icon[] = []
   const subCategories: Icon[] = []
 
-  filters.map((filter) => {
+  filters.forEach((filter) => {
     if (filter.icon) {
       mainCategories.push({
         slug: filter.slug,

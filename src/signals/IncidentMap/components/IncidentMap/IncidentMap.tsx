@@ -52,7 +52,7 @@ export const IncidentMap = () => {
   /* istanbul ignore next */
   const handleIncidentSelect = useCallback((incident) => {
     setSelectedIncident(incident)
-    incident && setDrawerState(DrawerState.Open)
+    setDrawerState(DrawerState.Open)
   }, [])
 
   /* istanbul ignore next */
