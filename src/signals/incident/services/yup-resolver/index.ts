@@ -40,7 +40,9 @@ export function setupSchema(controls: Controls) {
               /**
                * For most fields, the value type is determined in runtime.
                */
-              if (isObject(value)) {
+              if (Array.isArray(value)) {
+                field = yup.array()
+              } else if (isObject(value)) {
                 field = yup.object().shape({})
               } else {
                 if (typeof value === 'string') {
