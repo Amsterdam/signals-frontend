@@ -8,7 +8,7 @@ const dateTime = {
     canBeNull: true,
   },
   options: {
-    validators: [nullOrNumber()],
+    validators: [nullOrNumber],
   },
   render: QuestionFieldType.DateTimeInput,
 }

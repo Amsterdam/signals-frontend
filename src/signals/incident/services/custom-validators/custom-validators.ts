@@ -21,20 +21,15 @@ export const validatePhoneNumber = (control?: Control) => {
   }
 }
 
-export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
-  function required(control: Control) {
-    if (
-      !control ||
-      typeof control.value === 'number' ||
-      control.value === null
-    ) {
-      return null
-    }
-
-    return {
-      required: message,
-    }
+export const nullOrNumber = (control: Control) => {
+  if (!control || typeof control.value === 'number' || control.value === null) {
+    return null
   }
+
+  return {
+    custom: 'Dit is een verplicht veld',
+  }
+}
 
 export const validateObjectLocation = (objectType: string) =>
   function required(control: Control) {
