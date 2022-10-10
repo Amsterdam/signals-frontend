@@ -21,6 +21,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+        },
       },
       _display: 'Afval',
       name: 'Afval',
@@ -36,6 +39,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/asbest-accu',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Asbest / accu (Afval)',
@@ -65,7 +71,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.  [Bekijk de kaart met slimme apparaten](https://slimmeapparaten.amsterdam.nl)',
           public_name: 'Asbest',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -75,6 +81,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bedrijfsafval',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Bedrijfsafval (Afval)',
@@ -93,7 +102,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'We laten u binnen 5 dagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
           public_name: null,
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -103,6 +112,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/bruin-en-witgoed',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Bruin- en witgoed (Afval)',
@@ -138,6 +150,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-bijplaatsing',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Container bijplaatsing (Afval)',
           name: 'Container bijplaatsing',
@@ -166,6 +181,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-kapot',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-kapot/glas.svg?temp_url_sig=7b6c01926248bbb41d4de407f2e6a14f970d3d790ecc0d9ca6102bae2332e7c8&temp_url_expires=1665401494',
+            },
           },
           _display: 'Container glas kapot (Afval)',
           name: 'Container glas kapot',
@@ -184,9 +202,9 @@ export const fetchCategoriesResponse = {
             },
           ],
           is_active: true,
-          description: null,
+          description: '',
           handling_message:
-            'We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+            'We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\r\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container glas kapot',
           is_public_accessible: true,
         },
@@ -198,6 +216,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-glas-vol',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-vol/glas.svg?temp_url_sig=164091a6e44be0c0a8732deb57bf4a863121c436ebe646a2bb565aa45717d522&temp_url_expires=1665401494',
             },
           },
           _display: 'Container glas vol (Afval)',
@@ -217,9 +238,9 @@ export const fetchCategoriesResponse = {
             },
           ],
           is_active: true,
-          description: null,
+          description: '',
           handling_message:
-            'We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+            'We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\r\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container glas vol',
           is_public_accessible: true,
         },
@@ -231,6 +252,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-kapot',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-is-kapot/rest.svg?temp_url_sig=07b6f7ca4ec4593d40ded51342b85d4acbc599dd439dd500743fe6c7bd8bcb2d&temp_url_expires=1665401494',
             },
           },
           _display: 'Container is kapot (Afval)',
@@ -252,10 +276,10 @@ export const fetchCategoriesResponse = {
           is_active: true,
           description: 'Een verhaal over een kapotte container',
           handling_message:
-            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\r\nWe houden u op de hoogte via e-mail.',
           public_name:
             'Restafval container is kapot of vol. Of er is iets anders aan de hand. In elk geval er kan niks meer in de container.',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -265,6 +289,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-is-vol',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Container is vol (Afval)',
@@ -299,6 +326,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-voor-papier-is-stuk/papier.svg?temp_url_sig=4ade18a3c4d5f1a62b1e5e37165525dd275216ad258f4f1672fcecf907ea81eb&temp_url_expires=1665401494',
+            },
           },
           _display: 'Container papier kapot (Afval)',
           name: 'Container papier kapot',
@@ -317,9 +347,9 @@ export const fetchCategoriesResponse = {
             },
           ],
           is_active: true,
-          description: null,
+          description: '',
           handling_message:
-            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\r\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container papier kapot',
           is_public_accessible: true,
         },
@@ -331,6 +361,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-vol',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-voor-papier-is-vol/papier.svg?temp_url_sig=76ad7e9d14463e6febbe7b1f331e7463e3dbeb97da5e7a69f1625470c983f073&temp_url_expires=1665401494',
             },
           },
           _display: 'Container papier vol (Afval)',
@@ -350,9 +383,9 @@ export const fetchCategoriesResponse = {
             },
           ],
           is_active: true,
-          description: null,
+          description: '',
           handling_message:
-            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
+            'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\r\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container papier vol',
           is_public_accessible: true,
         },
@@ -364,6 +397,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-vol',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Container plastic afval vol (Afval)',
@@ -387,7 +423,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container plastic afval vol',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -397,6 +433,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/container-voor-plastic-afval-is-kapot',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Container plastic kapot (Afval)',
@@ -420,7 +459,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'We laten u binnen 3 werkdagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
           public_name: 'Container plastic kapot',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -430,6 +469,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/grofvuil',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Grofvuil (Afval)',
@@ -470,6 +512,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/handhaving-op-afval',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Handhaving op afval (Afval)',
           name: 'Handhaving op afval',
@@ -502,6 +547,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/huisafval',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Huisafval (Afval)',
@@ -541,6 +589,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/kerstbomen',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Kerstbomen (Afval)',
           name: 'Kerstbomen',
@@ -574,6 +625,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/overig-afval',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/overig-afval/rest.svg?temp_url_sig=2805c1579290df976aa46759e6e03341a827c8af7dc31dcd482a587c17ca7bbb&temp_url_expires=1665401494',
+            },
           },
           _display: 'Overig afval (Afval)',
           name: 'Overig afval',
@@ -601,7 +655,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Wij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.',
           public_name: null,
-          is_public_accessible: false,
+          is_public_accessible: true,
         },
         {
           _links: {
@@ -611,6 +665,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-kapot',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Prullenbak is kapot (Afval)',
@@ -634,6 +691,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/prullenbak-is-vol',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Prullenbak is vol (Afval)',
           name: 'Prullenbak is vol',
@@ -655,6 +715,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/puin-sloopafval',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
             },
           },
           _display: 'Puin- / sloopafval (Afval)',
@@ -689,6 +752,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/rolcontainer-is-kapot',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Rolcontainer is kapot (Afval)',
           name: 'Rolcontainer is kapot',
@@ -718,6 +784,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/rolcontainer-is-vol',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Rolcontainer is vol (Afval)',
           name: 'Rolcontainer is vol',
@@ -746,6 +815,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval/sub_categories/veeg-zwerfvuil',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+            },
           },
           _display: 'Veeg- / zwerfvuil (Afval)',
           name: 'Veeg- / zwerfvuil',
@@ -770,12 +842,15 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+        },
       },
       _display: 'Civiele Constructies',
       name: 'Civiele Constructies',
       slug: 'civiele-constructies',
       public_name: null,
-      is_public_accessible: true,
+      is_public_accessible: false,
       sub_categories: [
         {
           _links: {
@@ -785,6 +860,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/afwatering-brug',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
             },
           },
           _display: 'Afwatering brug (Civiele Constructies)',
@@ -808,7 +886,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail. Zie [www.amsterdam.nl](https://www.amsterdam.nl) voor details.\n\n## Header level 2\n> Blockquote\n* List item #1\n* List item #2',
           public_name: 'Test',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -818,6 +896,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/bruggen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
             },
           },
           _display: 'Brug (Civiele Constructies)',
@@ -852,6 +933,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/brug-bediening',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+            },
           },
           _display: 'Brug bediening (Civiele Constructies)',
           name: 'Brug bediening',
@@ -879,6 +963,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/kades',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
             },
           },
           _display: 'Kades (Civiele Constructies)',
@@ -908,6 +995,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/oevers',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+            },
           },
           _display: 'Oevers (Civiele Constructies)',
           name: 'Oevers',
@@ -936,6 +1026,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/riolering-verstopte-kolk',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+            },
           },
           _display: 'Riolering - verstopte kolk (Civiele Constructies)',
           name: 'Riolering - verstopte kolk',
@@ -963,6 +1056,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/sluis',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
             },
           },
           _display: 'Sluis (Civiele Constructies)',
@@ -997,6 +1093,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/steiger',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+            },
           },
           _display: 'Steiger (Civiele Constructies)',
           name: 'Steiger',
@@ -1025,6 +1124,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/verzakking-kades',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
+            },
           },
           _display: 'Verzakking van kades (Civiele Constructies)',
           name: 'Verzakking van kades',
@@ -1046,6 +1148,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies/sub_categories/watergangen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/civiele-constructies/bruggen_kades.svg?temp_url_sig=c658c9a0759fa9c97b53f00414849dade49d0e25abca5ff26bcc5121311d01bc&temp_url_expires=1665401494',
             },
           },
           _display: 'Watergangen (Civiele Constructies)',
@@ -1128,6 +1233,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+        },
       },
       _display: 'Openbaar groen en water',
       name: 'Openbaar groen en water',
@@ -1143,6 +1251,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/beplanting',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Beplanting (Openbaar groen en water)',
@@ -1172,6 +1283,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-aanvraag-plaatsing',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - aanvraag plaatsing (Openbaar groen en water)',
           name: 'Boom - aanvraag plaatsing',
@@ -1200,6 +1314,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-boomstob',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - boomstob (Openbaar groen en water)',
           name: 'Boom - boomstob',
@@ -1211,7 +1328,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
           public_name: null,
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -1221,6 +1338,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Boom - dood (Openbaar groen en water)',
@@ -1249,6 +1369,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-illegale-kap',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Boom - illegale kap (Openbaar groen en water)',
@@ -1283,6 +1406,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-noodkap',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - noodkap (Openbaar groen en water)',
           name: 'Boom - noodkap',
@@ -1310,6 +1436,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-overig',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Boom - overig (Openbaar groen en water)',
@@ -1339,6 +1468,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-afval',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - plastic en overig afval (Openbaar groen en water)',
           name: 'Boom - plastic en overig afval',
@@ -1367,6 +1499,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-spiegel',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - spiegel (Openbaar groen en water)',
           name: 'Boom - spiegel',
@@ -1388,6 +1523,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-stormschade',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Boom - stormschade (Openbaar groen en water)',
@@ -1422,6 +1560,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boom-verzoek-inspectie',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+            },
           },
           _display: 'Boom - verzoek inspectie (Openbaar groen en water)',
           name: 'Boom - verzoek inspectie',
@@ -1449,6 +1590,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/boomziekten-en-plagen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
             },
           },
           _display: 'Boom - ziekten en plagen (Openbaar groen en water)',
@@ -1478,6 +1622,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/drijfvuil',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Drijfvuil bevaarbaar water (Openbaar groen en water)',
           name: 'Drijfvuil bevaarbaar water',
@@ -1489,7 +1636,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Uw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.',
           public_name: 'Afval in water waar gevaren kan worden',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -1499,6 +1646,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/eikenprocessierups',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
             },
           },
           _display: 'Eikenprocessierups (Openbaar groen en water)',
@@ -1528,6 +1678,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/japanse-duizendknoop',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Japanse duizendknoop (Openbaar groen en water)',
           name: 'Japanse duizendknoop',
@@ -1555,6 +1708,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/maaien-snoeien',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
             },
           },
           _display: 'Maaien (Openbaar groen en water)',
@@ -1584,6 +1740,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/oever-kade-steiger',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Oever (Openbaar groen en water)',
           name: 'Oever',
@@ -1605,6 +1764,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/onkruid',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
             },
           },
           _display: 'Onkruid in het groen (Openbaar groen en water)',
@@ -1639,6 +1801,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/overig-groen-en-water',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overig groen en water (Openbaar groen en water)',
           name: 'Overig groen en water',
@@ -1666,6 +1831,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water/sub_categories/snoeien',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
             },
           },
           _display: 'Snoeien (Openbaar groen en water)',
@@ -1771,6 +1939,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
+        },
       },
       _display: 'Overlast Bedrijven en Horeca',
       name: 'Overlast Bedrijven en Horeca',
@@ -1786,6 +1957,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-installaties',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -1816,6 +1990,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/geluidsoverlast-muziek',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Geluidsoverlast muziek (Overlast Bedrijven en Horeca)',
           name: 'Geluidsoverlast muziek',
@@ -1844,6 +2021,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overig-horecabedrijven',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overig bedrijven / horeca (Overlast Bedrijven en Horeca)',
           name: 'Overig bedrijven / horeca',
@@ -1871,6 +2051,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-door-bezoekers-niet-op-terras',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -1906,6 +2089,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/overlast-terrassen',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overlast terrassen (Overlast Bedrijven en Horeca)',
           name: 'Overlast terrassen',
@@ -1934,6 +2120,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stank-horecabedrijven',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
+            },
           },
           _display: 'Stank horeca/bedrijven (Overlast Bedrijven en Horeca)',
           name: 'Stank horeca/bedrijven',
@@ -1955,6 +2144,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-bedrijven-en-horeca/sub_categories/stankoverlast',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
             },
           },
           _display: 'Stankoverlast (Overlast Bedrijven en Horeca)',
@@ -1986,12 +2178,15 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+        },
       },
       _display: 'Overlast in de openbare ruimte',
       name: 'Overlast in de openbare ruimte',
       slug: 'overlast-in-de-openbare-ruimte',
       public_name: null,
-      is_public_accessible: true,
+      is_public_accessible: false,
       sub_categories: [
         {
           _links: {
@@ -2001,6 +2196,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/auto-scooter-bromfietswrak',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -2036,6 +2234,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/bouw-sloopoverlast',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Bouw- / sloopoverlast (Overlast in de openbare ruimte)',
           name: 'Bouw- / sloopoverlast',
@@ -2064,6 +2265,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/deelfiets',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Deelfiets (Overlast in de openbare ruimte)',
           name: 'Deelfiets',
@@ -2075,7 +2279,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'We laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
           public_name: 'Deelfietsen',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -2085,6 +2289,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/fietswrak',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display: 'Fietswrak (Overlast in de openbare ruimte)',
@@ -2114,6 +2321,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/graffiti-wildplak',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Graffiti / wildplak (Overlast in de openbare ruimte)',
           name: 'Graffiti / wildplak',
@@ -2135,6 +2345,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hinderlijk-geplaatst-object',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -2169,6 +2382,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/lozing-dumping-bodemverontreiniging',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -2209,6 +2425,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/markten',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Markten (Overlast in de openbare ruimte)',
           name: 'Markten',
@@ -2242,6 +2461,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/overig-openbare-ruimte',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overig openbare ruimte (Overlast in de openbare ruimte)',
           name: 'Overig openbare ruimte',
@@ -2269,6 +2491,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/parkeeroverlast',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display: 'Parkeeroverlast (Overlast in de openbare ruimte)',
@@ -2308,6 +2533,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/stank-geluidsoverlast',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Stank- / geluidsoverlast (Overlast in de openbare ruimte)',
           name: 'Stank- / geluidsoverlast',
@@ -2346,6 +2574,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/hondenpoep',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
+            },
           },
           _display: 'Uitwerpselen (Overlast in de openbare ruimte)',
           name: 'Uitwerpselen',
@@ -2367,6 +2598,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte/sub_categories/wegsleep',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-in-de-openbare-ruimte/openbare_ruimte.svg?temp_url_sig=e611eec066fd9b1c7b419deb4549fec434197271b9c643eb60133025f9984da5&temp_url_expires=1665401495',
             },
           },
           _display: 'Wegsleep (Overlast in de openbare ruimte)',
@@ -2392,6 +2626,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
+        },
       },
       _display: 'Overlast op het water',
       name: 'Overlast op het water',
@@ -2407,6 +2644,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/blokkade-van-de-vaarweg',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
             },
           },
           _display: 'Blokkade van de vaarweg (Overlast op het water)',
@@ -2430,7 +2670,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Gevaarlijke situaties pakken wij zo snel mogelijk op. We laten u binnen 3 werkdagen weten wat we hebben gedaan. We houden u op de hoogte via e-mail.',
           public_name: 'Vaarweg geblokkeerd',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -2440,6 +2680,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-geluid',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
             },
           },
           _display: 'Geluid op het water (Overlast op het water)',
@@ -2474,6 +2717,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/scheepvaart-nautisch-toezicht',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
+            },
           },
           _display: 'Nautisch toezicht / vaargedrag (Overlast op het water)',
           name: 'Nautisch toezicht / vaargedrag',
@@ -2494,7 +2740,7 @@ export const fetchCategoriesResponse = {
           is_active: true,
           description: null,
           handling_message:
-            'We geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.\n\nAls er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).\n',
+            'We geven uw melding door aan onze handhavers. Zij beoordelen of het nodig is direct actie te ondernemen. Bijvoorbeeld omdat er olie lekt of omdat de situatie gevaar oplevert voor andere boten.\n\nAls er geen directe actie nodig is, dan pakken we uw melding op buiten het vaarseizoen (september - maart).',
           public_name: null,
           is_public_accessible: false,
         },
@@ -2506,6 +2752,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/olie-op-het-water',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
             },
           },
           _display: 'Olie op het water (Overlast op het water)',
@@ -2540,6 +2789,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overig-boten',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overige boten (Overlast op het water)',
           name: 'Overige boten',
@@ -2573,6 +2825,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-vaargedrag',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Overlast op het water - Vaargedrag (Overlast op het water)',
@@ -2596,6 +2851,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-vanaf-het-water',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overlast vanaf het water (Overlast op het water)',
           name: 'Overlast vanaf het water',
@@ -2617,6 +2875,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-snel-varen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
             },
           },
           _display: 'Snel varen (Overlast op het water)',
@@ -2650,6 +2911,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water/sub_categories/overlast-op-het-water-gezonken-boot',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
             },
           },
           _display: 'Wrak in het water (Overlast op het water)',
@@ -2686,6 +2950,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
+        },
       },
       _display: 'Overlast van dieren',
       name: 'Overlast van dieren',
@@ -2701,6 +2968,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/dode-dieren',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
             },
           },
           _display: 'Dode dieren (Overlast van dieren)',
@@ -2729,6 +2999,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/duiven',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
             },
           },
           _display: 'Duiven (Overlast van dieren)',
@@ -2763,6 +3036,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ganzen',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
+            },
           },
           _display: 'Ganzen (Overlast van dieren)',
           name: 'Ganzen',
@@ -2790,6 +3066,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/meeuwen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
             },
           },
           _display: 'Meeuwen (Overlast van dieren)',
@@ -2819,6 +3098,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/overig-dieren',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
+            },
           },
           _display: 'Overig dieren (Overlast van dieren)',
           name: 'Overig dieren',
@@ -2846,6 +3128,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
             },
           },
           _display: 'Ratten (Overlast van dieren)',
@@ -2875,6 +3160,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/ratten-in-en-rond-woning',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
+            },
           },
           _display: 'Ratten – in en rond een woning (Overlast van dieren)',
           name: 'Ratten – in en rond een woning',
@@ -2903,6 +3191,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-dieren/sub_categories/wespen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-dieren/dieren.svg?temp_url_sig=160c5847e2f969850ebc1dbb264683712768e61830d3ed44bafa63ae47c715ee&temp_url_expires=1665401495',
             },
           },
           _display: 'Wespen (Overlast van dieren)',
@@ -2934,6 +3225,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+        },
       },
       _display: 'Overlast van en door personen of groepen',
       name: 'Overlast van en door personen of groepen',
@@ -2949,6 +3243,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/daklozen-bedelen',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -2984,6 +3281,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/drank-en-drugsoverlast',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Drank- / drugsoverlast (Overlast van en door personen of groepen)',
@@ -3018,6 +3318,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/jongerenoverlast',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Jongerenoverlast (Overlast van en door personen of groepen)',
@@ -3051,6 +3354,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/loslopende-agressieve-honden',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -3091,6 +3397,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overige-overlast-door-personen',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Overige overlast door personen (Overlast van en door personen of groepen)',
@@ -3124,6 +3433,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-door-afsteken-vuurwerk',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -3159,6 +3471,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/overlast-van-taxis-bussen-en-fietstaxis',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             "Overlast van taxi's, bussen en fietstaxi's (Overlast van en door personen of groepen)",
@@ -3193,6 +3508,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/personen-op-het-water',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Personen op het water (Overlast van en door personen of groepen)',
@@ -3216,6 +3534,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/vuurwerkoverlast',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
+            },
           },
           _display:
             'Vuurwerkoverlast (Overlast van en door personen of groepen)',
@@ -3238,6 +3559,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-van-en-door-personen-of-groepen/sub_categories/wildplassen-poepen-overgeven',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-van-en-door-personen-of-groepen/personen.svg?temp_url_sig=d2d05c8017456676d6f4b408d09c25243f44d21ac7220db180d0ef171ad71cd0&temp_url_expires=1665401495',
             },
           },
           _display:
@@ -3354,6 +3678,9 @@ export const fetchCategoriesResponse = {
         self: {
           href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon',
         },
+        'sia:icon': {
+          href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+        },
       },
       _display: 'Schoon',
       name: 'Schoon',
@@ -3369,6 +3696,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/drijfvuil-bevaarbaar-water',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Drijfvuil bevaarbaar water (Schoon)',
@@ -3398,6 +3728,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/drijfvuil-niet-bevaarbaar-water',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+            },
           },
           _display: 'Drijfvuil niet-bevaarbaar water (Schoon)',
           name: 'Drijfvuil niet-bevaarbaar water',
@@ -3425,6 +3758,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/gladheid-bladeren',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Gladheid door blad (Schoon)',
@@ -3454,6 +3790,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/gladheid-olie',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+            },
           },
           _display: 'Gladheid door olie op de weg (Schoon)',
           name: 'Gladheid door olie op de weg',
@@ -3481,6 +3820,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/gladheid-winterdienst',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Gladheid winterdienst (Schoon)',
@@ -3510,6 +3852,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/graffitiwildplak',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+            },
           },
           _display: 'Graffiti / wildplak (Schoon)',
           name: 'Graffiti / wildplak',
@@ -3537,6 +3882,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/onkruid-verharding',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Onkruid op verharding (Schoon)',
@@ -3566,6 +3914,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/prullenbak-kapot',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+            },
           },
           _display: 'Prullenbak is kapot (Schoon)',
           name: 'Prullenbak is kapot',
@@ -3587,6 +3938,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/prullenbak-vol',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Prullenbak is vol (Schoon)',
@@ -3615,6 +3969,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/putrioleringverstopt',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Put / riolering verstopt (Schoon)',
@@ -3654,6 +4011,9 @@ export const fetchCategoriesResponse = {
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/uitwerpselen',
             },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
+            },
           },
           _display: 'Uitwerpselen (Schoon)',
           name: 'Uitwerpselen',
@@ -3691,6 +4051,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/schoon/sub_categories/veegzwerfvuil',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
             },
           },
           _display: 'Veeg- / zwerfvuil (Schoon)',
@@ -3801,7 +4164,7 @@ export const fetchCategoriesResponse = {
           handling_message:
             'Wij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.',
           public_name: 'sdfsdf',
-          is_public_accessible: true,
+          is_public_accessible: false,
         },
         {
           _links: {
@@ -4375,6 +4738,9 @@ export const fetchCategoriesResponse = {
             },
             self: {
               href: 'https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair/sub_categories/lantaarnpaal-straatverlichting',
+            },
+            'sia:icon': {
+              href: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/wegen-verkeer-straatmeubilair/lantaarnpaal-straatverlichting/grachtmast.svg?temp_url_sig=c26aad84e44d5533c5a7ac7583352128c7a72e42eed69b6bb21b4026ebeda71b&temp_url_expires=1665401495',
             },
           },
           _display: 'Straatverlichting (Wegen, verkeer, straatmeubilair)',
