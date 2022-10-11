@@ -78,7 +78,6 @@ export const IncidentMap = () => {
   }, [resetMarkerIcons])
 
   const ZoomInOn = useCallback((coordinates) => {
-    console.log(window.innerWidth)
     if (getDeviceMode(window.innerWidth) === DeviceMode.Mobile) {
       const mobCoordinates = {lat: coordinates[0] - 0.00009, lng: coordinates[1]}
       map?.flyTo(mobCoordinates, DEFAULT_ZOOM)
@@ -110,6 +109,7 @@ export const IncidentMap = () => {
   useEffect(() => {
     if (data?.features) {
       const filteredIncidents = getFilteredIncidents(filters, data.features)
+      console.log(filteredIncidents)
       setFilteredIncidents(filteredIncidents)
     }
   }, [data, filters])

@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import { useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 
 
 import equal from "fast-deep-equal"
@@ -11,12 +11,12 @@ import {
   incidentIcon,
   markerIcon,
 } from 'shared/services/configuration/map-markers'
-import { featureToCoordinates } from 'shared/services/map-location'
-import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import {featureToCoordinates} from 'shared/services/map-location'
+import type {Bbox} from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
 // import type {Feature} from "../../../../components/AreaMap/types";
-import type { Point, Incident } from '../../types'
+import type {Point, Incident} from '../../types'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -25,8 +25,10 @@ const clusterLayerOptions = {
 
 interface Props {
   incidents?: Incident[]
+
   passBbox(bbox: Bbox): void
-  selectedIncident?:Incident
+
+  selectedIncident?: Incident
   resetMarkerIcons: () => void
   handleIncidentSelect: (incident?: Incident) => void
   handleCloseDetailPanel: () => void
@@ -34,13 +36,13 @@ interface Props {
 
 /* istanbul ignore next */
 export const IncidentLayer = ({
-  incidents,
-  passBbox,
-  selectedIncident,
-  resetMarkerIcons,
-  handleIncidentSelect,
-  handleCloseDetailPanel,
-}: Props) => {
+                                incidents,
+                                passBbox,
+                                selectedIncident,
+                                resetMarkerIcons,
+                                handleIncidentSelect,
+                                handleCloseDetailPanel,
+                              }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
   const bbox = useBoundingBox()
 
@@ -50,33 +52,18 @@ export const IncidentLayer = ({
     }
   }, [bbox, passBbox])
 
-  //   const getIsSelectedCluster = useCallback(
-  //   /* istanbul ignore next */
-  //   (cluster: L.MarkerCluster): boolean =>
-  //     cluster
-  //       .getAllChildMarkers()
-  //       .some(
-  //         (child: L.Marker<Feature>) =>
-  //           child.getIcon() === markerIcon
-  //       ),
-  //   []
-  // )
-
   useEffect(() => {
     if (!incidents || !layerInstance) return
 
     incidents.forEach((incident) => {
       const latlng = featureToCoordinates(incident.geometry)
-      const { name } = incident.properties.category
-
+      const {name} = incident.properties.category
 
       const clusteredMarker = L.marker(latlng, {
-        icon: equal(selectedIncident, incident) ? markerIcon: incidentIcon,
-        // icon: incidentIcon,
+        icon: equal(selectedIncident, incident) ? markerIcon : incidentIcon,
         alt: name,
         keyboard: false,
       })
-
 
       /* istanbul ignore next */
       clusteredMarker.on(
@@ -93,21 +80,22 @@ export const IncidentLayer = ({
           }
         }
       )
+
       layerInstance.addLayer(clusteredMarker)
     })
 
     return () => {
-      // ToDO handleCloseDetailPanel() closes the panel
-      // handleCloseDetailPanel()
       layerInstance.clearLayers()
     }
   }, [layerInstance, incidents, resetMarkerIcons, handleIncidentSelect, handleCloseDetailPanel, selectedIncident])
-
+console.log(clusterLayerOptions)
   return (
-    <MarkerCluster
-      clusterOptions={clusterLayerOptions}
-      setInstance={setLayerInstance}
-      // getIsSelectedCluster={getIsSelectedCluster}
-    />
+    <>
+      <p>Begin IncidentLayer</p>
+      <MarkerCluster
+        clusterOptions={clusterLayerOptions}
+        setInstance={setLayerInstance}
+      />
+    </>
   )
 }

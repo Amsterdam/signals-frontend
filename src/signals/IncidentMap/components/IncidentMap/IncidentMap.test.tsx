@@ -9,8 +9,10 @@ import {formatAddress} from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import {withAppContext} from 'test/utils'
 
-import {get, mockUseMapInstance, useFetchResponse} from '../__test__'
+import {get, mockFilters, mockIncidents, mockUseMapInstance, useFetchResponse} from '../__test__'
 import {IncidentMap} from './IncidentMap'
+import {useEffect} from "react";
+
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,
@@ -18,10 +20,22 @@ jest.mock('@amsterdam/react-maps', () => ({
   useMapInstance: jest.fn(() => mockUseMapInstance),
 }))
 
+
+
 jest.mock('../FilterPanel', () => ({
   __esModule: true,
   ...jest.requireActual('../FilterPanel'),
-  FilterPanel: () => <div>[Filter Panel]</div>,
+  FilterPanel: ({setFilters, ...rest}: any) => {
+    setFilters(mockFilters)
+    return <div {...rest}>[Filter Panel]</div>
+  }
+}))
+
+jest.mock('./styled', () => ({
+  ...jest.requireActual('./styled'),
+  StyledPDOKAutoSuggest: ({value, ...rest}: any) => {
+    return <div {...rest}>{value}</div>
+  },
 }))
 
 const coords = {
@@ -44,21 +58,6 @@ const mockPdokResponse = {
     address: mockPdokAddress,
   },
 }
-const mockedIncident = {
-  geometry: coords,
-  id: 1,
-  properties: {
-    category: {
-      name: 'mockCategory',
-      slug: 'mockCategory',
-      parent: {
-        name: 'mockParent',
-        slug: 'mockParent'
-      }, created_at: 'this_day_and_age'
-    }
-  }
-}
-
 
 jest.mock('hooks/useFetch')
 jest.mock('shared/services/reverse-geocoder')
@@ -73,6 +72,7 @@ describe('IncidentMap', () => {
   })
 
   it('should render the incident map correctly', () => {
+
     render(withAppContext(<IncidentMap/>))
 
     expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
@@ -156,11 +156,56 @@ describe('IncidentMap', () => {
   })
 
   it('zooms in on incident when selected', () => {
-    const window.innerWidth = 384 // width when mobile
-    render(withAppContext(<IncidentMap/>))
-    screen.debug
-    // userEvent.click(closeButton)
-    //  userEvent.click(mockedIncident)
+    /*
+    arrange:
+    1. render map with incidents and draweroverlay panel
+    2. set state to mobile // const window.innerWidth = 384 // width when mobile
+    3. close DrawerOverlay panel
+    act:
+    1. click on incident that would be under draweroverlay panel
+    assert:
+    1. Selected pin is visible and draweroverlay as well
+     */
+    const mockedData = {
+      type: "FeatureCollection",
+      features: mockIncidents
+    }
 
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+      data: mockedData,
+      isLoading: false,
+      isSuccess: true,
+    }))
+
+    render(withAppContext(<IncidentMap/>))
+
+    screen.debug()
+    expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
+    expect(screen.getByTestId('searchAddressBar')).toBeInTheDocument()
+    expect(screen.getByText('Even wat tekst opschrijven')).toBeInTheDocument()
+    expect(screen.getByText('[Filter Panel]')).toBeInTheDocument()
+
+  })
+
+  it('closes the draweroverlay panel when an address is selected and the app is in mobile state', () => {
+    /*PvA
+    arrange:
+    1. render map with incidents on it and a Draweroverlay panel
+    2. zet app op mobile --const getDeviceMode(window.innerWidth) = DeviceMode.Mobile
+    act:
+    1. klik op een marker
+    assert:
+    1. is DrawerOverlay niet meer in DOM
+     */
+    // const getDeviceMode(window.innerWidth) = DeviceMode.Mobile
+
+    render(withAppContext(<IncidentMap/>))
+
+    userEvent.click(screen.getByAltText('Veeg- / zwerfvuil'))
+    expect(screen.getByText('Zoom naar adres')).toBeInTheDocument()
+
+    // expect(defaultProps.setCoordinates).toHaveBeenCalledWith(coords)
+    // expect(defaultProps.setDrawerState).toHaveBeenCalledWith(DrawerState.Closed)
   })
 })

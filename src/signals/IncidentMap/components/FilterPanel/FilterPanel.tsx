@@ -29,6 +29,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
 
   useEffect(() => {
     if (filters.length === 0) {
+
       get(configuration.CATEGORIES_ENDPOINT)
     }
   }, [filters, get])
