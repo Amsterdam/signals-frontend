@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
@@ -8,13 +8,15 @@ import type { Map as MapType, LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
+import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import type { Address } from 'types/address'
 
-import type { Filter, Point, Properties, Incident } from '../../types'
+import type { PointLatLng } from '../../types'
+import type { Filter, Properties, Incident } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
@@ -34,13 +36,14 @@ export const IncidentMap = () => {
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
+  const selectedMarkerRef = useRef<L.Marker>()
 
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
   const [map, setMap] = useState<MapType>()
 
   const { get, data, error, isSuccess } =
-    useFetch<FeatureCollection<Point, Properties>>()
+    useFetch<FeatureCollection<PointLatLng, Properties>>()
 
   const setNotification = useCallback(
     (message: JSX.Element | string) => {
@@ -49,22 +52,23 @@ export const IncidentMap = () => {
     },
     [setMapMessage, setShowMessage]
   )
+
   /* istanbul ignore next */
-  const handleIncidentSelect = useCallback((incident) => {
+  const handleIncidentSelect = useCallback((incident: Incident) => {
     setSelectedIncident(incident)
     setDrawerState(DrawerState.Open)
   }, [])
 
   /* istanbul ignore next */
-  const resetMarkerIcons = useCallback(() => {
-    // TODO: Should reset the icons to their default
-  }, [])
-
-  /* istanbul ignore next */
-  const handleCloseDetailPanel = useCallback(() => {
+  const resetMarkerIcon = useCallback(() => {
+    if (selectedMarkerRef && selectedMarkerRef.current) {
+      selectedMarkerRef.current.setIcon(
+        dynamicIcon(selectedMarkerRef.current.feature?.properties.icon)
+      )
+    }
+    selectedMarkerRef.current = undefined
     setSelectedIncident(undefined)
-    resetMarkerIcons()
-  }, [resetMarkerIcons])
+  }, [])
 
   useEffect(() => {
     if (bbox) {
@@ -78,6 +82,18 @@ export const IncidentMap = () => {
       )
     }
   }, [get, bbox])
+
+  useEffect(() => {
+    if (map) {
+      map.on({
+        click:
+          /* istanbul ignore next */
+          () => {
+            resetMarkerIcon()
+          },
+      })
+    }
+  }, [resetMarkerIcon, map])
 
   useEffect(() => {
     if (data?.features) {
@@ -99,7 +115,7 @@ export const IncidentMap = () => {
         setAddress(response?.data?.address)
       }
     }
-    // noinspection JSIgnoredPromiseFromCall
+
     transformCoordinatesToAddress()
   }, [coordinates])
 
@@ -119,11 +135,11 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer
+          handleIncidentSelect={handleIncidentSelect}
           passBbox={setBbox}
           incidents={filteredIncidents}
-          handleIncidentSelect={handleIncidentSelect}
-          handleCloseDetailPanel={handleCloseDetailPanel}
-          resetMarkerIcons={resetMarkerIcons}
+          resetMarkerIcon={resetMarkerIcon}
+          selectedMarkerRef={selectedMarkerRef}
         />
 
         {map && coordinates && <Pin map={map} coordinates={coordinates} />}
@@ -139,7 +155,7 @@ export const IncidentMap = () => {
         <DrawerOverlay
           onStateChange={setDrawerState}
           state={drawerState}
-          onCloseDetailPanel={handleCloseDetailPanel}
+          onCloseDetailPanel={resetMarkerIcon}
           incident={selectedIncident}
         >
           <StyledParagraph>

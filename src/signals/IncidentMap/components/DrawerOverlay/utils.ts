@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints'
 
 import { featureToCoordinates } from 'shared/services/map-location'
-import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import type { PdokAddress } from 'shared/services/map-location'
-import type { Point } from '../../types'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
+
+import type { PointLatLng } from '../../types'
 import { DeviceMode } from './types'
 
 export function useDeviceMode(): DeviceMode {
@@ -38,7 +39,7 @@ export const isDesktop = (mode: DeviceMode): mode is DeviceMode.Desktop =>
   mode === DeviceMode.Desktop
 
 export const getAddress = (
-  geometry: Point,
+  geometry: PointLatLng,
   setAddress: (address: PdokAddress) => void
 ) => {
   const coordinates = featureToCoordinates(geometry)

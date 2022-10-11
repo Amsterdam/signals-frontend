@@ -1,7 +1,8 @@
 export type {
   Filter,
+  Icon,
   Incident,
-  Point,
+  PointLatLng,
   Properties,
   SubCategory,
 } from './incident-map'

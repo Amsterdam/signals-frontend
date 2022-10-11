@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Feature } from 'geojson'
-
-import type { Filter, Point, Properties } from '../../types'
+import type { Filter, Incident, Icon } from '../../types'
 
 export const getFilteredIncidents = (
   filters: Filter[],
-  incidents: Feature<Point, Properties>[]
-): Feature<Point, Properties>[] => {
+  incidents: Incident[]
+): Incident[] => {
   const activeFilterSlugs = filters
     .filter((filter) => filter.filterActive)
     .map((filter) => filter.slug)
@@ -20,13 +18,8 @@ export const getFilteredIncidents = (
   return getIncidentsWithIcon(activeIncidents, listedIcons)
 }
 
-interface Icon {
-  slug: string
-  icon: string
-}
-
 function getIncidentsWithIcon(
-  activeIncidents: Feature<Point, Properties>[],
+  activeIncidents: Incident[],
   listedIcons: { mainCategories: Icon[]; subCategories: Icon[] }
 ) {
   const incidentsWithIcon = activeIncidents.map((incident) => {
