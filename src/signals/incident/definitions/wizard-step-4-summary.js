@@ -1,28 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import memoize from 'lodash/memoize'
-
-import configuration from 'shared/services/configuration/configuration'
-
-import { QuestionFieldType } from 'types/question'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import Summary from 'components/Summary'
+import memoize from 'lodash/memoize'
+import configuration from 'shared/services/configuration/configuration'
+import { QuestionFieldType } from 'types/question'
+
 import IncidentNavigation from '../components/IncidentNavigation'
 import PreviewComponents from '../components/IncidentPreview/components'
-import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
-import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalControls from './wizard-step-2-vulaan/afval'
+import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
+import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierupsControls from './wizard-step-2-vulaan/eikenprocessierups'
+import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
-import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
+import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
-import locatie from './wizard-step-2-vulaan/locatie'
-import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
-import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
+import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value
@@ -53,7 +52,7 @@ export const renderPreview = ({ render, meta }) => {
       return (props) => (
         <>
           {Summary({
-            address: props.incident.location.address,
+            address: props.incident.location?.address,
             coordinates: props.incident.location.coordinates,
             selection: props.value.selection,
             featureTypes: meta.featureTypes,
