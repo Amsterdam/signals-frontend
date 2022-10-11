@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-import { validatePhoneNumber } from '../custom-validators'
+import { nullOrNumber, validatePhoneNumber } from '../custom-validators'
 import { setupSchema } from './index'
 
 describe('Yup resolver takes a bunch of controls and returns it into a schema', () => {
@@ -30,6 +30,16 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       phoneNumber: {
         options: {
           validators: [validatePhoneNumber],
+        },
+      },
+      nullOrNumberQuestion: {
+        options: {
+          validators: [nullOrNumber],
+        },
+      },
+      nestedObjectQuestion: {
+        options: {
+          validators: ['required'],
         },
       },
     }
@@ -61,7 +71,18 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       schema.validateAt('phoneNumber', { phoneNumber: 'armageddon' })
     ).rejects.toBeTruthy()
     await expect(
-      schema.validateAt('phoneNumber', { phoneNumber: 666 })
+      schema.validateAt('phoneNumber', { phoneNumber: 1 })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('nullOrNumberQuestion', {
+        nullOrNumberQuestion: 'invalid type',
+      })
+    ).rejects.toBeTruthy()
+    await expect(
+      schema.validateAt('nullOrNumberQuestion', { nullOrNumberQuestion: 1 })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
     ).resolves.toBeTruthy()
   })
 })

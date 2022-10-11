@@ -1,25 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useRef } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import TextArea from 'components/TextArea'
-import Label from 'components/Label'
+import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import ErrorMessage from 'components/ErrorMessage'
+import Label from 'components/Label'
+import TextArea from 'components/TextArea'
+import PropTypes from 'prop-types'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
-import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
-import { useDispatch, useSelector } from 'react-redux'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import FileInput from 'signals/incident/components/form/FileInput'
 import CheckboxList from 'signals/incident-management/components/CheckboxList'
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import FileInput from 'signals/incident/components/form/FileInput'
+import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
+import styled from 'styled-components'
+import * as yup from 'yup'
+
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
 const Form = styled.form`
@@ -84,7 +86,9 @@ const KtoForm = ({
         .min(1, 'Dit veld is verplicht')
         .required('Dit veld is verplicht'),
       text_list_extra: yup.string().when('text_list', (text_list, schema) => {
-        return text_list.includes(options.slice(-1)[0].value)
+        return (Array.isArray(text_list) ? text_list : [text_list]).includes(
+          options.slice(-1)[0].value
+        )
           ? schema.required('Dit veld is verplicht')
           : schema
       }),
@@ -149,23 +153,37 @@ const KtoForm = ({
           </StyledLabel>
           <HelpText> U kunt meer keuzes maken.</HelpText>
 
-          <CheckboxList
-            aria-describedby="subtitle-kto"
-            options={options}
-            name={'input'}
-            onChange={(key, options) => {
-              setValue(
-                'text_list',
-                options.map((option) => option.value)
-              )
-              trigger('text_list')
-              if (
-                !getValues().text_list?.includes(options.slice(-1)[0]?.value)
-              ) {
-                trigger('text_list_extra')
-              }
-            }}
-          />
+          {configuration.featureFlags.enableMultipleKtoQuestions ? (
+            <CheckboxList
+              aria-describedby="subtitle-kto"
+              options={options}
+              name={'input'}
+              onChange={(key, options) => {
+                setValue(
+                  'text_list',
+                  options.map((option) => option.value)
+                )
+                trigger('text_list')
+                if (
+                  !getValues().text_list?.includes(options.slice(-1)[0]?.value)
+                ) {
+                  trigger('text_list_extra')
+                }
+              }}
+            />
+          ) : (
+            <RadioButtonList
+              aria-describedby="subtitle-kto"
+              error={false}
+              groupName="kto"
+              hasEmptySelectionButton={false}
+              onChange={(key, option) => {
+                setValue('text_list', [option.value])
+                trigger('text_list')
+              }}
+              options={options}
+            />
+          )}
 
           {watchTextList?.includes(options.slice(-1)[0].value) && (
             <StyledTextArea
