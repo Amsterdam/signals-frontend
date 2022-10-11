@@ -8,7 +8,7 @@ import L from 'leaflet'
 import MarkerCluster from 'components/MarkerCluster'
 import {
   dynamicIcon,
-  markerIcon,
+  selectedMarkerIcon,
 } from 'shared/services/configuration/map-markers'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -69,7 +69,7 @@ export const IncidentLayer = ({
             resetMarkerIcon()
           }
 
-          e.target.setIcon(markerIcon)
+          e.target.setIcon(selectedMarkerIcon)
           selectedMarkerRef.current = e.target
 
           handleIncidentSelect(feature)
