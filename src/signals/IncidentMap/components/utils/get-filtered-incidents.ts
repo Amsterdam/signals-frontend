@@ -15,9 +15,20 @@ export const getFilteredIncidents = (
   const activeIncidents = incidents.filter((incident) =>
     activeFilterSlugs.includes(incident.properties.category.parent.slug)
   )
-
   const listedIcons = getListOfIcons(filters)
 
+  return getIncidentsWithIcon(activeIncidents, listedIcons)
+}
+
+interface Icon {
+  slug: string
+  icon: string
+}
+
+function getIncidentsWithIcon(
+  activeIncidents: Feature<Point, Properties>[],
+  listedIcons: { mainCategories: Icon[]; subCategories: Icon[] }
+) {
   const incidentsWithIcon = activeIncidents.map((incident) => {
     const subCategorySlug = incident.properties.category.slug
     const mainCategorySlug = incident.properties.category.parent.slug
@@ -52,41 +63,31 @@ export const getFilteredIncidents = (
 
     return incident
   })
-
   return incidentsWithIcon
 }
 
-interface Icon {
-  slug: string
-  icon: string
-}
-
 const getListOfIcons = (filters: Filter[]) => {
-  const mainCategories: Icon[] = []
-  const subCategories: Icon[] = []
+  return filters.reduce(
+    (acc: { mainCategories: Icon[]; subCategories: Icon[] }, filter) => {
+      if (filter.icon) {
+        acc.mainCategories.push({
+          slug: filter.slug,
+          icon: filter.icon,
+        })
+      }
 
-  filters.forEach((filter) => {
-    if (filter.icon) {
-      mainCategories.push({
-        slug: filter.slug,
-        icon: filter.icon,
-      })
-    }
-
-    if (filter.subCategories) {
-      filter.subCategories.map((subCategory) => {
-        if (subCategory.icon) {
-          subCategories.push({
-            slug: subCategory.slug,
-            icon: subCategory.icon,
-          })
-        }
-      })
-    }
-  })
-
-  return {
-    mainCategories,
-    subCategories,
-  }
+      if (filter.subCategories) {
+        filter.subCategories.map((subCategory) => {
+          if (subCategory.icon) {
+            acc.subCategories.push({
+              slug: subCategory.slug,
+              icon: subCategory.icon,
+            })
+          }
+        })
+      }
+      return acc
+    },
+    { mainCategories: [], subCategories: [] }
+  )
 }
