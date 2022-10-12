@@ -50,6 +50,6 @@ describe('DrawerOverlay', () => {
         'Restafval container is kapot of vol. Of er is iets anders aan de hand. In elk geval er kan niks meer in de container.'
       )
     ).toBeInTheDocument()
-    expect(screen.getByText('07-09-2022 12:09')).toBeInTheDocument()
+    expect(screen.getByText('7 september 2022')).toBeInTheDocument()
   })
 })
