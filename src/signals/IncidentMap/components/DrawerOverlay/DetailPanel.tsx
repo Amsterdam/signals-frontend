@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
 import { Heading } from '@amsterdam/asc-ui'
+import format from 'date-fns/format'
+import nl from 'date-fns/locale/nl'
 
+import { capitalize } from 'shared/services/date-utils'
 import type { PdokAddress } from 'shared/services/map-location'
-import { string2date, string2time } from 'shared/services/string-parser'
 
 import type { Incident } from '../../types'
 import { StyledList } from './styled'
@@ -26,8 +28,10 @@ export interface Props {
 }
 
 export const DetailPanel = ({ onClose, incident }: Props) => {
-  const { properties, geometry } = incident
   const [address, setAddress] = useState<PdokAddress>(defaultAddress)
+
+  const { properties, geometry } = incident
+  const date = new Date(properties.created_at)
 
   useEffect(() => {
     setAddress(defaultAddress)
@@ -54,11 +58,7 @@ export const DetailPanel = ({ onClose, incident }: Props) => {
         <Heading forwardedAs="h2">{properties.category.name}</Heading>
 
         <dt>Datum melding</dt>
-        <dd>
-          {' '}
-          {string2date(properties.created_at)}{' '}
-          {string2time(properties.created_at)}
-        </dd>
+        <dd>{capitalize(format(date, 'd MMMM yyyy', { locale: nl }))}</dd>
 
         <dt>Adres dichtbij</dt>
         <dd>

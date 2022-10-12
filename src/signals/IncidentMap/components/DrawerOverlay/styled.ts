@@ -45,7 +45,7 @@ export const DrawerHandleMobile = styled(Button)`
   &::before {
     content: '';
     display: block;
-    width: 200px;
+    width: 68px;
     height: 4px;
     border-radius: 3px;
     background-color: ${themeColor('tint', 'level4')};
@@ -179,6 +179,8 @@ export const CloseButton = styled(Button)`
   top: 14px;
   right: 20px;
   min-width: inherit;
+  // Needs z-index else content blocks the onClick
+  z-index: 1;
 
   > span {
     margin-right: 0;
@@ -216,9 +218,14 @@ export const StyledList = styled.dl`
 
     position: relative;
     font-weight: 400;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
   dd {
+    font-weight: 500;
     &:not(:last-child) {
       margin-bottom: ${themeSpacing(2)};
     }

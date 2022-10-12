@@ -13,7 +13,7 @@ export const HeaderWrapper = styled.div`
   width: 100%;
   padding: 0 ${themeSpacing(4)};
   background-color: ${themeColor('tint', 'level1')};
-  box-shadow: 0 ${themeSpacing(1)} ${themeSpacing(1)} 0 rgba(0, 0, 0, 0.1);
+  box-shadow: ${themeSpacing(0, 0, 0, 1)} rgba(0, 0, 0, 0.1);
   // z-index relative to map
   z-index: 1;
 
