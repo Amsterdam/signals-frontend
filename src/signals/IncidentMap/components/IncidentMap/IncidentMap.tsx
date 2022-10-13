@@ -61,7 +61,7 @@ export const IncidentMap = () => {
 
   /* istanbul ignore next */
   const resetMarkerIcon = useCallback(() => {
-    if (selectedMarkerRef && selectedMarkerRef.current) {
+    if (selectedMarkerRef?.current) {
       selectedMarkerRef.current.setIcon(
         dynamicIcon(selectedMarkerRef.current.feature?.properties.icon)
       )
@@ -84,15 +84,9 @@ export const IncidentMap = () => {
   }, [get, bbox])
 
   useEffect(() => {
-    if (map) {
-      map.on({
-        click:
-          /* istanbul ignore next */
-          () => {
-            resetMarkerIcon()
-          },
-      })
-    }
+    map?.on({
+      click: resetMarkerIcon,
+    })
   }, [resetMarkerIcon, map])
 
   useEffect(() => {
@@ -109,14 +103,10 @@ export const IncidentMap = () => {
   }, [error, isSuccess, setNotification])
 
   useEffect(() => {
-    const transformCoordinatesToAddress = async () => {
-      if (coordinates) {
-        const response = await reverseGeocoderService(coordinates)
+    coordinates &&
+      reverseGeocoderService(coordinates).then((response) => {
         setAddress(response?.data?.address)
-      }
-    }
-
-    transformCoordinatesToAddress()
+      })
   }, [coordinates])
 
   return (

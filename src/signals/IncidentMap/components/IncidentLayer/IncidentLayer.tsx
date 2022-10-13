@@ -19,10 +19,6 @@ const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
   chunkedLoading: true,
 }
-const emptyFeatureCollection = (): FeatureCollection => ({
-  type: 'FeatureCollection',
-  features: [],
-})
 
 interface Props {
   handleIncidentSelect: (incident: Incident) => void
@@ -54,18 +50,19 @@ export const IncidentLayer = ({
   useEffect(() => {
     if (!incidents || !layerInstance) return
     activeLayer.current?.remove()
-    const fc = emptyFeatureCollection()
 
-    fc.features = incidents
+    const fc: FeatureCollection = {
+      type: 'FeatureCollection',
+      features: incidents,
+    }
+
+    incidents
     layerInstance.clearLayers()
 
     const layer = L.geoJSON(fc, {
       onEachFeature: (feature: Incident, layer: L.Layer) => {
         layer.on('click', (e: { target: L.Marker<Incident> }) => {
-          if (
-            selectedMarkerRef.current !== e.target &&
-            selectedMarkerRef.current
-          ) {
+          if (selectedMarkerRef.current !== e.target) {
             resetMarkerIcon()
           }
 
