@@ -17,6 +17,12 @@ export const markerIcon = L.icon({
   className: 'map-marker-select',
 })
 
+export const selectedMarkerIcon = L.icon({
+  iconUrl: '/assets/images/featureSelectedMarker.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 39],
+})
+
 export const incidentIcon = L.icon({
   iconUrl: '/assets/images/icon-incident-marker.svg',
   iconSize: [40, 40],

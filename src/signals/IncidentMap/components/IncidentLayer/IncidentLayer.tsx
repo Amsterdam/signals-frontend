@@ -1,16 +1,19 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
-import { dynamicIcon } from 'shared/services/configuration/map-markers'
-import { featureToCoordinates } from 'shared/services/map-location'
+import {
+  dynamicIcon,
+  selectedMarkerIcon,
+} from 'shared/services/configuration/map-markers'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Point, Incident } from '../../types'
+import type { Incident } from '../../types'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -18,64 +21,81 @@ const clusterLayerOptions = {
 }
 
 interface Props {
+  handleIncidentSelect: (incident: Incident) => void
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
-  resetMarkerIcons: () => void
-  handleIncidentSelect: (incident?: Incident) => void
-  handleCloseDetailPanel: () => void
+  resetMarkerIcon: () => void
+  selectedMarkerRef: React.MutableRefObject<L.Marker<Incident> | undefined>
 }
 
 /* istanbul ignore next */
 export const IncidentLayer = ({
+  handleIncidentSelect,
   incidents,
   passBbox,
-  resetMarkerIcons,
-  handleIncidentSelect,
-  handleCloseDetailPanel,
+  resetMarkerIcon,
+  selectedMarkerRef,
 }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
+  const activeLayer = useRef<L.GeoJSON>()
   const bbox = useBoundingBox()
 
   useEffect(() => {
     if (bbox) {
       passBbox(bbox)
+      resetMarkerIcon()
     }
-  }, [bbox, passBbox])
+  }, [bbox, passBbox, resetMarkerIcon])
 
   useEffect(() => {
     if (!incidents || !layerInstance) return
+    activeLayer.current?.remove()
 
-    incidents.forEach((incident) => {
-      const latlng = featureToCoordinates(incident.geometry)
-      const { category, icon: categoryIcon } = incident.properties
+    const fc: FeatureCollection = {
+      type: 'FeatureCollection',
+      features: incidents,
+    }
 
-      const marker = L.marker(latlng, {
-        icon: dynamicIcon(categoryIcon),
-        alt: category.name,
-        keyboard: false,
-      })
+    incidents
+    layerInstance.clearLayers()
 
-      /* istanbul ignore next */
-      marker.on('click', () => {
-        // TODO: Change icon on select. Also return icon on deselect or close detailPanel.
+    const layer = L.geoJSON(fc, {
+      onEachFeature: (feature: Incident, layer: L.Layer) => {
+        layer.on('click', (e: { target: L.Marker<Incident> }) => {
+          if (selectedMarkerRef.current !== e.target) {
+            resetMarkerIcon()
+          }
 
-        if (incident) {
-          handleIncidentSelect(incident)
+          e.target.setIcon(selectedMarkerIcon)
+          selectedMarkerRef.current = e.target
+
+          handleIncidentSelect(feature)
+        })
+      },
+      pointToLayer: (incident: Incident, latlng) => {
+        if (selectedMarkerRef.current) {
+          resetMarkerIcon()
         }
-      })
-      layerInstance.addLayer(marker)
+
+        const marker = L.marker(latlng, {
+          icon: dynamicIcon(incident.properties?.icon),
+          alt: incident.properties?.category.name,
+          keyboard: false,
+        })
+
+        return marker
+      },
     })
 
-    return () => {
-      handleCloseDetailPanel()
-      layerInstance.clearLayers()
-    }
+    layer.addTo(layerInstance)
+
+    activeLayer.current = layer
   }, [
-    layerInstance,
-    incidents,
-    resetMarkerIcons,
     handleIncidentSelect,
-    handleCloseDetailPanel,
+    incidents,
+    layerInstance,
+    resetMarkerIcon,
+    selectedMarkerRef,
   ])
 
   return (

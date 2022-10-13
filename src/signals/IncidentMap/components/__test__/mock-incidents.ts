@@ -1,8 +1,6 @@
-import type { Feature } from 'geojson'
+import type { Incident } from '../../types'
 
-import type { Point, Properties } from '../../types'
-
-export const mockIncidents: Feature<Point, Properties>[] = [
+export const mockIncidents: Incident[] = [
   {
     type: 'Feature',
     geometry: {
