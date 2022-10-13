@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { BaseSyntheticEvent } from 'react'
+import { useContext } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import NextButton from 'components/NextButton'
 import PreviousButton from 'components/PreviousButton'
-import { WithWizard } from 'react-albus'
 import { useSelector } from 'react-redux'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type {
@@ -14,6 +14,8 @@ import type {
 } from 'signals/incident/definitions/wizard'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
 import styled from 'styled-components'
+
+import { WizardContext } from '../StepWizard'
 
 const Nav = styled.div`
   align-items: center;
@@ -47,28 +49,23 @@ interface IncidentNavigationProps {
 
 const IncidentNavigation = ({ meta }: IncidentNavigationProps) => {
   const { wizard } = meta
+  const { step, next, previous } = useContext(WizardContext)
 
+  const currentStep = step?.id?.split('/').pop() as keyof WizardSection
+  const wizardStep = currentStep !== 'bedankt' && wizard[currentStep]
+
+  if (!wizardStep) return null
   return (
-    <WithWizard
-      render={({ next, previous, step }) => {
-        const currentStep = step?.id?.split('/').pop() as keyof WizardSection
-        const wizardStep = currentStep !== 'bedankt' && wizard[currentStep]
-
-        if (!wizardStep) return null
-        return (
-          wizardStep && (
-            <WizardStep
-              wizardStep={wizardStep}
-              meta={meta}
-              next={next}
-              previous={() => {
-                previous()
-              }}
-            />
-          )
-        )
-      }}
-    />
+    wizardStep && (
+      <WizardStep
+        wizardStep={wizardStep}
+        meta={meta}
+        next={next}
+        previous={() => {
+          previous()
+        }}
+      />
+    )
   )
 }
 

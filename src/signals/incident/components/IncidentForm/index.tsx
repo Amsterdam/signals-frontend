@@ -29,14 +29,6 @@ const IncidentForm = forwardRef<any, any>(
   ) => {
     const [submitting, setSubmitting] = useState(false)
 
-    /**
-     *   When refactoring react-albus, remove this state. Currently its needed to set next to trigger
-     *   onNext's method of react albus.
-     */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const [, setNext] = useState(null)
-
     const prevState = useRef<{ isMounted: boolean; loading: boolean }>({
       isMounted: true,
       loading: false,
@@ -150,7 +142,7 @@ const IncidentForm = forwardRef<any, any>(
               Next needs to be part of the local state to rerender.
               When Sia will phase out react albus, this needs to be removed
             */
-            setNext(next)
+            next()
             return
           }
 
