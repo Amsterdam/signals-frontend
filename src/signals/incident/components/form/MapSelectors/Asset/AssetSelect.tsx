@@ -23,14 +23,14 @@ const defaultIconConfig: FeatureType['icon'] = {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconUrl: '/assets/images/featureDefaultMarker.svg',
+  iconUrl: '/assets/images/feature-default-marker.svg',
 }
 const defaultUnregisteredIconConfig: FeatureType['icon'] = {
   options: {
     className: 'object-marker',
     iconSize: [40, 40],
   },
-  iconUrl: '/assets/images/featureUnknownMarker.svg',
+  iconUrl: '/assets/images/feature-unknown-marker.svg',
 }
 
 interface UpdatePayload {

@@ -48,7 +48,7 @@ export const controls = {
           description: 'De boom staat niet op de kaart',
           icon: {
             options,
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
+            iconUrl: '/assets/images/feature-unknown-marker.svg',
           },
           typeValue: UNREGISTERED_TYPE,
           typeField: '',
