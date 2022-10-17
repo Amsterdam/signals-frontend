@@ -22,10 +22,9 @@ export const validatePhoneNumber = (control?: Control) => {
 }
 
 export const nullOrNumber = (control: Control) => {
-  if (!control || typeof control.value === 'number' || control.value === null) {
+  if (!control || typeof control.value === 'number' || !control.value) {
     return null
   }
-
   return {
     custom: 'Dit is een verplicht veld',
   }
