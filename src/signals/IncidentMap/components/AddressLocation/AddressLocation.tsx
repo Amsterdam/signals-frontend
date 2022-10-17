@@ -30,7 +30,7 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
       <Heading as="h4">Zoom naar adres</Heading>
       <StyledPDOKAutoSuggest
         data-testid="searchAddressBar"
-        placeholder={'Zoek naar adres'}
+        placeholder={'Adres'}
         onSelect={onAddressSelect}
         value={addressValue}
         onClear={() => setCoordinates(undefined)}

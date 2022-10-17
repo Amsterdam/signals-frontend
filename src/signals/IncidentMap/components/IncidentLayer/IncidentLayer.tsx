@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
@@ -105,16 +105,19 @@ export const IncidentLayer = ({
     selectedMarkerRef,
   ])
 
-  const getIsSelectedCluster = (cluster: L.MarkerCluster) => {
-    const markers = cluster.getAllChildMarkers()
+  const getIsSelectedCluster = useCallback(
+    (cluster: L.MarkerCluster) => {
+      const markers = cluster.getAllChildMarkers()
 
-    // Matching on created_at since incidents do not have ID's
-    return markers.some(
-      (marker) =>
-        marker.feature?.properties.created_at ===
-        selectedMarkerRef.current?.feature?.properties.created_at
-    )
-  }
+      // Matching on created_at since incidents do not have ID's
+      return markers.some(
+        (marker) =>
+          marker.feature?.properties.created_at ===
+          selectedMarkerRef.current?.feature?.properties.created_at
+      )
+    },
+    [selectedMarkerRef]
+  )
 
   return (
     <MarkerCluster
