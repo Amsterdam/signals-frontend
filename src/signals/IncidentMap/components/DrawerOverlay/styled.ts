@@ -181,6 +181,7 @@ export const CloseButton = styled(Button)`
   min-width: inherit;
   // Needs z-index else content blocks the onClick
   z-index: 1;
+  background-color: transparent;
 
   > span {
     margin-right: 0;
