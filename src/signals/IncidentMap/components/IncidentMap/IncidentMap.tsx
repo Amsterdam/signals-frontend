@@ -191,11 +191,7 @@ export const IncidentMap = () => {
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </StyledParagraph>
-          <AddressLocation
-            setCoordinates={setCoordinates}
-            address={address}
-            setAddress={setAddress}
-          />
+          <AddressLocation setCoordinates={setCoordinates} address={address} />
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
