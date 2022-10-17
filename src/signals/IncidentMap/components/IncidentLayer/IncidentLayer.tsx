@@ -24,8 +24,8 @@ interface Props {
   handleIncidentSelect: (incident: Incident) => void
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
-  resetMarkerIcon: () => void
-  selectedMarkerRef: React.MutableRefObject<L.Marker<Incident> | undefined>
+  resetSelectedMarker: () => void
+  selectedMarkerRef: React.MutableRefObject<L.Marker | undefined>
 }
 
 /* istanbul ignore next */
@@ -33,7 +33,7 @@ export const IncidentLayer = ({
   handleIncidentSelect,
   incidents,
   passBbox,
-  resetMarkerIcon,
+  resetSelectedMarker,
   selectedMarkerRef,
 }: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
@@ -43,9 +43,8 @@ export const IncidentLayer = ({
   useEffect(() => {
     if (bbox) {
       passBbox(bbox)
-      resetMarkerIcon()
     }
-  }, [bbox, passBbox, resetMarkerIcon])
+  }, [bbox, passBbox])
 
   useEffect(() => {
     if (!incidents || !layerInstance) return
@@ -56,14 +55,13 @@ export const IncidentLayer = ({
       features: incidents,
     }
 
-    incidents
     layerInstance.clearLayers()
 
     const layer = L.geoJSON(fc, {
       onEachFeature: (feature: Incident, layer: L.Layer) => {
         layer.on('click', (e: { target: L.Marker<Incident> }) => {
           if (selectedMarkerRef.current !== e.target) {
-            resetMarkerIcon()
+            resetSelectedMarker()
           }
 
           e.target.setIcon(selectedMarkerIcon)
@@ -73,15 +71,24 @@ export const IncidentLayer = ({
         })
       },
       pointToLayer: (incident: Incident, latlng) => {
-        if (selectedMarkerRef.current) {
-          resetMarkerIcon()
-        }
-
-        const marker = L.marker(latlng, {
+        let marker = L.marker(latlng, {
           icon: dynamicIcon(incident.properties?.icon),
           alt: incident.properties?.category.name,
           keyboard: false,
         })
+        // Matching on created_at since incidents do not have an ID
+        if (
+          selectedMarkerRef.current &&
+          selectedMarkerRef.current.feature?.properties.created_at ===
+            incident.properties.created_at
+        ) {
+          marker = L.marker(latlng, {
+            icon: selectedMarkerIcon,
+            alt: incident.properties?.category.name,
+            keyboard: false,
+          })
+          selectedMarkerRef.current = marker
+        }
 
         return marker
       },
@@ -94,14 +101,26 @@ export const IncidentLayer = ({
     handleIncidentSelect,
     incidents,
     layerInstance,
-    resetMarkerIcon,
+    resetSelectedMarker,
     selectedMarkerRef,
   ])
+
+  const getIsSelectedCluster = (cluster: L.MarkerCluster) => {
+    const markers = cluster.getAllChildMarkers()
+
+    // Matching on created_at since incidents do not have ID's
+    return markers.some(
+      (marker) =>
+        marker.feature?.properties.created_at ===
+        selectedMarkerRef.current?.feature?.properties.created_at
+    )
+  }
 
   return (
     <MarkerCluster
       clusterOptions={clusterLayerOptions}
       setInstance={setLayerInstance}
+      getIsSelectedCluster={getIsSelectedCluster}
     />
   )
 }
