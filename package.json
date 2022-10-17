@@ -171,7 +171,7 @@
     "lint-staged": "^11.0.0",
     "match-media-mock": "^0.1.1",
     "mini-css-extract-plugin": "^2.3.0",
-    "msw": "^0.36.8",
+    "msw": "^0.47.4",
     "node-plop": "^0.26.3",
     "prettier": "^2.6.2",
     "prop-types": "^15.8.1",
