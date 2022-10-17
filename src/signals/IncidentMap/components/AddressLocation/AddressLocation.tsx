@@ -11,9 +11,8 @@ import type { Address } from 'types/address'
 
 import { StyledPDOKAutoSuggest, Wrapper } from './styled'
 export interface Props {
-  setCoordinates: (coordinates?: LatLngLiteral) => void
   address?: Address
-  setAddress: (address?: Address) => void
+  setCoordinates: (coordinates?: LatLngLiteral) => void
 }
 
 export const AddressLocation = ({ setCoordinates, address }: Props) => {
