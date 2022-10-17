@@ -33,15 +33,17 @@ const Wizard: React.FC<Props> = (props) => {
     return ids[ids.indexOf(stepState.id) - 1]
   }, [ids, stepState.id])
 
+  const basename = `${props.basename}/`
+
   const pathToStep = useCallback(
     (pathname: string) => {
-      const id = pathname.replace(props.basename, '')
+      const id = pathname.replace(basename, '')
       const [stepFromFilter] = steps.filter((s: WizardApi['step']) =>
         props.exactMatch ? s.id === id : s.id && id.includes(s.id)
       )
       return stepFromFilter || stepState
     },
-    [props.basename, props.exactMatch, stepState, steps]
+    [basename, props.exactMatch, stepState, steps]
   )
 
   const init = useCallback((steps: WizardApi['steps']) => {
@@ -58,12 +60,12 @@ const Wizard: React.FC<Props> = (props) => {
     if (stepFromPath.id) {
       setStep(stepFromPath)
     } else {
-      history.replace(`${props.basename}${ids[0]}`)
+      history.replace(`${basename}${ids[0]}`)
     }
   }, [
     history.location.pathname,
     pathToStep,
-    props.basename,
+    basename,
     ids,
     steps,
     stepState.id,
@@ -74,9 +76,9 @@ const Wizard: React.FC<Props> = (props) => {
   const set = useCallback(
     (step: any) => {
       if (!step) return
-      history.push(`${props.basename}${step}`)
+      history.push(`${basename}${step}`)
     },
-    [history, props.basename]
+    [history, basename]
   )
 
   const push = useCallback(
@@ -88,9 +90,9 @@ const Wizard: React.FC<Props> = (props) => {
 
   const replace = useCallback(
     (step = nextStep) => {
-      history.replace(`${props.basename}${step}`)
+      history.replace(`${basename}${step}`)
     },
-    [history, nextStep, props.basename]
+    [history, nextStep, basename]
   )
 
   const pushPrevious = useCallback(

@@ -26,7 +26,7 @@ import type { Incident } from 'types/incident'
 
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
-import { Wizard, Steps } from '../StepWizard'
+import { Wizard, Steps, Step } from '../StepWizard'
 import onNext from './services/on-next'
 import {
   FormWrapper,
@@ -49,10 +49,6 @@ interface IncidentWizardProps {
     incident: Incident
     loading: boolean
   }
-}
-
-function Step({ render }: { render: () => JSX.Element | null }) {
-  return render()
 }
 
 const IncidentWizard: FC<IncidentWizardProps> = ({
