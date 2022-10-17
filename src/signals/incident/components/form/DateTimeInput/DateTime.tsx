@@ -99,13 +99,8 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   )
 
   const [dateIndication, setDateIndication] = useState<DateIndication>(
-    getDateIndication(value)
+    dateIndicationValue[typeof value]
   )
-
-  function getDateIndication(value: Incident['timestamp']): DateIndication {
-    if (!value) return ''
-    return dateIndicationValue[typeof value]
-  }
 
   const updateTimestamp = useCallback(
     (event) => {
@@ -161,7 +156,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   )
 
   useEffect(() => {
-    setDateIndication(getDateIndication(value))
+    setDateIndication(dateIndicationValue[typeof value])
   }, [value])
   return (
     <>
