@@ -578,7 +578,7 @@
     },
     "Azure": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "dsn": {
           "type": "string",
@@ -586,9 +586,7 @@
           "description": "Azure data source name value. When omitted, Azure will not be initialised in the application"
         }
       },
-      "required": [
-        "connectionString"
-      ],
+      "required": [],
       "title": "Azure"
     },
     "Theme": {
