@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-
 import {
   Button,
   breakpoint,
@@ -8,17 +7,15 @@ import {
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const StyledLabel = styled(Label)`
   font-weight: normal;
 `
 
-export const CategoryFilter = styled.div`
-  border-bottom: 1px solid ${themeColor('tint', 'level3')};
-  padding: ${themeSpacing(1)} 0;
+export const StyledImg = styled.img`
+  padding-right: ${themeSpacing(2)};
 `
-
 export const Wrapper = styled.div`
   border-top: 1px solid ${themeColor('tint', 'level3')};
 `
@@ -49,4 +46,67 @@ export const StyledButton = styled(Button)`
         rgba(0, 0, 0, 0.1);
     }
   }
+`
+
+export const SubSection = styled.div<{ visible: boolean; lines: number }>`
+  padding-left: ${themeSpacing(4)};
+  max-height: 0;
+  transition: max-height 0.15s ease-out;
+  overflow: hidden;
+
+  ${({ visible, lines }) =>
+    visible &&
+    /*lines time 5 because line wrapped labels, setting needs to be above real height (to avoid clipping) but way too
+  high gives wonky expand/collapse effect. See https://css-tricks.com/using-css-transitions-auto-dimensions/*/
+    css`
+      max-height: ${5 * lines}em;
+      transition: max-height 0.25s ease-in;
+    `}
+`
+
+export const SectionWrapper = styled.div``
+
+export const WrapperFilterCategoryWithIcon = styled.div`
+  > label {
+    width: calc(100% - 20px);
+  }
+
+  display: flex;
+  align-items: center;
+`
+
+export const InvisibleButton = styled.button<{ toggle: boolean }>`
+  text-decoration: none;
+  background-color: unset;
+  color: inherit;
+  border: none;
+  padding: 0px;
+
+  > * {
+    transition: transform 0.25s;
+
+    ${({ toggle }) =>
+      toggle &&
+      css`
+        transform: rotate(180deg);
+      `}
+  }
+`
+
+interface LegendTextProps {
+  readonly noResults?: boolean
+}
+
+export const LegendText = styled.span<LegendTextProps>`
+  display: flex;
+  align-items: center;
+  color: ${(props) =>
+    props.noResults
+      ? themeColor('tint', 'level4')
+      : themeColor('tint', 'level7')};
+`
+
+export const LegendItem = styled.label`
+  display: flex;
+  align-items: center;
 `

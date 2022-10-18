@@ -2,31 +2,31 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useEffect } from 'react'
 
-import { Checkbox, Heading } from '@amsterdam/asc-ui'
+import { Heading } from '@amsterdam/asc-ui'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
-import { updateFilterCategory } from '../utils'
-import { StyledLabel, CategoryFilter, Wrapper } from './styled'
+import FilterCategories from './FilterCategories'
+import { Wrapper } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
   setMapMessage: (mapMessage: JSX.Element | string) => void
+  toggleFilter: (categories: Filter[], checked: boolean) => void
 }
 
-export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
+export const FilterPanel = ({
+  filters,
+  setFilters,
+  setMapMessage,
+  toggleFilter,
+}: Props) => {
   const { get, data, error } = useFetch<Categories>()
-
-  const toggleFilter = (categoryName: string) => {
-    const updated = updateFilterCategory(categoryName, filters)
-
-    setFilters(updated)
-  }
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -56,19 +56,13 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
-        {filters.map(({ name, filterActive, _display }) => {
-          return (
-            <CategoryFilter key={name}>
-              <StyledLabel htmlFor={name} label={_display || name}>
-                <Checkbox
-                  id={name}
-                  checked={filterActive}
-                  onChange={() => toggleFilter(name)}
-                />
-              </StyledLabel>
-            </CategoryFilter>
-          )
-        })}
+        {filters.map((filter) => (
+          <FilterCategories
+            key={filter.name}
+            filter={filter}
+            onToggleCategory={toggleFilter}
+          />
+        ))}
       </Wrapper>
     </>
   )

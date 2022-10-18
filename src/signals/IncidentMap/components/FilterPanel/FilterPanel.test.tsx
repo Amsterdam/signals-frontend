@@ -12,23 +12,20 @@ import {
   fetchCategoriesResponse,
   mockFilters,
 } from '../__test__'
-import { updateFilterCategory } from '../utils'
 import type { Props } from './FilterPanel'
 import { FilterPanel } from './FilterPanel'
 
 jest.mock('hooks/useFetch')
 
-jest.mock('../utils', () => ({
-  updateFilterCategory: jest.fn(),
-}))
-
 const mockSetFilters = jest.fn()
 const mockSetMapFilter = jest.fn()
+const mockToggleFilter = jest.fn()
 
 const defaultProps: Props = {
   filters: [],
   setFilters: mockSetFilters,
   setMapMessage: mockSetMapFilter,
+  toggleFilter: mockToggleFilter,
 }
 
 const renderFilterPanel = (props: Partial<Props> = {}) =>
@@ -58,7 +55,7 @@ describe('FilterPanel', () => {
       screen.getByRole('heading', { name: 'Filter op onderwerp' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('checkbox', { name: 'Openbaar groen en water' })
+      screen.getByRole('checkbox', { name: 'icon Openbaar groen en water' })
     ).toBeInTheDocument()
   })
 
@@ -81,11 +78,11 @@ describe('FilterPanel', () => {
     renderFilterPanel({ filters: mockFilters })
 
     const checkbox = screen.getByRole('checkbox', {
-      name: 'Openbaar groen en water',
+      name: 'icon Openbaar groen en water',
     })
     userEvent.click(checkbox)
 
-    expect(updateFilterCategory).toHaveBeenCalledTimes(1)
+    expect(mockToggleFilter).toHaveBeenCalledTimes(1)
   })
 
   it('should not render anything when filters are empty', () => {

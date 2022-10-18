@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* Copyright (C) 2022 Gemeente Amsterdam */
 import type { Category } from 'types/category'
 
 import type { Filter, SubCategory } from '../../types'
