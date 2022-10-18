@@ -52,12 +52,12 @@ const statusOptions = [
 
 const notificationOptions = [
   {
-    key: 'notification_on_assigment_to_department',
+    key: 'notification_on_department_assignment',
     value:
       'Stuur mij een e-mail als een melding aan mijn afdeling is gekoppeld',
   },
   {
-    key: 'notification_on_assigment_to_user',
+    key: 'notification_on_user_assignment',
     value: 'Stuur mij een e-mail als een melding aan mij is toegewezen',
   },
 ]
@@ -137,10 +137,10 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
     form.profile.departments = state.departments.map(({ value }) => value)
 
     const enabledNotifications = state.notifications.map(({ key }) => key)
-    form.profile.notification_on_assigment_to_department =
-      enabledNotifications.includes('notification_on_assigment_to_department')
-    form.profile.notification_on_assigment_to_user =
-      enabledNotifications.includes('notification_on_assigment_to_user')
+    form.profile.notification_on_department_assignment =
+      enabledNotifications.includes('notification_on_department_assignment')
+    form.profile.notification_on_user_assignment =
+      enabledNotifications.includes('notification_on_user_assignment')
 
     form.roles = state.roles.map(({ name: stateRoleName }) =>
       roles.find(({ name: dataRoleName }) => dataRoleName === stateRoleName)
