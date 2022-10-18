@@ -21,7 +21,7 @@ export const validatePhoneNumber = (control?: Control) => {
   }
 }
 
-export const nullOrNumber = (control: Control) => {
+export const falsyOrNumber = (control: Control) => {
   if (!control || typeof control.value === 'number' || !control.value) {
     return null
   }

@@ -166,19 +166,17 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   return (
     <>
       <RadioGroup>
-        {Object.values(dateIndicators).map(({ id, label }) => {
-          return (
-            <Label key={id} label={label} noActiveState>
-              <Radio
-                checked={id === dateIndication}
-                id={id}
-                name="dateIndicator"
-                onChange={() => updateIndication(id)}
-                value={id}
-              />
-            </Label>
-          )
-        })}
+        {Object.values(dateIndicators).map(({ id, label }) => (
+          <Label key={id} label={label} noActiveState>
+            <Radio
+              checked={id === dateIndication}
+              id={id}
+              name="dateIndicator"
+              onChange={() => updateIndication(id)}
+              value={id}
+            />
+          </Label>
+        ))}
       </RadioGroup>
 
       {dateIndication === 'earlier' && (
