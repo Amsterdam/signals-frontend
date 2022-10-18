@@ -1,4 +1,4 @@
-import { nullOrNumber } from 'signals/incident/services/custom-validators'
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 const dateTime = {
@@ -8,7 +8,7 @@ const dateTime = {
     canBeNull: true,
   },
   options: {
-    validators: [nullOrNumber],
+    validators: [falsyOrNumber],
   },
   render: QuestionFieldType.DateTimeInput,
 }

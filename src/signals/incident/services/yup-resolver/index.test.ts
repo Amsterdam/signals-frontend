@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-import { nullOrNumber, validatePhoneNumber } from '../custom-validators'
+import { falsyOrNumber, validatePhoneNumber } from '../custom-validators'
 import { setupSchema } from './index'
 
 describe('Yup resolver takes a bunch of controls and returns it into a schema', () => {
@@ -32,9 +32,9 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: [validatePhoneNumber],
         },
       },
-      nullOrNumberQuestion: {
+      falsyOrNumberQuestion: {
         options: {
-          validators: [nullOrNumber],
+          validators: [falsyOrNumber],
         },
       },
       nestedObjectQuestion: {
@@ -74,12 +74,12 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       schema.validateAt('phoneNumber', { phoneNumber: 1 })
     ).resolves.toBeTruthy()
     await expect(
-      schema.validateAt('nullOrNumberQuestion', {
-        nullOrNumberQuestion: 'invalid type',
+      schema.validateAt('falsyOrNumberQuestion', {
+        falsyOrNumberQuestion: 'invalid type',
       })
     ).rejects.toBeTruthy()
     await expect(
-      schema.validateAt('nullOrNumberQuestion', { nullOrNumberQuestion: 1 })
+      schema.validateAt('falsyOrNumberQuestion', { falsyOrNumberQuestion: 1 })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
