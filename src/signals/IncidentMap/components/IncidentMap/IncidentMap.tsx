@@ -6,7 +6,6 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
 import type { Map as MapType, LatLngLiteral } from 'leaflet'
 
-import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
 import { useFetch } from 'hooks'
 import type { Map as MapType, LatLngLiteral } from 'leaflet'
 import configuration from 'shared/services/configuration/configuration'
@@ -29,6 +28,7 @@ import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
+import { getZoom } from './utils'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -69,17 +69,11 @@ export const IncidentMap = () => {
       const sanitaizedCoords = featureToCoordinates(incident.geometry)
       // When marker is underneath the drawerOverlay, move the map slightly up
       if (map && isMobile(mode) && sanitaizedCoords.lat < map.getCenter().lat) {
-        const currentZoom = map.getZoom()
         const coords = {
           lat: sanitaizedCoords.lat - 0.0003,
           lng: sanitaizedCoords.lng,
         }
-        const zoom =
-          currentZoom > DEFAULT_ZOOM
-            ? DEFAULT_ZOOM
-            : currentZoom < 12
-            ? 12
-            : currentZoom
+        const zoom = getZoom(map)
 
         map.flyTo(coords, zoom)
       }
