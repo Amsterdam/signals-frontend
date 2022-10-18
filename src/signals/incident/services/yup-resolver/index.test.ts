@@ -42,6 +42,11 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required'],
         },
       },
+      validateArray: {
+        options: {
+          validators: ['required'],
+        },
+      },
     }
 
     const schema = setupSchema(controls)
@@ -78,6 +83,9 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
         falsyOrNumberQuestion: 'invalid type',
       })
     ).rejects.toBeTruthy()
+    await expect(
+      schema.validateAt('validateArray', { validateArray: [] })
+    ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('falsyOrNumberQuestion', { falsyOrNumberQuestion: 1 })
     ).resolves.toBeTruthy()
