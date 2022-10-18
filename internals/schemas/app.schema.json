@@ -578,9 +578,9 @@
     },
     "Azure": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
-        "dsn": {
+        "connectionString": {
           "type": "string",
           "format": "uri",
           "description": "Azure data source name value. When omitted, Azure will not be initialised in the application"
