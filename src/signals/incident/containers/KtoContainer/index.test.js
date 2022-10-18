@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, act, fireEvent, screen } from '@testing-library/react'
-import * as reactRouterDom from 'react-router-dom'
-
-import configuration from 'shared/services/configuration/configuration'
-import ktoFixture from 'utils/__tests__/fixtures/kto.json'
-import { withAppContext } from 'test/utils'
-import { useParams } from 'react-router-dom'
-// eslint-disable-next-line no-restricted-imports
-import React from 'react'
-import userEvent from '@testing-library/user-event'
 import { waitFor } from '@babel/core/lib/gensync-utils/async'
+import { render, act, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import * as reactRouterDom from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+import ktoFixture from 'utils/__tests__/fixtures/kto.json'
+// eslint-disable-next-line no-restricted-imports
+
 import KTOContainer, { renderSections, successSections } from '.'
 
 jest.mock('react-router-dom', () => ({
@@ -113,7 +112,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(getByText(/nee, ik ben niet/i)).toBeInTheDocument()
   })
 
-  it('should PUT form data', async () => {
+  it('should PUT form data via checkbox fields', async () => {
     fetch.mockResponses(
       [JSON.stringify({}), { status: 200 }], // 'GET'
       [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
@@ -121,6 +120,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     )
 
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+    configuration.featureFlags.enableMultipleKtoQuestions = true
 
     const successHeaderText = 'Bedankt voor uw reactie'
     const { container, findByTestId, queryByText, getByText, rerender } =
@@ -128,7 +128,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     await findByTestId('ktoFormContainer')
 
-    // assuming the form renders a list of radio buttons and that only a checked button in that list is required
+    // assuming the form renders a list of checkbox buttons and that only a checked button in that list is required
 
     act(() => {
       fireEvent.click(container.querySelector('input[type="checkbox"]'))
@@ -190,6 +190,31 @@ describe('signals/incident/containers/KtoContainer', () => {
     expect(screen.getByTestId('succesSectionBody')).toContainHTML(
       successSections['ja'].body
     )
+  })
+
+  it('should PUT form data via radio input fields', async () => {
+    fetch.mockResponses(
+      [JSON.stringify({}), { status: 200 }], // 'GET'
+      [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
+      [JSON.stringify({}), { status: 200 }] // 'PUT'
+    )
+
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+    configuration.featureFlags.enableMultipleKtoQuestions = false
+
+    const { container, findByTestId } = render(withAppContext(<KTOContainer />))
+
+    await findByTestId('ktoFormContainer')
+
+    // assuming the form renders a list of radio buttons and that only a checked button in that list is required
+
+    act(() => {
+      fireEvent.click(container.querySelector('input[type="radio"]'))
+    })
+
+    await findByTestId('ktoSubmit')
+
+    expect(fetch).toHaveBeenCalledTimes(2)
   })
 
   it('shows the contact question when contact has been allowed', async () => {

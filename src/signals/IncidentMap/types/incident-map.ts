@@ -1,6 +1,7 @@
+import type { Feature } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
 
-export type Point = {
+export type PointLatLng = {
   type: 'Point'
   coordinates: LatLngTuple
 }
@@ -14,6 +15,7 @@ export type Properties = {
       slug: string
     }
   }
+  icon?: string
   created_at: string
 }
 
@@ -22,4 +24,15 @@ export type Filter = {
   _display?: string
   filterActive: boolean
   slug: string
+  icon?: string
+  subCategories?: SubCategory[]
+}
+
+export type SubCategory = Omit<Filter, 'subCategories'>
+
+export type Incident = Feature<PointLatLng, Properties>
+
+export interface Icon {
+  slug: string
+  icon: string
 }

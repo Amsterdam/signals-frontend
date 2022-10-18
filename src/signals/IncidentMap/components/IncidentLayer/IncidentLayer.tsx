@@ -1,18 +1,19 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
+import { useEffect, useRef, useState } from 'react'
 
-import { useEffect, useState } from 'react'
-
-import type { Feature } from 'geojson'
+import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
-import { incidentIcon } from 'shared/services/configuration/map-markers'
-import { featureToCoordinates } from 'shared/services/map-location'
+import {
+  dynamicIcon,
+  selectedMarkerIcon,
+} from 'shared/services/configuration/map-markers'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Point, Properties } from '../../types'
+import type { Incident } from '../../types'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -20,41 +21,82 @@ const clusterLayerOptions = {
 }
 
 interface Props {
+  handleIncidentSelect: (incident: Incident) => void
+  incidents?: Incident[]
   passBbox(bbox: Bbox): void
-  incidents?: Feature<Point, Properties>[]
+  resetMarkerIcon: () => void
+  selectedMarkerRef: React.MutableRefObject<L.Marker<Incident> | undefined>
 }
 
 /* istanbul ignore next */
-export const IncidentLayer = ({ passBbox, incidents }: Props) => {
+export const IncidentLayer = ({
+  handleIncidentSelect,
+  incidents,
+  passBbox,
+  resetMarkerIcon,
+  selectedMarkerRef,
+}: Props) => {
   const [layerInstance, setLayerInstance] = useState<L.GeoJSON<Point>>()
+  const activeLayer = useRef<L.GeoJSON>()
   const bbox = useBoundingBox()
 
   useEffect(() => {
     if (bbox) {
       passBbox(bbox)
+      resetMarkerIcon()
     }
-  }, [bbox, passBbox])
+  }, [bbox, passBbox, resetMarkerIcon])
 
   useEffect(() => {
     if (!incidents || !layerInstance) return
+    activeLayer.current?.remove()
 
-    incidents.forEach((incident) => {
-      const latlng = featureToCoordinates(incident.geometry)
-      const { name } = incident.properties.category
+    const fc: FeatureCollection = {
+      type: 'FeatureCollection',
+      features: incidents,
+    }
 
-      const clusteredMarker = L.marker(latlng, {
-        icon: incidentIcon,
-        alt: name,
-        keyboard: false,
-      })
+    incidents
+    layerInstance.clearLayers()
 
-      layerInstance.addLayer(clusteredMarker)
+    const layer = L.geoJSON(fc, {
+      onEachFeature: (feature: Incident, layer: L.Layer) => {
+        layer.on('click', (e: { target: L.Marker<Incident> }) => {
+          if (selectedMarkerRef.current !== e.target) {
+            resetMarkerIcon()
+          }
+
+          e.target.setIcon(selectedMarkerIcon)
+          selectedMarkerRef.current = e.target
+
+          handleIncidentSelect(feature)
+        })
+      },
+      pointToLayer: (incident: Incident, latlng) => {
+        if (selectedMarkerRef.current) {
+          resetMarkerIcon()
+        }
+
+        const marker = L.marker(latlng, {
+          icon: dynamicIcon(incident.properties?.icon),
+          alt: incident.properties?.category.name,
+          keyboard: false,
+        })
+
+        return marker
+      },
     })
 
-    return () => {
-      layerInstance.clearLayers()
-    }
-  }, [layerInstance, incidents])
+    layer.addTo(layerInstance)
+
+    activeLayer.current = layer
+  }, [
+    handleIncidentSelect,
+    incidents,
+    layerInstance,
+    resetMarkerIcon,
+    selectedMarkerRef,
+  ])
 
   return (
     <MarkerCluster

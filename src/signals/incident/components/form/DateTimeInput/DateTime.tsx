@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
-import format from 'date-fns/format'
-import subDays from 'date-fns/subDays'
-import locale from 'date-fns/locale/nl'
-import parse from 'date-fns/parse'
-import { Label, RadioGroup } from '@amsterdam/asc-ui'
-
 import type { FC } from 'react'
 
-import { capitalize } from 'shared/services/date-utils'
-import Select from 'components/Select'
+import { Label, RadioGroup } from '@amsterdam/asc-ui'
 import Radio from 'components/RadioButton'
-
+import Select from 'components/Select'
+import format from 'date-fns/format'
+import locale from 'date-fns/locale/nl'
+import parse from 'date-fns/parse'
+import subDays from 'date-fns/subDays'
+import { capitalize } from 'shared/services/date-utils'
 import type { Incident } from 'types/incident'
+
 import {
   FieldWrapper,
   Info,
@@ -100,8 +99,13 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   )
 
   const [dateIndication, setDateIndication] = useState<DateIndication>(
-    dateIndicationValue[typeof value]
+    getDateIndication(value)
   )
+
+  function getDateIndication(value: Incident['timestamp']): DateIndication {
+    if (!value) return ''
+    return dateIndicationValue[typeof value]
+  }
 
   const updateTimestamp = useCallback(
     (event) => {
@@ -157,9 +161,8 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   )
 
   useEffect(() => {
-    setDateIndication(dateIndicationValue[typeof value])
+    setDateIndication(getDateIndication(value))
   }, [value])
-
   return (
     <>
       <RadioGroup>

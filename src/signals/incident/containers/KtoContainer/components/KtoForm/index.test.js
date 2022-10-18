@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
-import { history, withAppContext } from 'test/utils'
-import * as reactRouterDom from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+import configureStore from 'configureStore'
 import { mocked } from 'jest-mock'
+import { Provider } from 'react-redux'
+import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
-import userEvent from '@testing-library/user-event'
-import { Provider } from 'react-redux'
-import configureStore from 'configureStore'
-import * as reactRedux from 'react-redux'
+import { history, withAppContext } from 'test/utils'
+
 import KtoForm from '.'
 
 const onSubmit = jest.fn()
@@ -43,6 +44,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       satisfactionIndication: 'ja',
     }))
+
+    configuration.featureFlags.enableMultipleKtoQuestions = true
   })
 
   afterEach(() => {

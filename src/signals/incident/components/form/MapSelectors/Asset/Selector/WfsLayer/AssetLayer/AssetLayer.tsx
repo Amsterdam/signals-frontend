@@ -52,11 +52,11 @@ export const AssetLayer: FC = () => {
     const isSelected = Boolean(selection?.find((item) => item.id === id))
 
     const iconUrl = isSelected
-      ? '/assets/images/featureSelectedMarker.svg'
+      ? '/assets/images/feature-selected-marker.svg'
       : featureType.icon.iconUrl
     const icon = L.icon({
       iconSize: featureType.icon?.options?.iconSize || [40, 40],
-      iconUrl: iconUrl || '/assets/images/featureDefaultMarker.svg',
+      iconUrl: iconUrl || '/assets/images/feature-default-marker.svg',
     })
 
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)

@@ -58,7 +58,7 @@ describe('FilterPanel', () => {
       screen.getByRole('heading', { name: 'Filter op onderwerp' })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('checkbox', { name: 'Civiele Constructies' })
+      screen.getByRole('checkbox', { name: 'Openbaar groen en water' })
     ).toBeInTheDocument()
   })
 
@@ -74,28 +74,6 @@ describe('FilterPanel', () => {
     expect(mockSetMapFilter).toBeCalledWith(
       'Er konden geen filter categorieën worden opgehaald.'
     )
-  })
-
-  it('should close the panel on close button', () => {
-    jest.spyOn(global.window, 'dispatchEvent')
-    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
-    renderFilterPanel({ filters: mockFilters })
-
-    const toggleButton = screen.getByRole('button', {
-      name: 'Sluit filter panel',
-    })
-
-    expect(toggleButton).toBeInTheDocument()
-
-    userEvent.click(toggleButton)
-
-    // the event is also dispatched on initialization, therefore 2 times.
-    expect(global.window.dispatchEvent).toBeCalledTimes(2)
-    expect(
-      screen.getByRole('button', {
-        name: 'Open filter panel',
-      })
-    ).toBeInTheDocument()
   })
 
   it('should unset a filter when clicked', () => {

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { AbstractControl } from 'react-reactive-form'
-import { validatePhoneNumber, validateObjectLocation, nullOrNumber } from '.'
+
+import { validatePhoneNumber, validateObjectLocation, falsyOrNumber } from '.'
 
 describe('The custom validators service', () => {
   describe('validatePhoneNumber', () => {
@@ -78,9 +79,9 @@ describe('The custom validators service', () => {
     })
   })
 
-  describe('nullOrNumber', () => {
+  describe('falsyOrNumber', () => {
     it('returns a function', () => {
-      expect(nullOrNumber).toBeInstanceOf(Function)
+      expect(falsyOrNumber).toBeInstanceOf(Function)
     })
 
     it('evaluates null values', () => {
@@ -88,12 +89,22 @@ describe('The custom validators service', () => {
         value: null,
       } as AbstractControl
 
+      const inputUndefined = {
+        value: undefined,
+      } as AbstractControl
+
       const inputNumber = {
         value: 1234567890,
       } as AbstractControl
 
-      expect(nullOrNumber()(inputNull)).toBeNull()
-      expect(nullOrNumber()(inputNumber)).toBeNull()
+      const invalidInputNumber = {
+        value: 'ajksdlfjlk',
+      } as AbstractControl
+
+      expect(falsyOrNumber(inputNull)).toBeNull()
+      expect(falsyOrNumber(inputNumber)).toBeNull()
+      expect(falsyOrNumber(inputUndefined)).toBeNull()
+      expect(falsyOrNumber(invalidInputNumber)).not.toBeNull()
     })
   })
 })

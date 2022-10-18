@@ -11,6 +11,7 @@
     "enablePublicIncidentsMap": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
+    "enableMultipleKtoQuestions": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,

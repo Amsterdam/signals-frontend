@@ -119,7 +119,7 @@ describe('DetailPanel', () => {
     description: 'Het object staat niet op de kaart',
     label: 'Onbekend',
     icon: {
-      iconUrl: '/assets/images/featureUnknownMarker.svg',
+      iconUrl: '/assets/images/feature-unknown-marker.svg',
     },
     idField: 'id',
     typeField: 'type',

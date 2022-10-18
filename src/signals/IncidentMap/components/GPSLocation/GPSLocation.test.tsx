@@ -2,9 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { Map } from 'leaflet'
 
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
 import configuration from '../../../../shared/services/configuration/configuration'
 import { GPSLocation } from './GPSLocation'
 import type { Props } from './GPSLocation'
@@ -18,12 +16,10 @@ jest.mock('@amsterdam/react-maps', () => ({
   },
 }))
 
-const mockMap = {
-  flyTo: jest.fn(),
-} as unknown as Map
+jest.mock('shared/services/reverse-geocoder')
 
 const defaultProps: Props = {
-  map: mockMap,
+  setCoordinates: jest.fn(),
   setNotification: jest.fn(),
 }
 
@@ -61,24 +57,10 @@ describe('GPSLocation', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
 
-    expect(defaultProps.map.flyTo).toHaveBeenCalledWith(
-      { lat: coords.latitude, lng: coords.longitude },
-      DEFAULT_ZOOM
-    )
-  })
-
-  it('shows marker when coordinates are available', () => {
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: mockGeolocation,
+    expect(defaultProps.setCoordinates).toHaveBeenCalledWith({
+      lat: coords.latitude,
+      lng: coords.longitude,
     })
-
-    render(<GPSLocation {...defaultProps} />)
-
-    expect(screen.queryByTestId('incidentPinMarker')).not.toBeInTheDocument()
-
-    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
-
-    expect(screen.queryByTestId('incidentPinMarker')).toBeInTheDocument()
   })
 
   it('should call onLocationError', () => {
@@ -103,7 +85,7 @@ describe('GPSLocation', () => {
 
     expect(defaultProps.setNotification).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
 
     expect(defaultProps.setNotification).toHaveBeenCalledWith(
       <>

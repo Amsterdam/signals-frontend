@@ -1,8 +1,6 @@
-import type { Feature } from 'geojson'
+import type { Incident } from '../../types'
 
-import type { Point, Properties } from '../../types'
-
-export const mockIncidents: Feature<Point, Properties>[] = [
+export const mockIncidents: Incident[] = [
   {
     type: 'Feature',
     geometry: {
@@ -18,6 +16,7 @@ export const mockIncidents: Feature<Point, Properties>[] = [
           slug: 'afval',
         },
       },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
       created_at: '2022-09-07T10:09:57.388602+00:00',
     },
   },
@@ -54,6 +53,7 @@ export const mockIncidents: Feature<Point, Properties>[] = [
           slug: 'schoon',
         },
       },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
       created_at: '2022-09-06T14:18:11.37237+00:00',
     },
   },

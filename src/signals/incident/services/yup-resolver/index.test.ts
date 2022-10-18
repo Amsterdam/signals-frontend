@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-import { setUpSchema } from './index'
+import { falsyOrNumber, validatePhoneNumber } from '../custom-validators'
+import { setupSchema } from './index'
 
 describe('Yup resolver takes a bunch of controls and returns it into a schema', () => {
   it('should return a schema', async () => {
@@ -11,19 +12,9 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required'],
         },
       },
-      phone: {
+      locatie: {
         options: {
           validators: ['required'],
-        },
-      },
-      phone2: {
-        options: {
-          validators: [],
-        },
-      },
-      location: {
-        options: {
-          validators: [],
         },
       },
       email: {
@@ -36,9 +27,19 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required', ['maxLength', 1]],
         },
       },
-      validatewithfunction: {
+      phoneNumber: {
         options: {
-          validators: [() => ({ custom: 'bad' })],
+          validators: [validatePhoneNumber],
+        },
+      },
+      falsyOrNumberQuestion: {
+        options: {
+          validators: [falsyOrNumber],
+        },
+      },
+      nestedObjectQuestion: {
+        options: {
+          validators: ['required'],
         },
       },
       validateArray: {
@@ -48,15 +49,19 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       },
     }
 
-    const schema = setUpSchema(controls)
+    const schema = setupSchema(controls)
     await expect(
       schema.validateAt('source', { source: 'online' })
     ).resolves.toBeTruthy()
     await expect(
-      schema.validateAt('phone', { phone: '123' })
-    ).resolves.toBeTruthy()
+      schema.validateAt('locatie', {
+        locatie: { location: { coordinates: undefined } },
+      })
+    ).rejects.toBeTruthy()
     await expect(
-      schema.validateAt('location', { location: {} })
+      schema.validateAt('locatie', {
+        locatie: { location: { coordinates: 'blackrosemarchesa' } },
+      })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('email', { email: 'blackrosemarchesa' })
@@ -68,13 +73,24 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       schema.validateAt('maxlen2', { maxlen2: 'b' })
     ).resolves.toBeTruthy()
     await expect(
-      schema.validateAt('maxlen2', { maxlen2: 'b' })
+      schema.validateAt('phoneNumber', { phoneNumber: 'armageddon' })
+    ).rejects.toBeTruthy()
+    await expect(
+      schema.validateAt('phoneNumber', { phoneNumber: 1 })
     ).resolves.toBeTruthy()
     await expect(
-      schema.validateAt('validatewithfunction', { validatewithfunction: 'b' })
+      schema.validateAt('falsyOrNumberQuestion', {
+        falsyOrNumberQuestion: 'invalid type',
+      })
     ).rejects.toBeTruthy()
     await expect(
       schema.validateAt('validateArray', { validateArray: [] })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('falsyOrNumberQuestion', { falsyOrNumberQuestion: 1 })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
     ).resolves.toBeTruthy()
   })
 })

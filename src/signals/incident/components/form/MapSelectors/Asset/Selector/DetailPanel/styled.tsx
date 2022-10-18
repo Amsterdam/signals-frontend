@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 import styled, { css, keyframes } from 'styled-components'
 
-import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
-
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
-import AssetList from '../../AssetList'
-import LegendToggle from '../LegendToggleButton'
-import LegendPanel from '../LegendPanel'
+
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
+import AssetList from '../../AssetList'
+import LegendPanel from '../LegendPanel'
+import LegendToggle from '../LegendToggleButton'
 
 export const StyledAssetList = styled(AssetList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
@@ -96,8 +96,8 @@ export const AddressPanel = styled.article`
   z-index: 2;
   left: 0;
   top: 0;
-  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  translate3d(0, 100%, 0);
+  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    translate3d(0, 100%, 0);
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
     transform: translate3d(0, 0, 0);
