@@ -114,7 +114,7 @@ const straatverlichtingKlokken = {
           description: 'Het lichtpunt staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
+            iconUrl: '/assets/images/feature-unknown-marker.svg',
           },
           idField: 'id',
           typeField: 'type',
@@ -263,7 +263,7 @@ const straatverlichtingKlokken = {
           description: 'De klok staat niet op de kaart',
           label: 'Onbekend',
           icon: {
-            iconUrl: '/assets/images/featureUnknownMarker.svg',
+            iconUrl: '/assets/images/feature-unknown-marker.svg',
           },
           idField: 'id',
           typeField: 'type',

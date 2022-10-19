@@ -18,7 +18,7 @@ export const markerIcon = L.icon({
 })
 
 export const selectedMarkerIcon = L.icon({
-  iconUrl: '/assets/images/featureSelectedMarker.svg',
+  iconUrl: '/assets/images/feature-selected-marker.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 39],
 })

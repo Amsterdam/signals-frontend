@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 
 import configuration from 'shared/services/configuration/configuration'
-import { nullOrNumber } from 'signals/incident/services/custom-validators'
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -614,7 +614,7 @@ const vakantieverhuur = {
       label: 'Wanneer was het?',
     },
     options: {
-      validators: [nullOrNumber],
+      validators: [falsyOrNumber],
     },
     render: QuestionFieldType.DateTimeInput,
   },
