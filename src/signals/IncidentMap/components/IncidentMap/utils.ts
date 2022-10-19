@@ -13,8 +13,8 @@ export const getZoom = (map: Map) => {
   const MIN_ZOOM = 12
   const MAX_ZOOM = DEFAULT_ZOOM
 
-  const zoomOut = currentZoom > MAX_ZOOM
-  const zoomIn = currentZoom < MIN_ZOOM
+  const aboveMaxZoom = currentZoom > MAX_ZOOM
+  const BelowMinZoom = currentZoom < MIN_ZOOM
 
-  return zoomOut ? DEFAULT_ZOOM : zoomIn ? MIN_ZOOM : currentZoom
+  return aboveMaxZoom ? DEFAULT_ZOOM : BelowMinZoom ? MIN_ZOOM : currentZoom
 }
