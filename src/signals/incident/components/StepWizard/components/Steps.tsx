@@ -6,7 +6,7 @@ import WizardContext from '../context/WizardContext'
 
 type Props = {
   wizard?: WizardApi
-  children: ReactElement[]
+  children: ReactElement[] | ReactElement
 }
 
 const Steps: FunctionComponent<Props> = ({ children }): any => {

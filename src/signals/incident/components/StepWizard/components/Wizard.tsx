@@ -11,7 +11,7 @@ type Props = {
   history: any
   basename?: any
   exactMatch?: any
-  onNext: (wizard: WizardApi) => void
+  onNext?: (wizard: WizardApi) => void
   ids?: string[]
   children: ReactNode
 }
