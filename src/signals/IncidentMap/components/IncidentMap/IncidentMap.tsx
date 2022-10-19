@@ -10,6 +10,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
@@ -19,15 +20,18 @@ import type { PointLatLng } from '../../types'
 import type { Filter, Properties, Incident } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
+import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import { getFilteredIncidents } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
+import { getZoom } from './utils'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
+  const [map, setMap] = useState<MapType>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
   const [address, setAddress] = useState<Address>()
@@ -36,14 +40,19 @@ export const IncidentMap = () => {
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
-  const selectedMarkerRef = useRef<L.Marker>()
+  const selectedMarkerRef = useRef<L.Marker<Properties>>()
 
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
-  const [map, setMap] = useState<MapType>()
+
+  const mode = useDeviceMode()
 
   const { get, data, error, isSuccess } =
     useFetch<FeatureCollection<PointLatLng, Properties>>()
+
+  const closeDrawerOverlay = useCallback(() => {
+    setDrawerState(DrawerState.Closed)
+  }, [])
 
   const setNotification = useCallback(
     (message: JSX.Element | string) => {
@@ -54,13 +63,28 @@ export const IncidentMap = () => {
   )
 
   /* istanbul ignore next */
-  const handleIncidentSelect = useCallback((incident: Incident) => {
-    setSelectedIncident(incident)
-    setDrawerState(DrawerState.Open)
-  }, [])
+  const handleIncidentSelect = useCallback(
+    (incident: Incident) => {
+      const sanitaizedCoords = featureToCoordinates(incident.geometry)
+      // When marker is underneath the drawerOverlay, move the map slightly up
+      if (map && isMobile(mode) && sanitaizedCoords.lat < map.getCenter().lat) {
+        const coords = {
+          lat: sanitaizedCoords.lat - 0.0003,
+          lng: sanitaizedCoords.lng,
+        }
+        const zoom = getZoom(map)
+
+        map.flyTo(coords, zoom)
+      }
+
+      setSelectedIncident(incident)
+      setDrawerState(DrawerState.Open)
+    },
+    [map, mode]
+  )
 
   /* istanbul ignore next */
-  const resetMarkerIcon = useCallback(() => {
+  const resetSelectedMarker = useCallback(() => {
     if (selectedMarkerRef?.current) {
       selectedMarkerRef.current.setIcon(
         dynamicIcon(selectedMarkerRef.current.feature?.properties.icon)
@@ -81,13 +105,13 @@ export const IncidentMap = () => {
         `${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`
       )
     }
-  }, [get, bbox])
+  }, [bbox, get])
 
   useEffect(() => {
     map?.on({
-      click: resetMarkerIcon,
+      click: resetSelectedMarker,
     })
-  }, [resetMarkerIcon, map])
+  }, [resetSelectedMarker, map])
 
   useEffect(() => {
     if (data?.features) {
@@ -128,11 +152,18 @@ export const IncidentMap = () => {
           handleIncidentSelect={handleIncidentSelect}
           passBbox={setBbox}
           incidents={filteredIncidents}
-          resetMarkerIcon={resetMarkerIcon}
+          resetSelectedMarker={resetSelectedMarker}
           selectedMarkerRef={selectedMarkerRef}
         />
 
-        {map && coordinates && <Pin map={map} coordinates={coordinates} />}
+        {map && coordinates && (
+          <Pin
+            map={map}
+            coordinates={coordinates}
+            mode={mode}
+            closeOverlay={closeDrawerOverlay}
+          />
+        )}
 
         {map && (
           <GPSLocation
@@ -145,7 +176,7 @@ export const IncidentMap = () => {
         <DrawerOverlay
           onStateChange={setDrawerState}
           state={drawerState}
-          onCloseDetailPanel={resetMarkerIcon}
+          onCloseDetailPanel={resetSelectedMarker}
           incident={selectedIncident}
         >
           <StyledParagraph>
@@ -153,11 +184,7 @@ export const IncidentMap = () => {
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </StyledParagraph>
-          <AddressLocation
-            setCoordinates={setCoordinates}
-            address={address}
-            setAddress={setAddress}
-          />
+          <AddressLocation setCoordinates={setCoordinates} address={address} />
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
