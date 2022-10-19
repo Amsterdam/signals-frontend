@@ -1,3 +1,9 @@
-export default function Step({ render }: { render: () => JSX.Element | null }) {
-  return render()
+export default function Step({
+  render,
+  id,
+}: {
+  render: () => JSX.Element | null
+  id: string
+}) {
+  return <div id={id}>{render()}</div>
 }

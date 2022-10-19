@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { createMemoryHistory } from 'history'
 
@@ -12,13 +13,15 @@ type Props = {
   exactMatch?: any
   onNext: (wizard: WizardApi) => void
   ids?: string[]
+  children: ReactNode
 }
 
-const Wizard: React.FC<Props> = (props) => {
+const Wizard = (props: Props) => {
   const [stepState, setStep] = useState<WizardApi['step']>({ id: '' })
+
   const [steps, setSteps] = useState<WizardApi['steps']>([{ id: '' }])
 
-  const didMount = React.useRef(false)
+  const didMount = useRef(false)
 
   const history = useMemo(
     () => props.history || createMemoryHistory(),
@@ -48,6 +51,7 @@ const Wizard: React.FC<Props> = (props) => {
 
   const init = useCallback((steps: WizardApi['steps']) => {
     setSteps(steps)
+    setStep(steps[0])
   }, [])
 
   useEffect(() => {
@@ -56,21 +60,20 @@ const Wizard: React.FC<Props> = (props) => {
       return
     }
     const stepFromPath = pathToStep(history.location.pathname)
-
-    if (stepFromPath.id) {
+    if (stepFromPath.id && !stepState.id && steps.some((step) => step.id)) {
       setStep(stepFromPath)
-    } else {
+    } else if (!stepFromPath.id && !stepState.id) {
       history.replace(`${basename}${ids[0]}`)
     }
   }, [
     history.location.pathname,
     pathToStep,
-    basename,
-    ids,
-    steps,
     stepState.id,
     history.replace,
     history,
+    steps,
+    basename,
+    ids,
   ])
 
   const set = useCallback(
@@ -133,17 +136,19 @@ const Wizard: React.FC<Props> = (props) => {
   )
 
   const initialOnNext = useRef(false)
+
   // listen for history changes and set set using pathToStep
   useEffect(() => {
     const unlisten = history.listen(({ pathname }: any) => {
       setStep(pathToStep(pathname))
     })
+
     if (props.onNext && !initialOnNext.current) {
       props.onNext(wizard)
       initialOnNext.current = true
     }
     return () => unlisten()
-  }, [history, pathToStep, props, wizard])
+  }, [history, pathToStep, props, props.onNext, wizard])
 
   return (
     <WizardContext.Provider value={wizard}>
@@ -156,4 +161,4 @@ Wizard.defaultProps = {
   basename: '',
 }
 
-export default Wizard
+export default memo(Wizard)

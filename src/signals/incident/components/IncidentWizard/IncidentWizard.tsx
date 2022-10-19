@@ -100,79 +100,75 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
               ) : (
                 <Steps>
                   {Object.keys(wizardDefinition).map((key, index) => (
-                    <div key={key} id={`incident/${key}`}>
-                      <Step
-                        render={() => {
-                          const {
-                            countAsStep,
-                            form,
-                            formFactory,
-                            label,
-                            subHeader,
-                            previewFactory,
-                            sectionLabels,
-                          } = wizardDefinition[key as keyof WizardSection]
+                    <Step
+                      key={key}
+                      id={`incident/${key}`}
+                      render={() => {
+                        const {
+                          countAsStep,
+                          form,
+                          formFactory,
+                          label,
+                          subHeader,
+                          previewFactory,
+                          sectionLabels,
+                        } = wizardDefinition[key as keyof WizardSection]
 
-                          const showProgress = index < steps.length
+                        const showProgress = index < steps.length
 
-                          return previewFactory || form || formFactory ? (
-                            <StepWrapper showProgress={showProgress}>
-                              <Header>
-                                <StyledH1>
-                                  {countAsStep && `${index + 1}. `}
-                                  {label || key}
-                                </StyledH1>
-                                {subHeader && (
-                                  <Paragraph>{subHeader}</Paragraph>
-                                )}
-                              </Header>
+                        return previewFactory || form || formFactory ? (
+                          <StepWrapper showProgress={showProgress}>
+                            <Header>
+                              <StyledH1>
+                                {countAsStep && `${index + 1}. `}
+                                {label || key}
+                              </StyledH1>
+                              {subHeader && <Paragraph>{subHeader}</Paragraph>}
+                            </Header>
 
-                              <Progress>
-                                <StepByStepNav
-                                  steps={steps}
-                                  itemType="numeric"
-                                  activeItem={index + 1}
-                                  breakpoint={breakpoint(
-                                    'max-width',
-                                    'tabletM'
-                                  )({ theme: ascDefaultTheme })}
+                            <Progress>
+                              <StepByStepNav
+                                steps={steps}
+                                itemType="numeric"
+                                activeItem={index + 1}
+                                breakpoint={breakpoint(
+                                  'max-width',
+                                  'tabletM'
+                                )({ theme: ascDefaultTheme })}
+                              />
+                            </Progress>
+
+                            <FormWrapper>
+                              {previewFactory && incident && sectionLabels && (
+                                <IncidentPreview
+                                  incident={incident}
+                                  preview={previewFactory(incident)}
+                                  sectionLabels={sectionLabels}
                                 />
-                              </Progress>
+                              )}
 
-                              <FormWrapper>
-                                {previewFactory &&
-                                  incident &&
-                                  sectionLabels && (
-                                    <IncidentPreview
-                                      incident={incident}
-                                      preview={previewFactory(incident)}
-                                      sectionLabels={sectionLabels}
-                                    />
-                                  )}
-
-                                {(form || formFactory) && (
-                                  <IncidentForm
-                                    ref={controlsRef}
-                                    reactHookFormProps={formMethods}
-                                    fieldConfig={
-                                      form || formFactory(incident, sources)
-                                    }
-                                    incidentContainer={incidentContainer}
-                                    getClassification={getClassification}
-                                    removeQuestionData={removeQuestionData}
-                                    updateIncident={updateIncident}
-                                    addToSelection={addToSelection}
-                                    removeFromSelection={removeFromSelection}
-                                    wizard={wizardDefinition}
-                                    createIncident={createIncident}
-                                  />
-                                )}
-                              </FormWrapper>
-                            </StepWrapper>
-                          ) : null
-                        }}
-                      />
-                    </div>
+                              {(form || formFactory) && (
+                                <IncidentForm
+                                  ref={controlsRef}
+                                  reactHookFormProps={formMethods}
+                                  fieldConfig={
+                                    form || formFactory(incident, sources)
+                                  }
+                                  incidentContainer={incidentContainer}
+                                  getClassification={getClassification}
+                                  removeQuestionData={removeQuestionData}
+                                  updateIncident={updateIncident}
+                                  addToSelection={addToSelection}
+                                  removeFromSelection={removeFromSelection}
+                                  wizard={wizardDefinition}
+                                  createIncident={createIncident}
+                                />
+                              )}
+                            </FormWrapper>
+                          </StepWrapper>
+                        ) : null
+                      }}
+                    />
                   ))}
                 </Steps>
               )}
