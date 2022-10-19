@@ -33,7 +33,7 @@ describe('<Wizard>', () => {
   })
 
   it('should go back by using the ', function () {
-    render(renderWizard())
+    render(renderWizardWithoutOnNext())
 
     act(() => {
       userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
@@ -57,19 +57,38 @@ function renderWizard() {
         getNextStep(wizard)
       }}
     >
-      <Steps>
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/*@ts-ignore*/}
-        {steps.map((step) => (
-          <p key={step.id} id={step.id}>
-            {step.id}
-          </p>
-        ))}
-      </Steps>
-      <Nav />
+      <RenderSteps />
     </Wizard>
   )
 }
+
+function renderWizardWithoutOnNext() {
+  return withAppContext(
+    <Wizard
+      history={history}
+      onNext={(wizard: WizardApi) => {
+        getNextStep(wizard)
+      }}
+    >
+      <RenderSteps />
+    </Wizard>
+  )
+}
+
+const RenderSteps = () => (
+  <>
+    <Steps>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/*@ts-ignore*/}
+      {steps.map((step) => (
+        <p key={step.id} id={step.id}>
+          {step.id}
+        </p>
+      ))}
+    </Steps>
+    <Nav />
+  </>
+)
 
 function Nav() {
   const wizard = useContext(WizardContext)

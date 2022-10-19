@@ -42,6 +42,11 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required'],
         },
       },
+      array: {
+        options: {
+          validators: ['required'],
+        },
+      },
     }
 
     const schema = setupSchema(controls)
@@ -83,6 +88,9 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('array', { array: ['preordain'] })
     ).resolves.toBeTruthy()
   })
 })

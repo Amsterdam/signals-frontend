@@ -62,8 +62,6 @@ const Wizard = (props: Props) => {
     const stepFromPath = pathToStep(history.location.pathname)
     if (stepFromPath.id && !stepState.id && steps.some((step) => step.id)) {
       setStep(stepFromPath)
-    } else if (!stepFromPath.id && !stepState.id) {
-      history.replace(`${basename}${ids[0]}`)
     }
   }, [
     history.location.pathname,
