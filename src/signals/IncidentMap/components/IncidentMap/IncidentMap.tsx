@@ -40,7 +40,7 @@ export const IncidentMap = () => {
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
-  const selectedMarkerRef = useRef<L.Marker>()
+  const selectedMarkerRef = useRef<L.Marker<Properties>>()
 
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()

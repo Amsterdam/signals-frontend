@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C)  - 2021 Gemeente Amsterdam
-// eslint-disable-next-line import/no-duplicates
-import type L from 'leaflet'
-// eslint-disable-next-line import/no-duplicates
-import type { MapOptions } from 'leaflet'
-import { render } from '@testing-library/react'
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 
 import { Map } from '@amsterdam/react-maps'
+import { render } from '@testing-library/react'
+import type L from 'leaflet'
+import type { MapOptions } from 'leaflet'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import MarkerCluster from '..'
+
+import MarkerCluster from './MarkerCluster'
 
 const options = {
   ...MAP_OPTIONS,

@@ -13,7 +13,7 @@ import {
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { Incident } from '../../types'
+import type { Incident, Properties } from '../../types'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -25,7 +25,7 @@ interface Props {
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
   resetSelectedMarker: () => void
-  selectedMarkerRef: React.MutableRefObject<L.Marker | undefined>
+  selectedMarkerRef: React.MutableRefObject<L.Marker<Properties> | undefined>
 }
 
 /* istanbul ignore next */
@@ -59,7 +59,7 @@ export const IncidentLayer = ({
 
     const layer = L.geoJSON(fc, {
       onEachFeature: (feature: Incident, layer: L.Layer) => {
-        layer.on('click', (e: { target: L.Marker<Incident> }) => {
+        layer.on('click', (e: { target: L.Marker<Properties> }) => {
           if (selectedMarkerRef.current !== e.target) {
             resetSelectedMarker()
           }
@@ -73,18 +73,17 @@ export const IncidentLayer = ({
       pointToLayer: (incident: Incident, latlng) => {
         let marker = L.marker(latlng, {
           icon: dynamicIcon(incident.properties?.icon),
-          alt: incident.properties?.category.name,
+          alt: incident.properties.category.name,
           keyboard: false,
         })
         // Matching on created_at since incidents do not have an ID
         if (
-          selectedMarkerRef.current &&
-          selectedMarkerRef.current.feature?.properties.created_at ===
-            incident.properties.created_at
+          selectedMarkerRef.current?.feature?.properties.created_at ===
+          incident.properties.created_at
         ) {
           marker = L.marker(latlng, {
             icon: selectedMarkerIcon,
-            alt: incident.properties?.category.name,
+            alt: incident.properties.category.name,
             keyboard: false,
           })
           selectedMarkerRef.current = marker
@@ -124,6 +123,7 @@ export const IncidentLayer = ({
       clusterOptions={clusterLayerOptions}
       setInstance={setLayerInstance}
       getIsSelectedCluster={getIsSelectedCluster}
+      spiderfySelectedCluster={false}
     />
   )
 }
