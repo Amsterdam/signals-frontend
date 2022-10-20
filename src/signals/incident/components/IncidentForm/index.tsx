@@ -195,7 +195,6 @@ const IncidentForm = forwardRef<any, any>(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     controlsRef.current = constructYupResolver(controls)
-
     return (
       <div data-testid="incidentForm" ref={formRef}>
         <ProgressContainer />

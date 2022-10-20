@@ -58,7 +58,6 @@ export function setupSchema(controls: Controls) {
                  */
                 field = addValidators(validators, field)
               }
-
               field = addRequiredValidation(validators, field)
 
               return field

@@ -52,7 +52,7 @@ export const CaterpillarLayer: FC = () => {
       const icon = L.icon({
         iconSize: [40, 40],
         iconUrl: isSelected
-          ? '/assets/images/featureSelectedMarker.svg'
+          ? '/assets/images/feature-selected-marker.svg'
           : featureType.icon.iconUrl,
       })
 
