@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { FunctionComponent, ReactElement } from 'react'
 import { Children, memo, useContext, useEffect, useMemo } from 'react'
 

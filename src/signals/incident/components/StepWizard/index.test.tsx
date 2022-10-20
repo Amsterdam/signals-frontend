@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { useContext } from 'react'
 
 import { render, screen, act } from '@testing-library/react'
@@ -13,31 +15,23 @@ describe('<Wizard>', () => {
   it('should render 3 steps', async () => {
     render(renderWizard())
 
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
     expect(screen.getByText('vul aan')).toBeTruthy()
 
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
     expect(screen.getByText('contact')).toBeTruthy()
 
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Vorige' }))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Vorige' }))
 
     expect(screen.getByText('vul aan')).toBeTruthy()
   })
 
-  it('should go back by using the ', function () {
+  it('should go back by using the history', function () {
     render(renderWizardWithoutOnNext())
 
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
     expect(screen.getByText('vul aan')).toBeTruthy()
 

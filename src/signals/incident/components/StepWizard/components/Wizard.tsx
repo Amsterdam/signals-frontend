@@ -1,4 +1,5 @@
-// eslint-disable-next-line no-restricted-imports
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { ReactNode } from 'react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
