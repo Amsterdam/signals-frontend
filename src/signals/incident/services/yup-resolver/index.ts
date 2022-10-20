@@ -34,7 +34,7 @@ export function setupSchema(controls: Controls) {
               /**
                * For a predefined set of questions, we add a custom validation.
                */
-              let field: AnyObject | undefined = addNestedValidation(key)
+              let field: AnyObject | undefined = hasCustomValidation(key, value)
               if (field) return field
 
               /**
@@ -76,19 +76,20 @@ export function setupSchema(controls: Controls) {
 }
 
 /**
- * This method returns a custom validator for nested questions,
- * we want to be able to create an incidents' location without
- * specifying the address.
- * @param key
- * @param control
+ * This method returns a custom validator for a couple of questions.
  */
-function addNestedValidation(key: string) {
+function hasCustomValidation(key: string, value: any) {
   if (key === 'locatie') {
     return yup.object().shape({
       location: yup.object({
         coordinates: yup.mixed().required(),
         address: yup.mixed(),
       }),
+    })
+  } else if (key === 'source' && isObject(value)) {
+    return yup.object({
+      id: yup.string().required(),
+      label: yup.string().required(),
     })
   }
   // other custom question validation can be placed here

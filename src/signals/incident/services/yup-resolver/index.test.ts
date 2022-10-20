@@ -92,5 +92,13 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
     await expect(
       schema.validateAt('array', { array: ['preordain'] })
     ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('source', {
+        source: { id: 'winota', label: 'the winner' },
+      })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('source', { source: { id: '', label: '' } })
+    ).rejects.toBeTruthy()
   })
 })
