@@ -42,7 +42,7 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
           validators: ['required'],
         },
       },
-      validateArray: {
+      array: {
         options: {
           validators: ['required'],
         },
@@ -84,13 +84,13 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       })
     ).rejects.toBeTruthy()
     await expect(
-      schema.validateAt('validateArray', { validateArray: [] })
-    ).resolves.toBeTruthy()
-    await expect(
       schema.validateAt('falsyOrNumberQuestion', { falsyOrNumberQuestion: 1 })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('array', { array: ['preordain'] })
     ).resolves.toBeTruthy()
   })
 })
