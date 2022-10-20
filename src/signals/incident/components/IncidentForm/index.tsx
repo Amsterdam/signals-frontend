@@ -138,10 +138,6 @@ const IncidentForm = forwardRef<any, any>(
         e.preventDefault()
         if (next) {
           if (prevState.current.loading) {
-            /**
-              Next needs to be part of the local state to rerender.
-              When Sia will phase out react albus, this needs to be removed
-            */
             next()
             return
           }
