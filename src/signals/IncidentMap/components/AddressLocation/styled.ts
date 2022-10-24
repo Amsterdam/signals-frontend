@@ -1,7 +1,7 @@
 import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest/PDOKAutoSuggest'
 
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   width: 100%;
