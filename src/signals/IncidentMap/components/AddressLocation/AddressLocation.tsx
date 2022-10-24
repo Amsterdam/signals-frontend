@@ -11,8 +11,9 @@ import type { Address } from 'types/address'
 
 import { StyledPDOKAutoSuggest, Wrapper } from './styled'
 export interface Props {
+  setCoordinates: (coordinates: LatLngLiteral) => void
   address?: Address
-  setCoordinates: (coordinates?: LatLngLiteral) => void
+  setAddress: (address?: Address) => void
 }
 
 export const AddressLocation = ({ setCoordinates, address }: Props) => {
@@ -30,10 +31,9 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
       <Heading as="h4">Zoom naar adres</Heading>
       <StyledPDOKAutoSuggest
         data-testid="searchAddressBar"
-        placeholder="Adres"
+        placeholder={'Zoek naar adres'}
         onSelect={onAddressSelect}
         value={addressValue}
-        onClear={() => setCoordinates(undefined)}
       />
     </Wrapper>
   )
