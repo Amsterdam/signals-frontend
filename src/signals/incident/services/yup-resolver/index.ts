@@ -34,7 +34,7 @@ export function setupSchema(controls: Controls) {
               /**
                * For a predefined set of questions, we add a custom validation.
                */
-              let field: AnyObject | undefined = addNestedValidation(key)
+              let field: AnyObject | undefined = addNestedValidation(value)
               if (field) return field
 
               /**
@@ -85,14 +85,21 @@ export function setupSchema(controls: Controls) {
  * @param key
  * @param control
  */
-function addNestedValidation(key: string) {
-  if (key === 'locatie') {
-    return yup.object().shape({
-      location: yup.object({
-        coordinates: yup.mixed().required(),
-        address: yup.mixed(),
-      }),
-    })
+function addNestedValidation(value: AnyObject) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (
+    isObject(value) &&
+    Object.prototype.hasOwnProperty.call(value, 'location')
+  ) {
+    return yup
+      .object()
+      .shape({
+        location: yup.object({
+          coordinates: yup.mixed().required(),
+          address: yup.mixed(),
+        }),
+      })
+      .required()
   }
   // other custom question validation can be placed here
 }
