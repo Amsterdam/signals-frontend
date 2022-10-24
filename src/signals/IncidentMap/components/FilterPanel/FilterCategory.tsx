@@ -2,7 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { Checkbox } from '@amsterdam/asc-ui'
 
-import { StyledImg, LegendText, LegendItem } from './styled'
+import { StyledImg, CategoryItemText, CategoryItem } from './styled'
 
 export interface Props {
   selected: boolean
@@ -18,7 +18,7 @@ export const FilterCategory = ({
   icon,
 }: Props) => {
   return (
-    <LegendItem htmlFor={text}>
+    <CategoryItem htmlFor={text}>
       <Checkbox
         data-testid={text}
         id={text}
@@ -31,7 +31,7 @@ export const FilterCategory = ({
         alt="icon"
         src={icon || 'assets/images/icon-incident-marker.svg'}
       />
-      <LegendText>{text}</LegendText>
-    </LegendItem>
+      <CategoryItemText>{text}</CategoryItemText>
+    </CategoryItem>
   )
 }

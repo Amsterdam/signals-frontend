@@ -97,7 +97,7 @@ interface LegendTextProps {
   readonly noResults?: boolean
 }
 
-export const LegendText = styled.span<LegendTextProps>`
+export const CategoryItemText = styled.span<LegendTextProps>`
   display: flex;
   align-items: center;
   color: ${(props) =>
@@ -106,7 +106,7 @@ export const LegendText = styled.span<LegendTextProps>`
       : themeColor('tint', 'level7')};
 `
 
-export const LegendItem = styled.label`
+export const CategoryItem = styled.label`
   display: flex;
   align-items: center;
 `

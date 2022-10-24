@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 
-import {Heading} from '@amsterdam/asc-ui'
+import { Heading } from '@amsterdam/asc-ui'
 
-import {useFetch} from 'hooks'
+import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
-import type {Filter} from '../../types'
-import {FilterCategories} from './FilterCategories'
-import {FilterCategory} from './FilterCategory'
-import {Wrapper} from './styled'
-import {getFilterCategoriesWithIcons} from './utils'
+import type { Filter } from '../../types'
+import { FilterCategories } from './FilterCategories'
+import { FilterCategory } from './FilterCategory'
+import { Wrapper } from './styled'
+import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
   filters: Filter[]
@@ -22,12 +22,12 @@ export interface Props {
 }
 
 export const FilterPanel = ({
-                              filters,
-                              setFilters,
-                              setMapMessage,
-                              toggleFilter,
-                            }: Props) => {
-  const {get, data, error} = useFetch<Categories>()
+  filters,
+  setFilters,
+  setMapMessage,
+  toggleFilter,
+}: Props) => {
+  const { get, data, error } = useFetch<Categories>()
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -62,24 +62,22 @@ export const FilterPanel = ({
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map((filter) => {
-          const {name, filterActive, _display, icon, subCategories} = filter
-          return (
-            showAfvalAndWegenCategories(name) && subCategories ? (
-              <FilterCategories
-                key={name}
-                filter={filter}
-                onToggleCategory={toggleFilter}
-              />
-            ) : (
-              <FilterCategory
-                onToggleCategory={(checked: boolean) => {
-                  onToggleCategory([filter], checked)
-                }}
-                selected={filterActive}
-                text={_display || name}
-                icon={icon}
-              />
-            )
+          const { name, filterActive, _display, icon, subCategories } = filter
+          return showAfvalAndWegenCategories(name) && subCategories ? (
+            <FilterCategories
+              key={name}
+              filter={filter}
+              onToggleCategory={toggleFilter}
+            />
+          ) : (
+            <FilterCategory
+              onToggleCategory={(checked: boolean) => {
+                onToggleCategory([filter], checked)
+              }}
+              selected={filterActive}
+              text={_display || name}
+              icon={icon}
+            />
           )
         })}
       </Wrapper>
