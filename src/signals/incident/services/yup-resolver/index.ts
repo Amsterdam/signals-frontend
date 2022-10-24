@@ -42,6 +42,9 @@ export function setupSchema(controls: Controls) {
                */
               if (Array.isArray(value)) {
                 field = yup.array()
+                if (formatValidators(validators).includes('required')) {
+                  field = yup.array().min(1)
+                }
               } else if (isObject(value)) {
                 field = yup.object().shape({})
               } else {
@@ -96,10 +99,8 @@ function addNestedValidation(key: string) {
 
 function addRequiredValidation(validators: Validators, validationField: any) {
   let field = validationField
-  const formattedValidators = Array.isArray(validators)
-    ? validators
-    : [validators]
-  formattedValidators.map((validator) => {
+
+  formatValidators(validators).map((validator) => {
     if (validator === 'required') {
       field = field.required()
     } else {
@@ -107,6 +108,10 @@ function addRequiredValidation(validators: Validators, validationField: any) {
     }
   })
   return field
+}
+
+function formatValidators(validators: Validators) {
+  return Array.isArray(validators) ? validators : [validators]
 }
 
 function addValidators(validators: Validators, field: AnyObject) {
