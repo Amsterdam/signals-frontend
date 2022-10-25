@@ -35,6 +35,7 @@ export const Pin = ({ map, coordinates, mode, closeOverlay }: Props) => {
       options={{
         icon: markerIcon,
         keyboard: false,
+        zIndexOffset: 999,
       }}
     />
   )

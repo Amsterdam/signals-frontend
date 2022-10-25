@@ -10,15 +10,16 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { formatAddress } from 'shared/services/format-address'
 import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
-import type { Address } from 'types/address'
 
 import type { PointLatLng } from '../../types'
 import type { Filter, Properties, Incident } from '../../types'
 import { AddressLocation } from '../AddressLocation'
+import { AddressSearchMobile } from '../AddressLocation/AddressSearchMobile'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
@@ -34,9 +35,10 @@ export const IncidentMap = () => {
   const [map, setMap] = useState<MapType>()
   const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
-  const [address, setAddress] = useState<Address>()
+  const [address, setAddress] = useState<string>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
+  const [showAddressPanel, setShowAddressPanel] = useState(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
@@ -127,10 +129,16 @@ export const IncidentMap = () => {
   }, [error, isSuccess, setNotification])
 
   useEffect(() => {
-    coordinates &&
+    if (coordinates) {
       reverseGeocoderService(coordinates).then((response) => {
-        setAddress(response?.data?.address)
+        const address = response?.data?.address
+          ? formatAddress(response?.data?.address)
+          : undefined
+        setAddress(address)
       })
+    } else {
+      setAddress(undefined)
+    }
   }, [coordinates])
 
   return (
@@ -184,13 +192,25 @@ export const IncidentMap = () => {
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </StyledParagraph>
-          <AddressLocation setCoordinates={setCoordinates} address={address} />
+          <AddressLocation
+            setCoordinates={setCoordinates}
+            address={address}
+            setShowAddressPanel={setShowAddressPanel}
+          />
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
             setMapMessage={setMapMessage}
           />
         </DrawerOverlay>
+
+        {isMobile(mode) && showAddressPanel && (
+          <AddressSearchMobile
+            address={address}
+            setCoordinates={setCoordinates}
+            setShowAddressPanel={setShowAddressPanel}
+          />
+        )}
 
         {mapMessage && showMessage && (
           <ViewerContainer

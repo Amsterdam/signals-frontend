@@ -5,19 +5,23 @@ import { useCallback } from 'react'
 import { Heading } from '@amsterdam/asc-ui'
 import type { LatLngLiteral } from 'leaflet'
 
-import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
-import type { Address } from 'types/address'
 
-import { StyledPDOKAutoSuggest, Wrapper } from './styled'
+import {
+  StyledPDOKAutoSuggest,
+  AddressLocationWrapper as Wrapper,
+} from './styled'
 export interface Props {
-  address?: Address
+  address?: string
   setCoordinates: (coordinates?: LatLngLiteral) => void
+  setShowAddressPanel: (value: boolean) => void
 }
 
-export const AddressLocation = ({ setCoordinates, address }: Props) => {
-  const addressValue = address ? formatAddress(address) : ''
-
+export const AddressLocation = ({
+  setCoordinates,
+  address,
+  setShowAddressPanel,
+}: Props) => {
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       setCoordinates(option.data.location)
@@ -32,8 +36,11 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
         data-testid="searchAddressBar"
         placeholder="Adres"
         onSelect={onAddressSelect}
-        value={addressValue}
+        value={address}
         onClear={() => setCoordinates(undefined)}
+        onFocus={() => {
+          setShowAddressPanel(true)
+        }}
       />
     </Wrapper>
   )
