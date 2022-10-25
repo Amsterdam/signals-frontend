@@ -15,7 +15,7 @@ import {
   OptionsList,
 } from './styled'
 
-interface Props {
+export interface Props {
   address?: string
   setCoordinates: (coordinates?: LatLngLiteral) => void
   setShowAddressPanel: (value: boolean) => void
@@ -36,7 +36,7 @@ export const AddressSearchMobile = ({
     [setCoordinates, setShowAddressPanel]
   )
 
-  const closeAddressPanel = useCallback(() => {
+  const closeOverlay = useCallback(() => {
     setShowAddressPanel(false)
   }, [setShowAddressPanel])
 
@@ -49,7 +49,7 @@ export const AddressSearchMobile = ({
             aria-controls="AddressSearchMobile"
             icon={<ChevronLeft />}
             iconSize={16}
-            onClick={closeAddressPanel}
+            onClick={closeOverlay}
             size={24}
             title="Terug"
             variant="blank"
