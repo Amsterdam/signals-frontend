@@ -34,7 +34,7 @@ export function setupSchema(controls: Controls) {
               /**
                * For a predefined set of questions, we add a custom validation.
                */
-              let field: AnyObject | undefined = hasCustomValidation(key, value)
+              let field: AnyObject | undefined = addNestedValidation(key, value)
               if (field) return field
 
               /**
@@ -42,6 +42,9 @@ export function setupSchema(controls: Controls) {
                */
               if (Array.isArray(value)) {
                 field = yup.array()
+                if (formatValidators(validators).includes('required')) {
+                  field = yup.array().min(1)
+                }
               } else if (isObject(value)) {
                 field = yup.object().shape({})
               } else {
@@ -78,14 +81,21 @@ export function setupSchema(controls: Controls) {
 /**
  * This method returns a custom validator for a couple of questions.
  */
-function hasCustomValidation(key: string, value: any) {
-  if (key === 'locatie') {
-    return yup.object().shape({
-      location: yup.object({
-        coordinates: yup.mixed().required(),
-        address: yup.mixed(),
-      }),
-    })
+function addNestedValidation(key: string, value: AnyObject) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (
+    isObject(value) &&
+    Object.prototype.hasOwnProperty.call(value, 'location')
+  ) {
+    return yup
+      .object()
+      .shape({
+        location: yup.object({
+          coordinates: yup.mixed().required(),
+          address: yup.mixed(),
+        }),
+      })
+      .required()
   } else if (key === 'source' && isObject(value)) {
     return yup.object({
       id: yup.string().required(),
@@ -97,10 +107,8 @@ function hasCustomValidation(key: string, value: any) {
 
 function addRequiredValidation(validators: Validators, validationField: any) {
   let field = validationField
-  const formattedValidators = Array.isArray(validators)
-    ? validators
-    : [validators]
-  formattedValidators.map((validator) => {
+
+  formatValidators(validators).map((validator) => {
     if (validator === 'required') {
       field = field.required()
     } else {
@@ -108,6 +116,10 @@ function addRequiredValidation(validators: Validators, validationField: any) {
     }
   })
   return field
+}
+
+function formatValidators(validators: Validators) {
+  return Array.isArray(validators) ? validators : [validators]
 }
 
 function addValidators(validators: Validators, field: AnyObject) {
