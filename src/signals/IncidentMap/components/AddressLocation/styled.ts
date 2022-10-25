@@ -1,4 +1,4 @@
-import { breakpoint, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import styled, { keyframes } from 'styled-components'
 
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
@@ -20,16 +20,6 @@ export const AddressLocationWrapper = styled.div`
   }
 `
 
-const slideUp = keyframes`
-  from {
-    transform: translate3d(0, 100%, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-`
-
 /**
  * AddressSearchMobile
  * */
@@ -45,6 +35,16 @@ export const AddressSearchWrapper = styled.div`
   display: flex;
   background-color: white;
   z-index: 100;
+`
+
+const slideUp = keyframes`
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 `
 
 export const AddressSearch = styled.article`
@@ -76,14 +76,8 @@ export const AddressSearch = styled.article`
       margin-right: ${themeSpacing(4)};
     }
   }
-
-  .instruction {
-    color: ${themeColor('tint', 'level4')};
-    font-size: 18px;
-    margin-top: ${themeSpacing(6)};
-    text-align: center;
-  }
 `
+
 export const OptionsList = styled.div`
   ul {
     border: 0;
