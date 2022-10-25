@@ -9,23 +9,15 @@ import type { LatLngLiteral, Map } from 'leaflet'
 import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 
-import type { DeviceMode } from '../DrawerOverlay/types'
-import { isMobile } from '../DrawerOverlay/utils'
-
 export interface Props {
   map: Map
   coordinates: LatLngLiteral
-  mode: DeviceMode
-  closeOverlay: () => void
 }
 
-export const Pin = ({ map, coordinates, mode, closeOverlay }: Props) => {
+export const Pin = ({ map, coordinates }: Props) => {
   useEffect(() => {
-    if (isMobile(mode)) {
-      closeOverlay()
-    }
     map.flyTo(coordinates, DEFAULT_ZOOM)
-  }, [closeOverlay, coordinates, map, mode])
+  }, [map, coordinates])
 
   return (
     <Marker

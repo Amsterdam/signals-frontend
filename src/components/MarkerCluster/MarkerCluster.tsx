@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import type { Dispatch, FunctionComponent, SetStateAction } from 'react'
-
-import { createLeafletComponent } from '@amsterdam/react-maps'
+// Copyright (C)  - 2021 Gemeente Amsterdam
 import * as L from 'leaflet'
+import type { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import { createLeafletComponent } from '@amsterdam/react-maps'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import './style.css'
 
@@ -17,14 +16,12 @@ interface MarkerClusterProps {
   setInstance: Dispatch<SetStateAction<L.GeoJSON | undefined>>
   clusterOptions?: L.MarkerClusterGroupOptions
   getIsSelectedCluster?: (cluster: L.MarkerCluster) => boolean
-  spiderfySelectedCluster?: boolean
 }
 
 const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
   clusterOptions,
   setInstance,
   getIsSelectedCluster,
-  spiderfySelectedCluster = true,
 }) => {
   const options: L.MarkerClusterGroupOptions = {
     showCoverageOnHover: false,
@@ -41,7 +38,7 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
         cluster.on({
           add: () => {
             // When selecting a marker in a cluster, re-render the cluster in spiderfied state
-            if (isSelectedCluster && spiderfySelectedCluster) {
+            if (isSelectedCluster) {
               ;(cluster as any)?.spiderfy()
             }
           },
