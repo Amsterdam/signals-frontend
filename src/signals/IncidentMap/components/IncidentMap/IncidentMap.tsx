@@ -7,7 +7,6 @@ import type { FeatureCollection } from 'geojson'
 import type { Map as MapType, LatLngLiteral } from 'leaflet'
 
 import { useFetch } from 'hooks'
-import type { Map as MapType, LatLngLiteral } from 'leaflet'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
