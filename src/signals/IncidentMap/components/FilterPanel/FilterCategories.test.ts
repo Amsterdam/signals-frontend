@@ -2,8 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import {mockFilters} from "../__test__"
 import {render} from "@testing-library/react"
-import {Props} from "./FilterCategories"
-import {FilterCategories} from "./FilterCategories"
+import {Props} from "./FilterCategoryWithSub"
 
 const mockOnToggleCategory= jest.fn()
 const defaultProps: Props ={
@@ -13,7 +12,7 @@ const defaultProps: Props ={
 
 describe('FilterCategories', () =>{
   it('renders the FilterCategories component', ()=> {
-    render(<FilterCategories {...defaultProps}/>)
+    render(<FilterCategoryWithSub {...defaultProps}/>)
     screen.debug()
     expect(screen.getByText('Afval')).toBeInTheDocument()
   })

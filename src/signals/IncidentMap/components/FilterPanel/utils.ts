@@ -10,24 +10,28 @@ export const getFilterCategoriesWithIcons = (
   const result = categories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((category) => {
-      let subCategories
       const { sub_categories, _display, _links, name, slug } = category
 
-      if (sub_categories) {
-        subCategories = getSubCategories(sub_categories)
-      }
-
-      return {
+      const categoriesWithIcons: Filter = {
         _display,
         filterActive: true,
         icon: _links['sia:icon']?.href,
         name,
         slug,
-        subCategories,
       }
+
+      if (sub_categories && showSubCategoryFilter(category)) {
+        categoriesWithIcons.subCategories = getSubCategories(sub_categories)
+      }
+
+      return categoriesWithIcons
     })
 
   return result
+}
+
+function showSubCategoryFilter(category: Category) {
+  return ['Afval', 'Wegen, verkeer, straatmeubilair'].includes(category.name)
 }
 
 const getSubCategories = (

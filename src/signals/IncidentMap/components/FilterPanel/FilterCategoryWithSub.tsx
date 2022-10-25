@@ -14,22 +14,21 @@ import {
 } from './styled'
 
 export interface Props {
-  onToggleCategory: (option: Filter[], select: boolean) => void
+  onToggleCategory: (filter: Filter[], select: boolean) => void
   filter: Filter
 }
 
-export const FilterCategories = ({onToggleCategory, filter}: Props) => {
+export const FilterCategoryWithSub = ({onToggleCategory, filter}: Props) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(true)
-  const {name, filterActive, _display, icon, subCategories} = filter
-
-  if (!subCategories) throw 'no subcategories in filter'
+  const {name, filterActive, icon, subCategories} = filter
+  if (!subCategories) return null
   return (
     <>
       <SectionWrapper key={`section-${name}`}>
         <WrapperFilterCategoryWithIcon>
           <FilterCategory
-            onToggleCategory={(checked: boolean) => {
-              onToggleCategory([filter].concat(subCategories), checked)
+            onToggleCategory={() => {
+              onToggleCategory([filter, ...subCategories], !filterActive)
             }}
             selected={filterActive}
             text={name}
@@ -46,27 +45,32 @@ export const FilterCategories = ({onToggleCategory, filter}: Props) => {
         </WrapperFilterCategoryWithIcon>
 
         <SubSection visible={showSubsection} lines={subCategories.length}>
-          {subCategories.map((filterSubCategories) => {
+          {subCategories.map((subCategory) => {
             const {
-              name: nameChild,
-              filterActive: filterActiveChild,
-              _display: _displayChild,
-              icon: iconChild,
-            } = filterSubCategories
+              name,
+              filterActive,
+              _display,
+              icon,
+            } = subCategory
             return (
               <FilterCategory
                 onToggleCategory={() => {
+                  /**
+                   * When selecting a sub category when is
+                   *  - false, toggle main category true as well
+                   *  - true, only toggle sub category
+                   */
                   onToggleCategory(
-                    filterActiveChild
-                      ? [filterSubCategories]
-                      : [filter, filterSubCategories],
-                    !filterActiveChild
+                    filterActive
+                      ? [subCategory]
+                      : [filter, subCategory],
+                    !filterActive
                   )
                 }}
-                selected={filterActiveChild}
-                text={_displayChild || nameChild}
-                key={nameChild}
-                icon={iconChild}
+                selected={filterActive}
+                text={_display || name}
+                key={name}
+                icon={icon}
               />
             )
           })}

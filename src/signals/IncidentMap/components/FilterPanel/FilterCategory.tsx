@@ -7,7 +7,7 @@ import { StyledImg, CategoryItemText, CategoryItem } from './styled'
 export interface Props {
   selected: boolean
   text: string
-  onToggleCategory: (select: boolean) => void
+  onToggleCategory: () => void
   icon?: string
 }
 
@@ -23,9 +23,7 @@ export const FilterCategory = ({
         data-testid={text}
         id={text}
         checked={selected}
-        onChange={() => {
-          onToggleCategory(!selected)
-        }}
+        onChange={onToggleCategory}
       />
       <StyledImg
         alt="icon"

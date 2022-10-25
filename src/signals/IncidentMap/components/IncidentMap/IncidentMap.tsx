@@ -21,7 +21,7 @@ import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents, updateFilterCategory } from '../utils'
+import { getFilteredIncidents } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
 
@@ -68,19 +68,6 @@ export const IncidentMap = () => {
     selectedMarkerRef.current = undefined
     setSelectedIncident(undefined)
   }, [])
-
-  const toggleFilter = useCallback(
-    (categoryName: Filter[], checked: boolean) => {
-      let updated = filters
-      categoryName.forEach((category) => {
-        if (category.filterActive != checked) {
-          updated = updateFilterCategory(category.name, updated)
-        }
-      })
-      setFilters(updated)
-    },
-    [filters]
-  )
 
   useEffect(() => {
     if (bbox) {
@@ -174,7 +161,6 @@ export const IncidentMap = () => {
             filters={filters}
             setFilters={setFilters}
             setMapMessage={setMapMessage}
-            toggleFilter={toggleFilter}
           />
         </DrawerOverlay>
 

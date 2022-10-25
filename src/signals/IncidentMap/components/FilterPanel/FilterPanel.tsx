@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
-
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
-import { FilterCategories } from './FilterCategories'
+import { updateFilterCategory } from '../utils'
 import { FilterCategory } from './FilterCategory'
+import { FilterCategoryWithSub } from './FilterCategoryWithSub'
 import { Wrapper } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
@@ -18,16 +18,34 @@ export interface Props {
   filters: Filter[]
   setFilters: (categories: Filter[]) => void
   setMapMessage: (mapMessage: JSX.Element | string) => void
-  toggleFilter: (categories: Filter[], checked: boolean) => void
 }
 
 export const FilterPanel = ({
   filters,
   setFilters,
   setMapMessage,
-  toggleFilter,
 }: Props) => {
   const { get, data, error } = useFetch<Categories>()
+
+ const toggleFilter = useCallback(
+   /**
+    *
+    * @param allFilters these are the filters derived from the checkboxes.
+    * They can be either main or sub categories or a combination of both
+    * @param checked
+    */
+    (allFilters: Filter[], newFilterActive: boolean) => {
+      let updatedFilters = filters
+
+      allFilters.forEach((categoryFilter) => {
+          if (categoryFilter.filterActive !== newFilterActive){
+            updatedFilters = updateFilterCategory(categoryFilter.name, updatedFilters)
+          }
+      })
+      setFilters(updatedFilters)
+    },
+    [filters, setFilters]
+  )
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -53,26 +71,22 @@ export const FilterPanel = ({
     return null
   }
 
-  const showAfvalAndWegenCategories = (name: string) => {
-    return name === 'Afval' || name === 'Wegen, verkeer, straatmeubilair'
-  }
-
   return (
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
-        {filters.map((filter) => {
+        {filters.map((filter: Filter) => {
           const { name, filterActive, _display, icon, subCategories } = filter
-          return showAfvalAndWegenCategories(name) && subCategories ? (
-            <FilterCategories
+          return subCategories ? (
+            <FilterCategoryWithSub
               key={name}
               filter={filter}
               onToggleCategory={toggleFilter}
             />
           ) : (
             <FilterCategory
-              onToggleCategory={(checked: boolean) => {
-                onToggleCategory([filter], checked)
+              onToggleCategory={() => {
+                toggleFilter([filter], !filterActive)
               }}
               selected={filterActive}
               text={_display || name}
