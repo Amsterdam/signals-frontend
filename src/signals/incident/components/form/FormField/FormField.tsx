@@ -2,10 +2,11 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { Fragment } from 'react'
-import styled from 'styled-components'
+
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
-import Label from 'components/Label'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
+import Label from 'components/Label'
+import styled from 'styled-components'
 import type {
   ReactiveFormMeta,
   FormMeta,
@@ -73,6 +74,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
     hasError('required') ||
     hasError('email') ||
     hasError('max') ||
+    hasError('min') ||
     hasError('custom')
 
   const isOptional = !options?.validators?.includes('required')
@@ -99,7 +101,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
         <div role="status">
           {containsErrors && (
             <Fragment>
-              {hasError('required') && (
+              {(hasError('required') || hasError('min')) && (
                 <ErrorMessage
                   data-testid={`${meta.name}-required`}
                   message={

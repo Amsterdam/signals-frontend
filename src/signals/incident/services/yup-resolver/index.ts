@@ -34,7 +34,7 @@ export function setupSchema(controls: Controls) {
               /**
                * For a predefined set of questions, we add a custom validation.
                */
-              let field: AnyObject | undefined = addNestedValidation(key)
+              let field: AnyObject | undefined = addNestedValidation(value)
               if (field) return field
 
               /**
@@ -42,6 +42,9 @@ export function setupSchema(controls: Controls) {
                */
               if (Array.isArray(value)) {
                 field = yup.array()
+                if (formatValidators(validators).includes('required')) {
+                  field = yup.array().min(1)
+                }
               } else if (isObject(value)) {
                 field = yup.object().shape({})
               } else {
@@ -82,24 +85,29 @@ export function setupSchema(controls: Controls) {
  * @param key
  * @param control
  */
-function addNestedValidation(key: string) {
-  if (key === 'locatie') {
-    return yup.object().shape({
-      location: yup.object({
-        coordinates: yup.mixed().required(),
-        address: yup.mixed(),
-      }),
-    })
+function addNestedValidation(value: AnyObject) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (
+    isObject(value) &&
+    Object.prototype.hasOwnProperty.call(value, 'location')
+  ) {
+    return yup
+      .object()
+      .shape({
+        location: yup.object({
+          coordinates: yup.mixed().required(),
+          address: yup.mixed(),
+        }),
+      })
+      .required()
   }
   // other custom question validation can be placed here
 }
 
 function addRequiredValidation(validators: Validators, validationField: any) {
   let field = validationField
-  const formattedValidators = Array.isArray(validators)
-    ? validators
-    : [validators]
-  formattedValidators.map((validator) => {
+
+  formatValidators(validators).map((validator) => {
     if (validator === 'required') {
       field = field.required()
     } else {
@@ -107,6 +115,10 @@ function addRequiredValidation(validators: Validators, validationField: any) {
     }
   })
   return field
+}
+
+function formatValidators(validators: Validators) {
+  return Array.isArray(validators) ? validators : [validators]
 }
 
 function addValidators(validators: Validators, field: AnyObject) {
