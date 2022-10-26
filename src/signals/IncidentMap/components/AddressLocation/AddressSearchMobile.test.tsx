@@ -69,7 +69,7 @@ jest.mock(
 
 const defaultProps: Props = {
   setCoordinates: jest.fn(),
-  setShowAddressPanel: jest.fn(),
+  setShowAddressSearchMobile: jest.fn(),
 }
 
 describe('AddresLocation', () => {
@@ -115,6 +115,6 @@ describe('AddresLocation', () => {
 
     userEvent.click(button)
 
-    expect(defaultProps.setShowAddressPanel).toHaveBeenCalledWith(false)
+    expect(defaultProps.setShowAddressSearchMobile).toHaveBeenCalledWith(false)
   })
 })

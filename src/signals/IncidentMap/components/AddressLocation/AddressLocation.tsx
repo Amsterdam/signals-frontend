@@ -14,13 +14,13 @@ import {
 export interface Props {
   address?: string
   setCoordinates: (coordinates?: LatLngLiteral) => void
-  setShowAddressPanel: (value: boolean) => void
+  setShowAddressSearchMobile: (value: boolean) => void
 }
 
 export const AddressLocation = ({
   setCoordinates,
   address,
-  setShowAddressPanel,
+  setShowAddressSearchMobile,
 }: Props) => {
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
@@ -39,7 +39,7 @@ export const AddressLocation = ({
         value={address}
         onClear={() => setCoordinates(undefined)}
         onFocus={() => {
-          setShowAddressPanel(true)
+          setShowAddressSearchMobile(true)
         }}
       />
     </Wrapper>

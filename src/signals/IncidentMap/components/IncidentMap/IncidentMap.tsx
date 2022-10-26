@@ -38,7 +38,7 @@ export const IncidentMap = () => {
   const [address, setAddress] = useState<string>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
-  const [showAddressPanel, setShowAddressPanel] = useState(false)
+  const [showAddressSearchMobile, setShowAddressSearchMobile] = useState(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
@@ -195,7 +195,7 @@ export const IncidentMap = () => {
           <AddressLocation
             setCoordinates={setCoordinates}
             address={address}
-            setShowAddressPanel={setShowAddressPanel}
+            setShowAddressSearchMobile={setShowAddressSearchMobile}
           />
           <FilterPanel
             filters={filters}
@@ -204,11 +204,11 @@ export const IncidentMap = () => {
           />
         </DrawerOverlay>
 
-        {isMobile(mode) && showAddressPanel && (
+        {isMobile(mode) && showAddressSearchMobile && (
           <AddressSearchMobile
             address={address}
             setCoordinates={setCoordinates}
-            setShowAddressPanel={setShowAddressPanel}
+            setShowAddressSearchMobile={setShowAddressSearchMobile}
           />
         )}
 

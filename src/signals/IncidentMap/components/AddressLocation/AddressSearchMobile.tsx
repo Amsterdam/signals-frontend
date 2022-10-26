@@ -18,27 +18,23 @@ import {
 export interface Props {
   address?: string
   setCoordinates: (coordinates?: LatLngLiteral) => void
-  setShowAddressPanel: (value: boolean) => void
+  setShowAddressSearchMobile: (value: boolean) => void
 }
 
 export const AddressSearchMobile = ({
   address,
   setCoordinates,
-  setShowAddressPanel,
+  setShowAddressSearchMobile,
 }: Props) => {
   const [optionsList, setOptionsList] = useState(null)
 
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       setCoordinates(option.data.location)
-      setShowAddressPanel(false)
+      setShowAddressSearchMobile(false)
     },
-    [setCoordinates, setShowAddressPanel]
+    [setCoordinates, setShowAddressSearchMobile]
   )
-
-  const closeOverlay = useCallback(() => {
-    setShowAddressPanel(false)
-  }, [setShowAddressPanel])
 
   return (
     <Wrapper>
@@ -49,7 +45,7 @@ export const AddressSearchMobile = ({
             aria-controls="AddressSearchMobile"
             icon={<ChevronLeft />}
             iconSize={16}
-            onClick={closeOverlay}
+            onClick={() => setShowAddressSearchMobile(false)}
             size={24}
             title="Terug"
             variant="blank"
