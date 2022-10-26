@@ -41,6 +41,20 @@ describe('<Wizard>', () => {
 
     expect(screen.getByText('beschrijf')).toBeTruthy()
   })
+
+  it('should go to a page directly', function () {
+    render(renderWizardWithoutOnNext())
+
+    userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
+
+    expect(screen.getByText('vul aan')).toBeTruthy()
+
+    act(() => {
+      history.replace('/contact')
+    })
+
+    expect(screen.getByText('contact')).toBeTruthy()
+  })
 })
 
 function renderWizard() {
