@@ -2,10 +2,9 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { useEffect, useRef, useState } from 'react'
 
+import MarkerCluster from 'components/MarkerCluster'
 import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
-
-import MarkerCluster from 'components/MarkerCluster'
 import {
   dynamicIcon,
   selectedMarkerIcon,
@@ -56,7 +55,6 @@ export const IncidentLayer = ({
       features: incidents,
     }
 
-    incidents
     layerInstance.clearLayers()
 
     const layer = L.geoJSON(fc, {

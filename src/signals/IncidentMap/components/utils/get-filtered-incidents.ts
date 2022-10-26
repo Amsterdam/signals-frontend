@@ -23,25 +23,18 @@ export const getFilteredIncidents = (
     return acc
   }, [])
 
-  const activeSlugs = activeFilters.map(filter => filter.slug)
+  const activeSlugs = activeFilters.map((filter) => filter.slug)
 
   const activeIncidents = incidents.filter((incident) => {
-    return (
-      activeSlugs.includes(incident.properties.category.parent.slug) &&
-      activeSlugs.includes(incident.properties.category.slug)
-    )
+    return activeSlugs.includes(incident.properties.category.slug)
   })
 
   const listedIcons = getListOfIcons(activeFilters)
 
   const incidentsWithIcon = activeIncidents.map((incident) => {
-    const subCategorySlug = incident.properties.category.slug
-    const mainCategorySlug = incident.properties.category.parent.slug
+    const slug = incident.properties.category.slug
 
-    const icon = listedIcons.find(
-      (iconObj) =>
-        iconObj.slug === subCategorySlug || iconObj.slug === mainCategorySlug
-    )
+    const icon = listedIcons.find((iconObj) => iconObj.slug === slug)
 
     if (icon) {
       return {

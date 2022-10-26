@@ -102,17 +102,16 @@ export const IncidentMap = () => {
   }, [error, isSuccess, setNotification])
 
   useEffect(() => {
-    coordinates && reverseGeocoderService(coordinates)
-    .then((response) => {
-      setAddress(response?.data?.address)
-    })
+    coordinates &&
+      reverseGeocoderService(coordinates).then((response) => {
+        setAddress(response?.data?.address)
+      })
   }, [coordinates])
 
   return (
     <Wrapper>
       <StyledMap
         data-testid="incidentMap"
-        fullScreen={false}
         hasZoomControls
         setInstance={setMap}
         mapOptions={{
