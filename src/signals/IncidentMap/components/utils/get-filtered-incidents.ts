@@ -16,7 +16,9 @@ export const getFilteredIncidents = (
       acc.push(filter)
       if (filter.subCategories) {
         filter.subCategories.forEach((subCategory) => {
-          subCategory.filterActive && acc.push(subCategory)
+          if (subCategory.filterActive) {
+            acc.push(subCategory)
+          }
         })
       }
     }
@@ -47,7 +49,6 @@ export const getFilteredIncidents = (
     }
     return incident
   })
-
   return incidentsWithIcon
 }
 

@@ -20,27 +20,26 @@ export interface Props {
   setMapMessage: (mapMessage: JSX.Element | string) => void
 }
 
-export const FilterPanel = ({
-  filters,
-  setFilters,
-  setMapMessage,
-}: Props) => {
+export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   const { get, data, error } = useFetch<Categories>()
 
- const toggleFilter = useCallback(
-   /**
-    *
-    * @param allFilters these are the filters derived from the checkboxes.
-    * They can be either main or sub categories or a combination of both
-    * @param checked
-    */
+  const toggleFilter = useCallback(
+    /**
+     *
+     * @param allFilters these are the filters derived from the checkboxes.
+     * They can be either main or sub categories or a combination of both
+     * @param checked
+     */
     (allFilters: Filter[], newFilterActive: boolean) => {
       let updatedFilters = filters
 
       allFilters.forEach((categoryFilter) => {
-          if (categoryFilter.filterActive !== newFilterActive){
-            updatedFilters = updateFilterCategory(categoryFilter.name, updatedFilters)
-          }
+        if (categoryFilter.filterActive !== newFilterActive) {
+          updatedFilters = updateFilterCategory(
+            categoryFilter.name,
+            updatedFilters
+          )
+        }
       })
       setFilters(updatedFilters)
     },
@@ -85,6 +84,7 @@ export const FilterPanel = ({
             />
           ) : (
             <FilterCategory
+              key={name}
               onToggleCategory={() => {
                 toggleFilter([filter], !filterActive)
               }}

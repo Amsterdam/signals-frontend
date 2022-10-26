@@ -77,29 +77,12 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
     name: 'Openbaar groen en water',
     slug: 'openbaar-groen-en-water',
-    subCategories: [
-      {
-        _display: 'Eikenprocessierups (Openbaar groen en water)',
-        filterActive: true,
-        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=1b6a5a35da04670eeda035b83535a810ab6eae4a34c84d2fd02f1a7eed77519d&temp_url_expires=1665401495',
-        name: 'Eikenprocessierups',
-        slug: 'eikenprocessierups',
-      },
-    ],
   },
   {
     _display: 'Overig',
     filterActive: true,
     name: 'Overig',
     slug: 'overig',
-    subCategories: [
-      {
-        _display: 'Overig (Overig)',
-        filterActive: true,
-        name: 'Overig',
-        slug: 'overig',
-      },
-    ],
   },
   {
     _display: 'Overlast Bedrijven en Horeca',
@@ -107,15 +90,6 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
     name: 'Overlast Bedrijven en Horeca',
     slug: 'overlast-bedrijven-en-horeca',
-    subCategories: [
-      {
-        _display: 'Geluidsoverlast installaties (Overlast Bedrijven en Horeca)',
-        filterActive: true,
-        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
-        name: 'Geluidsoverlast installaties',
-        slug: 'geluidsoverlast-installaties',
-      },
-    ],
   },
   {
     _display: 'Overlast op het water',
@@ -123,15 +97,6 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
     name: 'Overlast op het water',
     slug: 'overlast-op-het-water',
-    subCategories: [
-      {
-        _display: 'Geluid op het water (Overlast op het water)',
-        filterActive: true,
-        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
-        name: 'Geluid op het water',
-        slug: 'overlast-op-het-water-geluid',
-      },
-    ],
   },
   {
     _display: 'Schoon',
@@ -139,22 +104,6 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
     name: 'Schoon',
     slug: 'schoon',
-    subCategories: [
-      {
-        _display: 'Prullenbak is vol (Schoon)',
-        filterActive: true,
-        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
-        name: 'Prullenbak is vol',
-        slug: 'prullenbak-vol',
-      },
-      {
-        _display: 'Veeg- / zwerfvuil (Schoon)',
-        filterActive: true,
-        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
-        name: 'Veeg- / zwerfvuil',
-        slug: 'veegzwerfvuil',
-      },
-    ],
   },
   {
     _display: 'Wegen, verkeer, straatmeubilair',

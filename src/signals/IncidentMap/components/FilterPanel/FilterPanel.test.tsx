@@ -2,9 +2,11 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
+import type { Filter, SubCategory } from '../../types'
 import {
   get,
   useFetchResponse,
@@ -18,13 +20,12 @@ jest.mock('hooks/useFetch')
 
 const mockSetFilters = jest.fn()
 const mockSetMapFilter = jest.fn()
-const mockToggleFilter = jest.fn()
 
 const defaultProps: Props = {
   filters: [],
   setFilters: mockSetFilters,
   setMapMessage: mockSetMapFilter,
-  }
+}
 
 const renderFilterPanel = (props: Partial<Props> = {}) =>
   render(<FilterPanel {...defaultProps} {...props} />)
@@ -71,16 +72,24 @@ describe('FilterPanel', () => {
     )
   })
 
-  it('should unset a filter when clicked', () => {
+  it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
     renderFilterPanel({ filters: mockFilters })
+    const testCat = 'Afval'
+    const checkbox = screen.getByTestId(testCat)
 
-    const checkbox = screen.getByRole('checkbox', {
-      name: 'icon Openbaar groen en water',
-    })
     userEvent.click(checkbox)
 
-    expect(mockToggleFilter).toHaveBeenCalledTimes(1)
+    // Check to see if subCategory.filterActive has value false after setting mainCategory.filterActive to false. In
+    // mockFilters all filterActives of all categories are initially set to true.
+    mockSetFilters.mock.calls[0][0]
+      .filter((filter: Filter) => filter.name === testCat)
+      .forEach((filter: Filter) => {
+        expect(filter.filterActive).toBe(false)
+        filter.subCategories?.forEach((subCategory: SubCategory) => {
+          expect(subCategory.filterActive).toBe(false)
+        })
+      })
   })
 
   it('should not render anything when filters are empty', () => {
