@@ -2,7 +2,6 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
@@ -31,6 +30,10 @@ const renderFilterPanel = (props: Partial<Props> = {}) =>
   render(<FilterPanel {...defaultProps} {...props} />)
 
 describe('FilterPanel', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('get categories and set filters', () => {
     const fetchResponseWithFilters = {
       ...useFetchResponse,
@@ -75,15 +78,15 @@ describe('FilterPanel', () => {
   it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
     renderFilterPanel({ filters: mockFilters })
-    const testCat = 'Afval'
-    const checkbox = screen.getByTestId(testCat)
+    const testCategory = 'Afval'
+    const checkbox = screen.getByTestId(testCategory)
 
     userEvent.click(checkbox)
 
     // Check to see if subCategory.filterActive has value false after setting mainCategory.filterActive to false. In
     // mockFilters all filterActives of all categories are initially set to true.
     mockSetFilters.mock.calls[0][0]
-      .filter((filter: Filter) => filter.name === testCat)
+      .filter((filter: Filter) => filter.name === testCategory)
       .forEach((filter: Filter) => {
         expect(filter.filterActive).toBe(false)
         filter.subCategories?.forEach((subCategory: SubCategory) => {
