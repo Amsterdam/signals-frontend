@@ -2,9 +2,12 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 
+import { useHistory } from 'react-router-dom'
+
 import Button from 'components/Button'
 import BasePage from 'components/pages/BasePage'
 
+import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
 interface Props {
@@ -12,8 +15,10 @@ interface Props {
 }
 
 export const Confirmation = ({ email = 'janjanssen@ziggo.nl' }: Props) => {
-  const [postEmail] = usePostEmail()
+  const history = useHistory()
+
   const [pageTitle, setPageTitle] = useState('Bevestig uw e-mailadres')
+  const [postEmail] = usePostEmail()
 
   const onResubmit = useCallback(() => {
     postEmail(email)
@@ -21,9 +26,8 @@ export const Confirmation = ({ email = 'janjanssen@ziggo.nl' }: Props) => {
   }, [email, postEmail])
 
   const onCancel = useCallback(() => {
-    // Redirect back to RequestAccess page
-    console.log('onCancel')
-  }, [])
+    history.push(routes.requestAccess)
+  }, [history])
 
   return (
     <BasePage

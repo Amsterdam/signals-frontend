@@ -2,16 +2,21 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
 
+import { useHistory } from 'react-router-dom'
+
 import Button from 'components/Button'
 import BasePage from 'components/pages/BasePage'
 
+import { routes } from '../definitions'
 import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
 
 export const LinkExpired = () => {
+  const history = useHistory()
+
   const onClick = useCallback(() => {
-    // Redirect back to RequestAccess page
+    history.push(routes.requestAccess)
     console.log('onClick')
-  }, [])
+  }, [history])
 
   return (
     <BasePage

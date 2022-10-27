@@ -2,11 +2,13 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useRef, useState } from 'react'
 
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
 import Button from 'components/Button'
 import Label from 'components/Label'
 
+import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
 
@@ -31,12 +33,14 @@ export const EmailInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const history = useHistory()
   const [postEmail] = usePostEmail()
 
   const handleSubmit = () => {
     validateInput(inputRef, setError)
 
     inputRef?.current && postEmail(inputRef.current.value, !error)
+    history.push(routes.confirm)
   }
 
   const handleOnBlur = () => {
