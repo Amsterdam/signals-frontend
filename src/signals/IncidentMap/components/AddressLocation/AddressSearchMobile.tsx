@@ -38,11 +38,11 @@ export const AddressSearchMobile = ({
 
   return (
     <Wrapper>
-      <AddressSearch id="AddressSearchMobile">
+      <AddressSearch id="addressSearchMobile">
         <header>
           <Button
             aria-label="Terug"
-            aria-controls="AddressSearchMobile"
+            aria-controls="addressSearchMobile"
             icon={<ChevronLeft />}
             iconSize={16}
             onClick={() => setShowAddressSearchMobile(false)}
@@ -57,7 +57,7 @@ export const AddressSearchMobile = ({
             showInlineList={false}
             value={address}
             placeholder="Zoom naar adres"
-            autoFocus={true}
+            autoFocus
           />
         </header>
 
