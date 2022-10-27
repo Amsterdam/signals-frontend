@@ -78,7 +78,6 @@ describe('AddresLocation', () => {
 
     userEvent.click(screen.getByText('selectItem'))
 
-    //the mocked PDOKAutoSuggest triggers automatically onSelect/onAddressSelect, no userEvents are necessary
     expect(defaultProps.setCoordinates).toHaveBeenCalledWith(
       mockPDOKResponse.data.location
     )
