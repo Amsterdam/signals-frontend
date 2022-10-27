@@ -33,7 +33,7 @@ export const getFilteredIncidents = (
 
   const listedIcons = getListOfIcons(activeFilters)
 
-  const incidentsWithIcon = activeIncidents.map((incident) => {
+  return activeIncidents.map((incident) => {
     const slug = incident.properties.category.slug
 
     const icon = listedIcons.find((iconObj) => iconObj.slug === slug)
@@ -49,7 +49,6 @@ export const getFilteredIncidents = (
     }
     return incident
   })
-  return incidentsWithIcon
 }
 
 interface Icon {

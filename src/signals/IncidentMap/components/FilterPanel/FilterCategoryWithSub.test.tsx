@@ -31,58 +31,47 @@ const mockFilter = {
   ],
 }
 
-const testCat = 'Afval'
+const testCategory = 'Afval'
 
 const defaultProps: Props = {
   onToggleCategory: mockOnToggleCategory,
   filter: mockFilter,
 }
 
+const renderFilterCategoryWithSub = (props: Partial<Props> = {}) =>
+  render(<FilterCategoryWithSub {...defaultProps} {...props} />)
+
 describe('FilterCategoryWithSub', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
   it('toggles the checkbox on click', () => {
-    render(<FilterCategoryWithSub {...defaultProps} />)
-    userEvent.click(screen.getByText(testCat))
-    expect(screen.getByText(testCat)).toBeInTheDocument()
+    renderFilterCategoryWithSub()
+    const checkbox = screen.getByText(testCategory)
+    userEvent.click(checkbox)
+    expect(checkbox).not.toBeChecked() // not, because filters are automatically checked at the start
   })
 
   it('returns nothing if there are no subCategories', () => {
-    render(<FilterCategoryWithSub {...defaultProps} />)
-    userEvent.click(screen.getByText(testCat))
-    expect(screen.getByText(testCat)).toBeInTheDocument()
-  })
+    const mockNoSubCategoryFilter = {
+      name: 'Afval',
+      _display: 'mock_display',
+      filterActive: true,
+      slug: 'mockSlug',
+      icon: '',
+    }
 
-  //  it('should unset a filter when clicked', () => {
-  //   render(<FilterCategoryWithSub {...defaultProps}/>)
-  //
-  //   const checkbox = screen.getByTestId(testCat)
-  //
-  //    expect(checkbox).toBeInTheDocument()
-  //    expect(checkbox).toBeChecked()
-  //
-  //   userEvent.click(checkbox)
-  //
-  //   // Check to see if subCategory.filterActive has value false after setting mainCategory.filterActive to false. In
-  //   // mockFilters all filterActives of all categories are initially set to true.
-  //   mockOnToggleCategory.mock.calls[0][0].filter((filter: Filter) => filter.name=== testCat)
-  //     .forEach((filter: Filter)=> {
-  //       expect(filter.filterActive).toBe(false)
-  //     filter.subCategories?.forEach((subCategory: SubCategory) =>{
-  //       expect(subCategory.filterActive).toBe(false)
-  //     })
-  //     })
-  //
-  //   userEvent.click(checkbox)
-  //
-  //   // check to see if subCategory.filterActive has value true after setting mainCategory.filterActive to true
-  //   mockOnToggleCategory.mock.calls[0][0].filter((filter: Filter) => filter.name=== testCat)
-  //     .forEach((filter: Filter)=> {
-  //       expect(filter.filterActive).toBe(true)
-  //     filter.subCategories?.forEach((subCategory: SubCategory) =>{
-  //       expect(subCategory.filterActive).toBe(true)
-  //     })
-  //     })
-  //
-  //
-  //
-  // })
+    const { container } = renderFilterCategoryWithSub({
+      filter: mockNoSubCategoryFilter,
+    })
+    expect(container).toBeEmptyDOMElement()
+  })
+  it('shows the subCategories when the chevron is clicked', () => {
+    renderFilterCategoryWithSub()
+    const chevron = screen.getByRole('button', {
+      name: 'Toon minder filter opties',
+    })
+    userEvent.click(chevron)
+    expect(screen.getByText('mockSubCategory_display1')).toBeInTheDocument()
+  })
 })
