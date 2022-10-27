@@ -56,6 +56,9 @@ const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 // istanbul ignore next
 const IncidentMapContainer = lazy(() => import('signals/IncidentMap'))
 
+// istanbul ignore next
+const Login = lazy(() => import('signals/my-incidents'))
+
 export const AppContainer = () => {
   const dispatch = useDispatch()
   const loading = useSelector(makeSelectLoading())
@@ -119,6 +122,7 @@ export const AppContainer = () => {
                     component={IncidentMapContainer}
                   />
                 )}
+                <Route path="/mijn-meldingen" component={Login} />
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}

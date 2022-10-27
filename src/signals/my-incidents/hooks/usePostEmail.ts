@@ -13,6 +13,7 @@ export const usePostEmail = (): [
   Omit<FetchResponse<null>, 'post'>
 ] => {
   const { post, ...rest } = useFetch<null>()
+  console.log('--- ~ rest', rest)
 
   const endpoint = `${configuration.MY_SIGNALS_LOGIN_URL}`
 
