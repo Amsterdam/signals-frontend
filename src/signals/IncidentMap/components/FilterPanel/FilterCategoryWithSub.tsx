@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import {useState} from 'react'
+import { useState } from 'react'
 
-import {ChevronDown} from '@amsterdam/asc-assets'
+import { ChevronDown } from '@amsterdam/asc-assets'
 
-import type {Filter} from '../../types'
-import {FilterCategory} from './FilterCategory'
+import type { Filter } from '../../types'
+import { FilterCategory } from './FilterCategory'
 import {
   SectionWrapper,
   WrapperFilterCategoryWithIcon,
@@ -18,9 +18,9 @@ export interface Props {
   filter: Filter
 }
 
-export const FilterCategoryWithSub = ({onToggleCategory, filter}: Props) => {
-  const [showSubsection, setShowSubsection] = useState<boolean>(true)
-  const {name, filterActive, icon, subCategories} = filter
+export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
+  const [showSubsection, setShowSubsection] = useState<boolean>(false)
+  const { name, filterActive, icon, subCategories } = filter
   if (!subCategories) return null
   return (
     <>
@@ -40,18 +40,13 @@ export const FilterCategoryWithSub = ({onToggleCategory, filter}: Props) => {
             toggle={showSubsection}
             onClick={() => setShowSubsection(!showSubsection)}
           >
-            <ChevronDown width={20} height={20}/>
+            <ChevronDown width={20} height={20} />
           </InvisibleButton>
         </WrapperFilterCategoryWithIcon>
 
         <SubSection visible={showSubsection} lines={subCategories.length}>
           {subCategories.map((subCategory) => {
-            const {
-              name,
-              filterActive,
-              _display,
-              icon,
-            } = subCategory
+            const { name, filterActive, _display, icon } = subCategory
             return (
               <FilterCategory
                 onToggleCategory={() => {
@@ -61,9 +56,7 @@ export const FilterCategoryWithSub = ({onToggleCategory, filter}: Props) => {
                    *  - true, only toggle sub category
                    */
                   onToggleCategory(
-                    filterActive
-                      ? [subCategory]
-                      : [filter, subCategory],
+                    filterActive ? [subCategory] : [filter, subCategory],
                     !filterActive
                   )
                 }}
