@@ -26,6 +26,7 @@ export type Filter = {
   slug: string
   icon?: string
   subCategories?: SubCategory[]
+  nrOfIncidents: number
 }
 
 export type SubCategory = Omit<Filter, 'subCategories'>

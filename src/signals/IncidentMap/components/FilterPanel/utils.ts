@@ -18,6 +18,7 @@ export const getFilterCategoriesWithIcons = (
         icon: _links['sia:icon']?.href,
         name,
         slug,
+        nrOfIncidents: 0,
       }
 
       if (sub_categories && showSubCategoryFilter(category)) {
@@ -47,6 +48,7 @@ const getSubCategories = (
         icon: _links['sia:icon']?.href,
         name,
         slug,
+        nrOfIncidents: 0,
       }
     })
 

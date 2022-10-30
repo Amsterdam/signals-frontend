@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
-import { useFetch } from 'hooks'
 import type { Map as MapType, LatLngLiteral } from 'leaflet'
+import isEqual from 'lodash/isEqual'
+
+import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -21,7 +23,7 @@ import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents } from '../utils'
+import { getFilteredIncidents, computeNrOfIncidentsPerFilter } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
 
@@ -89,10 +91,12 @@ export const IncidentMap = () => {
   }, [resetMarkerIcon, map])
 
   useEffect(() => {
-    if (data?.features) {
-      const filteredIncidents = getFilteredIncidents(filters, data.features)
-      setFilteredIncidents(filteredIncidents)
-    }
+    const incidents = data?.features || []
+
+    const filteredIncidents = getFilteredIncidents(filters, incidents)
+    setFilteredIncidents(filteredIncidents)
+    const filtersWithCounts = computeNrOfIncidentsPerFilter(filters, incidents)
+    if (!isEqual(filtersWithCounts, filters)) setFilters(filtersWithCounts)
   }, [data, filters])
 
   useEffect(() => {

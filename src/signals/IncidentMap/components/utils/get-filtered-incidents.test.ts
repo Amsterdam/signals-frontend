@@ -19,6 +19,7 @@ const mockFilters: Filter[] = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Container bijplaatsing',
         slug: 'container-bijplaatsing',
+        nrOfIncidents: 3,
       },
       {
         _display: 'Container glas kapot (Afval)',
@@ -26,8 +27,10 @@ const mockFilters: Filter[] = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-kapot/glas.svg?temp_url_sig=7b6c01926248bbb41d4de407f2e6a14f970d3d790ecc0d9ca6102bae2332e7c8&temp_url_expires=1665401494',
         name: 'Container glas kapot',
         slug: 'container-glas-kapot',
+        nrOfIncidents: 1,
       },
     ],
+    nrOfIncidents: 1,
   },
   {
     _display: 'Openbaar groen en water',
@@ -35,6 +38,7 @@ const mockFilters: Filter[] = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
     name: 'Openbaar groen en water',
     slug: 'openbaar-groen-en-water',
+    nrOfIncidents: 6,
   },
 ]
 

@@ -75,7 +75,14 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters.map((filter: Filter) => {
-          const { name, filterActive, _display, icon, subCategories } = filter
+          const {
+            name,
+            filterActive,
+            _display,
+            icon,
+            subCategories,
+            nrOfIncidents,
+          } = filter
           return subCategories ? (
             <FilterCategoryWithSub
               key={name}
@@ -89,7 +96,10 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
                 toggleFilter([filter], !filterActive)
               }}
               selected={filterActive}
-              text={_display || name}
+              text={
+                _display + ' nr ' + nrOfIncidents ||
+                name + ' nr ' + nrOfIncidents
+              }
               icon={icon}
             />
           )
