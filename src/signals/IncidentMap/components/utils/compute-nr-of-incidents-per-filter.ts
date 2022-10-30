@@ -9,20 +9,32 @@ export const computeNrOfIncidentsPerFilter = (
   filters: Filter[],
   incidents: Feature<any, Properties>[]
 ): Filter[] => {
-  return filters.map((filter: Filter) => {
-    const nrOfIncidents = incidents.reduce((acc: number, incident) => {
-      return filter.slug === incident.properties.category.slug ||
-        filter.slug === incident.properties.category.parent.slug
-        ? acc + 1
-        : acc
-    }, 0)
+  const counts = new Map<string, number>()
 
-    return {
-      ...filter,
-      subCategories:
-        filter.subCategories &&
-        computeNrOfIncidentsPerFilter(filter.subCategories, incidents),
-      nrOfIncidents,
-    } as Filter
+  incidents.forEach((incident) => {
+    counts.set(
+      incident.properties.category.slug,
+      (counts.get(incident.properties.category.slug) || 0) + 1
+    )
+    if (
+      incident.properties.category.slug !==
+      incident.properties.category.parent.slug
+    ) {
+      counts.set(
+        incident.properties.category.parent.slug,
+        (counts.get(incident.properties.category.parent.slug) || 0) + 1
+      )
+    }
   })
+
+  return filters.map((filter: Filter) => ({
+    ...filter,
+    subCategories:
+      filter.subCategories &&
+      filter.subCategories.map((filter: Filter) => ({
+        ...filter,
+        nrOfIncidents: counts.get(filter.slug) || 0,
+      })),
+    nrOfIncidents: counts.get(filter.slug) || 0,
+  }))
 }
