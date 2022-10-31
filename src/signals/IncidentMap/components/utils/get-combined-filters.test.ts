@@ -13,14 +13,14 @@ describe('getCombinedFilters', function () {
     ).toEqual(3)
   })
   it('should return just a sub category', function () {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     expect(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       getCombinedFilters(mockFiltersShort[0].subCategories[1], mockFiltersShort)
         .length
     ).toEqual(1)
   })
-  it('should ', function () {
+  it('should return sub and its main category', function () {
     mockFiltersShort[0].filterActive = false
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
+import { useFetch } from 'hooks'
 import type { Map as MapType, LatLngLiteral } from 'leaflet'
 import isEqual from 'lodash/isEqual'
-
-import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -68,12 +67,12 @@ export const IncidentMap = () => {
   /* istanbul ignore next */
   const handleIncidentSelect = useCallback(
     (incident: Incident) => {
-      const sanitaizedCoords = featureToCoordinates(incident.geometry)
+      const sanitizedCoords = featureToCoordinates(incident.geometry)
       // When marker is underneath the drawerOverlay, move the map slightly up
-      if (map && isMobile(mode) && sanitaizedCoords.lat < map.getCenter().lat) {
+      if (map && isMobile(mode) && sanitizedCoords.lat < map.getCenter().lat) {
         const coords = {
-          lat: sanitaizedCoords.lat - 0.0003,
-          lng: sanitaizedCoords.lng,
+          lat: sanitizedCoords.lat - 0.0003,
+          lng: sanitizedCoords.lng,
         }
         const zoom = getZoom(map)
 
