@@ -1,9 +1,10 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import type { Props } from './FilterCategory'
 import { FilterCategory } from './FilterCategory'
-import userEvent from '@testing-library/user-event'
 
 const mockOnToggleCategory = jest.fn()
 
@@ -17,7 +18,6 @@ const defaultProps: Props = {
 describe('FilterCategory', () => {
   it('toggles the checkbox on click', async () => {
     render(<FilterCategory {...defaultProps} />)
-    screen.debug()
     userEvent.click(screen.getByRole('checkbox'))
   })
 })

@@ -10,4 +10,10 @@ describe('getFilteredIncidents', () => {
 
     expect(result.length).toEqual(3)
   })
+  it('should return only active filters with the first without icon', () => {
+    mockIncidentsShort[0].properties.icon = ''
+    const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
+
+    expect(result.length).toEqual(3)
+  })
 })
