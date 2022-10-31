@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useCallback, useState, useContext, useRef, useEffect } from 'react'
+import type { KeyboardEvent, ChangeEvent, FC } from 'react'
+
+import { ChevronLeft } from '@amsterdam/asc-assets'
 import {
   Paragraph,
   Label,
@@ -10,9 +13,10 @@ import {
   breakpoint,
   ascDefaultTheme,
 } from '@amsterdam/asc-ui'
+import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
-
-import type { KeyboardEvent, ChangeEvent, FC } from 'react'
+import { formatAddress } from 'shared/services/format-address'
+import type { PdokResponse } from 'shared/services/map-location'
 import {
   selectionIsObject,
   selectionIsUndetermined,
@@ -20,11 +24,6 @@ import {
   NEARBY_TYPE,
   UNREGISTERED_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
-
-import type { PdokResponse } from 'shared/services/map-location'
-import { formatAddress } from 'shared/services/format-address'
-import { ChevronLeft } from '@amsterdam/asc-assets'
-import { useDispatch } from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import AssetSelectContext from '../../context'
@@ -190,7 +189,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onClear={removeItem}
             onSelect={onAddressSelect}
             value={addressValue}
-            placeholder="Zoek adres of postcode"
+            placeholder="Zoek naar adres"
           />
         )}
 
@@ -284,7 +283,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               onSelect={onAddressSelect}
               showInlineList={false}
               value={addressValue}
-              placeholder="Zoek adres of postcode"
+              placeholder="Zoek naar adres"
               autoFocus={true}
             />
           </header>

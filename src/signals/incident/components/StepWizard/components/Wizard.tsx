@@ -61,13 +61,12 @@ const Wizard = (props: Props) => {
       return
     }
     const stepFromPath = pathToStep(history.location.pathname)
-    if (stepFromPath.id && !stepState.id && steps.some((step) => step.id)) {
+    if (stepFromPath.id && steps.some((step) => step.id)) {
       setStep(stepFromPath)
     }
   }, [
     history.location.pathname,
     pathToStep,
-    stepState.id,
     history.replace,
     history,
     steps,

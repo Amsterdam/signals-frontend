@@ -177,7 +177,10 @@ export const KtoContainer = () => {
               </StyledHeading>
               <StyledParagraph data-testid="succesSectionBody">
                 {successSections[satisfactionIndication].body}
-                {contactAllowed && contactAllowedText}
+                {configuration.featureFlags
+                  .reporterMailHandledNegativeContactEnabled &&
+                  contactAllowed &&
+                  contactAllowedText}
               </StyledParagraph>
             </header>
           )}

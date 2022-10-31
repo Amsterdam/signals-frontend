@@ -1,4 +1,2 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-
 export { AddressLocation } from './AddressLocation'
+export { AddressSearchMobile } from './AddressSearchMobile'
