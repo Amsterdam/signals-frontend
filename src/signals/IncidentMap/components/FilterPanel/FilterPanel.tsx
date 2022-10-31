@@ -3,13 +3,13 @@
 import { useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
-
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
+import { getCombinedFilters } from '../utils/get-combined-filters'
 import { FilterCategory } from './FilterCategory'
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
 import { Wrapper } from './styled'
@@ -25,24 +25,16 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   const { get, data, error } = useFetch<Categories>()
 
   const toggleFilter = useCallback(
-    /**
-     *
-     * @param allFilters these are the filters derived from the checkboxes.
-     * They can be either main or sub categories or a combination of both
-     * @param newFilterActive
-     */
-    (allFilters: Filter[], newFilterActive: boolean) => {
-      let updatedFilters = filters
+    (filter: Filter, newFilterActive: boolean) => {
+      let allFilters = filters
+      const combinedFilters = getCombinedFilters(filter, filters)
 
-      allFilters.forEach((categoryFilter) => {
+      combinedFilters.forEach((categoryFilter) => {
         if (categoryFilter.filterActive !== newFilterActive) {
-          updatedFilters = updateFilterCategory(
-            categoryFilter.name,
-            updatedFilters
-          )
+          allFilters = updateFilterCategory(categoryFilter.name, allFilters)
         }
       })
-      setFilters(updatedFilters)
+      setFilters(allFilters)
     },
     [filters, setFilters]
   )
@@ -90,7 +82,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
               <FilterCategory
                 key={name}
                 onToggleCategory={() => {
-                  toggleFilter([filter], !filterActive)
+                  toggleFilter(filter, !filterActive)
                 }}
                 selected={filterActive}
                 text={_display || name}

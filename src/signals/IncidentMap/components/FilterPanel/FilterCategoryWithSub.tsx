@@ -14,7 +14,7 @@ import {
 } from './styled'
 
 export interface Props {
-  onToggleCategory: (filter: Filter[], select: boolean) => void
+  onToggleCategory: (filter: Filter, select: boolean) => void
   filter: Filter
 }
 
@@ -28,7 +28,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         <WrapperFilterCategoryWithIcon>
           <FilterCategory
             onToggleCategory={() => {
-              onToggleCategory([filter, ...subCategories], !filterActive)
+              onToggleCategory(filter, !filterActive)
             }}
             selected={filterActive}
             text={name}
@@ -57,10 +57,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
                      *  - false, toggle main category true as well
                      *  - true, only toggle sub category
                      */
-                    onToggleCategory(
-                      filterActive ? [subCategory] : [filter, subCategory],
-                      !filterActive
-                    )
+                    onToggleCategory(subCategory, !filterActive)
                   }}
                   selected={filterActive}
                   text={_display || name}
