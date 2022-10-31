@@ -15,13 +15,12 @@ export const LinkExpired = () => {
 
   const onClick = useCallback(() => {
     history.push(routes.requestAccess)
-    console.log('onClick')
   }, [history])
 
   return (
     <BasePage
-      documentTitle="Bevestig e-mailadres"
-      data-testid="confirmEmailAddressMyIncidents"
+      documentTitle="Link verlopen"
+      data-testid="expiredLinkMyIncidents"
       pageTitle="Link verlopen"
     >
       <Paragraph fontSize={16}>

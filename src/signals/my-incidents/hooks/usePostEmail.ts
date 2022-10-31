@@ -6,23 +6,18 @@ import useFetch from 'hooks/useFetch'
 import type { FetchResponse } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
-type PostEmail = (email: string, isValid?: boolean) => void
+type PostEmail = (email: string) => void
 
 export const usePostEmail = (): [
   PostEmail,
   Omit<FetchResponse<null>, 'post'>
 ] => {
   const { post, ...rest } = useFetch<null>()
-  console.log('--- ~ rest', rest)
 
   const endpoint = `${configuration.MY_SIGNALS_LOGIN_URL}`
 
   const postEmail: PostEmail = useCallback(
-    (email, isValid = true) => {
-      if (!isValid) {
-        return
-      }
-
+    (email) => {
       const payload = {
         email,
       }

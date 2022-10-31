@@ -1,28 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useState } from 'react'
+import { useContext, useCallback, useState } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
 import Button from 'components/Button'
 import BasePage from 'components/pages/BasePage'
 
+import MyIncidentsContext from '../context'
 import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
-interface Props {
-  email: string
-}
 
-export const Confirmation = ({ email = 'janjanssen@ziggo.nl' }: Props) => {
+export const Confirmation = () => {
   const history = useHistory()
+  const { email } = useContext(MyIncidentsContext)
 
   const [pageTitle, setPageTitle] = useState('Bevestig uw e-mailadres')
   const [postEmail] = usePostEmail()
 
   const onResubmit = useCallback(() => {
-    postEmail(email)
-    setPageTitle('Opnieuw verstuurd')
+    if (email) {
+      postEmail(email)
+      setPageTitle('Opnieuw verstuurd')
+    }
   }, [email, postEmail])
 
   const onCancel = useCallback(() => {

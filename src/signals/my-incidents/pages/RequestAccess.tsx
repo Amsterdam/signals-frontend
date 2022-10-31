@@ -4,6 +4,7 @@ import BasePage from 'components/pages/BasePage'
 
 import { EmailInput } from '../components'
 import { StyledParagraph as Paragraph } from './styled'
+
 export const RequestAccess = () => {
   return (
     <BasePage

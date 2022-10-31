@@ -3,7 +3,7 @@
 export const BASE_URL = '/mijn-meldingen'
 export const CONFIRM = `${BASE_URL}/bevestig`
 export const EXPIRED = `${BASE_URL}/verlopen`
-export const REQUEST_ACCESS = `${BASE_URL}/toegangsverzoek`
+export const REQUEST_ACCESS = `${BASE_URL}/login`
 
 export const routes = {
   baseUrl: BASE_URL,
