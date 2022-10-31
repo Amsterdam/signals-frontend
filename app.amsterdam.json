@@ -6,6 +6,7 @@
     "assignSignalToEmployee": false,
     "enableAmsterdamSpecificOverigCategories": true,
     "enableCsvExport": false,
+    "enableMyIncidents": true,
     "enableNearIncidents": true,
     "enablePublicIncidentsMap": true,
     "enablePublicSignalMap": false,

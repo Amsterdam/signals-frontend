@@ -122,7 +122,9 @@ export const AppContainer = () => {
                     component={IncidentMapContainer}
                   />
                 )}
-                <Route path="/mijn-meldingen" component={Login} />
+                {configuration.featureFlags.enableMyIncidents && (
+                  <Route path="/mijn-meldingen" component={Login} />
+                )}
                 <Route
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}
