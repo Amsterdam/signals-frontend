@@ -1,4 +1,6 @@
-export const mockFilters = [
+import type { Filter } from '../../types'
+
+export const mockFiltersShort: Filter[] = [
   {
     _display: 'Afval',
     filterActive: true,
@@ -12,7 +14,44 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Container bijplaatsing',
         slug: 'container-bijplaatsing',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
+      },
+      {
+        _display: 'Container glas kapot (Afval)',
+        filterActive: false,
+        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-kapot/glas.svg?temp_url_sig=7b6c01926248bbb41d4de407f2e6a14f970d3d790ecc0d9ca6102bae2332e7c8&temp_url_expires=1665401494',
+        name: 'Container glas kapot',
+        slug: 'container-glas-kapot',
+        nrOfIncidents: 0,
+      },
+    ],
+    nrOfIncidents: 0,
+  },
+  {
+    _display: 'Openbaar groen en water',
+    filterActive: true,
+    icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
+    name: 'Openbaar groen en water',
+    slug: 'openbaar-groen-en-water',
+    nrOfIncidents: 0,
+  },
+]
+
+export const mockFiltersLong = [
+  {
+    _display: 'Afval',
+    filterActive: true,
+    icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+    name: 'Afval',
+    slug: 'afval',
+    subCategories: [
+      {
+        _display: 'Container bijplaatsing (Afval)',
+        filterActive: true,
+        icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+        name: 'Container bijplaatsing',
+        slug: 'container-bijplaatsing',
+        nrOfIncidents: 0,
       },
       {
         _display: 'Container glas kapot (Afval)',
@@ -20,7 +59,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-kapot/glas.svg?temp_url_sig=7b6c01926248bbb41d4de407f2e6a14f970d3d790ecc0d9ca6102bae2332e7c8&temp_url_expires=1665401494',
         name: 'Container glas kapot',
         slug: 'container-glas-kapot',
-        nrOfIncidents: 3,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Container glas vol (Afval)',
@@ -28,7 +67,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-vol/glas.svg?temp_url_sig=164091a6e44be0c0a8732deb57bf4a863121c436ebe646a2bb565aa45717d522&temp_url_expires=1665401494',
         name: 'Container glas vol',
         slug: 'container-glas-vol',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Container is vol (Afval)',
@@ -36,7 +75,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Container is vol',
         slug: 'container-is-vol',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Container papier kapot (Afval)',
@@ -44,7 +83,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-voor-papier-is-stuk/papier.svg?temp_url_sig=4ade18a3c4d5f1a62b1e5e37165525dd275216ad258f4f1672fcecf907ea81eb&temp_url_expires=1665401494',
         name: 'Container papier kapot',
         slug: 'container-voor-papier-is-stuk',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Container papier vol (Afval)',
@@ -52,7 +91,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-voor-papier-is-vol/papier.svg?temp_url_sig=76ad7e9d14463e6febbe7b1f331e7463e3dbeb97da5e7a69f1625470c983f073&temp_url_expires=1665401494',
         name: 'Container papier vol',
         slug: 'container-voor-papier-is-vol',
-        nrOfIncidents: 19,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Grofvuil (Afval)',
@@ -60,7 +99,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Grofvuil',
         slug: 'grofvuil',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Huisafval (Afval)',
@@ -68,7 +107,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Huisafval',
         slug: 'huisafval',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Overig afval (Afval)',
@@ -76,7 +115,7 @@ export const mockFilters = [
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/overig-afval/rest.svg?temp_url_sig=2805c1579290df976aa46759e6e03341a827c8af7dc31dcd482a587c17ca7bbb&temp_url_expires=1665401494',
         name: 'Overig afval',
         slug: 'overig-afval',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
     ],
     nrOfIncidents: 1,
@@ -94,7 +133,7 @@ export const mockFilters = [
     filterActive: true,
     name: 'Overig',
     slug: 'overig',
-    nrOfIncidents: 1,
+    nrOfIncidents: 0,
   },
   {
     _display: 'Overlast Bedrijven en Horeca',
@@ -102,7 +141,7 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495',
     name: 'Overlast Bedrijven en Horeca',
     slug: 'overlast-bedrijven-en-horeca',
-    nrOfIncidents: 12,
+    nrOfIncidents: 0,
   },
   {
     _display: 'Overlast op het water',
@@ -110,7 +149,7 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-op-het-water/boten.svg?temp_url_sig=000b99761f3b98215c5a3596ad3cc55c3fe8e3633540fd2b778f2d12c92cac9b&temp_url_expires=1665401495',
     name: 'Overlast op het water',
     slug: 'overlast-op-het-water',
-    nrOfIncidents: 12,
+    nrOfIncidents: 0,
   },
   {
     _display: 'Schoon',
@@ -118,7 +157,7 @@ export const mockFilters = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/schoon/onderhoud.svg?temp_url_sig=04ee5fd350a9dc3dd1c6df035ebd61eb008654f62e46c7a079a4288e90ea2a47&temp_url_expires=1665401495',
     name: 'Schoon',
     slug: 'schoon',
-    nrOfIncidents: 13,
+    nrOfIncidents: 0,
   },
   {
     _display: 'Wegen, verkeer, straatmeubilair',
@@ -131,7 +170,7 @@ export const mockFilters = [
         filterActive: true,
         name: 'Autom. Verzinkbare palen',
         slug: 'autom-verzinkbare-palen',
-        nrOfIncidents: 1,
+        nrOfIncidents: 0,
       },
       {
         _display:
@@ -139,7 +178,7 @@ export const mockFilters = [
         filterActive: true,
         name: 'Overig Wegen, verkeer, straatmeubilair',
         slug: 'overig-wegen-verkeer-straatmeubilair',
-        nrOfIncidents: 16,
+        nrOfIncidents: 0,
       },
       {
         _display: 'Straatverlichting (Wegen, verkeer, straatmeubilair)',
@@ -150,6 +189,6 @@ export const mockFilters = [
         nrOfIncidents: 1,
       },
     ],
-    nrOfIncidents: 2,
+    nrOfIncidents: 1,
   },
 ]

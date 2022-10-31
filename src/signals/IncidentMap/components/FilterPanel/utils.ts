@@ -7,7 +7,7 @@ import type { Filter, SubCategory } from '../../types'
 export const getFilterCategoriesWithIcons = (
   categories: Category[]
 ): Filter[] => {
-  const result = categories
+  return categories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((category) => {
       const { sub_categories, _display, _links, name, slug } = category
@@ -27,8 +27,6 @@ export const getFilterCategoriesWithIcons = (
 
       return categoriesWithIcons
     })
-
-  return result
 }
 
 function showSubCategoryFilter(category: Category) {
@@ -38,7 +36,7 @@ function showSubCategoryFilter(category: Category) {
 const getSubCategories = (
   subCategories: Category['sub_categories'] = []
 ): SubCategory[] => {
-  const result = subCategories
+  return subCategories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((subCategory) => {
       const { name, _display, slug, _links } = subCategory
@@ -51,6 +49,4 @@ const getSubCategories = (
         nrOfIncidents: 0,
       }
     })
-
-  return result
 }

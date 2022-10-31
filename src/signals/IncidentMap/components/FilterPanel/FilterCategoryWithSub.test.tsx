@@ -73,9 +73,25 @@ describe('FilterCategoryWithSub', () => {
   it('shows the subCategories when the chevron is clicked', () => {
     renderFilterCategoryWithSub()
     const chevron = screen.getByRole('button', {
-      name: 'Toon minder filter opties',
+      name: 'Toon meer filter opties',
     })
     userEvent.click(chevron)
     expect(screen.getByText('mockSubCategory_display1')).toBeInTheDocument()
+  })
+
+  it('returns nothing if there are no incidents of that category', () => {
+    const mockNoSubCategoryFilter = {
+      name: 'Afval',
+      _display: 'mock_display',
+      filterActive: true,
+      slug: 'mockSlug',
+      icon: '',
+      nrOfIncidents: 0,
+    }
+
+    const { container } = renderFilterCategoryWithSub({
+      filter: mockNoSubCategoryFilter,
+    })
+    expect(container).toBeEmptyDOMElement()
   })
 })

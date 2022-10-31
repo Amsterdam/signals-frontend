@@ -2,6 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
@@ -10,7 +11,7 @@ import {
   get,
   useFetchResponse,
   fetchCategoriesResponse,
-  mockFilters,
+  mockFiltersLong,
 } from '../__test__'
 import type { Props } from './FilterPanel'
 import { FilterPanel } from './FilterPanel'
@@ -46,12 +47,12 @@ describe('FilterPanel', () => {
     expect(get).toBeCalledWith(configuration.CATEGORIES_ENDPOINT)
     expect(get).toBeCalledTimes(1)
 
-    expect(mockSetFilters).toBeCalledWith(mockFilters)
+    expect(mockSetFilters).toBeCalledTimes(1)
   })
 
   it('should render the filter panel', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
-    renderFilterPanel({ filters: mockFilters })
+    renderFilterPanel({ filters: mockFiltersLong })
 
     expect(
       screen.getByRole('heading', { name: 'Filter op onderwerp' })
@@ -77,7 +78,7 @@ describe('FilterPanel', () => {
 
   it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
-    renderFilterPanel({ filters: mockFilters })
+    renderFilterPanel({ filters: mockFiltersLong })
     const testCategory = 'Afval'
     const checkbox = screen.getByTestId(testCategory)
 
@@ -100,5 +101,33 @@ describe('FilterPanel', () => {
     const { container } = renderFilterPanel()
 
     expect(container.firstChild).toBeNull()
+  })
+
+  it('should not render anything when there are no incidents of that category', () => {
+    const mockFiltersNotinIncident = [
+      {
+        name: 'NoIncident',
+        _display: 'NoIncident',
+        filterActive: true,
+        slug: 'mockSlug',
+        icon: '',
+        nrOfIncidents: 1,
+      },
+      {
+        name: 'NoIncident2',
+        _display: 'NoIncident2',
+        filterActive: true,
+        slug: 'mockSlug2',
+        icon: '',
+        nrOfIncidents: 0,
+      },
+    ]
+
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+    renderFilterPanel({ filters: mockFiltersNotinIncident })
+
+    expect(
+      screen.queryByRole('checkbox', { name: 'icon NoIncident2' })
+    ).not.toBeInTheDocument()
   })
 })

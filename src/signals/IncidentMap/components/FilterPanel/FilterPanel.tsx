@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
+
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
@@ -28,7 +29,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
      *
      * @param allFilters these are the filters derived from the checkboxes.
      * They can be either main or sub categories or a combination of both
-     * @param checked
+     * @param newFilterActive
      */
     (allFilters: Filter[], newFilterActive: boolean) => {
       let updatedFilters = filters
@@ -74,36 +75,29 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
-        {filters.map((filter: Filter) => {
-          const {
-            name,
-            filterActive,
-            _display,
-            icon,
-            subCategories,
-            nrOfIncidents,
-          } = filter
-          return subCategories ? (
-            <FilterCategoryWithSub
-              key={name}
-              filter={filter}
-              onToggleCategory={toggleFilter}
-            />
-          ) : (
-            <FilterCategory
-              key={name}
-              onToggleCategory={() => {
-                toggleFilter([filter], !filterActive)
-              }}
-              selected={filterActive}
-              text={
-                _display + ' nr ' + nrOfIncidents ||
-                name + ' nr ' + nrOfIncidents
-              }
-              icon={icon}
-            />
-          )
-        })}
+        {filters
+          .filter((filter: Filter) => filter.nrOfIncidents)
+          .map((filter: Filter) => {
+            const { name, filterActive, _display, icon, subCategories } = filter
+
+            return subCategories ? (
+              <FilterCategoryWithSub
+                key={name}
+                filter={filter}
+                onToggleCategory={toggleFilter}
+              />
+            ) : (
+              <FilterCategory
+                key={name}
+                onToggleCategory={() => {
+                  toggleFilter([filter], !filterActive)
+                }}
+                selected={filterActive}
+                text={_display || name}
+                icon={icon}
+              />
+            )
+          })}
       </Wrapper>
     </>
   )

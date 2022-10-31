@@ -20,7 +20,7 @@ export interface Props {
 
 export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(false)
-  const { name, filterActive, icon, subCategories, nrOfIncidents } = filter
+  const { name, filterActive, icon, subCategories } = filter
   if (!subCategories) return null
   return (
     <>
@@ -31,7 +31,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
               onToggleCategory([filter, ...subCategories], !filterActive)
             }}
             selected={filterActive}
-            text={name + ' nr ' + nrOfIncidents}
+            text={name}
             icon={icon}
           />
           <InvisibleButton
@@ -45,32 +45,30 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         </WrapperFilterCategoryWithIcon>
 
         <SubSection visible={showSubsection} lines={subCategories.length}>
-          {subCategories.map((subCategory) => {
-            const { name, filterActive, _display, icon, nrOfIncidents } =
-              subCategory
-            return (
-              <FilterCategory
-                onToggleCategory={() => {
-                  /**
-                   * When selecting a sub category when is
-                   *  - false, toggle main category true as well
-                   *  - true, only toggle sub category
-                   */
-                  onToggleCategory(
-                    filterActive ? [subCategory] : [filter, subCategory],
-                    !filterActive
-                  )
-                }}
-                selected={filterActive}
-                text={
-                  _display + ' nr ' + nrOfIncidents ||
-                  name + ' nr ' + nrOfIncidents
-                }
-                key={name}
-                icon={icon}
-              />
-            )
-          })}
+          {subCategories
+            .filter((subCategory) => subCategory.nrOfIncidents)
+            .map((subCategory) => {
+              const { name, filterActive, _display, icon } = subCategory
+              return (
+                <FilterCategory
+                  onToggleCategory={() => {
+                    /**
+                     * When selecting a sub category when is
+                     *  - false, toggle main category true as well
+                     *  - true, only toggle sub category
+                     */
+                    onToggleCategory(
+                      filterActive ? [subCategory] : [filter, subCategory],
+                      !filterActive
+                    )
+                  }}
+                  selected={filterActive}
+                  text={_display || name}
+                  key={name}
+                  icon={icon}
+                />
+              )
+            })}
         </SubSection>
       </SectionWrapper>
     </>
