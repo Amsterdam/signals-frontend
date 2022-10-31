@@ -5,20 +5,23 @@ import { useCallback } from 'react'
 import { Heading } from '@amsterdam/asc-ui'
 import type { LatLngLiteral } from 'leaflet'
 
-import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
-import type { Address } from 'types/address'
 
-import { StyledPDOKAutoSuggest, Wrapper } from './styled'
+import {
+  StyledPDOKAutoSuggest,
+  AddressLocationWrapper as Wrapper,
+} from './styled'
 export interface Props {
-  setCoordinates: (coordinates: LatLngLiteral) => void
-  address?: Address
-  setAddress: (address?: Address) => void
+  address?: string
+  setCoordinates: (coordinates?: LatLngLiteral) => void
+  setShowAddressSearchMobile: (value: boolean) => void
 }
 
-export const AddressLocation = ({ setCoordinates, address }: Props) => {
-  const addressValue = address ? formatAddress(address) : ''
-
+export const AddressLocation = ({
+  setCoordinates,
+  address,
+  setShowAddressSearchMobile,
+}: Props) => {
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       setCoordinates(option.data.location)
@@ -31,9 +34,13 @@ export const AddressLocation = ({ setCoordinates, address }: Props) => {
       <Heading as="h4">Zoom naar adres</Heading>
       <StyledPDOKAutoSuggest
         data-testid="searchAddressBar"
-        placeholder={'Zoek naar adres'}
+        placeholder="Adres"
         onSelect={onAddressSelect}
-        value={addressValue}
+        value={address}
+        onClear={() => setCoordinates(undefined)}
+        onFocus={() => {
+          setShowAddressSearchMobile(true)
+        }}
       />
     </Wrapper>
   )

@@ -9,13 +9,13 @@ import {
   act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Wizard, Step, Steps } from 'react-albus'
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'
 import { validatePhoneNumber } from '../../services/custom-validators'
 import FormComponents from '../form'
 import IncidentNavigation from '../IncidentNavigation'
+import { Wizard, Step, Steps } from '../StepWizard'
 
 const PHONE_LABEL_REQUIRED = 'Wat is uw telefoonnummer?'
 const PHONE_LABEL = `${PHONE_LABEL_REQUIRED}(niet verplicht)`
@@ -59,11 +59,15 @@ const renderIncidentForm = (props, renderFunction = render) =>
     withAppContext(
       <Wizard onNext={nextSpy}>
         <Steps>
-          <Step id="incident/mock">
-            <FormProviderWithResolver {...props}>
-              <IncidentForm {...props} ref={ref} />
-            </FormProviderWithResolver>
-          </Step>
+          <Step
+            id="incident/mock"
+            key="incident/mock"
+            render={() => (
+              <FormProviderWithResolver {...props}>
+                <IncidentForm {...props} ref={ref} />
+              </FormProviderWithResolver>
+            )}
+          ></Step>
         </Steps>
       </Wizard>
     )
@@ -136,7 +140,6 @@ describe('<IncidentForm />', () => {
           },
         },
       }
-
       renderIncidentForm(props)
     })
 
@@ -189,7 +192,6 @@ describe('<IncidentForm />', () => {
         },
         rerender
       )
-
       expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument()
     })
   })

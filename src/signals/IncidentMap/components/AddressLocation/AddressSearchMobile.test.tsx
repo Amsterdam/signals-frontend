@@ -8,8 +8,8 @@ import userEvent from '@testing-library/user-event'
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import type { PdokResponse } from 'shared/services/map-location'
 
-import type { Props } from './AddressLocation'
-import { AddressLocation } from './AddressLocation'
+import type { Props } from './AddressSearchMobile'
+import { AddressSearchMobile } from './AddressSearchMobile'
 
 const mockAddress = {
   postcode: '1000 AA',
@@ -73,8 +73,8 @@ const defaultProps: Props = {
 }
 
 describe('AddresLocation', () => {
-  it('tests whether the onAddressSelect actually sets the coordinates', async () => {
-    render(<AddressLocation {...defaultProps} />)
+  it('should set coordinates', async () => {
+    render(<AddressSearchMobile {...defaultProps} />)
 
     userEvent.click(screen.getByText('selectItem'))
 
@@ -88,7 +88,7 @@ describe('AddresLocation', () => {
       ...defaultProps,
       address: 'Warmoesstraat 178, 1012JK Amsterdam',
     }
-    render(<AddressLocation {...props} />)
+    render(<AddressSearchMobile {...props} />)
 
     const input = screen.getByText('Warmoesstraat 178, 1012JK Amsterdam')
 
@@ -96,7 +96,7 @@ describe('AddresLocation', () => {
   })
 
   it('should reset the coordinates on reset button', () => {
-    render(<AddressLocation {...defaultProps} />)
+    render(<AddressSearchMobile {...defaultProps} />)
 
     const resetButton = screen.getByRole('button', { name: 'Clear input' })
 
@@ -105,5 +105,15 @@ describe('AddresLocation', () => {
     const input = screen.getByRole('textbox')
 
     expect(input).toHaveValue('')
+  })
+
+  it('should close overlay on back button', () => {
+    render(<AddressSearchMobile {...defaultProps} />)
+
+    const button = screen.getByRole('button', { name: 'Terug' })
+
+    userEvent.click(button)
+
+    expect(defaultProps.setShowAddressSearchMobile).toHaveBeenCalledWith(false)
   })
 })

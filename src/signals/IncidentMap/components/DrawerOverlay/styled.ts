@@ -65,6 +65,7 @@ export const DrawerHandleMiniDesktop = styled.div`
   box-sizing: content-box;
   border-left: none;
   transition: background-color 0.1s ease-in-out;
+
   &:before {
     content: '';
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
@@ -82,9 +83,7 @@ export const DrawerHandleDesktop = styled(Button)`
   height: 100%;
   position: relative;
   margin-right: ${themeSpacing(5)};
-  @media print {
-    display: none;
-  }
+
   & > ${styles.IconStyle} {
     opacity: 0;
   }
@@ -127,10 +126,7 @@ export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`
   right: 0;
   left: 0;
   will-change: transform;
-  @media print {
-    position: relative;
-    width: 100%;
-  }
+
   ${({ $mode }) =>
     isDesktop($mode) &&
     css`
@@ -160,20 +156,23 @@ export const Drawer = styled.div<ModeProp>`
 
 export const DrawerContent = styled.div`
   display: flex;
+  background-color: ${themeColor('tint', 'level1')};
   flex-direction: column;
   flex-grow: 1;
-  min-height: 0;
-  position: relative;
-  background-color: ${themeColor('tint', 'level1')};
   max-width: 100%;
+  min-height: 0;
   overflow-y: auto;
+  position: relative;
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: ${MENU_WIDTH}px;
   }
 `
 
-// Detail Panel
+/**
+ * Detail Panel
+ * */
+
 export const CloseButton = styled(Button)`
   position: absolute;
   top: 14px;
@@ -181,6 +180,7 @@ export const CloseButton = styled(Button)`
   min-width: inherit;
   // Needs z-index else content blocks the onClick
   z-index: 1;
+  background-color: transparent;
 
   > span {
     margin-right: 0;
@@ -189,16 +189,15 @@ export const CloseButton = styled(Button)`
 
 export const DetailsWrapper = styled.section`
   position: absolute;
-  padding: 20px;
-  top: 0;
-  right: 0;
+  background-color: ${themeColor('tint', 'level1')};
   bottom: 0;
   left: 0;
-  width: calc(${MENU_WIDTH}px - 16px);
   max-width: 100%;
+  padding: 20px;
+  right: 0;
+  top: 0;
+  width: calc(${MENU_WIDTH}px - 16px);
   z-index: 2;
-
-  background-color: ${themeColor('tint', 'level1')};
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     width: 100vh;
@@ -215,7 +214,6 @@ export const StyledList = styled.dl`
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
     margin-top: ${themeSpacing(5)};
-
     position: relative;
     font-weight: 400;
 

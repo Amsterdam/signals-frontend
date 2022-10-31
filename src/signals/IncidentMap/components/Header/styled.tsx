@@ -6,12 +6,12 @@ import styled from 'styled-components'
 import { HEADER_HEIGHT_DESKTOP, HEADER_HEIGHT_MOBILE } from './constants'
 
 export const HeaderWrapper = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
   display: flex;
   justify-content: space-between;
   height: ${themeSpacing(HEADER_HEIGHT_DESKTOP)};
   width: 100%;
-  padding: 0 ${themeSpacing(4)};
   background-color: ${themeColor('tint', 'level1')};
   box-shadow: ${themeSpacing(0, 0, 0, 1)} rgba(0, 0, 0, 0.1);
   // z-index relative to map
@@ -19,7 +19,6 @@ export const HeaderWrapper = styled.div`
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     height: ${themeSpacing(HEADER_HEIGHT_MOBILE)};
-    padding: ${themeSpacing(0, 0, 0, 4)};
   }
 `
 
@@ -27,6 +26,7 @@ export const Title = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+  margin-left: ${themeSpacing(4)};
 
   img {
     height: 100%;
