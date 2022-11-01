@@ -34,9 +34,6 @@ const mockFilter = {
   incidentsCount: 2,
 }
 
-const testCategory = 'Afval'
-const testSubCategroy = 'mockSubCategory_display2'
-
 const defaultProps: Props = {
   onToggleCategory: mockOnToggleCategory,
   filter: mockFilter,
@@ -48,19 +45,6 @@ const renderFilterCategoryWithSub = (props: Partial<Props> = {}) =>
 describe('FilterCategoryWithSub', () => {
   afterEach(() => {
     jest.resetAllMocks()
-  })
-  it('toggles the category checkbox on click', () => {
-    renderFilterCategoryWithSub()
-    const checkbox = screen.getByText(testCategory)
-    userEvent.click(checkbox)
-    expect(checkbox).not.toBeChecked() // not, because filters are automatically checked at the start
-  })
-
-  it('toggles the sub category checkbox on click', () => {
-    renderFilterCategoryWithSub()
-    const checkbox = screen.getByText(testSubCategroy)
-    userEvent.click(checkbox)
-    expect(checkbox).not.toBeChecked() // not, because filters are automatically checked at the start
   })
 
   it('returns nothing if there are no subCategories', () => {
@@ -78,6 +62,7 @@ describe('FilterCategoryWithSub', () => {
     })
     expect(container).toBeEmptyDOMElement()
   })
+
   it('shows the subCategories when the chevron is clicked', () => {
     renderFilterCategoryWithSub()
     const chevron = screen.getByRole('button', {

@@ -16,8 +16,9 @@ const defaultProps: Props = {
 }
 
 describe('FilterCategory', () => {
-  it('toggles the checkbox on click', async () => {
+  it('toggles the checkbox on click', () => {
     render(<FilterCategory {...defaultProps} />)
-    userEvent.click(screen.getByRole('checkbox'))
+    userEvent.click(screen.getByRole('checkbox', { name: /mockName/ }))
+    expect(screen.getByRole('checkbox', { name: /mockName/ })).toBeChecked()
   })
 })

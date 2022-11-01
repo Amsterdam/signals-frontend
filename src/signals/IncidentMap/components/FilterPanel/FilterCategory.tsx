@@ -16,20 +16,18 @@ export const FilterCategory = ({
   text,
   onToggleCategory,
   icon,
-}: Props) => {
-  return (
-    <CategoryItem htmlFor={text}>
-      <Checkbox
-        data-testid={text}
-        id={text}
-        checked={selected}
-        onChange={onToggleCategory}
-      />
-      <StyledImg
-        alt="icon"
-        src={icon || 'assets/images/icon-incident-marker.svg'}
-      />
-      <CategoryItemText>{text}</CategoryItemText>
-    </CategoryItem>
-  )
-}
+}: Props) => (
+  <CategoryItem htmlFor={text}>
+    <Checkbox
+      data-testid={text}
+      id={text}
+      checked={selected}
+      onChange={onToggleCategory}
+    />
+    <StyledImg
+      alt="icon"
+      src={icon || 'assets/images/icon-incident-marker.svg'}
+    />
+    <CategoryItemText>{text}</CategoryItemText>
+  </CategoryItem>
+)

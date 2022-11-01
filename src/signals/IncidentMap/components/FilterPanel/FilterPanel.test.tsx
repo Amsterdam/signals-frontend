@@ -56,8 +56,9 @@ describe('FilterPanel', () => {
     expect(
       screen.getByRole('heading', { name: 'Filter op onderwerp' })
     ).toBeInTheDocument()
+
     expect(
-      screen.getByRole('checkbox', { name: 'icon Openbaar groen en water' })
+      screen.getByRole('checkbox', { name: /Openbaar groen en water/ })
     ).toBeInTheDocument()
   })
 

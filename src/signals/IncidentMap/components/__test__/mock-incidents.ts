@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Feature } from 'geojson'
 
 import type { Incident } from '../../types'
-import type { Properties } from '../../types'
 
-export const mockIncidentsShort: Feature<any, Properties>[] = [
+export const mockIncidentsShort: Incident[] = [
   {
     type: 'Feature',
     geometry: {

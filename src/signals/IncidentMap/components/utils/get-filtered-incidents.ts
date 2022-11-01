@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Feature } from 'geojson'
+import type { Feature, Point } from 'geojson'
 
 import type { Filter, Properties } from '../../types'
 /*
@@ -9,8 +9,8 @@ of the maintCategory is unchecked.
  */
 export const getFilteredIncidents = (
   filters: Filter[],
-  incidents: Feature<any, Properties>[]
-): Feature<any, Properties>[] => {
+  incidents: Feature<Point, Properties>[]
+): Feature<Point, Properties>[] => {
   const activeFilters = filters.reduce((acc: Filter[], filter) => {
     if (filter.filterActive) {
       acc.push(filter)

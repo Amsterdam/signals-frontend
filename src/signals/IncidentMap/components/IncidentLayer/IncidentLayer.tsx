@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
+import type { MutableRefObject } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import MarkerCluster from 'components/MarkerCluster'
@@ -24,7 +25,7 @@ interface Props {
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
   resetSelectedMarker: () => void
-  selectedMarkerRef: React.MutableRefObject<L.Marker<Properties> | undefined>
+  selectedMarkerRef: MutableRefObject<L.Marker<Properties> | undefined>
 }
 
 /* istanbul ignore next */

@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Feature } from 'geojson'
 
-import type { Filter, Properties } from '../../types'
+import type { Filter, Incident } from '../../types'
 
 export const computeIncidentsCountPerFilter = (
   filters: Filter[],
-  incidents: Feature<any, Properties>[]
+  incidents: Incident[]
 ): Filter[] => {
   const counts = new Map<string, number>()
 
