@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import type { Props } from './FilterCategory'
 import { FilterCategory } from './FilterCategory'
@@ -18,7 +17,6 @@ const defaultProps: Props = {
 describe('FilterCategory', () => {
   it('toggles the checkbox on click', () => {
     render(<FilterCategory {...defaultProps} />)
-    userEvent.click(screen.getByRole('checkbox', { name: /mockName/ }))
     expect(screen.getByRole('checkbox', { name: /mockName/ })).toBeChecked()
   })
 })

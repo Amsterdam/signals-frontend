@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
 import type { Props } from './FilterCategoryWithSub'
@@ -60,6 +61,27 @@ describe('FilterCategoryWithSub', () => {
       filter: mockNoSubCategoryFilter,
     })
     expect(container).toBeEmptyDOMElement()
+  })
+
+  it('shows the subCategories when the chevron is clicked', () => {
+    renderFilterCategoryWithSub()
+    const chevron = screen.getByRole('button', {
+      name: 'Toon meer filter opties',
+    })
+    userEvent.click(chevron)
+
+    expect(screen.getByText('mockSubCategory_display1')).toBeInTheDocument()
+  })
+
+  it('should hit the subcategory toggle', function () {
+    renderFilterCategoryWithSub()
+    const checkBox = screen.getByRole('checkbox', {
+      name: /mockSubCategory_display1/,
+    })
+
+    userEvent.click(checkBox)
+
+    expect(mockOnToggleCategory).toBeCalled()
   })
 
   it('returns nothing if there are no incidents of that category', () => {
