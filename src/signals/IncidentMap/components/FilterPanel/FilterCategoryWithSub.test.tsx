@@ -20,7 +20,7 @@ const mockFilter = {
       filterActive: true,
       slug: 'mockSubCategoryslug1',
       icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
-      nrOfIncidents: 1,
+      incidentsCount: 1,
     },
     {
       name: 'mockSubCategoryname2',
@@ -28,10 +28,10 @@ const mockFilter = {
       filterActive: true,
       slug: 'mockSubCategoryslug2',
       icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
-      nrOfIncidents: 1,
+      incidentsCount: 1,
     },
   ],
-  nrOfIncidents: 2,
+  incidentsCount: 2,
 }
 
 const testCategory = 'Afval'
@@ -70,7 +70,7 @@ describe('FilterCategoryWithSub', () => {
       filterActive: true,
       slug: 'mockSlug',
       icon: '',
-      nrOfIncidents: 3,
+      incidentsCount: 3,
     }
 
     const { container } = renderFilterCategoryWithSub({
@@ -94,7 +94,7 @@ describe('FilterCategoryWithSub', () => {
       filterActive: true,
       slug: 'mockSlug',
       icon: '',
-      nrOfIncidents: 0,
+      incidentsCount: 0,
     }
 
     const { container } = renderFilterCategoryWithSub({

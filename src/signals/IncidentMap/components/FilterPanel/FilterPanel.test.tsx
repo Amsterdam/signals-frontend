@@ -2,7 +2,6 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
@@ -111,7 +110,7 @@ describe('FilterPanel', () => {
         filterActive: true,
         slug: 'mockSlug',
         icon: '',
-        nrOfIncidents: 1,
+        incidentsCount: 1,
       },
       {
         name: 'NoIncident2',
@@ -119,7 +118,7 @@ describe('FilterPanel', () => {
         filterActive: true,
         slug: 'mockSlug2',
         icon: '',
-        nrOfIncidents: 0,
+        incidentsCount: 0,
       },
     ]
 

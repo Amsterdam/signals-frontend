@@ -4,7 +4,7 @@ import type { Feature } from 'geojson'
 
 import type { Filter, Properties } from '../../types'
 
-export const computeNrOfIncidentsPerFilter = (
+export const computeincidentsCountPerFilter = (
   filters: Filter[],
   incidents: Feature<any, Properties>[]
 ): Filter[] => {
@@ -32,8 +32,8 @@ export const computeNrOfIncidentsPerFilter = (
       filter.subCategories &&
       filter.subCategories.map((filter: Filter) => ({
         ...filter,
-        nrOfIncidents: counts.get(filter.slug) || 0,
+        incidentsCounts: counts.get(filter.slug) || 0,
       })),
-    nrOfIncidents: counts.get(filter.slug) || 0,
+    incidentsCounts: counts.get(filter.slug) || 0,
   }))
 }

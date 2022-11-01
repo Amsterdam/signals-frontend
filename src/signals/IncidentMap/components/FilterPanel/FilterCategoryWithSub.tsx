@@ -46,7 +46,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
 
         <SubSection visible={showSubsection} lines={subCategories.length}>
           {subCategories
-            .filter((subCategory) => subCategory.nrOfIncidents)
+            .filter((subCategory) => subCategory.incidentsCount)
             .map((subCategory) => {
               const { name, filterActive, _display, icon } = subCategory
               return (

@@ -25,7 +25,7 @@ import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents, computeNrOfIncidentsPerFilter } from '../utils'
+import { getFilteredIncidents, computeincidentsCountPerFilter } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
 import { getZoom } from './utils'
@@ -120,7 +120,7 @@ export const IncidentMap = () => {
 
     const filteredIncidents = getFilteredIncidents(filters, incidents)
     setFilteredIncidents(filteredIncidents)
-    const filtersWithCounts = computeNrOfIncidentsPerFilter(filters, incidents)
+    const filtersWithCounts = computeincidentsCountPerFilter(filters, incidents)
     if (!isEqual(filtersWithCounts, filters)) setFilters(filtersWithCounts)
   }, [data, filters])
 

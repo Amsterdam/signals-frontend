@@ -68,7 +68,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
         {filters
-          .filter((filter: Filter) => filter.nrOfIncidents)
+          .filter((filter: Filter) => filter.incidentsCount)
           .map((filter: Filter) => {
             const { name, filterActive, _display, icon, subCategories } = filter
 
