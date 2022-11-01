@@ -37,8 +37,7 @@ export const getFilteredIncidents = (
     const slug = incident.properties.category.slug
 
     const icon = listedIcons.find((iconObj) => iconObj.slug === slug)
-
-    if (icon) {
+    if (icon?.icon) {
       return {
         ...incident,
         properties: {

@@ -11,9 +11,17 @@ describe('getFilteredIncidents', () => {
     expect(result.length).toEqual(3)
   })
   it('should return only active filters with the first without icon', () => {
-    mockIncidentsShort[0].properties.icon = ''
-    const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
+    const filters = mockFiltersShort.map(removeIcons)
+    const result = getFilteredIncidents(filters, mockIncidentsShort)
 
     expect(result.length).toEqual(3)
   })
 })
+
+const removeIcons = (feature: any) => {
+  const f = { ...feature, icon: '' }
+  if (f.subCategories) {
+    f.subCategories = f.subCategories?.map(removeIcons)
+  }
+  return f
+}
