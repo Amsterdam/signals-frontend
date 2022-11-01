@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Feature, Point } from 'geojson'
 
-import type { Filter, Properties } from '../../types'
+import type { Filter, Incident } from '../../types'
 /*
 When mainCategory is checked, all incidents on the map needs to be shown except for those incidents where the subCategory
 of the maintCategory is unchecked.
  */
 export const getFilteredIncidents = (
   filters: Filter[],
-  incidents: Feature<Point, Properties>[]
-): Feature<Point, Properties>[] => {
+  incidents: Incident[]
+): Incident[] => {
   const activeFilters = filters.reduce((acc: Filter[], filter) => {
     if (filter.filterActive) {
       acc.push(filter)
