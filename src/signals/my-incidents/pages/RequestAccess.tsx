@@ -1,22 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import BasePage from 'components/pages/BasePage'
+import { useMemo } from 'react'
 
 import { EmailInput } from '../components'
-import { StyledParagraph as Paragraph } from './styled'
+import { BasePage } from './BasePage'
 
 export const RequestAccess = () => {
-  return (
-    <BasePage
-      documentTitle="Inloggen Mijn Meldingen"
-      data-testid="requestAccessMyIncidents"
-      pageTitle="Mijn meldingen"
-    >
-      <Paragraph fontSize={16}>
-        Log in met het e-mailadres waarmee u meldingen maakt. U krijgt dan een
-        bevestigingsmail om naar het meldingenoverzicht te gaan.
-      </Paragraph>
+  const pageInfo = useMemo(
+    () => ({
+      documentTitle: 'Inloggen Mijn Meldingen',
+      dataTestId: 'requestAccessMyIncidents',
+      pageTitle: 'Mijn meldingen',
+    }),
+    []
+  )
 
+  const paragraphs = useMemo(
+    () => [
+      `De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
+    nieuwe bevestigingslink te ontvangen.`,
+    ],
+    []
+  )
+
+  return (
+    <BasePage pageInfo={pageInfo} paragraphs={paragraphs}>
       <EmailInput />
     </BasePage>
   )

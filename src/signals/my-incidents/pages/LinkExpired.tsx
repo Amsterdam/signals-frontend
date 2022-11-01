@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
 import Button from 'components/Button'
-import BasePage from 'components/pages/BasePage'
 
 import { routes } from '../definitions'
-import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
+import { BasePage } from './BasePage'
 
 export const LinkExpired = () => {
   const history = useHistory()
@@ -17,22 +16,33 @@ export const LinkExpired = () => {
     history.push(routes.requestAccess)
   }, [history])
 
-  return (
-    <BasePage
-      documentTitle="Link verlopen"
-      data-testid="expiredLinkMyIncidents"
-      pageTitle="Link verlopen"
-    >
-      <Paragraph fontSize={16}>
-        De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
-        nieuwe bevestigingslink te ontvangen.
-      </Paragraph>
+  const buttons = useMemo(
+    () => (
+      <Button variant="secondary" onClick={onClick}>
+        Begin opnieuw
+      </Button>
+    ),
+    [onClick]
+  )
 
-      <ButtonWrapper>
-        <Button variant="secondary" onClick={onClick}>
-          Begin opnieuw
-        </Button>
-      </ButtonWrapper>
-    </BasePage>
+  const pageInfo = useMemo(
+    () => ({
+      documentTitle: 'Link verlopen',
+      dataTestId: 'expiredLinkMyIncidents',
+      pageTitle: 'Link verlopen',
+    }),
+    []
+  )
+
+  const paragraphs = useMemo(
+    () => [
+      `De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
+    nieuwe bevestigingslink te ontvangen.`,
+    ],
+    []
+  )
+
+  return (
+    <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />
   )
 }

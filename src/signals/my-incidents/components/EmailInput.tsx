@@ -14,7 +14,7 @@ import { usePostEmail } from '../hooks'
 import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
 import type { Error } from './types'
 
-const schema = yup.string().email().max(254)
+const schema = yup.string().email().required().max(254)
 
 const validateInput = async (
   inputRef: React.RefObject<HTMLInputElement>,
@@ -51,7 +51,7 @@ export const EmailInput = () => {
   const handleSubmit = () => {
     validateInput(inputRef, setError)
 
-    if (!validation.hasError && inputRef?.current) {
+    if (!validation.hasError && inputRef?.current?.value) {
       setEmail(inputRef.current.value)
       postEmail(inputRef.current.value)
       history.push(routes.confirm)
