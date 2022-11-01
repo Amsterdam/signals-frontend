@@ -4,7 +4,7 @@ import type { Feature } from 'geojson'
 
 import type { Filter, Properties } from '../../types'
 
-export const computeincidentsCountPerFilter = (
+export const computeIncidentsCountPerFilter = (
   filters: Filter[],
   incidents: Feature<any, Properties>[]
 ): Filter[] => {
