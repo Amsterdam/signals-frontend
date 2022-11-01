@@ -32,8 +32,8 @@ export const computeincidentsCountPerFilter = (
       filter.subCategories &&
       filter.subCategories.map((filter: Filter) => ({
         ...filter,
-        incidentsCounts: counts.get(filter.slug) || 0,
+        incidentsCount: counts.get(filter.slug) || 0,
       })),
-    incidentsCounts: counts.get(filter.slug) || 0,
+    incidentsCount: counts.get(filter.slug) || 0,
   }))
 }

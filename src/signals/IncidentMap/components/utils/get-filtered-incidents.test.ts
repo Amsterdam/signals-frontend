@@ -5,6 +5,9 @@ import { mockIncidentsShort } from '../__test__/mock-incidents'
 import { getFilteredIncidents } from './get-filtered-incidents'
 
 describe('getFilteredIncidents', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
   it('should return only active filters', () => {
     const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
 
