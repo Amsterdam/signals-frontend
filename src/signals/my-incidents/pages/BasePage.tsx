@@ -6,7 +6,7 @@ import { default as BasePageWrapper } from 'components/pages/BasePage'
 
 import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
 
-interface Props {
+export interface Props {
   paragraphs?: string[]
   buttons?: JSX.Element
   pageInfo: {

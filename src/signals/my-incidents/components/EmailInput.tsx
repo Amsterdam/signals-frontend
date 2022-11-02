@@ -18,19 +18,19 @@ const schema = yup.string().email().required().max(254)
 
 const validateInput = async (
   inputRef: React.RefObject<HTMLInputElement>,
-  setError: (error: Error) => void
+  setValidation: (error: Error) => void
 ) => {
   const isValid = await schema
     .isValid(inputRef?.current?.value)
     .then((valid) => valid)
 
   if (isValid) {
-    setError({
+    setValidation({
       hasError: !isValid,
       message: null,
     })
   } else {
-    setError({
+    setValidation({
       hasError: !isValid,
       message: 'Het veld moet een geldig e-mailadres bevatten',
     })
@@ -39,7 +39,8 @@ const validateInput = async (
 
 export const EmailInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [validation, setError] = useState<Error>({
+
+  const [validation, setValidation] = useState<Error>({
     hasError: false,
     message: null,
   })
@@ -49,7 +50,7 @@ export const EmailInput = () => {
   const { setEmail } = useContext(MyIncidentsContext)
 
   const handleSubmit = () => {
-    validateInput(inputRef, setError)
+    validateInput(inputRef, setValidation)
 
     if (!validation.hasError && inputRef?.current?.value) {
       setEmail(inputRef.current.value)
@@ -59,12 +60,12 @@ export const EmailInput = () => {
   }
 
   const handleOnBlur = () => {
-    validateInput(inputRef, setError)
+    validateInput(inputRef, setValidation)
   }
 
   const handleOnChange = () => {
     if (validation.hasError) {
-      validateInput(inputRef, setError)
+      validateInput(inputRef, setValidation)
     }
   }
 

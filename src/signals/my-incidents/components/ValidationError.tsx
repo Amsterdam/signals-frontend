@@ -13,7 +13,7 @@ const ErrorItem = styled.p`
   padding: ${themeSpacing(3)};
 `
 
-interface Props {
+export interface Props {
   label: string
 }
 
