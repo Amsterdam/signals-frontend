@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
-import { Checkbox, Heading } from '@amsterdam/asc-ui'
-
+import { Heading } from '@amsterdam/asc-ui'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import type { Filter } from '../../types'
 import { updateFilterCategory } from '../utils'
-import { StyledLabel, CategoryFilter, Wrapper } from './styled'
+import { getCombinedFilters } from '../utils/get-combined-filters'
+import { FilterCategory } from './FilterCategory'
+import { FilterCategoryWithSub } from './FilterCategoryWithSub'
+import { Wrapper } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
@@ -22,11 +24,20 @@ export interface Props {
 export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   const { get, data, error } = useFetch<Categories>()
 
-  const toggleFilter = (categoryName: string) => {
-    const updated = updateFilterCategory(categoryName, filters)
+  const toggleFilter = useCallback(
+    (filter: Filter, newFilterActive: boolean) => {
+      let allFilters = filters
+      const combinedFilters = getCombinedFilters(filter, filters)
 
-    setFilters(updated)
-  }
+      combinedFilters.forEach((categoryFilter) => {
+        if (categoryFilter.filterActive !== newFilterActive) {
+          allFilters = updateFilterCategory(categoryFilter.name, allFilters)
+        }
+      })
+      setFilters(allFilters)
+    },
+    [filters, setFilters]
+  )
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -56,19 +67,29 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
       <Wrapper>
-        {filters.map(({ name, filterActive, _display }) => {
-          return (
-            <CategoryFilter key={name}>
-              <StyledLabel htmlFor={name} label={_display || name}>
-                <Checkbox
-                  id={name}
-                  checked={filterActive}
-                  onChange={() => toggleFilter(name)}
-                />
-              </StyledLabel>
-            </CategoryFilter>
-          )
-        })}
+        {filters
+          .filter((filter: Filter) => filter.incidentsCount)
+          .map((filter: Filter) => {
+            const { name, filterActive, _display, icon, subCategories } = filter
+
+            return subCategories ? (
+              <FilterCategoryWithSub
+                key={name}
+                filter={filter}
+                onToggleCategory={toggleFilter}
+              />
+            ) : (
+              <FilterCategory
+                key={name}
+                onToggleCategory={() => {
+                  toggleFilter(filter, !filterActive)
+                }}
+                selected={filterActive}
+                text={_display || name}
+                icon={icon}
+              />
+            )
+          })}
       </Wrapper>
     </>
   )

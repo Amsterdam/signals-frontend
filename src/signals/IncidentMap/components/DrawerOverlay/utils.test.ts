@@ -5,7 +5,7 @@ import { mocked } from 'jest-mock'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
-import { resizeWindow, mockIncidents } from '../__test__'
+import { resizeWindow, mockIncidentsLong } from '../__test__'
 import { getAddress, useDeviceMode } from './utils'
 
 jest.mock('shared/services/reverse-geocoder')
@@ -49,7 +49,7 @@ describe('utils', () => {
       mocked(reverseGeocoderService).mockImplementation(() =>
         Promise.resolve(geocodedResponse)
       )
-      const geometry = mockIncidents[0].geometry
+      const geometry = mockIncidentsLong[0].geometry
       const setAddressMock = jest.fn((address: any) => address)
 
       await getAddress(geometry, setAddressMock)

@@ -1,86 +1,72 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Filter, Incident, Icon } from '../../types'
 
+import type { Filter, Incident } from '../../types'
+/*
+When mainCategory is checked, all incidents on the map needs to be shown except for those incidents where the subCategory
+of the maintCategory is unchecked.
+ */
 export const getFilteredIncidents = (
   filters: Filter[],
   incidents: Incident[]
 ): Incident[] => {
-  const activeFilterSlugs = filters
-    .filter((filter) => filter.filterActive)
-    .map((filter) => filter.slug)
-
-  const activeIncidents = incidents.filter((incident) =>
-    activeFilterSlugs.includes(incident.properties.category.parent.slug)
-  )
-  const listedIcons = getListOfIcons(filters)
-
-  return getIncidentsWithIcon(activeIncidents, listedIcons)
-}
-
-function getIncidentsWithIcon(
-  activeIncidents: Incident[],
-  listedIcons: { mainCategories: Icon[]; subCategories: Icon[] }
-) {
-  const incidentsWithIcon = activeIncidents.map((incident) => {
-    const subCategorySlug = incident.properties.category.slug
-    const mainCategorySlug = incident.properties.category.parent.slug
-
-    const subIcon = listedIcons.subCategories.find(
-      (iconObj) => iconObj.slug === subCategorySlug
-    )
-
-    if (subIcon) {
-      return {
-        ...incident,
-        properties: {
-          ...incident.properties,
-          icon: subIcon.icon,
-        },
-      }
-    }
-
-    const mainIcon = listedIcons.mainCategories.find(
-      (iconObj) => iconObj.slug === mainCategorySlug
-    )
-
-    if (mainIcon) {
-      return {
-        ...incident,
-        properties: {
-          ...incident.properties,
-          icon: mainIcon.icon,
-        },
-      }
-    }
-
-    return incident
-  })
-  return incidentsWithIcon
-}
-
-const getListOfIcons = (filters: Filter[]) => {
-  return filters.reduce(
-    (acc: { mainCategories: Icon[]; subCategories: Icon[] }, filter) => {
-      if (filter.icon) {
-        acc.mainCategories.push({
-          slug: filter.slug,
-          icon: filter.icon,
-        })
-      }
-
+  const activeFilters = filters.reduce((acc: Filter[], filter) => {
+    if (filter.filterActive) {
+      acc.push(filter)
       if (filter.subCategories) {
-        filter.subCategories.map((subCategory) => {
-          if (subCategory.icon) {
-            acc.subCategories.push({
-              slug: subCategory.slug,
-              icon: subCategory.icon,
-            })
+        filter.subCategories.forEach((subCategory) => {
+          if (subCategory.filterActive) {
+            acc.push(subCategory)
           }
         })
       }
-      return acc
-    },
-    { mainCategories: [], subCategories: [] }
-  )
+    }
+    return acc
+  }, [])
+
+  const activeSlugs = activeFilters.map((filter) => filter.slug)
+
+  const activeIncidents = incidents.filter((incident) => {
+    return activeSlugs.includes(incident.properties.category.slug)
+  })
+
+  const listedIcons = getListOfIcons(activeFilters)
+
+  return activeIncidents.map((incident) => {
+    const slug = incident.properties.category.slug
+
+    const icon = listedIcons.find((iconObj) => iconObj.slug === slug)
+    if (icon?.icon) {
+      return {
+        ...incident,
+        properties: {
+          ...incident.properties,
+          icon: icon.icon,
+        },
+      }
+    }
+    return incident
+  })
 }
+
+interface Icon {
+  slug: string
+  icon: string
+}
+
+const getListOfIcons = (filters: Filter[]) => {
+  const allFilters = filters.reduce((acc: Filter[], filter: Filter) => {
+    acc.push(filter)
+    if (filter.subCategories) {
+      acc.push(...filter.subCategories)
+    }
+    return acc
+  }, [])
+
+  return allFilters.map(createIcon)
+}
+
+const createIcon = (category: Filter): Partial<Icon> => ({
+  slug: category.slug,
+  icon: category.icon,
+})

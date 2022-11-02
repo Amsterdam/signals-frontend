@@ -1,38 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { Filter } from '../../types'
-import { mockIncidents, mockFilters } from '../__test__'
+import { mockFiltersShort } from '../__test__/mock-filters'
+import { mockIncidentsShort } from '../__test__/mock-incidents'
 import { getFilteredIncidents } from './get-filtered-incidents'
 
-const mockSelectedFilters: Filter[] = [
-  {
-    name: 'Afval',
-    _display: 'Afval',
-    filterActive: true,
-    slug: 'afval',
-  },
-  {
-    name: 'Overig',
-    _display: 'Overig',
-    filterActive: false,
-    slug: 'overig',
-  },
-  {
-    name: 'Schoon',
-    _display: 'Schoon',
-    filterActive: false,
-    slug: 'schoon',
-  },
-]
-
 describe('getFilteredIncidents', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
   it('should return only active filters', () => {
-    const result = getFilteredIncidents(mockFilters, mockIncidents)
+    const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
 
-    expect(result).toEqual(mockIncidents)
+    expect(result.length).toEqual(3)
+  })
+  it('should return only active filters with the first without icon', () => {
+    const filters = mockFiltersShort.map(removeIcons)
+    const result = getFilteredIncidents(filters, mockIncidentsShort)
 
-    const resultTwo = getFilteredIncidents(mockSelectedFilters, mockIncidents)
-
-    expect(resultTwo.length).toEqual(1)
+    expect(result.length).toEqual(3)
   })
 })
+
+const removeIcons = (feature: any) => {
+  const f = { ...feature, icon: '' }
+  if (f.subCategories) {
+    f.subCategories = f.subCategories?.map(removeIcons)
+  }
+  return f
+}

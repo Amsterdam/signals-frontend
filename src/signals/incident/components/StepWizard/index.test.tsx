@@ -29,7 +29,7 @@ describe('<Wizard>', () => {
   })
 
   it('should go back by using the history', function () {
-    render(renderWizardWithoutOnNext())
+    render(renderWizard())
 
     userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
@@ -72,12 +72,7 @@ function renderWizard() {
 
 function renderWizardWithoutOnNext() {
   return withAppContext(
-    <Wizard
-      history={history}
-      onNext={(wizard: WizardApi) => {
-        getNextStep(wizard)
-      }}
-    >
+    <Wizard history={history}>
       <RenderSteps />
     </Wizard>
   )

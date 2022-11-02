@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
+import type { MutableRefObject } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import MarkerCluster from 'components/MarkerCluster'
 import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
-
-import MarkerCluster from 'components/MarkerCluster'
 import {
   dynamicIcon,
   selectedMarkerIcon,
@@ -25,7 +25,7 @@ interface Props {
   incidents?: Incident[]
   passBbox(bbox: Bbox): void
   resetSelectedMarker: () => void
-  selectedMarkerRef: React.MutableRefObject<L.Marker<Properties> | undefined>
+  selectedMarkerRef: MutableRefObject<L.Marker<Properties> | undefined>
 }
 
 /* istanbul ignore next */

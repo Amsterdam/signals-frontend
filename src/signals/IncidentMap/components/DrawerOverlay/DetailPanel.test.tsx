@@ -2,7 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
-import { mockIncidents } from '../__test__'
+import { mockIncidentsLong } from '../__test__'
 import type { Props } from './DetailPanel'
 import { DetailPanel } from './DetailPanel'
 
@@ -20,7 +20,7 @@ jest.mock('./utils', () => ({
 
 const defaultProps: Props = {
   onClose: jest.fn(),
-  incident: mockIncidents[0],
+  incident: mockIncidentsLong[0],
 }
 
 const renderComponent = (props?: Props) =>

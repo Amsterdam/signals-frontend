@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { FeatureCollection } from 'geojson'
-import type { Map as MapType, LatLngLiteral } from 'leaflet'
-
 import { useFetch } from 'hooks'
+import type { Map as MapType, LatLngLiteral } from 'leaflet'
+import isEqual from 'lodash/isEqual'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -25,7 +25,7 @@ import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents } from '../utils'
+import { getFilteredIncidents, computeIncidentsCountPerFilter } from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
 import { getZoom } from './utils'
@@ -67,12 +67,12 @@ export const IncidentMap = () => {
   /* istanbul ignore next */
   const handleIncidentSelect = useCallback(
     (incident: Incident) => {
-      const sanitaizedCoords = featureToCoordinates(incident.geometry)
+      const sanitizedCoords = featureToCoordinates(incident.geometry)
       // When marker is underneath the drawerOverlay, move the map slightly up
-      if (map && isMobile(mode) && sanitaizedCoords.lat < map.getCenter().lat) {
+      if (map && isMobile(mode) && sanitizedCoords.lat < map.getCenter().lat) {
         const coords = {
-          lat: sanitaizedCoords.lat - 0.0003,
-          lng: sanitaizedCoords.lng,
+          lat: sanitizedCoords.lat - 0.0003,
+          lng: sanitizedCoords.lng,
         }
         const zoom = getZoom(map)
 
@@ -116,10 +116,15 @@ export const IncidentMap = () => {
   }, [resetSelectedMarker, map])
 
   useEffect(() => {
-    if (data?.features) {
-      const filteredIncidents = getFilteredIncidents(filters, data.features)
-      setFilteredIncidents(filteredIncidents)
-    }
+    const incidents = data?.features || []
+
+    const filteredIncidents = getFilteredIncidents(filters, incidents)
+    setFilteredIncidents(filteredIncidents)
+    const filterFromIncidents = computeIncidentsCountPerFilter(
+      filters,
+      incidents
+    )
+    if (!isEqual(filterFromIncidents, filters)) setFilters(filterFromIncidents)
   }, [data, filters])
 
   useEffect(() => {
@@ -145,7 +150,6 @@ export const IncidentMap = () => {
     <Wrapper>
       <StyledMap
         data-testid="incidentMap"
-        fullScreen={false}
         hasZoomControls
         setInstance={setMap}
         mapOptions={{

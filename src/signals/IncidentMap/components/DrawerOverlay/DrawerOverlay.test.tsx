@@ -5,7 +5,7 @@ import type { PropsWithChildren } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { mockIncidents } from '../__test__'
+import { mockIncidentsLong } from '../__test__'
 import { DrawerOverlay } from './DrawerOverlay'
 import type { Props } from './DrawerOverlay'
 import { DrawerState } from './types'
@@ -43,7 +43,7 @@ describe('DrawerOverlay', () => {
   })
 
   it('should render detail panel', () => {
-    renderComponent({ incident: mockIncidents[0] })
+    renderComponent({ incident: mockIncidentsLong[0] })
 
     expect(
       screen.getByText(

@@ -1,6 +1,88 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
+
 import type { Incident } from '../../types'
 
-export const mockIncidents: Incident[] = [
+export const mockIncidentsShort: Incident[] = [
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [4.85690630125273, 52.377059704057],
+    },
+    properties: {
+      category: {
+        name: 'Afval',
+        slug: 'afval',
+        parent: {
+          name: 'Afval',
+          slug: 'afval',
+        },
+      },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+      created_at: '2022-09-08T10:09:57.388602+00:00',
+    },
+  },
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [4.85690630125173, 52.377059704157],
+    },
+    properties: {
+      category: {
+        name: 'Container bijplaatsing',
+        slug: 'container-bijplaatsing',
+        parent: {
+          name: 'Afval',
+          slug: 'afval',
+        },
+      },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+      created_at: '2022-09-07T10:09:57.388602+00:00',
+    },
+  },
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [4.85690630125153, 52.377059704177],
+    },
+    properties: {
+      category: {
+        name: 'Container glas kapot',
+        slug: 'container-glas-kapot',
+        parent: {
+          name: 'Afval',
+          slug: 'afval',
+        },
+      },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+      created_at: '2022-10-07T10:09:57.388602+00:00',
+    },
+  },
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [4.85690630125157, 52.377059704173],
+    },
+    properties: {
+      category: {
+        name: 'Openbaar groen en water',
+        slug: 'openbaar-groen-en-water',
+        parent: {
+          name: 'Openbaar groen en water',
+          slug: 'openbaar groen en water',
+        },
+      },
+      icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
+      created_at: '2022-`08-07T10:09:57.388602+00:00',
+    },
+  },
+]
+
+export const mockIncidentsLong: Incident[] = [
   {
     type: 'Feature',
     geometry: {

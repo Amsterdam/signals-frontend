@@ -2,25 +2,20 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
+import type { Filter, SubCategory } from '../../types'
 import {
   get,
   useFetchResponse,
   fetchCategoriesResponse,
-  mockFilters,
+  mockFiltersLong,
 } from '../__test__'
-import { updateFilterCategory } from '../utils'
 import type { Props } from './FilterPanel'
 import { FilterPanel } from './FilterPanel'
 
 jest.mock('hooks/useFetch')
-
-jest.mock('../utils', () => ({
-  updateFilterCategory: jest.fn(),
-}))
 
 const mockSetFilters = jest.fn()
 const mockSetMapFilter = jest.fn()
@@ -35,6 +30,10 @@ const renderFilterPanel = (props: Partial<Props> = {}) =>
   render(<FilterPanel {...defaultProps} {...props} />)
 
 describe('FilterPanel', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('get categories and set filters', () => {
     const fetchResponseWithFilters = {
       ...useFetchResponse,
@@ -47,18 +46,19 @@ describe('FilterPanel', () => {
     expect(get).toBeCalledWith(configuration.CATEGORIES_ENDPOINT)
     expect(get).toBeCalledTimes(1)
 
-    expect(mockSetFilters).toBeCalledWith(mockFilters)
+    expect(mockSetFilters).toBeCalledTimes(1)
   })
 
   it('should render the filter panel', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
-    renderFilterPanel({ filters: mockFilters })
+    renderFilterPanel({ filters: mockFiltersLong })
 
     expect(
       screen.getByRole('heading', { name: 'Filter op onderwerp' })
     ).toBeInTheDocument()
+
     expect(
-      screen.getByRole('checkbox', { name: 'Openbaar groen en water' })
+      screen.getByRole('checkbox', { name: /Openbaar groen en water/ })
     ).toBeInTheDocument()
   })
 
@@ -76,16 +76,24 @@ describe('FilterPanel', () => {
     )
   })
 
-  it('should unset a filter when clicked', () => {
+  it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
-    renderFilterPanel({ filters: mockFilters })
+    renderFilterPanel({ filters: mockFiltersLong })
+    const testCategory = 'Afval'
+    const checkbox = screen.getByTestId(testCategory)
 
-    const checkbox = screen.getByRole('checkbox', {
-      name: 'Openbaar groen en water',
-    })
     userEvent.click(checkbox)
 
-    expect(updateFilterCategory).toHaveBeenCalledTimes(1)
+    // Check to see if subCategory.filterActive has value false after setting mainCategory.filterActive to false. In
+    // mockFilters all filterActives of all categories are initially set to true.
+    mockSetFilters.mock.calls[0][0]
+      .filter((filter: Filter) => filter.name === testCategory)
+      .forEach((filter: Filter) => {
+        expect(filter.filterActive).toBe(false)
+        filter.subCategories?.forEach((subCategory: SubCategory) => {
+          expect(subCategory.filterActive).toBe(false)
+        })
+      })
   })
 
   it('should not render anything when filters are empty', () => {
@@ -93,5 +101,33 @@ describe('FilterPanel', () => {
     const { container } = renderFilterPanel()
 
     expect(container.firstChild).toBeNull()
+  })
+
+  it('should not render anything when there are no incidents of that category', () => {
+    const mockFiltersNotinIncident = [
+      {
+        name: 'NoIncident',
+        _display: 'NoIncident',
+        filterActive: true,
+        slug: 'mockSlug',
+        icon: '',
+        incidentsCount: 1,
+      },
+      {
+        name: 'NoIncident2',
+        _display: 'NoIncident2',
+        filterActive: true,
+        slug: 'mockSlug2',
+        icon: '',
+        incidentsCount: 0,
+      },
+    ]
+
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+    renderFilterPanel({ filters: mockFiltersNotinIncident })
+
+    expect(
+      screen.queryByRole('checkbox', { name: 'icon NoIncident2' })
+    ).not.toBeInTheDocument()
   })
 })
