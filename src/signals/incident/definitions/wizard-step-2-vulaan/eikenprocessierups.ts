@@ -3,8 +3,11 @@
 import type { IconOptions } from 'leaflet'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
-import { validateObjectLocation } from '../../services/custom-validators'
+
+import type ConfigurationType from '../../../../../app.amsterdam.json'
+import appConfiguration from '../../../../shared/services/configuration/configuration'
 import { FeatureStatus } from '../../components/form/MapSelectors/types'
+import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
 
@@ -12,6 +15,8 @@ const options: Pick<IconOptions, 'className' | 'iconSize'> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
+
+const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const controls = {
   extra_eikenprocessierups: {
@@ -30,7 +35,8 @@ export const controls = {
       pathMerge: 'extra_properties',
       endpoint:
         'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
-      maxNumberOfAssets: 1,
+      maxNumberOfAssets:
+        configuration.map.options?.maxNumberOfAssets.eikenProcessierups,
       featureTypes: [
         {
           label: 'Eikenboom',

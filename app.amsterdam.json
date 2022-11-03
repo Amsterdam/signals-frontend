@@ -74,6 +74,11 @@
           5.10737
         ]
       ],
+      "maxNumberOfAssets" : {
+        "straatverlichtingKlokken": 5,
+        "afvalContainer": 5,
+        "eikenProcessierups": 5
+      },
       "maxZoom": 16,
       "minZoom": 8,
       "zoom": 10
