@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
+
 jest.mock('shared/services/configuration/configuration')
 
 describe('shared/services/configuration/map-options', () => {
@@ -10,6 +11,11 @@ describe('shared/services/configuration/map-options', () => {
 
   it('should return an object with configuration props', () => {
     configuration.map.options = {
+      maxNumberOfAssets: {
+        afvalContainer: 1,
+        eikenProcessierups: 1,
+        straatverlichtingKlokken: 1,
+      },
       crs: 'EPSG:28992',
       zoom: 1,
       center: [2],
