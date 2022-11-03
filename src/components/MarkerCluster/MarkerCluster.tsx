@@ -37,6 +37,7 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
         if (isSelectedCluster) {
           className += ` ${className}${SELECTED_CLASS_MODIFIER}`
         }
+        cluster.options.keyboard = false
 
         cluster.on({
           add: () => {
