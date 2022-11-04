@@ -9,6 +9,7 @@ import {
   act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'
@@ -143,8 +144,10 @@ describe('<IncidentForm />', () => {
       renderIncidentForm(props)
     })
 
-    it('renders updated form values', () => {
+    it('renders updated form values', async () => {
       const { rerender } = renderIncidentForm(defaultProps)
+
+      expect(screen.getByLabelText(PHONE_LABEL)).not.toHaveValue('061234')
 
       renderIncidentForm(
         {
@@ -158,7 +161,9 @@ describe('<IncidentForm />', () => {
         rerender
       )
 
-      expect(screen.getByLabelText(PHONE_LABEL)).toHaveValue('061234')
+      await waitFor(() => {
+        expect(screen.getByLabelText(PHONE_LABEL)).toHaveValue('061234')
+      })
     })
 
     it('enables controls that were disabled during a previous render', () => {
@@ -204,11 +209,11 @@ describe('<IncidentForm />', () => {
       const clickEvent = createEvent.click(submitButton)
       jest.spyOn(clickEvent, 'preventDefault')
 
-      act(() => {
-        fireEvent(submitButton, clickEvent)
-      })
+      fireEvent(submitButton, clickEvent)
 
-      expect(clickEvent.preventDefault).toHaveBeenCalled()
+      await waitFor(() => {
+        expect(clickEvent.preventDefault).toHaveBeenCalled()
+      })
     })
 
     describe('async submit', () => {
