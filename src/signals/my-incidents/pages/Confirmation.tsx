@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useState, useContext, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
 import Button from 'components/Button'
 
-import MyIncidentsContext from '../context'
+import { useMyIncidentContext } from '../context/context'
 import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { BasePage } from './BasePage'
 
 export const Confirmation = () => {
-  const { email } = useContext(MyIncidentsContext)
+  const { email } = useMyIncidentContext()
   const history = useHistory()
   const [postEmail] = usePostEmail()
 

@@ -26,7 +26,13 @@ const defaultValue = {
 
 describe('EmailInput', () => {
   it('should render correctly', () => {
-    render(withAppContext(<EmailInput />))
+    render(
+      withAppContext(
+        <MyIncidentsProvider value={defaultValue}>
+          <EmailInput />
+        </MyIncidentsProvider>
+      )
+    )
 
     expect(
       screen.getByRole('textbox', { name: 'E-mailadres' })

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useContext, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
@@ -8,7 +8,7 @@ import * as yup from 'yup'
 import Button from 'components/Button'
 import Label from 'components/Label'
 
-import MyIncidentsContext from '../context'
+import { useMyIncidentContext } from '../context'
 import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
@@ -47,7 +47,8 @@ export const EmailInput = () => {
 
   const history = useHistory()
   const [postEmail] = usePostEmail()
-  const { setEmail } = useContext(MyIncidentsContext)
+
+  const { setEmail } = useMyIncidentContext()
 
   const handleSubmit = () => {
     validateInput(inputRef, setValidation)

@@ -4,11 +4,23 @@ import { screen, render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
+import { MyIncidentsProvider } from '../context'
 import { RequestAccess } from './RequestAccess'
+
+const defaultValue = {
+  email: 'test@test.nl',
+  setEmail: jest.fn(),
+}
 
 describe('RequestAccess', () => {
   it('should render correctly', () => {
-    render(withAppContext(<RequestAccess />))
+    render(
+      withAppContext(
+        <MyIncidentsProvider value={defaultValue}>
+          <RequestAccess />
+        </MyIncidentsProvider>
+      )
+    )
 
     expect(screen.getByText('Mijn meldingen')).toBeInTheDocument()
     expect(

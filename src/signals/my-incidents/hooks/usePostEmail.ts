@@ -6,7 +6,7 @@ import useFetch from 'hooks/useFetch'
 import type { FetchResponse } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
-type PostEmail = (email: string) => void
+type PostEmail = (email: string) => Promise<void>
 
 export const usePostEmail = (): [
   PostEmail,
@@ -16,13 +16,13 @@ export const usePostEmail = (): [
 
   const endpoint = `${configuration.MY_SIGNALS_LOGIN_URL}`
 
-  const postEmail: PostEmail = useCallback(
+  const postEmail = useCallback(
     (email) => {
       const payload = {
         email,
       }
 
-      post(endpoint, payload)
+      return post(endpoint, payload)
     },
     [endpoint, post]
   )

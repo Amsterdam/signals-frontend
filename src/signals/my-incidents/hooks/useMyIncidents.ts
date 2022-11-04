@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 
 import type { MyIncidentsValue } from '../types'
 
-export const useMyIncident = (): MyIncidentsValue => {
+export const useMyIncidents = (): MyIncidentsValue => {
   const [email, setEmail] = useState<string>()
 
   const value = useMemo(

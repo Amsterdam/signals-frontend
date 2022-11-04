@@ -8,14 +8,14 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import LoadingIndicator from 'components/LoadingIndicator'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 
-import { MyIncidentsProvider } from '../context'
+import { MyIncidentsProvider } from '../context/provider'
 import { routes } from '../definitions'
-import { useMyIncident } from '../hooks'
+import { useMyIncidents } from '../hooks'
 import { Confirmation, LinkExpired, RequestAccess } from '../pages'
 
 export const Routing = () => {
   const location = useLocationReferrer() as Location
-  const value = useMyIncident()
+  const value = useMyIncidents()
 
   return (
     <Suspense fallback={<LoadingIndicator />}>
