@@ -13,6 +13,7 @@ import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import { Confirmation, LinkExpired, RequestAccess } from '../pages'
 
+// istanbul ignore next
 export const Routing = () => {
   const location = useLocationReferrer() as Location
   const value = useMyIncidents()
