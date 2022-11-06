@@ -55,13 +55,16 @@ export const SubSection = styled.div<{ visible: boolean; lines: number }>`
   overflow: hidden;
 
   ${({ visible, lines }) =>
-    visible &&
-    /*lines time 5 because line wrapped labels, setting needs to be above real height (to avoid clipping) but way too
+    visible
+      ? /*lines time 5 because line wrapped labels, setting needs to be above real height (to avoid clipping) but way too
   high gives wonky expand/collapse effect. See https://css-tricks.com/using-css-transitions-auto-dimensions/*/
-    css`
-      max-height: ${5 * lines}em;
-      transition: max-height 0.25s ease-in;
-    `}
+        css`
+          max-height: ${5 * lines}em;
+          transition: max-height 0.25s ease-in;
+        `
+      : css`
+          visibility: hidden;
+        `}
 `
 
 export const SectionWrapper = styled.div``
