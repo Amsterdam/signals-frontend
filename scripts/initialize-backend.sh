@@ -29,7 +29,7 @@ if [[ ${INITIALIZE_WITH_DUMMY_DATA:-0} == 1 ]]; then
 fi
 
 # Start the uwsgi server
-/usr/local/bin/uwsgi --master \
+/usr/local/bin/uwsgi --main \
     --http=:8000 \
     --module=signals.wsgi:application \
     --processes=4 \
