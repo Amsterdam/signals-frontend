@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import configureStore from 'configureStore'
 import { mocked } from 'jest-mock'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
+
+import configureStore from 'configureStore'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
@@ -181,9 +182,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
@@ -206,16 +205,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
     expect(queryByTestId('ktoText')).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(lastOption)
-    })
+    userEvent.click(lastOption)
 
     expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
@@ -238,16 +233,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
     expect(queryByTestId('ktoText')).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(lastOption)
-    })
+    userEvent.click(lastOption)
 
     expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
     expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
 
@@ -255,14 +246,13 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     const ktoText = await screen.findByTestId('ktoText')
 
-    act(() => {
-      fireEvent.change(ktoText, { target: { value } })
-    })
+    userEvent.type(ktoText, value)
 
     expect(
       await screen.findByText('Dit veld is verplicht')
     ).not.toBeInTheDocument()
   })
+
   it('should handle submit for all but last option', async () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
@@ -281,9 +271,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     const firstOption = getByTestId(`checkbox-input_${[...options][0].key}`)
 
-    act(() => {
-      userEvent.click(firstOption)
-    })
+    userEvent.click(firstOption)
 
     expect(firstOption).toBeChecked()
     expect(screen.queryByTestId('ktoText')).not.toBeInTheDocument()
@@ -291,9 +279,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     expect(onSubmit).not.toHaveBeenCalled()
 
-    act(() => {
-      userEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
@@ -322,19 +308,14 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       `checkbox-input_${[...options].reverse()[0].key}`
     )
 
-    act(() => {
-      fireEvent.click(lastOption)
-    })
+    userEvent.click(lastOption)
 
     const value = 'Qux Baz'
     const ktoText = await screen.findByTestId('ktoText')
-    act(() => {
-      fireEvent.change(ktoText, { target: { value } })
-    })
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.type(ktoText, value)
+
+    userEvent.click(getByTestId('ktoSubmit'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
@@ -366,15 +347,11 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoAllowsContact'))
-    })
+    userEvent.click(getByTestId('ktoAllowsContact'))
 
     expect(setContactAllowed).toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     // Be default allowscontact equals true but after clicking
     await waitFor(() => {
@@ -386,6 +363,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       })
     })
   })
+
   it('should have the correct values in the submit payload of the old flow', async () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
     mockedUseParams.mockImplementation(() => ({
@@ -407,9 +385,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoSubmit'))
 
     // By default allow_contact equals false is in the old flow
     await waitFor(() => {
@@ -440,18 +416,18 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    act(() => {
-      fireEvent.click(getByTestId('ktoAllowsContact'))
-      fireEvent.click(getByTestId('ktoSubmit'))
-    })
+    userEvent.click(getByTestId('ktoAllowsContact'))
+    userEvent.click(getByTestId('ktoSubmit'))
 
-    expect(setContactAllowed).toHaveBeenCalled()
-    // By default allow_contact equals false is in the old flow
-    expect(onSubmit).toHaveBeenCalledWith({
-      allows_contact: true,
-      is_satisfied: false,
-      text_extra: value,
-      text_list: [options[1].value],
+    await waitFor(() => {
+      expect(setContactAllowed).toHaveBeenCalled()
+      // By default allow_contact equals false is in the old flow
+      expect(onSubmit).toHaveBeenCalledWith({
+        allows_contact: true,
+        is_satisfied: false,
+        text_extra: value,
+        text_list: [options[1].value],
+      })
     })
   })
 
@@ -503,9 +479,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
     fillForm()
 
-    act(() => {
-      fireEvent.click(screen.getByTestId('ktoSubmit'))
-    })
+    userEvent.click(screen.getByTestId('ktoSubmit'))
 
     await waitFor(() => {
       expect(filesUpload).toBeCalledWith({
@@ -526,8 +500,6 @@ function uploadFile() {
 function fillForm() {
   const secondOption = screen.getByTestId(`checkbox-input_${options[1].key}`)
 
-  act(() => {
-    fireEvent.click(secondOption)
-    fireEvent.change(screen.getByTestId('ktoTextExtra'), { target: { value } })
-  })
+  userEvent.click(secondOption)
+  userEvent.type(screen.getByTestId('ktoTextExtra'), value)
 }
