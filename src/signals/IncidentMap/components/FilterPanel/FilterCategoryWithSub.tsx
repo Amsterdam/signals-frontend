@@ -1,13 +1,12 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
 
 import type { Filter } from '../../types'
 import { FilterCategory } from './FilterCategory'
 import {
-  SectionWrapper,
   WrapperFilterCategoryWithIcon,
   InvisibleButton,
   SubSection,
@@ -24,7 +23,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
 
   if (!subCategories) return null
   return (
-    <SectionWrapper key={`section-${name}`}>
+    <Fragment key={`section-${name}`}>
       <WrapperFilterCategoryWithIcon>
         <FilterCategory
           onToggleCategory={() => {
@@ -62,6 +61,6 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
             )
           })}
       </SubSection>
-    </SectionWrapper>
+    </Fragment>
   )
 }
