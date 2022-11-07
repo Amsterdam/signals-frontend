@@ -9,13 +9,14 @@ import {
   Paragraph,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import LoadingIndicator from 'components/LoadingIndicator'
-import useFetch from 'hooks/useFetch'
 import { useParams } from 'react-router-dom'
 import { compose } from 'redux'
+import styled from 'styled-components'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
-import styled from 'styled-components'
 
 import injectReducer from '../../../../utils/injectReducer'
 import KtoForm from './components/KtoForm'
@@ -133,7 +134,11 @@ export const KtoContainer = () => {
 
     const opts = options.results
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
-      .map((option, index) => ({ key: `key-${index}`, value: option.text }))
+      .map((option, index) => ({
+        key: `key-${index}`,
+        value: option.text,
+        topic: option.topic,
+      }))
 
     opts.push({ key: 'anders', value: 'Over iets anders.' })
 

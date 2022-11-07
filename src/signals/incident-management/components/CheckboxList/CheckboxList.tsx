@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useCallback, useEffect, useState } from 'react'
-import styled, { css } from 'styled-components'
-import { Label } from '@amsterdam/asc-ui'
-
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 
+import { Label, themeSpacing } from '@amsterdam/asc-ui'
 import Checkbox from 'components/Checkbox'
+import styled, { css } from 'styled-components'
 
 const FilterGroup = styled.div`
   contain: content;
@@ -54,6 +53,15 @@ const Wrapper = styled.div<{ disabled: boolean }>`
     `}
 `
 
+const TopicLabel = styled.label`
+  margin: ${themeSpacing(1)} 0;
+  font-weight: 700;
+  display: block;
+  &:first-of-type {
+    margin-top: ${themeSpacing(3)};
+  }
+`
+
 const setsAreEqual = (a: Set<any>, b: Set<any>) =>
   a.size === b.size && [...a].every((value) => b.has(value))
 
@@ -63,6 +71,7 @@ type Option = {
   key?: string
   slug?: string
   value: string
+  topic?: string
 }
 
 export type CheckboxListProps = {
@@ -321,7 +330,7 @@ const CheckboxList: FC<CheckboxListProps> = ({
         </Toggle>
       )}
 
-      {options.map(({ id, key, slug, value: label }) => {
+      {options.map(({ id, key, slug, value: label, topic }, index) => {
         const uid = id || key
         const optionId = [boxWrapperKeyPrefix, name, uid]
           .filter(Boolean)
@@ -336,25 +345,29 @@ const CheckboxList: FC<CheckboxListProps> = ({
         }
 
         return (
-          <Wrapper disabled={defaultOption.disabled || false} key={optionId}>
-            <Label
-              htmlFor={optionId}
-              label={label}
-              disabled={defaultOption.disabled}
-              noActiveState
-            >
-              <Checkbox
-                checked={isChecked(groupId) || isChecked(uid)}
-                data-id={uid}
-                data-testid={`checkbox-${optionId}`}
-                id={optionId}
-                name={name}
-                onChange={handleIndividualCheck}
-                type="checkbox"
-                value={value}
-              />
-            </Label>
-          </Wrapper>
+          <Fragment key={optionId}>
+            {options.findIndex((option) => option.topic === topic) ===
+              index && <TopicLabel>{topic}</TopicLabel>}
+            <Wrapper disabled={defaultOption.disabled || false}>
+              <Label
+                htmlFor={optionId}
+                label={label}
+                disabled={defaultOption.disabled}
+                noActiveState
+              >
+                <Checkbox
+                  checked={isChecked(groupId) || isChecked(uid)}
+                  data-id={uid}
+                  data-testid={`checkbox-${optionId}`}
+                  id={optionId}
+                  name={name}
+                  onChange={handleIndividualCheck}
+                  type="checkbox"
+                  value={value}
+                />
+              </Label>
+            </Wrapper>
+          </Fragment>
         )
       })}
     </FilterGroup>
