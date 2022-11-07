@@ -75,9 +75,16 @@ describe('FilterCategoryWithSub', () => {
 
   it('should hit the subcategory toggle', function () {
     renderFilterCategoryWithSub()
+
+    const chevron = screen.getByRole('button', {
+      name: 'Toon meer filter opties',
+    })
+    userEvent.click(chevron)
+
     const checkBox = screen.getByRole('checkbox', {
       name: /mockSubCategory_display1/,
     })
+    expect(checkBox).toBeInTheDocument()
 
     userEvent.click(checkBox)
 
