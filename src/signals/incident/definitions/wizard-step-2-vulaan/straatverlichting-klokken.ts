@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+
 import appConfiguration from 'shared/services/configuration/configuration'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
@@ -53,7 +54,7 @@ const straatverlichtingKlokken = {
         '<PropertyIsNotEqualTo><ValueReference>objecttype_omschrijving</ValueReference><Literal>Klok</Literal></PropertyIsNotEqualTo><BBOX><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers?.verlichting,
       maxNumberOfAssets:
-        configuration.map.options?.maxNumberOfAssets.straatverlichtingKlokken,
+        configuration.map.options.maxNumberOfAssets.straatverlichtingKlokken,
       featureTypes: [
         {
           label: 'Grachtmast',
