@@ -46,6 +46,9 @@ const slideUp = keyframes`
     transform: translate3d(0, 0, 0);
   }
 `
+export const Label = styled.label`
+  display: none;
+`
 
 export const AddressSearch = styled.article`
   background-color: white;

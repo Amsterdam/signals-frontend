@@ -19,13 +19,15 @@ export const FilterCategory = ({
 }: Props) => (
   <CategoryItem htmlFor={text}>
     <Checkbox
+      role="checkbox"
+      aria-checked="false"
       data-testid={text}
       id={text}
       checked={selected}
       onChange={onToggleCategory}
     />
     <StyledImg
-      alt="icon"
+      alt={'icon ' + text}
       src={icon || 'assets/images/icon-incident-marker.svg'}
     />
     <CategoryItemText>{text}</CategoryItemText>
