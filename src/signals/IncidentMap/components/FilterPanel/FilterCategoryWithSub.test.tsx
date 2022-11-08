@@ -68,9 +68,14 @@ describe('FilterCategoryWithSub', () => {
     const chevron = screen.getByRole('button', {
       name: 'Toon meer filter opties',
     })
+
     userEvent.click(chevron)
 
-    expect(screen.getByText('mockSubCategory_display1')).toBeInTheDocument()
+    const updatedChevron = screen.queryByRole('button', {
+      name: 'Toon meer filter opties',
+    })
+
+    expect(updatedChevron).not.toBeInTheDocument()
   })
 
   it('should hit the subcategory toggle', function () {

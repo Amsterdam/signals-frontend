@@ -30,7 +30,7 @@ export const getFilterCategoriesWithIcons = (
 }
 
 function showSubCategoryFilter(category: Category) {
-  return ['Afval', 'Wegen, verkeer, straatmeubilair'].includes(category.name)
+  return ['afval', 'wegen-verkeer-straatmeubilair'].includes(category.slug)
 }
 
 const getSubCategories = (

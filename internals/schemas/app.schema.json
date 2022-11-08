@@ -430,6 +430,14 @@
             }
           }
         },
+        "maxNumberOfAssets": {
+          "type": "object",
+          "properties": {
+            "straatverlichtingKlokken": {"type": "integer"},
+            "afvalContainer": {"type": "integer"},
+            "eikenProcessierups": {"type": "integer"}
+          }
+        },
         "maxZoom": {
           "type": "integer"
         },

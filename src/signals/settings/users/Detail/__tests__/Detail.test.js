@@ -1,24 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { act } from 'react-dom/test-utils'
-import { withAppContext } from 'test/utils'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 import * as reactRouterDom from 'react-router-dom'
 
-import configuration from 'shared/services/configuration/configuration'
-
-import routes from 'signals/settings/routes'
-
-import userFixture from 'utils/__tests__/fixtures/user.json'
-import historyFixture from 'utils/__tests__/fixtures/history.json'
-import rolesFixture from 'utils/__tests__/fixtures/roles.json'
-import { departments } from 'utils/__tests__/fixtures'
-import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json'
-
-import * as rolesSelectors from 'models/roles/selectors'
-import * as modelSelectors from 'models/departments/selectors'
 import * as appSelectors from 'containers/App/selectors'
+import * as modelSelectors from 'models/departments/selectors'
+import * as rolesSelectors from 'models/roles/selectors'
+import configuration from 'shared/services/configuration/configuration'
+import routes from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
+import { departments } from 'utils/__tests__/fixtures'
+import historyFixture from 'utils/__tests__/fixtures/history.json'
+import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json'
+import rolesFixture from 'utils/__tests__/fixtures/roles.json'
+import userFixture from 'utils/__tests__/fixtures/user.json'
 
 import UserDetail from '..'
 

@@ -67,8 +67,6 @@ export const SubSection = styled.div<{ visible: boolean; lines: number }>`
         `}
 `
 
-export const SectionWrapper = styled.div``
-
 export const WrapperFilterCategoryWithIcon = styled.div`
   > label {
     width: calc(100% - 20px);
@@ -96,17 +94,9 @@ export const InvisibleButton = styled.button<{ toggle: boolean }>`
   }
 `
 
-interface LegendTextProps {
-  readonly noResults?: boolean
-}
-
-export const CategoryItemText = styled.span<LegendTextProps>`
+export const CategoryItemText = styled.span`
   display: flex;
   align-items: center;
-  color: ${(props) =>
-    props.noResults
-      ? themeColor('tint', 'level4')
-      : themeColor('tint', 'level7')};
 `
 
 export const CategoryItem = styled.label`

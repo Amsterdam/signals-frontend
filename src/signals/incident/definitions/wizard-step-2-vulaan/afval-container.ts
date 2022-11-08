@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
-
-import configuration from 'shared/services/configuration/configuration'
+import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
-import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+
+import type ConfigurationType from '../../../../../app.amsterdam.json'
+import appConfiguration from '../../../../shared/services/configuration/configuration'
 
 export const ICON_SIZE = 40
 
@@ -13,6 +14,8 @@ const options: Partial<IconOptions> = {
   className: 'object-marker',
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
+
+const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const controls = {
   extra_container: {
@@ -34,7 +37,8 @@ export const controls = {
       wfsFilter:
         '<PropertyIsEqualTo><PropertyName>status</PropertyName><Literal>1</Literal></PropertyIsEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
       endpoint: configuration.map.layers.containers,
-      maxNumberOfAssets: 1,
+      maxNumberOfAssets:
+        configuration.map.options?.maxNumberOfAssets.afvalContainer,
       featureTypes: [
         {
           label: 'Restafval',
