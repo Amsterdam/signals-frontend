@@ -36,8 +36,8 @@ export const AddressLocation = ({
       <Label htmlFor="searchAddressBar">searchAddressBar</Label>
       <StyledPDOKAutoSuggest
         data-testid="searchAddressBar"
-        aria-label="searchAddressBar"
-        aria-required="false"
+        aria-label="input field for address search"
+        aria-required
         placeholder="Adres"
         onSelect={onAddressSelect}
         value={address}
