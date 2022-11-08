@@ -3,7 +3,7 @@
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { withAppContext } from 'test/utils'
+import { history, withAppContext } from 'test/utils'
 
 import { MyIncidentsProvider } from '../context'
 import { Confirmation } from './Confirmation'
@@ -67,5 +67,22 @@ describe('BasePage', () => {
         `Wij hebben opnieuw een e-mail verstuurd naar test@test.nl. Bevestig uw e-mailadres met de link in de e-mail. Het kan zijn dat de e-mail in uw spamfolder staat.`
       )
     ).toBeInTheDocument()
+  })
+
+  it('should redirect to requestAccess page when email is undefined', () => {
+    const value = {
+      email: undefined,
+      setEmail: jest.fn(),
+    }
+
+    render(
+      withAppContext(
+        <MyIncidentsProvider value={value}>
+          <Confirmation />
+        </MyIncidentsProvider>
+      )
+    )
+
+    expect(history.location.pathname).toEqual('/mijn-meldingen/login')
   })
 })

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
@@ -66,6 +66,12 @@ export const Confirmation = () => {
     ),
     [onCancel, onResubmit]
   )
+
+  useEffect(() => {
+    if (!email) {
+      history.push(routes.requestAccess)
+    }
+  }, [email, history])
 
   return (
     <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />
