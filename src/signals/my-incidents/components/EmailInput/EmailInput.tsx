@@ -8,11 +8,11 @@ import * as yup from 'yup'
 import Button from 'components/Button'
 import Label from 'components/Label'
 
-import { useMyIncidentContext } from '../context'
-import { routes } from '../definitions'
-import { usePostEmail } from '../hooks'
+import { useMyIncidentContext } from '../../context'
+import { routes } from '../../definitions'
+import { usePostEmail } from '../../hooks'
+import type { FormData } from '../types'
 import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
-import type { FormData } from './types'
 
 const schema = yup.object({
   email: yup

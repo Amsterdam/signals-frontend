@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext, history } from 'test/utils'
 
-import { MyIncidentsProvider } from '../context'
+import { MyIncidentsProvider } from '../../context'
 import { EmailInput } from './EmailInput'
 
 const defaultValue = {
