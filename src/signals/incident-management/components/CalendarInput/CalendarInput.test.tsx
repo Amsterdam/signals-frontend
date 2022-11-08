@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import { dateToString } from 'shared/services/date-utils'
@@ -68,31 +68,5 @@ describe('signals/incident-management/components/CalendarInput', () => {
     fireEvent.change(inputElement, { target: { value: '18-12-2018' } })
 
     expect(onSelect).toHaveBeenCalledWith(expect.any(Date), expect.any(Object))
-  })
-
-  it('should focus on the input when a value is selected', () => {
-    const onSelect = jest.fn()
-
-    render(
-      withAppContext(
-        <CalendarInput {...calendarInputProps} id={id} onSelect={onSelect} />
-      )
-    )
-
-    const inputElement = screen.getByRole('textbox', {
-      name: calendarInputProps.label,
-    })
-
-    inputElement.focus()
-
-    expect(onSelect).not.toHaveBeenCalled()
-
-    fireEvent.click(inputElement)
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 13, keyCode: 13 })
-    fireEvent.keyDown(inputElement, { key: 'Enter', code: 13, keyCode: 13 })
-
-    expect(onSelect).toHaveBeenCalledWith(expect.any(Date), expect.any(Object))
-
-    expect(screen.getByTestId('selectedDate')).toEqual(document.activeElement)
   })
 })

@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect } from 'react'
+
+import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
-import isEqual from 'lodash/isEqual'
 import styled from 'styled-components'
 
-import configuration from 'shared/services/configuration/configuration'
-import { makeSelectUserCan } from 'containers/App/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
-
 import BackLink from 'components/BackLink'
-import routes from 'signals/settings/routes'
+import LoadingIndicator from 'components/LoadingIndicator'
+import { makeSelectUserCan } from 'containers/App/selectors'
 import useFetch from 'hooks/useFetch'
-
-import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification'
+import configuration from 'shared/services/configuration/configuration'
+import PageHeader from 'signals/settings/components/PageHeader'
 import useConfirmedCancel from 'signals/settings/hooks/useConfirmedCancel'
+import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification'
+import routes from 'signals/settings/routes'
+
 import UserForm from './components/UserForm'
 
 const FormContainer = styled.div`
