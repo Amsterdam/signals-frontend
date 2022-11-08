@@ -1,27 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useReducer, useCallback } from 'react'
+
+import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import { userType, historyType } from 'shared/types'
-
+import FormFooter from 'components/FormFooter'
+import History from 'components/History'
+import Input from 'components/Input'
+import Label from 'components/Label'
+import TextArea from 'components/TextArea'
+import { makeSelectDepartments } from 'models/departments/selectors'
 import {
   rolesModelSelector,
   inputCheckboxRolesSelector,
 } from 'models/roles/selectors'
-
-import { makeSelectDepartments } from 'models/departments/selectors'
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import { userType, historyType } from 'shared/types'
 import CheckboxList from 'signals/incident-management/components/CheckboxList'
-
-import Input from 'components/Input'
-import Label from 'components/Label'
-import TextArea from 'components/TextArea'
-import FormFooter from 'components/FormFooter'
-import History from 'components/History'
+import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 
 const Form = styled.form`
   width: 100%;
@@ -85,9 +83,9 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
       .filter(Boolean) || []
 
   const [state, dispatch] = useReducer(reducer, {
-    username: data.username,
-    first_name: data.first_name,
-    last_name: data.last_name,
+    username: data.username || '',
+    first_name: data.first_name || '',
+    last_name: data.last_name || '',
     note: data.profile && data.profile.note,
     is_active:
       data.is_active === undefined
