@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FunctionComponent, SyntheticEvent } from 'react'
-import { Fragment, useCallback, useRef } from 'react'
-import DatePicker, { registerLocale } from 'react-datepicker'
-import { dateToString } from 'shared/services/date-utils'
+import { Fragment, useRef } from 'react'
+
 import nl from 'date-fns/locale/nl'
-import 'react-datepicker/dist/react-datepicker.css'
+import DatePicker, { registerLocale } from 'react-datepicker'
 import styled from 'styled-components'
+
+import { dateToString } from 'shared/services/date-utils'
+
+import 'react-datepicker/dist/react-datepicker.css'
+
 import CustomInput from './CustomInput'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -50,13 +54,6 @@ const CalendarInput: FunctionComponent<CalendarInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const focus = useCallback(() => {
-    /* istanbul ignore else */
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [inputRef])
-
   return (
     <Fragment>
       <DatePicker
@@ -66,8 +63,6 @@ const CalendarInput: FunctionComponent<CalendarInputProps> = ({
         id={id}
         locale="nl"
         onChange={onChange}
-        onSelect={focus}
-        onCalendarClose={focus}
         selected={selectedDate}
       />
 
