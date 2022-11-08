@@ -82,10 +82,10 @@ describe('EmailInput', () => {
 
     const input = screen.getByRole('textbox', { name: 'E-mailadres' })
 
-    userEvent.type(input, 'not-an-email')
+    userEvent.type(input, 'myemail')
 
     expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
-      'not-an-email'
+      'myemail'
     )
 
     const submitButton = screen.getByRole('button', {
@@ -100,15 +100,15 @@ describe('EmailInput', () => {
       screen.getByText('Het veld moet een geldig e-mailadres bevatten')
     ).toBeInTheDocument()
 
-    userEvent.type(input, '@email.com')
-
     await waitFor(() => {
-      expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
-        'not-an-email@email.com'
-      )
-      expect(
-        screen.queryByText('Het veld moet een geldig e-mailadres bevatten')
-      ).not.toBeInTheDocument()
+      userEvent.type(input, '@email.com')
     })
+
+    expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
+      'myemail@email.com'
+    )
+    expect(
+      screen.queryByText('Het veld moet een geldig e-mailadres bevatten')
+    ).not.toBeInTheDocument()
   })
 })

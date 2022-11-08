@@ -57,7 +57,7 @@ const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 const IncidentMapContainer = lazy(() => import('signals/IncidentMap'))
 
 // istanbul ignore next
-const Login = lazy(() => import('signals/my-incidents'))
+const MyIncidents = lazy(() => import('signals/my-incidents'))
 
 export const AppContainer = () => {
   const dispatch = useDispatch()
@@ -123,7 +123,7 @@ export const AppContainer = () => {
                   />
                 )}
                 {configuration.featureFlags.enableMyIncidents && (
-                  <Route path="/mijn-meldingen" component={Login} />
+                  <Route path="/mijn-meldingen" component={MyIncidents} />
                 )}
                 <Route
                   path="/incident/reactie/:uuid"

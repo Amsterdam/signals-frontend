@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 import { useMemo } from 'react'
 
 import type { MyIncidentsValue } from '../types'
@@ -12,6 +12,7 @@ export const initialValue: MyIncidentsValue = {
 }
 
 interface Props {
+  children: ReactNode
   value?: MyIncidentsValue
 }
 

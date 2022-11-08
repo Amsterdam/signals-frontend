@@ -25,24 +25,18 @@ export const LinkExpired = () => {
     [onClick]
   )
 
-  const pageInfo = useMemo(
-    () => ({
-      documentTitle: 'Link verlopen',
-      dataTestId: 'expiredLinkMyIncidents',
-      pageTitle: 'Link verlopen',
-    }),
-    []
-  )
-
-  const paragraphs = useMemo(
-    () => [
-      `De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
-    nieuwe bevestigingslink te ontvangen.`,
-    ],
-    []
-  )
-
   return (
-    <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />
+    <BasePage
+      buttons={buttons}
+      pageInfo={{
+        documentTitle: 'Link verlopen',
+        dataTestId: 'expiredLinkMyIncidents',
+        pageTitle: 'Link verlopen',
+      }}
+      paragraphs={[
+        `De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
+    nieuwe bevestigingslink te ontvangen.`,
+      ]}
+    />
   )
 }
