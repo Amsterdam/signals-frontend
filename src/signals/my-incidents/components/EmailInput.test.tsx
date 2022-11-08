@@ -8,17 +8,6 @@ import { withAppContext, history } from 'test/utils'
 import { MyIncidentsProvider } from '../context'
 import { EmailInput } from './EmailInput'
 
-let postEmail: jest.Mock
-
-jest.mock('../hooks', () => {
-  const actual = jest.requireActual('../hooks')
-  return {
-    __esModule: true,
-    ...actual,
-    usePostEmail: () => [(postEmail = jest.fn()), 'rest'],
-  }
-})
-
 const defaultValue = {
   email: 'test@test.nl',
   setEmail: jest.fn(),
@@ -34,9 +23,8 @@ describe('EmailInput', () => {
       )
     )
 
-    expect(
-      screen.getByRole('textbox', { name: 'E-mailadres' })
-    ).toBeInTheDocument()
+    expect(screen.getByText('E-mailadres')).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Inloggen' })).toBeInTheDocument()
   })
 
@@ -49,25 +37,21 @@ describe('EmailInput', () => {
       )
     )
 
-    const input = screen.getByRole('textbox', { name: 'E-mailadres' })
+    const input = screen.getByRole('textbox')
 
     userEvent.type(input, 'test@email.com')
 
-    expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
-      'test@email.com'
-    )
+    expect(screen.getByRole('textbox')).toHaveValue('test@email.com')
 
     const submitButton = screen.getByRole('button', {
       name: 'Inloggen',
     })
 
-    userEvent.click(submitButton)
-
     await waitFor(() => {
-      expect(defaultValue.setEmail).toHaveBeenCalledWith('test@email.com')
-      expect(postEmail).toHaveBeenCalledWith('test@email.com')
+      userEvent.click(submitButton)
     })
 
+    expect(defaultValue.setEmail).toHaveBeenCalledWith('test@email.com')
     expect(history.location.pathname).toEqual('/mijn-meldingen/bevestig')
   })
 
@@ -80,13 +64,11 @@ describe('EmailInput', () => {
       )
     )
 
-    const input = screen.getByRole('textbox', { name: 'E-mailadres' })
+    const input = screen.getByRole('textbox')
 
     userEvent.type(input, 'myemail')
 
-    expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
-      'myemail'
-    )
+    expect(screen.getByRole('textbox')).toHaveValue('myemail')
 
     const submitButton = screen.getByRole('button', {
       name: 'Inloggen',
@@ -104,9 +86,7 @@ describe('EmailInput', () => {
       userEvent.type(input, '@email.com')
     })
 
-    expect(screen.getByRole('textbox', { name: 'E-mailadres' })).toHaveValue(
-      'myemail@email.com'
-    )
+    expect(screen.getByRole('textbox')).toHaveValue('myemail@email.com')
     expect(
       screen.queryByText('Het veld moet een geldig e-mailadres bevatten')
     ).not.toBeInTheDocument()

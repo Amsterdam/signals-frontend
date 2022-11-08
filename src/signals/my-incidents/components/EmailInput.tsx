@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useRef, useState } from 'react'
-
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -12,86 +12,49 @@ import { useMyIncidentContext } from '../context'
 import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
 import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
-import type { Error } from './types'
+import type { FormData } from './types'
 
-const schema = yup.string().email().required().max(254)
-
-const validateInput = async (
-  inputRef: React.RefObject<HTMLInputElement>,
-  setValidation: (error: Error) => void
-) => {
-  const isValid = await schema
-    .isValid(inputRef?.current?.value)
-    .then((valid) => valid)
-
-  if (isValid) {
-    setValidation({
-      hasError: !isValid,
-      message: null,
-    })
-  } else {
-    setValidation({
-      hasError: !isValid,
-      message: 'Het veld moet een geldig e-mailadres bevatten',
-    })
-  }
-}
+const schema = yup.object({
+  email: yup
+    .string()
+    .email('Het veld moet een geldig e-mailadres bevatten')
+    .required('Dit veld is verplicht'),
+})
 
 export const EmailInput = () => {
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const [validation, setValidation] = useState<Error>({
-    hasError: false,
-    message: null,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
   })
-
   const history = useHistory()
   const [postEmail] = usePostEmail()
-
   const { setEmail } = useMyIncidentContext()
 
-  const handleSubmit = () => {
-    validateInput(inputRef, setValidation)
-
-    if (!validation.hasError && inputRef?.current?.value) {
-      setEmail(inputRef.current.value)
-      postEmail(inputRef.current.value)
-      history.push(routes.confirm)
-    }
-  }
-
-  const handleOnBlur = () => {
-    validateInput(inputRef, setValidation)
-  }
-
-  const handleOnChange = () => {
-    if (validation.hasError) {
-      validateInput(inputRef, setValidation)
-    }
+  const onSubmit = ({ email }: FormData) => {
+    postEmail(email)
+    setEmail(email)
+    history.push(routes.confirm)
   }
 
   return (
-    <>
-      <ErrorWrapper invalid={validation.hasError}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ErrorWrapper invalid={Boolean(errors.email?.message)}>
         <Label htmlFor="email-address">E-mailadres</Label>
-        <div role="status">
-          {validation.message && (
-            <StyledErrorMessage
-              id="textareaErrorMessage"
-              message={validation.message}
-            />
-          )}
-        </div>
-        <StyledInput
-          id="email-address"
-          ref={inputRef}
-          onBlur={handleOnBlur}
-          onChange={handleOnChange}
-        />
+        {errors.email?.message && (
+          <StyledErrorMessage
+            id="textareaErrorMessage"
+            message={errors.email.message}
+          />
+        )}
+        <StyledInput {...register('email')} />
       </ErrorWrapper>
-      <Button variant="secondary" onClick={handleSubmit}>
+
+      <Button type="submit" variant="secondary">
         Inloggen
       </Button>
-    </>
+    </form>
   )
 }

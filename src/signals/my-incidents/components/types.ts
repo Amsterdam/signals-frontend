@@ -1,4 +1,3 @@
-export interface Error {
-  hasError: boolean
-  message: string | null
+export interface FormData {
+  email: string
 }
