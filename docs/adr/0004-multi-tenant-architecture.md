@@ -14,7 +14,7 @@ At the time of writing, the configuration for [acc.meldingen.amsterdam.nl](https
 
 Since the configuration is extracted from the base repository, it is now possible to deploy an infinite number of SIA instances. This also means that, where we would originally deploy `signals-frontend` to (acc.)meldingen.amsterdam.nl, we will now have to deploy `signals-amsterdam` instead. A merge to either the `develop` or the `master` in the `signals-frontend` repository, however, should still deploy to (acc.)meldingen.amsterdam.nl.
 
-To accomplish that, the build server (Jenkins) should trigger related jobs on each merge, like so:
+~~To accomplish that, the build server (Jenkins) should trigger related jobs on each merge, like so:~~
 
 ```Groovy
 if (BRANCH == "develop") {
