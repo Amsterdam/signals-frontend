@@ -24,9 +24,13 @@ export const FilterCategory = ({
       checked={selected}
       onChange={onToggleCategory}
     />
+<<<<<<< HEAD
 
     <StyledImg alt={'icon ' + text} src={icon} />
 
+=======
+    <StyledImg alt="icon" src={icon} />
+>>>>>>> ad00446b9 (resize filter icons and set default icons (#2364))
     <CategoryItemText>{text}</CategoryItemText>
   </CategoryItem>
 )
