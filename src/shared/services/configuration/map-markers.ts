@@ -52,10 +52,10 @@ export const currentIncidentIcon = L.icon({
   iconAnchor: [48, 48],
 })
 
-const defaultIncidentIcon = '/assets/images/icon-incident-marker.svg'
+export const defaultIcon = '/assets/images/icon-incident-marker.svg'
 export const dynamicIcon = (iconUrl?: string) =>
   L.icon({
-    iconUrl: iconUrl ?? defaultIncidentIcon,
+    iconUrl: iconUrl ?? defaultIcon,
     iconSize: [40, 40],
     iconAnchor: [20, 39],
     className: 'map-marker-incident',
