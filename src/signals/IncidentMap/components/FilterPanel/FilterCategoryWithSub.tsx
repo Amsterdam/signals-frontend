@@ -47,14 +47,14 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         {subCategories
           .filter((subCategory) => subCategory.incidentsCount)
           .map((subCategory) => {
-            const { name, filterActive, _display, icon } = subCategory
+            const { name, filterActive, icon } = subCategory
             return (
               <FilterCategory
                 onToggleCategory={() => {
                   onToggleCategory(subCategory, !filterActive)
                 }}
                 selected={filterActive}
-                text={_display || name}
+                text={name}
                 key={name}
                 icon={icon}
               />
