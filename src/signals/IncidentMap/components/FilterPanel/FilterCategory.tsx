@@ -19,8 +19,6 @@ export const FilterCategory = ({
 }: Props) => (
   <CategoryItem htmlFor={text}>
     <Checkbox
-      role="checkbox"
-      aria-checked={selected}
       data-testid={text}
       id={text}
       checked={selected}

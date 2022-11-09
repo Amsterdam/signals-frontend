@@ -10,7 +10,6 @@ import type { PdokResponse } from 'shared/services/map-location'
 import {
   StyledPDOKAutoSuggest,
   AddressLocationWrapper as Wrapper,
-  Label,
 } from './styled'
 export interface Props {
   address?: string
@@ -33,11 +32,9 @@ export const AddressLocation = ({
   return (
     <Wrapper>
       <Heading as="h4">Zoom naar adres</Heading>
-      <Label htmlFor="searchAddressBar">searchAddressBar</Label>
       <StyledPDOKAutoSuggest
         data-testid="searchAddressBar"
-        aria-label="input field for address search"
-        aria-required
+        aria-label="veld zoek naar adres"
         placeholder="Adres"
         onSelect={onAddressSelect}
         value={address}

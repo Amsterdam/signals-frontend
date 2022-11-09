@@ -35,4 +35,23 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
     expect(getByTestId('map-test')).toBeInTheDocument()
     expect(setInstanceMock).toHaveBeenCalledTimes(1)
   })
+  it('should make the MarkerCluster not accessible', () => {
+    const setInstanceMock = jest.fn()
+    const { container, rerender } = render(
+      withMapContainer(<MarkerCluster setInstance={setInstanceMock} />)
+    )
+
+    expect(container.getElementsByClassName('marker-cluster')).toContain(
+      'tabindex=0'
+    )
+
+    rerender(
+      withMapContainer(
+        <MarkerCluster keyboard={false} setInstance={setInstanceMock} />
+      )
+    )
+    expect(container.getElementsByClassName('marker-cluster')).not.toContain(
+      'tabindex=0'
+    )
+  })
 })

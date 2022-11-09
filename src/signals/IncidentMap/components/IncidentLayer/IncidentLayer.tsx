@@ -124,6 +124,7 @@ export const IncidentLayer = ({
       setInstance={setLayerInstance}
       getIsSelectedCluster={getIsSelectedCluster}
       spiderfySelectedCluster={false}
+      keyboard={false}
     />
   )
 }

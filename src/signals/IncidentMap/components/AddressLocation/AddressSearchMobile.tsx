@@ -51,8 +51,7 @@ export const AddressSearchMobile = ({
             variant="blank"
           />
           <StyledPDOKAutoSuggest
-            aria-label="input field for address search on mobile"
-            aria-required="false"
+            aria-label="veld zoek naar adres"
             onClear={() => setCoordinates(undefined)}
             onData={setOptionsList}
             onSelect={onAddressSelect}
