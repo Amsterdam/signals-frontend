@@ -3,9 +3,10 @@
 import type { MutableRefObject } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import MarkerCluster from 'components/MarkerCluster'
 import type { FeatureCollection, Point } from 'geojson'
 import L from 'leaflet'
+
+import MarkerCluster from 'components/MarkerCluster'
 import {
   dynamicIcon,
   selectedMarkerIcon,
