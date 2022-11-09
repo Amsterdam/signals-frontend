@@ -93,7 +93,7 @@ describe('FilterCategoryWithSub', () => {
     userEvent.click(chevron)
 
     const checkBox = screen.getByRole('checkbox', {
-      name: /mockSubCategory_display1/,
+      name: /mockSubCategoryname1/,
     })
 
     expect(checkBox).toBeInTheDocument()

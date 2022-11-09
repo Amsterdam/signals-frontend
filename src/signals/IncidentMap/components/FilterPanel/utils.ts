@@ -1,5 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
+import { defaultIcon } from 'shared/services/configuration/map-markers'
 import type { Category } from 'types/category'
 
 import type { Filter, SubCategory } from '../../types'
@@ -15,7 +16,7 @@ export const getFilterCategoriesWithIcons = (
       const categoriesWithIcons: Filter = {
         _display,
         filterActive: true,
-        icon: _links['sia:icon']?.href,
+        icon: _links['sia:icon']?.href ?? defaultIcon,
         name,
         slug,
         incidentsCount: 0,
@@ -43,7 +44,7 @@ const getSubCategories = (
       return {
         _display,
         filterActive: true,
-        icon: _links['sia:icon']?.href,
+        icon: _links['sia:icon']?.href ?? defaultIcon,
         name,
         slug,
         incidentsCount: 0,

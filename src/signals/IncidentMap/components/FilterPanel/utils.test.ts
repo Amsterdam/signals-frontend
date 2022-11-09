@@ -19,12 +19,12 @@ describe('getFilterCategoriesWithIcon', () => {
     expect(results.find((filter) => filter.slug === 'afval')).toBeTruthy()
   })
 
-  it('should return filters with icon if available', () => {
+  it('should return filters with icon', () => {
     const results = getFilterCategoriesWithIcons(mockData)
 
-    expect(
-      results.find((filter) => filter.slug === 'overig')?.icon
-    ).toBeUndefined()
+    expect(results.find((filter) => filter.slug === 'overig')?.icon).toEqual(
+      '/assets/images/icon-incident-marker.svg'
+    )
 
     expect(
       results.find((filter) => filter.slug === 'overlast-bedrijven-en-horeca')

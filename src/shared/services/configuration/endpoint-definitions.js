@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 export default {
   // Retrieves geographical areas. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_
@@ -54,6 +54,9 @@ export default {
   // Only available when the feature flag `ENABLE_PUBLIC_GEO_SIGNAL_ENDPOINT`
   // is turned on in the backend.
   MAP_SIGNALS_ENDPOINT: '/signals/v1/public/map-signals/',
+  // Public. Used to request a login link in an email by 'POST' request with the reporter's email address.
+  // No Swagger documentation available.
+  MY_SIGNALS_LOGIN_URL: '/signals/v1/my/signals/request-auth-token',
   // Private. Used by the settings module to `GET` the full set of permissions.
   // No Swagger documentation available.
   PERMISSIONS_ENDPOINT: '/signals/v1/private/permissions/',

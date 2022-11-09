@@ -19,7 +19,7 @@ export interface State<T> {
   isSuccess?: boolean
 }
 
-interface FetchResponse<T> extends State<T> {
+export interface FetchResponse<T> extends State<T> {
   del: (url: string, requestOptions?: Data) => Promise<void>
   get: (url: string, params?: Data, requestOptions?: Data) => Promise<void>
   patch: (

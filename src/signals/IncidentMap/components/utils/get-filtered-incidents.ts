@@ -51,7 +51,7 @@ export const getFilteredIncidents = (
 
 interface Icon {
   slug: string
-  icon: string
+  icon?: string
 }
 
 const getListOfIcons = (filters: Filter[]) => {
@@ -66,7 +66,7 @@ const getListOfIcons = (filters: Filter[]) => {
   return allFilters.map(createIcon)
 }
 
-const createIcon = (category: Filter): Partial<Icon> => ({
+const createIcon = (category: Filter): Icon => ({
   slug: category.slug,
   icon: category.icon,
 })

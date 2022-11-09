@@ -24,11 +24,13 @@ export default function configureStore(
   history: History
 ) {
   const reduxSagaMonitorOptions = {
+    /* istanbul ignore next */
     onError: (error: ResponseError) => {
       const message = error.response?.jsonBody?.message ?? error.message
       const notificationTitle = getErrorMessage(error)
 
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      /* istanbul ignore next */
       store.dispatch(
         showGlobalNotification({
           title: notificationTitle,

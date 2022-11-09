@@ -24,10 +24,12 @@ export const FilterCategory = ({
       checked={selected}
       onChange={onToggleCategory}
     />
+
     <StyledImg
       alt={'icon ' + text}
       src={icon || 'assets/images/icon-incident-marker.svg'}
     />
+
     <CategoryItemText>{text}</CategoryItemText>
   </CategoryItem>
 )

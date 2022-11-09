@@ -15,6 +15,7 @@ export const StyledLabel = styled(Label)`
 
 export const StyledImg = styled.img`
   padding-right: ${themeSpacing(2)};
+  max-height: ${themeSpacing(8)};
 `
 export const Wrapper = styled.div`
   border-top: 1px solid ${themeColor('tint', 'level3')};
