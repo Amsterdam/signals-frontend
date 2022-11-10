@@ -51,10 +51,6 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-export const StyldedParagraphSingleLine = styled(Paragraph)`
-  margin-bottom: ${themeSpacing(4)};
-`
-
 export const StyledEmail = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};
   font-weight: 700;
@@ -64,4 +60,8 @@ export const StyledEmail = styled(Paragraph)`
 export const StyledLink = styled(Link)`
   font-size: 16px;
   margin-bottom: ${themeSpacing(10)};
+`
+
+export const Wrapper = styled.div`
+  width: 100%;
 `
