@@ -9,10 +9,6 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const Header = styled(Heading)`
-  margin-top: ${themeSpacing(5)};
-`
-
 export const StyledParagraph = styled(Paragraph)`
   font-size: 16px;
   line-height: ${themeSpacing(6)};
@@ -25,10 +21,6 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-export const StyldedParagraphSingleLine = styled(Paragraph)`
-  margin-bottom: ${themeSpacing(4)};
-`
-
 export const StyledEmail = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};
   font-weight: 700;
@@ -38,4 +30,12 @@ export const StyledEmail = styled(Paragraph)`
 export const StyledLink = styled(Link)`
   font-size: 16px;
   margin-bottom: ${themeSpacing(10)};
+`
+
+export const StyledHeading = styled(Heading)`
+  margin: ${themeSpacing(5)} 0;
+`
+
+export const Wrapper = styled.div`
+  width: 100%;
 `
