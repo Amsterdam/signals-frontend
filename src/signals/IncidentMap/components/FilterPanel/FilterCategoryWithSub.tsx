@@ -24,15 +24,17 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
   if (!subCategories) return null
   return (
     <Fragment key={`section-${name}`}>
-      <WrapperFilterCategoryWithIcon>
-        <FilterCategory
-          onToggleCategory={() => {
-            onToggleCategory(filter, !filterActive)
-          }}
-          selected={filterActive}
-          text={name}
-          icon={icon}
-        />
+      <div style={{ border: '1px solid red' }}>
+        <WrapperFilterCategoryWithIcon>
+          <FilterCategory
+            onToggleCategory={() => {
+              onToggleCategory(filter, !filterActive)
+            }}
+            selected={filterActive}
+            text={name}
+            icon={icon}
+          />
+        </WrapperFilterCategoryWithIcon>
         <InvisibleButton
           title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
           aria-expanded={showSubsection}
@@ -41,7 +43,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         >
           <ChevronDown width={20} height={20} />
         </InvisibleButton>
-      </WrapperFilterCategoryWithIcon>
+      </div>
 
       <SubSection visible={showSubsection} lines={subCategories.length}>
         {subCategories
