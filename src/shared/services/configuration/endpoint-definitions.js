@@ -57,6 +57,9 @@ export default {
   // Public. Used to request a login link in an email by 'POST' request with the reporter's email address.
   // No Swagger documentation available.
   MY_SIGNALS_LOGIN_URL: '/signals/v1/my/signals/request-auth-token',
+  // Public. Used to request a list of incidents based on an email address. Return the incidents of the last 12 months.
+  // No Swagger documentation available.
+  MY_SIGNALS_ENDPOINT: '/signals/v1/my/signals',
   // Private. Used by the settings module to `GET` the full set of permissions.
   // No Swagger documentation available.
   PERMISSIONS_ENDPOINT: '/signals/v1/private/permissions/',

@@ -2,13 +2,16 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useState } from 'react'
 
-import type { MyIncidentsValue } from '../types'
+import type { MyIncident, MyIncidentsValue } from '../types'
 
 export const useMyIncidents = (): MyIncidentsValue => {
   const [email, setEmail] = useState<string>()
+  const [incidentsList, setIncidentsList] = useState<MyIncident[]>()
 
   return {
     email,
     setEmail,
+    incidentsList,
+    setIncidentsList,
   }
 }

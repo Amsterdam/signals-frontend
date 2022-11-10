@@ -142,7 +142,8 @@ const useFetch = <T>(): FetchResponse<T> => {
 
       try {
         const fetchResponse = await fetch(requestURL, {
-          headers: requestHeaders(),
+          // TODO: Cleanup this function
+          headers: { ...requestHeaders(), ...requestOptions },
           method: 'GET',
           signal,
           ...requestOptions,
