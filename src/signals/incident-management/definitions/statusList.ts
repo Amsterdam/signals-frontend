@@ -9,6 +9,7 @@ export const GEMELD = {
   color: 'red',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const AFWACHTING = {
@@ -17,6 +18,7 @@ export const AFWACHTING = {
   color: 'purple',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const BEHANDELING = {
@@ -25,6 +27,7 @@ export const BEHANDELING = {
   color: 'blue',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const AFGEHANDELD = {
@@ -33,6 +36,7 @@ export const AFGEHANDELD = {
   color: 'lightgreen',
   email_sent_when_set: true,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const GESPLITST = {
@@ -41,6 +45,7 @@ export const GESPLITST = {
   color: 'lightgreen',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const INGEPLAND = {
@@ -49,6 +54,7 @@ export const INGEPLAND = {
   color: 'grey',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const GEANNULEERD = {
@@ -57,6 +63,7 @@ export const GEANNULEERD = {
   color: 'darkgrey',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const REACTIE_GEVRAAGD = {
@@ -64,6 +71,7 @@ export const REACTIE_GEVRAAGD = {
   value: 'Reactie gevraagd',
   email_sent_when_set: true,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const REACTIE_ONTVANGEN = {
@@ -71,6 +79,7 @@ export const REACTIE_ONTVANGEN = {
   value: 'Reactie ontvangen',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const VERZOEK_TOT_HEROPENEN = {
@@ -79,6 +88,7 @@ export const VERZOEK_TOT_HEROPENEN = {
   color: 'orange',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
+  topic: 'topic1',
 }
 
 export const HEROPEND = {
@@ -87,6 +97,7 @@ export const HEROPEND = {
   color: 'orange',
   email_sent_when_set: true,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const TE_VERZENDEN = {
@@ -94,6 +105,7 @@ export const TE_VERZENDEN = {
   value: 'Extern: te verzenden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const VERZONDEN = {
@@ -101,6 +113,7 @@ export const VERZONDEN = {
   value: 'Extern: verzonden',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const VERZENDEN_MISLUKT = {
@@ -108,6 +121,7 @@ export const VERZENDEN_MISLUKT = {
   value: 'Extern: mislukt',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic1',
 }
 
 export const VERZOEK_TOT_AFHANDELING = {
@@ -115,6 +129,7 @@ export const VERZOEK_TOT_AFHANDELING = {
   value: 'Extern: verzoek tot afhandeling',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic2',
 }
 
 export const AFGEHANDELD_EXTERN = {
@@ -122,6 +137,7 @@ export const AFGEHANDELD_EXTERN = {
   value: 'Extern: afgehandeld',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
+  topic: 'topic2',
 }
 
 const statusList: Status[] = [

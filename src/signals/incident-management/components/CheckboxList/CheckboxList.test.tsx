@@ -4,8 +4,8 @@ import { act, render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import userEvent from '@testing-library/user-event'
 
-import { withAppContext } from 'test/utils'
 import statuses from 'signals/incident-management/definitions/statusList'
+import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories.json'
 
 import CheckboxList from '.'
@@ -141,6 +141,19 @@ describe('signals/incident-management/components/CheckboxList', () => {
       // @ts-ignore
       expect(el.name).toEqual(name)
     })
+  })
+
+  it('should render topics if there are any', function () {
+    render(
+      withAppContext(
+        <CheckboxList name="topic checkboxes" options={statuses} />
+      )
+    )
+    const selector1 = screen.getAllByText('topic1')
+    const selector2 = screen.getAllByText('topic2')
+
+    expect(selector1).toHaveLength(1)
+    expect(selector2).toHaveLength(1)
   })
 
   it('should check all boxes when group is checked', () => {
