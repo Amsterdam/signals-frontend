@@ -50,38 +50,41 @@ export const IncidentsList = () => {
     }
   }, [error, history])
 
+  if (!incidentsList) {
+    return null
+  }
+
   return (
     <>
-      {incidentsList &&
-        incidentsList.map((incident: MyIncident) => {
-          const date = new Date(incident.created_at)
-          const formattedDate = format(date, 'd MMMM yyyy, HH:mm aaaaa', {
-            locale: nl,
-          })
+      {incidentsList.map((incident: MyIncident) => {
+        const date = new Date(incident.created_at)
+        const formattedDate = format(date, 'd MMMM yyyy, HH:mm aaaaa', {
+          locale: nl,
+        })
 
-          return (
-            <>
-              <Divider />
-              <Wrapper>
-                <Heading>
-                  <IncidentID>{incident._display}</IncidentID>
-                  <span>{`${formattedDate} uur`}</span>
-                </Heading>
-                <Status
-                  status={incident.status.state_display.toLocaleLowerCase()}
-                >
-                  Status: {incident.status.state_display.toLocaleLowerCase()}
-                </Status>
+        return (
+          <>
+            <Divider />
+            <Wrapper>
+              <Heading>
+                <IncidentID>{incident._display}</IncidentID>
+                <span>{`${formattedDate} uur`}</span>
+              </Heading>
+              <Status
+                status={incident.status.state_display.toLocaleLowerCase()}
+              >
+                Status: {incident.status.state_display.toLocaleLowerCase()}
+              </Status>
 
-                <StyledParagraph>{incident.text}</StyledParagraph>
+              <StyledParagraph>{incident.text}</StyledParagraph>
 
-                <Link inList href={`/${incident.uuid}`}>
-                  Bekijk melding
-                </Link>
-              </Wrapper>
-            </>
-          )
-        })}
+              <Link inList href={`/${incident.uuid}`}>
+                Bekijk melding
+              </Link>
+            </Wrapper>
+          </>
+        )
+      })}
       <Divider />
     </>
   )

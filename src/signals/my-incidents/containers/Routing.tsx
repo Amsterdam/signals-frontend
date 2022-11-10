@@ -26,8 +26,7 @@ export const Routing = () => {
           <Route exact path={routes.requestAccess} component={RequestAccess} />
           <Route exact path={routes.confirm} component={Confirmation} />
           <Route exact path={routes.expired} component={LinkExpired} />
-          {/* TODO: Implement correct way of route */}
-          <Route exact path={`${routes.baseUrl}/*`} component={Overview} />
+          <Route exact path={`${routes.baseUrl}/:token`} component={Overview} />
         </Switch>
       </MyIncidentsProvider>
     </Suspense>
