@@ -4,19 +4,15 @@ import { screen, render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
+import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
 import { RequestAccess } from './RequestAccess'
-
-const defaultValue = {
-  email: 'test@test.nl',
-  setEmail: jest.fn(),
-}
 
 describe('RequestAccess', () => {
   it('should render correctly', () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <RequestAccess />
         </MyIncidentsProvider>
       )

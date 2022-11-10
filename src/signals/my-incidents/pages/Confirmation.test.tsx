@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { history, withAppContext } from 'test/utils'
 
+import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
 import { Confirmation } from './Confirmation'
 
@@ -17,16 +18,11 @@ jest.mock('../hooks', () => {
   }
 })
 
-const defaultValue = {
-  email: 'test@test.nl',
-  setEmail: jest.fn(),
-}
-
 describe('BasePage', () => {
   it('should render correctly', () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <Confirmation />
         </MyIncidentsProvider>
       )
@@ -49,7 +45,7 @@ describe('BasePage', () => {
   it('should render different content when a user has clicked resend button', () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <Confirmation />
         </MyIncidentsProvider>
       )
@@ -71,8 +67,8 @@ describe('BasePage', () => {
 
   it('should redirect to requestAccess page when email is undefined', () => {
     const value = {
+      ...providerMock,
       email: undefined,
-      setEmail: jest.fn(),
     }
 
     render(
