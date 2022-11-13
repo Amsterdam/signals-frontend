@@ -18,6 +18,7 @@ interface MarkerClusterProps {
   clusterOptions?: L.MarkerClusterGroupOptions
   getIsSelectedCluster?: (cluster: L.MarkerCluster) => boolean
   spiderfySelectedCluster?: boolean
+  keyboard?: boolean
 }
 
 const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
@@ -25,6 +26,7 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
   setInstance,
   getIsSelectedCluster,
   spiderfySelectedCluster = true,
+  keyboard = true,
 }) => {
   const options: L.MarkerClusterGroupOptions = {
     showCoverageOnHover: false,
@@ -36,6 +38,9 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
 
         if (isSelectedCluster) {
           className += ` ${className}${SELECTED_CLASS_MODIFIER}`
+        }
+        if (!keyboard) {
+          cluster.options.keyboard = false
         }
 
         cluster.on({

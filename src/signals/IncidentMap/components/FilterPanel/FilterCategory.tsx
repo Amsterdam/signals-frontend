@@ -24,7 +24,9 @@ export const FilterCategory = ({
       checked={selected}
       onChange={onToggleCategory}
     />
-    <StyledImg alt="icon" src={icon} />
+
+    <StyledImg alt={'icon ' + text} src={icon} />
+
     <CategoryItemText>{text}</CategoryItemText>
   </CategoryItem>
 )
