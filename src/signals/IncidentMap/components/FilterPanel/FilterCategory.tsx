@@ -25,10 +25,7 @@ export const FilterCategory = ({
       onChange={onToggleCategory}
     />
 
-    <StyledImg
-      alt={'icon ' + text}
-      src={icon || 'assets/images/icon-incident-marker.svg'}
-    />
+    <StyledImg alt={'icon ' + text} src={icon} />
 
     <CategoryItemText>{text}</CategoryItemText>
   </CategoryItem>
