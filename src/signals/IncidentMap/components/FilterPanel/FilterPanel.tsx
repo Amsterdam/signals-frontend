@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
+
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
@@ -12,7 +13,7 @@ import { updateFilterCategory } from '../utils'
 import { getCombinedFilters } from '../utils/get-combined-filters'
 import { FilterCategory } from './FilterCategory'
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
-import { Wrapper } from './styled'
+import { Underlined, Wrapper } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
@@ -79,15 +80,17 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
                 onToggleCategory={toggleFilter}
               />
             ) : (
-              <FilterCategory
-                key={name}
-                onToggleCategory={() => {
-                  toggleFilter(filter, !filterActive)
-                }}
-                selected={filterActive}
-                text={_display || name}
-                icon={icon}
-              />
+              <Underlined>
+                <FilterCategory
+                  key={name}
+                  onToggleCategory={() => {
+                    toggleFilter(filter, !filterActive)
+                  }}
+                  selected={filterActive}
+                  text={_display || name}
+                  icon={icon}
+                />
+              </Underlined>
             )
           })}
       </Wrapper>

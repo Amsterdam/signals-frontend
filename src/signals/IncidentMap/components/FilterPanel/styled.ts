@@ -77,11 +77,7 @@ export const WrapperFilterCategoryWithIcon = styled.div`
 
   display: flex;
   align-items: center;
-  border-top: 1px solid ${themeColor('tint', 'level3')};
   border-bottom: 1px solid ${themeColor('tint', 'level3')};
-  &:first-child {
-    border: none;
-  }
 `
 
 export const InvisibleButton = styled.button<{ toggle: boolean }>`
@@ -110,6 +106,9 @@ export const CategoryItemText = styled.span`
 export const CategoryItem = styled.label`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${themeColor('tint', 'level3')};
   margin-left: -6px;
+`
+
+export const Underlined = styled.div`
+  border-bottom: 1px solid ${themeColor('tint', 'level3')};
 `

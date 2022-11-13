@@ -10,6 +10,7 @@ import {
   WrapperFilterCategoryWithIcon,
   InvisibleButton,
   SubSection,
+  Underlined,
 } from './styled'
 
 export interface Props {
@@ -24,17 +25,16 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
   if (!subCategories) return null
   return (
     <Fragment key={`section-${name}`}>
-      <div style={{ border: '1px solid red' }}>
-        <WrapperFilterCategoryWithIcon>
-          <FilterCategory
-            onToggleCategory={() => {
-              onToggleCategory(filter, !filterActive)
-            }}
-            selected={filterActive}
-            text={name}
-            icon={icon}
-          />
-        </WrapperFilterCategoryWithIcon>
+      <WrapperFilterCategoryWithIcon>
+        <FilterCategory
+          onToggleCategory={() => {
+            onToggleCategory(filter, !filterActive)
+          }}
+          selected={filterActive}
+          text={name}
+          icon={icon}
+        />
+
         <InvisibleButton
           title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
           aria-expanded={showSubsection}
@@ -43,7 +43,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         >
           <ChevronDown width={20} height={20} />
         </InvisibleButton>
-      </div>
+      </WrapperFilterCategoryWithIcon>
 
       <SubSection visible={showSubsection} lines={subCategories.length}>
         {subCategories
@@ -51,15 +51,17 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
           .map((subCategory) => {
             const { name, filterActive, icon } = subCategory
             return (
-              <FilterCategory
-                onToggleCategory={() => {
-                  onToggleCategory(subCategory, !filterActive)
-                }}
-                selected={filterActive}
-                text={name}
-                key={name}
-                icon={icon}
-              />
+              <Underlined>
+                <FilterCategory
+                  onToggleCategory={() => {
+                    onToggleCategory(subCategory, !filterActive)
+                  }}
+                  selected={filterActive}
+                  text={name}
+                  key={name}
+                  icon={icon}
+                />
+              </Underlined>
             )
           })}
       </SubSection>
