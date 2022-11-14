@@ -11,8 +11,7 @@ export const RequestAccess = () => (
       pageTitle: 'Mijn meldingen',
     }}
     paragraphs={[
-      `De link om uw aanmelding te bevestigen is verlopen. Begin opnieuw om een
-    nieuwe bevestigingslink te ontvangen.`,
+      `Log in met het e-mailadres waarmee u medlingen maakt. U krijgt dan een bevestigingsmail om naar het meldingenoverzicht te gaan.`,
     ]}
   >
     <EmailInput />
