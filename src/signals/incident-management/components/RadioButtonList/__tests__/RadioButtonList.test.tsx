@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
-
-import { withAppContext } from 'test/utils'
 import priorityList from 'signals/incident-management/definitions/priorityList'
+import { withAppContext } from 'test/utils'
 
 import RadioButtonList from '..'
 
@@ -56,6 +55,24 @@ describe('signals/incident-management/components/RadioButtonList', () => {
     )
 
     expect(screen.getAllByRole('radio')).toHaveLength(priorityList.length)
+  })
+
+  it('should render topics if there are any', function () {
+    render(
+      withAppContext(
+        <RadioButtonList
+          options={priorityList}
+          groupName="priority"
+          hasEmptySelectionButton={false}
+          onChange={() => {}}
+        />
+      )
+    )
+    const selector1 = screen.getAllByText('topic1')
+    const selector2 = screen.getAllByText('topic2')
+
+    expect(selector1).toHaveLength(1)
+    expect(selector2).toHaveLength(1)
   })
 
   it('should call onChange', () => {

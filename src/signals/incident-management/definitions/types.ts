@@ -34,4 +34,5 @@ export interface Status extends Definition {
 export interface Priority extends Definition {
   info?: string
   icon?: Icon
+  topic?: string
 }

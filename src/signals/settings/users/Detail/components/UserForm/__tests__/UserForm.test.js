@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { act, fireEvent, render } from '@testing-library/react'
-import Enzyme, { mount } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
-import { withAppContext } from 'test/utils'
-
-import { departments } from 'utils/__tests__/fixtures'
-import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json'
-
+import Enzyme, { mount } from 'enzyme'
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
+import { withAppContext } from 'test/utils'
+import { departments } from 'utils/__tests__/fixtures'
+import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json'
 
 import UserForm from '..'
 
