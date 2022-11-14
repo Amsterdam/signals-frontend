@@ -51,18 +51,17 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
           .map((subCategory) => {
             const { name, filterActive, icon } = subCategory
             return (
-              <>
+              <Fragment key={name}>
                 <FilterCategory
                   onToggleCategory={() => {
                     onToggleCategory(subCategory, !filterActive)
                   }}
                   selected={filterActive}
                   text={name}
-                  key={name}
                   icon={icon}
                 />
                 <Underlined />
-              </>
+              </Fragment>
             )
           })}
       </SubSection>
