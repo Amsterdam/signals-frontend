@@ -13,7 +13,7 @@ import { updateFilterCategory } from '../utils'
 import { getCombinedFilters } from '../utils/get-combined-filters'
 import { FilterCategory } from './FilterCategory'
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
-import { Underlined, Wrapper } from './styled'
+import { Underlined } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
@@ -67,33 +67,34 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   return (
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
-      <Wrapper>
-        {filters
-          .filter((filter: Filter) => filter.incidentsCount)
-          .map((filter: Filter) => {
-            const { name, filterActive, _display, icon, subCategories } = filter
+      <Underlined />
+      {filters
+        .filter((filter: Filter) => filter.incidentsCount)
+        .map((filter: Filter) => {
+          const { name, filterActive, _display, icon, subCategories } = filter
 
-            return subCategories ? (
-              <FilterCategoryWithSub
+          return subCategories ? (
+            <FilterCategoryWithSub
+              key={name}
+              filter={filter}
+              onToggleCategory={toggleFilter}
+            />
+          ) : (
+            <>
+              <FilterCategory
                 key={name}
-                filter={filter}
-                onToggleCategory={toggleFilter}
+                onToggleCategory={() => {
+                  toggleFilter(filter, !filterActive)
+                }}
+                selected={filterActive}
+                text={_display || name}
+                icon={icon}
               />
-            ) : (
-              <Underlined>
-                <FilterCategory
-                  key={name}
-                  onToggleCategory={() => {
-                    toggleFilter(filter, !filterActive)
-                  }}
-                  selected={filterActive}
-                  text={_display || name}
-                  icon={icon}
-                />
-              </Underlined>
-            )
-          })}
-      </Wrapper>
+              <Underlined />
+            </>
+          )
+        })}
+      <Underlined />
     </>
   )
 }

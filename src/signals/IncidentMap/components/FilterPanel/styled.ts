@@ -14,14 +14,10 @@ export const StyledLabel = styled(Label)`
 `
 
 export const StyledImg = styled.img`
-  padding-right: ${themeSpacing(2)};
-  padding: ${themeSpacing(2, 0)};
-  padding-right: 6px;
   max-height: ${themeSpacing(8)};
+  margin: 0 8px 0 2px;
 `
-export const Wrapper = styled.div`
-  border-top: 1px solid ${themeColor('tint', 'level3')};
-`
+
 export const StyledButton = styled(Button)`
   position: absolute;
   top: ${themeSpacing(5)};
@@ -77,7 +73,6 @@ export const WrapperFilterCategoryWithIcon = styled.div`
 
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${themeColor('tint', 'level3')};
 `
 
 export const InvisibleButton = styled.button<{ toggle: boolean }>`
@@ -106,7 +101,7 @@ export const CategoryItemText = styled.span`
 export const CategoryItem = styled.label`
   display: flex;
   align-items: center;
-  margin-left: -6px;
+  margin: 8px 0 8px -6px;
 `
 
 export const Underlined = styled.div`

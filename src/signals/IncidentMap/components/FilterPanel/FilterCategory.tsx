@@ -19,7 +19,6 @@ export const FilterCategory = ({
 }: Props) => (
   <CategoryItem htmlFor={text}>
     <Checkbox
-      style={{ padding: '0px' }}
       data-testid={text}
       id={text}
       checked={selected}

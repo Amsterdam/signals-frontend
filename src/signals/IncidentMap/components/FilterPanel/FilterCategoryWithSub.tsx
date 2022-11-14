@@ -44,14 +44,14 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
           <ChevronDown width={20} height={20} />
         </InvisibleButton>
       </WrapperFilterCategoryWithIcon>
-
+      <Underlined />
       <SubSection visible={showSubsection} lines={subCategories.length}>
         {subCategories
           .filter((subCategory) => subCategory.incidentsCount)
           .map((subCategory) => {
             const { name, filterActive, icon } = subCategory
             return (
-              <Underlined>
+              <>
                 <FilterCategory
                   onToggleCategory={() => {
                     onToggleCategory(subCategory, !filterActive)
@@ -61,7 +61,8 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
                   key={name}
                   icon={icon}
                 />
-              </Underlined>
+                <Underlined />
+              </>
             )
           })}
       </SubSection>
