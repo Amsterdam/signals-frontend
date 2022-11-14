@@ -3,9 +3,11 @@
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 
-import { Label, themeSpacing } from '@amsterdam/asc-ui'
+import { Label } from '@amsterdam/asc-ui'
 import Checkbox from 'components/Checkbox'
 import styled, { css } from 'styled-components'
+
+import TopicLabel from '../TopicLabel'
 
 const FilterGroup = styled.div`
   contain: content;
@@ -52,16 +54,6 @@ const Wrapper = styled.div<{ disabled: boolean }>`
       }
     `}
 `
-
-const TopicLabel = styled.label`
-  margin: ${themeSpacing(1)} 0;
-  font-weight: 700;
-  display: block;
-  &:first-of-type {
-    margin-top: ${themeSpacing(3)};
-  }
-`
-
 const setsAreEqual = (a: Set<any>, b: Set<any>) =>
   a.size === b.size && [...a].every((value) => b.has(value))
 

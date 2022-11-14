@@ -3,10 +3,6 @@
 import { useReducer, useCallback } from 'react'
 
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
-
 import FormFooter from 'components/FormFooter'
 import History from 'components/History'
 import Input from 'components/Input'
@@ -17,9 +13,12 @@ import {
   rolesModelSelector,
   inputCheckboxRolesSelector,
 } from 'models/roles/selectors'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { userType, historyType } from 'shared/types'
 import CheckboxList from 'signals/incident-management/components/CheckboxList'
 import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
+import styled from 'styled-components'
 
 const Form = styled.form`
   width: 100%;
