@@ -94,7 +94,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
             </>
           )
         })}
-      <Underlined />
     </>
   )
 }
