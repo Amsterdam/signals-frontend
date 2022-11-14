@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
+
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
@@ -12,7 +13,7 @@ import { updateFilterCategory } from '../utils'
 import { getCombinedFilters } from '../utils/get-combined-filters'
 import { FilterCategory } from './FilterCategory'
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
-import { Wrapper } from './styled'
+import { Underlined } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
 
 export interface Props {
@@ -66,19 +67,20 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   return (
     <>
       <Heading as="h4">Filter op onderwerp</Heading>
-      <Wrapper>
-        {filters
-          .filter((filter: Filter) => filter.incidentsCount)
-          .map((filter: Filter) => {
-            const { name, filterActive, _display, icon, subCategories } = filter
+      <Underlined />
+      {filters
+        .filter((filter: Filter) => filter.incidentsCount)
+        .map((filter: Filter) => {
+          const { name, filterActive, _display, icon, subCategories } = filter
 
-            return subCategories ? (
-              <FilterCategoryWithSub
-                key={name}
-                filter={filter}
-                onToggleCategory={toggleFilter}
-              />
-            ) : (
+          return subCategories ? (
+            <FilterCategoryWithSub
+              key={name}
+              filter={filter}
+              onToggleCategory={toggleFilter}
+            />
+          ) : (
+            <>
               <FilterCategory
                 key={name}
                 onToggleCategory={() => {
@@ -88,9 +90,11 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
                 text={_display || name}
                 icon={icon}
               />
-            )
-          })}
-      </Wrapper>
+              <Underlined />
+            </>
+          )
+        })}
+      <Underlined />
     </>
   )
 }

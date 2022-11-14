@@ -10,6 +10,7 @@ import {
   WrapperFilterCategoryWithIcon,
   InvisibleButton,
   SubSection,
+  Underlined,
 } from './styled'
 
 export interface Props {
@@ -33,6 +34,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
           text={name}
           icon={icon}
         />
+
         <InvisibleButton
           title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
           aria-expanded={showSubsection}
@@ -42,22 +44,24 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
           <ChevronDown width={20} height={20} />
         </InvisibleButton>
       </WrapperFilterCategoryWithIcon>
-
+      <Underlined />
       <SubSection visible={showSubsection} lines={subCategories.length}>
         {subCategories
           .filter((subCategory) => subCategory.incidentsCount)
           .map((subCategory) => {
             const { name, filterActive, icon } = subCategory
             return (
-              <FilterCategory
-                onToggleCategory={() => {
-                  onToggleCategory(subCategory, !filterActive)
-                }}
-                selected={filterActive}
-                text={name}
-                key={name}
-                icon={icon}
-              />
+              <Fragment key={name}>
+                <FilterCategory
+                  onToggleCategory={() => {
+                    onToggleCategory(subCategory, !filterActive)
+                  }}
+                  selected={filterActive}
+                  text={name}
+                  icon={icon}
+                />
+                <Underlined />
+              </Fragment>
             )
           })}
       </SubSection>

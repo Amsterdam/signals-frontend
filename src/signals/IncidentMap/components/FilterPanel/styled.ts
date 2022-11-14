@@ -14,12 +14,10 @@ export const StyledLabel = styled(Label)`
 `
 
 export const StyledImg = styled.img`
-  padding-right: ${themeSpacing(2)};
   max-height: ${themeSpacing(8)};
+  margin: 0 8px 0 2px;
 `
-export const Wrapper = styled.div`
-  border-top: 1px solid ${themeColor('tint', 'level3')};
-`
+
 export const StyledButton = styled(Button)`
   position: absolute;
   top: ${themeSpacing(5)};
@@ -103,4 +101,9 @@ export const CategoryItemText = styled.span`
 export const CategoryItem = styled.label`
   display: flex;
   align-items: center;
+  margin: 8px 0 8px -6px;
+`
+
+export const Underlined = styled.div`
+  border-bottom: 1px solid ${themeColor('tint', 'level3')};
 `
