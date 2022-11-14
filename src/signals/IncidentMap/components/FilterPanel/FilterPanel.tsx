@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect } from 'react'
+import { Fragment, useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
 
@@ -80,9 +80,8 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
               onToggleCategory={toggleFilter}
             />
           ) : (
-            <>
+            <Fragment key={name}>
               <FilterCategory
-                key={name}
                 onToggleCategory={() => {
                   toggleFilter(filter, !filterActive)
                 }}
@@ -91,7 +90,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
                 icon={icon}
               />
               <Underlined />
-            </>
+            </Fragment>
           )
         })}
       <Underlined />

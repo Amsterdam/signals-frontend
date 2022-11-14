@@ -2,6 +2,7 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import configuration from 'shared/services/configuration/configuration'
 
 import useFetch from '../../../../hooks/useFetch'
