@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 
 import { Link } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
@@ -35,9 +35,9 @@ export const IncidentsList = () => {
 
   useEffect(() => {
     const token = location.pathname.split('/').at(-1)
-    // TODO: Sanitize get request
     get(
       configuration.MY_SIGNALS_ENDPOINT,
+      {},
       {},
       { Authorization: `Token ${token}` }
     )
@@ -57,32 +57,30 @@ export const IncidentsList = () => {
   return (
     <>
       {incidentsList.map((incident: MyIncident) => {
-        const date = new Date(incident.created_at)
+        const { created_at, _display, status, text, uuid } = incident
+        const displayStatus = status.state_display.toLocaleLowerCase()
+        const date = new Date(created_at)
         const formattedDate = format(date, 'd MMMM yyyy, HH:mm aaaaa', {
           locale: nl,
         })
 
         return (
-          <>
+          <Fragment key={_display}>
             <Divider />
             <Wrapper>
               <Heading>
-                <IncidentID>{incident._display}</IncidentID>
+                <IncidentID>{_display}</IncidentID>
                 <span>{`${formattedDate} uur`}</span>
               </Heading>
-              <Status
-                status={incident.status.state_display.toLocaleLowerCase()}
-              >
-                Status: {incident.status.state_display.toLocaleLowerCase()}
-              </Status>
+              <Status status={displayStatus}>Status: {displayStatus}</Status>
 
-              <StyledParagraph>{incident.text}</StyledParagraph>
+              <StyledParagraph>{text}</StyledParagraph>
 
-              <Link inList href={`/${incident.uuid}`}>
+              <Link inList href={`/${uuid}`}>
                 Bekijk melding
               </Link>
             </Wrapper>
-          </>
+          </Fragment>
         )
       })}
       <Divider />
