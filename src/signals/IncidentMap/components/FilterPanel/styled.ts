@@ -14,16 +14,8 @@ export const StyledLabel = styled(Label)`
 `
 
 export const StyledImg = styled.img`
-<<<<<<< HEAD
   max-height: ${themeSpacing(8)};
   margin: 0 8px 0 2px;
-=======
-  padding-right: ${themeSpacing(2)};
-  max-height: ${themeSpacing(8)};
-`
-export const Wrapper = styled.div`
-  border-top: 1px solid ${themeColor('tint', 'level3')};
->>>>>>> ad00446b9 (resize filter icons and set default icons (#2364))
 `
 
 export const StyledButton = styled(Button)`
