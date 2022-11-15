@@ -46,12 +46,9 @@ export const BasePage: FC<Props> = ({
             <StyledHeading>{pageTitle}</StyledHeading>
           </header>
         )}
-        {paragraphs &&
-          paragraphs.map((paragraph, index) => (
-            <Paragraph key={index} fontSize={16}>
-              {paragraph}
-            </Paragraph>
-          ))}
+        {paragraphs?.map((paragraph, index) => (
+          <Paragraph key={index}>{paragraph}</Paragraph>
+        ))}
 
         {children}
 

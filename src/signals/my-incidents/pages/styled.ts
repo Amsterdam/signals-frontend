@@ -32,6 +32,10 @@ export const StyledParagraph = styled(Paragraph)`
   font-size: ${themeSpacing(4)};
   line-height: ${themeSpacing(6)};
   margin: ${themeSpacing(5, 0, 4, 0)};
+
+  @media ${breakpoint('max-width', 'tabletS')} {
+    margin-top: ${themeSpacing(4)};
+  }
 `
 
 export const ButtonWrapper = styled.div`
