@@ -39,3 +39,8 @@ export const StyledHeading = styled(Heading)`
 export const Wrapper = styled.div`
   width: 100%;
 `
+
+export const StyledImg = styled.img`
+  max-width: 100%;
+  height: 135px;
+`

@@ -4,7 +4,15 @@ export interface MyIncidentsValue {
   email?: string
   setEmail: (email: string) => void
   incidentsList?: MyIncident[]
+  incidentsDetail?: MyIncident
   setIncidentsList: (incidentsList: MyIncident[]) => void
+  setIncidentsDetail: (incidentsDetail: MyIncident) => void
+}
+
+interface Attachment {
+  created_at: string
+  created_by: string
+  href: string
 }
 
 export interface MyIncident {
@@ -16,10 +24,14 @@ export interface MyIncident {
     self: {
       href: string
     }
+    'sia:attachments'?: Attachment[]
   }
   _display: string
   uuid: string
   id_display: string
+  location?: {
+    address_text: string
+  }
   text: string
   status: {
     state: string
