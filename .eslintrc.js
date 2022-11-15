@@ -37,7 +37,11 @@ module.exports = {
         'prettier/@typescript-eslint',
       ],
       files: ['**/*.ts', '**/*.tsx'],
+      parserOptions: {
+        project: './tsconfig.json',
+      },
       rules: {
+        '@typescript-eslint/restrict-template-expressions': 'error',
         '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
