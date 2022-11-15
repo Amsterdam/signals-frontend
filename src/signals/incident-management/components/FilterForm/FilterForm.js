@@ -11,49 +11,33 @@ import {
   useState,
   useRef,
 } from 'react'
-import PropTypes from 'prop-types'
-import isEqual from 'lodash/isEqual'
-import cloneDeep from 'lodash/cloneDeep'
-import { useSelector } from 'react-redux'
-import { Label as AscLabel } from '@amsterdam/asc-ui'
 
+import { Label as AscLabel } from '@amsterdam/asc-ui'
 import AutoSuggest from 'components/AutoSuggest'
 import Checkbox from 'components/Checkbox'
 import Input from 'components/Input'
 import Label from 'components/Label'
+import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
 import { makeSelectStructuredCategories } from 'models/categories/selectors'
+import {
+  makeSelectDirectingDepartments,
+  makeSelectRoutingDepartments,
+} from 'models/departments/selectors'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import configuration from 'shared/services/configuration/configuration'
 import { dateToISOString } from 'shared/services/date-utils'
 import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
 
-import {
-  makeSelectDirectingDepartments,
-  makeSelectRoutingDepartments,
-} from 'models/departments/selectors'
-import CalendarInput from '../CalendarInput'
-import CheckboxList from '../CheckboxList'
-import RefreshIcon from '../../../../images/icon-refresh.svg'
+import CheckboxList from '../../../../components/CheckboxList'
 import AppContext from '../../../../containers/App/context'
+import RefreshIcon from '../../../../images/icon-refresh.svg'
 import IncidentManagementContext from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
-import { hasTooManyFiltersSelected } from './utils'
-import {
-  CategoryGroups,
-  CheckboxGroup,
-  Notification,
-  RadioGroup,
-} from './components'
-import {
-  ControlsWrapper,
-  DatesWrapper,
-  Fieldset,
-  FilterGroup,
-  Form,
-  FormFooterWrapper,
-} from './styled'
-
+import CalendarInput from '../CalendarInput'
 import {
   reset,
   setAddress,
@@ -66,8 +50,22 @@ import {
   setNoteKeyword,
   setRefresh,
 } from './actions'
-
+import {
+  CategoryGroups,
+  CheckboxGroup,
+  Notification,
+  RadioGroup,
+} from './components'
 import reducer, { init } from './reducer'
+import {
+  ControlsWrapper,
+  DatesWrapper,
+  Fieldset,
+  FilterGroup,
+  Form,
+  FormFooterWrapper,
+} from './styled'
+import { hasTooManyFiltersSelected } from './utils'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
 const getUserOptions = (data) =>

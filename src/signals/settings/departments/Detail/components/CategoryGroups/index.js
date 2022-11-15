@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { memo, useContext } from 'react'
-import PropTypes from 'prop-types'
 
+import CheckboxList from 'components/CheckboxList'
 import Label from 'components/Label'
-import CheckboxList from 'signals/incident-management/components/CheckboxList'
+import PropTypes from 'prop-types'
 
 import DepartmentDetailContext from '../../context'
 

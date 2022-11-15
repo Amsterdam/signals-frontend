@@ -2,11 +2,11 @@
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 
+import CheckboxList from 'components/CheckboxList'
+import type { CheckboxListProps } from 'components/CheckboxList'
 import Label from 'components/Label'
-import CheckboxList from '../../CheckboxList'
-import { FilterGroup } from '../styled'
 
-import type { CheckboxListProps } from '../../CheckboxList'
+import { FilterGroup } from '../styled'
 
 const renderId = 0
 
