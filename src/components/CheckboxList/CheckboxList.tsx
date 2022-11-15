@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 
 import { Label } from '@amsterdam/asc-ui'
 import Checkbox from 'components/Checkbox'
 import styled, { css } from 'styled-components'
 
-import TopicLabel from '../TopicLabel'
+import type { Option } from '../../types/form'
+import WithTopic from '../WithTopic'
 
 const FilterGroup = styled.div`
   contain: content;
@@ -56,15 +57,6 @@ const Wrapper = styled.div<{ disabled: boolean }>`
 `
 const setsAreEqual = (a: Set<any>, b: Set<any>) =>
   a.size === b.size && [...a].every((value) => b.has(value))
-
-type Option = {
-  disabled?: boolean
-  id?: string | number
-  key?: string
-  slug?: string
-  value: string
-  topic?: string
-}
 
 export type CheckboxListProps = {
   boxWrapperKeyPrefix?: string
@@ -322,14 +314,14 @@ const CheckboxList: FC<CheckboxListProps> = ({
         </Toggle>
       )}
 
-      {options.map(({ id, key, slug, value: label, topic }, index) => {
-        const uid = id || key
+      {options.map((option, index) => {
+        const uid = option.id || option.key
         const optionId = [boxWrapperKeyPrefix, name, uid]
           .filter(Boolean)
           .join('_')
-        const value = slug || key
+        const value = option.slug || option.key
         const defaultOption = defaultValue?.find(
-          (option) => option.id === id
+          (option) => option.id === option.id
         ) || { disabled: false }
 
         if (!uid) {
@@ -337,13 +329,11 @@ const CheckboxList: FC<CheckboxListProps> = ({
         }
 
         return (
-          <Fragment key={optionId}>
-            {options.findIndex((option) => option.topic === topic) ===
-              index && <TopicLabel>{topic}</TopicLabel>}
+          <WithTopic options={options} option={option} index={index}>
             <Wrapper disabled={defaultOption.disabled || false}>
               <Label
                 htmlFor={optionId}
-                label={label}
+                label={option.value}
                 disabled={defaultOption.disabled}
                 noActiveState
               >
@@ -359,7 +349,7 @@ const CheckboxList: FC<CheckboxListProps> = ({
                 />
               </Label>
             </Wrapper>
-          </Fragment>
+          </WithTopic>
         )
       })}
     </FilterGroup>

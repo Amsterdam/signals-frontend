@@ -4,7 +4,7 @@ import { render, fireEvent, act, screen } from '@testing-library/react'
 import priorityList from 'signals/incident-management/definitions/priorityList'
 import { withAppContext } from 'test/utils'
 
-import RadioButtonList from '..'
+import RadioButtonList from '../index'
 
 describe('signals/incident-management/components/RadioButtonList', () => {
   it('should render a title', () => {

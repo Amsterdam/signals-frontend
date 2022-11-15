@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import { Fragment, useCallback } from 'react'
 
 import { RadioGroup, Label } from '@amsterdam/asc-ui'
 import RadioButton from 'components/RadioButton'
 import styled from 'styled-components'
 
-import TopicLabel from '../TopicLabel'
+import type { Option } from '../../types/form'
+import WithTopic from '../WithTopic'
 
 const FilterGroup = styled.div`
   contain: content;
@@ -29,11 +29,6 @@ const StyledLabel = styled(Label)`
 const StyledRadioGroup = styled(RadioGroup)`
   display: inline-flex;
 `
-
-interface Option {
-  key: string
-  value: string
-}
 
 interface RadioButtonOption extends Option {
   name?: string
@@ -90,47 +85,9 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
     })
   }
 
-  const renderRadioButton = useCallback(
-    (option, index) => {
-      let component = (
-        <StyledLabel
-          key={option.key || option.name}
-          htmlFor={option.key || option.name}
-          label={option.value}
-        >
-          <RadioButton
-            data-testid={`${groupName}-${option.key || option.name}`}
-            checked={option.key === defaultValue}
-            id={option.key || (option.name as string)}
-            onChange={() => {
-              if (onChange) {
-                onChange(groupName, option)
-              }
-            }}
-            value={option.key}
-          />
-        </StyledLabel>
-      )
-
-      if (radioOptions.some((option) => option.topic)) {
-        component = (
-          <Fragment key={option.key || option.name + '-fragment'}>
-            {radioOptions.findIndex(
-              (option2) => option2.topic === option.topic
-            ) === index && <TopicLabel>{option.topic}</TopicLabel>}
-            {component}
-          </Fragment>
-        )
-      }
-      return component
-    },
-    [defaultValue, groupName, onChange, radioOptions]
-  )
-
   return (
     <FilterGroup className={className}>
       {title && <Label data-testid="radioButtonListTitle" label={title} />}
-
       <StyledRadioGroup
         name={groupName}
         disabled={disabled}
@@ -139,7 +96,27 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
         id={id}
         {...rest}
       >
-        {radioOptions.map((option, index) => renderRadioButton(option, index))}
+        {radioOptions.map((option, index) => (
+          <WithTopic options={radioOptions} option={option} index={index}>
+            <StyledLabel
+              key={option.key || option.name}
+              htmlFor={option.key || option.name}
+              label={option.value}
+            >
+              <RadioButton
+                data-testid={`${groupName}-${option.key || option.name}`}
+                checked={option.key === defaultValue}
+                id={option.key || (option.name as string)}
+                onChange={() => {
+                  if (onChange) {
+                    onChange(groupName, option)
+                  }
+                }}
+                value={option.key}
+              />
+            </StyledLabel>
+          </WithTopic>
+        ))}
       </StyledRadioGroup>
     </FilterGroup>
   )
