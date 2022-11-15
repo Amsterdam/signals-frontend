@@ -2,9 +2,16 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 
-import { default as BasePageWrapper } from 'components/pages/BasePage'
+import { Helmet } from 'react-helmet'
 
-import { StyledParagraph as Paragraph, ButtonWrapper } from './styled'
+import configuration from 'shared/services/configuration/configuration'
+
+import {
+  ButtonWrapper,
+  ContentWrapper,
+  StyledHeading,
+  StyledParagraph as Paragraph,
+} from './styled'
 
 export interface Props {
   paragraphs?: string[]
@@ -22,24 +29,31 @@ export const BasePage: FC<Props> = ({
   pageInfo,
   paragraphs,
 }) => {
-  const { documentTitle, dataTestId, pageTitle } = pageInfo
+  const { documentTitle, pageTitle } = pageInfo
 
   return (
-    <BasePageWrapper
-      documentTitle={documentTitle}
-      data-testid={dataTestId}
-      pageTitle={pageTitle}
-    >
-      {paragraphs &&
-        paragraphs.map((paragraph, index) => (
-          <Paragraph key={index} fontSize={16}>
-            {paragraph}
-          </Paragraph>
+    <ContentWrapper>
+      <Helmet
+        defaultTitle={configuration.language.siteTitle}
+        titleTemplate={`${configuration.language.siteTitle} - %s`}
+      >
+        {documentTitle && <title>{documentTitle}</title>}
+      </Helmet>
+
+      <article>
+        {pageTitle && (
+          <header>
+            <StyledHeading>{pageTitle}</StyledHeading>
+          </header>
+        )}
+        {paragraphs?.map((paragraph, index) => (
+          <Paragraph key={index}>{paragraph}</Paragraph>
         ))}
 
-      {children}
+        {children}
 
-      <ButtonWrapper>{buttons}</ButtonWrapper>
-    </BasePageWrapper>
+        <ButtonWrapper>{buttons}</ButtonWrapper>
+      </article>
+    </ContentWrapper>
   )
 }
