@@ -60,7 +60,7 @@ export const IncidentsList = () => {
         const { created_at, _display, status, text, uuid } = incident
         const displayStatus = status.state_display.toLocaleLowerCase()
         const date = new Date(created_at)
-        const formattedDate = format(date, 'd MMMM yyyy, HH:mm aaaaa', {
+        const formattedDate = format(date, 'd MMMM yyyy, HH:mm', {
           locale: nl,
         })
 
