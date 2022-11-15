@@ -24,7 +24,7 @@ export const ContentWrapper = styled.div`
   @media ${breakpoint('max-width', 'tabletS')} {
     grid-template-columns: 1fr;
     grid-row-gap: ${themeSpacing(8)};
-    margin: 0 16px;
+    margin: ${themeSpacing(0, 4)};
   }
 `
 
