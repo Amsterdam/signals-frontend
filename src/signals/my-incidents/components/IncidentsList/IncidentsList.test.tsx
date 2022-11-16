@@ -89,7 +89,6 @@ describe('IncidentsList', () => {
   it('should return null when incidentList is not available', () => {
     const response = {
       ...useFetchResponse,
-      ...useFetchResponse,
       data: {
         results: undefined,
       },

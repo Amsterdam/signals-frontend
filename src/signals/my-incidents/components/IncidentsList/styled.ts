@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { themeSpacing } from '@amsterdam/asc-ui'
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 export const Divider = styled.div`
   width: 100%;
-  border-bottom: 2px solid rgb(230, 230, 230);
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
 `
 
 export const Wrapper = styled.div`
@@ -23,7 +23,9 @@ export const IncidentID = styled.span`
 
 export const Status = styled.div<{ status: string }>`
   color: ${({ status }) =>
-    status === 'open' ? 'rgb(255,0,0)' : 'rgb(0,128,0)'};
+    status === 'open'
+      ? themeColor('support', 'invalid')
+      : themeColor('support', 'valid')};
   font-weight: 700;
   margin-bottom: ${themeSpacing(4)};
 `
