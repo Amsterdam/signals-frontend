@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
-import { FormTitle, Link, Paragraph, Row } from '@amsterdam/asc-ui'
+import { Link, Paragraph, Row } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ import configuration from '../../../shared/services/configuration/configuration'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import type { MyIncident } from '../types'
-import { StyledHeading, StyledImg, Wrapper } from './styled'
+import { StyledHeading, StyledImg, Wrapper, FormTitle } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
@@ -28,10 +28,9 @@ export const Detail = () => {
   }, [data, setIncidentsDetail])
 
   useEffect(() => {
-    const token = location.pathname.split('/').at(-2)
-    const uuid = location.pathname.split('/').at(-1)
-
-    // TODO: Sanitize get request
+    const locationPathArray = location.pathname.split('/')
+    const token = locationPathArray[locationPathArray.length - 2]
+    const uuid = locationPathArray[locationPathArray.length - 1]
     get(
       `${configuration.MY_SIGNALS_ENDPOINT}/${uuid}`,
       {},
@@ -44,6 +43,12 @@ export const Detail = () => {
       history.push(routes.expired)
     }
   }, [error, history])
+
+  const answersGebeurtHetVaker = useMemo(() => {
+    return data?.extra_properties?.find(
+      (property) => property.id === 'extra_personen_overig_vaker_momenten'
+    )?.answer
+  }, [data?.extra_properties])
 
   if (!incidentsDetail) {
     return null
@@ -66,22 +71,31 @@ export const Detail = () => {
         <FormTitle>Omschrijving</FormTitle>
         <Paragraph strong>{data?.text}</Paragraph>
 
-        <FormTitle>Foto</FormTitle>
+        {data?._links?.['sia:attachments'] && <FormTitle>Foto</FormTitle>}
         {data?._links?.['sia:attachments']?.map((attachment) => (
-          <StyledImg src={attachment.href} />
+          <StyledImg style={{ marginBottom: '24px' }} src={attachment.href} />
         ))}
 
         <FormTitle>Locatie</FormTitle>
-        <Paragraph strong>{data?.location?.address_text}</Paragraph>
-        <Link variant="inline" href={'/maps.google.com'}>
-          Bekijk op kaart
+        <Paragraph strong style={{ marginBottom: 0 }}>
+          {data?.location?.address_text}
+        </Paragraph>
+        <Link
+          style={{ color: 'red', display: 'block', marginBottom: '24px' }}
+          variant="inline"
+          href={'/'}
+        >
+          Bekijk op kaart (coming soon)
         </Link>
 
         {/* hier moeten dynamisch extra properties worden ingeladen ? */}
 
-        {/*<FormTitle>Gebeurt het vaker?</FormTitle>*/}
-        {/*<Paragraph strong>*/}
-        {/*</Paragraph>*/}
+        {answersGebeurtHetVaker && (
+          <>
+            <FormTitle>Gebeurt het vaker?</FormTitle>
+            <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
+          </>
+        )}
       </Wrapper>
     </Row>
   )

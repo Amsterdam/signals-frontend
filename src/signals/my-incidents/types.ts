@@ -38,6 +38,14 @@ export interface MyIncident {
     state_display: string
   }
   created_at: string
+  extra_properties?: ExtraProperties[]
+}
+
+interface ExtraProperties {
+  answer: string
+  category_url: string
+  id: string
+  label: string
 }
 
 export interface Result<T> {
