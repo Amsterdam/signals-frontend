@@ -2,10 +2,10 @@ name: Build Docker image and optionally push to GitHub container registry
 
 on:
   push:
-    branches: [ 'develop', 'master' ]
-    tags: [ '*.*.*' ]
+    branches: ['main']
+    tags: ['*.*.*']
   pull_request:
-    branches: [ 'develop', 'master' ]
+    branches: ['main']
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -77,7 +77,7 @@ jobs:
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          COSIGN_EXPERIMENTAL: "true"
+          COSIGN_EXPERIMENTAL: 'true'
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
