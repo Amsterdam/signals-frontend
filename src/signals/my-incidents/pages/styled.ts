@@ -72,3 +72,9 @@ export const StyledImg = styled.img`
   max-width: 100%;
   height: 135px;
 `
+
+export const FormTitle = styled.p`
+  color: ${themeColor('tint', 'level5')};
+  margin-top: 0;
+  margin-bottom: 0;
+`
