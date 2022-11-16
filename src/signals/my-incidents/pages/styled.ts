@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import {
+  breakpoint,
   Heading,
   Link,
   Paragraph,
@@ -59,10 +60,6 @@ export const StyledEmail = styled(Paragraph)`
 export const StyledLink = styled(Link)`
   font-size: 16px;
   margin-bottom: ${themeSpacing(10)};
-`
-
-export const StyledHeading = styled(Heading)`
-  margin: ${themeSpacing(5)} 0;
 `
 
 export const Wrapper = styled.div`
