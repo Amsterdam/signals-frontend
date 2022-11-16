@@ -23,7 +23,7 @@ export const Overview = () => {
         </Helmet>
 
         <header>
-          <StyledHeading>{'Mijn Meldingen'}</StyledHeading>
+          <StyledHeading>{'Mijn meldingen'}</StyledHeading>
         </header>
 
         <StyledEmail>{email}</StyledEmail>

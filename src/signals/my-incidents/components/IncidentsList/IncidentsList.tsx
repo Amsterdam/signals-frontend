@@ -34,7 +34,9 @@ export const IncidentsList = () => {
   }, [data, setIncidentsList])
 
   useEffect(() => {
-    const token = location.pathname.split('/').at(-1)
+    const token =
+      location.pathname.split('/')[location.pathname.split('/').length - 1]
+
     get(
       configuration.MY_SIGNALS_ENDPOINT,
       {},
