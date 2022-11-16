@@ -7,5 +7,5 @@ export const providerMock = {
   incidentsList,
   setIncidentsList: jest.fn(),
   incidentsDetail,
-  setIncidentDetail: jest.fn(),
+  setIncidentsDetail: jest.fn(),
 }
