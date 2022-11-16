@@ -6,22 +6,29 @@ import { withAppContext } from 'test/utils'
 
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
-import { RequestAccess } from './RequestAccess'
+import { Overview } from './Overview'
 
-describe('RequestAccess', () => {
+jest.mock('../components', () => ({
+  __esModule: true,
+  ...jest.requireActual('../components'),
+  IncidentsList: () => <div>[IncidentsList]</div>,
+}))
+
+describe('Overview', () => {
   it('should render correctly', () => {
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
-          <RequestAccess />
+          <Overview />
         </MyIncidentsProvider>
       )
     )
 
     expect(screen.getByText('Mijn meldingen')).toBeInTheDocument()
+    expect(screen.getByText('test@gmail.com')).toBeInTheDocument()
     expect(
       screen.getByText(
-        'Log in met het e-mailadres waarmee u meldingen maakt. U krijgt dan een bevestigingsmail om naar het meldingenoverzicht te gaan.'
+        'Dit zijn de meldingen die u de afgelopen 12 maanden heeft gemaakt:'
       )
     ).toBeInTheDocument()
   })

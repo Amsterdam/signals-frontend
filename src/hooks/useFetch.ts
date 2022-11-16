@@ -21,7 +21,12 @@ export interface State<T> {
 
 export interface FetchResponse<T> extends State<T> {
   del: (url: string, requestOptions?: Data) => Promise<void>
-  get: (url: string, params?: Data, requestOptions?: Data) => Promise<void>
+  get: (
+    url: string,
+    params?: Data,
+    requestOptions?: Data,
+    optionalHeaders?: Data
+  ) => Promise<void>
   patch: (
     url: string,
     modifiedData: Data,
@@ -124,7 +129,12 @@ const useFetch = <T>(): FetchResponse<T> => {
   )
 
   const get = useCallback(
-    async (url, params = {}, requestOptions: Data = {}) => {
+    async (
+      url,
+      params = {},
+      requestOptions: Data = {},
+      optionalHeaders: Data = {}
+    ) => {
       dispatch({ type: 'SET_LOADING', payload: true })
 
       const arrayParams = Object.entries(params)
@@ -142,7 +152,7 @@ const useFetch = <T>(): FetchResponse<T> => {
 
       try {
         const fetchResponse = await fetch(requestURL, {
-          headers: requestHeaders(),
+          headers: { ...requestHeaders(), ...optionalHeaders },
           method: 'GET',
           signal,
           ...requestOptions,

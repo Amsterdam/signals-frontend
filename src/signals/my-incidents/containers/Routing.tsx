@@ -11,7 +11,7 @@ import useLocationReferrer from 'hooks/useLocationReferrer'
 import { MyIncidentsProvider } from '../context/provider'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
-import { Confirmation, LinkExpired, RequestAccess } from '../pages'
+import { Confirmation, LinkExpired, RequestAccess, Overview } from '../pages'
 
 // istanbul ignore next
 export const Routing = () => {
@@ -26,6 +26,7 @@ export const Routing = () => {
           <Route exact path={routes.requestAccess} component={RequestAccess} />
           <Route exact path={routes.confirm} component={Confirmation} />
           <Route exact path={routes.expired} component={LinkExpired} />
+          <Route exact path={`${routes.baseUrl}/:token`} component={Overview} />
         </Switch>
       </MyIncidentsProvider>
     </Suspense>

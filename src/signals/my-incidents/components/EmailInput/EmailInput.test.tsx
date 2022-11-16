@@ -5,19 +5,15 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext, history } from 'test/utils'
 
+import { providerMock } from '../../__test__'
 import { MyIncidentsProvider } from '../../context'
 import { EmailInput } from './EmailInput'
-
-const defaultValue = {
-  email: 'test@test.nl',
-  setEmail: jest.fn(),
-}
 
 describe('EmailInput', () => {
   it('should render correctly', () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <EmailInput />
         </MyIncidentsProvider>
       )
@@ -31,7 +27,7 @@ describe('EmailInput', () => {
   it('should submit email when submitting', async () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <EmailInput />
         </MyIncidentsProvider>
       )
@@ -51,14 +47,14 @@ describe('EmailInput', () => {
       userEvent.click(submitButton)
     })
 
-    expect(defaultValue.setEmail).toHaveBeenCalledWith('test@email.com')
+    expect(providerMock.setEmail).toHaveBeenCalledWith('test@email.com')
     expect(history.location.pathname).toEqual('/mijn-meldingen/bevestig')
   })
 
   it('should display an error when email is invalid', async () => {
     render(
       withAppContext(
-        <MyIncidentsProvider value={defaultValue}>
+        <MyIncidentsProvider value={providerMock}>
           <EmailInput />
         </MyIncidentsProvider>
       )

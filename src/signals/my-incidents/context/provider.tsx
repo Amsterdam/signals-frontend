@@ -8,6 +8,8 @@ import { MyIncidentsContext } from './context'
 export const initialValue: MyIncidentsValue = {
   email: undefined,
   setEmail: () => {},
+  incidentsList: undefined,
+  setIncidentsList: () => {},
 }
 
 interface Props {
