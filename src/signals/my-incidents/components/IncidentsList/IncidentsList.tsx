@@ -28,15 +28,14 @@ export const IncidentsList = () => {
   const history = useHistory()
   const location = useLocationReferrer() as Location
   const { incidentsList, setIncidentsList } = useMyIncidents()
+  const token =
+    location.pathname.split('/')[location.pathname.split('/').length - 1]
 
   useEffect(() => {
     data && setIncidentsList(data.results)
   }, [data, setIncidentsList])
 
   useEffect(() => {
-    const token =
-      location.pathname.split('/')[location.pathname.split('/').length - 1]
-
     get(
       configuration.MY_SIGNALS_ENDPOINT,
       {},
@@ -78,7 +77,7 @@ export const IncidentsList = () => {
 
               <StyledParagraph>{text}</StyledParagraph>
 
-              <Link inList href={`/${uuid}`}>
+              <Link inList href={`${token}/${uuid}`}>
                 Bekijk melding
               </Link>
             </Wrapper>
