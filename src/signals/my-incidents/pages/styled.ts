@@ -34,6 +34,7 @@ export const ContentWrapper = styled.div`
     margin: ${themeSpacing(0, 4)};
   }
 `
+
 export const StyledParagraph = styled(Paragraph)`
   font-size: 16px;
   line-height: ${themeSpacing(6)};

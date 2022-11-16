@@ -9,7 +9,7 @@ import { useMyIncidents } from '../hooks'
 import { StyledEmail, StyledLink } from './styled'
 import { StyledHeading, Wrapper } from './styled'
 export const Overview = () => {
-  // TODO: Remove mock data
+  // TODO: Backend should provide the email when fetching the IncidentList.
   const { email = 'test@gmail.com' } = useMyIncidents()
 
   return (
@@ -23,7 +23,7 @@ export const Overview = () => {
         </Helmet>
 
         <header>
-          <StyledHeading>{'Mijn Meldingen'}</StyledHeading>
+          <StyledHeading>{'Mijn meldingen'}</StyledHeading>
         </header>
 
         <StyledEmail>{email}</StyledEmail>

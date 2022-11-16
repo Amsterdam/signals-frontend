@@ -74,6 +74,28 @@ describe('hooks/useFetch', () => {
       )
     })
 
+    it('should request with optional request headers', async () => {
+      const optionalHeaders = {
+        Token: 'i1y38623iu2',
+      }
+
+      const { result } = renderHook(() => useFetch())
+
+      await act(() => result.current.get(URL, {}, {}, optionalHeaders))
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'https://here-is-my.api/someId/6',
+        expect.objectContaining({
+          headers: {
+            Accept: 'application/json',
+            Authorization: 'Bearer token',
+            'Content-Type': 'application/json',
+            Token: 'i1y38623iu2',
+          },
+        })
+      )
+    })
+
     it('should construct a URL with query params', async () => {
       const params = {
         foo: 'bar',
