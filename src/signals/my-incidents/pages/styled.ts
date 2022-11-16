@@ -31,14 +31,15 @@ export const ContentWrapper = styled.div`
 export const StyledParagraph = styled(Paragraph)`
   font-size: ${themeSpacing(4)};
   line-height: ${themeSpacing(6)};
-  margin: ${themeSpacing(5, 0, 4, 0)};
+  margin: ${themeSpacing(5, 0, 5, 0)};
 
   @media ${breakpoint('max-width', 'tabletS')} {
-    margin-top: ${themeSpacing(4)};
+    margin: ${themeSpacing(4, 0, 4, 0)};
   }
 `
 
 export const ButtonWrapper = styled.div`
+  margin-top: ${themeSpacing(6)};
   button:first-child {
     margin-right: ${themeSpacing(4)};
   }
