@@ -122,7 +122,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
     configuration.featureFlags.enableMultipleKtoQuestions = true
 
-    const successHeaderText = 'Bedankt voor uw reactie'
+    const successHeaderText = 'Bedankt voor uw feedback!'
     const { container, findByTestId, queryByText, getByText, rerender } =
       render(withAppContext(<KTOContainer />))
 
