@@ -15,7 +15,7 @@ Previously, the application was split into [multiple parts](./0004-multi-tenant-
 - [signals-weesp](https://github.com/Amsterdam/signals-weesp) and
 - [signals-amsterdamsebos](https://github.com/Amsterdam/signals-amsterdamsebos) (does not exist)
 
-The first repository in the list contains the functionality and the others contain domain specific configuration. At deployment, a Docker image of the first repository is created and pushed to the Docker repository by a Azure Container registery job. Note that only tags and the `develop` branch can be deployed.
+The first repository in the list contains the functionality and the others contain domain specific configuration. At deployment, a Docker image of the first repository is created and pushed to the Docker repository by a Github actions job. Note that only tags can be deployed.
 
 Said job, in turn, starts other Container jobs that create and push images for the domain specific repositories based on the first repository's image. This allows us to deploy images that are specific to an environment (acceptance, production) and for a specific configuration (Amsterdam, Weesp, Amsterdamse bos).
 
