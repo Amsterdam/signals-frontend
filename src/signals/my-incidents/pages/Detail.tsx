@@ -34,6 +34,7 @@ export const Detail = () => {
     get(
       `${configuration.MY_SIGNALS_ENDPOINT}/${uuid}`,
       {},
+      {},
       { Authorization: `Token ${token}` }
     )
   }, [])
@@ -73,18 +74,18 @@ export const Detail = () => {
 
         {data?._links?.['sia:attachments'] && <FormTitle>Foto</FormTitle>}
         {data?._links?.['sia:attachments']?.map((attachment) => (
-          <StyledImg style={{ marginBottom: '24px' }} src={attachment.href} />
+          <StyledImg
+            key={attachment.href}
+            style={{ marginBottom: '24px' }}
+            src={attachment.href}
+          />
         ))}
 
         <FormTitle>Locatie</FormTitle>
         <Paragraph strong style={{ marginBottom: 0 }}>
           {data?.location?.address_text}
         </Paragraph>
-        <Link
-          style={{ color: 'red', display: 'block', marginBottom: '24px' }}
-          variant="inline"
-          href={'/'}
-        >
+        <Link style={{ marginBottom: '24px' }} variant="inline" href={'/'}>
           Bekijk op kaart (coming soon)
         </Link>
 
