@@ -20,6 +20,12 @@ import type {
 
 import { Marker } from '@amsterdam/arm-core'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+
+import {
+  isTemplateString,
+  parseTemplateString,
+} from 'utils/parseTemplateString'
+
 import WfsDataContext from '../context'
 import { getFeatureStatusType } from '../../StatusLayer/utils'
 
@@ -64,12 +70,17 @@ export const AssetLayer: FC = () => {
     const onClick = async () => {
       if (typeValue !== FeatureStatus.REPORTED) {
         const location: Location = { coordinates }
+
+        const label = isTemplateString(description)
+          ? parseTemplateString(description, feature.properties)
+          : [description, id].filter(Boolean).join(' - ')
+
         const item: Item = {
           id,
           type: typeValue,
           description,
           status: featureStatusType?.typeValue,
-          label: [description, id].filter(Boolean).join(' - '),
+          label,
           coordinates,
         }
 

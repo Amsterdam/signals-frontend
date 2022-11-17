@@ -117,10 +117,8 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
   const { get, data } = useFetch<FeatureCollection<Point, Properties>>()
   const { category, subcategory } = useSelector(makeSelectCategory)
   const { id, type, status } = item
-  const { description, icon }: Partial<FeatureType> =
+  const { icon }: Partial<FeatureType> =
     featureTypes?.find(({ typeValue }) => typeValue === type) ?? {}
-
-  const label = [description, id].filter(Boolean).join(' - ')
 
   const featureStatusType = featureStatusTypes.find(
     ({ typeValue }) => typeValue === status
@@ -175,7 +173,7 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
         >
           <ItemWrapper>
             <StyledLabel>
-              {label}
+              {item.label}
               {featureStatusType?.description && (
                 <StyledStatusDescription status={featureStatusType.typeValue}>
                   {featureStatusType?.description}

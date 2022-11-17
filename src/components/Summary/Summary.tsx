@@ -133,13 +133,9 @@ const Summary: FC<SummaryProps> = ({
       <div>
         {selection?.map((item) => {
           const { id, type } = item || {}
-          const { description } =
-            featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
           const summaryDescription =
-            type !== NEARBY_TYPE
-              ? [description, id].filter(Boolean).join(' - ')
-              : undefined
+            type !== NEARBY_TYPE ? item.label : undefined
           const iconSrc = getIconSrc(item, featureTypes)
 
           return (
