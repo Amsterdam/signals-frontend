@@ -7,16 +7,16 @@ import type { Location } from 'history'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import { MyIncidentsProvider } from '../context/provider'
-import { routes } from '../definitions'
-import { useMyIncidents } from '../hooks'
+import { MyIncidentsProvider } from '../../context/provider'
+import { routes } from '../../definitions'
+import { useMyIncidents } from '../../hooks'
 import {
   Confirmation,
   LinkExpired,
   RequestAccess,
   Overview,
   Detail,
-} from '../pages'
+} from '../../pages'
 
 // istanbul ignore next
 export const Routing = () => {
