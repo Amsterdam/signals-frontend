@@ -21,6 +21,7 @@ export const StyledHeading = styled(Heading)`
 `
 
 export const ContentWrapper = styled.div`
+  position: relative;
   box-sizing: border-box;
   max-width: 960px;
   margin: 0 auto;
@@ -65,15 +66,4 @@ export const StyledLink = styled(Link)`
 
 export const Wrapper = styled.div`
   width: 100%;
-`
-
-export const StyledImg = styled.img`
-  max-width: 100%;
-  height: 135px;
-`
-
-export const FormTitle = styled.p`
-  color: ${themeColor('tint', 'level5')};
-  margin-top: 0;
-  margin-bottom: 0;
 `

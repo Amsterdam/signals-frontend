@@ -1,26 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { Link, Paragraph, Row } from '@amsterdam/asc-ui'
+import { Row } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 
 import useFetch from '../../../hooks/useFetch'
 import useLocationReferrer from '../../../hooks/useLocationReferrer'
 import configuration from '../../../shared/services/configuration/configuration'
+import { IncidentsDetail as IncidentsDetailComponent } from '../components/IncidentsDetail'
+import { Map } from '../components/Map'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import type { MyIncident } from '../types'
-import { StyledHeading, StyledImg, Wrapper, FormTitle } from './styled'
+import { Wrapper } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
+  const [showMap, setShowMap] = useState(false)
   const history = useHistory()
   const location = useLocationReferrer() as Location
   const { incidentsDetail, setIncidentsDetail } = useMyIncidents()
   const incidentDisplay = useRef<string>()
+  const locationPathArray = location.pathname.split('/')
+  const token = locationPathArray[locationPathArray.length - 2]
+  const uuid = locationPathArray[locationPathArray.length - 1]
 
   useEffect(() => {
     data && setIncidentsDetail(data)
@@ -28,32 +34,19 @@ export const Detail = () => {
   }, [data, setIncidentsDetail])
 
   useEffect(() => {
-    const locationPathArray = location.pathname.split('/')
-    const token = locationPathArray[locationPathArray.length - 2]
-    const uuid = locationPathArray[locationPathArray.length - 1]
     get(
       `${configuration.MY_SIGNALS_ENDPOINT}/${uuid}`,
       {},
       {},
       { Authorization: `Token ${token}` }
     )
-  }, [])
+  }, [get, location.pathname, token, uuid])
 
   useEffect(() => {
     if (error) {
       history.push(routes.expired)
     }
   }, [error, history])
-
-  const answersGebeurtHetVaker = useMemo(() => {
-    return data?.extra_properties?.find(
-      (property) => property.id === 'extra_personen_overig_vaker_momenten'
-    )?.answer
-  }, [data?.extra_properties])
-
-  if (!incidentsDetail) {
-    return null
-  }
 
   return (
     <Row>
@@ -62,40 +55,19 @@ export const Detail = () => {
           defaultTitle={configuration.language.siteTitle}
           titleTemplate={`${configuration.language.siteTitle} - %s`}
         >
-          <title>{`Mijn Meldingen: ${incidentDisplay.current}`}</title>
+          <title>{`Meldingsnummer: ${incidentDisplay.current}`}</title>
         </Helmet>
-
-        <header>
-          <StyledHeading>{`Mijn Meldingen: ${incidentDisplay.current}`}</StyledHeading>
-        </header>
-
-        <FormTitle>Omschrijving</FormTitle>
-        <Paragraph strong>{data?.text}</Paragraph>
-
-        {data?._links?.['sia:attachments'] && <FormTitle>Foto</FormTitle>}
-        {data?._links?.['sia:attachments']?.map((attachment) => (
-          <StyledImg
-            key={attachment.href}
-            style={{ marginBottom: '24px' }}
-            src={attachment.href}
+        {showMap && incidentsDetail?.location ? (
+          <Map
+            close={() => setShowMap(false)}
+            location={incidentsDetail.location}
           />
-        ))}
-
-        <FormTitle>Locatie</FormTitle>
-        <Paragraph strong style={{ marginBottom: 0 }}>
-          {data?.location?.address_text}
-        </Paragraph>
-        <Link style={{ marginBottom: '24px' }} variant="inline" href={'/'}>
-          Bekijk op kaart (coming soon)
-        </Link>
-
-        {/* hier moeten dynamisch extra properties worden ingeladen ? */}
-
-        {answersGebeurtHetVaker && (
-          <>
-            <FormTitle>Gebeurt het vaker?</FormTitle>
-            <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
-          </>
+        ) : (
+          <IncidentsDetailComponent
+            incidentsDetail={incidentsDetail}
+            token={token}
+            setShowMap={setShowMap}
+          />
         )}
       </Wrapper>
     </Row>

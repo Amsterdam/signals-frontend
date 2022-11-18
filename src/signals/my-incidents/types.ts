@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import type Location from 'types/location'
+
 export interface MyIncidentsValue {
   email?: string
   setEmail: (email: string) => void
@@ -29,9 +31,7 @@ export interface MyIncident {
   _display: string
   uuid: string
   id_display: string
-  location?: {
-    address_text: string
-  }
+  location?: Location
   text: string
   status: {
     state: string

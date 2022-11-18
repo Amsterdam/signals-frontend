@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useContext } from 'react'
-import styled from 'styled-components'
+
 import { Button, themeSpacing, Row, Column } from '@amsterdam/asc-ui'
-
 import { markerIcon } from 'shared/services/configuration/map-markers'
+import styled from 'styled-components'
 
-import MapDetail from '../MapDetail'
+import MapDetail from '../../../../../../components/MapDetail'
 import IncidentDetailContext from '../../context'
 
 const Wrapper = styled(Row)`

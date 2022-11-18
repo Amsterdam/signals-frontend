@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import Map from 'components/Map'
-import { markerIcon } from 'shared/services/configuration/map-markers'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Marker } from '@amsterdam/react-maps'
-
+import Map from 'components/Map'
+import PropTypes from 'prop-types'
+import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { featureToCoordinates } from 'shared/services/map-location'
 import { locationType } from 'shared/types'
@@ -20,7 +19,6 @@ const MapDetail = ({ value, className, zoom, icon, hasZoomControls }) => {
     attributionControl: false,
     center: [lat, lng],
   }
-
   return lat && lng ? (
     <Map
       data-testid="mapDetail"
