@@ -3,7 +3,6 @@
 import type { FC } from 'react'
 
 import { Helmet } from 'react-helmet'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import {
@@ -19,7 +18,7 @@ export interface Props {
   pageInfo: {
     documentTitle: string
     dataTestId: string
-    pageTitle: string
+    pageTitle?: string
   }
 }
 
