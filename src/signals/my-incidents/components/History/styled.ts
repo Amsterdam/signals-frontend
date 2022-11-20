@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import styled from 'styled-components'
 import {breakpoint, Heading, themeColor, themeSpacing} from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 export const Wrapper = styled.div`
 display: flex;
