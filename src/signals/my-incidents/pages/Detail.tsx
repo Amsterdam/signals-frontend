@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import {useEffect, useMemo, useRef, useState} from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Link, Paragraph, Row } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
@@ -24,7 +24,7 @@ import {
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
-  const [ showMap, setShowMap] = useState(false)
+  const [showMap, setShowMap] = useState(false)
   const history = useHistory()
   const location = useLocationReferrer() as Location
   const { incidentsDetail, setIncidentsDetail } = useMyIncidents()
@@ -62,52 +62,54 @@ export const Detail = () => {
   return (
     <Row>
       <WrapperDetail>
-        {incidentsDetail && <Divider>
-          <Helmet
-            defaultTitle={configuration.language.siteTitle}
-            titleTemplate={`${configuration.language.siteTitle} - %s`}
-          >
-            <title>{`Mijn Meldingen: ${incidentDisplay.current}`}</title>
-          </Helmet>
+        {incidentsDetail && (
+          <Divider>
+            <Helmet
+              defaultTitle={configuration.language.siteTitle}
+              titleTemplate={`${configuration.language.siteTitle} - %s`}
+            >
+              <title>{`Mijn Meldingen: ${incidentDisplay.current}`}</title>
+            </Helmet>
 
-          <header>
-            <StyledHeading>{`Mijn Meldingen: ${incidentDisplay.current}`}</StyledHeading>
-          </header>
+            <header>
+              <StyledHeading>{`Mijn Meldingen: ${incidentDisplay.current}`}</StyledHeading>
+            </header>
 
-          <FormTitle>Omschrijving</FormTitle>
-          <Paragraph strong>{data?.text}</Paragraph>
+            <FormTitle>Omschrijving</FormTitle>
+            <Paragraph strong>{data?.text}</Paragraph>
 
-          {data?._links?.['sia:attachments'] && <FormTitle>Foto</FormTitle>}
-          {data?._links?.['sia:attachments']?.map((attachment) => (
-            <StyledImg
-              key={attachment.href}
-              style={{ marginBottom: '24px' }}
-              src={attachment.href}
-            />
-          ))}
+            {data?._links?.['sia:attachments'] && <FormTitle>Foto</FormTitle>}
+            {data?._links?.['sia:attachments']?.map((attachment) => (
+              <StyledImg
+                key={attachment.href}
+                style={{ marginBottom: '24px' }}
+                src={attachment.href}
+              />
+            ))}
 
-          <FormTitle>Locatie</FormTitle>
-          <Paragraph strong style={{ marginBottom: 0 }}>
-            {data?.location?.address_text}
-          </Paragraph>
-          <Link
-            style={{ display: 'block', marginBottom: '24px' }}
-            variant="inline"
-            onClick={() => setShowMap(true)}
-          >
-            Bekijk op kaart (coming soon {showMap})
-          </Link>
+            <FormTitle>Locatie</FormTitle>
+            <Paragraph strong style={{ marginBottom: 0 }}>
+              {data?.location?.address_text}
+            </Paragraph>
+            <Link
+              style={{ display: 'block', marginBottom: '24px' }}
+              variant="inline"
+              onClick={() => setShowMap(true)}
+            >
+              Bekijk op kaart (coming soon {showMap})
+            </Link>
 
-          {/* hier moeten dynamisch extra properties worden ingeladen ? */}
+            {/* hier moeten dynamisch extra properties worden ingeladen ? */}
 
-          {answersGebeurtHetVaker && (
-            <>
-              <FormTitle>Gebeurt het vaker?</FormTitle>
-              <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
-            </>
-          )}
-        </Divider>}
-        <History />
+            {answersGebeurtHetVaker && (
+              <>
+                <FormTitle>Gebeurt het vaker?</FormTitle>
+                <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
+              </>
+            )}
+          </Divider>
+        )}
+        <History incident={data} />
       </WrapperDetail>
     </Row>
   )
