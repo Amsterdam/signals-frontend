@@ -1,24 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import {useEffect, useMemo, useRef, useState} from 'react'
 
-import { Link, Paragraph } from '@amsterdam/asc-ui'
+import { Link, Paragraph, Row } from '@amsterdam/asc-ui'
+import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 
 import useFetch from '../../../hooks/useFetch'
 import useLocationReferrer from '../../../hooks/useLocationReferrer'
 import configuration from '../../../shared/services/configuration/configuration'
-import { Map } from '../components/Map'
+import { History } from '../components'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import type { MyIncident } from '../types'
-import { BasePage } from './BasePage'
-import { StyledImg, FormTitle } from './styled'
+import {
+  StyledHeading,
+  StyledImg,
+  WrapperDetail,
+  FormTitle,
+  Divider,
+} from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
-  const [showMap, setShowMap] = useState(false)
+  const [ showMap, setShowMap] = useState(false)
   const history = useHistory()
   const location = useLocationReferrer() as Location
   const { incidentsDetail, setIncidentsDetail } = useMyIncidents()
@@ -53,24 +59,21 @@ export const Detail = () => {
     )?.answer
   }, [data?.extra_properties])
 
-  if (!incidentsDetail) {
-    return null
-  }
-
   return (
-    <BasePage
-      pageInfo={{
-        documentTitle: `Meldingsnummer: ${incidentDisplay.current}`,
-        dataTestId: 'IncidentNumber',
-        pageTitle: showMap
-          ? undefined
-          : `Meldingsnummer: ${incidentDisplay.current}`,
-      }}
-    >
-      {showMap && incidentsDetail.location ? (
-        <Map location={incidentsDetail.location} />
-      ) : (
-        <>
+    <Row>
+      <WrapperDetail>
+        {incidentsDetail && <Divider>
+          <Helmet
+            defaultTitle={configuration.language.siteTitle}
+            titleTemplate={`${configuration.language.siteTitle} - %s`}
+          >
+            <title>{`Mijn Meldingen: ${incidentDisplay.current}`}</title>
+          </Helmet>
+
+          <header>
+            <StyledHeading>{`Mijn Meldingen: ${incidentDisplay.current}`}</StyledHeading>
+          </header>
+
           <FormTitle>Omschrijving</FormTitle>
           <Paragraph strong>{data?.text}</Paragraph>
 
@@ -88,11 +91,11 @@ export const Detail = () => {
             {data?.location?.address_text}
           </Paragraph>
           <Link
-            style={{ marginBottom: '24px' }}
+            style={{ display: 'block', marginBottom: '24px' }}
             variant="inline"
             onClick={() => setShowMap(true)}
           >
-            Bekijk op kaart (coming soon)
+            Bekijk op kaart (coming soon {showMap})
           </Link>
 
           {/* hier moeten dynamisch extra properties worden ingeladen ? */}
@@ -103,8 +106,9 @@ export const Detail = () => {
               <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
             </>
           )}
-        </>
-      )}
-    </BasePage>
+        </Divider>}
+        <History />
+      </WrapperDetail>
+    </Row>
   )
 }

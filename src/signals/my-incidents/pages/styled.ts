@@ -64,6 +64,15 @@ export const StyledLink = styled(Link)`
   margin-bottom: ${themeSpacing(10)};
 `
 
+export const WrapperDetail = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+ @media ${breakpoint('max-width', 'tabletS')} {
+    flex-direction: column;
+  }
+`
 export const Wrapper = styled.div`
   width: 100%;
 `
@@ -77,4 +86,7 @@ export const FormTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
   margin-top: 0;
   margin-bottom: 0;
+`
+export const Divider = styled.div`
+  flex-grow: 1;
 `
