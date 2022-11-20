@@ -5,9 +5,9 @@ import {useEffect} from "react";
 import useFetch from "../../../../hooks/useFetch";
 import useLocationReferrer from "../../../../hooks/useLocationReferrer";
 import configuration from "../../../../shared/services/configuration/configuration";
+import {FormTitle} from "../../pages/styled";
 import type {MyIncident} from "../../types";
 import {StatusBlock, Wrapper, Status, StatusStat, StyledH4} from './styled'
-import {FormTitle} from "../../pages/styled";
 
 const defaultData = [
   {

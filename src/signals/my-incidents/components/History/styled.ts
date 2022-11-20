@@ -9,14 +9,13 @@ display: flex;
   margin: ${themeSpacing(8, 0, 6, 25)};
   width: ${themeSpacing(75)};
 
-  @media ${breakpoint('min-width', 'tabletM')} {
+  @media ${breakpoint('max-width', 'tabletS')} {
     margin: ${themeSpacing(8, 0, 6)};
   }
 `
 
 export const StatusBlock = styled.div`
   height: ${themeSpacing(20)};
-
   background-color: ${themeColor('tint', 'level3')};
 `
 export const Status = styled.p`
