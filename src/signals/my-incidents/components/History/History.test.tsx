@@ -6,7 +6,7 @@ import useFetch from '../../../../hooks/useFetch'
 import { withAppContext } from '../../../../test/utils'
 import { get, useFetchResponse } from '../../../IncidentMap/components/__test__'
 import { incidentsDetail } from '../../__test__/incidents-detail'
-import { defaultHistoryData } from './History'
+import { defaultHistoryData } from '../../__test__/defaultHistoryData'
 import { History } from './index'
 
 jest.mock('hooks/useFetch')
