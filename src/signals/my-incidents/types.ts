@@ -52,3 +52,11 @@ export interface Result<T> {
   count: number
   results: T[]
 }
+
+export interface HistoryInstance {
+  when: string
+  what: string
+  action: string
+  description: string
+  _signal: string
+}

@@ -39,7 +39,7 @@ export const IncidentsDetail = ({
   const attachments = incidentsDetail?._links?.['sia:attachments']
 
   return (
-    <>
+    <div>
       <StyledBacklink to={`/mijn-meldingen/${token}`}>
         Mijn meldingen
       </StyledBacklink>
@@ -81,6 +81,6 @@ export const IncidentsDetail = ({
           </>
         )}
       </Wrapper>
-    </>
+    </div>
   )
 }
