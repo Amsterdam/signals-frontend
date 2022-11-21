@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import useFetch from '../../../hooks/useFetch'
 import { withAppContext } from '../../../test/utils'
@@ -33,13 +34,13 @@ describe('Detail', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
 
-  it('should render correctly', () => {
+  it('should render correctly and show map', () => {
     jest.mocked(useFetch).mockImplementation(() => ({
       ...useFetchResponse,
       data: incidentsDetail,
     }))
 
-    const { container } = render(
+    render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
           <Detail />
@@ -47,43 +48,12 @@ describe('Detail', () => {
       )
     )
 
-    expect(screen.getByText('Mijn Meldingen: SIG-11656')).toBeInTheDocument()
+    userEvent.click(screen.getByText('Bekijk op kaart'))
 
-    expect(screen.getByText('Omschrijving')).toBeInTheDocument()
+    expect(screen.queryByTestId('mapDetail')).toBeInTheDocument()
 
-    expect(screen.getByText('Foto')).toBeInTheDocument()
+    userEvent.click(screen.getByTestId('closeButton'))
 
-    expect(container.querySelector('img')).toBeInTheDocument()
-
-    expect(screen.getByText('Locatie')).toBeInTheDocument()
-
-    expect(screen.getByText('Gebeurt het vaker?')).toBeInTheDocument()
-  })
-
-  it('should hide img and extra properties', () => {
-    const dataWithoutImgAndExtraProps = {
-      ...incidentsDetail,
-      _links: [],
-      extra_properties: [],
-    }
-
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
-      data: dataWithoutImgAndExtraProps,
-    }))
-
-    const { container } = render(
-      withAppContext(
-        <MyIncidentsProvider value={providerMock}>
-          <Detail />
-        </MyIncidentsProvider>
-      )
-    )
-
-    expect(screen.queryByText('Foto')).not.toBeInTheDocument()
-
-    expect(container.querySelector('img')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('Gebeurt het vaker?')).not.toBeInTheDocument()
+    expect(screen.getByText('Bekijk op kaart')).toBeInTheDocument()
   })
 })

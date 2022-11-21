@@ -5,7 +5,7 @@ import BackLink from 'components/BackLink'
 import styled from 'styled-components'
 
 export const StyledBacklink = styled(BackLink)`
-  margin-top: ${themeSpacing(8)};
+  margin-top: ${themeSpacing(10.5)};
 `
 
 export const FormTitle = styled.p`
@@ -14,12 +14,26 @@ export const FormTitle = styled.p`
   margin-bottom: 0;
 `
 
-export const StyledImg = styled.img`
-  max-width: 100%;
+export const StyledImage = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`
+
+export const ImageWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  width: 180px;
   height: 135px;
 `
 
 export const StyledLink = styled(Link)`
   margin-bottom: ${themeSpacing(6)};
   cursor: pointer;
+`
+
+export const Wrapper = styled.div`
+  margin-bottom: ${themeSpacing(6)};
 `

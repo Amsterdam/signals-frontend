@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
-
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
-import IncidentDetailContext from '../../context'
 import LocationPreview from '.'
+import IncidentDetailContext from '../../context'
 
-jest.mock('../MapDetail', () => () => (
+jest.mock('components/MapDetail', () => () => (
   <div data-testid="location-preview-map" />
 ))
 

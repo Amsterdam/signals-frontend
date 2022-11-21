@@ -1,6 +1,12 @@
+import type Location from 'types/location'
+
 import type { MyIncident } from '../types'
 
-export const incidentsDetail: MyIncident = {
+interface MyIncidentWithLocation extends MyIncident {
+  location: Location
+}
+
+export const incidentsDetail: MyIncidentWithLocation = {
   _links: {
     curies: {
       name: 'sia',
@@ -20,6 +26,21 @@ export const incidentsDetail: MyIncident = {
       label: 'Momenten',
     },
   ],
+  location: {
+    address: {
+      postcode: '1012MB',
+      huisletter: '',
+      huisnummer: 63,
+      woonplaats: 'Amsterdam',
+      openbare_ruimte: 'Nieuwendijk',
+      huisnummer_toevoeging: '',
+    },
+    address_text: 'Nieuwendijk 63 1012MB Amsterdam',
+    geometrie: {
+      type: 'Point',
+      coordinates: [4.896696325124808, 52.37737136900012],
+    },
+  },
   _display: 'SIG-11656',
   uuid: 'a4ed990e-bb4e-4de4-bb5a-f2dd9b907fc4',
   id_display: 'SIG-11656',
