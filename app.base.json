@@ -16,7 +16,7 @@
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,
-    "reporterMailHandledNegativeContactEnabled": true,
+    "reporterMailHandledNegativeContactEnabled": false,
     "showThorButton": false,
     "showVulaanControls": false,
     "useProjectenSignalType": false
