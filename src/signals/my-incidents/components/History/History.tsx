@@ -56,21 +56,22 @@ export const History = ({ incident }: Props) => {
       </StatusBlock>
       <StyledH2 forwardedAs="h2">Geschiedenis</StyledH2>
 
-      {data?.map((instance: HistoryInstance, index) => {
-        const { when, action, description } = instance
-        const date = new Date(when)
-        const formattedDate = format(date, 'd MMMM yyyy, HH:mm', {
-          locale: nl,
-        })
-        return (
-          <Fragment key={formattedDate + index}>
-            <FormTitle>{formattedDate}</FormTitle>
-            <StyledParagraph>
-              {action} {description}
-            </StyledParagraph>
-          </Fragment>
-        )
-      })}
+      {data &&
+        data.map((instance: HistoryInstance, index) => {
+          const { when, action, description } = instance
+          const date = new Date(when)
+          const formattedDate = format(date, 'd MMMM yyyy, HH:mm', {
+            locale: nl,
+          })
+          return (
+            <Fragment key={formattedDate + index}>
+              <FormTitle>{formattedDate}</FormTitle>
+              <StyledParagraph>
+                {action} {description}
+              </StyledParagraph>
+            </Fragment>
+          )
+        })}
     </Wrapper>
   )
 }

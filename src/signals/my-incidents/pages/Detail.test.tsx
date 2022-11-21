@@ -20,6 +20,12 @@ jest.mock('../hooks', () => {
   }
 })
 
+jest.mock('../components/History/History', () => ({
+  __esModule: true,
+  ...jest.requireActual('../components/History/History'),
+  History: () => <div>[History]</div>,
+}))
+
 jest.mock('hooks/useFetch')
 
 jest.mock('react-router-dom', () => ({
