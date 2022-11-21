@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { themeSpacing } from '@amsterdam/asc-ui'
 import CloseButton from 'components/CloseButton'
 import styled from 'styled-components'

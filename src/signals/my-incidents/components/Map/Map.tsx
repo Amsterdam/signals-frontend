@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import type Location from 'types/location'
 
 import { markerIcon } from '../../../../shared/services/configuration/map-markers'
