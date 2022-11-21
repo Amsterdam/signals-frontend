@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -143,6 +143,12 @@ const KtoForm = ({
 
   const watchTextList = watch('text_list')
   const watchTextExtra = watch('text_extra')
+
+  useEffect(() => {
+    if (!watchTextList.includes('Over iets anders')) {
+      setValue('text_list_extra', '')
+    }
+  }, [setValue, watchTextList])
 
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>

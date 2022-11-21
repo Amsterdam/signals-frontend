@@ -24,7 +24,7 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
 const connectionString = configuration?.azure?.connectionString
-const release = process.env.FRONTEND_TwAG
+const release = process.env.FRONTEND_TAG
 
 if (dsn) {
   Sentry.init({
