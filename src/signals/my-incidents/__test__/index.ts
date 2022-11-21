@@ -1,2 +1,2 @@
 export { providerMock } from './provider-mock'
-export { defaultHistoryData } from './defaultHistoryData'
+export { defaultHistoryData } from './default-history-data'
