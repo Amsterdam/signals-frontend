@@ -3,6 +3,7 @@
 import { useReducer, useEffect, useCallback, useState, useContext } from 'react'
 
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
+import CloseButton from 'components/CloseButton'
 import History from 'components/History'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
@@ -18,7 +19,6 @@ import type { DefaultTexts } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 import type Context from 'types/context'
 
-import CloseButton from '../../../../components/CloseButton'
 import Attachments from './components/Attachments'
 import AttachmentViewer from './components/AttachmentViewer'
 import ChildIncidents from './components/ChildIncidents'
