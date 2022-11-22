@@ -30,7 +30,6 @@ export const ImageWrapper = styled.div`
 `
 
 export const StyledLink = styled(Link)`
-  margin-bottom: ${themeSpacing(6)};
   cursor: pointer;
 `
 
