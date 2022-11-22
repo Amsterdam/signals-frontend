@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { Fragment, useContext } from 'react'
-import styled from 'styled-components'
-import { themeSpacing } from '@amsterdam/asc-ui'
 
+import { themeSpacing } from '@amsterdam/asc-ui'
+import configuration from 'shared/services/configuration/configuration'
+import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import { getListValueByKey } from 'shared/services/list-helpers/list-helpers'
+import { featureToCoordinates } from 'shared/services/map-location'
 import { locationType } from 'shared/types'
 import { stadsdeelList } from 'signals/incident-management/definitions'
-import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
-import configuration from 'shared/services/configuration/configuration'
-import { featureToCoordinates } from 'shared/services/map-location'
+import styled from 'styled-components'
 
-import MapDetail from '../../../MapDetail'
-import HighLight from '../../../Highlight'
-import EditButton from '../../../EditButton'
-import IncidentDetailContext from '../../../../context'
+import MapDetail from '../../../../../../../../components/MapDetail'
 import IncidentManagementContext from '../../../../../../context'
+import IncidentDetailContext from '../../../../context'
+import EditButton from '../../../EditButton'
+import HighLight from '../../../Highlight'
 
 const mapWidth = 80
 const mapHeight = 80

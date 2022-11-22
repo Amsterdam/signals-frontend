@@ -1,35 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useReducer, useEffect, useCallback, useState, useContext } from 'react'
 
-import configuration from 'shared/services/configuration/configuration'
-import { makeSelectSubCategories } from 'models/categories/selectors'
-import { useFetch, useEventEmitter, useFetchAll } from 'hooks'
+import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
+import History from 'components/History'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { useFetch, useEventEmitter, useFetchAll } from 'hooks'
+import { makeSelectSubCategories } from 'models/categories/selectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { getErrorMessage } from 'shared/services/api/api'
+import configuration from 'shared/services/configuration/configuration'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
-import History from 'components/History'
-import type { Incident } from 'types/api/incident'
+import styled from 'styled-components'
 import type { DefaultTexts } from 'types/api/default-text'
+import type { Incident } from 'types/api/incident'
 import type Context from 'types/context'
-import reducer, { initialState } from './reducer'
 
+import CloseButton from '../../../../components/CloseButton'
 import Attachments from './components/Attachments'
-import ChildIncidents from './components/ChildIncidents'
-import DetailHeader from './components/DetailHeader'
-import MetaList from './components/MetaList'
-import LocationForm from './components/LocationForm'
 import AttachmentViewer from './components/AttachmentViewer'
+import ChildIncidents from './components/ChildIncidents'
 import Detail from './components/Detail'
+import DetailHeader from './components/DetailHeader'
+import LocationForm from './components/LocationForm'
 import LocationPreview from './components/LocationPreview'
-import CloseButton from './components/CloseButton'
-import IncidentDetailContext from './context'
-
+import MetaList from './components/MetaList'
 import {
   CLOSE_ALL,
   EDIT,
@@ -47,7 +44,9 @@ import {
   SET_HISTORY,
   SET_INCIDENT,
 } from './constants'
+import IncidentDetailContext from './context'
 import useUpload from './hooks/useUpload'
+import reducer, { initialState } from './reducer'
 import type { Attachment, HistoryEntry, IncidentChild, Result } from './types'
 
 const StyledRow = styled(Row)`
@@ -115,6 +114,8 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
+
+  const { close } = useContext(IncidentDetailContext)
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     switch (event.key) {
@@ -424,7 +425,7 @@ const IncidentDetail = () => {
           </Preview>
         )}
         {!showAttachmentViewer && state.preview && (
-          <CloseButton aria-label="Sluiten" />
+          <CloseButton close={close} aria-label="Sluiten" />
         )}
       </StyledRow>
       {showAttachmentViewer && (

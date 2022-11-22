@@ -1,1 +1,1 @@
-export { Routing as default } from './containers'
+export { Routing as default } from './components/Routing'

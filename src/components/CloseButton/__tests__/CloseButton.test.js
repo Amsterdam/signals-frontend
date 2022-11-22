@@ -1,21 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 import 'jest-styled-components'
 
 import { withAppContext } from 'test/utils'
 
-import IncidentDetailContext from '../../../context'
-import CloseButton from '..'
+import CloseButton from '../index'
 
 const close = jest.fn()
 
-const renderWithContext = () =>
-  withAppContext(
-    <IncidentDetailContext.Provider value={{ close }}>
-      <CloseButton />
-    </IncidentDetailContext.Provider>
-  )
+const renderWithContext = () => withAppContext(<CloseButton close={close} />)
 
 describe('incident-management/containers/IncidentDetail/components/CloseButton', () => {
   beforeEach(() => {

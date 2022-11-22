@@ -3,8 +3,8 @@
 import {
   breakpoint,
   Heading,
-  Paragraph,
   Link,
+  Paragraph,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
@@ -21,6 +21,7 @@ export const StyledHeading = styled(Heading)`
 `
 
 export const ContentWrapper = styled.div`
+  position: relative;
   box-sizing: border-box;
   max-width: 960px;
   margin: 0 auto;
