@@ -19,6 +19,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { userType, historyType } from 'shared/types'
 import styled from 'styled-components'
+import configuration from 'shared/services/configuration/configuration'
 
 const Form = styled.form`
   width: 100%;
@@ -48,18 +49,6 @@ const StyledFormFooter = styled(FormFooter)`
 const statusOptions = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
-]
-
-const notificationOptions = [
-  {
-    key: 'notification_on_department_assignment',
-    value:
-      'Stuur mij een e-mail als een melding aan mijn afdeling is gekoppeld',
-  },
-  {
-    key: 'notification_on_user_assignment',
-    value: 'Stuur mij een e-mail als een melding aan mij is toegewezen',
-  },
 ]
 
 const StyledHistory = styled(History)`
@@ -92,6 +81,26 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
     data?.roles
       ?.map((role) => inputRoles.find(({ name }) => name === role.name))
       .filter(Boolean) || []
+
+  const notificationOptions = [
+    ...(configuration.featureFlags.assignSignalToDepartment
+      ? [
+          {
+            key: 'notification_on_department_assignment',
+            value:
+              'Stuur mij een e-mail als een melding aan mijn afdeling is gekoppeld',
+          },
+        ]
+      : []),
+    ...(configuration.featureFlags.assignSignalToEmployee
+      ? [
+          {
+            key: 'notification_on_user_assignment',
+            value: 'Stuur mij een e-mail als een melding aan mij is toegewezen',
+          },
+        ]
+      : []),
+  ]
 
   const userNotifications =
     notificationOptions.filter(
@@ -217,19 +226,22 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
               />
             </FieldGroup>
 
-            <FieldGroup>
-              <Label as="span">Notificatie</Label>
-              <CheckboxList
-                defaultValue={state.notifications}
-                disabled={readOnly}
-                groupName="notifications"
-                name="notifications"
-                options={notificationOptions}
-                onChange={(field, value) => {
-                  onChange(field, value)
-                }}
-              />
-            </FieldGroup>
+            {(configuration.featureFlags.assignSignalToDepartment ||
+              configuration.featureFlags.assignSignalToEmployee) && (
+              <FieldGroup>
+                <Label as="span">Notificatie</Label>
+                <CheckboxList
+                  defaultValue={state.notifications}
+                  disabled={readOnly}
+                  groupName="notifications"
+                  name="notifications"
+                  options={notificationOptions}
+                  onChange={(field, value) => {
+                    onChange(field, value)
+                  }}
+                />
+              </FieldGroup>
+            )}
 
             <FieldGroup>
               <Label as="span">Status</Label>
