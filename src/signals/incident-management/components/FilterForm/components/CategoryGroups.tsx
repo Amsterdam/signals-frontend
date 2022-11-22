@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
-import type SubCategory from 'types/api/sub-category'
+
+import CheckboxList from 'components/CheckboxList'
+import type { CheckboxListProps } from 'components/CheckboxList'
+import Label from 'components/Label'
 import type {
   ExtendedCategory,
   StructuredCategories,
 } from 'models/categories/selectors'
-
-import Label from 'components/Label'
-import CheckboxList from '../../CheckboxList'
-
-import type { CheckboxListProps } from '../../CheckboxList'
+import type SubCategory from 'types/api/sub-category'
 
 type CategoryGroupsProps = Partial<CheckboxListProps> & {
   categories: StructuredCategories

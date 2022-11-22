@@ -3,10 +3,10 @@
 import type { FC } from 'react'
 
 import Label from 'components/Label'
-import RadioButtonList from '../../RadioButtonList'
-import { FilterGroup } from '../styled'
+import RadioButtonList from 'components/RadioButtonList'
+import type { RadioButtonListProps } from 'components/RadioButtonList'
 
-import type { RadioButtonListProps } from '../../RadioButtonList'
+import { FilterGroup } from '../styled'
 
 type RadioGroupProps = Partial<RadioButtonListProps> & {
   label: string

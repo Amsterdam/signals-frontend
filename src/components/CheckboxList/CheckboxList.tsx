@@ -335,11 +335,10 @@ const CheckboxList: FC<CheckboxListProps> = ({
         if (!uid) {
           return null
         }
-
         return (
           <Fragment key={optionId}>
-            {options.findIndex((option) => option.topic === topic) ===
-              index && <TopicLabel>{topic}</TopicLabel>}
+            {options.findIndex((option) => option.topic === topic) === index &&
+              topic && <TopicLabel>{topic}</TopicLabel>}
             <Wrapper disabled={defaultOption.disabled || false}>
               <Label
                 htmlFor={optionId}
