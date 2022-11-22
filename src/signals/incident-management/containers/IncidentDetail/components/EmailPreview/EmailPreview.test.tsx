@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
@@ -16,6 +16,8 @@ describe('StatusForm EmailPreview component', () => {
     render(
       withAppContext(
         <EmailPreview
+          isLoading={false}
+          title="Controleer bericht aan melder"
           onUpdate={onUpdate}
           emailBody={emailBody}
           onClose={onClose}
@@ -38,6 +40,8 @@ describe('StatusForm EmailPreview component', () => {
     render(
       withAppContext(
         <EmailPreview
+          isLoading={false}
+          title="Foo"
           onUpdate={onUpdate}
           emailBody={emailBody}
           onClose={onClose}
@@ -47,5 +51,21 @@ describe('StatusForm EmailPreview component', () => {
 
     userEvent.click(screen.getByText('Wijzig'))
     expect(onClose).toHaveBeenCalled()
+  })
+
+  it('renders the loading incidator', () => {
+    render(
+      withAppContext(
+        <EmailPreview
+          isLoading
+          title="Foo"
+          onUpdate={onUpdate}
+          emailBody={emailBody}
+          onClose={onClose}
+        />
+      )
+    )
+
+    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
   })
 })

@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FC } from 'react'
-import styled from 'styled-components'
+
 import { themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import FormFooter from 'components/FormFooter'
 import { FORM_FOOTER_HEIGHT } from 'components/FormFooter/FormFooter'
-import ModalHeader from '../ModalHeader/ModalHeader'
+import LoadingIndicator from 'components/LoadingIndicator'
 
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  * {
-    box-sizing: border-box;
-  }
-`
+import ModalDialog from '../ModalDialog/ModalDialog'
 
 const StyledFormFooter = styled(FormFooter)`
   .formFooterRow {
@@ -30,9 +25,11 @@ const StyledIframe = styled.iframe`
 `
 
 interface EmailPreviewProps {
-  emailBody: string
+  emailBody?: string
   onClose: () => void
   onUpdate: () => void
+  title: string
+  isLoading: boolean
 }
 
 const styling = `
@@ -53,20 +50,33 @@ const EmailPreview: FC<EmailPreviewProps> = ({
   emailBody,
   onUpdate,
   onClose,
+  title,
+  isLoading,
 }) => {
-  const styledHtml = emailBody.replace('</head>', `${fontSrc}${styling}</head>`)
+  const styledHtml = emailBody?.replace(
+    '</head>',
+    `${fontSrc}${styling}</head>`
+  )
 
   return (
-    <ModalContainer>
-      <ModalHeader title="Controleer bericht aan melder" onClose={onClose} />
-      <StyledIframe data-testid="emailBodyIframe" srcDoc={styledHtml} />
-      <StyledFormFooter
-        cancelBtnLabel="Wijzig"
-        onCancel={onClose}
-        submitBtnLabel="Verstuur"
-        onSubmitForm={onUpdate}
-      />
-    </ModalContainer>
+    <ModalDialog
+      data-testid="emailPreviewModal"
+      title={title}
+      onClose={onClose}
+    >
+      {isLoading && <LoadingIndicator />}
+      {emailBody && (
+        <>
+          <StyledIframe data-testid="emailBodyIframe" srcDoc={styledHtml} />
+          <StyledFormFooter
+            cancelBtnLabel="Wijzig"
+            onCancel={onClose}
+            submitBtnLabel="Verstuur"
+            onSubmitForm={onUpdate}
+          />
+        </>
+      )}
+    </ModalDialog>
   )
 }
 

@@ -18,6 +18,7 @@ export const Wrapper = styled.section`
 
 export const StyledButtonWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: ${themeSpacing(8)};
   gap: ${themeSpacing(2)};
 `

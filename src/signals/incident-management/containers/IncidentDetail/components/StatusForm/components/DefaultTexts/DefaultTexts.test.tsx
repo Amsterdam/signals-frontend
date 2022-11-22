@@ -7,6 +7,7 @@ import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { DefaulTextsProps } from './DefaultTexts'
 
+import { withAppContext } from 'test/utils'
 import DefaultTexts from '.'
 
 describe('<DefaultTexts />', () => {
@@ -15,6 +16,7 @@ describe('<DefaultTexts />', () => {
   beforeEach(() => {
     props = {
       status: StatusCode.Afgehandeld,
+      onClose: jest.fn(),
       defaultTexts: [
         {
           state: StatusCode.Afgehandeld,
@@ -42,7 +44,9 @@ describe('<DefaultTexts />', () => {
   })
 
   it('should render correctly', () => {
-    const { queryAllByTestId } = render(<DefaultTexts {...props} />)
+    const { queryAllByTestId } = render(
+      withAppContext(<DefaultTexts {...props} />)
+    )
 
     expect(screen.getByTestId('modalTitle')).toHaveTextContent(
       /^Standaardtekst$/
@@ -71,7 +75,7 @@ describe('<DefaultTexts />', () => {
 
   it('should not render when wrong status is used', () => {
     const { queryAllByTestId } = render(
-      <DefaultTexts {...props} status={StatusCode.Ingepland} />
+      withAppContext(<DefaultTexts {...props} status={StatusCode.Ingepland} />)
     )
 
     expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0)
@@ -81,7 +85,7 @@ describe('<DefaultTexts />', () => {
     const defaultTexts: Array<DefaultTextType> = []
 
     const { queryAllByTestId } = render(
-      <DefaultTexts {...props} defaultTexts={defaultTexts} />
+      withAppContext(<DefaultTexts {...props} defaultTexts={defaultTexts} />)
     )
 
     expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0)
@@ -92,7 +96,7 @@ describe('<DefaultTexts />', () => {
     defaultTexts[0].templates = []
 
     const { getByText } = render(
-      <DefaultTexts {...props} defaultTexts={defaultTexts} />
+      withAppContext(<DefaultTexts {...props} defaultTexts={defaultTexts} />)
     )
 
     expect(
@@ -103,7 +107,9 @@ describe('<DefaultTexts />', () => {
   })
 
   it('should call the callback function when button clicked', () => {
-    const { queryAllByTestId } = render(<DefaultTexts {...props} />)
+    const { queryAllByTestId } = render(
+      withAppContext(<DefaultTexts {...props} />)
+    )
     fireEvent.click(queryAllByTestId('defaultTextsItemButton')[0])
 
     expect(props.onHandleUseDefaultText).toHaveBeenCalledTimes(1)

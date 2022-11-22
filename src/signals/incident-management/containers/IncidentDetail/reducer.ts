@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { Reducer } from 'react'
 import {
   CLOSE_ALL,
   EDIT,
+  EXTERNAL,
   PATCH_START,
   PATCH_SUCCESS,
   PREVIEW,
@@ -86,6 +87,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
       return {
         ...state,
         edit: undefined,
+        external: false,
         ...action.payload,
         preview: action.payload?.preview,
       }
@@ -100,6 +102,14 @@ const reducer: Reducer<State, Action> = (state, action) => {
 
     case RESET:
       return { ...initialState, incident: state.incident }
+
+    case EXTERNAL:
+      return {
+        ...state,
+        edit: undefined,
+        external: !state.external,
+        preview: undefined,
+      }
 
     default:
       return state
