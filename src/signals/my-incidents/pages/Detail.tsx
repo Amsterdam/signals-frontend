@@ -9,12 +9,13 @@ import { useHistory } from 'react-router-dom'
 import useFetch from '../../../hooks/useFetch'
 import useLocationReferrer from '../../../hooks/useLocationReferrer'
 import configuration from '../../../shared/services/configuration/configuration'
+import { History } from '../components/History/History'
 import { IncidentsDetail as IncidentsDetailComponent } from '../components/IncidentsDetail'
 import { Map } from '../components/Map'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import type { MyIncident } from '../types'
-import { Wrapper } from './styled'
+import { ContentWrapper, Wrapper } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
@@ -62,11 +63,14 @@ export const Detail = () => {
             location={incidentsDetail.location}
           />
         ) : (
-          <IncidentsDetailComponent
-            incidentsDetail={incidentsDetail}
-            token={token}
-            setShowMap={setShowMap}
-          />
+          <ContentWrapper>
+            <IncidentsDetailComponent
+              incidentsDetail={incidentsDetail}
+              token={token}
+              setShowMap={setShowMap}
+            />
+            <History incident={incidentsDetail} />
+          </ContentWrapper>
         )}
       </Wrapper>
     </Row>
