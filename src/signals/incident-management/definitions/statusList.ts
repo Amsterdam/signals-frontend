@@ -124,6 +124,13 @@ export const DOORGEZET_NAAR_EXTERN = {
   shows_remaining_sla_days: true,
 }
 
+export const DOORGEZET_NAAR_EXTERN = {
+  key: StatusCode.DoorgezetNaarExtern,
+  value: 'Doorgezet naar extern',
+  email_sent_when_set: true,
+  shows_remaining_sla_days: true,
+}
+
 export const AFGEHANDELD_EXTERN = {
   key: StatusCode.AfgehandeldExtern,
   value: 'Extern: afgehandeld',
