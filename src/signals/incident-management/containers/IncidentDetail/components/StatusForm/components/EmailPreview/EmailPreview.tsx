@@ -38,7 +38,7 @@ interface EmailPreviewProps {
 const styling = `
 <style>
   *{
-    font-family:"Avenir Next";
+    font-family:"Amsterdam Sans";
     line-height: 22px;
     overflow-wrap: break-word;
     word-break: break-all;
