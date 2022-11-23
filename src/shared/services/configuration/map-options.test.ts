@@ -14,7 +14,8 @@ describe('shared/services/configuration/map-options', () => {
       maxNumberOfAssets: {
         afvalContainer: 1,
         eikenProcessierups: 1,
-        straatverlichtingKlokken: 1,
+        klokken: 1,
+        straatverlichting: 1,
       },
       crs: 'EPSG:28992',
       zoom: 1,
