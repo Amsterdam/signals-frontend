@@ -1,5 +1,6 @@
 import { Paragraph } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 
 import { IncidentsList } from '../components'
@@ -34,7 +35,12 @@ export const Overview = () => {
         <Paragraph>
           Dit zijn de meldingen die u de afgelopen 12 maanden heeft gemaakt:
         </Paragraph>
-        <StyledLink href="/incident/beschrijf" variant="inline" fontSize={16}>
+        <StyledLink
+          to="/incident/beschrijf"
+          variant="inline"
+          fontSize={16}
+          forwardedAs={Link}
+        >
           Maak een nieuwe melding
         </StyledLink>
 
