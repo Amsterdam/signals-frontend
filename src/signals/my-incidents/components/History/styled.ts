@@ -11,11 +11,11 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: ${themeSpacing(23, 0, 6, 25)};
+  margin: ${themeSpacing(19.5, 0, 6, 25)};
   width: ${themeSpacing(75)};
   @media ${breakpoint('max-width', 'tabletS')} {
-    margin: ${themeSpacing(4, 0)};
-    width: ${themeSpacing(86)};
+    margin: 0;
+    width: 100%;
   }
 `
 
@@ -35,9 +35,10 @@ export const StatusParagraph = styled.p`
 
 export const StyledH2 = styled(Heading)`
   margin-bottom: ${themeSpacing(4)};
-  margin-top: ${themeSpacing(3)};
+  margin-top: ${themeSpacing(6)};
 `
 
 export const StyledParagraph = styled.div`
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(4)};
+  white-space: break-spaces;
 `

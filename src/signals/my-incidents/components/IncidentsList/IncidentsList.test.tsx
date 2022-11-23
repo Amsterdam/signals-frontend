@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
-
 import { history, withAppContext } from 'test/utils'
 
 import useFetch from '../../../../hooks/useFetch'
@@ -97,7 +96,12 @@ describe('IncidentsList', () => {
 
     const { container } = render(
       withAppContext(
-        <MyIncidentsProvider value={providerMock}>
+        <MyIncidentsProvider
+          value={{
+            ...providerMock,
+            incidentsList: undefined,
+          }}
+        >
           <IncidentsList />
         </MyIncidentsProvider>
       )

@@ -52,7 +52,7 @@ export const History = ({ incident }: Props) => {
     <Wrapper>
       <StatusBlock>
         <Status>Status</Status>
-        <StatusParagraph>{incident?.status.state}</StatusParagraph>
+        <StatusParagraph>{incident?.status.state_display}</StatusParagraph>
       </StatusBlock>
       <StyledH2 forwardedAs="h2">Geschiedenis</StyledH2>
 
@@ -67,7 +67,9 @@ export const History = ({ incident }: Props) => {
             <Fragment key={formattedDate + index}>
               <FormTitle>{formattedDate}</FormTitle>
               <StyledParagraph>
-                {action} {description}
+                {action}
+                {'\n'}
+                {description}
               </StyledParagraph>
             </Fragment>
           )

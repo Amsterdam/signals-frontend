@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 export const Divider = styled.div`
@@ -34,3 +34,5 @@ export const StyledParagraph = styled.div`
   font-size: ${themeSpacing(4)};
   margin-bottom: ${themeSpacing(4)};
 `
+
+export const StyledLink = styled(Link)``

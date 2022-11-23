@@ -9,6 +9,7 @@ import {
   ButtonWrapper,
   ContentWrapper,
   StyledHeading,
+  StyledRow,
   StyledParagraph as Paragraph,
 } from './styled'
 
@@ -31,28 +32,30 @@ export const BasePage: FC<Props> = ({
   const { documentTitle, pageTitle } = pageInfo
 
   return (
-    <ContentWrapper>
-      <Helmet
-        defaultTitle={configuration.language.siteTitle}
-        titleTemplate={`${configuration.language.siteTitle} - %s`}
-      >
-        {documentTitle && <title>{documentTitle}</title>}
-      </Helmet>
+    <StyledRow>
+      <ContentWrapper>
+        <Helmet
+          defaultTitle={configuration.language.siteTitle}
+          titleTemplate={`${configuration.language.siteTitle} - %s`}
+        >
+          {documentTitle && <title>{documentTitle}</title>}
+        </Helmet>
 
-      <article>
-        {pageTitle && (
-          <header>
-            <StyledHeading>{pageTitle}</StyledHeading>
-          </header>
-        )}
-        {paragraphs?.map((paragraph, index) => (
-          <Paragraph key={index}>{paragraph}</Paragraph>
-        ))}
+        <article>
+          {pageTitle && (
+            <header>
+              <StyledHeading>{pageTitle}</StyledHeading>
+            </header>
+          )}
+          {paragraphs?.map((paragraph, index) => (
+            <Paragraph key={index}>{paragraph}</Paragraph>
+          ))}
 
-        {children}
+          {children}
 
-        <ButtonWrapper>{buttons}</ButtonWrapper>
-      </article>
-    </ContentWrapper>
+          <ButtonWrapper>{buttons}</ButtonWrapper>
+        </article>
+      </ContentWrapper>
+    </StyledRow>
   )
 }

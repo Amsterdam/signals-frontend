@@ -2,17 +2,15 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Fragment, useEffect } from 'react'
 
-import { Link } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
-import { useHistory } from 'react-router-dom'
-
 import useFetch from 'hooks/useFetch'
 import useLocationReferrer from 'hooks/useLocationReferrer'
+import { useHistory, Link } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 
+import { useMyIncidentContext } from '../../context'
 import { routes } from '../../definitions'
-import { useMyIncidents } from '../../hooks'
 import type { MyIncident, Result } from '../../types'
 import {
   Divider,
@@ -21,13 +19,14 @@ import {
   Status,
   StyledParagraph,
   Wrapper,
+  StyledLink,
 } from './styled'
 
 export const IncidentsList = () => {
   const { get, data, error } = useFetch<Result<MyIncident>>()
   const history = useHistory()
   const location = useLocationReferrer() as Location
-  const { incidentsList, setIncidentsList } = useMyIncidents()
+  const { incidentsList, setIncidentsList } = useMyIncidentContext()
   const token =
     location.pathname.split('/')[location.pathname.split('/').length - 1]
 
@@ -77,9 +76,12 @@ export const IncidentsList = () => {
 
               <StyledParagraph>{text}</StyledParagraph>
 
-              <Link inList href={`${token}/${uuid}`}>
+              <StyledLink
+                to={`/mijn-meldingen/${token}/${uuid}`}
+                forwardedAs={Link}
+              >
                 Bekijk melding
-              </Link>
+              </StyledLink>
             </Wrapper>
           </Fragment>
         )

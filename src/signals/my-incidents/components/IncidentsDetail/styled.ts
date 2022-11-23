@@ -5,7 +5,7 @@ import BackLink from 'components/BackLink'
 import styled from 'styled-components'
 
 export const StyledBacklink = styled(BackLink)`
-  margin-top: ${themeSpacing(10.5)};
+  margin-top: ${themeSpacing(6)};
 `
 
 export const FormTitle = styled.p`
@@ -34,5 +34,5 @@ export const StyledLink = styled(Link)`
 `
 
 export const Wrapper = styled.div`
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(4)};
 `
