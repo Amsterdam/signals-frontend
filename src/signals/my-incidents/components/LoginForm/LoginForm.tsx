@@ -20,7 +20,7 @@ const schema = yup.object({
     .required('Dit veld is verplicht'),
 })
 
-export const EmailInput = () => {
+export const LoginForm = () => {
   const {
     register,
     handleSubmit,
