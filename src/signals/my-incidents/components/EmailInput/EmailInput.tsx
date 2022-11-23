@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { yupResolver } from '@hookform/resolvers/yup'
+import Button from 'components/Button'
+import Label from 'components/Label'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
-
-import Button from 'components/Button'
-import Label from 'components/Label'
 
 import { useMyIncidentContext } from '../../context'
 import { routes } from '../../definitions'
@@ -33,8 +32,8 @@ export const EmailInput = () => {
   const [postEmail] = usePostEmail()
   const { setEmail } = useMyIncidentContext()
 
-  const onSubmit = ({ email }: FormData) => {
-    postEmail(email)
+  const onSubmit = async ({ email }: FormData) => {
+    await postEmail(email)
     setEmail(email)
     history.push(routes.confirm)
   }
