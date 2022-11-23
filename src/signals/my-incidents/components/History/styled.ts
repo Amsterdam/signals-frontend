@@ -41,7 +41,4 @@ export const StyledH2 = styled(Heading)`
 export const StyledParagraph = styled.div`
   margin-bottom: ${themeSpacing(4)};
   white-space: break-spaces;
-  &:first-of-type: {
-    margin-bottom: 0;
-  }
 `
