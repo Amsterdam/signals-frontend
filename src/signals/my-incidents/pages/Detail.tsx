@@ -2,7 +2,6 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useEffect, useRef, useState } from 'react'
 
-import { Row } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 
@@ -15,7 +14,7 @@ import { Map } from '../components/Map'
 import { routes } from '../definitions'
 import { useMyIncidents } from '../hooks'
 import type { MyIncident } from '../types'
-import { ContentWrapper, Wrapper } from './styled'
+import { ContentWrapper, Wrapper, StyledRow } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
@@ -49,7 +48,7 @@ export const Detail = () => {
   }, [error, history])
 
   return (
-    <Row>
+    <StyledRow>
       <Wrapper>
         <Helmet
           defaultTitle={configuration.language.siteTitle}
@@ -73,6 +72,6 @@ export const Detail = () => {
           </ContentWrapper>
         )}
       </Wrapper>
-    </Row>
+    </StyledRow>
   )
 }

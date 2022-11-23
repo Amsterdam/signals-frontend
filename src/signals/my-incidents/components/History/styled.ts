@@ -11,7 +11,7 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: ${themeSpacing(23, 0, 6, 25)};
+  margin: ${themeSpacing(19.5, 0, 6, 25)};
   width: ${themeSpacing(75)};
   @media ${breakpoint('max-width', 'tabletS')} {
     margin: 0;
@@ -39,7 +39,7 @@ export const StyledH2 = styled(Heading)`
 `
 
 export const StyledParagraph = styled.div`
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(4)};
   white-space: break-spaces;
   &:first-of-type: {
     margin-bottom: 0;

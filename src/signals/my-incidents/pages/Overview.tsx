@@ -1,19 +1,23 @@
 import { Paragraph } from '@amsterdam/asc-ui'
-import { Row } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import { IncidentsList } from '../components'
 import { useMyIncidents } from '../hooks'
-import { StyledEmail, StyledLink } from './styled'
-import { StyledHeading, Wrapper } from './styled'
+import {
+  StyledEmail,
+  StyledLink,
+  StyledHeading,
+  Wrapper,
+  StyledRow,
+} from './styled'
+
 export const Overview = () => {
   // TODO: Backend should provide the email when fetching the IncidentList.
   const { email = 'test@gmail.com' } = useMyIncidents()
 
   return (
-    <Row>
+    <StyledRow>
       <Wrapper>
         <Helmet
           defaultTitle={configuration.language.siteTitle}
@@ -36,6 +40,6 @@ export const Overview = () => {
 
         <IncidentsList />
       </Wrapper>
-    </Row>
+    </StyledRow>
   )
 }
