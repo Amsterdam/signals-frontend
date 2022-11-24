@@ -5,8 +5,8 @@ import { render, screen } from '@testing-library/react'
 import useFetch from '../../../../hooks/useFetch'
 import { withAppContext } from '../../../../test/utils'
 import { get, useFetchResponse } from '../../../IncidentMap/components/__test__'
-import { incidentsDetail } from '../../__test__/incidents-detail'
 import { defaultHistoryData } from '../../__test__/default-history-data'
+import { incidentsDetail } from '../../__test__/incidents-detail'
 import { History } from './index'
 
 jest.mock('hooks/useFetch')
@@ -23,7 +23,14 @@ describe('History', () => {
       data: defaultHistoryData,
     }))
 
-    render(withAppContext(<History incident={incidentsDetail} />))
+    render(
+      withAppContext(
+        <History
+          incident={incidentsDetail}
+          fetchResponse={{ data: defaultHistoryData, error: undefined }}
+        />
+      )
+    )
 
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
     expect(screen.getByText('16 december 2022, 13:00')).toBeInTheDocument()
@@ -35,7 +42,14 @@ describe('History', () => {
       data: [],
     }))
 
-    render(withAppContext(<History incident={incidentsDetail} />))
+    render(
+      withAppContext(
+        <History
+          incident={incidentsDetail}
+          fetchResponse={{ data: defaultHistoryData, error: undefined }}
+        />
+      )
+    )
 
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
     expect(

@@ -6,9 +6,9 @@ export interface MyIncidentsValue {
   email?: string
   setEmail: (email: string) => void
   incidentsList?: MyIncident[]
-  incidentsDetail?: MyIncident
   setIncidentsList: (incidentsList: MyIncident[]) => void
-  setIncidentsDetail: (incidentsDetail: MyIncident) => void
+  incidentsDetail?: MyIncident
+  setIncidentsDetail?: (incidentsDetail: MyIncident) => void
 }
 
 interface Attachment {

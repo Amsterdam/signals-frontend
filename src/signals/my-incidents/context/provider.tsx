@@ -10,8 +10,6 @@ export const initialValue: MyIncidentsValue = {
   setEmail: () => {},
   incidentsList: undefined,
   setIncidentsList: () => {},
-  incidentsDetail: undefined,
-  setIncidentsDetail: () => {},
 }
 
 interface Props {

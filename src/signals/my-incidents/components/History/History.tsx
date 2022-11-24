@@ -6,9 +6,7 @@ import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
 import { useHistory } from 'react-router-dom'
 
-import useFetch from '../../../../hooks/useFetch'
-import useLocationReferrer from '../../../../hooks/useLocationReferrer'
-import configuration from '../../../../shared/services/configuration/configuration'
+import type { FetchResponse } from '../../../../hooks/useFetch'
 import { routes } from '../../definitions'
 import type { HistoryInstance, MyIncident } from '../../types'
 import { FormTitle } from '../IncidentsDetail/styled'
@@ -23,24 +21,14 @@ import {
 
 export interface Props {
   incident?: MyIncident
+  fetchResponse: Partial<FetchResponse<HistoryInstance[]>>
 }
 
-export const History = ({ incident }: Props) => {
-  const { get, data, error } = useFetch<HistoryInstance[]>()
-  const location = useLocationReferrer() as Location
+export const History = ({
+  incident,
+  fetchResponse: { error, data },
+}: Props) => {
   const history = useHistory()
-
-  useEffect(() => {
-    const locationPathArray = location.pathname.split('/')
-    const token = locationPathArray[locationPathArray.length - 2]
-    const uuid = locationPathArray[locationPathArray.length - 1]
-    get(
-      `${configuration.MY_SIGNALS_ENDPOINT}/${uuid}/history`,
-      {},
-      {},
-      { Authorization: `Token ${token}` }
-    )
-  }, [get, location.pathname])
 
   useEffect(() => {
     if (error) {

@@ -12,25 +12,23 @@ import { History } from '../components/History/History'
 import { IncidentsDetail as IncidentsDetailComponent } from '../components/IncidentsDetail'
 import { Map } from '../components/Map'
 import { routes } from '../definitions'
-import { useMyIncidents } from '../hooks'
-import type { MyIncident } from '../types'
+import type { HistoryInstance, MyIncident } from '../types'
 import { ContentWrapper, Wrapper, StyledRow } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncident>()
+  const fetchResponseHistory = useFetch<HistoryInstance[]>()
   const [showMap, setShowMap] = useState(false)
   const history = useHistory()
   const location = useLocationReferrer() as Location
-  const { incidentsDetail, setIncidentsDetail } = useMyIncidents()
   const incidentDisplay = useRef<string>()
   const locationPathArray = location.pathname.split('/')
   const token = locationPathArray[locationPathArray.length - 2]
   const uuid = locationPathArray[locationPathArray.length - 1]
 
   useEffect(() => {
-    data && setIncidentsDetail(data)
     incidentDisplay.current = data?._display
-  }, [data, setIncidentsDetail])
+  }, [data])
 
   useEffect(() => {
     get(
@@ -40,6 +38,19 @@ export const Detail = () => {
       { Authorization: `Token ${token}` }
     )
   }, [get, location.pathname, token, uuid])
+
+  useEffect(() => {
+    fetchResponseHistory.get(
+      `${configuration.MY_SIGNALS_ENDPOINT}/${uuid}/history`,
+      {},
+      {},
+      { Authorization: `Token ${token}` }
+    )
+    /**
+     * Dont include fetchResponseHistory, as it will update each time data is
+     * fetched and go infinite.
+     */
+  }, [fetchResponseHistory.get, location.pathname, token, uuid])
 
   useEffect(() => {
     if (error) {
@@ -56,19 +67,16 @@ export const Detail = () => {
         >
           <title>{`Meldingsnummer: ${incidentDisplay.current}`}</title>
         </Helmet>
-        {showMap && incidentsDetail?.location ? (
-          <Map
-            close={() => setShowMap(false)}
-            location={incidentsDetail.location}
-          />
+        {showMap && data?.location ? (
+          <Map close={() => setShowMap(false)} location={data.location} />
         ) : (
           <ContentWrapper>
             <IncidentsDetailComponent
-              incidentsDetail={incidentsDetail}
+              incidentsDetail={data}
               token={token}
               setShowMap={setShowMap}
             />
-            <History incident={incidentsDetail} />
+            <History incident={data} fetchResponse={fetchResponseHistory} />
           </ContentWrapper>
         )}
       </Wrapper>
