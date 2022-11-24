@@ -26,4 +26,12 @@ describe('parseTemplateString', () => {
       'The cow jumps over the fence'
     )
   })
+
+  it('should not parse a templateString that is not in context', () => {
+    const templateString = 'The {{ animal }} jumps'
+    const context = { noAnimal: 'beer' }
+    expect(parseTemplateString(templateString, context)).toEqual(
+      'The {{ animal }} jumps'
+    )
+  })
 })

@@ -86,7 +86,7 @@ The `meta` properties specifically for the `AssetSelect` field type are detailed
 
 There is one extra feature type that does not come from the endpoint. This is to configure the case when a visitor enters an asset that is not displayed on the map. This field type is marked by setting the `typeValue` property to `not_on_map`. See an example configuration below.
 
-| Property         | Vaule                                       |
+| Property         | Value                                       |
 | ---------------- | ------------------------------------------- |
 | **description**  | Het object staat niet op de kaart           |
 | **typeValue**    | `not_on_map`                                |
