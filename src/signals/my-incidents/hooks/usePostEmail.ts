@@ -13,7 +13,7 @@ export const usePostEmail = (): [
 ] => {
   const { post, error } = useFetch<null>()
   const postError = error as Response | undefined
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const endpoint = `${configuration.MY_SIGNALS_LOGIN_URL}`
 
@@ -34,7 +34,7 @@ export const usePostEmail = (): [
         `U hebt te vaak gevraagd om de e-mail opnieuw te versturen. Over 20 minuten kunt u het opnieuw proberen.`
       )
     } else {
-      setErrorMessage(null)
+      setErrorMessage('')
     }
   }, [postError])
 
