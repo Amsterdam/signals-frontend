@@ -75,14 +75,9 @@ jobs:
             --set image.repository=${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }} \
             --set image.tag=${{ github.sha }}
 
-  publish:
-    runs-on: ubuntu-latest
-    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') }}
-    needs: [ deploy ]
-    environment:
-      name: review-${{ github.event.pull_request.number }}
-      url: https://frontend-${{ github.event.pull_request.number }}.test.meldingen.amsterdam.delta10.cloud
-    steps:
-      - name: Echo review URL
-        run: |
-          echo "Review environment available on https://frontend-${{ github.event.pull_request.number }}.test.meldingen.amsterdam.delta10.cloud"
+      - name: Comment review link to PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: |
+            Deployed review environment to https://frontend-${{ github.event.pull_request.number }}.test.meldingen.amsterdam.delta10.cloud 🚀
+          comment_includes: 'Deployed review environment to'
