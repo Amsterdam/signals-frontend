@@ -3,7 +3,7 @@
 
 import type { Filter, Incident } from '../../types'
 
-export const computeIncidentsCountPerFilter = (
+export const countIncidentsPerFilter = (
   filters: Filter[],
   incidents: Incident[]
 ): Filter[] => {
