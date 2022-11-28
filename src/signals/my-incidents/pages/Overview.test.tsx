@@ -3,6 +3,7 @@
 import { screen, render } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 
+import useFetch from '../../../hooks/useFetch'
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
 import { Overview } from './Overview'
@@ -13,8 +14,44 @@ jest.mock('../components', () => ({
   IncidentsList: () => <div>[IncidentsList]</div>,
 }))
 
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: 'http://www.mijnmeldingen.nl/mijn-meldingen/123kjsbef',
+  }),
+}))
+
+jest.mock('hooks/useFetch')
+
+export const del = jest.fn()
+export const get = jest.fn()
+export const patch = jest.fn()
+export const post = jest.fn()
+export const put = jest.fn()
+
+export const useFetchResponse = {
+  del,
+  get,
+  patch,
+  post,
+  put,
+  data: undefined,
+  isLoading: false,
+  error: false,
+  isSuccess: false,
+}
+
 describe('Overview', () => {
-  it('should render correctly', () => {
+  it('should render correctly', async () => {
+    const response = {
+      ...useFetchResponse,
+      data: {
+        email: 'test@test.nl',
+      },
+    }
+    jest.mocked(useFetch).mockImplementation(() => response)
+
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>

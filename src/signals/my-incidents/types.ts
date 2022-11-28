@@ -63,3 +63,7 @@ export interface HistoryInstance {
   description: string
   _signal: string
 }
+
+export interface Email {
+  email: string
+}
