@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { Paragraph } from '@amsterdam/asc-ui'
 
 import { StyledHeading } from '../../pages/styled'
-import type { MyIncident } from '../../types'
+import type { MyIncidentDetail } from '../../types'
 import {
   FormTitle,
   StyledImage,
@@ -18,7 +18,7 @@ import {
 type Props = {
   token: string
   setShowMap: (show: boolean) => void
-  incidentsDetail?: MyIncident
+  incidentsDetail: MyIncidentDetail
 }
 
 export const IncidentsDetail = ({
@@ -31,10 +31,6 @@ export const IncidentsDetail = ({
       (property) => property.id === 'extra_personen_overig_vaker_momenten'
     )?.answer
   }, [incidentsDetail?.extra_properties])
-
-  if (!incidentsDetail) {
-    return null
-  }
 
   const attachments = incidentsDetail?._links?.['sia:attachments']
 
