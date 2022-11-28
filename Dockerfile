@@ -16,9 +16,7 @@ RUN apt-get update && apt-get install -y \
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-COPY .gitignore \
-  .gitattributes \
-  .eslintrc.js \
+COPY .eslintrc.js \
   .prettierrc \
   custom.d.ts \
   tsconfig.json \
