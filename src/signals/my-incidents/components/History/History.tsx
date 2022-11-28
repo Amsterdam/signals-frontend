@@ -20,7 +20,7 @@ import {
 } from './styled'
 
 export interface Props {
-  incident?: MyIncident
+  incident: MyIncident
   fetchResponse: Partial<FetchResponse<HistoryInstance[]>>
 }
 
@@ -40,7 +40,7 @@ export const History = ({
     <Wrapper>
       <StatusBlock>
         <Status>Status</Status>
-        <StatusParagraph>{incident?.status.state_display}</StatusParagraph>
+        <StatusParagraph>{incident.status.state_display}</StatusParagraph>
       </StatusBlock>
       <StyledH2 forwardedAs="h2">Geschiedenis</StyledH2>
 

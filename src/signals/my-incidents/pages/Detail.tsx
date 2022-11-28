@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
@@ -8,27 +8,23 @@ import { useHistory } from 'react-router-dom'
 import useFetch from '../../../hooks/useFetch'
 import useLocationReferrer from '../../../hooks/useLocationReferrer'
 import configuration from '../../../shared/services/configuration/configuration'
-import { History } from '../components/History/History'
+import { History } from '../components/History'
 import { IncidentsDetail as IncidentsDetailComponent } from '../components/IncidentsDetail'
 import { Map } from '../components/Map'
 import { routes } from '../definitions'
-import type { HistoryInstance, MyIncident } from '../types'
+import type { HistoryInstance } from '../types'
+import type { MyIncidentDetail } from '../types'
 import { ContentWrapper, Wrapper, StyledRow } from './styled'
 
 export const Detail = () => {
-  const { get, data, error } = useFetch<MyIncident>()
+  const { get, data, error } = useFetch<MyIncidentDetail>()
   const fetchResponseHistory = useFetch<HistoryInstance[]>()
   const [showMap, setShowMap] = useState(false)
   const history = useHistory()
   const location = useLocationReferrer() as Location
-  const incidentDisplay = useRef<string>()
   const locationPathArray = location.pathname.split('/')
   const token = locationPathArray[locationPathArray.length - 2]
   const uuid = locationPathArray[locationPathArray.length - 1]
-
-  useEffect(() => {
-    incidentDisplay.current = data?._display
-  }, [data])
 
   useEffect(() => {
     get(
@@ -50,6 +46,7 @@ export const Detail = () => {
      * Dont include fetchResponseHistory, as it will update each time data is
      * fetched and go infinite.
      */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchResponseHistory.get, location.pathname, token, uuid])
 
   useEffect(() => {
@@ -58,6 +55,8 @@ export const Detail = () => {
     }
   }, [error, history])
 
+  if (!data) return null
+
   return (
     <StyledRow>
       <Wrapper>
@@ -65,9 +64,9 @@ export const Detail = () => {
           defaultTitle={configuration.language.siteTitle}
           titleTemplate={`${configuration.language.siteTitle} - %s`}
         >
-          <title>{`Meldingsnummer: ${incidentDisplay.current}`}</title>
+          <title>{`Meldingsnummer: ${data._display}`}</title>
         </Helmet>
-        {showMap && data?.location ? (
+        {showMap ? (
           <Map close={() => setShowMap(false)} location={data.location} />
         ) : (
           <ContentWrapper>

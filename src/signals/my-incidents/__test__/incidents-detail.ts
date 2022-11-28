@@ -1,8 +1,8 @@
 import type Location from 'types/location'
 
-import type { MyIncident } from '../types'
+import type { MyIncidentDetail } from '../types'
 
-interface MyIncidentWithLocation extends MyIncident {
+interface MyIncidentWithLocation extends MyIncidentDetail {
   location: Location
 }
 

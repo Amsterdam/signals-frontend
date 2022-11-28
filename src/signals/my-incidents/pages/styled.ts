@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 export const StyledRow = styled(Row)`
   @media ${breakpoint('max-width', 'tabletS')} {
-    padding: ${themeSpacing(4)};
+    padding: 0 ${themeSpacing(4)};
   }
 `
 

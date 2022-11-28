@@ -14,13 +14,14 @@ export const initialValue: MyIncidentsValue = {
 
 interface Props {
   children: ReactNode
-  value?: MyIncidentsValue
+  value: MyIncidentsValue
 }
 
-export const MyIncidentsProvider: FC<Props> = ({ value, children }) => (
-  <MyIncidentsContext.Provider value={{ ...initialValue, ...value }}>
-    {children}
-  </MyIncidentsContext.Provider>
-)
-
+export const MyIncidentsProvider: FC<Props> = ({ value, children }) => {
+  return (
+    <MyIncidentsContext.Provider value={{ ...value }}>
+      {children}
+    </MyIncidentsContext.Provider>
+  )
+}
 export default MyIncidentsContext

@@ -10,7 +10,6 @@ export const StyledBacklink = styled(BackLink)`
 
 export const FormTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-top: 0;
   margin: ${themeSpacing(0, 0, 1)};
 `
 
@@ -31,6 +30,7 @@ export const ImageWrapper = styled.div`
 
 export const StyledLink = styled(Link)`
   cursor: pointer;
+  text-decoration: underline;
 `
 
 export const Wrapper = styled.div`

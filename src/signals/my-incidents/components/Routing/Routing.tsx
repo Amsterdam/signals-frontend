@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import type { Location } from 'history'
@@ -9,7 +9,6 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { MyIncidentsProvider } from '../../context/provider'
 import { routes } from '../../definitions'
-import { useMyIncidents } from '../../hooks'
 import {
   Confirmation,
   LinkExpired,
@@ -17,15 +16,24 @@ import {
   Overview,
   Detail,
 } from '../../pages'
+import type { MyIncident } from '../../types'
 
 // istanbul ignore next
 export const Routing = () => {
   const location = useLocationReferrer() as Location
-  const value = useMyIncidents()
+  const [email, setEmail] = useState<string>()
+  const [incidentsList, setIncidentsList] = useState<MyIncident[]>()
 
   return (
     <Suspense fallback={<LoadingIndicator />}>
-      <MyIncidentsProvider value={value}>
+      <MyIncidentsProvider
+        value={{
+          email,
+          setEmail,
+          incidentsList,
+          setIncidentsList,
+        }}
+      >
         <Switch location={location}>
           <Redirect exact from={routes.baseUrl} to={routes.requestAccess} />
           <Route exact path={routes.requestAccess} component={RequestAccess} />

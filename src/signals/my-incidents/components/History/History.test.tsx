@@ -5,11 +5,19 @@ import { render, screen } from '@testing-library/react'
 import useFetch from '../../../../hooks/useFetch'
 import { withAppContext } from '../../../../test/utils'
 import { get, useFetchResponse } from '../../../IncidentMap/components/__test__'
-import { defaultHistoryData } from '../../__test__/default-history-data'
+import { defaultHistoryData } from '../../__test__'
 import { incidentsDetail } from '../../__test__/incidents-detail'
 import { History } from './index'
 
 jest.mock('hooks/useFetch')
+
+const mockPush = jest.fn()
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    push: mockPush,
+  }),
+}))
 
 describe('History', () => {
   beforeEach(() => {
@@ -46,7 +54,7 @@ describe('History', () => {
       withAppContext(
         <History
           incident={incidentsDetail}
-          fetchResponse={{ data: defaultHistoryData, error: undefined }}
+          fetchResponse={{ data: [], error: undefined }}
         />
       )
     )
@@ -55,5 +63,18 @@ describe('History', () => {
     expect(
       screen.queryByText('16 december 2022, 13:00')
     ).not.toBeInTheDocument()
+  })
+
+  it('should push to expired page', function () {
+    render(
+      withAppContext(
+        <History
+          incident={incidentsDetail}
+          fetchResponse={{ data: [], error: true }}
+        />
+      )
+    )
+
+    expect(mockPush).toBeCalled()
   })
 })

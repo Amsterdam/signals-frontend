@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 
 import { IncidentsList } from '../components'
-import { useMyIncidents } from '../hooks'
+import { useMyIncidentContext } from '../context'
 import {
   StyledEmail,
   StyledLink,
@@ -15,7 +15,7 @@ import {
 
 export const Overview = () => {
   // TODO: Backend should provide the email when fetching the IncidentList.
-  const { email = 'test@gmail.com' } = useMyIncidents()
+  const { email = 'test@gmail.com' } = useMyIncidentContext()
 
   return (
     <StyledRow>
