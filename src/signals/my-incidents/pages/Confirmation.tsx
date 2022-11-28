@@ -14,7 +14,7 @@ import { BasePage } from './BasePage'
 export const Confirmation = () => {
   const { email } = useMyIncidentContext()
   const history = useHistory()
-  const [postEmail] = usePostEmail()
+  const [postEmail, { errorMessage }] = usePostEmail()
 
   const initialPageInfo = {
     documentTitle: 'Bevestig e-mailadres',
@@ -72,6 +72,12 @@ export const Confirmation = () => {
       history.push(routes.requestAccess)
     }
   }, [email, history])
+
+  useEffect(() => {
+    if (errorMessage) {
+      setParagraphs([errorMessage])
+    }
+  }, [errorMessage])
 
   return (
     <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />
