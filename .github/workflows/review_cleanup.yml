@@ -3,6 +3,7 @@ name: Cleanup review environment
 on:
   pull_request:
     types: [ "closed", "unlabeled" ]
+    branches: [ "main" ]
 
 env:
   AZURE_CONTAINER_REGISTRY: "siaweuacrt4eij7yb42xum25r62"
@@ -18,7 +19,7 @@ jobs:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
-    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') }}
+    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') || github.event.label.name == 'review' }}
     steps:
       - uses: actions/checkout@v3
 
