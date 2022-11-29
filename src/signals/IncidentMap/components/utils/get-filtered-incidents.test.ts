@@ -11,13 +11,13 @@ describe('getFilteredIncidents', () => {
   it('should return only active filters', () => {
     const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
 
-    expect(result.length).toEqual(3)
+    expect(result.length).toEqual(4)
   })
   it('should return only active filters with the first without icon', () => {
     const filters = mockFiltersShort.map(removeIcons)
     const result = getFilteredIncidents(filters, mockIncidentsShort)
 
-    expect(result.length).toEqual(3)
+    expect(result.length).toEqual(4)
   })
 })
 
