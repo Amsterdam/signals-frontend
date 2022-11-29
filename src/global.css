@@ -49,7 +49,10 @@ html {
 }
 
 body {
-  font: 400 1rem/1.375 Avenir Next;
+  font-family: Amsterdam Sans, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.375;
   overflow-y: scroll;
   background-color: #e5e5e5;
 }

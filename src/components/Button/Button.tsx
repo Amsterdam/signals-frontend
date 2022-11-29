@@ -13,7 +13,6 @@ const MIN_BUTTON_WIDTH = 90
 const Button = styled(AscButton)`
   min-width: ${MIN_BUTTON_WIDTH}px;
   justify-content: center;
-  font-family: Avenir Next;
 
   svg path {
     fill: inherit;
