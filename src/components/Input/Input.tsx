@@ -21,7 +21,6 @@ const Hint = styled.span`
 const StyledInput = styled(AscInput)<{ showError: boolean }>`
   padding: 10px; /* needed to style the textboxes as according to the design system */
   box-shadow: initial;
-  font-family: Amsterdam Sans;
 
   &[disabled] {
     border: 1px solid ${themeColor('tint', 'level4')};

@@ -50,7 +50,6 @@ export const StandardTextsButton = styled(Button)<{
   }
   div {
     font-weight: normal;
-    font-family: 'Amsterdam Sans';
     text-align: left;
     width: 100%;
     height: 100%;
