@@ -22,6 +22,9 @@ const Wizard = (props: Props) => {
 
   const [steps, setSteps] = useState<WizardApi['steps']>([{ id: '' }])
 
+  const [stepsCompletedCount, setStepsCompletedCount] =
+    useState<WizardApi['stepsCompletedCount']>(0)
+
   const didMount = useRef(false)
 
   const history = useMemo(
@@ -129,8 +132,21 @@ const Wizard = (props: Props) => {
       push,
       replace,
       steps,
+      stepsCompletedCount,
+      setStepsCompletedCount,
     }),
-    [history, init, next, previous, push, replace, set, stepState, steps]
+    [
+      history,
+      init,
+      next,
+      previous,
+      push,
+      replace,
+      set,
+      stepState,
+      steps,
+      stepsCompletedCount,
+    ]
   )
 
   const initialOnNext = useRef(false)

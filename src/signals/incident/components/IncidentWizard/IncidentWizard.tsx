@@ -3,12 +3,7 @@
 import { useContext, useMemo, useRef } from 'react'
 import type { FC } from 'react'
 
-import {
-  StepByStepNav,
-  breakpoint,
-  Paragraph,
-  ascDefaultTheme,
-} from '@amsterdam/asc-ui'
+import { breakpoint, Paragraph, ascDefaultTheme } from '@amsterdam/asc-ui/lib'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -26,6 +21,7 @@ import type { Incident } from 'types/incident'
 
 import IncidentForm from '../IncidentForm'
 import IncidentPreview from '../IncidentPreview'
+import { StepByStepNavClickable } from '../StepByStepNavClickable'
 import { Wizard, Steps, Step } from '../StepWizard'
 import onNext from './services/on-next'
 import {
@@ -64,6 +60,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   // Controls is used here for setting the validations rules used in UseForm resolver.
   const controlsRef = useRef()
   const appContext = useContext(AppContext)
+
   const sources = appContext.sources
 
   const incident = useMemo(
@@ -113,7 +110,6 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                           previewFactory,
                           sectionLabels,
                         } = wizardDefinition[key as keyof WizardSection]
-
                         const showProgress = index < steps.length
 
                         return previewFactory || form || formFactory ? (
@@ -127,10 +123,11 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                             </Header>
 
                             <Progress>
-                              <StepByStepNav
+                              <StepByStepNavClickable
                                 steps={steps}
                                 itemType="numeric"
-                                activeItem={index + 1}
+                                activeItem={index}
+                                wizardRoutes={Object.keys(wizardDefinition)}
                                 breakpoint={breakpoint(
                                   'max-width',
                                   'tabletM'
@@ -149,6 +146,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
 
                               {(form || formFactory) && (
                                 <IncidentForm
+                                  index={index}
                                   ref={controlsRef}
                                   reactHookFormProps={formMethods}
                                   fieldConfig={
