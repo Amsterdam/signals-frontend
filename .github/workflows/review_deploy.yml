@@ -2,6 +2,7 @@ name: Deploy review environment
 
 on:
   pull_request:
+    types: [ "opened", "synchronize", "labeled" ]
     branches: [ "main" ]
 
 env:
@@ -17,7 +18,7 @@ jobs:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
-    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') }}
+    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') || github.event.label.name == 'review' }}
     steps:
       - uses: actions/checkout@v3
 
@@ -40,7 +41,7 @@ jobs:
       issues: write
       pull-requests: write
     runs-on: ubuntu-latest
-    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') }}
+    if: ${{ contains( github.event.pull_request.labels.*.name, 'review') || github.event.label.name == 'review' }}
     needs: [ buildImage ]
     steps:
       - uses: actions/checkout@v3
