@@ -10,7 +10,7 @@ env:
   CONTAINER_NAME: "frontend"
   RESOURCE_GROUP: "sia-t-rg"
   CLUSTER_NAME: "sia-weu-aks-t"
-  CHART_PATH: "chart"
+  CHART_VERSION: "4.5.0"
 
 jobs:
   buildImage:
@@ -68,7 +68,7 @@ jobs:
         run: |
           helm upgrade signalen-frontend signalen/frontend \
             --install \
-            --version 4.4.2 \
+            --version ${{ env.CHART_VERSION }} \
             --namespace frontend-${{ github.event.pull_request.number }} \
             --create-namespace \
             --values .github/review/values.yml \
