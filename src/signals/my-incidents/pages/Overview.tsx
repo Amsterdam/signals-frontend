@@ -67,7 +67,7 @@ export const Overview = () => {
           Maak een nieuwe melding
         </StyledLink>
 
-        <IncidentsList />
+        <IncidentsList token={token} />
       </Wrapper>
     </StyledRow>
   )

@@ -4,9 +4,9 @@ import { Fragment, useEffect } from 'react'
 
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
-import useFetch from 'hooks/useFetch'
-import useLocationReferrer from 'hooks/useLocationReferrer'
 import { useHistory, Link } from 'react-router-dom'
+
+import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
 import { useMyIncidentContext } from '../../context'
@@ -22,13 +22,14 @@ import {
   StyledLink,
 } from './styled'
 
-export const IncidentsList = () => {
+interface Props {
+  token: string
+}
+
+export const IncidentsList = ({ token }: Props) => {
   const { get, data, error } = useFetch<Result<MyIncident>>()
   const history = useHistory()
-  const location = useLocationReferrer() as Location
   const { incidentsList, setIncidentsList } = useMyIncidentContext()
-  const token =
-    location.pathname.split('/')[location.pathname.split('/').length - 1]
 
   useEffect(() => {
     data && setIncidentsList(data.results)

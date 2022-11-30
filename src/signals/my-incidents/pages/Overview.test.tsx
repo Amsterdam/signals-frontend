@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import useFetch from '../../../hooks/useFetch'
@@ -14,13 +15,11 @@ jest.mock('../components', () => ({
   IncidentsList: () => <div>[IncidentsList]</div>,
 }))
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
+Object.defineProperty(window, 'location', {
+  value: {
     pathname: 'http://www.mijnmeldingen.nl/mijn-meldingen/123kjsbef',
-  }),
-}))
+  },
+})
 
 jest.mock('hooks/useFetch')
 
@@ -67,5 +66,34 @@ describe('Overview', () => {
         'Dit zijn de meldingen die u de afgelopen 12 maanden heeft gemaakt:'
       )
     ).toBeInTheDocument()
+  })
+
+  it('should fetch email when not provided', async () => {
+    const response = {
+      ...useFetchResponse,
+      data: {
+        email: 'test@test.nl',
+      },
+    }
+    jest.mocked(useFetch).mockImplementation(() => response)
+    const providerMockNoEmail = {
+      ...providerMock,
+      email: '',
+    }
+
+    render(
+      withAppContext(
+        <MyIncidentsProvider value={providerMockNoEmail}>
+          <Overview />
+        </MyIncidentsProvider>
+      )
+    )
+
+    expect(get).toBeCalledWith(
+      'http://localhost:8000/signals/v1/my/signals/me',
+      {},
+      {},
+      { Authorization: 'Token 123kjsbef' }
+    )
   })
 })
