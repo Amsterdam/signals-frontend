@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import type { FormMeta, FormOptions } from 'types/reactive-form'
 
-import { Heading, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, Heading, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 type WrapMeta = FormMeta & {
@@ -18,6 +18,10 @@ type WithHeadingProps = FormOptions & {
 const StyledHeading = styled(Heading)`
   font-weight: 500;
   margin: ${themeSpacing(2, 0, 5)};
+
+  @media ${breakpoint('max-width', 'tabletS')} {
+    font-size: 20px;
+  }
 `
 
 const WithHeading: FC<WithHeadingProps> = (props) => {

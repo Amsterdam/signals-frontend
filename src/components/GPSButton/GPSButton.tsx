@@ -18,6 +18,7 @@ const StyledButton = styled(Button)`
   width: ${themeSpacing(36)};
   height: ${themeSpacing(11)};
   color: ${themeColor('tint', 'level7')};
+  font-family: inherit;
 `
 
 const GPSIcon = styled(GPS)`
