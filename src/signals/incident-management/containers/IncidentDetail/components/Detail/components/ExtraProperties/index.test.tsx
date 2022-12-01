@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C)  - 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
-import type { Item } from './types'
 import ExtraProperties from '.'
+import type { Item } from './types'
 
 describe('<ExtraProperties />', () => {
   const props = {
