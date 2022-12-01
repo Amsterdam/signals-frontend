@@ -53,6 +53,8 @@ export const currentIncidentIcon = L.icon({
 })
 
 export const defaultIcon = '/assets/images/icon-incident-marker.svg'
+
+/* istanbul ignore next */
 export const dynamicIcon = (iconUrl?: string) =>
   L.icon({
     iconUrl: iconUrl ?? defaultIcon,

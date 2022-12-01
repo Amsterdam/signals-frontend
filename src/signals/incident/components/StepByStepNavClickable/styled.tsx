@@ -15,11 +15,11 @@ export const StyledListItem = styled(ListItem)<{
     cursor: ${index <= stepsCompletedCount ? 'pointer' : ''};
     ${index <= stepsCompletedCount &&
     css`
-      ${Label}:before {
+      ${StyledLabel}:before {
         background-color: ${themeColor('primary', 'main')};
       }
     `}
   `}
 `
 
-export const styledLabel = styled(Label)``
+export const StyledLabel = styled(Label)``

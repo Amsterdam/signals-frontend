@@ -6,7 +6,7 @@ import isObject from 'lodash/isObject'
 import * as yup from 'yup'
 import type { AnyObject } from 'yup/es/types'
 
-type Controls = { [s: string]: unknown } | ArrayLike<unknown> | undefined
+type Controls = { [s: string]: unknown } | ArrayLike<unknown>
 
 type Validators = Array<
   ((props: any) => { custom: any }) | string | number | Array<string | number>
@@ -19,61 +19,59 @@ type Validators = Array<
  * their meta values and validation rules.
  */
 export function setupSchema(controls: Controls) {
-  const schema = controls
-    ? Object.fromEntries(
-        Object.entries(controls).reduce(
-          (acc: Array<[string, any]>, [key, control]: [string, any]) => {
-            let validators: Validators = control?.options?.validators
-            validators = Array.isArray(validators) ? validators : [validators]
+  const schema = Object.fromEntries(
+    Object.entries(controls).reduce(
+      (acc: Array<[string, any]>, [key, control]: [string, any]) => {
+        let validators: Validators = control?.options?.validators
+        validators = Array.isArray(validators) ? validators : [validators]
 
-            if (!validators) return acc
+        if (!validators) return acc
 
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            const validationField: AnyObject = yup.lazy((value) => {
-              /**
-               * For a predefined set of questions, we add a custom validation.
-               */
-              let field: AnyObject | undefined = addNestedValidation(key, value)
-              if (field) return field
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const validationField: AnyObject = yup.lazy((value) => {
+          /**
+           * For a predefined set of questions, we add a custom validation.
+           */
+          let field: AnyObject | undefined = addNestedValidation(key, value)
+          if (field) return field
 
-              /**
-               * For most fields, the value type is determined in runtime.
-               */
-              if (Array.isArray(value)) {
-                field = yup.array()
-                if (formatValidators(validators).includes('required')) {
-                  field = yup.array().min(1)
-                }
-              } else if (isObject(value)) {
-                field = yup.object().shape({})
-              } else {
-                if (typeof value === 'string') {
-                  field = yup.string()
-                } else if (typeof value === 'number') {
-                  field = yup.number()
-                } else {
-                  field = yup.mixed()
-                }
-                /**
-                 * After we have the main type of an input field, we add
-                 * validations like: email/phone/function/maxLength
-                 */
-                field = addValidators(validators, field)
-              }
-              field = addRequiredValidation(validators, field)
+          /**
+           * For most fields, the value type is determined in runtime.
+           */
+          if (Array.isArray(value)) {
+            field = yup.array()
+            if (formatValidators(validators).includes('required')) {
+              field = yup.array().min(1)
+            }
+          } else if (isObject(value)) {
+            field = yup.object().shape({})
+          } else {
+            if (typeof value === 'string') {
+              field = yup.string()
+            } else if (typeof value === 'number') {
+              field = yup.number()
+            } else {
+              field = yup.mixed()
+            }
+            /**
+             * After we have the main type of an input field, we add
+             * validations like: email/phone/function/maxLength
+             */
+            field = addValidators(validators, field)
+          }
+          field = addRequiredValidation(validators, field)
 
-              return field
-            })
+          return field
+        })
 
-            acc.push([key, validationField])
+        acc.push([key, validationField])
 
-            return acc
-          },
-          []
-        )
-      )
-    : {}
+        return acc
+      },
+      []
+    )
+  )
 
   return yup.object(schema)
 }

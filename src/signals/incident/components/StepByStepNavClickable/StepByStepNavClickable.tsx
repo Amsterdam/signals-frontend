@@ -6,13 +6,12 @@ import { useCallback, useContext } from 'react'
 import type { StepByStepNavProps } from '@amsterdam/asc-ui/lib/components/StepByStepNav/StepByStepNavStyle'
 import StepByStepNavStyle, {
   OrderdedList,
-  Label,
   transitionBreakpoint,
 } from '@amsterdam/asc-ui/lib/components/StepByStepNav/StepByStepNavStyle'
 import { useFormContext } from 'react-hook-form'
 
 import { WizardContext } from '../StepWizard'
-import { StyledListItem } from './styled'
+import { StyledLabel, StyledListItem } from './styled'
 
 type Props = StepByStepNavProps &
   HTMLAttributes<HTMLElement> & { wizardRoutes: string[] }
@@ -32,22 +31,25 @@ export function StepByStepNavClickable({
   const onListClickHandler = useCallback(
     async (newIndex) => {
       const isValid = await trigger()
+
       /**
-       * If the new step is lower or equal to stepsCompletedCount
-       * go to that step.
+       * When going to a lower step, check validity of the current one.
+       * When the current step is invalid:
+       * Decrease the stepsCompletedCount by new step index +1 to continue
+       * the form in a valid or possible invalid step (when going back one step).
        */
       if (newIndex < activeItem) {
-        /**
-         * If the current step is not valid and the new step is lower than minus 1,
-         * eg from 3 to 1, set stepsCompletedCount to newIndex
-         */
         if (!isValid) {
           setStepsCompletedCount(newIndex + 1)
         }
         push(`incident/${wizardRoutes[newIndex]}`)
       }
 
-      // For steps higher than activeItem check validity. If its not valid, change the stepsCompletedCount param
+      /**
+       * For steps higher than activeItem check validity. If its not valid,
+       * change stepsCompletedCount to the current one. This is to force the user
+       * to fix the faulty steps first before continuing.
+       */
       if (newIndex > activeItem && newIndex <= stepsCompletedCount) {
         if (isValid) {
           push(`incident/${wizardRoutes[newIndex]}`)
@@ -67,7 +69,6 @@ export function StepByStepNavClickable({
   )
 
   realActiveItem = stepsCompletedCount
-
   return (
     <StepByStepNavStyle
       activeItem={realActiveItem}
@@ -90,9 +91,9 @@ export function StepByStepNavClickable({
               onClick={() => onListClickHandler(index)}
               {...props}
             >
-              <Label itemType={props.itemType} breakpoint={breakpoint}>
+              <StyledLabel itemType={props.itemType} breakpoint={breakpoint}>
                 {label}
-              </Label>
+              </StyledLabel>
             </StyledListItem>
           )
         })}
