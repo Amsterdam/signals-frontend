@@ -28,7 +28,7 @@ const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
           <div key={containerAnswer.id}>
             {[containerAnswer.description, containerAnswer.id]
               .filter(Boolean)
-              .join('-')}
+              .join(' - ')}
           </div>
         )
       }

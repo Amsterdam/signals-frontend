@@ -102,7 +102,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setUnregisteredAssetValue(event.currentTarget.value.trim())
   }
 
-  const onSetItem = useCallback(() => {
+  const onSetUnregisteredItem = useCallback(() => {
     removeItem()
     setItem({
       id: unregisteredAssetValue,
@@ -118,24 +118,24 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       setShowObjectIdInput(event.target.checked)
 
       if (event.target.checked) {
-        onSetItem()
+        onSetUnregisteredItem()
       } else {
         setItem({
           type: UNKNOWN_TYPE,
         })
       }
     },
-    [onSetItem, setItem]
+    [onSetUnregisteredItem, setItem]
   )
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
-        onSetItem()
+        onSetUnregisteredItem()
         dispatch(closeMap())
       }
     },
-    [onSetItem, dispatch]
+    [onSetUnregisteredItem, dispatch]
   )
 
   const toggleLegend = useCallback(() => {
@@ -231,7 +231,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
                 <Input
                   data-testid="unregisteredAssetInput"
                   id="unregisteredAssetInput"
-                  onBlur={onSetItem}
+                  onBlur={onSetUnregisteredItem}
                   onChange={onChange}
                   onKeyUp={onKeyUp}
                   onSubmit={() => dispatch(closeMap())}

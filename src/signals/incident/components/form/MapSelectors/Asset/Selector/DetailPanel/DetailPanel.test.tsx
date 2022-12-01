@@ -305,6 +305,7 @@ describe('DetailPanel', () => {
 
     fireEvent.blur(screen.getByTestId('unregisteredAssetInput'))
 
+    expect(currentContextValue.removeItem).toHaveBeenCalledTimes(2)
     expect(currentContextValue.setItem).toHaveBeenCalledTimes(2)
     expect(currentContextValue.setItem).toHaveBeenLastCalledWith({
       id: unregisteredObjectId,
