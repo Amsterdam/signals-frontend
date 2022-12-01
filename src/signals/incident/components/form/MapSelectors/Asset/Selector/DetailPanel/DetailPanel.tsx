@@ -15,6 +15,7 @@ import {
 } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
+
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import {
@@ -102,6 +103,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   }
 
   const onSetItem = useCallback(() => {
+    removeItem()
     setItem({
       id: unregisteredAssetValue,
       type: UNKNOWN_TYPE,
@@ -109,7 +111,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         .filter(Boolean)
         .join(' - '),
     })
-  }, [unregisteredLabel, setItem, unregisteredAssetValue])
+  }, [removeItem, setItem, unregisteredAssetValue, unregisteredLabel])
 
   const onCheck = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

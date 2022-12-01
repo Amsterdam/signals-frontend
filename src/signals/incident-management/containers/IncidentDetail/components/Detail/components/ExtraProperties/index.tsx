@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 -2022 Gemeente Amsterdam
 import { Fragment } from 'react'
 import type { FunctionComponent } from 'react'
+
 import type {
   Answer,
   MappedLegacyItem,
@@ -24,9 +25,11 @@ const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
       if ((item as ContainerMapInput)?.type) {
         const containerAnswer = item as ContainerMapInput
         return (
-          <div key={containerAnswer.id}>{`${containerAnswer.description}${
-            containerAnswer.id && ` - ${containerAnswer.id}`
-          }`}</div>
+          <div key={containerAnswer.id}>
+            {[containerAnswer.description, containerAnswer.id]
+              .filter(Boolean)
+              .join('-')}
+          </div>
         )
       }
 
