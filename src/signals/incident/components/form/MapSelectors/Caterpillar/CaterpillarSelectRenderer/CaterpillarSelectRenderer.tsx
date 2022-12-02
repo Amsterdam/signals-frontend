@@ -2,7 +2,8 @@
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
-import FormField from '../../../FormField'
+import FormField from 'components/FormField'
+
 import AssetSelect from '../../Asset'
 import type { AssetSelectRendererProps } from '../../Asset/types'
 import Layer from '../CaterpillarLayer'

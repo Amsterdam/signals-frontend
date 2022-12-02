@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
+
+import type { FormFieldProps } from 'components/FormField/FormField'
 import type { LatLngLiteral } from 'leaflet'
-import type { Location } from 'types/incident'
 import type { Address } from 'types/address'
+import type { Location } from 'types/incident'
 import type { FormOptions } from 'types/reactive-form'
+
 import type { Meta, Item, FeatureType } from '../types'
-import type { FormFieldProps } from '../../FormField/FormField'
 
 export interface AssetSelectValue {
   address?: Address

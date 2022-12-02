@@ -2,10 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
+import FormField from 'components/FormField'
 import Input from 'components/Input'
 import type { FormInputProps } from 'types/reactive-form'
-
-import FormField from '../FormField'
 
 export type TextInputProps = FormInputProps
 

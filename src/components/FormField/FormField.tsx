@@ -77,7 +77,9 @@ const FormField: FunctionComponent<FormFieldProps> = ({
     hasError('min') ||
     hasError('custom')
 
-  const isOptional = !options?.validators?.includes('required')
+  const isOptional = !options?.validators?.some((validator: any) => {
+    return ['required', 'min'].includes(validator)
+  })
   const FieldSetWrapper = isFieldSet ? FieldSet : Fragment
 
   return (
@@ -105,7 +107,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
                 <ErrorMessage
                   data-testid={`${meta.name}-required`}
                   message={
-                    getError('required')
+                    getError('required') || getError('min')
                       ? 'Dit is een verplicht veld'
                       : (getError('required') as string)
                   }
