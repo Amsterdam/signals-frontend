@@ -23,7 +23,6 @@ export function StepByStepNavClickable({
   wizardRoutes,
   ...props
 }: Props & { activeItem: number }) {
-  let realActiveItem = 0
   const { push, stepsCompletedCount, setStepsCompletedCount } =
     useContext(WizardContext)
   const { trigger } = useFormContext()
@@ -68,10 +67,9 @@ export function StepByStepNavClickable({
     ]
   )
 
-  realActiveItem = stepsCompletedCount
   return (
     <StepByStepNavStyle
-      activeItem={realActiveItem}
+      activeItem={stepsCompletedCount}
       aria-label="progress"
       className={className}
       role="group"
@@ -79,7 +77,7 @@ export function StepByStepNavClickable({
     >
       <OrderdedList breakpoint={breakpoint}>
         {props.steps.map(({ label }, index) => {
-          const isActive = index === realActiveItem - 1
+          const isActive = index === stepsCompletedCount - 1
           return (
             <StyledListItem
               stepsCompletedCount={stepsCompletedCount}

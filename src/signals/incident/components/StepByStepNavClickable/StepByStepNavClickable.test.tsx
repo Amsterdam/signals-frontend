@@ -64,17 +64,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     }))
 
     render(
-      <WizardContext.Provider
-        value={{
-          push: mockPush,
-          stepsCompletedCount: 1,
-          setStepsCompletedCount: mockSetStepsCompletedCount,
-          next: jest.fn(),
-          previous: jest.fn(),
-          step: { id: 'someid' },
-          steps: [{ id: 'someid' }],
-        }}
-      >
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
         <StepByStepNavClickable
           activeItem={1}
           wizardRoutes={['step1', 'step2']}
@@ -102,17 +92,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     }))
 
     render(
-      <WizardContext.Provider
-        value={{
-          push: mockPush,
-          stepsCompletedCount: 1,
-          setStepsCompletedCount: mockSetStepsCompletedCount,
-          next: jest.fn(),
-          previous: jest.fn(),
-          step: { id: 'someid' },
-          steps: [{ id: 'someid' }],
-        }}
-      >
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
         <StepByStepNavClickable
           activeItem={0}
           wizardRoutes={['step1', 'step2']}
@@ -140,17 +120,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     }))
 
     render(
-      <WizardContext.Provider
-        value={{
-          push: mockPush,
-          stepsCompletedCount: 1,
-          setStepsCompletedCount: mockSetStepsCompletedCount,
-          next: jest.fn(),
-          previous: jest.fn(),
-          step: { id: 'someid' },
-          steps: [{ id: 'someid' }],
-        }}
-      >
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
         <StepByStepNavClickable
           activeItem={1}
           wizardRoutes={['step1', 'step2']}
@@ -178,17 +148,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     }))
 
     render(
-      <WizardContext.Provider
-        value={{
-          push: mockPush,
-          stepsCompletedCount: 1,
-          setStepsCompletedCount: mockSetStepsCompletedCount,
-          next: jest.fn(),
-          previous: jest.fn(),
-          step: { id: 'someid' },
-          steps: [{ id: 'someid' }],
-        }}
-      >
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
         <StepByStepNavClickable
           activeItem={0}
           wizardRoutes={['step1', 'step2']}
