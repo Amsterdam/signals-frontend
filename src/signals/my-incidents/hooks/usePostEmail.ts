@@ -1,23 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import useFetch from 'hooks/useFetch'
-import type { FetchResponse } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
 type PostEmail = (email: string) => Promise<void>
 
 export const usePostEmail = (): [
   PostEmail,
-  Omit<FetchResponse<null>, 'post'>
+  { errorMessage: string | null }
 ] => {
-  const { post, ...rest } = useFetch<null>()
+  const { post, error } = useFetch<null>()
+  const postError = error as Response | undefined
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const endpoint = `${configuration.MY_SIGNALS_LOGIN_URL}`
 
   const postEmail = useCallback(
-    (email) => {
+    (email: string) => {
       const payload = {
         email,
       }
@@ -27,5 +28,15 @@ export const usePostEmail = (): [
     [endpoint, post]
   )
 
-  return [postEmail, rest]
+  useEffect(() => {
+    if (postError?.status === 429) {
+      setErrorMessage(
+        `U hebt te vaak gevraagd om de e-mail opnieuw te versturen. Over 20 minuten kunt u het opnieuw proberen.`
+      )
+    } else {
+      setErrorMessage('')
+    }
+  }, [postError])
+
+  return [postEmail, { errorMessage }]
 }

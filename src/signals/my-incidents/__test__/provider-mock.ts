@@ -1,4 +1,3 @@
-import { incidentsDetail } from './incidents-detail'
 import { incidentsList } from './incidents-list'
 
 export const providerMock = {
@@ -6,6 +5,4 @@ export const providerMock = {
   setEmail: jest.fn(),
   incidentsList,
   setIncidentsList: jest.fn(),
-  incidentsDetail,
-  setIncidentsDetail: jest.fn(),
 }

@@ -2,7 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { mockFiltersShort } from '../__test__/mock-filters'
 import { mockIncidentsShort } from '../__test__/mock-incidents'
-import { computeIncidentsCountPerFilter } from './count-incidents-per-filter'
+import { countIncidentsPerFilter } from './count-incidents-per-filter'
 
 describe('computeincidentsCountPerFilter', () => {
   afterEach(() => {
@@ -19,7 +19,7 @@ describe('computeincidentsCountPerFilter', () => {
         incidentsCount: 0,
       },
     ]
-    const result = computeIncidentsCountPerFilter(
+    const result = countIncidentsPerFilter(
       mockFiltersOneItem,
       mockIncidentsShort
     )
@@ -28,10 +28,7 @@ describe('computeincidentsCountPerFilter', () => {
   })
 
   it("should add 1 to incidentsCount of mainCategoryFilter foreach of it's subCategories", () => {
-    const result = computeIncidentsCountPerFilter(
-      mockFiltersShort,
-      mockIncidentsShort
-    )
+    const result = countIncidentsPerFilter(mockFiltersShort, mockIncidentsShort)
 
     expect(result[0].incidentsCount).toBe(3)
   })

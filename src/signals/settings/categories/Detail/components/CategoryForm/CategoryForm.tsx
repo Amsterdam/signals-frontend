@@ -7,18 +7,17 @@ import type {
   MouseEvent,
   ElementType,
 } from 'react'
+
 import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
-
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
-import type { History as HistoryType } from 'types/history'
-import type { Category as CategoryType } from 'types/category'
-
 import Checkbox from 'components/Checkbox'
+import FormFooter from 'components/FormFooter'
 import History from 'components/History'
 import Input from 'components/Input'
+import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
-import FormFooter from 'components/FormFooter'
+import styled from 'styled-components'
+import type { Category as CategoryType } from 'types/category'
+import type { History as HistoryType } from 'types/history'
 
 const Form = styled.form`
   width: 100%;

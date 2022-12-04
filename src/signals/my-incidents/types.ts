@@ -6,9 +6,7 @@ export interface MyIncidentsValue {
   email?: string
   setEmail: (email: string) => void
   incidentsList?: MyIncident[]
-  incidentsDetail?: MyIncident
   setIncidentsList: (incidentsList: MyIncident[]) => void
-  setIncidentsDetail: (incidentsDetail: MyIncident) => void
 }
 
 interface Attachment {
@@ -18,26 +16,31 @@ interface Attachment {
 }
 
 export interface MyIncident {
-  _links: {
-    curies: {
-      name: string
-      href: string
-    }
-    self: {
-      href: string
-    }
-    'sia:attachments'?: Attachment[]
-  }
+  _links: Links
   _display: string
   uuid: string
   id_display: string
-  location?: Location
   text: string
   status: {
     state: string
     state_display: string
   }
   created_at: string
+}
+
+interface Links {
+  curies: {
+    name: string
+    href: string
+  }
+  self: {
+    href: string
+  }
+}
+
+export interface MyIncidentDetail extends MyIncident {
+  _links: Links & { 'sia:attachments': Attachment[] }
+  location: Location
   extra_properties?: ExtraProperties[]
 }
 
@@ -51,4 +54,16 @@ interface ExtraProperties {
 export interface Result<T> {
   count: number
   results: T[]
+}
+
+export interface HistoryInstance {
+  when: string
+  what: string
+  action: string
+  description: string
+  _signal: string
+}
+
+export interface Email {
+  email: string
 }

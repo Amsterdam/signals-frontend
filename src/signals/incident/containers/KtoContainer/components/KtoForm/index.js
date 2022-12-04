@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
+import CheckboxList from 'components/CheckboxList'
 import ErrorMessage from 'components/ErrorMessage'
 import Label from 'components/Label'
+import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
@@ -15,8 +17,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
-import CheckboxList from 'signals/incident-management/components/CheckboxList'
-import RadioButtonList from 'signals/incident-management/components/RadioButtonList'
 import FileInput from 'signals/incident/components/form/FileInput'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import styled from 'styled-components'
@@ -143,6 +143,12 @@ const KtoForm = ({
 
   const watchTextList = watch('text_list')
   const watchTextExtra = watch('text_extra')
+
+  useEffect(() => {
+    if (!watchTextList.includes('Over iets anders')) {
+      setValue('text_list_extra', '')
+    }
+  }, [setValue, watchTextList])
 
   return (
     <Form data-testid="ktoForm" onSubmit={handleSubmit}>

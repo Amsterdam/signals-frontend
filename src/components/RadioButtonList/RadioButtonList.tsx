@@ -117,7 +117,8 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
           <Fragment key={option.key || option.name + '-fragment'}>
             {radioOptions.findIndex(
               (option2) => option2.topic === option.topic
-            ) === index && <TopicLabel>{option.topic}</TopicLabel>}
+            ) === index &&
+              option.topic && <TopicLabel>{option.topic}</TopicLabel>}
             {component}
           </Fragment>
         )

@@ -5,10 +5,17 @@ import {
   Heading,
   Link,
   Paragraph,
+  Row,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+export const StyledRow = styled(Row)`
+  @media ${breakpoint('max-width', 'tabletS')} {
+    padding: 0 ${themeSpacing(4)};
+  }
+`
 
 export const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(8, 0, 5, 0)};
@@ -31,8 +38,7 @@ export const ContentWrapper = styled.div`
 
   @media ${breakpoint('max-width', 'tabletS')} {
     grid-template-columns: 1fr;
-    grid-row-gap: ${themeSpacing(8)};
-    margin: ${themeSpacing(0, 4)};
+    grid-row-gap: ${themeSpacing(4)};
   }
 `
 

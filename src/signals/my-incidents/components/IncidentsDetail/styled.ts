@@ -5,13 +5,12 @@ import BackLink from 'components/BackLink'
 import styled from 'styled-components'
 
 export const StyledBacklink = styled(BackLink)`
-  margin-top: ${themeSpacing(10.5)};
+  margin-top: ${themeSpacing(6)};
 `
 
 export const FormTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: ${themeSpacing(0, 0, 1)};
 `
 
 export const StyledImage = styled.img`
@@ -30,10 +29,10 @@ export const ImageWrapper = styled.div`
 `
 
 export const StyledLink = styled(Link)`
-  margin-bottom: ${themeSpacing(6)};
   cursor: pointer;
+  text-decoration: underline;
 `
 
 export const Wrapper = styled.div`
-  margin-bottom: ${themeSpacing(6)};
+  margin-bottom: ${themeSpacing(4)};
 `

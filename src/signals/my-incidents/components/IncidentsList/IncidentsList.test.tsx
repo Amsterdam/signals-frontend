@@ -30,14 +30,6 @@ export const useFetchResponse = {
   isSuccess: false,
 }
 
-const locationMock = {
-  pathname:
-    'http://localhost:3001/mijn-meldingen/7535575b86bc9829e66ef22925a065412857ebd1',
-} as unknown as Location
-jest.mock('hooks/useLocationReferrer', () => {
-  return jest.fn(() => locationMock)
-})
-
 describe('IncidentsList', () => {
   it('should fetch data based on a token and render list', async () => {
     const response = {
@@ -51,7 +43,7 @@ describe('IncidentsList', () => {
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
-          <IncidentsList />
+          <IncidentsList token={'7535575b86bc9829e66ef22925a065412857ebd1'} />
         </MyIncidentsProvider>
       )
     )
@@ -78,7 +70,7 @@ describe('IncidentsList', () => {
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
-          <IncidentsList />
+          <IncidentsList token={'4321-invalid-token'} />
         </MyIncidentsProvider>
       )
     )
@@ -97,8 +89,13 @@ describe('IncidentsList', () => {
 
     const { container } = render(
       withAppContext(
-        <MyIncidentsProvider value={providerMock}>
-          <IncidentsList />
+        <MyIncidentsProvider
+          value={{
+            ...providerMock,
+            incidentsList: undefined,
+          }}
+        >
+          <IncidentsList token={'7535575b86bc9829e66ef22925a065412857ebd1'} />
         </MyIncidentsProvider>
       )
     )

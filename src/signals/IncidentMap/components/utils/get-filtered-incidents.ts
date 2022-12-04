@@ -26,8 +26,15 @@ export const getFilteredIncidents = (
 
   const activeSlugs = activeFilters.map((filter) => filter.slug)
 
+  /**
+   * Because count-incidents-per-filter only shows subcategories for two
+   * main categories, we need to look for the parent slug to get all the markers.
+   */
   const activeIncidents = incidents.filter((incident) => {
-    return activeSlugs.includes(incident.properties.category.slug)
+    return (
+      activeSlugs.includes(incident.properties.category.slug) ||
+      activeSlugs.includes(incident.properties.category.parent.slug)
+    )
   })
 
   const listedIcons = getListOfIcons(activeFilters)

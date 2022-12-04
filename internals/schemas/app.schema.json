@@ -437,7 +437,8 @@
         "maxNumberOfAssets": {
           "type": "object",
           "properties": {
-            "straatverlichtingKlokken": {"type": "integer"},
+            "straatverlichting": {"type": "integer"},
+            "klokken": {"type": "integer"},
             "afvalContainer": {"type": "integer"},
             "eikenProcessierups": {"type": "integer"}
           }
