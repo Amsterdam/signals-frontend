@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { CSSProperties, FunctionComponent } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
@@ -28,15 +28,16 @@ export interface Props {
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
+  children?: ReactNode
 }
 
-export const DrawerOverlay: FunctionComponent<Props> = ({
+export function DrawerOverlay({
   children,
   incident,
   onCloseDetailPanel,
   onStateChange,
   state = DrawerState.Closed,
-}) => {
+}: Props): JSX.Element {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
 

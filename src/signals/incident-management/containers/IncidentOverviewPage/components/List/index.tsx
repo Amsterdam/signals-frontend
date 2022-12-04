@@ -1,29 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+import type { FunctionComponent, ReactNode } from 'react'
 import { useContext } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import parseISO from 'date-fns/parseISO'
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
-import { Play } from '@amsterdam/asc-assets'
 
-import { string2date, string2time } from 'shared/services/string-parser'
+import { Play } from '@amsterdam/asc-assets'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+import parseISO from 'date-fns/parseISO'
+import { Link, useHistory } from 'react-router-dom'
+
+import ParentIncidentIcon from 'components/ParentIncidentIcon'
+import configuration from 'shared/services/configuration/configuration'
+import { formatAddress } from 'shared/services/format-address'
 import {
   getListValueByKey,
   getListIconByKey,
 } from 'shared/services/list-helpers/list-helpers'
-import configuration from 'shared/services/configuration/configuration'
+import { string2date, string2time } from 'shared/services/string-parser'
 import { statusList } from 'signals/incident-management/definitions'
-import ParentIncidentIcon from 'components/ParentIncidentIcon'
-
 import type {
   Status,
   Priority,
   Definition,
 } from 'signals/incident-management/definitions/types'
-import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
-import { formatAddress } from 'shared/services/format-address'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
+import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
+
 import IncidentManagementContext from '../../../../context'
 import {
   ContentSpan,
@@ -58,18 +59,20 @@ export const getDaysOpen = (incident: IncidentListItem) => {
 
   return differenceInCalendarDays(new Date(), createdAtDate)
 }
+interface TdProps {
+  detailLink: string
+  children?: ReactNode
+}
 
-const Td: FunctionComponent<{ detailLink: string }> = ({
-  detailLink,
-  children,
-  ...rest
-}) => (
-  <TdStyle {...rest}>
-    <Link to={detailLink} tabIndex={-1}>
-      <ContentSpan>{children}</ContentSpan>
-    </Link>
-  </TdStyle>
-)
+function Td({ detailLink, children, ...rest }: TdProps): JSX.Element {
+  return (
+    <TdStyle {...rest}>
+      <Link to={detailLink} tabIndex={-1}>
+        <ContentSpan>{children}</ContentSpan>
+      </Link>
+    </TdStyle>
+  )
+}
 
 const ChildIcon: FunctionComponent = () => (
   <StyledIcon aria-label="Deelmelding" data-testid="childIcon">

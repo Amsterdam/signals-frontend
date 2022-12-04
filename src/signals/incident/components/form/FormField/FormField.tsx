@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+import type { ReactNode } from 'react'
 import { Fragment } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 import Label from 'components/Label'
-import styled from 'styled-components'
 import type {
   ReactiveFormMeta,
   FormMeta,
@@ -40,7 +41,6 @@ const FieldSet = styled.fieldset`
 const Optional = styled.span`
   font-weight: 400;
   margin-left: ${themeSpacing(2)};
-  font-weight: 400;
 `
 
 const SubTitle = styled.p`
@@ -59,9 +59,10 @@ export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   meta: FormMeta
   options?: FormOptions
   isFieldSet?: boolean
+  children?: ReactNode
 }
 
-const FormField: FunctionComponent<FormFieldProps> = ({
+function FormField({
   isFieldSet,
   className,
   meta,
@@ -69,7 +70,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
   hasError,
   getError,
   children,
-}) => {
+}: FormFieldProps): JSX.Element {
   const containsErrors: boolean =
     hasError('required') ||
     hasError('email') ||

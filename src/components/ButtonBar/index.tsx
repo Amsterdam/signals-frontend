@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import { themeSpacing } from '@amsterdam/asc-ui'
-import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const Bar = styled.div`
@@ -12,14 +13,14 @@ const Bar = styled.div`
 
 export interface ButtonBarProps {
   className?: string
+  children?: ReactNode
 }
 
 /**
  * Button container that merely adds margin between children
  */
-const ButtonBar: FunctionComponent<ButtonBarProps> = ({
-  className,
-  children,
-}) => <Bar className={className}>{children}</Bar>
+function ButtonBar({ className, children }: ButtonBarProps): JSX.Element {
+  return <Bar className={className}>{children}</Bar>
+}
 
 export default ButtonBar
