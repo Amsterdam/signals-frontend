@@ -67,13 +67,19 @@ export const AssetLayer: FC = () => {
 
     const featureStatusType = getFeatureStatusType(feature, featureStatusTypes)
 
+    const label = isTemplateString(description)
+      ? parseTemplateString(description, feature.properties)
+      : [description, id].filter(Boolean).join(' - ')
+
+    const alt = isTemplateString(description)
+      ? parseTemplateString(description, feature.properties)
+      : `${featureType.description}${
+          isSelected ? ', is geselecteerd' : ''
+        } (${id})`
+
     const onClick = async () => {
       if (typeValue !== FeatureStatus.REPORTED) {
         const location: Location = { coordinates }
-
-        const label = isTemplateString(description)
-          ? parseTemplateString(description, feature.properties)
-          : [description, id].filter(Boolean).join(' - ')
 
         const item: Item = {
           id,
@@ -107,9 +113,7 @@ export const AssetLayer: FC = () => {
         key={`${id}-${isSelected}`}
         options={{
           icon,
-          alt: `${featureType.description}${
-            isSelected ? ', is geselecteerd' : ''
-          } (${id})`,
+          alt,
           keyboard: false,
         }}
         latLng={coordinates}

@@ -165,4 +165,41 @@ describe('AssetLayer', () => {
     const iconSize = featureTypes[0].icon?.options?.iconSize
     expect(iconSize).toBeDefined()
   })
+
+  it('should render template strings correctly', () => {
+    render(
+      withAssetMap({
+        meta: {
+          ...contextValue.meta,
+          featureTypes: [
+            {
+              label: 'Papier',
+              description: 'Papier met nummer: {{ id_nummer }}',
+              icon: {
+                options: [Object],
+                iconUrl: '/assets/images/afval/paper.svg',
+              },
+              idField: 'id_nummer',
+              typeField: 'fractie_omschrijving',
+              typeValue: 'Papier',
+            },
+          ],
+        },
+      })
+    )
+
+    const container = screen.getByAltText(`Papier met nummer: ${featureId}`)
+    userEvent.click(container)
+
+    const item = {
+      id: 'PAB00022',
+      type: 'Papier',
+      description: 'Papier met nummer: {{ id_nummer }}',
+      label: 'Papier met nummer: PAB00022',
+      status: undefined,
+      coordinates,
+    }
+
+    expect(setItem).toHaveBeenCalledWith(item, { coordinates: coordinates })
+  })
 })
