@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
+
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import form from 'react-hook-form'
@@ -24,6 +27,22 @@ jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
 }))
 
+const watch = (cb: any) => {
+  cb('data', {
+    name: 'someField',
+    type: 'change',
+  })
+  return { unsubscribe: jest.fn() }
+}
+
+const watchWithDescriptionChange = (cb: any) => {
+  cb('data', {
+    name: 'description',
+    type: 'change',
+  })
+  return { unsubscribe: jest.fn() }
+}
+
 describe('StepBySTepNavClickable when form is valid', () => {
   beforeEach(() => {
     jest.resetAllMocks()
@@ -37,6 +56,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
       trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watch),
     }))
 
     render(
@@ -61,6 +81,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
       trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watch),
     }))
 
     render(
@@ -89,6 +110,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
       trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watch),
     }))
 
     render(
@@ -110,13 +132,14 @@ describe('StepBySTepNavClickable when form is valid', () => {
   })
 
   it('should go to the next step with a invalid current step', async function () {
-    const mockTriggerFalse = jest
+    const mockTrigger = jest
       .fn()
       .mockImplementation(() => Promise.resolve(false))
 
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
-      trigger: mockTriggerFalse,
+      trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watch),
     }))
 
     render(
@@ -132,19 +155,20 @@ describe('StepBySTepNavClickable when form is valid', () => {
     await waitFor(() => {
       userEvent.click(screen.getByText('step1'))
     })
-    expect(mockTriggerFalse).toBeCalled()
+    expect(mockTrigger).toBeCalled()
     expect(mockPush).toBeCalledWith('incident/step1')
     expect(mockSetStepsCompletedCount).toBeCalledWith(1)
   })
 
   it('should not go the next step with an invalid current step', async function () {
-    const mockTriggerFalse = jest
+    const mockTrigger = jest
       .fn()
       .mockImplementation(() => Promise.resolve(false))
 
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
-      trigger: mockTriggerFalse,
+      trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watch),
     }))
 
     render(
@@ -160,8 +184,37 @@ describe('StepBySTepNavClickable when form is valid', () => {
     await waitFor(() => {
       userEvent.click(screen.getByText('step2'))
     })
-    expect(mockTriggerFalse).toBeCalled()
+    expect(mockTrigger).toBeCalled()
     expect(mockPush).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledWith(0)
+  })
+
+  it('it should trigger setCountStep when description is changing', async function () {
+    const mockTrigger = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(false))
+    jest
+      .spyOn(React, 'useRef')
+      .mockReturnValueOnce({ current: 'someErrorField' })
+
+    jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
+      ...jest.requireActual('react-hook-form').useFormContext,
+      trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watchWithDescriptionChange),
+      formState: { errors: { someErrorField: 'error' } },
+    }))
+
+    render(
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
+        <StepByStepNavClickable
+          activeItem={0}
+          wizardRoutes={['step1', 'step2']}
+          steps={[{ label: 'step1' }, { label: 'step2' }]}
+        />
+      </WizardContext.Provider>
+    )
+
+    expect(mockPush).not.toBeCalled()
+    expect(mockSetStepsCompletedCount).toBeCalledTimes(2)
   })
 })
