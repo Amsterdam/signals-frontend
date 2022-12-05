@@ -10,7 +10,7 @@ import type { Theme } from 'types/theme'
 import { isStatusEnd } from '../../definitions/statusList'
 
 type StatusProps = {
-  children?: ReactNode
+  children: ReactNode
   statusCode: StatusCode
 }
 
@@ -22,8 +22,8 @@ const StyledStatus = styled.span<{ statusCode?: StatusCode; theme: Theme }>`
       : theme.colors.support.invalid};
 `
 
-function Status({ children, statusCode }: StatusProps): JSX.Element {
-  return <StyledStatus statusCode={statusCode}>{children}</StyledStatus>
-}
+const Status = ({ children, statusCode }: StatusProps) => (
+  <StyledStatus statusCode={statusCode}>{children}</StyledStatus>
+)
 
 export default Status

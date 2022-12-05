@@ -18,7 +18,7 @@ interface BasePageProps {
   documentTitle?: string
   pageTitle?: string
   body?: string
-  children?: ReactNode
+  children: ReactNode
 }
 
 const ContentWrapper = styled.div`
@@ -32,34 +32,32 @@ const ContentWrapper = styled.div`
   }
 `
 
-function BasePage({
+const BasePage = ({
   documentTitle,
   pageTitle,
   children,
   ...props
-}: BasePageProps): JSX.Element {
-  return (
-    <Row data-testid="basePage" {...props}>
-      <ContentWrapper>
-        <Helmet
-          defaultTitle={configuration.language.siteTitle}
-          titleTemplate={`${configuration.language.siteTitle} - %s`}
-        >
-          {documentTitle && <title>{documentTitle}</title>}
-        </Helmet>
+}: BasePageProps) => (
+  <Row data-testid="basePage" {...props}>
+    <ContentWrapper>
+      <Helmet
+        defaultTitle={configuration.language.siteTitle}
+        titleTemplate={`${configuration.language.siteTitle} - %s`}
+      >
+        {documentTitle && <title>{documentTitle}</title>}
+      </Helmet>
 
-        <article>
-          {pageTitle && (
-            <header>
-              <StyledHeading>{pageTitle}</StyledHeading>
-            </header>
-          )}
+      <article>
+        {pageTitle && (
+          <header>
+            <StyledHeading>{pageTitle}</StyledHeading>
+          </header>
+        )}
 
-          {children}
-        </article>
-      </ContentWrapper>
-    </Row>
-  )
-}
+        {children}
+      </article>
+    </ContentWrapper>
+  </Row>
+)
 
 export default BasePage

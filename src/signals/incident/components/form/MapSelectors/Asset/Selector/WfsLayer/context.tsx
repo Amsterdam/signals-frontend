@@ -14,16 +14,11 @@ const WfsDataContext = createContext(NO_DATA)
 
 interface WfsDataProviderProps {
   value: FeatureCollection
-  children?: ReactNode
+  children: ReactNode
 }
 
-export function WfsDataProvider({
-  value,
-  children,
-}: WfsDataProviderProps): JSX.Element {
-  return (
-    <WfsDataContext.Provider value={value}>{children}</WfsDataContext.Provider>
-  )
-}
+export const WfsDataProvider = ({ value, children }: WfsDataProviderProps) => (
+  <WfsDataContext.Provider value={value}>{children}</WfsDataContext.Provider>
+)
 
 export default WfsDataContext

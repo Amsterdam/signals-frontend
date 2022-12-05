@@ -29,33 +29,31 @@ export interface IconListItemProps {
   className?: string
   iconSize?: number
   featureStatusType?: FeatureStatusType
-  children?: ReactNode
+  children: ReactNode
 }
 
-export function IconListItem({
+export const IconListItem = ({
   iconUrl,
   children,
   className,
   iconSize = 40,
   id,
   featureStatusType,
-}: IconListItemProps): JSX.Element {
-  return (
-    <StyledListItem data-testid={id} className={className}>
-      {iconUrl && (
-        <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
-      )}
-      {featureStatusType && (
-        <StatusIcon
-          alt=""
-          height={20}
-          src={featureStatusType.icon.iconUrl}
-          width={20}
-        />
-      )}
-      {children}
-    </StyledListItem>
-  )
-}
+}: IconListItemProps) => (
+  <StyledListItem data-testid={id} className={className}>
+    {iconUrl && (
+      <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+    )}
+    {featureStatusType && (
+      <StatusIcon
+        alt=""
+        height={20}
+        src={featureStatusType.icon.iconUrl}
+        width={20}
+      />
+    )}
+    {children}
+  </StyledListItem>
+)
 
 export default List

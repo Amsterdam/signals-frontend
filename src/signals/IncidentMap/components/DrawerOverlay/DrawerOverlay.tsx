@@ -28,16 +28,16 @@ export interface Props {
   onCloseDetailPanel: () => void
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
-  children?: ReactNode
+  children: ReactNode
 }
 
-export function DrawerOverlay({
+export const DrawerOverlay = ({
   children,
   incident,
   onCloseDetailPanel,
   onStateChange,
   state = DrawerState.Closed,
-}: Props): JSX.Element {
+}: Props) => {
   const mode = useDeviceMode()
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
 

@@ -59,15 +59,14 @@ interface ThemeProviderProps {
   children: ReactNode
 }
 
-function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
-  return (
-    <ASCThemeProvider
-      overrides={getConfig(
-        (configuration as Partial<{ theme?: RecursivePartial<Theme> }>).theme
-      )}
-    >
-      {children}
-    </ASCThemeProvider>
-  )
-}
+const ThemeProvider = ({ children }: ThemeProviderProps) => (
+  <ASCThemeProvider
+    overrides={getConfig(
+      (configuration as Partial<{ theme?: RecursivePartial<Theme> }>).theme
+    )}
+  >
+    {children}
+  </ASCThemeProvider>
+)
+
 export default ThemeProvider

@@ -59,10 +59,10 @@ export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   meta: FormMeta
   options?: FormOptions
   isFieldSet?: boolean
-  children?: ReactNode
+  children: ReactNode
 }
 
-function FormField({
+const FormField = ({
   isFieldSet,
   className,
   meta,
@@ -70,7 +70,7 @@ function FormField({
   hasError,
   getError,
   children,
-}: FormFieldProps): JSX.Element {
+}: FormFieldProps) => {
   const containsErrors: boolean =
     hasError('required') ||
     hasError('email') ||

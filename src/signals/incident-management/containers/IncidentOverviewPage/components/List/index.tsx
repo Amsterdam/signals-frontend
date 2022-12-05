@@ -61,10 +61,10 @@ export const getDaysOpen = (incident: IncidentListItem) => {
 }
 interface TdProps {
   detailLink: string
-  children?: ReactNode
+  children: ReactNode
 }
 
-function Td({ detailLink, children, ...rest }: TdProps): JSX.Element {
+const Td = ({ detailLink, children, ...rest }: TdProps) => {
   return (
     <TdStyle {...rest}>
       <Link to={detailLink} tabIndex={-1}>

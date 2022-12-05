@@ -13,14 +13,14 @@ const Bar = styled.div`
 
 export interface ButtonBarProps {
   className?: string
-  children?: ReactNode
+  children: ReactNode
 }
 
 /**
  * Button container that merely adds margin between children
  */
-function ButtonBar({ className, children }: ButtonBarProps): JSX.Element {
-  return <Bar className={className}>{children}</Bar>
-}
+const ButtonBar = ({ className, children }: ButtonBarProps) => (
+  <Bar className={className}>{children}</Bar>
+)
 
 export default ButtonBar

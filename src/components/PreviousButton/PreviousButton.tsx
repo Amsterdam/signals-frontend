@@ -23,23 +23,22 @@ interface PreviousButtonProps {
   onClick: () => void
 }
 
-function PreviousButton({
+const PreviousButton = ({
   className,
   children,
   onClick,
-}: PreviousButtonProps): JSX.Element {
-  return (
-    <StyledButton
-      className={className}
-      data-testid="previousButton"
-      iconLeft={<Chevron aria-hidden="true" />}
-      iconSize={14}
-      onClick={onClick}
-      type="button"
-      variant="textButton"
-    >
-      {children}
-    </StyledButton>
-  )
-}
+}: PreviousButtonProps) => (
+  <StyledButton
+    className={className}
+    data-testid="previousButton"
+    iconLeft={<Chevron aria-hidden="true" />}
+    iconSize={14}
+    onClick={onClick}
+    type="button"
+    variant="textButton"
+  >
+    {children}
+  </StyledButton>
+)
+
 export default PreviousButton

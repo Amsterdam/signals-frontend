@@ -18,30 +18,24 @@ type Props = {
   children: ReactNode
 } & ReactMarkdownOptions
 
-function Markdown({
-  children,
-  hideTabindexLink,
-  ...props
-}: Props): JSX.Element {
-  return (
-    <ReactMarkdown
-      components={{
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        a: ({ node, ...props }) => (
-          <Link
-            tabIndex={hideTabindexLink ? -1 : 0}
-            variant="inline"
-            {...props}
-          />
-        ),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        p: ({ node, color, ...props }) => <Paragraph {...props} />,
-      }}
-      {...props}
-    >
-      {children}
-    </ReactMarkdown>
-  )
-}
+const Markdown = ({ children, hideTabindexLink, ...props }: Props) => (
+  <ReactMarkdown
+    components={{
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      a: ({ node, ...props }) => (
+        <Link
+          tabIndex={hideTabindexLink ? -1 : 0}
+          variant="inline"
+          {...props}
+        />
+      ),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      p: ({ node, color, ...props }) => <Paragraph {...props} />,
+    }}
+    {...props}
+  >
+    {children}
+  </ReactMarkdown>
+)
 
 export default Markdown

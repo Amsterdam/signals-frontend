@@ -27,18 +27,16 @@ const AssetSelectContext = createContext(initialValue)
 
 interface AssetSelectProviderProps {
   value: AssetSelectValue
-  children?: ReactNode
+  children: ReactNode
 }
 
-export function AssetSelectProvider({
+export const AssetSelectProvider = ({
   value,
   children,
-}: AssetSelectProviderProps): JSX.Element {
-  return (
-    <AssetSelectContext.Provider value={value}>
-      {children}
-    </AssetSelectContext.Provider>
-  )
-}
+}: AssetSelectProviderProps) => (
+  <AssetSelectContext.Provider value={value}>
+    {children}
+  </AssetSelectContext.Provider>
+)
 
 export default AssetSelectContext
