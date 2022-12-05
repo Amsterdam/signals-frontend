@@ -159,11 +159,7 @@ const IncidentReplyContainer = () => {
   }, [session, getQuestionnaire, getIncident])
 
   const formattedDate = useMemo(
-    () =>
-      (incident ? formatDate(new Date(incident.created_at)) : '').replace(
-        ':',
-        '.'
-      ),
+    () => (incident ? formatDate(new Date(incident.created_at)) : ''),
     [incident]
   )
 
