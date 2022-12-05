@@ -151,9 +151,7 @@ const IncidentForm = forwardRef<any, any>(
         if (next) {
           if (prevState.current.loading) {
             next()
-            if (stepsCompletedCount < index + 1) {
-              setStepsCompletedCount(index + 1)
-            }
+            setStepsCompletedCount(index + 1)
             return
           }
 

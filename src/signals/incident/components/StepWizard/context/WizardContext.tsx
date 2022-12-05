@@ -8,7 +8,9 @@ export interface WizardApi {
   previous: () => void
   step: Step
   steps: Step[]
+  // This method sets the completed steps count
   setStepsCompletedCount: (step: number) => void
+  // The steps that are completed and valid or the step that is active
   stepsCompletedCount: number
   replace?: () => void
   set?: (step: Step) => void
