@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
+
 import { history, withAppContext } from 'test/utils'
 
 import useFetch from '../../../../hooks/useFetch'
@@ -29,14 +30,6 @@ export const useFetchResponse = {
   isSuccess: false,
 }
 
-const locationMock = {
-  pathname:
-    'http://localhost:3001/mijn-meldingen/7535575b86bc9829e66ef22925a065412857ebd1',
-} as unknown as Location
-jest.mock('hooks/useLocationReferrer', () => {
-  return jest.fn(() => locationMock)
-})
-
 describe('IncidentsList', () => {
   it('should fetch data based on a token and render list', async () => {
     const response = {
@@ -50,17 +43,18 @@ describe('IncidentsList', () => {
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
-          <IncidentsList />
+          <IncidentsList token={'7535575b86bc9829e66ef22925a065412857ebd1'} />
         </MyIncidentsProvider>
       )
     )
 
     expect(screen.getByText('Alles is kapot')).toBeInTheDocument()
     expect(screen.getByText('SIG-11656')).toBeInTheDocument()
-    expect(screen.getByText('10 oktober 2022, 10:45 uur')).toBeInTheDocument()
+    expect(screen.getByText('10 oktober 2022, 10.45 uur')).toBeInTheDocument()
     expect(screen.getByText('Status: afgesloten')).toBeInTheDocument()
 
     const links = screen.queryAllByRole('link', { name: 'Bekijk melding' })
+
     expect(links.length).toEqual(5)
 
     expect(screen.getByText('SIG-11620')).toBeInTheDocument()
@@ -77,7 +71,7 @@ describe('IncidentsList', () => {
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>
-          <IncidentsList />
+          <IncidentsList token={'4321-invalid-token'} />
         </MyIncidentsProvider>
       )
     )
@@ -102,7 +96,7 @@ describe('IncidentsList', () => {
             incidentsList: undefined,
           }}
         >
-          <IncidentsList />
+          <IncidentsList token={'7535575b86bc9829e66ef22925a065412857ebd1'} />
         </MyIncidentsProvider>
       )
     )
