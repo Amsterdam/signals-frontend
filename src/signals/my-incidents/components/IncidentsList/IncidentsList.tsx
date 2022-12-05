@@ -4,7 +4,7 @@ import { Fragment, useEffect } from 'react'
 
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
@@ -18,8 +18,8 @@ import {
   IncidentID,
   Status,
   StyledParagraph,
-  Wrapper,
   StyledLink,
+  Wrapper,
 } from './styled'
 
 interface Props {
@@ -61,7 +61,7 @@ export const IncidentsList = ({ token }: Props) => {
         const { created_at, _display, status, text, uuid } = incident
         const displayStatus = status.state_display.toLocaleLowerCase()
         const date = new Date(created_at)
-        const formattedDate = format(date, 'd MMMM yyyy, HH:mm', {
+        const formattedDate = format(date, 'd MMMM yyyy, HH.mm', {
           locale: nl,
         })
 
@@ -78,8 +78,8 @@ export const IncidentsList = ({ token }: Props) => {
               <StyledParagraph>{text}</StyledParagraph>
 
               <StyledLink
+                variant="with-chevron"
                 to={`/mijn-meldingen/${token}/${uuid}`}
-                forwardedAs={Link}
               >
                 Bekijk melding
               </StyledLink>
