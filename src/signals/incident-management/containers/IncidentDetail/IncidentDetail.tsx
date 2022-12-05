@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { useReducer, useEffect, useCallback, useState, useContext } from 'react'
+import { useReducer, useEffect, useCallback, useState } from 'react'
 
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import CloseButton from 'components/CloseButton'
@@ -114,8 +114,6 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
-
-  const { close } = useContext(IncidentDetailContext)
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     switch (event.key) {
@@ -425,7 +423,7 @@ const IncidentDetail = () => {
           </Preview>
         )}
         {!showAttachmentViewer && state.preview && (
-          <CloseButton close={close} aria-label="Sluiten" />
+          <CloseButton close={closeDispatch} aria-label="Sluiten" />
         )}
       </StyledRow>
       {showAttachmentViewer && (
