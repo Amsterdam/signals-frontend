@@ -50,10 +50,11 @@ describe('IncidentsList', () => {
 
     expect(screen.getByText('Alles is kapot')).toBeInTheDocument()
     expect(screen.getByText('SIG-11656')).toBeInTheDocument()
-    expect(screen.getByText('10 oktober 2022, 10:45 uur')).toBeInTheDocument()
+    expect(screen.getByText('10 oktober 2022, 10.45 uur')).toBeInTheDocument()
     expect(screen.getByText('Status: afgesloten')).toBeInTheDocument()
 
     const links = screen.queryAllByRole('link', { name: 'Bekijk melding' })
+
     expect(links.length).toEqual(5)
 
     expect(screen.getByText('SIG-11620')).toBeInTheDocument()
