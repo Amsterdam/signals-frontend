@@ -78,8 +78,9 @@ export const IncidentsList = ({ token }: Props) => {
               <StyledParagraph>{text}</StyledParagraph>
 
               <StyledLink
-                variant="with-chevron"
+                inList
                 to={`/mijn-meldingen/${token}/${uuid}`}
+                role="link"
               >
                 Bekijk melding
               </StyledLink>
