@@ -19,7 +19,7 @@ const StyledHeading = styled(Heading)`
   font-weight: 500;
   margin: ${themeSpacing(2, 0, 5)};
 
-  @media ${breakpoint('max-width', 'tabletS')} {
+  @media screen and ${breakpoint('max-width', 'tabletS')} {
     font-size: 20px;
   }
 `
