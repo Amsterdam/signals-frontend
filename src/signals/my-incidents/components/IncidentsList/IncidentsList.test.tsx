@@ -54,7 +54,7 @@ describe('IncidentsList', () => {
     expect(screen.getByText('Status: afgesloten')).toBeInTheDocument()
 
     const links = screen.queryAllByRole('link', { name: 'Bekijk melding' })
-    screen.debug()
+
     expect(links.length).toEqual(5)
 
     expect(screen.getByText('SIG-11620')).toBeInTheDocument()

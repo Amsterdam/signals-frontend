@@ -5,6 +5,7 @@ import { Fragment, useEffect } from 'react'
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
 import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
@@ -80,6 +81,7 @@ export const IncidentsList = ({ token }: Props) => {
               <StyledLink
                 inList
                 to={`/mijn-meldingen/${token}/${uuid}`}
+                forwardedAs={Link}
                 role="link"
               >
                 Bekijk melding
