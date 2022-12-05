@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import * as reactRouterDom from 'react-router-dom'
-import * as actions from 'containers/App/actions'
+// Copyright (C) 2021-2022 Gemeente Amsterdam
 import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
 import { mocked } from 'jest-mock'
+import * as reactRouterDom from 'react-router-dom'
 
-import * as constants from '../constants'
-import * as API from '../../../../../../internals/testing/api'
+import * as actions from 'containers/App/actions'
+import { withAppContext } from 'test/utils'
+
 import IncidentReplyContainer from '..'
-
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
+import * as constants from '../constants'
 
 fetchMock.disableMocks()
 
@@ -48,7 +48,7 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
         screen.getByRole('heading', { name: 'Uw melding' })
         screen.getByText('Nummer: SIA-1234')
-        screen.getByText('Gemeld op: 26 juli 2021, 17:43 uur')
+        screen.getByText('Gemeld op: 26 juli 2021, 17.43 uur')
         screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' })
         screen.getByLabelText(/Foto's toevoegen/)
         screen.getByRole('button', { name: 'Verstuur' })
