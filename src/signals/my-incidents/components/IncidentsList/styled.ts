@@ -20,7 +20,7 @@ export const Heading = styled.div`
     flex-direction: column;
 
     span:nth-child(2) {
-      margin: ${themeSpacing(2, 0)};
+      margin: ${themeSpacing(1, 0)};
     }
   }
 `
