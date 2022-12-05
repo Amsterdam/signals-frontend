@@ -15,6 +15,7 @@ import {
 } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
+
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import {
@@ -101,7 +102,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     setUnregisteredAssetValue(event.currentTarget.value.trim())
   }
 
-  const onSetItem = useCallback(() => {
+  const onSetUnregisteredItem = useCallback(() => {
+    removeItem()
     setItem({
       id: unregisteredAssetValue,
       type: UNKNOWN_TYPE,
@@ -109,31 +111,31 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         .filter(Boolean)
         .join(' - '),
     })
-  }, [unregisteredLabel, setItem, unregisteredAssetValue])
+  }, [removeItem, setItem, unregisteredAssetValue, unregisteredLabel])
 
   const onCheck = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setShowObjectIdInput(event.target.checked)
 
       if (event.target.checked) {
-        onSetItem()
+        onSetUnregisteredItem()
       } else {
         setItem({
           type: UNKNOWN_TYPE,
         })
       }
     },
-    [onSetItem, setItem]
+    [onSetUnregisteredItem, setItem]
   )
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
-        onSetItem()
+        onSetUnregisteredItem()
         dispatch(closeMap())
       }
     },
-    [onSetItem, dispatch]
+    [onSetUnregisteredItem, dispatch]
   )
 
   const toggleLegend = useCallback(() => {
@@ -229,7 +231,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
                 <Input
                   data-testid="unregisteredAssetInput"
                   id="unregisteredAssetInput"
-                  onBlur={onSetItem}
+                  onBlur={onSetUnregisteredItem}
                   onChange={onChange}
                   onKeyUp={onKeyUp}
                   onSubmit={() => dispatch(closeMap())}
