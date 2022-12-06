@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
 
+import FormField from './'
 import type { FormFieldProps } from './FormField'
-import FormField from './index'
 
 describe('FormField', () => {
   const label = 'Foo barrrr'

@@ -152,16 +152,13 @@ const KtoForm = ({
       setValue('text_list_extra', '')
     }
   }, [setValue, watchTextList])
+
   return (
     <FormProvider {...formMethods}>
       <FieldSet>
+        <GlobalError />
         <Form data-testid="ktoForm" onSubmit={handleSubmit}>
           <GridArea>
-            <GlobalError />
-
-            {/*<StyledLabel as="legend" ref={firstLabelRef}>*/}
-            {/*  Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?*/}
-            {/*</StyledLabel>*/}
             <FormField
               meta={{
                 label: ` Waarom bent u ${!isSatisfied ? 'on' : ''}tevreden?`,
