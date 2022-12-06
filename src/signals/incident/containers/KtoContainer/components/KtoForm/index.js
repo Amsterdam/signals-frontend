@@ -68,7 +68,7 @@ const KtoForm = ({
   setContactAllowed,
   contactAllowed,
 }) => {
-  const firstLabelRef = useRef(null)
+  const formRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
   const dispatchRedux = useDispatch()
@@ -120,11 +120,7 @@ const KtoForm = ({
     e.preventDefault()
     // Trigger form validation
     const isValid = await trigger()
-    // scrollIntoView not available in unit tests
-    /* istanbul ignore next */
-    if (firstLabelRef.current?.scrollIntoView && Object.keys(errors).length) {
-      firstLabelRef.current.scrollIntoView()
-    }
+
     if (isValid) {
       if (incident.images.length > 0) {
         await filesUpload({
@@ -141,6 +137,11 @@ const KtoForm = ({
       // eslint-disable-next-line no-unused-vars
       const { text_list_extra, ...formData } = allFormData
       onSubmit(formData)
+    } else {
+      const invalidElement = formRef.current.querySelector(
+        '[class^=ErrorMessage]'
+      )
+      invalidElement?.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -157,7 +158,7 @@ const KtoForm = ({
     <FormProvider {...formMethods}>
       <FieldSet>
         <GlobalError />
-        <Form data-testid="ktoForm" onSubmit={handleSubmit}>
+        <Form ref={formRef} data-testid="ktoForm" onSubmit={handleSubmit}>
           <GridArea>
             <FormField
               meta={{
