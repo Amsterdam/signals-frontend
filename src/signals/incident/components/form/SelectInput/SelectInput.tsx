@@ -6,10 +6,9 @@ import type {
   RefAttributes,
 } from 'react'
 
+import FormField from 'components/FormField'
 import Select from 'components/Select'
-
 import type { FormInputProps } from 'types/reactive-form'
-import FormField from '../FormField'
 
 export type SelectInputProps = FormInputProps<{ id: string } | undefined>
 

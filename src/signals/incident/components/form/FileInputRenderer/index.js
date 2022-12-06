@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import FormField from 'components/FormField'
 import PropTypes from 'prop-types'
-
-import FormField from '../FormField'
 
 import FileInput from '../FileInput'
 

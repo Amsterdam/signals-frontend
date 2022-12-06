@@ -2,12 +2,11 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Label } from '@amsterdam/asc-ui'
 import Checkbox from 'components/Checkbox'
+import FormField from 'components/FormField'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
-import FormField from '../FormField'
 
 function updateIncidentCheckboxMulti(
   checked,
