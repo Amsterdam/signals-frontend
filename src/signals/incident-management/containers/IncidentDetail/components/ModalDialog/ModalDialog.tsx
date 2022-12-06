@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
-import type { FunctionComponent } from 'react'
+import type { ReactNode } from 'react'
 
 import { Modal } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -24,13 +24,10 @@ const ModalContent = styled.div`
 interface ModalDialogProps {
   onClose: () => void
   title: string
+  children: ReactNode
 }
 
-const ModalDialog: FunctionComponent<ModalDialogProps> = ({
-  onClose,
-  title,
-  children,
-}) => (
+const ModalDialog = ({ onClose, title, children }: ModalDialogProps) => (
   <StyledModal open onClose={onClose}>
     <ModalHeader title={title} onClose={onClose} />
     <ModalContent>{children}</ModalContent>

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
-import type { FunctionComponent } from 'react'
 import { useRef, useContext, useCallback, useState, useEffect } from 'react'
 
 import { Label } from '@amsterdam/asc-ui'
@@ -61,9 +60,7 @@ type ForwardToExternalProps = {
   onClose: () => void
 }
 
-const ForwardToExternal: FunctionComponent<ForwardToExternalProps> = ({
-  onClose,
-}) => {
+const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
   const { incident, update, attachments } = useContext(IncidentDetailContext)
   const storeDispatch = useDispatch()
   const formRef = useRef<HTMLFormElement>(null)

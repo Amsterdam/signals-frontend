@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import type { FC } from 'react'
-
 import { themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -46,13 +44,13 @@ const styling = `
 const fontSrc =
   '<link rel="stylesheet" href="https://static.amsterdam.nl/fonts/fonts.css"/>'
 
-const EmailPreview: FC<EmailPreviewProps> = ({
+const EmailPreview = ({
   emailBody,
   onUpdate,
   onClose,
   title,
   isLoading,
-}) => {
+}: EmailPreviewProps) => {
   const styledHtml = emailBody?.replace(
     '</head>',
     `${fontSrc}${styling}</head>`
