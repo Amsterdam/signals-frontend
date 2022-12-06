@@ -1,25 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
+import type { ReactPropTypes } from 'react'
+
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
 
 import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
-import type { PdokResponse } from 'shared/services/map-location'
-
 import { formatAddress } from 'shared/services/format-address'
-import type { ReactPropTypes } from 'react'
-import * as reactRedux from 'react-redux'
-import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import type { PdokResponse } from 'shared/services/map-location'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
+import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+
+import MockInstance = jest.MockInstance
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
-import DetailPanel from '../DetailPanel'
 import type { AssetListProps } from '../../AssetList/AssetList'
+import DetailPanel from '../DetailPanel'
 import type { DetailPanelProps } from './DetailPanel'
-import MockInstance = jest.MockInstance
 
 jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
@@ -305,6 +306,7 @@ describe('DetailPanel', () => {
 
     fireEvent.blur(screen.getByTestId('unregisteredAssetInput'))
 
+    expect(currentContextValue.removeItem).toHaveBeenCalledTimes(2)
     expect(currentContextValue.setItem).toHaveBeenCalledTimes(2)
     expect(currentContextValue.setItem).toHaveBeenLastCalledWith({
       id: unregisteredObjectId,

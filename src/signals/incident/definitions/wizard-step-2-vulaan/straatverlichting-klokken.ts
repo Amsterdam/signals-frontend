@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+
 import appConfiguration from 'shared/services/configuration/configuration'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
@@ -140,7 +141,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.StreetlightSelect,
     options: {
-      validators: [validateObjectLocation('lichtpunt')],
+      validators: [validateObjectLocation('lichtpunt'), 'required'],
     },
   },
 

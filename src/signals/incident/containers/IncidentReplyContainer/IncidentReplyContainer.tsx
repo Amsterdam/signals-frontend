@@ -1,29 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2022 Gemeente Amsterdam
 import { useEffect, useCallback, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+
 import { Column, Row } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import Paragraph from 'components/Paragraph'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { showGlobalNotification } from 'containers/App/actions'
-import configuration from 'shared/services/configuration/configuration'
-import type { FetchError } from 'hooks/useFetch'
-import useFetch from 'hooks/useFetch'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import useGetQuestionnaire from 'hooks/api/qa/useGetQuestionnaire'
 import useGetSession from 'hooks/api/qa/useGetSession'
-import useGetPublicIncident from 'hooks/api/useGetPublicIncident'
-import { FieldType } from 'types/api/qa/question'
-import { filesUpload } from 'shared/services/files-upload/files-upload'
-
 import { usePostAnswer } from 'hooks/api/qa/usePostAnswer'
+import useGetPublicIncident from 'hooks/api/useGetPublicIncident'
+import useFetch from 'hooks/useFetch'
+import type { FetchError } from 'hooks/useFetch'
+import configuration from 'shared/services/configuration/configuration'
+import { filesUpload } from 'shared/services/files-upload/files-upload'
+import { FieldType } from 'types/api/qa/question'
+
 import Notice from './components/Notice/Notice'
 import QuestionnaireComponent from './components/Questionnaire'
-
-import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import * as constants from './constants'
+import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import type { FormAnswer } from './types'
 import { formatDate } from './utils'
 
