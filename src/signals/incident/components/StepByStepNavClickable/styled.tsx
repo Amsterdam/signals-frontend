@@ -18,6 +18,9 @@ export const StyledListItem = styled(ListItem)<{
       ${StyledLabel}:before {
         background-color: ${themeColor('primary', 'main')};
       }
+      ${StyledLabel}: hover {
+        text-decoration: underline;
+      }
     `}
   `}
 `
