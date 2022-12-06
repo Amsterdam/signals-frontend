@@ -18,7 +18,7 @@ interface BasePageProps {
   documentTitle?: string
   pageTitle?: string
   body?: string
-  children: ReactNode
+  children?: ReactNode
 }
 
 const ContentWrapper = styled.div`

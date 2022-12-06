@@ -5,12 +5,13 @@ import { render, screen } from '@testing-library/react'
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
 
-import type { FormFieldProps } from './FormField'
 import FormField from '.'
+import type { FormFieldProps } from './FormField'
 
 describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr'
   const props = {
+    children: <div>childProp</div>,
     meta: {
       label,
       name: label,

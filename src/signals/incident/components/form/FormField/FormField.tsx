@@ -59,7 +59,7 @@ export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   meta: FormMeta
   options?: FormOptions
   isFieldSet?: boolean
-  children: ReactNode
+  children?: ReactNode
 }
 
 const FormField = ({
