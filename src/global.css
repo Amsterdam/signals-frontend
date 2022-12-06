@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2018 - 2021 Gemeente Amsterdam */
+/* Copyright (C) 2018 - 2022 Gemeente Amsterdam */
 .col-md-6,
 .col-sm-12 {
   position: relative;
@@ -55,6 +55,7 @@ body {
   line-height: 1.375;
   overflow-y: scroll;
   background-color: #e5e5e5;
+  letter-spacing: 0.1px;
 }
 
 ul li {
@@ -62,6 +63,10 @@ ul li {
   padding: 0;
   text-indent: 0;
   list-style-type: none;
+}
+
+p {
+  line-height: 1.5;
 }
 
 table {

@@ -1,9 +1,12 @@
-import styled, { css } from 'styled-components'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { Heading, themeSpacing, breakpoint } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 export const StyledH1 = styled(Heading)`
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(5)};
+  letter-spacing: 0.1px;
 `
 
 export const Wrapper = styled.div`
