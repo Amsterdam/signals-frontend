@@ -7,6 +7,7 @@ import { StatusCode } from '../../definitions/types'
 import {
   CLOSE_ALL,
   EDIT,
+  EXTERNAL,
   PATCH_START,
   PATCH_SUCCESS,
   PREVIEW,
@@ -235,6 +236,20 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
       edit: undefined,
       external: false,
       ...payload,
+    })
+  })
+
+  it('should handle EXTERNAL', () => {
+    const mockState = {
+      ...state,
+      edit: 'foo',
+      preview: 'bar',
+    }
+    expect(reducer(mockState, { type: EXTERNAL })).toEqual({
+      ...mockState,
+      edit: undefined,
+      external: !mockState.external,
+      preview: undefined,
     })
   })
 
