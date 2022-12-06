@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import * as reactRouterDom from 'react-router-dom'
+
 import configuration from 'shared/services/configuration/configuration'
+import { formatAddress } from 'shared/services/format-address'
 import {
   priorityList,
   statusList,
   stadsdeelList,
 } from 'signals/incident-management/definitions'
+import { StatusCode } from 'signals/incident-management/definitions/types'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
 import 'jest-styled-components'
-import * as reactRouterDom from 'react-router-dom'
-
+import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'
 
-import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
-import { StatusCode } from 'signals/incident-management/definitions/types'
-import { formatAddress } from 'shared/services/format-address'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
-import IncidentManagementContext from '../../../../context'
 import List, { getDaysOpen } from '.'
+import IncidentManagementContext from '../../../../context'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -92,7 +92,7 @@ describe('List', () => {
         '',
         `${INCIDENT_1.id}`,
         '-',
-        '03-12-2018 10:41',
+        '03-12-2018 10.41',
         INCIDENT_1.category.sub,
         INCIDENT_1.status.state_display,
         'Centrum',
@@ -103,7 +103,7 @@ describe('List', () => {
         '',
         `${INCIDENT_2.id}`,
         `${getDaysOpen(INCIDENT_2 as unknown as IncidentListItem)}`,
-        '29-11-2018 23:03',
+        '29-11-2018 23.03',
         INCIDENT_2.category.sub,
         INCIDENT_2.status.state_display,
         'Zuid',
@@ -125,7 +125,7 @@ describe('List', () => {
   })
 
   it('should handle invalid dates correctly', () => {
-    const VALID_DATE = '29-11-2018 23:03'
+    const VALID_DATE = '29-11-2018 23.03'
     const FALLBACK_DATE = '-'
 
     const incident = incidents[1] as unknown as IncidentListItem
