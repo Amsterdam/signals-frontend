@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2022 Gemeente Amsterdam
 // eslint-disable-next-line no-restricted-imports
 import React from 'react'
 
@@ -43,7 +43,7 @@ const watchWithDescriptionChange = (cb: any) => {
   return { unsubscribe: jest.fn() }
 }
 
-describe('StepBySTepNavClickable when form is valid', () => {
+describe('StepByStepNavClickable when form is valid', () => {
   beforeEach(() => {
     jest.resetAllMocks()
   })
@@ -193,6 +193,31 @@ describe('StepBySTepNavClickable when form is valid', () => {
     const mockTrigger = jest
       .fn()
       .mockImplementation(() => Promise.resolve(false))
+
+    jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
+      ...jest.requireActual('react-hook-form').useFormContext,
+      trigger: mockTrigger,
+      watch: jest.fn().mockImplementation(watchWithDescriptionChange),
+    }))
+
+    render(
+      <WizardContext.Provider value={{ ...defaultContextProps }}>
+        <StepByStepNavClickable
+          activeItem={0}
+          wizardRoutes={['step1', 'step2']}
+          steps={[{ label: 'step1' }, { label: 'step2' }]}
+        />
+      </WizardContext.Provider>
+    )
+
+    expect(mockPush).not.toBeCalled()
+    expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
+  })
+
+  it('it should trigger setCountStep when there is an error in the formState', async function () {
+    const mockTrigger = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(false))
     jest
       .spyOn(React, 'useRef')
       .mockReturnValueOnce({ current: 'someErrorField' })
@@ -200,7 +225,7 @@ describe('StepBySTepNavClickable when form is valid', () => {
     jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
       ...jest.requireActual('react-hook-form').useFormContext,
       trigger: mockTrigger,
-      watch: jest.fn().mockImplementation(watchWithDescriptionChange),
+      watch: jest.fn().mockImplementation(watch),
       formState: { errors: { someErrorField: 'error' } },
     }))
 
@@ -215,6 +240,6 @@ describe('StepBySTepNavClickable when form is valid', () => {
     )
 
     expect(mockPush).not.toBeCalled()
-    expect(mockSetStepsCompletedCount).toBeCalledTimes(2)
+    expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
   })
 })

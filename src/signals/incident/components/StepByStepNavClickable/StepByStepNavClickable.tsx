@@ -14,7 +14,7 @@ import { WizardContext } from '../StepWizard'
 import { StyledLabel, StyledListItem } from './styled'
 
 type Props = StepByStepNavProps &
-  HTMLAttributes<HTMLElement> & { wizardRoutes: string[] }
+  HTMLAttributes<HTMLElement> & { wizardRoutes: string[]; activeItem: number }
 
 export function StepByStepNavClickable({
   activeItem,
@@ -22,7 +22,7 @@ export function StepByStepNavClickable({
   breakpoint,
   wizardRoutes,
   ...props
-}: Props & { activeItem: number }) {
+}: Props) {
   const { push, stepsCompletedCount, setStepsCompletedCount } =
     useContext(WizardContext)
   const { trigger, watch, formState } = useFormContext()
@@ -89,9 +89,10 @@ export function StepByStepNavClickable({
      * when changing the description field, reset stepsCompletedCount.
      */
     const subscription = watch((_, { name, type }) => {
-      prevChangedField.current = name
       if (name === 'description' && type === 'change') {
         setStepsCompletedCount(activeItem)
+      } else {
+        prevChangedField.current = name
       }
     })
     return () => subscription.unsubscribe()
