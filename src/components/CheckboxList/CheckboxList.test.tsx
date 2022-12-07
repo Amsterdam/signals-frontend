@@ -7,6 +7,7 @@ import statuses from 'signals/incident-management/definitions/statusList'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories.json'
 
+import priorityList from '../../signals/incident-management/definitions/priorityList'
 import CheckboxList from './index'
 
 describe('signals/incident-management/components/CheckboxList', () => {
@@ -143,9 +144,16 @@ describe('signals/incident-management/components/CheckboxList', () => {
   })
 
   it('should render topics if there are any', function () {
+    const statusesWithTopic = statuses.map((item, index) => {
+      if (index < priorityList.length - 1) {
+        return { ...item, topic: 'topic1' }
+      }
+      return { ...item, topic: 'topic2' }
+    })
+
     render(
       withAppContext(
-        <CheckboxList name="topic checkboxes" options={statuses} />
+        <CheckboxList name="topic checkboxes" options={statusesWithTopic} />
       )
     )
     const selector1 = screen.getAllByText('topic1')

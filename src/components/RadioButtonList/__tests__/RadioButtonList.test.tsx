@@ -58,10 +58,17 @@ describe('signals/incident-management/components/RadioButtonList', () => {
   })
 
   it('should render topics if there are any', function () {
+    const priorityListWithTopics = priorityList.map((item, index) => {
+      if (index < priorityList.length - 1) {
+        return { ...item, topic: 'topic1' }
+      }
+      return { ...item, topic: 'topic2' }
+    })
+
     render(
       withAppContext(
         <RadioButtonList
-          options={priorityList}
+          options={priorityListWithTopics}
           groupName="priority"
           hasEmptySelectionButton={false}
           onChange={() => {}}
