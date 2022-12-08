@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { statusList } from 'signals/incident-management/definitions'
 import { withAppContext } from 'test/utils'
@@ -63,7 +64,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
       withAppContext(<DetailPanel incident={incident} onClose={() => {}} />)
     )
     expect(screen.getByText(/gemeld op/i)).toBeInTheDocument()
-    expect(screen.getByText(/04-03-2020 05:06/i)).toBeInTheDocument()
+    expect(screen.getByText(/04-03-2020 05.06/i)).toBeInTheDocument()
     expect(screen.getByText(/status/i)).toBeInTheDocument()
     expect(
       screen.getByText(new RegExp(statusList[1].value, 'i'))
@@ -88,7 +89,7 @@ describe('signals/incident-management/containes/IncidentOverviewPage/components/
       withAppContext(<DetailPanel incident={incident} onClose={() => {}} />)
     )
     expect(screen.getByText(/gemeld op/i)).toBeInTheDocument()
-    expect(screen.getByText(/04-03-2020 05:06/i)).toBeInTheDocument()
+    expect(screen.getByText(/04-03-2020 05.06/i)).toBeInTheDocument()
     expect(screen.getByText(/status/i)).toBeInTheDocument()
     expect(
       screen.getByText(new RegExp(statusList[1].value, 'i'))

@@ -2,12 +2,11 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import configureStore from 'configureStore'
 import { mocked } from 'jest-mock'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
-
-import configureStore from 'configureStore'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
@@ -179,12 +178,14 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       )
     )
 
-    expect(queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(queryByText('Dit is een verplicht veld')).not.toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
 
     userEvent.click(getByTestId('ktoSubmit'))
 
-    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
@@ -208,11 +209,15 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(lastOption)
 
     expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
-    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Dit is een verplicht veld')
+    ).not.toBeInTheDocument()
 
     userEvent.click(getByTestId('ktoSubmit'))
 
-    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
@@ -236,11 +241,17 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(lastOption)
 
     expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
-    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Dit is een verplicht veld')
+    ).not.toBeInTheDocument()
 
     userEvent.click(getByTestId('ktoSubmit'))
 
-    expect(await screen.findByText('Dit veld is verplicht')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'
+      )
+    ).toBeInTheDocument()
 
     const value = 'Qux Baz'
 
@@ -249,7 +260,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.type(ktoText, value)
 
     expect(
-      await screen.findByText('Dit veld is verplicht')
+      await screen.findByText('Dit is een verplicht veld')
     ).not.toBeInTheDocument()
   })
 
@@ -275,7 +286,9 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     expect(firstOption).toBeChecked()
     expect(screen.queryByTestId('ktoText')).not.toBeInTheDocument()
-    expect(screen.queryByText('Dit veld is verplicht')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Dit is een verplicht veld')
+    ).not.toBeInTheDocument()
 
     expect(onSubmit).not.toHaveBeenCalled()
 

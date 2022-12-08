@@ -5,7 +5,7 @@ import nl from 'date-fns/locale/nl'
 
 export const formatDate = (
   date: Date,
-  formatAs = "dd MMMM yyyy, HH:mm 'uur'"
+  formatAs = "dd MMMM yyyy, HH.mm 'uur'"
 ): string =>
   format(date, formatAs, {
     locale: nl,

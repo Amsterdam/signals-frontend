@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C)  - 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
-import type { Item } from './types'
 import ExtraProperties from '.'
+import type { Item } from './types'
 
 describe('<ExtraProperties />', () => {
   const props = {
@@ -139,6 +139,11 @@ describe('<ExtraProperties />', () => {
             type: 'Onbekend',
             description: 'De container staat niet op de kaart',
           },
+          {
+            id: '1234',
+            type: 'Onbekend',
+            description: undefined,
+          } as unknown as Item,
         ],
         category_url:
           '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
@@ -162,6 +167,12 @@ describe('<ExtraProperties />', () => {
     )
     expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(
       /De container staat niet op de kaart/
+    )
+    expect(screen.getByTestId('extra-properties-value')).toHaveTextContent(
+      /1234/
+    )
+    expect(screen.getByTestId('extra-properties-value')).not.toHaveTextContent(
+      /undefined/
     )
   })
 

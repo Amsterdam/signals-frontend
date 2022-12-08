@@ -2,8 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-import { history, withAppContext } from 'test/utils'
+import { withAppContext } from 'test/utils'
 
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
@@ -87,19 +86,13 @@ describe('BasePage', () => {
   })
 
   it('should redirect to requestAccess page when email is undefined', () => {
-    const value = {
-      ...providerMock,
-      email: undefined,
-    }
-
-    render(
-      withAppContext(
-        <MyIncidentsProvider value={value}>
-          <Confirmation />
-        </MyIncidentsProvider>
+    try {
+      render(withAppContext(<Confirmation />))
+    } catch (e) {
+      const error = new Error(
+        'Missing MyIncidentsContext provider. You have to wrap the application with the MyIncidentsProvider component.'
       )
-    )
-
-    expect(history.location.pathname).toEqual('/mijn-meldingen/login')
+      expect(e).toEqual(error)
+    }
   })
 })

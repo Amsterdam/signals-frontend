@@ -20,7 +20,7 @@ const GlobalError = ({ meta }) => {
   const { formState } = useFormContext()
   return !isEmpty(formState?.errors) ? (
     <ErrorItem role="alert">
-      {meta.label ||
+      {meta?.label ||
         'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'}
     </ErrorItem>
   ) : null

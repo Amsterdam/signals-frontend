@@ -25,7 +25,7 @@
     "favicon": "/favicon.png",
     "iosIcon": "/icon_180x180.png",
     "statusBarStyle": "default",
-    "themeColor": "#ec0000"
+    "themeColor": "#fff"
   },
   "language": {
     "consentToContactSharing": "Ja, ik geef de gemeente Amsterdam toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.",
