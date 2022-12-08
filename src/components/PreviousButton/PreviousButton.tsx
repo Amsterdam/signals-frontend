@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import type { FunctionComponent, ReactNode } from 'react'
-import styled from 'styled-components'
+import type { ReactNode } from 'react'
+
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import Button from 'components/Button'
 
 const StyledButton = styled(Button)`
@@ -21,11 +23,11 @@ interface PreviousButtonProps {
   onClick: () => void
 }
 
-const PreviousButton: FunctionComponent<PreviousButtonProps> = ({
+const PreviousButton = ({
   className,
   children,
   onClick,
-}) => (
+}: PreviousButtonProps) => (
   <StyledButton
     className={className}
     data-testid="previousButton"
@@ -38,4 +40,5 @@ const PreviousButton: FunctionComponent<PreviousButtonProps> = ({
     {children}
   </StyledButton>
 )
+
 export default PreviousButton

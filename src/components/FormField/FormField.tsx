@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+import type { ReactNode } from 'react'
 import { Fragment } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
@@ -40,7 +40,6 @@ const FieldSet = styled.fieldset`
 
 const Optional = styled.span`
   margin-left: ${themeSpacing(2)};
-  font-weight: 400;
 `
 
 const SubTitle = styled.p`
@@ -60,9 +59,10 @@ export interface FormFieldProps extends Pick<ReactiveFormMeta, PickedProps> {
   meta: FormMeta
   options?: FormOptions
   isFieldSet?: boolean
+  children?: ReactNode
 }
 
-const FormField: FunctionComponent<FormFieldProps> = ({
+const FormField = ({
   isFieldSet,
   className,
   meta,
@@ -70,7 +70,7 @@ const FormField: FunctionComponent<FormFieldProps> = ({
   hasError,
   getError,
   children,
-}) => {
+}: FormFieldProps) => {
   const containsErrors: boolean =
     hasError('required') ||
     hasError('email') ||

@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 import type { FormMeta } from 'types/reactive-form'
 
-import FormField from './'
+import FormField from '.'
 import type { FormFieldProps } from './FormField'
 
-describe('FormField', () => {
+describe('signals/incident/components/form/FormField', () => {
   const label = 'Foo barrrr'
   const props = {
+    children: <div>childProp</div>,
     meta: {
       label,
       name: label,

@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import styled from 'styled-components'
 
-import type { ReactNode, FC } from 'react'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Theme } from 'types/theme'
 
 import { isStatusEnd } from '../../definitions/statusList'
 
 type StatusProps = {
-  children?: ReactNode
+  children: ReactNode
   statusCode: StatusCode
 }
 
@@ -21,7 +22,7 @@ const StyledStatus = styled.span<{ statusCode?: StatusCode; theme: Theme }>`
       : theme.colors.support.invalid};
 `
 
-const Status: FC<StatusProps> = ({ children, statusCode }) => (
+const Status = ({ children, statusCode }: StatusProps) => (
   <StyledStatus statusCode={statusCode}>{children}</StyledStatus>
 )
 

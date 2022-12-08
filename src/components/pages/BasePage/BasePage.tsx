@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
-import styled from 'styled-components'
+// Copyright (C) 2021-2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
 import { Helmet } from 'react-helmet'
+import styled from 'styled-components'
 
 import configuration from 'shared/services/configuration/configuration'
 
@@ -17,6 +18,7 @@ interface BasePageProps {
   documentTitle?: string
   pageTitle?: string
   body?: string
+  children?: ReactNode
 }
 
 const ContentWrapper = styled.div`
@@ -30,12 +32,12 @@ const ContentWrapper = styled.div`
   }
 `
 
-const BasePage: FunctionComponent<BasePageProps> = ({
+const BasePage = ({
   documentTitle,
   pageTitle,
   children,
   ...props
-}) => (
+}: BasePageProps) => (
   <Row data-testid="basePage" {...props}>
     <ContentWrapper>
       <Helmet

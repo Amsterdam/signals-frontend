@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+// Copyright (C) 2021-2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
 
 const StyledListItem = styled(ListItem)`
@@ -27,16 +29,17 @@ export interface IconListItemProps {
   className?: string
   iconSize?: number
   featureStatusType?: FeatureStatusType
+  children: ReactNode
 }
 
-export const IconListItem: FunctionComponent<IconListItemProps> = ({
+export const IconListItem = ({
   iconUrl,
   children,
   className,
   iconSize = 40,
   id,
   featureStatusType,
-}) => (
+}: IconListItemProps) => (
   <StyledListItem data-testid={id} className={className}>
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />

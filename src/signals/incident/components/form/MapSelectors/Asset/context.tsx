@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { createContext } from 'react'
+import type { ReactNode } from 'react'
 
-import type { FC } from 'react'
 import type { AssetSelectValue } from './types'
 
 export const initialValue: AssetSelectValue = {
@@ -27,12 +27,13 @@ const AssetSelectContext = createContext(initialValue)
 
 interface AssetSelectProviderProps {
   value: AssetSelectValue
+  children: ReactNode
 }
 
-export const AssetSelectProvider: FC<AssetSelectProviderProps> = ({
+export const AssetSelectProvider = ({
   value,
   children,
-}) => (
+}: AssetSelectProviderProps) => (
   <AssetSelectContext.Provider value={value}>
     {children}
   </AssetSelectContext.Provider>
