@@ -31,6 +31,10 @@ export function StepByStepNavClickable({
 
   const onListClickHandler = useCallback(
     async (newIndex) => {
+      if (newIndex > stepsCompletedCount) {
+        return
+      }
+
       const isValid = await trigger()
 
       /**
