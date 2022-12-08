@@ -37,4 +37,5 @@ export const StyledMap = styled(Map)`
 
 export const StyledParagraph = styled(Paragraph)`
   margin-bottom: ${themeSpacing(5)};
+  line-height: inherit;
 `
