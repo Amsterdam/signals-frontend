@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { FC } from 'react'
-import type { FormMeta, FormOptions } from 'types/reactive-form'
 
 import { breakpoint, Heading, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import type { FormMeta, FormOptions } from 'types/reactive-form'
 
 type WrapMeta = FormMeta & {
   heading?: string
@@ -20,7 +23,7 @@ const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(2, 0, 5)};
 
   @media screen and ${breakpoint('max-width', 'tabletS')} {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 `
 

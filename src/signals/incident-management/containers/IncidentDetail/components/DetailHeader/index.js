@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useCallback, useContext, useMemo } from 'react'
-import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
+
 import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui'
+import { Link, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
 
 import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import configuration from 'shared/services/configuration/configuration'
+import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
 import {
   MAP_URL,
   INCIDENT_URL,
   INCIDENTS_URL,
 } from 'signals/incident-management/routes'
-import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
 
 import { PATCH_TYPE_THOR } from '../../constants'
 import IncidentDetailContext from '../../context'
@@ -69,7 +70,7 @@ const HeadingContainer = styled.div`
 `
 
 const StyledHeading = styled(Heading)`
-  font-size: 16px;
+  font-size: inherit;
   margin: 0;
 
   & > *:not(:first-child)::before {

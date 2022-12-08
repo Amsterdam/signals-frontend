@@ -1,7 +1,11 @@
-import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import Paragraph from 'components/Paragraph'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
+
+import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import Paragraph from 'components/Paragraph'
 
 const GRAPH_DESCRIPTION_COLOR = themeColor('tint', 'level3')
 
@@ -14,7 +18,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled(Heading)`
-  font-size: 20px;
+  font-size: 1.25rem;
   margin-bottom: ${themeSpacing(2)};
   margin-top: 0;
 `

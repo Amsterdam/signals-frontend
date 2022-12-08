@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback, useMemo, useState } from 'react'
 import type {
   ChangeEvent,
@@ -9,13 +9,14 @@ import type {
 } from 'react'
 
 import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import Checkbox from 'components/Checkbox'
 import FormFooter from 'components/FormFooter'
 import History from 'components/History'
 import Input from 'components/Input'
 import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
-import styled from 'styled-components'
 import type { Category as CategoryType } from 'types/category'
 import type { History as HistoryType } from 'types/history'
 
@@ -63,7 +64,7 @@ const StyledLabel = styled(Label)`
 
 const StyledHistory = styled(History as ElementType)`
   h2 {
-    font-size: 16px;
+    font-size: inherit;
   }
 `
 
@@ -75,7 +76,7 @@ const StyledHeading = styled.p`
   margin-bottom: ${themeSpacing(1)};
   font-weight: bold;
   line-height: 22px;
-  font-size: 16px;
+  font-size: inherit;
 `
 
 const statusOptions = [

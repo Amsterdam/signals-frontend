@@ -45,17 +45,17 @@ body {
 }
 
 html {
-  font-size: 100%;
+  font-size: 16px;
 }
 
 body {
   font-family: Amsterdam Sans, sans-serif;
   font-weight: 400;
-  font-size: 1rem;
   line-height: 1.375;
   overflow-y: scroll;
   background-color: #e5e5e5;
   letter-spacing: 0.1px;
+  font-size: 1rem;
 }
 
 ul li {

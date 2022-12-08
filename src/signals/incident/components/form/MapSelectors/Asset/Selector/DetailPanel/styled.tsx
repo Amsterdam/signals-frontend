@@ -71,7 +71,7 @@ export const StyledLegendPanel = styled(LegendPanel)`
 export const Description = styled.span`
   color: ${themeColor('tint', 'level5')};
   display: block;
-  font-size: 16px;
+  font-size: inherit;
   font-weight: 400;
 `
 
@@ -97,7 +97,7 @@ export const AddressPanel = styled.article`
   z-index: 2;
   left: 0;
   top: 0;
-  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     translate3d(0, 100%, 0);
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
@@ -122,7 +122,7 @@ export const AddressPanel = styled.article`
 
   .instruction {
     color: ${themeColor('tint', 'level4')};
-    font-size: 18px;
+    font-size: 1.125rem;
     margin-top: ${themeSpacing(6)};
     text-align: center;
   }

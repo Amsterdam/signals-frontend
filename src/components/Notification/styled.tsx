@@ -94,7 +94,7 @@ export const Title = styled(Paragraph)`
 export const Message = styled(Paragraph)`
   color: white;
   margin: 0 0 ${themeSpacing(2)};
-  font-size: 16px;
+  font-size: inherit;
 `
 
 export const CloseButton = styled(Button)<{ alignTop?: boolean }>`

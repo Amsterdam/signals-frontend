@@ -39,13 +39,13 @@ export const Status = styled.div<{ status: string }>`
 `
 
 export const StyledParagraph = styled.div`
-  font-size: ${themeSpacing(4)};
+  font-size: inherit;
   margin-bottom: ${themeSpacing(4)};
 `
 
 export const StyledLink = styled(Link)`
   a {
-    font-size: ${themeSpacing(4)};
+    font-size: inherit;
     line-height: ${themeSpacing(6)};
   }
 `

@@ -4,8 +4,9 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 
 import { Label } from '@amsterdam/asc-ui'
-import Checkbox from 'components/Checkbox'
 import styled, { css } from 'styled-components'
+
+import Checkbox from 'components/Checkbox'
 
 import TopicLabel from '../TopicLabel'
 
@@ -24,7 +25,7 @@ const Toggle = styled.label<{ indent: boolean }>`
   margin-left: ${({ indent }) => indent && 2}0px;
   cursor: pointer;
   text-decoration: underline;
-  font-size: 16px;
+  font-size: inherit;
   line-height: 20px;
   white-space: nowrap;
   position: relative;

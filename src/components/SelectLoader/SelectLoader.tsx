@@ -7,7 +7,7 @@ const Container = styled.div`
   align-items: center;
   border: 1px dashed #767676;
   display: flex;
-  font-size: 1rem;
+  font-size: inherit;
   height: 100%;
   height: 44px;
   max-width: 420px;

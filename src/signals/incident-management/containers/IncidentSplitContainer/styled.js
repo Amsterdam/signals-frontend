@@ -105,7 +105,7 @@ export const StyledSelect = styled.div`
   max-width: 420px;
 
   strong {
-    font-size: 16px;
+    font-size: inherit;
   }
 `
 

@@ -14,7 +14,7 @@ const SelectContainer = styled.div`
   label {
     margin-right: ${themeSpacing(3)};
     padding: 0;
-    font-size: 1rem;
+    font-size: inherit;
   }
 
   select {

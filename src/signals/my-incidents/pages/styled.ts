@@ -19,7 +19,7 @@ export const StyledRow = styled(Row)`
 
 export const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(8, 0, 5, 0)};
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 28px;
 
   @media ${breakpoint('max-width', 'tabletS')} {
@@ -43,7 +43,7 @@ export const ContentWrapper = styled.div`
 `
 
 export const StyledParagraph = styled(Paragraph)`
-  font-size: 16px;
+  font-size: inherit;
   line-height: ${themeSpacing(6)};
   margin: ${themeSpacing(5, 0, 5, 0)};
 
@@ -66,7 +66,7 @@ export const StyledEmail = styled(Paragraph)`
 `
 
 export const StyledLink = styled(Link)`
-  font-size: 16px;
+  font-size: inherit;
   margin-bottom: ${themeSpacing(10)};
 `
 

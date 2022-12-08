@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import type { LinkProps } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import type { FunctionComponent } from 'react'
+
+import { ChevronLeft } from '@amsterdam/asc-assets'
 import {
   Link as AscLink,
   Icon,
@@ -10,13 +10,14 @@ import {
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import { ChevronLeft } from '@amsterdam/asc-assets'
-import type { FunctionComponent } from 'react'
+import type { LinkProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',
 })`
-  font-size: 16px;
+  font-size: inherit;
   font-weight: 700;
   color: ${themeColor('primary')};
 `

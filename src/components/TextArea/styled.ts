@@ -1,13 +1,16 @@
-import styled from 'styled-components'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import {
   themeColor,
   themeSpacing,
   TextArea as AscTextArea,
 } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
 
 const lineHeight = 22
-const infoFontSize = 14
+const infoFontSize = 0.875
 
 export const StyledErrorMessage = styled(ErrorMessage)`
   margin-bottom: ${themeSpacing(2)};
@@ -29,7 +32,7 @@ export const StyledArea = styled(AscTextArea)<{
 export const InfoText = styled.div`
   color: ${themeColor('tint', 'level5')};
   margin-top: ${themeSpacing(2)};
-  font-size: ${infoFontSize}px;
+  font-size: ${infoFontSize}rem;
 `
 
 export { ErrorWrapper }
