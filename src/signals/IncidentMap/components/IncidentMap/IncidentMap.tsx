@@ -25,7 +25,11 @@ import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { getFilteredIncidents, countIncidentsPerFilter } from '../utils'
+import {
+  getFilteredIncidents,
+  countIncidentsPerFilter,
+  DEFAULT_ZOOM,
+} from '../utils'
 import { Pin } from './Pin'
 import { Wrapper, StyledMap, StyledParagraph } from './styled'
 import { getZoom } from './utils'
@@ -75,7 +79,6 @@ export const IncidentMap = () => {
           lng: sanitizedCoords.lng,
         }
         const zoom = getZoom(map)
-
         map.flyTo(coords, zoom)
       }
 
@@ -143,6 +146,8 @@ export const IncidentMap = () => {
     }
   }, [coordinates])
 
+  const zoomLevel = map?.getZoom() || DEFAULT_ZOOM
+
   return (
     <Wrapper>
       <StyledMap
@@ -158,11 +163,13 @@ export const IncidentMap = () => {
         }}
       >
         <IncidentLayer
+          selectedIncident={selectedIncident}
           handleIncidentSelect={handleIncidentSelect}
           passBbox={setBbox}
           incidents={filteredIncidents}
           resetSelectedMarker={resetSelectedMarker}
           selectedMarkerRef={selectedMarkerRef}
+          zoomLevel={zoomLevel}
         />
 
         {map && coordinates && (
