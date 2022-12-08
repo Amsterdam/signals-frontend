@@ -10,7 +10,7 @@ const Container = styled.div`
   border: 1px dashed #767676;
   display: flex;
   font-size: 1rem;
-  height: 100%;
+  height: 44px;
   max-width: 420px;
   padding: 8px 12px;
   width: 100%;
