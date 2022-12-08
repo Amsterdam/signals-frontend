@@ -1,7 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
-import { useState, useRef, useEffect, useCallback, forwardRef } from 'react'
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  forwardRef,
+  useContext,
+} from 'react'
 
 import { isEmpty, isObject } from 'lodash'
 import isEqual from 'lodash/isEqual'
@@ -9,6 +16,7 @@ import { Controller } from 'react-hook-form'
 
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
+import { WizardContext } from '../StepWizard'
 import { Form, Fieldset, ProgressContainer } from './styled'
 import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 
@@ -24,10 +32,14 @@ const IncidentForm = forwardRef<any, any>(
       removeFromSelection,
       getClassification,
       fieldConfig,
+      index,
     },
     controlsRef: ForwardedRef<any>
   ) => {
     const [submitting, setSubmitting] = useState(false)
+
+    const { steps, stepsCompletedCount, setStepsCompletedCount } =
+      useContext(WizardContext)
 
     const prevState = useRef<{ isMounted: boolean; loading: boolean }>({
       isMounted: true,
@@ -139,6 +151,7 @@ const IncidentForm = forwardRef<any, any>(
         if (next) {
           if (prevState.current.loading) {
             next()
+            setStepsCompletedCount(index + 1)
             return
           }
 
@@ -146,11 +159,6 @@ const IncidentForm = forwardRef<any, any>(
             setSubmitting(true)
           }
 
-          /**
-           * Trigger the form before before calling handle submit,
-           * to make sure useForm takes the latest yupResolver defined right
-           * above the return jsx statement.
-           */
           const isValid = await reactHookFormProps.trigger()
 
           /**
@@ -161,6 +169,9 @@ const IncidentForm = forwardRef<any, any>(
             setIncident(formAction)
             setSubmitting(false)
             next()
+            if (index < steps.length) {
+              setStepsCompletedCount(index + 1)
+            }
           } else {
             scrollToInvalidElement(
               controls,
@@ -170,7 +181,16 @@ const IncidentForm = forwardRef<any, any>(
           }
         }
       },
-      [controls, reactHookFormProps, setIncident, submitting]
+      [
+        controls,
+        index,
+        reactHookFormProps,
+        setIncident,
+        setStepsCompletedCount,
+        steps.length,
+        stepsCompletedCount,
+        submitting,
+      ]
     )
 
     const parent = {
@@ -191,6 +211,7 @@ const IncidentForm = forwardRef<any, any>(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     controlsRef.current = constructYupResolver(controls)
+
     return (
       <div data-testid="incidentForm" ref={formRef}>
         <ProgressContainer />

@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import type { FormInputProps } from 'types/reactive-form'
-import type { Location } from 'types/incident'
 
+import FormField from 'components/FormField'
 import MapInputComponent from 'components/MapInput'
 import MapContext from 'containers/MapContext'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import type { Location } from 'types/incident'
+import type { FormInputProps } from 'types/reactive-form'
 
-import FormField from '../FormField'
-import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 import getMapCenter from './getMapCenter'
+import { TOUCH_GESTURE_MESSAGE_OPTION } from './touchGestureMessage'
 
 const MapInput: FunctionComponent<FormInputProps<Location>> = ({
   hasError,

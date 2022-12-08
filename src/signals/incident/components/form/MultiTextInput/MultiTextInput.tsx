@@ -2,15 +2,14 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { KeyboardEvent } from 'react'
 import type { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import map from 'lodash/map'
 
-import Input from 'components/Input'
-import Button from 'components/Button'
-
-import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form'
 import { themeSpacing } from '@amsterdam/asc-ui'
-import FormField from '../FormField'
+import Button from 'components/Button'
+import FormField from 'components/FormField'
+import Input from 'components/Input'
+import map from 'lodash/map'
+import styled from 'styled-components'
+import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form'
 
 const allowedChars = /[\d,.;]+/
 

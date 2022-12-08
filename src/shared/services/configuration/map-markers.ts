@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 /* eslint-disable global-require */
 import L from 'leaflet'
 
@@ -53,6 +53,8 @@ export const currentIncidentIcon = L.icon({
 })
 
 export const defaultIcon = '/assets/images/icon-incident-marker.svg'
+
+/* istanbul ignore next */
 export const dynamicIcon = (iconUrl?: string) =>
   L.icon({
     iconUrl: iconUrl ?? defaultIcon,

@@ -27,7 +27,7 @@
     "favicon": "/favicon.png",
     "iosIcon": "/icon_180x180.png",
     "statusBarStyle": "default",
-    "themeColor": "#ec0000"
+    "themeColor": "#fff"
   },
   "language": {
     "consentToContactSharing": "Ja, ik geef Signalen toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",

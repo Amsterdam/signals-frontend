@@ -7,12 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import CheckboxList from 'components/CheckboxList'
-import ErrorMessage from 'components/ErrorMessage'
+import FormField from 'components/FormField'
+import GlobalError from 'components/GlobalError'
 import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import PropTypes from 'prop-types'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
@@ -67,7 +68,7 @@ const KtoForm = ({
   setContactAllowed,
   contactAllowed,
 }) => {
-  const firstLabelRef = useRef(null)
+  const formRef = useRef(null)
   const { satisfactionIndication } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
   const dispatchRedux = useDispatch()
@@ -96,13 +97,7 @@ const KtoForm = ({
     })
     .required()
 
-  const {
-    setValue,
-    watch,
-    trigger,
-    getValues,
-    formState: { errors },
-  } = useForm({
+  const formMethods = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       allows_contact: contactAllowed,
@@ -113,15 +108,19 @@ const KtoForm = ({
     },
   })
 
+  const {
+    setValue,
+    watch,
+    trigger,
+    getValues,
+    formState: { errors },
+  } = formMethods
+
   async function handleSubmit(e) {
     e.preventDefault()
     // Trigger form validation
     const isValid = await trigger()
-    // scrollIntoView not available in unit tests
-    /* istanbul ignore next */
-    if (firstLabelRef.current?.scrollIntoView && Object.keys(errors).length) {
-      firstLabelRef.current.scrollIntoView()
-    }
+
     if (isValid) {
       if (incident.images.length > 0) {
         await filesUpload({
@@ -138,6 +137,11 @@ const KtoForm = ({
       // eslint-disable-next-line no-unused-vars
       const { text_list_extra, ...formData } = allFormData
       onSubmit(formData)
+    } else {
+      const invalidElement = formRef.current.querySelector(
+        '[class^=ErrorMessage]'
+      )
+      invalidElement?.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -151,176 +155,191 @@ const KtoForm = ({
   }, [setValue, watchTextList])
 
   return (
-    <Form data-testid="ktoForm" onSubmit={handleSubmit}>
-      <GridArea>
-        <FieldSet>
-          <StyledLabel as="legend" ref={firstLabelRef}>
-            Waarom bent u {!isSatisfied ? 'on' : ''}tevreden?
-          </StyledLabel>
-          <HelpText> U kunt meer keuzes maken.</HelpText>
+    <FormProvider {...formMethods}>
+      <FieldSet>
+        <GlobalError />
+        <Form ref={formRef} data-testid="ktoForm" onSubmit={handleSubmit}>
+          <GridArea>
+            <FormField
+              meta={{
+                label: ` Waarom bent u ${!isSatisfied ? 'on' : ''}tevreden?`,
+                name: 'input',
+                subtitle: 'U kunt meer keuzes maken.',
+              }}
+              hasError={(errorType) => errors['text_list']?.type === errorType}
+              getError={(errorType) => errors['text_list']?.type === errorType}
+              options={{ validators: ['min'] }}
+            >
+              {configuration.featureFlags.enableMultipleKtoQuestions ? (
+                <CheckboxList
+                  aria-describedby="subtitle-kto"
+                  options={options}
+                  name={'input'}
+                  onChange={(key, options) => {
+                    setValue(
+                      'text_list',
+                      options.map((option) => option.value)
+                    )
+                    trigger('text_list')
+                    if (
+                      !getValues().text_list?.includes(
+                        options.slice(-1)[0]?.value
+                      )
+                    ) {
+                      trigger('text_list_extra')
+                    }
+                  }}
+                />
+              ) : (
+                <RadioButtonList
+                  aria-describedby="subtitle-kto"
+                  error={false}
+                  groupName="kto"
+                  hasEmptySelectionButton={false}
+                  onChange={(key, option) => {
+                    setValue('text_list', [option.value])
+                    trigger('text_list')
+                  }}
+                  options={options}
+                />
+              )}
+            </FormField>
 
-          {configuration.featureFlags.enableMultipleKtoQuestions ? (
-            <CheckboxList
-              aria-describedby="subtitle-kto"
-              options={options}
-              name={'input'}
-              onChange={(key, options) => {
-                setValue(
-                  'text_list',
-                  options.map((option) => option.value)
-                )
-                trigger('text_list')
-                if (
-                  !getValues().text_list?.includes(options.slice(-1)[0]?.value)
-                ) {
-                  trigger('text_list_extra')
+            {watchTextList?.includes(options.slice(-1)[0].value) && (
+              <FormField
+                meta={{
+                  label: ``,
+                  name: 'text',
+                  subtitle: '',
+                }}
+                hasError={(errorType) =>
+                  errors['text_list_extra']?.type === errorType
                 }
-              }}
-            />
-          ) : (
-            <RadioButtonList
-              aria-describedby="subtitle-kto"
-              error={false}
-              groupName="kto"
-              hasEmptySelectionButton={false}
-              onChange={(key, option) => {
-                setValue('text_list', [option.value])
-                trigger('text_list')
-              }}
-              options={options}
-            />
-          )}
-
-          {watchTextList?.includes(options.slice(-1)[0].value) && (
-            <StyledTextArea
-              data-testid="ktoText"
-              maxRows={5}
-              name="text"
-              onChange={(event) => {
-                setValue('text_list_extra', event.target.value)
-                trigger('text_list_extra')
-              }}
-              rows="2"
-            />
-          )}
-
-          <div role="status">
-            {errors.text_list && (
-              <ErrorMessage message={errors.text_list.message} />
-            )}
-          </div>
-          <div role="status">
-            {errors.text_list_extra && (
-              <ErrorMessage message={errors.text_list_extra.message} />
-            )}
-          </div>
-        </FieldSet>
-      </GridArea>
-
-      {satisfactionIndication === 'nee' && (
-        <GridArea>
-          <StyledLabel htmlFor="text_extra">
-            {"Foto's toevoegen? "}
-            <Optional>(niet verplicht)</Optional>
-          </StyledLabel>
-          <HelpText id="subtitle-kto">
-            Voeg een foto toe om de situatie te verduidelijken.
-          </HelpText>
-          <FileInput
-            handler={() => ({ value: incident.images })}
-            parent={{
-              meta: {
-                updateIncident: (payload) =>
-                  dispatchRedux(updateIncident(payload)),
-              },
-            }}
-            meta={{
-              name: 'images',
-              label: "Foto's toevoegen",
-              subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
-              minFileSize: 30 * 2 ** 10, // 30 KiB.
-              maxFileSize: 20 * 2 ** 20, // 20 MiB.
-              allowedFileTypes: [
-                'image/jpeg',
-                'image/jpg',
-                'image/png',
-                'image/gif',
-              ],
-              maxNumberOfFiles: 3,
-            }}
-          />
-        </GridArea>
-      )}
-
-      <GridArea>
-        <StyledLabel htmlFor="text_extra">
-          Wilt u verder nog iets vermelden of toelichten?{' '}
-          <Optional>(niet verplicht)</Optional>
-        </StyledLabel>
-        <StyledTextArea
-          id="text_extra"
-          data-testid="ktoTextExtra"
-          infoText={`${watchTextExtra?.length}/${extraTextMaxLength} tekens`}
-          maxLength={extraTextMaxLength}
-          name="text_extra"
-          onChange={(event) => setValue('text_extra', event.target.value)}
-        />
-      </GridArea>
-
-      {!isSatisfied && (
-        <GridArea>
-          {negativeContactEnabled ? (
-            <>
-              <Heading forwardedAs="h2">Contact</Heading>
-              <p
-                id="subtitle-allows-contact"
-                data-testid="subtitleAllowsContact"
+                getError={(errorType) =>
+                  errors['text_list_extra']?.type === errorType
+                }
               >
-                Uw reactie is belangrijk voor ons. Wij laten u graag weten wat
-                wij ermee doen. En misschien willen wij u nog iets vragen of
-                vertellen. Wij bellen u dan of sturen een e-mail.{' '}
-              </p>
-            </>
-          ) : (
-            <StyledLabel id="subtitle-allows-contact">
-              Mogen wij contact met u opnemen naar aanleiding van uw feedback?{' '}
+                <StyledTextArea
+                  data-testid="ktoText"
+                  maxRows={5}
+                  name="text"
+                  onChange={(event) => {
+                    setValue('text_list_extra', event.target.value)
+                    trigger('text_list_extra')
+                  }}
+                  rows="2"
+                />
+              </FormField>
+            )}
+          </GridArea>
+
+          {satisfactionIndication === 'nee' && (
+            <GridArea>
+              <StyledLabel htmlFor="text_extra">
+                {"Foto's toevoegen? "}
+                <Optional>(niet verplicht)</Optional>
+              </StyledLabel>
+              <HelpText id="subtitle-kto">
+                Voeg een foto toe om de situatie te verduidelijken.
+              </HelpText>
+              <FileInput
+                handler={() => ({ value: incident.images })}
+                parent={{
+                  meta: {
+                    updateIncident: (payload) =>
+                      dispatchRedux(updateIncident(payload)),
+                  },
+                }}
+                meta={{
+                  name: 'images',
+                  label: "Foto's toevoegen",
+                  subtitle:
+                    'Voeg een foto toe om de situatie te verduidelijken',
+                  minFileSize: 30 * 2 ** 10, // 30 KiB.
+                  maxFileSize: 20 * 2 ** 20, // 20 MiB.
+                  allowedFileTypes: [
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif',
+                  ],
+                  maxNumberOfFiles: 3,
+                }}
+              />
+            </GridArea>
+          )}
+
+          <GridArea>
+            <StyledLabel htmlFor="text_extra">
+              Wilt u verder nog iets vermelden of toelichten?{' '}
               <Optional>(niet verplicht)</Optional>
             </StyledLabel>
+            <StyledTextArea
+              id="text_extra"
+              data-testid="ktoTextExtra"
+              infoText={`${watchTextExtra?.length}/${extraTextMaxLength} tekens`}
+              maxLength={extraTextMaxLength}
+              name="text_extra"
+              onChange={(event) => setValue('text_extra', event.target.value)}
+            />
+          </GridArea>
+
+          {!isSatisfied && (
+            <GridArea>
+              {negativeContactEnabled ? (
+                <>
+                  <Heading forwardedAs="h2">Contact</Heading>
+                  <p
+                    id="subtitle-allows-contact"
+                    data-testid="subtitleAllowsContact"
+                  >
+                    Uw reactie is belangrijk voor ons. Wij laten u graag weten
+                    wat wij ermee doen. En misschien willen wij u nog iets
+                    vragen of vertellen. Wij bellen u dan of sturen een e-mail.{' '}
+                  </p>
+                </>
+              ) : (
+                <StyledLabel id="subtitle-allows-contact">
+                  Mogen wij contact met u opnemen naar aanleiding van uw
+                  feedback? <Optional>(niet verplicht)</Optional>
+                </StyledLabel>
+              )}
+
+              <CheckboxWrapper
+                inline
+                htmlFor="allows-contact"
+                data-testid="allowsContact"
+              >
+                <Checkbox
+                  data-testid="ktoAllowsContact"
+                  id="allows-contact"
+                  aria-describedby="subtitle-allows-contact"
+                  name="allows-contact"
+                  onChange={(event) => {
+                    let { checked } = event.target
+                    if (negativeContactEnabled) {
+                      checked = !checked
+                    }
+                    setValue('allows_contact', checked)
+                    setContactAllowed(checked)
+                  }}
+                />
+
+                {negativeContactEnabled
+                  ? 'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
+                  : 'Ja'}
+              </CheckboxWrapper>
+            </GridArea>
           )}
 
-          <CheckboxWrapper
-            inline
-            htmlFor="allows-contact"
-            data-testid="allowsContact"
-          >
-            <Checkbox
-              data-testid="ktoAllowsContact"
-              id="allows-contact"
-              aria-describedby="subtitle-allows-contact"
-              name="allows-contact"
-              onChange={(event) => {
-                let { checked } = event.target
-                if (negativeContactEnabled) {
-                  checked = !checked
-                }
-                setValue('allows_contact', checked)
-                setContactAllowed(checked)
-              }}
-            />
-
-            {negativeContactEnabled
-              ? 'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
-              : 'Ja'}
-          </CheckboxWrapper>
-        </GridArea>
-      )}
-
-      <GridArea>
-        <Button data-testid="ktoSubmit" type="submit" variant="secondary">
-          Verstuur
-        </Button>
-      </GridArea>
-    </Form>
+          <GridArea>
+            <Button data-testid="ktoSubmit" type="submit" variant="secondary">
+              Verstuur
+            </Button>
+          </GridArea>
+        </Form>
+      </FieldSet>
+    </FormProvider>
   )
 }
 

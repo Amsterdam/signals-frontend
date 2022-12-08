@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
+
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
@@ -131,7 +132,7 @@ export const controls = {
     },
     render: QuestionFieldType.AssetSelect,
     options: {
-      validators: [validateObjectLocation('container')],
+      validators: [validateObjectLocation('container'), 'required'],
     },
   },
 }

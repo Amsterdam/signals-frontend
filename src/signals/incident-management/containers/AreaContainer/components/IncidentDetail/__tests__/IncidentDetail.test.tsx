@@ -1,6 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { mockIncident } from 'types/api/incident.mock'
+
 import { withAppContext } from 'test/utils'
+import { mockIncident } from 'types/api/incident.mock'
+
 import IncidentDetail from '../'
 
 describe('IncidentDetail', () => {
@@ -47,7 +51,7 @@ describe('IncidentDetail', () => {
       '124 Conch St., Bikini Bottom'
     )
     expect(screen.getByTestId('date').textContent?.trim()).toEqual(
-      '01-01-1970 01:00'
+      '01-01-1970 01.00'
     )
     expect(screen.getByTestId('status').textContent?.trim()).toEqual('Gemeld')
     expect(screen.getByTestId('departments').textContent?.trim()).toEqual(

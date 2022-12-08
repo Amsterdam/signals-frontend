@@ -5,6 +5,7 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
+import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import { departments } from 'utils/__tests__/fixtures'
 import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckboxRolesSelector.json'
@@ -12,6 +13,8 @@ import inputCheckboxRolesSelectorJson from 'utils/__tests__/fixtures/inputCheckb
 import UserForm from '..'
 
 Enzyme.configure({ adapter: new Adapter() })
+
+jest.mock('shared/services/configuration/configuration')
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -285,4 +288,28 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     expect(checkbox.checked).toBe(true)
   })
+})
+
+it('should not show notification checkboxes when feature is disabled', async () => {
+  const { container } = render(withAppContext(<UserForm />))
+  expect(
+    container.querySelector('[name="notifications"]')
+  ).not.toBeInTheDocument()
+})
+
+it('should show notification checkboxes when feature is enabled', async () => {
+  configuration.featureFlags.assignSignalToDepartment = true
+  configuration.featureFlags.assignSignalToEmployee = true
+
+  const { getByLabelText } = render(withAppContext(<UserForm />))
+
+  const assignSignalToDepartment = getByLabelText(
+    'Stuur mij een e-mail als een melding aan mij is toegewezen'
+  )
+  expect(assignSignalToDepartment.checked).toBe(false)
+
+  const assignSignalToEmployeeCheckbox = getByLabelText(
+    'Stuur mij een e-mail als een melding aan mij is toegewezen'
+  )
+  expect(assignSignalToEmployeeCheckbox.checked).toBe(false)
 })

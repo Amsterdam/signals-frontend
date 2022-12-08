@@ -6,7 +6,7 @@ describe('utils', () => {
   describe('formatDate', () => {
     it('should format a date correctly', () => {
       expect(formatDate(new Date(1627639862532))).toEqual(
-        '30 juli 2021, 12:11 uur'
+        '30 juli 2021, 12.11 uur'
       )
     })
   })

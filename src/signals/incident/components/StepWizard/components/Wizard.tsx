@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { ReactNode } from 'react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -21,6 +21,9 @@ const Wizard = (props: Props) => {
   const [stepState, setStep] = useState<WizardApi['step']>({ id: '' })
 
   const [steps, setSteps] = useState<WizardApi['steps']>([{ id: '' }])
+
+  const [stepsCompletedCount, setStepsCompletedCount] =
+    useState<WizardApi['stepsCompletedCount']>(0)
 
   const didMount = useRef(false)
 
@@ -129,8 +132,21 @@ const Wizard = (props: Props) => {
       push,
       replace,
       steps,
+      stepsCompletedCount,
+      setStepsCompletedCount,
     }),
-    [history, init, next, previous, push, replace, set, stepState, steps]
+    [
+      history,
+      init,
+      next,
+      previous,
+      push,
+      replace,
+      set,
+      stepState,
+      steps,
+      stepsCompletedCount,
+    ]
   )
 
   const initialOnNext = useRef(false)

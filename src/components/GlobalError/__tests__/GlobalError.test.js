@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
 import form from 'react-hook-form'
-import GlobalError from '..'
+import { withAppContext } from 'test/utils'
+
+import GlobalError from '../index'
 
 const defaultErrorMessage =
   'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'

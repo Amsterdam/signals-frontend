@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import useFetch from '../../../hooks/useFetch'
-import { withAppContext } from '../../../test/utils'
+import { history, withAppContext } from '../../../test/utils'
 import { get, useFetchResponse } from '../../IncidentMap/components/__test__'
 import { providerMock } from '../__test__'
 import { incidentsDetail } from '../__test__/incidents-detail'
@@ -63,5 +63,22 @@ describe('Detail', () => {
     userEvent.click(screen.getByTestId('closeButton'))
 
     expect(screen.getByText('Bekijk op kaart')).toBeInTheDocument()
+  })
+  it('should redirect to the expired page when an error is thrown', () => {
+    const response = {
+      ...useFetchResponse,
+      error: true,
+    }
+    jest.mocked(useFetch).mockImplementation(() => response)
+
+    render(
+      withAppContext(
+        <MyIncidentsProvider value={providerMock}>
+          <Detail />
+        </MyIncidentsProvider>
+      )
+    )
+
+    expect(history.location.pathname).toEqual('/mijn-meldingen/verlopen')
   })
 })

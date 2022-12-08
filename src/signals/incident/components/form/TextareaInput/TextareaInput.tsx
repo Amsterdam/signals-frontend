@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import styled from 'styled-components'
-
 import type { FocusEvent, FunctionComponent } from 'react'
+
+import FormField from 'components/FormField'
+import styled from 'styled-components'
 import type { FormInputProps } from 'types/reactive-form'
 
-import FormField from '../FormField'
 import AddNote from './AddNote'
 
 export type TextAreaInputProps = Omit<FormInputProps, 'handler'>

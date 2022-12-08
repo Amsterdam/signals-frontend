@@ -39,7 +39,6 @@ const FieldSet = styled.fieldset`
 `
 
 const Optional = styled.span`
-  font-weight: 400;
   margin-left: ${themeSpacing(2)};
 `
 
@@ -47,6 +46,7 @@ const SubTitle = styled.p`
   color: ${themeColor('tint', 'level5')};
   margin-top: 0;
   margin-bottom: 0;
+  font-weight: 300;
 `
 
 const InputWrapper = styled.div<{ width?: string }>`
@@ -78,7 +78,9 @@ const FormField = ({
     hasError('min') ||
     hasError('custom')
 
-  const isOptional = !options?.validators?.includes('required')
+  const isOptional = !options?.validators?.some((validator: any) => {
+    return ['required', 'min'].includes(validator)
+  })
   const FieldSetWrapper = isFieldSet ? FieldSet : Fragment
 
   return (
@@ -106,7 +108,7 @@ const FormField = ({
                 <ErrorMessage
                   data-testid={`${meta.name}-required`}
                   message={
-                    getError('required')
+                    getError('required') || getError('min')
                       ? 'Dit is een verplicht veld'
                       : (getError('required') as string)
                   }

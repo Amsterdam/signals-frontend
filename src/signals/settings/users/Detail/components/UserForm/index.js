@@ -19,6 +19,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { userType, historyType } from 'shared/types'
 import styled from 'styled-components'
+import configuration from 'shared/services/configuration/configuration'
 
 const Form = styled.form`
   width: 100%;
@@ -81,6 +82,31 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
       ?.map((role) => inputRoles.find(({ name }) => name === role.name))
       .filter(Boolean) || []
 
+  const notificationOptions = [
+    ...(configuration.featureFlags.assignSignalToDepartment
+      ? [
+          {
+            key: 'notification_on_department_assignment',
+            value:
+              'Stuur mij een e-mail als een melding aan mijn afdeling is gekoppeld',
+          },
+        ]
+      : []),
+    ...(configuration.featureFlags.assignSignalToEmployee
+      ? [
+          {
+            key: 'notification_on_user_assignment',
+            value: 'Stuur mij een e-mail als een melding aan mij is toegewezen',
+          },
+        ]
+      : []),
+  ]
+
+  const userNotifications =
+    notificationOptions.filter(
+      (notificationOption) => data?.profile?.[notificationOption.key]
+    ) || []
+
   const [state, dispatch] = useReducer(reducer, {
     username: data.username || '',
     first_name: data.first_name || '',
@@ -92,6 +118,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
         : `${data.is_active}`,
     departments: userDepartments,
     roles: userRoles,
+    notifications: userNotifications,
   })
 
   const onChangeEvent = useCallback(
@@ -117,6 +144,12 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
     form.is_active = state.is_active === 'true'
     form.profile.note = state.note
     form.profile.departments = state.departments.map(({ value }) => value)
+
+    const enabledNotifications = state.notifications.map(({ key }) => key)
+    form.profile.notification_on_department_assignment =
+      enabledNotifications.includes('notification_on_department_assignment')
+    form.profile.notification_on_user_assignment =
+      enabledNotifications.includes('notification_on_user_assignment')
 
     form.roles = state.roles.map(({ name: stateRoleName }) =>
       roles.find(({ name: dataRoleName }) => dataRoleName === stateRoleName)
@@ -192,6 +225,23 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
                 value={state.last_name}
               />
             </FieldGroup>
+
+            {(configuration.featureFlags.assignSignalToDepartment ||
+              configuration.featureFlags.assignSignalToEmployee) && (
+              <FieldGroup>
+                <Label as="span">Notificatie</Label>
+                <CheckboxList
+                  defaultValue={state.notifications}
+                  disabled={readOnly}
+                  groupName="notifications"
+                  name="notifications"
+                  options={notificationOptions}
+                  onChange={(field, value) => {
+                    onChange(field, value)
+                  }}
+                />
+              </FieldGroup>
+            )}
 
             <FieldGroup>
               <Label as="span">Status</Label>
