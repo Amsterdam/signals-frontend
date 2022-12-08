@@ -82,13 +82,13 @@ export const Employee = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: ${themeSpacing(2)};
-  font-size: inherit;
+  font-size: 1rem;
   line-height: ${themeSpacing(6)};
 `
 
 export const Date = styled.div`
   margin-bottom: ${themeSpacing(2)};
-  font-size: inherit;
+  font-size: 1rem;
   line-height: ${themeSpacing(6)};
 `
 
@@ -96,7 +96,7 @@ export const Title = styled.div`
   margin-top: ${themeSpacing(2)};
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: inherit;
+  font-size: 1rem;
   line-height: ${themeSpacing(6)};
   font-weight: bold;
   text-align: center;

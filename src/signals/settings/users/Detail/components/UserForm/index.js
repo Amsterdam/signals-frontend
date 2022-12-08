@@ -54,7 +54,7 @@ const statusOptions = [
 
 const StyledHistory = styled(History)`
   h2 {
-    font-size: inherit;
+    font-size: 1rem;
   }
 `
 

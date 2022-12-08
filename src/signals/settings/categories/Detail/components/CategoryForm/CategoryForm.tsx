@@ -64,7 +64,7 @@ const StyledLabel = styled(Label)`
 
 const StyledHistory = styled(History as ElementType)`
   h2 {
-    font-size: inherit;
+    font-size: 1rem;
   }
 `
 
@@ -76,7 +76,7 @@ const StyledHeading = styled.p`
   margin-bottom: ${themeSpacing(1)};
   font-weight: bold;
   line-height: 22px;
-  font-size: inherit;
+  font-size: 1rem;
 `
 
 const statusOptions = [

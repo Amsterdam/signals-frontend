@@ -17,7 +17,7 @@ import styled from 'styled-components'
 const LinkLabel = styled(Typography).attrs({
   forwardedAs: 'span',
 })`
-  font-size: inherit;
+  font-size: 1rem;
   font-weight: 700;
   color: ${themeColor('primary')};
 `

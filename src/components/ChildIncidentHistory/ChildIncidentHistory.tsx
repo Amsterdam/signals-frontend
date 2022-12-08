@@ -42,8 +42,8 @@ const StyledHistoryList = styled(HistoryList)`
 `
 
 const StyledLink = styled(Link)`
-  ${gridValueStyle}
-  font-size: inherit;
+  ${gridValueStyle};
+  font-size: 1rem;
 
   :hover {
     cursor: pointer;

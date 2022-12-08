@@ -31,7 +31,7 @@ const StyledFooterTop = styled(FooterTop)`
 
 const StyledFooterBottom = styled(FooterBottom)`
   a {
-    font-size: inherit;
+    font-size: 1rem;
     line-height: 20px;
   }
 `

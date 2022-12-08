@@ -63,7 +63,7 @@ const DefinitionList = styled.dl`
 `
 
 const StyledLink = styled(AscLink)`
-  font-size: inherit;
+  font-size: 1rem;
 `
 
 const Detail = ({ context }) => {

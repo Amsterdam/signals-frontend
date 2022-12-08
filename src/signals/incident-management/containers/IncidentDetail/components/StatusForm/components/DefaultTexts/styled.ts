@@ -16,7 +16,7 @@ export const StyledDefaultText = styled.div<{ empty?: boolean }>`
 export const StyledLink = styled(Link)`
   cursor: pointer;
   display: inline-block;
-  font-size: inherit;
+  font-size: 1rem;
   margin: ${themeSpacing(1, 0, 0)};
   text-decoration: underline;
 `

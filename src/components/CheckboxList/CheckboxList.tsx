@@ -25,7 +25,7 @@ const Toggle = styled.label<{ indent: boolean }>`
   margin-left: ${({ indent }) => indent && 2}0px;
   cursor: pointer;
   text-decoration: underline;
-  font-size: inherit;
+  font-size: 1rem;
   line-height: 20px;
   white-space: nowrap;
   position: relative;

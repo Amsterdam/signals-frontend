@@ -70,7 +70,7 @@ const HeadingContainer = styled.div`
 `
 
 const StyledHeading = styled(Heading)`
-  font-size: inherit;
+  font-size: 1rem;
   margin: 0;
 
   & > *:not(:first-child)::before {

@@ -71,7 +71,7 @@ export const StyledLegendPanel = styled(LegendPanel)`
 export const Description = styled.span`
   color: ${themeColor('tint', 'level5')};
   display: block;
-  font-size: inherit;
+  font-size: 1rem;
   font-weight: 400;
 `
 

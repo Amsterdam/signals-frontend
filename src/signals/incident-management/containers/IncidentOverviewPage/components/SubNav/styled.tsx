@@ -7,7 +7,7 @@ export const MapHeading = styled(Heading).attrs({
   forwardedAs: 'h2',
 })`
   margin: 0;
-  font-size: inherit;
+  font-size: 1rem;
 `
 
 export const TabContainer = styled.div`

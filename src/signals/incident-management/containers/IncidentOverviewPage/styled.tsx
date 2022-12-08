@@ -46,7 +46,7 @@ export const StyledLink = styled(Link)`
   margin-right: ${themeSpacing(3)};
 
   text-decoration: underline;
-  font-size: inherit;
+  font-size: 1rem;
 
   :hover {
     cursor: pointer;

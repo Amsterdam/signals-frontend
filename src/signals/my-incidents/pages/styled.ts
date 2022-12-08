@@ -43,7 +43,7 @@ export const ContentWrapper = styled.div`
 `
 
 export const StyledParagraph = styled(Paragraph)`
-  font-size: inherit;
+  font-size: 1rem;
   line-height: ${themeSpacing(6)};
   margin: ${themeSpacing(5, 0, 5, 0)};
 
@@ -66,7 +66,7 @@ export const StyledEmail = styled(Paragraph)`
 `
 
 export const StyledLink = styled(Link)`
-  font-size: inherit;
+  font-size: 1rem;
   margin-bottom: ${themeSpacing(10)};
 `
 
