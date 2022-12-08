@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+
 import {
   CompactThemeProvider,
   Heading,
@@ -9,11 +11,14 @@ import {
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
 import format from 'date-fns/format'
-import { makeSelectSubCategories } from 'models/categories/selectors'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+import { makeSelectSubCategories } from 'models/categories/selectors'
 import type { Incident as IncidentType } from 'types/api/incident'
+
 import ContactHistory from './ContactHistory'
 
 interface IncidentDetailProps {
@@ -22,7 +27,7 @@ interface IncidentDetailProps {
 
 const Text = styled(Paragraph)`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   margin-bottom: ${themeSpacing(2)};
 `
 

@@ -1,14 +1,15 @@
-import styled from 'styled-components'
-import { Label, Spinner, themeColor } from '@amsterdam/asc-ui'
-
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FC, ReactNode } from 'react'
+
+import { Label, Spinner, themeColor } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 const Container = styled.div`
   align-items: center;
   border: 1px dashed #767676;
   display: flex;
   font-size: 1rem;
-  height: 100%;
   height: 44px;
   max-width: 420px;
   padding: 8px 12px;

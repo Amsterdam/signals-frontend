@@ -7,7 +7,7 @@ import { themeColor, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 const Info = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};
   margin: ${themeSpacing(2, 0, 6)};
-  font-size: 16px;
+  font-size: 1rem;
 `
 
 const InfoText = ({ className, text, ...rest }) => (

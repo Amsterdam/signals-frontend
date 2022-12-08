@@ -3,13 +3,14 @@
 import type { FC } from 'react'
 
 import { Link as AscLink } from '@amsterdam/asc-ui'
-import Paragraph from 'components/Paragraph'
 import ReactMarkdown from 'react-markdown'
 import type { ReactMarkdownOptions } from 'react-markdown'
 import styled from 'styled-components'
 
+import Paragraph from 'components/Paragraph'
+
 const Link = styled(AscLink)`
-  font-size: inherit;
+  font-size: 1rem;
 `
 
 type Props = {

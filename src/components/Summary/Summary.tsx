@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: underline;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
 `
 

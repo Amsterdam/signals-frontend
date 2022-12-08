@@ -1,11 +1,14 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import {
   themeSpacing,
   Heading,
   themeColor,
   Button as AscButton,
 } from '@amsterdam/asc-ui'
-import LoadingIndicator from 'components/LoadingIndicator'
 import styled from 'styled-components'
+
+import LoadingIndicator from 'components/LoadingIndicator'
 
 import AddNote from '../AddNote'
 import StyledUploadProgress from './UploadProgress'
@@ -77,7 +80,7 @@ export const StyledReporter = styled.div`
   padding: ${themeSpacing(1.5, 2)};
   background-color: ${themeColor('tint', 'level7')}b3;
   color: ${themeColor('tint', 'level1')};
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 14px;
   font-weight: bold;
   text-transform: uppercase;
@@ -89,7 +92,7 @@ export const StyledDetails = styled.div`
   flex-direction: column;
   overflow: hidden;
   color: ${themeColor('tint', 'level1')};
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: ${themeSpacing(5)};
 `
 

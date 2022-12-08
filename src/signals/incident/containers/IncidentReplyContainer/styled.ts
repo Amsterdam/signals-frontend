@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -19,5 +19,5 @@ export const StyledHeading = styled(Heading)`
 
 export const StyledSubHeading = styled(Heading)`
   margin-bottom: ${themeSpacing(1)};
-  font-size: 18px;
+  font-size: 1.125rem;
 `

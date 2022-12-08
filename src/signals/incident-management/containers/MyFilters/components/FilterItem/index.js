@@ -26,7 +26,7 @@ const StyledH4 = styled(Heading)`
 
 const StyledLink = styled(Link)`
   margin-right: ${themeSpacing(5)};
-  font-size: 16px;
+  font-size: 1rem;
 `
 
 const RefreshIcon = styled(Refresh).attrs({

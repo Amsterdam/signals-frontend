@@ -2,10 +2,12 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment, useMemo, useState } from 'react'
 import type { FunctionComponent, MouseEvent } from 'react'
-import type { History } from 'types/history'
-import HistoryList from 'components/HistoryList'
+
 import { breakpoint, Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
+
+import HistoryList from 'components/HistoryList'
+import type { History } from 'types/history'
 import type { Theme } from 'types/theme'
 
 const gridValueStyle = css`
@@ -40,8 +42,8 @@ const StyledHistoryList = styled(HistoryList)`
 `
 
 const StyledLink = styled(Link)`
-  ${gridValueStyle}
-  font-size: 16px;
+  ${gridValueStyle};
+  font-size: 1rem;
 
   :hover {
     cursor: pointer;

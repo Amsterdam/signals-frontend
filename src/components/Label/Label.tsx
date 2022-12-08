@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled, { css } from 'styled-components'
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 interface LabelProps {
   /** When true, will render the label with a plain font instead of a bold font */
@@ -20,7 +20,7 @@ const Label = styled.label<LabelProps>`
   ${({ isGroupHeader = false }) =>
     isGroupHeader &&
     css`
-      font-size: 18px;
+      font-size: 1.125rem;
       color: ${themeColor('secondary')};
     `}
 `

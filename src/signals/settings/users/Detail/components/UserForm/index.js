@@ -3,6 +3,10 @@
 import { useReducer, useCallback } from 'react'
 
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
 import CheckboxList from 'components/CheckboxList'
 import FormFooter from 'components/FormFooter'
 import History from 'components/History'
@@ -15,11 +19,8 @@ import {
   rolesModelSelector,
   inputCheckboxRolesSelector,
 } from 'models/roles/selectors'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import { userType, historyType } from 'shared/types'
-import styled from 'styled-components'
 import configuration from 'shared/services/configuration/configuration'
+import { userType, historyType } from 'shared/types'
 
 const Form = styled.form`
   width: 100%;
@@ -53,7 +54,7 @@ const statusOptions = [
 
 const StyledHistory = styled(History)`
   h2 {
-    font-size: 16px;
+    font-size: 1rem;
   }
 `
 

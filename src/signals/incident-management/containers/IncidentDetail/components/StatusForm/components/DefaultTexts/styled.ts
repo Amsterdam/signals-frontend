@@ -1,5 +1,7 @@
-import styled, { css } from 'styled-components'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 export const StyledDefaultText = styled.div<{ empty?: boolean }>`
   margin-bottom: ${themeSpacing(8)};
@@ -14,7 +16,7 @@ export const StyledDefaultText = styled.div<{ empty?: boolean }>`
 export const StyledLink = styled(Link)`
   cursor: pointer;
   display: inline-block;
-  font-size: ${themeSpacing(4)};
+  font-size: 1rem;
   margin: ${themeSpacing(1, 0, 0)};
   text-decoration: underline;
 `
