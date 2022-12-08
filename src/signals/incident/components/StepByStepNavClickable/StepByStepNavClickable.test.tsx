@@ -210,6 +210,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       </WizardContext.Provider>
     )
 
+    expect(mockTrigger).not.toBeCalled()
     expect(mockPush).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
   })
@@ -239,6 +240,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       </WizardContext.Provider>
     )
 
+    expect(mockTrigger).not.toBeCalled()
     expect(mockPush).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
   })

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2022 Gemeente Amsterdam
-import { themeColor } from '@amsterdam/asc-ui'
+import { breakpoint, themeColor } from '@amsterdam/asc-ui'
 import {
   ListItem,
   Label,
@@ -13,6 +13,16 @@ export const StyledListItem = styled(ListItem)<{
 }>`
   ${({ index, stepsCompletedCount }) => css`
     cursor: ${index <= stepsCompletedCount ? 'pointer' : ''};
+
+    ${StyledLabel}:before {
+      @media screen and ${breakpoint('max-width', 'tabletM')} {
+        height: 24px;
+        line-height: 24px;
+        width: 24px;
+        top: 9px;
+      }
+    }
+
     ${index <= stepsCompletedCount &&
     css`
       ${StyledLabel}:before {
