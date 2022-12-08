@@ -41,6 +41,7 @@ export const Status = styled.div<{ status: string }>`
 export const StyledParagraph = styled.div`
   font-size: ${themeSpacing(4)};
   margin-bottom: ${themeSpacing(4)};
+  line-height: 1.5;
 `
 
 export const StyledLink = styled(Link)`
