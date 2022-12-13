@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import * as Sentry from '@sentry/browser'
 import { ConnectedRouter } from 'connected-react-router/immutable'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+
 import App from 'containers/App'
 import { authenticateUser } from 'containers/App/actions'
 import loadModels from 'models'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
 import { authenticate } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import history from 'utils/history'
-
-// Import root app
 
 // Import CSS and Global Styles
 import './global.css'
 import './polyfills'
 
 import configureStore from './configureStore'
-
-import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
@@ -64,13 +62,13 @@ const render = () => {
   spinner.remove()
   spinnerBackground.remove()
 
-  ReactDOM.render(
+  const root = ReactDOM.createRoot(MOUNT_NODE)
+  root.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <App />
       </ConnectedRouter>
-    </Provider>,
-    MOUNT_NODE
+    </Provider>
   )
 }
 

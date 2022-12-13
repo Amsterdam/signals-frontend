@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 import { getErrorMessage } from 'shared/services/api/api'
 import * as constants from 'containers/App/constants'

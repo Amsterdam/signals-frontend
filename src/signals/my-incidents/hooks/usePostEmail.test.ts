@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
 
 import useFetch from 'hooks/useFetch'
 import type { FetchError } from 'hooks/useFetch'
