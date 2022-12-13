@@ -76,7 +76,7 @@ describe('AddresLocation', () => {
   it('tests whether the onAddressSelect actually sets the coordinates', async () => {
     render(<AddressLocation {...defaultProps} />)
 
-    userEvent.click(screen.getByText('selectItem'))
+    await userEvent.click(screen.getByText('selectItem'))
 
     expect(defaultProps.setCoordinates).toHaveBeenCalledWith(
       mockPDOKResponse.data.location

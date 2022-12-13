@@ -63,13 +63,13 @@ describe('FilterCategoryWithSub', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('shows the subCategories when the chevron is clicked', () => {
+  it('shows the subCategories when the chevron is clicked', async () => {
     renderFilterCategoryWithSub()
     const chevron = screen.getByRole('button', {
       name: 'Toon meer filter opties',
     })
 
-    userEvent.click(chevron)
+    await userEvent.click(chevron)
 
     const updatedChevron = screen.queryByRole('button', {
       name: 'Toon meer filter opties',
@@ -78,7 +78,7 @@ describe('FilterCategoryWithSub', () => {
     expect(updatedChevron).not.toBeInTheDocument()
   })
 
-  it('should hit the subcategory toggle', function () {
+  it('should hit the subcategory toggle', async () => {
     renderFilterCategoryWithSub()
 
     const checkBox1 = screen.queryByRole('checkbox', {
@@ -90,7 +90,7 @@ describe('FilterCategoryWithSub', () => {
 
     expect(checkBox1).not.toBeInTheDocument()
 
-    userEvent.click(chevron)
+    await userEvent.click(chevron)
 
     const checkBox = screen.getByRole('checkbox', {
       name: /mockSubCategoryname1/,
@@ -98,7 +98,7 @@ describe('FilterCategoryWithSub', () => {
 
     expect(checkBox).toBeInTheDocument()
 
-    userEvent.click(checkBox)
+    await userEvent.click(checkBox)
 
     expect(mockOnToggleCategory).toBeCalled()
   })

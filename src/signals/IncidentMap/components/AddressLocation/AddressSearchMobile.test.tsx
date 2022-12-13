@@ -76,7 +76,7 @@ describe('AddresLocation', () => {
   it('should set coordinates', async () => {
     render(<AddressSearchMobile {...defaultProps} />)
 
-    userEvent.click(screen.getByText('selectItem'))
+    await userEvent.click(screen.getByText('selectItem'))
 
     expect(defaultProps.setCoordinates).toHaveBeenCalledWith(
       mockPDOKResponse.data.location
@@ -95,24 +95,24 @@ describe('AddresLocation', () => {
     expect(input).toBeInTheDocument()
   })
 
-  it('should reset the coordinates on reset button', () => {
+  it('should reset the coordinates on reset button', async () => {
     render(<AddressSearchMobile {...defaultProps} />)
 
     const resetButton = screen.getByRole('button', { name: 'Clear input' })
 
-    userEvent.click(resetButton)
+    await userEvent.click(resetButton)
 
     const input = screen.getByRole('textbox')
 
     expect(input).toHaveValue('')
   })
 
-  it('should close overlay on back button', () => {
+  it('should close overlay on back button', async () => {
     render(<AddressSearchMobile {...defaultProps} />)
 
     const button = screen.getByRole('button', { name: 'Terug' })
 
-    userEvent.click(button)
+    await userEvent.click(button)
 
     expect(defaultProps.setShowAddressSearchMobile).toHaveBeenCalledWith(false)
   })

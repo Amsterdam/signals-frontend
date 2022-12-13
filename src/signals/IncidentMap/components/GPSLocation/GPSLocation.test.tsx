@@ -48,14 +48,16 @@ describe('GPSLocation', () => {
     ).toBeInTheDocument()
   })
 
-  it('flies to the location on click', () => {
+  it('flies to the location on click', async () => {
     Object.defineProperty(global.navigator, 'geolocation', {
       value: mockGeolocation,
     })
 
     render(<GPSLocation {...defaultProps} />)
 
-    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
+    await await userEvent.click(
+      screen.getByRole('button', { name: 'Huidige locatie' })
+    )
 
     expect(defaultProps.setCoordinates).toHaveBeenCalledWith({
       lat: coords.latitude,
@@ -63,7 +65,7 @@ describe('GPSLocation', () => {
     })
   })
 
-  it('should call onLocationError', () => {
+  it('should call onLocationError', async () => {
     const code = 1
     const message = 'User denied geolocation'
     const mockGeolocationError = {
@@ -85,7 +87,9 @@ describe('GPSLocation', () => {
 
     expect(defaultProps.setNotification).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Huidige locatie' })
+    )
 
     expect(defaultProps.setNotification).toHaveBeenCalledWith(
       <>
@@ -101,7 +105,7 @@ describe('GPSLocation', () => {
     )
   })
 
-  it('should call onLocationOutOfBounds', () => {
+  it('should call onLocationOutOfBounds', async () => {
     const coordsOutOfBounds = {
       accuracy: 1234,
       latitude: 55,
@@ -124,7 +128,9 @@ describe('GPSLocation', () => {
 
     render(<GPSLocation {...defaultProps} />)
 
-    userEvent.click(screen.getByRole('button', { name: 'Huidige locatie' }))
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Huidige locatie' })
+    )
 
     expect(defaultProps.setNotification).toHaveBeenCalledWith(
       'Uw locatie valt buiten de kaart en is daardoor niet te zien'

@@ -77,13 +77,13 @@ describe('FilterPanel', () => {
     )
   })
 
-  it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', () => {
+  it('should set all subCategories.filterActive to false after setting mainCategory.filterActive to false', async () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
     renderFilterPanel({ filters: mockFiltersLong })
     const testCategory = 'Afval'
     const checkbox = screen.getByTestId(testCategory)
 
-    userEvent.click(checkbox)
+    await userEvent.click(checkbox)
 
     // Check to see if subCategory.filterActive has value false after setting mainCategory.filterActive to false. In
     // mockFilters all filterActives of all categories are initially set to true.

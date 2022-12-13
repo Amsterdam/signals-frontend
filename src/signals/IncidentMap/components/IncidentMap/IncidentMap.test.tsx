@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { act, render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import useFetch from 'hooks/useFetch'
@@ -109,22 +109,23 @@ describe('IncidentMap', () => {
     render(withAppContext(<IncidentMap />))
     expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
 
-    await act(async () => {
-      userEvent.click(screen.getByTestId('gpsButton'))
-    })
+    userEvent.click(screen.getByTestId('gpsButton'))
 
-    expect(screen.getByTestId('searchAddressBar')).toHaveValue(
-      formatAddress(mockPdokAddress)
-    )
+    await waitFor(() => {
+      expect(screen.getByTestId('searchAddressBar')).toHaveValue(
+        formatAddress(mockPdokAddress)
+      )
+    })
   })
 
-  it('should close the error message when close button is clicked', () => {
+  it('should close the error message when close button is clicked', async () => {
     jest.mocked(useFetch).mockImplementationOnce(() => ({
       ...useFetchResponse,
       error: new Error(),
     }))
 
     render(withAppContext(<IncidentMap />))
+
     expect(
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
@@ -133,7 +134,7 @@ describe('IncidentMap', () => {
 
     expect(closeButton).toBeInTheDocument()
 
-    userEvent.click(closeButton)
+    await userEvent.click(closeButton)
 
     expect(
       screen.queryByText('Er konden geen meldingen worden opgehaald.')

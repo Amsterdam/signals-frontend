@@ -30,14 +30,14 @@ describe('DrawerOverlay', () => {
     expect(screen.getByText('[ChildrenComponent]')).toBeInTheDocument()
   })
 
-  it('should toggle panel on button click', () => {
+  it('should toggle panel on button click', async () => {
     renderComponent()
 
     const closeButton = screen.getByRole('button', { name: 'Paneel sluiten' })
 
     expect(closeButton).toBeInTheDocument()
 
-    userEvent.click(closeButton)
+    await userEvent.click(closeButton)
 
     expect(defaultProps.onStateChange).toHaveBeenCalledWith('CLOSED')
   })
