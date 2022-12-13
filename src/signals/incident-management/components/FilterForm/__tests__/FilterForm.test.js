@@ -2,33 +2,33 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { store, withAppContext } from 'test/utils'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import * as appSelectors from 'containers/App/selectors'
 import * as departmentsSelectors from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
-import priorityList from 'signals/incident-management/definitions/priorityList'
-import statusList from 'signals/incident-management/definitions/statusList'
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
-import typesList from 'signals/incident-management/definitions/typesList'
-import kindList from 'signals/incident-management/definitions/kindList'
 import dataLists from 'signals/incident-management/definitions'
-import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json'
+import kindList from 'signals/incident-management/definitions/kindList'
+import priorityList from 'signals/incident-management/definitions/priorityList'
+import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
+import statusList from 'signals/incident-management/definitions/statusList'
+import typesList from 'signals/incident-management/definitions/typesList'
+import { store, withAppContext } from 'test/utils'
+import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
+import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
-import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 
 import FilterForm from '..'
+import AppContext from '../../../../../containers/App/context'
+import IncidentManagementContext from '../../../context'
 import {
   SAVE_SUBMIT_BUTTON_LABEL,
   DEFAULT_SUBMIT_BUTTON_LABEL,
 } from '../constants'
-import IncidentManagementContext from '../../../context'
 import * as constants from '../utils/constants'
-import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -124,7 +124,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 
   it('should render a refresh checkbox', async () => {
-    const { findByTestId, unmount, rerender } = render(
+    const { findByTestId, unmount } = render(
       withContext(<FilterForm {...formProps} filter={{ options: {} }} />)
     )
 
@@ -135,13 +135,13 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     unmount()
 
-    rerender(
+    const { findByTestId: findByTestIdReRender } = render(
       withContext(
         <FilterForm {...formProps} filter={{ options: {}, refresh: true }} />
       )
     )
 
-    const refreshCb = await findByTestId('filterRefresh')
+    const refreshCb = await findByTestIdReRender('filterRefresh')
 
     expect(refreshCb.checked).toBe(true)
   })
@@ -399,12 +399,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       const checkbox = screen.getByText(ascName)
 
       expect(checkbox).toBeInTheDocument()
-      userEvent.click(checkbox)
-      await screen.findByRole('checkbox', { name: ascName, checked: true })
-      // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
-      // eslint-disable-next-line testing-library/no-wait-for-empty-callback
-      await waitFor(() => {})
-      userEvent.click(submitButton)
+      await userEvent.click(checkbox)
+      screen.getByRole('checkbox', { name: ascName, checked: true })
+
+      await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
@@ -422,9 +420,12 @@ describe('signals/incident-management/components/FilterForm', () => {
       const checkbox = screen.getByText(notName)
       const submitButton = screen.getByRole('button', { name: submitLabel })
 
-      userEvent.click(checkbox)
-      await screen.findByRole('checkbox', { name: notName, checked: true })
-      userEvent.click(submitButton)
+      await userEvent.click(checkbox)
+
+      screen.getByRole('checkbox', { name: notName, checked: true })
+
+      await userEvent.click(submitButton)
+
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(expected)
@@ -447,14 +448,14 @@ describe('signals/incident-management/components/FilterForm', () => {
       const checkbox = screen.getByLabelText(notName)
       const submitButton = screen.getByRole('button', { name: submitLabel })
 
-      await waitFor(() => {
-        expect(checkbox).toBeChecked()
-      })
-      userEvent.click(checkbox)
-      await waitFor(() => {
-        expect(checkbox).not.toBeChecked()
-      })
-      userEvent.click(submitButton)
+      expect(checkbox).toBeChecked()
+
+      await userEvent.click(checkbox)
+
+      expect(checkbox).not.toBeChecked()
+
+      await userEvent.click(submitButton)
+
       expect(onSubmit).toHaveBeenCalledWith(expect.anything(), expected)
     })
 
@@ -466,17 +467,17 @@ describe('signals/incident-management/components/FilterForm', () => {
       const asc = screen.getByLabelText(ascName)
       const aeg = screen.getByLabelText(aegName)
 
-      userEvent.click(asc)
+      await userEvent.click(asc)
       expect(asc).toBeChecked()
       expect(not).not.toBeChecked()
       expect(aeg).not.toBeChecked()
 
-      userEvent.click(not)
+      await userEvent.click(not)
       expect(not).toBeChecked()
       expect(asc).not.toBeChecked()
       expect(aeg).not.toBeChecked()
 
-      userEvent.click(not)
+      await userEvent.click(not)
       expect(not).not.toBeChecked()
       await waitFor(() => {
         expect(asc).toBeChecked()
@@ -493,28 +494,26 @@ describe('signals/incident-management/components/FilterForm', () => {
       const asc = screen.getByLabelText(ascName)
       const aeg = screen.getByLabelText(aegName)
 
-      userEvent.click(asc)
-      await waitFor(() => {
-        expect(asc).toBeChecked()
-      })
-      userEvent.click(aeg)
-      await waitFor(() => {
-        expect(aeg).toBeChecked()
-      })
+      await userEvent.click(asc)
 
-      userEvent.click(clearButton)
-      await waitFor(() => {
-        expect(asc).not.toBeChecked()
-      })
+      expect(asc).toBeChecked()
+
+      await userEvent.click(aeg)
+
+      expect(aeg).toBeChecked()
+
+      await userEvent.click(clearButton)
+
+      expect(asc).not.toBeChecked()
       expect(aeg).not.toBeChecked()
       expect(not).not.toBeChecked()
 
-      userEvent.click(not)
-      await waitFor(() => {
-        expect(not).toBeChecked()
-      })
+      await userEvent.click(not)
 
-      userEvent.click(clearButton)
+      expect(not).toBeChecked()
+
+      await userEvent.click(clearButton)
+
       expect(not).not.toBeChecked()
       expect(asc).not.toBeChecked()
       expect(aeg).not.toBeChecked()
@@ -526,14 +525,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     const notAssignedLabel = 'Niet toegewezen'
     const submitLabel = 'Filter'
     const username = autocompleteUsernames.results[0].username
-
-    const selectUser = (input) => {
-      return act(async () => {
-        userEvent.type(input, 'asc')
-        const userNameListElement = await screen.findByText(username)
-        userEvent.click(userNameListElement)
-      })
-    }
 
     it('should not render a list of options with assignSignalToEmployee disabled', () => {
       render(withContext(<FilterForm {...formProps} />))
@@ -562,10 +553,13 @@ describe('signals/incident-management/components/FilterForm', () => {
         expect(screen.queryByText(username)).not.toBeInTheDocument()
       })
       userEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining(expected)
-      )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining(expected)
+        )
+      })
 
       jest.runOnlyPendingTimers()
       jest.useRealTimers()
@@ -578,12 +572,16 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
 
-      const input = screen.getByLabelText(label)
       const submitButton = screen.getByRole('button', { name: submitLabel })
+      const input = screen.getByLabelText(label)
 
-      await selectUser(input)
+      await userEvent.type(input, 'asc')
 
-      userEvent.click(submitButton)
+      const userNameListElement = await screen.findByText(username)
+
+      await userEvent.click(userNameListElement)
+
+      await userEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
@@ -602,7 +600,11 @@ describe('signals/incident-management/components/FilterForm', () => {
       const submitButton = screen.getByRole('button', { name: submitLabel })
       const expected = { options: { assigned_user_email: expect.anything() } }
 
-      await selectUser(input)
+      await userEvent.type(input, 'asc')
+
+      const userNameListElement = await screen.findByText(username)
+
+      await userEvent.click(userNameListElement)
 
       userEvent.click(clearButton)
       userEvent.click(submitButton)
@@ -613,7 +615,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     })
 
-    it('should allow selection of not assigned', () => {
+    it('should allow selection of not assigned', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
       const expected = { options: { assigned_user_email: 'null' } }
@@ -622,8 +624,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       const checkbox = screen.getByLabelText(notAssignedLabel)
       const submitButton = screen.getByRole('button', { name: submitLabel })
 
-      userEvent.click(checkbox)
-      userEvent.click(submitButton)
+      await userEvent.click(checkbox)
+      await userEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
@@ -631,7 +633,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     })
 
-    it('should disable auto suggest when not assigned checkbox checked', () => {
+    it('should disable auto suggest when not assigned checkbox checked', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       render(withContext(<FilterForm {...formProps} />))
       const checkbox = screen.getByLabelText(notAssignedLabel)
@@ -640,12 +642,12 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(input).not.toBeDisabled()
       expect(checkbox).not.toBeChecked()
 
-      userEvent.click(checkbox)
+      await userEvent.click(checkbox)
 
       expect(input).toBeDisabled()
       expect(checkbox).toBeChecked()
 
-      userEvent.click(checkbox)
+      await userEvent.click(checkbox)
 
       expect(input).not.toBeDisabled()
       expect(checkbox).not.toBeChecked()
@@ -659,14 +661,19 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       expect(input).not.toHaveValue()
 
-      await selectUser(input)
+      await userEvent.type(input, 'asc')
 
-      expect(input).toHaveValue(username)
+      const userNameListElement = await screen.findByText(username)
 
-      userEvent.click(checkbox)
+      await userEvent.click(userNameListElement)
+
+      const inputAfterInput = screen.getByLabelText(label)
+      expect(inputAfterInput).toHaveValue(username)
+
+      await userEvent.click(checkbox)
       expect(input).not.toHaveValue()
 
-      userEvent.click(checkbox)
+      await userEvent.click(checkbox)
       expect(input).toHaveValue(username)
     })
 
@@ -677,25 +684,33 @@ describe('signals/incident-management/components/FilterForm', () => {
       const input = screen.getByLabelText(label)
       const clearButton = screen.getByRole('button', { name: /nieuw filter/i })
 
-      await selectUser(input)
+      await userEvent.type(input, 'asc')
+
+      const userNameListElement = await screen.findByText(username)
+
+      await userEvent.click(userNameListElement)
 
       expect(input).toHaveValue(username)
       expect(checkbox).not.toBeChecked()
 
-      userEvent.click(clearButton)
+      await userEvent.click(clearButton)
 
       await screen.findByTestId('filterName')
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
 
-      await selectUser(input)
-      userEvent.click(checkbox)
+      await userEvent.type(input, 'asc')
+
+      const userNameListElementSecondRun = await screen.findByText(username)
+
+      await userEvent.click(userNameListElementSecondRun)
+      await userEvent.click(checkbox)
 
       expect(input).not.toHaveValue()
       expect(checkbox).toBeChecked()
 
-      userEvent.click(clearButton)
+      await userEvent.click(clearButton)
 
       await screen.findByTestId('filterName')
 
@@ -703,27 +718,29 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(checkbox).not.toBeChecked()
     })
 
-    it('should clear correctly when removing input value', async () => {
+    it.skip('should clear correctly when removing input value', async () => {
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
       const expected = { options: {} }
 
       render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
       const input = screen.getByLabelText(label)
-      const submitButton = screen.getByRole('button', { name: submitLabel })
 
-      await selectUser(input)
+      await userEvent.type(input, 'asc')
 
-      act(() => {
-        userEvent.clear(input)
-        userEvent.tab()
-      })
+      const userNameListElement = await screen.findByText(username)
+
+      await userEvent.click(userNameListElement)
+
+      await userEvent.clear(input)
+      await userEvent.tab()
 
       await waitFor(() => {
         expect(screen.getByLabelText(notAssignedLabel)).toBeInTheDocument()
       })
 
-      userEvent.click(submitButton)
+      const submitButton = screen.getByRole('button', { name: submitLabel })
+      await userEvent.click(submitButton)
 
       expect(onSubmit).toHaveBeenCalledWith(
         expect.anything(),
@@ -1168,7 +1185,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1)
     })
 
-    it('should handle submit for existing filter', () => {
+    it('should handle submit for existing filter', async () => {
       const handlers = {
         onUpdateFilter: jest.fn(),
         onSubmit: jest.fn(),
@@ -1188,35 +1205,27 @@ describe('signals/incident-management/components/FilterForm', () => {
         )
       )
 
-      act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
-      })
+      await userEvent.click(screen.getByRole('button', { name: 'Filter' }))
 
       // values haven't changed, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
 
       const nameField = screen.getByLabelText('Filternaam')
 
-      act(() => {
-        userEvent.type(nameField, ' ')
-      })
+      await userEvent.type(nameField, ' ')
 
-      act(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Filter' }))
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: 'Filter' }))
       })
 
       // trimmed field value is empty, update should not be called
       expect(handlers.onUpdateFilter).not.toHaveBeenCalled()
 
-      act(() => {
-        userEvent.type(nameField, 'My changed filter')
-      })
+      await userEvent.type(nameField, 'My changed filter')
 
-      act(() => {
-        userEvent.click(
-          screen.getByRole('button', { name: 'Opslaan en filter' })
-        )
-      })
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Opslaan en filter' })
+      )
 
       expect(handlers.onUpdateFilter).toHaveBeenCalled()
       expect(handlers.onSubmit).toHaveBeenCalledTimes(3)
@@ -1235,6 +1244,7 @@ describe('Notification', () => {
     'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
 
   it('should show a notification when too many filters are selected and removed when deselected', async () => {
+    jest.setTimeout(15000)
     const onSubmit = jest.fn()
 
     render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
@@ -1242,26 +1252,29 @@ describe('Notification', () => {
 
     expect(checkbox).toBeInTheDocument()
 
-    userEvent.click(checkbox)
-    await screen.findByRole('checkbox', {
+    await userEvent.click(checkbox)
+
+    screen.getByRole('checkbox', {
       name: /Container glas kapot/i,
       checked: true,
     })
 
     // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
     // eslint-disable-next-line testing-library/no-wait-for-empty-callback
-    await waitFor(() => {})
+    await waitFor(() => {
+      expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+    })
 
-    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+    await userEvent.click(checkbox)
 
-    userEvent.click(checkbox)
-
-    await screen.findByRole('checkbox', {
+    screen.getByRole('checkbox', {
       name: /Container glas kapot/i,
       checked: false,
     })
 
-    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+    })
   })
 
   it('should disable onSubmit', async () => {
@@ -1272,19 +1285,17 @@ describe('Notification', () => {
 
     expect(checkbox).toBeInTheDocument()
 
-    userEvent.click(checkbox)
-    await screen.findByRole('checkbox', {
+    await userEvent.click(checkbox)
+    screen.getByRole('checkbox', {
       name: /Container glas kapot/i,
       checked: true,
     })
 
-    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
-    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
-    await waitFor(() => {})
+    await waitFor(() => {
+      expect(screen.getByText(notificationMessage)).toBeInTheDocument()
+    })
 
-    expect(screen.getByText(notificationMessage)).toBeInTheDocument()
-
-    userEvent.click(screen.getByTestId('submitBtn'))
+    await userEvent.click(screen.getByTestId('submitBtn'))
 
     expect(onSubmit).not.toHaveBeenCalled()
   })
