@@ -42,7 +42,7 @@ describe('Detail', () => {
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
 
-  it('should render correctly and show map', () => {
+  it('should render correctly and show map', async () => {
     jest.mocked(useFetch).mockImplementation(() => ({
       ...useFetchResponse,
       data: incidentsDetail,
@@ -56,11 +56,11 @@ describe('Detail', () => {
       )
     )
 
-    userEvent.click(screen.getByText('Bekijk op kaart'))
+    await userEvent.click(screen.getByText('Bekijk op kaart'))
 
     expect(screen.queryByTestId('mapDetail')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('closeButton'))
+    await userEvent.click(screen.getByTestId('closeButton'))
 
     expect(screen.getByText('Bekijk op kaart')).toBeInTheDocument()
   })

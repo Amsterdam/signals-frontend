@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext, history } from 'test/utils'
 
 import { providerMock } from '../../__test__'
@@ -34,7 +35,7 @@ describe('LoginForm', () => {
 
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, 'test@email.com')
+    await userEvent.type(input, 'test@email.com')
 
     expect(screen.getByRole('textbox')).toHaveValue('test@email.com')
 
@@ -42,9 +43,7 @@ describe('LoginForm', () => {
       name: 'Inloggen',
     })
 
-    await waitFor(() => {
-      userEvent.click(submitButton)
-    })
+    await userEvent.click(submitButton)
 
     expect(providerMock.setEmail).toHaveBeenCalledWith('test@email.com')
     expect(history.location.pathname).toEqual('/mijn-meldingen/bevestig')
@@ -61,7 +60,7 @@ describe('LoginForm', () => {
 
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, 'myemail')
+    await userEvent.type(input, 'myemail')
 
     expect(screen.getByRole('textbox')).toHaveValue('myemail')
 
@@ -69,17 +68,15 @@ describe('LoginForm', () => {
       name: 'Inloggen',
     })
 
-    await waitFor(() => {
-      userEvent.click(submitButton)
-    })
-
-    expect(
-      screen.getByText('Het veld moet een geldig e-mailadres bevatten')
-    ).toBeInTheDocument()
+    userEvent.click(submitButton)
 
     await waitFor(() => {
-      userEvent.type(input, '@email.com')
+      expect(
+        screen.getByText('Het veld moet een geldig e-mailadres bevatten')
+      ).toBeInTheDocument()
     })
+
+    await userEvent.type(input, '@email.com')
 
     expect(screen.getByRole('textbox')).toHaveValue('myemail@email.com')
     expect(

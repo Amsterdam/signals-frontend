@@ -56,12 +56,3 @@ Object.defineProperty(globalAny.window, 'scrollTo', {
   value: noop,
   writable: true,
 })
-
-globalAny.document.createRange = () => ({
-  setStart: () => {},
-  setEnd: () => {},
-  commonAncestorContainer: {
-    nodeName: 'BODY',
-    ownerDocument: document,
-  },
-})
