@@ -23,11 +23,11 @@ const StyledIframe = styled.iframe`
 `
 
 interface EmailPreviewProps {
-  emailBody?: string
   onClose: () => void
   onUpdate: () => void
   title: string
   isLoading: boolean
+  emailBody?: string
 }
 
 const styling = `
