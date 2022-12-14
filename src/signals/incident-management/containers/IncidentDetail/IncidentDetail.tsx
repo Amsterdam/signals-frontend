@@ -20,7 +20,7 @@ import type { Incident } from 'types/api/incident'
 import type Context from 'types/context'
 
 import Attachments from './components/Attachments'
-import AttachmentViewer from './components/AttachmentViewer'
+import AttachmentViewer from 'components/AttachmentViewer'
 import ChildIncidents from './components/ChildIncidents'
 import Detail from './components/Detail'
 import DetailHeader from './components/DetailHeader'
@@ -116,6 +116,12 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
+  const formattedAttachments =
+    state.attachments?.results.map((attachment) => ({
+      createdAt: attachment.created_at,
+      createdBy: attachment.created_by,
+      location: attachment.location,
+    })) || []
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     switch (event.key) {
@@ -440,7 +446,7 @@ const IncidentDetail = () => {
       </StyledRow>
       {showAttachmentViewer && (
         <AttachmentViewer
-          attachments={state.attachments?.results || []}
+          attachments={formattedAttachments}
           href={state.attachmentHref || ''}
           onClose={onCloseAttachmentViewer}
         />

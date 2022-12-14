@@ -6,6 +6,8 @@ export const STATUS_MESSAGE_TEMPLATES = /status-message-templates/
 
 export const QA_SESSIONS = `${API_BASE_URL}/public/qa/sessions/:uuid`
 export const QA_SUBMIT = `${API_BASE_URL}/public/qa/sessions/:uuid/submit`
+export const QA_SESSIONS_ATTACHMENTS = `${API_BASE_URL}/public/qa/sessions/:uuid/attachments`
+export const QA_ANSWERS = `${API_BASE_URL}/public/qa/sessions/:uuid/answers`
 export const QA_ANSWER = `${API_BASE_URL}/public/qa/questions/:uuid/answer`
 export const QA_QUESTIONNAIRES = `${API_BASE_URL}/public/qa/questionnaires/:uuid`
 

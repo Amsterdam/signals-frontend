@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import ExternalReplyContainer from 'signals/incident/containers/ExternalReplyContainer'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -132,6 +133,12 @@ export const AppContainer = () => {
                 <Route path="/incident" component={IncidentContainer} />
                 {configuration.featureFlags.enablePublicSignalMap && (
                   <Route path="/kaart" component={IncidentOverviewContainer} />
+                )}
+                {configuration.featureFlags.enableForwardIncidentToExternal && (
+                  <Route
+                    path="/incident/extern/:id"
+                    component={ExternalReplyContainer}
+                  />
                 )}
                 <Route
                   path="/kto/:satisfactionIndication/:uuid"

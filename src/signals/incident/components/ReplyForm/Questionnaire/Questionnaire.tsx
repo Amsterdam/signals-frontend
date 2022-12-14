@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { themeSpacing } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
+import type { FieldError } from 'react-hook-form'
 import styled from 'styled-components'
 
-import type { Questionnaire as QuestionnaireType } from 'types/api/qa/questionnaire'
-import type { FieldError } from 'react-hook-form'
+import Button from 'components/Button'
+import type { FormAnswer } from 'signals/incident/containers/IncidentReplyContainer/types'
 import type { Question } from 'types/api/qa/question'
-
 import { FieldType } from 'types/api/qa/question'
+
 import FileInput from '../FileInput'
 import TextArea from '../TextArea'
-import type { FormAnswer, FormData } from '../../types'
-import Submit from '../Submit'
 
 const QuestionsWrapper = styled.div`
   > * {
@@ -28,42 +26,29 @@ const componentMap: Record<FieldType, (props: any) => any> = {
 
 interface QuestionnaireProps {
   onSubmit: (state: FormAnswer[]) => void
-  questionnaire: QuestionnaireType
+  questions: Question[]
 }
 
-const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
-  questionnaire,
-  onSubmit,
-}) => {
+const Questionnaire = ({ questions, onSubmit }: QuestionnaireProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
     trigger,
-  } = useForm<FormData>()
+  } = useForm()
 
-  const questionnaireQuestions = [
-    questionnaire.first_question,
-    {
-      field_type: FieldType.FileInput,
-      uuid: 'file-input',
-      label: "Foto's toevoegen",
-    } as Question,
-  ]
-
-  const submitForm = (data: FormData) => {
+  const submitForm = (data: Record<string, FormAnswer['value']>) => {
     onSubmit(
       Object.keys(data).map((key) => ({
         uuid: key,
         value: data[key],
-        fieldType: questionnaireQuestions.find(({ uuid }) => uuid == key)
-          ?.field_type,
+        fieldType: questions.find(({ uuid }) => uuid == key)?.field_type,
       }))
     )
   }
 
-  const questions = questionnaireQuestions.map((question) => {
+  const questionsComponent = questions.map((question) => {
     const Component = componentMap[question.field_type]
 
     return (
@@ -71,6 +56,7 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
         control={control}
         trigger={trigger}
         register={register}
+        shortLabel={question.short_label}
         label={question.label}
         id={question.uuid}
         errorMessage={(errors[question.uuid] as FieldError)?.message}
@@ -81,8 +67,10 @@ const Questionnaire: FunctionComponent<QuestionnaireProps> = ({
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>
-      <QuestionsWrapper>{questions}</QuestionsWrapper>
-      <Submit />
+      <QuestionsWrapper>{questionsComponent}</QuestionsWrapper>
+      <Button variant="secondary" type="submit">
+        Verstuur
+      </Button>
     </form>
   )
 }

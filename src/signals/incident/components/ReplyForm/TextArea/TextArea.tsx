@@ -2,14 +2,29 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useMemo } from 'react'
+
+import { Heading } from '@amsterdam/asc-ui'
 import { useWatch } from 'react-hook-form'
 import styled from 'styled-components'
+
+import Paragraph from 'components/Paragraph/Paragraph'
 import TextAreaComponent from 'components/TextArea'
-import type { FieldProps } from '../../types'
+import type { FieldProps } from 'signals/incident/containers/IncidentReplyContainer/types'
 
 export const DEFAULT_MAX_LENGTH = 1000
 const DEFAULT_ROWS = 6
-const StyledLabel = styled.strong`
+
+const StyledHeading = styled(Heading).attrs({
+  forwardedAs: 'h4',
+})`
+  && {
+    margin-bottom: 0;
+  }
+`
+
+const StyledParagraph = styled(Paragraph).attrs({
+  light: true,
+})`
   white-space: pre-wrap;
   word-break: break-word;
 `
@@ -17,6 +32,7 @@ const StyledLabel = styled.strong`
 const TextArea: FunctionComponent<FieldProps> = ({
   errorMessage,
   label,
+  shortLabel,
   id,
   control,
   register,
@@ -34,30 +50,33 @@ const TextArea: FunctionComponent<FieldProps> = ({
     [maxLength, value.length]
   )
 
-  const labelComponent = <StyledLabel>{label}</StyledLabel>
+  const Label = <StyledParagraph>{label}</StyledParagraph>
 
   return (
-    <TextAreaComponent
-      errorMessage={errorMessage}
-      name={id}
-      id={id}
-      infoText={infoText}
-      label={labelComponent}
-      rows={DEFAULT_ROWS}
-      {...register(id, {
-        validate: {
-          required: (value: string) => {
-            if (!value.trim()) {
-              return 'Dit is een verplicht veld'
-            }
+    <>
+      <StyledHeading forwardedAs="h4">{shortLabel}</StyledHeading>
+      <TextAreaComponent
+        errorMessage={errorMessage}
+        name={id}
+        id={id}
+        infoText={infoText}
+        label={Label}
+        rows={DEFAULT_ROWS}
+        {...register(id, {
+          validate: {
+            required: (value: string) => {
+              if (!value.trim()) {
+                return 'Dit is een verplicht veld'
+              }
+            },
           },
-        },
-        maxLength: {
-          message: `U heeft meer dan de maximale ${maxLength} tekens ingevoerd`,
-          value: maxLength,
-        },
-      })}
-    />
+          maxLength: {
+            message: `U heeft meer dan de maximale ${maxLength} tekens ingevoerd`,
+            value: maxLength,
+          },
+        })}
+      />
+    </>
   )
 }
 
