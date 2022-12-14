@@ -91,7 +91,7 @@ describe('ForwardToExternal', () => {
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            'Dit is geen geldig e-mail adres'
+            'Dit is geen geldig e-mail adres.'
           )
         })
       })

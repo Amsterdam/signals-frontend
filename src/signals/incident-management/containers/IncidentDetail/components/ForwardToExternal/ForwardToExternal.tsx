@@ -36,7 +36,7 @@ export const MAX_MESSAGE_LENGTH = 3000
 const schema = yup.object({
   email: yup
     .string()
-    .email('Dit is geen geldig e-mail adres')
+    .email('Dit is geen geldig e-mail adres.')
     .required(
       'Dit veld is verplicht voor het doorzetten naar een externe partij.'
     ),
@@ -182,7 +182,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
         </ErrorWrapper>
       </StyledSection>
 
-      {attachments && attachments.count > 0 && (
+      {attachments?.count && (
         <StyledSection>
           <StyledParagraph strong>Foto&apos;s</StyledParagraph>
           <ImageWrapper>
