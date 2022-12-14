@@ -182,7 +182,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
         </ErrorWrapper>
       </StyledSection>
 
-      {attachments?.count && (
+      {attachments?.count ? (
         <StyledSection>
           <StyledParagraph strong>Foto&apos;s</StyledParagraph>
           <ImageWrapper>
@@ -195,7 +195,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
             ))}
           </ImageWrapper>
         </StyledSection>
-      )}
+      ) : null}
 
       <div>
         <StyledButton
