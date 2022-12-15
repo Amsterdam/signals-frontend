@@ -38,5 +38,8 @@ describe('DetailPanel', () => {
     expect(screen.getByText('7 september 2022')).toBeInTheDocument()
     expect(screen.getByText(/Damstraat 100/)).toBeInTheDocument()
     expect(screen.getByText(/1000 AA Amsterdam/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Detail panel sluiten' })
+    ).toHaveFocus()
   })
 })
