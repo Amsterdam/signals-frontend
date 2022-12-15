@@ -45,6 +45,14 @@ const getControls = memoize(
         meta: {},
         render: FormComponents.GlobalError,
       },
+      info_text: {
+        meta: {
+          type: 'message',
+          value: `Voordat u een melding doet kunt u op de [meldingenkaart](/meldingenkaart) zien welke meldingen bekend zijn bij de
+          gemeente. Staat uw melding er niet bij? Maak dan een melding.`,
+        },
+        render: FormComponents.PlainText,
+      },
       source: {
         meta: {
           label: 'Hoe komt de melding binnen?',
