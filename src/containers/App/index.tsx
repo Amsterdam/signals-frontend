@@ -4,7 +4,6 @@ import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
-import ExternalReplyContainer from 'signals/incident/containers/ExternalReplyContainer'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -18,6 +17,7 @@ import { fetchCategories as fetchCategoriesAction } from 'models/categories/acti
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
+import ExternalReplyContainer from 'signals/incident/containers/ExternalReplyContainer'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
@@ -130,15 +130,15 @@ export const AppContainer = () => {
                   path="/incident/reactie/:uuid"
                   component={IncidentReplyContainer}
                 />
-                <Route path="/incident" component={IncidentContainer} />
-                {configuration.featureFlags.enablePublicSignalMap && (
-                  <Route path="/kaart" component={IncidentOverviewContainer} />
-                )}
                 {configuration.featureFlags.enableForwardIncidentToExternal && (
                   <Route
                     path="/incident/extern/:id"
                     component={ExternalReplyContainer}
                   />
+                )}
+                <Route path="/incident" component={IncidentContainer} />
+                {configuration.featureFlags.enablePublicSignalMap && (
+                  <Route path="/kaart" component={IncidentOverviewContainer} />
                 )}
                 <Route
                   path="/kto/:satisfactionIndication/:uuid"
