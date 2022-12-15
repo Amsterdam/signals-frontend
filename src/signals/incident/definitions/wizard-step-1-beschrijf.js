@@ -62,7 +62,7 @@ const getControls = memoize(
         meta: {
           label: 'Waar gaat het om?',
           subtitle:
-            'Typ geen persoonsgegevens in deze omschrijving, dit wordt apart gevraagd',
+            'Typ geen persoonsgegevens in deze omschrijving. We vragen dit later in dit formulier aan u.',
           path: 'text',
           rows: 7,
           maxLength: 1000,
