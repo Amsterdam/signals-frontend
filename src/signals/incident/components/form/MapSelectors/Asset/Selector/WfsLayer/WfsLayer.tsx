@@ -67,7 +67,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       params.append('filter', filter)
     }
 
-    const [request, controller] = fetchWithAbort(url.toString())
+    const { request, controller } = fetchWithAbort(url.toString())
 
     request
       .then(async (result) => result.json())

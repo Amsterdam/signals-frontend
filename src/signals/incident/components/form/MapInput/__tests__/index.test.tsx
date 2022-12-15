@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import MapInput from '..'
@@ -53,7 +54,7 @@ describe('Form component <MapInput />', () => {
 
       const textbox = await screen.findByRole('textbox')
 
-      expect(screen.getByRole('img')).toHaveClass('map-marker-select')
+      expect(screen.getAllByRole('img')[0]).toHaveClass('map-marker-select')
       expect(textbox).toHaveValue(value.addressText)
     })
   })
