@@ -115,10 +115,6 @@ export const IncidentLayer = ({
     layer.addTo(layerInstance)
 
     activeLayer.current = layer
-
-    // We ignore selectedIncident on purpose, otherwise markers are removed from the dom when selecting one.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
   }, [
     handleIncidentSelect,
     incidents,
