@@ -11,6 +11,8 @@ export interface Context {
   preview?: (section: string, payload?: Partial<State>) => void
   edit?: (section: string, payload?: Partial<State>) => void
   close?: () => void
+  toggleExternal?: () => void
+  attachments?: Result<Attachment>
 }
 
 export interface State {
@@ -27,6 +29,7 @@ export interface State {
   patching?: string
   edit?: string
   preview?: string
+  external?: boolean
 }
 
 export interface IncidentChild {

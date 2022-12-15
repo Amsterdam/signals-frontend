@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { useReducer, useEffect, useCallback, useState } from 'react'
 
 import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
@@ -24,12 +24,14 @@ import AttachmentViewer from './components/AttachmentViewer'
 import ChildIncidents from './components/ChildIncidents'
 import Detail from './components/Detail'
 import DetailHeader from './components/DetailHeader'
+import ForwardToExternal from './components/ForwardToExternal'
 import LocationForm from './components/LocationForm'
 import LocationPreview from './components/LocationPreview'
 import MetaList from './components/MetaList'
 import {
   CLOSE_ALL,
   EDIT,
+  EXTERNAL,
   PATCH_START,
   PATCH_SUCCESS,
   PREVIEW,
@@ -298,6 +300,10 @@ const IncidentDetail = () => {
     dispatch({ type: EDIT, payload: { edit: section, ...payload } })
   }, [])
 
+  const toggleExternalDispatch = useCallback(() => {
+    dispatch({ type: EXTERNAL, payload: {} })
+  }, [])
+
   const addAttachment = useCallback(
     (files) => {
       if (incident) {
@@ -368,6 +374,8 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
+        attachments: state?.attachments,
+        toggleExternal: toggleExternalDispatch,
       }}
     >
       <Row data-testid="incidentDetail">
@@ -409,10 +417,14 @@ const IncidentDetail = () => {
           span={{ small: 4, medium: 4, big: 4, large: 5, xLarge: 5 }}
           push={{ small: 0, medium: 0, big: 0, large: 0, xLarge: 0 }}
         >
-          <MetaList
-            defaultTexts={state.defaultTexts}
-            childIncidents={state.children?.results}
-          />
+          {state.external ? (
+            <ForwardToExternal onClose={toggleExternalDispatch} />
+          ) : (
+            <MetaList
+              defaultTexts={state.defaultTexts}
+              childIncidents={state.children?.results}
+            />
+          )}
         </DetailContainer>
 
         {((!showAttachmentViewer && state.preview) || state.edit) && (

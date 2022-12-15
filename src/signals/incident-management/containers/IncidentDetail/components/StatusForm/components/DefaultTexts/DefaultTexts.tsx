@@ -4,19 +4,13 @@ import type { FC, SyntheticEvent } from 'react'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 
-import ModalHeader from '../ModalHeader/ModalHeader'
-import {
-  StyledDefaultText,
-  StyledTitle,
-  StyledLink,
-  Container,
-  Wrapper,
-} from './styled'
+import ModalDialog from '../../../ModalDialog'
+import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>
   status: StatusCode
-  onClose?: () => void
+  onClose: () => void
   onHandleUseDefaultText: (
     event: SyntheticEvent<HTMLAnchorElement>,
     text: string
@@ -34,8 +28,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
     defaultTexts.find((text) => text.state === status)
 
   return (
-    <Container>
-      <ModalHeader title="Standaardtekst" onClose={onClose} />
+    <ModalDialog title="Standaardtekst" onClose={onClose}>
       <Wrapper data-scroll-lock-scrollable>
         {(!allText || allText.templates.length === 0) && (
           <StyledDefaultText key={`empty_${status}`} empty>
@@ -64,7 +57,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
             </StyledDefaultText>
           ))}
       </Wrapper>
-    </Container>
+    </ModalDialog>
   )
 }
 

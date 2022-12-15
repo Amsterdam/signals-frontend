@@ -21,6 +21,7 @@ export enum StatusCode {
   Verzonden = 'sent',
   VerzendenMislukt = 'send failed',
   VerzoekTotAfhandeling = 'closure requested',
+  DoorgezetNaarExtern = 'forward to external',
   AfgehandeldExtern = 'done external',
 }
 

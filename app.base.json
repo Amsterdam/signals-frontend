@@ -19,7 +19,8 @@
     "reporterMailHandledNegativeContactEnabled": false,
     "showThorButton": false,
     "showVulaanControls": false,
-    "useProjectenSignalType": false
+    "useProjectenSignalType": false,
+    "enableForwardIncidentToExternal": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

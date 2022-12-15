@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 export const PATCH_TYPE_LOCATION = 'location'
 export const PATCH_TYPE_NOTES = 'notes'
 export const PATCH_TYPE_PRIORITY = 'priority'
@@ -36,3 +36,5 @@ export const PATCH_SUCCESS =
 export const PREVIEW =
   'sia/incidentManagement/containers/IncidentDetail/PREVIEW'
 export const EDIT = 'sia/incidentManagement/containers/IncidentDetail/EDIT'
+export const EXTERNAL =
+  'sia/incidentManagement/containers/IncidentDetail/EXTERNAL'

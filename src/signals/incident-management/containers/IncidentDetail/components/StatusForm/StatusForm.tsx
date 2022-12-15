@@ -1,16 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
 import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
-import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import { useFetch, useEventEmitter } from 'hooks'
+import { useFetch } from 'hooks'
 
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
-import LoadingIndicator from 'components/LoadingIndicator'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
@@ -26,6 +24,7 @@ import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import type { IncidentChild, EmailTemplate } from '../../types'
 import DefaultTexts from './components/DefaultTexts'
+import EmailPreview from '../EmailPreview/EmailPreview'
 import {
   AddNoteWrapper,
   StyledCheckbox,
@@ -36,7 +35,6 @@ import {
   StyledButton,
   StyledH4,
   StyledLabel,
-  StyledModal,
   StyledParagraph,
   StyledSection,
 } from './styled'
@@ -44,7 +42,6 @@ import * as constants from './constants'
 import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import type { StatusFormActions } from './actions'
-import EmailPreview from './components/EmailPreview/EmailPreview'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
@@ -62,7 +59,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const { incident, update } = useContext(IncidentDetailContext)
   const storeDispatch = useDispatch()
   const incidentAsIncident = incident as Incident
-  const { listenFor, unlisten } = useEventEmitter()
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
@@ -92,7 +88,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
       event.preventDefault()
-      disablePageScroll()
       setModalStandardTextIsOpen(true)
       lastActiveElement = document.activeElement as HTMLElement
     },
@@ -100,7 +95,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   )
 
   const closeStandardTextModal = useCallback(() => {
-    enablePageScroll()
     setModalStandardTextIsOpen(false)
 
     if (lastActiveElement) {
@@ -109,7 +103,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [setModalStandardTextIsOpen])
 
   const closeEmailPreview = useCallback(() => {
-    enablePageScroll()
     setModalEmailPreviewIsOpen(false)
 
     if (lastActiveElement) {
@@ -118,20 +111,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [setModalEmailPreviewIsOpen])
 
   const openEmailPreviewModal = useCallback(() => {
-    disablePageScroll()
     setModalEmailPreviewIsOpen(true)
     lastActiveElement = document.activeElement as HTMLElement
   }, [setModalEmailPreviewIsOpen])
-
-  const escFunction = useCallback(
-    (event) => {
-      if (event.keyCode === 27) {
-        closeStandardTextModal()
-        closeEmailPreview()
-      }
-    },
-    [closeEmailPreview, closeStandardTextModal]
-  )
 
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
@@ -273,13 +255,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     },
     [closeStandardTextModal, setDefaultText]
   )
-
-  useEffect(() => {
-    listenFor('keydown', escFunction)
-    return () => {
-      unlisten('keydown', escFunction)
-    }
-  }, [escFunction, listenFor, unlisten])
 
   useEffect(() => {
     if (!emailTemplate) return
@@ -429,19 +404,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               )})`}</div>
             </StandardTextsButton>
             {modalStandardTextIsOpen && (
-              <StyledModal
-                data-testid="standardTextModal"
-                open
+              <DefaultTexts
+                defaultTexts={activeDefaultTexts}
+                onHandleUseDefaultText={useDefaultText}
+                status={state.status.key}
                 onClose={closeStandardTextModal}
-                title="Standard texts"
-              >
-                <DefaultTexts
-                  defaultTexts={activeDefaultTexts}
-                  onHandleUseDefaultText={useDefaultText}
-                  status={state.status.key}
-                  onClose={closeStandardTextModal}
-                />
-              </StyledModal>
+              />
             )}
 
             <AddNote
@@ -475,21 +443,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           Annuleer
         </StyledButton>
         {modalEmailPreviewIsOpen && (
-          <StyledModal
-            data-testid="emailPreviewModal"
-            open
+          <EmailPreview
+            isLoading={isLoading}
+            title="Controleer bericht aan melder"
+            emailBody={emailTemplate?.html}
             onClose={closeEmailPreview}
-            title="Email Preview"
-          >
-            {isLoading && <LoadingIndicator />}
-            {emailTemplate?.html && (
-              <EmailPreview
-                emailBody={emailTemplate.html}
-                onClose={closeEmailPreview}
-                onUpdate={onUpdate}
-              />
-            )}
-          </StyledModal>
+            onUpdate={onUpdate}
+          />
         )}
       </div>
     </Form>
