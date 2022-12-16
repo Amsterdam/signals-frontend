@@ -128,20 +128,22 @@ const useExternalReplyQuestionnaire = (id: string) => {
 
       // Submit the attachments
       if (answersWithAttachments.length > 0) {
-        answersWithAttachments.forEach(async (answer) => {
-          const formData = getAttachmentsAsFormData(answer)
-          const response = await fetch(
-            questionnaireData._links['sia:post-attachments'].href,
-            {
-              body: formData,
-              method: 'POST',
-            }
-          )
+        await Promise.all(
+          answersWithAttachments.map(async (answer) => {
+            const formData = getAttachmentsAsFormData(answer)
+            const response = await fetch(
+              questionnaireData._links['sia:post-attachments'].href,
+              {
+                body: formData,
+                method: 'POST',
+              }
+            )
 
-          if (!response.ok) {
-            throw new Error('Failed to upload attachments')
-          }
-        })
+            if (!response.ok) {
+              throw new Error('Failed to upload attachments')
+            }
+          })
+        )
       }
 
       // Submit the plain text answers
