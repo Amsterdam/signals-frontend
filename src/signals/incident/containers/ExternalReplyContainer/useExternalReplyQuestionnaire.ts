@@ -202,7 +202,7 @@ const useExternalReplyQuestionnaire = (id: string) => {
     attachments,
     questionnaireErrorMessage,
     submitQuestionnaireSuccessMessage,
-    location: questionnaireData?.location,
+    location: questionnaireData?.signal_snapshot.location,
     explanation: questionnaireData?.questionnaire_explanation,
     questions: questionnaireData?.path_questions,
     submit,

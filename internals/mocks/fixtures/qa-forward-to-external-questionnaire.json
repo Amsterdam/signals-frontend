@@ -54,25 +54,29 @@
       }
     ]
   },
-  "location": {
-    "geometrie": {
-      "type": "Point",
-      "coordinates": [
-        4.88676356191375,
-        52.372090333354876
-      ]
-    },
-    "address": {
-      "postcode": "1016BT",
-      "huisletter": "B",
-      "huisnummer": 242,
-      "woonplaats": "Amsterdam",
-      "openbare_ruimte": "Herengracht",
-      "huisnummer_toevoeging": ""
-    },
-    "address_text": "Herengracht 242B 1016BT Amsterdam",
-    "stadsdeel": "Centrum",
-    "area_name": null
+  "signal_snapshot": {
+    "signal_id": "SIG-123",
+    "id": 1,
+    "location": {
+      "geometrie": {
+        "type": "Point",
+        "coordinates": [
+          4.88676356191375,
+          52.372090333354876
+        ]
+      },
+      "address": {
+        "postcode": "1016BT",
+        "huisletter": "B",
+        "huisnummer": 242,
+        "woonplaats": "Amsterdam",
+        "openbare_ruimte": "Herengracht",
+        "huisnummer_toevoeging": ""
+      },
+      "address_text": "Herengracht 242B 1016BT Amsterdam",
+      "stadsdeel": "Centrum",
+      "area_name": null
+    }
   },
   "can_freeze": false,
   "path_questions": [

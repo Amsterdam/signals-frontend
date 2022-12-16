@@ -21,20 +21,24 @@ export interface Session {
       href: string
     }
   }
-  questionnaire_explanation: Explanation
+  created_at: string
+  duration: string
   path_questions: Question[]
-  uuid: string
+  questionnaire_explanation: Explanation
   started_at: string | null
   submit_before: string
-  duration: string
-  created_at: string
-  location: {
-    address: Address
-    address_text?: string | null
-    geometrie: {
-      coordinates: [number, number]
-      type: 'Point'
+  signal_snapshot: {
+    signal_id: string
+    id: number
+    location: {
+      address: Address
+      address_text?: string | null
+      geometrie: {
+        coordinates: [number, number]
+        type: 'Point'
+      }
+      stadsdeel: string | null
     }
-    stadsdeel: string | null
   }
+  uuid: string
 }
