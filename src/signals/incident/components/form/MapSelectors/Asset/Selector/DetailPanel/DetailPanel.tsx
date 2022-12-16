@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { useCallback, useState, useContext, useRef, useEffect } from 'react'
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 
@@ -99,15 +99,16 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     }))
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnregisteredAssetValue(event.currentTarget.value.trim())
+    setUnregisteredAssetValue(event.currentTarget.value)
   }
 
   const onSetUnregisteredItem = useCallback(() => {
     removeItem()
+    const trimmedUnregisteredAssetValue = `${unregisteredAssetValue}`.trim()
     setItem({
-      id: unregisteredAssetValue,
+      id: trimmedUnregisteredAssetValue,
       type: UNKNOWN_TYPE,
-      label: [unregisteredLabel, unregisteredAssetValue]
+      label: [unregisteredLabel, trimmedUnregisteredAssetValue]
         .filter(Boolean)
         .join(' - '),
     })
