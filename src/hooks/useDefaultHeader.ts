@@ -6,14 +6,14 @@ import { useLocation } from 'react-router-dom'
 
 const useDefaultHeader = () => {
   const location = useLocation()
-  const routesWithoutBackofficeAccess = ['/meldingenkaart']
+  const routesWithCustomHeader = ['/meldingenkaart']
 
   return useMemo(
     () =>
-      !routesWithoutBackofficeAccess.some((route: string) =>
+      !routesWithCustomHeader.some((route: string) =>
         location.pathname.startsWith(route)
       ),
-    [location.pathname, routesWithoutBackofficeAccess]
+    [location.pathname, routesWithCustomHeader]
   )
 }
 

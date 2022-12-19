@@ -24,6 +24,8 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import styled, { css } from 'styled-components'
 
+import useTallHeader from '../../hooks/useTallHeader'
+
 const MENU_BREAKPOINT = 1320
 
 const StyledHeader = styled(HeaderComponent)`
@@ -283,8 +285,10 @@ export const SiteHeader = (props) => {
   const rendersMenuToggle = useMediaQuery({
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
+
+  const tallHeaderByDefault = useTallHeader()
   const isFrontOffice = useIsFrontOffice()
-  const tall = isFrontOffice && !getIsAuthenticated()
+  const tall = (isFrontOffice && !getIsAuthenticated()) || tallHeaderByDefault
   const title = tall
     ? configuration.language.headerTitle
     : configuration.language.smallHeaderTitle
