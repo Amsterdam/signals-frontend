@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { ReactPropTypes } from 'react'
 
 import { fireEvent, render, screen, within } from '@testing-library/react'
@@ -297,7 +297,7 @@ describe('DetailPanel', () => {
 
     expect(screen.getByText('Nummer van de container')).toBeInTheDocument()
 
-    const unregisteredObjectId = '8976238'
+    const unregisteredObjectId = '897 6238'
 
     userEvent.type(
       screen.getByTestId('unregisteredAssetInput'),
