@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import type { AbstractControl } from 'react-reactive-form'
-
 import { validatePhoneNumber, validateObjectLocation, falsyOrNumber } from '.'
 
 describe('The custom validators service', () => {
@@ -12,24 +10,21 @@ describe('The custom validators service', () => {
     it('with correct telephone number', () => {
       const control = {
         value: '+31 (20) 6793-793',
-      } as AbstractControl
-
+      }
       expect(validatePhoneNumber(control)).toEqual(null)
     })
 
     it('with undefined telephone number', () => {
       const control = {
         value: undefined,
-      } as AbstractControl
-
+      }
       expect(validatePhoneNumber(control)).toEqual(null)
     })
 
     it('with incorrect telephone number with letter', () => {
       const control = {
         value: '+3120-6a',
-      } as AbstractControl
-
+      }
       expect(validatePhoneNumber(control)).toEqual({
         custom: error,
       })
@@ -38,8 +33,7 @@ describe('The custom validators service', () => {
     it('with incorrect telephone number with incorrect chars', () => {
       const control = {
         value: '+3120-6 *&',
-      } as AbstractControl
-
+      }
       expect(validatePhoneNumber(control)).toEqual({
         custom: error,
       })
@@ -66,14 +60,14 @@ describe('The custom validators service', () => {
         },
       }
 
-      expect(validationFunc({ value } as AbstractControl)).toBeNull()
+      expect(validationFunc({ value })).toBeNull()
     })
 
     it('returns a custom error message when invalid', () => {
       const objectType = 'container'
       const validationFunc = validateObjectLocation(objectType)
 
-      expect(validationFunc({ value: '' } as AbstractControl)).toStrictEqual({
+      expect(validationFunc({ value: '' })).toStrictEqual({
         custom: `Kies een locatie of een ${objectType} op de kaart of vul een adres in`,
       })
     })
@@ -87,20 +81,16 @@ describe('The custom validators service', () => {
     it('evaluates null values', () => {
       const inputNull = {
         value: null,
-      } as AbstractControl
-
+      }
       const inputUndefined = {
         value: undefined,
-      } as AbstractControl
-
+      }
       const inputNumber = {
         value: 1234567890,
-      } as AbstractControl
-
+      }
       const invalidInputNumber = {
         value: 'ajksdlfjlk',
-      } as AbstractControl
-
+      }
       expect(falsyOrNumber(inputNull)).toBeNull()
       expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(inputUndefined)).toBeNull()

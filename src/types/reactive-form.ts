@@ -1,12 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import type {
-  Handler,
-  InputType,
-  Status,
-  ValidationErrors,
-} from 'react-reactive-form'
+/**
+ * Since we deprecated react-reactive-form I copied the types that are still used to this file.
+ */
+
+type Handler = {
+  value: any
+  onChange: (e: any) => void
+  onBlur: (e: any) => void
+  onFocus: (e: any) => void
+  disabled: boolean
+  checked?: boolean
+  editable?: boolean
+  type?: string
+}
+
+type InputType = 'checkbox' | 'radio' | 'switch'
+type Status = 'VALID' | 'INVALID' | 'DISABLED' | 'PENDING'
+
+type ValidationErrors = {
+  [key: string]: any
+}
 
 /**
  * @description the Meta interface of the reactive-forms. Not exported from the package

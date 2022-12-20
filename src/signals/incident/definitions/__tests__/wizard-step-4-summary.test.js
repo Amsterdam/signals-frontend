@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { Validators } from 'react-reactive-form'
-
 import configuration from 'shared/services/configuration/configuration'
 
 import PreviewComponents from '../../components/IncidentPreview/components'
@@ -17,7 +15,6 @@ import step4, {
 const { previewFactory } = step4
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('react-reactive-form')
 jest.mock('lodash/memoize', () => ({
   __esModule: true,
   default: jest.fn((fn) => fn),
@@ -60,7 +57,7 @@ describe('Wizard summary', () => {
           label: 'Uw melding gaat over:',
           canBeNull: true,
         },
-        options: { validators: [Validators.required] },
+        options: { validators: ['required'] },
         render: 'RadioInputGroup',
       },
       extra_bedrijven_horeca_naam: {

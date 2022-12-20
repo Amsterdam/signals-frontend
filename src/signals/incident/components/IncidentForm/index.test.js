@@ -77,11 +77,6 @@ const renderIncidentForm = (props, renderFunction = render) =>
 describe('<IncidentForm />', () => {
   let defaultProps
 
-  beforeAll(() => {
-    // disable annoying deprecation warnings from `react-reactive-form`
-    jest.spyOn(console, 'warn').mockImplementation(() => {})
-  })
-
   afterAll(() => {
     jest.restoreAllMocks()
   })
