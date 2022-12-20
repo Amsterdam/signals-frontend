@@ -20,12 +20,12 @@ export const ALLOWED_FILE_TYPES = [
 const ALLOWED_EXTENSIONS = ALLOWED_FILE_TYPES.map((type) => type.split('/')[1])
 
 type FileInputProps = {
-  errorMessage?: string
   shortLabel: string
   id: string
   label: string
   trigger: (id: string) => void
   control: Control<Record<string, unknown>>
+  errorMessage?: string
 }
 
 const FileInput = ({
