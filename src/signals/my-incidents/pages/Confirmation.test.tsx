@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
 
 import { providerMock } from '../__test__'
@@ -86,8 +87,18 @@ describe('BasePage', () => {
   })
 
   it('should redirect to requestAccess page when email is undefined', () => {
+    const mockProviderWithoutEmail = {
+      ...providerMock,
+      email: undefined,
+    }
     try {
-      render(withAppContext(<Confirmation />))
+      render(
+        withAppContext(
+          <MyIncidentsProvider value={mockProviderWithoutEmail}>
+            <Confirmation />
+          </MyIncidentsProvider>
+        )
+      )
     } catch (e) {
       const error = new Error(
         'Missing MyIncidentsContext provider. You have to wrap the application with the MyIncidentsProvider component.'
