@@ -54,7 +54,7 @@ describe('Form component <MapInput />', () => {
 
       const textbox = await screen.findByRole('textbox')
 
-      expect(screen.getAllByRole('img')[0]).toHaveClass('map-marker-select')
+      expect(screen.getAllByRole('img')[1]).toHaveClass('map-marker-select')
       expect(textbox).toHaveValue(value.addressText)
     })
   })
