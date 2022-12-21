@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { DefaultTexts } from 'types/api/default-text'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import type { Incident } from 'types/api/incident'
@@ -7,6 +7,7 @@ import { StatusCode } from '../../definitions/types'
 import {
   CLOSE_ALL,
   EDIT,
+  EXTERNAL,
   PATCH_START,
   PATCH_SUCCESS,
   PREVIEW,
@@ -233,7 +234,22 @@ describe('signals/incident-management/containers/IncidentDetail/reducer', () => 
     expect(reducer(state, { type: PREVIEW, payload })).toEqual({
       ...state,
       edit: undefined,
+      external: false,
       ...payload,
+    })
+  })
+
+  it('should handle EXTERNAL', () => {
+    const mockState = {
+      ...state,
+      edit: 'foo',
+      preview: 'bar',
+    }
+    expect(reducer(mockState, { type: EXTERNAL })).toEqual({
+      ...mockState,
+      edit: undefined,
+      external: !mockState.external,
+      preview: undefined,
     })
   })
 

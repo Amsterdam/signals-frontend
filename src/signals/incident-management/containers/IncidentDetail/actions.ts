@@ -26,6 +26,7 @@ import type {
   EDIT,
   SET_CHILD_INCIDENTS,
   SET_CONTEXT,
+  EXTERNAL,
 } from './constants'
 
 export type ResetAction = Action<typeof RESET, void>
@@ -61,6 +62,7 @@ export type PatchStartAction = Action<typeof PATCH_START, string>
 export type PatchSuccessAction = Action<typeof PATCH_SUCCESS, string>
 export type PreviewAction = Action<typeof PREVIEW, Partial<State>>
 export type EditAction = Action<typeof EDIT, Partial<State>>
+export type ExternalAction = Action<typeof EXTERNAL, Partial<State>>
 
 export type IncidentDetailAction =
   | ResetAction
@@ -78,3 +80,4 @@ export type IncidentDetailAction =
   | PatchSuccessAction
   | PreviewAction
   | EditAction
+  | ExternalAction

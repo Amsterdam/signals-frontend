@@ -6,7 +6,6 @@ import {
   Checkbox,
   Heading,
   Label,
-  Modal,
   Row,
   themeColor,
   themeSpacing,
@@ -60,6 +59,7 @@ export const StandardTextsButton = styled(Button)<{
       css`
         color: ${themeColor('tint', 'level5')};
       `}
+  }
 `
 
 export const StyledAlert = styled(Alert)<{ level?: AlertLevel }>`
@@ -97,11 +97,6 @@ export const StyledCheckbox = styled(Checkbox)<{ disabled: boolean }>`
     css`
       opacity: 0.3;
     `}
-`
-
-export const StyledModal = styled(Modal)`
-  overflow: hidden;
-  height: 75%;
 `
 
 export const StyledParagraph = styled.p`

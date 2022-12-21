@@ -117,6 +117,13 @@ export const VERZOEK_TOT_AFHANDELING = {
   shows_remaining_sla_days: true,
 }
 
+export const DOORGEZET_NAAR_EXTERN = {
+  key: StatusCode.DoorgezetNaarExtern,
+  value: 'Doorgezet naar extern',
+  email_sent_when_set: true,
+  shows_remaining_sla_days: true,
+}
+
 export const AFGEHANDELD_EXTERN = {
   key: StatusCode.AfgehandeldExtern,
   value: 'Extern: afgehandeld',
@@ -141,6 +148,7 @@ const statusList: Status[] = [
   VERZENDEN_MISLUKT,
   VERZOEK_TOT_AFHANDELING,
   AFGEHANDELD_EXTERN,
+  DOORGEZET_NAAR_EXTERN,
 ]
 
 export default statusList

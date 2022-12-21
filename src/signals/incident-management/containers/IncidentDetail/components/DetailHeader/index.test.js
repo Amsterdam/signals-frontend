@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -27,10 +27,13 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const update = jest.fn()
+const toggleExternal = jest.fn()
 
 const renderWithContext = (incident = incidentFixture) =>
   withAppContext(
-    <IncidentDetailContext.Provider value={{ incident, update }}>
+    <IncidentDetailContext.Provider
+      value={{ incident, update, toggleExternal }}
+    >
       <DetailHeader />
     </IncidentDetailContext.Provider>
   )
@@ -38,6 +41,7 @@ const renderWithContext = (incident = incidentFixture) =>
 describe('signals/incident-management/containers/IncidentDetail/components/DetailHeader', () => {
   beforeEach(() => {
     configuration.featureFlags.showThorButton = true
+    configuration.featureFlags.enableForwardIncidentToExternal = true
     update.mockReset()
   })
 
@@ -66,6 +70,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
       /^THOR$/
     )
     expect(
+      screen.queryByTestId('detail-header-button-external')
+    ).toHaveTextContent(/^Extern$/)
+    expect(
       screen.queryAllByTestId('detail-header-button-download')
     ).toHaveLength(1)
   })
@@ -85,6 +92,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
 
     expect(
       screen.queryByTestId('detail-header-button-thor')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not render Extern button when feature flag is disabled', () => {
+    configuration.featureFlags.enableForwardIncidentToExternal = false
+
+    render(renderWithContext(incidentFixture))
+
+    expect(
+      screen.queryByTestId('detail-header-button-external')
     ).not.toBeInTheDocument()
   })
 
@@ -212,6 +229,18 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
         },
       },
     })
+  })
+
+  it('should toggle external when Extern button is clicked', () => {
+    render(renderWithContext())
+
+    expect(toggleExternal).not.toHaveBeenCalled()
+
+    act(() => {
+      fireEvent.click(screen.queryByTestId('detail-header-button-external'))
+    })
+
+    expect(toggleExternal).toHaveBeenCalled()
   })
 
   it('should render a link with the correct referrer', () => {

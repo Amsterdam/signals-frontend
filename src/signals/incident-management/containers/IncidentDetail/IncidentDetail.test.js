@@ -46,6 +46,9 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }))
 
+let scrollIntoViewMock = jest.fn()
+window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock
+
 jest.mock('shared/services/configuration/configuration')
 jest.mock('hooks/useEventEmitter')
 
@@ -207,6 +210,23 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(screen.getByTestId('statusFormCancelButton'))
 
     expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
+  })
+
+  it('renders forward to external form', async () => {
+    configuration.featureFlags.enableForwardIncidentToExternal = true
+    render(withAppContext(<IncidentDetail />))
+
+    await screen.findByTestId('incidentDetail')
+
+    expect(screen.queryByTestId('forwardToExternal')).not.toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Extern' }))
+
+    expect(screen.getByTestId('forwardToExternal')).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('formCancelButton'))
+
+    expect(screen.queryByTestId('forwardToExternal')).not.toBeInTheDocument()
   })
 
   it('renders attachment viewer', async () => {

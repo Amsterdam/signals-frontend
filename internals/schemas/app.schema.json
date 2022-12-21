@@ -134,6 +134,10 @@
         "reporterMailHandledNegativeContactEnabled": {
           "description": "When true, will show a feedback text based on the satisfaction value yes or no.",
           "type": "boolean"
+        },
+        "enableForwardIncidentToExternal": {
+          "description": "Enables forwarding the handling of an incident to an external organization.",
+          "type": "boolean"
         }
       },
       "required": [

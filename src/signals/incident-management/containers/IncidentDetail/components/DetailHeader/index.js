@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { useCallback, useContext, useMemo } from 'react'
 
 import { themeColor, themeSpacing, Heading, styles } from '@amsterdam/asc-ui'
@@ -21,25 +21,9 @@ import IncidentDetailContext from '../../context'
 import DownloadButton from './components/DownloadButton'
 
 const Header = styled.header`
-  display: grid;
   padding: ${themeSpacing(2, 0)};
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
   width: 100%;
-
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
-    grid-template-columns: 7fr 4fr;
-  }
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 7fr 1fr 4fr;
-  }
-`
-
-const BackLinkContainer = styled.div`
-  grid-column-start: 1;
-  grid-column-end: 4;
 `
 
 const StyledBackLink = styled(BackLink)`
@@ -47,18 +31,17 @@ const StyledBackLink = styled(BackLink)`
 `
 
 const ButtonContainer = styled.div`
-  grid-column-start: 3;
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
   align-items: center;
-
-  & > * {
-    margin-left: ${themeSpacing(2)};
-  }
+  gap: ${themeSpacing(2)};
 `
 
 const HeadingContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: ${themeSpacing(1)};
 
   && > * {
     margin: 0;
@@ -80,7 +63,7 @@ const StyledHeading = styled(Heading)`
 `
 
 const DetailHeader = () => {
-  const { incident, update } = useContext(IncidentDetailContext)
+  const { incident, update, toggleExternal } = useContext(IncidentDetailContext)
   const location = useLocation()
 
   const showSplitButton = useMemo(() => {
@@ -129,48 +112,58 @@ const DetailHeader = () => {
 
   return (
     <Header className="detail-header">
-      <BackLinkContainer>
-        <StyledBackLink to={referrer}>Terug naar overzicht</StyledBackLink>
-      </BackLinkContainer>
+      <StyledBackLink to={referrer}>Terug naar overzicht</StyledBackLink>
 
       <HeadingContainer>
         <StyledHeading data-testid="detail-header-title">
           {headingText}&nbsp;
           <span>{incident.id}</span>
         </StyledHeading>
+
+        <ButtonContainer>
+          {showSplitButton && (
+            <Button
+              type="button"
+              variant="application"
+              forwardedAs={Link}
+              to={`${INCIDENT_URL}/${incident.id}/split`}
+              data-testid="detail-header-button-split"
+            >
+              Delen
+            </Button>
+          )}
+
+          {canThor && configuration.featureFlags.showThorButton && (
+            <Button
+              type="button"
+              variant="application"
+              onClick={patchIncident}
+              data-testid="detail-header-button-thor"
+            >
+              THOR
+            </Button>
+          )}
+
+          {configuration.featureFlags.enableForwardIncidentToExternal && (
+            <Button
+              type="button"
+              variant="application"
+              onClick={() => toggleExternal()}
+              data-testid="detail-header-button-external"
+              title="Doorzetten naar extern"
+            >
+              Extern
+            </Button>
+          )}
+
+          <DownloadButton
+            label="PDF"
+            url={downloadLink}
+            filename={`${configuration.language.shortTitle}-${incident.id}.pdf`}
+            data-testid="detail-header-button-download"
+          />
+        </ButtonContainer>
       </HeadingContainer>
-
-      <ButtonContainer>
-        {showSplitButton && (
-          <Button
-            type="button"
-            variant="application"
-            forwardedAs={Link}
-            to={`${INCIDENT_URL}/${incident.id}/split`}
-            data-testid="detail-header-button-split"
-          >
-            Delen
-          </Button>
-        )}
-
-        {canThor && configuration.featureFlags.showThorButton && (
-          <Button
-            type="button"
-            variant="application"
-            onClick={patchIncident}
-            data-testid="detail-header-button-thor"
-          >
-            THOR
-          </Button>
-        )}
-
-        <DownloadButton
-          label="PDF"
-          url={downloadLink}
-          filename={`${configuration.language.shortTitle}-${incident.id}.pdf`}
-          data-testid="detail-header-button-download"
-        />
-      </ButtonContainer>
     </Header>
   )
 }
