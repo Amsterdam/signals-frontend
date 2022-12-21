@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
-
+import type { FormOptions } from 'types/reactive-form'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
@@ -22,7 +22,7 @@ const props = {
     },
   },
   getError: () => {},
-  validatorsOrOpts: [],
+  validatorsOrOpts: [] as FormOptions,
   value: 239472934872,
 }
 
