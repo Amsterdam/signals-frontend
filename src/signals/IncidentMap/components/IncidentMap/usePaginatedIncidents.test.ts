@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
+
 import { renderHook } from '@testing-library/react-hooks'
 import { act } from 'react-test-renderer'
 
@@ -29,7 +32,7 @@ const feature = {
 
 const features = new Array(4000).fill(feature)
 
-export const useFetchResponse = {
+const useFetchResponse = {
   del,
   get,
   patch,
@@ -41,13 +44,32 @@ export const useFetchResponse = {
   isSuccess: false,
 }
 
+const useFetchResponseSmall = {
+  ...useFetchResponse,
+  data: {
+    features: new Array(223).fill(feature),
+  },
+}
+
 describe('usePaginationTest', function () {
   beforeEach(() => {
     get.mockReset()
   })
 
   it('should call get twice', function () {
-    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+    jest
+      .mocked(useFetch)
+      .mockImplementationOnce(() => useFetchResponse)
+      .mockImplementationOnce(() => useFetchResponseSmall)
+
+    jest.spyOn(React, 'useRef').mockImplementationOnce(() => ({
+      current: {
+        page: 3,
+        features: [],
+        searchParams: new URLSearchParams(),
+      },
+    }))
+
     const { result } = renderHook(usePaginatedIncidents)
 
     const { getIncidents } = result.current
@@ -65,12 +87,7 @@ describe('usePaginationTest', function () {
   })
 
   it('should call get once', function () {
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
-      data: {
-        features: new Array(223).fill(feature),
-      },
-    }))
+    jest.mocked(useFetch).mockImplementationOnce(() => useFetchResponseSmall)
 
     const { result } = renderHook(usePaginatedIncidents)
 

@@ -99,8 +99,10 @@ export const IncidentMap = () => {
     })
   }, [resetSelectedMarker, map])
 
+  /* istanbul ignore next */
   const { incidents, isSuccess, error, getIncidents } = usePaginatedIncidents()
 
+  /* istanbul ignore next */
   useEffect(() => {
     if (bbox) {
       getIncidents(bbox)

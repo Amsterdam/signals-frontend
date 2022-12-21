@@ -61,7 +61,6 @@ const usePaginatedIncidents = () => {
       paginatedIncidents.current.features = data.features
     }
 
-    /* istanbul ignore next */
     if (paginatedIncidents.current.page > 2 && data?.features) {
       paginatedIncidents.current.features = [
         ...data.features,
