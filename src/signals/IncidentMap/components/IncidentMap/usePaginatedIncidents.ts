@@ -10,7 +10,7 @@ import configuration from '../../../../shared/services/configuration/configurati
 import type { Bbox } from '../../../incident/components/form/MapSelectors/hooks/useBoundingBox'
 import type { PointLatLng, Properties } from '../../types'
 
-const useIsFrontOffice = () => {
+const usePaginatedIncidents = () => {
   const { get, data, error, isSuccess } =
     useFetch<FeatureCollection<PointLatLng, Properties>>()
 
@@ -23,9 +23,9 @@ const useIsFrontOffice = () => {
   useEffect(() => {
     const incidents = data?.features || []
     const searchParams = paginatedIncidents.current.searchParams
+
     if (incidents.length === 4000) {
       searchParams.set('geopage', paginatedIncidents.current.page.toString())
-
       get(
         `${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`
       )
@@ -61,6 +61,7 @@ const useIsFrontOffice = () => {
       paginatedIncidents.current.features = data.features
     }
 
+    /* istanbul ignore next */
     if (paginatedIncidents.current.page > 2 && data?.features) {
       paginatedIncidents.current.features = [
         ...data.features,
@@ -79,4 +80,4 @@ const useIsFrontOffice = () => {
   }
 }
 
-export default useIsFrontOffice
+export default usePaginatedIncidents
