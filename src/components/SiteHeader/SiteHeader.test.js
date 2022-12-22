@@ -4,17 +4,11 @@ import { render, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import 'jest-styled-components'
 import * as reactResponsive from 'react-responsive'
-
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { history, withAppContext } from 'test/utils'
 
 import SiteHeader from '.'
-
-let mockIsIncidentMap = false
-jest.mock('hooks/useIsIncidentMap', () => {
-  return jest.fn(() => mockIsIncidentMap)
-})
 
 jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
@@ -248,7 +242,31 @@ describe('components/SiteHeader', () => {
     ).toEqual(true)
   })
 
+  it('should render a tall header by default', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+
+    const { container } = render(withAppContext(<SiteHeader />))
+
+    act(() => {
+      history.push('/mijn-meldingen')
+    })
+
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isTall')
+    ).toEqual(true)
+
+    act(() => {
+      history.push('/')
+    })
+
+    expect(
+      container.querySelector('.siteHeader').classList.contains('isTall')
+    ).toEqual(false)
+  })
+
   it('should show buttons based on permissions', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+
     const { queryByText } = render(
       withAppContext(
         <SiteHeader
@@ -332,15 +350,5 @@ describe('components/SiteHeader', () => {
         screen.queryByRole('link', { name: 'Instellingen' })
       ).not.toBeInTheDocument()
     })
-  })
-
-  it('should render null when incidentMap is rendered', () => {
-    mockIsIncidentMap = true
-
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
-
-    const { container } = render(withAppContext(<SiteHeader />))
-
-    expect(container.firstChild).toBeNull()
   })
 })

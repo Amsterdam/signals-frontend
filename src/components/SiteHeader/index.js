@@ -13,18 +13,18 @@ import {
   themeSpacing,
   breakpoint,
 } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
-import { useMediaQuery } from 'react-responsive'
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
-
 import Logo from 'components/Logo'
 import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import useIsIncidentMap from 'hooks/useIsIncidentMap'
+import PropTypes from 'prop-types'
+import { useMediaQuery } from 'react-responsive'
+import { NavLink } from 'react-router-dom'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
+import styled, { css } from 'styled-components'
+
+import useTallHeader from '../../hooks/useTallHeader'
 
 const MENU_BREAKPOINT = 1320
 
@@ -285,9 +285,10 @@ export const SiteHeader = (props) => {
   const rendersMenuToggle = useMediaQuery({
     query: `(max-width: ${MENU_BREAKPOINT}px)`,
   })
+
+  const tallHeaderByDefault = useTallHeader()
   const isFrontOffice = useIsFrontOffice()
-  const isIncidentMap = useIsIncidentMap()
-  const tall = isFrontOffice && !getIsAuthenticated()
+  const tall = (isFrontOffice && !getIsAuthenticated()) || tallHeaderByDefault
   const title = tall
     ? configuration.language.headerTitle
     : configuration.language.smallHeaderTitle
@@ -307,10 +308,6 @@ export const SiteHeader = (props) => {
       ),
     [props, menuOpen, rendersMenuToggle]
   )
-
-  if (isIncidentMap) {
-    return null
-  }
 
   return (
     <>

@@ -2,10 +2,6 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-
 import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
@@ -15,13 +11,17 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
 import { fetchDepartments as fetchDepartmentsAction } from 'models/departments/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import IncidentContainer from 'signals/incident/containers/IncidentContainer'
 import { resetIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
 import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
+import styled from 'styled-components'
 
+import useDefaultHeader from '../../hooks/useDefaultHeader'
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
@@ -97,11 +97,15 @@ export const AppContainer = () => {
     dispatch(getSources())
   }, [dispatch])
 
+  const defaultHeader = useDefaultHeader()
+
   return (
     <ThemeProvider>
       <AppContext.Provider value={contextValue}>
         <Fragment>
-          {!configuration.featureFlags.appMode && <SiteHeaderContainer />}
+          {!configuration.featureFlags.appMode && defaultHeader && (
+            <SiteHeaderContainer />
+          )}
 
           <ContentContainer
             padding={{
