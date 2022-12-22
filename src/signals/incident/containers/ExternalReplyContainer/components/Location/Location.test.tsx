@@ -29,7 +29,7 @@ describe('Location', () => {
     render(withAppContext(<Location onClick={jest.fn()} location={location} />))
 
     // Check for map thumbnail image
-    expect(screen.getByRole('img')).toBeInTheDocument()
+    expect(screen.getAllByRole('img')[0]).toHaveClass('leaflet-tile')
 
     expect(screen.getByText(location.stadsdeel)).toBeInTheDocument()
     expect(
@@ -80,7 +80,7 @@ describe('Location', () => {
     const clickSpy = jest.fn()
     render(withAppContext(<Location onClick={clickSpy} location={location} />))
 
-    userEvent.click(screen.getByRole('img'))
+    userEvent.click(screen.getAllByRole('img')[0])
 
     expect(clickSpy).toHaveBeenCalled()
   })
