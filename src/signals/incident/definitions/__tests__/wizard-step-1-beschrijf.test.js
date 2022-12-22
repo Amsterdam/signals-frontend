@@ -3,7 +3,6 @@
 import { getIsAuthenticated } from '../../../../shared/services/auth/auth'
 import { renderSources } from '../wizard-step-1-beschrijf'
 
-jest.mock('react-reactive-form')
 jest.mock('shared/services/auth/auth')
 
 const sources = [

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import type { CallEffect, PutEffect, TakeEffect } from 'redux-saga/effects'
 import type { Reducer, Store } from 'redux'
 import type { EventChannel, Saga } from 'redux-saga'
+import type { CallEffect, PutEffect, TakeEffect } from 'redux-saga/effects'
 
 import type { AppState } from 'containers/App/types'
 import type { CategoriesState } from 'models/categories/reducer'
@@ -33,7 +33,9 @@ export interface InjectSagaParams {
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
 export type SagaGeneratorType = Generator<
-  CallEffect<EventChannel<unknown>> | TakeEffect | PutEffect<{ type: string }>,
+  | CallEffect<EventChannel<Record<string, unknown>>>
+  | TakeEffect
+  | PutEffect<{ type: string }>,
   void,
   { progress?: number | undefined; error: boolean; success: boolean }
 >

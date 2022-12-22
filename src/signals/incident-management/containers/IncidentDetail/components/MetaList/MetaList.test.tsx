@@ -112,7 +112,7 @@ describe('MetaList', () => {
       .mockImplementation(() => subcategoriesGroupedByCategories)
     jest
       .spyOn(categoriesSelectors, 'makeSelectHandlingTimesBySlug')
-      .mockImplementation(() => handlingTimesBySlug)
+      .mockImplementation(() => handlingTimesBySlug as any)
   })
 
   afterEach(() => (configuration as unknown as any).__reset())

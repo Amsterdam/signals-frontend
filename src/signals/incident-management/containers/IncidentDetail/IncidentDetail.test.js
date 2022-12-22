@@ -2,19 +2,19 @@
 // Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
-import * as appSelectors from 'containers/App/selectors'
+import * as reactRouterDom from 'react-router-dom'
 
+import { showGlobalNotification } from 'containers/App/actions'
+import * as appSelectors from 'containers/App/selectors'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import useEventEmitter from 'hooks/useEventEmitter'
 import * as categoriesSelectors from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
-import { withAppContext } from 'test/utils'
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import { subCategories } from 'utils/__tests__/fixtures'
-import useEventEmitter from 'hooks/useEventEmitter'
-import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchIncidentSuccess } from 'signals/incident-management/actions'
+import { withAppContext } from 'test/utils'
+import { subCategories } from 'utils/__tests__/fixtures'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import * as API from '../../../../../internals/testing/api'
 import {
@@ -23,7 +23,6 @@ import {
   rest,
   server,
 } from '../../../../../internals/testing/msw-server'
-
 import IncidentDetail from './'
 
 jest.spyOn(window, 'scrollTo')
@@ -297,7 +296,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incidentDetail')
 
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
-    expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
+
+    await waitFor(() => {
+      expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
+    })
 
     await screen.findByTestId('incidentDetail')
   })

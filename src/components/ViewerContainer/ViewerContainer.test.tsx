@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import ViewerContainer from '.'
@@ -11,6 +12,6 @@ describe('ViewerContainer', () => {
   it('renders correctly', () => {
     render(withAppContext(<ViewerContainer topLeft={button} />))
 
-    expect(screen.getByTestId('viewer-asset')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Legend' })).toBeInTheDocument()
   })
 })

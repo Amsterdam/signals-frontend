@@ -4,6 +4,7 @@ import {
   eventChannel as mockEventChannel,
   END as mockEnd,
 } from 'redux-saga'
+
 import useUpload from './useUpload'
 
 const mockChannel = {
@@ -18,7 +19,7 @@ jest.mock(
     mockEventChannel((emitter) => {
       mockChannel.fn(emitter)
       return () => {}
-    }, mockBuffers.sliding(2))
+    }, mockBuffers.sliding<Record<string, unknown> | null>(2))
 )
 
 describe('hooks/useUpload', () => {

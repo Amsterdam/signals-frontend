@@ -22,7 +22,6 @@ const defaultControls = {
 }
 
 jest.mock('shared/services/configuration/configuration')
-jest.mock('react-reactive-form')
 jest.mock('lodash/memoize', () => ({
   __esModule: true,
   default: jest.fn((fn) => fn),
