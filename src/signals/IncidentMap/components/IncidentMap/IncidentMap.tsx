@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
+import isEqual from 'lodash/isEqual'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -115,11 +116,8 @@ export const IncidentMap = () => {
 
     setFilteredIncidents(filteredIncidents)
     const filterFromIncidents = countIncidentsPerFilter(filters, incidents)
-    if (
-      !filterFromIncidents.every((item) =>
-        filters.map((filter) => filter._display).includes(item._display)
-      )
-    ) {
+
+    if (!isEqual(filterFromIncidents, filters)) {
       setFilters(filterFromIncidents)
     }
   }, [bbox, filters, incidents])
