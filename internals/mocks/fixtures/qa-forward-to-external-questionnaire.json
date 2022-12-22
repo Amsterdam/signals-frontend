@@ -1,0 +1,143 @@
+{
+  "_links": {
+    "curies": {
+      "name": "sia",
+      "href": "http://localhost:8000/signals/v1/relations"
+    },
+    "self": {
+      "href": "http://localhost:8000/signals/v1/public/qa/sessions/db407b26-29ab-474f-ad3a-0f2f2ade3ace"
+    },
+    "sia:questionnaire": {
+      "href": "http://localhost:8000/signals/v1/public/qa/questionnaires/26560e8e-10f1-4afb-bc84-2580fc062ac6"
+    },
+    "sia:post-answers": {
+      "href": "http://localhost:8000/signals/v1/public/qa/sessions/db407b26-29ab-474f-ad3a-0f2f2ade3ace/answers"
+    },
+    "sia:post-attachments": {
+      "href": "http://localhost:8000/signals/v1/public/qa/sessions/db407b26-29ab-474f-ad3a-0f2f2ade3ace/attachments"
+    },
+    "sia:post-submit": {
+      "href": "http://localhost:8000/signals/v1/public/qa/sessions/db407b26-29ab-474f-ad3a-0f2f2ade3ace/submit"
+    },
+    "sia:public-signal": {
+      "href": "http://localhost:8000/signals/v1/public/signals/0dd37857-0664-4716-92ae-39836fa65746"
+    }
+  },
+  "_display": "Session object (18)",
+  "uuid": "db407b26-29ab-474f-ad3a-0f2f2ade3ace",
+  "started_at": null,
+  "submit_before": "2022-12-27T21:16:47.999709+01:00",
+  "duration": null,
+  "created_at": "2022-12-13T21:16:48.032958+01:00",
+  "questionnaire_explanation": {
+    "title": "Melding reactie",
+    "sections": [
+      {
+        "header": "De melding",
+        "text": "Nummer: SIG-001\n",
+        "files": []
+      },
+      {
+        "header": "Omschrijving",
+        "text": "Kunnen jullie deze stoeptegel vervangen?",
+        "files": []
+      },
+      {
+        "header": "Foto's",
+        "text": null,
+        "files": [
+          {
+            "description": "cheesecake.jpg",
+            "file": "http://localhost:8000/signals/media/attachments/questionnaires/stored_files/2022/12/13/cheesecake.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  "signal_snapshot": {
+    "signal_id": "SIG-123",
+    "id": 1,
+    "location": {
+      "geometrie": {
+        "type": "Point",
+        "coordinates": [
+          4.88676356191375,
+          52.372090333354876
+        ]
+      },
+      "address": {
+        "postcode": "1016BT",
+        "huisletter": "B",
+        "huisnummer": 242,
+        "woonplaats": "Amsterdam",
+        "openbare_ruimte": "Herengracht",
+        "huisnummer_toevoeging": ""
+      },
+      "address_text": "Herengracht 242B 1016BT Amsterdam",
+      "stadsdeel": "Centrum",
+      "area_name": null
+    }
+  },
+  "can_freeze": false,
+  "path_questions": [
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "http://localhost:8000/signals/v1/relations"
+        },
+        "self": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/None"
+        },
+        "sia:uuid-self": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/4501dd09-984d-4d05-a977-d4ac486495b5"
+        },
+        "sia:post-answer": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/4501dd09-984d-4d05-a977-d4ac486495b5/answer"
+        }
+      },
+      "_display": "4501dd09-984d-4d05-a977-d4ac486495b5 (plain_text)",
+      "key": null,
+      "retrieval_key": null,
+      "analysis_key": "reaction",
+      "uuid": "4501dd09-984d-4d05-a977-d4ac486495b5",
+      "label": "Kunt u omschrijven of en hoe de melding is opgepakt?\nU mag daarbij ook een foto sturen.",
+      "short_label": "Reactie na afhandeling",
+      "field_type": "plain_text",
+      "next_rules": null,
+      "required": true
+    },
+    {
+      "_links": {
+        "curies": {
+          "name": "sia",
+          "href": "http://localhost:8000/signals/v1/relations"
+        },
+        "self": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/None"
+        },
+        "sia:uuid-self": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/2d149951-21eb-4f7f-8530-592012c6f0e3"
+        },
+        "sia:post-answer": {
+          "href": "http://localhost:8000/signals/v1/public/qa/questions/2d149951-21eb-4f7f-8530-592012c6f0e3/answer"
+        }
+      },
+      "_display": "2d149951-21eb-4f7f-8530-592012c6f0e3 (image)",
+      "key": null,
+      "retrieval_key": null,
+      "analysis_key": "photo_reaction",
+      "uuid": "2d149951-21eb-4f7f-8530-592012c6f0e3",
+      "label": "Voeg een foto toe om de situatie te verduidelijken.",
+      "short_label": "Foto's toevoegen",
+      "field_type": "image",
+      "next_rules": null,
+      "required": false
+    }
+  ],
+  "path_answered_question_uuids": [],
+  "path_unanswered_question_uuids": [
+    "4501dd09-984d-4d05-a977-d4ac486495b5"
+  ],
+  "path_validation_errors_by_uuid": {}
+}

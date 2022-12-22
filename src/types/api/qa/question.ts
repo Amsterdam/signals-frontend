@@ -1,6 +1,6 @@
 export enum FieldType {
   PlainText = 'plain_text',
-  FileInput = 'file_input',
+  FileInput = 'image',
 }
 
 export interface Question {

@@ -16,6 +16,7 @@ import departmentsFixture from '../mocks/fixtures/departments.json'
 import incidentContextNearGeographyFixture from '../mocks/fixtures/incident-context-near-geography.json'
 import publicIncidentFixture from '../mocks/fixtures/public-incident.json'
 import qaAnswerFixture from '../mocks/fixtures/qa-answer.json'
+import qaForwardToExternalQuestionnaireFixture from '../mocks/fixtures/qa-forward-to-external-questionnaire.json'
 import qaQuestionnaireFixture from '../mocks/fixtures/qa-questionnaire.json'
 import qaSessionFixture from '../mocks/fixtures/qa-session.json'
 import qaSubmitFixture from '../mocks/fixtures/qa-submit.json'
@@ -174,6 +175,11 @@ const handlers = [
           ctx.status(500),
           ctx.json({ detail: "['invalid-uuid’ is geen geldige UUID.']" })
         )
+      case 'forward-to-external-questionnaire':
+        return res(
+          ctx.status(200),
+          ctx.json(qaForwardToExternalQuestionnaireFixture)
+        )
 
       default:
         return res(ctx.status(200), ctx.json(qaSessionFixture))
@@ -208,6 +214,14 @@ const handlers = [
   // POST
   rest.post(API.QA_ANSWER, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(qaAnswerFixture))
+  ),
+
+  rest.post(API.QA_ANSWERS, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(null))
+  ),
+
+  rest.post(API.QA_SESSIONS_ATTACHMENTS, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(null))
   ),
 
   rest.post(API.QA_SUBMIT, (_req, res, ctx) =>

@@ -22,6 +22,7 @@ const WrappedTextArea: FunctionComponent = () => {
         id={id}
         label="Foo"
         control={control}
+        shortLabel="Bar"
         trigger={trigger}
         register={register}
         errorMessage={errors[id]?.message}

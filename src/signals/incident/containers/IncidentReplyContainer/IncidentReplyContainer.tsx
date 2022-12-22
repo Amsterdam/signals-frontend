@@ -14,14 +14,15 @@ import useGetQuestionnaire from 'hooks/api/qa/useGetQuestionnaire'
 import useGetSession from 'hooks/api/qa/useGetSession'
 import { usePostAnswer } from 'hooks/api/qa/usePostAnswer'
 import useGetPublicIncident from 'hooks/api/useGetPublicIncident'
-import useFetch from 'hooks/useFetch'
 import type { FetchError } from 'hooks/useFetch'
+import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import { FieldType } from 'types/api/qa/question'
+import type { Question } from 'types/api/qa/question'
 
-import Notice from './components/Notice/Notice'
-import QuestionnaireComponent from './components/Questionnaire'
+import Notice from '../../components/ReplyForm/Notice'
+import QuestionnaireComponent from '../../components/ReplyForm/Questionnaire'
 import * as constants from './constants'
 import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import type { FormAnswer } from './types'
@@ -231,7 +232,15 @@ const IncidentReplyContainer = () => {
           </Content>
           <QuestionnaireComponent
             onSubmit={submit}
-            questionnaire={questionnaire}
+            questions={[
+              questionnaire.first_question,
+              {
+                field_type: FieldType.FileInput,
+                uuid: 'file-input',
+                short_label: "Foto's toevoegen",
+                label: 'Voeg een foto toe om de situatie te verduidelijken',
+              } as Question,
+            ]}
           />
         </Wrapper>
       </Column>

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FC } from 'react'
 import { useCallback, useEffect, useState, useRef } from 'react'
 
@@ -8,7 +8,6 @@ import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
-import type { Attachment } from '../../types'
 import {
   CloseButton,
   Date,
@@ -25,6 +24,12 @@ import {
   Wrapper,
 } from './styles'
 
+export interface Attachment {
+  location: string
+  createdAt?: string
+  createdBy?: string
+}
+
 interface Props {
   href: string
   attachments: Attachment[]
@@ -40,6 +45,8 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
   const previous = index > 0 ? attachments[index - 1].location : false
   const next =
     index < attachments.length - 1 ? attachments[index + 1].location : false
+  const currentAttachment = attachments[index]
+  const fileName = currentAttachment.location?.split('/').pop() || ''
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -76,8 +83,6 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
     }
   }, [handleKeyDown])
 
-  const fileName = attachments[index].location?.split('/').pop() || ''
-
   const onClickModal = useCallback(
     (event) => {
       if (event.target.contains(wrapperRef.current)) {
@@ -102,17 +107,19 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
     >
       <Header>
         <Info>
-          {attachments[index].created_by ? (
-            <Employee>{attachments[index].created_by}</Employee>
+          {currentAttachment.createdBy ? (
+            <Employee>{currentAttachment.createdBy}</Employee>
           ) : (
             <Reporter>Melder</Reporter>
           )}
-          <Date>
-            {format(
-              parseISO(attachments[index].created_at),
-              'dd-MM-yyyy HH:mm'
-            )}
-          </Date>
+          {currentAttachment.createdAt && (
+            <Date>
+              {format(
+                parseISO(currentAttachment.createdAt),
+                'dd-MM-yyyy HH:mm'
+              )}
+            </Date>
+          )}
         </Info>
         <Title>{fileName}</Title>
 

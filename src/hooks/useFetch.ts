@@ -29,15 +29,19 @@ export interface FetchResponse<T> extends State<T> {
   ) => Promise<void>
   patch: (
     url: string,
-    modifiedData: Data,
+    modifiedData: unknown,
     requestOptions?: Data
   ) => Promise<void>
   post: (
     url: string,
-    modifiedData?: Data,
+    modifiedData?: unknown,
     requestOptions?: Data
   ) => Promise<void>
-  put: (url: string, modifiedData: Data, requestOptions?: Data) => Promise<void>
+  put: (
+    url: string,
+    modifiedData: unknown,
+    requestOptions?: Data
+  ) => Promise<void>
 }
 
 /**
@@ -199,7 +203,7 @@ const useFetch = <T>(): FetchResponse<T> => {
     (method: string) =>
       async (
         url: RequestInfo,
-        modifiedData: Data = {},
+        modifiedData: unknown,
         requestOptions: Data = {}
       ) => {
         dispatch({ type: 'SET_LOADING', payload: true })
