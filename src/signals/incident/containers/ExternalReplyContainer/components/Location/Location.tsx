@@ -37,15 +37,15 @@ export const LocationSection = styled.section`
 
 type LocationProps = {
   onClick: () => void
-  location: {
-    address: AddressType | null
+  location: Partial<{
+    address: Partial<AddressType> | null
     address_text?: string | null
     geometrie: {
       coordinates: [number, number]
       type: string
     }
     stadsdeel: string | null
-  }
+  }>
 }
 
 const Location = ({ onClick, location }: LocationProps) => {
@@ -57,19 +57,23 @@ const Location = ({ onClick, location }: LocationProps) => {
     }
   }
 
-  const address =
-    location.address !== null
-      ? [
-          location.stadsdeel,
-          `${location.address.openbare_ruimte} ${location.address.huisnummer}${
-            location.address.huisletter
-          }${
-            location.address.huisnummer_toevoeging &&
-            `-${location.address.huisnummer_toevoeging}`
-          }`,
-          `${location.address.postcode} ${location.address.woonplaats}`,
-        ].filter(Boolean)
-      : ['Locatie is gepind op de kaart']
+  const hasAddress =
+    location.address !== null && Object.keys(location.address || {}).length > 0
+
+  const address = hasAddress
+    ? [
+        location.stadsdeel,
+
+        `${location.address?.openbare_ruimte} ${location.address?.huisnummer}${
+          location.address?.huisletter
+        }${
+          location.address?.huisnummer_toevoeging &&
+          `-${location.address?.huisnummer_toevoeging}`
+        }`,
+
+        `${location.address?.postcode} ${location.address?.woonplaats}`,
+      ].filter(Boolean)
+    : ['Locatie is gepind op de kaart']
 
   return (
     <LocationSection>

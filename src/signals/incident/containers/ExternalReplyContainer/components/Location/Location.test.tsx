@@ -42,10 +42,27 @@ describe('Location', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders fallback message when address is not available', () => {
+  it('renders fallback message when address is not provided (null)', () => {
     const locationWithoutAddress = {
       ...location,
       address: null,
+    }
+
+    render(
+      withAppContext(
+        <Location location={locationWithoutAddress} onClick={jest.fn()} />
+      )
+    )
+
+    expect(
+      screen.getByText('Locatie is gepind op de kaart')
+    ).toBeInTheDocument()
+  })
+
+  it('renders fallback message when address is not provided (empty object)', () => {
+    const locationWithoutAddress = {
+      ...location,
+      address: {},
     }
 
     render(
