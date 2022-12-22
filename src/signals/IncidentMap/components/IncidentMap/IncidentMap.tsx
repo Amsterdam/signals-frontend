@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
-import type { FeatureCollection } from 'geojson'
-import { useFetch } from 'hooks'
-import type { Map as MapType, LatLngLiteral } from 'leaflet'
-import isEqual from 'lodash/isEqual'
-import configuration from 'shared/services/configuration/configuration'
+import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -16,8 +12,7 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
-import type { PointLatLng } from '../../types'
-import type { Filter, Properties, Incident } from '../../types'
+import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { AddressSearchMobile } from '../AddressLocation/AddressSearchMobile'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
@@ -26,12 +21,13 @@ import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
 import {
-  getFilteredIncidents,
   countIncidentsPerFilter,
   DEFAULT_ZOOM,
+  getFilteredIncidents,
 } from '../utils'
 import { Pin } from './Pin'
-import { Wrapper, StyledMap, StyledParagraph } from './styled'
+import { StyledMap, StyledParagraph, Wrapper } from './styled'
+import usePaginatedIncidents from './usePaginatedIncidents'
 import { getZoom } from './utils'
 
 export const IncidentMap = () => {
@@ -52,9 +48,6 @@ export const IncidentMap = () => {
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
 
   const mode = useDeviceMode()
-
-  const { get, data, error, isSuccess } =
-    useFetch<FeatureCollection<PointLatLng, Properties>>()
 
   const closeDrawerOverlay = useCallback(() => {
     setDrawerState(DrawerState.Closed)
@@ -99,33 +92,37 @@ export const IncidentMap = () => {
     setSelectedIncident(undefined)
   }, [])
 
-  useEffect(() => {
-    if (bbox) {
-      const { west, south, east, north } = bbox
-      const searchParams = new URLSearchParams({
-        bbox: `${west},${south},${east},${north}`,
-      })
-
-      get(
-        `${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`
-      )
-    }
-  }, [bbox, get])
-
+  /* istanbul ignore next */
   useEffect(() => {
     map?.on({
       click: resetSelectedMarker,
     })
   }, [resetSelectedMarker, map])
 
-  useEffect(() => {
-    const incidents = data?.features || []
+  /* istanbul ignore next */
+  const { incidents, isSuccess, error, getIncidents } = usePaginatedIncidents()
 
+  /* istanbul ignore next */
+  useEffect(() => {
+    if (bbox) {
+      getIncidents(bbox)
+    }
+  }, [bbox, getIncidents])
+
+  /* istanbul ignore next */
+  useEffect(() => {
     const filteredIncidents = getFilteredIncidents(filters, incidents)
+
     setFilteredIncidents(filteredIncidents)
     const filterFromIncidents = countIncidentsPerFilter(filters, incidents)
-    if (!isEqual(filterFromIncidents, filters)) setFilters(filterFromIncidents)
-  }, [data, filters])
+    if (
+      !filterFromIncidents.every((item) =>
+        filters.map((filter) => filter._display).includes(item._display)
+      )
+    ) {
+      setFilters(filterFromIncidents)
+    }
+  }, [bbox, filters, incidents])
 
   useEffect(() => {
     if (error) {
