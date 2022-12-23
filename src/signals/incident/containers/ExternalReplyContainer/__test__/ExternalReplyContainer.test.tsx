@@ -42,7 +42,7 @@ describe('ExternalReplyContainer', () => {
     it('renders the external reply form correctly', async () => {
       render(withAppContext(<ExternalReplyContainer />))
 
-      screen.getByTestId('loadingIndicator')
+      screen.getByTestId('loading-indicator')
 
       await waitFor(() => {
         // Explanation title
@@ -291,7 +291,7 @@ describe('ExternalReplyContainer', () => {
 
         expect(screen.getByTestId('interactive-map')).toBeInTheDocument()
 
-        userEvent.click(screen.getByTestId('closeButton'))
+        userEvent.click(screen.getByTestId('close-button'))
 
         expect(screen.queryByTestId('interactive-map')).not.toBeInTheDocument()
       })
@@ -311,7 +311,7 @@ describe('ExternalReplyContainer', () => {
           screen.getByTestId('attachment-viewer-image')
         ).toBeInTheDocument()
 
-        userEvent.click(screen.getByTestId('closeBtn'))
+        userEvent.click(screen.getByTestId('close-btn'))
 
         expect(
           screen.queryByTestId('attachment-viewer-image')

@@ -28,7 +28,7 @@ const MapDetail = ({
   }
   return lat && lng ? (
     <Map
-      data-testid="mapDetail"
+      data-testid="map-detail"
       mapOptions={mapOptions}
       className={className}
       hasZoomControls={hasZoomControls}

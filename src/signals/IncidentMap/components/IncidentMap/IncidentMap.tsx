@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
+
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -14,7 +15,7 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
-import { AddressSearchMobile } from '../AddressLocation/AddressSearchMobile'
+import { AddressSearchMobile } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
@@ -148,7 +149,7 @@ export const IncidentMap = () => {
   return (
     <Wrapper>
       <StyledMap
-        data-testid="incidentMap"
+        data-testid="incident-map"
         hasZoomControls
         setInstance={setMap}
         mapOptions={{

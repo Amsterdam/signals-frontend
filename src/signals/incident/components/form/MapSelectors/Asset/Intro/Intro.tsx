@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
 
 import { themeSpacing } from '@amsterdam/asc-ui'
-import Button from 'components/Button'
-import Map from 'components/Map'
 import type { LatLngTuple, MapOptions } from 'leaflet'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+
+import Button from 'components/Button'
+import Map from 'components/Map'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -53,9 +54,9 @@ const Intro = () => {
   )
 
   return (
-    <Wrapper id={meta.name} data-testid="assetSelectIntro">
+    <Wrapper id={meta.name} data-testid="asset-select-intro">
       <StyledMap
-        data-testid="mapLocation"
+        data-testid="map-location"
         mapOptions={mapOptions}
         hasZoomControls={false}
         events={{}}
@@ -64,7 +65,7 @@ const Intro = () => {
 
       <ButtonBar>
         <Button
-          data-testid="chooseOnMap"
+          data-testid="choose-on-map"
           onClick={() => dispatch(showMap())}
           variant="primary"
         >

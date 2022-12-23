@@ -9,37 +9,37 @@ import {
   useEffect,
   useMemo,
 } from 'react'
-import styled from 'styled-components'
-import { useSelector } from 'react-redux'
-import format from 'date-fns/format'
-import subDays from 'date-fns/addDays'
-import { themeSpacing } from '@amsterdam/asc-ui'
-import { ViewerContainer } from '@amsterdam/arm-core'
 
+import { ViewerContainer } from '@amsterdam/arm-core'
+import { themeSpacing } from '@amsterdam/asc-ui'
+import subDays from 'date-fns/addDays'
+import format from 'date-fns/format'
 import type {
   Map as MapType,
   MarkerCluster as MarkerClusterType,
 } from 'leaflet'
 import L from 'leaflet'
-import type { Geometrie } from 'types/incident'
-import type { PdokResponse } from 'shared/services/map-location'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 import Map from 'components/Map'
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
-import MapContext from 'containers/MapContext/context'
 import { setAddressAction } from 'containers/MapContext/actions'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import configuration from 'shared/services/configuration/configuration'
-import { featureToCoordinates } from 'shared/services/map-location'
-import { makeSelectFilterParams } from 'signals/incident-management/selectors'
+import MapContext from 'containers/MapContext/context'
 import useFetch from 'hooks/useFetch'
+import configuration from 'shared/services/configuration/configuration'
 import {
   incidentIcon,
   markerIcon,
 } from 'shared/services/configuration/map-markers'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { featureToCoordinates } from 'shared/services/map-location'
+import type { PdokResponse } from 'shared/services/map-location'
+import { makeSelectFilterParams } from 'signals/incident-management/selectors'
+import type { Geometrie } from 'types/incident'
+
 import MarkerCluster from '../MarkerCluster'
 import DetailPanel from './DetailPanel'
-
 import type { IncidentSummary } from './types'
 
 interface Feature {
@@ -232,7 +232,7 @@ const OverviewMap: FC<OverviewMapProps> = ({
   return (
     <Wrapper {...rest}>
       <StyledMap
-        data-testid="overviewMap"
+        data-testid="overview-map"
         hasZoomControls
         mapOptions={{
           ...MAP_OPTIONS,

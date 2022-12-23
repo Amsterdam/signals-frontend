@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
+
 import priorityList from 'signals/incident-management/definitions/priorityList'
 import { withAppContext } from 'test/utils'
 
@@ -14,7 +15,9 @@ describe('signals/incident-management/components/RadioButtonList', () => {
       )
     )
 
-    expect(screen.queryByTestId('radioButtonListTitle')).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('radio-button-list-title')
+    ).not.toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -27,7 +30,7 @@ describe('signals/incident-management/components/RadioButtonList', () => {
       )
     )
 
-    expect(screen.queryByTestId('radioButtonListTitle')).toBeInTheDocument()
+    expect(screen.queryByTestId('radio-button-list-title')).toBeInTheDocument()
   })
 
   it('should render empty selection button', () => {

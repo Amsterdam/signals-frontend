@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
 
 import GPSButton from './GPSButton'
@@ -18,7 +19,7 @@ describe('components/GPSButton', () => {
       )
     )
 
-    const button = screen.getByTestId('gpsButton')
+    const button = screen.getByTestId('gps-button')
 
     expect(button.nodeName).toEqual('BUTTON')
     expect(document.querySelector('svg')).toBeInTheDocument()
@@ -57,20 +58,20 @@ describe('components/GPSButton', () => {
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
-    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(getCurrentPosition).toHaveBeenCalledTimes(1)
 
     await waitFor(
       () =>
         expect(
-          screen.queryByTestId('loadingIndicator')
+          screen.queryByTestId('loading-indicator')
         ).not.toBeInTheDocument(),
       { timeout: 10 }
     )
@@ -110,7 +111,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationSuccess).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(onLocationSuccess).toHaveBeenCalledWith(coords)
   })
@@ -148,7 +149,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationError).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(onLocationError).toHaveBeenCalledWith({
       code,
@@ -191,7 +192,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
@@ -209,7 +210,7 @@ describe('components/GPSButton', () => {
 
     expect(onLocationOutOfBounds).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(onLocationOutOfBounds).toHaveBeenCalled()
   })

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import fetch from 'jest-fetch-mock'
 
-import { withAppContext } from 'test/utils'
-import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import { pdokResponseFieldList } from 'shared/services/map-location'
+import { withAppContext } from 'test/utils'
+import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
+
 import PDOKAutoSuggest from '.'
 
 const mockResponse = JSON.stringify(JSONResponse)
@@ -27,7 +28,7 @@ const renderAndSearch = async (value = 'Dam', props = {}) => {
     jest.advanceTimersByTime(INPUT_DELAY)
   })
 
-  await screen.findByTestId('autoSuggest')
+  await screen.findByTestId('auto-suggest')
 }
 
 describe('components/PDOKAutoSuggest', () => {
@@ -48,7 +49,7 @@ describe('components/PDOKAutoSuggest', () => {
       withAppContext(<PDOKAutoSuggest onSelect={onSelect} />)
     )
 
-    expect(getByTestId('autoSuggest')).toBeInTheDocument()
+    expect(getByTestId('auto-suggest')).toBeInTheDocument()
   })
 
   describe('fetch', () => {

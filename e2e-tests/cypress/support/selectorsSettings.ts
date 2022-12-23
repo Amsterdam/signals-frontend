@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 export const CATEGORIES = {
-  buttonAnnuleer: '[data-testid="cancelBtn"]',
-  buttonOpslaan: '[data-testid=submitBtn]',
-  categoryValue: '[data-testid=dataViewBody] > [data-testid=dataViewBodyRow] > [data-testid="dataViewBodyRowValue"]',
+  buttonAnnuleer: '[data-testid="cancel-btn"]',
+  buttonOpslaan: '[data-testid=submit-btn]',
+  categoryValue: '[data-testid=data-view-body] > [data-testid=data-view-body-row] > [data-testid="data-view-body-row-value"]',
   dropdownTypeOfDays: '#use_calendar_days',
   historyAction: '[data-testid="history-list-item-action"]',
   inputDays: '#n_days',
@@ -17,13 +17,13 @@ export const CATEGORIES = {
 };
 
 export const DEPARTMENTS = {
-  buttonAnnuleer: '[data-testid="cancelBtn"]',
-  buttonOpslaan: '[data-testid="submitBtn"]',
-  categoryLists: '[data-testid="categoryLists"]',
+  buttonAnnuleer: '[data-testid="cancel-btn"]',
+  buttonOpslaan: '[data-testid="submit-btn"]',
+  categoryLists: '[data-testid="category-lists"]',
   checkboxAsbestAccu: '[data-testid*="asbest-accu"]',
   checkboxDrankDrugsOverlast: '[data-testid*="drank-en-drugsoverlast"]',
   checkboxWildplassenPoepen: '[data-testid*="wildplassen-poepen-overgeven"]',
-  departmentDetail: '[data-testid="departmentDetail"]',
+  departmentDetail: '[data-testid="department-detail"]',
   linkBack: '[data-testid="backlink"]',
   notification: '[data-testid="notification"]',
 };
@@ -34,22 +34,22 @@ export const MENU = {
 
 export const ROLES = {
   backlink: '[data-testid="backlink"]',
-  buttonAnnuleren: '[data-testid="cancelBtn"]',
-  buttonOpslaan: '[data-testid="submitBtn"]',
+  buttonAnnuleren: '[data-testid="cancel-btn"]',
+  buttonOpslaan: '[data-testid="submit-btn"]',
   buttonToevoegen: 'a:contains("Rol toevoegen")',
-  inputNaam: '[data-testid="rolesFormFieldName"]',
-  listRoles: '[data-testid="rolesList"]',
+  inputNaam: '[data-testid="roles-form-field-name"]',
+  listRoles: '[data-testid="roles-list"]',
   notification: '[data-testid="notification"]',
 }
 export const STANDAARDTEKSTEN = {
-  buttonCloseNotification: '[data-testid=notificationClose]',
-  buttonGebruikDezeTekst: '[data-testid="defaultTextsItemButton"]',
-  buttonFirstTextOneDown: '[data-testid=defaultTextFormItemButton0Down]',
-  buttonSecondTextup: '[data-testid="defaultTextFormItemButton1Up"]',
-  buttonOpslaan: '[data-testid=defaultTextFormSubmitButton]',
-  defaultTextItemText: '[data-testid="defaultTextsItemText"]',
-  defaultTextTitle: '[data-testid="defaultTextsTitle"]',
-  defaultTextItemTitle: '[data-testid="defaultTextsItemTitle"]',
+  buttonCloseNotification: '[data-testid=notification-close]',
+  buttonGebruikDezeTekst: '[data-testid="default-texts-item-button"]',
+  buttonFirstTextOneDown: '[data-testid=default-text-form-item-button0Down]',
+  buttonSecondTextup: '[data-testid="default-textform-item-button1Up"]',
+  buttonOpslaan: '[data-testid=default-text-form-submit-button]',
+  defaultTextItemText: '[data-testid="default-texts-item-text"]',
+  defaultTextTitle: '[data-testid="default-texts-title"]',
+  defaultTextItemTitle: '[data-testid="default-texts-item-title"]',
   dropDownSubcategory: '[data-testid=category_url]',
   inputTitle01: '[data-testid=title0]',
   inputText01: '[data-testid=text0]',
@@ -72,12 +72,12 @@ export const STANDAARDTEKSTEN = {
 };
 
 export const USERS = {
-  buttonAnnuleer: '[data-testid="cancelBtn"]',
-  buttonOpslaan: '[data-testid="submitBtn"]',
+  buttonAnnuleer: '[data-testid="cancel-btn"]',
+  buttonOpslaan: '[data-testid="submit-btn"]',
   historyAction: '[data-testid="history-list-item-action"]',
   inputAchternaam: '#last_name',
   inputMail: '#username',
   inputVoornaam: '#first_name',
   inputNotitie: '#note',
-  userRow: '[data-testid="dataViewBodyRow"]',
+  userRow: '[data-testid="data-view-body-row"]',
 };

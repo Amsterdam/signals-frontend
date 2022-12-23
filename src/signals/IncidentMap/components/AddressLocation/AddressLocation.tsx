@@ -33,7 +33,7 @@ export const AddressLocation = ({
     <Wrapper>
       <Heading as="h4">Zoom naar adres</Heading>
       <StyledPDOKAutoSuggest
-        data-testid="searchAddressBar"
+        data-testid="search-address-bar"
         aria-label="veld zoek naar adres"
         placeholder="Adres"
         onSelect={onAddressSelect}

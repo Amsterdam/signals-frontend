@@ -8,23 +8,23 @@ import {
   useCallback,
   useRef,
 } from 'react'
-import PropTypes from 'prop-types'
 
-import styled from 'styled-components'
-import { Marker } from '@amsterdam/react-maps'
 import { ViewerContainer } from '@amsterdam/arm-core'
+import { Marker } from '@amsterdam/react-maps'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import 'leaflet/dist/leaflet.css'
 
-import { markerIcon } from 'shared/services/configuration/map-markers'
-import configuration from 'shared/services/configuration/configuration'
-import MapContext from 'containers/MapContext/context'
 import {
   setLocationAction,
   setValuesAction,
   resetLocationAction,
   setLoadingAction,
 } from 'containers/MapContext/actions'
+import MapContext from 'containers/MapContext/context'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
+import configuration from 'shared/services/configuration/configuration'
+import { markerIcon } from 'shared/services/configuration/map-markers'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import Map from '../Map'
@@ -168,7 +168,7 @@ const MapInput = ({
   return (
     <Wrapper className={className}>
       <StyledMap
-        data-testid="mapInput"
+        data-testid="map-input"
         events={{ click, dblclick: doubleClick, ...events }}
         hasGPSControl={hasGPSControl}
         hasZoomControls

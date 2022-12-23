@@ -2,14 +2,13 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 
-import context from 'containers/MapContext/context'
-
 import { INPUT_DELAY } from 'components/AutoSuggest'
-import { withAppContext, withMapContext } from 'test/utils'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { markerIcon } from 'shared/services/configuration/map-markers'
 import * as actions from 'containers/MapContext/actions'
+import context from 'containers/MapContext/context'
 import { CLICK_TIMEOUT } from 'hooks/useDelayedDoubleClick'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { withAppContext, withMapContext } from 'test/utils'
 
 import MapInput from '..'
 
@@ -82,8 +81,8 @@ describe('components/MapInput', () => {
       )
     )
 
-    expect(getByTestId('mapInput')).toBeInTheDocument()
-    expect(getByTestId('autoSuggest')).toBeInTheDocument()
+    expect(getByTestId('map-input')).toBeInTheDocument()
+    expect(getByTestId('auto-suggest')).toBeInTheDocument()
   })
 
   it('should dispatch setValuesAction', () => {
@@ -138,7 +137,7 @@ describe('components/MapInput', () => {
       )
     )
 
-    const map = await findByTestId('mapInput')
+    const map = await findByTestId('map-input')
 
     expect(setLocationSpy).not.toHaveBeenCalled()
     expect(onChange).not.toHaveBeenCalled()
@@ -148,7 +147,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 })
     })
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(setLocationSpy).not.toHaveBeenCalled()
     expect(onChange).not.toHaveBeenCalled()
@@ -158,7 +157,7 @@ describe('components/MapInput', () => {
       jest.advanceTimersByTime(CLICK_TIMEOUT)
     })
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(setLocationSpy).toHaveBeenCalledTimes(1)
     expect(setLocationSpy).toHaveBeenCalledWith({
@@ -205,7 +204,7 @@ describe('components/MapInput', () => {
         />
       )
     )
-    const map = getByTestId('mapInput')
+    const map = getByTestId('map-input')
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1)
     expect(onChange).not.toHaveBeenCalled()
@@ -214,7 +213,7 @@ describe('components/MapInput', () => {
       fireEvent.click(map, { clientX: 100, clientY: 100 })
     })
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(setValuesSpy).toHaveBeenCalledTimes(1)
     expect(onChange).not.toHaveBeenCalled()
@@ -223,7 +222,7 @@ describe('components/MapInput', () => {
       jest.advanceTimersByTime(CLICK_TIMEOUT)
     })
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2)
     expect(setValuesSpy).toHaveBeenLastCalledWith({
@@ -261,7 +260,7 @@ describe('components/MapInput', () => {
       )
     )
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(
       container.querySelector(`.${markerIcon.options.className}`)
@@ -285,7 +284,7 @@ describe('components/MapInput', () => {
       )
     )
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(
       container.querySelector(`.${markerIcon.options.className}`)
@@ -311,7 +310,7 @@ describe('components/MapInput', () => {
     )
 
     // provide input with value
-    const input = getByTestId('autoSuggest').querySelector('input')
+    const input = getByTestId('auto-suggest').querySelector('input')
     const value = 'Midden'
 
     act(() => {
@@ -325,7 +324,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value } })
     })
 
-    const suggestList = await findByTestId('suggestList')
+    const suggestList = await findByTestId('suggest-list')
 
     const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
@@ -341,7 +340,7 @@ describe('components/MapInput', () => {
       fireEvent.click(firstElement)
     })
 
-    await findByTestId('mapInput')
+    await findByTestId('map-input')
 
     expect(setValuesSpy).toHaveBeenCalledTimes(2)
     expect(setValuesSpy).toHaveBeenLastCalledWith(
@@ -377,7 +376,7 @@ describe('components/MapInput', () => {
         </context.Provider>
       )
     )
-    const autoSuggest = await findByTestId('autoSuggest')
+    const autoSuggest = await findByTestId('auto-suggest')
     const input = autoSuggest.querySelector('input')
 
     expect(resetLocationSpy).not.toHaveBeenCalled()
@@ -386,7 +385,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: addressText } })
     })
 
-    await findByTestId('autoSuggest')
+    await findByTestId('auto-suggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -398,7 +397,7 @@ describe('components/MapInput', () => {
       fireEvent.change(input, { target: { value: '' } })
     })
 
-    await findByTestId('autoSuggest')
+    await findByTestId('auto-suggest')
 
     expect(resetLocationSpy).not.toHaveBeenCalled()
 

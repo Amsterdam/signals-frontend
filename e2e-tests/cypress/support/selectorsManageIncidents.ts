@@ -60,7 +60,7 @@ export const FILTER_ALL_ITEMS = {
 
 export const MANAGE_SIGNALS = {
   buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
-  buttonCloseMijnFilters: '[data-testid=closeBtn]',
+  buttonCloseMijnFilters: '[data-testid=close-btn]',
   buttonFilter: '[data-testid=filterModalBtn]',
   clearSearchTerm: '[aria-label="Close"]',
   signalAdres: '[data-testid="incidentAddress"]',
@@ -87,14 +87,14 @@ export const MY_FILTERS = {
 };
 
 export const OVERVIEW_MAP = {
-  autoSuggest: '[data-testid=autoSuggest]',
+  autoSuggest: '[data-testid=auto-suggest]',
   buttonBack: '[data-testid=backlink]',
   buttonZoomOut: '[title="Uitzoomen"]',
   buttonZoomIn: '[title="Inzoomen"]',
-  clusterIcon: '[data-testid=markerClusterIcon]',
-  detailPane: '[data-testid=mapDetailPanel]',
+  clusterIcon: '[data-testid=marker-cluster-icon]',
+  detailPane: '[data-testid=map-detail-panel]',
   markerCluster: '.leaflet-marker-icon',
   markerSignal: '.map-marker-incident',
-  overViewMap: '[data-testid="overviewMap"]',
-  signalDetails: '[data-testid=mapDetailPanel]',
+  overViewMap: '[data-testid="overview-map"]',
+  signalDetails: '[data-testid=map-detail-panel]',
 };

@@ -1,23 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useEffect, useState } from 'react'
-import { useFetch } from 'hooks'
-import configuration from 'shared/services/configuration/configuration'
-import styled from 'styled-components'
+import type { FunctionComponent } from 'react'
+
 import { Close } from '@amsterdam/asc-assets'
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-
-import type { FunctionComponent } from 'react'
 import type { FeatureCollection } from 'geojson'
 import type { LatLngTuple } from 'leaflet'
-
-import IconList, { IconListItem } from 'components/IconList/IconList'
-import Button from 'components/Button'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
+import Button from 'components/Button'
+import IconList, { IconListItem } from 'components/IconList/IconList'
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
 import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
-import type { FeatureStatusType, FeatureType, Item } from '../../types'
-import { FeatureStatus } from '../../types'
+
 import { selectionIsNearby, selectionIsObject } from '../../constants'
+import { FeatureStatus } from '../../types'
+import type { FeatureStatusType, FeatureType, Item } from '../../types'
 import { formattedDate } from '../Selector/utils'
 
 const StyledButton = styled(Button).attrs(() => ({
@@ -164,7 +165,7 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
   }, [data?.features, item, selectionOnMap, selectionNearby])
 
   return (
-    <ListItem data-testid="assetListItem">
+    <ListItem data-testid="asset-list-item">
       {!selectionNearby && (
         <IconListItem
           id={extendedId}
@@ -182,7 +183,7 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
             </StyledLabel>
             {onRemove && (
               <StyledButton
-                data-testid={`assetListRemove-${id}`}
+                data-testid={`asset-list-remove-${id}`}
                 aria-label="Verwijder"
                 icon={<Close />}
                 onClick={() => onRemove(item)}
@@ -209,7 +210,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   featureTypes,
   featureStatusTypes,
 }) => (
-  <IconList data-testid="assetList" className={className}>
+  <IconList data-testid="asset-list" className={className}>
     {selection.length > 0 &&
       selection
         .filter(({ id }) => id)

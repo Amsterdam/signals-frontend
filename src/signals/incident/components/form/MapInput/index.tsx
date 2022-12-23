@@ -38,12 +38,12 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
 
   return (
     <FormField
-      className="mapInput"
+      className="map-input"
       meta={meta}
       options={validatorsOrOpts}
       hasError={hasError}
       getError={getError}
-      data-testid="mapInput"
+      data-testid="map-input"
     >
       <div className="invoer">
         <MapContext>

@@ -34,7 +34,7 @@ const CloseButton = ({ className, close }) => {
   return (
     <StyledButton
       className={className}
-      data-testid="closeButton"
+      data-testid="close-button"
       icon={<CloseIcon />}
       iconSize={16}
       onClick={close}

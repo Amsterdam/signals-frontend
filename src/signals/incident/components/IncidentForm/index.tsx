@@ -213,7 +213,7 @@ const IncidentForm = forwardRef<any, any>(
     controlsRef.current = constructYupResolver(controls)
 
     return (
-      <div data-testid="incidentForm" ref={formRef}>
+      <div data-testid="incident-form" ref={formRef}>
         <ProgressContainer />
         <Form>
           <Fieldset isSummary={isSummary}>

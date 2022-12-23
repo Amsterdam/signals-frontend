@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-
 import * as reactRedux from 'react-redux'
-import { withAppContext } from 'test/utils'
+
 import * as catgorySelectors from 'models/categories/selectors'
 import * as incidentContainerSelectors from 'signals/incident/containers/IncidentContainer/selectors'
+import { withAppContext } from 'test/utils'
 import { subCategories } from 'utils/__tests__/fixtures'
+
 import DescriptionInfo from '.'
 
 const subcategory = subCategories[0]
@@ -24,7 +25,7 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
       withAppContext(<DescriptionInfo info="the-info" />)
     )
 
-    const element = await findByTestId('descriptionInfo')
+    const element = await findByTestId('description-info')
     expect(element.firstChild.textContent).toEqual('the-info')
   })
 
@@ -41,7 +42,7 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
       withAppContext(<DescriptionInfo info="the-info" />)
     )
 
-    await findByTestId('descriptionInfo')
+    await findByTestId('description-info')
     expect(
       queryByText(`Subcategorie voorstel: ${subcategory.name}`)
     ).toBeInTheDocument()
@@ -60,7 +61,7 @@ describe('signals/incident/components/form/DescriptionInfo', () => {
       withAppContext(<DescriptionInfo info="the-info" />)
     )
 
-    await findByTestId('descriptionInfo')
+    await findByTestId('description-info')
     expect(
       queryByText(`Subcategorie voorstel: ${subcategory.name}`)
     ).not.toBeInTheDocument()

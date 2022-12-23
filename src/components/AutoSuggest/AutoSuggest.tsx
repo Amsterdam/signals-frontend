@@ -302,7 +302,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   }, [options, optionsList, onData])
 
   return (
-    <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
+    <Wrapper className={className} ref={wrapperRef} data-testid="auto-suggest">
       <div
         aria-controls="as-listbox"
         aria-expanded={showList}
@@ -327,7 +327,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
           <ClearInput
             aria-label="Input verwijderen"
             title="Verwijderen"
-            data-testid="clearInput"
+            data-testid="clear-input"
             icon={<Close />}
             iconSize={20}
             onClick={clearInput}

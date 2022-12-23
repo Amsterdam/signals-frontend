@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
-import styled, { css } from 'styled-components'
-import { Link } from 'react-router-dom'
-import { List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import type { FC } from 'react'
 
-import ChildIncidentHistory from 'components/ChildIncidentHistory'
+import { List, ListItem, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Link } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+
 import ChildIncidentDescription from 'components/ChildIncidentDescription'
+import ChildIncidentHistory from 'components/ChildIncidentHistory'
 import Status from 'signals/incident-management/components/Status'
 import statusList from 'signals/incident-management/definitions/statusList'
-
-import type { FC } from 'react'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { History } from 'types/history'
 
@@ -46,14 +46,14 @@ const incidentIsHandled = (incident: ChildIncident) =>
   ['Afgehandeld', 'Gesplitst', 'Geannuleerd'].includes(incident.values.status)
 
 const DisplayValue = styled.span.attrs(() => ({
-  'data-testid': 'childIncidentsDisplayValue',
+  'data-testid': 'child-incidents-display-value',
 }))`
   word-break: normal;
   white-space: nowrap;
 `
 
 const IDDisplayValue = styled(DisplayValue).attrs(() => ({
-  'data-testid': 'childIncidentsIdDisplayValue',
+  'data-testid': 'child-incidents-id-display-value',
 }))`
   padding-right: ${themeSpacing(1)};
 `
@@ -140,7 +140,7 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
   incidents,
   parentUpdatedAt,
 }) => (
-  <StyledList className={className} data-testid="childIncidents">
+  <StyledList className={className} data-testid="child-incidents">
     {incidents.map((incident) => {
       const status = statusList.find(
         ({ value }) => incident.values.status === value
@@ -180,7 +180,7 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
       return (
         <Fragment key={incident.values.id}>
           <Li
-            data-testid="childIncidentListItem"
+            data-testid="child-incident-list-item"
             status={incident.status}
             changed={incident.changed}
           >

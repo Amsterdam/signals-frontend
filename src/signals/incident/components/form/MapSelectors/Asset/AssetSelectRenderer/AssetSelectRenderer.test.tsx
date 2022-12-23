@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
+
 import AssetSelectRenderer from './AssetSelectRenderer'
 
-jest.mock('../AssetSelect', () => () => <span data-testid="mockAssetSelect" />)
+jest.mock('../AssetSelect', () => () => (
+  <span data-testid="mock-asset-select" />
+))
 
 describe('signals/incident/components/form/AssetSelectRenderer', () => {
   const props = {

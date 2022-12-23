@@ -17,7 +17,7 @@ const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
 )
 
 DataViewHeaderRow.defaultProps = {
-  testId: 'dataViewHeaderRow',
+  testId: 'data-view-header-row',
   spacer: 0,
 }
 

@@ -3,7 +3,6 @@
 import { createEvent, render, fireEvent, screen } from '@testing-library/react'
 
 import type { PdokResponse } from 'shared/services/map-location'
-
 import { withAppContext } from 'test/utils'
 
 import SuggestList from '.'
@@ -41,7 +40,7 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
       )
     )
 
-    expect(screen.getByTestId('suggestList')).toHaveTextContent(
+    expect(screen.getByTestId('suggest-list')).toHaveTextContent(
       'Probeer het opnieuw.'
     )
 
@@ -51,7 +50,7 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
       )
     )
 
-    expect(queryByTestId('suggestList')).toBeInTheDocument()
+    expect(queryByTestId('suggest-list')).toBeInTheDocument()
     expect(container.querySelectorAll('li')).toHaveLength(3)
     options.forEach((option) => {
       expect(getByText(option.value)).toBeInTheDocument()

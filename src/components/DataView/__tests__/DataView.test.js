@@ -63,7 +63,7 @@ describe('DataView with and without headers, filter and/or data', () => {
       dataViewWithProps({ headers, filters, data })
     )
 
-    const dataView = getByTestId('dataView')
+    const dataView = getByTestId('data-view')
 
     expect(dataView.childNodes).toHaveLength(2)
 
@@ -72,7 +72,7 @@ describe('DataView with and without headers, filter and/or data', () => {
       []
     )
 
-    expect(order).toEqual(['dataViewHeader', 'dataViewBody'])
+    expect(order).toEqual(['data-view-header', 'data-view-body'])
   })
 
   it('should render headers before filters', () => {
@@ -80,7 +80,7 @@ describe('DataView with and without headers, filter and/or data', () => {
       dataViewWithProps({ headers, filters, data })
     )
 
-    const dataViewHeader = getByTestId('dataViewHeader')
+    const dataViewHeader = getByTestId('data-view-header')
 
     const order = [...dataViewHeader.childNodes].reduce(
       (acc, curr) => [...acc, curr.dataset.testid],
@@ -88,7 +88,7 @@ describe('DataView with and without headers, filter and/or data', () => {
     )
 
     expect(dataViewHeader.childNodes).toHaveLength(2)
-    expect(order).toEqual(['dataViewHeadersRow', 'dataViewFiltersRow'])
+    expect(order).toEqual(['data-view-headers-row', 'data-view-filters-row'])
   })
 
   it('should render without data and without headers or filters', () => {
@@ -96,15 +96,15 @@ describe('DataView with and without headers, filter and/or data', () => {
       dataViewWithProps({ headers, filters })
     )
 
-    const dataView = getByTestId('dataView')
+    const dataView = getByTestId('data-view')
 
     expect(dataView.childNodes).toHaveLength(1)
-    expect(dataView.childNodes[0].dataset.testid).toBe('dataViewHeader')
+    expect(dataView.childNodes[0].dataset.testid).toBe('data-view-header')
 
     rerender(dataViewWithProps({ data }))
 
     expect(dataView.childNodes).toHaveLength(1)
-    expect(dataView.childNodes[0].dataset.testid).toBe('dataViewBody')
+    expect(dataView.childNodes[0].dataset.testid).toBe('data-view-body')
   })
 
   it('should render with only headers or only filters', () => {
@@ -112,13 +112,13 @@ describe('DataView with and without headers, filter and/or data', () => {
       dataViewWithProps({ headers, data })
     )
 
-    const dataView = getByTestId('dataView')
-    const dataViewHeader = getByTestId('dataViewHeader')
+    const dataView = getByTestId('data-view')
+    const dataViewHeader = getByTestId('data-view-header')
 
     expect(dataView.childNodes).toHaveLength(2)
     expect(dataViewHeader.childNodes).toHaveLength(1)
     expect(dataViewHeader.childNodes[0].dataset.testid).toBe(
-      'dataViewHeadersRow'
+      'data-view-headers-row'
     )
 
     rerender(dataViewWithProps({ filters, data }))
@@ -126,7 +126,7 @@ describe('DataView with and without headers, filter and/or data', () => {
     expect(dataView.childNodes).toHaveLength(2)
     expect(dataViewHeader.childNodes).toHaveLength(1)
     expect(dataViewHeader.childNodes[0].dataset.testid).toBe(
-      'dataViewFiltersRow'
+      'data-view-filters-row'
     )
   })
 })
@@ -155,31 +155,31 @@ describe('DataView with correct number of columns', () => {
       dataViewWithProps({ headers: testHeaders })
     )
 
-    let headersRow = getByTestId('dataViewHeadersRow')
+    let headersRow = getByTestId('data-view-headers-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
     rerender(dataViewWithProps({ filters: testFilters }))
 
-    let filtersRow = getByTestId('dataViewFiltersRow')
+    let filtersRow = getByTestId('data-view-filters-row')
 
     expect(filtersRow).toBeInTheDocument()
     expect(filtersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
     rerender(dataViewWithProps({ data: testData }))
 
-    let dataRow = getByTestId('dataViewBodyRow')
+    let dataRow = getByTestId('data-view-body-row')
 
     expect(dataRow).toBeInTheDocument()
     expect(dataRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -188,17 +188,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, filters: testFilters }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    filtersRow = getByTestId('dataViewFiltersRow')
+    headersRow = getByTestId('data-view-headers-row')
+    filtersRow = getByTestId('data-view-filters-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(filtersRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(filtersRow.childNodes).toHaveLength(testFilters.length + 1)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       testFilters.length
     )
     expect(filtersRow.lastChild).toHaveAttribute(
@@ -211,17 +211,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, filters: testFilters }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    filtersRow = getByTestId('dataViewFiltersRow')
+    headersRow = getByTestId('data-view-headers-row')
+    filtersRow = getByTestId('data-view-filters-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(filtersRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(filtersRow.childNodes).toHaveLength(testFilters.length + 1)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       testFilters.length
     )
     expect(filtersRow.lastChild).not.toHaveAttribute('colspan')
@@ -231,13 +231,13 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, filters: testFilters }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    filtersRow = getByTestId('dataViewFiltersRow')
+    headersRow = getByTestId('data-view-headers-row')
+    filtersRow = getByTestId('data-view-filters-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(filtersRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(testHeaders.length + 1)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       testHeaders.length
     )
     expect(headersRow.lastChild).toHaveAttribute(
@@ -245,7 +245,7 @@ describe('DataView with correct number of columns', () => {
       String(MAX_NUMBER_OF_COLUMNS - testHeaders.length)
     )
     expect(filtersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -254,18 +254,18 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, filters: testFilters }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    filtersRow = getByTestId('dataViewFiltersRow')
+    headersRow = getByTestId('data-view-headers-row')
+    filtersRow = getByTestId('data-view-filters-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(filtersRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(testHeaders.length + 1)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       testHeaders.length
     )
     expect(headersRow.lastChild).not.toHaveAttribute('colspan')
     expect(filtersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -275,17 +275,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, data: testData }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    headersRow = getByTestId('data-view-headers-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(dataRow.childNodes).toHaveLength(Object.keys(dataValues).length + 1)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       Object.keys(dataValues).length
     )
     expect(dataRow.lastChild).toHaveAttribute(
@@ -299,17 +299,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, data: testData }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    headersRow = getByTestId('data-view-headers-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(dataRow.childNodes).toHaveLength(Object.keys(dataValues).length + 1)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       Object.keys(dataValues).length
     )
     expect(dataRow.lastChild).not.toHaveAttribute('colspan')
@@ -320,17 +320,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ filters: testFilters, data: testData }))
 
-    filtersRow = getByTestId('dataViewFiltersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    filtersRow = getByTestId('data-view-filters-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(filtersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(filtersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(dataRow.childNodes).toHaveLength(Object.keys(dataValues).length + 1)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       Object.keys(dataValues).length
     )
     expect(dataRow.lastChild).toHaveAttribute(
@@ -344,17 +344,17 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ filters: testFilters, data: testData }))
 
-    filtersRow = getByTestId('dataViewFiltersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    filtersRow = getByTestId('data-view-filters-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(filtersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(filtersRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
     expect(dataRow.childNodes).toHaveLength(Object.keys(dataValues).length + 1)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       Object.keys(dataValues).length
     )
     expect(dataRow.lastChild).not.toHaveAttribute('colspan')
@@ -365,13 +365,13 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, data: testData }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    headersRow = getByTestId('data-view-headers-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(testHeaders.length + 1)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       testHeaders.length
     )
     expect(headersRow.lastChild).toHaveAttribute(
@@ -379,7 +379,7 @@ describe('DataView with correct number of columns', () => {
       String(MAX_NUMBER_OF_COLUMNS - testHeaders.length)
     )
     expect(dataRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -389,18 +389,18 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ headers: testHeaders, data: testData }))
 
-    headersRow = getByTestId('dataViewHeadersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    headersRow = getByTestId('data-view-headers-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(headersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(headersRow.childNodes).toHaveLength(testHeaders.length + 1)
-    expect(queryAllByTestId('dataViewHeadersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-headers-row-heading')).toHaveLength(
       testHeaders.length
     )
     expect(headersRow.lastChild).not.toHaveAttribute('colspan')
     expect(dataRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -411,12 +411,12 @@ describe('DataView with correct number of columns', () => {
     rerender(dataViewWithProps({ filters: testFilters, data: testData }))
 
     filtersRow = getByTestId('dataViewFiltersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(filtersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(filtersRow.childNodes).toHaveLength(testFilters.length + 1)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       testFilters.length
     )
     expect(filtersRow.lastChild).toHaveAttribute(
@@ -424,7 +424,7 @@ describe('DataView with correct number of columns', () => {
       String(MAX_NUMBER_OF_COLUMNS - testFilters.length)
     )
     expect(dataRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
 
@@ -434,18 +434,18 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ filters: testFilters, data: testData }))
 
-    filtersRow = getByTestId('dataViewFiltersRow')
-    dataRow = getByTestId('dataViewBodyRow')
+    filtersRow = getByTestId('data-view-filters-row')
+    dataRow = getByTestId('data-view-body-row')
 
     expect(filtersRow).toBeInTheDocument()
     expect(dataRow).toBeInTheDocument()
     expect(filtersRow.childNodes).toHaveLength(testFilters.length + 1)
-    expect(queryAllByTestId('dataViewFiltersRowHeading')).toHaveLength(
+    expect(queryAllByTestId('data-view-filters-row-heading')).toHaveLength(
       testFilters.length
     )
     expect(filtersRow.lastChild).not.toHaveAttribute('colspan')
     expect(dataRow.childNodes).toHaveLength(MAX_NUMBER_OF_COLUMNS)
-    expect(queryAllByTestId('dataViewBodyRowValue')).toHaveLength(
+    expect(queryAllByTestId('data-view-body-row-value')).toHaveLength(
       MAX_NUMBER_OF_COLUMNS
     )
   })
@@ -457,8 +457,8 @@ describe('DataView with data', () => {
       dataViewWithProps({ data })
     )
 
-    expect(getByTestId('dataViewBody')).toBeInTheDocument()
-    expect(queryAllByTestId('dataViewBodyRow')).toHaveLength(data.length)
+    expect(getByTestId('data-view-body')).toBeInTheDocument()
+    expect(queryAllByTestId('data-view-body-row')).toHaveLength(data.length)
     data.forEach((item) => {
       // Only checking if we can at least find all IDs in the document.
       expect(getByText(String(item.id))).toBeInTheDocument()
@@ -484,7 +484,7 @@ describe('DataView with data', () => {
         })
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }))
 
-    const allDataRows = [...queryAllByTestId('dataViewBodyRow')]
+    const allDataRows = [...queryAllByTestId('data-view-body-row')]
 
     expect(allDataRows).toHaveLength(data.length)
     allDataRows.forEach((row) =>
@@ -545,7 +545,7 @@ describe('DataView with data', () => {
     const invisibleColumns = headers.slice(0, 2)
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }))
 
-    const allDataRows = [...queryAllByTestId('dataViewBodyRow')]
+    const allDataRows = [...queryAllByTestId('data-view-body-row')]
 
     expect(allDataRows).toHaveLength(data.length)
     allDataRows.forEach((row) =>
@@ -591,7 +591,7 @@ describe('DataView with data', () => {
     const onItemClickHandler = jest.fn()
     const { queryAllByTestId, rerender } = render(dataViewWithProps({ data }))
 
-    const allRows = queryAllByTestId('dataViewBodyRow')
+    const allRows = queryAllByTestId('data-view-body-row')
 
     fireEvent.click(allRows[0])
 

@@ -4,16 +4,17 @@ import type { BaseSyntheticEvent } from 'react'
 import { useContext } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
 import NextButton from 'components/NextButton'
 import PreviousButton from 'components/PreviousButton'
-import { useSelector } from 'react-redux'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type {
   FormAction,
   WizardSection,
 } from 'signals/incident/definitions/wizard'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
-import styled from 'styled-components'
 
 import { WizardContext } from '../StepWizard'
 
@@ -91,7 +92,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
             onClick={(e) => {
               handleSubmit(e, next, wizardStep.formAction)
             }}
-            data-testid="nextButton"
+            data-testid="next-button"
           >
             <span className="value">{wizardStep.nextButtonLabel}</span>
           </NextButton>
@@ -101,7 +102,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
           <PreviousButton
             className={wizardStep.previousButtonClass}
             onClick={previous}
-            data-testid="previousButton"
+            data-testid="previous-button"
           >
             {wizardStep.previousButtonLabel}
           </PreviousButton>

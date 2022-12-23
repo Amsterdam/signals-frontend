@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import type { FunctionComponent } from 'react'
+
 import { Play } from '@amsterdam/asc-assets'
 import { Icon } from '@amsterdam/asc-ui'
-import type { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.span`
@@ -23,7 +24,7 @@ const ParentIncidentIcon: FunctionComponent<ParentIncidentIconProps> = ({
     role="img"
     aria-label="Hoofdmelding"
     className={className}
-    data-testid="parentIcon"
+    data-testid="parent-icon"
   >
     <Icon size={14}>
       <Play />

@@ -45,9 +45,9 @@ describe('OverviewMap', () => {
   it('should render the map and the autosuggest', async () => {
     render(withMapContext(<OverviewMap />))
 
-    await screen.findByTestId('overviewMap')
+    await screen.findByTestId('overview-map')
 
-    expect(screen.getByTestId('autoSuggest')).toBeInTheDocument()
+    expect(screen.getByTestId('auto-suggest')).toBeInTheDocument()
   })
 
   it('renders the map without results for the past period', async () => {
@@ -61,9 +61,9 @@ describe('OverviewMap', () => {
 
     render(withMapContext(<OverviewMap />))
 
-    await screen.findByTestId('overviewMap')
+    await screen.findByTestId('overview-map')
 
-    expect(screen.getByTestId('autoSuggest')).toBeInTheDocument()
+    expect(screen.getByTestId('auto-suggest')).toBeInTheDocument()
   })
 
   describe('request', () => {
@@ -77,7 +77,7 @@ describe('OverviewMap', () => {
     it('should fetch locations from private endpoint', async () => {
       const { rerender, unmount } = render(withMapContext(<OverviewMap />))
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -104,7 +104,7 @@ describe('OverviewMap', () => {
 
       rerender(withMapContext(<OverviewMap />))
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
     })
@@ -114,7 +114,7 @@ describe('OverviewMap', () => {
         withMapContext(<OverviewMap isPublic />)
       )
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -141,7 +141,7 @@ describe('OverviewMap', () => {
 
       rerender(withMapContext(<OverviewMap />))
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
     })
@@ -151,7 +151,7 @@ describe('OverviewMap', () => {
 
       render(withMapContext(<OverviewMap />))
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -159,7 +159,7 @@ describe('OverviewMap', () => {
         jest.advanceTimersByTime(POLLING_INTERVAL)
       })
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -171,7 +171,7 @@ describe('OverviewMap', () => {
 
       render(withMapContext(<OverviewMap refresh />))
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(1)
 
@@ -179,7 +179,7 @@ describe('OverviewMap', () => {
         jest.advanceTimersByTime(POLLING_INTERVAL)
       })
 
-      await screen.findByTestId('overviewMap')
+      await screen.findByTestId('overview-map')
 
       expect(fetchMock.mock.calls).toHaveLength(2)
 
@@ -191,7 +191,7 @@ describe('OverviewMap', () => {
     configuration.featureFlags.mapFilter24Hours = true
     render(withMapContext(<OverviewMap />))
 
-    await screen.findByTestId('overviewMap')
+    await screen.findByTestId('overview-map')
 
     const requestUrl = new URL(fetchMock.mock.calls[0][0] as string)
     const params = new URLSearchParams(requestUrl.search)

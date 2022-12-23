@@ -84,7 +84,7 @@ const Detail = ({ context }) => {
   }, [incident.reporter.phone])
 
   return (
-    <Wrapper data-testid="incidentDetailDetail">
+    <Wrapper data-testid="incident-detail-detail">
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
         {incident.text}
       </Title>

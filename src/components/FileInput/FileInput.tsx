@@ -1,9 +1,12 @@
-import { Enlarge, TrashBin } from '@amsterdam/asc-assets'
-import { ErrorWrapper } from 'components/ErrorMessage'
 import type { FunctionComponent } from 'react'
 import { useCallback, useState, useEffect } from 'react'
+
+import { Enlarge, TrashBin } from '@amsterdam/asc-assets'
+
+import { ErrorWrapper } from 'components/ErrorMessage'
 import Label from 'components/Label'
 import Paragraph from 'components/Paragraph'
+
 import FileInputStyle, {
   AddButton,
   AddIcon,
@@ -92,7 +95,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
           errorMessages.map((message, index) => (
             <StyledErrorMessage
               key={index}
-              data-testid="fileInputError"
+              data-testid="file-input-error"
               message={message}
             />
           ))}
@@ -100,20 +103,20 @@ const FileInput: FunctionComponent<FileInputProps> = ({
 
       <FileInputStyle
         id={name}
-        data-testid="fileInput"
+        data-testid="file-input"
         aria-describedby={helpText && `subtitle-${name}`}
       >
         {previews.length > 0 &&
           previews.map((preview, index) => (
             <FileInputPreviewBox
               key={`${preview}-${index}`}
-              data-testid="fileInputPreviewBox"
+              data-testid="file-input-preview-box"
             >
               <FilePreview preview={preview}>
                 <DeleteButton
                   variant="blank"
                   icon={<TrashBin />}
-                  data-testid="deleteFotoButton"
+                  data-testid="delete-foto-button"
                   aria-label={`Verwijder foto ${index + 1}`}
                   type="button"
                   onClick={(event) => removeFile(event, index)}
@@ -123,12 +126,12 @@ const FileInput: FunctionComponent<FileInputProps> = ({
           ))}
 
         {files.length < maxNumberOfFiles && (
-          <FileInputUploadButton data-testid="fileInputUploadButton">
+          <FileInputUploadButton data-testid="file-input-upload-button">
             <input
               key={keyValue}
               type="file"
               id="fileUpload"
-              data-testid="fileInputUpload"
+              data-testid="file-input-upload"
               accept={allowedFileTypes.join(',')}
               onChange={addFiles}
               name={name}
@@ -149,7 +152,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
         )}
 
         {empty.map((key) => (
-          <FileInputEmptyBox data-testid="fileInputEmptyBox" key={key} />
+          <FileInputEmptyBox data-testid="file-input-empty-box" key={key} />
         ))}
       </FileInputStyle>
     </ErrorWrapper>

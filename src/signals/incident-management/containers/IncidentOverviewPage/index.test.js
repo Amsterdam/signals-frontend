@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { fireEvent, render, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Enzyme, { mount } from 'enzyme'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import { withAppContext } from 'test/utils'
 import * as constants from 'signals/incident-management/constants'
+import { withAppContext } from 'test/utils'
+import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
 import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.'
 
@@ -91,9 +91,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
     )
 
-    expect(screen.queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('loading-indicator')).toBeInTheDocument()
     expect(
-      screen.queryByTestId('incidentOverviewListComponent')
+      screen.queryByTestId('incident-overview-list-component')
     ).not.toBeInTheDocument()
 
     const incidents = generateIncidents()
@@ -371,7 +371,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       expect(screen.queryByTestId('filterModal')).not.toBeNull()
 
       fireEvent(
-        screen.getByTestId('closeBtn'),
+        screen.getByTestId('close-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })
@@ -404,7 +404,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
 
       fireEvent(
-        screen.getByTestId('closeBtn'),
+        screen.getByTestId('close-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })

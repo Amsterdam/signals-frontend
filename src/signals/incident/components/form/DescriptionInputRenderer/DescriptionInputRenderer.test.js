@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import DescriptionInputRenderer from '.'
@@ -33,7 +34,7 @@ describe('signals/incident/components/form/DescriptionInputRenderer', () => {
           />
         )
       )
-      const element = queryByTestId('descriptionInput')
+      const element = queryByTestId('description-input')
       expect(element).toBeInTheDocument()
     })
 
@@ -50,7 +51,7 @@ describe('signals/incident/components/form/DescriptionInputRenderer', () => {
         )
       )
 
-      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument()
+      expect(queryByTestId('description-input')).not.toBeInTheDocument()
     })
   })
 })

@@ -82,7 +82,7 @@ const Location = ({ location }) => {
               onClick={() => {
                 preview('location')
               }}
-              data-testid="previewLocationButton"
+              data-testid="preview-location-button"
             >
               <StyledMap
                 key={`${lat},${lng}`}

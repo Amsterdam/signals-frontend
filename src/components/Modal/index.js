@@ -73,7 +73,7 @@ const Modal = ({ children, title, onClose, ...rest }) => (
           </Column>
 
           <Button
-            data-testid="closeBtn"
+            data-testid="close-btn"
             square
             onClick={onClose}
             size={32}

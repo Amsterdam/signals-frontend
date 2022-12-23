@@ -13,16 +13,17 @@ import {
   themeSpacing,
   breakpoint,
 } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { useMediaQuery } from 'react-responsive'
+import { NavLink } from 'react-router-dom'
+import styled, { css } from 'styled-components'
+
 import Logo from 'components/Logo'
 import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import PropTypes from 'prop-types'
-import { useMediaQuery } from 'react-responsive'
-import { NavLink } from 'react-router-dom'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import styled, { css } from 'styled-components'
 
 import useTallHeader from '../../hooks/useTallHeader'
 
@@ -315,7 +316,7 @@ export const SiteHeader = (props) => {
         isFrontOffice={isFrontOffice}
         tall={tall}
         className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
-        data-testid="siteHeader"
+        data-testid="site-header"
       >
         <StyledHeader
           isFrontOffice={isFrontOffice}

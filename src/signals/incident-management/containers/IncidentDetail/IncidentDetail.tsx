@@ -384,7 +384,7 @@ const IncidentDetail = () => {
         toggleExternal: toggleExternalDispatch,
       }}
     >
-      <Row data-testid="incidentDetail">
+      <Row data-testid="incident-detail">
         <Column span={12}>
           <DetailHeader />
         </Column>

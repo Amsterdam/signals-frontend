@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useMemo } from 'react'
+
 import PropTypes from 'prop-types'
 
-import { StyledTable } from './styled'
-
-import DataViewHeader from './components/DataViewHeader'
 import DataViewBody from './components/DataViewBody'
+import DataViewHeader from './components/DataViewHeader'
+import { StyledTable } from './styled'
 
 const DataView = ({
   className,
@@ -44,7 +44,7 @@ const DataView = ({
   if (!numberOfColumns) return null
 
   return (
-    <StyledTable data-testid="dataView" className={className}>
+    <StyledTable data-testid="data-view" className={className}>
       {(headers.length > 0 || filters.length > 0) && (
         <DataViewHeader
           numberOfColumns={numberOfColumns}

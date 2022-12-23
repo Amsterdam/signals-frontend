@@ -5,10 +5,10 @@ export const MAIL = {
 };
 
 export const KTO_FORM = {
-  checkboxContact: '[data-testid=ktoAllowsContact]',
+  checkboxContact: '[data-testid=kto-allows-contact]',
   errorMessage: '[class*="ErrorMessage"]',
-  inputAnders: '[data-testid=ktoText]',
-  inputVermelden: '[data-testid=ktoTextExtra]',
+  inputAnders: '[data-testid=kto-text]',
+  inputVermelden: '[data-testid=kto-text-extra]',
   questionLabel: '[class*="KtoForm__StyledLabel"]',
   radioButtonOntevredenAnders: '[data-testid="kto-anders"]',
   radioButtonOntevredenContactSlecht: '[data-testid="kto-1"]',

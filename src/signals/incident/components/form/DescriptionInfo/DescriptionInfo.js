@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useEffect, useState } from 'react'
+
+import { breakpoint } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+
 import { makeSelectSubCategories } from 'models/categories/selectors'
-import { breakpoint } from '@amsterdam/asc-ui'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 
 const DescriptionInfoWrapper = styled.div`
@@ -38,7 +40,7 @@ const DescriptionInfo = ({ info }) => {
   }, [subcategories, classificationPrediction])
 
   return (
-    <DescriptionInfoWrapper data-testid="descriptionInfo">
+    <DescriptionInfoWrapper data-testid="description-info">
       <div>{info}</div>
       {suggestion && <div>{`Subcategorie voorstel: ${suggestion.name}`}</div>}
     </DescriptionInfoWrapper>

@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2022 Gemeente Amsterdam
 import { render, act, screen } from '@testing-library/react'
+
 import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
 import { withAppContext, history } from 'test/utils'
+
 import ProtectedRoute, { NO_PAGE_ACCESS_MESSAGE } from '../ProtectedRoute'
 
 describe('ProtectedRoute component', () => {
-  const TestComponent = () => <div data-testid="testComponent">component</div>
+  const TestComponent = () => <div data-testid="test-component">component</div>
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -24,7 +26,7 @@ describe('ProtectedRoute component', () => {
     })
 
     expect(history.location.pathname).toEqual('/test')
-    expect(screen.queryByTestId('testComponent')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('test-component')).not.toBeInTheDocument()
     expect(screen.getByText(NO_PAGE_ACCESS_MESSAGE)).toBeInTheDocument()
   })
 
@@ -48,7 +50,7 @@ describe('ProtectedRoute component', () => {
     })
 
     expect(history.location.pathname).toEqual('/test')
-    expect(screen.getByTestId('testComponent')).toBeInTheDocument()
+    expect(screen.getByTestId('test-component')).toBeInTheDocument()
     expect(screen.queryByText(NO_PAGE_ACCESS_MESSAGE)).not.toBeInTheDocument()
   })
 
@@ -72,7 +74,7 @@ describe('ProtectedRoute component', () => {
     })
 
     expect(history.location.pathname).toEqual('/test')
-    expect(screen.getByTestId('testComponent')).toBeInTheDocument()
+    expect(screen.getByTestId('test-component')).toBeInTheDocument()
     expect(screen.queryByText(NO_PAGE_ACCESS_MESSAGE)).not.toBeInTheDocument()
   })
 })

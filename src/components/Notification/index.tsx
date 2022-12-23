@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { Column, Row } from '@amsterdam/asc-ui'
+
 import { Close } from '@amsterdam/asc-assets'
+import { Column, Row } from '@amsterdam/asc-ui'
 import { useHistory } from 'react-router-dom'
-import {
-  SITE_HEADER_HEIGHT_SHORT,
-  SITE_HEADER_HEIGHT_TALL,
-} from 'containers/SiteHeader/constants'
 
 import {
   ONCLOSE_TIMEOUT,
@@ -18,9 +15,13 @@ import {
   VARIANT_ERROR,
   VARIANT_NOTICE,
 } from 'containers/Notification/constants'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
-import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import type { Type, Variant } from 'containers/Notification/types'
+import {
+  SITE_HEADER_HEIGHT_SHORT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants'
+import useIsFrontOffice from 'hooks/useIsFrontOffice'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import { Wrapper, Title, Message, CloseButton } from './styled'
 
@@ -145,7 +146,7 @@ const Notification: FunctionComponent<NotificationProps> = ({
           </div>
           <CloseButton
             alignTop={Boolean(message)}
-            data-testid="notificationClose"
+            data-testid="notification-close"
             icon={<Close />}
             onClick={onCloseNotification}
             size={20}

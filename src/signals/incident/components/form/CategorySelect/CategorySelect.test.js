@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, act, fireEvent } from '@testing-library/react'
+
+import * as categoriesSelectors from 'models/categories/selectors'
 import { withAppContext } from 'test/utils'
 import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
-import * as categoriesSelectors from 'models/categories/selectors'
 
 import CategorySelect from './CategorySelect'
 
@@ -11,7 +12,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
   let props
   const subcategoryOptions = [...subcategoriesGroupedByCategories[1]]
   const metaFields = {
-    name: 'categorySelect',
+    name: 'category-select',
   }
 
   beforeEach(() => {
@@ -54,12 +55,12 @@ describe('signals/incident/components/form/CategorySelect', () => {
       )
     )
 
-    const element = queryByTestId('categorySelect')
+    const element = queryByTestId('category-select')
     expect(element).toBeInTheDocument()
     expect(element.querySelectorAll('option').length).toEqual(
       subcategoryOptions.length + 1
     )
-    expect(queryByTestId('infoText')).toBeInTheDocument()
+    expect(queryByTestId('info-text')).toBeInTheDocument()
   })
 
   it('should render empty select field when no categories are found', () => {
@@ -69,10 +70,10 @@ describe('signals/incident/components/form/CategorySelect', () => {
     const { queryByTestId } = render(
       withAppContext(<CategorySelect {...props} meta={{ ...metaFields }} />)
     )
-    const element = queryByTestId('categorySelect')
+    const element = queryByTestId('category-select')
     expect(element).toBeInTheDocument()
     expect(element.querySelectorAll('option').length).toEqual(1)
-    expect(queryByTestId('infoText')).not.toBeInTheDocument()
+    expect(queryByTestId('info-text')).not.toBeInTheDocument()
   })
 
   it('sets incident when value changes', async () => {
@@ -96,14 +97,14 @@ describe('signals/incident/components/form/CategorySelect', () => {
       )
     )
 
-    const element = getByTestId('categorySelect')
+    const element = getByTestId('category-select')
     element.focus()
     act(() => {
       const event = { target: { value: slug } }
       fireEvent.change(element, event)
     })
 
-    await findByTestId('categorySelect')
+    await findByTestId('category-select')
     const testCategory = {
       category,
       subcategory: slug,
@@ -116,7 +117,7 @@ describe('signals/incident/components/form/CategorySelect', () => {
     }
     expect(props.parent.meta.updateIncident).toHaveBeenCalledWith(testCategory)
 
-    await findByTestId('categorySelect')
-    expect(getByTestId('infoText')).toBeInTheDocument()
+    await findByTestId('category-select')
+    expect(getByTestId('info-text')).toBeInTheDocument()
   })
 })

@@ -132,7 +132,7 @@ const Attachments: FC<AttachmentsProps> = ({
   )
 
   return (
-    <Wrapper className={className} data-testid="attachmentsDefinition">
+    <Wrapper className={className} data-testid="attachments-definition">
       {hasAttachments && (
         <Title forwardedAs="h2" styleAs="h4">
           Foto

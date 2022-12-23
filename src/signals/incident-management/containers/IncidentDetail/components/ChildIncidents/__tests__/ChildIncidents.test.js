@@ -38,8 +38,8 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     )
 
     expect(screen.queryByText('Deelmelding')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('childIncidents')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('noActionButton')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('child-incidents')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('no-action-button')).not.toBeInTheDocument()
   })
 
   it('should render correctly', () => {
@@ -59,8 +59,8 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     )
 
     expect(screen.queryByText('Deelmelding')).toBeInTheDocument()
-    expect(screen.queryByTestId('childIncidents')).toBeInTheDocument()
-    expect(screen.queryByTestId('noActionButton')).toBeInTheDocument()
+    expect(screen.queryByTestId('child-incidents')).toBeInTheDocument()
+    expect(screen.queryByTestId('no-action-button')).toBeInTheDocument()
 
     const updatedParent = { updated_at: new Date().toISOString() }
     rerender(
@@ -75,8 +75,8 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     )
 
     expect(screen.queryByText('Deelmelding')).toBeInTheDocument()
-    expect(screen.queryByTestId('childIncidents')).toBeInTheDocument()
-    expect(screen.queryByTestId('noActionButton')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('child-incidents')).toBeInTheDocument()
+    expect(screen.queryByTestId('no-action-button')).not.toBeInTheDocument()
   })
 
   it('should reset the incident state ', async () => {
@@ -95,9 +95,9 @@ describe('IncidentDetail/components/ChildIncidents', () => {
       )
     )
 
-    const button = await screen.findByTestId('noActionButton')
+    const button = await screen.findByTestId('no-action-button')
     fireEvent.click(button)
-    await screen.findByTestId('noActionButton')
+    await screen.findByTestId('no-action-button')
     expect(update).toHaveBeenCalledTimes(1)
   })
 })

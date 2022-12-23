@@ -108,8 +108,8 @@ describe('<App />', () => {
       withAppContext(<App />)
     )
 
-    expect(getByTestId('siteFooter')).toBeInTheDocument()
-    expect(getByTestId('siteHeader')).toBeInTheDocument()
+    expect(getByTestId('site-footer')).toBeInTheDocument()
+    expect(getByTestId('site-header')).toBeInTheDocument()
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
@@ -117,7 +117,7 @@ describe('<App />', () => {
 
     rerender(withAppContext(<App />))
 
-    expect(queryByTestId('siteFooter')).not.toBeInTheDocument()
+    expect(queryByTestId('site-footer')).not.toBeInTheDocument()
   })
 
   it('will not render the header when in app mode', () => {
@@ -125,7 +125,7 @@ describe('<App />', () => {
 
     render(withAppContext(<App />))
 
-    expect(screen.queryByTestId('siteHeader')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('site-header')).not.toBeInTheDocument()
   })
 
   describe('routing', () => {
@@ -207,7 +207,7 @@ describe('<App />', () => {
         history.push('/kaart')
       })
 
-      expect(await screen.findByTestId('overviewMap')).toBeInTheDocument()
+      expect(await screen.findByTestId('overview-map')).toBeInTheDocument()
     })
   })
 

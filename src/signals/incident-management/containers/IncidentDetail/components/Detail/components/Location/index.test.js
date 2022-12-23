@@ -78,7 +78,7 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(
         /^1012KP Amsterdam$/
       )
-      expect(getByTestId('previewLocationButton')).toBeInTheDocument()
+      expect(getByTestId('preview-location-button')).toBeInTheDocument()
     })
 
     it('should render correctly with fetchDistrictsFromBackend', async () => {
@@ -100,7 +100,7 @@ describe('<Location />', () => {
 
         await findByText('Locatie')
 
-        expect(queryByTestId('mapDetail')).toBeInTheDocument()
+        expect(queryByTestId('map-detail')).toBeInTheDocument()
       })
     })
 
@@ -153,12 +153,12 @@ describe('<Location />', () => {
     it('clicking the map should trigger showing the location', async () => {
       const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('previewLocationButton')
+      await findByTestId('preview-location-button')
 
       expect(preview).not.toHaveBeenCalledTimes(1)
 
       act(() => {
-        fireEvent.click(queryByTestId('previewLocationButton'))
+        fireEvent.click(queryByTestId('preview-location-button'))
       })
 
       await findByTestId('detail-location')

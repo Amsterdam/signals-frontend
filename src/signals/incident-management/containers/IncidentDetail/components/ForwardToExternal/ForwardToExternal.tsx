@@ -139,7 +139,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
     <Form
       ref={formRef}
       onSubmit={handleSubmit(handleGetEmailTemplate)}
-      data-testid="forwardToExternal"
+      data-testid="forward-to-external"
     >
       <StyledH2 forwardedAs="h2">Doorzetten naar externe partij</StyledH2>
 
@@ -199,7 +199,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
 
       <div>
         <StyledButton
-          data-testid="formSubmitButton"
+          data-testid="form-submit-button"
           type="submit"
           variant="secondary"
         >
@@ -207,7 +207,7 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
         </StyledButton>
 
         <StyledButton
-          data-testid="formCancelButton"
+          data-testid="form-cancel-button"
           variant="tertiary"
           onClick={onClose}
         >

@@ -341,7 +341,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
         <dt data-testid="meta-list-status-definition">
           {!showEditStatus && (
             <EditButton
-              data-testid="editStatusButton"
+              data-testid="edit-status-button"
               icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
               iconSize={18}
               variant="application"

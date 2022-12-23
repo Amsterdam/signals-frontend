@@ -84,7 +84,7 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
   return (
     <StyledButton
       className={className}
-      data-testid="gpsButton"
+      data-testid="gps-button"
       iconLeft={loading ? <LoadingIndicator color="black" /> : <GPSIcon />}
       aria-label="Huidige locatie"
       iconSize={20}
