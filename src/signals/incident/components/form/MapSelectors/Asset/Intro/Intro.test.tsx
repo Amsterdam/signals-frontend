@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
-
 import * as reactRedux from 'react-redux'
-import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
-import type { AssetSelectValue } from '../types'
-import type { Meta } from '../../types'
 
+import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
+import { withAppContext } from 'test/utils'
+
+import MockInstance = jest.MockInstance
+import type { Meta } from '../../types'
 import { contextValue as assetSelectContextValue } from '../__tests__/withAssetSelectContext'
 import Intro from '../Intro'
-import MockInstance = jest.MockInstance
+import type { AssetSelectValue } from '../types'
 
 const contextValue: AssetSelectValue = {
   ...assetSelectContextValue,
@@ -51,9 +51,9 @@ describe('signals/incident/components/form/AssetSelect/Intro', () => {
       })
     )
 
-    expect(screen.getByTestId('assetSelectIntro')).toBeInTheDocument()
-    expect(screen.getByTestId('mapLocation')).toBeInTheDocument()
-    expect(screen.getByTestId('chooseOnMap')).toBeInTheDocument()
+    expect(screen.getByTestId('asset-select-intro')).toBeInTheDocument()
+    expect(screen.getByTestId('map-location')).toBeInTheDocument()
+    expect(screen.getByTestId('choose-on-map')).toBeInTheDocument()
   })
 
   it('should call edit', () => {
@@ -61,7 +61,7 @@ describe('signals/incident/components/form/AssetSelect/Intro', () => {
 
     expect(dispatch).not.toHaveBeenCalledWith(showMap())
 
-    const element = screen.getByTestId('chooseOnMap')
+    const element = screen.getByTestId('choose-on-map')
 
     fireEvent.click(element)
 

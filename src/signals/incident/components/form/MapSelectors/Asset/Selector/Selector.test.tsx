@@ -37,7 +37,7 @@ jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
 }))
 
 jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
-  <span data-testid="mockLegendPanel">
+  <span data-testid="mock-legend-panel">
     <input type="button" name="closeLegend" onClick={onClose} />
   </span>
 ))
@@ -84,17 +84,19 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
   it('should render the component', async () => {
     render(withAssetSelectContext(<Selector />))
 
-    expect(await screen.findByTestId('assetSelectSelector')).toBeInTheDocument()
-    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
+    expect(
+      await screen.findByTestId('asset-select-selector')
+    ).toBeInTheDocument()
+    expect(screen.getByTestId('gps-button')).toBeInTheDocument()
   })
 
   it('should render the layer when passed as prop', () => {
-    const Layer: FC<any> = () => <span data-testid="testLayer" />
+    const Layer: FC<any> = () => <span data-testid="test-layer" />
     render(
       withAssetSelectContext(<Selector />, { ...contextValue, layer: Layer })
     )
 
-    expect(screen.getByTestId('testLayer')).toBeInTheDocument()
+    expect(screen.getByTestId('test-layer')).toBeInTheDocument()
   })
 
   describe('zoom levels', () => {
@@ -105,7 +107,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
           coordinates: undefined,
         })
       )
-      await screen.findByTestId('assetSelectSelector')
+      await screen.findByTestId('asset-select-selector')
       expect(actualMapOptions).toEqual(
         expect.objectContaining({
           maxZoom: configuration.map.options.maxZoom,
@@ -117,7 +119,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     it('should zoom to MAP_LOCATION_ZOOM', async () => {
       render(withAssetSelectContext(<Selector />))
-      await screen.findByTestId('assetSelectSelector')
+      await screen.findByTestId('asset-select-selector')
       expect(actualMapOptions).toEqual(
         expect.objectContaining({ zoom: MAP_LOCATION_ZOOM })
       )
@@ -127,7 +129,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       const maxZoom = MAP_OPTIONS.maxZoom
       MAP_OPTIONS.maxZoom = MAP_LOCATION_ZOOM - 1
       render(withAssetSelectContext(<Selector />))
-      await screen.findByTestId('assetSelectSelector')
+      await screen.findByTestId('asset-select-selector')
       expect(actualMapOptions).toEqual(
         expect.objectContaining({ zoom: MAP_OPTIONS.maxZoom })
       )
@@ -148,7 +150,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     render(withAssetSelectContext(<Selector />))
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
-    const button = await screen.findByTestId('mapCloseButton')
+    const button = await screen.findByTestId('map-close-button')
     userEvent.click(button)
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
@@ -157,7 +159,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     mockShowDesktopVariant = true
     render(withAssetSelectContext(<Selector />))
 
-    expect(await screen.findByTestId('detailPanel')).toBeInTheDocument()
+    expect(await screen.findByTestId('detail-panel')).toBeInTheDocument()
   })
 
   it('renders a pin marker when there is a location', async () => {
@@ -170,9 +172,9 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
         selection: undefined,
       })
     )
-    await screen.findByTestId('assetSelectSelector')
+    await screen.findByTestId('asset-select-selector')
 
-    expect(screen.getByTestId('assetPinMarker')).toBeInTheDocument()
+    expect(screen.getByTestId('asset-pin-marker')).toBeInTheDocument()
   })
 
   it('does not render a pin marker', async () => {
@@ -182,9 +184,9 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
         coordinates: undefined,
       })
     )
-    await screen.findByTestId('assetSelectSelector')
+    await screen.findByTestId('asset-select-selector')
 
-    expect(screen.queryByTestId('assetPinMarker')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('asset-pin-marker')).not.toBeInTheDocument()
   })
 
   it('dispatches the location when the map is clicked', async () => {
@@ -192,7 +194,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     render(withAssetSelectContext(<Selector />))
 
-    await screen.findByTestId('assetSelectSelector')
+    await screen.findByTestId('asset-select-selector')
 
     expect(fetchLocation).not.toHaveBeenCalled()
 
@@ -232,7 +234,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
 
     expect(getCurrentPosition).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
     expect(getCurrentPosition).toHaveBeenCalled()
   })
@@ -245,7 +247,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByTestId('zoomMessage')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('zoom-message')).not.toBeInTheDocument()
 
     render(
       withAssetSelectContext(<Selector />, {
@@ -257,7 +259,7 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    expect(screen.queryByTestId('zoomMessage')).toBeInTheDocument()
+    expect(screen.queryByTestId('zoom-message')).toBeInTheDocument()
   })
 
   it('fetches the location when the button is pressed', () => {
@@ -341,10 +343,10 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
-    expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
-    expect(screen.getByTestId('mapMessage')).toHaveTextContent(
+    expect(screen.getByTestId('map-message')).toBeInTheDocument()
+    expect(screen.getByTestId('map-message')).toHaveTextContent(
       `${configuration.language.siteAddress} heeft geen toestemming om uw locatie te gebruiken.`
     )
   })
@@ -377,19 +379,19 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
       })
     )
 
-    userEvent.click(screen.getByTestId('gpsButton'))
+    userEvent.click(screen.getByTestId('gps-button'))
 
-    expect(screen.getByTestId('mapMessage')).toBeInTheDocument()
-    expect(screen.getByTestId('mapMessage')).toHaveTextContent(
+    expect(screen.getByTestId('map-message')).toBeInTheDocument()
+    expect(screen.getByTestId('map-message')).toHaveTextContent(
       'Uw locatie valt buiten de kaart en is daardoor niet te zien'
     )
 
     // closing notification
     userEvent.click(
-      within(screen.getByTestId('mapMessage')).getByRole('button')
+      within(screen.getByTestId('map-message')).getByRole('button')
     )
 
-    expect(screen.queryByTestId('mapMessage')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('map-message')).not.toBeInTheDocument()
   })
 
   it('disables page scroll on mount', () => {

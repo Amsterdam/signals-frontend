@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import FileInput from '..'
@@ -35,9 +36,9 @@ describe('Form component <FileInput />', () => {
         )
       )
 
-      expect(getByTestId('fileInput')).toBeInTheDocument()
-      expect(getByTestId('fileInputUploadButton')).toBeInTheDocument()
-      expect(getAllByTestId('fileInputEmptyBox').length).toBe(2)
+      expect(getByTestId('file-input')).toBeInTheDocument()
+      expect(getByTestId('file-input-upload-button')).toBeInTheDocument()
+      expect(getAllByTestId('file-input-empty-box').length).toBe(2)
     })
 
     describe('events', () => {
@@ -110,12 +111,12 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const fileInputElement = queryByTestId('fileInputUpload')
+        const fileInputElement = queryByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file1] } })
         })
 
-        await findByTestId('fileInputUpload')
+        await findByTestId('file-input-upload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
@@ -141,12 +142,12 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const fileInputElement = queryByTestId('fileInputUpload')
+        const fileInputElement = queryByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file1] } })
         })
 
-        await findByTestId('fileInputUpload')
+        await findByTestId('file-input-upload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': expect.any(Array),
@@ -179,7 +180,7 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const deleteFotoButtonList = queryAllByTestId('deleteFotoButton')
+        const deleteFotoButtonList = queryAllByTestId('delete-foto-button')
         expect(deleteFotoButtonList.length).toBe(2)
         act(() => {
           fireEvent.click(deleteFotoButtonList[0], {
@@ -188,7 +189,7 @@ describe('Form component <FileInput />', () => {
           })
         })
 
-        await findByTestId('fileInputUpload')
+        await findByTestId('file-input-upload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name': [file2],
@@ -212,21 +213,21 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        expect(queryByTestId('fileInputUpload')).toBeInTheDocument()
-        expect(queryByTestId('fileInputError')).not.toBeInTheDocument()
+        expect(queryByTestId('file-input-upload')).toBeInTheDocument()
+        expect(queryByTestId('file-input-error')).not.toBeInTheDocument()
 
-        const fileInputElement = queryByTestId('fileInputUpload')
+        const fileInputElement = queryByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file5] } })
         })
 
-        await findByTestId('fileInputUpload')
+        await findByTestId('file-input-upload')
 
         expect(parent.meta.updateIncident).toHaveBeenCalledWith({
           'input-field-name_previews': [],
           'input-field-name': [],
         })
-        expect(queryByTestId('fileInputError')).toBeInTheDocument()
+        expect(queryByTestId('file-input-error')).toBeInTheDocument()
       })
 
       it('should not upload more files than maxNumberOfFiles', async () => {
@@ -245,7 +246,7 @@ describe('Form component <FileInput />', () => {
           )
         )
 
-        const fileInputElement = screen.getByTestId('fileInputUpload')
+        const fileInputElement = screen.getByTestId('file-input-upload')
 
         act(() => {
           fireEvent.change(fileInputElement, {
@@ -253,9 +254,9 @@ describe('Form component <FileInput />', () => {
           })
         })
 
-        screen.getByTestId('fileInputUpload')
+        screen.getByTestId('file-input-upload')
 
-        expect(screen.getByTestId('fileInputError')).toBeInTheDocument()
+        expect(screen.getByTestId('file-input-error')).toBeInTheDocument()
       })
     })
   })

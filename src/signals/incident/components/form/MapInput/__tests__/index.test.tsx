@@ -26,7 +26,7 @@ describe('Form component <MapInput />', () => {
     it('should render map input correctly', () => {
       render(withAppContext(<MapInput {...props} />))
 
-      expect(screen.getByTestId('mapInput')).toBeInTheDocument()
+      expect(screen.getByTestId('map-input')).toBeInTheDocument()
     })
 
     it('should render no map input when not visible', () => {
@@ -36,7 +36,7 @@ describe('Form component <MapInput />', () => {
       }
       render(withAppContext(<MapInput {...props} meta={notVisibleMeta} />))
 
-      expect(screen.queryByTestId('mapInput')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('map-input')).not.toBeInTheDocument()
     })
 
     it('should handle form value', async () => {

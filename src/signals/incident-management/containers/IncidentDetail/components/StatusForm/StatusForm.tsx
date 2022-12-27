@@ -2,29 +2,31 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
-import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
-import { useFetch } from 'hooks'
 
-import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
+import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
+import { useDispatch } from 'react-redux'
 
 import AddNote from 'components/AddNote'
 import ErrorMessage, { ErrorWrapper } from 'components/ErrorMessage'
-
+import { showGlobalNotification } from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
+import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
+import { StatusCode } from 'signals/incident-management/definitions/types'
+import type { Status } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
-import type { Status } from 'signals/incident-management/definitions/types'
-import { StatusCode } from 'signals/incident-management/definitions/types'
-
-import configuration from 'shared/services/configuration/configuration'
-import { useDispatch } from 'react-redux'
-import { showGlobalNotification } from 'containers/App/actions'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
-import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
 import type { IncidentChild, EmailTemplate } from '../../types'
-import DefaultTexts from './components/DefaultTexts'
 import EmailPreview from '../EmailPreview/EmailPreview'
+import type { StatusFormActions } from './actions'
+import DefaultTexts from './components/DefaultTexts'
+import * as constants from './constants'
+import type { State } from './reducer'
+import reducer, { init } from './reducer'
 import {
   AddNoteWrapper,
   StyledCheckbox,
@@ -38,10 +40,6 @@ import {
   StyledParagraph,
   StyledSection,
 } from './styled'
-import * as constants from './constants'
-import type { State } from './reducer'
-import reducer, { init } from './reducer'
-import type { StatusFormActions } from './actions'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
@@ -279,13 +277,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [emailTemplateError, storeDispatch])
 
   return (
-    <Form onSubmit={handleSubmit} data-testid="statusForm" noValidate>
+    <Form onSubmit={handleSubmit} data-testid="status-form" noValidate>
       <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
 
       <StyledSection>
         <StyledLabel htmlFor="status" label="Status" />
         <Select
-          data-testid="selectStatus"
+          data-testid="select-status"
           id="status"
           value={state.status.key}
           onChange={onStatusChange}
@@ -338,26 +336,26 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 >
                   <StyledCheckbox
                     checked={state.check.checked}
-                    data-testid="sendEmailCheckbox"
+                    data-testid="send-email-checkbox"
                     disabled={state.check.disabled}
                     id="send_email"
                     onClick={onCheck}
                   />
                 </StyledCheckboxLabel>
               ) : (
-                <div data-testid="noContactAllowedWarning">
+                <div data-testid="no-contact-allowed-warning">
                   {constants.NO_CONTACT_ALLOWED}
                 </div>
               )
             ) : (
-              <div data-testid="noEmailWarning">
+              <div data-testid="no-email-warning">
                 {constants.NO_REPORTER_EMAIL}
               </div>
             )}
           </div>
         )}
         {emailIsNotSent && (
-          <div data-testid="noEmaiIIsSentWarning">
+          <div data-testid="no-emaiI-is-sent-warning">
             {constants.NO_EMAIL_IS_SENT}
           </div>
         )}
@@ -427,7 +425,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       </StyledSection>
       <div>
         <StyledButton
-          data-testid="statusFormSubmitButton"
+          data-testid="status-form-submit-button"
           type="submit"
           variant="secondary"
           disabled={disableSubmit}
@@ -436,7 +434,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         </StyledButton>
 
         <StyledButton
-          data-testid="statusFormCancelButton"
+          data-testid="status-form-cancel-button"
           variant="tertiary"
           onClick={onClose}
         >

@@ -201,7 +201,7 @@ describe('DetailPanel', () => {
       })
     ).toBeInTheDocument()
 
-    expect(screen.getByTestId('assetSelectSubmitButton')).toBeInTheDocument()
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
   })
@@ -214,8 +214,8 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByTestId('assetSelectSubmitButton')).toBeInTheDocument()
-    expect(screen.getByTestId('mockAssetList')).toBeInTheDocument()
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
+    expect(screen.getByTestId('mock-asset-list')).toBeInTheDocument()
     expect(
       screen.getByText(`${selection[0].description} - ${selection[0].label}`)
     ).toBeInTheDocument()
@@ -229,7 +229,7 @@ describe('DetailPanel', () => {
       })
     )
 
-    const mockAssetList = screen.getByTestId('mockAssetList')
+    const mockAssetList = screen.getByTestId('mock-asset-list')
 
     const removeButton = within(mockAssetList).getByRole('button')
 
@@ -250,27 +250,27 @@ describe('DetailPanel', () => {
       })
     )
 
-    userEvent.type(screen.getByTestId('autoSuggestInput'), 'Meeuw')
+    userEvent.type(screen.getByTestId('auto-suggest-input'), 'Meeuw')
 
     // simulate data retrieval
     userEvent.click(
-      within(screen.getByTestId('addressPanel')).getByTestId(
-        'getDataMockButton'
+      within(screen.getByTestId('address-panel')).getByTestId(
+        'get-data-mock-button'
       )
     )
 
-    expect(screen.getByTestId('optionsList')).toBeInTheDocument()
+    expect(screen.getByTestId('options-list')).toBeInTheDocument()
 
     const autoSuggestClear = within(
-      screen.getByTestId('addressPanel')
-    ).getByTestId('autoSuggestClear')
+      screen.getByTestId('address-panel')
+    ).getByTestId('auto-suggest-clear')
 
     expect(currentContextValue.removeItem).not.toHaveBeenCalled()
 
     userEvent.click(autoSuggestClear)
 
     expect(currentContextValue.removeItem).toHaveBeenCalled()
-    expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
   })
 
   it('adds asset not on map', () => {
@@ -304,11 +304,11 @@ describe('DetailPanel', () => {
     const unregisteredObjectId = '897 6238'
 
     userEvent.type(
-      screen.getByTestId('unregisteredAssetInput'),
+      screen.getByTestId('unregistered-asset-input'),
       unregisteredObjectId
     )
 
-    fireEvent.blur(screen.getByTestId('unregisteredAssetInput'))
+    fireEvent.blur(screen.getByTestId('unregistered-asset-input'))
 
     expect(currentContextValue.removeItem).toHaveBeenCalledTimes(2)
     expect(currentContextValue.setItem).toHaveBeenCalledTimes(2)
@@ -318,7 +318,7 @@ describe('DetailPanel', () => {
       label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
     })
 
-    fireEvent.submit(screen.getByTestId('unregisteredAssetInput'))
+    fireEvent.submit(screen.getByTestId('unregistered-asset-input'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
@@ -332,7 +332,7 @@ describe('DetailPanel', () => {
       })
     )
 
-    await screen.findByTestId('pdokAutoSuggest')
+    await screen.findByTestId('pdok-auto-suggest')
 
     expect(setLocation).not.toHaveBeenCalled()
 
@@ -377,7 +377,7 @@ describe('DetailPanel', () => {
 
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
-    userEvent.click(screen.getByTestId('assetSelectSubmitButton'))
+    userEvent.click(screen.getByTestId('asset-select-submit-button'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
@@ -471,15 +471,15 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByTestId('unregisteredObjectPanel')).toBeInTheDocument()
+    expect(screen.getByTestId('unregistered-object-panel')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByTestId('unregisteredAssetCheckbox'))
+    fireEvent.click(screen.getByTestId('unregistered-asset-checkbox'))
 
     expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
 
-    expect(screen.getByTestId('legendPanel')).toBeInTheDocument()
+    expect(screen.getByTestId('legend-panel')).toBeInTheDocument()
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
-    expect(screen.getByTestId('legendToggleButton')).toBeInTheDocument()
+    expect(screen.getByTestId('legend-toggle-button')).toBeInTheDocument()
 
     rerender(
       withAssetSelectContext(<DetailPanel {...props} />, {
@@ -489,28 +489,28 @@ describe('DetailPanel', () => {
     )
 
     expect(
-      screen.queryByTestId('unregisteredObjectPanel')
+      screen.queryByTestId('unregistrered-object-panel')
     ).not.toBeInTheDocument()
 
-    expect(screen.queryByTestId('legendPanel')).toBeInTheDocument()
+    expect(screen.queryByTestId('legend-panel')).toBeInTheDocument()
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
-    expect(screen.queryByTestId('legendToggleButton')).toBeInTheDocument()
+    expect(screen.queryByTestId('legend-toggle-button')).toBeInTheDocument()
   })
 
   it('toggles the position of the legend panel', () => {
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    expect(screen.getByTestId('legendPanel')).toHaveClass('out')
+    expect(screen.getByTestId('legend-panel')).toHaveClass('out')
 
-    userEvent.click(screen.getByTestId('legendToggleButton'))
+    userEvent.click(screen.getByTestId('legend-toggle-button'))
 
-    expect(screen.getByTestId('legendPanel')).toHaveClass('in')
+    expect(screen.getByTestId('legend-panel')).toHaveClass('in')
   })
 
   it('renders the legend panel with focus on close button', () => {
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    userEvent.click(screen.getByTestId('legendToggleButton'))
+    userEvent.click(screen.getByTestId('legend-toggle-button'))
 
     expect(screen.getByTestId('close-button')).toHaveFocus()
   })
@@ -519,11 +519,11 @@ describe('DetailPanel', () => {
     jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
 
-    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
 
-    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
   })
 
   it('renders the address panel', () => {
@@ -531,11 +531,11 @@ describe('DetailPanel', () => {
 
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
 
-    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
 
-    expect(screen.getByTestId('addressPanel')).toBeInTheDocument()
+    expect(screen.getByTestId('address-panel')).toBeInTheDocument()
   })
 
   it('renders a list of options in the address panel', () => {
@@ -543,20 +543,20 @@ describe('DetailPanel', () => {
 
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
-    expect(screen.queryByTestId('addressPanel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
 
-    fireEvent.focus(screen.getByTestId('autoSuggestInput'))
+    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
 
-    expect(screen.queryByTestId('optionsList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
 
     // simulate data retrieval
     userEvent.click(
-      within(screen.getByTestId('addressPanel')).getByTestId(
-        'getDataMockButton'
+      within(screen.getByTestId('address-panel')).getByTestId(
+        'get-data-mock-button'
       )
     )
 
-    expect(screen.getByTestId('optionsList')).toBeInTheDocument()
+    expect(screen.getByTestId('options-list')).toBeInTheDocument()
   })
 
   it('selection nearby details', () => {
@@ -576,7 +576,7 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByTestId('mockAssetList')).toHaveTextContent(
+    expect(screen.getByTestId('mock-asset-list')).toHaveTextContent(
       `${selection[0].description} - ${selection[0].label}`
     )
   })

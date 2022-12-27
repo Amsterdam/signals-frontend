@@ -2,11 +2,12 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import configureStore from 'configureStore'
 import { mocked } from 'jest-mock'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
+
+import configureStore from 'configureStore'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
@@ -73,12 +74,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       options.length + 1
     )
 
-    expect(getByTestId('ktoTextExtra')).toBeInTheDocument()
-    expect(getByTestId('fileInput')).toBeInTheDocument()
-    expect(getByTestId('ktoAllowsContact')).toBeInTheDocument()
-    expect(getByTestId('ktoSubmit')).toBeInTheDocument()
+    expect(getByTestId('kto-text-extra')).toBeInTheDocument()
+    expect(getByTestId('file-input')).toBeInTheDocument()
+    expect(getByTestId('kto-allows-contact')).toBeInTheDocument()
+    expect(getByTestId('kto-submit')).toBeInTheDocument()
 
-    expect(screen.queryByTestId('allowsContact')).toHaveTextContent(
+    expect(screen.queryByTestId('allows-contact')).toHaveTextContent(
       'Nee, bel of e-mail mij niet meer over deze melding of over mijn reactie.'
     )
 
@@ -181,7 +182,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(queryByText('Dit is een verplicht veld')).not.toBeInTheDocument()
     expect(onSubmit).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     expect(
       await screen.findByText('Dit is een verplicht veld')
@@ -208,12 +209,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     userEvent.click(lastOption)
 
-    expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
+    expect(await screen.findByTestId('kto-text')).toBeInTheDocument()
     expect(
       screen.queryByText('Dit is een verplicht veld')
     ).not.toBeInTheDocument()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     expect(
       await screen.findByText('Dit is een verplicht veld')
@@ -236,16 +237,16 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     const lastOption = getByTestId(
       `checkbox-input_${[...options].reverse()[0].key}`
     )
-    expect(queryByTestId('ktoText')).not.toBeInTheDocument()
+    expect(queryByTestId('kto-text')).not.toBeInTheDocument()
 
     userEvent.click(lastOption)
 
-    expect(await screen.findByTestId('ktoText')).toBeInTheDocument()
+    expect(await screen.findByTestId('kto-text')).toBeInTheDocument()
     expect(
       screen.queryByText('Dit is een verplicht veld')
     ).not.toBeInTheDocument()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     expect(
       await screen.findByText(
@@ -255,7 +256,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     const value = 'Qux Baz'
 
-    const ktoText = await screen.findByTestId('ktoText')
+    const ktoText = await screen.findByTestId('kto-text')
 
     userEvent.type(ktoText, value)
 
@@ -285,14 +286,14 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(firstOption)
 
     expect(firstOption).toBeChecked()
-    expect(screen.queryByTestId('ktoText')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('kto-text')).not.toBeInTheDocument()
     expect(
       screen.queryByText('Dit is een verplicht veld')
     ).not.toBeInTheDocument()
 
     expect(onSubmit).not.toHaveBeenCalled()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
@@ -324,11 +325,11 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(lastOption)
 
     const value = 'Qux Baz'
-    const ktoText = await screen.findByTestId('ktoText')
+    const ktoText = await screen.findByTestId('kto-text')
 
     userEvent.type(ktoText, value)
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(
@@ -360,11 +361,11 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    userEvent.click(getByTestId('ktoAllowsContact'))
+    userEvent.click(getByTestId('kto-allows-contact'))
 
     expect(setContactAllowed).toHaveBeenCalled()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     // Be default allowscontact equals true but after clicking
     await waitFor(() => {
@@ -398,7 +399,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-submit'))
 
     // By default allow_contact equals false is in the old flow
     await waitFor(() => {
@@ -429,8 +430,8 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     fillForm()
 
-    userEvent.click(getByTestId('ktoAllowsContact'))
-    userEvent.click(getByTestId('ktoSubmit'))
+    userEvent.click(getByTestId('kto-allows-contact'))
+    userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
       expect(setContactAllowed).toHaveBeenCalled()
@@ -492,7 +493,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     )
     fillForm()
 
-    userEvent.click(screen.getByTestId('ktoSubmit'))
+    userEvent.click(screen.getByTestId('kto-submit'))
 
     await waitFor(() => {
       expect(filesUpload).toBeCalledWith({
@@ -504,7 +505,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 })
 
 function uploadFile() {
-  fileInput = screen.getByTestId('fileInputUpload')
+  fileInput = screen.getByTestId('file-input-upload')
   file = new File(['hello'], 'hello.png', { type: 'image/png' })
   Object.defineProperty(file, 'size', { value: 1024 * 1024 + 1 }) // 1 MB
   userEvent.upload(fileInput, file)
@@ -514,5 +515,5 @@ function fillForm() {
   const secondOption = screen.getByTestId(`checkbox-input_${options[1].key}`)
 
   userEvent.click(secondOption)
-  userEvent.type(screen.getByTestId('ktoTextExtra'), value)
+  userEvent.type(screen.getByTestId('kto-text-extra'), value)
 }

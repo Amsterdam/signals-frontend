@@ -2,19 +2,18 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
-
-import * as auth from 'shared/services/auth/auth'
-import { withAppContext } from 'test/utils'
-import { formatAddress } from 'shared/services/format-address'
-import { mock } from 'types/incident'
+import * as reactRouterDom from 'react-router-dom'
 
 import Summary from 'components/Summary'
 import { address, summaryProps } from 'components/Summary/Summary.test'
-import * as reactRouterDom from 'react-router-dom'
-import type { IncidentPreviewProps } from './IncidentPreview'
+import * as auth from 'shared/services/auth/auth'
+import { formatAddress } from 'shared/services/format-address'
+import { withAppContext } from 'test/utils'
+import { mock } from 'types/incident'
 
-import PreviewComponents from './components'
 import IncidentPreview from '.'
+import PreviewComponents from './components'
+import type { IncidentPreviewProps } from './IncidentPreview'
 
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
@@ -112,7 +111,7 @@ describe('<IncidentPreview />', () => {
   it('expect to render correctly', async () => {
     render(withAppContext(<IncidentPreview {...props} />))
 
-    await screen.findByTestId('incidentPreview')
+    await screen.findByTestId('incident-preview')
 
     expect(screen.getByText(props.incident.phone || '')).toBeInTheDocument()
     expect(
@@ -148,7 +147,7 @@ describe('<IncidentPreview />', () => {
   it('should have links', async () => {
     const { container } = render(withAppContext(<IncidentPreview {...props} />))
 
-    await screen.findByTestId('incidentPreview')
+    await screen.findByTestId('incident-preview')
 
     const sectionRe = new RegExp(Object.keys(props.preview).join('|'))
 
@@ -235,7 +234,7 @@ describe('<IncidentPreview />', () => {
         withAppContext(<IncidentPreview {...allTypesProps} />)
       )
 
-      await screen.findByTestId('incidentPreview')
+      await screen.findByTestId('incident-preview')
 
       const { beschrijf, contact } = allTypesProps.preview
 

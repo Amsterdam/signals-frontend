@@ -51,8 +51,8 @@ describe('Form component <SelectInput />', () => {
       expect(element.querySelectorAll('option').length).toEqual(
         metaFields.values.length
       )
-      expect(screen.getByTestId('selectedValue')).toBeInTheDocument()
-      expect(screen.getByTestId('selectedValue').textContent).toEqual('Baz')
+      expect(screen.getByTestId('selected-value')).toBeInTheDocument()
+      expect(screen.getByTestId('selected-value').textContent).toEqual('Baz')
     })
 
     it('should render empty select field when values are not supplied', () => {
@@ -68,8 +68,8 @@ describe('Form component <SelectInput />', () => {
       const element = screen.getByTestId('input-field-name')
       expect(element).toBeInTheDocument()
       expect(element.querySelectorAll('option').length).toEqual(0)
-      expect(screen.getByTestId('selectedValue')).toBeInTheDocument()
-      expect(screen.getByTestId('selectedValue').textContent).toEqual('')
+      expect(screen.getByTestId('selected-value')).toBeInTheDocument()
+      expect(screen.getByTestId('selected-value').textContent).toEqual('')
     })
 
     it('should render no select field when not visible', () => {
@@ -82,7 +82,7 @@ describe('Form component <SelectInput />', () => {
       render(<SelectInput meta={meta} {...props} />)
 
       expect(screen.queryByTestId('input-field-name')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('selectedValue')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('selected-value')).not.toBeInTheDocument()
     })
   })
 
@@ -98,7 +98,7 @@ describe('Form component <SelectInput />', () => {
 
       const element = screen.getByTestId('input-field-name')
       expect(element).toBeInTheDocument()
-      expect(screen.getByTestId('selectedValue').textContent).toEqual('Baz')
+      expect(screen.getByTestId('selected-value').textContent).toEqual('Baz')
 
       userEvent.selectOptions(element, 'bar')
 
@@ -108,7 +108,7 @@ describe('Form component <SelectInput />', () => {
           label: 'Bar',
         },
       })
-      expect(screen.getByTestId('selectedValue').textContent).toEqual('Bar')
+      expect(screen.getByTestId('selected-value').textContent).toEqual('Bar')
     })
   })
 })

@@ -41,7 +41,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
     it('should render correctly', async () => {
       render(withAppContext(<AssetSelectRenderer {...props} meta={meta} />))
 
-      expect(screen.getByTestId('mockAssetSelect')).toBeInTheDocument()
+      expect(screen.getByTestId('mock-asset-select')).toBeInTheDocument()
     })
 
     it('should NOT render when not visible', () => {
@@ -54,7 +54,7 @@ describe('signals/incident/components/form/AssetSelectRenderer', () => {
         )
       )
 
-      expect(screen.queryByTestId('mockAssetSelect')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('mock-asset-select')).not.toBeInTheDocument()
     })
   })
 })

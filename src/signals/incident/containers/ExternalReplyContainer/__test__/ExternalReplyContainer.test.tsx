@@ -67,7 +67,9 @@ describe('ExternalReplyContainer', () => {
         screen.getByText(/Foto's toevoegen/)
         screen.getByRole('button', { name: 'Verstuur' })
 
-        expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+        expect(
+          screen.queryByTestId('loading-indicator')
+        ).not.toBeInTheDocument()
       })
     })
 
@@ -226,7 +228,7 @@ describe('ExternalReplyContainer', () => {
 
         await waitFor(() => {
           expect(
-            screen.queryByTestId('loadingIndicator')
+            screen.queryByTestId('loading-indicator')
           ).not.toBeInTheDocument()
         })
       })
@@ -271,7 +273,7 @@ describe('ExternalReplyContainer', () => {
 
         await waitFor(() => {
           expect(
-            screen.queryByTestId('loadingIndicator')
+            screen.queryByTestId('loading-indicator')
           ).not.toBeInTheDocument()
         })
       })

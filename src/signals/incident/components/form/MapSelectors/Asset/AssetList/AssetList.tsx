@@ -125,8 +125,8 @@ export const AssetListItem: FunctionComponent<AssetListItem> = ({
     ({ typeValue }) => typeValue === status
   )
   const extendedId = featureStatusType
-    ? `assetListItem-${id}-hasStatus`
-    : `assetListItem-${id}`
+    ? `asset-list-item-${id}-has-status`
+    : `asset-list-item-${id}`
 
   const selectionOnMap = selectionIsObject(item) ? item : undefined
   const selectionNearby = selectionIsNearby(item) ? item : undefined

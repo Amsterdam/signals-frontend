@@ -31,15 +31,15 @@ export const CHANGE_STATUS = {
   radioButtonAfgehandeld: '[data-testid=status-o]',
   radioButtonHeropend: '[data-testid=status-reopened]',
   radioButtonGeannuleerd: '[data-testid=status-a]',
-  statusNotification: '[data-testid="statusFormToelichting"]',
+  statusNotification: '[data-testid="status-form-toelichting"]',
   statusWarning: '[data-testid=end-status-warning]',
   warningDeelmeldingenOpen: '[data-testid="has-open-child-incidents-warning"]',
 };
 
 export const CHANGE_TYPE = {
-  buttonCancel: '[data-testid=cancelTypeButton]',
-  buttonEdit: '[data-testid=editTypeButton]',
-  buttonSubmit: '[data-testid=submitTypeButton]',
+  buttonCancel: '[data-testid=cancel-type-button]',
+  buttonEdit: '[data-testid=edit-type-button]',
+  buttonSubmit: '[data-testid=submit-type-button]',
   radioButtonMelding: '[data-testid=input-SIG]',
   radioButtonAanvraag: '[data-testid=input-REQ]',
   radioButtonVraag: '[data-testid=input-QUE]',

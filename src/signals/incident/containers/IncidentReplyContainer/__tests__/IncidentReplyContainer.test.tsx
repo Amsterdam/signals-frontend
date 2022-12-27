@@ -42,7 +42,7 @@ describe('IncidentReplyContainer', () => {
     it('renders the incident reply form correctly', async () => {
       render(withAppContext(<IncidentReplyContainer />))
 
-      screen.getByTestId('loadingIndicator')
+      screen.getByTestId('loading-indicator')
 
       await waitFor(() => {
         screen.getByRole('heading', { name: 'Aanvullende informatie' })
@@ -52,7 +52,9 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('textbox', { name: 'Wat voor kleur heeft de auto?' })
         screen.getByLabelText(/Foto's toevoegen/)
         screen.getByRole('button', { name: 'Verstuur' })
-        expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+        expect(
+          screen.queryByTestId('loading-indicator')
+        ).not.toBeInTheDocument()
       })
     })
 

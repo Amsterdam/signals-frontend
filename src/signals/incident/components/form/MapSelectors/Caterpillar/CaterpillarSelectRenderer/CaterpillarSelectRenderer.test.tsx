@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
-
 import type { Meta } from '../../types'
-
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
 
 jest.mock('../../Asset/AssetSelect', () => () => (
-  <span data-testid="mockAssetSelect" />
+  <span data-testid="mock-asset-select" />
 ))
 
 describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarSelectRenderer', () => {
@@ -41,7 +40,7 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
   it('should render correctly', async () => {
     render(withAppContext(<CaterpillarSelectRenderer {...props} meta={meta} />))
 
-    expect(screen.getByTestId('mockAssetSelect')).toBeInTheDocument()
+    expect(screen.getByTestId('mock-asset-select')).toBeInTheDocument()
   })
 
   it('should NOT render when not visible', () => {
@@ -54,6 +53,6 @@ describe('signals/incident/components/form/MapSelectors/Caterpillar/CaterpillarS
       )
     )
 
-    expect(screen.queryByTestId('mockAssetSelect')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('mock-asset-select')).not.toBeInTheDocument()
   })
 })

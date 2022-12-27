@@ -8,12 +8,11 @@ import {
   useEffect,
   useLayoutEffect,
 } from 'react'
-import ReactDOM from 'react-dom'
-import { Marker } from '@amsterdam/react-maps'
-import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
-import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-
 import type { ReactElement, FC } from 'react'
+
+import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
+import { Marker } from '@amsterdam/react-maps'
 import type {
   MapOptions,
   LeafletMouseEvent,
@@ -21,24 +20,24 @@ import type {
   Map as MapType,
   LatLngTuple,
 } from 'leaflet'
-import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
-import type { LocationResult } from 'types/location'
-
-import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { markerIcon } from 'shared/services/configuration/map-markers'
-import configuration from 'shared/services/configuration/configuration'
-import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import MapCloseButton from 'components/MapCloseButton'
-import GPSButton from 'components/GPSButton'
-
+import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { disablePageScroll, enablePageScroll } from 'scroll-lock'
+
+import GPSButton from 'components/GPSButton'
+import MapCloseButton from 'components/MapCloseButton'
+import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
+import configuration from 'shared/services/configuration/configuration'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
-import { selectionIsUndetermined } from '../../constants'
+import type { LocationResult } from 'types/location'
+
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
-import AssetLayer from './WfsLayer/AssetLayer'
-import WfsLayer from './WfsLayer'
+import { selectionIsUndetermined } from '../../constants'
+import DetailPanel from './DetailPanel'
 import NearbyLayer from './NearbyLayer'
 import {
   StyledMap,
@@ -46,7 +45,8 @@ import {
   TopLeftWrapper,
   Wrapper,
 } from './styled'
-import DetailPanel from './DetailPanel'
+import WfsLayer from './WfsLayer'
+import AssetLayer from './WfsLayer/AssetLayer'
 
 const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,
@@ -156,7 +156,7 @@ const Selector: FC = () => {
   }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const mapWrapper = (
-    <Wrapper data-testid="assetSelectSelector">
+    <Wrapper data-testid="asset-select-selector">
       <DetailPanel language={meta.language} />
 
       <StyledMap
@@ -201,7 +201,7 @@ const Selector: FC = () => {
 
               {hasFeatureTypes && (
                 <ZoomMessage
-                  data-testid="zoomMessage"
+                  data-testid="zoom-message"
                   zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}
                 >
                   Zoom in om de {meta?.language?.objectTypePlural || 'objecten'}{' '}
@@ -211,7 +211,7 @@ const Selector: FC = () => {
 
               {mapMessage && (
                 <MapMessage
-                  data-testid="mapMessage"
+                  data-testid="map-message"
                   onClick={() => {
                     setMapMessage('')
                     setMaxAssetWarningActive(false)
@@ -235,7 +235,7 @@ const Selector: FC = () => {
         </WfsLayer>
 
         {showMarker && (
-          <span data-testid="assetPinMarker">
+          <span data-testid="asset-pin-marker">
             <Marker
               key={Object.values(coordinates).toString()}
               setInstance={setPinMarker}

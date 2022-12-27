@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
+
 import { mock } from 'types/incident'
 
 import DateTime from '.'
@@ -13,17 +14,17 @@ describe('DateTime', () => {
   it('renders an empty element', () => {
     const { rerender } = render(<DateTime value={today.getTime()} />)
 
-    expect(screen.getByTestId('previewDateTime')).toBeEmptyDOMElement()
+    expect(screen.getByTestId('preview-date-time')).toBeEmptyDOMElement()
 
     rerender(<DateTime value={undefined} />)
 
-    expect(screen.getByTestId('previewDateTime')).toBeEmptyDOMElement()
+    expect(screen.getByTestId('preview-date-time')).toBeEmptyDOMElement()
   })
 
   it('renders Nu', () => {
     render(<DateTime value={null} />)
 
-    expect(screen.getByTestId('previewDateTime')).toHaveTextContent('Nu')
+    expect(screen.getByTestId('preview-date-time')).toHaveTextContent('Nu')
   })
 
   it("renders Vandaag for today's date", () => {

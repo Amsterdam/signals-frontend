@@ -306,7 +306,7 @@ export const openCreatedSignal = () => {
  * @example cy.saveSignalId();
 */
 export const saveSignalId = () => {
-  cy.get('[data-testid="plainText"')
+  cy.get('[data-testid="plain-text"')
     .then($signalLabel => {
       // Get the signal id
       const text = $signalLabel.text();

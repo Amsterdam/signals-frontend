@@ -84,7 +84,7 @@ export const ZoomMessage: FC<PropsWithChildren<ZoomMessageProps>> = ({
 
   if (layerVisible) return null
 
-  return <MessageOverlay {...props} data-testid="zoomMessage" type="zoom" />
+  return <MessageOverlay {...props} data-testid="zoom-message" type="zoom" />
 }
 
 interface MapMessageProps
@@ -98,7 +98,7 @@ export const MapMessage: FC<MapMessageProps> = ({
   onClick,
   ...props
 }) => (
-  <MessageOverlay {...props} data-testid="mapMessage" type="map">
+  <MessageOverlay {...props} data-testid="map-message" type="map">
     {children}
     <CloseButton
       data-testid="close-message"
