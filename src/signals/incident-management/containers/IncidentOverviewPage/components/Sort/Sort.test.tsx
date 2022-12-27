@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -21,7 +23,7 @@ describe('Sort', () => {
   it('renders sort options', () => {
     render(withAppContext(<Sort onChangeOrdering={onChangeOrdering} />))
 
-    expect(screen.getByTestId('incidentSortSelect')).toBeInTheDocument()
+    expect(screen.getByTestId('incident-sort-select')).toBeInTheDocument()
     expect(screen.getAllByRole('option').length).toBeGreaterThan(0)
     expect(screen.getAllByRole('option')).not.toContain(
       document.querySelector(
@@ -45,7 +47,7 @@ describe('Sort', () => {
       )
     )
 
-    expect(screen.getByTestId('incidentSortSelect')).toHaveValue(
+    expect(screen.getByTestId('incident-sort-select')).toHaveValue(
       SortOptions.BUROUGH_DESC
     )
   })
@@ -55,13 +57,13 @@ describe('Sort', () => {
 
     expect(onChangeOrdering).not.toHaveBeenCalled()
 
-    userEvent.selectOptions(screen.getByTestId('incidentSortSelect'), [
+    userEvent.selectOptions(screen.getByTestId('incident-sort-select'), [
       SortOptions.STATUS_ASC,
     ])
 
     expect(onChangeOrdering).toHaveBeenCalledWith(SortOptions.STATUS_ASC)
 
-    userEvent.selectOptions(screen.getByTestId('incidentSortSelect'), [
+    userEvent.selectOptions(screen.getByTestId('incident-sort-select'), [
       SortOptions.STATUS_ASC,
     ])
 

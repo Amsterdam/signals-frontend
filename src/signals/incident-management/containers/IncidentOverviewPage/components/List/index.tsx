@@ -75,7 +75,7 @@ const Td = ({ detailLink, children, ...rest }: TdProps) => {
 }
 
 const ChildIcon: FunctionComponent = () => (
-  <StyledIcon aria-label="Deelmelding" data-testid="childIcon">
+  <StyledIcon aria-label="Deelmelding" data-testid="child-icon">
     <Play />
   </StyledIcon>
 )
@@ -108,7 +108,7 @@ const List: FunctionComponent<ListProps> = ({
     <StyledList
       isLoading={isLoading}
       className={className}
-      data-testid="incidentOverviewListComponent"
+      data-testid="incident-overview-list-component"
     >
       <Table cellSpacing="0">
         <thead>
@@ -143,32 +143,32 @@ const List: FunctionComponent<ListProps> = ({
                 tabIndex={0}
                 onKeyPress={() => navigateToIncident(incident.id)}
               >
-                <Td detailLink={detailLink} data-testid="incidentParent">
+                <Td detailLink={detailLink} data-testid="incident-parent">
                   {incident.has_children && <ParentIncidentIcon />}
                   {incident.has_parent && <ChildIcon />}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentUrgency">
+                <Td detailLink={detailLink} data-testid="incident-urgency">
                   <StyledIcon>
                     {getListIconByKey(priority, incident.priority?.priority)}
                   </StyledIcon>
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentId">
+                <Td detailLink={detailLink} data-testid="incident-id">
                   {incident.id}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentDaysOpen">
+                <Td detailLink={detailLink} data-testid="incident-days-open">
                   {getDaysOpen(incident)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentCreatedAt">
+                <Td detailLink={detailLink} data-testid="incident-created-at">
                   {string2date(incident.created_at)}{' '}
                   {string2time(incident.created_at)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentSubcategory">
+                <Td detailLink={detailLink} data-testid="incident-subcategory">
                   {incident.category?.sub}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentStatus">
+                <Td detailLink={detailLink} data-testid="incident-status">
                   {getListValueByKey(status, incident.status?.state)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentArea">
+                <Td detailLink={detailLink} data-testid="incident-area">
                   {configuration.featureFlags.fetchDistrictsFromBackend
                     ? getListValueByKey(districts, incident.location?.area_code)
                     : getListValueByKey(
@@ -176,14 +176,14 @@ const List: FunctionComponent<ListProps> = ({
                         incident.location?.stadsdeel
                       )}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incidentAddress">
+                <Td detailLink={detailLink} data-testid="incident-address">
                   {incident.location?.address &&
                     formatAddress(incident.location?.address)}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td
                     detailLink={detailLink}
-                    data-testid="incidentAssignedUser"
+                    data-testid="incident-assigned-user"
                   >
                     {incident.assigned_user_email}
                   </Td>

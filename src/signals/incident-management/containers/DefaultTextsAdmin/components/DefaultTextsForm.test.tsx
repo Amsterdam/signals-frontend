@@ -2,7 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
+
 import DefaultTextsForm from './DefaultTextsForm'
 
 describe('<DefaultTextsForm />', () => {
@@ -24,15 +26,15 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`defaultTextFormForm${props.index}`)
+      screen.getByTestId(`default-text-form-form${props.index}`)
     ).toBeInTheDocument()
     expect(screen.getByTestId(`title${props.index}`)).toBeInTheDocument()
     expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
     expect(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
+      screen.getByTestId(`default-text-form-item-button${props.index}-up`)
     ).toBeDisabled()
     expect(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
+      screen.getByTestId(`default-text-form-item-button${props.index}-down`)
     ).not.toBeDisabled()
   })
 
@@ -50,7 +52,7 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`defaultTextFormForm${props.index}`)
+      screen.getByTestId(`default-text-form-form${props.index}`)
     ).toBeInTheDocument()
 
     const checkbox = screen.getByText('Actief')
@@ -59,12 +61,12 @@ describe('<DefaultTextsForm />', () => {
     expect(screen.getByTestId(`is_active1`)).toBeChecked()
 
     userEvent.click(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
+      screen.getByTestId(`default-text-form-item-button${props.index}-up`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(1)
 
     userEvent.click(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
+      screen.getByTestId(`default-text-form-item-button${props.index}-down`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(2)
   })
@@ -87,7 +89,7 @@ describe('<DefaultTextsForm />', () => {
       )
 
       expect(
-        screen.getByTestId(`defaultTextFormForm${props.index}`)
+        screen.getByTestId(`default-text-form-form${props.index}`)
       ).toBeInTheDocument()
 
       expect(screen.getByTestId(`is_active0`)).toBeDisabled()

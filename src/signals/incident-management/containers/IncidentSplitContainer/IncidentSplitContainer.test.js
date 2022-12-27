@@ -1,24 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render as reactRender, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
-
-import configuration from 'shared/services/configuration/configuration'
-
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import {
-  directingDepartments,
-  subcategoriesGroupedByCategories,
-} from 'utils/__tests__/fixtures'
-
-import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
-import * as departmentsSelectors from 'models/departments/selectors'
-
-import { INCIDENT_URL } from 'signals/incident-management/routes'
-
-import { withAppContext } from 'test/utils'
+import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import {
@@ -26,8 +11,17 @@ import {
   VARIANT_ERROR,
   TYPE_LOCAL,
 } from 'containers/Notification/constants'
-
 import * as categoriesSelectors from 'models/categories/selectors'
+import * as departmentsSelectors from 'models/departments/selectors'
+import configuration from 'shared/services/configuration/configuration'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
+import { withAppContext } from 'test/utils'
+import {
+  directingDepartments,
+  subcategoriesGroupedByCategories,
+} from 'utils/__tests__/fixtures'
+import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import IncidentSplitContainer from '.'
 
@@ -94,7 +88,7 @@ const id = 999
 // render a component, await a rendered element and return the render result
 const renderAwait = async (
   component,
-  testIdToLookFor = 'incidentSplitContainer'
+  testIdToLookFor = 'incident-split-container'
 ) => {
   const renderResult = reactRender(withAppContext(component))
 
@@ -160,11 +154,11 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     )
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(getByTestId('loading-indicator')).toBeInTheDocument()
 
-    await findByTestId('incidentSplitContainer')
+    await findByTestId('incident-split-container')
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should request incident data on mount', async () => {
@@ -190,7 +184,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       }),
       expect.any(Object)
     )
-    expect(queryByTestId('incidentSplitForm')).toBeInTheDocument()
+    expect(queryByTestId('incident-split-form')).toBeInTheDocument()
   })
 
   it('should render the form on successful fetch with directing_department set', async () => {
@@ -212,7 +206,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       }),
       expect.any(Object)
     )
-    expect(queryByTestId('incidentSplitForm')).toBeInTheDocument()
+    expect(queryByTestId('incident-split-form')).toBeInTheDocument()
   })
 
   it('should render the form on successful fetch with directing_departments set on an non directing department ', async () => {
@@ -234,7 +228,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       }),
       expect.any(Object)
     )
-    expect(queryByTestId('incidentSplitForm')).toBeInTheDocument()
+    expect(queryByTestId('incident-split-form')).toBeInTheDocument()
   })
 
   it('should POST the form data', async () => {
@@ -254,7 +248,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
 
-    await screen.findByTestId('incidentSplitForm')
+    await screen.findByTestId('incident-split-form')
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledTimes(3)
@@ -317,7 +311,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     userEvent.click(submitButton)
 
     // trigger extra render where PATCH effect is triggered
-    await screen.findByTestId('incidentSplitContainer')
+    await screen.findByTestId('incident-split-container')
 
     await waitFor(() => {
       expect(fetch).toHaveBeenLastCalledWith(
@@ -362,7 +356,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     userEvent.click(submitButton)
 
     // trigger extra render where PATCH effect is triggered
-    await screen.findByTestId('incidentSplitContainer')
+    await screen.findByTestId('incident-split-container')
 
     expect(fetch).toHaveBeenCalledTimes(2)
     expect(fetch).not.toHaveBeenCalledWith(
@@ -392,7 +386,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
 
-    await findByTestId('incidentSplitContainer')
+    await findByTestId('incident-split-container')
 
     await waitFor(() => {
       expect(dispatch).toHaveBeenCalledWith(
@@ -424,7 +418,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
 
-    await findByTestId('incidentSplitForm')
+    await findByTestId('incident-split-form')
 
     await waitFor(() => {
       expect(dispatch).toHaveBeenCalledWith(
@@ -457,7 +451,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
 
-    await findByTestId('incidentSplitForm')
+    await findByTestId('incident-split-form')
 
     await waitFor(() => {
       expect(dispatch).toHaveBeenCalledWith(

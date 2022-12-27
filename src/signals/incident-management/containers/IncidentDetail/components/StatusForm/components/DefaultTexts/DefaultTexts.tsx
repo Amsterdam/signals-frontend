@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FC, SyntheticEvent } from 'react'
-import type { DefaultText as DefaultTextType } from 'types/api/default-text'
+
 import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 
 import ModalDialog from '../../../ModalDialog'
 import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
@@ -41,12 +42,12 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
           allText.templates.map((item, index: number) => (
             // eslint-disable-next-line react/no-array-index-key
             <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
-              <StyledTitle data-testid="defaultTextsItemTitle">
+              <StyledTitle data-testid="default-texts-item-title">
                 {item.title}
               </StyledTitle>
-              <div data-testid="defaultTextsItemText">{item.text}</div>
+              <div data-testid="default-texts-item-text">{item.text}</div>
               <StyledLink
-                data-testid="defaultTextsItemButton"
+                data-testid="default-texts-item-button"
                 variant="inline"
                 onClick={(event: SyntheticEvent<HTMLAnchorElement>) =>
                   onHandleUseDefaultText(event, item.text)

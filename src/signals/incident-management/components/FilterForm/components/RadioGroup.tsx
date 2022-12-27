@@ -21,7 +21,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   label,
 }) =>
   Array.isArray(options) && options.length > 0 ? (
-    <FilterGroup data-testid={`${name}RadioGroup`}>
+    <FilterGroup data-testid={`${name}-radio-group`}>
       <Label as="span" isGroupHeader>
         {label}
       </Label>

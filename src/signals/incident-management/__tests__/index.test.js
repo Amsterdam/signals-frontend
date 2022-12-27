@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Suspense } from 'react'
-import { createMemoryHistory } from 'history'
-import { withAppContext } from 'test/utils'
-import { render, screen } from '@testing-library/react'
 
+import { render, screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
+
+import * as appSelectors from 'containers/App/selectors'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import * as appSelectors from 'containers/App/selectors'
+import { withAppContext } from 'test/utils'
 
-import * as actions from '../actions'
 import IncidentManagementModule from '..'
+import * as actions from '../actions'
 
 const history = createMemoryHistory()
 
@@ -56,7 +57,7 @@ describe('signals/incident-management', () => {
     it('should redirect to the login page', async () => {
       getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
-      const loginPage = await screen.findByTestId('loginPage')
+      const loginPage = await screen.findByTestId('login-page')
 
       expect(loginPage).toBeInTheDocument()
     })
@@ -64,7 +65,7 @@ describe('signals/incident-management', () => {
     it('should not fetch anything', async () => {
       getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
-      await screen.findByTestId('loginPage')
+      await screen.findByTestId('login-page')
 
       expect(actions.getDistricts).not.toHaveBeenCalled()
       expect(actions.getFilters).not.toHaveBeenCalled()
@@ -78,7 +79,7 @@ describe('signals/incident-management', () => {
     it('should redirect when not authenticated', async () => {
       getIsAuthenticated.mockImplementation(() => false)
       render(withSuspense())
-      const loginPage = await screen.findByTestId('loginPage')
+      const loginPage = await screen.findByTestId('login-page')
 
       expect(loginPage).toBeInTheDocument()
     })
@@ -87,7 +88,7 @@ describe('signals/incident-management', () => {
       getIsAuthenticated.mockImplementation(() => true)
       render(withSuspense())
       const incidentManagementOverviewPage = await screen.findByTestId(
-        'incidentManagementOverviewPage'
+        'incident-management-overview-page'
       )
 
       expect(incidentManagementOverviewPage).toBeInTheDocument()
@@ -100,7 +101,7 @@ describe('signals/incident-management', () => {
         it('should not fetch when not authenticated', async () => {
           getIsAuthenticated.mockImplementation(() => false)
           render(withSuspense())
-          await screen.findByTestId('loginPage')
+          await screen.findByTestId('login-page')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
@@ -108,7 +109,7 @@ describe('signals/incident-management', () => {
         it('should not fetch when authenticated', async () => {
           getIsAuthenticated.mockImplementation(() => true)
           render(withSuspense())
-          await screen.findByTestId('incidentManagementOverviewPage')
+          await screen.findByTestId('incident-management-overview-page')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
@@ -118,7 +119,7 @@ describe('signals/incident-management', () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
           getIsAuthenticated.mockImplementation(() => false)
           render(withSuspense())
-          await screen.findByTestId('loginPage')
+          await screen.findByTestId('login-page')
 
           expect(actions.getDistricts).not.toHaveBeenCalled()
         })
@@ -127,7 +128,7 @@ describe('signals/incident-management', () => {
           configuration.featureFlags.fetchDistrictsFromBackend = true
           getIsAuthenticated.mockImplementation(() => true)
           render(withSuspense())
-          await screen.findByTestId('incidentManagementOverviewPage')
+          await screen.findByTestId('incident-management-overview-page')
 
           expect(actions.getDistricts).toHaveBeenCalledTimes(1)
         })
@@ -138,7 +139,7 @@ describe('signals/incident-management', () => {
       it('should not fetch when not authenticated', async () => {
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(actions.getFilters).not.toHaveBeenCalled()
       })
@@ -146,7 +147,7 @@ describe('signals/incident-management', () => {
       it('should fetch when authenticated', async () => {
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(actions.getFilters).toHaveBeenCalledTimes(1)
       })
@@ -156,7 +157,7 @@ describe('signals/incident-management', () => {
       it('should not fetch when not authenticated', async () => {
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(actions.requestIncidents).not.toHaveBeenCalled()
       })
@@ -164,7 +165,7 @@ describe('signals/incident-management', () => {
       it('should fetch when authenticated', async () => {
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(actions.requestIncidents).toHaveBeenCalledTimes(1)
       })
@@ -172,7 +173,7 @@ describe('signals/incident-management', () => {
       it('should not search when not authenticated', async () => {
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(actions.searchIncidents).not.toHaveBeenCalled()
       })
@@ -180,7 +181,7 @@ describe('signals/incident-management', () => {
       it('should not search without search query', async () => {
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(actions.searchIncidents).not.toHaveBeenCalled()
       })
@@ -192,7 +193,7 @@ describe('signals/incident-management', () => {
           .spyOn(appSelectors, 'makeSelectSearchQuery')
           .mockImplementation(() => searchQuery)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(actions.searchIncidents).toHaveBeenCalledWith(searchQuery)
       })
@@ -207,7 +208,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incidents')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(screen.queryByText(loginText)).not.toBeNull()
       })
@@ -216,7 +217,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incidents')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(screen.queryByText(loginText)).toBeNull()
       })
@@ -227,7 +228,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incident/1101')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(screen.queryByText(loginText)).not.toBeNull()
       })
@@ -236,7 +237,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incident/1101')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(screen.queryByText(loginText)).toBeNull()
       })
@@ -247,7 +248,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incident/1101/split')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
-        await screen.findByTestId('loginPage')
+        await screen.findByTestId('login-page')
 
         expect(screen.queryByText(loginText)).not.toBeNull()
       })
@@ -256,7 +257,7 @@ describe('signals/incident-management', () => {
         history.push('/manage/incident/1101/split')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
 
         expect(screen.queryByText(loginText)).toBeNull()
       })
@@ -269,7 +270,7 @@ describe('signals/incident-management', () => {
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
 
-        expect(await screen.findByTestId('loginPage')).toBeInTheDocument()
+        expect(await screen.findByTestId('login-page')).toBeInTheDocument()
         expect(screen.queryByText(loginText)).not.toBeNull()
       })
 
@@ -280,7 +281,7 @@ describe('signals/incident-management', () => {
         render(withSuspense())
 
         expect(
-          await screen.findByTestId('incidentManagementOverviewPage')
+          await screen.findByTestId('incident-management-overview-page')
         ).toBeInTheDocument()
         expect(screen.queryByText(loginText)).not.toBeInTheDocument()
       })
@@ -289,12 +290,12 @@ describe('signals/incident-management', () => {
     it('will use overview page as routing fallback', async () => {
       getIsAuthenticated.mockImplementation(() => true)
       render(withSuspense())
-      await screen.findByTestId('incidentManagementOverviewPage')
+      await screen.findByTestId('incident-management-overview-page')
 
       history.push('/manage/this-url-definitely-does-not-exist')
 
       expect(
-        await screen.findByTestId('incidentManagementOverviewPage')
+        await screen.findByTestId('incident-management-overview-page')
       ).toBeInTheDocument()
     })
   })

@@ -1,32 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useEffect, useState, useCallback, useMemo } from 'react'
+
+import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { createStructuredSelector } from 'reselect'
 import { compose, bindActionCreators } from 'redux'
-import { Row, Column } from '@amsterdam/asc-ui'
+import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
-import { parseToAPIData } from 'signals/shared/filter/parse'
-import MyFilters from 'signals/incident-management/containers/MyFilters'
+import LoadingIndicator from 'components/LoadingIndicator'
+import Modal from 'components/Modal'
+import OverviewMap from 'components/OverviewMap'
 import PageHeader from 'containers/IncidentOverviewTitle'
+import MapContext from 'containers/MapContext'
+import useEventEmitter from 'hooks/useEventEmitter'
+import * as types from 'shared/types'
 import {
   orderingChanged,
   pageChanged,
   clearFilters,
   applyFilter,
 } from 'signals/incident-management/actions'
-import Filter from 'signals/incident-management/containers/Filter'
-import Modal from 'components/Modal'
-import LoadingIndicator from 'components/LoadingIndicator'
-import OverviewMap from 'components/OverviewMap'
-import * as types from 'shared/types'
 import { FILTER_PAGE_SIZE } from 'signals/incident-management/constants'
-import MapContext from 'containers/MapContext'
+import Filter from 'signals/incident-management/containers/Filter'
+import MyFilters from 'signals/incident-management/containers/MyFilters'
 import dataLists from 'signals/incident-management/definitions'
-import useEventEmitter from 'hooks/useEventEmitter'
 import {
   makeSelectActiveFilter,
   makeSelectFiltersOnOverview,
@@ -34,14 +34,14 @@ import {
   makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors'
+import { parseToAPIData } from 'signals/shared/filter/parse'
 
 import { MAP_URL } from '../../routes'
-
 import FilterTagList from '../FilterTagList/FilterTagList'
 import List from './components/List'
-import SubNav from './components/SubNav'
 import QuickFilter from './components/QuickFilter'
 import Sort from './components/Sort'
+import SubNav from './components/SubNav'
 import {
   TitleRow,
   PageHeaderItem,
@@ -160,14 +160,14 @@ export const IncidentOverviewPageContainerComponent = ({
   return (
     <div
       className="incident-overview-page"
-      data-testid="incidentManagementOverviewPage"
+      data-testid="incident-management-overview-page"
     >
       <Row>
         <TitleRow>
           <PageHeader />
           <ButtonWrapper>
             <StyledButton
-              data-testid="myFiltersModalBtn"
+              data-testid="my-filters-modal-btn"
               color="primary"
               onClick={openMyFiltersModal}
             >
@@ -175,7 +175,7 @@ export const IncidentOverviewPageContainerComponent = ({
             </StyledButton>
 
             <StyledButton
-              data-testid="filterModalBtn"
+              data-testid="filter-modal-btn"
               color="primary"
               onClick={openFilterModal}
             >
@@ -186,7 +186,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
         {modalMyFiltersIsOpen && (
           <Modal
-            data-testid="myFiltersModal"
+            data-testid="my-filters-modal"
             onClose={closeMyFiltersModal}
             isOpen
             title="Mijn filters"
@@ -197,7 +197,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
         {modalFilterIsOpen && (
           <Modal
-            data-testid="filterModal"
+            data-testid="filter-modal"
             isOpen
             onClose={closeFilterModal}
             title="Filters"
@@ -240,7 +240,7 @@ export const IncidentOverviewPageContainerComponent = ({
           <MapWrapper>
             <MapContext>
               <OverviewMap
-                data-testid="24HourMap"
+                data-testid="24-hour-map"
                 refresh={activeFilter.refresh}
               />
             </MapContext>

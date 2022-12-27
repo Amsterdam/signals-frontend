@@ -1,23 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
-import * as definitions from 'signals/incident-management/definitions'
-import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
-import configuration from 'shared/services/configuration/configuration'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Enzyme, { mount } from 'enzyme'
 
+import configuration from 'shared/services/configuration/configuration'
+import * as definitions from 'signals/incident-management/definitions'
+import { withAppContext } from 'test/utils'
+import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
+import category from 'utils/__tests__/fixtures/category.json'
 import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
-import category from 'utils/__tests__/fixtures/category.json'
 import userOptions from 'utils/__tests__/fixtures/userOptions.json'
 
-import IncidentManagementContext from '../../context'
 import AppContext from '../../../../containers/App/context'
-
+import IncidentManagementContext from '../../context'
 import FilterTagList, {
   FilterTagListComponent,
   allLabelAppend,
@@ -193,7 +192,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(screen.queryByText(districts[0].value)).not.toBeInTheDocument()
       expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+      expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(9)
     })
 
     it('works with feature flag fetchDistrictsFromBackend enabled', () => {
@@ -230,7 +229,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
       expect(screen.queryByText(districts[0].value)).toBeInTheDocument()
       expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(8)
+      expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(8)
     })
 
     it('renders clear filters button when tags are supplied', () => {
@@ -312,7 +311,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
         expect(screen.queryByText(userOptions[1].value)).toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(10)
       })
 
       it('renders null value', () => {
@@ -347,7 +346,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
         expect(screen.queryByText(userOptions[0].value)).toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(10)
       })
 
       it('works without a tag', () => {
@@ -379,7 +378,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         expect(screen.queryByText(sources[0].value)).toBeInTheDocument()
         expect(screen.queryByText(userOptions[0].value)).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(9)
       })
 
       it('does not render a tag that does not match a user', () => {
@@ -397,7 +396,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           )
         )
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(9)
       })
     })
 
@@ -441,7 +440,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           screen.queryByText(departmentOptions[2].value)
         ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(10)
       })
 
       it('renders null value', () => {
@@ -483,7 +482,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           screen.queryByText(departmentOptions[2].value)
         ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(10)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(10)
       })
 
       it('works without a tag', () => {
@@ -524,7 +523,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
           screen.queryByText(departmentOptions[2].value)
         ).not.toBeInTheDocument()
 
-        expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(9)
+        expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(9)
       })
     })
 
@@ -562,7 +561,7 @@ describe('signals/incident-management/containers/FilterTagList', () => {
         )
       )
 
-      expect(screen.queryAllByTestId('filterTagListTag')).toHaveLength(0)
+      expect(screen.queryAllByTestId('filter-tag-list-tag')).toHaveLength(0)
     })
   })
 

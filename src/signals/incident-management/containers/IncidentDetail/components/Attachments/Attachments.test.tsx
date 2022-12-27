@@ -1,12 +1,14 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as appSelectors from 'containers/App/selectors'
 
+import * as appSelectors from 'containers/App/selectors'
 import { withAppContext } from 'test/utils'
 
-import IncidentDetailContext from '../../context'
 import attachments from '../../../../../../../internals/mocks/fixtures/attachments.json'
 import userFixture from '../../../../../../utils/__tests__/fixtures/user.json'
+import IncidentDetailContext from '../../context'
 import Attachments, {
   DELETE_CHILD,
   DELETE_NORMAL,
@@ -259,7 +261,7 @@ describe('Attachments', () => {
       )
 
       expect(screen.queryByText(/progress/)).not.toBeInTheDocument()
-      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
 
     it('handles upload error', async () => {
@@ -295,7 +297,7 @@ describe('Attachments', () => {
       expect(await screen.findByText('bloem.jpeg')).toBeInTheDocument()
       expect(screen.getByText(/progress/)).toBeInTheDocument()
       expect(screen.getByText('progress-0')).toBeInTheDocument()
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
       expect(screen.getByText(/foto toevoegen/i)).toBeDisabled()
 
       rerender(
@@ -314,7 +316,7 @@ describe('Attachments', () => {
       )
 
       expect(screen.getByText('progress-0.4')).toBeInTheDocument()
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
 
       rerender(
         withAppContext(
@@ -332,7 +334,7 @@ describe('Attachments', () => {
       )
 
       expect(screen.queryByText('progress-0.8')).not.toBeInTheDocument()
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
       expect(screen.getByText(/uploaden mislukt/i)).toBeInTheDocument()
 
       const closeButton = screen.getByTitle(/bijlage sluiten/i)

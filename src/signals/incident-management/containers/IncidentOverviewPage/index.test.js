@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { fireEvent, render, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
@@ -111,9 +111,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     expect(
-      screen.queryByTestId('incidentOverviewListComponent')
+      screen.queryByTestId('incident-overview-list-component')
     ).toBeInTheDocument()
   })
 
@@ -280,36 +280,36 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
     )
 
-    expect(screen.getByTestId('subNav')).toBeInTheDocument()
+    expect(screen.getByTestId('sub-nav')).toBeInTheDocument()
 
     expect(
-      screen.getByTestId('incidentOverviewListComponent')
+      screen.getByTestId('incident-overview-list-component')
     ).toBeInTheDocument()
     expect(screen.queryByTestId('24HourMap')).not.toBeInTheDocument()
 
-    const subNavMapLink = await screen.findByTestId('subNavMapLink')
+    const subNavMapLink = await screen.findByTestId('sub-nav-map-link')
 
     act(() => {
       fireEvent.click(subNavMapLink)
     })
 
-    const subNavListLink = await screen.findByTestId('subNavListLink')
+    const subNavListLink = await screen.findByTestId('sub-nav-list-link')
 
     expect(
-      screen.queryByTestId('incidentOverviewListComponent')
+      screen.queryByTestId('incident-overview-list-component')
     ).not.toBeInTheDocument()
-    expect(screen.getByTestId('24HourMap')).toBeInTheDocument()
+    expect(screen.getByTestId('24-hour-map')).toBeInTheDocument()
 
     act(() => {
       fireEvent.click(subNavListLink)
     })
 
-    await screen.findByTestId('subNavMapLink')
+    await screen.findByTestId('sub-nav-map-link')
 
     expect(
-      screen.getByTestId('incidentOverviewListComponent')
+      screen.getByTestId('incident-overview-list-component')
     ).toBeInTheDocument()
-    expect(screen.queryByTestId('24HourMap')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('24-hour-map')).not.toBeInTheDocument()
 
     unmount()
   })
@@ -318,57 +318,57 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     it('opens filter modal', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
-      expect(screen.queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filter-modal')).toBeNull()
 
       fireEvent(
-        screen.getByTestId('filterModalBtn'),
+        screen.getByTestId('filter-modal-btn'),
         new MouseEvent('click', { bubbles: true })
       )
 
-      expect(screen.queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filter-modal')).not.toBeNull()
     })
 
     it('opens my filters modal', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
-      expect(screen.queryByTestId('myFiltersModal')).toBeNull()
+      expect(screen.queryByTestId('my-filters-modal')).toBeNull()
 
       fireEvent(
-        screen.getByTestId('myFiltersModalBtn'),
+        screen.getByTestId('my-filters-modal-btn'),
         new MouseEvent('click', { bubbles: true })
       )
 
-      expect(screen.queryByTestId('myFiltersModal')).not.toBeNull()
+      expect(screen.queryByTestId('my-filters-modal')).not.toBeNull()
     })
 
     it('closes modal on ESC', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        screen.getByTestId('filterModalBtn'),
+        screen.getByTestId('filter-modal-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
-      expect(screen.queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filter-modal')).not.toBeNull()
 
       fireEvent.keyDown(global.document, { key: 'Esc', keyCode: 27 })
 
-      expect(screen.queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filter-modal')).toBeNull()
     })
 
     it('closes modal by means of close button', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        screen.getByTestId('filterModalBtn'),
+        screen.getByTestId('filter-modal-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })
       )
 
-      expect(screen.queryByTestId('filterModal')).not.toBeNull()
+      expect(screen.queryByTestId('filter-modal')).not.toBeNull()
 
       fireEvent(
         screen.getByTestId('close-btn'),
@@ -377,14 +377,14 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         })
       )
 
-      expect(screen.queryByTestId('filterModal')).toBeNull()
+      expect(screen.queryByTestId('filter-modal')).toBeNull()
     })
 
     it('should disable page scroll', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        screen.getByTestId('filterModalBtn'),
+        screen.getByTestId('filter-modal-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })
@@ -397,7 +397,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       render(withAppContext(<IncidentOverviewPage />))
 
       fireEvent(
-        screen.getByTestId('filterModalBtn'),
+        screen.getByTestId('filter-modal-btn'),
         new MouseEvent('click', {
           bubbles: true,
         })

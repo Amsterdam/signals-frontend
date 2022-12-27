@@ -1,27 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback, useMemo, useState } from 'react'
+
 import PropTypes from 'prop-types'
-import { useParams, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams, useHistory } from 'react-router-dom'
 
-import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
-import {
-  makeSelectDepartments,
-  makeSelectDirectingDepartments,
-} from 'models/departments/selectors'
-
-import useFetch from 'hooks/useFetch'
-import configuration from 'shared/services/configuration/configuration'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import {
   VARIANT_SUCCESS,
   VARIANT_ERROR,
   TYPE_LOCAL,
 } from 'containers/Notification/constants'
+import useFetch from 'hooks/useFetch'
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+import {
+  makeSelectDepartments,
+  makeSelectDirectingDepartments,
+} from 'models/departments/selectors'
+import configuration from 'shared/services/configuration/configuration'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
-import LoadingIndicator from 'components/LoadingIndicator'
 import IncidentSplitForm from './components/IncidentSplitForm'
 
 const IncidentSplitContainer = ({ FormComponent }) => {
@@ -218,7 +218,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   )
 
   return (
-    <div data-testid="incidentSplitContainer">
+    <div data-testid="incident-split-container">
       {isLoadingParent ||
       isSuccessParent ||
       !parentIncident ||
@@ -226,7 +226,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         <LoadingIndicator />
       ) : (
         <FormComponent
-          data-testid="incidentSplitForm"
+          data-testid="incident-split-form"
           parentIncident={{
             id: parentIncident.id,
             childrenCount:

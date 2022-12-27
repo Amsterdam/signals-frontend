@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam,
 import { screen, render, fireEvent } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
@@ -16,7 +18,7 @@ describe('FileInput', () => {
       )
     )
 
-    expect(screen.getByTestId('fileInputUploadButton')).toBeInTheDocument()
+    expect(screen.getByTestId('file-input-upload-button')).toBeInTheDocument()
     expect(screen.getByLabelText(/label/i)).toBeInTheDocument()
   })
 

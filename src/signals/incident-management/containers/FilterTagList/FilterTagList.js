@@ -1,26 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
+
+import { Tag, themeSpacing } from '@amsterdam/asc-ui'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { Tag, themeSpacing } from '@amsterdam/asc-ui'
-import parseISO from 'date-fns/parseISO'
-import format from 'date-fns/format'
 
+import Button from 'components/Button'
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,
 } from 'models/categories/selectors'
-import { dataListType, filterType } from 'shared/types'
-import dataLists from 'signals/incident-management/definitions'
-import Button from 'components/Button'
-
 import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
+import { dataListType, filterType } from 'shared/types'
+import dataLists from 'signals/incident-management/definitions'
+
 import AppContext from '../../../../containers/App/context'
 import IncidentManagementContext from '../../context'
 
@@ -78,7 +79,7 @@ const renderItem = (display, key) => (
     colorType="tint"
     colorSubtype="level3"
     key={key}
-    data-testid="filterTagListTag"
+    data-testid="filter-tag-list-tag"
   >
     {display}
   </StyledTag>

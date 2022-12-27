@@ -28,7 +28,7 @@ describe('ContactHistory', () => {
   it('renders loading indicator', () => {
     render(withAppContext(<ContactHistory id={4440} />))
 
-    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('renders an error response', async () => {
@@ -41,7 +41,7 @@ describe('ContactHistory', () => {
     render(withAppContext(<ContactHistory id={4440} />))
 
     await waitFor(() =>
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     )
 
     expect(dispatch).toHaveBeenCalledWith(

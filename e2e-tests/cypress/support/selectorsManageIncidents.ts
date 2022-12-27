@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 
 export const DASHBOARD = {
   bar: '[data-testid=bar]',
@@ -15,9 +15,9 @@ export const DASHBOARD = {
 };
 
 export const FILTER = {
-  buttonSubmitFilter: '[data-testid=submitBtn]',
-  buttonNieuwFilter: '[data-testid=resetBtn]',
-  buttonCancel: '[data-testid=cancelBtn]',
+  buttonSubmitFilter: '[data-testid=submit-btn]',
+  buttonNieuwFilter: '[data-testid=reset-btn]',
+  buttonCancel: '[data-testid=cancel-btn]',
   checkboxASC: '[data-testid="checkbox-directing_department_ASC"]',
   checkboxBronInterswitch: '[data-testid="checkbox-source_Telefoon – Interswitch"]',
   checkboxDeelmelding: '[data-testid="checkbox-kind_child_signal"]',
@@ -30,7 +30,7 @@ export const FILTER = {
   checkboxTypeKlacht: '[data-testid="checkbox-type_COM"]',
   checkboxUrgentieHoog: '[data-testid="checkbox-priority_high"]',
   checkboxVerantwoordelijkeAfdeling: '[data-testid="checkbox-directing_department_null"]',
-  inputFilterAddres: '[data-testid="filterAddress"]',
+  inputFilterAddres: '[data-testid="filter-address"]',
   inputFilterDayBefore: '#filter_created_before',
   inputFilterDayFrom: '#filter_created_after',
   inputFilterName: '#filter_name',
@@ -38,10 +38,10 @@ export const FILTER = {
 };
 
 export const FILTER_ALL_ITEMS = {
-  selectAllStatus: '[data-testid=statusCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+  selectAllStatus: '[data-testid=status-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
   selectAllStadsdelen:
-    '[data-testid=stadsdeelCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
-  selectAllSource: '[data-testid=sourceCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+    '[data-testid=stadsdeel-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
+  selectAllSource: '[data-testid=source-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
   selectAllGarbage: '[class*=CheckboxList__Toggle] > [data-id*=afval]',
   selectAllCivilConstructs: '[class*=CheckboxList__Toggle] > [data-id*=civiele-constructies]',
   selectAllSubversion: '[class*=CheckboxList__Toggle] > [data-id*=ondermijning]',
@@ -72,7 +72,7 @@ export const MANAGE_SIGNALS = {
   signalStatus: '[data-testid=incidentStatus]',
   signalSubcategorie: '[data-testid=incidentSubcategory]',
   signalUrgentie: '[data-testid=incidentUrgency]',
-  filterTagList: '[data-testid=filterTagListTag]',
+  filterTagList: '[data-testid=filter-tag-list-tag]',
   labelHoofmelding: '[aria-label="Hoofdmelding"]',
   paginationPages: '[data-testid="pagination"] > ul > li',
   refreshIcon: '[data-testid=refreshIcon]',

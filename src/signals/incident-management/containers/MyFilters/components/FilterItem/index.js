@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
+
+import { Heading, Link, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { Checkbox, Label } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Heading, Link, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+
 import * as types from 'shared/types'
+import FilterTagList from 'signals/incident-management/containers/FilterTagList'
 import {
   parseToAPIData,
   parseOutputFormData,
 } from 'signals/shared/filter/parse'
-import FilterTagList from 'signals/incident-management/containers/FilterTagList'
-import { Checkbox, Label } from '@amsterdam/asc-ui'
 
 import Refresh from '../../../../../../images/icon-refresh.svg'
 
@@ -113,7 +115,7 @@ const FilterItem = ({
         href="/"
         variant="inline"
         onClick={handleApplyFilter}
-        data-testid="handleApplyFilterButton"
+        data-testid="handle-apply-filter-button"
       >
         Toon resultaat
       </StyledLink>
@@ -121,7 +123,7 @@ const FilterItem = ({
         href="/"
         variant="inline"
         onClick={handleEditFilter}
-        data-testid="handleEditFilterButton"
+        data-testid="handle-edit-filter-button"
       >
         Wijzig
       </StyledLink>
@@ -129,7 +131,7 @@ const FilterItem = ({
         href="/"
         variant="inline"
         onClick={handleRemoveFilter}
-        data-testid="handleRemoveFilterButton"
+        data-testid="handle-remove-filter-button"
       >
         Verwijder
       </StyledLink>

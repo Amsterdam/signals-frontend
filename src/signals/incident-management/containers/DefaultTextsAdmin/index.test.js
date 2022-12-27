@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import { render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList'
+import userEvent from '@testing-library/user-event'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Enzyme, { mount } from 'enzyme'
+
 import * as categoriesSelectors from 'models/categories/selectors'
+import { defaultTextsOptionList } from 'signals/incident-management/definitions/statusList'
+import { withAppContext } from 'test/utils'
 import {
   subCategories,
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures'
 
-import userEvent from '@testing-library/user-event'
 import DefaultTextsAdmin, { DefaultTextsAdminContainer } from '.'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -80,11 +81,11 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
       expect(
-        screen.queryByTestId('defaultTextFormForm0')
+        screen.queryByTestId('default-text-form-form0')
       ).not.toBeInTheDocument()
-      expect(screen.queryByTestId('selectFormForm')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('select-form-form')).not.toBeInTheDocument()
 
       rerender(
         withAppContext(
@@ -95,12 +96,14 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(screen.getByTestId('defaultTextFormForm0')).toBeInTheDocument()
-      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
+      expect(screen.getByTestId('default-text-form-form0')).toBeInTheDocument()
+      expect(screen.getByTestId('select-form-form')).toBeInTheDocument()
 
       const index = 1
-      userEvent.click(screen.getByTestId(`defaultTextFormItemButton${index}Up`))
+      userEvent.click(
+        screen.getByTestId(`default-text-form-item-button${index}-up`)
+      )
 
       expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({
         index,
@@ -127,11 +130,11 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
       expect(
-        screen.queryByTestId('defaultTextFormForm')
+        screen.queryByTestId('default-text-form-form')
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.getByTestId('select-form-form')).toBeInTheDocument()
     })
 
     it('should not render the texts form when loading', () => {
@@ -150,11 +153,11 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
       expect(
-        screen.queryByTestId('defaultTextFormForm')
+        screen.queryByTestId('default-text-form-form')
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.getByTestId('select-form-form')).toBeInTheDocument()
     })
 
     it('should not render the texts on error', () => {
@@ -173,11 +176,11 @@ describe('<DefaultTextsAdmin />', () => {
         )
       )
 
-      expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
       expect(
-        screen.queryByTestId('defaultTextFormForm')
+        screen.queryByTestId('default-text-form-form')
       ).not.toBeInTheDocument()
-      expect(screen.getByTestId('selectFormForm')).toBeInTheDocument()
+      expect(screen.getByTestId('select-form-form')).toBeInTheDocument()
     })
   })
 })

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 import 'jest-styled-components'
 
 import { withAppContext } from 'test/utils'
 
-import IncidentDetailContext from '../../../../context'
 import Attachments from '.'
+import IncidentDetailContext from '../../../../context'
 
 const attachmentProps = {
   attachments: [
@@ -43,10 +43,12 @@ describe('<Attachments />', () => {
     it('should render all attachments when they are defined', () => {
       const { queryByTestId, queryAllByTestId } = render(renderWithContext())
 
-      expect(queryByTestId('attachmentsDefinition')).toHaveTextContent(/^Foto$/)
-      expect(queryAllByTestId('attachmentsValueButton')).toHaveLength(3)
+      expect(queryByTestId('attachments-definition')).toHaveTextContent(
+        /^Foto$/
+      )
+      expect(queryAllByTestId('attachments-value-button')).toHaveLength(3)
 
-      expect(queryAllByTestId('attachmentsValueButton')[0]).toHaveStyleRule(
+      expect(queryAllByTestId('attachments-value-button')[0]).toHaveStyleRule(
         'background-image',
         `url(${attachmentProps.attachments[0].location})`
       )
@@ -57,8 +59,8 @@ describe('<Attachments />', () => {
         renderWithContext({ attachments: [] })
       )
 
-      expect(queryByTestId('attachmentsDefinition')).toBeNull()
-      expect(queryAllByTestId('attachmentsValueButton')).toHaveLength(0)
+      expect(queryByTestId('attachments-definition')).toBeNull()
+      expect(queryAllByTestId('attachments-value-button')).toHaveLength(0)
     })
   })
 
@@ -69,7 +71,7 @@ describe('<Attachments />', () => {
       expect(preview).not.toHaveBeenCalled()
 
       act(() => {
-        fireEvent.click(queryAllByTestId('attachmentsValueButton')[0])
+        fireEvent.click(queryAllByTestId('attachments-value-button')[0])
       })
 
       expect(preview).toHaveBeenCalledWith('attachment', {

@@ -155,13 +155,13 @@ describe('List', () => {
   it('should render correctly when loading', () => {
     const opacity = '0.3'
     const { rerender, getByTestId } = render(withContext(<List {...props} />))
-    expect(getByTestId('incidentOverviewListComponent')).not.toHaveStyleRule(
+    expect(getByTestId('incident-overview-list-component')).not.toHaveStyleRule(
       'opacity',
       opacity
     )
 
     rerender(withContext(<List {...{ ...props, isLoading: true }} />))
-    expect(getByTestId('incidentOverviewListComponent')).toHaveStyleRule(
+    expect(getByTestId('incident-overview-list-component')).toHaveStyleRule(
       'opacity',
       opacity
     )
@@ -231,12 +231,12 @@ describe('List', () => {
 
       render(withContext(<List {...listProps} />))
 
-      const numCells = screen.getAllByTestId('incidentDaysOpen').length
+      const numCells = screen.getAllByTestId('incident-days-open').length
 
       expect(numCells).toEqual(listProps.incidents.length)
 
       const elementsWithTextContent = [
-        ...screen.getAllByTestId('incidentDaysOpen'),
+        ...screen.getAllByTestId('incident-days-open'),
       ].filter((element) => element.textContent !== '-')
 
       expect(elementsWithTextContent).toHaveLength(2)
@@ -251,8 +251,10 @@ describe('List', () => {
 
       render(withContext(<List {...props} incidents={incidentList} />))
 
-      expect(screen.queryAllByTestId('parentIcon').length).toEqual(parentsCount)
-      expect(screen.queryByTestId('parentIcon')).toHaveAttribute(
+      expect(screen.queryAllByTestId('parent-icon').length).toEqual(
+        parentsCount
+      )
+      expect(screen.queryByTestId('parent-icon')).toHaveAttribute(
         'aria-label',
         'Hoofdmelding'
       )
@@ -267,8 +269,8 @@ describe('List', () => {
 
       render(withContext(<List {...props} incidents={incidentList} />))
 
-      expect(screen.queryAllByTestId('childIcon').length).toEqual(childCount)
-      expect(screen.queryByTestId('childIcon')).toHaveAttribute(
+      expect(screen.queryAllByTestId('child-icon').length).toEqual(childCount)
+      expect(screen.queryByTestId('child-icon')).toHaveAttribute(
         'aria-label',
         'Deelmelding'
       )

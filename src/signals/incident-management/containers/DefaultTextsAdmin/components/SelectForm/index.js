@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback } from 'react'
+
 import PropTypes from 'prop-types'
-
-import RadioInput from 'signals/incident-management/components/RadioInput'
-import SelectInput from 'signals/incident-management/components/SelectInput'
-
-import { dataListType } from 'shared/types'
-import { reCategory } from 'shared/services/resolveClassification'
-
 import { Controller, useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+import { reCategory } from 'shared/services/resolveClassification'
+import { dataListType } from 'shared/types'
+import RadioInput from 'signals/incident-management/components/RadioInput'
+import SelectInput from 'signals/incident-management/components/SelectInput'
 
 const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(
@@ -75,7 +74,7 @@ const SelectForm = ({ defaultTextsOptionList, onFetchDefaultTexts }) => {
   })
 
   return (
-    <form data-testid="selectFormForm" className="select-form__form">
+    <form data-testid="select-form-form" className="select-form__form">
       <Controller
         name="category_url"
         control={control}

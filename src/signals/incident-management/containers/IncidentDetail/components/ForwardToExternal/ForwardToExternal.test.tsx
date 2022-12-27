@@ -31,12 +31,12 @@ const components = {
     screen.getByRole('textbox', { name: /e-mail behandelaar/i }),
   messageInput: () =>
     screen.getByRole('textbox', { name: /toelichting behandelaar/i }),
-  formSubmit: () => screen.getByTestId('formSubmitButton'),
+  formSubmit: () => screen.getByTestId('form-submit-button'),
   formCancel: () => screen.getByRole('button', { name: /annuleer/i }),
   attachment: () =>
     screen.getByRole('img', { name: attachmentsFixture.results[0]._display }),
   emailPreview: () => screen.getByText('Controleer bericht aan behandelaar'),
-  emailPreviewSubmitButton: () => screen.getByTestId('submitBtn'),
+  emailPreviewSubmitButton: () => screen.getByTestId('submit-btn'),
 }
 
 describe('ForwardToExternal', () => {

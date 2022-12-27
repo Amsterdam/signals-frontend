@@ -2,33 +2,33 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { store, withAppContext } from 'test/utils'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import * as appSelectors from 'containers/App/selectors'
 import * as departmentsSelectors from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
-import priorityList from 'signals/incident-management/definitions/priorityList'
-import statusList from 'signals/incident-management/definitions/statusList'
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
-import typesList from 'signals/incident-management/definitions/typesList'
-import kindList from 'signals/incident-management/definitions/kindList'
 import dataLists from 'signals/incident-management/definitions'
-import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json'
+import kindList from 'signals/incident-management/definitions/kindList'
+import priorityList from 'signals/incident-management/definitions/priorityList'
+import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
+import statusList from 'signals/incident-management/definitions/statusList'
+import typesList from 'signals/incident-management/definitions/typesList'
+import { store, withAppContext } from 'test/utils'
+import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import departmentOptions from 'utils/__tests__/fixtures/departmentOptions.json'
+import directingDepartments from 'utils/__tests__/fixtures/directingDepartments.json'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
-import autocompleteUsernames from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 
 import FilterForm from '..'
+import AppContext from '../../../../../containers/App/context'
+import IncidentManagementContext from '../../../context'
 import {
   SAVE_SUBMIT_BUTTON_LABEL,
   DEFAULT_SUBMIT_BUTTON_LABEL,
 } from '../constants'
-import IncidentManagementContext from '../../../context'
 import * as constants from '../utils/constants'
-import AppContext from '../../../../../containers/App/context'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -108,8 +108,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    expect(getByTestId('filterName')).toBeInTheDocument()
-    expect(getByTestId('filterName').value).toEqual('FooBar')
+    expect(getByTestId('filter-name')).toBeInTheDocument()
+    expect(getByTestId('filter-name').value).toEqual('FooBar')
   })
 
   it('should render filter fields', () => {
@@ -128,7 +128,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} filter={{ options: {} }} />)
     )
 
-    const refreshCheckbox = await findByTestId('filterRefresh')
+    const refreshCheckbox = await findByTestId('filter-refresh')
 
     expect(refreshCheckbox).toBeInTheDocument()
     expect(refreshCheckbox.checked).toBe(false)
@@ -141,7 +141,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    const refreshCb = await findByTestId('filterRefresh')
+    const refreshCb = await findByTestId('filter-refresh')
 
     expect(refreshCb.checked).toBe(true)
   })
@@ -201,7 +201,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} />)
     )
 
-    getAllByTestId('checkboxList').forEach((element) => {
+    getAllByTestId('checkbox-list').forEach((element) => {
       expect(element).toBeInTheDocument()
     })
   })
@@ -211,17 +211,17 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} />)
     )
 
-    const firstRenderId = queryByTestId('priorityCheckboxGroup').dataset
+    const firstRenderId = queryByTestId('priority-checkbox-group').dataset
       .renderId
 
     rerender(withContext(<FilterForm {...formProps} />))
 
-    const secondRenderId = queryByTestId('priorityCheckboxGroup').dataset
+    const secondRenderId = queryByTestId('priority-checkbox-group').dataset
       .renderId
 
     rerender(withContext(<FilterForm {...formProps} />))
 
-    const thirdRenderId = queryByTestId('priorityCheckboxGroup').dataset
+    const thirdRenderId = queryByTestId('priority-checkbox-group').dataset
       .renderId
 
     expect(firstRenderId).toEqual(secondRenderId)
@@ -277,7 +277,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} />, districts)
     )
 
-    await screen.findByTestId('filterName')
+    await screen.findByTestId('filter-name')
 
     expect(
       container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')
@@ -291,7 +291,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     configuration.featureFlags.fetchDistrictsFromBackend = true
     const { container } = render(withContext(<FilterForm {...formProps} />))
 
-    await screen.findByTestId('filterName')
+    await screen.findByTestId('filter-name')
 
     expect(
       container.querySelectorAll('input[type="checkbox"][name="stadsdeel"]')
@@ -353,7 +353,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const { container, findByTestId } = render(
       withContext(<FilterForm {...formProps} />, null)
     )
-    await findByTestId('sourceCheckboxGroup')
+    await findByTestId('source-checkbox-group')
 
     expect(
       container.querySelectorAll('input[type="checkbox"][name="source"]')
@@ -684,7 +684,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       userEvent.click(clearButton)
 
-      await screen.findByTestId('filterName')
+      await screen.findByTestId('filter-name')
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
@@ -697,7 +697,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       userEvent.click(clearButton)
 
-      await screen.findByTestId('filterName')
+      await screen.findByTestId('filter-name')
 
       expect(input).not.toHaveValue()
       expect(checkbox).not.toBeChecked()
@@ -843,7 +843,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }))
       })
 
-      await screen.findByTestId('filterName')
+      await screen.findByTestId('filter-name')
 
       expect(nameField.value).toEqual('My filter')
       expect(dateField.value).toEqual('01-01-1970')
@@ -878,7 +878,10 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} onCancel={onCancel} />)
     )
 
-    fireEvent.click(getByTestId('cancelBtn'), new MouseEvent({ bubbles: true }))
+    fireEvent.click(
+      getByTestId('cancel-btn'),
+      new MouseEvent({ bubbles: true })
+    )
 
     expect(onCancel).toHaveBeenCalled()
   })
@@ -938,7 +941,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.blur(addressField)
     })
 
-    await findByTestId('filterAddress')
+    await findByTestId('filter-address')
 
     expect(
       container.querySelector('input[type="text"][name="address_text"]').value
@@ -985,7 +988,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(buttonInList)
     })
 
-    await findByTestId('feedbackRadioGroup')
+    await findByTestId('feedback-radio-group')
 
     expect(buttonInList.checked).toEqual(true)
   })
@@ -1004,7 +1007,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(boxInList)
     })
 
-    await findByTestId('sourceCheckboxGroup')
+    await findByTestId('source-checkbox-group')
 
     expect(boxInList.checked).toEqual(true)
   })
@@ -1015,7 +1018,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         withContext(<FilterForm {...formProps} />)
       )
 
-      const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup')
+      const sourceCheckboxGroup = await findByTestId('source-checkboxGroup')
       const toggle = sourceCheckboxGroup.querySelector('label').firstChild
 
       container
@@ -1053,7 +1056,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const { container, findByTestId } = render(
         withContext(<FilterForm {...formProps} />, null)
       )
-      const sourceCheckboxGroup = await findByTestId('sourceCheckboxGroup')
+      const sourceCheckboxGroup = await findByTestId('source-checkbox-group')
       const toggle = sourceCheckboxGroup.querySelector('label').firstChild
 
       container
@@ -1066,7 +1069,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(toggle)
       })
 
-      await findByTestId('sourceCheckboxGroup')
+      await findByTestId('source-checkbox-group')
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
@@ -1078,7 +1081,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(toggle)
       })
 
-      await findByTestId('sourceCheckboxGroup')
+      await findByTestId('source-checkbox-group')
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
@@ -1104,7 +1107,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       fireEvent.click(checkboxes[1])
     })
 
-    await findByTestId('sourceCheckboxGroup')
+    await findByTestId('source-checkbox-group')
 
     expect([...checkboxes].every((element) => !element.checked)).toEqual(false)
     expect(checkboxes[1].checked).toEqual(true)
@@ -1284,7 +1287,7 @@ describe('Notification', () => {
 
     expect(screen.getByText(notificationMessage)).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('submitBtn'))
+    userEvent.click(screen.getByTestId('submit-btn'))
 
     expect(onSubmit).not.toHaveBeenCalled()
   })

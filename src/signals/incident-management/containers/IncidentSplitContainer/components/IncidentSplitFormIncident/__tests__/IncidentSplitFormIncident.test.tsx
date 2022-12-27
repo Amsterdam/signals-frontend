@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FormProvider, useForm } from 'react-hook-form'
 
-import type { ReactNode } from 'react'
-
 import { withAppContext } from 'test/utils'
-
 import { subcategoriesGroupedByCategories as subcategories } from 'utils/__tests__/fixtures'
-import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json'
 
 import IncidentSplitFormIncident from '..'
+import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json'
 
 const withFormContext = (component: any) => {
   const Wrapper = ({ children }: { children?: ReactNode }) => {
@@ -32,11 +31,11 @@ describe('IncidentSplitFormIncident', () => {
     render(withFormContext(<IncidentSplitFormIncident {...props} />))
 
     expect(
-      screen.queryAllByTestId('incidentSplitFormIncidentTitle')[0]
+      screen.queryAllByTestId('incident-split-form-incident-title')[0]
     ).toHaveTextContent(/^Deelmelding 1$/)
 
     expect(screen.getByRole('textbox')).toBeInTheDocument()
-    expect(screen.getByTestId('addNote')).toBeInTheDocument()
+    expect(screen.getByTestId('add-note')).toBeInTheDocument()
   })
 
   it('should split incidents until limit is reached then it should hide incident split button', () => {
@@ -45,7 +44,9 @@ describe('IncidentSplitFormIncident', () => {
 
     expect(screen.getAllByRole('textbox')).toHaveLength(1)
 
-    const button = screen.getByTestId('incidentSplitFormIncidentSplitButton')
+    const button = screen.getByTestId(
+      'incident-split-form-incident-split-button'
+    )
 
     for (let index = 1; index < 10; index = index + 1) {
       userEvent.click(button)
@@ -53,17 +54,17 @@ describe('IncidentSplitFormIncident', () => {
       const splittedIncidentCount = index + 1
       if (splittedIncidentCount < 10)
         expect(
-          screen.getByTestId('incidentSplitFormIncidentSplitButton')
+          screen.getByTestId('incident-split-form-incident-split-button')
         ).toBeInTheDocument()
       expect(screen.getAllByRole('textbox')).toHaveLength(splittedIncidentCount)
     }
 
     expect(
-      screen.queryByTestId('incidentSplitFormIncidentSplitButton')
+      screen.queryByTestId('incident-split-form-incident-split-button')
     ).not.toBeInTheDocument()
 
     expect(
-      screen.queryAllByTestId('incidentSplitFormIncidentTitle')[9]
+      screen.queryAllByTestId('incident-split-form-incident-title')[9]
     ).toHaveTextContent(/^Deelmelding 10$/)
 
     // eslint-disable-next-line
@@ -78,12 +79,12 @@ describe('IncidentSplitFormIncident', () => {
       )
     )
 
-    expect(screen.getByTestId('selectLoader')).toBeInTheDocument()
+    expect(screen.getByTestId('select-loader')).toBeInTheDocument()
     expect(screen.queryByTestId('subcategory-1')).not.toBeInTheDocument()
 
     rerender(withFormContext(<IncidentSplitFormIncident {...props} />))
 
-    expect(screen.queryByTestId('selectLoader')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('select-loader')).not.toBeInTheDocument()
     expect(screen.getByTestId('subcategory-1')).toBeInTheDocument()
   })
 

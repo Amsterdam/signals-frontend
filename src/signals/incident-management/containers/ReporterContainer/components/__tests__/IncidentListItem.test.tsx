@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2022 Gemeente Amsterdam
 import 'jest-styled-components'
 
 import { screen, render } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
-import IncidentListItem from '../IncidentListItem'
 import type { ReporterIncident } from '../../types'
+import IncidentListItem from '../IncidentListItem'
 
 describe('IncidentListItem', () => {
   const incident: ReporterIncident = {
@@ -40,7 +41,7 @@ describe('IncidentListItem', () => {
       'background-color',
       expect.any(String)
     )
-    expect(screen.queryByTestId('parentIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('parent-icon')).not.toBeInTheDocument()
   })
 
   it('renders a selected list item', () => {
@@ -69,6 +70,6 @@ describe('IncidentListItem', () => {
     )
 
     expect(screen.getByRole('listitem')).toBeInTheDocument()
-    expect(screen.getByTestId('parentIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('parent-icon')).toBeInTheDocument()
   })
 })

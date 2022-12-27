@@ -47,7 +47,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
           <StyledGrid>
             <StyledHeading
               forwardedAs="h2"
-              data-testid="incidentSplitFormIncidentTitle"
+              data-testid="incident-split-form-incident-title"
             >
               Deelmelding {splitNumber + parentIncident.childrenCount}
             </StyledHeading>
@@ -106,7 +106,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
               name={`incidents[${splitNumber}].priority`}
               render={({ field: { onChange, name } }) => (
                 <IncidentSplitRadioInput
-                  data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
+                  data-testid={`incident-split-form-incident-priority-radio-${splitNumber}`}
                   display="Urgentie"
                   id={`priority-${splitNumber}`}
                   initialValue={parentIncident.priority}
@@ -123,7 +123,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
               name={`incidents[${splitNumber}].type`}
               render={({ field: { onChange, name } }) => (
                 <IncidentSplitRadioInput
-                  data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
+                  data-testid={`incident-split-form-incident-type-radio-${splitNumber}`}
                   display="Type"
                   id={`type-${splitNumber}`}
                   initialValue={parentIncident.type}
@@ -140,7 +140,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
       {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
         <fieldset>
           <Button
-            data-testid="incidentSplitFormIncidentSplitButton"
+            data-testid="incident-split-form-incident-split-button"
             type="button"
             variant="primaryInverted"
             onClick={addIncident}

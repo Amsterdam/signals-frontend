@@ -27,7 +27,9 @@ describe('signals/incident-management/components/CalendarInput', () => {
   it('renders a CustomInput component', () => {
     render(withAppContext(<CalendarInput {...calendarInputProps} />))
 
-    expect(screen.getByTestId('calendarCustomInputElement')).toBeInTheDocument()
+    expect(
+      screen.getByTestId('calendar-custom-input-element')
+    ).toBeInTheDocument()
   })
 
   it('renders the selected date in the input field', () => {
@@ -35,7 +37,7 @@ describe('signals/incident-management/components/CalendarInput', () => {
       withAppContext(<CalendarInput {...calendarInputProps} />)
     )
 
-    const element = screen.getByTestId('calendarCustomInputElement')
+    const element = screen.getByTestId('calendar-custom-input-element')
     expect(element.querySelector('input')?.value).toEqual('')
 
     const selectedDate = new Date()

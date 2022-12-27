@@ -5,9 +5,9 @@ import { render, fireEvent } from '@testing-library/react'
 import { withMapContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import LocationForm from '.'
 import { PATCH_TYPE_LOCATION } from '../../constants'
 import IncidentDetailContext from '../../context'
-import LocationForm from '.'
 
 const update = jest.fn()
 const close = jest.fn()
@@ -29,7 +29,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
 
   it('should render a form', () => {
     const { getByTestId } = render(renderWithContext())
-    expect(getByTestId('locationForm')).toBeInTheDocument()
+    expect(getByTestId('location-form')).toBeInTheDocument()
   })
 
   it('should call handlers', () => {
@@ -38,7 +38,7 @@ describe('incident-management/containers/IncidentDetail/components/LocationForm'
     expect(close).not.toHaveBeenCalled()
     expect(update).not.toHaveBeenCalled()
 
-    fireEvent.click(queryByTestId('submitBtn'))
+    fireEvent.click(queryByTestId('submit-btn'))
 
     // the API expects a specifc order of coordinates: lng,lat
     incidentFixture.location.geometrie.coordinates.reverse()

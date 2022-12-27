@@ -2,7 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
+
 import EmailPreview from './EmailPreview'
 
 const emailBody =
@@ -29,7 +31,7 @@ describe('StatusForm EmailPreview component', () => {
       screen.getByText('Controleer bericht aan melder')
     ).toBeInTheDocument()
     expect(screen.getByTitle('Sluiten')).toBeInTheDocument()
-    expect(screen.getByTestId('emailBodyIframe')).toBeInTheDocument()
+    expect(screen.getByTestId('email-body-iframe')).toBeInTheDocument()
     expect(screen.getByText('Wijzig')).toBeInTheDocument()
 
     userEvent.click(screen.getByText('Verstuur'))
@@ -66,6 +68,6 @@ describe('StatusForm EmailPreview component', () => {
       )
     )
 
-    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 })

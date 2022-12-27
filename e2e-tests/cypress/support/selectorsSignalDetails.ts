@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 export const CHANGE_CATEGORY = {
   buttonCancel: '[data-testid=cancelSubcategoryButton]',
   buttonEdit: '[data-testid=editSubcategoryButton]',
@@ -81,7 +81,7 @@ export const DEELMELDING = {
   radioButtonVerantwoordelijkeAfdeling: '#department-null',
   radioButtonEditASC: '[data-testid="input-ASC"]',
   radioButtonEditVerantwoordelijkeAfdeling: '[data-testid="input-null"]',
-  titleDeelmelding: '[data-testid="incidentSplitFormIncidentTitle"]',
+  titleDeelmelding: '[data-testid="incident-split-form-incident-title"]',
 };
 
 export const SIGNAL_DETAILS = {

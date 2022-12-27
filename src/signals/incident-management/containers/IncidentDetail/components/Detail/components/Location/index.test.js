@@ -6,10 +6,9 @@ import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import districts from 'utils/__tests__/fixtures/districts.json'
 
-import IncidentDetailContext from '../../../../context'
-import IncidentManagementContext from '../../../../../../context'
-
 import Location from '.'
+import IncidentManagementContext from '../../../../../../context'
+import IncidentDetailContext from '../../../../context'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -169,12 +168,12 @@ describe('<Location />', () => {
     it('clicking the edit button should trigger edit the location', async () => {
       const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('editLocationButton')
+      await findByTestId('edit-location-button')
 
       expect(edit).not.toHaveBeenCalled()
 
       act(() => {
-        fireEvent.click(queryByTestId('editLocationButton'))
+        fireEvent.click(queryByTestId('edit-location-button'))
       })
 
       expect(edit).toHaveBeenCalledWith('location')

@@ -2,20 +2,23 @@
 // Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { FunctionComponent, ElementType } from 'react'
 import { Fragment, useEffect, useState, useCallback, useContext } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+
+import { themeSpacing } from '@amsterdam/asc-ui'
 import get from 'lodash/get'
 import set from 'lodash/set'
+import { useForm, Controller } from 'react-hook-form'
 import styled from 'styled-components'
-import { themeSpacing } from '@amsterdam/asc-ui'
+
+import Button from 'components/Button'
+import InfoText from 'components/InfoText'
 import {
   getListValueByKey,
   getListIconByKey,
 } from 'shared/services/list-helpers/list-helpers'
-import Button from 'components/Button'
-import InfoText from 'components/InfoText'
 import type { Priority } from 'signals/incident-management/definitions/types'
-import EditButton from '../EditButton'
+
 import IncidentDetailContext from '../../context'
+import EditButton from '../EditButton'
 
 const DisplayValue = styled.span<{ hasHighPriority: boolean }>`
   color: ${({ hasHighPriority, theme }) =>
@@ -183,7 +186,7 @@ const ChangeValue: FunctionComponent<ChangeValueProps> = ({
     <form
       onSubmit={handleSubmit}
       onChange={handleChange}
-      data-testid="changeValueForm"
+      data-testid="change-value-form"
     >
       <Controller
         name="input"
@@ -236,7 +239,7 @@ const ChangeValue: FunctionComponent<ChangeValueProps> = ({
     icon = getListIconByKey(options as unknown as Priority[], key)
   }
   const displayValueIcon = icon ? (
-    <IconWrapper data-testid="displayValueIcon">{icon}</IconWrapper>
+    <IconWrapper data-testid="display-value-icon">{icon}</IconWrapper>
   ) : null
 
   return (
@@ -259,7 +262,10 @@ const ChangeValue: FunctionComponent<ChangeValueProps> = ({
         <dd data-testid={`meta-list-${type}-value`}>{editForm}</dd>
       ) : (
         <dd data-testid={`meta-list-${type}-value`} className={valueClass}>
-          <DisplayValue data-testid="valuePath" hasHighPriority={Boolean(icon)}>
+          <DisplayValue
+            data-testid="value-path"
+            hasHighPriority={Boolean(icon)}
+          >
             {displayValueIcon}
             {getListValueByKey(options as unknown as Priority[], key)}
           </DisplayValue>

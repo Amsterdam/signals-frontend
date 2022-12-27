@@ -27,7 +27,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
 }) =>
   Array.isArray(options) && options.length > 0 ? (
     <FilterGroup
-      data-testid={`${name}CheckboxGroup`}
+      data-testid={`${name}-checkbox-group`}
       data-render-id={renderId + 1}
     >
       <CheckboxList

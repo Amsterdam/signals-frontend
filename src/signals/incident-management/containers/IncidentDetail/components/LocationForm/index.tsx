@@ -4,13 +4,14 @@ import type { FormEvent } from 'react'
 import { useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
+import { useForm, Controller } from 'react-hook-form'
+import styled from 'styled-components'
+
 import FormFooter from 'components/FormFooter'
 import MapContext from 'containers/MapContext'
-import { useForm, Controller } from 'react-hook-form'
 import { coordinatesToFeature } from 'shared/services/map-location'
 import MapInput from 'signals/incident-management/components/MapInput'
 import type { Context as IncidentDetailContextType } from 'signals/incident-management/containers/IncidentDetail/types'
-import styled from 'styled-components'
 
 import type { Incident } from '../../../../../../types/incident'
 import { PATCH_TYPE_LOCATION } from '../../constants'
@@ -62,7 +63,7 @@ const LocationForm = () => {
   return (
     <Row>
       <StyledColumn span={12}>
-        <form data-testid="locationForm" onSubmit={onSubmit}>
+        <form data-testid="location-form" onSubmit={onSubmit}>
           <MapContext>
             <Controller
               name="location"

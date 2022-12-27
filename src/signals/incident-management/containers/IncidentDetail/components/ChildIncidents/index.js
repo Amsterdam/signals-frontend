@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useMemo, useCallback, useContext } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
-import Button from 'components/Button'
 
+import { themeSpacing, Heading, themeColor } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
+import Button from 'components/Button'
+import { makeSelectHandlingTimesBySlug } from 'models/categories/selectors'
 import { childIncidentType, historyType, incidentType } from 'shared/types'
 import ChildIncidentsList from 'signals/incident-management/components/ChildIncidents'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 
-import { useSelector } from 'react-redux'
-import { makeSelectHandlingTimesBySlug } from 'models/categories/selectors'
-import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_NOTES } from '../../constants'
+import IncidentDetailContext from '../../context'
 
 const isChildChanged = (childDatetime, parentDatetime) =>
   new Date(childDatetime) > new Date(parentDatetime)
@@ -104,7 +105,7 @@ const ChildIncidents = ({
           <Button
             type="button"
             variant="application"
-            data-testid="noActionButton"
+            data-testid="no-action-button"
             onClick={() => resetAction()}
           >
             Geen actie nodig
