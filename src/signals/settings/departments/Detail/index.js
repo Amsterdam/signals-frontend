@@ -1,31 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback, Fragment, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { useParams } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { compose } from 'redux'
-import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui'
 
+import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { compose } from 'redux'
+import { createStructuredSelector } from 'reselect'
+
+import BackLink from 'components/BackLink'
+import LoadingIndicator from 'components/LoadingIndicator'
+import useFetch from 'hooks/useFetch'
 import {
   makeSelectStructuredCategories,
   makeSelectByMainCategory,
   makeSelectSubCategories,
 } from 'models/categories/selectors'
-
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
-import BackLink from 'components/BackLink'
-import routes from 'signals/settings/routes'
-import useFetch from 'hooks/useFetch'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 import * as types from 'shared/types'
+import PageHeader from 'signals/settings/components/PageHeader'
+import routes from 'signals/settings/routes'
 
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 import CategoryLists from './components/CategoryLists'
-
 import DepartmentDetailContext from './context'
 
 export const DepartmentDetailContainer = ({
@@ -80,7 +79,7 @@ export const DepartmentDetailContainer = ({
 
       {!isLoading && data && (
         <Fragment>
-          <Row data-testid="departmentDetail">
+          <Row data-testid="department-detail">
             <Column span={12}>
               <div>
                 <Heading forwardedAs="h2" styleAs="h4">

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import BackLinkComponent from 'components/BackLink'
 
-import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
+import BackLinkComponent from 'components/BackLink'
 
 const StyledSection = styled.section`
   contain: content;
@@ -28,7 +28,7 @@ const StyledHeading = styled(Heading)`
 
 const PageHeader = ({ BackLink, className, children, title }) => (
   <StyledSection
-    data-testid="settingsPageHeader"
+    data-testid="settings-page-header"
     className={className}
     hasBackLink={Boolean(BackLink)}
   >

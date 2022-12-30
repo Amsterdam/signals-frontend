@@ -1,19 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { Suspense } from 'react'
+
 import { render, waitFor, act } from '@testing-library/react'
-import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
-import configuration from 'shared/services/configuration/configuration'
+import * as reactRouterDom from 'react-router-dom'
 
 import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
-import * as auth from 'shared/services/auth/auth'
-
 import {
   fetchRoles as fetchRolesAction,
   fetchPermissions as fetchPermissionsAction,
 } from 'models/roles/actions'
+import * as auth from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
 import { withAppContext, history } from 'test/utils'
+
 import SettingsModule from '..'
 import {
   USER_URL,
@@ -94,13 +95,13 @@ describe('signals/settings', () => {
 
     const { queryByTestId, getByTestId, rerender } = render(withSuspense())
 
-    expect(getByTestId('loginPage')).toBeInTheDocument()
+    expect(getByTestId('login-page')).toBeInTheDocument()
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     rerender(withSuspense())
 
-    expect(queryByTestId('loginPage')).toBeNull()
+    expect(queryByTestId('login-page')).toBeNull()
   })
 
   it('should redirect to manage overview page', async () => {

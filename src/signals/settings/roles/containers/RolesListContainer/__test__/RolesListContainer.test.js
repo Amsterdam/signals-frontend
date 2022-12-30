@@ -30,8 +30,8 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
       withAppContext(<RolesListContainer {...loadingProps} />)
     )
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
-    expect(queryByTestId('rolesList')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
+    expect(queryByTestId('roles-list')).not.toBeInTheDocument()
 
     const notLoadingProps = {
       ...props,
@@ -43,8 +43,8 @@ describe('signals/settings/roles/containers/RolesListContainer', () => {
     }
     rerender(withAppContext(<RolesListContainer {...notLoadingProps} />))
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-    expect(queryByTestId('rolesList')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    expect(queryByTestId('roles-list')).toBeInTheDocument()
 
     expect(container.querySelector('h1')).toHaveTextContent(/^Rollen$/)
   })

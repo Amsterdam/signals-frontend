@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
+
 import { withAppContext } from 'test/utils'
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
 import CategoryGroups from '..'
 import DepartmentDetailContext from '../../../context'
@@ -56,7 +57,7 @@ describe('signals/settings/departments/Detail/components/CategoryGroups', () => 
 
       expect(
         getAllByText(name)[0]
-          .closest('[data-testid="checkboxList"]')
+          .closest('[data-testid="checkbox-list"]')
           .querySelectorAll('[type=checkbox]').length
       ).toEqual(categories[slug].sub.length)
     })

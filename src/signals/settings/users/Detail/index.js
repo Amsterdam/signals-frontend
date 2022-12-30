@@ -88,7 +88,7 @@ const UserDetail = () => {
 
       {isLoading && <LoadingIndicator />}
 
-      <FormContainer data-testid="userDetailFormContainer">
+      <FormContainer data-testid="user-detail-form-container">
         {shouldRenderForm && (
           <UserForm
             data={data}

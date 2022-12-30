@@ -131,7 +131,7 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should get user and history data', async () => {
     const { findByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).toHaveBeenCalledTimes(2)
 
@@ -151,11 +151,11 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(<UserDetail />)
     )
 
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(getByTestId('loading-indicator')).toBeInTheDocument()
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should not render a form when the data from the API is not yet available', async () => {
@@ -167,11 +167,11 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(<UserDetail />)
     )
 
-    expect(queryByTestId('detailUserForm')).not.toBeInTheDocument()
+    expect(queryByTestId('detail-user-form')).not.toBeInTheDocument()
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
-    expect(queryByTestId('detailUserForm')).toBeInTheDocument()
+    expect(queryByTestId('detail-user-form')).toBeInTheDocument()
   })
 
   it('should render a form when the URL does not contain a user ID', async () => {
@@ -181,15 +181,15 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
-    expect(getByTestId('detailUserForm')).toBeInTheDocument()
+    expect(getByTestId('detail-user-form')).toBeInTheDocument()
   })
 
   it('should not patch user data on submit when form data has not been altered', async () => {
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).toHaveBeenCalledTimes(2)
     expect(fetch).not.toHaveBeenCalledWith(
@@ -199,11 +199,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     act(() => {
       fireEvent.click(
-        getByTestId('detailUserForm').querySelector('[type="submit"]')
+        getByTestId('detail-user-form').querySelector('[type="submit"]')
       )
     })
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).toHaveBeenCalledTimes(2)
     expect(fetch).not.toHaveBeenCalledWith(
@@ -215,7 +215,7 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should patch user data on submit', async () => {
     const { findByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).not.toHaveBeenCalledWith(
       `${configuration.USERS_ENDPOINT}${userId}`,
@@ -243,7 +243,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).not.toHaveBeenCalledWith(
       `${configuration.USERS_ENDPOINT}${userId}`,
@@ -252,7 +252,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     act(() => {
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
+        getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: 'Foo Bar Baz' } }
       )
     })
@@ -266,7 +266,7 @@ describe('signals/settings/users/containers/Detail', () => {
       fireEvent.submit(document.forms[0])
     })
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(fetch).not.toHaveBeenCalledWith(
       `${configuration.USERS_ENDPOINT}${userId}`,
@@ -281,12 +281,12 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     const lastName = 'Foo Bar Baz'
     act(() => {
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
+        getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: lastName } }
       )
     })
@@ -294,7 +294,7 @@ describe('signals/settings/users/containers/Detail', () => {
     const firstName = 'Zork'
     act(() => {
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#first_name'),
+        getByTestId('detail-user-form').querySelector('#first_name'),
         { target: { value: firstName } }
       )
     })
@@ -302,7 +302,7 @@ describe('signals/settings/users/containers/Detail', () => {
     const username = 'zork@foobarbaz.com'
     act(() => {
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#username'),
+        getByTestId('detail-user-form').querySelector('#username'),
         {
           target: { value: username },
         }
@@ -316,11 +316,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     act(() => {
       fireEvent.click(
-        getByTestId('detailUserForm').querySelector('[type="submit"]')
+        getByTestId('detail-user-form').querySelector('[type="submit"]')
       )
     })
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     const [url, params] = fetch.mock.calls[0]
     const body = JSON.parse(params.body)
@@ -345,17 +345,17 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     const lastName = 'Foo Bar Baz'
     fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#last_name'),
+      getByTestId('detail-user-form').querySelector('#last_name'),
       { target: { value: lastName } }
     )
 
     const firstName = 'Zork'
     fireEvent.change(
-      getByTestId('detailUserForm').querySelector('#first_name'),
+      getByTestId('detail-user-form').querySelector('#first_name'),
       { target: { value: firstName } }
     )
 
@@ -381,11 +381,11 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     // ensure that a boolean value is a string value
     expect(
-      getByTestId('detailUserForm').querySelector(
+      getByTestId('detail-user-form').querySelector(
         '[name="is_active"][value="false"]'
       ).checked
     ).toBe(true)
@@ -398,18 +398,18 @@ describe('signals/settings/users/containers/Detail', () => {
     act(() => {
       // change a field's value so that the form will be submitted
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
+        getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: 'Foo Bar Baz' } }
       )
     })
 
     act(() => {
       fireEvent.click(
-        getByTestId('detailUserForm').querySelector('[type="submit"]')
+        getByTestId('detail-user-form').querySelector('[type="submit"]')
       )
     })
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     const [url, params] = fetch.mock.calls[2]
     const body = JSON.parse(params.body)
@@ -436,12 +436,12 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(<UserDetail />)
     )
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(push).toHaveBeenCalledTimes(0)
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(global.window.confirm).not.toHaveBeenCalled()
@@ -454,7 +454,7 @@ describe('signals/settings/users/containers/Detail', () => {
     expect(push).toHaveBeenCalledTimes(1)
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(global.window.confirm).not.toHaveBeenCalled()
@@ -469,19 +469,19 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(push).not.toHaveBeenCalled()
 
     act(() => {
       fireEvent.change(
-        getByTestId('detailUserForm').querySelector('#last_name'),
+        getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: 'Foo Bar Baz' } }
       )
     })
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(global.window.confirm).toHaveBeenCalledTimes(1)
@@ -490,7 +490,7 @@ describe('signals/settings/users/containers/Detail', () => {
     global.window.confirm.mockReturnValue(true)
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(global.window.confirm).toHaveBeenCalledTimes(2)
@@ -510,12 +510,12 @@ describe('signals/settings/users/containers/Detail', () => {
       withAppContext(<UserDetail />)
     )
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     expect(push).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     // user is only asked for confirmation when form data isn't pristine
@@ -528,10 +528,10 @@ describe('signals/settings/users/containers/Detail', () => {
 
     rerender(withAppContext(<UserDetail />))
 
-    await findByTestId('userDetailFormContainer')
+    await findByTestId('user-detail-form-container')
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     // user is only asked for confirmation when form data isn't pristine

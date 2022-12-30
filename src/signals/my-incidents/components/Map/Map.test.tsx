@@ -14,6 +14,6 @@ describe('IncidentsDetail', () => {
       withAppContext(<Map close={close} location={incidentsDetail.location} />)
     )
 
-    expect(screen.getByTestId('mapDetail')).toBeInTheDocument()
+    expect(screen.getByTestId('map-detail')).toBeInTheDocument()
   })
 })

@@ -186,7 +186,7 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
   )
 
   return (
-    <Form action="" data-testid="detailUserForm">
+    <Form action="" data-testid="detail-user-form">
       <Row>
         <StyledColumn>
           <div>
