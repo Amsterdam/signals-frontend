@@ -1,24 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useContext, useCallback, useMemo, useReducer } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+
 import { Row, themeSpacing } from '@amsterdam/asc-ui'
 import isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
+import FormFooter from 'components/FormFooter'
+import Label from 'components/Label'
 import {
   ControlsWrapper,
   Fieldset,
   Form,
 } from 'signals/incident-management/components/FilterForm/styled'
-import Label from 'components/Label'
-import FormFooter from 'components/FormFooter'
 
+import DepartmentDetailContext from '../../context'
 import CategoryGroups from '../CategoryGroups'
 import { incoming, outgoing } from '../mapCategories'
-import DepartmentDetailContext from '../../context'
-import reducer from './reducer'
 import { setCanView, setIsResponsible } from './actions'
+import reducer from './reducer'
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
@@ -95,7 +96,7 @@ const CategoryLists = ({ onCancel, onSubmit }) => {
   )
 
   return (
-    <Row data-testid="categoryLists">
+    <Row data-testid="category-lists">
       <Form>
         <ControlsWrapper>
           <StyledFieldset>

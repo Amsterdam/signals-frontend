@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 
 import ListComponent from 'components/List'
-import { ROLE_URL } from 'signals/settings/routes'
-
 import formatRoles from 'signals/settings/roles/services/formatRoles'
+import { ROLE_URL } from 'signals/settings/routes'
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
@@ -37,7 +37,7 @@ export const RolesList = ({ linksEnabled, list }) => {
   )
 
   return (
-    <div data-testid="rolesList">
+    <div data-testid="roles-list">
       <StyledListComponent
         items={formatRoles(list)}
         invisibleColumns={['id']}

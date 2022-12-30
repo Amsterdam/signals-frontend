@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 export const CHANGE_CATEGORY = {
-  buttonCancel: '[data-testid=cancelSubcategoryButton]',
-  buttonEdit: '[data-testid=editSubcategoryButton]',
-  buttonSubmit: '[data-testid=submitSubcategoryButton]',
+  buttonCancel: '[data-testid=cancel-subcategory-button]',
+  buttonEdit: '[data-testid=edit-subcategory-button]',
+  buttonSubmit: '[data-testid=submit-subcategory-button]',
   inputCategory: '[data-testid=input]',
 };
 
 export const CHANGE_LOCATION = {
   buttonCancel: '[data-testid=cancel-btn]',
-  buttonEdit: '[data-testid="editLocation-button"]',
+  buttonEdit: '[data-testid="edit-location-button"]',
   buttonLocationDetailEdit: '[data-testid=location-preview-button-edit]',
   buttonSubmit: '[data-testid=submit-btn]',
   map: '[data-testid="map-input"]',

@@ -1018,7 +1018,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         withContext(<FilterForm {...formProps} />)
       )
 
-      const sourceCheckboxGroup = await findByTestId('source-checkboxGroup')
+      const sourceCheckboxGroup = await findByTestId('source-checkbox-group')
       const toggle = sourceCheckboxGroup.querySelector('label').firstChild
 
       container
@@ -1031,7 +1031,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(toggle)
       })
 
-      await findByTestId('sourceCheckboxGroup')
+      await findByTestId('source-checkbox-group')
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
@@ -1043,7 +1043,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.click(toggle)
       })
 
-      await findByTestId('sourceCheckboxGroup')
+      await findByTestId('source-checkbox-group')
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')

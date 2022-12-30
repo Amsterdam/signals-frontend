@@ -16,7 +16,7 @@ describe('signals/incident-management/components/RadioButtonList', () => {
     )
 
     expect(
-      screen.queryByTestId('radio-button-list-title')
+      screen.queryByTestId('radio-buttonlist-title')
     ).not.toBeInTheDocument()
 
     rerender(
@@ -30,7 +30,7 @@ describe('signals/incident-management/components/RadioButtonList', () => {
       )
     )
 
-    expect(screen.queryByTestId('radio-button-list-title')).toBeInTheDocument()
+    expect(screen.queryByTestId('radio-buttonlist-title')).toBeInTheDocument()
   })
 
   it('should render empty selection button', () => {

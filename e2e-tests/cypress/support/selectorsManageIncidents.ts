@@ -59,31 +59,31 @@ export const FILTER_ALL_ITEMS = {
 };
 
 export const MANAGE_SIGNALS = {
-  buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
+  buttonMijnFilters: '[data-testid=my-filters-modal-btn]',
   buttonCloseMijnFilters: '[data-testid=close-btn]',
-  buttonFilter: '[data-testid=filterModalBtn]',
+  buttonFilter: '[data-testid=filter-modal-btn]',
   clearSearchTerm: '[aria-label="Close"]',
-  signalAdres: '[data-testid="incidentAddress"]',
-  signalDag: '[data-testid="incidentDaysOpen"]',
-  signalDatumTijd: '[data-testid=incidentCreatedAt]',
-  signalParentIcon: '[data-testid=parentIcon]',
-  signalId: '[data-testid=incidentId]',
-  signalStadsdeelName: '[data-testid=incidentArea]',
-  signalStatus: '[data-testid=incidentStatus]',
-  signalSubcategorie: '[data-testid=incidentSubcategory]',
-  signalUrgentie: '[data-testid=incidentUrgency]',
+  signalAdres: '[data-testid="incident-address"]',
+  signalDag: '[data-testid="incident-days-open"]',
+  signalDatumTijd: '[data-testid=incident-created-at]',
+  signalParentIcon: '[data-testid=parent-icon]',
+  signalId: '[data-testid=incident-id]',
+  signalStadsdeelName: '[data-testid=incident-area]',
+  signalStatus: '[data-testid=incident-status]',
+  signalSubcategorie: '[data-testid=incident-subcategory]',
+  signalUrgentie: '[data-testid=incident-urgency]',
   filterTagList: '[data-testid=filter-tag-list-tag]',
   labelHoofmelding: '[aria-label="Hoofdmelding"]',
   paginationPages: '[data-testid="pagination"] > ul > li',
-  refreshIcon: '[data-testid=refreshIcon]',
-  searchBar: '[data-testid="searchBar"]',
+  refreshIcon: '[data-testid=refresh-icon]',
+  searchBar: '[data-testid="search-bar"]',
   searchResultsTag: '[class*=PageHeader__SubTitle]',
-  spinner: '[data-testid="loadingIndicator"]',
+  spinner: '[data-testid="loading-indicator"]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
 export const MY_FILTERS = {
-  buttonDeleteFilter: '[data-testid=handleRemoveFilterButton]',
+  buttonDeleteFilter: '[data-testid=handle-remove-filter-button]',
 };
 
 export const OVERVIEW_MAP = {
