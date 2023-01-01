@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
 import { useEffect, useState } from 'react'
 
+import { MAX_ZOOM_LEVEL } from './constants'
 import { ZoomedImage, Image } from './styled'
 
 type InteractiveImageProps = {
@@ -21,15 +22,15 @@ const InteractiveImage = ({
   className,
   ...rest
 }: InteractiveImageProps) => {
-  const [showZoomedImage, setShowZoomedImage] = useState(false)
+  const [zoomFactor, setZoomFactor] = useState(0)
   const [backgroundPosition, setBackgroundPosition] = useState('100% 100%')
 
   useEffect(() => {
-    setShowZoomedImage(false)
+    setZoomFactor(0)
   }, [src])
 
-  const toggleZoom = () => {
-    setShowZoomedImage(!showZoomedImage)
+  const setNextZoomFactor = () => {
+    setZoomFactor(zoomFactor === MAX_ZOOM_LEVEL ? 0 : zoomFactor + 1)
   }
 
   /* istanbul ignore next: nativeEvent not implemented in testing library */
@@ -47,8 +48,8 @@ const InteractiveImage = ({
   return (
     <ZoomedImage
       className={className}
-      zoom={showZoomedImage}
-      onClick={toggleZoom}
+      zoom={zoomFactor}
+      onClick={setNextZoomFactor}
       onMouseMove={handleMouseMove}
       backgroundPosition={backgroundPosition}
       backgroundImage={src}
@@ -56,7 +57,7 @@ const InteractiveImage = ({
     >
       <Image
         className={className}
-        zoom={showZoomedImage}
+        zoom={zoomFactor}
         loading="lazy"
         src={src}
         alt={alt}
