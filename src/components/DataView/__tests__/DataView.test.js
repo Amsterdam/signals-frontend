@@ -410,7 +410,7 @@ describe('DataView with correct number of columns', () => {
 
     rerender(dataViewWithProps({ filters: testFilters, data: testData }))
 
-    filtersRow = getByTestId('dataViewFiltersRow')
+    filtersRow = getByTestId('data-view-filters-row')
     dataRow = getByTestId('data-view-body-row')
 
     expect(filtersRow).toBeInTheDocument()

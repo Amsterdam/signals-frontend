@@ -14,6 +14,7 @@ Date: 2022-12-22
 
 - Keep it simple, reduce nesting
 - The aim is to create consitency at all levels in the application
+- data-testid's will be written in `kebab-case`
 - A `src/pages` folder will hold 'root' components and reflect the navigation structure (menu, routes) of the app
 - Generic/shared components, hooks, interfaces, services, in their respective folders in `src`.
 - Tests will be placed in a file next to the file under test. The naming of said test file will be the same as the file under test with an addendum .test.tsx. 
@@ -131,10 +132,4 @@ src
 
 This gives a clear hierarchy without much nesting.
 
-## Action plan
 
-- Merge `src/shared` to `src`
-- Merge or move components from `src/containers` to either `src` or `src/components`
-- Merge `src/signals/incident/containers` with `src`
-- Merge `src/signals/incident/components` into the (now) root incident component (keep the form components grouped together, for now).
-- Continue this process for `incident-management`

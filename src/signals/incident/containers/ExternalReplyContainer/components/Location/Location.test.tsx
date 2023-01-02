@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -29,7 +29,7 @@ describe('Location', () => {
     render(withAppContext(<Location onClick={jest.fn()} location={location} />))
 
     // Check for map thumbnail image
-    expect(screen.getByRole('img')).toBeInTheDocument()
+    expect(screen.getByAltText('')).toBeInTheDocument()
 
     expect(screen.getByText(location.stadsdeel)).toBeInTheDocument()
     expect(
@@ -80,7 +80,7 @@ describe('Location', () => {
     const clickSpy = jest.fn()
     render(withAppContext(<Location onClick={clickSpy} location={location} />))
 
-    userEvent.click(screen.getByRole('img'))
+    userEvent.click(screen.getByAltText(''))
 
     expect(clickSpy).toHaveBeenCalled()
   })
