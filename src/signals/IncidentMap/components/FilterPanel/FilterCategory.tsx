@@ -23,6 +23,11 @@ export const FilterCategory = ({
       id={text}
       checked={selected}
       onChange={onToggleCategory}
+      onKeyUp={(event) => {
+        if (event.code === 'Enter') {
+          onToggleCategory()
+        }
+      }}
     />
 
     <StyledImg alt={'icon ' + text} src={icon} />

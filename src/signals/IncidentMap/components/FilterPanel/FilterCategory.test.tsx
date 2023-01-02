@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import type { Props } from './FilterCategory'
 import { FilterCategory } from './FilterCategory'
@@ -18,5 +19,17 @@ describe('FilterCategory', () => {
   it('checkbox is checked by default', () => {
     render(<FilterCategory {...defaultProps} />)
     expect(screen.getByRole('checkbox', { name: /mockName/ })).toBeChecked()
+
+    const cb = screen.getByRole('checkbox', { name: /mockName/ })
+
+    cb.click()
+
+    expect(mockOnToggleCategory).toBeCalledTimes(1)
+
+    cb.focus()
+
+    userEvent.keyboard('{enter}')
+
+    expect(mockOnToggleCategory).toBeCalledTimes(2)
   })
 })
