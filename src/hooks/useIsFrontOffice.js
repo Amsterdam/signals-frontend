@@ -11,6 +11,7 @@ const useIsFrontOffice = () => {
     () =>
       !location.pathname.startsWith('/manage') &&
       !location.pathname.startsWith('/instellingen'),
+    !location.pathname.startsWith('/mijn-meldingen'),
     [location.pathname]
   )
 }
