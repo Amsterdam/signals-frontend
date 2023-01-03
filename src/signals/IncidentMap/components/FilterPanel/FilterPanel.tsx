@@ -3,7 +3,6 @@
 import { Fragment, useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
-
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
@@ -49,7 +48,6 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
   useEffect(() => {
     if (data?.results) {
       const filters: Filter[] = getFilterCategoriesWithIcons(data.results)
-
       setFilters(filters)
     }
   }, [data, setFilters])
