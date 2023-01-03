@@ -83,7 +83,7 @@ describe('<DefaultTextsAdmin />', () => {
 
       expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
       expect(
-        screen.queryByTestId('default-text-form-form0')
+        screen.queryByTestId('default-text-form-form-0')
       ).not.toBeInTheDocument()
       expect(screen.queryByTestId('select-form-form')).not.toBeInTheDocument()
 
@@ -97,7 +97,7 @@ describe('<DefaultTextsAdmin />', () => {
       )
 
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
-      expect(screen.getByTestId('default-text-form-form0')).toBeInTheDocument()
+      expect(screen.getByTestId('default-text-form-form-0')).toBeInTheDocument()
       expect(screen.getByTestId('select-form-form')).toBeInTheDocument()
 
       const index = 1

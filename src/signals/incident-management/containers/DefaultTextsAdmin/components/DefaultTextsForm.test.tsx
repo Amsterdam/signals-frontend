@@ -26,7 +26,7 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`default-text-form-form${props.index}`)
+      screen.getByTestId(`default-text-form-form-${props.index}`)
     ).toBeInTheDocument()
     expect(screen.getByTestId(`title${props.index}`)).toBeInTheDocument()
     expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
@@ -52,7 +52,7 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`default-text-form-form${props.index}`)
+      screen.getByTestId(`default-text-form-form-${props.index}`)
     ).toBeInTheDocument()
 
     const checkbox = screen.getByText('Actief')
@@ -89,7 +89,7 @@ describe('<DefaultTextsForm />', () => {
       )
 
       expect(
-        screen.getByTestId(`default-text-form-form${props.index}`)
+        screen.getByTestId(`default-text-form-form-${props.index}`)
       ).toBeInTheDocument()
 
       expect(screen.getByTestId(`is_active0`)).toBeDisabled()

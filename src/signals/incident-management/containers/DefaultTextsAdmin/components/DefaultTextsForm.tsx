@@ -64,7 +64,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
   const setDisabled = !value.text || !value.title
   return (
     <>
-      <StyledLeftColumn data-testid={`default-text-form-form${index}`}>
+      <StyledLeftColumn data-testid={`default-text-form-form-${index}`}>
         <TextInput
           display={''}
           name={`title${index}`}
