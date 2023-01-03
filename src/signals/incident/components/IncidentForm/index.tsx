@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import {
   useState,
@@ -38,8 +38,7 @@ const IncidentForm = forwardRef<any, any>(
   ) => {
     const [submitting, setSubmitting] = useState(false)
 
-    const { steps, stepsCompletedCount, setStepsCompletedCount } =
-      useContext(WizardContext)
+    const { steps, setStepsCompletedCount } = useContext(WizardContext)
 
     const prevState = useRef<{ isMounted: boolean; loading: boolean }>({
       isMounted: true,
@@ -58,7 +57,11 @@ const IncidentForm = forwardRef<any, any>(
       if (prevState.current.loading !== incidentContainer.loadingData) {
         prevState.current.loading = incidentContainer.loadingData
       }
-    }, [prevState.current.loading, incidentContainer.loadingData])
+    }, [
+      prevState.current.loading,
+      incidentContainer.loadingData,
+      reactHookFormProps,
+    ])
 
     /**
      * setValues makes sure values from the incident, like dateTime, are added
@@ -122,7 +125,6 @@ const IncidentForm = forwardRef<any, any>(
         wizard,
       ]
     )
-
     /**
       FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
       This should be changed in the future.
@@ -149,7 +151,10 @@ const IncidentForm = forwardRef<any, any>(
       async (e, next, formAction) => {
         e.preventDefault()
         if (next) {
-          if (prevState.current.loading) {
+          if (
+            prevState.current.loading &&
+            (await reactHookFormProps.trigger('description'))
+          ) {
             next()
             setStepsCompletedCount(index + 1)
             return
@@ -188,7 +193,6 @@ const IncidentForm = forwardRef<any, any>(
         setIncident,
         setStepsCompletedCount,
         steps.length,
-        stepsCompletedCount,
         submitting,
       ]
     )
