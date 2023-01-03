@@ -23,6 +23,7 @@ import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyCon
 import styled from 'styled-components'
 
 import useDefaultHeader from '../../hooks/useDefaultHeader'
+import useTallHeader from '../../hooks/useTallHeader'
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
@@ -67,7 +68,10 @@ export const AppContainer = () => {
   const history = useHistory()
   const location = useLocationReferrer() as { referrer: string }
   const isFrontOffice = useIsFrontOffice()
-  const headerIsTall = isFrontOffice && !getIsAuthenticated()
+  const tallHeaderByDefault = useTallHeader()
+  const headerIsTall =
+    (isFrontOffice && !getIsAuthenticated()) || tallHeaderByDefault
+
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
 
   useEffect(() => {

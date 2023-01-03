@@ -14,7 +14,7 @@ import { Map } from '../components/Map'
 import { routes } from '../definitions'
 import type { HistoryInstance } from '../types'
 import type { MyIncidentDetail } from '../types'
-import { ContentWrapper, Wrapper, StyledRow } from './styled'
+import { ContentWrapper, StyledRow } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncidentDetail>()
@@ -59,26 +59,24 @@ export const Detail = () => {
 
   return (
     <StyledRow>
-      <Wrapper>
-        <Helmet
-          defaultTitle={configuration.language.siteTitle}
-          titleTemplate={`${configuration.language.siteTitle} - %s`}
-        >
-          <title>{`Meldingsnummer: ${data._display}`}</title>
-        </Helmet>
-        {showMap ? (
-          <Map close={() => setShowMap(false)} location={data.location} />
-        ) : (
-          <ContentWrapper>
-            <IncidentsDetailComponent
-              incidentsDetail={data}
-              token={token}
-              setShowMap={setShowMap}
-            />
-            <History incident={data} fetchResponse={fetchResponseHistory} />
-          </ContentWrapper>
-        )}
-      </Wrapper>
+      <Helmet
+        defaultTitle={configuration.language.siteTitle}
+        titleTemplate={`${configuration.language.siteTitle} - %s`}
+      >
+        <title>{`Meldingsnummer: ${data._display}`}</title>
+      </Helmet>
+      {showMap ? (
+        <Map close={() => setShowMap(false)} location={data.location} />
+      ) : (
+        <ContentWrapper>
+          <IncidentsDetailComponent
+            incidentsDetail={data}
+            token={token}
+            setShowMap={setShowMap}
+          />
+          <History incident={data} fetchResponse={fetchResponseHistory} />
+        </ContentWrapper>
+      )}
     </StyledRow>
   )
 }
