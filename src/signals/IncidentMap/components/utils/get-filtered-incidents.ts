@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-
+// Copyright (C) 2022 -2023 Gemeente Amsterdam
 import type { Filter, Incident } from '../../types'
+import { showSubCategoryFilter } from '../FilterPanel/utils'
 /*
 When mainCategory is checked, all incidents on the map needs to be shown except for those incidents where the subCategory
 of the maintCategory is unchecked.
@@ -33,7 +33,8 @@ export const getFilteredIncidents = (
   const activeIncidents = incidents.filter((incident) => {
     return (
       activeSlugs.includes(incident.properties.category.slug) ||
-      activeSlugs.includes(incident.properties.category.parent.slug)
+      (!showSubCategoryFilter(incident.properties.category.parent.slug) &&
+        activeSlugs.includes(incident.properties.category.parent.slug))
     )
   })
 

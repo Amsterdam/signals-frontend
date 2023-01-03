@@ -232,7 +232,10 @@ const IncidentForm = forwardRef<any, any>(
                           handler={() => ({
                             onChange: (e: BaseSyntheticEvent) => {
                               value.meta && onChange(e.target.value)
-                              if (submitting) {
+                              if (
+                                submitting ||
+                                value.meta.name == 'description'
+                              ) {
                                 reactHookFormProps.trigger(value.meta.name)
                               }
                             },
