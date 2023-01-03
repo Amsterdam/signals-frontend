@@ -12,9 +12,8 @@ import {
 import styled from 'styled-components'
 
 export const StyledRow = styled(Row)`
-  @media ${breakpoint('max-width', 'tabletS')} {
-    padding: 0 ${themeSpacing(4)};
-  }
+  max-width: 960px;
+  padding: 0 ${themeSpacing(4)};
 `
 
 export const StyledHeading = styled(Heading)`

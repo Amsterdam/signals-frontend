@@ -41,6 +41,7 @@ const StyledMap = styled(Map)`
 `
 
 const StyledViewerContainer = styled(ViewerContainer)`
+  position: unset;
   & > * {
     width: calc(
       100% - 8px

@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Button, Modal, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+import InteractiveImage from './components/InteractiveImage/InteractiveImage'
 
 const StyledButton = styled(Button)`
   background-color: ${themeColor('tint', 'level7')};
@@ -126,8 +127,8 @@ export const NextButton = styled(StyledButton)`
   top: 50%;
 `
 
-export const Img = styled.img`
+export const StyledInteractiveImage = styled(InteractiveImage)`
   margin: ${themeSpacing(23, 0, 5)};
+  max-height: calc(100vh - ${themeSpacing(28)});
   max-width: 100%;
-  max-height: calc(100% - ${themeSpacing(28)});
 `
