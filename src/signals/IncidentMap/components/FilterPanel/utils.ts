@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2022 - 2023 Gemeente Amsterdam */
 import { defaultIcon } from 'shared/services/configuration/map-markers'
 import type { Category } from 'types/category'
 
