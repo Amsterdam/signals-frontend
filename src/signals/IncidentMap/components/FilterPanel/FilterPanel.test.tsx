@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import configuration from 'shared/services/configuration/configuration'
@@ -30,7 +30,7 @@ const renderFilterPanel = (props: Partial<Props> = {}) =>
   render(<FilterPanel {...defaultProps} {...props} />)
 
 describe('FilterPanel', () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.resetAllMocks()
   })
 
@@ -109,6 +109,12 @@ describe('FilterPanel', () => {
     const testCategory = 'Openbaar groen en water'
 
     const checkbox = screen.getByTestId(testCategory)
+
+    expect(
+      mockSetFilters.mock.calls[0][0].find(
+        (filter: Filter) => filter.name === testCategory
+      ).filterActive
+    ).toBe(true)
 
     userEvent.click(checkbox)
 

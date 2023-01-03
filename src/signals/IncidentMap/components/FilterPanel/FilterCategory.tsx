@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { Checkbox } from '@amsterdam/asc-ui'
 
 import { StyledImg, CategoryItemText, CategoryItem } from './styled'
@@ -22,9 +22,7 @@ export const FilterCategory = ({
       data-testid={text}
       id={text}
       checked={selected}
-      onChange={() => {
-        onToggleCategory()
-      }}
+      onChange={onToggleCategory}
       onKeyDown={(event) => {
         if (['Enter', 'Space'].includes(event.code)) {
           event.preventDefault()
