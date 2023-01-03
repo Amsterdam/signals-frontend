@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FC } from 'react'
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { Close as CloseIcon } from '@amsterdam/asc-assets'
-import { ChevronRight, ChevronLeft } from '@amsterdam/asc-assets'
+import {
+  ChevronLeft,
+  ChevronRight,
+  Close as CloseIcon,
+} from '@amsterdam/asc-assets'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
@@ -13,12 +16,12 @@ import {
   Date,
   Employee,
   Header,
-  Img,
   Info,
   ModalInner,
   NextButton,
   PreviousButton,
   Reporter,
+  StyledInteractiveImage,
   StyledModal,
   Title,
   Wrapper,
@@ -163,7 +166,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
             />
           )}
 
-          <Img
+          <StyledInteractiveImage
             src={currentHref}
             data-testid="attachment-viewer-image"
             alt={fileName}
