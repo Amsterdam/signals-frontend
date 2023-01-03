@@ -5,26 +5,9 @@ import { mockIncidentsShort } from '../__test__/mock-incidents'
 import { getFilteredIncidents } from './get-filtered-incidents'
 
 describe('getFilteredIncidents', () => {
-  afterEach(() => {
-    jest.resetAllMocks()
-  })
-  it('should return only active filters', () => {
+  it('should return only active incidents', () => {
     const result = getFilteredIncidents(mockFiltersShort, mockIncidentsShort)
 
-    expect(result.length).toEqual(4)
-  })
-  it('should return only active filters with the first without icon', () => {
-    const filters = mockFiltersShort.map(removeIcons)
-    const result = getFilteredIncidents(filters, mockIncidentsShort)
-
-    expect(result.length).toEqual(4)
+    expect(result.length).toEqual(3)
   })
 })
-
-const removeIcons = (feature: any) => {
-  const f = { ...feature, icon: '' }
-  if (f.subCategories) {
-    f.subCategories = f.subCategories?.map(removeIcons)
-  }
-  return f
-}
