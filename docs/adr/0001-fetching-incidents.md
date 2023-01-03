@@ -1,12 +1,15 @@
 # Fetching incidents
 
 date: 2020-01-15
+update: 2022-12-22
 
 ## Context
 
-In the Signals frontend application, two different endpoints provide data that can be used to render an overview of incidents.
+In the Signals frontend application, a number of different endpoints provide data that can be used to render an overview of incidents.
 
 The first one is the [private signals endpoint](https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_signals_), the second is the private search endpoint. Both return the same data structure, but expect/require different parameters.
+
+Another way of retrieving the incidents is with the GEOGRAPHY_ENDPOINT and GEOGRAPHY_PUBLIC_ENDPOINT endpoints that accept geo locations and return the incidents that lie within.
 
 In a number of occasions, a request is made to one of the private endpoints to retrieve the most recent set of data from the API. Those occasions are:
 

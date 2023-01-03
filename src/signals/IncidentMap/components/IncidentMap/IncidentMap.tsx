@@ -116,11 +116,7 @@ export const IncidentMap = () => {
 
     setFilteredIncidents(filteredIncidents)
     const filterFromIncidents = countIncidentsPerFilter(filters, incidents)
-    if (
-      !filterFromIncidents.every((item) =>
-        filters.map((filter) => filter._display).includes(item._display)
-      )
-    ) {
+    if (!isEqual(filterFromIncidents, filters)) {
       setFilters(filterFromIncidents)
     }
   }, [bbox, filters, incidents])
