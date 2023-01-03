@@ -17,7 +17,7 @@ Date: 2022-12-22
 - data-testid's will be written in `kebab-case`
 - A `src/pages` folder will hold 'root' components and reflect the navigation structure (menu, routes) of the app
 - Generic/shared components, hooks, interfaces, services, in their respective folders in `src`.
-- Tests will be placed in a file next to the file under test. The naming of said test file will be the same as the file under test with an addendum .test.tsx. 
+- Tests will be placed in a file next to the file under test with name .test.tsx 
 - Components needed only by one 'root' component go into that root component's folder in a separate folder with the name of the component, no extra nesting.
 - Components needed by more than one 'root' component go into `src/components`
 - Component folders will be written in `PascalCase`, non component folders will be written in `kebab-case`. This includes 'pages', 'services', etc.
