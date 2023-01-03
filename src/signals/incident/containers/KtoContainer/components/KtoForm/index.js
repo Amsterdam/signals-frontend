@@ -164,7 +164,7 @@ const KtoForm = ({
               meta={{
                 label: ` Waarom bent u ${!isSatisfied ? 'on' : ''}tevreden?`,
                 name: 'input',
-                subtitle: 'U kunt meer keuzes maken.',
+                subtitle: 'Kies één van de onderstaande antwoorden',
               }}
               hasError={(errorType) => errors['text_list']?.type === errorType}
               getError={(errorType) => errors['text_list']?.type === errorType}
