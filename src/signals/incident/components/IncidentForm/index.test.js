@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import {
   render,
   screen,
@@ -9,7 +9,6 @@ import {
   act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'
