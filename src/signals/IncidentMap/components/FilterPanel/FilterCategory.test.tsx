@@ -16,20 +16,43 @@ const defaultProps: Props = {
 }
 
 describe('FilterCategory', () => {
-  it('checkbox is checked by default', () => {
+  beforeEach(() => {
+    mockOnToggleCategory.mockReset()
+  })
+
+  it('checkbox is checked by default and toggle on click', () => {
     render(<FilterCategory {...defaultProps} />)
+
     expect(screen.getByRole('checkbox', { name: /mockName/ })).toBeChecked()
 
-    const cb = screen.getByRole('checkbox', { name: /mockName/ })
+    const checkBox = screen.getByRole('checkbox', { name: /mockName/ })
 
-    cb.click()
+    checkBox.click()
 
     expect(mockOnToggleCategory).toBeCalledTimes(1)
+  })
 
-    cb.focus()
+  it('should toggle when pressing enter on focus', function () {
+    render(<FilterCategory {...defaultProps} />)
+
+    const checkBox = screen.getByRole('checkbox', { name: /mockName/ })
+
+    checkBox.focus()
 
     userEvent.keyboard('{enter}')
 
-    expect(mockOnToggleCategory).toBeCalledTimes(2)
+    expect(mockOnToggleCategory).toBeCalledTimes(1)
+  })
+
+  it('should toggle when pressing space on focus', function () {
+    render(<FilterCategory {...defaultProps} />)
+
+    const checkBox = screen.getByRole('checkbox', { name: /mockName/ })
+
+    checkBox.focus()
+
+    userEvent.keyboard('{space}')
+
+    expect(mockOnToggleCategory).toBeCalledTimes(1)
   })
 })

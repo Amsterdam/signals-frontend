@@ -22,9 +22,12 @@ export const FilterCategory = ({
       data-testid={text}
       id={text}
       checked={selected}
-      onChange={onToggleCategory}
-      onKeyUp={(event) => {
-        if (event.code === 'Enter') {
+      onChange={() => {
+        onToggleCategory()
+      }}
+      onKeyDown={(event) => {
+        if (['Enter', 'Space'].includes(event.code)) {
+          event.preventDefault()
           onToggleCategory()
         }
       }}
