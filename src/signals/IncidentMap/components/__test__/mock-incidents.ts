@@ -69,11 +69,11 @@ export const mockIncidentsShort: Incident[] = [
     },
     properties: {
       category: {
-        name: 'Openbaar groen en water',
-        slug: 'openbaar-groen-en-water',
+        name: 'Eikenprocessierups',
+        slug: 'eikenprocessierups',
         parent: {
           name: 'Openbaar groen en water',
-          slug: 'openbaar groen en water',
+          slug: 'openbaar-groen-en-water',
         },
       },
       icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
