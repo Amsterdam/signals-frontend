@@ -1,16 +1,16 @@
-# Move images to webroot
+# Where images are stored
 
-Date: 2022-01-25
+Date: 2023-01-04
 
 ## Status
 
-2023-01-04 Superseded
+2023-01-04: Proposed
 
 ## Context
 
 SVG images are used throughout the application, both in the public incident form as well as in the backoffice part of the web application. Most of the SVGs have been inlined as text and are referenced by URL in the production bundle. Because the `signals-frontend` application needs to serve more than one tenant (see [Multi-tenant architecture](./0004-multi-tenant-architecture.md)) it makes sense to be able to overwrite images at the client level and have, for instance, [the municipality of Den Bosch](https://meldingen.s-hertogenbosch.nl/incident/beschrijf) provide its own images for different types of trash containers.
 
-Different image contents can be set by the Django admin and are applied when the feature flag `fetchQuestionsFromBackend` (see [app.schema.json](../../internals/schemas/app.schema.json)) has been set. Because, only in that case, questions configuration is retrieved from the API and can overwrite any images that have been configured.
+Different image contents can be set by the Django admin and are applied when the feature flag `fetchQuestionsFromBackend` (see [app.schema.json](../../internals/schemas/app.schema.json)) has been set. In that case questions configuration is retrieved from the API and will overwrite any images that have been configured. In the Django, but without the feature flag, are the icons stored for the meldingenkaart. 
 
 The downside of having images as text, is that all of the available SVG images are at all times present in the `signals-frontend` production bundle which will unnessarily increase the size of the bundle. Also, images cannot be cached by the browser and cannot be preloaded (if that would be required).
 
