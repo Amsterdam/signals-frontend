@@ -46,6 +46,7 @@ export const ImageWrapper = styled.div`
 `
 
 export const Image = styled.img`
-  width: 80px;
+  max-width: 80px;
+  max-height: 80px;
   object-fit: cover;
 `
