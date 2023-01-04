@@ -9,7 +9,10 @@ import styled from 'styled-components'
 import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import configuration from 'shared/services/configuration/configuration'
-import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
+import {
+  isStatusEnd,
+  isStatusClosed,
+} from 'signals/incident-management/definitions/statusList'
 import {
   MAP_URL,
   INCIDENT_URL,
@@ -77,9 +80,15 @@ const DetailHeader = () => {
     return true
   }, [incident])
 
-  const canThor = ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(
-    incident.status?.state
-  )
+  const forwardToExternalIsAllowed = !isStatusClosed(incident.status?.state)
+  const thorIsAllowed = [
+    'm',
+    'i',
+    'b',
+    'h',
+    'send failed',
+    'reopened',
+  ].includes(incident.status?.state)
   const downloadLink = incident?._links?.['sia:pdf']?.href
 
   const referrer = location.referrer?.startsWith(MAP_URL)
@@ -133,7 +142,7 @@ const DetailHeader = () => {
             </Button>
           )}
 
-          {canThor && configuration.featureFlags.showThorButton && (
+          {thorIsAllowed && configuration.featureFlags.showThorButton && (
             <Button
               type="button"
               variant="application"
@@ -144,17 +153,18 @@ const DetailHeader = () => {
             </Button>
           )}
 
-          {configuration.featureFlags.enableForwardIncidentToExternal && (
-            <Button
-              type="button"
-              variant="application"
-              onClick={() => toggleExternal()}
-              data-testid="detail-header-button-external"
-              title="Doorzetten naar extern"
-            >
-              Extern
-            </Button>
-          )}
+          {forwardToExternalIsAllowed &&
+            configuration.featureFlags.enableForwardIncidentToExternal && (
+              <Button
+                type="button"
+                variant="application"
+                onClick={() => toggleExternal()}
+                data-testid="detail-header-button-external"
+                title="Doorzetten naar extern"
+              >
+                Extern
+              </Button>
+            )}
 
           <DownloadButton
             label="PDF"
