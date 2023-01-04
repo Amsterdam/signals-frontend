@@ -25,7 +25,7 @@ const WrappedTextArea: FunctionComponent = () => {
         shortLabel="Bar"
         trigger={trigger}
         register={register}
-        errorMessage={errors[id]?.message}
+        errorMessage={errors[id]?.message?.toString()}
         rules={{ maxLength }}
       />
       <button onClick={() => trigger(id)} type="button">

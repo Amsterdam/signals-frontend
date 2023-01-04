@@ -1,7 +1,11 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2021-2023 Gemeente Amsterdam
+import type { FunctionComponent } from 'react'
+
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { FunctionComponent } from 'react'
 import { useForm } from 'react-hook-form'
+
 import { withAppContext } from 'test/utils'
 
 import FileInput from '..'
@@ -20,7 +24,7 @@ const WrappedFileInput: FunctionComponent = () => {
       shortLabel="Foto toevoegen"
       control={control}
       trigger={trigger}
-      errorMessage={errors['file-input']?.message}
+      errorMessage={errors['file-input']?.message?.toString()}
     />
   )
 }
