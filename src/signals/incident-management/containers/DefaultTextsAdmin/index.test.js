@@ -102,7 +102,7 @@ describe('<DefaultTextsAdmin />', () => {
 
       const index = 1
       userEvent.click(
-        screen.getByTestId(`default-text-form-item-button${index}-up`)
+        screen.getByTestId(`default-text-form-item-button-${index}-up`)
       )
 
       expect(props.onOrderDefaultTexts).toHaveBeenCalledWith({
