@@ -231,6 +231,30 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     })
   })
 
+  it('should render no Extern button when status is "o" or "a"', () => {
+    const { rerender } = render(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'o' },
+      })
+    )
+
+    expect(
+      screen.queryByTestId('detail-header-button-external')
+    ).not.toBeInTheDocument()
+
+    rerender(
+      renderWithContext({
+        ...incidentFixture,
+        status: { ...incidentFixture.status, state: 'a' },
+      })
+    )
+
+    expect(
+      screen.queryByTestId('detail-header-button-external')
+    ).not.toBeInTheDocument()
+  })
+
   it('should toggle external when Extern button is clicked', () => {
     render(renderWithContext())
 
