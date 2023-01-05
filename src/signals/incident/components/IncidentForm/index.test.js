@@ -410,4 +410,53 @@ describe('<IncidentForm />', () => {
       })
     })
   })
+
+  describe('handleSubmit', () => {
+    it('should trigger description and source validation', () => {
+      const fieldConfig = {
+        controls: {
+          ...requiredFieldConfig.controls,
+          description: {
+            meta: {
+              label: 'description',
+            },
+            render: FormComponents.TextInput,
+          },
+          source: {
+            meta: {
+              label: 'source',
+            },
+            render: FormComponents.HiddenInput,
+          },
+        },
+      }
+
+      const triggerSpy = jest.fn().mockImplementation(() => true)
+
+      const props = {
+        ...defaultProps,
+        incidentContainer: {
+          ...defaultProps.incidentContainer,
+          loadingData: true,
+        },
+        fieldConfig,
+        reactHookFormProps: {
+          trigger: triggerSpy,
+          formState: {
+            errors: {
+              phone: {},
+            },
+          },
+        },
+      }
+
+      renderIncidentForm(props)
+
+      act(() => {
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+      })
+
+      expect(triggerSpy).toBeCalledWith(['description', 'source'])
+    })
+  })
 })
