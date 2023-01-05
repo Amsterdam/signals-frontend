@@ -4,7 +4,7 @@ Date: 2022-01-25
 
 ## Status
 
-2023-01-04 Superseded by [0015-images-in-application](./0015-images-in-application.md)
+Accepted
 
 ## Context
 
