@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -9,7 +11,13 @@ const StyledButton = styled(Button)`
   margin-right: 15px !important;
 `
 
-const NextButton = ({ className, children, onClick }) => (
+interface NextButtonProps {
+  className?: string
+  children: ReactNode
+  onClick: () => void
+}
+
+const NextButton = ({ className, children, onClick }: NextButtonProps) => (
   <StyledButton
     className={className}
     data-testid="next-button"
