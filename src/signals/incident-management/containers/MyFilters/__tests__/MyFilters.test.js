@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { createEvent, fireEvent, render, screen } from '@testing-library/react'
-import * as definitions from 'signals/incident-management/definitions'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import Enzyme, { mount } from 'enzyme'
 
+import * as definitions from 'signals/incident-management/definitions'
 import { withAppContext } from 'test/utils'
+
 import MyFilters, { MyFiltersComponent } from '..'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -153,7 +154,7 @@ describe('signals/incident-management/containers/MyFilters', () => {
       )
 
       const handleApplyFilterButton = screen.getAllByTestId(
-        'handleApplyFilterButton'
+        'handle-apply-filter-button'
       )[0]
 
       const event = createEvent.click(handleApplyFilterButton, { button: 1 })
@@ -171,7 +172,9 @@ describe('signals/incident-management/containers/MyFilters', () => {
         withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
       )
 
-      const handleEditFilterButton = getAllByTestId('handleEditFilterButton')[0]
+      const handleEditFilterButton = getAllByTestId(
+        'handle-edit-filter-button'
+      )[0]
       const event = createEvent.click(handleEditFilterButton, { button: 1 })
       event.preventDefault = jest.fn()
 
@@ -191,7 +194,9 @@ describe('signals/incident-management/containers/MyFilters', () => {
         withAppContext(<MyFiltersComponent {...{ ...props, onEditFilter }} />)
       )
 
-      const handleEditFilterButton = getAllByTestId('handleEditFilterButton')[0]
+      const handleEditFilterButton = getAllByTestId(
+        'handle-edit-filter-button'
+      )[0]
       const event = createEvent.click(handleEditFilterButton, { button: 1 })
       event.preventDefault = jest.fn()
 

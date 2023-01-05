@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Suspense } from 'react'
+
 import { render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
 import { withAppContext } from 'test/utils'
+
 import { IncidentContainerComponent } from '.'
 
 jest.mock('react-router-dom', () => ({
@@ -19,10 +21,10 @@ jest.mock('shared/services/auth/auth', () => ({
 }))
 
 jest.mock('signals/incident/components/IncidentClassification', () => () => (
-  <span data-testid="incidentClassification" />
+  <span data-testid="incident-classification" />
 ))
 jest.mock('signals/incident/components/IncidentWizard', () => () => (
-  <span data-testid="incidentWizard" />
+  <span data-testid="incident-wizard" />
 ))
 
 const withSuspense = (props) =>
@@ -50,10 +52,10 @@ describe('signals/incident/containers/IncidentContainer', () => {
   it('should render correctly', async () => {
     const { findByTestId, queryByTestId } = render(withSuspense(props))
 
-    await findByTestId('incidentWizard')
+    await findByTestId('incident-wizard')
 
-    expect(queryByTestId('incidentWizard')).toBeInTheDocument()
-    expect(queryByTestId('incidentClassification')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-wizard')).toBeInTheDocument()
+    expect(queryByTestId('incident-classification')).not.toBeInTheDocument()
   })
 
   it('should render correctly when category should be set', async () => {
@@ -62,9 +64,9 @@ describe('signals/incident/containers/IncidentContainer', () => {
       .mockImplementation(() => ({ pathname: '/categorie/cat/sub' }))
     const { findByTestId, queryByTestId } = render(withSuspense(props))
 
-    await findByTestId('incidentClassification')
+    await findByTestId('incident-classification')
 
-    expect(queryByTestId('incidentWizard')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentClassification')).toBeInTheDocument()
+    expect(queryByTestId('incident-wizard')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-classification')).toBeInTheDocument()
   })
 })

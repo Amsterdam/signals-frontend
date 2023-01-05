@@ -173,14 +173,14 @@ export const KtoContainer = () => {
   if (!state.shouldRender) return null
   return (
     <Fragment>
-      <Row data-testid="ktoFormContainer">
+      <Row data-testid="kto-form-container">
         <Column span={12}>
           {isSuccess && (
             <header>
               <StyledHeading>
                 {successSections[satisfactionIndication].title}
               </StyledHeading>
-              <StyledParagraph data-testid="succesSectionBody">
+              <StyledParagraph data-testid="succes-section-body">
                 {successSections[satisfactionIndication].body}
                 {configuration.featureFlags
                   .reporterMailHandledNegativeContactEnabled &&

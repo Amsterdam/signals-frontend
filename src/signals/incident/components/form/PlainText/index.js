@@ -110,7 +110,7 @@ const PlainText = ({ className, meta, parent }) => {
   const valueAuthenticated = getIsAuthenticated() && meta?.valueAuthenticated
   const value = !valueAuthenticated && meta?.value
   return meta?.isVisible ? (
-    <Wrapper className={className} type={meta.type} data-testid="plainText">
+    <Wrapper className={className} type={meta.type} data-testid="plain-text">
       {meta.label && (
         <Label>
           <Markdown hideTabindexLink={mapActive}>

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled, { keyframes } from 'styled-components'
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { Spinner as AscSpinner } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'
+import styled, { keyframes } from 'styled-components'
 
 const rotate = keyframes`
   from {
@@ -30,7 +30,7 @@ const Spinning = styled(AscSpinner)`
 `
 
 const LoadingIndicator = (props) => (
-  <Spinning data-testid="loadingIndicator" {...props} />
+  <Spinning data-testid="loading-indicator" {...props} />
 )
 
 export default LoadingIndicator

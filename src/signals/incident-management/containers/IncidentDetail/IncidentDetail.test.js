@@ -81,19 +81,21 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   it('should render correctly', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    expect(await screen.findByTestId('incidentDetail')).toBeInTheDocument()
+    expect(await screen.findByTestId('incident-detail')).toBeInTheDocument()
     expect(
-      await screen.findByTestId('attachmentsDefinition')
+      await screen.findByTestId('attachments-definition')
     ).toBeInTheDocument()
     expect(
       await screen.findByTestId('detail-reporter-value')
     ).toBeInTheDocument()
     expect(await screen.findByTestId('detail-location')).toBeInTheDocument()
-    expect(await screen.findByTestId('mapDetail')).toBeInTheDocument()
+    expect(await screen.findByTestId('map-detail')).toBeInTheDocument()
 
     expect(await screen.findByTestId('history')).toBeInTheDocument()
-    expect(await screen.findAllByTestId('childIncidentHistory')).toHaveLength(3)
-    expect(await screen.findByTestId('childIncidents')).toBeInTheDocument()
+    expect(await screen.findAllByTestId('child-incident-history')).toHaveLength(
+      3
+    )
+    expect(await screen.findByTestId('child-incidents')).toBeInTheDocument()
   })
 
   it('should not retrieve data', () => {
@@ -101,7 +103,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     render(withAppContext(<IncidentDetail />))
 
-    expect(screen.queryByTestId('incidentDetail')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('incident-detail')).not.toBeInTheDocument()
   })
 
   it('should not get child incidents if it does not have them', async () => {
@@ -117,10 +119,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     render(withAppContext(<IncidentDetail />))
 
     // Run await twice to ensure enough renders for component to fetch /children (if it were buggy)
-    await screen.findByTestId('incidentDetail')
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
+    await screen.findByTestId('incident-detail')
 
-    expect(screen.queryByTestId('childIncidents')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('child-incidents')).not.toBeInTheDocument()
   })
 
   it('should not fetch context data for incidents with parent incident', async () => {
@@ -138,7 +140,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     })
 
     render(withAppContext(<IncidentDetail />))
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
 
     act(() => {
       expect(
@@ -146,7 +148,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       ).not.toBeInTheDocument()
     })
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('should retrieve data when id param changes', async () => {
@@ -169,64 +171,64 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     rerender(withAppContext(<IncidentDetail />))
 
     expect(await screen.findByText('Een andere melding')).toBeInTheDocument()
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('should handle Esc key', async () => {
     const { container } = render(withAppContext(<IncidentDetail />))
-    userEvent.click(await screen.findByTestId('previewLocationButton'))
+    userEvent.click(await screen.findByTestId('preview-location-button'))
     userEvent.click(screen.getByText('Locatie wijzigen'))
 
     expect(screen.getByText('Opslaan')).toBeInTheDocument()
     userEvent.type(container, '{esc}')
     expect(screen.queryByText('Opslaan')).not.toBeInTheDocument()
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('should not respond to other key presses', async () => {
     const { container } = render(withAppContext(<IncidentDetail />))
-    userEvent.click(await screen.findByTestId('previewLocationButton'))
+    userEvent.click(await screen.findByTestId('preview-location-button'))
     userEvent.click(screen.getByText('Locatie wijzigen'))
 
     expect(screen.getByText('Opslaan')).toBeInTheDocument()
     userEvent.type(container, 'Some other keys')
     expect(screen.queryByText('Opslaan')).toBeInTheDocument()
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('renders status form', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    const editStatusButton = await screen.findByTestId('editStatusButton')
+    const editStatusButton = await screen.findByTestId('edit-status-button')
 
-    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
 
     userEvent.click(editStatusButton)
 
-    expect(screen.queryByTestId('statusForm')).toBeInTheDocument()
+    expect(screen.queryByTestId('status-form')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('statusFormCancelButton'))
+    userEvent.click(screen.getByTestId('status-form-cancel-button'))
 
-    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
   })
 
   it('renders forward to external form', async () => {
     configuration.featureFlags.enableForwardIncidentToExternal = true
     render(withAppContext(<IncidentDetail />))
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
 
-    expect(screen.queryByTestId('forwardToExternal')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('forward-to-external')).not.toBeInTheDocument()
 
     userEvent.click(screen.getByRole('button', { name: 'Extern' }))
 
-    expect(screen.getByTestId('forwardToExternal')).toBeInTheDocument()
+    expect(screen.getByTestId('forward-to-external')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('formCancelButton'))
+    userEvent.click(screen.getByTestId('form-cancel-button'))
 
-    expect(screen.queryByTestId('forwardToExternal')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('forward-to-external')).not.toBeInTheDocument()
   })
 
   it('renders attachment viewer', async () => {
@@ -243,7 +245,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(attachment)
 
     expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('closes previews when close button is clicked', async () => {
@@ -271,29 +273,29 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     ).not.toBeInTheDocument()
     expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('should handle successful PATCH', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
 
     act(() => {
       userEvent.click(screen.getByText('Notitie toevoegen'))
     })
 
-    userEvent.type(screen.getByTestId('addNoteText'), 'Foo bar baz')
+    userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
 
     expect(emit).not.toHaveBeenCalled()
     expect(dispatch).not.toHaveBeenCalled()
 
     act(() => {
-      userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+      userEvent.click(screen.getByTestId('add-note-save-note-button'))
     })
 
-    await screen.findByTestId('incidentDetail')
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
+    await screen.findByTestId('incident-detail')
 
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
 
@@ -301,13 +303,13 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
     })
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
   })
 
   it('should handle attachment upload', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
 
     const files = [
       {
@@ -343,11 +345,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     render(withAppContext(<IncidentDetail />))
 
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
 
     const deleteButton = screen.getByTitle(/bijlage verwijderen/i)
     userEvent.click(deleteButton)
-    await screen.findByTestId('incidentDetail')
+    await screen.findByTestId('incident-detail')
     expect(deleteCalled).toBe(true)
   })
 
@@ -355,17 +357,17 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     beforeEach(async () => {
       render(withAppContext(<IncidentDetail />))
 
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
 
       act(() => {
         userEvent.click(screen.getByText('Notitie toevoegen'))
       })
 
       act(() => {
-        userEvent.type(screen.getByTestId('addNoteText'), 'Foo bar baz')
+        userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
       })
 
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
     })
 
     it('should handle generic', async () => {
@@ -380,10 +382,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled()
 
       act(() => {
-        userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+        userEvent.click(screen.getByTestId('add-note-save-note-button'))
       })
 
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(
@@ -396,7 +398,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
         )
       })
       expect(emit).not.toHaveBeenCalled()
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
     })
 
     it('should handle 401', async () => {
@@ -411,10 +413,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled()
 
       act(() => {
-        userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+        userEvent.click(screen.getByTestId('add-note-save-note-button'))
       })
 
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(
@@ -440,10 +442,10 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(dispatch).not.toHaveBeenCalled()
 
       act(() => {
-        userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+        userEvent.click(screen.getByTestId('add-note-save-note-button'))
       })
 
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
         expect(dispatch).toHaveBeenCalledWith(
@@ -455,7 +457,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
         )
       })
       expect(emit).not.toHaveBeenCalled()
-      await screen.findByTestId('incidentDetail')
+      await screen.findByTestId('incident-detail')
     })
   })
 })

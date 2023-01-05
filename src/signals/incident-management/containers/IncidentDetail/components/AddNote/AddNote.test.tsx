@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -13,7 +15,7 @@ describe('AddNote', () => {
       withAppContext(<AddNote maxContentLength={100} onClose={() => {}} />)
     )
 
-    expect(screen.getByTestId('addNote')).toBeInTheDocument()
+    expect(screen.getByTestId('add-note')).toBeInTheDocument()
   })
 
   it('calls update on AddNote submit', () => {
@@ -28,13 +30,13 @@ describe('AddNote', () => {
       )
     )
 
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     // no content, update is not called
     expect(update).not.toHaveBeenCalled()
 
     userEvent.type(screen.getByRole('textbox'), '   ')
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     // empty content, update is not called
     expect(update).not.toHaveBeenCalled()
@@ -44,7 +46,7 @@ describe('AddNote', () => {
       screen.getByRole('textbox'),
       Array(maxContentLength + 2).join('+')
     )
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     // content too long, update is not called
     expect(update).not.toHaveBeenCalled()
@@ -52,7 +54,7 @@ describe('AddNote', () => {
     const text = 'Hic sunt dracones'
     userEvent.clear(screen.getByRole('textbox'))
     userEvent.type(screen.getByRole('textbox'), text)
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(update).toHaveBeenCalledTimes(1)
     expect(update).toHaveBeenCalledWith({
@@ -77,7 +79,7 @@ describe('AddNote', () => {
     const text = 'Hic sunt dracones'
     userEvent.clear(screen.getByRole('textbox'))
     userEvent.type(screen.getByRole('textbox'), text)
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(close).toHaveBeenCalledTimes(1)
   })

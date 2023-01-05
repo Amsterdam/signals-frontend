@@ -7,20 +7,20 @@ import SelectInput from 'signals/incident-management/components/SelectInput'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
-import IncidentDetailContext from '../../context'
 import ChangeValue from '.'
+import IncidentDetailContext from '../../context'
 
 const expectInitialState = async () => {
   const editButton = await screen.findByTestId('editMockTypeButton')
 
   expect(editButton).toBeInTheDocument()
-  expect(screen.queryByTestId('changeValueForm')).not.toBeInTheDocument()
+  expect(screen.queryByTestId('change-value-form')).not.toBeInTheDocument()
 }
 
 const expectEditState = async () => {
   const editButton = screen.queryByTestId('editMockTypeButton')
 
-  const changeValueForm = await screen.findByTestId('changeValueForm')
+  const changeValueForm = await screen.findByTestId('change-value-form')
 
   expect(editButton).not.toBeInTheDocument()
   expect(changeValueForm).toBeInTheDocument()
@@ -101,7 +101,7 @@ describe('ChangeValue', () => {
   it('should render the selected value', () => {
     render(renderWithContext())
     expect(screen.getByText(rawKeyValue)).toBeInTheDocument()
-    expect(screen.getByTestId('displayValueIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('display-value-icon')).toBeInTheDocument()
   })
 
   it('should work with a valuePath', () => {
@@ -219,7 +219,7 @@ describe('ChangeValue', () => {
     render(renderWithContext())
     userEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
+    expect(screen.getByTestId('change-value-form')).toBeInTheDocument()
 
     userEvent.click(screen.getByTestId(cancelTestId))
 
@@ -230,11 +230,11 @@ describe('ChangeValue', () => {
     render(renderWithContext())
     userEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
+    expect(screen.getByTestId('change-value-form')).toBeInTheDocument()
 
     fireEvent.keyUp(document, { key: 'ArrowUp', code: 38, keyCode: 38 })
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
+    expect(screen.getByTestId('change-value-form')).toBeInTheDocument()
 
     fireEvent.keyUp(document, { key: 'Escape', code: 13, keyCode: 13 })
 
@@ -242,7 +242,7 @@ describe('ChangeValue', () => {
 
     userEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('changeValueForm')).toBeInTheDocument()
+    expect(screen.getByTestId('change-value-form')).toBeInTheDocument()
 
     fireEvent.keyUp(document, { key: 'Esc', code: 13, keyCode: 13 })
 
@@ -253,21 +253,23 @@ describe('ChangeValue', () => {
     render(renderWithContext({ ...props, infoKey: 'description' }))
     userEvent.click(screen.getByTestId(editTestId))
 
-    expect(screen.getByTestId('infoText')).toBeInTheDocument()
-    expect(screen.getByTestId('infoText').textContent).toEqual(description)
+    expect(screen.getByTestId('info-text')).toBeInTheDocument()
+    expect(screen.getByTestId('info-text').textContent).toEqual(description)
 
     fireEvent.change(document.querySelector('select'), {
       target: { value: derivedKey },
     })
 
-    expect(screen.queryByTestId('infoText')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('info-text')).not.toBeInTheDocument()
 
     fireEvent.change(document.querySelector('select'), {
       target: { value: otherKey },
     })
 
-    expect(screen.getByTestId('infoText')).toBeInTheDocument()
-    expect(screen.getByTestId('infoText').textContent).toEqual(otherDescription)
+    expect(screen.getByTestId('info-text')).toBeInTheDocument()
+    expect(screen.getByTestId('info-text').textContent).toEqual(
+      otherDescription
+    )
   })
 
   it('should not render info text when no option for selected value', () => {

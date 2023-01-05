@@ -1,12 +1,13 @@
-import { render, screen } from '@testing-library/react'
 import type { FC } from 'react'
+
+import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
 import WithHeading from './'
 
 const TextInput: FC<any> = (props) => (
-  <span data-testid="textInput" {...props} />
+  <span data-testid="text-input" {...props} />
 )
 
 const name = 'Foo bar'
@@ -24,7 +25,7 @@ describe('WithHeading', () => {
     render(withAppContext(<WithHeading meta={meta} />))
 
     expect(screen.getByText(heading)).toBeInTheDocument()
-    expect(screen.getByTestId('textInput')).toBeInTheDocument()
+    expect(screen.getByTestId('text-input')).toBeInTheDocument()
   })
 
   it('will not render a component when not all the meta data is provided', () => {
@@ -39,7 +40,7 @@ describe('WithHeading', () => {
       )
     )
 
-    expect(screen.queryByTestId('textInput')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('text-input')).not.toBeInTheDocument()
 
     rerender(
       withAppContext(
@@ -53,6 +54,6 @@ describe('WithHeading', () => {
     )
 
     expect(screen.queryByText(heading)).not.toBeInTheDocument()
-    expect(screen.queryByTestId('textInput')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('text-input')).not.toBeInTheDocument()
   })
 })

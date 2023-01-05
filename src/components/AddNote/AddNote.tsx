@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { forwardRef, useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { themeSpacing } from '@amsterdam/asc-ui'
-
 import type { ChangeEvent, ReactNode, SyntheticEvent, FocusEvent } from 'react'
 
+import { themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import Button from 'components/Button'
-import TextArea from 'components/TextArea'
 import Label from 'components/Label'
+import TextArea from 'components/TextArea'
 
 export interface AddNoteProps {
   className?: string
@@ -109,11 +109,11 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 
     if (!showForm) {
       return (
-        <section data-testid="addNote">
+        <section data-testid="add-note">
           <Button
             type="button"
             variant="application"
-            data-testid="addNoteNewNoteButton"
+            data-testid="add-note-new-note-button"
             onClick={() => setShowForm(true)}
           >
             Notitie toevoegen
@@ -123,12 +123,12 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
     }
 
     return (
-      <section className={className} data-testid="addNote">
+      <section className={className} data-testid="add-note">
         <Label htmlFor="addNoteText" className="addNoteText">
           {label}
         </Label>
         <TextArea
-          data-testid="addNoteText"
+          data-testid="add-note-text"
           errorMessage={error}
           id="addNoteText"
           maxContentLength={maxContentLength}
@@ -144,7 +144,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
         {isStandalone && (
           <>
             <NoteButton
-              data-testid="addNoteSaveNoteButton"
+              data-testid="add-note-save-note-button"
               onClick={handleSubmit}
               type="submit"
               variant="secondary"
@@ -153,7 +153,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
             </NoteButton>
 
             <NoteButton
-              data-testid="addNoteCancelNoteButton"
+              data-testid="add-note-cancel-note-button"
               variant="tertiary"
               type="button"
               onClick={handleCancel}

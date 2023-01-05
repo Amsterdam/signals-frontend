@@ -18,19 +18,19 @@ const DataViewBody = ({
   )
 
   return (
-    <tbody data-testid="dataViewBody">
+    <tbody data-testid="data-view-body">
       {data.map((row) => (
         <StyledTR
           key={JSON.stringify(row)}
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
           onClick={onItemClick}
-          data-testid="dataViewBodyRow"
+          data-testid="data-view-body-row"
         >
           {visibleColumns.map((column, idx) => (
             <StyledTD
               // eslint-disable-next-line react/no-array-index-key
               key={`${JSON.stringify(column)}${idx}`}
-              data-testid="dataViewBodyRowValue"
+              data-testid="data-view-body-row-value"
             >
               {row[column]}
             </StyledTD>

@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
+import type { FC } from 'react'
+
 import { Controller, useFormContext } from 'react-hook-form'
 
+import AddNote, { getAddNoteError } from 'components/AddNote'
+import Button from 'components/Button'
+import SelectLoader from 'components/SelectLoader'
+import type { SubcategoriesGrouped } from 'models/categories/selectors'
 import {
   priorityList,
   typesList,
 } from 'signals/incident-management/definitions'
-import Button from 'components/Button'
-import SelectLoader from 'components/SelectLoader'
-
-import type { FC } from 'react'
-import type { SubcategoriesGrouped } from 'models/categories/selectors'
-import AddNote, { getAddNoteError } from 'components/AddNote'
-import type { ParentIncident } from '../IncidentSplitForm'
 
 import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'
-
+import type { ParentIncident } from '../IncidentSplitForm'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput'
 
@@ -48,7 +47,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
           <StyledGrid>
             <StyledHeading
               forwardedAs="h2"
-              data-testid="incidentSplitFormIncidentTitle"
+              data-testid="incident-split-form-incident-title"
             >
               Deelmelding {splitNumber + parentIncident.childrenCount}
             </StyledHeading>
@@ -60,7 +59,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                 defaultValue={parentIncident.subcategory}
                 render={({ field: { onChange, name } }) => (
                   <IncidentSplitSelectInput
-                    data-testid={`incidentSplitFormIncidentSubcategorySelect-${splitNumber}`}
+                    data-testid={`incident-split-form-incident-subcategory-select-${splitNumber}`}
                     display="Subcategorie"
                     groups={groups}
                     id={`subcategory-${splitNumber}`}
@@ -107,7 +106,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
               name={`incidents[${splitNumber}].priority`}
               render={({ field: { onChange, name } }) => (
                 <IncidentSplitRadioInput
-                  data-testid={`incidentSplitFormIncidentPriorityRadio-${splitNumber}`}
+                  data-testid={`incident-split-form-incident-priority-radio-${splitNumber}`}
                   display="Urgentie"
                   id={`priority-${splitNumber}`}
                   initialValue={parentIncident.priority}
@@ -124,7 +123,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
               name={`incidents[${splitNumber}].type`}
               render={({ field: { onChange, name } }) => (
                 <IncidentSplitRadioInput
-                  data-testid={`incidentSplitFormIncidentTypeRadio-${splitNumber}`}
+                  data-testid={`incident-split-form-incident-type-radio-${splitNumber}`}
                   display="Type"
                   id={`type-${splitNumber}`}
                   initialValue={parentIncident.type}
@@ -141,7 +140,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
       {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
         <fieldset>
           <Button
-            data-testid="incidentSplitFormIncidentSplitButton"
+            data-testid="incident-split-form-incident-split-button"
             type="button"
             variant="primaryInverted"
             onClick={addIncident}

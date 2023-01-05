@@ -13,19 +13,20 @@ import {
 } from 'react'
 
 import { Label as AscLabel } from '@amsterdam/asc-ui'
+import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+
 import AutoSuggest from 'components/AutoSuggest'
 import Checkbox from 'components/Checkbox'
 import Input from 'components/Input'
 import Label from 'components/Label'
-import cloneDeep from 'lodash/cloneDeep'
-import isEqual from 'lodash/isEqual'
 import { makeSelectStructuredCategories } from 'models/categories/selectors'
 import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import configuration from 'shared/services/configuration/configuration'
 import { dateToISOString } from 'shared/services/date-utils'
 import { filterType } from 'shared/types'
@@ -395,7 +396,7 @@ const FilterForm = ({
             </Label>
             <div className="invoer">
               <Input
-                data-testid="filterName"
+                data-testid="filter-name"
                 value={controlledTextInput.name}
                 id="filter_name"
                 name="name"
@@ -411,7 +412,7 @@ const FilterForm = ({
             </Label>
             <div>
               <Checkbox
-                data-testid="filterRefresh"
+                data-testid="filter-refresh"
                 checked={state.filter.refresh}
                 id="filter_refresh"
                 name="refresh"
@@ -434,7 +435,7 @@ const FilterForm = ({
                 Zoek in notitie
               </Label>
               <Input
-                data-testid="filterNotes"
+                data-testid="filter-notes"
                 name="note_keyword"
                 id="filter_notes"
                 onBlur={onNoteBlur}
@@ -606,7 +607,7 @@ const FilterForm = ({
                 Adres
               </Label>
               <Input
-                data-testid="filterAddress"
+                data-testid="filter-address"
                 name="address_text"
                 id="filter_address"
                 onBlur={onAddressBlur}
@@ -617,7 +618,7 @@ const FilterForm = ({
             </FilterGroup>
 
             {configuration.featureFlags.assignSignalToEmployee && (
-              <FilterGroup data-testid="filterAssignedUserEmail">
+              <FilterGroup data-testid="filter-assigned-user-email">
                 <Label htmlFor="filter_assigned_user_email" isGroupHeader>
                   Toegewezen aan
                 </Label>
@@ -628,7 +629,7 @@ const FilterForm = ({
                     noActiveState
                   >
                     <Checkbox
-                      data-testid="filterNotAssigned"
+                      data-testid="filter-not-assigned"
                       checked={state.options.assigned_user_email === 'null'}
                       id="filter_not_assigned"
                       name="notAssigned"
@@ -667,7 +668,7 @@ const FilterForm = ({
             />
 
             {configuration.featureFlags.assignSignalToDepartment && (
-              <FilterGroup data-testid="filterRoutingDepartment">
+              <FilterGroup data-testid="filter-routing-department">
                 <Label htmlFor="filter_routing_department" isGroupHeader>
                   Afdeling
                 </Label>
@@ -678,7 +679,7 @@ const FilterForm = ({
                     noActiveState
                   >
                     <Checkbox
-                      data-testid="filterNotRouted"
+                      data-testid="filter-not-routed"
                       checked={isNotRoutedChecked()}
                       id="filter_not_routed"
                       name="notRouted"

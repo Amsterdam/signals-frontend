@@ -97,5 +97,5 @@ export const setDeelmelding = (id: number, deelmeldingNumber: string, subcategor
     const elementText = $element.text();
     cy.get('select').eq(id - 1).select(elementText);
   });
-  cy.get(`[data-testid="incidentSplitFormIncidentDescriptionText-${id}"]`).clear().type(description);
+  cy.get(`[data-testid="incident-split-form-incident-description-text-${id}"]`).clear().type(description);
 };

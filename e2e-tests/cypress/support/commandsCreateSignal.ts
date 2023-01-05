@@ -306,7 +306,7 @@ export const openCreatedSignal = () => {
  * @example cy.saveSignalId();
 */
 export const saveSignalId = () => {
-  cy.get('[data-testid="plainText"')
+  cy.get('[data-testid="plain-text"')
     .then($signalLabel => {
       // Get the signal id
       const text = $signalLabel.text();
@@ -347,7 +347,7 @@ export const searchAndCheck = (searchTerm: string, selector: string) => {
  * @example cy.selectAddress('Bethaniënstraat 12, 1012CA Amsterdam');
 */
 export const selectAddress = (address: string) => {
-  cy.get('[data-testid=suggestList] > li ')
+  cy.get('[data-testid=suggest-list] > li ')
     .contains(new RegExp(`^${address}$`, 'g'))
     .trigger('click');
 };

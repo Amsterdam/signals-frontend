@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
+
 import TextArea from 'components/TextArea'
+
 import DescriptionInfo from '../DescriptionInfo'
 
 const DescriptionInput = ({ handler, value, meta, parent }) => {
@@ -35,7 +38,7 @@ const DescriptionInput = ({ handler, value, meta, parent }) => {
       <TextArea
         id={meta.name}
         aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
-        data-testid="descriptionInput"
+        data-testid="description-input"
         rows={meta.rows}
         placeholder={meta.placeholder}
         {...handler()}

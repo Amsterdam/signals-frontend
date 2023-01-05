@@ -127,7 +127,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
         <Title>{fileName}</Title>
 
         <CloseButton
-          data-testid="closeBtn"
+          data-testid="close-btn"
           square
           onClick={onClose}
           size={64}

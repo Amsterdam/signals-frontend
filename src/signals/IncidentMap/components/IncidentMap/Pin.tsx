@@ -29,7 +29,7 @@ export const Pin = ({ map, coordinates, mode, closeOverlay }: Props) => {
 
   return (
     <Marker
-      data-testid="incidentPinMarker"
+      data-testid="incident-pin-marker"
       key={Object.values(coordinates).toString()}
       args={[coordinates]}
       options={{

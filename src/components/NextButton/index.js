@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import Button from 'components/Button'
 
@@ -12,7 +12,7 @@ const StyledButton = styled(Button)`
 const NextButton = ({ className, children, onClick }) => (
   <StyledButton
     className={className}
-    data-testid="nextButton"
+    data-testid="next-button"
     onClick={onClick}
     taskflow
     type="submit"

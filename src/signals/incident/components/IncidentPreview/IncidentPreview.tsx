@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import { Heading, Link as AscLink } from '@amsterdam/asc-ui'
-
 import type { FC } from 'react'
-import type { Incident, ValueObject } from 'types/incident'
-import type { Sections } from 'signals/incident/definitions/wizard'
+
+import { Heading, Link as AscLink } from '@amsterdam/asc-ui'
+import { Link } from 'react-router-dom'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
+import type { Sections } from 'signals/incident/definitions/wizard'
+import type { Incident, ValueObject } from 'types/incident'
+
 import { Dl, Header, LinkContainer, Section, Wrapper } from './styled'
 
 type Section = {
@@ -40,7 +41,7 @@ const IncidentPreview: FC<IncidentPreviewProps> = ({
   preview,
   sectionLabels,
 }) => (
-  <Wrapper data-testid="incidentPreview">
+  <Wrapper data-testid="incident-preview">
     {Object.entries(preview).map(([sectionId, value]) => {
       const editLinkLabel = sectionLabels.edit[sectionId as keyof Preview]
       const sectionHeadingLabel =

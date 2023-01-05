@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { screen, render, fireEvent } from '@testing-library/react'
 
 import { StatusCode } from 'signals/incident-management/definitions/types'
-
-import type { DefaultText as DefaultTextType } from 'types/api/default-text'
-import type { DefaulTextsProps } from './DefaultTexts'
-
 import { withAppContext } from 'test/utils'
+import type { DefaultText as DefaultTextType } from 'types/api/default-text'
+
 import DefaultTexts from '.'
+import type { DefaulTextsProps } from './DefaultTexts'
 
 describe('<DefaultTexts />', () => {
   let props: DefaulTextsProps
@@ -48,27 +47,27 @@ describe('<DefaultTexts />', () => {
       withAppContext(<DefaultTexts {...props} />)
     )
 
-    expect(screen.getByTestId('modalTitle')).toHaveTextContent(
+    expect(screen.getByTestId('modal-title')).toHaveTextContent(
       /^Standaardtekst$/
     )
 
-    expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(3)
-    expect(queryAllByTestId('defaultTextsItemTitle')[0]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-text')).toHaveLength(3)
+    expect(queryAllByTestId('default-texts-item-title')[0]).toHaveTextContent(
       /^Titel 1$/
     )
-    expect(queryAllByTestId('defaultTextsItemText')[0]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-text')[0]).toHaveTextContent(
       /^Er is een accu gevonden en deze is meegenomen$/
     )
-    expect(queryAllByTestId('defaultTextsItemTitle')[1]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-title')[1]).toHaveTextContent(
       /^222$/
     )
-    expect(queryAllByTestId('defaultTextsItemText')[1]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-text')[1]).toHaveTextContent(
       /^sdfsdfsdf$/
     )
-    expect(queryAllByTestId('defaultTextsItemTitle')[2]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-title')[2]).toHaveTextContent(
       /^Asbest$/
     )
-    expect(queryAllByTestId('defaultTextsItemText')[2]).toHaveTextContent(
+    expect(queryAllByTestId('default-texts-item-text')[2]).toHaveTextContent(
       /^Er is asbest gevonden en dit zal binnen 3 werkdagen worden opgeruimd\.$/
     )
   })
@@ -78,7 +77,7 @@ describe('<DefaultTexts />', () => {
       withAppContext(<DefaultTexts {...props} status={StatusCode.Ingepland} />)
     )
 
-    expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0)
+    expect(queryAllByTestId('default-texts-item-text')).toHaveLength(0)
   })
 
   it('should not render when list is empty', () => {
@@ -88,7 +87,7 @@ describe('<DefaultTexts />', () => {
       withAppContext(<DefaultTexts {...props} defaultTexts={defaultTexts} />)
     )
 
-    expect(queryAllByTestId('defaultTextsItemText')).toHaveLength(0)
+    expect(queryAllByTestId('default-texts-item-text')).toHaveLength(0)
   })
 
   it('should render notification when list has no templates', () => {
@@ -110,7 +109,7 @@ describe('<DefaultTexts />', () => {
     const { queryAllByTestId } = render(
       withAppContext(<DefaultTexts {...props} />)
     )
-    fireEvent.click(queryAllByTestId('defaultTextsItemButton')[0])
+    fireEvent.click(queryAllByTestId('default-texts-item-button')[0])
 
     expect(props.onHandleUseDefaultText).toHaveBeenCalledTimes(1)
   })

@@ -60,8 +60,8 @@ describe('IncidentMap', () => {
   it('should render the incident map correctly', () => {
     render(withAppContext(<IncidentMap />))
 
-    expect(screen.getByTestId('incidentMap')).toBeInTheDocument()
-    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
+    expect(screen.getByTestId('incident-map')).toBeInTheDocument()
+    expect(screen.getByTestId('gps-button')).toBeInTheDocument()
     expect(screen.getByText('[Filter Panel]')).toBeInTheDocument()
   })
 
@@ -107,13 +107,13 @@ describe('IncidentMap', () => {
     })
 
     render(withAppContext(<IncidentMap />))
-    expect(screen.getByTestId('gpsButton')).toBeInTheDocument()
+    expect(screen.getByTestId('gps-button')).toBeInTheDocument()
 
     await act(async () => {
-      userEvent.click(screen.getByTestId('gpsButton'))
+      userEvent.click(screen.getByTestId('gps-button'))
     })
 
-    expect(screen.getByTestId('searchAddressBar')).toHaveValue(
+    expect(screen.getByTestId('search-address-bar')).toHaveValue(
       formatAddress(mockPdokAddress)
     )
   })
@@ -129,7 +129,7 @@ describe('IncidentMap', () => {
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).toBeInTheDocument()
 
-    const closeButton = screen.getByTestId('closeMessage')
+    const closeButton = screen.getByTestId('close-message')
 
     expect(closeButton).toBeInTheDocument()
 

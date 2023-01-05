@@ -16,7 +16,7 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 
 import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
-import { AddressSearchMobile } from '../AddressLocation/AddressSearchMobile'
+import { AddressSearchMobile } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
@@ -146,7 +146,7 @@ export const IncidentMap = () => {
   return (
     <Wrapper>
       <StyledMap
-        data-testid="incidentMap"
+        data-testid="incident-map"
         hasZoomControls
         setInstance={setMap}
         mapOptions={{

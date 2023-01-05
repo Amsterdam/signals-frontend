@@ -44,8 +44,8 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         )
       )
 
-      expect(getByTestId('descriptionInput')).toBeInTheDocument()
-      expect(getByTestId('descriptionInfo')).toBeInTheDocument()
+      expect(getByTestId('description-input')).toBeInTheDocument()
+      expect(getByTestId('description-info')).toBeInTheDocument()
     })
 
     it('should render with a character counter with value correctly', () => {
@@ -63,8 +63,8 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         )
       )
 
-      expect(getByTestId('descriptionInfo')).toBeInTheDocument()
-      expect(getByTestId('descriptionInfo').textContent).toEqual(
+      expect(getByTestId('description-info')).toBeInTheDocument()
+      expect(getByTestId('description-info').textContent).toEqual(
         `${description.length}/100 tekens`
       )
     })
@@ -90,12 +90,12 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         )
       )
 
-      const element = getByTestId('descriptionInput')
+      const element = getByTestId('description-input')
 
       userEvent.type(element, value)
       fireEvent.blur(element)
 
-      await findByTestId('descriptionInput')
+      await findByTestId('description-input')
 
       expect(props.parent.meta.getClassification).toHaveBeenCalledWith(
         'diabolo'
@@ -119,12 +119,12 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         )
       )
 
-      const element = getByTestId('descriptionInput')
+      const element = getByTestId('description-input')
 
       userEvent.clear(element)
       fireEvent.blur(element)
 
-      await findByTestId('descriptionInput')
+      await findByTestId('description-input')
 
       expect(props.parent.meta.getClassification).not.toHaveBeenCalled()
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({
@@ -154,12 +154,12 @@ describe('signals/incident/components/form/DescriptionInput', () => {
         )
       )
 
-      const element = getByTestId('descriptionInput')
+      const element = getByTestId('description-input')
 
       userEvent.type(element, value)
       fireEvent.blur(element)
 
-      await findByTestId('descriptionInput')
+      await findByTestId('description-input')
 
       expect(parent.meta.getClassification).not.toHaveBeenCalled()
       expect(props.parent.meta.updateIncident).toHaveBeenCalledWith({

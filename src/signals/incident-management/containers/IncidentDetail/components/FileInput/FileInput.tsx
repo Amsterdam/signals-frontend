@@ -31,11 +31,11 @@ const FileInput = ({
   )
 
   return (
-    <FileInputUploadButton data-testid="fileInputUploadButton">
+    <FileInputUploadButton data-testid="file-input-upload-button">
       <input
         type="file"
         id="fileUpload"
-        data-testid="fileInputUpload"
+        data-testid="file-input-upload"
         accept={allowedFileTypes.join(',')}
         onChange={addFiles}
         name={name}

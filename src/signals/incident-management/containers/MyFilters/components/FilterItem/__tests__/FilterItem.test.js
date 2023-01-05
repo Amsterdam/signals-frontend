@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { createEvent, fireEvent, screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
+
 import * as definitions from 'signals/incident-management/definitions'
 import { parseToAPIData } from 'signals/shared/filter/parse'
+import { withAppContext } from 'test/utils'
+
 import FilterItem from '..'
 
 jest.mock('signals/shared/filter/parse', () => {
@@ -75,7 +77,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
 
     const { getByTestId } = render(withAppContext(<FilterItem {...props} />))
 
-    const handleApplyFilterButton = getByTestId('handleApplyFilterButton')
+    const handleApplyFilterButton = getByTestId('handle-apply-filter-button')
     const event = createEvent.click(handleApplyFilterButton, { button: 1 })
     event.preventDefault = jest.fn()
 
@@ -98,7 +100,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
 
     const { getByTestId } = render(withAppContext(<FilterItem {...props} />))
 
-    const handleEditFilterButton = getByTestId('handleEditFilterButton')
+    const handleEditFilterButton = getByTestId('handle-edit-filter-button')
     const event = createEvent.click(handleEditFilterButton, { button: 1 })
     event.preventDefault = jest.fn()
 
@@ -142,7 +144,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
 
     const { getByTestId } = render(withAppContext(<FilterItem {...props} />))
 
-    const handleRemoveFilterButton = getByTestId('handleRemoveFilterButton')
+    const handleRemoveFilterButton = getByTestId('handle-remove-filter-button')
     const event = createEvent.click(handleRemoveFilterButton, { button: 1 })
     event.preventDefault = jest.fn()
 
@@ -166,7 +168,7 @@ describe('signals/incident-management/containers/MyFilters/components/FilterItem
 
     const { getByTestId } = render(withAppContext(<FilterItem {...props} />))
 
-    const handleRemoveFilterButton = getByTestId('handleRemoveFilterButton')
+    const handleRemoveFilterButton = getByTestId('handle-remove-filter-button')
     const event = createEvent.click(handleRemoveFilterButton, { button: 1 })
     event.preventDefault = jest.fn()
 

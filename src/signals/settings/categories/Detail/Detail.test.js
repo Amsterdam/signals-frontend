@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
-import * as reactRouterDom from 'react-router-dom'
-import * as reactRedux from 'react-redux'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
-import routes from 'signals/settings/routes'
-import historyJSON from 'utils/__tests__/fixtures/history.json'
-import configuration from 'shared/services/configuration/configuration'
-import { fetchCategories } from 'models/categories/actions'
+import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
+
 import { showGlobalNotification } from 'containers/App/actions'
 import * as appSelectors from 'containers/App/selectors'
-
+import { fetchCategories } from 'models/categories/actions'
+import configuration from 'shared/services/configuration/configuration'
+import routes from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
 import { subCategories } from 'utils/__tests__/fixtures'
-import useConfirmedCancel from '../../hooks/useConfirmedCancel'
+import historyJSON from 'utils/__tests__/fixtures/history.json'
+
 import CategoryDetailContainer from '.'
+import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 
 const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])
 
@@ -109,7 +110,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    const form = screen.getByTestId('detailCategoryForm')
+    const form = screen.getByTestId('detail-category-form')
     expect(form).toBeInTheDocument()
 
     screen.getAllByRole('textbox').forEach((element) => {
@@ -124,7 +125,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     expect(document.querySelector('#name').value).toEqual(categoryJSON.name)
     expect(document.querySelector('#description').value).toEqual(
@@ -139,10 +140,10 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     const nameField = screen.getByRole('textbox', { name: 'Naam' })
-    const cancelButton = screen.getByTestId('cancelBtn')
+    const cancelButton = screen.getByTestId('cancel-btn')
 
     // no changes to data in form fields
     userEvent.click(cancelButton)
@@ -185,9 +186,9 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
-    userEvent.click(screen.getByTestId('submitBtn'))
+    userEvent.click(screen.getByTestId('submit-btn'))
 
     const actualRequestBody = JSON.parse(
       fetch.mock.calls[fetch.mock.calls.length - 1][1].body
@@ -197,7 +198,7 @@ describe('signals/settings/categories/Detail', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 
@@ -219,9 +220,9 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
-    userEvent.click(screen.getByTestId('submitBtn'))
+    userEvent.click(screen.getByTestId('submit-btn'))
 
     const actualRequestBody = JSON.parse(
       fetch.mock.calls[fetch.mock.calls.length - 1][1].body
@@ -231,7 +232,7 @@ describe('signals/settings/categories/Detail', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 
@@ -252,12 +253,12 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     const descriptionField = screen.getByRole('textbox', {
       name: 'Omschrijving',
     })
-    const cancelButton = screen.getByTestId('cancelBtn')
+    const cancelButton = screen.getByTestId('cancel-btn')
 
     // no changes to data in form fields
     userEvent.click(cancelButton)
@@ -268,7 +269,7 @@ describe('signals/settings/categories/Detail', () => {
     // changes made, but data remains the same
     userEvent.clear(descriptionField)
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     userEvent.click(cancelButton)
 
@@ -278,7 +279,7 @@ describe('signals/settings/categories/Detail', () => {
     // changes made, data differs from initial API data
     userEvent.type(descriptionField, 'Here be a description')
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     userEvent.click(cancelButton)
 
@@ -301,11 +302,11 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     expect(fetch).toHaveBeenCalledTimes(2)
 
-    const submitBtn = screen.getByTestId('submitBtn')
+    const submitBtn = screen.getByTestId('submit-btn')
 
     userEvent.click(submitBtn)
 
@@ -318,7 +319,7 @@ describe('signals/settings/categories/Detail', () => {
     )
 
     // on patch success, re-request all categories
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     expect(dispatch).toHaveBeenCalledWith(fetchCategories())
   })
@@ -338,17 +339,17 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
-    expect(screen.getByTestId('detailCategoryForm')).toBeInTheDocument()
+    await screen.findByTestId('detail-category-form')
+    expect(screen.getByTestId('detail-category-form')).toBeInTheDocument()
 
-    const submitBtn = screen.getByTestId('submitBtn')
+    const submitBtn = screen.getByTestId('submit-btn')
 
     userEvent.click(submitBtn)
 
     expect(dispatch).not.toHaveBeenCalled()
     expect(push).not.toHaveBeenCalled()
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification(expect.any(Object))
@@ -385,7 +386,7 @@ describe('signals/settings/categories/Detail', () => {
 
     render(withAppContext(<CategoryDetailContainer />))
 
-    await screen.findByTestId('detailCategoryForm')
+    await screen.findByTestId('detail-category-form')
 
     expect(fetch).toHaveBeenLastCalledWith(
       expect.stringContaining('/history'),

@@ -57,7 +57,7 @@ describe('components/ChildIncidents', () => {
       )
     )
 
-    const list = screen.getByTestId('childIncidents')
+    const list = screen.getByTestId('child-incidents')
 
     expect(list).toBeInTheDocument()
     expect(list.nodeName).toEqual('UL')

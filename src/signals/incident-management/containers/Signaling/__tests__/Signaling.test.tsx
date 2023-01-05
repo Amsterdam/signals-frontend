@@ -1,18 +1,19 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
-import signalsReopenRequestedReport from '../../../../../../internals/mocks/fixtures/report_signals-reopen-requested.json'
-import signalsOpenReport from '../../../../../../internals/mocks/fixtures/report_signals-open.json'
 
 import Signaling from '..'
-
+import signalsOpenReport from '../../../../../../internals/mocks/fixtures/report_signals-open.json'
+import signalsReopenRequestedReport from '../../../../../../internals/mocks/fixtures/report_signals-reopen-requested.json'
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   server,
   rest,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
-import * as API from '../../../../../../internals/testing/api'
 
 fetchMock.disableMocks()
 
@@ -22,7 +23,7 @@ describe('<Signaling />', () => {
 
     // Loading
     expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
-    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Signalering' })
     ).toBeInTheDocument()
@@ -44,7 +45,7 @@ describe('<Signaling />', () => {
 
     // Loading
     expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
-    expect(screen.getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Signalering' })
     ).toBeInTheDocument()

@@ -8,7 +8,7 @@ const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
   <StyledTR data-testid={testId}>
     {nodes.map((node, idx) => (
       // eslint-disable-next-line react/no-array-index-key
-      <StyledTH key={idx} data-testid={`${testId}Heading`}>
+      <StyledTH key={idx} data-testid={`${testId}-heading`}>
         {node}
       </StyledTH>
     ))}
@@ -17,7 +17,7 @@ const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
 )
 
 DataViewHeaderRow.defaultProps = {
-  testId: 'dataViewHeaderRow',
+  testId: 'data-view-header-row',
   spacer: 0,
 }
 

@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { useEffect, useCallback, useRef, useState } from 'react'
+
+import { Label, themeSpacing } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { Label, themeSpacing } from '@amsterdam/asc-ui'
-import useFormValidation from 'hooks/useFormValidation'
 
 import Checkbox from 'components/Checkbox'
-import Input from 'components/Input'
 import FormFooter, { FORM_FOOTER_HEIGHT } from 'components/FormFooter'
-
+import Input from 'components/Input'
+import useFormValidation from 'hooks/useFormValidation'
 import { ROLES_URL } from 'signals/settings/routes'
 
 const StyledForm = styled.form`
@@ -97,10 +97,10 @@ export const RoleForm = ({
   }, [history])
 
   return (
-    <div data-testid="rolesForm">
+    <div data-testid="roles-form">
       <StyledForm ref={formRef} noValidate>
         <StyledInput
-          data-testid="rolesFormFieldName"
+          data-testid="roles-form-field-name"
           defaultValue={role.name}
           disabled={readOnly}
           error={errors.name || null}

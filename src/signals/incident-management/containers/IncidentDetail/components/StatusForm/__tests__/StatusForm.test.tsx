@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import { ThemeProvider } from '@amsterdam/asc-ui'
 import {
   getQueriesForElement,
   render,
   screen,
   waitFor,
 } from '@testing-library/react'
-import { ThemeProvider } from '@amsterdam/asc-ui'
+import userEvent from '@testing-library/user-event'
+import fetch from 'jest-fetch-mock'
 
-import incidentJSON from 'utils/__tests__/fixtures/incident.json'
+import * as actions from 'containers/App/actions'
 import {
   changeStatusOptionList,
   GEMELD,
@@ -18,16 +20,14 @@ import {
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
-
-import type { Incident } from 'types/api/incident'
-
-import userEvent from '@testing-library/user-event'
-import fetch from 'jest-fetch-mock'
-import * as actions from 'containers/App/actions'
 import { withAppContext } from 'test/utils'
+import type { Incident } from 'types/api/incident'
+import incidentJSON from 'utils/__tests__/fixtures/incident.json'
+
+import StatusForm from '..'
 import { PATCH_TYPE_STATUS } from '../../../constants'
 import IncidentDetailContext from '../../../context'
-import StatusForm from '..'
+import type { IncidentChild } from '../../../types'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
   DEELMELDING_EXPLANATION,
@@ -37,8 +37,6 @@ import {
   DEFAULT_TEXT_MAX_LENGTH,
   NO_EMAIL_IS_SENT,
 } from '../constants'
-
-import type { IncidentChild } from '../../../types'
 
 const incidentFixture = incidentJSON as unknown as Incident
 const defaultTexts = [
@@ -132,25 +130,25 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     userEvent.click(screen.getByText('Afgehandeld'))
-    userEvent.click(screen.getByTestId('sendEmailCheckbox'))
+    userEvent.click(screen.getByTestId('send-email-checkbox'))
 
     expect(screen.queryByText(DEFAULT_TEXT_LABEL)).toBeInTheDocument()
   })
 
   it('renders correctly', () => {
     render(renderWithContext())
-    expect(screen.queryByTestId('standardTextButton')).toBeInTheDocument()
+    expect(screen.queryByTestId('standard-text-button')).toBeInTheDocument()
     expect(screen.getByText('Standaardtekst (0)')).toBeInTheDocument()
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
-    expect(screen.getByTestId('statusFormCancelButton')).toBeInTheDocument()
-    expect(screen.getByTestId('sendEmailCheckbox')).toBeInTheDocument()
+    expect(screen.getByTestId('status-form-cancel-button')).toBeInTheDocument()
+    expect(screen.getByTestId('send-email-checkbox')).toBeInTheDocument()
     expect(screen.getByText(MELDING_CHECKBOX_DESCRIPTION)).toBeInTheDocument()
   })
 
   it('it shows a select component with all status options', () => {
     render(renderWithContext())
-    const selectElement = screen.getByTestId('selectStatus')
+    const selectElement = screen.getByTestId('select-status')
     const selectOptions =
       getQueriesForElement(selectElement).getAllByRole('option')
     expect(selectOptions.length).toEqual(changeStatusOptionList.length + 1)
@@ -182,7 +180,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext(withSendEmailStatus))
 
     // verify that checkbox is checked and disabled
-    const checkbox = screen.getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('send-email-checkbox')
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
 
@@ -190,7 +188,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
 
     // select a status that will not disable the checkbox
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Gemeld,
     ])
 
@@ -211,16 +209,16 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render status verzoek tot heropenen
     render(renderWithContext(withHeropenenStatus))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Heropend,
     ])
 
-    const checkbox = screen.getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('send-email-checkbox')
 
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
 
@@ -238,14 +236,14 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext(withSendEmailStatus))
 
     // verify that checkbox is checked and disabled
-    const checkbox = screen.getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('send-email-checkbox')
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
-    await screen.findByTestId('statusForm')
+    await screen.findByTestId('status-form')
 
     // verify that an error message is shown
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
@@ -270,7 +268,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component
     render(renderWithContext(withNotSendEmailStatus))
 
-    const checkbox = screen.getByTestId('sendEmailCheckbox')
+    const checkbox = screen.getByTestId('send-email-checkbox')
 
     expect(checkbox).not.toBeChecked()
 
@@ -302,31 +300,33 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext(withDefaultTextsSelectedState))
 
     // verify that there are default texts button is visible
-    expect(screen.getByTestId('standardTextButton')).toBeInTheDocument()
+    expect(screen.getByTestId('standard-text-button')).toBeInTheDocument()
 
     // verify that the text field is empty
     expect(screen.getByRole('textbox')).toHaveTextContent('')
 
     // click the standard text button
-    const link = screen.getByTestId('standardTextButton')
+    const link = screen.getByTestId('standard-text-button')
 
     userEvent.click(link)
 
     // verify that the default texts are shown
-    expect(screen.getAllByTestId('defaultTextsItemText')[0]).toBeInTheDocument()
+    expect(
+      screen.getAllByTestId('default-texts-item-text')[0]
+    ).toBeInTheDocument()
     const { textContent } = screen.getAllByTestId(
-      'defaultTextsItemText'
+      'default-texts-item-text'
     )[0] as HTMLElement
 
     const defaultTextsItemButton = screen.getAllByTestId(
-      'defaultTextsItemButton'
+      'default-texts-item-button'
     )[0]
     userEvent.click(defaultTextsItemButton)
 
     expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
 
     // select another status
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Gemeld,
     ])
 
@@ -350,7 +350,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(textarea).toHaveTextContent(value)
 
     // select another status
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afwachting,
     ])
 
@@ -387,7 +387,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-    await screen.findByTestId('statusForm')
+    await screen.findByTestId('status-form')
 
     // verify that an error message is shown
     expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -420,7 +420,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-    await screen.findByTestId('statusForm')
+    await screen.findByTestId('status-form')
 
     // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(
@@ -439,20 +439,20 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // verify that an error message is NOT shown
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
 
     // submit the form
     userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
 
-    await screen.findByTestId('statusForm')
+    await screen.findByTestId('status-form')
 
     // verify that an error message is shown
     expect(screen.queryByText('Dit veld is verplicht')).toBeInTheDocument()
 
     // select another status
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.ReactieGevraagd,
     ])
 
@@ -464,7 +464,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext())
 
     expect(screen.queryByTestId('end-status-warning')).not.toBeInTheDocument()
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
     expect(screen.getByTestId('end-status-warning')).toBeInTheDocument()
@@ -477,10 +477,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
-    expect(screen.getByTestId('noEmailWarning')).toBeInTheDocument()
+    expect(screen.getByTestId('no-email-warning')).toBeInTheDocument()
   })
 
   it('shows a warning when contact is now allowed by user', () => {
@@ -493,10 +493,10 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     render(renderWithContext(contactNotAllowed))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
-    expect(screen.getByTestId('noContactAllowedWarning')).toBeInTheDocument()
+    expect(screen.getByTestId('no-contact-allowed-warning')).toBeInTheDocument()
   })
 
   it('shows a warning when switching to reply status user has no email', () => {
@@ -511,7 +511,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     }
     render(renderWithContext(withoutReporterEmail))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.ReactieGevraagd,
     ])
     expect(screen.getByTestId('has-no-email-reply-warning')).toBeInTheDocument()
@@ -533,7 +533,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component with incident that has a parent
     render(renderWithContext(deelmelding))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afwachting,
     ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -557,7 +557,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     // render component with incident that has a parent
     render(renderWithContext(deelmelding))
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -587,7 +587,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )
 
     // select a status that will show a warning
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Heropend,
     ])
 
@@ -595,7 +595,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByTestId('split-incident-warning').textContent).toEqual(
       DEELMELDING_EXPLANATION
     )
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.ReactieGevraagd,
     ])
     expect(
@@ -611,7 +611,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
 
@@ -622,7 +622,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.getByTestId('has-open-child-incidents-warning').textContent
     ).toContain(DEELMELDINGEN_STILL_OPEN_CONTENT)
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Ingepland,
     ])
 
@@ -630,7 +630,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       screen.queryByTestId('has-open-child-incidents-warning')
     ).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Geannuleerd,
     ])
     expect(
@@ -647,31 +647,31 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext(incidentFixture, childIncidents))
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('status-has-children-open')
     ).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Afgehandeld,
     ])
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('status-has-children-open')
     ).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Ingepland,
     ])
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('status-has-children-open')
     ).not.toBeInTheDocument()
 
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.Geannuleerd,
     ])
 
     expect(
-      screen.queryByTestId('statusHasChildrenOpen')
+      screen.queryByTestId('status-has-children-open')
     ).not.toBeInTheDocument()
   })
 
@@ -686,7 +686,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     const submitButton = screen.getByRole('button', { name: 'Opslaan' })
 
     expect(submitButton).not.toBeDisabled()
-    userEvent.selectOptions(screen.getByTestId('selectStatus'), [
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
       StatusCode.ReactieGevraagd,
     ])
     expect(submitButton).toBeDisabled()
@@ -726,7 +726,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(update).not.toHaveBeenCalled()
 
     // send the email
-    userEvent.click(screen.getByTestId('submitBtn'))
+    userEvent.click(screen.getByTestId('submit-btn'))
 
     // verify that 'update' has been called
     expect(update).toHaveBeenCalledWith(

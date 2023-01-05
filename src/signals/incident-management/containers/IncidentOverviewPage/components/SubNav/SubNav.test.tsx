@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render } from '@testing-library/react'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -19,15 +19,15 @@ describe('signals/incident-management/containers/IncidentOverviewPage/components
   it('should render tabs with link to map by default', () => {
     const { queryByTestId } = render(withAppContext(<SubNav />))
 
-    expect(queryByTestId('subNavMapLink')).toBeInTheDocument()
-    expect(queryByTestId('subNavListLink')).not.toBeInTheDocument()
+    expect(queryByTestId('sub-nav-map-link')).toBeInTheDocument()
+    expect(queryByTestId('sub-nav-list-link')).not.toBeInTheDocument()
   })
 
   it('should render tabs with link to list when showsMap is true', () => {
     const { queryByTestId } = render(withAppContext(<SubNav showsMap />))
 
-    expect(queryByTestId('subNavMapLink')).not.toBeInTheDocument()
-    expect(queryByTestId('subNavListLink')).toBeInTheDocument()
+    expect(queryByTestId('sub-nav-map-link')).not.toBeInTheDocument()
+    expect(queryByTestId('sub-nav-list-link')).toBeInTheDocument()
   })
 
   it('should render last 24 hours header when showing the map', () => {

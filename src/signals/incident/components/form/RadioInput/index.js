@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useCallback } from 'react'
-import styled from 'styled-components'
+
+import { Label } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { Label } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import Radio from 'components/RadioButton'
-
 import {
   resetExtraState,
   updateIncident,
@@ -48,7 +48,7 @@ const RadioInput = ({
     <StyledLabel inline htmlFor={idAttr} label={label} noActiveState>
       <Radio
         checked={checked}
-        data-testid="inputUsingDispatch"
+        data-testid="input-using-dispatch"
         id={idAttr}
         onChange={onChange}
         type="radio"

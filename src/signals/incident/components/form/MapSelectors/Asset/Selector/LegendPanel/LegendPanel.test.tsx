@@ -48,13 +48,13 @@ describe('LegendPanel', () => {
   it('renders visible panel', () => {
     const { rerender } = render(withAppContext(<LegendPanel {...props} />))
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+    expect(screen.getByTestId('legend-panel')).toHaveStyleRule(
       'transform',
       'translate3d( 0,200%,0 )',
       { media: 'only screen and (max-width:767px)' }
     )
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+    expect(screen.getByTestId('legend-panel')).toHaveStyleRule(
       'transform',
       'translate3d( -200%,0,0 )',
       { media: 'only screen and (min-width:768px)' }
@@ -62,13 +62,13 @@ describe('LegendPanel', () => {
 
     rerender(withAppContext(<LegendPanel {...props} slide="in" />))
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+    expect(screen.getByTestId('legend-panel')).toHaveStyleRule(
       'transform',
       'translate3d( 0,0,0 )',
       { media: 'only screen and (max-width:767px)' }
     )
 
-    expect(screen.getByTestId('legendPanel')).toHaveStyleRule(
+    expect(screen.getByTestId('legend-panel')).toHaveStyleRule(
       'transform',
       'translate3d( 0,0,0 )',
       { media: 'only screen and (min-width:768px)' }

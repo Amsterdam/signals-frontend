@@ -122,7 +122,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
   )
 
   return (
-    <Form action="" data-testid="detailCategoryForm">
+    <Form action="" data-testid="detail-category-form">
       <Row>
         <StyledColumn
           span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}
@@ -170,7 +170,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                 <StyledLabel
                   htmlFor="is_public_accessible"
                   label="Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier"
-                  data-testid="subcategoryIsPublicAccessible"
+                  data-testid="subcategory-is-public-accessible"
                   disabled={readOnly}
                 >
                   <input

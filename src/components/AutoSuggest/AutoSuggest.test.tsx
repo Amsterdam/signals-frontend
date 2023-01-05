@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
+
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-import { withAppContext } from 'test/utils'
 import fetch from 'jest-fetch-mock'
 
+import { withAppContext } from 'test/utils'
 import type { RevGeo } from 'types/pdok/revgeo'
 
-import JSONResponse from './mockResponse.json'
 import AutoSuggest, { INPUT_DELAY } from '.'
-
 import type { AutoSuggestProps } from '.'
+import JSONResponse from './mockResponse.json'
 
 const mockResponse = JSON.stringify(JSONResponse)
 
@@ -101,7 +100,7 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
@@ -111,13 +110,13 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
     userEvent.type(input, 's')
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(fetch).not.toHaveBeenCalled()
 
@@ -125,7 +124,7 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything())
@@ -135,7 +134,7 @@ describe('src/components/AutoSuggest', () => {
     const { rerender } = render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox') as HTMLInputElement
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     input.focus()
 
@@ -147,7 +146,7 @@ describe('src/components/AutoSuggest', () => {
 
     rerender(withAppContext(<AutoSuggest {...props} value={value} />))
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(input.value).toEqual(value)
 
@@ -158,11 +157,11 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox')
 
-    expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
 
     userEvent.type(input, 'Amsterdam')
 
-    const suggestList = await screen.findByTestId('suggestList')
+    const suggestList = await screen.findByTestId('suggest-list')
 
     expect(suggestList).toBeInTheDocument()
     expect(suggestList.getAttribute('role')).toEqual('listbox')
@@ -179,7 +178,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Diemen')
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
       const listItems = [...suggestList.querySelectorAll('li')].reverse()
 
       formatResponse(JSONResponse as unknown as RevGeo)
@@ -206,7 +205,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Weesp')
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
 
       formatResponse(JSONResponse as unknown as RevGeo).forEach(
         (item, index) => {
@@ -234,7 +233,7 @@ describe('src/components/AutoSuggest', () => {
         jest.advanceTimersByTime(INPUT_DELAY)
       })
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
 
       userEvent.type(input, '{Down}')
 
@@ -267,7 +266,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Boom')
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
       userEvent.type(input, '{ArrowDown}')
@@ -280,17 +279,17 @@ describe('src/components/AutoSuggest', () => {
       expect(onClear).toHaveBeenCalled()
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
 
       userEvent.type(input, 'sloot')
 
-      await screen.findByTestId('suggestList')
+      await screen.findByTestId('suggest-list')
 
       userEvent.type(input, '{Escape}')
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
     })
 
     it('Esc without onClear defined', async () => {
@@ -301,7 +300,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Boom')
 
-      const suggestList = await findByTestId('suggestList')
+      const suggestList = await findByTestId('suggest-list')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
       userEvent.type(input, '{ArrowDown}')
@@ -312,17 +311,17 @@ describe('src/components/AutoSuggest', () => {
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(queryByTestId('suggest-list')).not.toBeInTheDocument()
 
       userEvent.type(input, 'sloot')
 
-      await findByTestId('suggestList')
+      await findByTestId('suggest-list')
 
       userEvent.type(input, '{Esc}')
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
-      expect(queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(queryByTestId('suggest-list')).not.toBeInTheDocument()
     })
 
     it('Home', async () => {
@@ -331,7 +330,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Niezel')
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
 
       userEvent.type(input, '{ArrowDown}{ArrowDown}{ArrowDown}')
 
@@ -343,7 +342,7 @@ describe('src/components/AutoSuggest', () => {
 
       expect(activeElement).toEqual(input)
       expect(activeElement.selectionStart).toEqual(0)
-      expect(screen.getByTestId('suggestList')).toBeInTheDocument()
+      expect(screen.getByTestId('suggest-list')).toBeInTheDocument()
 
       userEvent.type(input, '{ArrowDown}')
 
@@ -358,7 +357,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, `${value}`)
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
 
       userEvent.type(input, '{ArrowDown}{ArrowDown}')
 
@@ -370,7 +369,7 @@ describe('src/components/AutoSuggest', () => {
 
       expect(activeElement).toEqual(input)
       expect(activeElement.selectionStart).toEqual(value.length)
-      expect(screen.getByTestId('suggestList')).toBeInTheDocument()
+      expect(screen.getByTestId('suggest-list')).toBeInTheDocument()
 
       userEvent.type(input, '{ArrowDown}')
 
@@ -395,7 +394,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Niezel')
 
-      const suggestList = await screen.findByTestId('suggestList')
+      const suggestList = await screen.findByTestId('suggest-list')
 
       expect(document.activeElement).toEqual(input)
 
@@ -429,7 +428,7 @@ describe('src/components/AutoSuggest', () => {
       await screen.findByRole('combobox')
       expect(document.activeElement).toEqual(input)
 
-      expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
       expect(mockedOnSubmit).not.toHaveBeenCalled()
     })
 
@@ -439,7 +438,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, 'Meeuwenlaan')
 
-      await screen.findByTestId('suggestList')
+      await screen.findByTestId('suggest-list')
 
       userEvent.type(input, '{ArrowDown}{ArrowDown}')
 
@@ -447,7 +446,7 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, '{Space}')
 
-      await screen.findByTestId('suggestList')
+      await screen.findByTestId('suggest-list')
 
       expect(document.activeElement).toEqual(input)
     })
@@ -459,7 +458,7 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.type(input, 'Rembrandt')
 
-    const suggestList = await screen.findByTestId('suggestList')
+    const suggestList = await screen.findByTestId('suggest-list')
 
     userEvent.type(input, '{ArrowDown}')
 
@@ -473,7 +472,7 @@ describe('src/components/AutoSuggest', () => {
     firstElement && fireEvent.click(firstElement)
 
     expect(document.activeElement).toEqual(input)
-    expect(screen.queryByTestId('suggestList')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
     expect(input.value).toEqual(firstOption.value)
     expect(onSelect).toHaveBeenCalledTimes(1)
     expect(onSelect).toHaveBeenCalledWith(firstOption)
@@ -482,7 +481,7 @@ describe('src/components/AutoSuggest', () => {
   it('renders clear button when user types', async () => {
     render(withAppContext(<AutoSuggest {...props} />))
 
-    expect(screen.queryByTestId('clearInput')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('clear-input')).not.toBeInTheDocument()
 
     const input = screen.getByRole('textbox')
 
@@ -492,13 +491,13 @@ describe('src/components/AutoSuggest', () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
-    expect(screen.getByTestId('clearInput')).toBeInTheDocument()
+    expect(screen.getByTestId('clear-input')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('clearInput'))
+    userEvent.click(screen.getByTestId('clear-input'))
 
-    expect(screen.queryByTestId('clearInput')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('clear-input')).not.toBeInTheDocument()
     expect(input).toBeEmptyDOMElement()
   })
 
@@ -509,7 +508,7 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.type(input, 'Rembrandt')
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -519,7 +518,7 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.clear(input)
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -538,7 +537,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('clearInput'))
+    userEvent.click(screen.getByTestId('clear-input'))
 
     expect(onClear).toHaveBeenCalled()
 
@@ -560,7 +559,7 @@ describe('src/components/AutoSuggest', () => {
       )
     )
 
-    userEvent.click(screen.getByTestId('clearInput'))
+    userEvent.click(screen.getByTestId('clear-input'))
 
     expect(screen.getByRole('textbox')).toHaveFocus()
   })
@@ -579,7 +578,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onData).not.toHaveBeenCalled()
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     expect(onData).toHaveBeenCalled()
   })
@@ -590,7 +589,7 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.type(input, 'Rembrandt')
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -598,13 +597,13 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.clear(input)
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
 
-    await screen.findByTestId('autoSuggest')
+    await screen.findByTestId('auto-suggest')
   })
 
   it('calls onFocus', () => {

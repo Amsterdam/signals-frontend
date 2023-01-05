@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen, act } from '@testing-library/react'
-import * as reactRouterDom from 'react-router-dom'
-import * as reactRedux from 'react-redux'
-import configuration from 'shared/services/configuration/configuration'
-import { history, withAppContext } from 'test/utils'
-import { setClassification } from 'signals/incident/containers/IncidentContainer/actions'
-import * as auth from 'shared/services/auth/auth'
 import fetch from 'jest-fetch-mock'
+import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
+
+import * as auth from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import { setClassification } from 'signals/incident/containers/IncidentContainer/actions'
+import { history, withAppContext } from 'test/utils'
+
 import IncidentClassification from '.'
 
 jest.mock('shared/services/auth/auth')
@@ -37,7 +39,7 @@ const testUnhappyWorkflow = async (setFetchResult: () => void) => {
     })
   )
 
-  await findByTestId('loadingIndicator')
+  await findByTestId('loading-indicator')
   expect(dispatch).not.toHaveBeenCalled()
   expect(history.location.pathname).toEqual('/incident/beschrijf')
 }
@@ -77,7 +79,7 @@ describe('signals/incident/components/IncidentClassification', () => {
       })
     )
 
-    await screen.findByTestId('loadingIndicator')
+    await screen.findByTestId('loading-indicator')
     const {
       _links: {
         self: { href: id },
@@ -106,7 +108,7 @@ describe('signals/incident/components/IncidentClassification', () => {
     history.replace(`/categorie/foo/bar${searchParams}`)
     render(withAppContext(<IncidentClassification />))
 
-    await screen.findByTestId('loadingIndicator')
+    await screen.findByTestId('loading-indicator')
 
     expect(history.location.pathname).toEqual(`/incident/beschrijf`)
     expect(history.location.search).toEqual(searchParams)
@@ -155,7 +157,7 @@ describe('signals/incident/components/IncidentClassification', () => {
 
     const { findByTestId } = render(withAppContext(<IncidentClassification />))
 
-    await findByTestId('loadingIndicator')
+    await findByTestId('loading-indicator')
     expect(dispatch).not.toHaveBeenCalled()
     expect(history.location.pathname).toEqual('/incident/beschrijf')
   })

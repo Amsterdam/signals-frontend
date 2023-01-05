@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { Fragment, useContext } from 'react'
-import styled from 'styled-components'
+
 import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import { attachmentsType } from 'shared/types'
+
 import IncidentDetailContext from '../../../../context'
 
 const StyledDefinition = styled.dt`
@@ -37,13 +39,13 @@ const Attachments = ({ attachments }) => {
   return (
     attachments.length > 0 && (
       <Fragment>
-        <StyledDefinition data-testid="attachmentsDefinition">
+        <StyledDefinition data-testid="attachments-definition">
           Foto
         </StyledDefinition>
         <StyledValue>
           {attachments.map((attachment) => (
             <StyledButton
-              data-testid="attachmentsValueButton"
+              data-testid="attachments-value-button"
               key={attachment.location}
               onClick={() =>
                 preview('attachment', { attachmentHref: attachment.location })

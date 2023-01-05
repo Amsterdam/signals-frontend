@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 
 export const DASHBOARD = {
   bar: '[data-testid=bar]',
@@ -15,9 +15,9 @@ export const DASHBOARD = {
 };
 
 export const FILTER = {
-  buttonSubmitFilter: '[data-testid=submitBtn]',
-  buttonNieuwFilter: '[data-testid=resetBtn]',
-  buttonCancel: '[data-testid=cancelBtn]',
+  buttonSubmitFilter: '[data-testid=submit-btn]',
+  buttonNieuwFilter: '[data-testid=reset-btn]',
+  buttonCancel: '[data-testid=cancel-btn]',
   checkboxASC: '[data-testid="checkbox-directing_department_ASC"]',
   checkboxBronInterswitch: '[data-testid="checkbox-source_Telefoon – Interswitch"]',
   checkboxDeelmelding: '[data-testid="checkbox-kind_child_signal"]',
@@ -30,7 +30,7 @@ export const FILTER = {
   checkboxTypeKlacht: '[data-testid="checkbox-type_COM"]',
   checkboxUrgentieHoog: '[data-testid="checkbox-priority_high"]',
   checkboxVerantwoordelijkeAfdeling: '[data-testid="checkbox-directing_department_null"]',
-  inputFilterAddres: '[data-testid="filterAddress"]',
+  inputFilterAddres: '[data-testid="filter-address"]',
   inputFilterDayBefore: '#filter_created_before',
   inputFilterDayFrom: '#filter_created_after',
   inputFilterName: '#filter_name',
@@ -38,10 +38,10 @@ export const FILTER = {
 };
 
 export const FILTER_ALL_ITEMS = {
-  selectAllStatus: '[data-testid=statusCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+  selectAllStatus: '[data-testid=status-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
   selectAllStadsdelen:
-    '[data-testid=stadsdeelCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
-  selectAllSource: '[data-testid=sourceCheckboxGroup] > [data-testid=checkboxList] > [class*=CheckboxList__Toggle]',
+    '[data-testid=stadsdeel-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
+  selectAllSource: '[data-testid=source-checkbox-group] > [data-testid=checkbox-list] > [class*=CheckboxList__Toggle]',
   selectAllGarbage: '[class*=CheckboxList__Toggle] > [data-id*=afval]',
   selectAllCivilConstructs: '[class*=CheckboxList__Toggle] > [data-id*=civiele-constructies]',
   selectAllSubversion: '[class*=CheckboxList__Toggle] > [data-id*=ondermijning]',
@@ -59,42 +59,42 @@ export const FILTER_ALL_ITEMS = {
 };
 
 export const MANAGE_SIGNALS = {
-  buttonMijnFilters: '[data-testid=myFiltersModalBtn]',
-  buttonCloseMijnFilters: '[data-testid=closeBtn]',
-  buttonFilter: '[data-testid=filterModalBtn]',
+  buttonMijnFilters: '[data-testid=my-filters-modal-btn]',
+  buttonCloseMijnFilters: '[data-testid=close-btn]',
+  buttonFilter: '[data-testid=filter-modal-btn]',
   clearSearchTerm: '[aria-label="Close"]',
-  signalAdres: '[data-testid="incidentAddress"]',
-  signalDag: '[data-testid="incidentDaysOpen"]',
-  signalDatumTijd: '[data-testid=incidentCreatedAt]',
-  signalParentIcon: '[data-testid=parentIcon]',
-  signalId: '[data-testid=incidentId]',
-  signalStadsdeelName: '[data-testid=incidentArea]',
-  signalStatus: '[data-testid=incidentStatus]',
-  signalSubcategorie: '[data-testid=incidentSubcategory]',
-  signalUrgentie: '[data-testid=incidentUrgency]',
-  filterTagList: '[data-testid=filterTagListTag]',
+  signalAdres: '[data-testid="incident-address"]',
+  signalDag: '[data-testid="incident-days-open"]',
+  signalDatumTijd: '[data-testid=incident-created-at]',
+  signalParentIcon: '[data-testid=parent-icon]',
+  signalId: '[data-testid=incident-id]',
+  signalStadsdeelName: '[data-testid=incident-area]',
+  signalStatus: '[data-testid=incident-status]',
+  signalSubcategorie: '[data-testid=incident-subcategory]',
+  signalUrgentie: '[data-testid=incident-urgency]',
+  filterTagList: '[data-testid=filter-tag-list-tag]',
   labelHoofmelding: '[aria-label="Hoofdmelding"]',
   paginationPages: '[data-testid="pagination"] > ul > li',
-  refreshIcon: '[data-testid=refreshIcon]',
-  searchBar: '[data-testid="searchBar"]',
+  refreshIcon: '[data-testid=refresh-icon]',
+  searchBar: '[data-testid="search-bar"]',
   searchResultsTag: '[class*=PageHeader__SubTitle]',
-  spinner: '[data-testid="loadingIndicator"]',
+  spinner: '[data-testid="loading-indicator"]',
   stadsdeelFromSignal: 'tr td:nth-child(4)',
 };
 
 export const MY_FILTERS = {
-  buttonDeleteFilter: '[data-testid=handleRemoveFilterButton]',
+  buttonDeleteFilter: '[data-testid=handle-remove-filter-button]',
 };
 
 export const OVERVIEW_MAP = {
-  autoSuggest: '[data-testid=autoSuggest]',
+  autoSuggest: '[data-testid=auto-suggest]',
   buttonBack: '[data-testid=backlink]',
   buttonZoomOut: '[title="Uitzoomen"]',
   buttonZoomIn: '[title="Inzoomen"]',
-  clusterIcon: '[data-testid=markerClusterIcon]',
-  detailPane: '[data-testid=mapDetailPanel]',
+  clusterIcon: '[data-testid=marker-cluster-icon]',
+  detailPane: '[data-testid=map-detail-panel]',
   markerCluster: '.leaflet-marker-icon',
   markerSignal: '.map-marker-incident',
-  overViewMap: '[data-testid="overviewMap"]',
-  signalDetails: '[data-testid=mapDetailPanel]',
+  overViewMap: '[data-testid="overview-map"]',
+  signalDetails: '[data-testid=map-detail-panel]',
 };

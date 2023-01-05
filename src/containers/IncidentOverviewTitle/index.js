@@ -35,7 +35,7 @@ export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
     return filter.refresh ? (
       <Fragment>
         <RefreshIcon
-          data-testid="refreshIcon"
+          data-testid="refresh-icon"
           role="img"
           aria-label="Ververst automatisch"
         />{' '}

@@ -2,7 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
+
 import DefaultTextsForm from './DefaultTextsForm'
 
 describe('<DefaultTextsForm />', () => {
@@ -24,15 +26,15 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`defaultTextFormForm${props.index}`)
+      screen.getByTestId(`default-text-form-form-${props.index}`)
     ).toBeInTheDocument()
-    expect(screen.getByTestId(`title${props.index}`)).toBeInTheDocument()
-    expect(screen.getByTestId(`text${props.index}`)).toBeInTheDocument()
+    expect(screen.getByTestId(`title-${props.index}`)).toBeInTheDocument()
+    expect(screen.getByTestId(`text-${props.index}`)).toBeInTheDocument()
     expect(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
+      screen.getByTestId(`default-text-form-item-button-${props.index}-up`)
     ).toBeDisabled()
     expect(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
+      screen.getByTestId(`default-text-form-item-button-${props.index}-down`)
     ).not.toBeDisabled()
   })
 
@@ -50,21 +52,21 @@ describe('<DefaultTextsForm />', () => {
     render(withAppContext(<DefaultTextsForm {...props} />))
 
     expect(
-      screen.getByTestId(`defaultTextFormForm${props.index}`)
+      screen.getByTestId(`default-text-form-form-${props.index}`)
     ).toBeInTheDocument()
 
     const checkbox = screen.getByText('Actief')
     userEvent.click(checkbox)
 
-    expect(screen.getByTestId(`is_active1`)).toBeChecked()
+    expect(screen.getByTestId(`is_active-1`)).toBeChecked()
 
     userEvent.click(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Up`)
+      screen.getByTestId(`default-text-form-item-button-${props.index}-up`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(1)
 
     userEvent.click(
-      screen.getByTestId(`defaultTextFormItemButton${props.index}Down`)
+      screen.getByTestId(`default-text-form-item-button-${props.index}-down`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(2)
   })
@@ -87,28 +89,28 @@ describe('<DefaultTextsForm />', () => {
       )
 
       expect(
-        screen.getByTestId(`defaultTextFormForm${props.index}`)
+        screen.getByTestId(`default-text-form-form-${props.index}`)
       ).toBeInTheDocument()
 
-      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
-      let title0 = screen.getByTestId(`title0`)
+      expect(screen.getByTestId(`is_active-0`)).toBeDisabled()
+      let title0 = screen.getByTestId(`title-0`)
       fireEvent.change(title0, {
         target: { value: 'een titel in het titelveld' },
       })
 
       rerender(withAppContext(<DefaultTextsForm {...props} />))
 
-      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
-      let text0 = screen.getByTestId(`text0`)
-      title0 = screen.getByTestId(`title0`)
+      expect(screen.getByTestId(`is_active-0`)).toBeDisabled()
+      let text0 = screen.getByTestId(`text-0`)
+      title0 = screen.getByTestId(`title-0`)
       fireEvent.change(title0, { target: { value: '' } })
       fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
 
       rerender(withAppContext(<DefaultTextsForm {...props} />))
 
-      expect(screen.getByTestId(`is_active0`)).toBeDisabled()
-      text0 = screen.getByTestId(`text0`)
-      title0 = screen.getByTestId(`title0`)
+      expect(screen.getByTestId(`is_active-0`)).toBeDisabled()
+      text0 = screen.getByTestId(`text-0`)
+      title0 = screen.getByTestId(`title-0`)
       fireEvent.change(title0, { target: { value: 'titel in het titelveld' } })
       fireEvent.change(text0, { target: { value: 'tekst in het tekstveld' } })
 
@@ -118,7 +120,7 @@ describe('<DefaultTextsForm />', () => {
       }
       rerender(withAppContext(<DefaultTextsForm {...props} />))
 
-      expect(screen.getByTestId(`is_active0`)).not.toBeDisabled()
+      expect(screen.getByTestId(`is_active-0`)).not.toBeDisabled()
     })
   })
 })

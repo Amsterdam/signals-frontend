@@ -3,8 +3,13 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import { fetchCategoriesSuccess } from 'models/categories/actions'
+import * as categoriesSelectors from 'models/categories/selectors'
+import * as departmentsSelectors from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
+import { StatusCode } from 'signals/incident-management/definitions/types'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { store, withAppContext } from 'test/utils'
 import {
   departments,
@@ -12,23 +17,16 @@ import {
   handlingTimesBySlug,
   subcategoriesGroupedByCategories,
 } from 'utils/__tests__/fixtures'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
-import { StatusCode } from 'signals/incident-management/definitions/types'
-
+import autocompleteUsernamesFixture from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
-import autocompleteUsernamesFixture from 'utils/__tests__/fixtures/autocompleteUsernames.json'
 
-import { fetchCategoriesSuccess } from 'models/categories/actions'
-import * as departmentsSelectors from 'models/departments/selectors'
-import * as categoriesSelectors from 'models/categories/selectors'
-
-import IncidentDetailContext from '../../context'
+import * as API from '../../../../../../../internals/testing/api'
 import {
   mockRequestHandler,
   fetchMock,
 } from '../../../../../../../internals/testing/msw-server'
-import * as API from '../../../../../../../internals/testing/api'
+import IncidentDetailContext from '../../context'
 import type { IncidentChild } from '../../types'
 import MetaList from './MetaList'
 
@@ -424,15 +422,15 @@ describe('MetaList', () => {
   it('should show the status form', () => {
     render(renderWithContext())
 
-    expect(screen.queryByTestId('statusForm')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
 
-    const button = screen.queryByTestId('editStatusButton')
+    const button = screen.queryByTestId('edit-status-button')
 
     if (button) {
       fireEvent.click(button)
     }
 
-    expect(screen.queryByTestId('statusForm')).toBeInTheDocument()
+    expect(screen.queryByTestId('status-form')).toBeInTheDocument()
   })
 
   it('should call update', () => {

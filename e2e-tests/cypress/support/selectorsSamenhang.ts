@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 export const SAME_REPORTER = {
   buttonPaginationNext: '[data-testid=nextbutton]',
   buttonPaginationPrevious: '[data-testid=prevbutton]',
   dateTime: '[data-testid=date-time]',
   feedbackStatus: '[data-testid=feedback-status]',
-  iconHoofdmelding: '[data-testid=parentIcon]',
+  iconHoofdmelding: '[data-testid=parent-icon]',
   incidentDescription: '[data-testid=incident-description]',
   incidentHeading: '[data-testid=incident-heading]',
   incidentInfo: '[data-testid=incident-info]',
@@ -15,7 +15,7 @@ export const SAME_REPORTER = {
   labelStatus: '[data-testid=label-status]',
   labelSubcategory: '[data-testid=label-subcategory]',
   linkBackToSignal: '[data-testid=backlink]',
-  reportcontainer: '[data-testid=reporterContainer]',
+  reportcontainer: '[data-testid=reporter-container]',
   textNoContactHistory: '[data-testid=no-contact-history]',
   valueGemeldOp: '[data-testid=value-date-definition]',
   valueStatus: '[data-testid=value-status]',
@@ -25,7 +25,7 @@ export const SAME_REPORTER = {
 export const SAME_AREA = {
   areaLabel: '[data-testid="area-label"]',
   backToFilterLink: '[data-testid="backlink"]',
-  buttonCloseMap: '[data-testid="mapCloseButton"]',
+  buttonCloseMap: '[data-testid="map-close-button"]',
   buttonZoomIn: '[title="Inzoomen"]',
   buttonZoomOut: '[title="Uitzoomen"]',
   clustericon: '.marker-cluster',
@@ -45,5 +45,5 @@ export const SAME_AREA = {
   signalText: '[data-testid="text"]',
   signalSubcategory: '[data-testid="subcategory"]',
   subcategoryLabel: '[data-testid="subcategory-label"]',
-  zoomButtons: '[data-testid="mapZoom"]',
+  zoomButtons: '[data-testid="map-zoom"]',
 };

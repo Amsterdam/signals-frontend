@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
+
 import * as auth from 'shared/services/auth/auth'
 import wizardDefinition from 'signals/incident/definitions/wizard'
 import { withAppContext, history } from 'test/utils'
@@ -51,8 +52,8 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(getByTestId('nextButton')).toBeInTheDocument()
-    expect(queryByTestId('previousButton')).not.toBeInTheDocument()
+    expect(getByTestId('next-button')).toBeInTheDocument()
+    expect(queryByTestId('previous-button')).not.toBeInTheDocument()
   })
 
   it('renders previous and next buttons for intermediate steps', () => {
@@ -69,8 +70,8 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(getByTestId('nextButton')).toBeInTheDocument()
-    expect(getByTestId('previousButton')).toBeInTheDocument()
+    expect(getByTestId('next-button')).toBeInTheDocument()
+    expect(getByTestId('previous-button')).toBeInTheDocument()
   })
 
   it('renders a previous button for the last step', () => {
@@ -89,8 +90,8 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(queryByTestId('nextButton')).not.toBeInTheDocument()
-    expect(getByTestId('previousButton')).toBeInTheDocument()
+    expect(queryByTestId('next-button')).not.toBeInTheDocument()
+    expect(getByTestId('previous-button')).toBeInTheDocument()
   })
 
   it('does not render', () => {
@@ -127,13 +128,13 @@ describe('signals/incident/components/IncidentNavigation', () => {
     expect(handleSubmit).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('nextButton'))
+      fireEvent.click(getByTestId('next-button'))
     })
 
     expect(handleSubmit).toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('previousButton'))
+      fireEvent.click(getByTestId('previous-button'))
     })
   })
 })

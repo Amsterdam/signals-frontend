@@ -23,7 +23,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
 }) => (
   <Panel
     className={`${className} ${slide}`}
-    data-testid="legendPanel"
+    data-testid="legend-panel"
     id="legendPanel"
     slide={slide}
   >

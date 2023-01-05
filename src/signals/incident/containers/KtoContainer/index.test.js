@@ -5,6 +5,7 @@ import { render, act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
@@ -38,13 +39,13 @@ describe('signals/incident/containers/KtoContainer', () => {
       withAppContext(<KTOContainer />)
     )
 
-    expect(queryByTestId('ktoFormContainer')).not.toBeInTheDocument()
-    expect(getByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(queryByTestId('kto-form-container')).not.toBeInTheDocument()
+    expect(getByTestId('loading-indicator')).toBeInTheDocument()
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
-    expect(getByTestId('ktoFormContainer')).toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(getByTestId('kto-form-container')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should render "already filled out header"', async () => {
@@ -55,7 +56,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     const { getByText, findByTestId } = render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(getByText(renderSections.FILLED_OUT.title)).toBeInTheDocument()
   })
@@ -68,7 +69,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     const { getByText, findByTestId } = render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(getByText(renderSections.TOO_LATE.title)).toBeInTheDocument()
   })
@@ -81,7 +82,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     const { getByText, findByTestId } = render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(getByText(renderSections.NOT_FOUND.title)).toBeInTheDocument()
   })
@@ -96,7 +97,7 @@ describe('signals/incident/containers/KtoContainer', () => {
       withAppContext(<KTOContainer />)
     )
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(getByText(/ja, ik ben/i)).toBeInTheDocument()
 
@@ -107,7 +108,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     rerender(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(getByText(/nee, ik ben niet/i)).toBeInTheDocument()
   })
@@ -126,7 +127,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     const { container, findByTestId, queryByText, getByText, rerender } =
       render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     // assuming the form renders a list of checkbox buttons and that only a checked button in that list is required
 
@@ -134,7 +135,7 @@ describe('signals/incident/containers/KtoContainer', () => {
       fireEvent.click(container.querySelector('input[type="checkbox"]'))
     })
 
-    const ktoSubmit = await findByTestId('ktoSubmit')
+    const ktoSubmit = await findByTestId('kto-submit')
 
     expect(fetch).toHaveBeenCalledTimes(2)
 
@@ -144,7 +145,7 @@ describe('signals/incident/containers/KtoContainer', () => {
       fireEvent.click(ktoSubmit)
     })
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     expect(fetch).toHaveBeenCalledTimes(3)
 
@@ -167,16 +168,16 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     rerender(withAppContext(<KTOContainer />))
 
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+    expect(screen.getByTestId('succes-section-body')).toContainHTML(
       successSections['nee'].body
     )
     expect(
-      screen.queryByTestId('succesContactAllowedText')
+      screen.queryByTestId('succes-contact-allowed-text')
     ).not.toBeInTheDocument()
 
     rerender(withAppContext(<KTOContainer />))
 
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+    expect(screen.getByTestId('succes-section-body')).toContainHTML(
       successSections['nee'].body
     )
 
@@ -187,7 +188,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     rerender(withAppContext(<KTOContainer />))
 
-    expect(screen.getByTestId('succesSectionBody')).toContainHTML(
+    expect(screen.getByTestId('succes-section-body')).toContainHTML(
       successSections['ja'].body
     )
   })
@@ -204,7 +205,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     const { container, findByTestId } = render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     // assuming the form renders a list of radio buttons and that only a checked button in that list is required
 
@@ -212,7 +213,7 @@ describe('signals/incident/containers/KtoContainer', () => {
       fireEvent.click(container.querySelector('input[type="radio"]'))
     })
 
-    await findByTestId('ktoSubmit')
+    await findByTestId('kto-submit')
 
     expect(fetch).toHaveBeenCalledTimes(2)
   })
@@ -233,25 +234,25 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     const { findByTestId } = render(withAppContext(<KTOContainer />))
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
-    expect(screen.getByTestId('subtitleAllowsContact')).toBeInTheDocument()
+    expect(screen.getByTestId('subtitle-allows-contact')).toBeInTheDocument()
 
     act(() => {
-      userEvent.click(screen.getByTestId('ktoAllowsContact'))
+      userEvent.click(screen.getByTestId('kto-allows-contact'))
     })
 
-    const ktoSubmit = await findByTestId('ktoSubmit')
+    const ktoSubmit = await findByTestId('kto-submit')
 
     act(() => {
       fireEvent.click(ktoSubmit)
     })
 
-    await findByTestId('ktoFormContainer')
+    await findByTestId('kto-form-container')
 
     waitFor(() => {
       expect(
-        screen.queryByTestId('succesContactAllowedText')
+        screen.queryByTestId('succes-contact-allowed-text')
       ).toBeInTheDocument()
     })
   })

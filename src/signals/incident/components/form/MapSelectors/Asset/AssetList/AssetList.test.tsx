@@ -1,24 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { withAppContext } from 'test/utils'
+import type { HTMLAttributes, PropsWithChildren } from 'react'
+
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+import * as reactRedux from 'react-redux'
 
 import type { IconListItemProps } from 'components/IconList/IconList'
-import type { HTMLAttributes, PropsWithChildren } from 'react'
-import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
-import * as reactRedux from 'react-redux'
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+
+import MockInstance = jest.MockInstance
 import type { Item } from '../../types'
 import { FeatureStatus } from '../../types'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
-import AssetList from './AssetList'
 import type { AssetListProps } from './AssetList'
+import AssetList from './AssetList'
 import { AssetListItem } from './AssetList'
-import MockInstance = jest.MockInstance
 
 const del = jest.fn()
 const get = jest.fn()
@@ -148,7 +150,7 @@ describe('AssetList', () => {
       const { rerender } = render(
         withAppContext(<AssetList {...emptyIdProps} />)
       )
-      expect(screen.queryByTestId('assetListItem')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('asset-list-item')).not.toBeInTheDocument()
 
       const emptyLabelProps = {
         ...props,
@@ -162,15 +164,15 @@ describe('AssetList', () => {
       }
 
       rerender(withAppContext(<AssetList {...emptyLabelProps} />))
-      expect(screen.getByTestId('assetListItem')).toBeInTheDocument()
+      expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
     })
 
     it('renders a selection', () => {
       render(withAppContext(<AssetList {...props} />))
 
-      expect(screen.getByTestId('assetList')).toBeInTheDocument()
+      expect(screen.getByTestId('asset-list')).toBeInTheDocument()
       expect(
-        screen.getByTestId(`assetListItem-${props.selection[0].id}`)
+        screen.getByTestId(`asset-list-item-${props.selection[0].id}`)
       ).toBeInTheDocument()
     })
 
@@ -191,11 +193,11 @@ describe('AssetList', () => {
           status === FeatureStatus.CHECKED
         ) {
           expect(
-            screen.getByTestId(`assetListItem-${id}-hasStatus`)
+            screen.getByTestId(`asset-list-item-${id}-has-status`)
           ).toBeInTheDocument()
         } else {
           expect(
-            screen.queryByTestId(`assetListItem-${id}-hasStatus`)
+            screen.queryByTestId(`asset-list-item-${id}-has-status`)
           ).not.toBeInTheDocument()
         }
       })

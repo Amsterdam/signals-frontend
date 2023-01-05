@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, act, screen } from '@testing-library/react'
-import { history, withAppContext } from 'test/utils'
 import { ascDefaultTheme as theme } from '@amsterdam/asc-ui'
-import 'jest-styled-components'
+import { render, act, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { mocked } from 'jest-mock'
-
-import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 import {
   ONCLOSE_TIMEOUT,
@@ -20,8 +17,10 @@ import {
   SITE_HEADER_HEIGHT_SHORT,
   SITE_HEADER_HEIGHT_TALL,
 } from 'containers/SiteHeader/constants'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
+import { history, withAppContext } from 'test/utils'
+import 'jest-styled-components'
 
-import userEvent from '@testing-library/user-event'
 import Notification from '..'
 
 jest.mock('shared/services/auth/auth')
@@ -361,7 +360,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('notificationClose'))
+    userEvent.click(screen.getByTestId('notification-close'))
 
     expect(container.firstChild).toHaveClass('slideup')
 
@@ -383,7 +382,7 @@ describe('components/Notification', () => {
 
     expect(onClose).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('notificationClose'))
+    userEvent.click(screen.getByTestId('notification-close'))
 
     expect(container.firstChild).toHaveClass('fadeout')
 

@@ -73,7 +73,7 @@ describe('<AreaMap />', () => {
   it('should render a map', () => {
     render(withAppContext(<AreaMap {...props} />))
 
-    userEvent.click(screen.getByTestId('mapCloseButton'))
+    userEvent.click(screen.getByTestId('map-close-button'))
 
     expect(props.onClose).toHaveBeenCalled()
   })

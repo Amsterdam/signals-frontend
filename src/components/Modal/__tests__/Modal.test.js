@@ -19,7 +19,7 @@ describe('components/Modal', () => {
     )
 
     fireEvent(
-      getByTestId('closeBtn'),
+      getByTestId('close-btn'),
       new MouseEvent('click', { bubbles: true })
     )
 

@@ -6,10 +6,9 @@ import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import districts from 'utils/__tests__/fixtures/districts.json'
 
-import IncidentDetailContext from '../../../../context'
-import IncidentManagementContext from '../../../../../../context'
-
 import Location from '.'
+import IncidentManagementContext from '../../../../../../context'
+import IncidentDetailContext from '../../../../context'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -78,7 +77,7 @@ describe('<Location />', () => {
       expect(queryByTestId('location-value-address-city')).toHaveTextContent(
         /^1012KP Amsterdam$/
       )
-      expect(getByTestId('previewLocationButton')).toBeInTheDocument()
+      expect(getByTestId('preview-location-button')).toBeInTheDocument()
     })
 
     it('should render correctly with fetchDistrictsFromBackend', async () => {
@@ -100,7 +99,7 @@ describe('<Location />', () => {
 
         await findByText('Locatie')
 
-        expect(queryByTestId('mapDetail')).toBeInTheDocument()
+        expect(queryByTestId('map-detail')).toBeInTheDocument()
       })
     })
 
@@ -153,12 +152,12 @@ describe('<Location />', () => {
     it('clicking the map should trigger showing the location', async () => {
       const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('previewLocationButton')
+      await findByTestId('preview-location-button')
 
       expect(preview).not.toHaveBeenCalledTimes(1)
 
       act(() => {
-        fireEvent.click(queryByTestId('previewLocationButton'))
+        fireEvent.click(queryByTestId('preview-location-button'))
       })
 
       await findByTestId('detail-location')
@@ -169,12 +168,12 @@ describe('<Location />', () => {
     it('clicking the edit button should trigger edit the location', async () => {
       const { queryByTestId, findByTestId } = render(renderWithContext())
 
-      await findByTestId('editLocationButton')
+      await findByTestId('edit-location-button')
 
       expect(edit).not.toHaveBeenCalled()
 
       act(() => {
-        fireEvent.click(queryByTestId('editLocationButton'))
+        fireEvent.click(queryByTestId('edit-location-button'))
       })
 
       expect(edit).toHaveBeenCalledWith('location')

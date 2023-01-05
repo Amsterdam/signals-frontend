@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
-import type { FormOptions } from 'types/reactive-form'
+
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
+import type { FormOptions } from 'types/reactive-form'
 
 import type { DateTimeProps } from './DateTime'
 import DateTimeInput from './DateTimeInput'
@@ -28,10 +30,10 @@ const props = {
 
 const DateTimeMock: FC<DateTimeProps> = ({ onUpdate, value }) => (
   <>
-    <span data-testid="dateTime">{value}</span>
+    <span data-testid="date-time">{value}</span>
     <button
       type="button"
-      data-testid="callUpdate"
+      data-testid="call-update"
       onClick={() => onUpdate(value)}
     />
   </>
@@ -50,13 +52,13 @@ describe('DateTimeInput', () => {
 
     render(withAppContext(<DateTimeInput {...notVisible} />))
 
-    expect(screen.queryByTestId('dateTime')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('date-time')).not.toBeInTheDocument()
   })
 
   it('renders', () => {
     render(withAppContext(<DateTimeInput {...props} />))
 
-    expect(screen.getByTestId('dateTime')).toBeInTheDocument()
+    expect(screen.getByTestId('date-time')).toBeInTheDocument()
   })
 
   it('calls updateIncident', () => {
@@ -69,7 +71,7 @@ describe('DateTimeInput', () => {
 
     render(withAppContext(<DateTimeInput {...customValue} />))
 
-    userEvent.click(screen.getByTestId('callUpdate'))
+    userEvent.click(screen.getByTestId('call-update'))
 
     expect(updateIncident).toHaveBeenCalledWith({ dateTime: customValue.value })
   })

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { withAppContext } from 'test/utils'
+
 import priorityList from 'signals/incident-management/definitions/priorityList'
+import { withAppContext } from 'test/utils'
 
 import IncidentSplitSelectInput from '..'
-
 import subcategoriesFixture from '../../../__tests__/subcategoriesFixture.json'
 
 describe('IncidentSplitSelectInput', () => {

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
+
 import * as categoriesSelectors from 'models/categories/selectors'
+import { withAppContext } from 'test/utils'
 import { subcategoriesGroupedByCategories } from 'utils/__tests__/fixtures'
 
-import { defaultTextsOptionList } from '../../../../definitions/statusList'
 import SelectForm from '.'
+import { defaultTextsOptionList } from '../../../../definitions/statusList'
 
 describe('SelectForm', () => {
   const subcategories = subcategoriesGroupedByCategories[1]
@@ -33,7 +34,7 @@ describe('SelectForm', () => {
       withAppContext(<SelectForm {...props} />)
     )
 
-    expect(queryByTestId('selectFormForm')).not.toBeNull()
+    expect(queryByTestId('select-form-form')).not.toBeNull()
 
     expect(queryByText('Subcategorie')).not.toBeNull()
     expect(queryByTestId('category_url').value).not.toBeNull()

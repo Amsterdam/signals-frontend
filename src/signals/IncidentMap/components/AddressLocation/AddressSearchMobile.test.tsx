@@ -49,19 +49,23 @@ jest.mock(
       onData,
     }: PDOKAutoSuggestProps) =>
       (
-        <span data-testid="pdokAutoSuggest" className={className}>
-          <button data-testid="autoSuggestClear" onClick={onClear}>
+        <span data-testid="pdok-auto-suggest" className={className}>
+          <button data-testid="auto-suggest-clear" onClick={onClear}>
             Clear input
           </button>
           <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
           <button
-            data-testid="getDataMockButton"
+            data-testid="get-data-mock-button"
             type="button"
             onClick={() => {
               onData && onData(mockList)
             }}
           />
-          <input data-testid="autoSuggestInput" type="text" onFocus={onFocus} />
+          <input
+            data-testid="auto-suggest-input"
+            type="text"
+            onFocus={onFocus}
+          />
           <span>{value}</span>
         </span>
       )

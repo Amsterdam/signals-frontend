@@ -1,30 +1,29 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback } from 'react'
-import { useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import { Link, themeSpacing } from '@amsterdam/asc-ui'
-import { Marker } from '@amsterdam/react-maps'
-
 import type { FC, KeyboardEvent } from 'react'
 
-import Map from 'components/Map'
+import { Link, themeSpacing } from '@amsterdam/asc-ui'
+import { Marker } from '@amsterdam/react-maps'
+import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
 
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { markerIcon } from 'shared/services/configuration/map-markers'
-import { formatAddress } from 'shared/services/format-address'
+import Map from 'components/Map'
 import configuration from 'shared/services/configuration/configuration'
+import { markerIcon } from 'shared/services/configuration/map-markers'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { formatAddress } from 'shared/services/format-address'
+import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import {
   NEARBY_TYPE,
   selectionIsUndetermined,
 } from 'signals/incident/components/form/MapSelectors/constants'
-import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import { useDispatch } from 'react-redux'
-import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 import type {
   FeatureType,
   Item,
 } from 'signals/incident/components/form/MapSelectors/types'
+import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -121,12 +120,12 @@ const Summary: FC<SummaryProps> = ({
   )
 
   return (
-    <Wrapper data-testid="assetSelectSummary">
+    <Wrapper data-testid="asset-select-summary">
       <StyledMap mapOptions={options}>
         <StyledMarker args={[center]} options={{ icon: markerIcon }} />
       </StyledMap>
 
-      <Address data-testid="assetSelectSummaryAddress">
+      <Address data-testid="asset-select-summary-address">
         {summaryAddress}
       </Address>
 
@@ -142,7 +141,7 @@ const Summary: FC<SummaryProps> = ({
             <LocationDescription key={`${id}-address`}>
               {getIconSrc(item, featureTypes) && (
                 <StyledImg
-                  data-testid="typeIcon"
+                  data-testid="type-icon"
                   alt={item.label}
                   src={iconSrc}
                   height={iconSize}
@@ -151,7 +150,7 @@ const Summary: FC<SummaryProps> = ({
               )}
               <div>
                 {selection && (
-                  <div data-testid="assetSelectSummaryDescription">
+                  <div data-testid="asset-select-summary-description">
                     {summaryDescription}
                   </div>
                 )}
@@ -162,7 +161,7 @@ const Summary: FC<SummaryProps> = ({
       </div>
       {!atFinalSummary && (
         <StyledLink
-          data-testid="mapEditButton"
+          data-testid="map-edit-button"
           onClick={() => dispatch(showMap())}
           onKeyUp={onKeyUp}
           variant="inline"

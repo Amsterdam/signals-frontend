@@ -51,7 +51,7 @@ describe('Form component <SelectInput />', () => {
       expect(element.querySelectorAll('option').length).toEqual(
         metaFields.values.length
       )
-      expect(screen.getByTestId('selectedValue')).toBeInTheDocument()
+      expect(screen.getByTestId('selectedValue')).toBeInTheDocument() //is imported data-testid from Select from @amsterdam/asc-ui
       expect(screen.getByTestId('selectedValue').textContent).toEqual('Baz')
     })
 

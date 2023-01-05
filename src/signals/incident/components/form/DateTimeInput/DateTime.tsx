@@ -2,12 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 import type { FC } from 'react'
 
 import { Label, RadioGroup } from '@amsterdam/asc-ui'
-import Radio from 'components/RadioButton'
-import Select from 'components/Select'
 import format from 'date-fns/format'
 import locale from 'date-fns/locale/nl'
 import parse from 'date-fns/parse'
 import subDays from 'date-fns/subDays'
+
+import Radio from 'components/RadioButton'
+import Select from 'components/Select'
 import { capitalize } from 'shared/services/date-utils'
 import type { Incident } from 'types/incident'
 
@@ -187,7 +188,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
               <Select
                 id="day"
                 name="day"
-                data-testid="selectDay"
+                data-testid="select-day"
                 value={getFormattedDate(datetime)}
                 onChange={updateTimestamp}
                 options={daysOptions}
@@ -206,7 +207,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
                   id="hours"
                   aria-labelledby="uur"
                   name="hours"
-                  data-testid="selectHours"
+                  data-testid="select-hours"
                   value={datetime.getHours().toString()}
                   onChange={updateTimestamp}
                   options={hoursOptions}
@@ -218,7 +219,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
                   id="minutes"
                   name="minutes"
                   aria-labelledby="min"
-                  data-testid="selectMinutes"
+                  data-testid="select-minutes"
                   value={datetime.getMinutes().toString()}
                   onChange={updateTimestamp}
                   options={minutesOptions}

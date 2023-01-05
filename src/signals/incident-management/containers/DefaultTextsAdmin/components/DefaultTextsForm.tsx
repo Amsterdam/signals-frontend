@@ -3,13 +3,13 @@
 
 import type { ChangeEvent, FC, SyntheticEvent } from 'react'
 
-import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
+import { Button, Label, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import TextInput from 'signals/incident-management/components/TextInput'
-import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
 import Checkbox from 'components/Checkbox'
+import TextAreaInput from 'signals/incident-management/components/TextAreaInput'
+import TextInput from 'signals/incident-management/components/TextInput'
 
 const StyledLeftColumn = styled.div`
   display: inline-block;
@@ -64,10 +64,10 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
   const setDisabled = !value.text || !value.title
   return (
     <>
-      <StyledLeftColumn data-testid={`defaultTextFormForm${index}`}>
+      <StyledLeftColumn data-testid={`default-text-form-form-${index}`}>
         <TextInput
           display={''}
-          name={`title${index}`}
+          name={`title-${index}`}
           value={value.title}
           placeholder={'Titel'}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -77,7 +77,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
 
         <TextAreaInput
           display={''}
-          name={`text${index}`}
+          name={`text-${index}`}
           value={value.text}
           placeholder="Tekst"
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -86,12 +86,12 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
         />
 
         <StyledLabel
-          htmlFor={`formis_active${index}`}
+          htmlFor={`formis_active-${index}`}
           disabled={setDisabled}
           label="Actief"
         >
           <Checkbox
-            data-testid={`is_active${index}`}
+            data-testid={`is_active-${index}`}
             checked={checkedValue}
             name={`is_active${index}`}
             id={`formis_active${index}`}
@@ -105,7 +105,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
         <StyledButton
           size={44}
           variant="blank"
-          data-testid={`defaultTextFormItemButton${index}Up`}
+          data-testid={`default-text-form-item-button-${index}-up`}
           disabled={index === 0 || !value.text}
           iconSize={16}
           icon={<ChevronUp />}
@@ -114,7 +114,7 @@ const DefaultTextsForm: FC<DefaultTextsFormProps> = ({
         <StyledButton
           size={44}
           variant="blank"
-          data-testid={`defaultTextFormItemButton${index}Down`}
+          data-testid={`default-text-form-item-button-${index}-down`}
           disabled={index === itemsLength - 1 || !nextValue?.text}
           iconSize={16}
           icon={<ChevronDown />}

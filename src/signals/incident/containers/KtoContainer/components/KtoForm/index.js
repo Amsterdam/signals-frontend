@@ -4,6 +4,13 @@ import { useEffect, useRef } from 'react'
 
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
+import PropTypes from 'prop-types'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import styled from 'styled-components'
+import * as yup from 'yup'
+
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import CheckboxList from 'components/CheckboxList'
@@ -12,16 +19,10 @@ import GlobalError from 'components/GlobalError'
 import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
-import PropTypes from 'prop-types'
-import { useForm, FormProvider } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import FileInput from 'signals/incident/components/form/FileInput'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
-import styled from 'styled-components'
-import * as yup from 'yup'
 
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
@@ -158,7 +159,7 @@ const KtoForm = ({
     <FormProvider {...formMethods}>
       <FieldSet>
         <GlobalError />
-        <Form ref={formRef} data-testid="ktoForm" onSubmit={handleSubmit}>
+        <Form ref={formRef} data-testid="kto-form" onSubmit={handleSubmit}>
           <GridArea>
             <FormField
               meta={{
@@ -220,7 +221,7 @@ const KtoForm = ({
                 }
               >
                 <StyledTextArea
-                  data-testid="ktoText"
+                  data-testid="kto-text"
                   maxRows={5}
                   name="text"
                   onChange={(event) => {
@@ -276,7 +277,7 @@ const KtoForm = ({
             </StyledLabel>
             <StyledTextArea
               id="text_extra"
-              data-testid="ktoTextExtra"
+              data-testid="kto-text-extra"
               infoText={`${watchTextExtra?.length}/${extraTextMaxLength} tekens`}
               maxLength={extraTextMaxLength}
               name="text_extra"
@@ -291,7 +292,7 @@ const KtoForm = ({
                   <Heading forwardedAs="h2">Contact</Heading>
                   <p
                     id="subtitle-allows-contact"
-                    data-testid="subtitleAllowsContact"
+                    data-testid="subtitle-allows-contact"
                   >
                     Uw reactie is belangrijk voor ons. Wij laten u graag weten
                     wat wij ermee doen. En misschien willen wij u nog iets
@@ -308,10 +309,10 @@ const KtoForm = ({
               <CheckboxWrapper
                 inline
                 htmlFor="allows-contact"
-                data-testid="allowsContact"
+                data-testid="allows-contact"
               >
                 <Checkbox
-                  data-testid="ktoAllowsContact"
+                  data-testid="kto-allows-contact"
                   id="allows-contact"
                   aria-describedby="subtitle-allows-contact"
                   name="allows-contact"
@@ -333,7 +334,7 @@ const KtoForm = ({
           )}
 
           <GridArea>
-            <Button data-testid="ktoSubmit" type="submit" variant="secondary">
+            <Button data-testid="kto-submit" type="submit" variant="secondary">
               Verstuur
             </Button>
           </GridArea>

@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils'
 import priorityJSON from 'signals/incident-management/definitions/priorityList'
+import { withAppContext } from 'test/utils'
+
 import { RadioGroup } from '../RadioGroup'
 
 describe('signals/incident-management/components/FilterForm/components/RadioGroup', () => {
@@ -37,6 +38,6 @@ describe('signals/incident-management/components/FilterForm/components/RadioGrou
     )
 
     expect(getByText(label)).toBeInTheDocument()
-    expect(getByTestId(`${name}RadioGroup`)).toBeInTheDocument()
+    expect(getByTestId(`${name}-radio-group`)).toBeInTheDocument()
   })
 })

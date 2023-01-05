@@ -38,7 +38,7 @@ const BasePage = ({
   children,
   ...props
 }: BasePageProps) => (
-  <Row data-testid="basePage" {...props}>
+  <Row data-testid="base-page" {...props}>
     <ContentWrapper>
       <Helmet
         defaultTitle={configuration.language.siteTitle}

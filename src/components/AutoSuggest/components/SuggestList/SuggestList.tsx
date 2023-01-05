@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useEffect, useRef, useCallback } from 'react'
-import styled from 'styled-components'
-import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
-import { ChevronRight } from '@amsterdam/asc-assets'
-
 import type { FC } from 'react'
+
+import { ChevronRight } from '@amsterdam/asc-assets'
+import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import type { PdokResponse } from 'shared/services/map-location'
 
 const StyledList = styled.ul`
@@ -130,7 +131,7 @@ const SuggestList: FC<SuggestListProps> = ({
   return (
     <StyledList
       className={className}
-      data-testid="suggestList"
+      data-testid="suggest-list"
       id={id}
       role={role}
       ref={listRef}

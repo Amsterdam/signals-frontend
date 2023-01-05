@@ -4,8 +4,9 @@ import type { FunctionComponent } from 'react'
 import { Fragment, useCallback } from 'react'
 
 import { RadioGroup, Label } from '@amsterdam/asc-ui'
-import RadioButton from 'components/RadioButton'
 import styled from 'styled-components'
+
+import RadioButton from 'components/RadioButton'
 
 import TopicLabel from '../TopicLabel'
 
@@ -130,7 +131,7 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
 
   return (
     <FilterGroup className={className}>
-      {title && <Label data-testid="radioButtonListTitle" label={title} />}
+      {title && <Label data-testid="radio-buttonlist-title" label={title} />}
 
       <StyledRadioGroup
         name={groupName}

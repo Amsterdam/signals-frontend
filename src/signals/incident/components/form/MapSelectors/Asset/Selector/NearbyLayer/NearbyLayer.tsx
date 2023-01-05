@@ -1,34 +1,32 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 Gemeente Amsterdam */
 
-import L from 'leaflet'
 import type { FC } from 'react'
-import { useFetch } from 'hooks'
 import './style.css'
-
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
-import type { FeatureCollection, Feature } from 'geojson'
-import intersection from 'lodash/intersection'
 
-import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
-import configuration from 'shared/services/configuration/configuration'
-
-import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
-import useLayerVisible from 'signals/incident/components/form/MapSelectors/hooks/useLayerVisible'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import { useMapInstance } from '@amsterdam/react-maps'
+import type { FeatureCollection, Feature } from 'geojson'
+import L from 'leaflet'
 import type { LatLngTuple, LeafletMouseEvent } from 'leaflet'
-import type { Item } from 'signals/incident/components/form/MapSelectors/types'
-import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import intersection from 'lodash/intersection'
+import { useSelector } from 'react-redux'
 
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
+import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureToCoordinates } from 'shared/services/map-location'
-
-import { useMapInstance } from '@amsterdam/react-maps'
+import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
+import useLayerVisible from 'signals/incident/components/form/MapSelectors/hooks/useLayerVisible'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
+import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { Location } from 'types/incident'
-import WfsDataContext from '../WfsLayer/context'
+
 import { formattedDate } from '../utils'
+import WfsDataContext from '../WfsLayer/context'
 
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
@@ -202,7 +200,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   ])
   return (
     <>
-      <span data-testid="nearbyLayer" />
+      <span data-testid="nearby-layer" />
     </>
   )
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { createRef } from 'react'
+
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -42,33 +43,37 @@ describe('AddNote', () => {
   it('shows the form ', () => {
     render(withAppContext(<AddNote />))
 
-    expect(screen.getByTestId('addNoteNewNoteButton')).toBeInTheDocument()
+    expect(screen.getByTestId('add-note-new-note-button')).toBeInTheDocument()
     expect(
-      screen.queryByTestId('addNoteSaveNoteButton')
+      screen.queryByTestId('add-note-save-note-button')
     ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
 
-    expect(screen.getByTestId('addNoteSaveNoteButton')).toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
-    expect(screen.getByTestId('addNoteCancelNoteButton')).toBeInTheDocument()
-
-    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
-
+    expect(screen.getByTestId('add-note-save-note-button')).toBeInTheDocument()
     expect(
-      screen.queryByTestId('addNoteSaveNoteButton')
+      screen.queryByTestId('add-note-new-note-button')
     ).not.toBeInTheDocument()
     expect(
-      screen.queryByTestId('addNoteCancelNoteButton')
+      screen.getByTestId('add-note-cancel-note-button')
+    ).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('add-note-cancel-note-button'))
+
+    expect(
+      screen.queryByTestId('add-note-save-note-button')
     ).not.toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('add-note-cancel-note-button')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByTestId('add-note-new-note-button')).toBeInTheDocument()
   })
 
   it('focuses the textarea', () => {
     const { unmount, rerender } = render(withAppContext(<AddNote />))
 
     // no ref, no focus
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
     expect(screen.getByRole('textbox')).not.toHaveFocus()
 
     unmount()
@@ -81,7 +86,7 @@ describe('AddNote', () => {
 
     // standalone, setting focus on render
     rerender(withAppContext(<AddNote ref={ref} />))
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
     expect(screen.getByRole('textbox')).toHaveFocus()
   })
 
@@ -92,7 +97,7 @@ describe('AddNote', () => {
 
     expect(onChange).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
 
     userEvent.type(screen.getByRole('textbox'), 'Here be text')
 
@@ -104,7 +109,7 @@ describe('AddNote', () => {
     )
 
     // nothing should happen; onSubmit isn't passed as a prop
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(onChange).toHaveBeenCalledTimes(12)
   })
@@ -114,12 +119,12 @@ describe('AddNote', () => {
 
     const { rerender } = render(withAppContext(<AddNote onSubmit={onSubmit} />))
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
     userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
 
     expect(onSubmit).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -132,7 +137,7 @@ describe('AddNote', () => {
 
     userEvent.clear(screen.getByRole('textbox'))
     userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
@@ -146,12 +151,12 @@ describe('AddNote', () => {
 
     render(withAppContext(<AddNote onCancel={onCancel} />))
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
     userEvent.type(screen.getByRole('textbox'), 'Here be text 2')
 
     expect(onCancel).not.toHaveBeenCalled()
 
-    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-cancel-note-button'))
 
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
@@ -163,9 +168,9 @@ describe('AddNote', () => {
       withAppContext(<AddNote onSubmit={submitWillNotHide} />)
     )
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
     userEvent.type(screen.getByRole('textbox'), 'Here be text 3')
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(submitWillNotHide).toHaveBeenCalledTimes(1)
 
@@ -175,7 +180,7 @@ describe('AddNote', () => {
 
     rerender(withAppContext(<AddNote onSubmit={submitWillHide} />))
 
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     expect(submitWillHide).toHaveBeenCalledTimes(1)
 
@@ -187,7 +192,7 @@ describe('AddNote', () => {
 
     const value = 'Here be a note'
 
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
 
     const addNoteTextArea = screen.getByRole('textbox') as HTMLTextAreaElement
 
@@ -195,8 +200,8 @@ describe('AddNote', () => {
 
     expect(screen.getByRole('textbox')).not.toBeEmptyDOMElement()
 
-    fireEvent.click(screen.getByTestId('addNoteCancelNoteButton')) // unmounts the component
-    userEvent.click(screen.getByTestId('addNoteNewNoteButton'))
+    fireEvent.click(screen.getByTestId('add-note-cancel-note-button')) // unmounts the component
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
 
     expect(screen.getByRole('textbox')).toBeEmptyDOMElement()
   })
@@ -204,13 +209,15 @@ describe('AddNote', () => {
   it('renders the inline version', () => {
     render(withAppContext(<AddNote isStandalone={false} />))
 
-    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+    expect(screen.getByTestId('add-note-text')).toBeInTheDocument()
     expect(
-      screen.queryByTestId('addNoteSaveNoteButton')
+      screen.queryByTestId('add-note-new-note-button')
     ).not.toBeInTheDocument()
     expect(
-      screen.queryByTestId('addNoteCancelNoteButton')
+      screen.queryByTestId('add-note-save-note-button')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByTestId('add-note-cancel-note-button')
     ).not.toBeInTheDocument()
   })
 
@@ -221,18 +228,24 @@ describe('AddNote', () => {
       )
     )
 
-    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+    expect(screen.getByTestId('add-note-text')).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('add-note-new-note-button')
+    ).not.toBeInTheDocument()
 
     userEvent.type(screen.getByRole('textbox'), 'Here be text 3')
-    userEvent.click(screen.getByTestId('addNoteSaveNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
-    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+    expect(screen.getByTestId('add-note-text')).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('add-note-new-note-button')
+    ).not.toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('addNoteCancelNoteButton'))
+    userEvent.click(screen.getByTestId('add-note-cancel-note-button'))
 
-    expect(screen.getByTestId('addNoteText')).toBeInTheDocument()
-    expect(screen.queryByTestId('addNoteNewNoteButton')).not.toBeInTheDocument()
+    expect(screen.getByTestId('add-note-text')).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('add-note-new-note-button')
+    ).not.toBeInTheDocument()
   })
 })

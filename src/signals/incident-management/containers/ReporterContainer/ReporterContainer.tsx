@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
+
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
-import LoadingIndicator from 'components/LoadingIndicator'
 import { CompactPager } from '@amsterdam/asc-ui'
-import IncidentList from './components/IncidentList'
+import { useParams } from 'react-router-dom'
+import styled from 'styled-components'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+
 import Header from './components/Header'
-import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 import IncidentDetail from './components/IncidentDetail'
+import IncidentList from './components/IncidentList'
+import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 
 const Wrapper = styled.article`
   margin: ${themeSpacing(11)};
@@ -73,12 +76,12 @@ const ReporterContainer: FunctionComponent = () => {
     )
 
   return (
-    <Wrapper data-testid="reporterContainer">
+    <Wrapper data-testid="reporter-container">
       {header}
 
       <Content>
         {incidents.data && incident.id && (
-          <div data-testid="incidentList">
+          <div data-testid="incident-list">
             <StyledIncidentList
               list={incidents.data.list}
               selectedIncidentId={incident.id}

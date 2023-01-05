@@ -122,7 +122,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
       <ViewerContainer
         bottomRight={
           showZoom && (
-            <div data-testid="mapZoom">
+            <div data-testid="map-zoom">
               <Zoom />
             </div>
           )

@@ -2,11 +2,11 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
-import { withAppContext } from 'test/utils'
-import rolesJson from 'utils/__tests__/fixtures/roles.json'
 
 import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
 import routes from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
+import rolesJson from 'utils/__tests__/fixtures/roles.json'
 
 import { RoleFormContainer } from '..'
 
@@ -68,8 +68,8 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       withAppContext(<RoleFormContainer {...loadingProps} />)
     )
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
-    expect(queryByTestId('rolesForm')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
+    expect(queryByTestId('roles-form')).not.toBeInTheDocument()
 
     const notLoadingProps = {
       ...props,
@@ -81,8 +81,8 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
     }
     rerender(withAppContext(<RoleFormContainer {...notLoadingProps} />))
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-    expect(queryByTestId('rolesForm')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    expect(queryByTestId('roles-form')).toBeInTheDocument()
     expect(container.querySelector('h1')).toHaveTextContent(/^Rol toevoegen$/)
   })
 
@@ -99,7 +99,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       withAppContext(<RoleFormContainer {...notLoadingProps} />)
     )
 
-    expect(queryByTestId('rolesForm')).toBeInTheDocument()
+    expect(queryByTestId('roles-form')).toBeInTheDocument()
     expect(container.querySelector('h1')).toHaveTextContent(/^Rol wijzigen$/)
   })
 

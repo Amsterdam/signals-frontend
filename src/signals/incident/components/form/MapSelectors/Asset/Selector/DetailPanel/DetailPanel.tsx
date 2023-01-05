@@ -170,7 +170,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
 
   return (
     <PanelContent
-      data-testid="detailPanel"
+      data-testid="detail-panel"
       smallViewport={showAddressPanel && shouldRenderAddressPanel}
     >
       <Title>{language.title || 'Locatie'}</Title>
@@ -206,10 +206,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         )}
 
         {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
-          <div data-testid="unregisteredObjectPanel">
+          <div data-testid="unregistered-object-panel">
             <Checkbox
               id="unregisteredAssetCheckbox"
-              data-testid="unregisteredAssetCheckbox"
+              data-testid="unregistered-asset-checkbox"
               checked={showObjectIdInput}
               onChange={onCheck}
             />
@@ -230,7 +230,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
                   }
                 />
                 <Input
-                  data-testid="unregisteredAssetInput"
+                  data-testid="unregistered-asset-input"
                   id="unregisteredAssetInput"
                   onBlur={onSetUnregisteredItem}
                   onChange={onChange}
@@ -246,7 +246,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         <StyledButton
           onClick={() => dispatch(closeMap())}
           variant="primary"
-          data-testid="assetSelectSubmitButton"
+          data-testid="asset-select-submit-button"
           tabIndex={0}
         >
           {language.submit || 'Meld dit object'}
@@ -267,7 +267,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       )}
 
       {showAddressPanel && shouldRenderAddressPanel && (
-        <AddressPanel data-testid="addressPanel" id="addressPanel">
+        <AddressPanel data-testid="address-panel" id="addressPanel">
           <header>
             <Button
               aria-label="Terug"
@@ -292,7 +292,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           </header>
 
           {optionsList && (
-            <OptionsList data-testid="optionsList">{optionsList}</OptionsList>
+            <OptionsList data-testid="options-list">{optionsList}</OptionsList>
           )}
         </AddressPanel>
       )}

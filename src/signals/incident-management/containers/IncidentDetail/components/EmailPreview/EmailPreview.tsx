@@ -58,14 +58,14 @@ const EmailPreview = ({
 
   return (
     <ModalDialog
-      data-testid="emailPreviewModal"
+      data-testid="email-preview-modal"
       title={title}
       onClose={onClose}
     >
       {isLoading && <LoadingIndicator />}
       {emailBody && (
         <>
-          <StyledIframe data-testid="emailBodyIframe" srcDoc={styledHtml} />
+          <StyledIframe data-testid="email-body-iframe" srcDoc={styledHtml} />
           <StyledFormFooter
             cancelBtnLabel="Wijzig"
             onCancel={onClose}

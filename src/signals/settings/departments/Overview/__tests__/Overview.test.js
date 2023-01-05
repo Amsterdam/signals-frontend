@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { render, fireEvent, waitFor, act } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
+import * as appSelectors from 'containers/App/selectors'
+import * as modelSelectors from 'models/departments/selectors'
+import { DEPARTMENT_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import { departments } from 'utils/__tests__/fixtures'
-import { DEPARTMENT_URL } from 'signals/settings/routes'
-
-import * as modelSelectors from 'models/departments/selectors'
-import * as appSelectors from 'containers/App/selectors'
 
 import DepartmentOverview from '..'
 
@@ -45,13 +44,13 @@ describe('signals/settings/departments/Overview', () => {
 
     const { queryByTestId } = render(withAppContext(<DepartmentOverview />))
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should not show a loading indicator when data has loaded', () => {
     const { queryByTestId } = render(withAppContext(<DepartmentOverview />))
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should render a title', () => {

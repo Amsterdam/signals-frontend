@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import FileInputRenderer from '..'
@@ -38,7 +39,7 @@ describe('Form component <FileInputRenderer />', () => {
         )
       )
 
-      expect(queryByTestId('fileInput')).toBeInTheDocument()
+      expect(queryByTestId('file-input')).toBeInTheDocument()
     })
 
     it('should render no upload field when not visible', () => {
@@ -53,7 +54,7 @@ describe('Form component <FileInputRenderer />', () => {
         )
       )
 
-      expect(queryByTestId('fileInput')).not.toBeInTheDocument()
+      expect(queryByTestId('file-input')).not.toBeInTheDocument()
     })
   })
 })

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+import { themeColor, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeColor, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
 
 const Info = styled(Paragraph)`
   color: ${themeColor('tint', 'level5')};
@@ -11,7 +11,7 @@ const Info = styled(Paragraph)`
 `
 
 const InfoText = ({ className, text, ...rest }) => (
-  <Info className={className} data-testid="infoText" {...rest}>
+  <Info className={className} data-testid="info-text" {...rest}>
     {text}
   </Info>
 )

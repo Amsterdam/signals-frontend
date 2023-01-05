@@ -1,11 +1,12 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2021 - 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
-import Map from 'components/Map'
 import type { FeatureCollection } from 'geojson'
-import useFetch from 'hooks/useFetch'
 import Leaflet from 'leaflet'
 import * as reactRedux from 'react-redux'
+
+import Map from 'components/Map'
+import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import {
@@ -62,7 +63,7 @@ describe('NearbyLayer', () => {
   it('renders a span placeholder for test await and QA purposes', () => {
     renderWithContext()
 
-    expect(screen.getByTestId('nearbyLayer')).toBeInTheDocument()
+    expect(screen.getByTestId('nearby-layer')).toBeInTheDocument()
   })
 
   it('sends a request to the API on mount when the zoom level is sufficiently deep', async () => {
@@ -71,7 +72,7 @@ describe('NearbyLayer', () => {
 
     renderWithContext()
 
-    await screen.findByTestId('nearbyLayer')
+    await screen.findByTestId('nearby-layer')
 
     expect(get).toHaveBeenCalledTimes(1)
     expect(get).toHaveBeenCalledWith(
@@ -157,7 +158,7 @@ describe('NearbyLayer', () => {
 
     renderWithContext()
 
-    await screen.findByTestId('nearbyLayer')
+    await screen.findByTestId('nearby-layer')
 
     expect(
       Leaflet.FeatureGroup.prototype.clearAllEventListeners
@@ -169,7 +170,7 @@ describe('NearbyLayer', () => {
     jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true)
     const { rerender } = renderWithContext()
 
-    await screen.findByTestId('nearbyLayer')
+    await screen.findByTestId('nearby-layer')
 
     jest.spyOn(useLayerVisible, 'default').mockImplementation(() => false)
     rerender(

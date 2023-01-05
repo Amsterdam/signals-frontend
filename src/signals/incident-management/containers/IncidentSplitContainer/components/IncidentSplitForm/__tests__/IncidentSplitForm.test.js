@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
 
+import { withAppContext } from 'test/utils'
 import {
   subcategoriesGroupedByCategories as subcategories,
   departments,
 } from 'utils/__tests__/fixtures'
-import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json'
 
 import IncidentSplitForm from '..'
+import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json'
 
 const mockHistoryPush = jest.fn()
 
@@ -61,10 +61,10 @@ describe('IncidentSplitForm', () => {
     // scrollIntoView is called in <IncidentSplitFormIncident /> when split button is clicked.
     global.window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
-    fireEvent.click(getByTestId('incidentSplitFormIncidentSplitButton'))
-    fireEvent.submit(getByTestId('incidentSplitFormSubmitButton'))
+    fireEvent.click(getByTestId('incident-split-form-incident-split-button'))
+    fireEvent.submit(getByTestId('incident-split-form-submit-button'))
 
-    await findByTestId('incidentSplitForm')
+    await findByTestId('incident-split-form')
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: parentIncidentFixture.directingDepartment,
@@ -93,9 +93,9 @@ describe('IncidentSplitForm', () => {
     const { findByTestId, getByTestId } = render(
       withAppContext(<IncidentSplitForm {...props} />)
     )
-    fireEvent.click(getByTestId('incidentSplitFormCancelButton'))
+    fireEvent.click(getByTestId('incident-split-form-cancel-button'))
 
-    await findByTestId('incidentSplitForm')
+    await findByTestId('incident-split-form')
     expect(mockHistoryPush).toHaveBeenCalledWith('/manage/incident/6010')
   })
 
@@ -105,18 +105,18 @@ describe('IncidentSplitForm', () => {
     )
 
     expect(
-      screen.getByTestId('incidentSplitFormSubmitButton')
+      screen.getByTestId('incident-split-form-submit-button')
     ).not.toHaveAttribute('disabled')
     expect(
-      screen.getByTestId('incidentSplitFormCancelButton')
+      screen.getByTestId('incident-split-form-cancel-button')
     ).not.toHaveAttribute('disabled')
 
     rerender(withAppContext(<IncidentSplitForm {...props} isSubmitting />))
-    expect(screen.getByTestId('incidentSplitFormSubmitButton')).toHaveAttribute(
-      'disabled'
-    )
-    expect(screen.getByTestId('incidentSplitFormCancelButton')).toHaveAttribute(
-      'disabled'
-    )
+    expect(
+      screen.getByTestId('incident-split-form-submit-button')
+    ).toHaveAttribute('disabled')
+    expect(
+      screen.getByTestId('incident-split-form-cancel-button')
+    ).toHaveAttribute('disabled')
   })
 })

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Column, Row, themeColor } from '@amsterdam/asc-ui'
 import type { FunctionComponent, MouseEventHandler } from 'react'
+import { useContext } from 'react'
+
+import { Column, Row, themeColor } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import Button from 'components/Button'
-import { useContext } from 'react'
 import MapContext from 'containers/MapContext/context'
 
 export const FORM_FOOTER_HEIGHT = 66
@@ -79,7 +80,7 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
   } = useContext(MapContext)
   return (
     <FooterWrapper
-      data-testid="formFooter"
+      data-testid="form-footer"
       className={className}
       inline={inline}
     >
@@ -87,7 +88,7 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
         <ButtonContainer span={12}>
           {resetBtnLabel && (
             <ResetButton
-              data-testid="resetBtn"
+              data-testid="reset-btn"
               onClick={onResetForm}
               type="reset"
             >
@@ -97,7 +98,7 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
 
           {submitBtnLabel && (
             <SubmitButton
-              data-testid="submitBtn"
+              data-testid="submit-btn"
               name="submit_button"
               disabled={loading}
               onClick={onSubmitForm}
@@ -109,7 +110,7 @@ const FormFooter: FunctionComponent<FormFooterProps> = ({
 
           {cancelBtnLabel && (
             <CancelButton
-              data-testid="cancelBtn"
+              data-testid="cancel-btn"
               onClick={onCancel}
               type="button"
             >

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
+
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
@@ -68,9 +69,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithForm} />)
     )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should not render without any form or preview', () => {
@@ -85,9 +86,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithout} />)
     )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('expect to render form factory correctly', () => {
@@ -106,9 +107,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithFormFactory} />)
     )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('expect to render preview factory correctly', () => {
@@ -140,9 +141,9 @@ describe('<IncidentWizard />', () => {
       )
     )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('expect to render loading correctly', () => {
@@ -157,9 +158,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithPreview} />)
     )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(queryByTestId('incident-form')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should render loading when App loading', () => {
@@ -167,9 +168,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...props} />, null, true)
     )
 
-    expect(queryByTestId('incidentForm')).not.toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(queryByTestId('incident-form')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should work without sources (not authorized)', () => {
@@ -187,9 +188,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithForm} />)
     )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should pass the sources to the formFactory', () => {
@@ -211,9 +212,9 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithFormFactory} />, sources)
     )
 
-    expect(queryByTestId('incidentForm')).toBeInTheDocument()
-    expect(queryByTestId('incidentPreview')).not.toBeInTheDocument()
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('incident-form')).toBeInTheDocument()
+    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
     expect(formFactory).toHaveBeenCalledWith(incident, sources)
   })
 })

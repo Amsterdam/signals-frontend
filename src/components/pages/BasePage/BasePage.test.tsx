@@ -1,7 +1,7 @@
 import { render, waitFor, screen } from '@testing-library/react'
 
-import { withAppContext } from 'test/utils'
 import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
 
 import BasePage from './BasePage'
 
@@ -9,7 +9,7 @@ describe('BasePage', () => {
   it('renders a default document title', async () => {
     render(withAppContext(<BasePage />))
 
-    expect(screen.getByTestId('basePage')).toBeInTheDocument()
+    expect(screen.getByTestId('base-page')).toBeInTheDocument()
 
     await waitFor(() => {
       expect(document.title).toEqual(configuration.language.siteTitle)
@@ -17,11 +17,11 @@ describe('BasePage', () => {
   })
 
   it('applies other props', () => {
-    render(withAppContext(<BasePage data-testid="overwriteTestId" />))
+    render(withAppContext(<BasePage data-testid="overwrite-test-id" />))
 
-    expect(screen.queryByTestId('basePage')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('base-page')).not.toBeInTheDocument()
 
-    expect(screen.getByTestId('overwriteTestId')).toBeInTheDocument()
+    expect(screen.getByTestId('overwrite-test-id')).toBeInTheDocument()
   })
 
   it('renders a custom document title', async () => {

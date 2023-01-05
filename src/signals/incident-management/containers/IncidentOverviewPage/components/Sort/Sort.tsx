@@ -1,8 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2022 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
+import type { FC } from 'react'
+
 import { Select, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
-
-import type { FC } from 'react'
 
 import configuration from 'shared/services/configuration/configuration'
 
@@ -72,7 +74,7 @@ const Sort: FC<SortProps> = ({
   return (
     <SelectContainer className={className}>
       <Select
-        data-testid="incidentSortSelect"
+        data-testid="incident-sort-select"
         defaultValue={activeSort}
         id="sortSelect"
         label="Sorteren"

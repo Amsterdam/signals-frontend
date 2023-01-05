@@ -95,7 +95,7 @@ const ChildIncidentHistory: FunctionComponent<ChildIncidentHistoryProps> = ({
   }
 
   return (
-    <Wrapper className={className} data-testid="childIncidentHistory">
+    <Wrapper className={className} data-testid="child-incident-history">
       {canView ? (
         <Fragment>
           {recentHistory.length === 0 && (

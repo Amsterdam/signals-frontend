@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import {
   render,
   within,
@@ -8,25 +8,24 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { history as memoryHistory, withAppContext } from 'test/utils'
-
-import usersJSON from 'utils/__tests__/fixtures/users.json'
-import inputSelectRolesSelectorFixture from 'utils/__tests__/fixtures/inputSelectRolesSelector.json'
-import inputSelectDepartmentsSelectorFixture from 'utils/__tests__/fixtures/inputSelectDepartmentsSelector.json'
-import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes'
-import * as constants from 'containers/App/constants'
 import * as reactRouter from 'react-router-dom'
-import * as appSelectors from 'containers/App/selectors'
-import * as rolesSelectors from 'models/roles/selectors'
-import * as departmenstSelectors from 'models/departments/selectors'
 
+import * as constants from 'containers/App/constants'
+import * as appSelectors from 'containers/App/selectors'
+import * as departmenstSelectors from 'models/departments/selectors'
+import * as rolesSelectors from 'models/roles/selectors'
+import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes'
+import { history as memoryHistory, withAppContext } from 'test/utils'
+import inputSelectDepartmentsSelectorFixture from 'utils/__tests__/fixtures/inputSelectDepartmentsSelector.json'
+import inputSelectRolesSelectorFixture from 'utils/__tests__/fixtures/inputSelectRolesSelector.json'
+import usersJSON from 'utils/__tests__/fixtures/users.json'
+
+import UsersOverview from '..'
 import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
-
-import UsersOverview from '..'
 
 fetchMock.disableMocks()
 
@@ -106,10 +105,9 @@ describe('signals/settings/users/containers/Overview', () => {
       .mockImplementation(() => () => true)
 
     const { rerender, unmount } = render(withAppContext(<UsersOverview />))
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
-    )
+    screen.debug()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    await waitForElementToBeRemoved(screen.queryByTestId('loading-indicator'))
 
     expect(screen.queryByText('Gebruiker toevoegen')).toBeInTheDocument()
 
@@ -122,7 +120,7 @@ describe('signals/settings/users/containers/Overview', () => {
     rerender(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(screen.queryByText('Gebruiker toevoegen')).not.toBeInTheDocument()
@@ -144,7 +142,7 @@ describe('signals/settings/users/containers/Overview', () => {
       .querySelector('td:first-of-type')?.textContent
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     jest
@@ -154,7 +152,7 @@ describe('signals/settings/users/containers/Overview', () => {
     rerender(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(firstCellContents).not.toEqual(
@@ -166,14 +164,14 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(
       screen.getByText(`Gebruikers (${usersJSON.count})`)
     ).toBeInTheDocument()
-    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument()
-    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(
+    expect(screen.queryByTestId('data-view-headers-row')).toBeInTheDocument()
+    expect(screen.queryAllByTestId('data-view-body-row')).toHaveLength(
       constants.PAGE_SIZE
     )
   })
@@ -182,18 +180,18 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     expect(screen.getByText('Gebruikers')).toBeInTheDocument()
-    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument()
-    expect(screen.queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(screen.queryByTestId('data-view-headers-row')).toBeInTheDocument()
+    expect(screen.queryByTestId('loading-indicator')).toBeInTheDocument()
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(
       screen.getByText(`Gebruikers (${usersJSON.count})`)
     ).toBeInTheDocument()
-    expect(screen.queryByTestId('dataViewHeadersRow')).toBeInTheDocument()
-    expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('data-view-headers-row')).toBeInTheDocument()
+    expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
   it('should render title and data view with headers only when no data', async () => {
@@ -201,24 +199,24 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(screen.getByText('Gebruikers')).toBeInTheDocument()
-    expect(screen.getByTestId('dataViewHeadersRow')).toBeInTheDocument()
-    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(0)
+    expect(screen.getByTestId('data-view-headers-row')).toBeInTheDocument()
+    expect(screen.queryAllByTestId('data-view-body-row')).toHaveLength(0)
   })
 
   it('should render data view with no data when loading', async () => {
     render(withAppContext(<UsersOverview />))
 
-    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(0)
+    expect(screen.queryAllByTestId('data-view-body-row')).toHaveLength(0)
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
-    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(
+    expect(screen.queryAllByTestId('data-view-body-row')).toHaveLength(
       constants.PAGE_SIZE
     )
   })
@@ -227,10 +225,10 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
-    expect(screen.queryAllByTestId('dataViewBodyRow')).toHaveLength(
+    expect(screen.queryAllByTestId('data-view-body-row')).toHaveLength(
       constants.PAGE_SIZE
     )
   })
@@ -239,7 +237,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const { rerender, unmount } = render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(screen.queryByTestId('pagination')).toBeInTheDocument()
@@ -261,7 +259,7 @@ describe('signals/settings/users/containers/Overview', () => {
     rerender(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -273,7 +271,7 @@ describe('signals/settings/users/containers/Overview', () => {
     rerender(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     expect(screen.queryByTestId('pagination')).not.toBeInTheDocument()
@@ -287,7 +285,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
     const page2 = await screen.findByTestId('nextbutton')
 
@@ -309,7 +307,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const itemId = 666
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const row = container.querySelector(
@@ -350,7 +348,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const { container } = render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const row = container.querySelector(
@@ -373,7 +371,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
     expect(screen.getByTestId('filterUsersByUsername')).toBeInTheDocument()
   })
@@ -382,7 +380,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
     jest.useFakeTimers()
 
@@ -417,7 +415,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     jest.useFakeTimers()
@@ -459,7 +457,7 @@ describe('signals/settings/users/containers/Overview', () => {
     expect(push).not.toHaveBeenCalled()
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     jest.useFakeTimers()
@@ -502,7 +500,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
     expect(screen.getByTestId('role')).toBeInTheDocument()
   })
@@ -518,7 +516,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const { rerender } = render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const filterByRoleSelect = screen.getByTestId('role') as HTMLSelectElement
@@ -557,7 +555,7 @@ describe('signals/settings/users/containers/Overview', () => {
     const { rerender } = render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const filterByDepartmentSelect = screen.getByTestId(
@@ -599,7 +597,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const filterByRoleSelect = screen.getByTestId('role') as HTMLSelectElement
@@ -631,7 +629,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
     expect(screen.getByTestId('is_active')).toBeInTheDocument()
   })
@@ -670,7 +668,7 @@ describe('signals/settings/users/containers/Overview', () => {
     render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loadingIndicator')
+      screen.queryByTestId('loading-indicator')
     )
 
     const filterByRoleSelect = screen.getByTestId('role') as HTMLSelectElement

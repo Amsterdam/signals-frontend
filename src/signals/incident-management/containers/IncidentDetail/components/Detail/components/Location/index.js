@@ -3,13 +3,14 @@
 import { Fragment, useContext } from 'react'
 
 import { themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import configuration from 'shared/services/configuration/configuration'
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import { getListValueByKey } from 'shared/services/list-helpers/list-helpers'
 import { featureToCoordinates } from 'shared/services/map-location'
 import { locationType } from 'shared/types'
 import { stadsdeelList } from 'signals/incident-management/definitions'
-import styled from 'styled-components'
 
 import MapDetail from '../../../../../../../../components/MapDetail'
 import IncidentManagementContext from '../../../../../../context'
@@ -65,7 +66,7 @@ const Location = ({ location }) => {
       <dt data-testid="detail-location">Locatie</dt>
       <Description>
         <StyledEditButton
-          data-testid="editLocationButton"
+          data-testid="edit-location-button"
           icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
           iconSize={18}
           onClick={() => {
@@ -82,7 +83,7 @@ const Location = ({ location }) => {
               onClick={() => {
                 preview('location')
               }}
-              data-testid="previewLocationButton"
+              data-testid="preview-location-button"
             >
               <StyledMap
                 key={`${lat},${lng}`}

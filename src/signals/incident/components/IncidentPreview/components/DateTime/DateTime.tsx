@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import type { FC } from 'react'
+
 import format from 'date-fns/format'
-import { capitalize } from 'shared/services/date-utils'
 import nl from 'date-fns/locale/nl'
 
+import { capitalize } from 'shared/services/date-utils'
 import type { Incident } from 'types/incident'
-import type { FC } from 'react'
 
 interface DateTimeProps {
   value: Incident['timestamp']
@@ -42,7 +43,7 @@ const getValue = (
 }
 
 const DateTime: FC<DateTimeProps> = ({ value, incident }) => (
-  <span data-testid="previewDateTime">{getValue(value, incident)}</span>
+  <span data-testid="preview-date-time">{getValue(value, incident)}</span>
 )
 
 export default DateTime

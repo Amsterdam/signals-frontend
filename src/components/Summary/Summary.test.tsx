@@ -2,21 +2,21 @@
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import configuration from 'shared/services/configuration/configuration'
-import { formatAddress } from 'shared/services/format-address'
-
-import { contextValue as assetSelectContextValue } from 'signals/incident/components/form/MapSelectors/Asset//__tests__/withAssetSelectContext'
-import { withAppContext } from 'test/utils'
-import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
-import type { Address } from 'types/address'
-import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import type { Item } from 'signals/incident/components/form/MapSelectors/types'
-
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
+
+import configuration from 'shared/services/configuration/configuration'
+import { formatAddress } from 'shared/services/format-address'
+import { contextValue as assetSelectContextValue } from 'signals/incident/components/form/MapSelectors/Asset//__tests__/withAssetSelectContext'
+import { AssetSelectProvider } from 'signals/incident/components/form/MapSelectors/Asset/context'
+import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
-import Summary from './Summary'
+import { withAppContext } from 'test/utils'
+import type { Address } from 'types/address'
+
 import MockInstance = jest.MockInstance
+import Summary from './Summary'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('react-router-dom', () => ({
@@ -89,13 +89,15 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   it('renders interactive map correctly', () => {
     render(withContext(<Summary {...summaryProps} />))
 
-    expect(screen.getByTestId('assetSelectSummary')).toBeInTheDocument()
+    expect(screen.getByTestId('asset-select-summary')).toBeInTheDocument()
     expect(
-      screen.getByTestId('assetSelectSummaryDescription')
+      screen.getByTestId('asset-select-summary-description')
     ).toBeInTheDocument()
-    expect(screen.getByTestId('assetSelectSummaryAddress')).toBeInTheDocument()
+    expect(
+      screen.getByTestId('asset-select-summary-address')
+    ).toBeInTheDocument()
     expect(screen.getByText(/wijzigen/i)).toBeInTheDocument()
-    expect(screen.queryByTestId('typeIcon')).toBeInTheDocument()
+    expect(screen.queryByTestId('type-icon')).toBeInTheDocument()
     expect(screen.queryByTestId('map-base')).toBeInTheDocument()
   })
 
@@ -110,7 +112,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     const undefinedRe = new RegExp('undefined')
 
     expect(screen.getByText(idRe)).toBeInTheDocument()
-    expect(screen.queryByTestId('typeIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('type-icon')).not.toBeInTheDocument()
     expect(screen.queryByText(undefinedRe)).not.toBeInTheDocument()
   })
 
@@ -122,7 +124,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     render(withContext(<Summary {...propsNoSelection} />))
 
     expect(
-      screen.queryByTestId('assetSelectSummaryDescription')
+      screen.queryByTestId('asset-select-summary-description')
     ).not.toBeInTheDocument()
     expect(screen.getByText(formatAddress(address))).toBeInTheDocument()
   })
@@ -197,7 +199,7 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
     render(withContext(<Summary {...summaryProps} />))
 
-    expect(screen.getByTestId('mapEditButton')).toBeInTheDocument()
+    expect(screen.getByTestId('map-edit-button')).toBeInTheDocument()
   })
 
   it("does not render the mapEditButton at 'incident/summary'", () => {
@@ -211,6 +213,6 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
 
     render(withContext(<Summary {...summaryProps} />))
 
-    expect(screen.queryByTestId('mapEditButton')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('map-edit-button')).not.toBeInTheDocument()
   })
 })

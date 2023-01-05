@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { act, render, fireEvent } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
-import { withAppContext } from 'test/utils'
-import routes from 'signals/settings/routes'
-import departmentJson from 'utils/__tests__/fixtures/department.json'
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import useFetch from 'hooks/useFetch'
 import CONFIGURATION from 'shared/services/configuration/configuration'
+import routes from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
+import departmentJson from 'utils/__tests__/fixtures/department.json'
 
 import { DepartmentDetailContainer } from '..'
 
@@ -67,7 +67,7 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
       routes.departments
@@ -79,7 +79,7 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
     expect(getByText('Afdeling wijzigen')).toBeInTheDocument()
 
@@ -91,7 +91,7 @@ describe('signals/settings/departments/Detail', () => {
 
     rerender(withAppContext(<DepartmentDetailContainer />))
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
     expect(getByText('Afdeling toevoegen')).toBeInTheDocument()
   })
@@ -101,9 +101,9 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
-    expect(queryByTestId('loadingIndicator')).not.toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
 
     useFetch.mockImplementationOnce(() => ({
       ...useFetchResponse,
@@ -114,9 +114,9 @@ describe('signals/settings/departments/Detail', () => {
 
     rerender(withAppContext(<DepartmentDetailContainer />))
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
-    expect(queryByTestId('loadingIndicator')).toBeInTheDocument()
+    expect(queryByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should render the department name', async () => {
@@ -124,7 +124,7 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
     expect(queryByText(departmentJson.name)).not.toBeInTheDocument()
 
@@ -137,7 +137,7 @@ describe('signals/settings/departments/Detail', () => {
 
     rerender(withAppContext(<DepartmentDetailContainer />))
 
-    await findByTestId('departmentDetail')
+    await findByTestId('department-detail')
 
     expect(getByText(departmentJson.name)).toBeInTheDocument()
   })
@@ -147,9 +147,9 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
-    expect(queryByTestId('categoryLists')).not.toBeInTheDocument()
+    expect(queryByTestId('category-lists')).not.toBeInTheDocument()
 
     useFetch.mockImplementation(() => ({
       ...useFetchResponse,
@@ -160,9 +160,9 @@ describe('signals/settings/departments/Detail', () => {
 
     rerender(withAppContext(<DepartmentDetailContainer />))
 
-    await findByTestId('departmentDetail')
+    await findByTestId('department-detail')
 
-    expect(queryByTestId('categoryLists')).not.toBeInTheDocument()
+    expect(queryByTestId('category-lists')).not.toBeInTheDocument()
 
     unmount()
 
@@ -178,7 +178,7 @@ describe('signals/settings/departments/Detail', () => {
       )
     )
 
-    const categoryLists = await findByTestId('categoryLists')
+    const categoryLists = await findByTestId('category-lists')
 
     expect(categoryLists).toBeInTheDocument()
   })
@@ -190,7 +190,7 @@ describe('signals/settings/departments/Detail', () => {
       withAppContext(<DepartmentDetailContainer />)
     )
 
-    await findByTestId('settingsPageHeader')
+    await findByTestId('settings-page-header')
 
     expect(get).toHaveBeenCalledWith(
       `${CONFIGURATION.DEPARTMENTS_ENDPOINT}${departmentId}`
@@ -215,7 +215,7 @@ describe('signals/settings/departments/Detail', () => {
 
     expect(patch).not.toHaveBeenCalled()
 
-    await findByTestId('departmentDetail')
+    await findByTestId('department-detail')
 
     act(() => {
       fireEvent.click(container.querySelector('[type="submit"]'))

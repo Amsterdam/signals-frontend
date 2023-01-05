@@ -25,8 +25,8 @@ interface ModalHeaderProps {
 }
 
 const ModalHeader: FC<ModalHeaderProps> = ({ title, onClose }) => (
-  <Header data-testid="modalHeader">
-    <StyledHeading as="h3" data-testid="modalTitle">
+  <Header data-testid="modal-header">
+    <StyledHeading as="h3" data-testid="modal-title">
       {title}
     </StyledHeading>
     {onClose && (

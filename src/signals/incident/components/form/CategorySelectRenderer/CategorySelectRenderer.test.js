@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
+
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { withAppContext } from 'test/utils'
 
@@ -8,7 +9,7 @@ import CategorySelectRenderer from './CategorySelectRenderer'
 
 jest.mock('shared/services/auth/auth')
 jest.mock('signals/incident/components/form/CategorySelect', () => () => (
-  <div data-testid="descriptionInput"></div>
+  <div data-testid="description-input"></div>
 ))
 
 describe('signals/incident/components/form/CategorySelectRenderer', () => {
@@ -49,7 +50,7 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
         withAppContext(<CategorySelectRenderer {...props} meta={meta} />)
       )
 
-      const element = queryByTestId('descriptionInput')
+      const element = queryByTestId('description-input')
       expect(element).toBeInTheDocument()
     })
 
@@ -63,7 +64,7 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
         )
       )
 
-      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument()
+      expect(queryByTestId('description-input')).not.toBeInTheDocument()
     })
 
     it('should NOT render when not authenticated', () => {
@@ -77,7 +78,7 @@ describe('signals/incident/components/form/CategorySelectRenderer', () => {
         )
       )
 
-      expect(queryByTestId('descriptionInput')).not.toBeInTheDocument()
+      expect(queryByTestId('description-input')).not.toBeInTheDocument()
     })
   })
 })

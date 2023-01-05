@@ -31,7 +31,7 @@ type SelectLoaderProps = {
 }
 
 const SelectLoader: FC<SelectLoaderProps> = ({ className, label }) => (
-  <div data-testid="selectLoader">
+  <div data-testid="select-loader">
     {label && <StyledLabel label={label} />}
     <Container className={className}>
       <Spinner color={themeColor('secondary')} />

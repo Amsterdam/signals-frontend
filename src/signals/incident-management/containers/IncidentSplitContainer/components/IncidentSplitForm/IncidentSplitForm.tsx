@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { useCallback, Fragment } from 'react'
-import styled from 'styled-components'
-import { Controller, useForm, FormProvider } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import type { FC } from 'react'
 
 import { Heading, themeSpacing } from '@amsterdam/asc-ui'
+import { Controller, useForm, FormProvider } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 
-import Button from 'components/Button'
 import AddNote, { getAddNoteError } from 'components/AddNote'
-
-import type { FC } from 'react'
+import Button from 'components/Button'
 import type { SubcategoriesGrouped } from 'models/categories/selectors'
 
 import {
@@ -20,7 +19,6 @@ import {
   StyledSubmitButton,
   ThinLabel,
 } from '../../styled'
-
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 
@@ -85,7 +83,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
           onSubmit={handleSubmit((data) => {
             onSubmit(data)
           })}
-          data-testid="incidentSplitForm"
+          data-testid="incident-split-form"
         >
           <Heading>Deelmelding maken</Heading>
 
@@ -94,17 +92,17 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
 
             <StyledDefinitionList>
               <dt>Melding</dt>
-              <dd data-testid="incidentSplitFormParentIncidentId">
+              <dd data-testid="incident-split-form-parent-incident-id">
                 {parentIncident.id}
               </dd>
 
               <dt>Status</dt>
-              <dd data-testid="incidentSplitFormStatusDisplayName">
+              <dd data-testid="incident-split-form-status-display-name">
                 {parentIncident.statusDisplayName}
               </dd>
 
               <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-              <dd data-testid="incidentSplitFormSubcategoryDisplayName">
+              <dd data-testid="incident-split-form-subcategory-display-name">
                 {parentIncident.subcategoryDisplayName}
               </dd>
             </StyledDefinitionList>
@@ -114,7 +112,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
               defaultValue={parentIncident.directingDepartment}
               render={({ field: { onChange } }) => (
                 <StyledIncidentSplitRadioInput
-                  data-testid="incidentSplitFormRadioInputDepartment"
+                  data-testid="incident-split-form-radio-iInput-department"
                   display="Regie"
                   id="department"
                   initialValue={parentIncident.directingDepartment}
@@ -163,7 +161,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
 
           <div>
             <StyledSubmitButton
-              data-testid="incidentSplitFormSubmitButton"
+              data-testid="incident-split-form-submit-button"
               variant="secondary"
               disabled={isSubmitting}
             >
@@ -171,7 +169,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
             </StyledSubmitButton>
 
             <Button
-              data-testid="incidentSplitFormCancelButton"
+              data-testid="incident-split-form-cancel-button"
               variant="tertiary"
               onClick={onCancel}
               disabled={isSubmitting}

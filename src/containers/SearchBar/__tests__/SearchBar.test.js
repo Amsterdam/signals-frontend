@@ -50,8 +50,8 @@ describe('containers/SearchBar', () => {
         )
       )
 
-      const formInput = queryByTestId('searchBar').querySelector('input')
-      const formSubmitBtn = queryByTestId('searchBar').querySelector('button')
+      const formInput = queryByTestId('search-bar').querySelector('input')
+      const formSubmitBtn = queryByTestId('search-bar').querySelector('button')
 
       fireEvent.change(formInput, { target: { value: '1234' } })
 
@@ -77,7 +77,7 @@ describe('containers/SearchBar', () => {
 
       expect(resetSearchQueryAction).not.toHaveBeenCalledWith()
 
-      const formInput = queryByTestId('searchBar').querySelector('input')
+      const formInput = queryByTestId('search-bar').querySelector('input')
       fireEvent.change(formInput, { target: { value: '' } })
 
       expect(resetSearchQueryAction).toHaveBeenCalledWith()

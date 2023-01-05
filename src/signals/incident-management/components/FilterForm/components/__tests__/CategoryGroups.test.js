@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
+
 import { CategoryGroups } from '../CategoryGroups'
 
 describe('signals/incident-management/components/FilterForm/components/CategoryGroups', () => {
@@ -26,7 +27,7 @@ describe('signals/incident-management/components/FilterForm/components/CategoryG
       )
     )
 
-    expect(getAllByTestId('checkboxList')).toHaveLength(
+    expect(getAllByTestId('checkbox-list')).toHaveLength(
       Object.keys(categories).length
     )
   })

@@ -10,6 +10,6 @@ describe('signals/IncidentMap/IncidentMapContainer', () => {
     render(withPortal(<IncidentMapContainer />))
 
     expect(screen.getByText('Meldingenkaart')).toBeInTheDocument()
-    expect(await screen.findByTestId('incidentMap')).toBeInTheDocument()
+    expect(await screen.findByTestId('incident-map')).toBeInTheDocument()
   })
 })

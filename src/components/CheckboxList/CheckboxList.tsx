@@ -298,7 +298,7 @@ const CheckboxList: FC<CheckboxListProps> = ({
   )
 
   return (
-    <FilterGroup className={className} data-testid="checkboxList">
+    <FilterGroup className={className} data-testid="checkbox-list">
       {title}
 
       {hasToggle && (

@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { forwardRef, Fragment } from 'react'
-import styled from 'styled-components'
-import { Input } from '@amsterdam/asc-ui'
+
 import { Calendar } from '@amsterdam/asc-assets'
+import { Input } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import Label from 'components/Label'
 
@@ -33,7 +34,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
     <Fragment>
       <Label htmlFor={id}>{label}</Label>
 
-      <InputWrapper data-testid="calendarCustomInputElement">
+      <InputWrapper data-testid="calendar-custom-input-element">
         <Input id={id} {...rest} ref={ref} />
         <Calendar width={24} height={24} />
       </InputWrapper>

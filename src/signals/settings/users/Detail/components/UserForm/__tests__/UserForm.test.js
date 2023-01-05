@@ -3,6 +3,7 @@
 import { act, fireEvent, render } from '@testing-library/react'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
+
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -124,7 +125,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(onSubmit).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('submitBtn'))
+      fireEvent.click(getByTestId('submit-btn'))
     })
 
     const submittedRoleIds = onSubmit.mock.calls[0][0].postPatch.role_ids
@@ -213,7 +214,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
     expect(onCancel).not.toHaveBeenCalled()
 
     act(() => {
-      fireEvent.click(getByTestId('cancelBtn'))
+      fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(onCancel).toHaveBeenCalled()

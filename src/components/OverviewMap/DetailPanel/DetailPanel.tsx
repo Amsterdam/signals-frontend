@@ -78,7 +78,7 @@ const DetailPanel: FunctionComponent<DetailPanelProps> = ({
   incident,
   onClose,
 }) => (
-  <Panel data-testid="mapDetailPanel">
+  <Panel data-testid="map-detail-panel">
     <PanelHeader>
       {getIsAuthenticated() ? (
         <AscLink

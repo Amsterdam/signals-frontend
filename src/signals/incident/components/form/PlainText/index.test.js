@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2022 Gemeente Amsterdam
 /* eslint-disable  react/prop-types */
+import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
-import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
@@ -51,7 +51,7 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
     })
 
@@ -111,10 +111,10 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = getByTestId('plainText')
+      const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding', '20px')
       expect(element).toHaveStyleRule(
         'background-color',
@@ -130,10 +130,10 @@ describe('Form component <PlainText />', () => {
 
       render(withAppContext(<PlainText {...props} />))
 
-      expect(screen.getByTestId('plainText')).toBeInTheDocument()
+      expect(screen.getByTestId('plain-text')).toBeInTheDocument()
       expect(screen.getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = screen.getByTestId('plainText')
+      const element = screen.getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding', '20px')
       expect(element).toHaveStyleRule('background-color', '#004699')
     })
@@ -149,10 +149,10 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = getByTestId('plainText')
+      const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding-left', '12px')
       expect(element).toHaveStyleRule('border-left', '3px solid #ec0000')
     })
@@ -167,10 +167,10 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = getByTestId('plainText')
+      const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('color', '#ec0000')
       expect(element).toHaveStyleRule('padding', '8px 20px')
       expect(element).toHaveStyleRule('border', '2px solid #ec0000')
@@ -186,10 +186,10 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = getByTestId('plainText')
+      const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('background-color', '#ec0000')
       expect(element).toHaveStyleRule('color', '#ffffff')
       expect(element).toHaveStyleRule('padding', '16px')
@@ -205,10 +205,10 @@ describe('Form component <PlainText />', () => {
         withAppContext(<PlainText {...props} />)
       )
 
-      expect(getByTestId('plainText')).toBeInTheDocument()
+      expect(getByTestId('plain-text')).toBeInTheDocument()
       expect(getByText(props.meta.value)).toBeInTheDocument()
 
-      const element = getByTestId('plainText')
+      const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('color', '#000000')
     })
 
@@ -219,7 +219,7 @@ describe('Form component <PlainText />', () => {
       })
 
       render(withAppContext(<PlainText {...props} />))
-      expect(screen.queryByTestId('plainText')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
       expect(screen.queryByText(props.meta.value)).not.toBeInTheDocument()
     })
 
@@ -227,7 +227,7 @@ describe('Form component <PlainText />', () => {
       const props = getProps(null)
 
       render(withAppContext(<PlainText {...props} />))
-      expect(screen.queryByTestId('plainText')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
     })
 
     it('should render no plain text without meta when authenticated', () => {
@@ -235,7 +235,7 @@ describe('Form component <PlainText />', () => {
       const props = getProps(null)
 
       render(withAppContext(<PlainText {...props} />))
-      expect(screen.queryByTestId('plainText')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
     })
   })
 })

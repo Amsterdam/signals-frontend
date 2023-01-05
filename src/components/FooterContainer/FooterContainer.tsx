@@ -56,7 +56,7 @@ const FooterContainer = () => {
   return (
     <FooterWrapper>
       <Footer>
-        <StyledFooterTop data-testid="siteFooter" />
+        <StyledFooterTop data-testid="site-footer" />
         <StyledFooterBottom>
           {!mapActive && (
             <>

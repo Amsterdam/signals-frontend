@@ -38,7 +38,7 @@ describe('Pin', () => {
   it('should renders a pin', () => {
     render(<Pin {...defaultProps} />)
 
-    expect(screen.getByTestId('incidentPinMarker')).toBeInTheDocument()
+    expect(screen.getByTestId('incident-pin-marker')).toBeInTheDocument()
   })
 
   it('should fly to the location', () => {

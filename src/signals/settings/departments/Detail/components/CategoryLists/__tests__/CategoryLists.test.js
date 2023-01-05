@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { render, act, fireEvent, getAllByText } from '@testing-library/react'
-import department from 'utils/__tests__/fixtures/department.json'
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
+
 import { withAppContext } from 'test/utils'
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
+import department from 'utils/__tests__/fixtures/department.json'
 
 import CategoryLists from '..'
 import DepartmentDetailContext from '../../../context'
@@ -141,7 +142,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
       'Alles selecteren'
     )[0]
     const checkboxListIsResponsible = toggleIsResponsible.closest(
-      '[data-testid="checkboxList"]'
+      '[data-testid="checkbox-list"]'
     )
     const numBoxes = checkboxListIsResponsible.querySelectorAll('input').length
     const numTickedIsResponsible =
@@ -154,7 +155,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
     const checkboxListCanView = getAllByText(
       canViewFieldset,
       'Alles selecteren'
-    )[0].closest('[data-testid="checkboxList"]')
+    )[0].closest('[data-testid="checkbox-list"]')
 
     const numTickedCanView =
       checkboxListCanView.querySelectorAll(':checked').length
@@ -236,7 +237,7 @@ describe('signals/settings/departments/Detail/components/CategoryLists', () => {
     const checkboxList = getAllByText(
       canViewFieldset,
       'Alles selecteren'
-    )[0].closest('[data-testid="checkboxList"]')
+    )[0].closest('[data-testid="checkbox-list"]')
 
     const numBoxes = checkboxList.querySelectorAll('input').length
     const numTicked = checkboxList.querySelectorAll(':checked').length

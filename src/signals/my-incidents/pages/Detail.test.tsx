@@ -58,9 +58,9 @@ describe('Detail', () => {
 
     userEvent.click(screen.getByText('Bekijk op kaart'))
 
-    expect(screen.queryByTestId('mapDetail')).toBeInTheDocument()
+    expect(screen.queryByTestId('map-detail')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('closeButton'))
+    userEvent.click(screen.getByTestId('close-button'))
 
     expect(screen.getByText('Bekijk op kaart')).toBeInTheDocument()
   })
