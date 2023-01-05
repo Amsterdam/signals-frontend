@@ -30,18 +30,19 @@ Date: 2020-09-24
 ```
 ...
 IncidentDetail
+  __tests__
+    actions.test.ts
+    IncidentDetail.test.tsx
+    reducer.test.ts
   AddNote
   ChangeValue
   DetailHeader
   constants.ts
   context.ts
   actions.ts
-  actions.test.ts
   IncidentDetail.tsx
-  IncidentDetail.test.tsx
   index.tsx
   reducer.ts
-  reducer.test.ts
 ```
 
 ### Example main tree
@@ -50,17 +51,21 @@ IncidentDetail
 src
   pages
     login
+      __tests__
+        Login.test.tsx
       Login.tsx
-      Login.test.tsx
       index.ts
     manage
       default-texts
+        __tests__
         TextsForm
-          TextsForm.test.tsx
+          __tests__
+            TextsForm.test.tsx
           TextsForm.tsx
           index.ts
         SelectForm
-          SelectForm.test.tsx
+          __tests__
+            SelectForm.test.tsx
           SelectForm.tsx
           index.ts
         DefaultTexts.tsx
@@ -74,17 +79,20 @@ src
         Incidents
         ...
     report
+      __tests__
       Form
       Navigation
       Preview
       Wizard
       Report.tsx
       index.ts
-    kto  
+    kto
+      __tests__
+        Kto.tests.tsx
       Form
+        __tests__
         Form.tsx
       Kto.tsx
-      Kto.tests.tsx
       index.ts
     settings
       users
@@ -99,21 +107,24 @@ src
     styles.ts
   components
     RadioInput
-      RadioInput.test.ts
+      __tests__
+        RadioInput.test.ts
       RadioInput.tsx
       index.ts
       styles.ts
     SelectInput
-      SelectInput.test.ts
+      __tests__
+        SelectInput.test.ts
       SelectInput.tsx
       index.ts
       styles.ts
     ...
   hooks
-    useFetch.test.ts
+    __tests__
+      useFetch.test.ts
+      useDebounce.test.ts
     useFetch.ts
     useDebounce.ts
-    useDebounce.test.ts
   interfaces
   services
   types

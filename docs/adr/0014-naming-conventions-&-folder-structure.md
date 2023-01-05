@@ -27,24 +27,24 @@ Date: 2023-01-04
   A child component of `IncidentSplit` will be `IncidentSplit/ChangeValue` and **not** `IncidentSplitChangeValue`
 - Components that have more than one file (containers) will keep the convention that the additional files (like context, reducer, actions, constants, styles, ...) will **not be prefixed** with the component name:
 
+
 ### Example of a `container` component
 
 ```
 ...
 IncidentDetail
-  __tests__
-    actions.test.ts
-    IncidentDetail.test.tsx
-    reducer.test.ts
   AddNote
   ChangeValue
   DetailHeader
   constants.ts
   context.ts
   actions.ts
+  actions.test.ts
   IncidentDetail.tsx
+  IncidentDetail.test.tsx
   index.tsx
   reducer.ts
+  reducer.test.ts
 ```
 
 ### Example main tree
@@ -53,21 +53,17 @@ IncidentDetail
 src
   pages
     login
-      __tests__
-        Login.test.tsx
       Login.tsx
+      Login.test.tsx
       index.ts
     manage
       default-texts
-        __tests__
         TextsForm
-          __tests__
-            TextsForm.test.tsx
+          TextsForm.test.tsx
           TextsForm.tsx
           index.ts
         SelectForm
-          __tests__
-            SelectForm.test.tsx
+          SelectForm.test.tsx
           SelectForm.tsx
           index.ts
         DefaultTexts.tsx
@@ -81,20 +77,17 @@ src
         Incidents
         ...
     report
-      __tests__
       Form
       Navigation
       Preview
       Wizard
       Report.tsx
       index.ts
-    kto
-      __tests__
-        Kto.tests.tsx
+    kto  
       Form
-        __tests__
         Form.tsx
       Kto.tsx
+      Kto.tests.tsx
       index.ts
     settings
       users
@@ -109,24 +102,21 @@ src
     styles.ts
   components
     RadioInput
-      __tests__
-        RadioInput.test.ts
+      RadioInput.test.ts
       RadioInput.tsx
       index.ts
       styles.ts
     SelectInput
-      __tests__
-        SelectInput.test.ts
+      SelectInput.test.ts
       SelectInput.tsx
       index.ts
       styles.ts
     ...
   hooks
-    __tests__
-      useFetch.test.ts
-      useDebounce.test.ts
+    useFetch.test.ts
     useFetch.ts
     useDebounce.ts
+    useDebounce.test.ts
   interfaces
   services
   types
