@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
-import type { ReactNode } from 'react'
+import type { BaseSyntheticEvent, ReactNode } from 'react'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ const StyledButton = styled(Button)`
 interface NextButtonProps {
   className?: string
   children: ReactNode
-  onClick: () => void
+  onClick: (event: BaseSyntheticEvent) => void
 }
 
 const NextButton = ({ className, children, onClick }: NextButtonProps) => (

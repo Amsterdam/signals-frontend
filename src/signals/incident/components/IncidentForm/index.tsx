@@ -148,12 +148,8 @@ const IncidentForm = forwardRef<any, any>(
     const { errors } = formState
 
     const handleSubmit = useCallback(
-      async (
-        //e,
-        next,
-        formAction
-      ) => {
-        // e.preventDefault()
+      async (e, next, formAction) => {
+        e.preventDefault()
         if (next) {
           if (
             prevState.current.loading &&

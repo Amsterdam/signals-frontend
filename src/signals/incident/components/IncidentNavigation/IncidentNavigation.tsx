@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import type { BaseSyntheticEvent } from 'react'
 import { useContext } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
@@ -39,7 +40,11 @@ const Nav = styled.div`
 interface IncidentNavigationProps {
   meta: {
     wizard: WizardSection
-    handleSubmit: (next: () => void, formAction?: FormAction) => void
+    handleSubmit: (
+      event: BaseSyntheticEvent | undefined,
+      next: () => void,
+      formAction?: FormAction
+    ) => void
   }
 }
 
@@ -84,8 +89,8 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
       <Nav className="incident-navigation">
         {wizardStep.nextButtonLabel && (
           <NextButton
-            onClick={() => {
-              handleSubmit(next, wizardStep.formAction)
+            onClick={(e) => {
+              handleSubmit(e, next, wizardStep.formAction)
             }}
             data-testid="next-button"
           >
