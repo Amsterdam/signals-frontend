@@ -90,12 +90,6 @@ const productionConfig = /** @type { import('webpack').Configuration } */ {
           filename: 'leaflet.[contenthash].js',
           priority: 1,
         },
-        legacy: {
-          test: /(reactive-form|albus)/,
-          chunks: 'all',
-          filename: 'legacy.[contenthash].js',
-          priority: 1,
-        },
       },
     },
   },
