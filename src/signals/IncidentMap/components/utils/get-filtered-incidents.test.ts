@@ -46,4 +46,20 @@ describe('getFilteredIncidents', () => {
     // When subFilters are not enabled. All incidents in that category should get the icon of the main category.
     expect(result[3].properties.icon).toMatch(/bomen_planten.svg/)
   })
+
+  it('should return icon undefined when main category does not have one', () => {
+    const mockFiltersWithoutIcon = [
+      mockFiltersShort[0],
+      { ...mockFiltersShort[1], icon: undefined },
+    ]
+
+    const result = getFilteredIncidents(
+      mockFiltersWithoutIcon,
+      mockIncidentsWithoutIcon
+    )
+
+    expect(result[0].properties.icon).toMatch(/afval.svg/)
+    expect(result[1].properties.icon).toMatch(/afval.svg/)
+    expect(result[2].properties.icon).toEqual(undefined)
+  })
 })

@@ -65,6 +65,7 @@ const addIconsToIncidents = (
         },
       }
     }
+
     return incident
   })
 }
