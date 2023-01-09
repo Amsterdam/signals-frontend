@@ -412,13 +412,19 @@ describe('<IncidentForm />', () => {
   })
 
   describe('handleSubmit', () => {
-    it('should trigger description and source validation', () => {
+    it('should trigger description and source validation', async () => {
       const fieldConfig = {
         controls: {
-          ...requiredFieldConfig.controls,
+          $field_0: {
+            isStatic: false,
+            render: IncidentNavigation,
+          },
           description: {
             meta: {
               label: 'description',
+            },
+            options: {
+              validators: ['required'],
             },
             render: FormComponents.TextInput,
           },
@@ -426,12 +432,13 @@ describe('<IncidentForm />', () => {
             meta: {
               label: 'source',
             },
-            render: FormComponents.HiddenInput,
+            options: {
+              validators: ['required'],
+            },
+            render: FormComponents.TextInput,
           },
         },
       }
-
-      const triggerSpy = jest.fn().mockImplementation(() => true)
 
       const props = {
         ...defaultProps,
@@ -440,23 +447,31 @@ describe('<IncidentForm />', () => {
           loadingData: true,
         },
         fieldConfig,
-        reactHookFormProps: {
-          trigger: triggerSpy,
-          formState: {
-            errors: {
-              phone: {},
-            },
-          },
-        },
       }
 
       renderIncidentForm(props)
 
-      act(() => {
+      await waitFor(() => {
+        userEvent.type(screen.getByLabelText('description'), 'afval')
+      })
+
+      await waitFor(() => {
         userEvent.click(screen.getByText(mockForm.nextButtonLabel))
       })
 
-      expect(triggerSpy).toBeCalledWith(['description', 'source'])
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Dit is een verplicht veld'
+      )
+
+      await waitFor(() => {
+        userEvent.type(screen.getByLabelText('source'), 'afvalpunt')
+      })
+
+      await waitFor(() => {
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+      })
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
   })
 })
