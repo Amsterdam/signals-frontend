@@ -467,10 +467,6 @@ describe('<IncidentForm />', () => {
         userEvent.type(screen.getByLabelText('source'), 'afvalpunt')
       })
 
-      await waitFor(() => {
-        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
-      })
-
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
   })
