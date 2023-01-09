@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 -2023 Gemeente Amsterdam
-import type { Filter, Incident } from '../../types'
+import type { Filter, Incident, Icon } from '../../types'
 import { showSubCategoryFilter } from '../FilterPanel/utils'
-/*
-When mainCategory is checked, all incidents on the map needs to be shown except for those incidents where the subCategory
-of the maintCategory is unchecked.
- */
+
 export const getFilteredIncidents = (
   filters: Filter[],
   incidents: Incident[]
@@ -24,13 +21,8 @@ export const getFilteredIncidents = (
     return acc
   }, [])
 
-  const activeSlugs = activeFilters.map((filter) => filter.slug)
-
-  /**
-   * Because count-incidents-per-filter only shows subcategories for two
-   * main categories, we need to look for the parent slug to get all the markers.
-   */
   const activeIncidents = incidents.filter((incident) => {
+    const activeSlugs = activeFilters.map((filter) => filter.slug)
     return (
       activeSlugs.includes(incident.properties.category.slug) ||
       (!showSubCategoryFilter(incident.properties.category.parent.slug) &&
@@ -38,12 +30,32 @@ export const getFilteredIncidents = (
     )
   })
 
+  const activeIncidentsWithIcon = addIconsToIncidents(
+    activeIncidents,
+    activeFilters
+  )
+
+  return activeIncidentsWithIcon
+}
+
+const addIconsToIncidents = (
+  activeIncidents: Incident[],
+  activeFilters: Filter[]
+) => {
   const listedIcons = getListOfIcons(activeFilters)
 
   return activeIncidents.map((incident) => {
-    const slug = incident.properties.category.slug
+    const hasSubFiltersEnabled = showSubCategoryFilter(
+      incident.properties.category.parent.slug
+    )
 
-    const icon = listedIcons.find((iconObj) => iconObj.slug === slug)
+    const slug = hasSubFiltersEnabled
+      ? incident.properties.category.slug
+      : incident.properties.category.parent.slug
+
+    const icon = listedIcons.find((iconObj) => {
+      return iconObj.slug === slug
+    })
     if (icon?.icon) {
       return {
         ...incident,
@@ -55,11 +67,6 @@ export const getFilteredIncidents = (
     }
     return incident
   })
-}
-
-interface Icon {
-  slug: string
-  icon?: string
 }
 
 const getListOfIcons = (filters: Filter[]) => {
