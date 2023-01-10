@@ -2,9 +2,10 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import 'jest-styled-components'
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
-import FeedbackStatus from '../FeedbackStatus'
+import FeedbackStatus from './FeedbackStatus'
 
 describe('FeedbackStatus', () => {
   it('renders satisfied text', () => {

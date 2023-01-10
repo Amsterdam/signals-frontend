@@ -11,15 +11,15 @@ import type { Incident } from 'types/api/incident'
 import type { Result } from 'types/api/reporter'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
-import * as API from '../../../../../../internals/testing/api'
+import * as API from './../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
   rest,
   server,
-} from '../../../../../../internals/testing/msw-server'
-import type { FetchReporterHook } from '../useFetchReporter'
-import { useFetchReporter } from '../useFetchReporter'
+} from './../../../../../internals/testing/msw-server'
+import type { FetchReporterHook } from './useFetchReporter'
+import { useFetchReporter } from './useFetchReporter'
 
 const dispatch = jest.fn()
 const reduxSpy = jest

@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { useMemo } from 'react'
 import type { FunctionComponent } from 'react'
+
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import type { Theme } from 'types/theme'
+
 import type { Feedback } from '../types'
 
 interface FeedbackStatusProps {
