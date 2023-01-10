@@ -35,5 +35,5 @@ export type Incident = Feature<PointLatLng, Properties>
 
 export interface Icon {
   slug: string
-  icon: string
+  icon?: string
 }
