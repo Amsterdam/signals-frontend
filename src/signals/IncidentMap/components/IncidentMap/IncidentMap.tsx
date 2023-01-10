@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { isEqual } from 'lodash'
-
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -102,7 +101,7 @@ export const IncidentMap = () => {
   }, [resetSelectedMarker, map])
 
   /* istanbul ignore next */
-  const { incidents, isSuccess, error, getIncidents } = usePaginatedIncidents()
+  const { incidents, error, getIncidents } = usePaginatedIncidents()
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -126,7 +125,7 @@ export const IncidentMap = () => {
     if (error) {
       setNotification('Er konden geen meldingen worden opgehaald.')
     }
-  }, [error, isSuccess, setNotification])
+  }, [error, setNotification])
 
   useEffect(() => {
     if (coordinates) {
