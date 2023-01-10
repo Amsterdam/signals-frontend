@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { useMemo, useState } from 'react'
+import {useMemo, useState} from 'react'
 
-import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
+import {Logout as LogoutIcon} from '@amsterdam/asc-assets'
 import {
+  breakpoint,
   Header as HeaderComponent,
   MenuButton,
   MenuInline,
@@ -11,18 +12,17 @@ import {
   MenuToggle,
   themeColor,
   themeSpacing,
-  breakpoint,
 } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
-import { useMediaQuery } from 'react-responsive'
-import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import {useMediaQuery} from 'react-responsive'
+import {NavLink} from 'react-router-dom'
+import styled, {css} from 'styled-components'
 
 import Logo from 'components/Logo'
 import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
+import {getIsAuthenticated} from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
 import useTallHeader from '../../hooks/useTallHeader'
@@ -30,7 +30,7 @@ import useTallHeader from '../../hooks/useTallHeader'
 const MENU_BREAKPOINT = 1320
 
 const StyledHeader = styled(HeaderComponent)`
-  ${({ isFrontOffice, tall }) =>
+  ${({isFrontOffice, tall}) =>
     isFrontOffice &&
     tall &&
     css`
@@ -51,9 +51,9 @@ const StyledHeader = styled(HeaderComponent)`
         }
       }
     `}
-
   nav {
     width: 100%;
+
     ul {
       width: 100%;
     }
@@ -93,7 +93,7 @@ const HeaderWrapper = styled.div`
     display: none;
   }
 
-  ${({ tall }) =>
+  ${({tall}) =>
     !tall &&
     css`
       #header {
@@ -103,7 +103,7 @@ const HeaderWrapper = styled.div`
       }
     `}
 
-  ${({ isFrontOffice, tall }) =>
+  ${({isFrontOffice, tall}) =>
     isFrontOffice &&
     tall &&
     css`
@@ -177,7 +177,7 @@ const HeaderWrapper = styled.div`
     `}
 `
 
-const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
+const MenuItems = ({onLogOut, showItems, onLinkClick}) => {
   const isAuthenticated = getIsAuthenticated()
 
   return (
@@ -185,7 +185,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       {getIsAuthenticated() && (
         <>
           <SearchBarMenuItem>
-            <SearchBar />
+            <SearchBar/>
           </SearchBarMenuItem>
 
           <MenuItem element="span">
@@ -211,17 +211,29 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </StyledMenuButton>
       </MenuItem>
 
-      {isAuthenticated && (
-        <MenuItem element="span">
-          <StyledMenuButton
-            onClick={onLinkClick}
-            forwardedAs={NavLink}
-            to="/manage/signalering"
-          >
-            Signalering
-          </StyledMenuButton>
-        </MenuItem>
-      )}
+      {configuration.featureFlags.enablePublicIncidentsMap ?
+        (
+          <MenuItem element="span">
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/dashboard"
+            >
+              Dashboard
+            </StyledMenuButton>
+          </MenuItem>
+        ) :
+        (
+          <MenuItem element="span">
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/signalering"
+            >
+              Signalering
+            </StyledMenuButton>
+          </MenuItem>
+        )}
 
       {showItems.defaultTexts && (
         <MenuItem element="span">
@@ -271,7 +283,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
           >
             <StyledMenuButton
               iconSize={16}
-              iconLeft={<LogoutIcon focusable="false" />}
+              iconLeft={<LogoutIcon focusable="false"/>}
             >
               Uitloggen
             </StyledMenuButton>
@@ -300,7 +312,7 @@ export const SiteHeader = (props) => {
     () =>
       rendersMenuToggle ? (
         <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
-          <MenuItems {...props} onLinkClick={() => setMenuOpen(false)} />
+          <MenuItems {...props} onLinkClick={() => setMenuOpen(false)}/>
         </MenuToggle>
       ) : (
         <MenuInline>
@@ -328,10 +340,10 @@ export const SiteHeader = (props) => {
           logo={Logo}
           headerLogoTextAs="div"
         />
-        {!tall && <Notification />}
+        {!tall && <Notification/>}
       </HeaderWrapper>
 
-      {tall && <Notification />}
+      {tall && <Notification/>}
     </>
   )
 }
