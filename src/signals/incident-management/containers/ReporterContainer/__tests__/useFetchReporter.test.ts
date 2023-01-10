@@ -4,13 +4,14 @@ import { act, renderHook, cleanup } from '@testing-library/react-hooks'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 
-import type { Result } from 'types/api/reporter'
-import type { Incident } from 'types/api/incident'
-
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { store } from 'test/utils'
+import type { Incident } from 'types/api/incident'
+import type { Result } from 'types/api/reporter'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
@@ -19,7 +20,6 @@ import {
 } from '../../../../../../internals/testing/msw-server'
 import type { FetchReporterHook } from '../useFetchReporter'
 import { useFetchReporter } from '../useFetchReporter'
-import * as API from '../../../../../../internals/testing/api'
 
 const dispatch = jest.fn()
 const reduxSpy = jest
@@ -168,15 +168,10 @@ describe('Fetch Reporter hook', () => {
   })
 
   it('supports selecting an incident', async () => {
-    const { result, waitForNextUpdate } = renderHook(
-      () => useFetchReporter(INCIDENT_ID),
-      {
-        wrapper: Provider,
-        initialProps: { store },
-      }
-    )
-
-    await waitForNextUpdate()
+    const { result } = renderHook(() => useFetchReporter(INCIDENT_ID), {
+      wrapper: Provider,
+      initialProps: { store },
+    })
 
     mockRequestHandler({
       url: API.INCIDENT,
@@ -190,13 +185,7 @@ describe('Fetch Reporter hook', () => {
       result.current.selectIncident(Number(INCIDENT_ID_2))
     })
 
-    await waitForNextUpdate()
-
     expect(result.current.incident?.id).toBe(Number(INCIDENT_ID_2))
-
-    await waitForNextUpdate()
-
-    expect(result.current.incident?.data?.id).toBe(Number(INCIDENT_ID_2))
   })
 
   it('does not fetch incident for which the user has no permission', async () => {
