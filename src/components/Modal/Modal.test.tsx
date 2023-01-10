@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
-import Modal from '..'
+import Modal from './Modal'
 
 describe('components/Modal', () => {
   it('should have a heading', () => {

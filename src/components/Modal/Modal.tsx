@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+// Copyright (C) 2023 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
+import { Close as CloseIcon } from '@amsterdam/asc-assets'
 import {
   Button,
   Row,
@@ -10,7 +11,8 @@ import {
   Heading,
   themeColor,
 } from '@amsterdam/asc-ui'
-import { Close as CloseIcon } from '@amsterdam/asc-assets'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
 
 export const ModalWrapper = styled.div`
   position: fixed;
@@ -62,8 +64,14 @@ const Header = styled.header`
 const StyledColumn = styled(Column)`
   flex-direction: column;
 `
+interface ModalProps {
+  children: ReactNode
+  title: string
+  onClose: () => void
+  isOpen: boolean
+}
 
-const Modal = ({ children, title, onClose, ...rest }) => (
+const Modal = ({ children, title, onClose, ...rest }: ModalProps) => (
   <ModalWrapper>
     <StyledModal data-testid="modal" open backdropOpacity={1} {...rest}>
       <Header>
