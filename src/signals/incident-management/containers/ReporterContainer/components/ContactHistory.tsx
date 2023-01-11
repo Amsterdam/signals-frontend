@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import type { FunctionComponent } from 'react'
+import { useEffect, useMemo } from 'react'
+
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+
+import HistoryList from 'components/HistoryList'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { useFetch } from 'hooks'
-import type { FunctionComponent } from 'react'
-import { useEffect, useMemo } from 'react'
 import configuration from 'shared/services/configuration/configuration'
-import LoadingIndicator from 'components/LoadingIndicator'
-import HistoryList from 'components/HistoryList'
-import { useDispatch } from 'react-redux'
 import type { History } from 'types/history'
-import styled from 'styled-components'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
 const headerMapper: Record<string, string> = {
   ['Feedback van melder ontvangen']: 'Feedback',

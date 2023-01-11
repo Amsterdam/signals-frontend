@@ -1,22 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
-import * as catgorySelectors from 'models/categories/selectors'
-import { subCategories } from 'utils/__tests__/fixtures'
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+
 import { showGlobalNotification } from 'containers/App/actions'
+import * as catgorySelectors from 'models/categories/selectors'
+import { withAppContext } from 'test/utils'
 import type { Incident as IncidentType } from 'types/api/incident'
 import { mockIncident } from 'types/api/incident.mock'
+import { subCategories } from 'utils/__tests__/fixtures'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
+
 import {
   fetchMock,
   mockRequestHandler,
-} from '../../../../../../../internals/testing/msw-server'
-import * as API from '../../../../../../../internals/testing/api'
-
-import IncidentDetail from '../IncidentDetail'
+} from '../../../../.././../internals/testing/msw-server'
+import * as API from './../../../../../../internals/testing/api'
+import IncidentDetail from './IncidentDetail'
 
 const incident = mockIncident()
 
