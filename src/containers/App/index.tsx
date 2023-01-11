@@ -22,6 +22,7 @@ import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverv
 import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
 import styled from 'styled-components'
 
+import { FilterComponent } from '../../components/FilterComponent'
 import useDefaultHeader from '../../hooks/useDefaultHeader'
 import useTallHeader from '../../hooks/useTallHeader'
 import { getSources } from './actions'
@@ -156,6 +157,11 @@ export const AppContainer = () => {
                   exact
                   path="/categorie/:category/:subcategory"
                   component={IncidentContainer}
+                />
+                <Route
+                  exact
+                  path="/filtercomponent"
+                  component={FilterComponent}
                 />
                 <Route exact path="/toegankelijkheidsverklaring">
                   <Toegankelijkheidsverklaring />
