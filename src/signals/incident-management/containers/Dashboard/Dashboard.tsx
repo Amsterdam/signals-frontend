@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
-import { Alert } from '@amsterdam/asc-assets'
+import GlobalError from 'components/GlobalError'
 
 import { StyledRow } from './styled'
 
@@ -20,15 +20,13 @@ const Dashboard = () => {
   )
   useEffect(() => {
     if (error) {
-      setNotification('Er is iets misgegaan met het data ophalen.')
+      setNotification('Er kan geen data worden geladen. Vernieuw de pagina.')
     }
   }, [error, setNotification])
   return (
     <>
-      <StyledRow data-testid="menu">
-        <div>menu</div>
-      </StyledRow>
-      {errorMessage && showMessage && <Alert>{errorMessage}</Alert>}
+      <StyledRow data-testid="menu">menu</StyledRow>
+      {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </>
   )
 }

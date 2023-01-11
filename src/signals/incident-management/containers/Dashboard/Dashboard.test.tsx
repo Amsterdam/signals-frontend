@@ -3,16 +3,18 @@
 import { render, screen } from '@testing-library/react'
 
 import Dashboard from './Dashboard'
+import { withAppContext } from 'test/utils'
+import { ThemeProvider } from '@amsterdam/asc-ui'
 
-// jest.mock('shared/services/configuration/configuration')
+const renderWithContext = () =>
+  withAppContext(
+    <ThemeProvider>
+      <Dashboard />
+    </ThemeProvider>
+  )
 describe('signals/incident-management/containers/Dashboard', () => {
   it('should render correctly', () => {
-    render(<Dashboard />)
-    // screen.debug()
-    // expect(screen.getByText('menu')).toBeInTheDocument()
-
-    // configuration.featureFlags.showRealTimeDashboard = false
-    // rerender(<Dashboard />)
-    // expect(screen.queryByText('menu')).not.toBeInTheDocument()
+    render(renderWithContext())
+    expect(screen.getByText('menu')).toBeInTheDocument()
   })
 })

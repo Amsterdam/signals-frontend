@@ -139,7 +139,7 @@
           "description": "Enables forwarding the handling of an incident to an external organization.",
           "type": "boolean"
         },
-        "showRealTimeDashboard": {
+        "showDashboard": {
           "description": "Shows the realtimedashboard",
           "type": "boolean"
         }
@@ -158,7 +158,7 @@
         "showThorButton",
         "showVulaanControls",
         "useProjectenSignalType",
-        "showRealTimeDashboard"
+        "showDashboard"
       ],
       "title": "FeatureFlags"
     },
