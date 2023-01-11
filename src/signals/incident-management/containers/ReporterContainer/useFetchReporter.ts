@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+import { useEffect, useState } from 'react'
+
+import { useDispatch } from 'react-redux'
+
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import useGetContextReporter from 'hooks/api/useGetContextReporter'
 import useGetIncident from 'hooks/api/useGetIncident'
+
 import type { Incident, Incidents } from './types'
 
 export const PAGE_SIZE = 10

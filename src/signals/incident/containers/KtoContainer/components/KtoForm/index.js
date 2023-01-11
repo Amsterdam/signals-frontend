@@ -1,16 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, useRef } from 'react'
 
 import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
-import PropTypes from 'prop-types'
-import { useForm, FormProvider } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import * as yup from 'yup'
-
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import CheckboxList from 'components/CheckboxList'
@@ -19,10 +12,16 @@ import GlobalError from 'components/GlobalError'
 import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
+import PropTypes from 'prop-types'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import FileInput from 'signals/incident/components/form/FileInput'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
+import styled from 'styled-components'
+import * as yup from 'yup'
 
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 
@@ -165,7 +164,9 @@ const KtoForm = ({
               meta={{
                 label: ` Waarom bent u ${!isSatisfied ? 'on' : ''}tevreden?`,
                 name: 'input',
-                subtitle: 'Kies één van de onderstaande antwoorden',
+                subtitle: configuration.featureFlags.enableMultipleKtoQuestions
+                  ? 'U kunt meer keuzes maken'
+                  : 'Kies één van de onderstaande antwoorden',
               }}
               hasError={(errorType) => errors['text_list']?.type === errorType}
               getError={(errorType) => errors['text_list']?.type === errorType}
