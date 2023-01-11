@@ -1,10 +1,31 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
+
 import locatie from './locatie'
 
 export const overlastOpHetWater = {
   locatie,
+  dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: [
+          'blokkade-van-de-vaarweg',
+          'overig-boten',
+          'overlast-op-het-water-geluid',
+          'overlast-op-het-water-vaargedrag',
+          'scheepvaart-nautisch-toezicht',
+          'overlast-op-het-water-gezonken-boot',
+        ],
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
   extra_boten_snelheid_typeboot: {
     meta: {
       label: 'Wat voor type boot is het?',

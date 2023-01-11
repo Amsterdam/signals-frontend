@@ -6,6 +6,7 @@ describe('definition overlast-op-het-water', () => {
 
     expect(keys).toStrictEqual([
       'locatie',
+      'dateTime',
       'extra_boten_snelheid_typeboot',
       'extra_boten_snelheid_rederij',
       'extra_boten_snelheid_naamboot',

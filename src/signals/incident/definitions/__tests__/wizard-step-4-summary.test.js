@@ -143,6 +143,12 @@ describe('Wizard summary', () => {
       const expected = {
         ...beschrijfContact,
         vulaan: {
+          dateTime: {
+            canBeNull: false,
+            label: 'Wanneer was het?',
+            optional: true,
+            render: expect.any(Function),
+          },
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,

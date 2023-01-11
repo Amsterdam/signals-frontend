@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { QuestionFieldType } from 'types/question'
+
+import dateTime from './dateTime'
 import locatie from './locatie'
 
 export const overlastInDeOpenbareRuimte = {
   locatie,
+  dateTime,
   extra_auto_scooter_bromfietswrak: {
     meta: {
       ifAllOf: {

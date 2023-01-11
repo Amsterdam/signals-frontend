@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -8,19 +8,19 @@ import FormComponents from '../components/form'
 import IncidentNavigation from '../components/IncidentNavigation'
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
+import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
+import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierups from './wizard-step-2-vulaan/eikenprocessierups'
-import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
+import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
-import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
+import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import wonen from './wizard-step-2-vulaan/wonen'
-import locatie from './wizard-step-2-vulaan/locatie'
-import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 
 const mapFieldNameToComponent = (key) => FormComponents[key]
 
@@ -102,6 +102,13 @@ export default {
     }
 
     switch (category) {
+      case 'afval': {
+        if (subcategory.startsWith('container')) {
+          return expandQuestions(afvalContainer, category, subcategory)
+        }
+        return expandQuestions(afval, category, subcategory)
+      }
+
       case 'openbaar-groen-en-water': {
         if (subcategory === 'eikenprocessierups') {
           return expandQuestions(eikenprocessierups, category, subcategory)
@@ -110,14 +117,6 @@ export default {
         } else {
           return fallback
         }
-      }
-
-      case 'afval': {
-        if (subcategory.startsWith('container')) {
-          return expandQuestions(afvalContainer, category, subcategory)
-        }
-
-        return expandQuestions(afval, category, subcategory)
       }
 
       case 'civiele-constructies':

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import appConfiguration from 'shared/services/configuration/configuration'
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
+
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import locatie from './locatie'
 
@@ -12,6 +13,18 @@ const configuration = appConfiguration as unknown as typeof ConfigurationType
 
 export const wegenVerkeerStraatmeubilair = {
   locatie,
+  dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: ['verkeersoverlast'],
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
       ifOneOf: {

@@ -6,6 +6,7 @@ describe('definition wegen-verkeer-straatmeubilair', () => {
 
     expect(keys).toStrictEqual([
       'locatie',
+      'dateTime',
       'extra_onderhoud_stoep_straat_en_fietspad',
       'extra_wegen_gladheid',
       'extra_verkeerslicht_welk',
