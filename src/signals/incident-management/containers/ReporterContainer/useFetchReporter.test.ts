@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { act, renderHook, cleanup } from '@testing-library/react-hooks'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
