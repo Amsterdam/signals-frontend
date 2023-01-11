@@ -2,7 +2,6 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { BaseSyntheticEvent, ReactNode } from 'react'
 
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Button from 'components/Button'
@@ -17,7 +16,7 @@ interface NextButtonProps {
   onClick: (event: BaseSyntheticEvent) => void
 }
 
-const NextButton = ({ className, children, onClick }: NextButtonProps) => (
+const NextButton = ({ className = '', children, onClick }: NextButtonProps) => (
   <StyledButton
     className={className}
     data-testid="next-button"
@@ -29,15 +28,5 @@ const NextButton = ({ className, children, onClick }: NextButtonProps) => (
     {children}
   </StyledButton>
 )
-
-NextButton.defaultProps = {
-  className: '',
-}
-
-NextButton.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-}
 
 export default NextButton
