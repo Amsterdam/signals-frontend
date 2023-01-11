@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import GlobalError from 'components/GlobalError'
 
+import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
 
 const Dashboard = () => {
@@ -18,14 +19,18 @@ const Dashboard = () => {
     },
     [setErrorMessage, setShowMessage]
   )
+
   useEffect(() => {
     if (error) {
       setNotification('Er kan geen data worden geladen. Vernieuw de pagina.')
     }
   }, [error, setNotification])
+
   return (
     <>
-      <StyledRow data-testid="menu">menu</StyledRow>
+      <StyledRow data-testid="menu">
+        <Filter fetchGraphData={(querystring) => querystring} />
+      </StyledRow>
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </>
   )
