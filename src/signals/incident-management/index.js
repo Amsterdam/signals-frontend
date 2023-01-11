@@ -45,7 +45,7 @@ const IncidentSplitContainer = lazy(() =>
 const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 const AreaContainer = lazy(() => import('./containers/AreaContainer'))
 const SignalingContainer = lazy(() => import('./containers/Signaling'))
-const DashboardContainer = lazy(() => import('./containers/Dashboard'))
+const DashboardContainer = lazy(() => import('./containers/Dashboard/Dashboard'))
 
 const IncidentManagement = () => {
   const location = useLocationReferrer()
