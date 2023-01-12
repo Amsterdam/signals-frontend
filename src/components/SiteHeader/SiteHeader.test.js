@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { render, act, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import 'jest-styled-components'
 import * as reactResponsive from 'react-responsive'
@@ -55,6 +55,21 @@ describe('components/SiteHeader', () => {
     expect(queryByText('Melden')).toBeNull()
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2')
+  })
+  it('should render Dashboard when featureflag showDashboard is true', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+    configuration.featureFlags.showDashboard = true
+    const { rerender, unmount } = render(withAppContext(<SiteHeader />))
+
+    expect(screen.getByText('Dashboard')).toBeInTheDocument()
+    expect(screen.queryByText('Signalering')).not.toBeInTheDocument()
+
+    unmount()
+    configuration.featureFlags.showDashboard = false
+    rerender(withAppContext(<SiteHeader />))
+
+    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
+    expect(screen.getByText('Signalering')).toBeInTheDocument()
   })
 
   it('should render correctly when authenticated', () => {

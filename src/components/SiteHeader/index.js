@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 import {
+  breakpoint,
   Header as HeaderComponent,
   MenuButton,
   MenuInline,
@@ -11,7 +12,6 @@ import {
   MenuToggle,
   themeColor,
   themeSpacing,
-  breakpoint,
 } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useMediaQuery } from 'react-responsive'
@@ -51,9 +51,9 @@ const StyledHeader = styled(HeaderComponent)`
         }
       }
     `}
-
   nav {
     width: 100%;
+
     ul {
       width: 100%;
     }
@@ -211,16 +211,28 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </StyledMenuButton>
       </MenuItem>
 
-      {isAuthenticated && (
+      {configuration.featureFlags.showDashboard ? (
         <MenuItem element="span">
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
-            to="/manage/signalering"
+            to="/manage/dashboard"
           >
-            Signalering
+            Dashboard
           </StyledMenuButton>
         </MenuItem>
+      ) : (
+        isAuthenticated && (
+          <MenuItem element="span">
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/signalering"
+            >
+              Signalering
+            </StyledMenuButton>
+          </MenuItem>
+        )
       )}
 
       {showItems.defaultTexts && (
