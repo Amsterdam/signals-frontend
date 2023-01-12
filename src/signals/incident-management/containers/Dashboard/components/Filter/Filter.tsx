@@ -14,8 +14,11 @@ import {
   stadsdeelList,
 } from '../../../../definitions'
 
+/**
+ * make fetchGraphData required when fetching for diagrams
+ */
 type Props = {
-  fetchGraphData: (queryString: string) => void
+  fetchGraphData?: (queryString: string) => void
 }
 
 export const Filter = ({ fetchGraphData = () => {} }: Props) => {
