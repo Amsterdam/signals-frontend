@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { BaseSyntheticEvent, ReactNode } from 'react'
+
 import styled from 'styled-components'
 
 import Button from 'components/Button'
@@ -9,7 +10,13 @@ const StyledButton = styled(Button)`
   margin-right: 15px !important;
 `
 
-const NextButton = ({ className, children, onClick }) => (
+interface Props {
+  className?: string
+  children: ReactNode
+  onClick: (event: BaseSyntheticEvent) => void
+}
+
+const NextButton = ({ className = '', children, onClick }: Props) => (
   <StyledButton
     className={className}
     data-testid="next-button"
@@ -21,15 +28,5 @@ const NextButton = ({ className, children, onClick }) => (
     {children}
   </StyledButton>
 )
-
-NextButton.defaultProps = {
-  className: '',
-}
-
-NextButton.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-}
 
 export default NextButton
