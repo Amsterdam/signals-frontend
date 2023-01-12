@@ -105,6 +105,7 @@ describe('signals/settings/users/containers/Overview', () => {
       .mockImplementation(() => () => true)
 
     const { rerender, unmount } = render(withAppContext(<UsersOverview />))
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     await waitForElementToBeRemoved(screen.queryByTestId('loading-indicator'))
 

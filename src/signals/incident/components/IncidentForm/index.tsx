@@ -153,7 +153,7 @@ const IncidentForm = forwardRef<any, any>(
         if (next) {
           if (
             prevState.current.loading &&
-            (await reactHookFormProps.trigger('description'))
+            (await reactHookFormProps.trigger(['description', 'source']))
           ) {
             next()
             setStepsCompletedCount(index + 1)

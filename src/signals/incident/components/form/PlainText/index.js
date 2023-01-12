@@ -69,9 +69,6 @@ const getStyle = (type) => {
     case 'message':
       return css`
         color: ${themeColor('tint', 'level7')};
-        a {
-          color: inherit;
-        }
       `
     default:
       return css`

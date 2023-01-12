@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import ReporterContainer from '..'
+import ReporterContainer from '.'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
