@@ -10,13 +10,13 @@ const StyledButton = styled(Button)`
   margin-right: 15px !important;
 `
 
-interface NextButtonProps {
+interface Props {
   className?: string
   children: ReactNode
   onClick: (event: BaseSyntheticEvent) => void
 }
 
-const NextButton = ({ className = '', children, onClick }: NextButtonProps) => (
+const NextButton = ({ className = '', children, onClick }: Props) => (
   <StyledButton
     className={className}
     data-testid="next-button"
