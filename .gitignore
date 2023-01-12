@@ -21,3 +21,4 @@ npm-debug.log
 
 # e2e-test-data
 e2e-tests/cypress/fixtures/temp*.json
+package.json

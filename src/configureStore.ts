@@ -4,19 +4,19 @@
  * Create the store with dynamic reducers
  */
 
-import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from '@redux-devtools/extension'
 import { routerMiddleware } from 'connected-react-router/immutable'
+import type { History } from 'history'
+import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import { getErrorMessage } from 'shared/services/api/api'
-
-import type { History } from 'history'
+import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 import type { InjectedStore } from 'types'
 import type { ResponseError } from 'utils/request'
-import reducer from 'signals/incident/containers/IncidentContainer/reducer'
+
 import createReducer from './reducers'
 
 export default function configureStore(
