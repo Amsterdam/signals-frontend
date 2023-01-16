@@ -15,22 +15,37 @@ const usePaginatedIncidents = () => {
   const paginatedIncidents = useRef<{
     features: Feature<PointLatLng, Properties>[]
     searchParams: URLSearchParams
-  }>({ features: [], searchParams: new URLSearchParams() })
+    controller: AbortController
+  }>({
+    features: [],
+    searchParams: new URLSearchParams(),
+    controller: new AbortController(),
+  })
 
   const getIncidents = useCallback(async (bbox: Bbox) => {
     if (bbox) {
       paginatedIncidents.current.searchParams = getSearchParams(bbox)
+      paginatedIncidents.current.controller.abort()
+      paginatedIncidents.current.controller = new AbortController()
 
-      // head request with x-count-total response header
-      // const headResponse  = await fetch(`${
-      //     configuration.GEOGRAPHY_PUBLIC_ENDPOINT
-      //   }?${paginatedIncidents.current.searchParams.toString()}`,{
-      //   method: 'HEAD'
-      // })
-      // const xTotalCount = headResponse.headers.get('X-Total-Count')
+      const { signal } = paginatedIncidents.current.controller
 
-      // By doing the above head request we'll obtain the x-total-count
-      const xTotalCount = 4010
+      let headResponse
+      try {
+        headResponse = await fetch(
+          `${
+            configuration.GEOGRAPHY_PUBLIC_ENDPOINT
+          }?${paginatedIncidents.current.searchParams.toString()}`,
+          {
+            method: 'HEAD',
+            signal,
+          }
+        )
+      } catch (error) {
+        return
+      }
+
+      const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
 
       // Would be nice to get this info through the response header as well
       const paginationLength = 4000
@@ -38,13 +53,14 @@ const usePaginatedIncidents = () => {
       const promises = new Array(Math.ceil(xTotalCount / paginationLength))
         .fill(0)
         .map((_, index) => {
-          const qeopageQueryParam = index > 0 ? `&geopage=${index + 1}` : ''
+          const qeopageQueryParam = `&geopage=${index + 1}`
           return fetch(
             `${
               configuration.GEOGRAPHY_PUBLIC_ENDPOINT
             }?${paginatedIncidents.current.searchParams.toString()}${qeopageQueryParam}`,
             {
               method: 'GET',
+              signal,
             }
           )
         })
@@ -60,7 +76,7 @@ const usePaginatedIncidents = () => {
           setIncidents(incidents)
         })
         .catch((error) => {
-          setError(error)
+          if (error.name !== 'AbortError') setError(error)
         })
     }
   }, [])
@@ -73,8 +89,8 @@ const usePaginatedIncidents = () => {
   }
 
   return {
-    incidents: incidents,
-    error: error,
+    incidents,
+    error,
     getIncidents,
   }
 }
