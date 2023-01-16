@@ -383,6 +383,9 @@
         "optionsBackOffice": {
           "$ref": "#/definitions/OptionsBackOffice"
         },
+        "optionsIncidentMap": {
+          "$ref": "#/definitions/optionsIncidentMap"
+        },
         "tiles": {
           "$ref": "#/definitions/Tiles"
         },
@@ -531,6 +534,21 @@
       },
       "required": [],
       "title": "OptionsBackOffice"
+    },
+    "optionsIncidentMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Array with slugs of main categories that will show subfilters based on the connected subcategories",
+      "title": "OptionsIncidentMap",
+      "properties": {
+        "hasSubfiltersEnabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        }
+      }
     },
     "Tiles": {
       "type": "object",
