@@ -41,6 +41,7 @@ describe('getFilterCategoriesWithIcon', () => {
 
 describe('showSubCategoryFilter', () => {
   it('should return false on default', () => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = []
     const result = showSubCategoryFilter('afval')
 
     expect(result).toEqual(false)
