@@ -4,28 +4,28 @@ import { useCallback, useRef, useState } from 'react'
 
 import type { Feature } from 'geojson'
 
+import type { FetchError } from '../../../../hooks/useFetch'
 import configuration from '../../../../shared/services/configuration/configuration'
 import type { Bbox } from '../../../incident/components/form/MapSelectors/hooks/useBoundingBox'
 import type { PointLatLng, Properties } from '../../types'
 
 const usePaginatedIncidents = () => {
-  const [incidents, setIncidents] = useState([])
-  const [error, setError] = useState('')
+  const [incidents, setIncidents] = useState<
+    Feature<PointLatLng, Properties>[]
+  >([])
+  const [error, setError] = useState<FetchError | null>(null)
 
   const paginatedIncidents = useRef<{
-    features: Feature<PointLatLng, Properties>[]
     searchParams: URLSearchParams
-    controller: AbortController
+    controller?: AbortController
   }>({
-    features: [],
     searchParams: new URLSearchParams(),
-    controller: new AbortController(),
   })
 
   const getIncidents = useCallback(async (bbox: Bbox) => {
     if (bbox) {
       paginatedIncidents.current.searchParams = getSearchParams(bbox)
-      paginatedIncidents.current.controller.abort()
+      paginatedIncidents.current.controller?.abort()
       paginatedIncidents.current.controller = new AbortController()
 
       const { signal } = paginatedIncidents.current.controller
@@ -42,17 +42,18 @@ const usePaginatedIncidents = () => {
           }
         )
       } catch (error) {
-        return
+        return error
       }
 
       const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
-
       // Would be nice to get this info through the response header as well
       const paginationLength = 4000
 
-      const promises = new Array(Math.ceil(xTotalCount / paginationLength))
-        .fill(0)
-        .map((_, index) => {
+      const promises = Array.from(
+        {
+          length: Math.ceil(xTotalCount / paginationLength),
+        },
+        (_, index) => {
           const qeopageQueryParam = `&geopage=${index + 1}`
           return fetch(
             `${
@@ -63,21 +64,25 @@ const usePaginatedIncidents = () => {
               signal,
             }
           )
-        })
+        }
+      )
 
-      Promise.all(promises)
-        .then((responses) => {
-          return Promise.all(responses.map((response) => response.json()))
-        })
-        .then((res) => {
-          const incidents = res.reduce((prev, responseItem) => {
-            return [...prev, ...responseItem.features]
-          }, [])
-          setIncidents(incidents)
-        })
-        .catch((error) => {
-          if (error.name !== 'AbortError') setError(error)
-        })
+      try {
+        const responses = await Promise.all(promises)
+        const res = await Promise.all(
+          responses.map((response) => response.json())
+        )
+
+        const incidents: Array<Feature<PointLatLng, Properties>> = res.flatMap(
+          (responseItem) => responseItem.features
+        )
+
+        setIncidents(incidents)
+      } catch (error: FetchError | any) {
+        if (error.name !== 'AbortError') {
+          setError(error)
+        }
+      }
     }
   }, [])
 

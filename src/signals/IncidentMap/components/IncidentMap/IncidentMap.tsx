@@ -103,20 +103,25 @@ export const IncidentMap = () => {
   /* istanbul ignore next */
   const { incidents, error, getIncidents } = usePaginatedIncidents()
 
-  const debouncedGetIncidents = useCallback(
-    throttle((arg) => getIncidents(arg), 500),
+  /* istanbul ignore next */
+  const throttledGetIncidents = useCallback(
+    throttle((arg) => getIncidents(arg), 500, {
+      trailing: false,
+    }),
     []
   )
 
   /* istanbul ignore next */
   useEffect(() => {
     if (bbox) {
-      debouncedGetIncidents(bbox)
+      throttledGetIncidents(bbox)
     }
-  }, [bbox, debouncedGetIncidents])
+  }, [bbox, throttledGetIncidents])
 
   /* istanbul ignore next */
   useEffect(() => {
+    if (incidents.length === 0) return
+
     const filteredIncidents = getFilteredIncidents(filters, incidents)
 
     setFilteredIncidents(filteredIncidents)
