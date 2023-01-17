@@ -22,7 +22,7 @@ type Props = {
 }
 
 export const Filter = ({ fetchGraphData = () => {} }: Props) => {
-  const { handleSubmit, register, getValues, watch } = useForm()
+  const { handleSubmit, register, getValues, watch, reset } = useForm()
 
   const departments = useSelector<unknown, { list: Department[] }>(
     makeSelectDepartments
@@ -100,19 +100,22 @@ export const Filter = ({ fetchGraphData = () => {} }: Props) => {
   )
 
   return (
-    <form onChange={handleSubmit(queryFilter)}>
-      {filters?.map((filter) => (
-        <select key={filter.name} {...register(filter.name)}>
-          {filter.name !== 'department' && (
-            <option value={''}>{filter.name}</option>
-          )}
-          {filter.options?.map((option, index) => (
-            <option key={`${option.value}${index}`} value={option.value}>
-              {option.display}
-            </option>
-          ))}
-        </select>
-      ))}
-    </form>
+    <>
+      <form onChange={handleSubmit(queryFilter)}>
+        {filters?.map((filter) => (
+          <select key={filter.name} {...register(filter.name)}>
+            {filter.name !== 'department' && (
+              <option value={''}>{filter.name}</option>
+            )}
+            {filter.options?.map((option, index) => (
+              <option key={`${option.value}${index}`} value={option.value}>
+                {option.display}
+              </option>
+            ))}
+          </select>
+        ))}
+      </form>
+      <button onClick={() => reset()}>Wis filters</button>
+    </>
   )
 }

@@ -77,7 +77,7 @@ describe('FilterComponent', () => {
     ).toBeFalsy()
   })
 
-  it('should fetch graph data when the component is mounted and when clicking on an option.', async () => {
+  it('should fetch graph data when the component is mounted and when clicking on an option and reset that option', async () => {
     render(<Filter fetchGraphData={mockFetchGraphData} />)
 
     expect(mockFetchGraphData).toBeCalledWith('department=ASC')
@@ -100,8 +100,22 @@ describe('FilterComponent', () => {
       )
     })
 
+    expect(
+      screen.getByRole<HTMLOptionElement>('option', {
+        name: 'Ondermijning',
+      }).selected
+    ).toBe(true)
+
     expect(mockFetchGraphData).toBeCalledWith(
       'department=OOV&category=Ondermijning'
     )
+
+    userEvent.click(screen.getByText('Wis filters'))
+
+    expect(
+      screen.queryByRole<HTMLOptionElement>('option', {
+        name: 'Ondermijning',
+      })
+    ).toBe(null)
   })
 })
