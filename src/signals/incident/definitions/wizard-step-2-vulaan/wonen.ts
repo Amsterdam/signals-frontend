@@ -612,6 +612,8 @@ const vakantieverhuur = {
         wonen_overig: 'vakantieverhuur',
       },
       label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber],

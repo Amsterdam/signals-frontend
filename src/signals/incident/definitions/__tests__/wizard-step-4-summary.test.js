@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
 
 import PreviewComponents from '../../components/IncidentPreview/components'
@@ -143,6 +143,12 @@ describe('Wizard summary', () => {
       const expected = {
         ...beschrijfContact,
         vulaan: {
+          dateTime: {
+            canBeNull: true,
+            label: 'Wanneer was het?',
+            optional: true,
+            render: expect.any(Function),
+          },
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,

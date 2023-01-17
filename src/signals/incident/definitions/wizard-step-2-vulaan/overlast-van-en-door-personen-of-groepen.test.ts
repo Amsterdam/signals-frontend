@@ -6,6 +6,7 @@ describe('definition overlast-van-en-door-personen-of-groepen', () => {
 
     expect(keys).toStrictEqual([
       'locatie',
+      'dateTime',
       'extra_drugs_verkoop',
       'extra_drugs_verkoop_ja',
       'extra_jongeren_text',

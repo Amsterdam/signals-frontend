@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-
 import { QuestionFieldType } from 'types/question'
-import locatie from './locatie'
+
 import dateTime from './dateTime'
+import locatie from './locatie'
 
 const overlastBedrijvenEnHoreca = {
   locatie,

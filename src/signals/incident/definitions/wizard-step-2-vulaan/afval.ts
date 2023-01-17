@@ -1,12 +1,28 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
+
 import locatie from './locatie'
 
 export const ICON_SIZE = 40
 
 export const controls = {
   locatie,
+  dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: ['asbest-accu', 'handhaving-op-afval'],
+      },
+      label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
+    },
+    options: {
+      validators: [falsyOrNumber],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
   extra_afval: {
     meta: {
       ifOneOf: {

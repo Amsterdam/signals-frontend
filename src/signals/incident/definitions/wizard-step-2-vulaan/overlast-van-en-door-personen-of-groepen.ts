@@ -1,11 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
+
 import locatie from './locatie'
 
 export const overlastPersonenEnGroepen = {
   locatie,
+  dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: [
+          'daklozen-bedelen',
+          'drank-en-drugsoverlast',
+          'jongerenoverlast',
+          'overige-overlast-door-personen',
+          'overlast-door-afsteken-vuurwerk',
+          'overlast-van-taxis-bussen-en-fietstaxis',
+          'wildplassen-poepen-overgeven',
+        ],
+      },
+      label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
+    },
+    options: {
+      validators: [falsyOrNumber],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
   extra_drugs_verkoop: {
     meta: {
       ifAllOf: {
