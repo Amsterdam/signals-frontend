@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
+
 import type { ReporterIncident } from '../types'
 import IncidentListItem from './IncidentListItem'
 

@@ -410,4 +410,64 @@ describe('<IncidentForm />', () => {
       })
     })
   })
+
+  describe('handleSubmit', () => {
+    it('should trigger description and source validation', async () => {
+      const fieldConfig = {
+        controls: {
+          $field_0: {
+            isStatic: false,
+            render: IncidentNavigation,
+          },
+          description: {
+            meta: {
+              label: 'description',
+            },
+            options: {
+              validators: ['required'],
+            },
+            render: FormComponents.TextInput,
+          },
+          source: {
+            meta: {
+              label: 'source',
+            },
+            options: {
+              validators: ['required'],
+            },
+            render: FormComponents.TextInput,
+          },
+        },
+      }
+
+      const props = {
+        ...defaultProps,
+        incidentContainer: {
+          ...defaultProps.incidentContainer,
+          loadingData: true,
+        },
+        fieldConfig,
+      }
+
+      renderIncidentForm(props)
+
+      await waitFor(() => {
+        userEvent.type(screen.getByLabelText('description'), 'afval')
+      })
+
+      await waitFor(() => {
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+      })
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'Dit is een verplicht veld'
+      )
+
+      await waitFor(() => {
+        userEvent.type(screen.getByLabelText('source'), 'afvalpunt')
+      })
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+  })
 })
