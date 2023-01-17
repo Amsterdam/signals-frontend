@@ -41,12 +41,12 @@ export interface Category {
   sub_categories?: SubCategory[]
 }
 
-interface SubCategory {
+export interface SubCategory {
   name: string
   slug: string
-  _display?: string
+  _display: string
   filterActive: boolean
-  is_public_accessible?: boolean
+  is_public_accessible: boolean
   _links: {
     'sia:icon'?: {
       href: string

@@ -3,6 +3,7 @@
 import configuration from 'shared/services/configuration/configuration'
 import { defaultIcon } from 'shared/services/configuration/map-markers'
 import type { Category } from 'types/category'
+import type { SubCategory as SubCategoryBackend } from 'types/category'
 
 import type { Filter, SubCategory } from '../../types'
 
@@ -31,14 +32,8 @@ export const getFilterCategoriesWithIcons = (
     })
 }
 
-export const showSubCategoryFilter = (slug: Category['slug']) => {
-  return configuration.map.optionsIncidentMap.hasSubfiltersEnabled.includes(
-    slug
-  )
-}
-
 const getSubCategories = (
-  subCategories: Category['sub_categories'] = []
+  subCategories: SubCategoryBackend[]
 ): SubCategory[] => {
   return subCategories
     .filter(({ is_public_accessible }) => is_public_accessible)
@@ -53,4 +48,10 @@ const getSubCategories = (
         incidentsCount: 0,
       }
     })
+}
+
+export const showSubCategoryFilter = (slug: Category['slug']) => {
+  return configuration.map.optionsIncidentMap.hasSubfiltersEnabled.includes(
+    slug
+  )
 }
