@@ -1,118 +1,76 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useClickOutside } from '@amsterdam/asc-ui'
+import { useForm, FormProvider } from 'react-hook-form'
+import { generateParams } from 'shared/services/api/api'
 
-import { makeSelectDepartments } from '../../../../../../models/departments/selectors'
-import { generateParams } from '../../../../../../shared/services/api/api'
-import type { Department } from '../../../../../../types/api/incident'
-import {
-  priorityList,
-  punctualityList,
-  stadsdeelList,
-} from '../../../../definitions'
+import SelectList from './SelectList'
+import { FilterContainer } from './styled'
+import type { Option } from './types'
 
-/**
- * make fetchGraphData required when fetching for diagrams
- */
 type Props = {
-  fetchGraphData?: (queryString: string) => void
+  callback?: (queryString: string) => void
 }
 
-export const Filter = ({ fetchGraphData = () => {} }: Props) => {
-  const { handleSubmit, register, getValues, watch } = useForm()
+export const Filter = ({ callback = () => {} }: Props) => {
+  const [filterActiveName, setFilterActiveName] = useState('')
 
-  const departments = useSelector<unknown, { list: Department[] }>(
-    makeSelectDepartments
+  const methods = useForm<{ [key: string]: Option }>({
+    defaultValues: Object.fromEntries(
+      ['department', 'category', 'priority', 'punctuality', 'district'].map(
+        (name) => [name, { value: '', display: '' }]
+      )
+    ),
+  })
+
+  const { getValues, watch, resetField } = methods
+
+  const refFilterContainer = useRef<HTMLDivElement>(null)
+
+  useClickOutside(
+    refFilterContainer,
+    () => filterActiveName && setFilterActiveName('')
   )
 
-  const departmentOptions = departments.list.map((department) => ({
-    value: department.code,
-    display: department.name,
-  }))
-
-  const selectedDepartment = watch('department')
-
-  const filters = useMemo(() => {
-    const value: string = selectedDepartment || departments?.list[0]?.code
-
-    const categories = Array.isArray(departments.list)
-      ? departments.list
-          .find((department) => department.code === value)
-          ?.category_names.map((category) => ({
-            value: category,
-            display: category,
-          }))
-      : null
-
-    return (
-      categories && [
-        {
-          name: 'department',
-          options: departmentOptions,
-        },
-        {
-          name: 'category',
-          options: categories,
-        },
-        {
-          name: 'priority',
-          options: priorityList.map((item) => ({
-            value: item.key,
-            display: item.value,
-          })),
-        },
-        {
-          name: 'punctuality',
-          options: punctualityList.map((item) => ({
-            value: item.key,
-            display: item.value,
-          })),
-        },
-        {
-          name: 'district', // stadsdeel
-          options: stadsdeelList.map((item) => ({
-            value: item.key,
-            display: item.value,
-          })),
-        },
-      ]
+  const handleCallback = useCallback(() => {
+    const selectedFilters: { [key: string]: string } = Object.fromEntries(
+      Object.entries(getValues()).map(([key, value]) => {
+        return [[key], value?.value]
+      })
     )
-  }, [departmentOptions, departments.list, selectedDepartment])
 
+    const params = generateParams(selectedFilters)
+    params && callback(generateParams(selectedFilters))
+  }, [callback, getValues])
+
+  // on change form, call handleCallback as a service to the parent component
   useEffect(() => {
-    if (filters) {
-      const queryString = generateParams(getValues())
-      fetchGraphData(queryString)
-    }
-  }, [fetchGraphData, filters, getValues])
-
-  const queryFilter = useCallback(
-    (value) => {
-      if (filters) {
-        const queryString = generateParams(value)
-        fetchGraphData(queryString)
+    const subscription = watch((_, { name, type }) => {
+      if (
+        name === 'department' &&
+        type === 'change' &&
+        getValues('category')?.value
+      ) {
+        resetField('category')
       }
-    },
-    [fetchGraphData, filters]
-  )
+      handleCallback()
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [getValues, handleCallback, resetField, watch])
 
   return (
-    <form onChange={handleSubmit(queryFilter)}>
-      {filters?.map((filter) => (
-        <select key={filter.name} {...register(filter.name)}>
-          {filter.name !== 'department' && (
-            <option value={''}>{filter.name}</option>
-          )}
-          {filter.options?.map((option, index) => (
-            <option key={`${option.value}${index}`} value={option.value}>
-              {option.display}
-            </option>
-          ))}
-        </select>
-      ))}
-    </form>
+    <FilterContainer ref={refFilterContainer}>
+      <FormProvider {...methods}>
+        <SelectList
+          filterActiveName={filterActiveName}
+          setFilterActiveName={setFilterActiveName}
+        />
+      </FormProvider>
+    </FilterContainer>
   )
 }

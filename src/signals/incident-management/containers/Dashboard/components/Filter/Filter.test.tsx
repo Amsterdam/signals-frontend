@@ -1,107 +1,140 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { Filter } from './Filter'
 
-const mockFetchGraphData = jest.fn()
+const mockCallback = jest.fn()
 
 const departments = {
   ...departmentsFixture,
   count: departmentsFixture.count,
   list: departmentsFixture.results,
-  results: undefined,
 }
 
 describe('FilterComponent', () => {
   beforeEach(() => {
-    jest.resetAllMocks()
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
   })
 
   it('should render properly and select the first option', () => {
-    render(<Filter fetchGraphData={mockFetchGraphData} />)
+    render(<Filter callback={mockCallback} />)
+
+    userEvent.click(screen.getAllByRole('listbox')[0])
+    expect(
+      screen.getByRole('listbox', { name: 'Actie Service Centr...' })
+    ).toBeInTheDocument()
 
     expect(
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Actie Service Centrum',
-      }).selected
-    ).toBe(true)
-
-    expect(
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Afval en Grondstoffen',
-      }).selected
-    ).toBe(false)
+      screen.queryByRole('listbox', {
+        name: 'Amsterdamse Bos',
+      })
+    ).not.toBeInTheDocument()
   })
 
   it('should select a department and thus change selectable categories', () => {
-    render(<Filter fetchGraphData={mockFetchGraphData} />)
+    render(<Filter callback={mockCallback} />)
 
     expect(
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Actie Service Centrum',
-      }).selected
-    ).toBe(true)
+      screen.getByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
+    ).toBeInTheDocument()
 
-    expect(screen.queryByRole('option', { name: 'Ondermijning' })).toBe(null)
-
-    expect(
-      screen.queryByRole<HTMLOptionElement>('option', { name: 'Bedrijfsafval' })
-    ).toBeTruthy()
-
-    userEvent.selectOptions(
-      screen.getAllByRole('combobox')[0],
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Openbare Orde & Veiligheid',
+    userEvent.click(
+      screen.getByRole('listbox', {
+        name: 'Categorie',
       })
     )
 
     expect(
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Actie Service Centrum',
-      }).selected
-    ).toBe(false)
+      screen.queryByRole('option', { name: 'Bedrijfsafval' })
+    ).toBeInTheDocument()
+
+    userEvent.click(
+      screen.getByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
+    )
+
+    userEvent.click(
+      screen.getByRole('option', {
+        name: 'Politie',
+      })
+    )
 
     expect(
-      screen.getByRole<HTMLOptionElement>('option', {
-        name: 'Openbare Orde & Veiligheid',
-      }).selected
-    ).toBe(true)
-
-    expect(
-      screen.queryByRole<HTMLOptionElement>('option', { name: 'Bedrijfsafval' })
-    ).toBeFalsy()
+      screen.queryByRole('listbox', { name: 'Bedrijfsafval' })
+    ).not.toBeInTheDocument()
   })
 
-  it('should fetch graph data when the component is mounted and when clicking on an option.', async () => {
-    render(<Filter fetchGraphData={mockFetchGraphData} />)
+  it('should select a department, a custom category and reset back and call callback each time', async () => {
+    render(<Filter callback={mockCallback} />)
 
-    expect(mockFetchGraphData).toBeCalledWith('department=ASC')
-
-    mockFetchGraphData.mockReset()
-
-    await waitFor(() => {
-      userEvent.selectOptions(
-        screen.getAllByRole('combobox')[0],
-        screen.getByRole<HTMLOptionElement>('option', {
-          name: 'Openbare Orde & Veiligheid',
-        })
-      )
-
-      userEvent.selectOptions(
-        screen.getAllByRole('combobox')[1],
-        screen.getByRole<HTMLOptionElement>('option', {
-          name: 'Ondermijning',
-        })
-      )
-    })
-
-    expect(mockFetchGraphData).toBeCalledWith(
-      'department=OOV&category=Ondermijning'
+    userEvent.click(
+      screen.getByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
     )
+
+    userEvent.click(
+      screen.getByRole('option', {
+        name: 'Afval en Grondstoffen',
+      })
+    )
+
+    expect(mockCallback).toBeCalledWith('department=AEG')
+
+    mockCallback.mockReset()
+
+    userEvent.click(
+      screen.getByRole('listbox', {
+        name: 'Categorie',
+      })
+    )
+
+    userEvent.click(
+      screen.getByRole('option', {
+        name: 'Huisafval',
+      })
+    )
+
+    expect(mockCallback).toBeCalledWith('department=AEG&category=Huisafval')
+
+    mockCallback.mockReset()
+
+    userEvent.click(screen.getByText('Wis filters'))
+
+    expect(mockCallback).toBeCalledWith('department=ASC')
+  })
+
+  it('should hide department button when there is only one', () => {
+    const oneDepartment = {
+      ...departmentsFixture,
+      list: [departmentsFixture.results[0]],
+    }
+
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(oneDepartment)
+
+    const { rerender } = render(<Filter callback={mockCallback} />)
+
+    expect(
+      screen.queryByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
+    ).not.toBeInTheDocument()
+
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
+
+    rerender(<Filter callback={mockCallback} />)
+
+    expect(
+      screen.queryByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
+    ).toBeInTheDocument()
   })
 })
