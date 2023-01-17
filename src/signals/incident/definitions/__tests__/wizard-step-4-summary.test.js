@@ -144,7 +144,7 @@ describe('Wizard summary', () => {
         ...beschrijfContact,
         vulaan: {
           dateTime: {
-            canBeNull: false,
+            canBeNull: true,
             label: 'Wanneer was het?',
             optional: true,
             render: expect.any(Function),
