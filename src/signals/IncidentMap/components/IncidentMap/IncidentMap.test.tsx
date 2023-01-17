@@ -2,15 +2,13 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
-import useFetch from 'hooks/useFetch'
-import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { withAppContext } from 'test/utils'
 
-import { get, mockUseMapInstance, useFetchResponse } from '../__test__'
+import { get, mockUseMapInstance } from '../__test__'
 import { IncidentMap } from './IncidentMap'
+import usePaginatedIncidents from './usePaginatedIncidents'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,
@@ -45,7 +43,9 @@ const mockPdokResponse = {
   },
 }
 
-jest.mock('hooks/useFetch')
+const mockGetIncidents = jest.fn()
+
+jest.mock('./usePaginatedIncidents')
 jest.mock('shared/services/reverse-geocoder')
 jest.mocked(reverseGeocoderService).mockImplementation(async () => {
   return mockPdokResponse
@@ -54,7 +54,11 @@ jest.mocked(reverseGeocoderService).mockImplementation(async () => {
 describe('IncidentMap', () => {
   beforeEach(() => {
     get.mockReset()
-    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+    jest.mocked(usePaginatedIncidents).mockImplementation(() => ({
+      incidents: [],
+      getIncidents: mockGetIncidents,
+      error: null,
+    }))
   })
 
   it('should render the incident map correctly', () => {
@@ -68,14 +72,20 @@ describe('IncidentMap', () => {
   it('sends a request to fetch publicly available incidents', () => {
     render(withAppContext(<IncidentMap />))
 
-    expect(get).toHaveBeenCalledWith(
-      expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
+    expect(mockGetIncidents).toHaveBeenCalledWith(
+      expect.objectContaining({
+        east: '4.899032528058569',
+        north: '52.36966337175116',
+        south: '52.36714374096002',
+        west: '4.8958566562555035',
+      })
     )
   })
 
   it('shows a message when the API returns an error', () => {
-    jest.mocked(useFetch).mockImplementation(() => ({
-      ...useFetchResponse,
+    jest.mocked(usePaginatedIncidents).mockImplementation(() => ({
+      incidents: [],
+      getIncidents: jest.fn(),
       error: new Error(),
     }))
 
@@ -119,8 +129,9 @@ describe('IncidentMap', () => {
   })
 
   it('should close the error message when close button is clicked', () => {
-    jest.mocked(useFetch).mockImplementationOnce(() => ({
-      ...useFetchResponse,
+    jest.mocked(usePaginatedIncidents).mockImplementationOnce(() => ({
+      incidents: [],
+      getIncidents: jest.fn(),
       error: new Error(),
     }))
 

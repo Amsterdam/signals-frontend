@@ -1,53 +1,90 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+// Copyright (C) 2023 Gemeente Amsterdam
+import { useCallback, useRef, useState } from 'react'
 
 import type { Feature } from 'geojson'
-import type { FeatureCollection } from 'geojson'
 
-import { useFetch } from '../../../../hooks'
+import type { FetchError } from '../../../../hooks/useFetch'
 import configuration from '../../../../shared/services/configuration/configuration'
 import type { Bbox } from '../../../incident/components/form/MapSelectors/hooks/useBoundingBox'
 import type { PointLatLng, Properties } from '../../types'
 
 const usePaginatedIncidents = () => {
-  const { get, data, error, isSuccess } =
-    useFetch<FeatureCollection<PointLatLng, Properties>>()
+  const [incidents, setIncidents] = useState<
+    Feature<PointLatLng, Properties>[]
+  >([])
+  const [error, setError] = useState<FetchError | null>(null)
 
   const paginatedIncidents = useRef<{
-    page: number
-    features: Feature<PointLatLng, Properties>[]
     searchParams: URLSearchParams
-  }>({ page: 2, features: [], searchParams: new URLSearchParams() })
+    controller?: AbortController
+  }>({
+    searchParams: new URLSearchParams(),
+  })
 
-  useEffect(() => {
-    const incidents = data?.features || []
-    const searchParams = paginatedIncidents.current.searchParams
+  const getIncidents = useCallback(async (bbox: Bbox) => {
+    if (bbox) {
+      paginatedIncidents.current.searchParams = getSearchParams(bbox)
+      paginatedIncidents.current.controller?.abort()
+      paginatedIncidents.current.controller = new AbortController()
 
-    if (incidents.length === 4000) {
-      searchParams.set('geopage', paginatedIncidents.current.page.toString())
-      get(
-        `${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`
-      )
+      const { signal } = paginatedIncidents.current.controller
 
-      paginatedIncidents.current.page = paginatedIncidents.current.page + 1
-    }
-  }, [data?.features, get])
-
-  const getIncidents = useCallback(
-    (bbox: Bbox) => {
-      if (bbox) {
-        paginatedIncidents.current.searchParams = getSearchParams(bbox)
-        get(
+      let headResponse
+      try {
+        headResponse = await fetch(
           `${
             configuration.GEOGRAPHY_PUBLIC_ENDPOINT
-          }?${paginatedIncidents.current.searchParams.toString()}`
+          }?${paginatedIncidents.current.searchParams.toString()}`,
+          {
+            method: 'HEAD',
+            signal,
+          }
         )
-        paginatedIncidents.current.page = 2
+      } catch (error) {
+        return error
       }
-    },
-    [get]
-  )
+
+      const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
+      // Would be nice to get this info through the response header as well
+      const paginationLength = 4000
+
+      const promises = Array.from(
+        {
+          length: Math.ceil(xTotalCount / paginationLength),
+        },
+        (_, index) => {
+          const qeopageQueryParam = `&geopage=${index + 1}`
+          return fetch(
+            `${
+              configuration.GEOGRAPHY_PUBLIC_ENDPOINT
+            }?${paginatedIncidents.current.searchParams.toString()}${qeopageQueryParam}`,
+            {
+              method: 'GET',
+              signal,
+            }
+          )
+        }
+      )
+
+      try {
+        const responses = await Promise.all(promises)
+        const res = await Promise.all(
+          responses.map((response) => response.json())
+        )
+
+        const incidents: Array<Feature<PointLatLng, Properties>> = res.flatMap(
+          (responseItem) => responseItem.features
+        )
+
+        setIncidents(incidents)
+      } catch (error: FetchError | any) {
+        if (error.name !== 'AbortError') {
+          setError(error)
+        }
+      }
+    }
+  }, [])
 
   const getSearchParams = (bbox: Bbox) => {
     const { west, south, east, north } = bbox
@@ -56,24 +93,8 @@ const usePaginatedIncidents = () => {
     })
   }
 
-  const incidents = useMemo(() => {
-    if (paginatedIncidents.current.page === 2 && data?.features) {
-      paginatedIncidents.current.features = data.features
-    }
-
-    if (paginatedIncidents.current.page > 2 && data?.features) {
-      paginatedIncidents.current.features = [
-        ...data.features,
-        ...paginatedIncidents.current.features,
-      ]
-    }
-
-    return paginatedIncidents.current.features
-  }, [data])
-
   return {
-    incidents: incidents || [],
-    isSuccess,
+    incidents,
     error,
     getIncidents,
   }

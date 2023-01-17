@@ -4,8 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
-import { isEqual } from 'lodash'
-
+import { throttle, isEqual } from 'lodash'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -102,17 +101,27 @@ export const IncidentMap = () => {
   }, [resetSelectedMarker, map])
 
   /* istanbul ignore next */
-  const { incidents, isSuccess, error, getIncidents } = usePaginatedIncidents()
+  const { incidents, error, getIncidents } = usePaginatedIncidents()
+
+  /* istanbul ignore next */
+  const throttledGetIncidents = useCallback(
+    throttle((arg) => getIncidents(arg), 500, {
+      trailing: false,
+    }),
+    []
+  )
 
   /* istanbul ignore next */
   useEffect(() => {
     if (bbox) {
-      getIncidents(bbox)
+      throttledGetIncidents(bbox)
     }
-  }, [bbox, getIncidents])
+  }, [bbox, throttledGetIncidents])
 
   /* istanbul ignore next */
   useEffect(() => {
+    if (incidents.length === 0) return
+
     const filteredIncidents = getFilteredIncidents(filters, incidents)
 
     setFilteredIncidents(filteredIncidents)
@@ -126,7 +135,7 @@ export const IncidentMap = () => {
     if (error) {
       setNotification('Er konden geen meldingen worden opgehaald.')
     }
-  }, [error, isSuccess, setNotification])
+  }, [error, setNotification])
 
   useEffect(() => {
     if (coordinates) {
