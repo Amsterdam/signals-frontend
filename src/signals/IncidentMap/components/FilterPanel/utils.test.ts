@@ -40,6 +40,13 @@ describe('getFilterCategoriesWithIcon', () => {
 })
 
 describe('showSubCategoryFilter', () => {
+  beforeEach(() => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
+      'afval',
+      'wegen-verkeer-straatmeubilair',
+    ]
+  })
+
   it('should return false on default', () => {
     configuration.map.optionsIncidentMap.hasSubfiltersEnabled = []
     const result = showSubCategoryFilter('afval')
@@ -48,7 +55,6 @@ describe('showSubCategoryFilter', () => {
   })
 
   it('should return true when main category has subFilter enabled', () => {
-    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = ['afval']
     const result = showSubCategoryFilter('afval')
 
     expect(result).toEqual(true)

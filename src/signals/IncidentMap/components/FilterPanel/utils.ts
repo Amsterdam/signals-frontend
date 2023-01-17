@@ -50,8 +50,5 @@ const getSubCategories = (
     })
 }
 
-export const showSubCategoryFilter = (slug: Category['slug']) => {
-  return configuration.map.optionsIncidentMap.hasSubfiltersEnabled.includes(
-    slug
-  )
-}
+export const showSubCategoryFilter = (slug: Category['slug']) =>
+  configuration.map.optionsIncidentMap.hasSubfiltersEnabled.includes(slug)
