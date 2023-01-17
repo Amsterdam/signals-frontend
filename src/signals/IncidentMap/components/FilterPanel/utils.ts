@@ -1,7 +1,9 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2022 - 2023 Gemeente Amsterdam */
+import configuration from 'shared/services/configuration/configuration'
 import { defaultIcon } from 'shared/services/configuration/map-markers'
 import type { Category } from 'types/category'
+import type { SubCategory as SubCategoryBackend } from 'types/category'
 
 import type { Filter, SubCategory } from '../../types'
 
@@ -30,12 +32,8 @@ export const getFilterCategoriesWithIcons = (
     })
 }
 
-export const showSubCategoryFilter = (slug: Category['slug']) => {
-  return ['afval', 'wegen-verkeer-straatmeubilair'].includes(slug)
-}
-
 const getSubCategories = (
-  subCategories: Category['sub_categories'] = []
+  subCategories: SubCategoryBackend[]
 ): SubCategory[] => {
   return subCategories
     .filter(({ is_public_accessible }) => is_public_accessible)
@@ -51,3 +49,6 @@ const getSubCategories = (
       }
     })
 }
+
+export const showSubCategoryFilter = (slug: Category['slug']) =>
+  configuration.map.optionsIncidentMap.hasSubfiltersEnabled.includes(slug)

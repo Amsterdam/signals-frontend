@@ -90,6 +90,9 @@
       "minZoom": 7,
       "zoom": 7
     },
+    "optionsIncidentMap": {
+      "hasSubfiltersEnabled": ["afval", "wegen-verkeer-straatmeubilair"]
+    },
     "tiles": {
       "args": [
         "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"

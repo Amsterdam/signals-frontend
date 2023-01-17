@@ -1,11 +1,11 @@
 import type { Filter } from '../../types'
 
 export const updateFilterCategory = (
-  categoryName: string,
+  categorySlug: string,
   filters: Filter[]
 ): Filter[] => {
   return filters.map((filter) => {
-    if (filter.name === categoryName) {
+    if (filter.slug === categorySlug) {
       return {
         ...filter,
         filterActive: !filter.filterActive,
@@ -14,7 +14,7 @@ export const updateFilterCategory = (
     if (filter.subCategories) {
       return {
         ...filter,
-        subCategories: updateFilterCategory(categoryName, filter.subCategories),
+        subCategories: updateFilterCategory(categorySlug, filter.subCategories),
       }
     }
     return filter

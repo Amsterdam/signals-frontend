@@ -94,6 +94,9 @@
       "minZoom": 7,
       "zoom": 7
     },
+    "optionsIncidentMap": {
+      "hasSubfiltersEnabled": ["afval", "wegen-verkeer-straatmeubilair"]
+    },
     "tiles": {
       "args": [
         "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/standaard/EPSG:28992/{z}/{x}/{y}.png"

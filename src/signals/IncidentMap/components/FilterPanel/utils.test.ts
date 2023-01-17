@@ -1,7 +1,11 @@
+import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import { fetchCategoriesResponse } from '../__test__'
 import { getFilterCategoriesWithIcons } from './utils'
+import { showSubCategoryFilter } from './utils'
+
+jest.mock('shared/services/configuration/configuration')
 
 describe('getFilterCategoriesWithIcon', () => {
   const mockData =
@@ -32,5 +36,27 @@ describe('getFilterCategoriesWithIcon', () => {
     ).toEqual(
       'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/overlast-bedrijven-en-horeca/bedrijven.svg?temp_url_sig=44addc6725e4523b2115f0285d9312c35d006533aee756b3b77344b71c75b98d&temp_url_expires=1665401495'
     )
+  })
+})
+
+describe('showSubCategoryFilter', () => {
+  beforeEach(() => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
+      'afval',
+      'wegen-verkeer-straatmeubilair',
+    ]
+  })
+
+  it('should return false on default', () => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = []
+    const result = showSubCategoryFilter('afval')
+
+    expect(result).toEqual(false)
+  })
+
+  it('should return true when main category has subFilter enabled', () => {
+    const result = showSubCategoryFilter('afval')
+
+    expect(result).toEqual(true)
   })
 })

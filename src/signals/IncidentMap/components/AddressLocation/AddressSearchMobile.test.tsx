@@ -87,6 +87,15 @@ describe('AddresLocation', () => {
     )
   })
 
+  it('should show options', async () => {
+    render(<AddressSearchMobile {...defaultProps} />)
+
+    userEvent.click(screen.getByTestId('get-data-mock-button'))
+
+    expect(screen.getByText('Suggestion #1')).toBeInTheDocument()
+    expect(screen.getByText('Suggestion #2')).toBeInTheDocument()
+  })
+
   it('shows the address in the searchbar', () => {
     const props = {
       ...defaultProps,

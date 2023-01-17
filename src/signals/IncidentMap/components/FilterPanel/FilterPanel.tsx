@@ -3,6 +3,7 @@
 import { Fragment, useCallback, useEffect } from 'react'
 
 import { Heading } from '@amsterdam/asc-ui'
+
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
@@ -31,7 +32,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
 
       combinedFilters.forEach((categoryFilter) => {
         if (categoryFilter.filterActive !== newFilterActive) {
-          allFilters = updateFilterCategory(categoryFilter.name, allFilters)
+          allFilters = updateFilterCategory(categoryFilter.slug, allFilters)
         }
       })
       setFilters(allFilters)
