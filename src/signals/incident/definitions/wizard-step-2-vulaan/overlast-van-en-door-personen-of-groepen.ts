@@ -21,6 +21,8 @@ export const overlastPersonenEnGroepen = {
         ],
       },
       label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber],

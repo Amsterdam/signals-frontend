@@ -19,6 +19,8 @@ export const wegenVerkeerStraatmeubilair = {
         subcategory: ['verkeersoverlast'],
       },
       label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber],

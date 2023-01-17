@@ -15,6 +15,8 @@ export const controls = {
         subcategory: ['asbest-accu', 'handhaving-op-afval'],
       },
       label: 'Wanneer was het?',
+      ignoreVisibility: true,
+      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber],

@@ -19,7 +19,9 @@ export const overlastOpHetWater = {
           'overlast-op-het-water-gezonken-boot',
         ],
       },
+      ignoreVisibility: true,
       label: 'Wanneer was het?',
+      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber],
