@@ -6,6 +6,7 @@ import * as reactRedux from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import configuration from 'shared/services/configuration/configuration'
 import { store } from 'test/utils'
 import type { Incident } from 'types/api/incident'
 import type { Result } from 'types/api/reporter'
@@ -29,6 +30,7 @@ const reduxSpy = jest
 fetchMock.disableMocks()
 
 jest.mock('react-router-dom')
+jest.mock('shared/services/configuration/configuration')
 
 const INCIDENT_ID = '4440'
 const INCIDENT_ID_2 = '4441'
@@ -54,6 +56,12 @@ const REPORTER_MOCK: Result = {
 }
 
 describe('Fetch Reporter hook', () => {
+  beforeEach(() => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
+      'afval',
+      'wegen-verkeer-straatmeubilair',
+    ]
+  })
   afterEach(cleanup)
   afterAll(() => {
     reduxSpy.mockRestore()

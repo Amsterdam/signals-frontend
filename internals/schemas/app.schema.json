@@ -384,7 +384,7 @@
           "$ref": "#/definitions/OptionsBackOffice"
         },
         "optionsIncidentMap": {
-          "$ref": "#/definitions/optionsIncidentMap"
+          "$ref": "#/definitions/OptionsIncidentMap"
         },
         "tiles": {
           "$ref": "#/definitions/Tiles"
@@ -535,7 +535,7 @@
       "required": [],
       "title": "OptionsBackOffice"
     },
-    "optionsIncidentMap": {
+    "OptionsIncidentMap": {
       "type": "object",
       "additionalProperties": false,
       "description": "Array with slugs of main categories that will show subfilters based on the connected subcategories. Note: main category 'overig', cannot have subcategory filters since it has the same slug as one of his subcategories.",
@@ -636,3 +636,4 @@
     }
   }
 }
+

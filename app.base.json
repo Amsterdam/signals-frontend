@@ -95,7 +95,7 @@
       "zoom": 7
     },
     "optionsIncidentMap": {
-      "hasSubfiltersEnabled": ["afval", "wegen-verkeer-straatmeubilair"]
+      "hasSubfiltersEnabled": ["main-category-slug"]
     },
     "tiles": {
       "args": [
@@ -138,3 +138,4 @@
     }
   }
 }
+
