@@ -136,6 +136,10 @@ describe('<IncidentForm />', () => {
         },
       }
       renderIncidentForm(props)
+
+      expect(defaultProps.removeQuestionData).toBeCalledWith([
+        'extra_removed_question',
+      ])
     })
 
     it('renders updated form values', async () => {

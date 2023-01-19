@@ -30,6 +30,7 @@ const IncidentForm = forwardRef<any, any>(
       wizard,
       addToSelection,
       removeFromSelection,
+      removeQuestionData,
       getClassification,
       fieldConfig,
       index,
@@ -62,6 +63,38 @@ const IncidentForm = forwardRef<any, any>(
       incidentContainer.loadingData,
       reactHookFormProps,
     ])
+
+    /**
+      FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
+      This should be changed in the future.
+    */
+    const fieldConfigModified = formatConditionalForm(
+      fieldConfig,
+      incidentContainer.incident
+    )
+
+    const controls: any = Object.fromEntries(
+      Object.entries(fieldConfigModified.controls).filter(
+        ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
+      )
+    )
+
+    useEffect(() => {
+      if (!incidentContainer.incident) return
+
+      const extraControlKeys = Object.keys(controls).filter((key) =>
+        key.startsWith('extra_')
+      )
+      const extraIncidentKeys = Object.keys(incidentContainer.incident).filter(
+        (key) => key.startsWith('extra_')
+      )
+
+      const keysToRemove = extraIncidentKeys.filter(
+        (key) => extraControlKeys.length > 0 && !extraControlKeys.includes(key)
+      )
+
+      if (keysToRemove.length > 0) removeQuestionData(keysToRemove)
+    }, [controls, incidentContainer.incident, removeQuestionData])
 
     /**
      * setValues makes sure values from the incident, like dateTime, are added
@@ -125,24 +158,10 @@ const IncidentForm = forwardRef<any, any>(
         wizard,
       ]
     )
-    /**
-      FormatConditionalForm mutates fieldconfig, thereby setting fields visible/inVisible.
-      This should be changed in the future.
-    */
-    const fieldConfigModified = formatConditionalForm(
-      fieldConfig,
-      incidentContainer.incident
-    )
 
     const isSummary =
       fieldConfigModified &&
       Object.keys(fieldConfigModified).includes('page_summary')
-
-    const controls: any = Object.fromEntries(
-      Object.entries(fieldConfigModified.controls).filter(
-        ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
-      )
-    )
 
     const { formState } = reactHookFormProps
     const { errors } = formState
@@ -215,7 +234,6 @@ const IncidentForm = forwardRef<any, any>(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     controlsRef.current = constructYupResolver(controls)
-
     return (
       <div data-testid="incident-form" ref={formRef}>
         <ProgressContainer />
