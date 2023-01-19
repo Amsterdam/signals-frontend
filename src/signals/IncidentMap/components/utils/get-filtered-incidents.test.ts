@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import configuration from 'shared/services/configuration/configuration'
+
 import { mockFiltersShort } from '../__test__/mock-filters'
 import { mockIncidentsWithoutIcon } from '../__test__/mock-incidents-without-icon'
 import { getFilteredIncidents } from './get-filtered-incidents'
+
+jest.mock('shared/services/configuration/configuration')
 
 const mockFiltersAllActive = mockFiltersShort.map((filter) => {
   if (filter.subCategories) {
@@ -25,6 +29,13 @@ const mockFiltersAllActive = mockFiltersShort.map((filter) => {
 })
 
 describe('getFilteredIncidents', () => {
+  beforeEach(() => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
+      'afval',
+      'wegen-verkeer-straatmeubilair',
+    ]
+  })
+
   it('should return only active incidents', () => {
     const result = getFilteredIncidents(
       mockFiltersShort,

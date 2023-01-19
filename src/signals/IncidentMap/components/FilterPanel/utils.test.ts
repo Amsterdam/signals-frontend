@@ -8,6 +8,12 @@ import { showSubCategoryFilter } from './utils'
 jest.mock('shared/services/configuration/configuration')
 
 describe('getFilterCategoriesWithIcon', () => {
+  beforeEach(() => {
+    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
+      'afval',
+      'wegen-verkeer-straatmeubilair',
+    ]
+  })
   const mockData =
     fetchCategoriesResponse.results as unknown as Categories['results']
 
