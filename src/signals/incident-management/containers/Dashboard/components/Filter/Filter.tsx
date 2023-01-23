@@ -48,11 +48,7 @@ export const Filter = ({ callback = () => {} }: Props) => {
   // on change form, call handleCallback as a service to the parent component
   useEffect(() => {
     const subscription = watch((_, { name, type }) => {
-      if (
-        name === 'department' &&
-        type === 'change' &&
-        getValues('category')?.value
-      ) {
+      if (name === 'department' && type === 'change') {
         resetField('category')
       }
       handleCallback()
@@ -62,6 +58,13 @@ export const Filter = ({ callback = () => {} }: Props) => {
       subscription.unsubscribe()
     }
   }, [getValues, handleCallback, resetField, watch])
+
+  useEffect(() => {
+    refFilterContainer.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  }, [filterActiveName])
 
   return (
     <FilterContainer ref={refFilterContainer}>

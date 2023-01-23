@@ -1,13 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { Dispatch, SetStateAction } from 'react'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
+import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
 import OptionsList from './OptionsList'
-import { InvisibleButton, RefreshIcon, SelectLi, SelectUl } from './styled'
+import {
+  InvisibleButton,
+  OptionListContainer,
+  RefreshIcon,
+  Select,
+  SelectContainer,
+} from './styled'
+import type { Filter } from './types'
 import { useFilters } from './useFilter'
 
 type Props = {
@@ -32,16 +40,29 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   const chopFilterName = (filterName: string) =>
     filterName.length > 19 ? filterName.substring(0, 19) + '...' : filterName
 
+  const selectContainerRef = useRef<HTMLDivElement>(null)
+  const optionLeft = useRef<number>()
+
   const onChangeEvent = useCallback(
-    (value) =>
+    (value, target?: HTMLElement) => {
       filterActiveName === value
         ? setFilterActiveName('')
-        : setFilterActiveName(value),
+        : setFilterActiveName(value)
+
+      if (target) {
+        const selectContainerLeft =
+          selectContainerRef.current?.getBoundingClientRect().left
+        if (isNumber(selectContainerLeft)) {
+          optionLeft.current =
+            target.getBoundingClientRect().left - selectContainerLeft
+        }
+      }
+    },
     [filterActiveName, setFilterActiveName]
   )
 
   const activeFilter = filters.find(
-    (filter) => filter.name === filterActiveName
+    (filter: Filter) => filter.name === filterActiveName
   )
 
   if (!selectedDepartment.value) {
@@ -49,35 +70,29 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   }
 
   return (
-    <SelectUl>
-      {filters?.map((filter) => {
+    <SelectContainer ref={selectContainerRef}>
+      {filters?.map((filter: Filter) => {
         if (filter.name === 'department' && filter.options.length === 1)
           return null
 
         return (
-          <SelectLi
+          <Select
             key={filter.name}
             role="listbox"
             aria-label={chopFilterName(
               getValues(filter.name)?.display || filter.display
             )}
             tabIndex={0}
-            onClick={() => {
-              onChangeEvent(filter.name)
+            onClick={(e) => {
+              onChangeEvent(filter.name, e.currentTarget)
             }}
-            onKeyPress={(e) => {
-              if (['Enter', 'Space'].includes(e.code)) {
-                onChangeEvent(filter.name)
+            onKeyDown={(e) => {
+              if (['Enter', 'Space'].includes(e.key)) {
+                onChangeEvent(filter.name, e.currentTarget)
               }
             }}
             selected={filterActiveName === filter.name}
           >
-            {activeFilter?.name === filter.name && (
-              <OptionsList
-                activeFilter={activeFilter}
-                setFilterNameActive={setFilterActiveName}
-              />
-            )}
             {chopFilterName(getValues(filter.name)?.display || filter.display)}
             <InvisibleButton
               tabIndex={-1}
@@ -85,17 +100,18 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
             >
               <ChevronDown width={16} height={16} />
             </InvisibleButton>
-          </SelectLi>
+          </Select>
         )
       })}
-      <SelectLi
+      <Select
         tabIndex={0}
+        role={'button'}
         onClick={() => {
           onChangeEvent('')
           reset()
         }}
-        onKeyPress={(e) => {
-          if (['Enter', 'Space'].includes(e.code)) {
+        onKeyDown={(e) => {
+          if (['Enter', 'Space'].includes(e.key)) {
             onChangeEvent('')
             reset()
           }
@@ -103,8 +119,17 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
       >
         <RefreshIcon width={16} height={18} />
         Wis filters
-      </SelectLi>
-    </SelectUl>
+      </Select>
+      {activeFilter?.name && isNumber(optionLeft.current) && (
+        <OptionListContainer>
+          <OptionsList
+            left={optionLeft.current}
+            activeFilter={activeFilter}
+            setFilterNameActive={setFilterActiveName}
+          />
+        </OptionListContainer>
+      )}
+    </SelectContainer>
   )
 }
 

@@ -4,20 +4,21 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { OptionUl, OptionLi, OptionOverlay } from './styled'
+import { OptionUl, OptionLi } from './styled'
 import type { Filter } from './types'
 
 type Props = {
   setFilterNameActive: Dispatch<SetStateAction<string>>
   activeFilter: Filter
+  left: number
 }
 
-const OptionsList = ({ setFilterNameActive, activeFilter }: Props) => {
+const OptionsList = ({ setFilterNameActive, activeFilter, left }: Props) => {
   const { control, getValues } = useFormContext()
 
   return (
     <>
-      <OptionUl>
+      <OptionUl left={left}>
         {activeFilter.options.map((option, index) => (
           <Controller
             key={`${option}${index}`}
@@ -33,8 +34,8 @@ const OptionsList = ({ setFilterNameActive, activeFilter }: Props) => {
                   onChange(option)
                   setFilterNameActive('')
                 }}
-                onKeyPress={(e) => {
-                  if (['Enter', 'Space'].includes(e.code)) {
+                onKeyDown={(e) => {
+                  if (['Enter', 'Space'].includes(e.key)) {
                     onChange(option)
                     setFilterNameActive('')
                   }
@@ -46,7 +47,6 @@ const OptionsList = ({ setFilterNameActive, activeFilter }: Props) => {
           />
         ))}
       </OptionUl>
-      <OptionOverlay />
     </>
   )
 }

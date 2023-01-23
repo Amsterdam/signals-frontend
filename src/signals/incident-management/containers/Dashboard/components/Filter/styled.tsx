@@ -14,7 +14,7 @@ export const FilterContainer = styled.div<{
   position: relative;
 `
 
-export const SelectUl = styled.ul`
+export const SelectContainer = styled.div`
   display: flex;
   font-size: 1rem;
   height: ${themeSpacing(14)};
@@ -22,13 +22,17 @@ export const SelectUl = styled.ul`
 `
 
 // with callback show selected value with underline
-export const SelectLi = styled.li<{
+export const Select = styled.div<{
   selected?: boolean
 }>`
   cursor: pointer;
   display: flex;
   align-items: center;
   margin-right: ${themeSpacing(9)};
+
+  &:first-of-type {
+    margin-left: ${themeSpacing(12)};
+  }
 
   ${({ selected }) =>
     selected &&
@@ -38,9 +42,7 @@ export const SelectLi = styled.li<{
 `
 
 export const InvisibleButton = styled.button<{ selected: boolean }>`
-  text-decoration: none;
   background-color: unset;
-  color: inherit;
   border: none;
   padding: 0;
   cursor: pointer;
@@ -63,25 +65,37 @@ export const RefreshIcon = styled(Refresh)`
 export const OptionOverlay = styled.div`
   position: fixed;
   height: calc(100% - 106px);
-  top: 106px;
   width: 100%;
+  top: 106px;
   left: 0;
   bottom: 0;
   background-color: ${themeColor('tint', 'level3')};
 `
+export const OptionListContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc(100vh - ${themeSpacing(26.5)});
+  top: ${themeSpacing(14)};
+  overflow-y: auto;
+  background-color: ${themeColor('tint', 'level3')};
+`
 
-export const OptionUl = styled.ul`
+export const OptionUl = styled.ul<{ left: number }>`
   display: grid;
   position: absolute;
-  width: 700px;
-  top: ${themeSpacing(14)};
+  width: ${themeSpacing(175)};
   grid-template-columns: repeat(2, 1fr);
-  line-height: 2;
+  line-height: 2rem;
   padding: 0;
-  max-height: calc(100vh - ${themeSpacing(26.5)});
   margin: 0;
-  overflow-y: auto;
   z-index: 1;
+
+  ${({ left }) =>
+    left &&
+    css`
+      left: ${left}px;
+    `}
 `
 
 // with callback show selected value with underline
