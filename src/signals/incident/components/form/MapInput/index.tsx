@@ -48,7 +48,7 @@ const MapInput: FunctionComponent<FormInputProps<Location>> = ({
       <div className="invoer">
         <MapContext>
           <MapInputComponent
-            id={meta.name}
+            id={meta.name || ''}
             aria-label={configuration.language.mapDescription}
             aria-describedby={meta.subtitle && `subtitle-${meta.name}`}
             onChange={onLocationChange}

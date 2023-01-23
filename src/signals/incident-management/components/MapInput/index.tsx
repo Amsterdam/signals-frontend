@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import MapInputComponent from 'components/MapInput'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import configuration from 'shared/services/configuration/configuration'
-import { formatMapLocation } from 'shared/services/map-location'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import type { ControllerRenderProps } from 'react-hook-form'
 
 import Label from 'components/Label'
-import type { ControllerRenderProps } from 'react-hook-form'
-import type { LatLngLiteral } from 'leaflet'
+import MapInputComponent from 'components/MapInput'
+import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import { formatMapLocation } from 'shared/services/map-location'
+import type { Location } from 'types/incident'
 
 type Props = {
   display: string
   sort?: boolean
   id?: string
-  onQueryResult: (location: LatLngLiteral) => void
+  onQueryResult: (location: Location) => void
 } & Partial<ControllerRenderProps>
 
 export const MapInput = (props: Props) => {
@@ -34,7 +34,7 @@ export const MapInput = (props: Props) => {
     zoom: 14,
   }
 
-  const onLocationChange = (location: LatLngLiteral) => {
+  const onLocationChange = (location: Location) => {
     onQueryResult(location)
   }
 

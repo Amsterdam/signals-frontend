@@ -10,7 +10,7 @@ import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { withAppContext, withMapContext } from 'test/utils'
 
-import MapInput from '..'
+import MapInput from '.'
 
 jest.mock('containers/MapContext/actions', () => ({
   __esModule: true,
@@ -233,7 +233,7 @@ describe('components/MapInput', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith({
       coordinates: expect.any(Object),
-      address: {},
+      address: undefined,
     })
   })
 

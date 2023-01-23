@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { LatLngLiteral, LatLngTuple } from 'leaflet'
-import type { Geometrie, Location } from 'types/incident'
-import type { Incident } from 'types/api/incident'
-import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
+import type { Incident } from 'types/api/incident'
+import type { Geometrie, Location } from 'types/incident'
+import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
 const sanitizeCoordinates = (coordinates: LatLngTuple): LatLngTuple =>
   coordinates.sort((a, b) => (a > b ? 1 : -1)).reverse() as LatLngTuple
@@ -51,7 +51,7 @@ export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
   }
 }
 
-type FormatMapLocation = {
+export type FormatMapLocation = {
   coordinates?: LatLngLiteral
   addressText?: string
   address?: Location['address']
