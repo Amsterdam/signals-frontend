@@ -1,4 +1,4 @@
-Ticket: [SIG-1234](https://datapunt.atlassian.net/browse/SIG-1234)
+Ticket: [SIG-1234](https://gemeente-amsterdam.atlassian.net/browse/SIG-1234)
 
 ## Signalen
 
