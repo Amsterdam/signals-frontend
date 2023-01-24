@@ -6,12 +6,15 @@ import { withAppContext } from 'test/utils'
 
 import Dashboard from './Dashboard'
 
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
+
 const renderWithContext = () =>
   withAppContext(
     <ThemeProvider>
       <Dashboard />
     </ThemeProvider>
   )
+
 describe('signals/incident-management/containers/Dashboard', () => {
   it('should render correctly', () => {
     render(renderWithContext())
