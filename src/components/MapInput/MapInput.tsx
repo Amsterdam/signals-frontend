@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import {
   useLayoutEffect,
   useContext,
@@ -9,10 +9,12 @@ import {
   useRef,
 } from 'react'
 
-import { ViewerContainer } from '@amsterdam/arm-core'
 import { Marker } from '@amsterdam/react-maps'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import type {
+  MapOptions,
+  LeafletEventHandlerFnMap,
+  Marker as MarkerType,
+} from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import {
@@ -25,45 +27,27 @@ import MapContext from 'containers/MapContext/context'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
 import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
+import type { FormatMapLocation } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import type { Location } from 'types/incident'
 
-import Map from '../Map'
-import PDOKAutoSuggest from '../PDOKAutoSuggest'
+import {
+  Wrapper,
+  StyledMap,
+  StyledViewerContainer,
+  StyledAutosuggest,
+} from './styled'
 
-const Wrapper = styled.div`
-  position: relative;
-`
-
-const StyledMap = styled(Map)`
-  height: 450px;
-  width: 100%;
-  text-align: center;
-`
-
-const StyledViewerContainer = styled(ViewerContainer)`
-  position: unset;
-  & > * {
-    width: calc(
-      100% - 8px
-    ); // Subtract 8px to prevent horizontal scroll bar on MacOS (Firefox/Safari).
-  }
-`
-
-const StyledAutosuggest = styled(PDOKAutoSuggest)`
-  position: absolute;
-  left: 0;
-  width: 40%;
-  max-width: calc(100% - 32px);
-  z-index: 401; // 400 is the minimum elevation where elements are shown above the map
-
-  @media (max-width: ${({ theme }) => theme.layouts.large.max}px) {
-    width: 60%;
-  }
-
-  @media (max-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    width: 100%;
-  }
-`
+interface Props {
+  className?: string
+  hasGPSControl: boolean
+  value?: FormatMapLocation
+  onChange: (location: Location) => void
+  mapOptions: MapOptions
+  events?: LeafletEventHandlerFnMap
+  id: string
+  hasZoomControls?: boolean
+}
 
 const MapInput = ({
   className = '',
@@ -74,10 +58,11 @@ const MapInput = ({
   events = {},
   id,
   ...rest
-}) => {
+}: Props) => {
   const { state, dispatch } = useContext(MapContext)
-  const [map, setMap] = useState()
-  const [marker, setMarker] = useState()
+  // const dispatch = useDispatch()
+  const [map, setMap] = useState<L.Map>()
+  const [marker, setMarker] = useState<MarkerType>()
   const { coordinates, addressText: addressValue } = state
   const hasLocation =
     Boolean(coordinates) && coordinates?.lat !== 0 && coordinates?.lng !== 0
@@ -90,53 +75,56 @@ const MapInput = ({
 
   useEffect(() => {
     if (!map) return
-    map.attributionControl._container.setAttribute('aria-hidden', 'true')
+    map.attributionControl.getContainer()?.setAttribute('aria-hidden', 'true')
     map.attributionControl.setPrefix('')
   }, [map])
 
   const clickFunc = useCallback(
     async ({ latlng }) => {
       hasInitialViewRef.current = false
-      dispatch(setLoadingAction(true))
-      dispatch(setLocationAction(latlng))
+
+      dispatch && dispatch(setLoadingAction(true))
+      dispatch && dispatch(setLocationAction(latlng))
 
       const response = await reverseGeocoderService(latlng)
-      const onChangePayload = { coordinates: latlng }
+      const onChangePayload = {
+        coordinates: latlng,
+        address: response && response.data.address,
+      }
       const addressText = response?.value || ''
       const address = response?.data?.address || ''
 
-      onChangePayload.address = response ? response.data.address : {}
-
-      dispatch(setValuesAction({ addressText, address }))
+      dispatch && dispatch(setValuesAction({ addressText, address }))
 
       onChange(onChangePayload)
-      dispatch(setLoadingAction(false))
+      dispatch && dispatch(setLoadingAction(false))
     },
     [dispatch, onChange]
   )
 
   const onSelect = useCallback(
     (option) => {
-      dispatch(
-        setValuesAction({
-          coordinates: option.data.location,
-          address: option.data.address,
-          addressText: option.value,
-        })
-      )
+      dispatch &&
+        dispatch(
+          setValuesAction({
+            coordinates: option.data.location,
+            address: option.data.address,
+            addressText: option.value,
+          })
+        )
 
       onChange({
         coordinates: option.data.location,
         address: option.data.address,
       })
 
-      map.flyTo(option.data.location)
+      map?.flyTo(option.data.location)
     },
     [map, dispatch, onChange]
   )
 
   const onClear = useCallback(() => {
-    dispatch(resetLocationAction())
+    dispatch && dispatch(resetLocationAction())
   }, [dispatch])
 
   const { click, doubleClick } = useDelayedDoubleClick(clickFunc)
@@ -147,8 +135,7 @@ const MapInput = ({
   useEffect(() => {
     // first component render has an empty object for `value` so we need to check for props
     if (!value || Object.keys(value).length === 0) return
-
-    dispatch(setValuesAction(value))
+    dispatch && dispatch(setValuesAction(value))
   }, [value, dispatch])
 
   // subscribe to changes in location and render the map in that location
@@ -202,41 +189,6 @@ const MapInput = ({
       </StyledMap>
     </Wrapper>
   )
-}
-
-MapInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  /** @ignore */
-  className: PropTypes.string,
-  /**
-   * Leaflet map events
-   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-event}
-   */
-  events: PropTypes.shape({}),
-  hasGPSControl: PropTypes.bool,
-  /**
-   * leaflet options
-   * @see {@link https://leafletjs.com/reference-1.6.0.html#map-option}
-   */
-  mapOptions: PropTypes.shape({}),
-  /**
-   * Callback handler that is fired when a click on the map is registered or when an option in the autosuggest
-   * list is selected
-   */
-  onChange: PropTypes.func,
-  value: PropTypes.shape({
-    coordinates: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
-    }),
-    addressText: PropTypes.string,
-    address: PropTypes.shape({
-      huisnummer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      openbare_ruimte: PropTypes.string,
-      postcode: PropTypes.string,
-      woonplaats: PropTypes.string,
-    }),
-  }),
 }
 
 export default MapInput
