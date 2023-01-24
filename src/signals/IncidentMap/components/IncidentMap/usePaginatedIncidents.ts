@@ -41,8 +41,14 @@ const usePaginatedIncidents = () => {
             signal,
           }
         )
-      } catch (error) {
-        return error
+        if (!headResponse.ok) {
+          throw new Error('HTTP status code: ' + headResponse.status)
+        }
+      } catch (error: FetchError | any) {
+        if (error.name !== 'AbortError') {
+          setError(error)
+        }
+        return
       }
 
       const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
@@ -69,15 +75,21 @@ const usePaginatedIncidents = () => {
 
       try {
         const responses = await Promise.all(promises)
-        const res = await Promise.all(
+        const responseJson = await Promise.all(
           responses.map((response) => response.json())
         )
 
-        const incidents: Array<Feature<PointLatLng, Properties>> = res.flatMap(
-          (responseItem) => responseItem.features
-        )
+        const incidents: Array<Feature<PointLatLng, Properties>> =
+          responseJson.flatMap((responseItem) => responseItem.features)
 
         setIncidents(incidents)
+
+        if (!responses.some((response) => response.ok)) {
+          throw new Error(
+            'HTTP status codes: ' +
+              responses.map((response) => response.status).join(', ')
+          )
+        }
       } catch (error: FetchError | any) {
         if (error.name !== 'AbortError') {
           setError(error)
