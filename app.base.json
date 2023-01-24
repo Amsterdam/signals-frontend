@@ -7,7 +7,7 @@
     "assignSignalToEmployee": false,
     "enableAmsterdamSpecificOverigCategories": false,
     "enableCsvExport": false,
-    "enableMultipleKtoQuestions": false,
+    "enableMultipleKtoAnswers": false,
     "enableMyIncidents": false,
     "enableNearIncidents": false,
     "enablePublicIncidentsMap": false,
