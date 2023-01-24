@@ -15,6 +15,7 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "reporterMailHandledNegativeContactEnabled": true,
+    "showDashboard": true,
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false
