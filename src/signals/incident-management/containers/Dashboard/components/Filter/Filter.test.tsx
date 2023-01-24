@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
@@ -88,13 +88,11 @@ describe('FilterComponent', () => {
       })
     )
 
-    await waitFor(() => {
-      userEvent.click(
-        screen.getByRole('option', {
-          name: 'Politie',
-        })
-      )
-    })
+    userEvent.click(
+      screen.getByRole('option', {
+        name: 'Politie',
+      })
+    )
 
     expect(
       screen.queryByRole('listbox', { name: 'Bedrijfsafval' })

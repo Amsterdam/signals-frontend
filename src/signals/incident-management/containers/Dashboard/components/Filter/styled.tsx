@@ -62,15 +62,6 @@ export const RefreshIcon = styled(Refresh)`
   margin-right: ${themeSpacing(2)};
 `
 
-export const OptionOverlay = styled.div`
-  position: fixed;
-  height: calc(100% - 106px);
-  width: 100%;
-  top: 106px;
-  left: 0;
-  bottom: 0;
-  background-color: ${themeColor('tint', 'level3')};
-`
 export const OptionListContainer = styled.div`
   position: absolute;
   left: 0;

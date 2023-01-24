@@ -41,7 +41,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
     filterName.length > 19 ? filterName.substring(0, 19) + '...' : filterName
 
   const selectContainerRef = useRef<HTMLDivElement>(null)
-  const optionLeft = useRef<number>()
+  const optionLeftRef = useRef<number>()
 
   const onChangeEvent = useCallback(
     (value, target?: HTMLElement) => {
@@ -53,7 +53,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         const selectContainerLeft =
           selectContainerRef.current?.getBoundingClientRect().left
         if (isNumber(selectContainerLeft)) {
-          optionLeft.current =
+          optionLeftRef.current =
             target.getBoundingClientRect().left - selectContainerLeft
         }
       }
@@ -120,10 +120,10 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         <RefreshIcon width={16} height={18} />
         Wis filters
       </Select>
-      {activeFilter?.name && isNumber(optionLeft.current) && (
+      {activeFilter?.name && isNumber(optionLeftRef.current) && (
         <OptionListContainer>
           <OptionsList
-            left={optionLeft.current}
+            left={optionLeftRef.current}
             activeFilter={activeFilter}
             setFilterNameActive={setFilterActiveName}
           />
