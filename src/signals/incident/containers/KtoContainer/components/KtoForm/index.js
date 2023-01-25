@@ -164,7 +164,7 @@ const KtoForm = ({
               meta={{
                 label: ` Waarom bent u ${!isSatisfied ? 'on' : ''}tevreden?`,
                 name: 'input',
-                subtitle: configuration.featureFlags.enableMultipleKtoQuestions
+                subtitle: configuration.featureFlags.enableMultipleKtoAnswers
                   ? 'U kunt meer keuzes maken'
                   : 'Kies één van de onderstaande antwoorden',
               }}
@@ -172,7 +172,7 @@ const KtoForm = ({
               getError={(errorType) => errors['text_list']?.type === errorType}
               options={{ validators: ['min'] }}
             >
-              {configuration.featureFlags.enableMultipleKtoQuestions ? (
+              {configuration.featureFlags.enableMultipleKtoAnswers ? (
                 <CheckboxList
                   aria-describedby="subtitle-kto"
                   options={options}

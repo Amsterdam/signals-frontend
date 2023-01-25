@@ -2,12 +2,11 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import configureStore from 'configureStore'
 import { mocked } from 'jest-mock'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
-
-import configureStore from 'configureStore'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
@@ -46,7 +45,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'ja',
     }))
 
-    configuration.featureFlags.enableMultipleKtoQuestions = true
+    configuration.featureFlags.enableMultipleKtoAnswers = true
   })
 
   afterEach(() => {

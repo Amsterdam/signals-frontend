@@ -5,7 +5,6 @@ import { render, act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
@@ -121,7 +120,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     )
 
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
-    configuration.featureFlags.enableMultipleKtoQuestions = true
+    configuration.featureFlags.enableMultipleKtoAnswers = true
 
     const successHeaderText = 'Bedankt voor uw feedback!'
     const { container, findByTestId, queryByText, getByText, rerender } =
@@ -201,7 +200,7 @@ describe('signals/incident/containers/KtoContainer', () => {
     )
 
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
-    configuration.featureFlags.enableMultipleKtoQuestions = false
+    configuration.featureFlags.enableMultipleKtoAnswers = false
 
     const { container, findByTestId } = render(withAppContext(<KTOContainer />))
 
