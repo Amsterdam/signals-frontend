@@ -211,7 +211,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </StyledMenuButton>
       </MenuItem>
 
-      {configuration.featureFlags.showDashboard ? (
+      {isAuthenticated && configuration.featureFlags.showDashboard ? (
         <MenuItem element="span">
           <StyledMenuButton
             onClick={onLinkClick}
