@@ -299,6 +299,7 @@ describe('signals/incident-management/saga', () => {
         .next()
         .call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
           type_code: CONFIGURATION.areaTypeCodeForDistrict,
+          page_size: 1000,
         })
         .next(districts)
         .put(getDistrictsSuccess(districts.results))
@@ -314,6 +315,7 @@ describe('signals/incident-management/saga', () => {
         .next()
         .call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
           type_code: CONFIGURATION.areaTypeCodeForDistrict,
+          page_size: 1000,
         })
         .throw(error)
         .put(getDistrictsFailed(message))

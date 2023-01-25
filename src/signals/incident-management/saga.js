@@ -150,6 +150,7 @@ export function* fetchDistricts() {
   try {
     const result = yield call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
       type_code: CONFIGURATION.areaTypeCodeForDistrict,
+      page_size: 1000,
     })
 
     yield put(getDistrictsSuccess(result.results))
