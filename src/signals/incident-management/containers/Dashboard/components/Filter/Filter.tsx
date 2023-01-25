@@ -7,14 +7,14 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { generateParams } from 'shared/services/api/api'
 
 import SelectList from './SelectList'
-import { FilterContainer } from './styled'
+import { FilterBar } from './styled'
 import type { Option } from './types'
 
 type Props = {
   callback?: (queryString: string) => void
 }
 
-export const Filter = ({ callback = () => {} }: Props) => {
+export const Filter = ({ callback }: Props) => {
   const [filterActiveName, setFilterActiveName] = useState('')
 
   const methods = useForm<{ [key: string]: Option }>({
@@ -42,7 +42,7 @@ export const Filter = ({ callback = () => {} }: Props) => {
     )
 
     const params = generateParams(selectedFilters)
-    params && callback(generateParams(selectedFilters))
+    params && callback && callback(generateParams(selectedFilters))
   }, [callback, getValues])
 
   // on change form, call handleCallback as a service to the parent component
@@ -67,13 +67,13 @@ export const Filter = ({ callback = () => {} }: Props) => {
   }, [filterActiveName])
 
   return (
-    <FilterContainer ref={refFilterContainer}>
+    <FilterBar ref={refFilterContainer}>
       <FormProvider {...methods}>
         <SelectList
           filterActiveName={filterActiveName}
           setFilterActiveName={setFilterActiveName}
         />
       </FormProvider>
-    </FilterContainer>
+    </FilterBar>
   )
 }

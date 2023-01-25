@@ -4,17 +4,18 @@ import { useMemo } from 'react'
 
 import { makeSelectDepartments } from 'models/departments/selectors'
 import { useSelector } from 'react-redux'
+import type { ApplicationRootState } from 'types'
 import type { Department } from 'types/api/incident'
 
 import {
   priorityList,
   punctualityList,
   stadsdeelList,
-} from '../../../../definitions'
-import type { Filter, Option } from './types'
+} from '../../../definitions'
+import type { Filter, Option } from '../components/Filter/types'
 
 export const useFilters = (selectedDepartment?: Option): Filter[] => {
-  const departments = useSelector<unknown, { list: Department[] }>(
+  const departments = useSelector<ApplicationRootState, { list: Department[] }>(
     makeSelectDepartments
   )
   const departmentOptions = useMemo(

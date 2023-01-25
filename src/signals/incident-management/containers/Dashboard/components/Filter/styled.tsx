@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components'
 
 import Refresh from '../../../../../../images/icon-refresh.svg'
 
-export const FilterContainer = styled.div<{
+export const FilterBar = styled.div<{
   ref: RefObject<HTMLDivElement>
 }>`
   width: 100%;
@@ -21,7 +21,6 @@ export const SelectContainer = styled.div`
   margin: 0;
 `
 
-// with callback show selected value with underline
 export const Select = styled.div<{
   selected?: boolean
 }>`
@@ -62,7 +61,7 @@ export const RefreshIcon = styled(Refresh)`
   margin-right: ${themeSpacing(2)};
 `
 
-export const OptionListContainer = styled.div`
+export const OptionListDropdown = styled.div`
   position: absolute;
   left: 0;
   right: 0;
@@ -72,24 +71,22 @@ export const OptionListContainer = styled.div`
   background-color: ${themeColor('tint', 'level3')};
 `
 
-export const OptionUl = styled.ul<{ left: number }>`
+export const OptionUl = styled.ul<{ left: number; optionsTotal: number }>`
   display: grid;
   position: absolute;
   width: ${themeSpacing(175)};
-  grid-template-columns: repeat(2, 1fr);
   line-height: 2rem;
   padding: 0;
   margin: 0;
   z-index: 1;
 
-  ${({ left }) =>
-    left &&
+  ${({ left, optionsTotal }) =>
     css`
       left: ${left}px;
+      grid-template-columns: repeat(${optionsTotal < 13 ? 1 : 2}, 1fr);
     `}
 `
 
-// with callback show selected value with underline
 export const OptionLi = styled.li<{ selected: boolean }>`
   cursor: pointer;
 

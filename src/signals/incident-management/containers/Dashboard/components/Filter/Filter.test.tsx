@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
@@ -21,21 +20,22 @@ const departments = {
 describe('FilterComponent', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
+
+    mockCallback.mockReset()
   })
 
   it('should render properly and select the first option', () => {
     render(<Filter callback={mockCallback} />)
 
-    userEvent.click(screen.getAllByRole('listbox')[0])
+    expect(
+      screen.queryByRole('listbox', {
+        name: 'Politie',
+      })
+    ).not.toBeInTheDocument()
+
     expect(
       screen.getByRole('listbox', { name: 'Actie Service Centr...' })
     ).toBeInTheDocument()
-
-    expect(
-      screen.queryByRole('listbox', {
-        name: 'Amsterdamse Bos',
-      })
-    ).not.toBeInTheDocument()
   })
 
   it('should clear filterActiveName when clicking outside Filter', () => {
@@ -195,8 +195,6 @@ describe('FilterComponent', () => {
 
     expect(mockCallback).toBeCalledWith('department=AEG')
 
-    mockCallback.mockReset()
-
     userEvent.click(
       screen.getByRole('listbox', {
         name: 'Categorie',
@@ -211,11 +209,11 @@ describe('FilterComponent', () => {
 
     expect(mockCallback).toBeCalledWith('department=AEG&category=Huisafval')
 
-    mockCallback.mockReset()
-
     userEvent.click(screen.getByText('Wis filters'))
 
     expect(mockCallback).toBeCalledWith('department=ASC')
+
+    expect(mockCallback).toBeCalledTimes(3)
   })
 
   it('should hide department button when there is only one', () => {
@@ -243,5 +241,85 @@ describe('FilterComponent', () => {
         name: 'Actie Service Centr...',
       })
     ).toBeInTheDocument()
+  })
+
+  it('should tab over the listboxes back and forth, select an option and return to last focussed listbox again', () => {
+    render(<Filter callback={mockCallback} />)
+
+    screen
+      .queryByRole('listbox', {
+        name: 'Actie Service Centr...',
+      })
+      ?.focus()
+
+    userEvent.tab()
+
+    userEvent.tab()
+
+    userEvent.tab({ shift: true })
+
+    expect(
+      screen.queryByRole('listbox', {
+        name: 'Categorie',
+      })
+    ).toHaveFocus()
+
+    act(() => {
+      fireEvent.keyDown(
+        screen.getByRole('listbox', {
+          name: 'Categorie',
+        }),
+        { key: 'Enter' }
+      )
+    })
+
+    expect(
+      screen.queryByRole('option', {
+        name: 'Asbest / accu',
+      })
+    ).toHaveFocus()
+
+    userEvent.tab()
+
+    expect(
+      screen.queryByRole('option', {
+        name: 'Auto- / scooter- / bromfiets(wrak)',
+      })
+    ).toHaveFocus()
+
+    act(() => {
+      fireEvent.keyDown(
+        screen.getByRole('option', {
+          name: 'Auto- / scooter- / bromfiets(wrak)',
+        }),
+        { key: 'Enter' }
+      )
+    })
+
+    expect(
+      screen.queryByRole('listbox', {
+        name: 'Auto- / scooter- / ...',
+      })
+    ).toHaveFocus()
+  })
+
+  it('should focus on reset button, shift back and forth to end with focus on reset button', () => {
+    render(<Filter callback={mockCallback} />)
+
+    screen
+      .getByRole('button', {
+        name: 'Wis filters',
+      })
+      .focus()
+
+    userEvent.tab({ shift: true })
+
+    userEvent.tab()
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Wis filters',
+      })
+    ).toHaveFocus()
   })
 })

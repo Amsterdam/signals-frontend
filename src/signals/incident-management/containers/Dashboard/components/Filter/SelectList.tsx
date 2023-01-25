@@ -7,16 +7,16 @@ import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
+import { useFilters } from '../../hooks/useFilter'
 import OptionsList from './OptionsList'
 import {
   InvisibleButton,
-  OptionListContainer,
+  OptionListDropdown,
   RefreshIcon,
   Select,
   SelectContainer,
 } from './styled'
 import type { Filter } from './types'
-import { useFilters } from './useFilter'
 
 type Props = {
   filterActiveName: string
@@ -37,7 +37,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
     }
   }, [filters, selectedDepartment, setValue])
 
-  const chopFilterName = (filterName: string) =>
+  const truncateFilterName = (filterName: string) =>
     filterName.length > 19 ? filterName.substring(0, 19) + '...' : filterName
 
   const selectContainerRef = useRef<HTMLDivElement>(null)
@@ -50,12 +50,12 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         : setFilterActiveName(value)
 
       if (target) {
+        prevSelectTarget.current = target
+
         const selectContainerLeft =
-          selectContainerRef.current?.getBoundingClientRect().left
-        if (isNumber(selectContainerLeft)) {
-          optionLeftRef.current =
-            target.getBoundingClientRect().left - selectContainerLeft
-        }
+          selectContainerRef.current?.getBoundingClientRect().left || 0
+        optionLeftRef.current =
+          target.getBoundingClientRect().left - selectContainerLeft
       }
     },
     [filterActiveName, setFilterActiveName]
@@ -64,6 +64,13 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   const activeFilter = filters.find(
     (filter: Filter) => filter.name === filterActiveName
   )
+
+  const prevSelectTarget = useRef<HTMLElement>()
+  useEffect(() => {
+    if (!filterActiveName) {
+      prevSelectTarget.current?.focus()
+    }
+  }, [filterActiveName])
 
   if (!selectedDepartment.value) {
     return null
@@ -79,7 +86,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
           <Select
             key={filter.name}
             role="listbox"
-            aria-label={chopFilterName(
+            aria-label={truncateFilterName(
               getValues(filter.name)?.display || filter.display
             )}
             tabIndex={0}
@@ -93,7 +100,9 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
             }}
             selected={filterActiveName === filter.name}
           >
-            {chopFilterName(getValues(filter.name)?.display || filter.display)}
+            {truncateFilterName(
+              getValues(filter.name)?.display || filter.display
+            )}
             <InvisibleButton
               tabIndex={-1}
               selected={filterActiveName === filter.name}
@@ -121,13 +130,13 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         Wis filters
       </Select>
       {activeFilter?.name && isNumber(optionLeftRef.current) && (
-        <OptionListContainer>
+        <OptionListDropdown>
           <OptionsList
             left={optionLeftRef.current}
             activeFilter={activeFilter}
             setFilterNameActive={setFilterActiveName}
           />
-        </OptionListContainer>
+        </OptionListDropdown>
       )}
     </SelectContainer>
   )

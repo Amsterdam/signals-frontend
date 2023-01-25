@@ -6,6 +6,6 @@ import styled from 'styled-components'
 export const StyledRow = styled.div`
   width: 100%;
   height: ${themeSpacing(14)};
-  background-color: ${themeColor('tint', 'level3')};
+  background-color: ${themeColor('tint', 'level2')};
   margin: 0;
 `
