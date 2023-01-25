@@ -75,6 +75,8 @@
     "reselect": "^4.1.7",
     "scroll-lock": "^2.1.5",
     "styled-components": "^5.3.6",
+    "vega-embed": "^6.21.0",
+    "vega-lite": "^5.6.0",
     "whatwg-fetch": "^3.6.2",
     "yup": "^0.32.11"
   },
