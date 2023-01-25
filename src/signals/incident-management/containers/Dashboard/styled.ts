@@ -9,3 +9,19 @@ export const StyledRow = styled.div`
   background-color: ${themeColor('tint', 'level2')};
   margin: 0;
 `
+
+export const Title = styled.h6`
+  font-size: 18px;
+  line-height: 32px;
+  color: ${themeColor('tint', 'level7')};
+  margin-bottom: ${themeSpacing(1)};
+`
+
+export const Subtitle = styled.p`
+  color: ${themeColor('tint', 'level5')};
+  margin-top: 0;
+  margin-bottom: ${themeSpacing(5)};
+`
+export const Amount = styled.span`
+  color: ${themeColor('primary')};
+`
