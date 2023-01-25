@@ -11,10 +11,14 @@ import type { Filter } from './types'
 type Props = {
   setFilterNameActive: Dispatch<SetStateAction<string>>
   activeFilter: Filter
-  left: number
+  optionsOffsetLeft: number
 }
 
-const OptionsList = ({ setFilterNameActive, activeFilter, left }: Props) => {
+const OptionsList = ({
+  setFilterNameActive,
+  activeFilter,
+  optionsOffsetLeft,
+}: Props) => {
   const { control, getValues } = useFormContext()
 
   const optionUlRef = useRef<HTMLUListElement>(null)
@@ -26,7 +30,7 @@ const OptionsList = ({ setFilterNameActive, activeFilter, left }: Props) => {
   return (
     <OptionUl
       ref={optionUlRef}
-      left={left}
+      optionsOffsetLeft={optionsOffsetLeft}
       optionsTotal={activeFilter.options.length}
     >
       {activeFilter.options.map((option, index) => (

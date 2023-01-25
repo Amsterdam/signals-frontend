@@ -71,7 +71,10 @@ export const OptionListDropdown = styled.div`
   background-color: ${themeColor('tint', 'level3')};
 `
 
-export const OptionUl = styled.ul<{ left: number; optionsTotal: number }>`
+export const OptionUl = styled.ul<{
+  optionsOffsetLeft: number
+  optionsTotal: number
+}>`
   display: grid;
   position: absolute;
   width: ${themeSpacing(175)};
@@ -80,9 +83,9 @@ export const OptionUl = styled.ul<{ left: number; optionsTotal: number }>`
   margin: 0;
   z-index: 1;
 
-  ${({ left, optionsTotal }) =>
+  ${({ optionsOffsetLeft, optionsTotal }) =>
     css`
-      left: ${left}px;
+      left: ${optionsOffsetLeft}px;
       grid-template-columns: repeat(${optionsTotal < 13 ? 1 : 2}, 1fr);
     `}
 `
