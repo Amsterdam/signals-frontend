@@ -79,7 +79,9 @@
     "scroll-lock": "^2.1.5",
     "styled-components": "^5.3.6",
     "whatwg-fetch": "^3.6.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "vega-embed": "^6.21.0",
+    "vega-lite": "^5.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",

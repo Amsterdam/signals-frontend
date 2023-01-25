@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import GlobalError from 'components/GlobalError'
 
+import BarChart from './components/barchart'
 import { StyledRow } from './styled'
 
 const Dashboard = () => {
@@ -27,6 +28,7 @@ const Dashboard = () => {
     <>
       <StyledRow data-testid="menu">menu</StyledRow>
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
+      <BarChart />
     </>
   )
 }
