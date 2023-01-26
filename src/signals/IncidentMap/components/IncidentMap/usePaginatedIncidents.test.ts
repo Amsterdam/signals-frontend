@@ -28,6 +28,10 @@ const useFetchResponseSmall = {
 }
 
 describe('usePaginationTest', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks()
+  })
+
   it('should called once and return an empty array', async function () {
     fetchMock.once(JSON.stringify(useFetchResponse), {
       headers: {
@@ -60,8 +64,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should call getIncidents get incidents after waiting for the state update', async () => {
-    fetchMock.resetMocks()
-
     fetchMock
       .once(JSON.stringify(useFetchResponse), {
         headers: {
@@ -99,8 +101,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should  trigger the first catch', async () => {
-    fetchMock.resetMocks()
-
     fetchMock.once(JSON.stringify(useFetchResponse), {
       status: 401,
       headers: {
@@ -128,8 +128,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should  trigger the second catch', async () => {
-    fetchMock.resetMocks()
-
     fetchMock
       .once(JSON.stringify(useFetchResponse), {
         status: 200,
@@ -165,8 +163,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should  trigger the second catch with statuses', async () => {
-    fetchMock.resetMocks()
-
     fetchMock
       .once(JSON.stringify(useFetchResponse), {
         status: 200,
