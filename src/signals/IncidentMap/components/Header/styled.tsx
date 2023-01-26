@@ -30,6 +30,5 @@ export const Title = styled.div`
 
   img {
     height: 100%;
-    max-width: 90px;
   }
 `
