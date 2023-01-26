@@ -10,7 +10,6 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
   git \
   netcat \
-  build-essential \
   libcairo2-dev \
   libpango1.0-dev \
   libjpeg-dev \
