@@ -68,7 +68,7 @@ export const OptionListDropdown = styled.div`
   height: calc(100vh - ${themeSpacing(26.5)});
   top: ${themeSpacing(14)};
   overflow-y: auto;
-  background-color: ${themeColor('tint', 'level3')};
+  background-color: ${themeColor('tint', 'level2')};
 `
 
 export const OptionUl = styled.ul<{

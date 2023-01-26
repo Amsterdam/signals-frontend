@@ -3,6 +3,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
+
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { Filter } from './Filter'
@@ -123,7 +124,7 @@ describe('FilterComponent', () => {
         screen.getByRole('listbox', {
           name: 'Categorie',
         }),
-        { key: 'Enter' }
+        { code: 'Enter' }
       )
     })
 
@@ -144,7 +145,7 @@ describe('FilterComponent', () => {
         screen.getByRole('option', {
           name: 'Bedrijfsafval',
         }),
-        { key: 'Enter' }
+        { code: 'Enter' }
       )
     })
 
@@ -165,9 +166,7 @@ describe('FilterComponent', () => {
         screen.getByRole('button', {
           name: 'Wis filters',
         }),
-        {
-          key: 'Enter',
-        }
+        { code: 'Enter' }
       )
     })
 
@@ -269,7 +268,7 @@ describe('FilterComponent', () => {
         screen.getByRole('listbox', {
           name: 'Categorie',
         }),
-        { key: 'Enter' }
+        { code: 'Enter' }
       )
     })
 
@@ -292,7 +291,7 @@ describe('FilterComponent', () => {
         screen.getByRole('option', {
           name: 'Auto- / scooter- / bromfiets(wrak)',
         }),
-        { key: 'Enter' }
+        { code: 'Enter' }
       )
     })
 

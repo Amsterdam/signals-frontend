@@ -49,7 +49,7 @@ const OptionsList = ({
                 setFilterNameActive('')
               }}
               onKeyDown={(e) => {
-                if (['Enter', 'Space'].includes(e.key)) {
+                if (['Enter', 'Space'].includes(e.code)) {
                   onChange(option)
                   setFilterNameActive('')
                 }

@@ -94,7 +94,8 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
               onChangeEvent(filter.name, e.currentTarget)
             }}
             onKeyDown={(e) => {
-              if (['Enter', 'Space'].includes(e.key)) {
+              if (['Enter', 'Space'].includes(e.code)) {
+                e.preventDefault()
                 onChangeEvent(filter.name, e.currentTarget)
               }
             }}
@@ -120,7 +121,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
           reset()
         }}
         onKeyDown={(e) => {
-          if (['Enter', 'Space'].includes(e.key)) {
+          if (['Enter', 'Space'].includes(e.code)) {
             onChangeEvent('')
             reset()
           }
