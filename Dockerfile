@@ -32,8 +32,6 @@ COPY .eslintrc.js \
   app.amsterdam.json \
   /app/
 
-RUN npm install phantomjs-prebuilt --ignore-scripts
-
 RUN npm install canvas@2.11.0 --build-from-source
 
 RUN npm install
