@@ -14,13 +14,14 @@ export const Title = styled.h6`
   font-size: 18px;
   line-height: 32px;
   color: ${themeColor('tint', 'level7')};
-  margin-bottom: ${themeSpacing(1)};
+  margin-bottom: 0;
 `
 
 export const Subtitle = styled.p`
   color: ${themeColor('tint', 'level5')};
+  line-height: 24px;
   margin-top: 0;
-  margin-bottom: ${themeSpacing(5)};
+  margin-bottom: 0;
 `
 export const Amount = styled.span`
   color: ${themeColor('primary')};
