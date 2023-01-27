@@ -21,7 +21,7 @@ export const Subtitle = styled.p`
   color: ${themeColor('tint', 'level5')};
   line-height: 24px;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: ${themeSpacing(5)};
 `
 export const Amount = styled.span`
   color: ${themeColor('primary')};
