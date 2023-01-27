@@ -2,16 +2,10 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { VisualizationSpec } from 'vega-embed'
 
-type Today = {
-  year: number
-  month: number
-  date: number
-  hours: number
-  minutes: number
-}
+import type { Today, IncidentCount } from './types'
 
 export const getAreaChart = (
-  values: Array<unknown>,
+  values: Array<IncidentCount>,
   maxDomain: number,
   today: Today
 ): VisualizationSpec => ({
