@@ -49,13 +49,20 @@ export const textIsRequired = ({
       StatusCode.Heropend,
       StatusCode.ReactieGevraagd,
     ].includes(toStatus)
-  } else {
-    return emailSentWhenStatusChangedTo({
-      fromStatus,
-      toStatus,
-      isSplitIncident,
-    })
   }
+
+  if (
+    fromStatus === StatusCode.VerzoekTotHeropenen &&
+    toStatus === StatusCode.Afgehandeld
+  ) {
+    return true
+  }
+
+  return emailSentWhenStatusChangedTo({
+    fromStatus,
+    toStatus,
+    isSplitIncident,
+  })
 }
 
 type Warning = {
