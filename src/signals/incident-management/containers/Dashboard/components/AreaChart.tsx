@@ -6,6 +6,8 @@ import type { EmbedOptions } from 'vega-embed'
 import { getAreaChart } from '../charts'
 import { constants } from '../charts'
 import { ModuleTitle } from '../components/ModuleTitle'
+import { Wrapper } from '../styled'
+import { ComparisonRate } from './ComparisonRate'
 import { getMaxDomain } from './utils'
 
 // TODO: Retrieve this value from the data
@@ -19,17 +21,19 @@ const embedOptions: EmbedOptions = {
 
 export const AreaChart = () => {
   const maxDomain = getMaxDomain(constants.mockValues)
+
   const AreaChartSpecs = getAreaChart(constants.mockValues, maxDomain, today)
 
   vegaEmbed('#area-chart', AreaChartSpecs, embedOptions)
 
   return (
-    <div>
+    <Wrapper>
       <ModuleTitle
         title="Afgehandelde meldingen vandaag"
         subtitle="Verloop van de week"
       />
       <div id="area-chart"></div>
-    </div>
+      <ComparisonRate />
+    </Wrapper>
   )
 }

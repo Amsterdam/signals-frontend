@@ -26,3 +26,7 @@ export const Subtitle = styled.p`
 export const Amount = styled.span`
   color: ${themeColor('primary')};
 `
+
+export const Wrapper = styled.span`
+  position: relative;
+`
