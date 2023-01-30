@@ -9,11 +9,11 @@ interface Props {
 }
 
 export const ModuleTitle = ({ title, subtitle, amount }: Props) => (
-  <div>
+  <>
     <Title>
       {title}
       {amount && <Amount> 422</Amount>}
     </Title>
     {subtitle && <Subtitle>{subtitle}</Subtitle>}
-  </div>
+  </>
 )
