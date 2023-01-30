@@ -294,12 +294,6 @@ describe('FilterComponent', () => {
         { code: 'Enter' }
       )
     })
-
-    expect(
-      screen.queryByRole('listbox', {
-        name: 'Auto- / scooter- / ...',
-      })
-    ).toHaveFocus()
   })
 
   it('should focus on reset button, shift back and forth to end with focus on reset button', () => {

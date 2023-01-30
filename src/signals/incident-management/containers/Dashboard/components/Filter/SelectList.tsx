@@ -66,11 +66,6 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   )
 
   const prevSelectTarget = useRef<HTMLElement>()
-  useEffect(() => {
-    if (!filterActiveName) {
-      prevSelectTarget.current?.focus()
-    }
-  }, [filterActiveName])
 
   if (!selectedDepartment.value) {
     return null
