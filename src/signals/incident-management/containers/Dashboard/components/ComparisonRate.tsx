@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { Description, Wrapper } from './styled'
+import { Description, ComparisonRateWrapper as Wrapper } from './styled'
 
 interface Props {
   percentage: number

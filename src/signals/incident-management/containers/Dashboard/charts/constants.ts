@@ -44,18 +44,3 @@ export const timeFormatLocale = {
     'dec',
   ],
 }
-
-export /** Mock data */
-const mockValues = [
-  { date: '01 Jan 2012 23:00:00', amount: 48 },
-  { date: '02 Jan 2012 23:00:00', amount: 34 },
-  { date: '03 Jan 2012 23:00:00', amount: 44 },
-  { date: '04 Jan 2012 23:00:00', amount: 40 },
-  { date: '05 Jan 2012 23:00:00', amount: 48 },
-  { date: '06 Jan 2012 23:00:00', amount: 45 },
-  {
-    date: '07 Jan 2012 23:00:00',
-    amount: 50,
-    image: '/assets/images/area-chart-tooltip.svg',
-  },
-]
