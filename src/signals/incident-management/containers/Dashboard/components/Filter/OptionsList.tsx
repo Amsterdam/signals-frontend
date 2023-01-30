@@ -24,8 +24,10 @@ const OptionsList = ({
   const optionUlRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
-    optionUlRef.current?.querySelector('li')?.focus()
-  }, [])
+    if (activeFilter.name) {
+      optionUlRef.current?.querySelector('li')?.focus()
+    }
+  }, [activeFilter])
 
   return (
     <OptionUl
