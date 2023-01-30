@@ -2,13 +2,11 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Description, Wrapper } from './styled'
 
-const getPercentage = () => {
-  return 10
+interface Props {
+  percentage: number
 }
 
-export const ComparisonRate = () => {
-  const percentage = getPercentage()
-
+export const ComparisonRate = ({ percentage }: Props) => {
   const icon =
     percentage < 0 ? (
       <img src="/assets/images/dashboard/arrow-down.svg" alt="Arrow down" />

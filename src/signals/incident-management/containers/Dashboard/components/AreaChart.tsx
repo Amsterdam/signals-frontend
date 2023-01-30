@@ -11,7 +11,8 @@ import { ComparisonRate } from './ComparisonRate'
 import { getMaxDomain } from './utils'
 
 // TODO: Retrieve this value from the data
-const today = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
+const mockToday = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
+const mockPercentage = 12
 
 const embedOptions: EmbedOptions = {
   actions: false,
@@ -22,7 +23,11 @@ const embedOptions: EmbedOptions = {
 export const AreaChart = () => {
   const maxDomain = getMaxDomain(constants.mockValues)
 
-  const AreaChartSpecs = getAreaChart(constants.mockValues, maxDomain, today)
+  const AreaChartSpecs = getAreaChart(
+    constants.mockValues,
+    maxDomain,
+    mockToday
+  )
 
   vegaEmbed('#area-chart', AreaChartSpecs, embedOptions)
 
@@ -33,7 +38,7 @@ export const AreaChart = () => {
         subtitle="Verloop van de week"
       />
       <div id="area-chart"></div>
-      <ComparisonRate />
+      <ComparisonRate percentage={mockPercentage} />
     </Wrapper>
   )
 }
