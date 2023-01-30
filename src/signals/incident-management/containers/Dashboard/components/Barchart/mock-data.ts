@@ -1,37 +1,41 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+
 export const mockData: any = {
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
   description: 'A simple grid of bar charts to compare performance data.',
   data: {
     values: [
-      { a: { status: 'Heropend', value: 18 }, c: 'column1' },
-      { a: { status: 'Verzoek tot heropenen', value: 25 }, c: 'column1' },
-      { a: { status: 'Gesplitst', value: 32 }, c: 'column1' },
-      { a: { status: 'Afwachting van behandeling', value: 40 }, c: 'column2' },
-      { a: { status: 'Extern: afgehandeld', value: 54 }, c: 'column2' },
-      { a: { status: 'Reactie ontvangen', value: 56 }, c: 'column2' },
-      { a: { status: 'Reactie gevraagd', value: 60 }, c: 'column2' },
-      {
-        a: { status: 'Extern: verzoek tot afhandeling', value: 64 },
-        c: 'column3',
-      },
-      { a: { status: 'Ingepland', value: 75 }, c: 'column3' },
-      { a: { status: 'In behandeling', value: 82 }, c: 'column3' },
-      { a: { status: 'Gemeld', value: 103 }, c: 'column3' },
+      { a: 'Heropend', b: '18' },
+      { a: 'Verzoek tot heropenen', b: '25' },
+      { a: 'Gesplitst', b: '32' },
+      { a: 'Afwachting van behandeling', b: '40' },
+      { a: 'Extern: afgehandeld', b: '54' },
+      { a: 'Reactie ontvangen', b: '56' },
+      { a: 'Reactie gevraagd', b: '60' },
+      { a: 'Extern: verzoek tot afhandeling', b: '64' },
+      { a: 'Ingepland', b: '75' },
+      { a: 'In behandeling', b: '82' },
+      { a: 'Gemeld', b: '103' },
     ],
   },
-  mark: {
-    type: 'text',
-  },
-  encoding: 'show us some love',
+  width: 160,
+  height: { step: 16 },
+  spacing: 5,
   mark: 'bar',
   encoding: {
-    y: { field: 'a.status', type: 'nominal', title: null },
+    facet: {
+      field: 'a',
+      type: 'ordinal',
+      columns: 3,
+      title: null,
+    },
+    y: { field: '1', type: 'nominal', axis: null },
     x: {
-      field: 'a.value',
+      field: 'b',
       type: 'quantitative',
       axis: null,
+      title: null,
     },
   },
 }
