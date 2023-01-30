@@ -23,65 +23,77 @@ const usePaginatedIncidents = () => {
   })
 
   const getIncidents = useCallback(async (bbox: Bbox) => {
-    if (bbox) {
-      paginatedIncidents.current.searchParams = getSearchParams(bbox)
-      paginatedIncidents.current.controller?.abort()
-      paginatedIncidents.current.controller = new AbortController()
+    paginatedIncidents.current.searchParams = getSearchParams(bbox)
+    paginatedIncidents.current.controller?.abort()
+    paginatedIncidents.current.controller = new AbortController()
 
-      const { signal } = paginatedIncidents.current.controller
+    const { signal } = paginatedIncidents.current.controller
 
-      let headResponse
-      try {
-        headResponse = await fetch(
+    let headResponse
+    try {
+      headResponse = await fetch(
+        `${
+          configuration.GEOGRAPHY_PUBLIC_ENDPOINT
+        }?${paginatedIncidents.current.searchParams.toString()}`,
+        {
+          method: 'HEAD',
+          signal,
+        }
+      )
+      if (!headResponse.ok) {
+        throw new Error('HTTP status code: ' + headResponse.status)
+      }
+    } catch (error: FetchError | any) {
+      /* istanbul ignore next */
+      if (error.name !== 'AbortError') {
+        setError(error)
+      }
+      return
+    }
+
+    const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
+    // Would be nice to get this info through the response header as well
+    const paginationLength = 4000
+
+    const promises = Array.from(
+      {
+        length: Math.ceil(xTotalCount / paginationLength),
+      },
+      (_, index) => {
+        const qeopageQueryParam = `&geopage=${index + 1}`
+        return fetch(
           `${
             configuration.GEOGRAPHY_PUBLIC_ENDPOINT
-          }?${paginatedIncidents.current.searchParams.toString()}`,
+          }?${paginatedIncidents.current.searchParams.toString()}${qeopageQueryParam}`,
           {
-            method: 'HEAD',
+            method: 'GET',
             signal,
           }
         )
-      } catch (error) {
-        return error
       }
+    )
 
-      const xTotalCount = Number(headResponse.headers.get('X-Total-Count'))
-      // Would be nice to get this info through the response header as well
-      const paginationLength = 4000
-
-      const promises = Array.from(
-        {
-          length: Math.ceil(xTotalCount / paginationLength),
-        },
-        (_, index) => {
-          const qeopageQueryParam = `&geopage=${index + 1}`
-          return fetch(
-            `${
-              configuration.GEOGRAPHY_PUBLIC_ENDPOINT
-            }?${paginatedIncidents.current.searchParams.toString()}${qeopageQueryParam}`,
-            {
-              method: 'GET',
-              signal,
-            }
-          )
-        }
+    try {
+      const responses = await Promise.all(promises)
+      const responseJson = await Promise.all(
+        responses.map((response) => response.json())
       )
 
-      try {
-        const responses = await Promise.all(promises)
-        const res = await Promise.all(
-          responses.map((response) => response.json())
-        )
+      const incidents: Array<Feature<PointLatLng, Properties>> =
+        responseJson.flatMap((responseItem) => responseItem.features)
 
-        const incidents: Array<Feature<PointLatLng, Properties>> = res.flatMap(
-          (responseItem) => responseItem.features
-        )
+      setIncidents(incidents)
 
-        setIncidents(incidents)
-      } catch (error: FetchError | any) {
-        if (error.name !== 'AbortError') {
-          setError(error)
-        }
+      if (!responses.some((response) => response.ok)) {
+        throw new Error(
+          'HTTP status codes: ' +
+            responses.map((response) => response.status).join(', ')
+        )
+      }
+    } catch (error: FetchError | any) {
+      /* istanbul ignore next */
+      if (error.name !== 'AbortError') {
+        setError(error)
       }
     }
   }, [])

@@ -28,6 +28,10 @@ const useFetchResponseSmall = {
 }
 
 describe('usePaginationTest', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks()
+  })
+
   it('should called once and return an empty array', async function () {
     fetchMock.once(JSON.stringify(useFetchResponse), {
       headers: {
@@ -60,8 +64,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should call getIncidents get incidents after waiting for the state update', async () => {
-    fetchMock.resetMocks()
-
     fetchMock
       .once(JSON.stringify(useFetchResponse), {
         headers: {
@@ -99,8 +101,6 @@ describe('usePaginationTest', () => {
   })
 
   it('should  trigger the first catch', async () => {
-    fetchMock.resetMocks()
-
     fetchMock.once(JSON.stringify(useFetchResponse), {
       status: 401,
       headers: {
@@ -124,6 +124,76 @@ describe('usePaginationTest', () => {
 
     await hook.waitForNextUpdate()
 
+    expect(hook.result.current.error?.message).toMatch(/HTTP status code: 401/)
+  })
+
+  it('should  trigger the second catch', async () => {
+    fetchMock
+      .once(JSON.stringify(useFetchResponse), {
+        status: 200,
+        headers: {
+          Accept: 'application/json',
+          'X-Total-Count': '4000',
+        },
+      })
+      .once('', {
+        status: 200,
+        headers: {
+          Accept: 'application/',
+          'X-Total-Count': '4000',
+        },
+      })
+
+    const hook = renderHook(usePaginatedIncidents)
+
+    const { getIncidents } = hook.result.current
+
+    act(() => {
+      getIncidents({
+        east: '123',
+        north: '123',
+        west: '123',
+        south: '123',
+      })
+    })
+
+    await hook.waitForNextUpdate()
+
     expect(hook.result.current.error?.message).toMatch(/invalid json/)
+  })
+
+  it('should  trigger the second catch with statuses', async () => {
+    fetchMock
+      .once(JSON.stringify(useFetchResponse), {
+        status: 200,
+        headers: {
+          Accept: 'application/json',
+          'X-Total-Count': '4000',
+        },
+      })
+      .once(JSON.stringify(useFetchResponse), {
+        status: 400,
+        headers: {
+          Accept: 'application/',
+          'X-Total-Count': '4000',
+        },
+      })
+
+    const hook = renderHook(usePaginatedIncidents)
+
+    const { getIncidents } = hook.result.current
+
+    act(() => {
+      getIncidents({
+        east: '123',
+        north: '123',
+        west: '123',
+        south: '123',
+      })
+    })
+
+    await hook.waitForNextUpdate()
+
+    expect(hook.result.current.error?.message).toMatch(/HTTP status codes: 400/)
   })
 })
