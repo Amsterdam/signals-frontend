@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import GlobalError from 'components/GlobalError'
 
-import BarChart from './components/barchart'
+import BarChart from './components/Barchart'
 import { StyledRow } from './styled'
 
 const Dashboard = () => {
