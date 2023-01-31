@@ -16,12 +16,36 @@ import { getMaxDomain } from './utils'
 const mockToday = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
 const mockPercentage = 12
 const mockValues = [
-  { date: '01 Jan 2012 23:00:00', amount: 48 },
-  { date: '02 Jan 2012 23:00:00', amount: 34 },
-  { date: '03 Jan 2012 23:00:00', amount: 44 },
-  { date: '04 Jan 2012 23:00:00', amount: 40 },
-  { date: '05 Jan 2012 23:00:00', amount: 48 },
-  { date: '06 Jan 2012 23:00:00', amount: 45 },
+  {
+    date: '01 Jan 2012 23:00:00',
+    amount: 48,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
+  {
+    date: '02 Jan 2012 23:00:00',
+    amount: 34,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
+  {
+    date: '03 Jan 2012 23:00:00',
+    amount: 44,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
+  {
+    date: '04 Jan 2012 23:00:00',
+    amount: 40,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
+  {
+    date: '05 Jan 2012 23:00:00',
+    amount: 48,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
+  {
+    date: '06 Jan 2012 23:00:00',
+    amount: 45,
+    image: '/assets/images/area-chart-tooltip.svg',
+  },
   {
     date: '07 Jan 2012 23:00:00',
     amount: 50,

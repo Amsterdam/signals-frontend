@@ -15,6 +15,8 @@ export const getAreaChart = (
   data: {
     values,
   },
+
+  /** Axis */
   encoding: {
     x: {
       field: 'date',
@@ -52,7 +54,48 @@ export const getAreaChart = (
     },
   },
   layer: [
-    { mark: { type: 'area', line: true, point: true } },
+    /** Graph */
+    { mark: { type: 'area', line: true } },
+    {
+      mark: { type: 'point' },
+      params: [
+        {
+          name: 'highlight',
+          select: { type: 'point', on: 'mouseover' },
+        },
+      ],
+    },
+
+    /** Tooltip amount previous six days */
+    {
+      transform: [
+        {
+          filter: {
+            not: {
+              field: 'date',
+              equal: today,
+            },
+          },
+        },
+      ],
+      mark: {
+        type: 'text',
+        yOffset: -10,
+        color: '#004699',
+      },
+      encoding: {
+        text: {
+          condition: {
+            param: 'highlight',
+            empty: false,
+            field: 'amount',
+            type: 'quantitative',
+          },
+        },
+      },
+    },
+
+    /** Tooltip background today */
     {
       transform: [
         {
@@ -65,6 +108,8 @@ export const getAreaChart = (
       mark: { type: 'image', width: 35, height: 35, yOffset: -22 },
       encoding: { url: { field: 'image', type: 'nominal' } },
     },
+
+    /** Tooltip amount today */
     {
       transform: [
         {
@@ -76,16 +121,14 @@ export const getAreaChart = (
       ],
       mark: {
         type: 'text',
-        align: 'center',
-        baseline: 'bottom',
         yOffset: -17.5,
-        fontSize: 12,
-        fontWeight: 700,
         color: 'white',
       },
       encoding: { text: { field: 'amount' } },
     },
   ],
+
+  /** Config */
   config: {
     style: {
       area: {
@@ -98,6 +141,14 @@ export const getAreaChart = (
       point: {
         color: '#004699',
         size: 140,
+        filled: true,
+        opacity: 1,
+      },
+      text: {
+        align: 'center',
+        baseline: 'bottom',
+        fontSize: 12,
+        fontWeight: 700,
       },
       cell: {
         stroke: 'transparent',
