@@ -44,11 +44,8 @@ export const AreaChart = () => {
 
   return (
     <Wrapper>
-      <ModuleTitle
-        title="Afgehandelde meldingen vandaag"
-        subtitle="Verloop van de week"
-      />
-      <div id="area-chart"></div>
+      <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
+      <div id="area-chart" />
       <ComparisonRate percentage={mockPercentage} />
     </Wrapper>
   )

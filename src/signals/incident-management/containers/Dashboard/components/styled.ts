@@ -16,6 +16,7 @@ export const Subtitle = styled.p`
   margin-top: 0;
   margin-bottom: ${themeSpacing(5)};
 `
+
 export const Amount = styled.span`
   color: ${themeColor('primary')};
 `

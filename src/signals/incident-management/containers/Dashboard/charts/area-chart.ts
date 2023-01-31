@@ -21,6 +21,7 @@ export const getAreaChart = (
       type: 'ordinal',
       title: '',
       timeUnit: 'day',
+      sort: null,
       axis: {
         ticks: false,
         labelAngle: 0,
