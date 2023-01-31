@@ -3,12 +3,12 @@
 import vegaEmbed from 'vega-embed'
 import type { EmbedOptions } from 'vega-embed'
 
-import { getAreaChart } from '../charts'
-import { constants } from '../charts'
-import { ModuleTitle } from '../components/ModuleTitle'
 import { ComparisonRate } from './ComparisonRate'
 import { AreaChartWrapper as Wrapper } from './styled'
 import { getMaxDomain } from './utils'
+import { getAreaChart } from '../charts'
+import { constants } from '../charts'
+import { ModuleTitle } from '../components/ModuleTitle'
 
 /**
  * Mock data. Should be retrieved form backend when ready.

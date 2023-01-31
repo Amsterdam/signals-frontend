@@ -40,7 +40,15 @@ describe('get-area-chart', () => {
             },
             "point": Object {
               "color": "#004699",
+              "filled": true,
+              "opacity": 1,
               "size": 140,
+            },
+            "text": Object {
+              "align": "center",
+              "baseline": "bottom",
+              "fontSize": 12,
+              "fontWeight": 700,
             },
           },
         },
@@ -91,6 +99,7 @@ describe('get-area-chart', () => {
               "ticks": false,
             },
             "field": "date",
+            "sort": null,
             "timeUnit": "day",
             "title": "",
             "type": "ordinal",
@@ -123,9 +132,55 @@ describe('get-area-chart', () => {
           Object {
             "mark": Object {
               "line": true,
-              "point": true,
               "type": "area",
             },
+          },
+          Object {
+            "mark": Object {
+              "type": "point",
+            },
+            "params": Array [
+              Object {
+                "name": "highlight",
+                "select": Object {
+                  "on": "mouseover",
+                  "type": "point",
+                },
+              },
+            ],
+          },
+          Object {
+            "encoding": Object {
+              "text": Object {
+                "condition": Object {
+                  "empty": false,
+                  "field": "amount",
+                  "param": "highlight",
+                  "type": "quantitative",
+                },
+              },
+            },
+            "mark": Object {
+              "color": "#004699",
+              "type": "text",
+              "yOffset": -10,
+            },
+            "transform": Array [
+              Object {
+                "filter": Object {
+                  "not": Object {
+                    "equal": Object {
+                      "date": 7,
+                      "hours": 23,
+                      "minutes": 0,
+                      "month": 1,
+                      "year": 2012,
+                    },
+                    "field": "date",
+                  },
+                },
+              },
+            ],
           },
           Object {
             "encoding": Object {
@@ -162,11 +217,7 @@ describe('get-area-chart', () => {
               },
             },
             "mark": Object {
-              "align": "center",
-              "baseline": "bottom",
               "color": "white",
-              "fontSize": 12,
-              "fontWeight": 700,
               "type": "text",
               "yOffset": -17.5,
             },
