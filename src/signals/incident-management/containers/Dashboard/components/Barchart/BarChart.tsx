@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { Content } from './styled'
-import { mockData } from './mock-data'
+import { Wrapper } from './styled'
+import { vegaConfigBarChart } from './vega-config-bar-chart'
 import vegaEmbed from 'vega-embed'
 
 const Barchart = () => {
-  vegaEmbed('#bar-chart', mockData)
+  vegaEmbed('#bar-chart', vegaConfigBarChart)
   return (
     <>
-      <Content>
+      <Wrapper data-testid="bar-chart-wrapper">
         <div id="bar-chart" />
-      </Content>
+      </Wrapper>
     </>
   )
 }

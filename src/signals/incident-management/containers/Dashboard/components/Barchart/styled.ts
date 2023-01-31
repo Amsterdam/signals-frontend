@@ -3,7 +3,7 @@
 import { themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const Content = styled.div`
+export const Wrapper = styled.div`
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
 `
