@@ -2,8 +2,9 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useMemo } from 'react'
 
-import { makeSelectDepartments } from 'models/departments/selectors'
 import { useSelector } from 'react-redux'
+
+import { makeSelectDepartments } from 'models/departments/selectors'
 import type { ApplicationRootState } from 'types'
 import type { Department } from 'types/api/incident'
 

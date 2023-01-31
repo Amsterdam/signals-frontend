@@ -1,4 +1,5 @@
 import type { LatLngTuple } from 'leaflet'
+
 import configuration from 'shared/services/configuration/configuration'
 import { pointWithinBounds } from 'shared/services/map-location'
 

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import styled from 'styled-components'
+import type { FunctionComponent } from 'react'
 
 import { Heading, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
-import type { FunctionComponent } from 'react'
+import styled from 'styled-components'
 
 const StyledHeading = styled(Heading)`
   margin: 0;

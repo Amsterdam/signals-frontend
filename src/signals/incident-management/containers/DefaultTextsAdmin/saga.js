@@ -1,28 +1,28 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { all, call, put, takeLatest } from 'redux-saga/effects'
 import * as Sentry from '@sentry/browser'
+import { all, call, put, takeLatest } from 'redux-saga/effects'
 
-import CONFIGURATION from 'shared/services/configuration/configuration'
-import {
-  authCall,
-  authPostCall,
-  getErrorMessage,
-} from 'shared/services/api/api'
 import { showGlobalNotification } from 'containers/App/actions'
 import {
   VARIANT_SUCCESS,
   VARIANT_ERROR,
   TYPE_LOCAL,
 } from 'containers/Notification/constants'
+import {
+  authCall,
+  authPostCall,
+  getErrorMessage,
+} from 'shared/services/api/api'
+import CONFIGURATION from 'shared/services/configuration/configuration'
 
-import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants'
 import {
   fetchDefaultTextsSuccess,
   fetchDefaultTextsError,
   storeDefaultTextsSuccess,
   storeDefaultTextsError,
 } from './actions'
+import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants'
 
 export function* fetchDefaultTexts(action) {
   try {

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { throttle, isEqual } from 'lodash'
+
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -104,12 +105,9 @@ export const IncidentMap = () => {
   const { incidents, error, getIncidents } = usePaginatedIncidents()
 
   /* istanbul ignore next */
-  const throttledGetIncidents = useCallback(
-    throttle((arg) => getIncidents(arg), 500, {
-      trailing: false,
-    }),
-    []
-  )
+  const throttledGetIncidents = throttle((arg) => getIncidents(arg), 500, {
+    trailing: false,
+  })
 
   /* istanbul ignore next */
   useEffect(() => {

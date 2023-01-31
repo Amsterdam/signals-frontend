@@ -1,8 +1,10 @@
-import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import Paragraph from 'components/Paragraph'
 import type { FunctionComponent } from 'react'
-import styled from 'styled-components'
+
 import { Checkmark } from '@amsterdam/asc-assets'
+import { Icon, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
+import Paragraph from 'components/Paragraph'
 
 const Wrapper = styled.div`
   width: 100%;

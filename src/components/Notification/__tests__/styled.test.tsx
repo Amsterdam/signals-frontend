@@ -1,20 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render } from '@testing-library/react'
 import { ascDefaultTheme as theme } from '@amsterdam/asc-ui'
+import { render } from '@testing-library/react'
 import 'jest-styled-components'
 
-import { withAppContext } from 'test/utils'
 import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
   VARIANT_NOTICE,
 } from 'containers/Notification/constants'
-
 import {
   SITE_HEADER_HEIGHT_TALL,
   SITE_HEADER_HEIGHT_SHORT,
 } from 'containers/SiteHeader/constants'
+import { withAppContext } from 'test/utils'
 
 import { CloseButton, Wrapper, Title } from '../styled'
 

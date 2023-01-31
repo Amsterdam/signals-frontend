@@ -1,14 +1,17 @@
-import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
 import type { FunctionComponent } from 'react'
 import { useEffect } from 'react'
+
+import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import Notification from 'components/Notification'
 import useGetReportOpen from 'hooks/api/useGetReportOpen'
 import useGetReportReopenRequested from 'hooks/api/useGetReportReopenRequested'
 import type { Report } from 'types/api/report'
-import LoadingIndicator from 'components/LoadingIndicator'
-import Notification from 'components/Notification'
-import { Color as GraphColor } from './components/BarGraph/BarGraph'
+
 import BarGraph from './components/BarGraph'
+import { Color as GraphColor } from './components/BarGraph/BarGraph'
 import GraphDescription from './components/GraphDescription'
 import GraphEmpty from './components/GraphEmpty'
 

@@ -4,10 +4,11 @@ import { useContext, useMemo, useRef } from 'react'
 import type { FC } from 'react'
 
 import { breakpoint, Paragraph, ascDefaultTheme } from '@amsterdam/asc-ui/lib'
-import LoadingIndicator from 'components/LoadingIndicator'
-import AppContext from 'containers/App/context'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Route } from 'react-router-dom'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import AppContext from 'containers/App/context'
 import type {
   createIncident,
   getClassification,

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import styled from 'styled-components'
 import { RadioGroup, Label, themeSpacing } from '@amsterdam/asc-ui'
+import type { ControllerRenderProps } from 'react-hook-form'
+import styled from 'styled-components'
 
 import InfoText from 'components/InfoText'
 import Radio from 'components/RadioButton'
-import type { ControllerRenderProps } from 'react-hook-form'
 
 const Wrapper = styled.div`
   width: 100%;

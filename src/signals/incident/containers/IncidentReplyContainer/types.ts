@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { Control } from 'react-hook-form'
+
 import type { FieldType } from 'types/api/qa/question'
 
 export interface FieldProps {

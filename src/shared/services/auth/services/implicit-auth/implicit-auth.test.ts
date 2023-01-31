@@ -2,11 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import 'jest-localstorage-mock'
 import { mocked } from 'jest-mock'
+
+import ImplicitAuth from '.'
 import configuration from '../../../configuration/configuration'
+import parseAccessToken from '../parse-access-token'
 import queryStringParser from '../query-string-parser'
 import randomStringGenerator from '../random-string-generator'
-import parseAccessToken from '../parse-access-token'
-import ImplicitAuth from '.'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('../query-string-parser')

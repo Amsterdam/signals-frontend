@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState, useEffect } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
-import Select from 'components/Select'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+import styled from 'styled-components'
+
 import InfoText from 'components/InfoText'
+import Select from 'components/Select'
+import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
 
 const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;

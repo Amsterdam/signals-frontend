@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { StatusCode } from 'signals/incident-management/definitions/types'
-
 import type { Address } from 'types/address'
 import type { Geometrie } from 'types/incident'
 

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+import type { ChangeEvent } from 'react'
+
 import { Input } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Label from 'components/Label'
-import type { ChangeEvent } from 'react'
 
 const StyledInput = styled.div`
   .text-input {

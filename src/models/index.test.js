@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { store } from 'test/utils'
-import loadHistoryModel from './history'
 
 import loadModels from '.'
+import loadHistoryModel from './history'
 
 jest.mock('./history')
 

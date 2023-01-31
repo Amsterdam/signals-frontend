@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import type { History } from 'types/history'
-import styled from 'styled-components'
-import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
-import { string2date, string2time } from 'shared/services/string-parser'
-import type { Theme } from 'types/theme'
+import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import Markdown from 'components/Markdown'
+import { string2date, string2time } from 'shared/services/string-parser'
+import type { History } from 'types/history'
+import type { Theme } from 'types/theme'
 
 const List = styled.ul`
   margin: 0;

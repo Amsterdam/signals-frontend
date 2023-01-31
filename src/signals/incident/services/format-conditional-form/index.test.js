@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import checkVisibility from '../checkVisibility'
 import formatConditionalForm from '.'
+import checkVisibility from '../checkVisibility'
 
 jest.mock('../checkVisibility')
 

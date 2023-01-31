@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import styled, { css } from 'styled-components'
 import { Button, Paragraph, themeSpacing, themeColor } from '@amsterdam/asc-ui'
-import {
-  SITE_HEADER_BOTTOM_GAP_HEIGHT,
-  SITE_HEADER_HEIGHT_TALL,
-} from 'containers/SiteHeader/constants'
+import styled, { css } from 'styled-components'
+
 import {
   ONCLOSE_TIMEOUT,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-import type { Theme } from 'types/theme'
 import type { Variant } from 'containers/Notification/types'
+import {
+  SITE_HEADER_BOTTOM_GAP_HEIGHT,
+  SITE_HEADER_HEIGHT_TALL,
+} from 'containers/SiteHeader/constants'
+import type { Theme } from 'types/theme'
 
 export const Wrapper = styled.div<{
   top?: number

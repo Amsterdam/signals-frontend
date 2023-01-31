@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+
 import { initialState } from './reducer'
 import {
   selectIncidentContainerDomain,

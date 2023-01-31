@@ -2,15 +2,15 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FC, PropsWithChildren } from 'react'
 import { useEffect } from 'react'
-import styled from 'styled-components'
+
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
 import { TileLayer } from '@amsterdam/react-maps'
-
 import type { LeafletEventHandlerFnMap, MapOptions } from 'leaflet'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 import ViewerContainer from 'components/ViewerContainer'
 import configuration from 'shared/services/configuration/configuration'
-import { useDispatch, useSelector } from 'react-redux'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 

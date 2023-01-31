@@ -129,6 +129,7 @@ const IncidentForm = forwardRef<any, any>(
 
     useEffect(() => {
       reactHookFormProps.clearErrors()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const setIncident = useCallback(

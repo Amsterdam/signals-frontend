@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import Reporter from '..'
 
+import { withAppContext } from 'test/utils'
+
+import Reporter from '..'
 import type { ReporterProps } from '../Reporter'
 
 describe('<Reporter />', () => {

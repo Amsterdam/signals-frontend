@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react'
-import OverviewContainer from 'signals/settings/components/Overview/OverviewContainer'
 import * as reactRedux from 'react-redux'
+
+import OverviewContainer from 'signals/settings/components/Overview/OverviewContainer'
+
 import { withAppContext } from '../../../../test/utils'
 
 describe('settings/components/Overview/OverviewContainer', () => {

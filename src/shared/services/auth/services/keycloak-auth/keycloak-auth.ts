@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { KeycloakInitOptions, KeycloakInstance } from 'keycloak-js'
 import keycloakJS from 'keycloak-js'
+
 import configuration from 'shared/services/configuration/configuration'
 
 const OAUTH_DOMAIN_KEY = 'oauthDomain' // Domain that is used for login

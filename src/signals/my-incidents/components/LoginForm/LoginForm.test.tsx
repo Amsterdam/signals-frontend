@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext, history } from 'test/utils'
 
 import { providerMock } from '../../__test__'

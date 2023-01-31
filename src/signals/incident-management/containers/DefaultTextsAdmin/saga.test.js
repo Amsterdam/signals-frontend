@@ -1,32 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import * as Sentry from '@sentry/browser'
 import { testSaga } from 'redux-saga-test-plan'
 import { takeLatest } from 'redux-saga/effects'
-import * as Sentry from '@sentry/browser'
 
-import {
-  authCall,
-  authPostCall,
-  getErrorMessage,
-} from 'shared/services/api/api'
+import * as actions from 'containers/App/actions'
 import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
   TYPE_LOCAL,
 } from 'containers/Notification/constants'
-import * as actions from 'containers/App/actions'
+import { fetchCategoriesSuccess } from 'models/categories/actions'
+import { makeSelectSubCategories } from 'models/categories/selectors'
+import {
+  authCall,
+  authPostCall,
+  getErrorMessage,
+} from 'shared/services/api/api'
+import CONFIGURATION from 'shared/services/configuration/configuration'
 import { statusList } from 'signals/incident-management/definitions'
 import { store } from 'test/utils'
 import categoriesPrivateFixture from 'utils/__tests__/fixtures/categories_private.json'
-import { fetchCategoriesSuccess } from 'models/categories/actions'
-import { makeSelectSubCategories } from 'models/categories/selectors'
-
-import CONFIGURATION from 'shared/services/configuration/configuration'
-import watchDefaultTextsAdminSaga, {
-  fetchDefaultTexts,
-  storeDefaultTexts,
-} from './saga'
-import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants'
 
 import {
   fetchDefaultTextsSuccess,
@@ -34,6 +28,11 @@ import {
   storeDefaultTextsSuccess,
   storeDefaultTextsError,
 } from './actions'
+import { FETCH_DEFAULT_TEXTS, STORE_DEFAULT_TEXTS } from './constants'
+import watchDefaultTextsAdminSaga, {
+  fetchDefaultTexts,
+  storeDefaultTexts,
+} from './saga'
 
 store.dispatch(fetchCategoriesSuccess(categoriesPrivateFixture))
 

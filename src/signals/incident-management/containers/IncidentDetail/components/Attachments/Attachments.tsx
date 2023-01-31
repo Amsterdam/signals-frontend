@@ -10,12 +10,13 @@ import {
   Close as CloseIcon,
   TrashBin as DeleteIcon,
 } from '@amsterdam/asc-assets'
-import Button from 'components/Button'
-import ErrorMessage from 'components/ErrorMessage'
-import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { useSelector } from 'react-redux'
+
+import Button from 'components/Button'
+import ErrorMessage from 'components/ErrorMessage'
+import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import fileSize from 'signals/incident/services/file-size'
 
 import IncidentDetailContext from '../../context'

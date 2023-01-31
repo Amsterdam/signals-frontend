@@ -5,9 +5,8 @@
 import identity from 'lodash/identity'
 
 import configureStore from '../../configureStore'
-
-import { getInjectors, injectReducerFactory } from '../reducerInjectors'
 import history from '../history'
+import { getInjectors, injectReducerFactory } from '../reducerInjectors'
 
 const initialState = { reduced: 'soon' }
 

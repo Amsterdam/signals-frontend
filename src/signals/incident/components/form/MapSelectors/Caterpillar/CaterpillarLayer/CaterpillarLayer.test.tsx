@@ -1,30 +1,27 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
-
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { FeatureCollection } from 'geojson'
-import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
-import type { Geometrie } from 'types/incident'
-
-import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
+import { mocked } from 'jest-mock'
 
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import userEvent from '@testing-library/user-event'
-import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
-
-import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import { featureToCoordinates } from 'shared/services/map-location'
-
-import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
-import { mocked } from 'jest-mock'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
+import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
+import type { Geometrie } from 'types/incident'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
+import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+
+import CaterpillarLayer from '.'
 import withAssetSelectContext, {
   contextValue,
 } from '../../Asset/__tests__/withAssetSelectContext'
-import CaterpillarLayer from '.'
 
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {

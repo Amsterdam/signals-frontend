@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+
 import configuration from 'shared/services/configuration/configuration'
 import dataLists from 'signals/incident-management/definitions'
 import {
@@ -10,6 +11,9 @@ import {
 } from 'utils/__tests__/fixtures'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
+
+import { FILTER_PAGE_SIZE } from '../constants'
+import { initialState } from '../reducer'
 import {
   makeSelectDistricts,
   makeSelectFixtures,
@@ -24,9 +28,6 @@ import {
   selectIncidentManagementDomain,
   makeSelectFiltersOnOverview,
 } from '../selectors'
-import { FILTER_PAGE_SIZE } from '../constants'
-
-import { initialState } from '../reducer'
 
 jest.mock('shared/services/configuration/configuration')
 

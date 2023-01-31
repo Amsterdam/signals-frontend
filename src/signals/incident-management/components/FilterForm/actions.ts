@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { ExtendedCategory } from 'models/categories/selectors'
 import type SubCategory from 'types/api/sub-category'
+
 import {
   RESET,
   SET_ADDRESS,

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
-import { Fragment, useCallback } from 'react'
+import { Fragment, useCallback, useMemo } from 'react'
 
 import { RadioGroup, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -81,7 +81,10 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
   id,
   ...rest
 }) => {
-  const radioOptions: RadioButtonOption[] = [...options]
+  const radioOptions: RadioButtonOption[] = useMemo(
+    () => [...options],
+    [options]
+  )
 
   if (hasEmptySelectionButton && emptySelectionLabel) {
     radioOptions.unshift({

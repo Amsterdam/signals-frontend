@@ -1,5 +1,7 @@
 import type { FC } from 'react'
+
 import { Heading, Paragraph, List, ListItem, Link } from '@amsterdam/asc-ui'
+
 import BasePage from '../BasePage'
 
 const Toegankelijkheidsverklaring: FC = () => (

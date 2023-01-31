@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
-import configuration from 'shared/services/configuration/configuration'
-import { makeSelectUserCan } from 'containers/App/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
-
-import { fetchCategories } from 'models/categories/actions'
 import BackLink from 'components/BackLink'
-import routes from 'signals/settings/routes'
+import LoadingIndicator from 'components/LoadingIndicator'
+import { makeSelectUserCan } from 'containers/App/selectors'
 import useFetch from 'hooks/useFetch'
+import { fetchCategories } from 'models/categories/actions'
+import configuration from 'shared/services/configuration/configuration'
+import PageHeader from 'signals/settings/components/PageHeader'
+import routes from 'signals/settings/routes'
 
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'

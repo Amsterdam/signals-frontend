@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { fromJS, Seq } from 'immutable'
+
 import configuration from 'shared/services/configuration/configuration'
+
 import { NEARBY_TYPE } from '../../components/form/MapSelectors/constants'
 import {
   UPDATE_INCIDENT,

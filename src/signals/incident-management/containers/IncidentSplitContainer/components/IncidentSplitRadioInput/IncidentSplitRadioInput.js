@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
-import PropTypes from 'prop-types'
 
 import { RadioGroup, Radio } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
 
 import { StyledInfoText, StyledRadioLabel, StyledLabel } from '../../styled'
 

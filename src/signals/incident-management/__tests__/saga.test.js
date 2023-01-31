@@ -1,53 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import { push } from 'connected-react-router/immutable'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call, select, takeLatest, take } from 'redux-saga/effects'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { push } from 'connected-react-router/immutable'
+import { call, select, takeLatest, take } from 'redux-saga/effects'
 
-import CONFIGURATION from 'shared/services/configuration/configuration'
-import incidentsJSON from 'utils/__tests__/fixtures/incidents.json'
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   authCall,
   authDeleteCall,
   authPatchCall,
   authPostCall,
 } from 'shared/services/api/api'
-import { makeSelectSearchQuery } from 'containers/App/selectors'
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
-import watchIncidentManagementSaga, {
-  fetchProxy,
-  doSaveFilter,
-  doUpdateFilter,
-  fetchDistricts,
-  fetchFilters,
-  refreshIncidents,
-  removeFilter,
-  saveFilter,
-  updateFilter,
-  fetchIncidents,
-  searchIncidents,
-} from '../saga'
-import {
-  APPLY_FILTER_REFRESH_STOP,
-  APPLY_FILTER_REFRESH,
-  APPLY_FILTER,
-  CLEAR_FILTERS,
-  GET_DISTRICTS,
-  GET_FILTERS,
-  REMOVE_FILTER,
-  SAVE_FILTER_FAILED,
-  SAVE_FILTER_SUCCESS,
-  SAVE_FILTER,
-  UPDATE_FILTER_SUCCESS,
-  UPDATE_FILTER,
-  SEARCH_INCIDENTS,
-  REQUEST_INCIDENTS,
-  PAGE_CHANGED,
-  ORDERING_CHANGED,
-  PATCH_INCIDENT_SUCCESS,
-} from '../constants'
+import CONFIGURATION from 'shared/services/configuration/configuration'
+import incidentsJSON from 'utils/__tests__/fixtures/incidents.json'
+
 import {
   filterSaveFailed,
   filterSaveSuccess,
@@ -68,6 +37,38 @@ import {
   requestIncidentsError,
   requestIncidents,
 } from '../actions'
+import {
+  APPLY_FILTER_REFRESH_STOP,
+  APPLY_FILTER_REFRESH,
+  APPLY_FILTER,
+  CLEAR_FILTERS,
+  GET_DISTRICTS,
+  GET_FILTERS,
+  REMOVE_FILTER,
+  SAVE_FILTER_FAILED,
+  SAVE_FILTER_SUCCESS,
+  SAVE_FILTER,
+  UPDATE_FILTER_SUCCESS,
+  UPDATE_FILTER,
+  SEARCH_INCIDENTS,
+  REQUEST_INCIDENTS,
+  PAGE_CHANGED,
+  ORDERING_CHANGED,
+  PATCH_INCIDENT_SUCCESS,
+} from '../constants'
+import watchIncidentManagementSaga, {
+  fetchProxy,
+  doSaveFilter,
+  doUpdateFilter,
+  fetchDistricts,
+  fetchFilters,
+  refreshIncidents,
+  removeFilter,
+  saveFilter,
+  updateFilter,
+  fetchIncidents,
+  searchIncidents,
+} from '../saga'
 import { makeSelectActiveFilter, makeSelectFilterParams } from '../selectors'
 
 describe('signals/incident-management/saga', () => {

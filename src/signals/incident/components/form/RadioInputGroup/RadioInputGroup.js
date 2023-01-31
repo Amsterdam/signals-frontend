@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { themeColor, RadioGroup } from '@amsterdam/asc-ui'
-import FormField from 'components/FormField'
 import isObject from 'lodash/isObject'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import FormField from 'components/FormField'
 
 import RadioInput from '../RadioInput'
 

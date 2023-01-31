@@ -2,8 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FocusEvent, FunctionComponent } from 'react'
 
-import FormField from 'components/FormField'
 import styled from 'styled-components'
+
+import FormField from 'components/FormField'
 import type { FormInputProps } from 'types/reactive-form'
 
 import AddNote from './AddNote'

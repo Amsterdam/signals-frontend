@@ -3,6 +3,7 @@
 import { act, render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 import userEvent from '@testing-library/user-event'
+
 import statuses from 'signals/incident-management/definitions/statusList'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories.json'

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
 import * as reactRouterDom from 'react-router-dom'
-import rolesJson from 'utils/__tests__/fixtures/roles.json'
+
 import { ROLE_URL } from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
+import rolesJson from 'utils/__tests__/fixtures/roles.json'
 
 import RolesList from '..'
 

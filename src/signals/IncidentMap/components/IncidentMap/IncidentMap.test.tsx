@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { formatAddress } from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { withAppContext } from 'test/utils'

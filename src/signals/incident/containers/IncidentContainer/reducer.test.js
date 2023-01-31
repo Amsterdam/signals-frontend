@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { has, fromJS } from 'immutable'
+
 import configuration from 'shared/services/configuration/configuration'
-import incidentContainerReducer, { initialState } from './reducer'
 
 import {
   UPDATE_INCIDENT,
@@ -22,6 +22,7 @@ import {
   ADD_TO_SELECTION,
   REMOVE_FROM_SELECTION,
 } from './constants'
+import incidentContainerReducer, { initialState } from './reducer'
 
 jest.mock('shared/services/configuration/configuration')
 

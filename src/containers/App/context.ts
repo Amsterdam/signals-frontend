@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { createContext } from 'react'
+
 import type { KeyValuePair } from './types'
 
 interface AppContextValue {

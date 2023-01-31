@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { FC } from 'react'
-import type { RevGeo } from 'types/pdok/revgeo'
 
 import type { AutoSuggestProps } from 'components/AutoSuggest'
 import AutoSuggest from 'components/AutoSuggest'
+import configuration from 'shared/services/configuration/configuration'
 import {
   pdokResponseFieldList,
   formatPDOKResponse,
 } from 'shared/services/map-location'
-import configuration from 'shared/services/configuration/configuration'
+import type { RevGeo } from 'types/pdok/revgeo'
 
 const municipalityFilterName = 'gemeentenaam'
 const serviceParams = [

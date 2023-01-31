@@ -1,11 +1,10 @@
 import { useState, useContext, useCallback, useRef } from 'react'
+import type { FC } from 'react'
 
 import GenericAddNote, { getAddNoteError } from 'components/AddNote'
 
-import type { FC } from 'react'
-
-import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_NOTES } from '../../constants'
+import IncidentDetailContext from '../../context'
 
 type AddNoteProps = {
   maxContentLength: number

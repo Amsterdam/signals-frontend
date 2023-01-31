@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { call } from 'redux-saga/effects'
-import request from 'utils/request'
+
 import { getAuthHeaders } from 'shared/services/auth/auth'
+import request from 'utils/request'
 
 export const generateParams = (data) =>
   Object.entries(data)

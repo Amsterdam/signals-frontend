@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import fetchMock from 'jest-fetch-mock'
 import { render, act, screen } from '@testing-library/react'
+import fetchMock from 'jest-fetch-mock'
 
 import type configurationType from 'shared/services/configuration/__mocks__/configuration'
 import configuration from 'shared/services/configuration/configuration'
 import { withMapContext } from 'test/utils'
 import geographyJSON from 'utils/__tests__/fixtures/geography.json'
 
-import { POLLING_INTERVAL } from './OverviewMap'
 import OverviewMap from '.'
+import { POLLING_INTERVAL } from './OverviewMap'
 
 const mockConfiguration = configuration as typeof configurationType
 const createdAfter = '1999-01-01T00:00:00'

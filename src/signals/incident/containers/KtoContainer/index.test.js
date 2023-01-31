@@ -5,6 +5,7 @@ import { render, act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'

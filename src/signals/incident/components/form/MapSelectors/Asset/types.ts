@@ -2,8 +2,9 @@
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { FC } from 'react'
 
-import type { FormFieldProps } from 'components/FormField/FormField'
 import type { LatLngLiteral } from 'leaflet'
+
+import type { FormFieldProps } from 'components/FormField/FormField'
 import type { Address } from 'types/address'
 import type { Location } from 'types/incident'
 import type { FormOptions } from 'types/reactive-form'

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import type { MutableRefObject } from 'react'
+
 import { render, screen } from '@testing-library/react'
+
 import type { Props } from '../Notification'
 import { Notification } from '../Notification'
 

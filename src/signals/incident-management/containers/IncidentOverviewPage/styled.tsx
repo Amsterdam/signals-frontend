@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import styled from 'styled-components'
 import {
   Column,
   themeSpacing,
@@ -9,6 +8,8 @@ import {
   Link,
   CompactPager,
 } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+
 import Button from 'components/Button'
 import Paragraph from 'components/Paragraph'
 

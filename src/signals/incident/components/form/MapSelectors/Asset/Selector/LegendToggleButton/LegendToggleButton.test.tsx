@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 

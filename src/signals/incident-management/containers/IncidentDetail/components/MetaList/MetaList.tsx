@@ -9,19 +9,19 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+
 import {
   Button,
   themeColor,
   themeSpacing,
   Link as AscLink,
 } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-import type { StatusCode } from 'signals/incident-management/definitions/types'
-import type { Department } from 'types/api/incident'
-
+import LoadingIndicator from 'components/LoadingIndicator'
+import { useFetch } from 'hooks'
 import {
   makeSelectHandlingTimesBySlug,
   makeSelectSubcategoriesGroupedByCategories,
@@ -34,24 +34,24 @@ import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import RadioInput from 'signals/incident-management/components/RadioInput'
 import SelectInput from 'signals/incident-management/components/SelectInput'
+import Status from 'signals/incident-management/components/Status'
 import {
   typesList,
   priorityList,
 } from 'signals/incident-management/definitions'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
-import Status from 'signals/incident-management/components/Status'
-
-import { useFetch } from 'hooks'
-import LoadingIndicator from 'components/LoadingIndicator'
+import type { StatusCode } from 'signals/incident-management/definitions/types'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
+import type { Department } from 'types/api/incident'
+
+import IncidentDetailContext from '../../context'
 import type { Result, User } from '../../types'
+import type { IncidentChild } from '../../types'
 import ChangeValue from '../ChangeValue'
 import Highlight from '../Highlight'
-import IncidentDetailContext from '../../context'
-import type { IncidentChild } from '../../types'
 import StatusForm from '../StatusForm'
 
 const StyledMetaList = styled.dl`

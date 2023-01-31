@@ -3,16 +3,6 @@
 import { testActionCreator } from 'test/utils'
 
 import {
-  FETCH_DEFAULT_TEXTS,
-  FETCH_DEFAULT_TEXTS_SUCCESS,
-  FETCH_DEFAULT_TEXTS_ERROR,
-  STORE_DEFAULT_TEXTS,
-  STORE_DEFAULT_TEXTS_SUCCESS,
-  STORE_DEFAULT_TEXTS_ERROR,
-  ORDER_DEFAULT_TEXTS,
-} from './constants'
-
-import {
   fetchDefaultTexts,
   fetchDefaultTextsSuccess,
   fetchDefaultTextsError,
@@ -21,6 +11,15 @@ import {
   storeDefaultTextsError,
   orderDefaultTexts,
 } from './actions'
+import {
+  FETCH_DEFAULT_TEXTS,
+  FETCH_DEFAULT_TEXTS_SUCCESS,
+  FETCH_DEFAULT_TEXTS_ERROR,
+  STORE_DEFAULT_TEXTS,
+  STORE_DEFAULT_TEXTS_SUCCESS,
+  STORE_DEFAULT_TEXTS_ERROR,
+  ORDER_DEFAULT_TEXTS,
+} from './constants'
 
 describe('DefaultTextsAdmin actions', () => {
   it('should dispatch fetchDefaultTexts action', () => {

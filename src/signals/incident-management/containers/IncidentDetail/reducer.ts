@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { Reducer } from 'react'
+
+import type { IncidentDetailAction as Action } from './actions'
 import {
   CLOSE_ALL,
   EDIT,
@@ -19,8 +21,6 @@ import {
   SET_HISTORY,
   SET_INCIDENT,
 } from './constants'
-
-import type { IncidentDetailAction as Action } from './actions'
 import type { State } from './types'
 
 export const initialState: State = {

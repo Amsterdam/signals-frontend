@@ -6,9 +6,10 @@ import { Close } from '@amsterdam/asc-assets'
 import { Heading } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
+import styled from 'styled-components'
+
 import { capitalize } from 'shared/services/date-utils'
 import type { PdokAddress } from 'shared/services/map-location'
-import styled from 'styled-components'
 
 import type { Incident } from '../../types'
 import { StyledList } from './styled'

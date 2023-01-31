@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
-import IncidentDetailContext from '../../context'
 import { PATCH_TYPE_NOTES } from '../../constants'
+import IncidentDetailContext from '../../context'
 import AddNote from './AddNote'
 
 describe('AddNote', () => {

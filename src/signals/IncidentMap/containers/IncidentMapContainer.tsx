@@ -15,6 +15,7 @@ const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 export const IncidentMapContainer = () => {
   // TODO: check with Oscar if this is the way to go. Same implementation as location map.
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
   const map = (
     <Suspense fallback={<LoadingIndicator />}>

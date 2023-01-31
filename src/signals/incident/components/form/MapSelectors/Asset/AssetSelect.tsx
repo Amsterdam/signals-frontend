@@ -4,16 +4,16 @@ import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 
-import reverseGeocoderService from 'shared/services/reverse-geocoder'
-
-import type { Incident, Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
-import Summary from 'components/Summary'
 import { useSelector } from 'react-redux'
+
+import Summary from 'components/Summary'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
-import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
+import type { Incident, Location } from 'types/incident'
 
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
+import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'

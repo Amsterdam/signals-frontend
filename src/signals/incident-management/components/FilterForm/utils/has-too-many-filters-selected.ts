@@ -5,7 +5,6 @@ import { generateParams } from 'shared/services/api/api'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 
 import type { SelectedFilters, StoredParams } from '../types'
-
 import { MAX_FILTER_LENGTH } from './constants'
 
 export const hasTooManyFiltersSelected = (

@@ -1,23 +1,24 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
-import styled from 'styled-components'
+
 import {
   themeColor,
   themeSpacing,
   Heading,
   Link as AscLink,
 } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
-import { attachmentsType, contextType } from 'shared/types'
-import { string2date, string2time } from 'shared/services/string-parser'
 import configuration from 'shared/services/configuration/configuration'
+import { string2date, string2time } from 'shared/services/string-parser'
+import { attachmentsType, contextType } from 'shared/types'
 
 import IncidentDetailContext from '../../context'
-import Location from './components/Location'
-import ExtraProperties from './components/ExtraProperties'
-import Reporter from './components/Reporter'
 import Area from './components/Area'
+import ExtraProperties from './components/ExtraProperties'
+import Location from './components/Location'
+import Reporter from './components/Reporter'
 
 const Wrapper = styled.article`
   contain: content;

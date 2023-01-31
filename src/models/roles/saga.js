@@ -1,24 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { all, call, put, takeLatest } from 'redux-saga/effects'
 import * as Sentry from '@sentry/browser'
+import { all, call, put, takeLatest } from 'redux-saga/effects'
 
-import CONFIGURATION from 'shared/services/configuration/configuration'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import {
   authCall,
   authPostCall,
   authPatchCall,
   getErrorMessage,
 } from 'shared/services/api/api'
-import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
-
-import {
-  FETCH_ROLES,
-  FETCH_PERMISSIONS,
-  SAVE_ROLE,
-  PATCH_ROLE,
-} from './constants'
+import CONFIGURATION from 'shared/services/configuration/configuration'
 
 import {
   fetchRolesSuccess,
@@ -30,6 +23,12 @@ import {
   patchRoleSuccess,
   patchRoleError,
 } from './actions'
+import {
+  FETCH_ROLES,
+  FETCH_PERMISSIONS,
+  SAVE_ROLE,
+  PATCH_ROLE,
+} from './constants'
 
 export function* fetchRoles() {
   const requestURL = CONFIGURATION.ROLES_ENDPOINT

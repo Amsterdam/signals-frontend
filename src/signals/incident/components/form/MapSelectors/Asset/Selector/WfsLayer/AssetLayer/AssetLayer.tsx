@@ -2,32 +2,29 @@
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
+
+import { Marker } from '@amsterdam/arm-core'
+import type { FeatureCollection } from 'geojson'
 import L from 'leaflet'
 import 'types/address'
 
-import type { FeatureCollection } from 'geojson'
-import type { Geometrie, Location } from 'types/incident'
-
+import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { featureToCoordinates } from 'shared/services/map-location'
-
 import type {
   Item,
   Feature,
   FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
-
-import { Marker } from '@amsterdam/arm-core'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
-
+import type { Geometrie, Location } from 'types/incident'
 import {
   isTemplateString,
   parseTemplateString,
 } from 'utils/parseTemplateString'
 
-import WfsDataContext from '../context'
 import { getFeatureStatusType } from '../../StatusLayer/utils'
+import WfsDataContext from '../context'
 
 export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)

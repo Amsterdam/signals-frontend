@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
+
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { useFilters } from './useFilter'

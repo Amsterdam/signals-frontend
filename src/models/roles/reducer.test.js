@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
-import rolesReducer, { initialState } from './reducer'
 
 import {
   FETCH_ROLES,
@@ -18,6 +17,7 @@ import {
   PATCH_ROLE_ERROR,
   RESET_RESPONSE,
 } from './constants'
+import rolesReducer, { initialState } from './reducer'
 
 describe('rolesReducer', () => {
   it('returns the initial state', () => {

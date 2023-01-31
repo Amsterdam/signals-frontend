@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
 import { forwardRef } from 'react'
-
 import type { FC, ReactNode } from 'react'
-import type { SubCategoryOption } from 'models/categories/selectors'
 
 import { Select as AscSelect } from '@amsterdam/asc-ui'
+
+import type { SubCategoryOption } from 'models/categories/selectors'
 
 export type Option = {
   group?: string

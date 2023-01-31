@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import Summary from 'components/Summary'
 import memoize from 'lodash/memoize'
+
+import Summary from 'components/Summary'
 import configuration from 'shared/services/configuration/configuration'
 import { QuestionFieldType } from 'types/question'
 

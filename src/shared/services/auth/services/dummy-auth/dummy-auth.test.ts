@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import { AUTH_ERROR } from './dummy-auth'
 import DummyAuth from '.'
+import { AUTH_ERROR } from './dummy-auth'
 
 describe('DummyAuth', () => {
   it('should return a dummy auth class', async () => {

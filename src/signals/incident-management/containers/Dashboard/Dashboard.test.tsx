@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { ThemeProvider } from '@amsterdam/asc-ui'
 import { render } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
 
 import Dashboard from './Dashboard'

@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useEffect } from 'react'
-import { useFetch } from 'hooks'
-import configuration from 'shared/services/configuration/configuration'
 
-import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setClassification } from 'signals/incident/containers/IncidentContainer/actions'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
+import { useHistory, useParams } from 'react-router-dom'
+
 import LoadingIndicator from 'components/LoadingIndicator'
+import { useFetch } from 'hooks'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import { setClassification } from 'signals/incident/containers/IncidentContainer/actions'
 import { getClassificationData } from 'signals/incident/containers/IncidentContainer/selectors'
 import type SubCategory from 'types/api/sub-category'
 
