@@ -4,12 +4,13 @@ import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
 import { BarChart } from './components/Barchart'
 
-
 const Dashboard = () => (
-  <StyledRow data-testid="menu">
-    <Filter />
-  </StyledRow>
-   <BarChart />
+  <>
+    <StyledRow data-testid="menu">
+      <Filter />
+    </StyledRow>
+    <BarChart />
+  </>
 )
 
 export default Dashboard

@@ -5,7 +5,7 @@ import { Wrapper } from './styled'
 import { vegaConfigBarChart } from './vega-config-bar-chart'
 import vegaEmbed from 'vega-embed'
 
-const Barchart = () => {
+export const BarChart = () => {
   vegaEmbed('#bar-chart', vegaConfigBarChart)
   return (
     <>
@@ -15,5 +15,3 @@ const Barchart = () => {
     </>
   )
 }
-
-export default Barchart
