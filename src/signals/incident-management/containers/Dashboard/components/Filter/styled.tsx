@@ -71,6 +71,7 @@ export const OptionListDropdown = styled.div<{ active: boolean }>`
   background-color: ${themeColor('tint', 'level2')};
   transition: opacity 0.25s ease-out;
   height: calc(100vh - ${themeSpacing(26.5)});
+  z-index: 2;
 
   ${({ active }) =>
     active &&
