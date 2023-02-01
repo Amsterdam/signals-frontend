@@ -19,10 +19,23 @@ describe('useRoveFocus', () => {
     act(() => {
       userEvent.keyboard('{ArrowUp}')
     })
+
     act(() => {
       userEvent.keyboard('{ArrowUp}')
     })
 
     expect(result.current.currentFocus).toBe(9)
+
+    act(() => {
+      userEvent.keyboard('{ArrowDown}')
+    })
+
+    expect(result.current.currentFocus).toBe(0)
+
+    act(() => {
+      userEvent.keyboard('a')
+    })
+
+    expect(result.current.currentFocus).toBe(0)
   })
 })
