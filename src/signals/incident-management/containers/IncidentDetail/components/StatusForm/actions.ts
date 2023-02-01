@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { Status } from 'signals/incident-management/definitions/types'
+
 import type { EmailTemplate } from '../../types'
 
 export type Action<T extends string = string, P = void> = {

@@ -1,7 +1,8 @@
+import { Button } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import InputBase from 'components/Input'
-import { Button } from '@amsterdam/asc-ui'
+
 import SuggestList from './components/SuggestList'
 
 export const Wrapper = styled.div`

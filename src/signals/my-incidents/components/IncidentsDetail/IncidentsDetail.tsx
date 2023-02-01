@@ -4,8 +4,6 @@ import { useMemo } from 'react'
 
 import { Paragraph } from '@amsterdam/asc-ui'
 
-import { StyledHeading } from '../../pages/styled'
-import type { MyIncidentDetail } from '../../types'
 import {
   FormTitle,
   StyledImage,
@@ -14,6 +12,8 @@ import {
   StyledLink,
   Wrapper,
 } from './styled'
+import { StyledHeading } from '../../pages/styled'
+import type { MyIncidentDetail } from '../../types'
 
 type Props = {
   token: string

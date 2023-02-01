@@ -3,8 +3,9 @@
 import { useContext } from 'react'
 
 import { Button, themeSpacing, Row, Column } from '@amsterdam/asc-ui'
-import { markerIcon } from 'shared/services/configuration/map-markers'
 import styled from 'styled-components'
+
+import { markerIcon } from 'shared/services/configuration/map-markers'
 
 import MapDetail from '../../../../../../components/MapDetail'
 import IncidentDetailContext from '../../context'

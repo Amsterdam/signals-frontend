@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import Summary from 'components/Summary'
 import memoize from 'lodash/memoize'
+
+import Summary from 'components/Summary'
 import configuration from 'shared/services/configuration/configuration'
 import { QuestionFieldType } from 'types/question'
 
-import IncidentNavigation from '../components/IncidentNavigation'
-import PreviewComponents from '../components/IncidentPreview/components'
 import afvalControls from './wizard-step-2-vulaan/afval'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
@@ -22,6 +21,8 @@ import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-v
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
+import IncidentNavigation from '../components/IncidentNavigation'
+import PreviewComponents from '../components/IncidentPreview/components'
 
 export const ObjectLabel = ({ value }) => value?.label
 export const Label = ({ value }) => value

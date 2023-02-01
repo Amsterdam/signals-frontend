@@ -3,12 +3,13 @@
 import { render } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
-import { withAppContext } from 'test/utils'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import configuration from 'shared/services/configuration/configuration'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
-import Map from './Map'
+import { withAppContext } from 'test/utils'
+
 import MockInstance = jest.MockInstance
+import Map from './Map'
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)

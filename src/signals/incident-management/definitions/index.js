@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import assignedUserEmailList from './assignedUserEmailList'
 import changedChildrenList from './changedChildrenList'
 import contactDetailsList from './contactDetailsList'
 import feedbackList from './feedbackList'
-import punctualityList from './punctualityList'
 import kindList from './kindList'
 import priorityList from './priorityList'
+import punctualityList from './punctualityList'
 import stadsdeelList from './stadsdeelList'
 import statusList from './statusList'
 import typesList from './typesList'
-import assignedUserEmailList from './assignedUserEmailList'
 
 export {
   feedbackList,

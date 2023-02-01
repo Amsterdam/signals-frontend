@@ -17,9 +17,6 @@ import { VARIANT_ERROR, TYPE_GLOBAL } from 'containers/Notification/constants'
 import { authCall } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
-import { postMessage } from '../../shared/services/app-post-message'
-import { logout, login } from '../../shared/services/auth/auth'
-import fileUploadChannel from '../../shared/services/file-upload-channel'
 import type { AuthenticateUserAction, PostMessageAction } from './actions'
 import {
   authorizeUser,
@@ -33,6 +30,9 @@ import {
   uploadFailure,
 } from './actions'
 import type { User, DataResult, ApiError, UploadFile, Source } from './types'
+import { postMessage } from '../../shared/services/app-post-message'
+import { logout, login } from '../../shared/services/auth/auth'
+import fileUploadChannel from '../../shared/services/file-upload-channel'
 
 export function* callLogout() {
   try {

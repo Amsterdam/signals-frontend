@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
+import type { ChangeEvent } from 'react'
+
 import styled from 'styled-components'
 
-import TextArea from 'components/TextArea'
 import Label from 'components/Label'
-import type { ChangeEvent } from 'react'
+import TextArea from 'components/TextArea'
 
 const Wrapper = styled.div`
   width: 100%;

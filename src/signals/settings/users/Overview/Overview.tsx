@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import type { FormEvent } from 'react'
+
 import {
   Row,
   Column,
@@ -11,20 +11,21 @@ import {
   SearchBar,
   CompactPager,
 } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
+import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import type { FormEvent } from 'react'
-
-import useDebounce from 'hooks/useDebounce'
-import { PAGE_SIZE } from 'containers/App/constants'
-import LoadingIndicator from 'components/LoadingIndicator'
-import PageHeader from 'signals/settings/components/PageHeader'
 import DataView from 'components/DataView'
-import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
-import { inputSelectRolesSelector } from 'models/roles/selectors'
-import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
-import { makeSelectUserCan } from 'containers/App/selectors'
+import LoadingIndicator from 'components/LoadingIndicator'
 import Select from 'components/Select'
+import { PAGE_SIZE } from 'containers/App/constants'
+import { makeSelectUserCan } from 'containers/App/selectors'
+import useDebounce from 'hooks/useDebounce'
+import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
+import { inputSelectRolesSelector } from 'models/roles/selectors'
+import PageHeader from 'signals/settings/components/PageHeader'
+import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
+
 import useFetchUsers from './hooks/useFetchUsers'
 
 type Params = {

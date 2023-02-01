@@ -1,15 +1,9 @@
-import type { Action } from 'types'
 import type { FetchError } from 'hooks/useFetch'
-import type Context from 'types/context'
-import type { Incident } from 'types/api/incident'
+import type { Action } from 'types'
 import type { DefaultTexts } from 'types/api/default-text'
-import type {
-  State,
-  IncidentChild,
-  HistoryEntry,
-  Attachment,
-  Result,
-} from './types'
+import type { Incident } from 'types/api/incident'
+import type Context from 'types/context'
+
 import type {
   RESET,
   CLOSE_ALL,
@@ -28,6 +22,13 @@ import type {
   SET_CONTEXT,
   EXTERNAL,
 } from './constants'
+import type {
+  State,
+  IncidentChild,
+  HistoryEntry,
+  Attachment,
+  Result,
+} from './types'
 
 export type ResetAction = Action<typeof RESET, void>
 export type CloseAllAction = Action<typeof CLOSE_ALL, void>

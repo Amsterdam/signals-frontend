@@ -9,8 +9,8 @@ import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import { history } from 'test/utils'
 
-import configureStore from '../../configureStore'
 import FooterContainer from './'
+import configureStore from '../../configureStore'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')

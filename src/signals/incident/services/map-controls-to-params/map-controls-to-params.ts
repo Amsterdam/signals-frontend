@@ -2,11 +2,11 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import formatISO from 'date-fns/formatISO'
 
-import type { Incident } from 'types/incident'
 import type { WizardSection } from 'signals/incident/definitions/wizard'
+import type { Incident } from 'types/incident'
 
-import mapValues from '../map-values'
 import mapPaths from '../map-paths'
+import mapValues from '../map-values'
 
 const mapControlsToParams = (incident: Incident, wizard: WizardSection) => {
   let params = {

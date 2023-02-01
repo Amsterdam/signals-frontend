@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Link, themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import BackLink from 'components/BackLink'
 import styled from 'styled-components'
+
+import BackLink from 'components/BackLink'
 
 export const StyledBacklink = styled(BackLink)`
   margin-top: ${themeSpacing(6)};

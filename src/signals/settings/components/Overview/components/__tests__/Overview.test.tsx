@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react'
+
 import { withAppContext } from 'test/utils'
+
 import Overview from '../Overview'
 
 describe('Overview component', () => {

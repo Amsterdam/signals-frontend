@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import L from 'leaflet'
 import './style.css'
 
 import type { FC } from 'react'
+
+import { Marker } from '@amsterdam/arm-core'
+import L from 'leaflet'
+
+import { featureToCoordinates } from 'shared/services/map-location'
 import type {
   Feature,
   FeatureStatusType,
 } from 'signals/incident/components/form/MapSelectors/types'
-import { Marker } from '@amsterdam/arm-core'
-import { featureToCoordinates } from 'shared/services/map-location'
 import type { Geometrie } from 'types/incident'
+
 import { getFeatureStatusType } from './utils'
 
 const STATUS_CLASS_MODIFIER = 'marker-status'

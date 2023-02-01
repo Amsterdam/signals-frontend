@@ -3,6 +3,7 @@
 import type { FC } from 'react'
 
 import { Helmet } from 'react-helmet'
+
 import configuration from 'shared/services/configuration/configuration'
 
 import {

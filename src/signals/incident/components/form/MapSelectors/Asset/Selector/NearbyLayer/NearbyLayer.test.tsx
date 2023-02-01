@@ -16,10 +16,10 @@ import {
 } from 'signals/IncidentMap/components/__test__/utils'
 import geography from 'utils/__tests__/fixtures/geography_public.json'
 
+import NearbyLayer, { findAssetMatch, nearbyMarkerIcon } from './NearbyLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import withAssetSelectContext from '../../__tests__/withAssetSelectContext'
 import { WfsDataProvider } from '../WfsLayer/context'
-import NearbyLayer, { findAssetMatch, nearbyMarkerIcon } from './NearbyLayer'
 
 const category = 'afval'
 const subcategory = 'huisvuil'

@@ -3,14 +3,14 @@
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
-import { withAppContext } from 'test/utils'
-import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes'
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import configuration from 'shared/services/configuration/configuration'
-import { PATCH_TYPE_THOR } from '../../constants'
+import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes'
+import { withAppContext } from 'test/utils'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
-import IncidentDetailContext from '../../context'
 import DetailHeader from '.'
+import { PATCH_TYPE_THOR } from '../../constants'
+import IncidentDetailContext from '../../context'
 
 jest.mock('shared/services/configuration/configuration')
 

@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useCallback, useMemo } from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { compose, bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 
-import { makeSelectEditFilter } from 'signals/incident-management/selectors'
-import FilterForm from 'signals/incident-management/components/FilterForm'
 import { filterType } from 'shared/types'
-
 import {
   applyFilter,
   clearEditFilter as onClearFilter,
@@ -17,6 +15,8 @@ import {
   filterSaved as onSaveFilter,
   filterUpdated as onUpdateFilter,
 } from 'signals/incident-management/actions'
+import FilterForm from 'signals/incident-management/components/FilterForm'
+import { makeSelectEditFilter } from 'signals/incident-management/selectors'
 
 export const FilterContainerComponent = ({
   onApplyFilter,

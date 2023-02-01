@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { useState, useCallback } from 'react'
+
 import PropTypes from 'prop-types'
+
 import FileInputComponent from 'components/FileInput'
+
 import fileSize from '../../../services/file-size'
 
 const FileInput = ({ handler, parent, meta }) => {

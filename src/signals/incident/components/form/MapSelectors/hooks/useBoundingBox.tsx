@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
+
 import { useMapInstance } from '@amsterdam/react-maps'
 import type { Map } from 'leaflet'
-import { useEffect, useState } from 'react'
 
 export type Bbox = {
   east: string

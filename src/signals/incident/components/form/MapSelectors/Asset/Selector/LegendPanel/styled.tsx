@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
-
 import { Close } from '@amsterdam/asc-assets'
 import { breakpoint, Button, themeSpacing } from '@amsterdam/asc-ui'
-import { DETAIL_PANEL_WIDTH } from '../../../constants'
+import styled, { css } from 'styled-components'
+
 import type { LegendPanelProps } from './LegendPanel'
+import { DETAIL_PANEL_WIDTH } from '../../../constants'
 
 /**
  * Panel is positioned off-screen by 200% of its own width (or height, depending on the orientation).

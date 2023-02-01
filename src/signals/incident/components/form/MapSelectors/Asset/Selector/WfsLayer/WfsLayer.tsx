@@ -2,15 +2,17 @@
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useContext, useEffect, useState } from 'react'
 import type { FunctionComponent, ReactElement } from 'react'
+
 import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
-import useLayerVisible from '../../../hooks/useLayerVisible'
-import useBoundingBox from '../../../hooks/useBoundingBox'
+
 import { NO_DATA, WfsDataProvider } from './context'
+import useBoundingBox from '../../../hooks/useBoundingBox'
+import useLayerVisible from '../../../hooks/useLayerVisible'
 
 export const SRS_NAME = 'EPSG:4326'
 

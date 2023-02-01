@@ -2,10 +2,12 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { ComponentType } from 'react'
 import { Component, useEffect } from 'react'
+
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { ReactReduxContext, useStore } from 'react-redux'
 
 import type { InjectedStore, InjectSagaParams } from 'types'
+
 import { getInjectors } from './sagaInjectors'
 
 /**

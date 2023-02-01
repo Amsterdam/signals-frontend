@@ -2,26 +2,24 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
 import { useContext } from 'react'
-import { act, render, screen } from '@testing-library/react'
-
-import type { MapOptions } from 'leaflet'
-import type { FetchMock } from 'jest-fetch-mock'
-import type { FeatureCollection } from 'geojson'
 
 import { Map } from '@amsterdam/react-maps'
-import assetsJson from 'utils/__tests__/fixtures/assets.json'
+import { act, render, screen } from '@testing-library/react'
+import type { FeatureCollection } from 'geojson'
+import type { FetchMock } from 'jest-fetch-mock'
+import type { MapOptions } from 'leaflet'
+
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
+import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
-import type { AssetSelectValue } from '../../types'
-
-import WfsLayer from '../WfsLayer'
-import * as useLayerVisible from '../../../hooks/useLayerVisible'
-import { AssetSelectProvider } from '../../context'
-import { contextValue as assetSelectContextValue } from '../../__tests__/withAssetSelectContext'
-
-import CaterpillarLayer from '../../../Caterpillar/CaterpillarLayer'
 import WfsDataContext, { NO_DATA } from './context'
 import { SRS_NAME } from './WfsLayer'
+import CaterpillarLayer from '../../../Caterpillar/CaterpillarLayer'
+import * as useLayerVisible from '../../../hooks/useLayerVisible'
+import { contextValue as assetSelectContextValue } from '../../__tests__/withAssetSelectContext'
+import { AssetSelectProvider } from '../../context'
+import type { AssetSelectValue } from '../../types'
+import WfsLayer from '../WfsLayer'
 
 const fetchMock = fetch as FetchMock
 

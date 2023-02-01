@@ -5,7 +5,6 @@ import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
-import type { Incident } from '../../types'
 import { DetailPanel } from './DetailPanel'
 import {
   Drawer,
@@ -20,6 +19,7 @@ import {
 } from './styled'
 import { DrawerState } from './types'
 import { isMobile, isDesktop, useDeviceMode } from './utils'
+import type { Incident } from '../../types'
 
 const CONTROLS_PADDING = 32
 

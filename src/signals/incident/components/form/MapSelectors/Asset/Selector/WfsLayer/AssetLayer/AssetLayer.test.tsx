@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
 import { Map } from '@amsterdam/react-maps'
-
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { FeatureCollection } from 'geojson'
-import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import { mocked } from 'jest-mock'
 
-import containerJson from 'utils/__tests__/fixtures/assets.json'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-
+import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Geometrie } from 'types/incident'
-import userEvent from '@testing-library/user-event'
-import { featureToCoordinates } from 'shared/services/map-location'
-import reverseGeocoderService from 'shared/services/reverse-geocoder'
-import { mocked } from 'jest-mock'
-import { WfsDataProvider } from '../context'
+import containerJson from 'utils/__tests__/fixtures/assets.json'
 
 import AssetLayer from '.'
+import { WfsDataProvider } from '../context'
 
 const assetSelectProviderValue: AssetSelectValue = {
   ...contextValue,

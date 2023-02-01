@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import type { MouseEvent, KeyboardEvent } from 'react'
-import type { IconOptions, LatLngLiteral } from 'leaflet'
+
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
+import type { IconOptions, LatLngLiteral } from 'leaflet'
+
 import type { Address } from 'types/address'
+
 import type { UNKNOWN_TYPE, UNREGISTERED_TYPE } from './constants'
 
 export type EventHandler = (

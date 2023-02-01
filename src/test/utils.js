@@ -5,14 +5,15 @@ import React from 'react'
 
 import { ThemeProvider } from '@amsterdam/asc-ui'
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import MapContext from 'containers/MapContext'
 import { createMemoryHistory } from 'history'
 import isObject from 'lodash/isObject'
 import MatchMediaMock from 'match-media-mock'
-import loadModels from 'models'
 import { useForm } from 'react-hook-form'
 import { FormProvider } from 'react-hook-form'
 import { Provider } from 'react-redux'
+
+import MapContext from 'containers/MapContext'
+import loadModels from 'models'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import configureStore from '../configureStore'

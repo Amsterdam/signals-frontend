@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+import { createSelector } from 'reselect'
 
+import {
+  makeSelectMainCategories,
+  makeSelectSubCategories,
+} from 'models/categories/selectors'
+import {
+  makeSelectDirectingDepartments,
+  makeSelectRoutingDepartments,
+} from 'models/departments/selectors'
+import configuration from 'shared/services/configuration/configuration'
 import {
   mapFilterParams,
   mapOrdering,
   parseInputFormData,
 } from 'signals/shared/filter/parse'
-import {
-  makeSelectMainCategories,
-  makeSelectSubCategories,
-} from 'models/categories/selectors'
-import configuration from 'shared/services/configuration/configuration'
 
-import { createSelector } from 'reselect'
-import {
-  makeSelectDirectingDepartments,
-  makeSelectRoutingDepartments,
-} from 'models/departments/selectors'
-import { makeSelectSources } from '../../containers/App/selectors'
-import { initialState } from './reducer'
 import { FILTER_PAGE_SIZE } from './constants'
+import { initialState } from './reducer'
+import { makeSelectSources } from '../../containers/App/selectors'
 
 /**
  * Direct selector to the overviewPage state domain

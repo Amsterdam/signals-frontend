@@ -18,8 +18,8 @@ import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 
-import injectReducer from '../../../../utils/injectReducer'
 import KtoForm from './components/KtoForm'
+import injectReducer from '../../../../utils/injectReducer'
 
 const StyledHeading = styled(Heading)`
   margin-top: ${themeSpacing(6)};

@@ -2,11 +2,11 @@
  * Test injectors
  */
 
-import { put } from 'redux-saga/effects'
 import { render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-
 import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { put } from 'redux-saga/effects'
+
 import configureStore from '../../configureStore'
 import injectSaga, { useInjectSaga } from '../injectSaga'
 import { getInjectors } from '../sagaInjectors'

@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
 
 import AttachmentViewer from '.'

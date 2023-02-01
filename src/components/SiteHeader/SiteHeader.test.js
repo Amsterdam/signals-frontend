@@ -4,6 +4,7 @@ import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import 'jest-styled-components'
 import * as reactResponsive from 'react-responsive'
+
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { history, withAppContext } from 'test/utils'

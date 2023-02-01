@@ -2,10 +2,11 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Suspense, useState } from 'react'
 
-import LoadingIndicator from 'components/LoadingIndicator'
 import type { Location } from 'history'
-import useLocationReferrer from 'hooks/useLocationReferrer'
 import { Redirect, Route, Switch } from 'react-router-dom'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import useLocationReferrer from 'hooks/useLocationReferrer'
 
 import { MyIncidentsProvider } from '../../context/provider'
 import { routes } from '../../definitions'

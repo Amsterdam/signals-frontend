@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import categories from 'utils/__tests__/fixtures/categories.json'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
-import reducer, { initialState } from '../reducer'
+import categories from 'utils/__tests__/fixtures/categories.json'
 
 import {
   RESET,
@@ -17,6 +16,7 @@ import {
   SET_REFRESH,
   SET_SAVE_BUTTON_LABEL,
 } from '../constants'
+import reducer, { initialState } from '../reducer'
 
 describe('signals/incident-management/components/FilterForm/reducer', () => {
   const state = {

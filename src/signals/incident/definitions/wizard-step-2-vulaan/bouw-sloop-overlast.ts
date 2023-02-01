@@ -1,5 +1,5 @@
-import locatie from './locatie'
 import dateTime from './dateTime'
+import locatie from './locatie'
 
 const bouwSloopOverlast = {
   locatie,

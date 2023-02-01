@@ -4,8 +4,8 @@ import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import step2 from '../wizard-step-2-vulaan'
 import FormComponents from '../../components/form'
+import step2 from '../wizard-step-2-vulaan'
 import location from '../wizard-step-2-vulaan/locatie'
 
 const { formFactory } = step2

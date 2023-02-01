@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { ReactElement } from 'react'
-import ReactMarkdown from 'react-markdown'
-import { Heading } from '@amsterdam/asc-ui'
-import isString from 'lodash/isString'
-import get from 'lodash/get'
-
 import type { FC } from 'react'
+
+import { Heading } from '@amsterdam/asc-ui'
+import get from 'lodash/get'
+import isString from 'lodash/isString'
+import ReactMarkdown from 'react-markdown'
 
 const renderText = (
   key: string,

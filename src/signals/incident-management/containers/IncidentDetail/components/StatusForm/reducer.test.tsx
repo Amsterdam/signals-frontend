@@ -4,11 +4,11 @@ import statusList, {
   changeStatusOptionList,
   GEMELD,
 } from 'signals/incident-management/definitions/statusList'
-import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
-import * as constants from './constants'
+import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import * as constants from './constants'
 import reducer, { init } from './reducer'
 
 const someStatus = {

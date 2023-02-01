@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import conformsTo from 'lodash/conformsTo'
+import type { ComponentProps } from 'react'
+
 import invariant from 'invariant'
+import conformsTo from 'lodash/conformsTo'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
 
 import type { InjectedStore } from 'types'
-import type { ComponentProps } from 'react'
+
 import checkStore from './checkStore'
 import { DAEMON, ONCE_TILL_UNMOUNT, RESTART_ON_REMOUNT } from './constants'
 

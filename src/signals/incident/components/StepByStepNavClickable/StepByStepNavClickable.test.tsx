@@ -7,8 +7,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import form from 'react-hook-form'
 
-import WizardContext from '../StepWizard/context/WizardContext'
 import { StepByStepNavClickable } from './StepByStepNavClickable'
+import WizardContext from '../StepWizard/context/WizardContext'
 
 const mockPush = jest.fn()
 const mockSetStepsCompletedCount = jest.fn()

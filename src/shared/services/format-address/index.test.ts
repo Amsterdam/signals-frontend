@@ -1,4 +1,5 @@
 import type { Address } from 'types/address'
+
 import { formatAddress } from '.'
 
 const testAddress: Address = {

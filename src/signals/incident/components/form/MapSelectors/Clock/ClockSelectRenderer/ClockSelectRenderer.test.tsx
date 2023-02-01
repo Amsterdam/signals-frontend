@@ -6,8 +6,8 @@ import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import type { Meta } from '../../types'
 import ClockSelectRenderer from './ClockSelectRenderer'
+import type { Meta } from '../../types'
 
 jest.mock('../../Asset/AssetSelect', () => () => (
   <span data-testid="mock-asset-select" />

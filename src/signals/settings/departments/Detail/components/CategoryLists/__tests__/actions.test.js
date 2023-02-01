@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { SET_CAN_VIEW, SET_IS_RESPONSIBLE } from '../constants'
 import { setCanView, setIsResponsible } from '../actions'
+import { SET_CAN_VIEW, SET_IS_RESPONSIBLE } from '../constants'
 
 describe('signals/settings/departments/Detail/components/CategoryLists/actions', () => {
   test('setCanView', () => {

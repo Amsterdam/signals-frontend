@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 
 import { QuestionFieldType } from 'types/question'
+
 import locatie from './locatie'
 
 const overlastVanDieren = {

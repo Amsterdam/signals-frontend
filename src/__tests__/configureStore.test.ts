@@ -4,9 +4,10 @@
  * Test store addons
  */
 import { composeWithDevTools } from 'redux-devtools-extension'
-import history from '../utils/history'
+
 import configureStore from '../configureStore'
 import type { InjectedStore } from '../types'
+import history from '../utils/history'
 
 describe('configureStore', () => {
   let store: InjectedStore

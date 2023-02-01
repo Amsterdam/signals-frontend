@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { takeLatest, select } from 'redux-saga/effects'
 import { replace } from 'connected-react-router/immutable'
+import { formatISO } from 'date-fns'
+import { takeLatest, select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { formatISO } from 'date-fns'
 
-import request from 'utils/request'
+import { uploadFile } from 'containers/App/saga'
+import { authPostCall, postCall } from 'shared/services/api/api'
+import * as auth from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
+import { coordinatesToAPIFeature } from 'shared/services/map-location'
+import { subCategories } from 'utils/__tests__/fixtures'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json'
+import request from 'utils/request'
 
-import configuration from 'shared/services/configuration/configuration'
-import * as auth from 'shared/services/auth/auth'
-import { authPostCall, postCall } from 'shared/services/api/api'
-import { coordinatesToAPIFeature } from 'shared/services/map-location'
-import { uploadFile } from 'containers/App/saga'
-import { subCategories } from 'utils/__tests__/fixtures'
-
-import * as mapControlsToParams from '../../services/map-controls-to-params'
-
+import { createIncidentSuccess, createIncidentError } from './actions'
 import * as constants from './constants'
 import watchIncidentContainerSaga, {
   getClassification,
@@ -28,9 +26,9 @@ import watchIncidentContainerSaga, {
   postIncident as postIncidentSaga,
   getPostData,
 } from './saga'
-import { resolveQuestions } from './services'
-import { createIncidentSuccess, createIncidentError } from './actions'
 import { getClassificationData, makeSelectIncidentContainer } from './selectors'
+import { resolveQuestions } from './services'
+import * as mapControlsToParams from '../../services/map-controls-to-params'
 
 jest.mock('../../services/map-controls-to-params', () => ({
   __esModule: true,

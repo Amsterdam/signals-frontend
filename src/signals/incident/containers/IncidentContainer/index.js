@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { lazy, Suspense } from 'react'
+
+import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
+import { useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
-import { Row, Column } from '@amsterdam/asc-ui'
+import { createStructuredSelector } from 'reselect'
 
 import { getIsAuthenticated } from 'shared/services/auth/auth'
-import injectSaga from 'utils/injectSaga'
 import injectReducer from 'utils/injectReducer'
+import injectSaga from 'utils/injectSaga'
 
-import { useLocation } from 'react-router-dom'
-import wizardDefinition from '../../definitions/wizard'
-import IncidentClassification from '../../components/IncidentClassification'
 import {
   getClassification,
   updateIncident,
@@ -22,9 +21,11 @@ import {
   addToSelection,
   removeFromSelection,
 } from './actions'
-import { makeSelectIncidentContainer } from './selectors'
 import reducer from './reducer'
 import saga from './saga'
+import { makeSelectIncidentContainer } from './selectors'
+import IncidentClassification from '../../components/IncidentClassification'
+import wizardDefinition from '../../definitions/wizard'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next

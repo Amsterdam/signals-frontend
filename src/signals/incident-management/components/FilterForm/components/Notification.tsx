@@ -4,6 +4,7 @@ import type { MutableRefObject } from 'react'
 import { useEffect } from 'react'
 
 import { Alert } from '@amsterdam/asc-ui'
+
 import { StyledNotification } from '../styled'
 
 export type Props = {

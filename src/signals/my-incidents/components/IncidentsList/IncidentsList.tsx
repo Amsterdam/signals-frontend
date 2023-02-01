@@ -10,9 +10,6 @@ import { Link } from 'react-router-dom'
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
-import { useMyIncidentContext } from '../../context'
-import { routes } from '../../definitions'
-import type { MyIncident, Result } from '../../types'
 import {
   Divider,
   Heading,
@@ -22,6 +19,9 @@ import {
   StyledLink,
   Wrapper,
 } from './styled'
+import { useMyIncidentContext } from '../../context'
+import { routes } from '../../definitions'
+import type { MyIncident, Result } from '../../types'
 
 interface Props {
   token: string

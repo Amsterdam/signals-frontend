@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom'
 
 const useDefaultHeader = () => {
   const location = useLocation()
-  const routesWithCustomHeader = ['/meldingenkaart']
+  const routesWithCustomHeader = useMemo(() => ['/meldingenkaart'], [])
 
   return useMemo(
     () =>

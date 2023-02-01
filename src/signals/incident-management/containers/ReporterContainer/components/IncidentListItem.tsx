@@ -9,8 +9,8 @@ import styled from 'styled-components'
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
 import type { Theme } from 'types/theme'
 
-import type { ReporterIncident } from '../types'
 import FeedbackStatus from './FeedbackStatus'
+import type { ReporterIncident } from '../types'
 
 const Info = styled.span`
   font-weight: bold;

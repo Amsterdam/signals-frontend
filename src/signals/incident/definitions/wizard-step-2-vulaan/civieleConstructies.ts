@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { QuestionFieldType } from 'types/question'
+
 import locatie from './locatie'
 
 export const civieleConstructies = {

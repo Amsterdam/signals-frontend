@@ -1,16 +1,15 @@
-import { Link } from 'react-router-dom'
 import {
   Heading,
   themeSpacing,
   Link as AscLink,
   themeColor,
 } from '@amsterdam/asc-ui'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import BackLink from 'components/BackLink'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
-
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 

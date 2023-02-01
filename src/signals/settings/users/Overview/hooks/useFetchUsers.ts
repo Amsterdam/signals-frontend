@@ -3,10 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 
 import { PAGE_SIZE as page_size } from 'containers/App/constants'
-import configuration from 'shared/services/configuration/configuration'
 import useFetch from 'hooks/useFetch'
-
 import type { FetchError } from 'hooks/useFetch'
+import configuration from 'shared/services/configuration/configuration'
 import type UsersData from 'types/api/users'
 
 import filterData from '../../../filterData'

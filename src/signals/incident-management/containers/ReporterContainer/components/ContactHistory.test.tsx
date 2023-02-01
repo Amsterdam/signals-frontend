@@ -6,12 +6,12 @@ import * as reactRedux from 'react-redux'
 import { showGlobalNotification } from 'containers/App/actions'
 import { withAppContext } from 'test/utils'
 
+import ContactHistory from './ContactHistory'
 import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../internals/testing/msw-server'
-import ContactHistory from './ContactHistory'
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)

@@ -9,6 +9,7 @@ import {
   act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'

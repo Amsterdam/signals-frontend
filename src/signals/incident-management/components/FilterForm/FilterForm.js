@@ -33,12 +33,6 @@ import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
 
-import CheckboxList from '../../../../components/CheckboxList'
-import AppContext from '../../../../containers/App/context'
-import RefreshIcon from '../../../../images/icon-refresh.svg'
-import IncidentManagementContext from '../../context'
-import { makeSelectFilterParams } from '../../selectors'
-import CalendarInput from '../CalendarInput'
 import {
   reset,
   setAddress,
@@ -67,6 +61,12 @@ import {
   FormFooterWrapper,
 } from './styled'
 import { hasTooManyFiltersSelected } from './utils'
+import CheckboxList from '../../../../components/CheckboxList'
+import AppContext from '../../../../containers/App/context'
+import RefreshIcon from '../../../../images/icon-refresh.svg'
+import IncidentManagementContext from '../../context'
+import { makeSelectFilterParams } from '../../selectors'
+import CalendarInput from '../CalendarInput'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
 const getUserOptions = (data) =>

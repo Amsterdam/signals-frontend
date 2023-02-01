@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import { MAP_URL, INCIDENTS_URL } from '../../../../routes'
 import { MapHeading, TabContainer, Tab } from './styled'
+import { MAP_URL, INCIDENTS_URL } from '../../../../routes'
 
 type SubNavProps = {
   showsMap?: boolean

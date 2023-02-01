@@ -4,19 +4,6 @@ import categories from 'utils/__tests__/fixtures/categories.json'
 import structuredCategories from 'utils/__tests__/fixtures/categories_structured.json'
 
 import {
-  RESET,
-  SET_ADDRESS,
-  SET_SAVE_BUTTON_LABEL,
-  SET_CATEGORIES,
-  SET_DATE,
-  SET_GROUP_OPTIONS,
-  SET_MAIN_CATEGORY,
-  SET_NAME,
-  SET_NOTE_KEYWORD,
-  SET_REFRESH,
-} from '../constants'
-
-import {
   reset,
   setAddress,
   setSaveButtonLabel,
@@ -28,6 +15,18 @@ import {
   setNoteKeyword,
   setRefresh,
 } from '../actions'
+import {
+  RESET,
+  SET_ADDRESS,
+  SET_SAVE_BUTTON_LABEL,
+  SET_CATEGORIES,
+  SET_DATE,
+  SET_GROUP_OPTIONS,
+  SET_MAIN_CATEGORY,
+  SET_NAME,
+  SET_NOTE_KEYWORD,
+  SET_REFRESH,
+} from '../constants'
 
 describe('signals/incident-management/components/FilterForm/actions', () => {
   it('should create an action to reset the state', () => {

@@ -1,36 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { compose, bindActionCreators } from 'redux'
+import { useCallback, useEffect } from 'react'
+
 import { Heading, Row, Column, themeSpacing } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { useForm, Controller } from 'react-hook-form'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
-import { dataListType, defaultTextsType } from 'shared/types'
-import { makeSelectSubCategories } from 'models/categories/selectors'
-import LoadingIndicator from 'components/LoadingIndicator'
-
-import injectSaga from 'utils/injectSaga'
-import injectReducer from 'utils/injectReducer'
-
 import FormFooter from 'components/FormFooter'
-import { useCallback, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { reCategory } from '../../../../shared/services/resolveClassification'
-import { statusList } from '../../definitions'
-import HiddenInput from '../../components/HiddenInput'
-import SelectForm from './components/SelectForm'
-import DefaultTextsForm from './components/DefaultTextsForm'
+import LoadingIndicator from 'components/LoadingIndicator'
+import { makeSelectSubCategories } from 'models/categories/selectors'
+import { dataListType, defaultTextsType } from 'shared/types'
+import injectReducer from 'utils/injectReducer'
+import injectSaga from 'utils/injectSaga'
 
 import {
   fetchDefaultTexts,
   storeDefaultTexts,
   orderDefaultTexts,
 } from './actions'
-import makeSelectDefaultTextsAdmin from './selectors'
+import DefaultTextsForm from './components/DefaultTextsForm'
+import SelectForm from './components/SelectForm'
 import reducer from './reducer'
 import saga from './saga'
+import makeSelectDefaultTextsAdmin from './selectors'
+import { reCategory } from '../../../../shared/services/resolveClassification'
+import HiddenInput from '../../components/HiddenInput'
+import { statusList } from '../../definitions'
 
 const StyledH1 = styled(Heading)`
   margin-bottom: ${themeSpacing(8)};

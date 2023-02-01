@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
+
 import priorityList from 'signals/incident-management/definitions/priorityList'
+import { withAppContext } from 'test/utils'
 
 import RadioInput from '.'
 

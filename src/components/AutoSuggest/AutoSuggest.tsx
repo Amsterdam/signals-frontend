@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
-
 import type { FC } from 'react'
-import type { PdokResponse } from 'shared/services/map-location'
-import type { RevGeo } from 'types/pdok/revgeo'
+
+import { Close } from '@amsterdam/asc-assets'
 
 import useDebounce from 'hooks/useDebounce'
 import useFetch from 'hooks/useFetch'
-import { Close } from '@amsterdam/asc-assets'
+import type { PdokResponse } from 'shared/services/map-location'
+import type { RevGeo } from 'types/pdok/revgeo'
+
 import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350

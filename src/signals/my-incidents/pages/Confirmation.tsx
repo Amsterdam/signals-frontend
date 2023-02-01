@@ -6,10 +6,10 @@ import { useHistory } from 'react-router-dom'
 
 import Button from 'components/Button'
 
+import { BasePage } from './BasePage'
 import { useMyIncidentContext } from '../context/context'
 import { routes } from '../definitions'
 import { usePostEmail } from '../hooks'
-import { BasePage } from './BasePage'
 
 export const Confirmation = () => {
   const { email } = useMyIncidentContext()

@@ -2,7 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { withAppContext } from 'test/utils'
+
 import ModalHeader from './ModalHeader'
 
 describe('StatusForm ModalHeader component', () => {

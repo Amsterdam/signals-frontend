@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { AlertLevel } from '@amsterdam/asc-ui'
+
 import {
   changeStatusOptionList,
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
 import { StatusCode } from 'signals/incident-management/definitions/types'
+
 import * as constants from './constants'
 
 export const emailSentWhenStatusChangedTo = ({

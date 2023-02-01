@@ -1,21 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useEffect, lazy, Suspense } from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
-import configuration from 'shared/services/configuration/configuration'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
+import LoadingIndicator from 'components/LoadingIndicator'
 import ProtectedRoute from 'components/ProtectedRoute'
-
 import { makeSelectUserCanAccess } from 'containers/App/selectors'
-
+import useLocationReferrer from 'hooks/useLocationReferrer'
 import {
   fetchRoles as fetchRolesAction,
   fetchPermissions as fetchPermissionsAction,
 } from 'models/roles/actions'
-import useLocationReferrer from 'hooks/useLocationReferrer'
-import LoadingIndicator from 'components/LoadingIndicator'
+import { getIsAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
 
 import routes, {
   USERS_PAGED_URL,

@@ -4,8 +4,8 @@ import appConfiguration from 'shared/services/configuration/configuration'
 import { falsyOrNumber } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
-import type ConfigurationType from '../../../../../app.amsterdam.json'
 import locatie from './locatie'
+import type ConfigurationType from '../../../../../app.amsterdam.json'
 
 export const ICON_SIZE = 40
 

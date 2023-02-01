@@ -8,7 +8,9 @@ const HiddenInput = (props) => {
     parent.meta.updateIncident({
       [meta.name]: meta.value,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   if (!meta.name || !meta.value) return null
   return (
     <input

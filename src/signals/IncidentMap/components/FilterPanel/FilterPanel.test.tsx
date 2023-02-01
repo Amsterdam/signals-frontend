@@ -2,8 +2,11 @@
 /* Copyright (C) 2023 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import configuration from 'shared/services/configuration/configuration'
 
+import type { Props } from './FilterPanel'
+import { FilterPanel } from './FilterPanel'
 import useFetch from '../../../../hooks/useFetch'
 import type { Filter, SubCategory } from '../../types'
 import {
@@ -12,8 +15,6 @@ import {
   fetchCategoriesResponse,
   mockFiltersLong,
 } from '../__test__'
-import type { Props } from './FilterPanel'
-import { FilterPanel } from './FilterPanel'
 
 jest.mock('hooks/useFetch')
 

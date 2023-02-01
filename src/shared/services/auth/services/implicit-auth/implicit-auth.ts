@@ -3,8 +3,8 @@
 /* eslint-disable class-methods-use-this */
 import configuration from '../../../configuration/configuration'
 import parseAccessToken from '../parse-access-token'
-import randomStringGenerator from '../random-string-generator'
 import queryStringParser from '../query-string-parser'
+import randomStringGenerator from '../random-string-generator'
 
 let tokenData: Record<string, any> = {}
 

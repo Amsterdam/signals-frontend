@@ -25,7 +25,6 @@ import type {
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
 
-import IncidentManagementContext from '../../../../context'
 import {
   ContentSpan,
   Th,
@@ -43,6 +42,7 @@ import {
   Table,
   StyledIcon,
 } from './styles'
+import IncidentManagementContext from '../../../../context'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList

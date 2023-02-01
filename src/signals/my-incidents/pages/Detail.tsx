@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory } from 'react-router-dom'
 
+import { ContentWrapper, StyledRow } from './styled'
 import useFetch from '../../../hooks/useFetch'
 import useLocationReferrer from '../../../hooks/useLocationReferrer'
 import configuration from '../../../shared/services/configuration/configuration'
@@ -14,7 +15,6 @@ import { Map } from '../components/Map'
 import { routes } from '../definitions'
 import type { HistoryInstance } from '../types'
 import type { MyIncidentDetail } from '../types'
-import { ContentWrapper, StyledRow } from './styled'
 
 export const Detail = () => {
   const { get, data, error } = useFetch<MyIncidentDetail>()

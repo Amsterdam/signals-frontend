@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import configuration from 'shared/services/configuration/configuration'
 import { mocked } from 'jest-mock'
+
+import configuration from 'shared/services/configuration/configuration'
+
 import * as auth from './auth'
 import ImplicitAuth from './services/implicit-auth'
 import Keycloak from './services/keycloak-auth'

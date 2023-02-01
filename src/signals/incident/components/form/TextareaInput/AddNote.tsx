@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
+import type { FC, FocusEvent } from 'react'
 
 import GenericAddNote, { getAddNoteError } from 'components/AddNote'
-
-import type { FC, FocusEvent } from 'react'
 import type { AddNoteProps } from 'components/AddNote/AddNote'
 
 const AddNote: FC<AddNoteProps> = ({ maxContentLength, onBlur, ...props }) => {

@@ -13,14 +13,14 @@ import { withAppContext } from 'test/utils'
 import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 
 import MockInstance = jest.MockInstance
+import type { AssetListProps } from './AssetList'
+import AssetList from './AssetList'
+import { AssetListItem } from './AssetList'
 import type { Item } from '../../types'
 import { FeatureStatus } from '../../types'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
-import type { AssetListProps } from './AssetList'
-import AssetList from './AssetList'
-import { AssetListItem } from './AssetList'
 
 const del = jest.fn()
 const get = jest.fn()

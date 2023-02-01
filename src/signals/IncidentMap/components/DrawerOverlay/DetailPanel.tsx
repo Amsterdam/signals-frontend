@@ -6,14 +6,15 @@ import { Close } from '@amsterdam/asc-assets'
 import { Heading } from '@amsterdam/asc-ui'
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
-import { capitalize } from 'shared/services/date-utils'
-import type { PdokAddress } from 'shared/services/map-location'
 import styled from 'styled-components'
 
-import type { Incident } from '../../types'
+import { capitalize } from 'shared/services/date-utils'
+import type { PdokAddress } from 'shared/services/map-location'
+
 import { StyledList } from './styled'
 import { CloseButton, DetailsWrapper } from './styled'
 import { getAddress } from './utils'
+import type { Incident } from '../../types'
 
 // Using this block, we can use ref on DetailsWrapper
 const Block = styled.div``

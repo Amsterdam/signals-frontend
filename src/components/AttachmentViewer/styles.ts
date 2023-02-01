@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Button, Modal, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import InteractiveImage from './components/InteractiveImage/InteractiveImage'
 
 const StyledButton = styled(Button)`

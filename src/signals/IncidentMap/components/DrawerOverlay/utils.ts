@@ -8,8 +8,8 @@ import { featureToCoordinates } from 'shared/services/map-location'
 import type { PdokAddress } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
-import type { PointLatLng } from '../../types'
 import { DeviceMode } from './types'
+import type { PointLatLng } from '../../types'
 
 export function useDeviceMode(): DeviceMode {
   const [deviceMode, setDeviceMode] = useState(getDeviceMode(window.innerWidth))

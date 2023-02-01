@@ -17,10 +17,6 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { DOORGEZET_NAAR_EXTERN } from 'signals/incident-management/definitions/statusList'
 
-import { PATCH_TYPE_STATUS } from '../../constants'
-import IncidentDetailContext from '../../context'
-import type { EmailTemplate } from '../../types'
-import EmailPreview from '../EmailPreview/EmailPreview'
 import {
   Form,
   Image,
@@ -31,6 +27,10 @@ import {
   StyledParagraph,
   StyledSection,
 } from './styled'
+import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
+import type { EmailTemplate } from '../../types'
+import EmailPreview from '../EmailPreview/EmailPreview'
 
 export const MAX_MESSAGE_LENGTH = 3000
 const schema = yup.object({

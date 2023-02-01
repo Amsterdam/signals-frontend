@@ -9,8 +9,8 @@ import type { LatLngTuple } from 'leaflet'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 
 import { ZoomMessage } from '.'
-import * as useLayerVisible from '../../hooks/useLayerVisible'
 import { MapMessage } from './MapMessage'
+import * as useLayerVisible from '../../hooks/useLayerVisible'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const options = {

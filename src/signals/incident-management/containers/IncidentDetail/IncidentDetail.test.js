@@ -16,6 +16,7 @@ import { withAppContext } from 'test/utils'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import IncidentDetail from './'
 import * as API from '../../../../../internals/testing/api'
 import {
   fetchMock,
@@ -23,7 +24,6 @@ import {
   rest,
   server,
 } from '../../../../../internals/testing/msw-server'
-import IncidentDetail from './'
 
 jest.spyOn(window, 'scrollTo')
 jest

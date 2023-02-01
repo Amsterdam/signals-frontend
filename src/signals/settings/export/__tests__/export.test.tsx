@@ -1,8 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
-import configuration from 'shared/services/configuration/configuration'
+
 import type { FetchError } from 'hooks/useFetch'
 import useFetch from 'hooks/useFetch'
+import configuration from 'shared/services/configuration/configuration'
+import { withAppContext } from 'test/utils'
+
 import Export from '../'
 
 const labels = {

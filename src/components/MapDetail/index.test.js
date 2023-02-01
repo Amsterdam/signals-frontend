@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render } from '@testing-library/react'
+
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import { withAppContext } from 'test/utils'
 

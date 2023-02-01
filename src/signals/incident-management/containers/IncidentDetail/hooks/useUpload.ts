@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react'
+
 import type { EventChannel } from 'redux-saga'
 import { runSaga, stdChannel } from 'redux-saga'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
-import { useEffect, useState } from 'react'
-import fileUploadChannel from 'shared/services/file-upload-channel'
+
 import configuration from 'shared/services/configuration/configuration'
+import fileUploadChannel from 'shared/services/file-upload-channel'
 
 export type Files = Array<{
   name: string

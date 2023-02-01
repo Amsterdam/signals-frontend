@@ -2,6 +2,7 @@
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import form from 'react-hook-form'
+
 import { withAppContext } from 'test/utils'
 
 import GlobalError from '../index'

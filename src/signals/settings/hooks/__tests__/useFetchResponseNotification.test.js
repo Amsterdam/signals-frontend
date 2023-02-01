@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
-import * as reactRouterDom from 'react-router-dom'
 import * as reactRedux from 'react-redux'
-import { withAppContext } from 'test/utils'
+import * as reactRouterDom from 'react-router-dom'
+
 import { showGlobalNotification } from 'containers/App/actions'
 import {
   TYPE_LOCAL,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
+import { withAppContext } from 'test/utils'
 
 import useFetchResponseNotification from '../useFetchResponseNotification'
 

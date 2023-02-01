@@ -5,9 +5,9 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
+import { Confirmation } from './Confirmation'
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
-import { Confirmation } from './Confirmation'
 
 let mockResponse = {}
 

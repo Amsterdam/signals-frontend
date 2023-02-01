@@ -2,11 +2,12 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import { useMemo } from 'react'
 import type { FunctionComponent } from 'react'
+
+import { useSelector } from 'react-redux'
 import type { RouteComponentProps, RouteProps } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
 import NotFoundPage from 'components/pages/NotFoundPage'
-import { useSelector } from 'react-redux'
 import {
   makeSelectUserCan,
   makeSelectUserCanAccess,

@@ -10,8 +10,8 @@ import StepByStepNavStyle, {
 } from '@amsterdam/asc-ui/lib/components/StepByStepNav/StepByStepNavStyle'
 import { useFormContext } from 'react-hook-form'
 
-import { WizardContext } from '../StepWizard'
 import { StyledLabel, StyledListItem } from './styled'
+import { WizardContext } from '../StepWizard'
 
 type Props = StepByStepNavProps &
   HTMLAttributes<HTMLElement> & { wizardRoutes: string[]; activeItem: number }

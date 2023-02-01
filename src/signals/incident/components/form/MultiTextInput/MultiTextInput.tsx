@@ -4,11 +4,12 @@ import type { KeyboardEvent } from 'react'
 import type { FunctionComponent } from 'react'
 
 import { themeSpacing } from '@amsterdam/asc-ui'
+import map from 'lodash/map'
+import styled from 'styled-components'
+
 import Button from 'components/Button'
 import FormField from 'components/FormField'
 import Input from 'components/Input'
-import map from 'lodash/map'
-import styled from 'styled-components'
 import type { FormInputProps, FormMeta, ParentType } from 'types/reactive-form'
 
 const allowedChars = /[\d,.;]+/

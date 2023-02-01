@@ -14,11 +14,11 @@ import { isEmpty, isObject } from 'lodash'
 import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
+import { Form, Fieldset, ProgressContainer } from './styled'
+import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
 import { WizardContext } from '../StepWizard'
-import { Form, Fieldset, ProgressContainer } from './styled'
-import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 
 const IncidentForm = forwardRef<any, any>(
   (
@@ -129,6 +129,7 @@ const IncidentForm = forwardRef<any, any>(
 
     useEffect(() => {
       reactHookFormProps.clearErrors()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const setIncident = useCallback(

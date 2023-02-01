@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback } from 'react'
-import styled from 'styled-components'
-import { useSelector } from 'react-redux'
-import { Row, Column } from '@amsterdam/asc-ui'
-import { useHistory } from 'react-router-dom'
 
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
+import { Row, Column } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
+
 import ListComponent from 'components/List'
-import { makeSelectDepartments } from 'models/departments/selectors'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectUserCan } from 'containers/App/selectors'
+import { makeSelectDepartments } from 'models/departments/selectors'
+import PageHeader from 'signals/settings/components/PageHeader'
 import { DEPARTMENT_URL } from 'signals/settings/routes'
 
 import filterData from '../../filterData'

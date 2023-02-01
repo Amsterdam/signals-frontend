@@ -2,11 +2,12 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { render, fireEvent, act, waitFor } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
-import { withAppContext } from 'test/utils'
 
-import categories from 'utils/__tests__/fixtures/categories_structured.json'
-import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
 import * as constants from 'containers/App/constants'
+import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import { withAppContext } from 'test/utils'
+import categories from 'utils/__tests__/fixtures/categories_structured.json'
+
 import { CategoriesOverviewContainer as CategoriesOverview } from '..'
 
 jest.mock('react-router-dom', () => ({

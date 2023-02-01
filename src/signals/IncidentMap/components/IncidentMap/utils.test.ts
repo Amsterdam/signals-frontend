@@ -2,8 +2,8 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { Map } from 'leaflet'
 
-import { DEFAULT_ZOOM } from '../utils'
 import { getZoom } from './utils'
+import { DEFAULT_ZOOM } from '../utils'
 
 describe('utils', () => {
   describe('getZoom', () => {

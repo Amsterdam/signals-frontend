@@ -2,9 +2,9 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 
+import { IncidentsDetail } from './IncidentsDetail'
 import { withAppContext } from '../../../../test/utils'
 import { incidentsDetail } from '../../__test__/incidents-detail'
-import { IncidentsDetail } from './IncidentsDetail'
 
 const setShowMap = jest.fn()
 

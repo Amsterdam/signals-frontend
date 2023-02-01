@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import priorityList from 'signals/incident-management/definitions/priorityList'
-import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
-import categories from 'utils/__tests__/fixtures/categories_private.json'
 import { filterForSub, filterForMain } from 'models/categories/selectors'
 import dataLists from 'signals/incident-management/definitions'
+import priorityList from 'signals/incident-management/definitions/priorityList'
+import stadsdeelList from 'signals/incident-management/definitions/stadsdeelList'
+import { subCategories, mainCategories } from 'utils/__tests__/fixtures'
+import categories from 'utils/__tests__/fixtures/categories_private.json'
 import category from 'utils/__tests__/fixtures/category.json'
 
-import { subCategories, mainCategories } from 'utils/__tests__/fixtures'
 import {
   parseDate,
   parseOutputFormData,

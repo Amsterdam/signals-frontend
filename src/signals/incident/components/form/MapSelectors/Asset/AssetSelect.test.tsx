@@ -15,17 +15,17 @@ import type { Location } from 'types/incident'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
 import AssetSelect from '.'
+import withAssetSelectContext, {
+  contextValue,
+} from './__tests__/withAssetSelectContext'
+import type { AssetSelectProps } from './AssetSelect'
+import { initialValue } from './context'
 import {
   UNKNOWN_TYPE,
   UNREGISTERED_TYPE as mockUNREGISTERED_TYPE,
   UNREGISTERED_TYPE,
 } from '../constants'
 import type { Item } from '../types'
-import withAssetSelectContext, {
-  contextValue,
-} from './__tests__/withAssetSelectContext'
-import type { AssetSelectProps } from './AssetSelect'
-import { initialValue } from './context'
 
 const mockLatLng = { lat: 10, lng: 20 }
 const mockItem = {

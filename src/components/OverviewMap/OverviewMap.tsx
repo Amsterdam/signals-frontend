@@ -38,9 +38,9 @@ import type { PdokResponse } from 'shared/services/map-location'
 import { makeSelectFilterParams } from 'signals/incident-management/selectors'
 import type { Geometrie } from 'types/incident'
 
-import MarkerCluster from '../MarkerCluster'
 import DetailPanel from './DetailPanel'
 import type { IncidentSummary } from './types'
+import MarkerCluster from '../MarkerCluster'
 
 interface Feature {
   geometry: Geometrie

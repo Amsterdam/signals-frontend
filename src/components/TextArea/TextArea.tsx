@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { forwardRef, useState, useCallback, useEffect } from 'react'
-
 import type { ChangeEvent, ReactNode, ForwardedRef } from 'react'
+
 import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
 
 import Label from 'components/Label'
+
 import {
   StyledErrorMessage,
   StyledArea,
