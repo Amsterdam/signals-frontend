@@ -105,9 +105,13 @@ export const IncidentMap = () => {
   const { incidents, error, getIncidents } = usePaginatedIncidents()
 
   /* istanbul ignore next */
-  const throttledGetIncidents = throttle((arg) => getIncidents(arg), 500, {
-    trailing: false,
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const throttledGetIncidents = useCallback(
+    throttle((arg) => getIncidents(arg), 500, {
+      trailing: false,
+    }),
+    []
+  )
 
   /* istanbul ignore next */
   useEffect(() => {
