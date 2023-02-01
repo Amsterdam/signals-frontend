@@ -7,7 +7,6 @@ import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
-import { useFilters } from '../../hooks/useFilter'
 import OptionsList from './OptionsList'
 import {
   InvisibleButton,
@@ -17,6 +16,7 @@ import {
   SelectContainer,
 } from './styled'
 import type { Filter } from './types'
+import { useFilters } from '../../hooks/useFilter'
 
 type Props = {
   filterActiveName: string
@@ -129,15 +129,15 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         <RefreshIcon width={16} height={18} />
         Wis filters
       </Select>
-      {activeFilter?.name && isNumber(optionsOffsetLeftRef.current) && (
-        <OptionListDropdown>
+      <OptionListDropdown active={!!activeFilter?.name}>
+        {activeFilter?.name && isNumber(optionsOffsetLeftRef.current) && (
           <OptionsList
             optionsOffsetLeft={optionsOffsetLeftRef.current}
             activeFilter={activeFilter}
             setFilterNameActive={setFilterActiveName}
           />
-        </OptionListDropdown>
-      )}
+        )}
+      </OptionListDropdown>
     </SelectContainer>
   )
 }
