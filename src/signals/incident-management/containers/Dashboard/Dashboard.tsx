@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+import { BarChart } from './components/BarChart'
 import { useCallback, useEffect, useState } from 'react'
 
 import GlobalError from 'components/GlobalError'
@@ -29,6 +30,7 @@ const Dashboard = () => {
     <StyledRow data-testid="menu">
       <Filter />
       <AreaChart />
+      <BarChart />
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </StyledRow>
   )
