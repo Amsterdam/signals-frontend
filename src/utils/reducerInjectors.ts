@@ -8,8 +8,8 @@ import type { Reducer } from 'redux'
 
 import type { InjectedStore } from 'types'
 
-import createReducer from '../reducers'
 import checkStore from './checkStore'
+import createReducer from '../reducers'
 
 export function injectReducerFactory(store: InjectedStore, isValid = false) {
   return function injectReducer<T>(key: string, reducer: Reducer<T>) {

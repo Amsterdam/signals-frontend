@@ -4,11 +4,11 @@ import { screen, render } from '@testing-library/react'
 
 import { history, withAppContext } from 'test/utils'
 
+import { IncidentsList } from './IncidentsList'
 import useFetch from '../../../../hooks/useFetch'
 import { providerMock } from '../../__test__'
 import { incidentsList as incidentsListMock } from '../../__test__/incidents-list'
 import { MyIncidentsProvider } from '../../context'
-import { IncidentsList } from './IncidentsList'
 
 jest.mock('hooks/useFetch')
 

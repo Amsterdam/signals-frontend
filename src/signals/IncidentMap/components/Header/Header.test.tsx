@@ -3,8 +3,8 @@
 import { screen, render } from '@testing-library/react'
 import * as reactResponsive from 'react-responsive'
 
-import { resizeWindow } from '../__test__'
 import { Header } from './Header'
+import { resizeWindow } from '../__test__'
 
 jest.mock('react-responsive')
 

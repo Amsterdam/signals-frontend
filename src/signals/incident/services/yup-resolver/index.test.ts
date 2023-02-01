@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
-import { falsyOrNumber, validatePhoneNumber } from '../custom-validators'
 import { setupSchema } from './index'
+import { falsyOrNumber, validatePhoneNumber } from '../custom-validators'
 
 describe('Yup resolver takes a bunch of controls and returns it into a schema', () => {
   it('should return a schema', async () => {

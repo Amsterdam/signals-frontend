@@ -18,9 +18,9 @@ import {
   parseInputFormData,
 } from 'signals/shared/filter/parse'
 
-import { makeSelectSources } from '../../containers/App/selectors'
 import { FILTER_PAGE_SIZE } from './constants'
 import { initialState } from './reducer'
+import { makeSelectSources } from '../../containers/App/selectors'
 
 /**
  * Direct selector to the overviewPage state domain

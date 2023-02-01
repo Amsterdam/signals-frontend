@@ -10,8 +10,8 @@ import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 
-import AddNote from '../AddNote'
 import StyledUploadProgress from './UploadProgress'
+import AddNote from '../AddNote'
 
 export const Wrapper = styled.section`
   contain: content;

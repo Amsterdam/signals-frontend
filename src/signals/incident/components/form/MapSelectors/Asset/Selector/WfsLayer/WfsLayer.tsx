@@ -10,9 +10,9 @@ import type { FeatureCollection } from 'geojson'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
+import { NO_DATA, WfsDataProvider } from './context'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
-import { NO_DATA, WfsDataProvider } from './context'
 
 export const SRS_NAME = 'EPSG:4326'
 

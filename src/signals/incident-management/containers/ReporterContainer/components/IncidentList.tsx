@@ -2,8 +2,8 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
-import type { ReporterIncident } from '../types'
 import IncidentListItem from './IncidentListItem'
+import type { ReporterIncident } from '../types'
 
 interface InterfaceListProps {
   list: ReporterIncident[]

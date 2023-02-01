@@ -5,9 +5,9 @@ import { mocked } from 'jest-mock'
 import injectReducerModel from 'utils/injectReducerModel'
 import injectSagaModel from 'utils/injectSagaModel'
 
-import loadModel from '..'
 import reducer from './reducer'
 import saga from './saga'
+import loadModel from '..'
 
 jest.mock('utils/injectReducerModel')
 jest.mock('utils/injectSagaModel')

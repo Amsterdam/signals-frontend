@@ -5,8 +5,8 @@ import type { FC, SyntheticEvent } from 'react'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 
-import ModalDialog from '../../../ModalDialog'
 import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
+import ModalDialog from '../../../ModalDialog'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>

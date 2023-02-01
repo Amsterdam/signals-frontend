@@ -20,10 +20,6 @@ import type {
 import type { WizardSection } from 'signals/incident/definitions/wizard'
 import type { Incident } from 'types/incident'
 
-import IncidentForm from '../IncidentForm'
-import IncidentPreview from '../IncidentPreview'
-import { StepByStepNavClickable } from '../StepByStepNavClickable'
-import { Wizard, Steps, Step } from '../StepWizard'
 import onNext from './services/on-next'
 import {
   FormWrapper,
@@ -33,6 +29,10 @@ import {
   StyledH1,
   Wrapper,
 } from './styled'
+import IncidentForm from '../IncidentForm'
+import IncidentPreview from '../IncidentPreview'
+import { StepByStepNavClickable } from '../StepByStepNavClickable'
+import { Wizard, Steps, Step } from '../StepWizard'
 
 interface IncidentWizardProps {
   wizardDefinition: WizardSection

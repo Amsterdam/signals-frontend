@@ -1,5 +1,5 @@
-import { mockFiltersLong } from '../__test__'
 import { updateFilterCategory } from './update-filter-category'
+import { mockFiltersLong } from '../__test__'
 
 describe('updateFilterCategory', () => {
   it('should set filter inactive', () => {

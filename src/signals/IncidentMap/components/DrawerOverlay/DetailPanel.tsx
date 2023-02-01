@@ -11,10 +11,10 @@ import styled from 'styled-components'
 import { capitalize } from 'shared/services/date-utils'
 import type { PdokAddress } from 'shared/services/map-location'
 
-import type { Incident } from '../../types'
 import { StyledList } from './styled'
 import { CloseButton, DetailsWrapper } from './styled'
 import { getAddress } from './utils'
+import type { Incident } from '../../types'
 
 // Using this block, we can use ref on DetailsWrapper
 const Block = styled.div``

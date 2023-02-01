@@ -5,9 +5,9 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext, history } from 'test/utils'
 
+import { LoginForm } from './LoginForm'
 import { providerMock } from '../../__test__'
 import { MyIncidentsProvider } from '../../context'
-import { LoginForm } from './LoginForm'
 
 describe('LoginForm', () => {
   it('should render correctly', () => {

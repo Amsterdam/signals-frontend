@@ -22,10 +22,10 @@ import * as types from 'shared/types'
 import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
 
-import useConfirmedCancel from '../../hooks/useConfirmedCancel'
-import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 import CategoryLists from './components/CategoryLists'
 import DepartmentDetailContext from './context'
+import useConfirmedCancel from '../../hooks/useConfirmedCancel'
+import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 
 export const DepartmentDetailContainer = ({
   categories,

@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 
-import { Header } from '../components/Header'
 import { Wrapper } from './styled'
+import { Header } from '../components/Header'
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
 const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))

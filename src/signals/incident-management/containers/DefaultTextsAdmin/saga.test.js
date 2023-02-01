@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import * as Sentry from '@sentry/browser'
-import { testSaga } from 'redux-saga-test-plan'
 import { takeLatest } from 'redux-saga/effects'
+import { testSaga } from 'redux-saga-test-plan'
 
 import * as actions from 'containers/App/actions'
 import {

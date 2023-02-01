@@ -13,9 +13,9 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 
+import ClockLayer from './ClockLayer'
 import type { Meta } from '../../types'
 import { FeatureStatus } from '../../types'
-import ClockLayer from './ClockLayer'
 
 const typedMeta = straatverlichtingKlokken.extra_klok_nummer
   .meta as unknown as Meta

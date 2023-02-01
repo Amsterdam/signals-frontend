@@ -2,10 +2,10 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import { replace } from 'connected-react-router/immutable'
 import { formatISO } from 'date-fns'
+import { takeLatest, select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { takeLatest, select } from 'redux-saga/effects'
 
 import { uploadFile } from 'containers/App/saga'
 import { authPostCall, postCall } from 'shared/services/api/api'
@@ -17,7 +17,6 @@ import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 import postIncidentJSON from 'utils/__tests__/fixtures/postIncident.json'
 import request from 'utils/request'
 
-import * as mapControlsToParams from '../../services/map-controls-to-params'
 import { createIncidentSuccess, createIncidentError } from './actions'
 import * as constants from './constants'
 import watchIncidentContainerSaga, {
@@ -29,6 +28,7 @@ import watchIncidentContainerSaga, {
 } from './saga'
 import { getClassificationData, makeSelectIncidentContainer } from './selectors'
 import { resolveQuestions } from './services'
+import * as mapControlsToParams from '../../services/map-controls-to-params'
 
 jest.mock('../../services/map-controls-to-params', () => ({
   __esModule: true,

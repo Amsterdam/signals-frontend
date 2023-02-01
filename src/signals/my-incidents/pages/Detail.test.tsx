@@ -3,13 +3,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import { Detail } from './Detail'
 import useFetch from '../../../hooks/useFetch'
 import { history, withAppContext } from '../../../test/utils'
 import { get, useFetchResponse } from '../../IncidentMap/components/__test__'
 import { providerMock } from '../__test__'
 import { incidentsDetail } from '../__test__/incidents-detail'
 import { MyIncidentsProvider } from '../context'
-import { Detail } from './Detail'
 
 jest.mock('../hooks', () => {
   const actual = jest.requireActual('../hooks')

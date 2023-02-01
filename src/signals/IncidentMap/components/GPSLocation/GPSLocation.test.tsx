@@ -3,9 +3,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import configuration from '../../../../shared/services/configuration/configuration'
 import { GPSLocation } from './GPSLocation'
 import type { Props } from './GPSLocation'
+import configuration from '../../../../shared/services/configuration/configuration'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,

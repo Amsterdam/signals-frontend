@@ -2,12 +2,12 @@
 /* Copyright (C) 2022 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 
+import { History } from './index'
 import useFetch from '../../../../hooks/useFetch'
 import { withAppContext } from '../../../../test/utils'
 import { get, useFetchResponse } from '../../../IncidentMap/components/__test__'
 import { defaultHistoryData } from '../../__test__'
 import { incidentsDetail } from '../../__test__/incidents-detail'
-import { History } from './index'
 
 jest.mock('hooks/useFetch')
 

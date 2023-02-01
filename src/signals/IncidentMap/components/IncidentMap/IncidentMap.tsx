@@ -14,6 +14,10 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { MapMessage } from 'signals/incident/components/form/MapSelectors/components/MapMessage'
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
+import { Pin } from './Pin'
+import { StyledMap, StyledParagraph, Wrapper } from './styled'
+import usePaginatedIncidents from './usePaginatedIncidents'
+import { getZoom } from './utils'
 import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { AddressSearchMobile } from '../AddressLocation'
@@ -27,10 +31,6 @@ import {
   DEFAULT_ZOOM,
   getFilteredIncidents,
 } from '../utils'
-import { Pin } from './Pin'
-import { StyledMap, StyledParagraph, Wrapper } from './styled'
-import usePaginatedIncidents from './usePaginatedIncidents'
-import { getZoom } from './utils'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()

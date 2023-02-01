@@ -13,8 +13,6 @@ import { getIsAuthenticated } from 'shared/services/auth/auth'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 
-import IncidentClassification from '../../components/IncidentClassification'
-import wizardDefinition from '../../definitions/wizard'
 import {
   getClassification,
   updateIncident,
@@ -26,6 +24,8 @@ import {
 import reducer from './reducer'
 import saga from './saga'
 import { makeSelectIncidentContainer } from './selectors'
+import IncidentClassification from '../../components/IncidentClassification'
+import wizardDefinition from '../../definitions/wizard'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next

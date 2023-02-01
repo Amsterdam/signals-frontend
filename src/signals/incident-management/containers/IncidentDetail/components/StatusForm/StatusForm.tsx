@@ -18,10 +18,6 @@ import type { Status } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
-import { PATCH_TYPE_STATUS } from '../../constants'
-import IncidentDetailContext from '../../context'
-import type { IncidentChild, EmailTemplate } from '../../types'
-import EmailPreview from '../EmailPreview/EmailPreview'
 import type { StatusFormActions } from './actions'
 import DefaultTexts from './components/DefaultTexts'
 import * as constants from './constants'
@@ -40,6 +36,10 @@ import {
   StyledParagraph,
   StyledSection,
 } from './styled'
+import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
+import type { IncidentChild, EmailTemplate } from '../../types'
+import EmailPreview from '../EmailPreview/EmailPreview'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType

@@ -5,9 +5,9 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
+import AddNote from './AddNote'
 import { PATCH_TYPE_NOTES } from '../../constants'
 import IncidentDetailContext from '../../context'
-import AddNote from './AddNote'
 
 describe('AddNote', () => {
   it('renders a generic AddNote component', () => {

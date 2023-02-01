@@ -19,10 +19,6 @@ import ErrorMessage from 'components/ErrorMessage'
 import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import fileSize from 'signals/incident/services/file-size'
 
-import IncidentDetailContext from '../../context'
-import type { Files } from '../../hooks/useUpload'
-import type { Attachment } from '../../types'
-import FileInput from '../FileInput'
 import {
   StyledAddNote,
   StyledBox,
@@ -43,6 +39,10 @@ import {
   Wrapper,
 } from './styles'
 import StyledUploadProgress from './UploadProgress'
+import IncidentDetailContext from '../../context'
+import type { Files } from '../../hooks/useUpload'
+import type { Attachment } from '../../types'
+import FileInput from '../FileInput'
 
 export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
 export const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'

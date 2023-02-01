@@ -2,8 +2,8 @@
 // Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type endpointType from 'shared/services/configuration/endpoint-definitions'
 
-import type configurationType from '../../../../app.base.json'
 import { prefixEndpoints } from './endpoints'
+import type configurationType from '../../../../app.base.json'
 
 const windowConfig = (
   window as Window & typeof globalThis & { CONFIG: typeof configurationType }

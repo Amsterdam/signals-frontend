@@ -9,9 +9,6 @@ import { Link } from 'react-router-dom'
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 
-import { IncidentsList } from '../components'
-import { useMyIncidentContext } from '../context'
-import type { Email } from '../types'
 import {
   StyledEmail,
   StyledLink,
@@ -19,6 +16,9 @@ import {
   Wrapper,
   StyledRow,
 } from './styled'
+import { IncidentsList } from '../components'
+import { useMyIncidentContext } from '../context'
+import type { Email } from '../types'
 
 export const Overview = () => {
   const { get, data } = useFetch<Email>()

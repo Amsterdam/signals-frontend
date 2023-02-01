@@ -14,11 +14,11 @@ import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { attachmentsType, contextType } from 'shared/types'
 
-import IncidentDetailContext from '../../context'
 import Area from './components/Area'
 import ExtraProperties from './components/ExtraProperties'
 import Location from './components/Location'
 import Reporter from './components/Reporter'
+import IncidentDetailContext from '../../context'
 
 const Wrapper = styled.article`
   contain: content;

@@ -12,14 +12,14 @@ import type { MapOptions } from 'leaflet'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
+import WfsDataContext, { NO_DATA } from './context'
+import { SRS_NAME } from './WfsLayer'
 import CaterpillarLayer from '../../../Caterpillar/CaterpillarLayer'
 import * as useLayerVisible from '../../../hooks/useLayerVisible'
 import { contextValue as assetSelectContextValue } from '../../__tests__/withAssetSelectContext'
 import { AssetSelectProvider } from '../../context'
 import type { AssetSelectValue } from '../../types'
 import WfsLayer from '../WfsLayer'
-import WfsDataContext, { NO_DATA } from './context'
-import { SRS_NAME } from './WfsLayer'
 
 const fetchMock = fetch as FetchMock
 

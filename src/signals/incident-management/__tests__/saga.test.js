@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { push } from 'connected-react-router/immutable'
+import { call, select, takeLatest, take } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select, takeLatest, take } from 'redux-saga/effects'
 
 import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 import { makeSelectSearchQuery } from 'containers/App/selectors'

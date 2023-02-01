@@ -4,8 +4,8 @@ import { useContext } from 'react'
 
 import { render, screen } from '@testing-library/react'
 
-import AssetSelectContext from '../context'
 import withAssetSelectContext, { contextValue } from './withAssetSelectContext'
+import AssetSelectContext from '../context'
 
 describe('AssetSelectProvider', () => {
   it('should render', () => {

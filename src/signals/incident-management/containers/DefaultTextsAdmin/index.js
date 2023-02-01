@@ -17,9 +17,6 @@ import { dataListType, defaultTextsType } from 'shared/types'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 
-import { reCategory } from '../../../../shared/services/resolveClassification'
-import HiddenInput from '../../components/HiddenInput'
-import { statusList } from '../../definitions'
 import {
   fetchDefaultTexts,
   storeDefaultTexts,
@@ -30,6 +27,9 @@ import SelectForm from './components/SelectForm'
 import reducer from './reducer'
 import saga from './saga'
 import makeSelectDefaultTextsAdmin from './selectors'
+import { reCategory } from '../../../../shared/services/resolveClassification'
+import HiddenInput from '../../components/HiddenInput'
+import { statusList } from '../../definitions'
 
 const StyledH1 = styled(Heading)`
   margin-bottom: ${themeSpacing(8)};

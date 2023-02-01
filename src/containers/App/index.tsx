@@ -23,11 +23,11 @@ import { resetIncident } from 'signals/incident/containers/IncidentContainer/act
 import IncidentOverviewContainer from 'signals/incident/containers/IncidentOverviewContainer'
 import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyContainer'
 
-import useDefaultHeader from '../../hooks/useDefaultHeader'
-import useTallHeader from '../../hooks/useTallHeader'
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
+import useDefaultHeader from '../../hooks/useDefaultHeader'
+import useTallHeader from '../../hooks/useTallHeader'
 
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }

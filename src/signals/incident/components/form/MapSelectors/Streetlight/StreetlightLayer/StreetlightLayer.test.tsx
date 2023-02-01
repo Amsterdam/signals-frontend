@@ -13,8 +13,8 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'
 
-import { FeatureStatus } from '../../types'
 import StreetlightLayer from './StreetlightLayer'
+import { FeatureStatus } from '../../types'
 
 const { meta } = straatverlichtingKlokken.extra_straatverlichting_nummer
 const assetSelectProviderValue: AssetSelectValue = {

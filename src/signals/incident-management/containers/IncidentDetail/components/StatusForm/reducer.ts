@@ -9,7 +9,6 @@ import type { Status } from 'signals/incident-management/definitions/types'
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
 
-import type { EmailTemplate, IncidentChild } from '../../types'
 import type { StatusFormActions } from './actions'
 import {
   determineWarnings,
@@ -17,6 +16,7 @@ import {
   getTextConfig,
   textIsRequired,
 } from './utils'
+import type { EmailTemplate, IncidentChild } from '../../types'
 
 export type State = {
   originalStatus: Status

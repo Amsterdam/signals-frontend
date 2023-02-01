@@ -8,13 +8,13 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
-import type { Filter } from '../../types'
-import { updateFilterCategory } from '../utils'
-import { getCombinedFilters } from '../utils/get-combined-filters'
 import { FilterCategory } from './FilterCategory'
 import { FilterCategoryWithSub } from './FilterCategoryWithSub'
 import { Underlined } from './styled'
 import { getFilterCategoriesWithIcons } from './utils'
+import type { Filter } from '../../types'
+import { updateFilterCategory } from '../utils'
+import { getCombinedFilters } from '../utils/get-combined-filters'
 
 export interface Props {
   filters: Filter[]

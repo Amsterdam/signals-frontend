@@ -2,9 +2,9 @@
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
 
+import { getFilteredIncidents } from './get-filtered-incidents'
 import { mockFiltersShort } from '../__test__/mock-filters'
 import { mockIncidentsWithoutIcon } from '../__test__/mock-incidents-without-icon'
-import { getFilteredIncidents } from './get-filtered-incidents'
 
 jest.mock('shared/services/configuration/configuration')
 

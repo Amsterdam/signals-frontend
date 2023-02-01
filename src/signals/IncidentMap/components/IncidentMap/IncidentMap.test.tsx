@@ -7,9 +7,9 @@ import { formatAddress } from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { withAppContext } from 'test/utils'
 
-import { get, mockUseMapInstance } from '../__test__'
 import { IncidentMap } from './IncidentMap'
 import usePaginatedIncidents from './usePaginatedIncidents'
+import { get, mockUseMapInstance } from '../__test__'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,

@@ -35,8 +35,6 @@ import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { LocationResult } from 'types/location'
 
-import { MapMessage, ZoomMessage } from '../../components/MapMessage'
-import { selectionIsUndetermined } from '../../constants'
 import DetailPanel from './DetailPanel'
 import NearbyLayer from './NearbyLayer'
 import {
@@ -47,6 +45,8 @@ import {
 } from './styled'
 import WfsLayer from './WfsLayer'
 import AssetLayer from './WfsLayer/AssetLayer'
+import { MapMessage, ZoomMessage } from '../../components/MapMessage'
+import { selectionIsUndetermined } from '../../constants'
 
 const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
   max: 13,

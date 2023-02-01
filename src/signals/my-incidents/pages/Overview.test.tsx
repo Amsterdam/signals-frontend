@@ -4,10 +4,10 @@ import { screen, render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
+import { Overview } from './Overview'
 import useFetch from '../../../hooks/useFetch'
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
-import { Overview } from './Overview'
 
 jest.mock('../components', () => ({
   __esModule: true,

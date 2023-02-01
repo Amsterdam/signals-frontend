@@ -12,11 +12,11 @@ import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { Incident, Location } from 'types/incident'
 
-import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
-import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
+import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
+import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 
 const defaultIconConfig: FeatureType['icon'] = {
   options: {

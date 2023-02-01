@@ -4,7 +4,6 @@ import { fromJS, Seq } from 'immutable'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import { NEARBY_TYPE } from '../../components/form/MapSelectors/constants'
 import {
   UPDATE_INCIDENT,
   RESET_INCIDENT,
@@ -26,6 +25,7 @@ import {
   REMOVE_FROM_SELECTION,
 } from './constants'
 import { getIncidentClassification } from './services'
+import { NEARBY_TYPE } from '../../components/form/MapSelectors/constants'
 
 export const initialState = fromJS({
   incident: {
