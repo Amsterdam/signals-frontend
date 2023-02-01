@@ -23,6 +23,7 @@ export const Amount = styled.span`
 
 export const AreaChartWrapper = styled.span`
   position: relative;
+  z-index: 1;
 `
 
 export const ComparisonRateWrapper = styled.span`
