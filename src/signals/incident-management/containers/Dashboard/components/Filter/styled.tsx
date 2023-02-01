@@ -61,14 +61,22 @@ export const RefreshIcon = styled(Refresh)`
   margin-right: ${themeSpacing(2)};
 `
 
-export const OptionListDropdown = styled.div`
+export const OptionListDropdown = styled.div<{ active: boolean }>`
   position: absolute;
   left: 0;
   right: 0;
-  height: calc(100vh - ${themeSpacing(26.5)});
   top: ${themeSpacing(14)};
   overflow-y: auto;
+  opacity: 0;
   background-color: ${themeColor('tint', 'level2')};
+  transition: opacity 0.25s ease-out;
+  height: calc(100vh - ${themeSpacing(26.5)});
+
+  ${({ active }) =>
+    active &&
+    css`
+      opacity: 100;
+    `}
 `
 
 export const OptionUl = styled.ul<{

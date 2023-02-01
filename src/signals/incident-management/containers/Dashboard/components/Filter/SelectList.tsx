@@ -30,12 +30,15 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
 
   const filters = useFilters(selectedDepartment)
 
-  // set initial department value
   useEffect(() => {
     if (!selectedDepartment.value && filters[0].options[0]) {
       setValue('department', filters[0].options[0])
     }
-  }, [filters, selectedDepartment, setValue])
+
+    if (prevSelectTarget.current && !filterActiveName) {
+      prevSelectTarget.current?.focus()
+    }
+  }, [filters, selectedDepartment, setValue, filterActiveName])
 
   const truncateFilterName = (filterName: string) =>
     filterName.length > 19 ? filterName.substring(0, 19) + '...' : filterName
@@ -80,16 +83,17 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         return (
           <Select
             key={filter.name}
-            role="listbox"
+            role="combobox"
+            tabIndex={0}
+            aria-expanded={!!activeFilter?.name}
             aria-label={truncateFilterName(
               getValues(filter.name)?.display || filter.display
             )}
-            tabIndex={0}
             onClick={(e) => {
               onChangeEvent(filter.name, e.currentTarget)
             }}
             onKeyDown={(e) => {
-              if (['Enter', 'Space'].includes(e.code)) {
+              if (['Space', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
                 e.preventDefault()
                 onChangeEvent(filter.name, e.currentTarget)
               }
@@ -109,8 +113,8 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         )
       })}
       <Select
-        tabIndex={0}
         role={'button'}
+        tabIndex={0}
         onClick={() => {
           onChangeEvent('')
           reset()
@@ -125,15 +129,15 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         <RefreshIcon width={16} height={18} />
         Wis filters
       </Select>
-      {activeFilter?.name && isNumber(optionsOffsetLeftRef.current) && (
-        <OptionListDropdown>
+      <OptionListDropdown active={!!activeFilter?.name}>
+        {activeFilter?.name && isNumber(optionsOffsetLeftRef.current) && (
           <OptionsList
             optionsOffsetLeft={optionsOffsetLeftRef.current}
             activeFilter={activeFilter}
             setFilterNameActive={setFilterActiveName}
           />
-        </OptionListDropdown>
-      )}
+        )}
+      </OptionListDropdown>
     </SelectContainer>
   )
 }

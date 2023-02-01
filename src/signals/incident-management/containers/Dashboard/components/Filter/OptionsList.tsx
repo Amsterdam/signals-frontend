@@ -3,9 +3,11 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useEffect, useRef } from 'react'
 
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
-import { OptionUl, OptionLi } from './styled'
+import { useRoveFocus } from '../../hooks/useRoveFocus'
+import { Option } from './Option'
+import { OptionUl } from './styled'
 import type { Filter } from './types'
 
 type Props = {
@@ -19,47 +21,37 @@ const OptionsList = ({
   activeFilter,
   optionsOffsetLeft,
 }: Props) => {
-  const { control, getValues } = useFormContext()
-
   const optionUlRef = useRef<HTMLUListElement>(null)
 
+  const { currentFocus, setCurrentFocus } = useRoveFocus(
+    activeFilter.options.length
+  )
+
+  const { getValues } = useFormContext()
+
   useEffect(() => {
-    if (activeFilter.name) {
-      optionUlRef.current?.querySelector('li')?.focus()
-    }
-  }, [activeFilter])
+    const index = activeFilter.options.findIndex(
+      (option) => option.value === getValues(activeFilter.name)?.value
+    )
+    index > -1 && setCurrentFocus(index)
+  }, [activeFilter, getValues, setCurrentFocus])
 
   return (
     <OptionUl
+      role="listbox"
       ref={optionUlRef}
       optionsOffsetLeft={optionsOffsetLeft}
       optionsTotal={activeFilter.options.length}
     >
       {activeFilter.options.map((option, index) => (
-        <Controller
-          key={`${option}${index}`}
-          name={activeFilter.name}
-          control={control}
-          render={({ field: { onChange, ref } }) => (
-            <OptionLi
-              selected={option.value === getValues(activeFilter.name)?.value}
-              role="option"
-              tabIndex={0}
-              ref={ref}
-              onClick={() => {
-                onChange(option)
-                setFilterNameActive('')
-              }}
-              onKeyDown={(e) => {
-                if (['Enter', 'Space'].includes(e.code)) {
-                  onChange(option)
-                  setFilterNameActive('')
-                }
-              }}
-            >
-              {option.display}
-            </OptionLi>
-          )}
+        <Option
+          key={index}
+          focus={currentFocus}
+          setFocus={setCurrentFocus}
+          activeFilter={activeFilter}
+          option={option}
+          index={index}
+          setFilterNameActive={setFilterNameActive}
         />
       ))}
     </OptionUl>

@@ -29,13 +29,13 @@ describe('FilterComponent', () => {
     render(<Filter callback={mockCallback} />)
 
     expect(
-      screen.queryByRole('listbox', {
+      screen.queryByRole('combobox', {
         name: 'Politie',
       })
     ).not.toBeInTheDocument()
 
     expect(
-      screen.getByRole('listbox', { name: 'Actie Service Centr...' })
+      screen.getByRole('combobox', { name: 'Actie Service Centr...' })
     ).toBeInTheDocument()
   })
 
@@ -48,7 +48,7 @@ describe('FilterComponent', () => {
     )
 
     userEvent.click(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     )
@@ -68,13 +68,13 @@ describe('FilterComponent', () => {
     render(<Filter callback={mockCallback} />)
 
     expect(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     ).toBeInTheDocument()
 
     userEvent.click(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Categorie',
       })
     )
@@ -84,7 +84,7 @@ describe('FilterComponent', () => {
     ).toBeInTheDocument()
 
     userEvent.click(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     )
@@ -96,11 +96,11 @@ describe('FilterComponent', () => {
     )
 
     expect(
-      screen.queryByRole('listbox', { name: 'Bedrijfsafval' })
+      screen.queryByRole('combobox', { name: 'Bedrijfsafval' })
     ).not.toBeInTheDocument()
 
     expect(
-      screen.queryByRole('listbox', { name: 'Categorie' })
+      screen.queryByRole('combobox', { name: 'Categorie' })
     ).toBeInTheDocument()
   })
 
@@ -108,23 +108,23 @@ describe('FilterComponent', () => {
     render(<Filter callback={mockCallback} />)
 
     expect(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     ).toBeInTheDocument()
 
     screen
-      .getByRole('listbox', {
+      .getByRole('combobox', {
         name: 'Categorie',
       })
       .focus()
 
     act(() => {
       fireEvent.keyDown(
-        screen.getByRole('listbox', {
+        screen.getByRole('combobox', {
           name: 'Categorie',
         }),
-        { code: 'Enter' }
+        { code: 'Space' }
       )
     })
 
@@ -145,12 +145,12 @@ describe('FilterComponent', () => {
         screen.getByRole('option', {
           name: 'Bedrijfsafval',
         }),
-        { code: 'Enter' }
+        { code: 'Space' }
       )
     })
 
     expect(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Bedrijfsafval',
       })
     ).toBeInTheDocument()
@@ -166,12 +166,12 @@ describe('FilterComponent', () => {
         screen.getByRole('button', {
           name: 'Wis filters',
         }),
-        { code: 'Enter' }
+        { code: 'Space' }
       )
     })
 
     expect(
-      screen.queryByRole('listbox', {
+      screen.queryByRole('combobox', {
         name: 'Bedrijfsafval',
       })
     ).not.toBeInTheDocument()
@@ -181,7 +181,7 @@ describe('FilterComponent', () => {
     render(<Filter callback={mockCallback} />)
 
     userEvent.click(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     )
@@ -195,7 +195,7 @@ describe('FilterComponent', () => {
     expect(mockCallback).toBeCalledWith('department=AEG')
 
     userEvent.click(
-      screen.getByRole('listbox', {
+      screen.getByRole('combobox', {
         name: 'Categorie',
       })
     )
@@ -226,7 +226,7 @@ describe('FilterComponent', () => {
     const { rerender } = render(<Filter callback={mockCallback} />)
 
     expect(
-      screen.queryByRole('listbox', {
+      screen.queryByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     ).not.toBeInTheDocument()
@@ -236,17 +236,17 @@ describe('FilterComponent', () => {
     rerender(<Filter callback={mockCallback} />)
 
     expect(
-      screen.queryByRole('listbox', {
+      screen.queryByRole('combobox', {
         name: 'Actie Service Centr...',
       })
     ).toBeInTheDocument()
   })
 
-  it('should tab over the listboxes back and forth, select an option and return to last focussed listbox again', () => {
+  it('should tab over the comboboxes back and forth, select an option and return to last focussed combobox again', () => {
     render(<Filter callback={mockCallback} />)
 
     screen
-      .queryByRole('listbox', {
+      .queryByRole('combobox', {
         name: 'Actie Service Centr...',
       })
       ?.focus()
@@ -258,17 +258,17 @@ describe('FilterComponent', () => {
     userEvent.tab({ shift: true })
 
     expect(
-      screen.queryByRole('listbox', {
+      screen.queryByRole('combobox', {
         name: 'Categorie',
       })
     ).toHaveFocus()
 
     act(() => {
       fireEvent.keyDown(
-        screen.getByRole('listbox', {
+        screen.getByRole('combobox', {
           name: 'Categorie',
         }),
-        { code: 'Enter' }
+        { code: 'Space' }
       )
     })
 
@@ -278,7 +278,14 @@ describe('FilterComponent', () => {
       })
     ).toHaveFocus()
 
-    userEvent.tab()
+    act(() => {
+      fireEvent.keyDown(
+        screen.getByRole('option', {
+          name: 'Asbest / accu',
+        }),
+        { code: 'ArrowDown' }
+      )
+    })
 
     expect(
       screen.queryByRole('option', {
@@ -291,9 +298,32 @@ describe('FilterComponent', () => {
         screen.getByRole('option', {
           name: 'Auto- / scooter- / bromfiets(wrak)',
         }),
-        { code: 'Enter' }
+        { code: 'Space' }
       )
     })
+  })
+
+  it('should open a dropdown and close it by enter Esc', () => {
+    render(<Filter callback={mockCallback} />)
+
+    act(() => {
+      fireEvent.keyDown(
+        screen.getByRole('combobox', {
+          name: 'Actie Service Centr...',
+        }),
+        { code: 'Space' }
+      )
+    })
+
+    expect(
+      screen.queryByRole('option', { name: 'Afval en Grondstoffen' })
+    ).toBeInTheDocument()
+
+    userEvent.keyboard('{Escape}')
+
+    expect(
+      screen.queryByRole('option', { name: 'Afval en Grondstoffen' })
+    ).not.toBeInTheDocument()
   })
 
   it('should focus on reset button, shift back and forth to end with focus on reset button', () => {
