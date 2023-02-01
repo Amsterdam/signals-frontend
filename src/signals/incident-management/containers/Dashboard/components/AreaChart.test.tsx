@@ -9,7 +9,7 @@ describe('AreaChart', () => {
     render(<AreaChart />)
 
     const title = screen.getByRole('heading', {
-      name: 'Afgehandelde meldingen vandaag',
+      name: 'Afgehandelde meldingen afgelopen 7 dagen',
     })
 
     expect(title).toBeInTheDocument()
