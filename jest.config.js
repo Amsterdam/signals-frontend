@@ -38,6 +38,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  setupFiles: ['jest-canvas-mock'],
   testTimeout: 10000,
   testEnvironment: 'jsdom',
   transform: {
