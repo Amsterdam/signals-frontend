@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { Dispatch } from 'react'
 import { createContext } from 'react'
 
@@ -15,6 +15,16 @@ const IncidentManagementContext = createContext<{
   setDashboardFilter: Dispatch<{ [key: string]: Option }>
   dashboardFilter?: { [key: string]: Option }
   districts?: Definition[]
+  departmentsWithResponsibleCategories?: {
+    departments: {
+      list: Array<{
+        name: string
+        code: string
+        category_names: string[]
+      }>
+    }
+    isLoading: boolean
+  }
 }>(initialContext)
 
 export default IncidentManagementContext

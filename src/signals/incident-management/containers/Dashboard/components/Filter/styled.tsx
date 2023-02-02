@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { RefObject } from 'react'
 
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import Refresh from '../../../../../../images/icon-refresh.svg'
@@ -17,8 +17,12 @@ export const FilterBar = styled.div<{
 export const SelectContainer = styled.div`
   display: flex;
   font-size: 1rem;
-  height: ${themeSpacing(14)};
   margin: 0;
+  flex-direction: column;
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    flex-direction: row;
+  }
 `
 
 export const Select = styled.div<{
@@ -28,9 +32,14 @@ export const Select = styled.div<{
   display: flex;
   align-items: center;
   margin-right: ${themeSpacing(9)};
+  height: ${themeSpacing(14)};
+  margin-left: ${themeSpacing(12)};
 
-  &:first-of-type {
-    margin-left: ${themeSpacing(12)};
+  @media ${breakpoint('min-width', 'tabletM')} {
+    margin-left: unset;
+    &:first-of-type {
+      margin-left: ${themeSpacing(12)};
+    }
   }
 
   ${({ selected }) =>
@@ -61,41 +70,51 @@ export const RefreshIcon = styled(Refresh)`
   margin-right: ${themeSpacing(2)};
 `
 
-export const OptionListDropdown = styled.div<{ active: boolean }>`
+export const OptionListDropdown = styled.div<{
+  active: boolean
+  optionOffsetTop?: number
+}>`
   position: absolute;
-  height: 0;
   left: 0;
   right: 0;
   top: ${themeSpacing(14)};
+  height: 0;
   overflow-y: auto;
   opacity: 0;
   background-color: ${themeColor('tint', 'level2')};
   transition: opacity 0.1s ease-out;
   z-index: 1;
-  ${({ active }) =>
+
+  ${({ active, optionOffsetTop }) =>
     active &&
+    optionOffsetTop &&
     css`
       height: calc(100vh - ${themeSpacing(26.5)});
+      top: ${optionOffsetTop}px;
       opacity: 100;
     `}
 `
 
 export const OptionUl = styled.ul<{
-  optionsOffsetLeft: number
+  optionsOffsetLeft?: number
   optionsTotal: number
 }>`
   display: grid;
   position: absolute;
-  width: ${themeSpacing(175)};
   line-height: 2rem;
   padding: 0;
   margin: 0;
+  width: 100%;
 
   ${({ optionsOffsetLeft, optionsTotal }) =>
     css`
       left: ${optionsOffsetLeft}px;
       grid-template-columns: repeat(${optionsTotal < 13 ? 1 : 2}, 1fr);
     `}
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    width: ${themeSpacing(175)};
+  }
 `
 
 export const OptionLi = styled.li<{ selected: boolean }>`
