@@ -48,7 +48,7 @@ export const InvisibleButton = styled.button<{ selected: boolean }>`
   margin-left: ${themeSpacing(3)};
 
   > * {
-    transition: transform 0.25s;
+    transition: transform 0.1s;
 
     ${({ selected }) =>
       selected &&
@@ -63,19 +63,19 @@ export const RefreshIcon = styled(Refresh)`
 
 export const OptionListDropdown = styled.div<{ active: boolean }>`
   position: absolute;
+  height: 0;
   left: 0;
   right: 0;
   top: ${themeSpacing(14)};
   overflow-y: auto;
   opacity: 0;
   background-color: ${themeColor('tint', 'level2')};
-  transition: opacity 0.25s ease-out;
-  height: calc(100vh - ${themeSpacing(26.5)});
-  z-index: 2;
-
+  transition: opacity 0.1s ease-out;
+  z-index: 1;
   ${({ active }) =>
     active &&
     css`
+      height: calc(100vh - ${themeSpacing(26.5)});
       opacity: 100;
     `}
 `
@@ -90,7 +90,6 @@ export const OptionUl = styled.ul<{
   line-height: 2rem;
   padding: 0;
   margin: 0;
-  z-index: 1;
 
   ${({ optionsOffsetLeft, optionsTotal }) =>
     css`
