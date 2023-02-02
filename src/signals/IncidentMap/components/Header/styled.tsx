@@ -17,7 +17,7 @@ export const HeaderWrapper = styled.div`
   // z-index relative to map
   z-index: 1;
 
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
+  @media screen and (${breakpoint('max-width', 'tabletM')}) {
     height: ${themeSpacing(HEADER_HEIGHT_MOBILE)};
   }
 `
@@ -28,8 +28,15 @@ export const Title = styled.div`
   height: 100%;
   margin-left: ${themeSpacing(4)};
 
-  img {
+  img,
+  a {
+    display: block;
+    width: auto;
     height: 100%;
-    max-width: 90px;
+    max-height: ${themeSpacing(HEADER_HEIGHT_DESKTOP - 5)};
+
+    @media screen and (${breakpoint('max-width', 'tabletM')}) {
+      max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 5)};
+    }
   }
 `
