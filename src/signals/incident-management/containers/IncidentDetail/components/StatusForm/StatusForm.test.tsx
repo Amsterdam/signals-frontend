@@ -24,10 +24,7 @@ import { withAppContext } from 'test/utils'
 import type { Incident } from 'types/api/incident'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 
-import StatusForm from '..'
-import { PATCH_TYPE_STATUS } from '../../../constants'
-import IncidentDetailContext from '../../../context'
-import type { IncidentChild } from '../../../types'
+import StatusForm from '.'
 import {
   MELDING_CHECKBOX_DESCRIPTION,
   DEELMELDING_EXPLANATION,
@@ -35,8 +32,10 @@ import {
   DEELMELDINGEN_STILL_OPEN_CONTENT,
   DEFAULT_TEXT_LABEL,
   DEFAULT_TEXT_MAX_LENGTH,
-  NO_EMAIL_IS_SENT,
-} from '../constants'
+} from './constants'
+import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
+import type { IncidentChild } from '../../types'
 
 const incidentFixture = incidentJSON as unknown as Incident
 const defaultTexts = [
@@ -222,9 +221,8 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.Afgehandeld,
     ])
 
-    expect(checkbox).not.toBeInTheDocument()
-    expect(screen.queryByText('(niet verplicht)')).not.toBeInTheDocument()
-    expect(screen.getByText(NO_EMAIL_IS_SENT)).toBeInTheDocument()
+    expect(checkbox).toBeChecked()
+    expect(checkbox).toBeDisabled()
   })
 
   it('requires a text value when the checkbox is selected', async () => {
