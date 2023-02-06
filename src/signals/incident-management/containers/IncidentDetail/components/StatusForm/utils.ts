@@ -12,7 +12,6 @@ import * as constants from './constants'
 
 export const emailSentWhenStatusChangedTo = ({
   toStatus,
-  fromStatus,
   isSplitIncident,
 }: {
   toStatus: StatusCode
@@ -20,13 +19,6 @@ export const emailSentWhenStatusChangedTo = ({
   isSplitIncident: boolean
 }): boolean => {
   if (isSplitIncident) return false
-
-  if (
-    fromStatus === StatusCode.VerzoekTotHeropenen &&
-    toStatus === StatusCode.Afgehandeld
-  ) {
-    return false
-  }
 
   return Boolean(
     changeStatusOptionList.find(
