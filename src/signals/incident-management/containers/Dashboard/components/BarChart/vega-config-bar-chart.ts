@@ -1,29 +1,34 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+import type { VisualizationSpec } from 'vega-embed'
 
-export const vegaConfigBarChart: any = {
-  $schem: 'https://vega.github.io/schema/vega-lite/v5.json',
-  description: 'A bar chart showing cases with their statusses',
+export const vegaConfigBarChart: VisualizationSpec = {
+  $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+  description: 'A bar chart showing showing number of incidents per status',
   data: {
     values: [
-      { a: 'Heropend', b: 0 },
-      { a: 'Extern: afgehandeld', b: 54 },
-      { a: 'Ingepland', b: 75 },
-      { a: 'Verzoek tot heropenen', b: 22 },
-      { a: 'Reactie ontvangen', b: 560 },
-      { a: 'In behandeling', b: 82 },
-      { a: 'Gesplitst', b: 32 },
-      { a: 'Reactie gevraagd', b: 60 },
-      { a: 'Gemeld', b: 1103 },
-      { a: 'Afwachting van behandeling', b: 409 },
-      { a: 'Extern: verzoek tot afhandeling', b: 64 },
+      { status: 'Heropend', nrOfIncidentsPerStatus: 0 },
+      { status: 'Extern: afgehandeld', nrOfIncidentsPerStatus: 54 },
+      { status: 'Ingepland', nrOfIncidentsPerStatus: 75 },
+      { status: 'Verzoek tot heropenen', nrOfIncidentsPerStatus: 22 },
+      { status: 'Reactie ontvangen', nrOfIncidentsPerStatus: 560 },
+      { status: 'In behandeling', nrOfIncidentsPerStatus: 82 },
+      { status: 'Gesplitst', nrOfIncidentsPerStatus: 32 },
+      { status: 'Reactie gevraagd', nrOfIncidentsPerStatus: 60 },
+      { status: 'Gemeld', nrOfIncidentsPerStatus: 1103 },
+      { status: 'Afwachting van behandeling', nrOfIncidentsPerStatus: 409 },
+      { status: 'Extern: verzoek tot afhandeling', nrOfIncidentsPerStatus: 64 },
     ],
   },
-  //
-  transform: [{ calculate: 'max(0.2, datum.b)', as: 'c' }],
+  transform: [
+    {
+      calculate: 'max(2, datum.nrOfIncidentsPerStatus)',
+      as: 'nrOfIncidentsPerStatusWithMax',
+    },
+  ],
   spacing: 5,
   facet: {
-    field: 'a',
+    field: 'status',
     type: 'nominal',
     title: null,
     header: {
@@ -33,7 +38,7 @@ export const vegaConfigBarChart: any = {
       labelPadding: 4,
       labelFont: 'Amsterdam Sans',
     },
-    sort: [null],
+    sort: [false],
   },
   spec: {
     layer: [
@@ -42,7 +47,7 @@ export const vegaConfigBarChart: any = {
         encoding: {
           x: {
             aggregate: 'mean',
-            field: 'c',
+            field: 'nrOfIncidentsPerStatusWithMax',
             title: null,
             axis: null,
             scale: { rangeMax: 275 },
@@ -53,17 +58,17 @@ export const vegaConfigBarChart: any = {
         mark: {
           type: 'text',
           align: 'left',
-          x: 5,
+          x: 15,
           fontSize: 12,
           fontWeight: 700,
           font: 'Amsterdam Sans',
         },
-        encoding: { text: { field: 'b' } },
+        encoding: { text: { field: 'nrOfIncidentsPerStatus' } },
       },
       {
         mark: 'rule',
         encoding: {
-          x: { aggregate: 'mean', field: 'c' },
+          x: { aggregate: 'mean', field: 'nrOfIncidentsPerStatusWithMax' },
           color: { value: '#004699' },
           size: { value: 4 },
           x2: { value: 0 },
