@@ -3,10 +3,12 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { Filter } from './Filter'
+import IncidentManagementContext from '../../../../context'
 
 const mockCallback = jest.fn()
 
@@ -17,6 +19,15 @@ const departments = {
   count: departmentsFixture.count,
   list: departmentsFixture.results,
 }
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: '/',
+    referrer: '/manage/incidents',
+  }),
+}))
 
 describe('FilterComponent', () => {
   beforeEach(() => {
@@ -180,6 +191,8 @@ describe('FilterComponent', () => {
   it('should select a department, a custom category and reset back and call callback each time', async () => {
     render(<Filter callback={mockCallback} />)
 
+    expect(mockCallback).toBeCalledTimes(1)
+
     userEvent.click(
       screen.getByRole('combobox', {
         name: 'Actie Service Centr...',
@@ -191,6 +204,8 @@ describe('FilterComponent', () => {
         name: 'Afval en Grondstoffen',
       })
     )
+
+    expect(mockCallback).toBeCalledTimes(2)
 
     expect(mockCallback).toBeCalledWith('department=AEG')
 
@@ -208,9 +223,11 @@ describe('FilterComponent', () => {
 
     expect(mockCallback).toBeCalledWith('department=AEG&category=Huisafval')
 
-    userEvent.click(screen.getByText('Wis filters'))
+    expect(mockCallback).toBeCalledTimes(3)
 
     expect(mockCallback).toBeCalledWith('department=ASC')
+
+    userEvent.click(screen.getByText('Wis filters'))
 
     expect(mockCallback).toBeCalledTimes(3)
   })
@@ -344,5 +361,70 @@ describe('FilterComponent', () => {
         name: 'Wis filters',
       })
     ).toHaveFocus()
+  })
+
+  it('should use defaultValues from incident contexts dashboardFilter and to save dashboardFilter', () => {
+    const mockSetDashboardFilter = jest.fn()
+    render(
+      <IncidentManagementContext.Provider
+        value={{
+          setDashboardFilter: mockSetDashboardFilter,
+          dashboardFilter: {
+            priority: { value: 'normal', display: 'Normaal' },
+          },
+        }}
+      >
+        <Filter callback={mockCallback} />
+      </IncidentManagementContext.Provider>
+    )
+
+    expect(
+      screen.getByRole('combobox', {
+        name: 'Normaal',
+      })
+    ).toBeInTheDocument()
+
+    expect(mockSetDashboardFilter).toBeCalledTimes(1)
+
+    expect(mockSetDashboardFilter).toBeCalledWith({
+      category: { display: '', value: '' },
+      department: { display: 'Actie Service Centrum', value: 'ASC' },
+      district: { display: '', value: '' },
+      priority: { display: 'Normaal', value: 'normal' },
+      punctuality: { display: '', value: '' },
+    })
+  })
+
+  it('should not use defaultValues from incident contexts dashboardFilter', () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+      hash: '',
+      key: '',
+      pathname: '',
+      referrer: '/manage/standaard/teksten',
+      search: '',
+      state: null,
+    }))
+
+    const mockSetDashboardFilter = jest.fn()
+    render(
+      <IncidentManagementContext.Provider
+        value={{
+          setDashboardFilter: mockSetDashboardFilter,
+          dashboardFilter: {
+            priority: { value: 'normal', display: 'Normaal' },
+          },
+        }}
+      >
+        <Filter callback={mockCallback} />
+      </IncidentManagementContext.Provider>
+    )
+
+    expect(
+      screen.queryByRole('combobox', {
+        name: 'Normaal',
+      })
+    ).not.toBeInTheDocument()
+
+    expect(mockSetDashboardFilter).toBeCalledTimes(1)
   })
 })

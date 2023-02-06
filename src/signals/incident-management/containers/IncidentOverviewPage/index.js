@@ -50,8 +50,9 @@ import {
   NoResults,
   StyledButton,
   StyledPagination,
+  StyledBackLink,
 } from './styled'
-import { MAP_URL } from '../../routes'
+import { DASHBOARD_URL, MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
 let lastActiveElement = null
@@ -163,6 +164,15 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
+        {location.state?.useBacklink && (
+          <StyledBackLink
+            to={{
+              pathname: DASHBOARD_URL,
+            }}
+          >
+            Terug naar dashboard
+          </StyledBackLink>
+        )}
         <TitleRow>
           <PageHeader />
           <ButtonWrapper>

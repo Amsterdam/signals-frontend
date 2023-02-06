@@ -70,10 +70,6 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
 
   const prevSelectTarget = useRef<HTMLElement>()
 
-  if (!selectedDepartment.value) {
-    return null
-  }
-
   return (
     <SelectContainer ref={selectContainerRef}>
       {filters?.map((filter: Filter) => {
