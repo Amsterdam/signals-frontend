@@ -34,7 +34,6 @@ export const getAreaChart = (
         labelFont: 'Amsterdam Sans',
         labelLineHeight: 16,
         labelSeparation: 10,
-        labelColor: '#002A5C',
       },
     },
     y: {
@@ -51,7 +50,6 @@ export const getAreaChart = (
         labelFontWeight: 700,
         labelFont: 'Amsterdam Sans',
         labelLineHeight: 16,
-        labelColor: '#002A5C',
       },
     },
   },
