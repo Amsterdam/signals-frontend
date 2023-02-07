@@ -87,7 +87,7 @@ export const Filter = ({ callback }: Props) => {
 
   useEffect(() => {
     handleCallback()
-  }, [handleCallback, location])
+  }, [handleCallback])
 
   /**
    * This make sure dashboard filters value get cleared
@@ -95,13 +95,19 @@ export const Filter = ({ callback }: Props) => {
    * except when entering the dashboard.
    */
   useEffect(() => {
-    history.listen((location: { pathname: string; state?: any }) => {
-      if (location.pathname === INCIDENTS_URL && location.state?.useBacklink) {
-        setDashboardFilter(getValues())
-      } else if (location.pathname !== DASHBOARD_URL) {
-        setDashboardFilter({})
+    const unlisten = history.listen(
+      (location: { pathname: string; state?: any }) => {
+        if (
+          location.pathname === INCIDENTS_URL &&
+          location.state?.useBacklink
+        ) {
+          setDashboardFilter(getValues())
+        } else if (location.pathname !== DASHBOARD_URL) {
+          setDashboardFilter({})
+        }
       }
-    })
+    )
+    return () => unlisten()
   }, [getValues, setDashboardFilter])
 
   useEffect(() => {

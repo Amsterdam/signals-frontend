@@ -8,6 +8,8 @@ import * as reactRouterDom from 'react-router-dom'
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { Filter } from './Filter'
+import { withAppContext } from '../../../../../../test/utils'
+import history from '../../../../../../utils/history'
 import IncidentManagementContext from '../../../../context'
 
 const mockCallback = jest.fn()
@@ -363,7 +365,7 @@ describe('FilterComponent', () => {
     ).toHaveFocus()
   })
 
-  it('should use defaultValues from incident contexts dashboardFilter and to save dashboardFilter', () => {
+  it('should use defaultValues from incident contexts dashboardFilter', () => {
     const mockSetDashboardFilter = jest.fn()
     render(
       <IncidentManagementContext.Provider
@@ -383,16 +385,6 @@ describe('FilterComponent', () => {
         name: 'Normaal',
       })
     ).toBeInTheDocument()
-
-    expect(mockSetDashboardFilter).toBeCalledTimes(1)
-
-    expect(mockSetDashboardFilter).toBeCalledWith({
-      category: { display: '', value: '' },
-      department: { display: 'Actie Service Centrum', value: 'ASC' },
-      district: { display: '', value: '' },
-      priority: { display: 'Normaal', value: 'normal' },
-      punctuality: { display: '', value: '' },
-    })
   })
 
   it('should not use defaultValues from incident contexts dashboardFilter', () => {
@@ -407,16 +399,18 @@ describe('FilterComponent', () => {
 
     const mockSetDashboardFilter = jest.fn()
     render(
-      <IncidentManagementContext.Provider
-        value={{
-          setDashboardFilter: mockSetDashboardFilter,
-          dashboardFilter: {
-            priority: { value: 'normal', display: 'Normaal' },
-          },
-        }}
-      >
-        <Filter callback={mockCallback} />
-      </IncidentManagementContext.Provider>
+      withAppContext(
+        <IncidentManagementContext.Provider
+          value={{
+            setDashboardFilter: mockSetDashboardFilter,
+            dashboardFilter: {
+              priority: { value: 'normal', display: 'Normaal' },
+            },
+          }}
+        >
+          <Filter callback={mockCallback} />
+        </IncidentManagementContext.Provider>
+      )
     )
 
     expect(
@@ -425,6 +419,29 @@ describe('FilterComponent', () => {
       })
     ).not.toBeInTheDocument()
 
-    expect(mockSetDashboardFilter).toBeCalledTimes(1)
+    act(() => {
+      history.push({
+        pathname: '/manage/incidents',
+        state: {
+          useBacklink: true,
+        },
+      })
+    })
+
+    expect(mockSetDashboardFilter).toHaveBeenLastCalledWith({
+      category: { display: '', value: '' },
+      department: { display: 'Actie Service Centrum', value: 'ASC' },
+      district: { display: '', value: '' },
+      priority: { display: '', value: '' },
+      punctuality: { display: '', value: '' },
+    })
+
+    act(() => {
+      history.push({
+        pathname: '/manage/incidents',
+      })
+    })
+
+    expect(mockSetDashboardFilter.mock.calls[1]).toEqual([{}])
   })
 })
