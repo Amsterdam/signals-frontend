@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import GlobalError from 'components/GlobalError'
 
 import { AreaChart } from './components'
+import { BarChart } from './components/BarChart'
 import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
 import { INCIDENTS_URL } from '../../routes'
@@ -32,6 +33,7 @@ const Dashboard = () => {
   return (
     <StyledRow data-testid="menu">
       <Filter />
+      <BarChart />
       <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
         <AreaChart />
       </Link>
