@@ -201,6 +201,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.RadioInput,
   },
+
   extra_straatverlichting_gevaar: {
     meta: {
       ifAllOf: {
@@ -291,8 +292,19 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.ClockSelect,
     options: {
-      validators: [validateObjectLocation('klok')],
+      validators: [validateObjectLocation('klok'), 'required'],
     },
+  },
+
+  extra_klok_alert: {
+    meta: {
+      ifAllOf: {
+        subcategory: 'klok',
+      },
+      type: 'alert',
+      value: `De gemeente repareert alleen klokken met het logo van de gemeente Amsterdam: de 3 Andreaskruizen. Wij repareren geen kapotte klokken van bedrijven, winkels en het GVB. Deze klokken kunt u laten repareren door de winkel, het bedrijf of het GVB.`,
+    },
+    render: QuestionFieldType.PlainText,
   },
 
   extra_klok: {
@@ -319,6 +331,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.RadioInput,
   },
+
   extra_klok_gevaar: {
     meta: {
       ifAllOf: {
@@ -337,6 +350,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.PlainText,
   },
+
   extra_klok_probleem: {
     meta: {
       label: 'Wat is het probleem?',
@@ -368,6 +382,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.RadioInput,
   },
+
   extra_klok_toelichting_overig: {
     meta: {
       ifAllOf: {
