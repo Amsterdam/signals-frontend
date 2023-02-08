@@ -38,7 +38,7 @@ export const vegaConfigBarChart: VisualizationSpec = {
       labelPadding: 4,
       labelFont: 'Amsterdam Sans',
     },
-    sort: [false],
+    sort: null,
   },
   spec: {
     layer: [
