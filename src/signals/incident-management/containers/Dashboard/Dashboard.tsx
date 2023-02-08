@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { BarChart } from './components/BarChart'
 import { useCallback, useEffect, useState } from 'react'
 
 import GlobalError from 'components/GlobalError'
 
 import { AreaChart } from './components'
+import { BarChart } from './components/BarChart'
 import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
 
