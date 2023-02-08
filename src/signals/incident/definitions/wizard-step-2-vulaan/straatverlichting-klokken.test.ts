@@ -11,6 +11,7 @@ describe('definition straatverlichting-klokken', () => {
       'extra_straatverlichting',
       'extra_straatverlichting_gevaar',
       'extra_klok_nummer',
+      'extra_klok_alert',
       'extra_klok',
       'extra_klok_gevaar',
       'extra_klok_probleem',
