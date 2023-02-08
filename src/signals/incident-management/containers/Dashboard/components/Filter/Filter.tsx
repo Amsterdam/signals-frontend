@@ -14,6 +14,7 @@ import {
 } from 'signals/incident-management/routes'
 import history from 'utils/history'
 
+import { filterNames } from './constants'
 import SelectList from './SelectList'
 import { FilterBar } from './styled'
 import type { Option } from './types'
@@ -32,17 +33,15 @@ export const Filter = ({ callback }: Props) => {
 
   const methods = useForm<{ [key: string]: Option }>({
     defaultValues: Object.fromEntries(
-      ['department', 'category', 'priority', 'punctuality', 'district'].map(
-        (name) => [
-          name,
-          (location?.referrer === INCIDENTS_URL &&
-            dashboardFilter &&
-            dashboardFilter[name]) || {
-            display: '',
-            value: '',
-          },
-        ]
-      )
+      filterNames.map((name) => [
+        name,
+        (location?.referrer === INCIDENTS_URL &&
+          dashboardFilter &&
+          dashboardFilter[name]) || {
+          display: '',
+          value: '',
+        },
+      ])
     ),
   })
 
