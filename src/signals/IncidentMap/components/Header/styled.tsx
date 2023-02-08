@@ -34,10 +34,10 @@ export const Title = styled.div`
     width: 100%;
     height: auto;
     max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 2.5)};
-    max-width: 112px;
 
     @media screen and (${breakpoint('min-width', 'tabletM')}) {
       max-height: ${themeSpacing(HEADER_HEIGHT_DESKTOP - 5)};
+      max-width: unset;
     }
   }
 `
