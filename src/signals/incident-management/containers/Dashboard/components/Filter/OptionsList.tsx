@@ -5,10 +5,10 @@ import { useEffect, useRef } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
-import { useRoveFocus } from '../../hooks/useRoveFocus'
 import { Option } from './Option'
 import { OptionUl } from './styled'
 import type { Filter } from './types'
+import { useRoveFocus } from '../../hooks/useRoveFocus'
 
 type Props = {
   setFilterNameActive: Dispatch<SetStateAction<string>>

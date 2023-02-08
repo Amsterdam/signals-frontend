@@ -5,9 +5,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useClickOutside } from '@amsterdam/asc-ui'
 import { useForm, FormProvider } from 'react-hook-form'
 
-
 import useLocationReferrer from 'hooks/useLocationReferrer'
-
 import { generateParams } from 'shared/services/api/api'
 import IncidentManagementContext from 'signals/incident-management/context'
 import {

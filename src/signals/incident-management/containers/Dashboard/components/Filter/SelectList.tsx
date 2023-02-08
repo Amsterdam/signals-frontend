@@ -8,7 +8,6 @@ import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
 import { filterNames } from './constants'
-
 import OptionsList from './OptionsList'
 import {
   InvisibleButton,
