@@ -10,7 +10,7 @@ export const BarChart = () => {
   // needs to be function later, when endpoint is available
   const nrOfIncidents = 422
   vegaEmbed('#bar-chart', vegaConfigBarChart, { actions: false })
-  //prop title of ModuleTitle has two spaces at the end in accordance with the design
+  //there should be two spaces between title and amount
   return (
     <Wrapper>
       <ModuleTitle
