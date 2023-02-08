@@ -15,6 +15,13 @@ const IncidentManagementContext = createContext<{
   setDashboardFilter: Dispatch<{ [key: string]: Option }>
   dashboardFilter?: { [key: string]: Option }
   districts?: Definition[]
+  departmentsWithResponsibleCategories?: {
+    list: Array<{
+      name: string
+      code: string
+      category_names: string[]
+    }>
+  }
 }>(initialContext)
 
 export default IncidentManagementContext

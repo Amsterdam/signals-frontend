@@ -20,6 +20,7 @@ import {
   searchIncidents,
   requestIncidents,
 } from './actions'
+import { useDepartments } from './containers/Dashboard/hooks/useDepartments'
 import IncidentManagementContext from './context'
 import reducer from './reducer'
 import routes from './routes'
@@ -54,10 +55,24 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
+  const departmentsWithResponsibleCategories = useDepartments()
   const [dashboardFilter, setDashboardFilter] = useState(null)
+  const departments = useDepartments()
+
   const contextValue = useMemo(
-    () => ({ districts, dashboardFilter, setDashboardFilter }),
-    [dashboardFilter, districts]
+    () => ({
+      districts,
+      dashboardFilter,
+      setDashboardFilter,
+      departments,
+      departmentsWithResponsibleCategories,
+    }),
+    [
+      dashboardFilter,
+      departments,
+      departmentsWithResponsibleCategories,
+      districts,
+    ]
   )
 
   useEffect(() => {

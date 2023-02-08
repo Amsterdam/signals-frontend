@@ -31,6 +31,21 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
+jest.mock('../../hooks/useDepartments')
+
+const mockSetDashboardFilter = jest.fn()
+const renderWithContext = (dashboardFilter = {}) => (
+  <IncidentManagementContext.Provider
+    value={{
+      setDashboardFilter: mockSetDashboardFilter,
+      dashboardFilter,
+      departmentsWithResponsibleCategories: departments,
+    }}
+  >
+    <Filter callback={mockCallback} />
+  </IncidentManagementContext.Provider>
+)
+
 describe('FilterComponent', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
@@ -78,7 +93,7 @@ describe('FilterComponent', () => {
   })
 
   it('should select a department and thus change selectable categories', async () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     expect(
       screen.getByRole('combobox', {
@@ -118,7 +133,7 @@ describe('FilterComponent', () => {
   })
 
   it('should select a department and reset form by using keyboard', () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     expect(
       screen.getByRole('combobox', {
@@ -191,7 +206,7 @@ describe('FilterComponent', () => {
   })
 
   it('should select a department, a custom category and reset back and call callback each time', async () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     expect(mockCallback).toBeCalledTimes(1)
 
@@ -242,7 +257,7 @@ describe('FilterComponent', () => {
 
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(oneDepartment)
 
-    const { rerender } = render(<Filter callback={mockCallback} />)
+    const { rerender } = render(renderWithContext())
 
     expect(
       screen.queryByRole('combobox', {
@@ -262,7 +277,7 @@ describe('FilterComponent', () => {
   })
 
   it('should tab over the comboboxes back and forth, select an option and return to last focussed combobox again', () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     screen
       .queryByRole('combobox', {

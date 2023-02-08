@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -8,6 +8,7 @@ import { makeSelectDepartments } from 'models/departments/selectors'
 import type { ApplicationRootState } from 'types'
 import type { Department } from 'types/api/incident'
 
+import IncidentManagementContext from '../../../context'
 import {
   priorityList,
   punctualityList,
@@ -19,6 +20,11 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
   const departments = useSelector<ApplicationRootState, { list: Department[] }>(
     makeSelectDepartments
   )
+
+  const { departmentsWithResponsibleCategories } = useContext(
+    IncidentManagementContext
+  )
+
   const departmentOptions = useMemo(
     () =>
       departments?.list.map((department) => ({
@@ -31,10 +37,9 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
   return useMemo(() => {
     const value: string =
       selectedDepartment?.value || departments?.list[0]?.code
-
-    const categories = departments?.list
-      .find((department) => department.code === value)
-      ?.category_names.map((category: string) => ({
+    const categories = departmentsWithResponsibleCategories?.list
+      ?.find((department) => department.code === value)
+      ?.category_names.map((category) => ({
         value: category,
         display: category,
       }))
@@ -78,5 +83,10 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
         })),
       },
     ]
-  }, [departmentOptions, departments.list, selectedDepartment?.value])
+  }, [
+    departmentOptions,
+    departments?.list,
+    departmentsWithResponsibleCategories,
+    selectedDepartment?.value,
+  ])
 }

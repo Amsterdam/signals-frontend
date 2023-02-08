@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
+
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
 
@@ -13,6 +16,9 @@ const departments = {
 describe('useFilter', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
+    jest
+      .spyOn(React, 'useContext')
+      .mockReturnValue({ departmentsWithResponsibleCategories: departments })
   })
 
   it('should select the first department by default and its associated categories', () => {
