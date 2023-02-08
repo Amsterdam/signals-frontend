@@ -14,7 +14,7 @@ export const BarChart = () => {
   return (
     <Wrapper>
       <ModuleTitle
-        title="Openstaande meldingen tot en met vandaag  "
+        title="Openstaande meldingen tot en met vandaag"
         amount={nrOfIncidents}
       />
       <StyledBarChart data-testid="bar-chart" id="bar-chart" />

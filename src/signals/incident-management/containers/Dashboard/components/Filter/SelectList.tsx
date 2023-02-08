@@ -7,7 +7,6 @@ import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
-import { useFilters } from '../../hooks/useFilter'
 import OptionsList from './OptionsList'
 import {
   InvisibleButton,
@@ -17,6 +16,7 @@ import {
   SelectContainer,
 } from './styled'
 import type { Filter } from './types'
+import { useFilters } from '../../hooks/useFilter'
 
 type Props = {
   filterActiveName: string

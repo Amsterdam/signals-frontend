@@ -12,7 +12,7 @@ export const ModuleTitle = ({ title, subtitle, amount }: Props) => (
   <>
     <Title>
       {title}
-      {amount && <Amount>{amount}</Amount>}
+      {amount && <Amount> {amount}</Amount>}
     </Title>
     {subtitle && <Subtitle>{subtitle}</Subtitle>}
   </>

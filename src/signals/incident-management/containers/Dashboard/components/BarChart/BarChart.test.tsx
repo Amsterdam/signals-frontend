@@ -8,7 +8,7 @@ describe('BarChart', () => {
   it('should render correctly', () => {
     render(<BarChart />)
 
-    const title = screen.queryByRole('heading', {
+    const title = screen.getByRole('heading', {
       name: 'Openstaande meldingen tot en met vandaag 422',
     })
 
