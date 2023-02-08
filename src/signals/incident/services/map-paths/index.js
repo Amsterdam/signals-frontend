@@ -4,8 +4,9 @@ import forEach from 'lodash/forEach'
 import set from 'lodash/set'
 
 import configuration from 'shared/services/configuration/configuration'
-import getStepControls from '../get-step-controls'
+
 import convertValue from '../convert-value'
+import getStepControls from '../get-step-controls'
 
 const mapPaths = (params, incident, wizard) => {
   const category_url = incident

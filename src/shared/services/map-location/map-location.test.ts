@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { LatLngTuple } from 'leaflet'
+
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
+
 import {
   featureToCoordinates,
   formatMapLocation,

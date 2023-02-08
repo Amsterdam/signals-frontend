@@ -15,13 +15,13 @@ import districts from 'utils/__tests__/fixtures/districts.json'
 import sources from 'utils/__tests__/fixtures/sources.json'
 import userOptions from 'utils/__tests__/fixtures/userOptions.json'
 
-import AppContext from '../../../../containers/App/context'
-import IncidentManagementContext from '../../context'
 import FilterTagList, {
   FilterTagListComponent,
   allLabelAppend,
   mapKeys,
 } from './FilterTagList'
+import AppContext from '../../../../containers/App/context'
+import IncidentManagementContext from '../../context'
 
 Enzyme.configure({ adapter: new Adapter() })
 

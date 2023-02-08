@@ -4,10 +4,11 @@ import { useContext, useMemo, useRef } from 'react'
 import type { FC } from 'react'
 
 import { breakpoint, Paragraph, ascDefaultTheme } from '@amsterdam/asc-ui/lib'
-import LoadingIndicator from 'components/LoadingIndicator'
-import AppContext from 'containers/App/context'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Route } from 'react-router-dom'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import AppContext from 'containers/App/context'
 import type {
   createIncident,
   getClassification,
@@ -19,10 +20,6 @@ import type {
 import type { WizardSection } from 'signals/incident/definitions/wizard'
 import type { Incident } from 'types/incident'
 
-import IncidentForm from '../IncidentForm'
-import IncidentPreview from '../IncidentPreview'
-import { StepByStepNavClickable } from '../StepByStepNavClickable'
-import { Wizard, Steps, Step } from '../StepWizard'
 import onNext from './services/on-next'
 import {
   FormWrapper,
@@ -32,6 +29,10 @@ import {
   StyledH1,
   Wrapper,
 } from './styled'
+import IncidentForm from '../IncidentForm'
+import IncidentPreview from '../IncidentPreview'
+import { StepByStepNavClickable } from '../StepByStepNavClickable'
+import { Wizard, Steps, Step } from '../StepWizard'
 
 interface IncidentWizardProps {
   wizardDefinition: WizardSection

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021- 2022 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
+
 import IconList, { IconListItem } from 'components/IconList/IconList'
 
-import { ScrollWrapper, Title } from '../styled'
 import { Panel, CloseBtn } from './styled'
+import { ScrollWrapper, Title } from '../styled'
 
 export interface LegendPanelProps {
   className?: string

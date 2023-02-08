@@ -2,8 +2,9 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import 'jest-localstorage-mock'
 import { call } from 'redux-saga/effects'
-import request from 'utils/request'
+
 import { getAuthHeaders } from 'shared/services/auth/auth'
+import request from 'utils/request'
 
 import {
   authCall,

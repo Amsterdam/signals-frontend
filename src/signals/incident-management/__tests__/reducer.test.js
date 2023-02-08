@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+
 import incidentsJson from 'utils/__tests__/fixtures/incidents.json'
-import reducer, { initialState } from '../reducer'
+
+import {
+  RESET_SEARCH_QUERY,
+  SET_SEARCH_QUERY,
+} from '../../../containers/App/constants'
 import {
   APPLY_FILTER,
   CLEAR_EDIT_FILTER,
@@ -26,10 +31,7 @@ import {
   SEARCH_INCIDENTS_ERROR,
   CLEAR_FILTERS,
 } from '../constants'
-import {
-  RESET_SEARCH_QUERY,
-  SET_SEARCH_QUERY,
-} from '../../../containers/App/constants'
+import reducer, { initialState } from '../reducer'
 
 const errorMessage = 'Something went horribly wrong'
 const activeFilter = {

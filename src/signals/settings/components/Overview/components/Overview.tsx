@@ -1,7 +1,5 @@
 import type { FunctionComponent } from 'react'
-import styled from 'styled-components'
-import PageHeader from 'signals/settings/components/PageHeader'
-import { NavLink } from 'react-router-dom'
+
 import {
   PersonalLogin,
   Student,
@@ -15,6 +13,10 @@ import {
   themeSpacing,
   Row,
 } from '@amsterdam/asc-ui'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+
+import PageHeader from 'signals/settings/components/PageHeader'
 import {
   USERS_URL,
   ROLES_URL,

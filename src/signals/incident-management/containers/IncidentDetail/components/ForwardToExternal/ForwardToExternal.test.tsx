@@ -12,10 +12,10 @@ import { withAppContext } from 'test/utils'
 import type { Incident } from 'types/api/incident'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import ForwardToExternal, { MAX_MESSAGE_LENGTH } from './ForwardToExternal'
 import attachmentsFixture from '../../../../../../../internals/mocks/fixtures/attachments.json'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
-import ForwardToExternal, { MAX_MESSAGE_LENGTH } from './ForwardToExternal'
 
 const scrollIntoViewMock = jest.fn()
 window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock

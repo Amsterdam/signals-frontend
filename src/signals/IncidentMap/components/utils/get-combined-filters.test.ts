@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { mockFiltersShort } from '../__test__'
 import { getCombinedFilters } from './get-combined-filters'
+import { mockFiltersShort } from '../__test__'
 
 describe('getCombinedFilters', function () {
   beforeEach(() => {

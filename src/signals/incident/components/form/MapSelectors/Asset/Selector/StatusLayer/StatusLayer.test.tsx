@@ -1,24 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
+
+import { Map } from '@amsterdam/react-maps'
+import { render, screen } from '@testing-library/react'
 import type { FeatureCollection } from 'geojson'
 
-import { render, screen } from '@testing-library/react'
-import { Map } from '@amsterdam/react-maps'
-
-import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
-import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
-
-import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
-
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
+import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
+import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
+
 import StatusLayer from './StatusLayer'
 import { getFeatureStatusType } from './utils'
 

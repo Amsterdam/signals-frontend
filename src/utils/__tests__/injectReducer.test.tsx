@@ -2,14 +2,13 @@
  * Test injectors
  */
 
-import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
-
 import { createMemoryHistory } from 'history'
-import configureStore from '../../configureStore'
-import { getInjectors } from '../reducerInjectors'
+import { Provider } from 'react-redux'
 
+import configureStore from '../../configureStore'
 import { useInjectReducer } from '../injectReducer'
+import { getInjectors } from '../reducerInjectors'
 
 const memoryHistory = createMemoryHistory()
 jest.mock('../reducerInjectors')

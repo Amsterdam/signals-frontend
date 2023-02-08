@@ -8,6 +8,7 @@ import { setupServer } from 'msw/node'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 import incidentHistoryFixture from 'utils/__tests__/fixtures/incidentHistory.json'
 
+import * as API from './api'
 import incidentAttachmentsFixture from '../mocks/fixtures/attachments.json'
 import autocompleteUsernames from '../mocks/fixtures/autocomplete-usernames.json'
 import incidentChildrenFixture from '../mocks/fixtures/children.json'
@@ -26,7 +27,6 @@ import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
 import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
 import usersFixture from '../mocks/fixtures/users.json'
-import * as API from './api'
 
 const [, userAscAeg, userAsc, userAeg, userTho] = usersFixture.results
 const departmentAscCode = departmentsFixture.results[0].code

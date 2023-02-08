@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import hoistNonReactStatics from 'hoist-non-react-statics'
 import type { ComponentType } from 'react'
 import { Component, useEffect } from 'react'
+
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { useStore, ReactReduxContext } from 'react-redux'
 
 import type { InjectReducerParams, InjectedStore } from 'types'
+
 import { getInjectors } from './reducerInjectors'
 
 /**

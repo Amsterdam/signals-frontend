@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux'
-import configuration from 'shared/services/configuration/configuration'
+
 import {
   makeSelectUserCan,
   makeSelectUserCanAccess,
 } from 'containers/App/selectors'
+import configuration from 'shared/services/configuration/configuration'
+
 import Overview from './components/Overview'
 
 export default function OverviewContainer() {

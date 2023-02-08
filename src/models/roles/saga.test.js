@@ -1,25 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { testSaga } from 'redux-saga-test-plan'
-import { takeLatest } from 'redux-saga/effects'
 import * as Sentry from '@sentry/browser'
+import { takeLatest } from 'redux-saga/effects'
+import { testSaga } from 'redux-saga-test-plan'
 
+import * as actions from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import {
   authCall,
   authPostCall,
   authPatchCall,
   getErrorMessage,
 } from 'shared/services/api/api'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import CONFIGURATION from 'shared/services/configuration/configuration'
-import * as actions from 'containers/App/actions'
-
-import {
-  FETCH_ROLES,
-  SAVE_ROLE,
-  PATCH_ROLE,
-  FETCH_PERMISSIONS,
-} from './constants'
 
 import {
   fetchRolesSuccess,
@@ -31,7 +24,12 @@ import {
   patchRoleSuccess,
   patchRoleError,
 } from './actions'
-
+import {
+  FETCH_ROLES,
+  SAVE_ROLE,
+  PATCH_ROLE,
+  FETCH_PERMISSIONS,
+} from './constants'
 import watchRolesSaga, {
   fetchRoles,
   fetchPermissions,

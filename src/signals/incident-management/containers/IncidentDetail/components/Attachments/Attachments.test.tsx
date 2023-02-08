@@ -6,15 +6,15 @@ import userEvent from '@testing-library/user-event'
 import * as appSelectors from 'containers/App/selectors'
 import { withAppContext } from 'test/utils'
 
-import attachments from '../../../../../../../internals/mocks/fixtures/attachments.json'
-import userFixture from '../../../../../../utils/__tests__/fixtures/user.json'
-import IncidentDetailContext from '../../context'
 import Attachments, {
   DELETE_CHILD,
   DELETE_NORMAL,
   DELETE_OTHER,
   DELETE_PARENT,
 } from './Attachments'
+import attachments from '../../../../../../../internals/mocks/fixtures/attachments.json'
+import userFixture from '../../../../../../utils/__tests__/fixtures/user.json'
+import IncidentDetailContext from '../../context'
 
 jest.mock('./UploadProgress', () => ({ progress }: { progress: number }) => (
   <span>progress-{progress}</span>

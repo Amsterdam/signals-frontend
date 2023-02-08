@@ -4,10 +4,10 @@
 import { render, screen } from '@testing-library/react'
 import type { Map } from 'leaflet'
 
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
-import { DeviceMode } from '../DrawerOverlay/types'
 import type { Props } from './Pin'
 import { Pin } from './Pin'
+import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
+import { DeviceMode } from '../DrawerOverlay/types'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,

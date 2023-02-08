@@ -2,8 +2,8 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
-import { incoming, outgoing } from '../mapCategories'
 import { initialState } from '../CategoryLists/reducer'
+import { incoming, outgoing } from '../mapCategories'
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub)
 

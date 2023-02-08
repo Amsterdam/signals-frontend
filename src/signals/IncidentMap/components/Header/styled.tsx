@@ -28,8 +28,15 @@ export const Title = styled.div`
   height: 100%;
   margin-left: ${themeSpacing(4)};
 
-  img {
+  img,
+  a {
+    display: block;
+    width: auto;
     height: 100%;
-    max-width: 90px;
+    max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 5)};
+
+    @media screen and (${breakpoint('min-width', 'tabletM')}) {
+      max-height: ${themeSpacing(HEADER_HEIGHT_DESKTOP - 5)};
+    }
   }
 `

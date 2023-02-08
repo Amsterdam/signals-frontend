@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import * as reactRedux from 'react-redux'
 import { render, fireEvent, act } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
+import * as reactRedux from 'react-redux'
 
 import {
   resetExtraState,
   updateIncident,
 } from 'signals/incident/containers/IncidentContainer/actions'
+import { withAppContext } from 'test/utils'
 
 import RadioInput from '..'
 

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import { push } from 'connected-react-router/immutable'
 import {
   all,
   call,
@@ -11,20 +12,17 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects'
-import { push } from 'connected-react-router/immutable'
 
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   authCall,
   authDeleteCall,
   authPatchCall,
   authPostCall,
 } from 'shared/services/api/api'
-import { mapFilterParams, unmapFilterParams } from 'signals/shared/filter/parse'
-
 import CONFIGURATION from 'shared/services/configuration/configuration'
-
-import { makeSelectSearchQuery } from 'containers/App/selectors'
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
+import { mapFilterParams, unmapFilterParams } from 'signals/shared/filter/parse'
 
 import {
   applyFilterRefresh,
@@ -46,7 +44,6 @@ import {
   searchIncidentsError,
   searchIncidentsSuccess,
 } from './actions'
-
 import {
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
@@ -63,7 +60,6 @@ import {
   UPDATE_FILTER,
   PATCH_INCIDENT_SUCCESS,
 } from './constants'
-
 import { makeSelectActiveFilter, makeSelectFilterParams } from './selectors'
 
 export function* fetchProxy(action) {

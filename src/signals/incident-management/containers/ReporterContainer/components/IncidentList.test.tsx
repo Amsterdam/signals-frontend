@@ -3,8 +3,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import type { ReporterIncident } from '../types'
 import IncidentList from './IncidentList'
+import type { ReporterIncident } from '../types'
 
 describe('IncidentList', () => {
   const list: ReporterIncident[] = [

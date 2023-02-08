@@ -4,11 +4,12 @@ import invariant from 'invariant'
 import isEmpty from 'lodash/isEmpty'
 import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
+import type { Reducer } from 'redux'
 
 import type { InjectedStore } from 'types'
-import type { Reducer } from 'redux'
-import createReducer from '../reducers'
+
 import checkStore from './checkStore'
+import createReducer from '../reducers'
 
 export function injectReducerFactory(store: InjectedStore, isValid = false) {
   return function injectReducer<T>(key: string, reducer: Reducer<T>) {

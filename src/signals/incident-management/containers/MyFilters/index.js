@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useCallback } from 'react'
+
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
-import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 
+import useEventEmitter from 'hooks/useEventEmitter'
+import * as types from 'shared/types'
 import {
   applyFilter,
   editFilter,
@@ -15,8 +18,6 @@ import {
   filterUpdated,
 } from 'signals/incident-management/actions'
 import { makeSelectAllFilters } from 'signals/incident-management/selectors'
-import * as types from 'shared/types'
-import useEventEmitter from 'hooks/useEventEmitter'
 
 import FilterItem from './components/FilterItem'
 

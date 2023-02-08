@@ -1,13 +1,14 @@
-import styled from 'styled-components'
 import {
   breakpoint,
   Paragraph,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import Map from 'components/Map'
 import ViewerContainer from 'components/ViewerContainer'
+
 import { DETAIL_PANEL_WIDTH } from '../../constants'
 
 export const StyledViewerContainer = styled(ViewerContainer)`

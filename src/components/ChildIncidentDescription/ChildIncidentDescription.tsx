@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
+
 import styled from 'styled-components'
 
 interface ChildIncidentDescriptionProps {
@@ -24,11 +25,12 @@ const IncidentDescription = styled.span`
   }
 `
 
-const ChildIncidentDescription: FunctionComponent<ChildIncidentDescriptionProps> =
-  ({ canView, text, className }) => (
-    <IncidentDescription className={className}>
-      {canView ? text : '-'}
-    </IncidentDescription>
-  )
+const ChildIncidentDescription: FunctionComponent<
+  ChildIncidentDescriptionProps
+> = ({ canView, text, className }) => (
+  <IncidentDescription className={className}>
+    {canView ? text : '-'}
+  </IncidentDescription>
+)
 
 export default ChildIncidentDescription

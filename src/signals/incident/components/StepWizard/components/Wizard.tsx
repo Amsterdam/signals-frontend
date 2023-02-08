@@ -151,7 +151,7 @@ const Wizard = (props: Props) => {
 
   const initialOnNext = useRef(false)
 
-  // listen for history changes and set set using pathToStep
+  // listen for history changes and set step using pathToStep
   useEffect(() => {
     const unlisten = history.listen(({ pathname }: any) => {
       setStep(pathToStep(pathname))

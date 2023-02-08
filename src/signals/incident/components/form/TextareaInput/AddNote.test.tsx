@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { withAppContext } from 'test/utils'
 import userEvent from '@testing-library/user-event'
+
+import { withAppContext } from 'test/utils'
 
 import AddNote from './AddNote'
 

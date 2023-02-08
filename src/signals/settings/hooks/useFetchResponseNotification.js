@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useDispatch } from 'react-redux'
 import { useCallback, useEffect } from 'react'
+
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import { showGlobalNotification } from 'containers/App/actions'
 import {
   TYPE_LOCAL,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-import { showGlobalNotification } from 'containers/App/actions'
 
 /**
  * Custom hook useConfirmedCancel

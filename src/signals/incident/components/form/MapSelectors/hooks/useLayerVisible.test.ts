@@ -2,8 +2,10 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { act, renderHook } from '@testing-library/react-hooks'
+
 import '@amsterdam/react-maps'
 import EventDispathcher from 'test/EventDispatcher'
+
 import useLayerVisible, { isLayerVisible } from './useLayerVisible'
 
 const mockGetZoom = jest.fn()

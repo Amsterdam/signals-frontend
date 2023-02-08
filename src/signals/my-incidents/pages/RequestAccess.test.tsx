@@ -4,9 +4,9 @@ import { screen, render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
+import { RequestAccess } from './RequestAccess'
 import { providerMock } from '../__test__'
 import { MyIncidentsProvider } from '../context'
-import { RequestAccess } from './RequestAccess'
 
 describe('RequestAccess', () => {
   it('should render correctly', () => {

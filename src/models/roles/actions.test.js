@@ -3,22 +3,6 @@
 import { testActionCreator } from 'test/utils'
 
 import {
-  FETCH_ROLES,
-  FETCH_ROLES_SUCCESS,
-  FETCH_ROLES_ERROR,
-  FETCH_PERMISSIONS,
-  FETCH_PERMISSIONS_SUCCESS,
-  FETCH_PERMISSIONS_ERROR,
-  SAVE_ROLE,
-  SAVE_ROLE_SUCCESS,
-  SAVE_ROLE_ERROR,
-  PATCH_ROLE,
-  PATCH_ROLE_SUCCESS,
-  PATCH_ROLE_ERROR,
-  RESET_RESPONSE,
-} from './constants'
-
-import {
   fetchRoles,
   fetchRolesSuccess,
   fetchRolesError,
@@ -33,6 +17,21 @@ import {
   patchRoleError,
   resetResponse,
 } from './actions'
+import {
+  FETCH_ROLES,
+  FETCH_ROLES_SUCCESS,
+  FETCH_ROLES_ERROR,
+  FETCH_PERMISSIONS,
+  FETCH_PERMISSIONS_SUCCESS,
+  FETCH_PERMISSIONS_ERROR,
+  SAVE_ROLE,
+  SAVE_ROLE_SUCCESS,
+  SAVE_ROLE_ERROR,
+  PATCH_ROLE,
+  PATCH_ROLE_SUCCESS,
+  PATCH_ROLE_ERROR,
+  RESET_RESPONSE,
+} from './constants'
 
 describe('Incident roles model actions', () => {
   it('should be fetched', () => {

@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import formatISO from 'date-fns/formatISO'
-import { mock } from 'types/incident'
 import { mocked } from 'jest-mock'
 
 import type { WizardSection } from 'signals/incident/definitions/wizard'
-import mapValues from '../map-values'
-import mapPaths from '../map-paths'
+import { mock } from 'types/incident'
 
 import mapControlsToParams from '.'
+import mapPaths from '../map-paths'
+import mapValues from '../map-values'
 
 jest.mock('../map-values')
 jest.mock('../map-paths')

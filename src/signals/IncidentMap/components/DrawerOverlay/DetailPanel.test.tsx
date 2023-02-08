@@ -2,9 +2,9 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
-import { mockIncidentsLong } from '../__test__'
 import type { Props } from './DetailPanel'
 import { DetailPanel } from './DetailPanel'
+import { mockIncidentsLong } from '../__test__'
 
 jest.mock('./utils', () => ({
   __esModule: true,

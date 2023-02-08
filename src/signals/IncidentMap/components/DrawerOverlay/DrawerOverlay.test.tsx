@@ -5,10 +5,10 @@ import type { PropsWithChildren } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { mockIncidentsLong } from '../__test__'
 import { DrawerOverlay } from './DrawerOverlay'
 import type { Props } from './DrawerOverlay'
 import { DrawerState } from './types'
+import { mockIncidentsLong } from '../__test__'
 
 const defaultProps: PropsWithChildren<Props> = {
   onCloseDetailPanel: jest.fn(),

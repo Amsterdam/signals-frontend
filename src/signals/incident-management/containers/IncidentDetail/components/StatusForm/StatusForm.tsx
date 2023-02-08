@@ -18,10 +18,6 @@ import type { Status } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
-import { PATCH_TYPE_STATUS } from '../../constants'
-import IncidentDetailContext from '../../context'
-import type { IncidentChild, EmailTemplate } from '../../types'
-import EmailPreview from '../EmailPreview/EmailPreview'
 import type { StatusFormActions } from './actions'
 import DefaultTexts from './components/DefaultTexts'
 import * as constants from './constants'
@@ -40,6 +36,10 @@ import {
   StyledParagraph,
   StyledSection,
 } from './styled'
+import { PATCH_TYPE_STATUS } from '../../constants'
+import IncidentDetailContext from '../../context'
+import type { IncidentChild, EmailTemplate } from '../../types'
+import EmailPreview from '../EmailPreview/EmailPreview'
 
 interface StatusFormProps {
   defaultTexts: DefaultTextsType
@@ -60,7 +60,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
-  const [emailIsNotSent, setEmailIsNotSend] = useState(false)
   const [state, dispatch] = useReducer<
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
@@ -221,11 +220,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [])
 
   const onStatusChange = useCallback((event) => {
-    setEmailIsNotSend(
-      event.target.value === StatusCode.Afgehandeld &&
-        state.status.key === StatusCode.VerzoekTotHeropenen
-    )
-
     const selectedStatus = changeStatusOptionList.find(
       (status) => event.target.value === status.key
     )
@@ -324,7 +318,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               {constants.DEELMELDING_EXPLANATION}
             </Alert>
           ))}
-        {!state.flags.isSplitIncident && !emailIsNotSent && (
+        {!state.flags.isSplitIncident && (
           <div>
             {state.flags.hasEmail ? (
               incident?.reporter?.allows_contact ? (
@@ -354,11 +348,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             )}
           </div>
         )}
-        {emailIsNotSent && (
-          <div data-testid="no-emaiI-is-sent-warning">
-            {constants.NO_EMAIL_IS_SENT}
-          </div>
-        )}
       </StyledSection>
       <StyledSection>
         <AddNoteWrapper>
@@ -373,9 +362,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                     ? state.text.label
                     : 'Toelichting'}
                 </strong>
-                {!state.text.required && !emailIsNotSent && (
-                  <span>&nbsp;(niet verplicht)</span>
-                )}
+                {!state.text.required && <span>&nbsp;(niet verplicht)</span>}
               </>
             }
           />

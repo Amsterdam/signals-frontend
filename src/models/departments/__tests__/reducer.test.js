@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
+
 import departmentsJson from 'utils/__tests__/fixtures/departments.json'
 
-import reducer, { initialState } from '../reducer'
 import * as constants from '../constants'
+import reducer, { initialState } from '../reducer'
 
 const depCount = 9
 

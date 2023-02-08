@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { Marker } from '@amsterdam/react-maps'
-import Map from 'components/Map'
 import PropTypes from 'prop-types'
+
+import Map from 'components/Map'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { featureToCoordinates } from 'shared/services/map-location'

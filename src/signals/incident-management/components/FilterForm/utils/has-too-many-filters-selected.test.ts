@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 
-import type { SelectedFilters, StoredParams } from '../types'
 import { hasTooManyFiltersSelected } from './has-too-many-filters-selected'
+import type { SelectedFilters, StoredParams } from '../types'
 
 jest.mock('./constants', () => ({
   ...jest.requireActual('./constants'),

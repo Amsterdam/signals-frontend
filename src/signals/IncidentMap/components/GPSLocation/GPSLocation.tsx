@@ -3,11 +3,11 @@
 
 import type { LatLngLiteral } from 'leaflet'
 
+import { StyledViewerContainer } from './styled'
 import GPSButton from '../../../../components/GPSButton'
 import configuration from '../../../../shared/services/configuration/configuration'
 import type { LocationResult } from '../../../../types/location'
 import { DrawerState } from '../DrawerOverlay'
-import { StyledViewerContainer } from './styled'
 
 export interface Props {
   setNotification: (mapMessage: JSX.Element | string) => void

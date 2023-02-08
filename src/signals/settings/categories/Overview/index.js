@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { Row, Column, themeSpacing, CompactPager } from '@amsterdam/asc-ui'
-import { useParams, useHistory } from 'react-router-dom'
 
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
-import { makeSelectAllSubCategories } from 'models/categories/selectors'
-import { makeSelectUserCan } from 'containers/App/selectors'
-import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import { Row, Column, themeSpacing, CompactPager } from '@amsterdam/asc-ui'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { useParams, useHistory } from 'react-router-dom'
+import { createStructuredSelector } from 'reselect'
+import styled from 'styled-components'
+
 import DataView from 'components/DataView'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { PAGE_SIZE } from 'containers/App/constants'
+import { makeSelectUserCan } from 'containers/App/selectors'
+import { makeSelectAllSubCategories } from 'models/categories/selectors'
+import PageHeader from 'signals/settings/components/PageHeader'
+import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
 
 import filterData from '../../filterData'
 

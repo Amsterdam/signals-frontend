@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 import some from 'lodash/some'
+
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import {

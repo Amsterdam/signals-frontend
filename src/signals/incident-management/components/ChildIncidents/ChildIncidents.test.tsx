@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
-import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
-
-import { withAppContext } from 'test/utils'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
-import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
 
 import type { StatusCode } from 'signals/incident-management/definitions/types'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
+import { withAppContext } from 'test/utils'
+import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
 
 import ChildIncidents, {
   STATUS_RESPONSE_REQUIRED,
   STATUS_NONE,
 } from './ChildIncidents'
-
 import type { ChildIncident } from './ChildIncidents'
 
 const parentUpdatedAt = childIncidentsFixture.results[2].updated_at

@@ -2,13 +2,13 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
-import type { FC } from 'react'
-import type { PdokResponse } from 'shared/services/map-location'
-import type { RevGeo } from 'types/pdok/revgeo'
+import { Close } from '@amsterdam/asc-assets'
 
 import useDebounce from 'hooks/useDebounce'
 import useFetch from 'hooks/useFetch'
-import { Close } from '@amsterdam/asc-assets'
+import type { PdokResponse } from 'shared/services/map-location'
+import type { RevGeo } from 'types/pdok/revgeo'
+
 import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350
@@ -44,7 +44,7 @@ export interface AutoSuggestProps {
  * - Home key focuses the input field at the first character
  * - End key focuses the input field at the last character
  */
-const AutoSuggest: FC<AutoSuggestProps> = ({
+const AutoSuggest = ({
   autoFocus = false,
   className = '',
   disabled = false,
@@ -60,7 +60,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   url,
   value = '',
   ...rest
-}) => {
+}: AutoSuggestProps) => {
   const [defaultValue, setDefaultValue] = useState(value)
   const { get, data } = useFetch<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
@@ -85,21 +85,25 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
     }
   }, [])
 
-  const clearInput = useCallback(() => {
-    if (inputRef.current) {
-      inputRef.current.value = ''
+  const clearInput = useCallback(
+    (event?) => {
+      event?.preventDefault()
+      if (inputRef.current) {
+        inputRef.current.value = ''
 
-      inputRef.current.focus()
-    }
+        inputRef.current.focus()
+      }
 
-    setActiveIndex(-1)
-    setShowList(false)
-    setDefaultValue('')
+      setActiveIndex(-1)
+      setShowList(false)
+      setDefaultValue('')
 
-    if (onClear) {
-      onClear()
-    }
-  }, [onClear])
+      if (onClear) {
+        onClear()
+      }
+    },
+    [onClear]
+  )
 
   const handleKeyDown = useCallback(
     (event) => {

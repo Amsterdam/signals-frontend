@@ -5,6 +5,7 @@ import { render, act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
@@ -110,6 +111,8 @@ describe('signals/incident/containers/KtoContainer', () => {
     await findByTestId('kto-form-container')
 
     expect(getByText(/nee, ik ben niet/i)).toBeInTheDocument()
+
+    expect(screen.getAllByText('Over iets anders.').length).toEqual(2)
   })
 
   it('should PUT form data via checkbox fields', async () => {

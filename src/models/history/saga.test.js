@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { call, put, takeLatest } from 'redux-saga/effects'
 import * as Sentry from '@sentry/browser'
-import * as actions from 'containers/App/actions'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { authCall } from 'shared/services/api/api'
+import * as actions from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
-import { REQUEST_HISTORY_LIST } from './constants'
+import { authCall } from 'shared/services/api/api'
+
 import { requestHistoryListError, requestHistoryListSuccess } from './actions'
+import { REQUEST_HISTORY_LIST } from './constants'
 import watchHistorySaga, { fetchHistoryList } from './saga'
 
 jest.mock('shared/services/api/api')

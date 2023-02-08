@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
 import type {
   FeatureStatusType,
   Meta,
 } from 'signals/incident/components/form/MapSelectors/types'
 import { FeatureStatus } from 'signals/incident/components/form/MapSelectors/types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eikenprocessierups'
+import caterpillarsJson from 'utils/__tests__/fixtures/caterpillars.json'
+
 import { getFeatureStatusType } from './utils'
 
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta

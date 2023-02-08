@@ -2,8 +2,8 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type Location from 'types/location'
 
-import { markerIcon } from '../../../../shared/services/configuration/map-markers'
 import { StyledCloseButton, StyledMapDetail, StyledMapViewer } from './styled'
+import { markerIcon } from '../../../../shared/services/configuration/map-markers'
 
 type Props = {
   location: Location

@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
-import L from 'leaflet'
-import { Marker } from '@amsterdam/arm-core'
-
-import type { FeatureCollection } from 'geojson'
 import type { FC } from 'react'
+
+import { Marker } from '@amsterdam/arm-core'
+import type { FeatureCollection } from 'geojson'
+import L from 'leaflet'
+
+import { featureToCoordinates } from 'shared/services/map-location'
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
+import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type {
   Feature,
   Item,
@@ -13,11 +18,6 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie, Location } from 'types/incident'
 
-import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
-import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-
-import { featureToCoordinates } from 'shared/services/map-location'
-import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import StatusLayer from '../../Asset/Selector/StatusLayer'
 import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 

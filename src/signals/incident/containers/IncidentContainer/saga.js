@@ -1,27 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 import { replace } from 'connected-react-router/immutable'
+import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 
-import request from 'utils/request'
-import { postCall, authPostCall } from 'shared/services/api/api'
-import configuration from 'shared/services/configuration/configuration'
 import { uploadFile } from 'containers/App/saga'
-import resolveClassification from 'shared/services/resolveClassification'
-import mapControlsToParams from 'signals/incident/services/map-controls-to-params'
+import { postCall, authPostCall } from 'shared/services/api/api'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
+import configuration from 'shared/services/configuration/configuration'
 import { coordinatesToAPIFeature } from 'shared/services/map-location'
+import resolveClassification from 'shared/services/resolveClassification'
 import {
   getClassificationData,
   makeSelectIncidentContainer,
 } from 'signals/incident/containers/IncidentContainer/selectors'
-import { getIncidentClassification, resolveQuestions } from './services'
-import {
-  CREATE_INCIDENT,
-  GET_CLASSIFICATION,
-  GET_CLASSIFICATION_SUCCESS,
-  UPDATE_INCIDENT,
-} from './constants'
+import mapControlsToParams from 'signals/incident/services/map-controls-to-params'
+import request from 'utils/request'
+
 import {
   createIncidentSuccess,
   createIncidentError,
@@ -31,6 +25,13 @@ import {
   getQuestionsError,
   setLoadingData,
 } from './actions'
+import {
+  CREATE_INCIDENT,
+  GET_CLASSIFICATION,
+  GET_CLASSIFICATION_SUCCESS,
+  UPDATE_INCIDENT,
+} from './constants'
+import { getIncidentClassification, resolveQuestions } from './services'
 
 export function* getClassification(action) {
   try {

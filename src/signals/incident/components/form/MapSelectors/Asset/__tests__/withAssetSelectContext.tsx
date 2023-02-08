@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
-import ReactDOM from 'react-dom'
 import type { ReactNode, ReactPortal } from 'react'
 
-import { withAppContext } from 'test/utils'
-import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
+import ReactDOM from 'react-dom'
 
-import type { AssetSelectValue } from '../types'
+import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/afval-container'
+import { withAppContext } from 'test/utils'
+
 import { AssetSelectProvider } from '../context'
+import type { AssetSelectValue } from '../types'
 
 ReactDOM.createPortal = (node) => node as ReactPortal
 

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
-import { Link } from 'react-router-dom'
+
 import { Link as AscLink } from '@amsterdam/asc-ui'
+import { Link } from 'react-router-dom'
 
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import type { Reporter as ReporterType } from 'types/context'

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
-
 import type { FC } from 'react'
+
 import type { Group } from 'components/Select'
-import type { SubCategoryOption } from 'models/categories/selectors'
 import Select from 'components/Select'
+import type { SubCategoryOption } from 'models/categories/selectors'
 
 import { StyledInfoText, StyledSelect } from '../../styled'
 

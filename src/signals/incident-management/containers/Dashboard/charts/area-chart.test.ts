@@ -88,7 +88,7 @@ describe('get-area-chart', () => {
         "encoding": Object {
           "x": Object {
             "axis": Object {
-              "domainColor": "white",
+              "domain": false,
               "labelAngle": 0,
               "labelFont": "Amsterdam Sans",
               "labelFontSize": 14,
@@ -101,12 +101,12 @@ describe('get-area-chart', () => {
             "field": "date",
             "sort": null,
             "timeUnit": "day",
-            "title": "",
+            "title": null,
             "type": "ordinal",
           },
           "y": Object {
             "axis": Object {
-              "domainColor": "white",
+              "domain": false,
               "grid": false,
               "labelFont": "Amsterdam Sans",
               "labelFontSize": 14,
@@ -123,7 +123,7 @@ describe('get-area-chart', () => {
               ],
               "type": "linear",
             },
-            "title": "",
+            "title": null,
             "type": "quantitative",
           },
         },

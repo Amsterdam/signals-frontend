@@ -6,10 +6,6 @@ import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
 import { useHistory } from 'react-router-dom'
 
-import type { FetchResponse } from '../../../../hooks/useFetch'
-import { routes } from '../../definitions'
-import type { HistoryInstance, MyIncident } from '../../types'
-import { FormTitle } from '../IncidentsDetail/styled'
 import {
   StatusBlock,
   Wrapper,
@@ -18,6 +14,10 @@ import {
   StatusParagraph,
   StyledParagraph,
 } from './styled'
+import type { FetchResponse } from '../../../../hooks/useFetch'
+import { routes } from '../../definitions'
+import type { HistoryInstance, MyIncident } from '../../types'
+import { FormTitle } from '../IncidentsDetail/styled'
 
 export interface Props {
   incident: MyIncident

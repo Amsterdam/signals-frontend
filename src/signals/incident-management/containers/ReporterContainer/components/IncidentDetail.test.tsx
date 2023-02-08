@@ -12,12 +12,12 @@ import { mockIncident } from 'types/api/incident.mock'
 import { subCategories } from 'utils/__tests__/fixtures'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import * as API from './../../../../../../internals/testing/api'
+import IncidentDetail from './IncidentDetail'
 import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../.././../internals/testing/msw-server'
-import * as API from './../../../../../../internals/testing/api'
-import IncidentDetail from './IncidentDetail'
 
 const incident = mockIncident()
 

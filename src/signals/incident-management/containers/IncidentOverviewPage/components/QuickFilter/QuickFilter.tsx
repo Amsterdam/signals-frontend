@@ -1,4 +1,5 @@
 import type { FunctionComponent } from 'react'
+
 import type { Filter } from 'shared/types/filter'
 
 import { StyledPageHeaderItem, StyledLink, StyledParagraph } from '../../styled'

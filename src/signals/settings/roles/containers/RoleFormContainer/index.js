@@ -1,23 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useEffect } from 'react'
+
+import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
-import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
-import { Row, Column } from '@amsterdam/asc-ui'
+import { createStructuredSelector } from 'reselect'
 
-import routes from 'signals/settings/routes'
-import PageHeader from 'signals/settings/components/PageHeader'
-import LoadingIndicator from 'components/LoadingIndicator'
 import BackLink from 'components/BackLink'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions'
-import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
-
-import { rolesModelSelector } from 'models/roles/selectors'
+import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchRole, saveRole, resetResponse } from 'models/roles/actions'
+import { rolesModelSelector } from 'models/roles/selectors'
+import PageHeader from 'signals/settings/components/PageHeader'
+import routes from 'signals/settings/routes'
 
 import RoleForm from './components/RoleForm'
 

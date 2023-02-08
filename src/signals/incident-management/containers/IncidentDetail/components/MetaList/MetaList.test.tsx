@@ -21,6 +21,7 @@ import autocompleteUsernamesFixture from 'utils/__tests__/fixtures/autocompleteU
 import categoriesPrivate from 'utils/__tests__/fixtures/categories_private.json'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
+import MetaList from './MetaList'
 import * as API from '../../../../../../../internals/testing/api'
 import {
   mockRequestHandler,
@@ -28,7 +29,6 @@ import {
 } from '../../../../../../../internals/testing/msw-server'
 import IncidentDetailContext from '../../context'
 import type { IncidentChild } from '../../types'
-import MetaList from './MetaList'
 
 fetchMock.disableMocks()
 jest.mock('shared/services/configuration/configuration')

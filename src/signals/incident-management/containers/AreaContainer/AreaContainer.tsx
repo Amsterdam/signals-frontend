@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
-import styled from 'styled-components'
-import subWeeks from 'date-fns/subWeeks'
 import type { FunctionComponent } from 'react'
 import { useCallback, useState, useEffect } from 'react'
+
+import subWeeks from 'date-fns/subWeeks'
+import { useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import LoadingIndicator from 'components/LoadingIndicator'
+import styled from 'styled-components'
+
 import AreaMap from 'components/AreaMap'
 import type { Feature } from 'components/AreaMap/types'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
-import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
-import useGetIncident from 'hooks/api/useGetIncident'
-import { useDispatch } from 'react-redux'
+import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
+import useGetIncident from 'hooks/api/useGetIncident'
+import { INCIDENT_URL } from 'signals/incident-management/routes'
+
 import Filter from './components/Filter'
 import IncidentDetail from './components/IncidentDetail'
 

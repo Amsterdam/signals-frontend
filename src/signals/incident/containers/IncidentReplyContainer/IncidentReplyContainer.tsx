@@ -21,12 +21,12 @@ import { filesUpload } from 'shared/services/files-upload/files-upload'
 import { FieldType } from 'types/api/qa/question'
 import type { Question } from 'types/api/qa/question'
 
-import Notice from '../../components/ReplyForm/Notice'
-import QuestionnaireComponent from '../../components/ReplyForm/Questionnaire'
 import * as constants from './constants'
 import { Content, StyledHeading, StyledSubHeading, Wrapper } from './styled'
 import type { FormAnswer } from './types'
 import { formatDate } from './utils'
+import Notice from '../../components/ReplyForm/Notice'
+import QuestionnaireComponent from '../../components/ReplyForm/Questionnaire'
 
 const IncidentReplyContainer = () => {
   const { uuid: sessionUuid } = useParams<{ uuid: string }>()

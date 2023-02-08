@@ -2,8 +2,8 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import type { FC, ReactNode } from 'react'
 
-import type { MyIncidentsValue } from '../types'
 import { MyIncidentsContext } from './context'
+import type { MyIncidentsValue } from '../types'
 
 export const initialValue: MyIncidentsValue = {
   email: undefined,

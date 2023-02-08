@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom'
 
 import Button from 'components/Button'
 
-import { routes } from '../definitions'
 import { BasePage } from './BasePage'
+import { routes } from '../definitions'
 
 export const LinkExpired = () => {
   const history = useHistory()

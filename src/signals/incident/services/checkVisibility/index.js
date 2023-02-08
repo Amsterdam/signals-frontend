@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import isEqual from 'lodash/isEqual'
 import isObject from 'lodash/isObject'
+
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 
 const isValueEqual = (objToCompareTo, value, key, comparisonFunc) => {

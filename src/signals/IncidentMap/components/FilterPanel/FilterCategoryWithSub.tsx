@@ -4,7 +4,6 @@ import { Fragment, useState } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
 
-import type { Filter } from '../../types'
 import { FilterCategory } from './FilterCategory'
 import {
   WrapperFilterCategoryWithIcon,
@@ -12,6 +11,7 @@ import {
   SubSection,
   Underlined,
 } from './styled'
+import type { Filter } from '../../types'
 
 export interface Props {
   onToggleCategory: (filter: Filter, select: boolean) => void

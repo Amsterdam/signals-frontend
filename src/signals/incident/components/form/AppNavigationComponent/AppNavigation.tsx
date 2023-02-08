@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux'
 
 import { postMessage } from 'containers/App/actions'
 
-import LinkButton from '../LinkButton'
 import { Wrapper, StyledButton } from './styled'
+import LinkButton from '../LinkButton'
 
 export interface Props {
   meta: {

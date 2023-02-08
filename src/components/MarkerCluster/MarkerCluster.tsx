@@ -30,6 +30,7 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
 }) => {
   const MarkerClusterGroup = useMemo(() => {
     return createLeafletComponent('markerClusterGroup')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyboard])
 
   const options: L.MarkerClusterGroupOptions = {

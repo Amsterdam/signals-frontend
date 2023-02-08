@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { UserCredentials } from 'containers/App/types'
-import configuration from '../configuration/configuration'
-import Keycloak from './services/keycloak-auth'
-import ImplicitAuth from './services/implicit-auth'
+
 import DummyAuth from './services/dummy-auth'
+import ImplicitAuth from './services/implicit-auth'
+import Keycloak from './services/keycloak-auth'
+import configuration from '../configuration/configuration'
 
 // Verify that local or session storage is supported & enabled
 let storageEnabled = false

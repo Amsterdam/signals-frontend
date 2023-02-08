@@ -27,8 +27,6 @@ import {
 } from 'signals/incident/components/form/MapSelectors/constants'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
-import AssetSelectContext from '../../context'
-import { ScrollWrapper, Title } from '../styled'
 import {
   AddressPanel,
   Description,
@@ -40,6 +38,8 @@ import {
   StyledLegendPanel,
   StyledPDOKAutoSuggest,
 } from './styled'
+import AssetSelectContext from '../../context'
+import { ScrollWrapper, Title } from '../styled'
 
 export interface DetailPanelProps {
   language?: Record<string, string>

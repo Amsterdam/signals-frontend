@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { useEffect, lazy, Suspense, useMemo } from 'react'
+import { useEffect, lazy, Suspense, useMemo, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
@@ -45,14 +45,20 @@ const IncidentSplitContainer = lazy(() =>
 const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 const AreaContainer = lazy(() => import('./containers/AreaContainer'))
 const SignalingContainer = lazy(() => import('./containers/Signaling'))
-const DashboardContainer = lazy(() => import('./containers/Dashboard/Dashboard'))
+const DashboardContainer = lazy(() =>
+  import('./containers/Dashboard/Dashboard')
+)
 
 const IncidentManagement = () => {
   const location = useLocationReferrer()
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
-  const contextValue = useMemo(() => ({ districts }), [districts])
+  const [dashboardFilter, setDashboardFilter] = useState(null)
+  const contextValue = useMemo(
+    () => ({ districts, dashboardFilter, setDashboardFilter }),
+    [dashboardFilter, districts]
+  )
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)

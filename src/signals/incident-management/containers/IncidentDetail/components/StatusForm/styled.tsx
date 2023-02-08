@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import styled, { css } from 'styled-components'
 import {
   Alert,
   Checkbox,
@@ -11,6 +10,7 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import type { AlertLevel } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 import Button from 'components/Button'
 

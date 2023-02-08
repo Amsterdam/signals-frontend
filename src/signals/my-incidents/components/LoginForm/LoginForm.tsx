@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { yupResolver } from '@hookform/resolvers/yup'
-import Button from 'components/Button'
-import Label from 'components/Label'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
+import Button from 'components/Button'
+import Label from 'components/Label'
+
+import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
 import { useMyIncidentContext } from '../../context'
 import { routes } from '../../definitions'
 import { usePostEmail } from '../../hooks'
 import type { FormData } from '../types'
-import { ErrorWrapper, StyledErrorMessage, StyledInput } from './styled'
 
 const schema = yup.object({
   email: yup

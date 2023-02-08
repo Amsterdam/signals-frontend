@@ -2,27 +2,27 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
-import L from 'leaflet'
-import styled from 'styled-components'
-import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 
+import { ViewerContainer, Marker } from '@amsterdam/arm-core'
 import type { Point } from 'geojson'
+import L from 'leaflet'
 import type { MapOptions } from 'leaflet'
-import type { Geography, Property } from 'types/api/geography'
-import type { Incident } from 'types/api/incident'
+import styled from 'styled-components'
 
 import Map from 'components/Map'
+import MapCloseButton from 'components/MapCloseButton'
 import MarkerCluster from 'components/MarkerCluster'
-import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
-import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import {
   closedIncidentIcon,
   openIncidentIcon,
   pointerSelectIcon,
   currentIncidentIcon,
 } from 'shared/services/configuration/map-markers'
+import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { featureToCoordinates } from 'shared/services/map-location'
-import MapCloseButton from 'components/MapCloseButton'
+import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
+import type { Geography, Property } from 'types/api/geography'
+import type { Incident } from 'types/api/incident'
 
 import type { Feature } from './types'
 

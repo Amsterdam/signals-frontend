@@ -9,8 +9,6 @@ import AttachmentViewer from 'components/AttachmentViewer'
 import CloseButton from 'components/CloseButton'
 import LoadingIndicator from 'components/LoadingIndicator'
 
-import Notice from '../../components/ReplyForm/Notice'
-import QuestionnaireComponent from '../../components/ReplyForm/Questionnaire'
 import ExplanationSection from './components/ExplanationSection'
 import Location from './components/Location'
 import {
@@ -22,6 +20,8 @@ import {
   StyledExplanationSection,
 } from './styled'
 import useExternalReplyQuestionnaire from './useExternalReplyQuestionnaire'
+import Notice from '../../components/ReplyForm/Notice'
+import QuestionnaireComponent from '../../components/ReplyForm/Questionnaire'
 
 type Params = {
   /** Questionnaire session id  */

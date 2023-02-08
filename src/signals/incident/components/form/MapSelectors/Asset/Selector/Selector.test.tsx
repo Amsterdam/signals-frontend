@@ -17,11 +17,11 @@ import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
 import MockInstance = jest.MockInstance
+import type { LegendPanelProps } from './LegendPanel/LegendPanel'
+import Selector, { MAP_LOCATION_ZOOM } from './Selector'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
-import type { LegendPanelProps } from './LegendPanel/LegendPanel'
-import Selector, { MAP_LOCATION_ZOOM } from './Selector'
 
 jest.useFakeTimers()
 

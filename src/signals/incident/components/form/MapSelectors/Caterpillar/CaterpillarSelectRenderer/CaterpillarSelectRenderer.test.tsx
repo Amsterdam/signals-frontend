@@ -6,8 +6,8 @@ import { controls } from 'signals/incident/definitions/wizard-step-2-vulaan/eike
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
-import type { Meta } from '../../types'
 import CaterpillarSelectRenderer from './CaterpillarSelectRenderer'
+import type { Meta } from '../../types'
 
 jest.mock('../../Asset/AssetSelect', () => () => (
   <span data-testid="mock-asset-select" />

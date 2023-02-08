@@ -14,13 +14,13 @@ import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import MockInstance = jest.MockInstance
+import type { DetailPanelProps } from './DetailPanel'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
 import type { AssetListProps } from '../../AssetList/AssetList'
 import DetailPanel from '../DetailPanel'
-import type { DetailPanelProps } from './DetailPanel'
 
 jest.mock('hooks/useFetch')
 jest.mock('react-responsive')

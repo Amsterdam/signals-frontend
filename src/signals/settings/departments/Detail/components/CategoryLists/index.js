@@ -15,11 +15,11 @@ import {
   Form,
 } from 'signals/incident-management/components/FilterForm/styled'
 
+import { setCanView, setIsResponsible } from './actions'
+import reducer from './reducer'
 import DepartmentDetailContext from '../../context'
 import CategoryGroups from '../CategoryGroups'
 import { incoming, outgoing } from '../mapCategories'
-import { setCanView, setIsResponsible } from './actions'
-import reducer from './reducer'
 
 const StyledFieldset = styled(Fieldset)`
   padding-top: ${themeSpacing(2)};
