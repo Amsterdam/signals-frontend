@@ -5,6 +5,7 @@
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
     "enableAmsterdamSpecificOverigCategories": true,
+    "enableMultipleKtoAnswers": true,
     "enableCsvExport": false,
     "enableMyIncidents": true,
     "enableNearIncidents": true,

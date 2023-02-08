@@ -140,7 +140,11 @@ export const KtoContainer = () => {
         topic: option.topic,
       }))
 
-    opts.push({ key: 'anders', value: 'Over iets anders.' })
+    opts.push({
+      key: 'anders',
+      value: 'Over iets anders.',
+      topic: 'Over iets anders.',
+    })
 
     dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
   }, [options, satisfactionIndication, isLoadingOptions, isSatisfied])
