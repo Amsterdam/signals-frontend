@@ -7,6 +7,7 @@ import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
+import { filterNames } from './constants'
 import OptionsList from './OptionsList'
 import {
   InvisibleButton,
@@ -68,11 +69,14 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
     (filter: Filter) => filter.name === filterActiveName
   )
 
-  const prevSelectTarget = useRef<HTMLElement>()
-
-  if (!selectedDepartment.value) {
-    return null
+  const resetWithDefaultValues = () => {
+    const defaultValues = Object.fromEntries(
+      filterNames.map((name) => [name, { display: '', value: '' }])
+    )
+    reset(defaultValues)
   }
+
+  const prevSelectTarget = useRef<HTMLElement>()
 
   return (
     <SelectContainer ref={selectContainerRef}>
@@ -117,12 +121,12 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         tabIndex={0}
         onClick={() => {
           onChangeEvent('')
-          reset()
+          resetWithDefaultValues()
         }}
         onKeyDown={(e) => {
           if (['Enter', 'Space'].includes(e.code)) {
             onChangeEvent('')
-            reset()
+            resetWithDefaultValues()
           }
         }}
       >

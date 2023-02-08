@@ -4,6 +4,7 @@ import { fireEvent, render, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
+import * as reactRouterDom from 'react-router-dom'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
 import * as constants from 'signals/incident-management/constants'
@@ -56,6 +57,11 @@ const generateIncidents = (number = 100) =>
     id: index + 1,
   }))
 
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
+
 describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props
 
@@ -75,6 +81,32 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       pageChangedAction: jest.fn(),
       clearFiltersAction: jest.fn(),
     }
+  })
+
+  it('should render a backlink to dashboard', () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state: {
+        useBacklink: true,
+      },
+    }))
+
+    render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+    )
+
+    expect(screen.getByText('Terug naar dashboard')).toBeTruthy()
+  })
+
+  it('should not render a backlink to dashboard', () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state: null,
+    }))
+
+    render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+    )
+
+    expect(screen.queryByText('Terug naar dashboard')).toBe(null)
   })
 
   it('should render modal buttons', () => {

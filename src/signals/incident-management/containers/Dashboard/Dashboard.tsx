@@ -2,11 +2,14 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import GlobalError from 'components/GlobalError'
 
 import { AreaChart } from './components'
 import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
+import { INCIDENTS_URL } from '../../routes'
 
 const Dashboard = () => {
   const [error] = useState<boolean>(false)
@@ -25,10 +28,13 @@ const Dashboard = () => {
       setNotification('Er kan geen data worden geladen. Vernieuw de pagina.')
     }
   }, [error, setNotification])
+
   return (
     <StyledRow data-testid="menu">
       <Filter />
-      <AreaChart />
+      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+        <AreaChart />
+      </Link>
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </StyledRow>
   )

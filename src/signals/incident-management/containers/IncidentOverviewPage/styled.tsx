@@ -10,6 +10,7 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import Paragraph from 'components/Paragraph'
 
@@ -81,10 +82,8 @@ export const NavWrapper = styled(Column).attrs({
   margin-bottom: ${themeSpacing(5)};
 `
 
-export const PageTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: ${themeSpacing(2)};
+export const StyledBackLink = styled(BackLink)`
+  margin-top: ${themeSpacing(6)};
 `
 
 export const PageHeaderItem = styled.div`
