@@ -31,12 +31,13 @@ export const Title = styled.div`
   img,
   a {
     display: block;
-    width: auto;
-    height: 100%;
-    max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 5)};
+    width: 100%;
+    height: auto;
+    max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 2.5)};
 
     @media screen and (${breakpoint('min-width', 'tabletM')}) {
       max-height: ${themeSpacing(HEADER_HEIGHT_DESKTOP - 5)};
+      max-width: unset;
     }
   }
 `
