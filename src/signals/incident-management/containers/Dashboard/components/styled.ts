@@ -20,3 +20,8 @@ export const Subtitle = styled.p`
 export const Amount = styled.span`
   color: ${themeColor('primary')};
 `
+
+export const Description = styled.span`
+  font-size: ${themeSpacing(1.75)};
+  line-height: ${themeSpacing(2)};
+`

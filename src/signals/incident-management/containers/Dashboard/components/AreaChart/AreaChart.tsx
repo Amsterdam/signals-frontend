@@ -4,20 +4,20 @@ import { useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import vegaEmbed from 'vega-embed'
 import type { EmbedOptions } from 'vega-embed'
+import vegaEmbed from 'vega-embed'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 
 import { ComparisonRate } from './ComparisonRate'
-import { AreaChartWrapper as Wrapper } from './styled'
+import { AreaChartWrapper as Wrapper, StyledAreaChart } from './styled'
 import type { ComparisonRateType } from './types'
-import { formatData, getMaxDomain, getToday, getPercentage } from './utils'
+import { formatData, getMaxDomain, getPercentage, getToday } from './utils'
 import { INCIDENTS_URL } from '../../../../routes'
-import { constants, getAreaChartSpec } from '../../charts'
 import type { AreaChartValue } from '../../charts'
+import { constants, getAreaChartSpec } from '../../charts'
 import { useGetAreaChart } from '../../hooks/useGetAreaChart'
 import { ModuleTitle } from '../ModuleTitle'
 
@@ -32,8 +32,11 @@ interface Props {
 }
 
 export const AreaChart = ({ queryString }: Props) => {
+  const [, setWidth] = useState(0)
   const [data, setData] = useState<AreaChartValue[]>()
   const [maxDomain, setMaxDomain] = useState<number>()
+  const appHtmlElement = document.getElementById('bar-chart')
+  const maxHeight = appHtmlElement ? appHtmlElement.offsetHeight : 0
   const [comparisonRate, setComparisonRate] = useState<ComparisonRateType>()
   const dispatch = useDispatch()
 
@@ -43,6 +46,13 @@ export const AreaChart = ({ queryString }: Props) => {
     isLoading,
     get: getAreaChart,
   } = useGetAreaChart()
+
+  const onResize = () => {
+    //Trigger a rerender. Vega lite resize is buggy and doesn't do it properly.
+    setWidth(window.innerWidth)
+  }
+
+  window.addEventListener('resize', onResize)
 
   useEffect(() => {
     getAreaChart(queryString)
@@ -78,18 +88,18 @@ export const AreaChart = ({ queryString }: Props) => {
 
   if (data && maxDomain) {
     const today = getToday()
-    const AreaChartSpecs = getAreaChartSpec(data, maxDomain, today)
+    const AreaChartSpecs = getAreaChartSpec(data, maxDomain, today, maxHeight)
 
     vegaEmbed('#area-chart', AreaChartSpecs, embedOptions)
   }
 
   return (
-    <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
-      <Wrapper>
+    <Wrapper>
+      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
         <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
-        <div id="area-chart" data-testid="area-chart" />
+        <StyledAreaChart id="area-chart" data-testid="area-chart" />
         {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
-      </Wrapper>
-    </Link>
+      </Link>
+    </Wrapper>
   )
 }

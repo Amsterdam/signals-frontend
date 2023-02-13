@@ -7,11 +7,13 @@ import type { Today, AreaChartValue } from './types'
 export const getAreaChartSpec = (
   values: AreaChartValue[],
   maxDomain: number,
-  today: Today
+  today: Today,
+  height: number
 ): VisualizationSpec => ({
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-  width: 430,
-  height: 220,
+  width: 'container',
+  height: height,
+  autosize: 'fit',
   data: {
     values,
   },

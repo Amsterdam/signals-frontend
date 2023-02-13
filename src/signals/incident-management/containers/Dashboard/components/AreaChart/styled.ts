@@ -3,17 +3,21 @@
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const AreaChartWrapper = styled.span`
+export const AreaChartWrapper = styled.div`
   position: relative;
+  max-width: 500px;
 `
-
+export const StyledAreaChart = styled.div`
+  width: 100%;
+  min-height: 220px;
+`
 export const ComparisonRateWrapper = styled.span`
   position: absolute;
   display: flex;
   flex-direction: column;
+  right: 45px;
+  bottom: 45px;
   color: ${themeColor('primary')};
-  right: 50px;
-  bottom: 60px;
   font-size: ${themeSpacing(3.5)};
   line-height: ${themeSpacing(4)};
   font-weight: 700;

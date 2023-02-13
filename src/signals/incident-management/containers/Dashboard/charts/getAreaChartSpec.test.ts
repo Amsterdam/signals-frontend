@@ -18,15 +18,17 @@ const mockValues = [
 ]
 
 const maxDomain = 60
+const height = 220
 const mockToday = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
 
 describe('getAreaChartSpec', () => {
   it('should return correct object', () => {
-    const result = getAreaChartSpec(mockValues, maxDomain, mockToday)
+    const result = getAreaChartSpec(mockValues, maxDomain, mockToday, height)
 
     expect(result).toMatchInlineSnapshot(`
       Object {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "autosize": "fit",
         "config": Object {
           "style": Object {
             "area": Object {
@@ -247,7 +249,7 @@ describe('getAreaChartSpec', () => {
             ],
           },
         ],
-        "width": 430,
+        "width": "container",
       }
     `)
   })
