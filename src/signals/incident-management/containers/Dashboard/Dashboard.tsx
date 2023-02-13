@@ -2,20 +2,18 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
-import { Link } from 'react-router-dom'
-
 import GlobalError from 'components/GlobalError'
 
 import { AreaChart } from './components'
 import { BarChart } from './components/BarChart'
 import { Filter } from './components/Filter'
 import { StyledRow } from './styled'
-import { INCIDENTS_URL } from '../../routes'
 
 const Dashboard = () => {
   const [error] = useState<boolean>(false)
   const [showMessage, setShowMessage] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<JSX.Element | string>('')
+  const [queryString, setQueryString] = useState<string>('')
 
   const setNotification = useCallback(
     (message: JSX.Element | string) => {
@@ -32,11 +30,9 @@ const Dashboard = () => {
 
   return (
     <StyledRow data-testid="menu">
-      <Filter />
-      <BarChart />
-      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
-        <AreaChart />
-      </Link>
+      <Filter callback={setQueryString} />
+      <BarChart queryString={queryString} />
+      <AreaChart queryString={queryString} />
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </StyledRow>
   )

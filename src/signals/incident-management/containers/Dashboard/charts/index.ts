@@ -1,2 +1,2 @@
-export { getAreaChart } from './area-chart'
+export { getAreaChartSpec } from './area-chart'
 export * as constants from './constants'
