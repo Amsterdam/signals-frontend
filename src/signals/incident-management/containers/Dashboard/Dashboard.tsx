@@ -9,7 +9,7 @@ import GlobalError from 'components/GlobalError'
 import { AreaChart } from './components'
 import { BarChart } from './components/BarChart'
 import { Filter } from './components/Filter'
-import { StyledRow } from './styled'
+import { StyledRow, Wrapper } from './styled'
 import { INCIDENTS_URL } from '../../routes'
 
 const Dashboard = () => {
@@ -31,14 +31,20 @@ const Dashboard = () => {
   }, [error, setNotification])
 
   return (
-    <StyledRow data-testid="menu">
-      <Filter />
-      <BarChart />
-      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
-        <AreaChart />
-      </Link>
-      {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
-    </StyledRow>
+    <>
+      <StyledRow data-testid="menu">
+        <Filter />
+      </StyledRow>
+      <Wrapper>
+        <BarChart />
+        <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+          <AreaChart />
+        </Link>
+        {errorMessage && showMessage && (
+          <GlobalError>{errorMessage}</GlobalError>
+        )}
+      </Wrapper>
+    </>
   )
 }
 

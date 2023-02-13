@@ -21,17 +21,14 @@ export const Amount = styled.span`
   color: ${themeColor('primary')};
 `
 
-export const AreaChartWrapper = styled.span`
-  position: relative;
-`
-
+export const StyledAreaChart = styled.div``
 export const ComparisonRateWrapper = styled.span`
   position: absolute;
   display: flex;
   flex-direction: column;
+  left: 330px;
+  top: 215px;
   color: ${themeColor('primary')};
-  right: 50px;
-  bottom: 60px;
   font-size: ${themeSpacing(3.5)};
   line-height: ${themeSpacing(4)};
   font-weight: 700;
@@ -41,4 +38,8 @@ export const ComparisonRateWrapper = styled.span`
 export const Description = styled.span`
   font-size: ${themeSpacing(1.75)};
   line-height: ${themeSpacing(2)};
+`
+
+export const AreaChartWrapper = styled.div`
+  position: relative;
 `

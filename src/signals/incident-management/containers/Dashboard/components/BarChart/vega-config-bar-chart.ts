@@ -7,17 +7,17 @@ export const vegaConfigBarChart: VisualizationSpec = {
   description: 'A bar chart showing showing number of incidents per status',
   data: {
     values: [
-      { status: 'Heropend', nrOfIncidentsPerStatus: 0 },
+      { status: 'Heropend', nrOfIncidentsPerStatus: 3909 },
       { status: 'Extern: afgehandeld', nrOfIncidentsPerStatus: 54 },
       { status: 'Ingepland', nrOfIncidentsPerStatus: 75 },
-      { status: 'Verzoek tot heropenen', nrOfIncidentsPerStatus: 22 },
+      { status: 'Verzoek tot heropenen', nrOfIncidentsPerStatus: 200 },
       { status: 'Reactie ontvangen', nrOfIncidentsPerStatus: 560 },
       { status: 'In behandeling', nrOfIncidentsPerStatus: 82 },
-      { status: 'Gesplitst', nrOfIncidentsPerStatus: 32 },
-      { status: 'Reactie gevraagd', nrOfIncidentsPerStatus: 60 },
-      { status: 'Gemeld', nrOfIncidentsPerStatus: 1103 },
+      { status: 'Gesplitst', nrOfIncidentsPerStatus: 3832 },
+      { status: 'Reactie gevraagd', nrOfIncidentsPerStatus: 15 },
+      { status: 'Gemeld', nrOfIncidentsPerStatus: 3903 },
       { status: 'Afwachting van behandeling', nrOfIncidentsPerStatus: 409 },
-      { status: 'Extern: verzoek tot afhandeling', nrOfIncidentsPerStatus: 64 },
+      { status: 'Extern: verzoek tot afhandeling', nrOfIncidentsPerStatus: 0 },
     ],
   },
   transform: [
@@ -50,7 +50,7 @@ export const vegaConfigBarChart: VisualizationSpec = {
             field: 'nrOfIncidentsPerStatusWithMax',
             title: null,
             axis: null,
-            scale: { rangeMax: 275 },
+            scale: { rangeMax: 204 },
           },
         },
       },
@@ -59,7 +59,7 @@ export const vegaConfigBarChart: VisualizationSpec = {
           type: 'text',
           align: 'left',
           x: 15,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: 700,
           font: 'Amsterdam Sans',
         },
@@ -79,9 +79,10 @@ export const vegaConfigBarChart: VisualizationSpec = {
   },
   columns: 3,
   config: {
+    padding: 0,
     style: {
       cell: { stroke: 'transparent' },
-      bar: { color: '#004699', opacity: 0.6, size: 27 },
+      bar: { color: '#004699', opacity: 0.5, size: 27 },
     },
   },
 }

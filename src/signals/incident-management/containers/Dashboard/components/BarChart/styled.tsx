@@ -2,11 +2,9 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 
 import styled from 'styled-components'
+import { themeSpacing } from '@amsterdam/asc-ui'
 
-export const Wrapper = styled.span`
+export const BarChartWrapper = styled.div`
   position: relative;
-`
-
-export const StyledBarChart = styled.div`
-  width: 100%;
+  padding: ${themeSpacing(0, 10, 0, 0)};
 `

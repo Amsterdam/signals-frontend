@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import vegaEmbed from 'vega-embed'
 import type { EmbedOptions } from 'vega-embed'
+import vegaEmbed from 'vega-embed'
 
 import { ComparisonRate } from './ComparisonRate'
 import { ModuleTitle } from './ModuleTitle'
-import { AreaChartWrapper as Wrapper } from './styled'
+import { AreaChartWrapper as Wrapper, StyledAreaChart } from './styled'
 import { getMaxDomain } from './utils'
-import { getAreaChart } from '../charts'
-import { constants } from '../charts'
+import { constants, getAreaChart } from '../charts'
 
 /**
  * Mock data. Should be retrieved form backend when ready.
@@ -69,7 +68,7 @@ export const AreaChart = () => {
   return (
     <Wrapper>
       <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
-      <div id="area-chart" />
+      <StyledAreaChart id="area-chart" />
       <ComparisonRate percentage={mockPercentage} />
     </Wrapper>
   )
