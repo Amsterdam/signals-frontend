@@ -30,7 +30,7 @@ describe('ComparisonRate', () => {
 
     render(<ComparisonRate comparisonRate={mockComparisonRate} />)
 
-    const percentage = screen.getByText('-10%')
+    const percentage = screen.getByText('10%')
     const icon = screen.getByRole('img')
 
     expect(percentage).toBeInTheDocument()

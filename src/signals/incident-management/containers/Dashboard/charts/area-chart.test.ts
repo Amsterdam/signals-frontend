@@ -41,6 +41,7 @@ describe('get-area-chart', () => {
             },
             "point": Object {
               "color": "#004699",
+              "cursor": "pointer",
               "filled": true,
               "opacity": 1,
               "size": 140,
@@ -57,30 +58,37 @@ describe('get-area-chart', () => {
           "values": Array [
             Object {
               "amount": 48,
+              "amount_week_earlier": 30,
               "date": "01 Jan 2012 23:00:00",
             },
             Object {
               "amount": 34,
+              "amount_week_earlier": 33,
               "date": "02 Jan 2012 23:00:00",
             },
             Object {
               "amount": 44,
+              "amount_week_earlier": 32,
               "date": "03 Jan 2012 23:00:00",
             },
             Object {
               "amount": 40,
+              "amount_week_earlier": 10,
               "date": "04 Jan 2012 23:00:00",
             },
             Object {
               "amount": 48,
+              "amount_week_earlier": 40,
               "date": "05 Jan 2012 23:00:00",
             },
             Object {
               "amount": 45,
+              "amount_week_earlier": 20,
               "date": "06 Jan 2012 23:00:00",
             },
             Object {
               "amount": 50,
+              "amount_week_earlier": 20,
               "date": "07 Jan 2012 23:00:00",
               "image": "/assets/images/area-chart-tooltip.svg",
             },
