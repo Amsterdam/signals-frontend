@@ -10,8 +10,8 @@ export const getAreaChart = (
   today: Today
 ): VisualizationSpec => ({
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-  width: 430,
-  height: 220,
+  width: 'container',
+  height: 'container',
   data: {
     values,
   },

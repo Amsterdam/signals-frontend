@@ -21,7 +21,12 @@ export const Amount = styled.span`
   color: ${themeColor('primary')};
 `
 
-export const StyledAreaChart = styled.div``
+export const StyledAreaChart = styled.div`
+  width: 100%;
+  min-height: 220px;
+  max-width: 500px;
+`
+
 export const ComparisonRateWrapper = styled.span`
   position: absolute;
   display: flex;

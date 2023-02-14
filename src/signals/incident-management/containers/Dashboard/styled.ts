@@ -14,9 +14,10 @@ export const Wrapper = styled.div`
   margin: ${themeSpacing(0, 15)};
   display: grid;
   box-sizing: content-box;
-  grid-row-gap: ${themeSpacing(15)};
-  grid-template-columns: 8fr 4fr;
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
+  grid-column-gap: 40px;
+  grid-template-columns: 2fr 1fr;
+
+  @media screen and ${breakpoint('max-width', 'laptopM')} {
     display: flex;
     flex-direction: column;
   }

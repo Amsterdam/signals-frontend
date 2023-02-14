@@ -69,7 +69,7 @@ export const AreaChart = () => {
     <Wrapper>
       <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
       <StyledAreaChart id="area-chart" />
-      <ComparisonRate percentage={mockPercentage} />
+      {/* <ComparisonRate percentage={mockPercentage} /> */}
     </Wrapper>
   )
 }

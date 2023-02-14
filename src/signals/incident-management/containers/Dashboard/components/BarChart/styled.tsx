@@ -6,5 +6,14 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 
 export const BarChartWrapper = styled.div`
   position: relative;
-  padding: ${themeSpacing(0, 10, 0, 0)};
+  /* width: 100%; */
+`
+export const StyledBarChart = styled.div`
+  width: 100%;
+
+  /* canvas {
+    &.marks {
+      width: auto;
+    }
+  } */
 `

@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { VisualizationSpec } from 'vega-embed'
 
-export const vegaConfigBarChart: VisualizationSpec = {
+export const vegaConfigBarChart = (maxRange: number): VisualizationSpec => ({
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
   description: 'A bar chart showing showing number of incidents per status',
   data: {
@@ -26,7 +26,6 @@ export const vegaConfigBarChart: VisualizationSpec = {
       as: 'nrOfIncidentsPerStatusWithMax',
     },
   ],
-  spacing: 5,
   facet: {
     field: 'status',
     type: 'nominal',
@@ -50,7 +49,7 @@ export const vegaConfigBarChart: VisualizationSpec = {
             field: 'nrOfIncidentsPerStatusWithMax',
             title: null,
             axis: null,
-            scale: { rangeMax: 204 },
+            scale: { rangeMax: maxRange },
           },
         },
       },
@@ -79,10 +78,9 @@ export const vegaConfigBarChart: VisualizationSpec = {
   },
   columns: 3,
   config: {
-    padding: 0,
     style: {
       cell: { stroke: 'transparent' },
       bar: { color: '#004699', opacity: 0.5, size: 27 },
     },
   },
-}
+})
