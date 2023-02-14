@@ -89,7 +89,7 @@ export const AreaChart = ({ queryString }: Props) => {
     <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
       <Wrapper>
         <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
-        <div id="area-chart" />
+        <div id="area-chart" data-testid="area-chart" />
         {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
       </Wrapper>
     </Link>
