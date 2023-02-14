@@ -3,8 +3,6 @@
 import type { Reducer } from 'react'
 import { useCallback, useEffect, useReducer, useMemo } from 'react'
 
-import isObject from 'lodash/isObject'
-
 import { getErrorMessage } from 'shared/services/api/api'
 import { getAuthHeaders } from 'shared/services/auth/auth'
 
@@ -24,8 +22,8 @@ export interface State<T> {
 export interface FetchResponse<T> extends State<T> {
   del: (url: string, requestOptions?: Data) => Promise<void>
   get: (
-    url: string | string[],
-    params?: Data | Data[],
+    url: string,
+    params?: Data,
     requestOptions?: Data,
     optionalHeaders?: Data
   ) => Promise<void>
@@ -56,7 +54,7 @@ export interface FetchResponse<T> extends State<T> {
  */
 const useFetch = <T>(): FetchResponse<T> => {
   interface Action {
-    payload: boolean | Data | Data[] | FetchError
+    payload: boolean | Data | FetchError
     type: string
   }
 
@@ -143,91 +141,49 @@ const useFetch = <T>(): FetchResponse<T> => {
     ) => {
       dispatch({ type: 'SET_LOADING', payload: true })
 
-      let urlList = url
-      let paramsList = params
+      const arrayParams = Object.entries(params)
+        .filter(([, value]) => Array.isArray(value))
+        .flatMap(([key, value]) =>
+          (value as string[]).flatMap((val: string) => `${key}=${val}`)
+        )
 
-      if (typeof url === 'string') {
-        urlList = [url]
-      }
+      const scalarParams = Object.entries(params)
+        .filter(([, value]) => Boolean(value) && !Array.isArray(value))
+        .flatMap(([key, value]) => `${key}=${value}`)
 
-      if (isObject(params)) {
-        paramsList = [params]
-      }
+      const queryParams = arrayParams.concat(scalarParams).join('&')
+      const requestURL = [url, queryParams].filter(Boolean).join('?')
 
-      const requestURLs = urlList.map((url: string, index: number) => {
-        let queryParams = ''
-
-        if (paramsList[index]) {
-          const arrayParams = Object.entries(paramsList[index])
-            .filter(([, value]) => Array.isArray(value))
-            .flatMap(([key, value]) =>
-              (value as string[]).flatMap((val: string) => `${key}=${val}`)
-            )
-
-          const scalarParams = Object.entries(params)
-            .filter(([, value]) => Boolean(value) && !Array.isArray(value))
-            .flatMap(([key, value]) => `${key}=${value}`)
-
-          queryParams = arrayParams.concat(scalarParams).join('&')
-        }
-
-        return [url, queryParams].filter(Boolean).join('?')
-      })
-
-      const promises = requestURLs.map((url: string) =>
-        fetch(url, {
+      try {
+        const fetchResponse = await fetch(requestURL, {
           headers: { ...requestHeaders(), ...optionalHeaders },
           method: 'GET',
           signal,
           ...requestOptions,
         })
-      )
 
-      try {
-        const fetchResponses = await Promise.all(promises)
+        const responseData = (
+          requestOptions.responseType === 'blob'
+            ? await fetchResponse.blob()
+            : await fetchResponse.json()
+        ) as Data
 
-        let responseData: Data[] | Data = await Promise.all(
-          fetchResponses.map((response) => {
-            if (requestOptions.responseType === 'blob') {
-              return response.blob()
-            }
-            return response.json()
-          })
-        )
-
-        if (responseData.length === 1) {
-          responseData = responseData[0]
-        }
-
-        if (fetchResponses[0].ok) {
+        if (fetchResponse.ok) {
           dispatch({ type: 'SET_GET_DATA', payload: responseData })
         } else {
-          Object.defineProperty(fetchResponses[0], 'message', {
-            value: getErrorMessage(fetchResponses[0]),
+          Object.defineProperty(fetchResponse, 'message', {
+            value: getErrorMessage(fetchResponse),
             writable: false,
           })
 
-          let detail
-          if (Array.isArray(responseData) && responseData.length > 0) {
-            detail = responseData.reduce(
-              (acc, item) => acc + item.detail + ', ',
-              ''
-            )
-          } else if (!Array.isArray(responseData) && responseData.detail) {
-            detail = responseData.detail
-          }
-
-          if (detail) {
-            Object.defineProperty(fetchResponses[0], 'detail', {
-              value: detail,
+          if (responseData.detail) {
+            Object.defineProperty(fetchResponse, 'detail', {
+              value: responseData.detail,
               writable: false,
             })
           }
 
-          dispatch({
-            type: 'SET_ERROR',
-            payload: fetchResponses[0] as FetchError,
-          })
+          dispatch({ type: 'SET_ERROR', payload: fetchResponse as FetchError })
         }
       } catch (exception: unknown) {
         if (signal.aborted) return

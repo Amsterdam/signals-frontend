@@ -10,11 +10,8 @@ import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { useFilters } from './useFilter'
 
-const departments = {
-  ...departmentsFixture,
-  count: departmentsFixture.count,
-  list: departmentsFixture.results,
-}
+const departments = departmentsFixture.results
+
 describe('useFilter', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)

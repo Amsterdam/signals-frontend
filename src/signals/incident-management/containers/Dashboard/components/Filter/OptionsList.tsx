@@ -41,7 +41,7 @@ const OptionsList = ({
   }, [activeFilter, getValues, setCurrentFocus])
 
   if (
-    activeFilter.name === 'category' &&
+    ['category', 'department'].includes(activeFilter.name) &&
     departmentsWithResponsibleCategories?.isLoading
   ) {
     return <StyledLoadingIndicator />

@@ -2,22 +2,11 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
 
-import { useSelector } from 'react-redux'
-
-import { makeSelectDepartments } from 'models/departments/selectors'
-import type { ApplicationRootState } from 'types'
-import type { Department } from 'types/api/incident'
-
 import IncidentManagementContext from '../../../context'
 import { punctualityList, stadsdeelList } from '../../../definitions'
 import type { Filter, Option } from '../components/Filter/types'
 
 export const useFilters = (selectedDepartment?: Option): Filter[] => {
-  const departmentsFromStore = useSelector<
-    ApplicationRootState,
-    { list: Department[] }
-  >(makeSelectDepartments)
-
   const { departmentsWithResponsibleCategories } = useContext(
     IncidentManagementContext
   )
@@ -26,18 +15,21 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
 
   const departmentOptions = useMemo(
     () =>
-      departmentsFromStore?.list.map((department: Department) => ({
-        value: department.code,
-        display: department.name,
-      })),
-    [departmentsFromStore?.list]
+      departments?.map(
+        (department): Option => ({
+          display: department.display,
+          value: department.value,
+        })
+      ),
+    [departments]
   )
 
   return useMemo(() => {
     const value: string | undefined =
-      selectedDepartment?.value || departments?.list[0]?.code
-    const categories = departments?.list
-      .find((department) => department.code === value)
+      selectedDepartment?.value || (departments && departments[0]?.value)
+
+    const categories = departments
+      ?.find((department) => department.value === value)
       ?.category_names.map((category: string) => ({
         value: category,
         display: category,
@@ -47,7 +39,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
       {
         name: 'department',
         display: 'Afdeling',
-        options: departmentOptions,
+        options: departmentOptions || [],
       },
       {
         name: 'category',
@@ -85,5 +77,5 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
         })),
       },
     ]
-  }, [departmentOptions, departments?.list, selectedDepartment?.value])
+  }, [departmentOptions, departments, selectedDepartment?.value])
 }

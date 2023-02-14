@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
+import { Row } from '@amsterdam/asc-ui'
 import { Link } from 'react-router-dom'
 
 import GlobalError from 'components/GlobalError'
@@ -31,14 +32,20 @@ const Dashboard = () => {
   }, [error, setNotification])
 
   return (
-    <StyledRow data-testid="menu">
-      <Filter />
-      <BarChart />
-      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
-        <AreaChart />
-      </Link>
-      {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
-    </StyledRow>
+    <>
+      <StyledRow data-testid="menu">
+        <Filter />
+      </StyledRow>
+      <Row>
+        <BarChart />
+        <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+          <AreaChart />
+        </Link>
+        {errorMessage && showMessage && (
+          <GlobalError>{errorMessage}</GlobalError>
+        )}
+      </Row>
+    </>
   )
 }
 

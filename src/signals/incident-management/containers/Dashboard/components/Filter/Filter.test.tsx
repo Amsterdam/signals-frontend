@@ -2,7 +2,6 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
@@ -16,11 +15,9 @@ const mockCallback = jest.fn()
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
-const departments = {
-  ...departmentsFixture,
-  count: departmentsFixture.count,
-  list: departmentsFixture.results,
-}
+const departments = departmentsFixture.results
+
+const oneDepartment = [departmentsFixture.results[0]]
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -34,12 +31,19 @@ jest.mock('react-router-dom', () => ({
 jest.mock('../../hooks/useDepartments')
 
 const mockSetDashboardFilter = jest.fn()
-const renderWithContext = (dashboardFilter = {}, isLoading = false) => (
+const renderWithContext = (
+  dashboardFilter = {},
+  isLoading = false,
+  departmentsCustom?: any
+) => (
   <IncidentManagementContext.Provider
     value={{
       setDashboardFilter: mockSetDashboardFilter,
       dashboardFilter,
-      departmentsWithResponsibleCategories: { departments, isLoading },
+      departmentsWithResponsibleCategories: {
+        departments: departmentsCustom || departments,
+        isLoading,
+      },
     }}
   >
     <Filter callback={mockCallback} />
@@ -48,13 +52,11 @@ const renderWithContext = (dashboardFilter = {}, isLoading = false) => (
 
 describe('FilterComponent', () => {
   beforeEach(() => {
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
-
     mockCallback.mockReset()
   })
 
   it('should render properly and select the first option', () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     expect(
       screen.queryByRole('combobox', {
@@ -71,7 +73,7 @@ describe('FilterComponent', () => {
     render(
       <>
         <button>outside filter</button>
-        <Filter callback={mockCallback} />
+        {renderWithContext()}
       </>
     )
 
@@ -92,7 +94,7 @@ describe('FilterComponent', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should select a department and thus change selectable categories', async () => {
+  it('should select a department and thus change selectable categories', () => {
     render(renderWithContext())
 
     expect(
@@ -205,7 +207,7 @@ describe('FilterComponent', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should select a department, a custom category and reset back and call callback each time', async () => {
+  it('should select a department, a custom category and reset back and call callback each time', () => {
     render(renderWithContext())
 
     expect(mockCallback).toBeCalledTimes(1)
@@ -250,14 +252,7 @@ describe('FilterComponent', () => {
   })
 
   it('should hide department button when there is only one', () => {
-    const oneDepartment = {
-      ...departmentsFixture,
-      list: [departmentsFixture.results[0]],
-    }
-
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(oneDepartment)
-
-    const { rerender } = render(renderWithContext())
+    const { rerender } = render(renderWithContext({}, false, oneDepartment))
 
     expect(
       screen.queryByRole('combobox', {
@@ -265,9 +260,7 @@ describe('FilterComponent', () => {
       })
     ).not.toBeInTheDocument()
 
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
-
-    rerender(<Filter callback={mockCallback} />)
+    rerender(renderWithContext())
 
     expect(
       screen.queryByRole('combobox', {
@@ -338,7 +331,7 @@ describe('FilterComponent', () => {
   })
 
   it('should open a dropdown and close it by enter Esc', () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     act(() => {
       fireEvent.keyDown(
@@ -361,7 +354,7 @@ describe('FilterComponent', () => {
   })
 
   it('should focus on reset button, shift back and forth to end with focus on reset button', () => {
-    render(<Filter callback={mockCallback} />)
+    render(renderWithContext())
 
     screen
       .getByRole('button', {
@@ -421,6 +414,16 @@ describe('FilterComponent', () => {
             dashboardFilter: {
               priority: { value: 'normal', display: 'Normaal' },
             },
+            departmentsWithResponsibleCategories: {
+              isLoading: false,
+              departments: [
+                {
+                  display: 'Actie Service Centrum',
+                  value: 'ASC',
+                  category_names: [],
+                },
+              ],
+            },
           }}
         >
           <Filter callback={mockCallback} />
@@ -460,7 +463,7 @@ describe('FilterComponent', () => {
     expect(mockSetDashboardFilter.mock.calls[1]).toEqual([{}])
   })
 
-  it('should show a spinner', async () => {
+  it('should show a spinner', () => {
     render(renderWithContext({}, true))
 
     expect(
