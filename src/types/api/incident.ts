@@ -14,6 +14,12 @@ export interface Department {
   category_names: string[]
 }
 
+export type DepartmentResponsible = {
+  display: string
+  value: string
+  category_names: string[]
+}
+
 export enum Priority {
   normal = 'normal',
   high = 'high',

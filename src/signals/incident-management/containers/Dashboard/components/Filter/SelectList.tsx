@@ -44,8 +44,11 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   const truncateFilterName = (filterName: string) =>
     filterName.length > 19 ? filterName.substring(0, 19) + '...' : filterName
 
-  const selectContainerRef = useRef<HTMLDivElement>(null)
-  const optionsOffsetLeftRef = useRef<number>()
+  const selectRef = useRef<HTMLDivElement>(null)
+  const optionsClientRectRef = useRef<{
+    left: number
+    top: number
+  }>()
 
   const onChangeEvent = useCallback(
     (value, target?: HTMLElement) => {
@@ -55,11 +58,12 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
 
       if (target) {
         prevSelectTarget.current = target
-
         const selectContainerLeft =
-          selectContainerRef.current?.getBoundingClientRect().left || 0
-        optionsOffsetLeftRef.current =
-          target.getBoundingClientRect().left - selectContainerLeft
+          selectRef.current?.getBoundingClientRect().left || 0
+        optionsClientRectRef.current = {
+          left: target.getBoundingClientRect().left - selectContainerLeft,
+          top: target.getBoundingClientRect().top,
+        }
       }
     },
     [filterActiveName, setFilterActiveName]
@@ -79,7 +83,7 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
   const prevSelectTarget = useRef<HTMLElement>()
 
   return (
-    <SelectContainer ref={selectContainerRef}>
+    <SelectContainer ref={selectRef}>
       {filters?.map((filter: Filter) => {
         if (filter.name === 'department' && filter.options.length === 1)
           return null
@@ -133,10 +137,13 @@ const SelectList = ({ filterActiveName, setFilterActiveName }: Props) => {
         <RefreshIcon width={16} height={18} />
         Wis filters
       </Select>
-      <OptionListDropdown active={!!activeFilter?.name}>
-        {activeFilter?.name && isNumber(optionsOffsetLeftRef.current) && (
+      <OptionListDropdown
+        active={!!activeFilter?.name}
+        optionOffsetTop={optionsClientRectRef.current?.top}
+      >
+        {activeFilter?.name && isNumber(optionsClientRectRef.current?.left) && (
           <OptionsList
-            optionsOffsetLeft={optionsOffsetLeftRef.current}
+            optionsOffsetLeft={optionsClientRectRef.current?.left}
             activeFilter={activeFilter}
             setFilterNameActive={setFilterActiveName}
           />

@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
+// eslint-disable-next-line no-restricted-imports
+import React from 'react'
+
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
 
@@ -5,19 +10,20 @@ import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
 
 import { useFilters } from './useFilter'
 
-const departments = {
-  ...departmentsFixture,
-  count: departmentsFixture.count,
-  list: departmentsFixture.results,
-}
+const departments = departmentsFixture.results
+
 describe('useFilter', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(departments)
+    jest.spyOn(React, 'useContext').mockReturnValue({
+      departmentsWithResponsibleCategories: {
+        departments,
+      },
+    })
   })
 
   it('should select the first department by default and its associated categories', () => {
     const { result } = renderHook(useFilters)
-
     expect(result.current[0].name).toBe('department')
     expect(result.current[1].name).toBe('category')
     expect(result.current[1].options[0].value).toBe('Asbest / accu')

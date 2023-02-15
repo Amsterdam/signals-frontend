@@ -1,39 +1,35 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 
-import { useSelector } from 'react-redux'
-
-import { makeSelectDepartments } from 'models/departments/selectors'
-import type { ApplicationRootState } from 'types'
-import type { Department } from 'types/api/incident'
-
-import {
-  priorityList,
-  punctualityList,
-  stadsdeelList,
-} from '../../../definitions'
+import IncidentManagementContext from '../../../context'
+import { punctualityList, stadsdeelList } from '../../../definitions'
 import type { Filter, Option } from '../components/Filter/types'
 
 export const useFilters = (selectedDepartment?: Option): Filter[] => {
-  const departments = useSelector<ApplicationRootState, { list: Department[] }>(
-    makeSelectDepartments
+  const { departmentsWithResponsibleCategories } = useContext(
+    IncidentManagementContext
   )
+
+  const departments = departmentsWithResponsibleCategories?.departments
+
   const departmentOptions = useMemo(
     () =>
-      departments?.list.map((department) => ({
-        value: department.code,
-        display: department.name,
-      })),
-    [departments?.list]
+      departments?.map(
+        (department): Option => ({
+          display: department.display,
+          value: department.value,
+        })
+      ),
+    [departments]
   )
 
   return useMemo(() => {
-    const value: string =
-      selectedDepartment?.value || departments?.list[0]?.code
+    const value: string | undefined =
+      selectedDepartment?.value || (departments && departments[0]?.value)
 
-    const categories = departments?.list
-      .find((department) => department.code === value)
+    const categories = departments
+      ?.find((department) => department.value === value)
       ?.category_names.map((category: string) => ({
         value: category,
         display: category,
@@ -43,7 +39,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
       {
         name: 'department',
         display: 'Afdeling',
-        options: departmentOptions,
+        options: departmentOptions || [],
       },
       {
         name: 'category',
@@ -53,13 +49,16 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
       {
         name: 'priority',
         display: 'Urgentie',
-        options: priorityList.reduce(
-          (acc: Option[], item) =>
-            item.key !== 'low'
-              ? [...acc, { value: item.key, display: item.value }]
-              : [...acc],
-          []
-        ),
+        options: [
+          {
+            display: 'Normale urgentie',
+            value: 'normal',
+          },
+          {
+            display: 'Hoge urgentie',
+            value: 'high',
+          },
+        ],
       },
       {
         name: 'punctuality',
@@ -78,5 +77,5 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
         })),
       },
     ]
-  }, [departmentOptions, departments.list, selectedDepartment?.value])
+  }, [departmentOptions, departments, selectedDepartment?.value])
 }
