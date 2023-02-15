@@ -42,6 +42,7 @@ export const getAreaChartSpec = (
       scale: { type: 'linear', domain: [0, maxDomain] },
       title: null,
       axis: {
+        tickMinStep: 1,
         grid: false,
         ticks: false,
         domain: false,

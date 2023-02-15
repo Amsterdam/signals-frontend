@@ -122,6 +122,7 @@ describe('get-area-chart', () => {
               "labelFontWeight": 700,
               "labelLineHeight": 16,
               "offset": -15,
+              "tickMinStep": 1,
               "ticks": false,
             },
             "field": "amount",
