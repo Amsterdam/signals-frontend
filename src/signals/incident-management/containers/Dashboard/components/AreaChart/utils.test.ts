@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { formatData, getPercentage, getToday } from './utils'
+import { formatData, getMaxDomain, getPercentage, getToday } from './utils'
 import type { AreaChartValue } from '../../charts/types'
 
 const mockData: AreaChartValue[] = [
@@ -18,6 +18,15 @@ const mockData: AreaChartValue[] = [
 ]
 
 describe('utils', () => {
+  describe('getMaxDomain', () =>
+    it('should return a number 20% higher then the highest amount to create white space on top of graph', () => {
+      const result = getMaxDomain(mockData)
+
+      const maxDomain = mockData[6].amount * 1.2
+
+      expect(result).toEqual(maxDomain)
+    }))
+
   describe('formatData', () => {
     it('should add an tooltip icon to the data of today', () => {
       const result = formatData(mockData)

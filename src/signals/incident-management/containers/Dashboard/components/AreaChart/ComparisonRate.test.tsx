@@ -2,7 +2,8 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
-import { ComparisonRate, Direction } from './ComparisonRate'
+import { ComparisonRate } from './ComparisonRate'
+import { Direction } from './types'
 
 describe('ComparisonRate', () => {
   it('should render correct with positive value', () => {

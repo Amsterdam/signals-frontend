@@ -12,16 +12,16 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 
 import { ComparisonRate } from './ComparisonRate'
-import type { ComparisonRateType } from './ComparisonRate'
 import { AreaChartWrapper as Wrapper } from './styled'
+import type { ComparisonRateType } from './types'
 import { formatData, getToday, getPercentage } from './utils'
+import { getMaxDomain } from './utils'
 import { INCIDENTS_URL } from '../../../../routes'
 import { getAreaChartSpec } from '../../charts'
 import { constants } from '../../charts'
 import type { AreaChartValue as Value } from '../../charts/types'
 import { useGetAreaChart } from '../../hooks/useGetAreaChart'
 import { ModuleTitle } from '../ModuleTitle'
-import { getMaxDomain } from '../utils'
 
 const embedOptions: EmbedOptions = {
   actions: false,

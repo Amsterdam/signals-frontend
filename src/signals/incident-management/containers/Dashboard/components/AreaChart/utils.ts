@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { Direction } from './ComparisonRate'
-import type { ComparisonRateType } from './ComparisonRate'
+import { Direction } from './types'
+import type { ComparisonRateType } from './types'
 import type { AreaChartValue as Value, Today } from '../../charts/types'
+
+export const getMaxDomain = (values: Value[]) =>
+  Math.max(...values.map((v) => v.amount)) * 1.2
 
 export const formatData = (values: Value[]): Value[] => {
   return values.map((value, i) =>

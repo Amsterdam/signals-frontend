@@ -1,16 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Description, ComparisonRateWrapper as Wrapper } from './styled'
-
-export enum Direction {
-  UP = 'up',
-  DOWN = 'down',
-}
-
-export interface ComparisonRateType {
-  direction: Direction
-  percentage: number
-}
+import type { ComparisonRateType } from './types'
 
 export interface Props {
   comparisonRate: ComparisonRateType
