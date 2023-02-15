@@ -31,7 +31,7 @@ const Dashboard = () => {
   return (
     <StyledRow data-testid="menu">
       <Filter callback={setQueryString} />
-      <BarChart queryString={queryString} />
+      <BarChart />
       <AreaChart queryString={queryString} />
       {errorMessage && showMessage && <GlobalError>{errorMessage}</GlobalError>}
     </StyledRow>
