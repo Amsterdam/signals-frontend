@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 import { Direction } from './ComparisonRate'
 import type { ComparisonRateType } from './ComparisonRate'
 import type { AreaChartValue as Value, Today } from '../../charts/types'
@@ -36,6 +38,6 @@ export const getPercentage = (values: Value[]): ComparisonRateType => {
 
   return {
     direction: thisWeek < lastWeek ? Direction.DOWN : Direction.UP,
-    percentage: Math.round((thisWeek / lastWeek) * 100),
+    percentage: Math.abs(Math.round((thisWeek / lastWeek - 1) * 100)),
   }
 }
