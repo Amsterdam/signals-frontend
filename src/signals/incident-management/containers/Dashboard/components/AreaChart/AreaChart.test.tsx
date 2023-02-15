@@ -56,7 +56,7 @@ describe('AreaChart', () => {
     expect(screen.getByRole('img', { name: 'Arrow up' })).toBeInTheDocument()
   })
 
-  it('should return loading incicator when loading', () => {
+  it('should return loading indicator when loading', () => {
     mockResult = {
       ...mockResult,
       data: undefined,
@@ -67,7 +67,7 @@ describe('AreaChart', () => {
     expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 
-  it('should show an error when there is one', () => {
+  it('should show one error', () => {
     mockResult = {
       ...mockResult,
       data: undefined,

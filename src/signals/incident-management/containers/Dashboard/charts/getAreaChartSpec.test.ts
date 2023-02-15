@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { getAreaChartSpec } from './area-chart'
+import { getAreaChartSpec } from './getAreaChartSpec'
 
 const mockValues = [
   { date: '01 Jan 2012 23:00:00', amount: 48, amount_week_earlier: 30 },
@@ -20,7 +20,7 @@ const mockValues = [
 const maxDomain = 60
 const mockToday = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
 
-describe('get-area-chart', () => {
+describe('getAreaChartSpec', () => {
   it('should return correct object', () => {
     const result = getAreaChartSpec(mockValues, maxDomain, mockToday)
 

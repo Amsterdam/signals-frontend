@@ -5,7 +5,7 @@ import type { VisualizationSpec } from 'vega-embed'
 import type { Today, AreaChartValue } from './types'
 
 export const getAreaChartSpec = (
-  values: Array<AreaChartValue>,
+  values: AreaChartValue[],
   maxDomain: number,
   today: Today
 ): VisualizationSpec => ({

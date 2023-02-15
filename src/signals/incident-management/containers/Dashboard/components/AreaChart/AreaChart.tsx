@@ -17,7 +17,7 @@ import type { ComparisonRateType } from './types'
 import { formatData, getMaxDomain, getToday, getPercentage } from './utils'
 import { INCIDENTS_URL } from '../../../../routes'
 import { constants, getAreaChartSpec } from '../../charts'
-import type { AreaChartValue as Value } from '../../charts'
+import type { AreaChartValue } from '../../charts'
 import { useGetAreaChart } from '../../hooks/useGetAreaChart'
 import { ModuleTitle } from '../ModuleTitle'
 
@@ -32,7 +32,7 @@ interface Props {
 }
 
 export const AreaChart = ({ queryString }: Props) => {
-  const [data, setData] = useState<Value[]>()
+  const [data, setData] = useState<AreaChartValue[]>()
   const [maxDomain, setMaxDomain] = useState<number>()
   const [comparisonRate, setComparisonRate] = useState<ComparisonRateType>()
   const dispatch = useDispatch()
