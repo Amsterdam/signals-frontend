@@ -6,9 +6,11 @@ describe('parseTemplateString', () => {
   it('should correctly detect a templateString', () => {
     const templateString = 'This contains {{ a_template }} string'
     const noTemplateString = 'This does not contain a template string'
+    const emptyTemplateString = ''
 
     expect(isTemplateString(templateString)).toEqual(true)
     expect(isTemplateString(noTemplateString)).toEqual(false)
+    expect(isTemplateString(emptyTemplateString)).toEqual(false)
   })
 
   it('should correctly parse a templateString', () => {
