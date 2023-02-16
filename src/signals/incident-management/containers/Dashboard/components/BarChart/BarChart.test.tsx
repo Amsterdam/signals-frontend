@@ -6,7 +6,7 @@ import { BarChart } from './BarChart'
 
 describe('BarChart', () => {
   it('should render correctly', () => {
-    render(<BarChart />)
+    render(<BarChart queryString="" />)
 
     const title = screen.getByRole('heading', {
       name: 'Openstaande meldingen tot en met vandaag 422',
