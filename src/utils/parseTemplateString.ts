@@ -4,6 +4,10 @@
 const TEMPLATE_REGEX = /\{\{.+?\}\}/g
 
 export function isTemplateString(template: string): boolean {
+  if (!template) {
+    return false
+  }
+
   return (template.match(TEMPLATE_REGEX) || []).length > 0
 }
 
