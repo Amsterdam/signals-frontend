@@ -74,7 +74,7 @@ export const Filter = ({ callback }: Props) => {
         handleCallback()
 
         if (name === 'department') {
-          resetField('category')
+          resetField('category_slug')
         }
       }
     })

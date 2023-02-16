@@ -5,6 +5,7 @@ import { render, within, fireEvent } from '@testing-library/react'
 import data from 'utils/__tests__/fixtures/filteredUserData.json'
 
 import DataView from '..'
+import { sortAlphabetic } from '../../../utils/sortAlphabetic'
 
 const TEXT_FILTER = 'test filter'
 const TEXT_HEADER = 'test header'
@@ -14,14 +15,6 @@ const createFilters = (num) => createFilledArray(num, renderDiv(TEXT_FILTER))
 const createHeaders = (num) => createFilledArray(num, TEXT_HEADER)
 const headers = Object.keys(data[0])
 const filters = createFilters(headers.length)
-
-const sortAlphabetic = (a, b) => {
-  const _a = a.toLowerCase()
-  const _b = b.toLowerCase()
-
-  // eslint-disable-next-line no-nested-ternary
-  return _a > _b ? 1 : _a < _b ? -1 : 0
-}
 
 const sortAlphabeticReversed = (a, b) => {
   const _a = a.toLowerCase()

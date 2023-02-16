@@ -62,6 +62,8 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }))
 
+const mockApplyFilterAction = jest.fn()
+
 describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props
 
@@ -80,10 +82,11 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
       clearFiltersAction: jest.fn(),
+      applyFilterAction: mockApplyFilterAction,
     }
   })
 
-  it('should render a backlink to dashboard', () => {
+  it('should render a backlink to dashboard, hide filters and call mockApplyFilterAction', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       state: {
         useBacklink: true,
@@ -91,13 +94,23 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     }))
 
     render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {
+        stadsdeel: { value: 'O' },
+      })
     )
 
     expect(screen.getByText('Terug naar dashboard')).toBeTruthy()
+
+    expect(mockApplyFilterAction).toBeCalledWith({
+      options: { stadsdeel: ['O'] },
+    })
+
+    expect(screen.queryByText('Mijn filters')).not.toBeInTheDocument()
   })
 
-  it('should not render a backlink to dashboard', () => {
+  it('should not render a backlink to dashboard, show mijn filters and dont call mockApplyFilterAction', () => {
+    mockApplyFilterAction.mockReset()
+
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       state: null,
     }))
@@ -107,6 +120,12 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     )
 
     expect(screen.queryByText('Terug naar dashboard')).toBe(null)
+
+    expect(mockApplyFilterAction).not.toBeCalledWith({
+      options: { stadsdeel: ['O'] },
+    })
+
+    expect(screen.getByText('Mijn filters')).toBeInTheDocument()
   })
 
   it('should render modal buttons', () => {

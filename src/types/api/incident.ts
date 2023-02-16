@@ -14,10 +14,38 @@ export interface Department {
   category_names: string[]
 }
 
-export type DepartmentResponsible = {
-  display: string
-  value: string
-  category_names: string[]
+export interface DepartmentDetails {
+  _display: string
+  id: number
+  name: string
+  code: string
+  is_intern: boolean
+  can_direct: true
+  categories: Category[]
+}
+
+export interface Category {
+  id: number
+  is_responsible: boolean
+  can_view: boolean
+  category: {
+    _links: {
+      self: {
+        href: string
+      }
+    }
+    _display: string
+    departments: {
+      code: string
+      name: string
+      is_intern: boolean
+    }[]
+    handling_message: string
+    handling: string
+    is_active: boolean
+    name: string
+    slug: string
+  }
 }
 
 export enum Priority {

@@ -4,20 +4,15 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 
-import departmentsFixture from 'utils/__tests__/fixtures/departments.json'
+import departmentsCategoriesFixture from 'utils/__tests__/fixtures/departmentsCategories.json'
 
 import { Filter } from './Filter'
-import { withAppContext } from '../../../../../../test/utils'
 import history from '../../../../../../utils/history'
 import IncidentManagementContext from '../../../../context'
 
 const mockCallback = jest.fn()
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
-
-const departments = departmentsFixture.results
-
-const oneDepartment = [departmentsFixture.results[0]]
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -41,7 +36,7 @@ const renderWithContext = (
       setDashboardFilter: mockSetDashboardFilter,
       dashboardFilter,
       departmentsWithResponsibleCategories: {
-        departments: departmentsCustom || departments,
+        departments: departmentsCustom || departmentsCategoriesFixture,
         isLoading,
       },
     }}
@@ -60,7 +55,7 @@ describe('FilterComponent', () => {
 
     expect(
       screen.queryByRole('combobox', {
-        name: 'Politie',
+        name: 'Parkeren',
       })
     ).not.toBeInTheDocument()
 
@@ -110,7 +105,7 @@ describe('FilterComponent', () => {
     )
 
     expect(
-      screen.queryByRole('option', { name: 'Bedrijfsafval' })
+      screen.queryByRole('option', { name: 'Grofvuil' })
     ).toBeInTheDocument()
 
     userEvent.click(
@@ -121,12 +116,12 @@ describe('FilterComponent', () => {
 
     userEvent.click(
       screen.getByRole('option', {
-        name: 'Politie',
+        name: 'Parkeren',
       })
     )
 
     expect(
-      screen.queryByRole('combobox', { name: 'Bedrijfsafval' })
+      screen.queryByRole('combobox', { name: 'Grofvuil' })
     ).not.toBeInTheDocument()
 
     expect(
@@ -160,20 +155,20 @@ describe('FilterComponent', () => {
 
     screen
       .getByRole('option', {
-        name: 'Bedrijfsafval',
+        name: 'Grofvuil',
       })
       .focus()
 
     expect(
       screen.getByRole('option', {
-        name: 'Bedrijfsafval',
+        name: 'Grofvuil',
       })
     ).toBeInTheDocument()
 
     act(() => {
       fireEvent.keyDown(
         screen.getByRole('option', {
-          name: 'Bedrijfsafval',
+          name: 'Grofvuil',
         }),
         { code: 'Space' }
       )
@@ -181,7 +176,7 @@ describe('FilterComponent', () => {
 
     expect(
       screen.getByRole('combobox', {
-        name: 'Bedrijfsafval',
+        name: 'Grofvuil',
       })
     ).toBeInTheDocument()
 
@@ -202,7 +197,7 @@ describe('FilterComponent', () => {
 
     expect(
       screen.queryByRole('combobox', {
-        name: 'Bedrijfsafval',
+        name: 'Grofvuil',
       })
     ).not.toBeInTheDocument()
   })
@@ -240,7 +235,9 @@ describe('FilterComponent', () => {
       })
     )
 
-    expect(mockCallback).toBeCalledWith('department=AEG&category=Huisafval')
+    expect(mockCallback).toBeCalledWith(
+      'department=AEG&category_slug=huisafval'
+    )
 
     expect(mockCallback).toBeCalledTimes(3)
 
@@ -252,7 +249,9 @@ describe('FilterComponent', () => {
   })
 
   it('should hide department button when there is only one', () => {
-    const { rerender } = render(renderWithContext({}, false, oneDepartment))
+    const { rerender } = render(
+      renderWithContext({}, false, [departmentsCategoriesFixture[0]])
+    )
 
     expect(
       screen.queryByRole('combobox', {
@@ -301,14 +300,14 @@ describe('FilterComponent', () => {
 
     expect(
       screen.queryByRole('option', {
-        name: 'Asbest / accu',
+        name: 'Auto- / scooter- / bromfiets(wrak)',
       })
     ).toHaveFocus()
 
     act(() => {
       fireEvent.keyDown(
         screen.getByRole('option', {
-          name: 'Asbest / accu',
+          name: 'Grofvuil',
         }),
         { code: 'ArrowDown' }
       )
@@ -316,7 +315,7 @@ describe('FilterComponent', () => {
 
     expect(
       screen.queryByRole('option', {
-        name: 'Auto- / scooter- / bromfiets(wrak)',
+        name: 'Blokkade van de vaarweg',
       })
     ).toHaveFocus()
 
@@ -405,31 +404,7 @@ describe('FilterComponent', () => {
       state: null,
     }))
 
-    const mockSetDashboardFilter = jest.fn()
-    render(
-      withAppContext(
-        <IncidentManagementContext.Provider
-          value={{
-            setDashboardFilter: mockSetDashboardFilter,
-            dashboardFilter: {
-              priority: { value: 'normal', display: 'Normaal' },
-            },
-            departmentsWithResponsibleCategories: {
-              isLoading: false,
-              departments: [
-                {
-                  display: 'Actie Service Centrum',
-                  value: 'ASC',
-                  category_names: [],
-                },
-              ],
-            },
-          }}
-        >
-          <Filter callback={mockCallback} />
-        </IncidentManagementContext.Provider>
-      )
-    )
+    render(renderWithContext({}, false, [departmentsCategoriesFixture[0]]))
 
     expect(
       screen.queryByRole('combobox', {
@@ -447,9 +422,9 @@ describe('FilterComponent', () => {
     })
 
     expect(mockSetDashboardFilter).toHaveBeenLastCalledWith({
-      category: { display: '', value: '' },
+      category_slug: { display: '', value: '' },
       department: { display: 'Actie Service Centrum', value: 'ASC' },
-      district: { display: '', value: '' },
+      stadsdeel: { display: '', value: '' },
       priority: { display: '', value: '' },
       punctuality: { display: '', value: '' },
     })

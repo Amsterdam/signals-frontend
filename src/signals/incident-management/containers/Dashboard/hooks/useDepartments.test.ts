@@ -24,12 +24,21 @@ const fetchResponseMock = [
         is_responsible: true,
         category: {
           name: 'A',
+          slug: 'c',
+        },
+      },
+      {
+        is_responsible: true,
+        category: {
+          name: 'A',
+          slug: 'b',
         },
       },
       {
         is_responsible: false,
         category: {
           name: 'B',
+          slug: 'a',
         },
       },
     ],
@@ -48,7 +57,7 @@ describe('useDepartments', () => {
     })
   })
 
-  it('should return departments', () => {
+  it('should return departments and sort categories', () => {
     jest.mocked(useFetchAll as any).mockImplementation(() => ({
       data: fetchResponseMock,
       isLoading: false,
@@ -60,9 +69,24 @@ describe('useDepartments', () => {
     expect(result.current).toEqual({
       departments: [
         {
-          value: 'CCA',
-          display: 'CCA',
-          category_names: ['A'],
+          code: 'CCA',
+          name: 'CCA',
+          categories: [
+            {
+              category: {
+                name: 'A',
+                slug: 'b',
+              },
+              is_responsible: true,
+            },
+            {
+              category: {
+                name: 'A',
+                slug: 'c',
+              },
+              is_responsible: true,
+            },
+          ],
         },
       ],
       isLoading: false,

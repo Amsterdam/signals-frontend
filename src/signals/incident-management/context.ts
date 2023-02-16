@@ -5,7 +5,7 @@ import { createContext } from 'react'
 
 import type { Option } from './containers/Dashboard/components/Filter/types'
 import type { Definition } from './definitions/types'
-import type { DepartmentResponsible } from '../../types/api/incident'
+import type { DepartmentDetails } from '../../types/api/incident'
 
 const initialContext = {
   districts: undefined,
@@ -13,11 +13,11 @@ const initialContext = {
 }
 
 const IncidentManagementContext = createContext<{
-  setDashboardFilter: Dispatch<{ [key: string]: Option }>
+  setDashboardFilter: Dispatch<{ [key: string]: Option } | null>
   dashboardFilter?: { [key: string]: Option }
   districts?: Definition[]
   departmentsWithResponsibleCategories?: {
-    departments: DepartmentResponsible[]
+    departments: DepartmentDetails[]
     isLoading: boolean
   }
 }>(initialContext)

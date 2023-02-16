@@ -18,6 +18,7 @@ import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import configureStore from '../configureStore'
 import constructYupResolver from '../signals/incident/services/yup-resolver'
+import IncidentManagementContext from '../signals/incident-management/context'
 
 export const history = createMemoryHistory()
 
@@ -58,10 +59,18 @@ export const store = configureStore({}, history)
 
 loadModels(store)
 
-export const withAppContext = (Component) => (
+export const withAppContext = (Component, dashboardFilter = null) => (
   <ThemeProvider>
     <Provider store={store}>
-      <ConnectedRouter history={history}>{Component}</ConnectedRouter>
+      <ConnectedRouter history={history}>
+        <IncidentManagementContext.Provider
+          value={{
+            dashboardFilter,
+          }}
+        >
+          {Component}
+        </IncidentManagementContext.Provider>
+      </ConnectedRouter>
     </Provider>
   </ThemeProvider>
 )

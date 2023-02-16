@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
@@ -52,6 +52,7 @@ import {
   StyledPagination,
   StyledBackLink,
 } from './styled'
+import IncidentManagementContext from '../../context'
 import { DASHBOARD_URL, MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
@@ -122,6 +123,20 @@ export const IncidentOverviewPageContainerComponent = ({
     applyFilterAction(parseToAPIData(filter))
   }
 
+  const { dashboardFilter } = useContext(IncidentManagementContext)
+  useEffect(() => {
+    if (dashboardFilter) {
+      const options = Object.fromEntries(
+        Object.entries(dashboardFilter)
+          .filter(([k, v]) => v.value && k !== 'department')
+          .map(([k, v]) =>
+            k === 'punctuality' ? [k, v.value] : [k, [v.value]]
+          )
+      )
+      applyFilterAction({ options })
+    }
+  }, [applyFilterAction, dashboardFilter])
+
   useEffect(() => {
     listenFor('keydown', escFunction)
     listenFor('openFilter', openFilterModal)
@@ -164,7 +179,7 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
-        {location.state?.useBacklink && (
+        {location.state?.useBacklink && dashboardFilter && (
           <StyledBackLink
             to={{
               pathname: DASHBOARD_URL,
@@ -175,23 +190,25 @@ export const IncidentOverviewPageContainerComponent = ({
         )}
         <TitleRow>
           <PageHeader />
-          <ButtonWrapper>
-            <StyledButton
-              data-testid="my-filters-modal-btn"
-              color="primary"
-              onClick={openMyFiltersModal}
-            >
-              Mijn filters
-            </StyledButton>
+          {!dashboardFilter && (
+            <ButtonWrapper>
+              <StyledButton
+                data-testid="my-filters-modal-btn"
+                color="primary"
+                onClick={openMyFiltersModal}
+              >
+                Mijn filters
+              </StyledButton>
 
-            <StyledButton
-              data-testid="filter-modal-btn"
-              color="primary"
-              onClick={openFilterModal}
-            >
-              Filter
-            </StyledButton>
-          </ButtonWrapper>
+              <StyledButton
+                data-testid="filter-modal-btn"
+                color="primary"
+                onClick={openFilterModal}
+              >
+                Filter
+              </StyledButton>
+            </ButtonWrapper>
+          )}
         </TitleRow>
 
         {modalMyFiltersIsOpen && (
