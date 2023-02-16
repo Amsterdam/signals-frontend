@@ -78,9 +78,9 @@ export const AreaChart = ({ queryString }: Props) => {
 
   if (data && maxDomain) {
     const today = getToday()
-    const AreaChartSpecs = getAreaChartSpec(data, maxDomain, today)
+    const areaChartSpecs = getAreaChartSpec(data, maxDomain, today)
 
-    vegaEmbed('#area-chart', AreaChartSpecs, embedOptions)
+    vegaEmbed('#area-chart', areaChartSpecs, embedOptions)
   }
 
   return (

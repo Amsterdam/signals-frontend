@@ -2,28 +2,20 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { VisualizationSpec } from 'vega-embed'
 
-export const vegaConfigBarChart: VisualizationSpec = {
+import type { BarChartValue } from './types'
+
+export const getBarChartSpecs = (
+  values: BarChartValue[]
+): VisualizationSpec => ({
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
   description: 'A bar chart showing showing number of incidents per status',
   data: {
-    values: [
-      { status: 'Heropend', nrOfIncidentsPerStatus: 0 },
-      { status: 'Extern: afgehandeld', nrOfIncidentsPerStatus: 54 },
-      { status: 'Ingepland', nrOfIncidentsPerStatus: 75 },
-      { status: 'Verzoek tot heropenen', nrOfIncidentsPerStatus: 22 },
-      { status: 'Reactie ontvangen', nrOfIncidentsPerStatus: 560 },
-      { status: 'In behandeling', nrOfIncidentsPerStatus: 82 },
-      { status: 'Gesplitst', nrOfIncidentsPerStatus: 32 },
-      { status: 'Reactie gevraagd', nrOfIncidentsPerStatus: 60 },
-      { status: 'Gemeld', nrOfIncidentsPerStatus: 1103 },
-      { status: 'Afwachting van behandeling', nrOfIncidentsPerStatus: 409 },
-      { status: 'Extern: verzoek tot afhandeling', nrOfIncidentsPerStatus: 64 },
-    ],
+    values,
   },
   transform: [
     {
-      calculate: 'max(2, datum.nrOfIncidentsPerStatus)',
-      as: 'nrOfIncidentsPerStatusWithMax',
+      calculate: 'max(2, datum.nrOfIncidents)',
+      as: 'nrOfIncidentsWithMax',
     },
   ],
   spacing: 5,
@@ -47,7 +39,7 @@ export const vegaConfigBarChart: VisualizationSpec = {
         encoding: {
           x: {
             aggregate: 'mean',
-            field: 'nrOfIncidentsPerStatusWithMax',
+            field: 'nrOfIncidentsWithMax',
             title: null,
             axis: null,
             scale: { rangeMax: 275 },
@@ -63,12 +55,12 @@ export const vegaConfigBarChart: VisualizationSpec = {
           fontWeight: 700,
           font: 'Amsterdam Sans',
         },
-        encoding: { text: { field: 'nrOfIncidentsPerStatus' } },
+        encoding: { text: { field: 'nrOfIncidents' } },
       },
       {
         mark: 'rule',
         encoding: {
-          x: { aggregate: 'mean', field: 'nrOfIncidentsPerStatusWithMax' },
+          x: { aggregate: 'mean', field: 'nrOfIncidentsWithMax' },
           color: { value: '#004699' },
           size: { value: 4 },
           x2: { value: 0 },
@@ -84,4 +76,4 @@ export const vegaConfigBarChart: VisualizationSpec = {
       bar: { color: '#004699', opacity: 0.6, size: 27 },
     },
   },
-}
+})
