@@ -1,28 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
+import type { FC } from 'react'
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { useContext, useMemo, useRef } from 'react'
-import type { FC } from 'react'
 
-import { breakpoint, Paragraph, ascDefaultTheme } from '@amsterdam/asc-ui/lib'
-import LoadingIndicator from 'components/LoadingIndicator'
-import AppContext from 'containers/App/context'
+import { Alert } from '@amsterdam/asc-ui'
+import { ascDefaultTheme, breakpoint, Paragraph } from '@amsterdam/asc-ui/lib'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Route } from 'react-router-dom'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import AppContext from 'containers/App/context'
 import type {
+  addToSelection,
   createIncident,
   getClassification,
+  removeFromSelection,
   removeQuestionData,
   updateIncident,
-  addToSelection,
-  removeFromSelection,
 } from 'signals/incident/containers/IncidentContainer/actions'
 import type { WizardSection } from 'signals/incident/definitions/wizard'
 import type { Incident } from 'types/incident'
 
-import IncidentForm from '../IncidentForm'
-import IncidentPreview from '../IncidentPreview'
-import { StepByStepNavClickable } from '../StepByStepNavClickable'
-import { Wizard, Steps, Step } from '../StepWizard'
 import onNext from './services/on-next'
 import {
   FormWrapper,
@@ -32,6 +30,10 @@ import {
   StyledH1,
   Wrapper,
 } from './styled'
+import IncidentForm from '../IncidentForm'
+import IncidentPreview from '../IncidentPreview'
+import { StepByStepNavClickable } from '../StepByStepNavClickable'
+import { Step, Steps, Wizard } from '../StepWizard'
 
 interface IncidentWizardProps {
   wizardDefinition: WizardSection
@@ -92,6 +94,24 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                 return onNext(wizardDefinition, wiz, incident)
               }}
             >
+              {history.location.pathname === '/incident/beschrijf' ? (
+                <Alert
+                  level="error"
+                  outline
+                  style={{ marginTop: 60, marginBottom: 60 }}
+                >
+                  Medewerkers van de gemeente staken van maandag 20 februari
+                  06.30 uur tot maandag 27 februari. Daarom kunnen wij geen
+                  meldingen oppakken over volle containers en afval en vuil op
+                  straat. Wij pakken wel meldingen op over overlast: onze
+                  handhavers zijn op straat, maar schrijven geen boetes uit. Het
+                  kan ook wat langer duren dan u van ons gewend bent voordat wij
+                  uw melding hebben afgehandeld. Lees meer in het{' '}
+                  <a href={'https://www.amsterdam.nl/nieuws/'}>
+                    nieuwsoverzicht.
+                  </a>
+                </Alert>
+              ) : null}
               {incidentContainer.loading || appContext.loading ? (
                 <LoadingIndicator />
               ) : (
