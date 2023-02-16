@@ -1,6 +1,7 @@
-export type IncidentCount = {
+export interface AreaChartValue {
   date: string
   amount: number
+  amount_week_earlier: number
   image?: string
 }
 

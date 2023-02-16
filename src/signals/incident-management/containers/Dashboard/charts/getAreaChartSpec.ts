@@ -2,10 +2,10 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { VisualizationSpec } from 'vega-embed'
 
-import type { Today, IncidentCount } from './types'
+import type { Today, AreaChartValue } from './types'
 
-export const getAreaChart = (
-  values: Array<IncidentCount>,
+export const getAreaChartSpec = (
+  values: AreaChartValue[],
   maxDomain: number,
   today: Today
 ): VisualizationSpec => ({
@@ -42,6 +42,7 @@ export const getAreaChart = (
       scale: { type: 'linear', domain: [0, maxDomain] },
       title: null,
       axis: {
+        tickMinStep: 1,
         grid: false,
         ticks: false,
         domain: false,
@@ -143,6 +144,7 @@ export const getAreaChart = (
         size: 140,
         filled: true,
         opacity: 1,
+        cursor: 'pointer',
       },
       text: {
         align: 'center',

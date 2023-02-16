@@ -1,17 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { getAreaChart } from './area-chart'
+import { getAreaChartSpec } from './getAreaChartSpec'
 
 const mockValues = [
-  { date: '01 Jan 2012 23:00:00', amount: 48 },
-  { date: '02 Jan 2012 23:00:00', amount: 34 },
-  { date: '03 Jan 2012 23:00:00', amount: 44 },
-  { date: '04 Jan 2012 23:00:00', amount: 40 },
-  { date: '05 Jan 2012 23:00:00', amount: 48 },
-  { date: '06 Jan 2012 23:00:00', amount: 45 },
+  { date: '01 Jan 2012 23:00:00', amount: 48, amount_week_earlier: 30 },
+  { date: '02 Jan 2012 23:00:00', amount: 34, amount_week_earlier: 33 },
+  { date: '03 Jan 2012 23:00:00', amount: 44, amount_week_earlier: 32 },
+  { date: '04 Jan 2012 23:00:00', amount: 40, amount_week_earlier: 10 },
+  { date: '05 Jan 2012 23:00:00', amount: 48, amount_week_earlier: 40 },
+  { date: '06 Jan 2012 23:00:00', amount: 45, amount_week_earlier: 20 },
   {
     date: '07 Jan 2012 23:00:00',
     amount: 50,
+    amount_week_earlier: 20,
     image: '/assets/images/area-chart-tooltip.svg',
   },
 ]
@@ -19,9 +20,9 @@ const mockValues = [
 const maxDomain = 60
 const mockToday = { year: 2012, month: 1, date: 7, hours: 23, minutes: 0 }
 
-describe('get-area-chart', () => {
+describe('getAreaChartSpec', () => {
   it('should return correct object', () => {
-    const result = getAreaChart(mockValues, maxDomain, mockToday)
+    const result = getAreaChartSpec(mockValues, maxDomain, mockToday)
 
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -40,6 +41,7 @@ describe('get-area-chart', () => {
             },
             "point": Object {
               "color": "#004699",
+              "cursor": "pointer",
               "filled": true,
               "opacity": 1,
               "size": 140,
@@ -56,30 +58,37 @@ describe('get-area-chart', () => {
           "values": Array [
             Object {
               "amount": 48,
+              "amount_week_earlier": 30,
               "date": "01 Jan 2012 23:00:00",
             },
             Object {
               "amount": 34,
+              "amount_week_earlier": 33,
               "date": "02 Jan 2012 23:00:00",
             },
             Object {
               "amount": 44,
+              "amount_week_earlier": 32,
               "date": "03 Jan 2012 23:00:00",
             },
             Object {
               "amount": 40,
+              "amount_week_earlier": 10,
               "date": "04 Jan 2012 23:00:00",
             },
             Object {
               "amount": 48,
+              "amount_week_earlier": 40,
               "date": "05 Jan 2012 23:00:00",
             },
             Object {
               "amount": 45,
+              "amount_week_earlier": 20,
               "date": "06 Jan 2012 23:00:00",
             },
             Object {
               "amount": 50,
+              "amount_week_earlier": 20,
               "date": "07 Jan 2012 23:00:00",
               "image": "/assets/images/area-chart-tooltip.svg",
             },
@@ -113,6 +122,7 @@ describe('get-area-chart', () => {
               "labelFontWeight": 700,
               "labelLineHeight": 16,
               "offset": -15,
+              "tickMinStep": 1,
               "ticks": false,
             },
             "field": "amount",

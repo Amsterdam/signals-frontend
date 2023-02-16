@@ -3,10 +3,16 @@
 import { render, screen } from '@testing-library/react'
 
 import { ComparisonRate } from './ComparisonRate'
+import { Direction } from './types'
 
 describe('ComparisonRate', () => {
   it('should render correct with positive value', () => {
-    render(<ComparisonRate percentage={12} />)
+    const mockComparisonRate = {
+      direction: Direction.UP,
+      percentage: 12,
+    }
+
+    render(<ComparisonRate comparisonRate={mockComparisonRate} />)
 
     const percentage = screen.getByText('12%')
     const description = screen.getByText('vs vorige week')
@@ -18,9 +24,14 @@ describe('ComparisonRate', () => {
   })
 
   it('should render correct with negative value', () => {
-    render(<ComparisonRate percentage={-10} />)
+    const mockComparisonRate = {
+      direction: Direction.DOWN,
+      percentage: 10,
+    }
 
-    const percentage = screen.getByText('-10%')
+    render(<ComparisonRate comparisonRate={mockComparisonRate} />)
+
+    const percentage = screen.getByText('10%')
     const icon = screen.getByRole('img')
 
     expect(percentage).toBeInTheDocument()

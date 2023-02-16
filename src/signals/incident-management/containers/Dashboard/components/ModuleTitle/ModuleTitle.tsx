@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { Amount, Title, Subtitle } from './styled'
+import { Amount, Title, Subtitle } from '../styled'
 
 interface Props {
   title: string
