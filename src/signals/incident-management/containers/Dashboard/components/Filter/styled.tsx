@@ -31,14 +31,13 @@ export const Select = styled.div<{
   cursor: pointer;
   display: flex;
   align-items: center;
-  margin-right: ${themeSpacing(9)};
-  height: ${themeSpacing(14)};
-  margin-left: ${themeSpacing(12)};
+  height: 2.9rem;
+  margin: 0.3rem 2.25rem 0.3rem 3rem;
 
   @media ${breakpoint('min-width', 'tabletM')} {
     margin-left: unset;
     &:first-of-type {
-      margin-left: ${themeSpacing(12)};
+      margin-left: 3rem;
     }
   }
 
@@ -101,7 +100,7 @@ export const OptionUl = styled.ul<{
 }>`
   display: grid;
   position: absolute;
-  line-height: 2rem;
+  line-height: 1.4rem;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -110,6 +109,7 @@ export const OptionUl = styled.ul<{
     css`
       left: ${optionsOffsetLeft}px;
       grid-template-columns: repeat(${optionsTotal < 13 ? 1 : 2}, 1fr);
+      grid-gap: 0 8px;
     `}
 
   @media ${breakpoint('min-width', 'tabletM')} {
@@ -119,6 +119,7 @@ export const OptionUl = styled.ul<{
 
 export const OptionLi = styled.li<{ selected: boolean }>`
   cursor: pointer;
+  margin: 0.3rem 0; // Add margin to stop the focus from overlapping
 
   &:hover {
     text-decoration: underline;
