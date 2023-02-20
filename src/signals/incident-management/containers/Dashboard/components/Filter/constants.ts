@@ -2,8 +2,8 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 export const filterNames = [
   'department',
-  'category',
+  'category_slug',
   'priority',
   'punctuality',
-  'district',
+  'stadsdeel',
 ]

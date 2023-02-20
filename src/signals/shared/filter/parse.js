@@ -124,7 +124,6 @@ export const parseInputFormData = (filterData, fixtureData = {}) => {
  */
 export const parseToAPIData = (filterData) => {
   const options = clonedeep(filterData.options || {})
-
   Object.keys(options)
     .filter(
       (fieldName) =>

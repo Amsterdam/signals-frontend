@@ -180,7 +180,6 @@ const FilterForm = ({
       if (showNotification) {
         return
       }
-
       if (isNewFilter && hasName) {
         onSaveFilter(formData)
       }

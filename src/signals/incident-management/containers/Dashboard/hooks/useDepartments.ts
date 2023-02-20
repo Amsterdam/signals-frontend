@@ -8,14 +8,18 @@ import { useFetchAll } from 'hooks'
 import { makeSelectDepartments } from 'models/departments/selectors'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 import type { ApplicationRootState } from 'types'
-import type { Department, DepartmentResponsible } from 'types/api/incident'
+import type { Department } from 'types/api/incident'
+import type { DepartmentDetails } from 'types/api/incident'
+import type { Category } from 'types/api/incident'
+
+import { sortAlphabetic } from '../../../../../utils/sortAlphabetic'
 
 const cachedDepartments: { [key: string]: any } = {}
 export const useDepartments = (): {
-  departments?: DepartmentResponsible[]
+  departments?: DepartmentDetails[]
   isLoading: boolean
 } => {
-  const [departments, setDepartments] = useState<DepartmentResponsible[]>()
+  const [departments, setDepartments] = useState<DepartmentDetails[]>()
 
   const departmentsFromStore = useSelector<
     ApplicationRootState,
@@ -50,19 +54,15 @@ export const useDepartments = (): {
       const responsibleData = data
         .map((item) => {
           return {
-            value: item.code,
-            display: item.name,
-            category_names: item.categories
-              .map((category: any) => {
-                if (category.is_responsible) {
-                  return category.category.name
-                }
-              })
-              .filter(Boolean)
-              .sort(),
+            ...item,
+            categories: item.categories
+              .filter((category: Category) => category.is_responsible)
+              .sort((a: Category, b: Category) =>
+                sortAlphabetic(a.category.slug, b.category.slug)
+              ),
           }
         })
-        .filter((item) => item.category_names.length > 0)
+        .filter((item) => item.categories.length > 0)
       setDepartments(responsibleData)
     }
   }, [data])

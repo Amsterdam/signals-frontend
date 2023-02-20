@@ -17,8 +17,8 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
     () =>
       departments?.map(
         (department): Option => ({
-          display: department.display,
-          value: department.value,
+          display: department.name,
+          value: department.code,
         })
       ),
     [departments]
@@ -26,13 +26,12 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
 
   return useMemo(() => {
     const value: string | undefined =
-      selectedDepartment?.value || (departments && departments[0]?.value)
-
+      selectedDepartment?.value || (departments && departments[0]?.code)
     const categories = departments
-      ?.find((department) => department.value === value)
-      ?.category_names.map((category: string) => ({
-        value: category,
-        display: category,
+      ?.find((department) => department.code === value)
+      ?.categories.map((category) => ({
+        value: category.category.slug,
+        display: category.category.name,
       }))
 
     return [
@@ -42,7 +41,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
         options: departmentOptions || [],
       },
       {
-        name: 'category',
+        name: 'category_slug',
         display: 'Categorie',
         options: categories || [],
       },
@@ -69,7 +68,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
         })),
       },
       {
-        name: 'district',
+        name: 'stadsdeel',
         display: 'Stadsdeel',
         options: stadsdeelList.map((item) => ({
           value: item.key,
