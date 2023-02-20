@@ -55,8 +55,12 @@ export const Filter = ({ callback }: Props) => {
   )
 
   const handleCallback = useCallback(() => {
+    const filters = getValues()
+    // Department is not an actual filter of the endpoint. It only determines which categories a user sees.
+    delete filters.department
+
     const selectedFilters: { [key: string]: string } = Object.fromEntries(
-      Object.entries(getValues()).map(([key, value]) => {
+      Object.entries(filters).map(([key, value]) => {
         return [[key], value?.value]
       })
     )

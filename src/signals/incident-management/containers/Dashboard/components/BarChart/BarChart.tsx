@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 import { useDispatch } from 'react-redux'
 import vegaEmbed from 'vega-embed'
@@ -22,17 +22,14 @@ interface Props {
 export const BarChart = ({ queryString }: Props) => {
   const [data, setData] = useState<BarChartValue[]>()
   const [total, setTotal] = useState<number>()
-  const queryList = getQueryList(queryString)
+  const queryList = useMemo(() => getQueryList(queryString), [queryString])
   const dispatch = useDispatch()
 
   const { data: rawData, error, isLoading, get: getBarChart } = useGetBarChart()
 
   useEffect(() => {
-    if (!rawData) {
-      getBarChart(queryList)
-    }
-    //TODO: make dependent on queryString input
-  }, [])
+    getBarChart(queryList)
+  }, [getBarChart, queryList])
 
   useEffect(() => {
     if (rawData) {
