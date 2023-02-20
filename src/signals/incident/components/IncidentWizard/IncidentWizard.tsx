@@ -10,6 +10,7 @@ import { Route } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
+import configuration from 'shared/services/configuration/configuration'
 import type {
   addToSelection,
   createIncident,
@@ -94,24 +95,25 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                 return onNext(wizardDefinition, wiz, incident)
               }}
             >
-              {history.location.pathname === '/incident/beschrijf' ? (
-                <Alert
-                  level="error"
-                  outline
-                  style={{ marginTop: 60, marginBottom: 60 }}
-                >
-                  Medewerkers van de gemeente staken van maandag 20 februari
-                  06.30 uur tot maandag 27 februari. Daarom kunnen wij geen
-                  meldingen oppakken over volle containers en afval en vuil op
-                  straat. Wij pakken wel meldingen op over overlast: onze
-                  handhavers zijn op straat, maar schrijven geen boetes uit. Het
-                  kan ook wat langer duren dan u van ons gewend bent voordat wij
-                  uw melding hebben afgehandeld. Lees meer in het{' '}
-                  <a href={'https://www.amsterdam.nl/nieuws/'}>
-                    nieuwsoverzicht.
-                  </a>
-                </Alert>
-              ) : null}
+              {history.location.pathname === '/incident/beschrijf' &&
+                configuration.featureFlags.showStrikeAlert && (
+                  <Alert
+                    level="error"
+                    outline
+                    style={{ marginTop: 60, marginBottom: 60 }}
+                  >
+                    Medewerkers van de gemeente staken van maandag 20 februari
+                    06.30 uur tot maandag 27 februari. Daarom kunnen wij geen
+                    meldingen oppakken over volle containers en afval en vuil op
+                    straat. Wij pakken wel meldingen op over overlast: onze
+                    handhavers zijn op straat, maar schrijven geen boetes uit.
+                    Het kan ook wat langer duren dan u van ons gewend bent
+                    voordat wij uw melding hebben afgehandeld. Lees meer in het{' '}
+                    <a href={'https://www.amsterdam.nl/nieuws/'}>
+                      nieuwsoverzicht.
+                    </a>
+                  </Alert>
+                )}
               {incidentContainer.loading || appContext.loading ? (
                 <LoadingIndicator />
               ) : (
