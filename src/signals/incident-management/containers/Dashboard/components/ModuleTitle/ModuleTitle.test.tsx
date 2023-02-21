@@ -33,7 +33,7 @@ describe('ModuleTitle', () => {
       <ModuleTitle
         title="Afgehandelde meldingen"
         subtitle="Verloop van de week"
-        amount={422}
+        amount={'422'}
       />
     )
 
