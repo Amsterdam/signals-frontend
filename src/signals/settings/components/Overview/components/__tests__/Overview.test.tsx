@@ -2,9 +2,17 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
+import useFetch from '../../../../../../hooks/useFetch'
+import { useFetchResponse } from '../../../../../IncidentMap/components/__test__'
 import Overview from '../Overview'
 
+jest.mock('hooks/useFetch')
+
 describe('Overview component', () => {
+  beforeEach(() => {
+    jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+  })
+
   it('should render', () => {
     withAppContext(
       <Overview
@@ -156,5 +164,30 @@ describe('Overview component', () => {
     expect(screen.getByTestId('departments')).toBeInTheDocument()
     expect(screen.getByTestId('categories')).toBeInTheDocument()
     expect(screen.getByTestId('export')).toBeInTheDocument()
+  })
+
+  it('should show a version number of the be running', () => {
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+      get: jest.fn(),
+      data: { version: '123' },
+    }))
+
+    render(
+      withAppContext(
+        <Overview
+          showItems={{
+            settings: true,
+            departments: false,
+            groups: true,
+            users: true,
+            categories: false,
+            export: false,
+          }}
+        />
+      )
+    )
+
+    expect(screen.getByText('Versienummer: 123')).toBeTruthy()
   })
 })
