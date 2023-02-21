@@ -78,7 +78,9 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
           )}
           {description && (
             <span data-testid="history-list-item-description">
-              <Markdown allowedElements={['a', 'p']}>{description}</Markdown>
+              <Markdown allowedElements={['a', 'p', 'ul', 'ol', 'li']}>
+                {description}
+              </Markdown>
             </span>
           )}
         </Action>
