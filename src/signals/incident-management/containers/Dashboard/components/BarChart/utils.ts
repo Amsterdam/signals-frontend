@@ -16,21 +16,16 @@ export const getQueryList = (queryString: string) => {
   })
 }
 
-export const formatData = (rawData: RawData[]): BarChartValue[] => {
-  return rawData.map((value, i) => {
+export const formatData = (rawData: RawData[]): BarChartValue[] =>
+  rawData.map((value, i) => {
     return {
       status: constants.statusList[i].label,
       nrOfIncidents: value.total,
     }
   })
-}
 
-export const getTotalNrOfIncidents = (rawData: RawData[]): number => {
-  return rawData.reduce(
-    (aggregatedTotal, value) => aggregatedTotal + value.total,
-    0
-  )
-}
+export const getTotalNrOfIncidents = (rawData: RawData[]): number =>
+  rawData.reduce((aggregatedTotal, value) => aggregatedTotal + value.total, 0)
 
 export const getMaxDomain = (data: BarChartValue[]) => {
   const maxNrOfIncidents = Math.max(...data.map((value) => value.nrOfIncidents))
