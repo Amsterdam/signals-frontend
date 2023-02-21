@@ -17,7 +17,7 @@ const Dashboard = () => {
       </StyledRow>
       <Row data-testid="menu">
         <BarChart queryString={queryString} />
-        <AreaChart queryString={queryString} />
+        <AreaChart />
       </Row>
     </>
   )

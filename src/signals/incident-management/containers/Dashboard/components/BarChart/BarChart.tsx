@@ -8,8 +8,10 @@ import vegaEmbed from 'vega-embed'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { useFetchAll } from 'hooks'
 
 import { StyledBarChart, Wrapper } from './styled'
+import type { RawData } from './types'
 import {
   getMaxDomain,
   getQueryList,
@@ -18,7 +20,6 @@ import {
 } from './utils'
 import { getBarChartSpecs } from '../../charts'
 import type { BarChartValue } from '../../charts'
-import { useGetBarChart } from '../../hooks/useGetBarChart'
 import { ModuleTitle } from '../ModuleTitle'
 
 interface Props {
@@ -31,7 +32,12 @@ export const BarChart = ({ queryString }: Props) => {
   const queryList = useMemo(() => getQueryList(queryString), [queryString])
   const dispatch = useDispatch()
 
-  const { data: rawData, error, isLoading, get: getBarChart } = useGetBarChart()
+  const {
+    data: rawData,
+    error,
+    isLoading,
+    get: getBarChart,
+  } = useFetchAll<RawData>()
 
   useEffect(() => {
     getBarChart(queryList)

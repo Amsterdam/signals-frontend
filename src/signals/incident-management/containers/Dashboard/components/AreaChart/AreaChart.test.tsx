@@ -3,7 +3,8 @@
 import { render, screen } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
-import type { GetHookResponse } from 'hooks/api/types'
+import useFetch from 'hooks/useFetch'
+import { useFetchResponse } from 'signals/IncidentMap/components/__test__/utils'
 import { withAppContext } from 'test/utils'
 
 import { AreaChart } from './AreaChart'
@@ -12,10 +13,7 @@ import type { AreaChartValue } from '../../charts/types'
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
-jest.mock('../../hooks/useGetAreaChart', () => ({
-  __esModule: true,
-  useGetAreaChart: jest.fn(() => mockResult),
-}))
+jest.mock('hooks/useFetch')
 
 const mockData: AreaChartValue[] = [
   { date: '01 Jan 2012 12:00', amount: 48, amount_week_earlier: 30 },
@@ -32,20 +30,13 @@ const mockData: AreaChartValue[] = [
   },
 ]
 
-let mockResult: GetHookResponse<AreaChartValue[], any[]> = {
-  data: undefined,
-  error: false,
-  isLoading: false,
-  get: jest.fn(),
-}
-
 describe('AreaChart', () => {
   it('should render correctly', () => {
-    mockResult = {
-      ...mockResult,
-      data: mockData,
-    }
-    render(withAppContext(<AreaChart queryString="department=ASC" />))
+    jest
+      .mocked(useFetch)
+      .mockImplementation(() => ({ ...useFetchResponse, data: mockData }))
+
+    render(withAppContext(<AreaChart />))
 
     const title = screen.getByRole('heading', {
       name: 'Afgehandelde meldingen afgelopen 7 dagen',
@@ -57,23 +48,20 @@ describe('AreaChart', () => {
   })
 
   it('should return loading indicator when loading', () => {
-    mockResult = {
-      ...mockResult,
-      data: undefined,
-      isLoading: true,
-    }
-    render(withAppContext(<AreaChart queryString="department=ASC" />))
+    jest
+      .mocked(useFetch)
+      .mockImplementation(() => ({ ...useFetchResponse, isLoading: true }))
+
+    render(withAppContext(<AreaChart />))
 
     expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should show one error', () => {
-    mockResult = {
-      ...mockResult,
-      data: undefined,
-      error: true,
-    }
-    render(withAppContext(<AreaChart queryString="department=ASC" />))
+    jest
+      .mocked(useFetch)
+      .mockImplementation(() => ({ ...useFetchResponse, error: true }))
+    render(withAppContext(<AreaChart />))
 
     expect(dispatch).toBeCalledWith({
       payload: {

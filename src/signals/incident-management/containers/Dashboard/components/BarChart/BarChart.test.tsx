@@ -3,7 +3,7 @@
 import { render, screen } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
-import type { GetHookResponse } from 'hooks/api/types'
+import useFetchAll from 'hooks/useFetchAll'
 import { withAppContext } from 'test/utils'
 
 import { BarChart } from './BarChart'
@@ -12,10 +12,7 @@ import type { RawData } from './types'
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
-jest.mock('../../hooks/useGetBarChart', () => ({
-  __esModule: true,
-  useGetBarChart: jest.fn(() => mockResult),
-}))
+jest.mock('hooks/useFetchAll')
 
 const mockData: RawData[] = [
   {
@@ -64,19 +61,14 @@ const mockData: RawData[] = [
   },
 ]
 
-let mockResult: GetHookResponse<RawData[], any[]> = {
-  data: undefined,
-  error: false,
-  isLoading: false,
-  get: jest.fn(),
-}
-
 describe('BarChart', () => {
   it('should render correctly', () => {
-    mockResult = {
-      ...mockResult,
+    jest.mocked(useFetchAll as any).mockImplementation(() => ({
       data: mockData,
-    }
+      isLoading: false,
+      error: false,
+      get: jest.fn(),
+    }))
 
     render(
       withAppContext(
@@ -92,11 +84,13 @@ describe('BarChart', () => {
   })
 
   it('should return loading indicator when loading', () => {
-    mockResult = {
-      ...mockResult,
+    jest.mocked(useFetchAll as any).mockImplementation(() => ({
       data: undefined,
       isLoading: true,
-    }
+      error: false,
+      get: jest.fn(),
+    }))
+
     render(
       withAppContext(
         <BarChart queryString="category_slug=rolcontainer-is-vol" />
@@ -107,11 +101,13 @@ describe('BarChart', () => {
   })
 
   it('should show one error', () => {
-    mockResult = {
-      ...mockResult,
+    jest.mocked(useFetchAll as any).mockImplementation(() => ({
       data: undefined,
+      isLoading: false,
       error: true,
-    }
+      get: jest.fn(),
+    }))
+
     render(
       withAppContext(
         <BarChart queryString="category_slug=rolcontainer-is-vol" />

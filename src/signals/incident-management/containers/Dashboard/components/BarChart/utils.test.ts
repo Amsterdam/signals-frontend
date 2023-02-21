@@ -151,14 +151,30 @@ describe('utils', () => {
   })
 
   describe('getTotalNrOfIncidents', () => {
-    const result = getTotalNrOfIncidents(mockRawData)
+    it('should return the total number of incidents', () => {
+      const result = getTotalNrOfIncidents(mockRawData)
 
-    expect(result).toEqual(9961)
+      expect(result).toEqual(9961)
+    })
   })
 
   describe('getMaxDomain', () => {
-    const result = getMaxDomain(mockFormatedData)
+    it('should return max domain when nr of incidents is higher then 0', () => {
+      const result = getMaxDomain(mockFormatedData)
 
-    expect(result).toEqual(6513)
+      expect(result).toEqual(6513)
+    })
+
+    it('should return 1 if the filter does not have any incidents as result', () => {
+      const mockFormatedDataZeroIncidents: BarChartValue[] =
+        mockFormatedData.map((statusInfo) => ({
+          status: statusInfo.status,
+          nrOfIncidents: 0,
+        }))
+
+      const result = getMaxDomain(mockFormatedDataZeroIncidents)
+
+      expect(result).toEqual(1)
+    })
   })
 })
