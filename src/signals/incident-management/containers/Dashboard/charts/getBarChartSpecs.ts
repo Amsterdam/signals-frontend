@@ -5,23 +5,17 @@ import type { VisualizationSpec } from 'vega-embed'
 import type { BarChartValue } from './types'
 
 export const getBarChartSpecs = (
-  values: BarChartValue[]
+  values: BarChartValue[],
+  maxDomain: number
 ): VisualizationSpec => ({
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
   description: 'A bar chart showing showing number of incidents per status',
   data: {
-    values,
+    values: values,
   },
-  transform: [
-    {
-      calculate: 'max(2, datum.nrOfIncidents)',
-      as: 'nrOfIncidentsWithMax',
-    },
-  ],
   spacing: 5,
   facet: {
     field: 'status',
-    type: 'nominal',
     title: null,
     header: {
       labelAnchor: 'start',
@@ -35,36 +29,54 @@ export const getBarChartSpecs = (
   spec: {
     layer: [
       {
-        mark: { type: 'bar' },
+        mark: {
+          type: 'bar',
+          xOffset: 22,
+        },
         encoding: {
           x: {
-            aggregate: 'mean',
-            field: 'nrOfIncidentsWithMax',
+            aggregate: 'sum',
+            field: 'nrOfIncidents',
             title: null,
+            scale: {
+              domain: [0, maxDomain],
+              rangeMax: 275,
+            },
             axis: null,
-            scale: { rangeMax: 275 },
           },
         },
       },
+
+      {
+        mark: { type: 'rule', xOffset: 22 },
+        encoding: {
+          x: {
+            field: 'nrOfIncidents',
+            aggregate: 'sum',
+          },
+          y: {
+            value: 22,
+          },
+          size: {
+            value: 4,
+          },
+        },
+      },
+
       {
         mark: {
           type: 'text',
-          align: 'left',
-          x: 15,
+          x: 7.5,
           fontSize: 12,
           fontWeight: 700,
+          align: 'left',
           font: 'Amsterdam Sans',
         },
-        encoding: { text: { field: 'nrOfIncidents' } },
-      },
-      {
-        mark: 'rule',
         encoding: {
-          x: { aggregate: 'mean', field: 'nrOfIncidentsWithMax' },
-          color: { value: '#004699' },
-          size: { value: 4 },
-          x2: { value: 0 },
-          y: { value: 23 },
+          text: {
+            field: 'nrOfIncidents',
+            type: 'quantitative',
+          },
         },
       },
     ],
@@ -72,8 +84,17 @@ export const getBarChartSpecs = (
   columns: 3,
   config: {
     style: {
-      cell: { stroke: 'transparent' },
-      bar: { color: '#004699', opacity: 0.6, size: 27 },
+      bar: {
+        color: '#004699',
+        opacity: 0.6,
+        size: 27,
+      },
+      rule: {
+        color: '#004699',
+      },
+      cell: {
+        stroke: 'transparent',
+      },
     },
   },
 })

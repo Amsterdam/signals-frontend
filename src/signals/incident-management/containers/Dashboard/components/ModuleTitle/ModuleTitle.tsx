@@ -5,7 +5,7 @@ import { Amount, Title, Subtitle } from '../styled'
 interface Props {
   title: string
   subtitle?: string
-  amount?: number | string
+  amount?: string
 }
 
 export const ModuleTitle = ({ title, subtitle, amount }: Props) => (

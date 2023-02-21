@@ -10,11 +10,17 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 
 import { StyledBarChart, Wrapper } from './styled'
-import { getQueryList, getTotalNrOfIncidents, formatData } from './utils'
+import {
+  getMaxDomain,
+  getQueryList,
+  getTotalNrOfIncidents,
+  formatData,
+} from './utils'
 import { getBarChartSpecs } from '../../charts'
 import type { BarChartValue } from '../../charts'
 import { useGetBarChart } from '../../hooks/useGetBarChart'
 import { ModuleTitle } from '../ModuleTitle'
+
 interface Props {
   queryString: string
 }
@@ -57,7 +63,8 @@ export const BarChart = ({ queryString }: Props) => {
   }
 
   if (data) {
-    const barChartSpecs = getBarChartSpecs(data)
+    const maxDomain = getMaxDomain(data)
+    const barChartSpecs = getBarChartSpecs(data, maxDomain)
 
     vegaEmbed('#bar-chart', barChartSpecs, { actions: false })
   }
@@ -66,7 +73,7 @@ export const BarChart = ({ queryString }: Props) => {
     <Wrapper>
       <ModuleTitle
         title="Openstaande meldingen tot en met vandaag"
-        amount={total}
+        amount={total?.toString()}
       />
       <StyledBarChart data-testid="bar-chart" id="bar-chart" />
     </Wrapper>

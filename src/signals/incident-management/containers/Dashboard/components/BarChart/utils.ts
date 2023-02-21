@@ -31,3 +31,8 @@ export const getTotalNrOfIncidents = (rawData: RawData[]): number => {
     0
   )
 }
+
+export const getMaxDomain = (data: BarChartValue[]) => {
+  const maxNrOfIncidents = Math.max(...data.map((value) => value.nrOfIncidents))
+  return maxNrOfIncidents > 0 ? maxNrOfIncidents : 1
+}
