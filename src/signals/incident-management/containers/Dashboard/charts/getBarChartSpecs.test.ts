@@ -64,7 +64,7 @@ describe('getAreaChartSpec', () => {
           "style": Object {
             "bar": Object {
               "color": "#004699",
-              "opacity": 0.6,
+              "opacity": 0.5,
               "size": 27,
             },
             "cell": Object {
@@ -157,7 +157,7 @@ describe('getAreaChartSpec', () => {
               },
               "mark": Object {
                 "type": "bar",
-                "xOffset": 22,
+                "xOffset": 4,
               },
             },
             Object {
@@ -175,7 +175,7 @@ describe('getAreaChartSpec', () => {
               },
               "mark": Object {
                 "type": "rule",
-                "xOffset": 22,
+                "xOffset": 4,
               },
             },
             Object {
@@ -188,10 +188,10 @@ describe('getAreaChartSpec', () => {
               "mark": Object {
                 "align": "left",
                 "font": "Amsterdam Sans",
-                "fontSize": 12,
+                "fontSize": 14,
                 "fontWeight": 700,
                 "type": "text",
-                "x": 7.5,
+                "x": 8,
               },
             },
           ],

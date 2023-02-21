@@ -31,7 +31,7 @@ export const getBarChartSpecs = (
       {
         mark: {
           type: 'bar',
-          xOffset: 22,
+          xOffset: 4,
         },
         encoding: {
           x: {
@@ -48,7 +48,7 @@ export const getBarChartSpecs = (
       },
 
       {
-        mark: { type: 'rule', xOffset: 22 },
+        mark: { type: 'rule', xOffset: 4 },
         encoding: {
           x: {
             field: 'nrOfIncidents',
@@ -66,8 +66,8 @@ export const getBarChartSpecs = (
       {
         mark: {
           type: 'text',
-          x: 7.5,
-          fontSize: 12,
+          x: 8,
+          fontSize: 14,
           fontWeight: 700,
           align: 'left',
           font: 'Amsterdam Sans',
@@ -86,7 +86,7 @@ export const getBarChartSpecs = (
     style: {
       bar: {
         color: '#004699',
-        opacity: 0.6,
+        opacity: 0.5,
         size: 27,
       },
       rule: {
