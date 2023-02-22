@@ -221,7 +221,8 @@ describe('FilterComponent', () => {
 
     expect(mockCallback).toBeCalledTimes(2)
 
-    expect(mockCallback).toBeCalledWith('department=AEG')
+    // Department is not a filter for the endpoint
+    expect(mockCallback).toBeCalledWith('')
 
     userEvent.click(
       screen.getByRole('combobox', {
@@ -235,13 +236,9 @@ describe('FilterComponent', () => {
       })
     )
 
-    expect(mockCallback).toBeCalledWith(
-      'department=AEG&category_slug=huisafval'
-    )
+    expect(mockCallback).toBeCalledWith('category_slug=huisafval')
 
     expect(mockCallback).toBeCalledTimes(3)
-
-    expect(mockCallback).toBeCalledWith('department=ASC')
 
     userEvent.click(screen.getByText('Wis filters'))
 

@@ -16,8 +16,8 @@ const Dashboard = () => {
         <Filter callback={setQueryString} />
       </StyledRow>
       <Row data-testid="menu">
-        <BarChart />
-        <AreaChart queryString={queryString} />
+        <BarChart queryString={queryString} />
+        <AreaChart />
       </Row>
     </>
   )

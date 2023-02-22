@@ -10,6 +10,8 @@ import type { EmbedOptions } from 'vega-embed'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
 
 import { ComparisonRate } from './ComparisonRate'
 import { AreaChartWrapper as Wrapper } from './styled'
@@ -18,7 +20,6 @@ import { formatData, getMaxDomain, getToday, getPercentage } from './utils'
 import { INCIDENTS_URL } from '../../../../routes'
 import { constants, getAreaChartSpec } from '../../charts'
 import type { AreaChartValue } from '../../charts'
-import { useGetAreaChart } from '../../hooks/useGetAreaChart'
 import { ModuleTitle } from '../ModuleTitle'
 
 const embedOptions: EmbedOptions = {
@@ -27,11 +28,7 @@ const embedOptions: EmbedOptions = {
   mode: 'vega-lite',
 }
 
-interface Props {
-  queryString: string
-}
-
-export const AreaChart = ({ queryString }: Props) => {
+export const AreaChart = () => {
   const [data, setData] = useState<AreaChartValue[]>()
   const [maxDomain, setMaxDomain] = useState<number>()
   const [comparisonRate, setComparisonRate] = useState<ComparisonRateType>()
@@ -42,11 +39,13 @@ export const AreaChart = ({ queryString }: Props) => {
     error,
     isLoading,
     get: getAreaChart,
-  } = useGetAreaChart()
+  } = useFetch<AreaChartValue[]>()
 
   useEffect(() => {
-    getAreaChart(queryString)
-  }, [getAreaChart, queryString])
+    if (!rawData) {
+      getAreaChart(configuration.INCIDENTS_PAST_WEEK)
+    }
+  }, [getAreaChart, rawData])
 
   useEffect(() => {
     if (rawData) {
@@ -78,9 +77,9 @@ export const AreaChart = ({ queryString }: Props) => {
 
   if (data && maxDomain) {
     const today = getToday()
-    const AreaChartSpecs = getAreaChartSpec(data, maxDomain, today)
+    const areaChartSpecs = getAreaChartSpec(data, maxDomain, today)
 
-    vegaEmbed('#area-chart', AreaChartSpecs, embedOptions)
+    vegaEmbed('#area-chart', areaChartSpecs, embedOptions)
   }
 
   return (
