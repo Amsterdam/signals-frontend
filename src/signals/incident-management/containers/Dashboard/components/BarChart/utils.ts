@@ -17,12 +17,10 @@ export const getQueryList = (queryString: string) => {
 }
 
 export const formatData = (rawData: RawData[]): BarChartValue[] =>
-  rawData.map((value, i) => {
-    return {
-      status: constants.statusList[i].label,
-      nrOfIncidents: value.total,
-    }
-  })
+  rawData.map((value, i) => ({
+    status: constants.statusList[i].label,
+    nrOfIncidents: value.total,
+  }))
 
 export const getTotalNrOfIncidents = (rawData: RawData[]): number =>
   rawData.reduce((aggregatedTotal, value) => aggregatedTotal + value.total, 0)

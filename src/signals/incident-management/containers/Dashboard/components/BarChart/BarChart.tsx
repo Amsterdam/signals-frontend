@@ -46,8 +46,8 @@ export const BarChart = ({ queryString }: Props) => {
   useEffect(() => {
     if (rawData) {
       const formattedData = formatData(rawData)
-      const total = getTotalNrOfIncidents(rawData)
-      setTotal(total)
+      const totalIncidents = getTotalNrOfIncidents(rawData)
+      setTotal(totalIncidents)
       setData(formattedData)
     }
   }, [rawData])

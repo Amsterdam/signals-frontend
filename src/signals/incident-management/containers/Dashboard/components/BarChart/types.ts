@@ -1,4 +1,4 @@
 export interface RawData {
   total: number
-  results: []
+  results: undefined[]
 }
