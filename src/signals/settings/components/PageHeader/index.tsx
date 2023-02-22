@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
+
 import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
-import BackLinkComponent from 'components/BackLink'
-
-const StyledSection = styled.section`
+const StyledSection = styled.section<{ hasBackLink: boolean }>`
   contain: content;
   padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(3)};
@@ -24,40 +23,40 @@ const StyledSection = styled.section`
 const StyledHeading = styled(Heading)`
   margin: 0;
   line-height: 44px;
+  flex-basis: 100%;
+  width: 0;
 `
 
-const PageHeader = ({ BackLink, className, children, title }) => (
+const StyledHeadingWrapper = styled.div`
+  flex-basis: 100%;
+`
+
+type Props = {
+  title: string
+  children?: ReactNode
+  BackLink?: string
+  filter?: {
+    name: string
+    options: any
+  }
+  className?: string
+  subHeading?: string
+}
+
+const PageHeader = ({ BackLink, className, children, title }: Props) => (
   <StyledSection
     data-testid="settings-page-header"
     className={className}
     hasBackLink={Boolean(BackLink)}
   >
     <Row>
-      <div>
+      <StyledHeadingWrapper>
         {BackLink}
         <StyledHeading>{title}</StyledHeading>
-      </div>
-
+      </StyledHeadingWrapper>
       {children}
     </Row>
   </StyledSection>
 )
-
-PageHeader.defaultProps = {
-  BackLink: null,
-  className: '',
-  children: null,
-}
-
-PageHeader.propTypes = {
-  BackLink: PropTypes.objectOf(BackLinkComponent),
-  filter: PropTypes.shape({
-    name: PropTypes.string,
-    options: PropTypes.object,
-  }),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  title: PropTypes.node.isRequired,
-}
 
 export default PageHeader

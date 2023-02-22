@@ -1,4 +1,5 @@
 import type { FunctionComponent } from 'react'
+import { useEffect } from 'react'
 
 import {
   PersonalLogin,
@@ -24,6 +25,9 @@ import {
   CATEGORIES_URL,
   EXPORT_URL,
 } from 'signals/settings/routes'
+
+import useFetch from '../../../../../hooks/useFetch'
+import configuration from '../../../../../shared/services/configuration/configuration'
 
 type Keys =
   | 'departments'
@@ -62,13 +66,21 @@ const StyledTopTaskLink = styled(TopTaskLink)`
 `
 
 const Overview: FunctionComponent<Props> = ({ showItems }) => {
+  const { data, get } = useFetch<{ version: string }>()
+
+  useEffect(() => {
+    get(`${configuration.apiBaseUrl}/signals/`)
+  }, [get])
+
   if (!showItems.settings) {
     return null
   }
 
   return (
     <CompactThemeProvider>
-      <PageHeader title="Instellingen" />
+      <PageHeader title="Instellingen">
+        <span>Versienummer: {data?.version}</span>
+      </PageHeader>
       <Row>
         <Wrapper>
           {showItems.users && (
