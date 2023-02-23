@@ -20,7 +20,7 @@ import { FilterBar } from './styled'
 import type { Option } from './types'
 
 type Props = {
-  callback?: (queryString: string) => void
+  callback: (queryString: string) => void
 }
 
 export const Filter = ({ callback }: Props) => {
@@ -67,9 +67,7 @@ export const Filter = ({ callback }: Props) => {
 
     const params = generateParams(selectedFilters)
 
-    if (callback) {
-      callback(params)
-    }
+    callback(params)
   }, [callback, getValues])
 
   useEffect(() => {
@@ -126,6 +124,7 @@ export const Filter = ({ callback }: Props) => {
         <SelectList
           filterActiveName={filterActiveName}
           setFilterActiveName={setFilterActiveName}
+          fetchData={callback}
         />
       </FormProvider>
     </FilterBar>

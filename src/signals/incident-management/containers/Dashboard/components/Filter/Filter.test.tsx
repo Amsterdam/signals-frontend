@@ -242,7 +242,8 @@ describe('FilterComponent', () => {
 
     userEvent.click(screen.getByText('Wis filters'))
 
-    expect(mockCallback).toBeCalledTimes(3)
+    expect(mockCallback).toBeCalledTimes(4)
+    expect(mockCallback).toBeCalledWith('')
   })
 
   it('should hide department button when there is only one', () => {
