@@ -3,7 +3,7 @@
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const AreaChartWrapper = styled.span`
+export const AreaChartWrapper = styled.div`
   position: relative;
 `
 

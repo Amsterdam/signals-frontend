@@ -6,7 +6,3 @@ import styled from 'styled-components'
 export const Wrapper = styled.span`
   position: relative;
 `
-
-export const StyledBarChart = styled.div`
-  width: 100%;
-`
