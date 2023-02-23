@@ -4,7 +4,10 @@ import { render, screen } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
 import useFetch from 'hooks/useFetch'
-import { useFetchResponse } from 'signals/IncidentMap/components/__test__/utils'
+import {
+  get,
+  useFetchResponse,
+} from 'signals/IncidentMap/components/__test__/utils'
 import { withAppContext } from 'test/utils'
 
 import { AreaChart } from './AreaChart'
@@ -55,6 +58,10 @@ describe('AreaChart', () => {
     render(withAppContext(<AreaChart />))
 
     expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
+    expect(get).toHaveBeenCalledWith(
+      'http://localhost:8000/signals/v1/private/signals/stats/past_week',
+      { status: 'o' }
+    )
   })
 
   it('should show one error', () => {
