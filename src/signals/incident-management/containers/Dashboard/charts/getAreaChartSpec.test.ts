@@ -247,7 +247,7 @@ describe('getAreaChartSpec', () => {
             ],
           },
         ],
-        "width": 430,
+        "width": "container",
       }
     `)
   })

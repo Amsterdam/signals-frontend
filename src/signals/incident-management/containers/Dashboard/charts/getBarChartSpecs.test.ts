@@ -150,7 +150,7 @@ describe('getAreaChartSpec', () => {
                       0,
                       6513,
                     ],
-                    "rangeMax": 275,
+                    "rangeMax": 250,
                   },
                   "title": null,
                 },
