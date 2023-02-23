@@ -24,16 +24,29 @@ describe('Markdown', () => {
     expect(screen.getByText('Hic sunt')).toBeInTheDocument()
   })
 
+  it('parses an unordered list', () => {
+    render(
+      withAppContext(<Markdown allowedElements={['ul', 'li']}>- Test</Markdown>)
+    )
+    expect(screen.getByRole('list')).toBeInTheDocument()
+  })
+
+  it('parses an ordered list', () => {
+    render(
+      withAppContext(
+        <Markdown allowedElements={['ol', 'li']}>1. Test</Markdown>
+      )
+    )
+    expect(screen.getByRole('list')).toBeInTheDocument()
+  })
+
   it('skips unallowed markdown', () => {
     render(
       withAppContext(
-        <Markdown allowedElements={['a', 'p']}>
-          ## Heading level 2 * list item #1 * list item #2
-        </Markdown>
+        <Markdown allowedElements={['a', 'p']}>## Heading level 2</Markdown>
       )
     )
 
     expect(screen.queryByRole('heading')).not.toBeInTheDocument()
-    expect(screen.queryByRole('list')).not.toBeInTheDocument()
   })
 })
