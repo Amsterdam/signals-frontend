@@ -22,13 +22,13 @@ import { useFilters } from '../../hooks/useFilter'
 type Props = {
   filterActiveName: string
   setFilterActiveName: Dispatch<SetStateAction<string>>
-  fetchData: (queryString: string) => void
+  setQueryString: (queryString: string) => void
 }
 
 const SelectList = ({
   filterActiveName,
   setFilterActiveName,
-  fetchData,
+  setQueryString,
 }: Props) => {
   const { getValues, reset, setValue, watch } = useFormContext()
 
@@ -83,7 +83,7 @@ const SelectList = ({
       filterNames.map((name) => [name, { display: '', value: '' }])
     )
     reset(defaultValues)
-    fetchData('')
+    setQueryString('')
   }
 
   const prevSelectTarget = useRef<HTMLElement>()

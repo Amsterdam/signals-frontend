@@ -11,7 +11,7 @@ const Dashboard = () => {
   return (
     <>
       <FilterWrapper data-testid="menu">
-        <Filter callback={setQueryString} />
+        <Filter setQueryString={setQueryString} />
       </FilterWrapper>
       <StyledRow>
         <BarChart queryString={queryString} />

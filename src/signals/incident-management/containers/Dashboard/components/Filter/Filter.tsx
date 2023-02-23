@@ -20,10 +20,10 @@ import { FilterBar } from './styled'
 import type { Option } from './types'
 
 type Props = {
-  callback: (queryString: string) => void
+  setQueryString: (queryString: string) => void
 }
 
-export const Filter = ({ callback }: Props) => {
+export const Filter = ({ setQueryString }: Props) => {
   const [filterActiveName, setFilterActiveName] = useState('')
   const { dashboardFilter, setDashboardFilter } = useContext(
     IncidentManagementContext
@@ -67,8 +67,8 @@ export const Filter = ({ callback }: Props) => {
 
     const params = generateParams(selectedFilters)
 
-    callback(params)
-  }, [callback, getValues])
+    setQueryString(params)
+  }, [setQueryString, getValues])
 
   useEffect(() => {
     const subscription = watch((_, { name, type }) => {
@@ -124,7 +124,7 @@ export const Filter = ({ callback }: Props) => {
         <SelectList
           filterActiveName={filterActiveName}
           setFilterActiveName={setFilterActiveName}
-          fetchData={callback}
+          setQueryString={setQueryString}
         />
       </FormProvider>
     </FilterBar>
