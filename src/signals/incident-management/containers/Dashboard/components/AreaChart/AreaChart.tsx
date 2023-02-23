@@ -43,7 +43,7 @@ export const AreaChart = () => {
 
   useEffect(() => {
     if (!rawData) {
-      getAreaChart(configuration.INCIDENTS_PAST_WEEK)
+      getAreaChart(configuration.INCIDENTS_PAST_WEEK, { status: 'o' })
     }
   }, [getAreaChart, rawData])
 
