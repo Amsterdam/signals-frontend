@@ -13,7 +13,7 @@ const Dashboard = () => {
       <FilterWrapper data-testid="menu">
         <Filter callback={setQueryString} />
       </FilterWrapper>
-      <StyledRow data-testid="menu">
+      <StyledRow>
         <BarChart queryString={queryString} />
         <AreaChart />
       </StyledRow>
