@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import GraphEmpty from '..'
+import GraphEmpty from '../index'
 
 describe('<GraphEmpty />', () => {
   it('should render correctly', () => {

@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react'
 import { useEffect } from 'react'
 
-import { Heading, Row, themeSpacing, Column } from '@amsterdam/asc-ui'
+import { themeSpacing, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -15,14 +15,10 @@ import { Color as GraphColor } from './components/BarGraph/BarGraph'
 import GraphDescription from './components/GraphDescription'
 import GraphEmpty from './components/GraphEmpty'
 
-const StyledHeading = styled(Heading)`
-  margin-bottom: ${themeSpacing(8)};
-  margin-top: ${themeSpacing(6)};
-`
-
 const StyledColumn = styled(Column)`
   height: 100%;
   border-bottom: 2px solid;
+  padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(8)};
 
   @media (max-width: ${({ theme }) => theme.layouts.large.min}px) {
@@ -81,12 +77,6 @@ const Signaling: FunctionComponent = () => {
     ? reopenRequestedData.total_signal_count
     : null
 
-  const heading = (
-    <Row>
-      <StyledHeading data-testid="heading">Signalering</StyledHeading>
-    </Row>
-  )
-
   if (errorOpen || errorReopenRequested) {
     return (
       <Notification
@@ -98,57 +88,49 @@ const Signaling: FunctionComponent = () => {
   }
 
   if (openLoading || reopenRequestedLoading) {
-    return (
-      <>
-        {heading}
-        <LoadingIndicator />
-      </>
-    )
+    return <LoadingIndicator />
   }
 
   return (
     <>
-      {heading}
-      <Row data-testid="signaling">
-        <StyledColumn span={6} wrap>
-          {totalOpen !== null ? (
-            <GraphDescription
-              title="Buiten de afhandeltermijn"
-              description="Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn."
-              total={totalOpen}
-            />
-          ) : null}
+      <StyledColumn span={6} wrap>
+        {totalOpen !== null ? (
+          <GraphDescription
+            title="Buiten de afhandeltermijn"
+            description="Alle openstaande meldingen, waarvan de doorlooptijd langer is dan 3x de afhandeltermijn."
+            total={totalOpen}
+          />
+        ) : null}
 
-          {totalOpen === 0 ? (
-            <GraphEmpty text={'Hier is niks meer te signaleren'} />
-          ) : (
-            <BarGraph
-              maxValue={1000}
-              data={graphDataOpen}
-              color={GraphColor.Red}
-            />
-          )}
-        </StyledColumn>
-        <StyledColumn span={6} wrap>
-          {totalReopenRequested !== null && (
-            <GraphDescription
-              title="Verzoek tot heropenen"
-              description={`Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.`}
-              total={totalReopenRequested}
-            />
-          )}
+        {totalOpen === 0 ? (
+          <GraphEmpty text={'Hier is niks meer te signaleren'} />
+        ) : (
+          <BarGraph
+            maxValue={1000}
+            data={graphDataOpen}
+            color={GraphColor.Red}
+          />
+        )}
+      </StyledColumn>
+      <StyledColumn span={6} wrap>
+        {totalReopenRequested !== null && (
+          <GraphDescription
+            title="Verzoek tot heropenen"
+            description={`Meldingen waarbij de melder langer dan 2 weken geleden een "verzoek tot heropenen" heeft gedaan.`}
+            total={totalReopenRequested}
+          />
+        )}
 
-          {totalReopenRequested === 0 ? (
-            <GraphEmpty text={'Hier is niks meer te signaleren'} />
-          ) : (
-            <BarGraph
-              maxValue={1000}
-              data={graphDataReopenRequested}
-              color={GraphColor.Blue}
-            />
-          )}
-        </StyledColumn>
-      </Row>
+        {totalReopenRequested === 0 ? (
+          <GraphEmpty text={'Hier is niks meer te signaleren'} />
+        ) : (
+          <BarGraph
+            maxValue={1000}
+            data={graphDataReopenRequested}
+            color={GraphColor.Blue}
+          />
+        )}
+      </StyledColumn>
     </>
   )
 }

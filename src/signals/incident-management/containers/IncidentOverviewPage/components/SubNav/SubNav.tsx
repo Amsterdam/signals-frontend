@@ -4,9 +4,10 @@ import type { FC } from 'react'
 
 import { Link } from 'react-router-dom'
 
+import { Tab, TabContainer } from 'components/Tab'
 import configuration from 'shared/services/configuration/configuration'
 
-import { MapHeading, TabContainer, Tab } from './styled'
+import { MapHeading } from './styled'
 import { MAP_URL, INCIDENTS_URL } from '../../../../routes'
 
 type SubNavProps = {

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import GraphDescription from '..'
+import GraphDescription from '../index'
 
 describe('<GraphDescription />', () => {
   it('should render correctly', () => {
