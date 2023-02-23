@@ -10,7 +10,7 @@ import { Filter } from './Filter'
 import history from '../../../../../../utils/history'
 import IncidentManagementContext from '../../../../context'
 
-const mockCallback = jest.fn()
+const mockSetQueryString = jest.fn()
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
@@ -41,13 +41,13 @@ const renderWithContext = (
       },
     }}
   >
-    <Filter callback={mockCallback} />
+    <Filter setQueryString={mockSetQueryString} />
   </IncidentManagementContext.Provider>
 )
 
 describe('FilterComponent', () => {
   beforeEach(() => {
-    mockCallback.mockReset()
+    mockSetQueryString.mockReset()
   })
 
   it('should render properly and select the first option', () => {
@@ -202,10 +202,10 @@ describe('FilterComponent', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should select a department, a custom category and reset back and call callback each time', () => {
+  it('should select a department, a custom category and reset back and call setQueryString each time', () => {
     render(renderWithContext())
 
-    expect(mockCallback).toBeCalledTimes(1)
+    expect(mockSetQueryString).toBeCalledTimes(1)
 
     userEvent.click(
       screen.getByRole('combobox', {
@@ -219,10 +219,10 @@ describe('FilterComponent', () => {
       })
     )
 
-    expect(mockCallback).toBeCalledTimes(2)
+    expect(mockSetQueryString).toBeCalledTimes(2)
 
     // Department is not a filter for the endpoint
-    expect(mockCallback).toBeCalledWith('')
+    expect(mockSetQueryString).toBeCalledWith('')
 
     userEvent.click(
       screen.getByRole('combobox', {
@@ -236,13 +236,14 @@ describe('FilterComponent', () => {
       })
     )
 
-    expect(mockCallback).toBeCalledWith('category_slug=huisafval')
+    expect(mockSetQueryString).toBeCalledWith('category_slug=huisafval')
 
-    expect(mockCallback).toBeCalledTimes(3)
+    expect(mockSetQueryString).toBeCalledTimes(3)
 
     userEvent.click(screen.getByText('Wis filters'))
 
-    expect(mockCallback).toBeCalledTimes(3)
+    expect(mockSetQueryString).toBeCalledTimes(4)
+    expect(mockSetQueryString).toBeCalledWith('')
   })
 
   it('should hide department button when there is only one', () => {
@@ -380,7 +381,7 @@ describe('FilterComponent', () => {
           },
         }}
       >
-        <Filter callback={mockCallback} />
+        <Filter setQueryString={mockSetQueryString} />
       </IncidentManagementContext.Provider>
     )
 
