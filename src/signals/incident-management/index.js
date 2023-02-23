@@ -45,7 +45,7 @@ const IncidentSplitContainer = lazy(() =>
 // istanbul ignore next
 const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 const AreaContainer = lazy(() => import('./containers/AreaContainer'))
-const SignalingContainer = lazy(() => import('./containers/Signaling'))
+
 const DashboardContainer = lazy(() =>
   import('./containers/Dashboard/Dashboard')
 )
@@ -108,8 +108,7 @@ const IncidentManagement = () => {
             <Route exact path={routes.area} component={AreaContainer} />
           )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-          <Route exact path={routes.signaling} component={SignalingContainer} />
-          <Route exact path={routes.dashboard} component={DashboardContainer} />
+          <Route path={routes.dashboard} component={DashboardContainer} />
           <Route component={IncidentOverviewPage} />
         </Switch>
       </Suspense>
