@@ -20,7 +20,7 @@ jobs:
 
       - name: Build the release Docker image
         run: |
-          docker build -t signalen/frontend:${{ github.event.release.tag_name }} .
+          docker build --build-arg FRONTEND_TAG=${{ github.event.release.tag_name }} -t signalen/frontend:${{ github.event.release.tag_name }} .
       - name: Build the latest Docker image
         run: |
           docker build -t signalen/frontend:latest .
