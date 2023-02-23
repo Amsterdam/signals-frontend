@@ -11,7 +11,7 @@ export const getBarChartSpecs = (
   $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
   description: 'A bar chart showing showing number of incidents per status',
   data: {
-    values: values,
+    values,
   },
   spacing: 5,
   facet: {
@@ -40,7 +40,7 @@ export const getBarChartSpecs = (
             title: null,
             scale: {
               domain: [0, maxDomain],
-              rangeMax: 275,
+              rangeMax: 250,
             },
             axis: null,
           },

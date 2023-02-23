@@ -10,7 +10,7 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { useFetchAll } from 'hooks'
 
-import { StyledBarChart, Wrapper } from './styled'
+import { Wrapper } from './styled'
 import type { RawData } from './types'
 import {
   getMaxDomain,
@@ -81,7 +81,7 @@ export const BarChart = ({ queryString }: Props) => {
         title="Openstaande meldingen tot en met vandaag"
         amount={total?.toString()}
       />
-      <StyledBarChart data-testid="bar-chart" id="bar-chart" />
+      <div data-testid="bar-chart" id="bar-chart" />
     </Wrapper>
   )
 }

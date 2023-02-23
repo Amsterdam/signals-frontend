@@ -14,7 +14,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 
 import { ComparisonRate } from './ComparisonRate'
-import { AreaChartWrapper as Wrapper } from './styled'
+import { AreaChartWrapper as Wrapper, StyledAreaChart } from './styled'
 import type { ComparisonRateType } from './types'
 import { formatData, getMaxDomain, getToday, getPercentage } from './utils'
 import { INCIDENTS_URL } from '../../../../routes'
@@ -86,7 +86,7 @@ export const AreaChart = () => {
     <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
       <Wrapper>
         <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
-        <div id="area-chart" data-testid="area-chart" />
+        <StyledAreaChart id="area-chart" data-testid="area-chart" />
         {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
       </Wrapper>
     </Link>

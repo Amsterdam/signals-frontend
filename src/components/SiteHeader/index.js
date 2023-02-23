@@ -27,7 +27,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import useTallHeader from '../../hooks/useTallHeader'
 
-const MENU_BREAKPOINT = 1320
+export const MENU_BREAKPOINT = 1320
 
 const StyledHeader = styled(HeaderComponent)`
   ${({ isFrontOffice, tall }) =>
