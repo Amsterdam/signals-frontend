@@ -414,7 +414,7 @@ describe('FilterComponent', () => {
       history.push({
         pathname: '/manage/incidents',
         state: {
-          useBacklink: true,
+          useDashboardFilters: true,
         },
       })
     })

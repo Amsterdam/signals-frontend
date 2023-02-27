@@ -3,9 +3,10 @@
 import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
+import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -53,7 +54,7 @@ import {
   StyledBackLink,
 } from './styled'
 import IncidentManagementContext from '../../context'
-import { DASHBOARD_URL, MAP_URL } from '../../routes'
+import { DASHBOARD_URL, INCIDENTS_URL, MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
 let lastActiveElement = null
@@ -124,18 +125,41 @@ export const IncidentOverviewPageContainerComponent = ({
   }
 
   const { dashboardFilter } = useContext(IncidentManagementContext)
-  useEffect(() => {
-    if (dashboardFilter) {
-      const options = Object.fromEntries(
+
+  const validDashboardFilterOptions = useMemo(
+    () =>
+      !isEmpty(dashboardFilter) &&
+      Object.fromEntries(
         Object.entries(dashboardFilter)
           .filter(([k, v]) => v.value && k !== 'department')
           .map(([k, v]) =>
             k === 'punctuality' ? [k, v.value] : [k, [v.value]]
           )
-      )
-      applyFilterAction({ options })
+      ),
+    [dashboardFilter]
+  )
+
+  useEffect(() => {
+    if (
+      !isEmpty(validDashboardFilterOptions) &&
+      location.state?.useDashboardFilters
+    ) {
+      applyFilterAction({ options: validDashboardFilterOptions })
     }
-  }, [applyFilterAction, dashboardFilter])
+  }, [location, applyFilterAction, validDashboardFilterOptions])
+
+  const history = useHistory()
+
+  useEffect(() => {
+    const unlisten = history.listen((newLocation) => {
+      if (newLocation.pathname.includes(INCIDENTS_URL)) {
+        newLocation.state = location.state
+      } else {
+        newLocation.state = {}
+      }
+    })
+    return () => unlisten()
+  }, [history, location])
 
   useEffect(() => {
     listenFor('keydown', escFunction)
@@ -179,7 +203,7 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
-        {location.state?.useBacklink && dashboardFilter && (
+        {location.state?.useDashboardFilters && (
           <StyledBackLink
             to={{
               pathname: DASHBOARD_URL,
@@ -190,7 +214,7 @@ export const IncidentOverviewPageContainerComponent = ({
         )}
         <TitleRow>
           <PageHeader />
-          {!dashboardFilter && (
+          {!location.state?.useDashboardFilters && (
             <ButtonWrapper>
               <StyledButton
                 data-testid="my-filters-modal-btn"

@@ -8,7 +8,7 @@ import * as reactRouterDom from 'react-router-dom'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
 import * as constants from 'signals/incident-management/constants'
-import { withAppContext } from 'test/utils'
+import { withAppContext, history } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
 import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.'
@@ -89,7 +89,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   it('should render a backlink to dashboard, hide filters and call mockApplyFilterAction', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
       state: {
-        useBacklink: true,
+        useDashboardFilters: true,
       },
     }))
 
@@ -116,7 +116,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     }))
 
     render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {})
     )
 
     expect(screen.queryByText('Terug naar dashboard')).toBe(null)
@@ -126,6 +126,48 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     })
 
     expect(screen.getByText('Mijn filters')).toBeInTheDocument()
+  })
+
+  it('should not render a backlink to dashboard when there are no valid dashboard filters', () => {
+    mockApplyFilterAction.mockReset()
+
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state: {
+        useDashboardFilters: true,
+      },
+    }))
+
+    render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {})
+    )
+    expect(screen.queryByText('Terug naar dashboard')).toBeInTheDocument()
+
+    expect(screen.queryByText('Mijn filters')).not.toBeInTheDocument()
+  })
+
+  it('should keep useDashboardFilters route state when navigating to manage/incidents/kaart', async () => {
+    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
+      state: {
+        useDashboardFilters: true,
+      },
+      location: 'manage/incidents',
+    }))
+
+    render(
+      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {
+        stadsdeel: { value: 'O' },
+      })
+    )
+
+    history.push('/manage/incidents', { useDashboardFilters: true })
+
+    act(() => history.push('/manage/incidents/kaart'))
+
+    expect(history.entries.at(-1).state).toEqual({ useDashboardFilters: true })
+
+    act(() => history.push('/manage/standaard/teksten'))
+
+    expect(history.entries.at(-1).state).toEqual({})
   })
 
   it('should render modal buttons', () => {
