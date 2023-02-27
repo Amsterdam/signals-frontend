@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import { ThemeProvider } from '@amsterdam/asc-ui'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
-import { withAppContext } from 'test/utils'
+import { history, withAppContext } from 'test/utils'
 
 import Dashboard from './Dashboard'
 
@@ -27,11 +28,43 @@ const renderWithContext = () =>
   )
 
 describe('Dashboard', () => {
-  it('should render correctly', () => {
+  describe('Realtime dashboard', () => {
+    it('should render correctly', async () => {
+      render(renderWithContext())
+
+      await waitFor(() => {
+        history.push('/manage/dashboard')
+      })
+
+      expect(screen.getByText('[Filter]')).toBeInTheDocument()
+      expect(screen.getByText('[BarChart]')).toBeInTheDocument()
+      expect(screen.getByText('[AreaChart]')).toBeInTheDocument()
+    })
+  })
+
+  it('should render subpages by clicking tabs', async () => {
     render(renderWithContext())
 
-    expect(screen.getByText('[Filter]')).toBeInTheDocument()
-    expect(screen.getByText('[BarChart]')).toBeInTheDocument()
-    expect(screen.getByText('[AreaChart]')).toBeInTheDocument()
+    await waitFor(() => {
+      history.push('/manage/dashboard')
+    })
+
+    expect(history.location.pathname).toBe('/manage/dashboard/nu')
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'Signalering',
+      })
+    )
+
+    expect(history.location.pathname).toBe('/manage/dashboard/signalering')
+
+    userEvent.click(
+      screen.getByRole('tab', {
+        name: 'Nu',
+      })
+    )
+
+    expect(history.location.pathname).toBe('/manage/dashboard/nu')
   })
 })

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 
-import BarGraph from '../'
 import { Color } from '../BarGraph'
+import BarGraph from '../index'
 
 describe('BarGraph', () => {
   it('should render', () => {
