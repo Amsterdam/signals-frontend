@@ -3,7 +3,6 @@
 import { breakpoint, themeColor } from '@amsterdam/asc-ui'
 import { Row } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
-import { TabContainer } from '../../../../components/Tab'
 
 import { TabContainer } from '../../../../components/Tab'
 
