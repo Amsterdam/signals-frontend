@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { AlertLevel } from '@amsterdam/asc-ui'
 
+import configuration from 'shared/services/configuration/configuration'
 import {
   changeStatusOptionList,
   isStatusClosed,
@@ -12,6 +13,7 @@ import * as constants from './constants'
 
 export const emailSentWhenStatusChangedTo = ({
   toStatus,
+  fromStatus,
   isSplitIncident,
 }: {
   toStatus: StatusCode
@@ -19,6 +21,14 @@ export const emailSentWhenStatusChangedTo = ({
   isSplitIncident: boolean
 }): boolean => {
   if (isSplitIncident) return false
+
+  if (
+    !configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+    fromStatus === StatusCode.VerzoekTotHeropenen &&
+    toStatus === StatusCode.Afgehandeld
+  ) {
+    return false
+  }
 
   return Boolean(
     changeStatusOptionList.find(
@@ -36,7 +46,10 @@ export const textIsRequired = ({
   toStatus: StatusCode
   isSplitIncident: boolean
 }): boolean => {
-  if (isSplitIncident) {
+  if (
+    isSplitIncident ||
+    !configuration.featureFlags.reporterMailHandledNegativeContactEnabled
+  ) {
     return [
       StatusCode.Afgehandeld,
       StatusCode.Ingepland,

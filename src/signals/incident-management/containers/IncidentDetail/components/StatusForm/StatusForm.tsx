@@ -57,7 +57,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const { incident, update } = useContext(IncidentDetailContext)
   const storeDispatch = useDispatch()
   const incidentAsIncident = incident as Incident
-
+  const [emailIsNotSend, setEmailIsNotSend] = useState(false)
   const [modalStandardTextIsOpen, setModalStandardTextIsOpen] = useState(false)
   const [modalEmailPreviewIsOpen, setModalEmailPreviewIsOpen] = useState(false)
   const [state, dispatch] = useReducer<
@@ -220,6 +220,14 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [])
 
   const onStatusChange = useCallback((event) => {
+    if (
+      !configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+      event.target.value === StatusCode.Afgehandeld &&
+      state.status.key === StatusCode.VerzoekTotHeropenen
+    ) {
+      setEmailIsNotSend(true)
+    }
+
     const selectedStatus = changeStatusOptionList.find(
       (status) => event.target.value === status.key
     )
@@ -318,7 +326,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               {constants.DEELMELDING_EXPLANATION}
             </Alert>
           ))}
-        {!state.flags.isSplitIncident && (
+        {!state.flags.isSplitIncident && !emailIsNotSend && (
           <div>
             {state.flags.hasEmail ? (
               incident?.reporter?.allows_contact ? (
@@ -346,6 +354,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
                 {constants.NO_REPORTER_EMAIL}
               </div>
             )}
+          </div>
+        )}
+        {emailIsNotSend && (
+          <div data-testid="no-emaiI-is-sent-warning">
+            {constants.NO_EMAIL_IS_SENT}
           </div>
         )}
       </StyledSection>
