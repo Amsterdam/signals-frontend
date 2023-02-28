@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 
 import { QuestionFieldType } from 'types/question'
 
@@ -47,6 +47,17 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.RadioInput,
   },
+  extra_dieren_waar_wespen_woning: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_wespen: 'woning',
+      },
+      value:
+        'De gemeente bestrijdt geen wespen in of bij de woning. U kunt zelf maatregelen nemen als u dat wilt. Bekijk [onze tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).',
+      type: 'alert',
+    },
+    render: QuestionFieldType.PlainText,
+  },
   extra_dieren_waar_dode_dieren: {
     meta: {
       ifOneOf: {
@@ -59,8 +70,8 @@ const overlastVanDieren = {
       values: {
         woning_tuin: 'Dieren in de woning of tuin',
         water: 'Dieren in het water, zoals vissen of vogels',
-        openbaar_huisdieren_vogels:
-          'Huisdieren en vogels in de openbare ruimte, zoals een park of straat',
+        openbaar_ratten:
+          'Dode ratten in de openbare ruimte, zoals een park of straat',
         openbaar_anders:
           'Andere dieren in de openbare ruimte, zoals een park of straat',
       },
@@ -70,7 +81,6 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.RadioInput,
   },
-
   extra_dieren_waar_dode_dieren_woning: {
     meta: {
       ifOneOf: {
@@ -78,7 +88,7 @@ const overlastVanDieren = {
       },
       value:
         'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet meer verder in te vullen.',
-      type: 'info',
+      type: 'alert',
     },
     render: QuestionFieldType.PlainText,
   },
@@ -89,18 +99,18 @@ const overlastVanDieren = {
       },
       value:
         'Dode of zieke dieren in het water kunt u melden bij Waternet, telefoon: [0900 9394](tel:09009394). U hoeft dit formulier niet meer verder in te vullen.',
-      type: 'info',
+      type: 'alert',
     },
     render: QuestionFieldType.PlainText,
   },
   extra_dieren_waar_dode_dieren_openbaar_huisdieren_vogels: {
     meta: {
       ifOneOf: {
-        extra_dieren_waar_dode_dieren: 'openbaar_huisdieren_vogels',
+        extra_dieren_waar_dode_dieren: 'openbaar_anders',
       },
       value:
         'Dode of zieke dieren en vogels in de openbare ruimte kunt u melden bij de Dierenambulance: [020 626 2121](tel:0206262121) (24 uur per dag, 7 dagen per week bereikbaar). U hoeft dit formulier niet meer verder in te vullen.',
-      type: 'info',
+      type: 'alert',
     },
     render: QuestionFieldType.PlainText,
   },
@@ -122,6 +132,17 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.RadioInput,
   },
+  extra_dieren_waar_duiven_openbaar: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_duiven: 'openbaar',
+      },
+      value:
+        'De gemeente bestrijdt geen duiven. Wij gaan samen met de buurt zoeken naar oplossingen om de overlast te verminderen',
+      type: 'info',
+    },
+    render: QuestionFieldType.PlainText,
+  },
   extra_dieren_waar_meeuwen: {
     meta: {
       ifOneOf: {
@@ -140,6 +161,17 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.RadioInput,
   },
+  extra_dieren_waar_meeuwen_openbaar: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_meeuwen: 'openbaar',
+      },
+      value:
+        'De gemeente bestrijdt geen meeuwen. Wij gaan samen met de buurt zoeken naar oplossingen om de overlast te verminderen',
+      type: 'info',
+    },
+    render: QuestionFieldType.PlainText,
+  },
   extra_dieren_waar_ganzen: {
     meta: {
       ifOneOf: {
@@ -157,6 +189,17 @@ const overlastVanDieren = {
       validators: ['required'],
     },
     render: QuestionFieldType.RadioInput,
+  },
+  extra_dieren_waar_ganzen_openbaar: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_ganzen: 'openbaar',
+      },
+      value:
+        'De gemeente bestrijdt geen ganzen. Wij gaan samen met de buurt zoeken naar oplossingen om de overlast te verminderen',
+      type: 'info',
+    },
+    render: QuestionFieldType.PlainText,
   },
   extra_dieren_waar_duiven_meeuwen_ganzen: {
     meta: {
@@ -185,7 +228,18 @@ const overlastVanDieren = {
         extra_dieren_waar_meeuwen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). U hoeft dit formulier niet meer verder in te vullen.',
+      type: 'alert',
+    },
+    render: QuestionFieldType.PlainText,
+  },
+  extra_dieren_waar_duiven_meeuwen_ganzen_openbaar: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_duiven_meeuwen_ganzen: 'openbaar',
+      },
+      value:
+        'De gemeente bestrijdt deze dieren niet. Wij gaan samen met de buurt zoeken naar oplossingen om de overlast te verminderen.',
       type: 'info',
     },
     render: QuestionFieldType.PlainText,
@@ -218,7 +272,18 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'woning',
       },
       value:
-        'Wij willen u graag bellen over het vervolg. Vul daarom uw telefoonnummer in bij de volgende vraag.',
+        'Wij willen graag contact met u over het vervolg. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag.',
+      type: 'info',
+    },
+    render: QuestionFieldType.PlainText,
+  },
+  extra_dieren_waar_ratten_tuin: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_ratten: 'tuin',
+      },
+      value:
+        'Wij willen graag contact met u over het vervolg. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag.',
       type: 'info',
     },
     render: QuestionFieldType.PlainText,
@@ -229,8 +294,8 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'ander_gebouw',
       },
       value:
-        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
-      type: 'info',
+        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). U hoeft dit formulier niet meer verder in te vullen.',
+      type: 'alert',
     },
     render: QuestionFieldType.PlainText,
   },

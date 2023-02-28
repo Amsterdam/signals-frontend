@@ -8,7 +8,6 @@ import {
   OrderedList as AscOrderedList,
   ListItem,
 } from '@amsterdam/asc-ui'
-
 import ReactMarkdown from 'react-markdown'
 import type { ReactMarkdownOptions } from 'react-markdown'
 import styled from 'styled-components'
