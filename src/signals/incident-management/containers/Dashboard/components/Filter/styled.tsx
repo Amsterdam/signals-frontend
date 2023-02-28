@@ -110,11 +110,11 @@ export const OptionUl = styled.ul<{
       left: ${optionsOffsetLeft}px;
       grid-template-columns: repeat(${optionsTotal < 13 ? 1 : 2}, 1fr);
       grid-gap: 0 8px;
-    `}
 
-  @media ${breakpoint('min-width', 'tabletM')} {
-    width: ${themeSpacing(175)};
-  }
+      @media ${breakpoint('min-width', 'tabletM')} {
+        width: ${optionsTotal < 13 ? themeSpacing(87.5) : themeSpacing(175)};
+      }
+    `}
 `
 
 export const OptionLi = styled.li<{ selected: boolean }>`
