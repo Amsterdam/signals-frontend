@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
 
 import * as actions from 'containers/App/actions'
+import configuration from 'shared/services/configuration/configuration'
 import {
   changeStatusOptionList,
   GEMELD,
@@ -36,6 +37,8 @@ import {
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
 import type { IncidentChild } from '../../types'
+
+jest.mock('shared/services/configuration/configuration')
 
 const incidentFixture = incidentJSON as unknown as Incident
 const defaultTexts = [
@@ -123,6 +126,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   afterEach(() => {
     fetch.resetMocks()
     update.mockReset()
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
   })
 
   it('shows an explanation text when email will be sent', () => {
@@ -223,6 +227,28 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
     expect(checkbox).toBeChecked()
     expect(checkbox).toBeDisabled()
+  })
+
+  it("renders a notification 'not sending email' when changing from verzoek tot heropenen to afgehandeld in old kto flow", () => {
+    configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
+    const withHeropenenStatus = { ...incidentFixture }
+    if (withHeropenenStatus?.status?.state) {
+      withHeropenenStatus.status.state = StatusCode.VerzoekTotHeropenen
+    }
+
+    // render status verzoek tot heropenen
+    render(renderWithContext(withHeropenenStatus))
+
+    const checkbox = screen.getByTestId('send-email-checkbox')
+    expect(checkbox).not.toBeChecked()
+    expect(checkbox).not.toBeDisabled()
+
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
+      StatusCode.Afgehandeld,
+    ])
+
+    const noEmailNotification = screen.getByTestId('no-emaiI-is-sent-warning')
+    expect(noEmailNotification).toBeInTheDocument()
   })
 
   it('requires a text value when the checkbox is selected', async () => {
