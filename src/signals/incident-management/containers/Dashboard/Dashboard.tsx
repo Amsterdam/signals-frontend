@@ -2,7 +2,6 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useEffect, useMemo, useState } from 'react'
 
-import { Row } from '@amsterdam/asc-ui'
 import { capitalize } from 'lodash'
 import { Link, Route, useLocation, useHistory } from 'react-router-dom'
 
@@ -53,15 +52,16 @@ const Dashboard = () => {
         </StyledTabContainer>
       </StyledRow>
       <Route path={`${DASHBOARD_URL}/nu`}>
-        <Row>
+        <StyledRow>
           <BarChart queryString={queryString} />
           <AreaChart />
-        </Row>
+        </StyledRow>
       </Route>
-      <Route
-        path={`${DASHBOARD_URL}/signalering`}
-        component={Signaling}
-      ></Route>
+      <Route path={`${DASHBOARD_URL}/signalering`}>
+        <StyledRow>
+          <Signaling />
+        </StyledRow>
+      </Route>
     </>
   )
 }

@@ -5,6 +5,8 @@ import { Row } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { TabContainer } from '../../../../components/Tab'
 
+import { TabContainer } from '../../../../components/Tab'
+
 export const FilterWrapper = styled.div`
   width: 100%;
   background-color: ${themeColor('tint', 'level2')};

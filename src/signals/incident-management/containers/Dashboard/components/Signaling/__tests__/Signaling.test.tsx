@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
@@ -24,9 +24,6 @@ describe('<Signaling />', () => {
     // Loading
     expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
     expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { name: 'Signalering' })
-    ).toBeInTheDocument()
 
     // Render data
     expect(await screen.findAllByText('13.000')).toHaveLength(2)
@@ -46,9 +43,6 @@ describe('<Signaling />', () => {
     // Loading
     expect(screen.queryByTestId('graph-description')).not.toBeInTheDocument()
     expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { name: 'Signalering' })
-    ).toBeInTheDocument()
 
     // Render error
     expect(await screen.findByTestId('notification')).toHaveTextContent(
@@ -70,8 +64,6 @@ describe('<Signaling />', () => {
 
     render(withAppContext(<Signaling />))
 
-    await screen.findByTestId('signaling')
-
     expect(reqUrl.searchParams.get('start')).toBeNull()
     expect(reqUrl.searchParams.get('end')).toBeNull()
   })
@@ -90,9 +82,9 @@ describe('<Signaling />', () => {
       })
     )
 
-    render(withAppContext(<Signaling />))
-
-    await screen.findByTestId('signaling')
+    await waitFor(() => {
+      render(withAppContext(<Signaling />))
+    })
 
     const twoWeeksAgo = new Date()
     twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14)
