@@ -102,14 +102,14 @@ export const Filter = ({ setQueryString }: Props) => {
           location.pathname === INCIDENTS_URL &&
           location.state?.useBacklink
         ) {
-          setDashboardFilter(getValues())
+          setDashboardFilter({ ...dashboardFilter, ...getValues() })
         } else if (location.pathname !== DASHBOARD_URL) {
           setDashboardFilter({})
         }
       }
     )
     return () => unlisten()
-  }, [getValues, setDashboardFilter])
+  }, [dashboardFilter, getValues, setDashboardFilter])
 
   useEffect(() => {
     refFilterContainer.current?.scrollIntoView({

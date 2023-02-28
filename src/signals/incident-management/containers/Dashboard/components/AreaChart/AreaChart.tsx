@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import vegaEmbed from 'vega-embed'
 import type { EmbedOptions } from 'vega-embed'
-
+import IncidentManagementContext from '../../../../context'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
@@ -33,6 +33,11 @@ export const AreaChart = () => {
   const [maxDomain, setMaxDomain] = useState<number>()
   const [comparisonRate, setComparisonRate] = useState<ComparisonRateType>()
   const dispatch = useDispatch()
+
+  const { dashboardFilter, setDashboardFilter } = useContext(
+    IncidentManagementContext
+  )
+  console.log('---  dashboardFilters', dashboardFilter)
 
   const {
     data: rawData,
@@ -80,15 +85,41 @@ export const AreaChart = () => {
     const areaChartSpecs = getAreaChartSpec(data, maxDomain, today)
 
     vegaEmbed('#area-chart', areaChartSpecs, embedOptions)
+      .then((result) => {
+        result.view.addEventListener('click', function (event, item) {
+          console.log('CLICK', event, item?.datum)
+          // console.log('time:', Date.parse(item?.datum.date.toString()))
+
+          // const d = new Date(0)
+          // console.log('date:', d.setUTCSeconds(item?.datum.date))
+          console.log('newData', new Date(item?.datum.date))
+          const date = new Date(item?.datum.date)
+          console.log('---  date', date)
+          setDashboardFilter({
+            ...dashboardFilter,
+            // incident_date: { value: '2023-02-28', display: '' },
+            created_after: { value: '2023-02-27', display: '' },
+            created_before: { value: '2023-02-28', display: '' },
+            status: { value: 'o', display: '' },
+          })
+          // console.log('time:', item?.datum.date)
+        })
+      })
+      .catch(console.warn)
+
+    // vegaEmbed('#area-chart', areaChartSpecs, embedOptions)
   }
 
   return (
-    <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+    <>
       <Wrapper>
         <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
         <div id="area-chart" data-testid="area-chart" />
         {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
       </Wrapper>
-    </Link>
+      <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+        <button>OVERVIEW</button>
+      </Link>
+    </>
   )
 }

@@ -157,14 +157,16 @@ export const FilterTagListComponent = (props) => {
   if (dateRange) {
     delete tagsList.created_after
     delete tagsList.created_before
-
     tagsList.dateRange = dateRange
   }
 
   const hasTags = Boolean(
-    Object.keys(tagsList).find((key) => tagsList[key].length > 0)
+    Object.keys(tagsList).find((key) => {
+      return tagsList[key].length > 0
+    })
   )
-
+  delete tagsList.incident_date
+  console.log('---  tagsList', tagsList)
   const showClearButton = props.onClear && hasTags
 
   return mainCategories && subCategories ? (

@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 
 export type Option = {
-  value: string
+  value: any
   display: string
 }
 
