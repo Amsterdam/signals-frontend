@@ -1,3 +1,4 @@
+// Copyright (C) 2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useEffect } from 'react'
 
@@ -8,14 +9,7 @@ import {
   ThumbnailResults,
   Download,
 } from '@amsterdam/asc-assets'
-import {
-  TopTaskLink,
-  CompactThemeProvider,
-  themeSpacing,
-  Row,
-} from '@amsterdam/asc-ui'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import { CompactThemeProvider, Row } from '@amsterdam/asc-ui'
 
 import PageHeader from 'signals/settings/components/PageHeader'
 import {
@@ -26,6 +20,13 @@ import {
   EXPORT_URL,
 } from 'signals/settings/routes'
 
+import {
+  StyledVersionNumbers,
+  StyledNavLink,
+  StyledTopTaskLink,
+  Item,
+  Wrapper,
+} from './styled'
 import useFetch from '../../../../../hooks/useFetch'
 import configuration from '../../../../../shared/services/configuration/configuration'
 
@@ -41,30 +42,6 @@ interface Props {
   showItems: Record<Keys, boolean | undefined>
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
-
-const Item = styled.div`
-  flex: 1;
-  padding-right: ${themeSpacing(8)};
-  &:last-of-type {
-    padding-right: 0;
-  }
-`
-
-const StyledNavLink = styled(NavLink)`
-  margin-bottom: ${themeSpacing(4)};
-  display: block;
-  text-decoration: none;
-`
-
-const StyledTopTaskLink = styled(TopTaskLink)`
-  min-height: 132px;
-  font-weight: 700;
-`
-
 const Overview: FunctionComponent<Props> = ({ showItems }) => {
   const { data, get } = useFetch<{ version: string }>()
 
@@ -79,7 +56,12 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
   return (
     <CompactThemeProvider>
       <PageHeader title="Instellingen">
-        <span>Versienummer: {data?.version}</span>
+        <StyledVersionNumbers>
+          {`
+            Versienummer frontend: ${process.env.FRONTEND_TAG}
+            Versienummer backend: ${data?.version}
+          `}
+        </StyledVersionNumbers>
       </PageHeader>
       <Row>
         <Wrapper>

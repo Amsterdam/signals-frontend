@@ -9,8 +9,16 @@ import Overview from '../Overview'
 jest.mock('hooks/useFetch')
 
 describe('Overview component', () => {
+  const env = process.env
+
   beforeEach(() => {
+    jest.resetModules()
+    process.env = { ...env }
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+  })
+
+  afterEach(() => {
+    process.env = env
   })
 
   it('should render', () => {
@@ -166,7 +174,9 @@ describe('Overview component', () => {
     expect(screen.getByTestId('export')).toBeInTheDocument()
   })
 
-  it('should show a version number of the be running', () => {
+  it('should show a version numbers of the fe and be running', () => {
+    process.env.FRONTEND_TAG = '123'
+
     jest.mocked(useFetch).mockImplementation(() => ({
       ...useFetchResponse,
       get: jest.fn(),
@@ -188,6 +198,7 @@ describe('Overview component', () => {
       )
     )
 
-    expect(screen.getByText('Versienummer: 123')).toBeTruthy()
+    expect(screen.getByText(/Versienummer backend: 123/)).toBeTruthy()
+    expect(screen.getByText(/Versienummer frontend: 123/)).toBeTruthy()
   })
 })
