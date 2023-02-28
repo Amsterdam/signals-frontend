@@ -142,10 +142,6 @@
         "showDashboard": {
           "description": "Shows the realtimedashboard",
           "type": "boolean"
-        },
-        "showStrikeAlert": {
-          "description": "Shows a striking alert on top of incident wizard.",
-          "type": "boolean"
         }
       },
       "required": [
