@@ -2,14 +2,20 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useContext, useMemo } from 'react'
 
+import { useLocation } from 'react-router-dom'
+
 import IncidentManagementContext from '../../../context'
 import { punctualityList, stadsdeelList } from '../../../definitions'
+import { DASHBOARD_URL } from '../../../routes'
 import type { Filter, Option } from '../components/Filter/types'
 
 export const useFilters = (selectedDepartment?: Option): Filter[] => {
   const { departmentsWithResponsibleCategories } = useContext(
     IncidentManagementContext
   )
+
+  const location = useLocation()
+  const showPeriodFilter = location.pathname === `${DASHBOARD_URL}/vergelijk`
 
   const departments = departmentsWithResponsibleCategories?.departments
 
@@ -75,6 +81,27 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
           display: item.value,
         })),
       },
+      ...(showPeriodFilter
+        ? [
+            {
+              name: 'period',
+              display: 'Periode',
+              options: [
+                { display: 'Vandaag', value: 'today' },
+                { display: 'Deze week', value: 'week' },
+                { display: 'Deze maand', value: 'month' },
+                { display: 'Dit jaar', value: 'year' },
+                { display: 'Selecteer periode', value: 'period' }, // this will become an object with created_before and created_after
+                { display: 'Selecteer dagen', value: 'days' }, // this will become an object with two pairs of  created_before and created_after with one day interval
+              ],
+            },
+          ]
+        : []),
     ]
-  }, [departmentOptions, departments, selectedDepartment?.value])
+  }, [
+    departmentOptions,
+    departments,
+    selectedDepartment?.value,
+    showPeriodFilter,
+  ])
 }

@@ -22,6 +22,7 @@ const Dashboard = () => {
     () => ({
       nu: `${DASHBOARD_URL}/nu`,
       signalering: `${DASHBOARD_URL}/signalering`,
+      vergelijk: `${DASHBOARD_URL}/vergelijk`,
     }),
     []
   )
@@ -62,6 +63,8 @@ const Dashboard = () => {
           <Signaling />
         </StyledRow>
       </Route>
+      {/* This is empty till starting qm dashboard. Its needed for rendering the period filter. */}
+      <Route path={`${DASHBOARD_URL}/signalering`}>qm dashboard</Route>
     </>
   )
 }
