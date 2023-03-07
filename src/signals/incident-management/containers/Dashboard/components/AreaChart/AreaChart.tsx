@@ -83,7 +83,9 @@ export const AreaChart = () => {
   }
 
   return (
-    <Link to={{ pathname: INCIDENTS_URL, state: { useBacklink: true } }}>
+    <Link
+      to={{ pathname: INCIDENTS_URL, state: { useDashboardFilters: true } }}
+    >
       <Wrapper>
         <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
         <div id="area-chart" data-testid="area-chart" />

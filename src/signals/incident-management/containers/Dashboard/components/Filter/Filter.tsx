@@ -100,7 +100,7 @@ export const Filter = ({ setQueryString }: Props) => {
       (location: { pathname: string; state?: any }) => {
         if (
           location.pathname === INCIDENTS_URL &&
-          location.state?.useBacklink
+          location.state?.useDashboardFilters
         ) {
           setDashboardFilter(getValues())
         } else if (location.pathname !== DASHBOARD_URL) {
