@@ -203,18 +203,20 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
-        {location.state?.useDashboardFilters && (
-          <StyledBackLink
-            to={{
-              pathname: DASHBOARD_URL,
-            }}
-          >
-            Terug naar dashboard
-          </StyledBackLink>
-        )}
+        {location.state?.useDashboardFilters &&
+          !isEmpty(validDashboardFilterOptions) && (
+            <StyledBackLink
+              to={{
+                pathname: DASHBOARD_URL,
+              }}
+            >
+              Terug naar dashboard
+            </StyledBackLink>
+          )}
         <TitleRow>
           <PageHeader />
-          {!location.state?.useDashboardFilters && (
+          {(!location.state?.useDashboardFilters ||
+            isEmpty(validDashboardFilterOptions)) && (
             <ButtonWrapper>
               <StyledButton
                 data-testid="my-filters-modal-btn"

@@ -140,9 +140,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
     render(
       withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {})
     )
-    expect(screen.queryByText('Terug naar dashboard')).toBeInTheDocument()
+    expect(screen.queryByText('Terug naar dashboard')).not.toBeInTheDocument()
 
-    expect(screen.queryByText('Mijn filters')).not.toBeInTheDocument()
+    expect(screen.queryByText('Mijn filters')).toBeInTheDocument()
   })
 
   it('should keep useDashboardFilters route state when navigating to manage/incidents/kaart', async () => {
