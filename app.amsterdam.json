@@ -77,7 +77,7 @@
           5.10737
         ]
       ],
-      "maxNumberOfAssets" : {
+      "maxNumberOfAssets": {
         "straatverlichting": 3,
         "klokken": 1,
         "afvalContainer": 5,
@@ -93,7 +93,10 @@
       "zoom": 7
     },
     "optionsIncidentMap": {
-      "hasSubfiltersEnabled": ["afval", "wegen-verkeer-straatmeubilair"]
+      "hasSubfiltersEnabled": [
+        "afval",
+        "wegen-verkeer-straatmeubilair"
+      ]
     },
     "tiles": {
       "args": [
@@ -128,5 +131,8 @@
   },
   "azure": {
     "connectionString": "InstrumentationKey=c39a786a-82ac-471d-a0c6-feb41eb4967b;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
+  },
+  "frontPageAlert": {
+    "text": "test [link](https://www.test.nl)"
   }
 }
