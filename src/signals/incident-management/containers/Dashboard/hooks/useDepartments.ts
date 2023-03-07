@@ -12,7 +12,6 @@ import type { Department } from 'types/api/incident'
 import type { DepartmentDetails } from 'types/api/incident'
 import type { Category } from 'types/api/incident'
 
-import configuration from '../../../../../shared/services/configuration/configuration'
 import { sortAlphabetic } from '../../../../../utils/sortAlphabetic'
 
 const cachedDepartments: { [key: string]: any } = {}
@@ -38,7 +37,7 @@ export const useDepartments = (): {
         )
         if (
           !cachedDepartments[departmentCodes] &&
-          configuration.featureFlags.showDashboard
+          CONFIGURATION.featureFlags.showDashboard
         ) {
           cachedDepartments[departmentCodes] = departmentCodes
 

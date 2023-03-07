@@ -9,7 +9,6 @@ import { Tab } from 'components/Tab'
 
 import { AreaChart, BarChart, Filter, Signaling } from './components'
 import { FilterWrapper, StyledRow, StyledTabContainer } from './styled'
-import configuration from '../../../../shared/services/configuration/configuration'
 import { DASHBOARD_URL } from '../../routes'
 
 const Dashboard = () => {
@@ -58,13 +57,11 @@ const Dashboard = () => {
           <AreaChart />
         </StyledRow>
       </Route>
-      {!configuration.featureFlags.showDashboard && (
-        <Route path={`${DASHBOARD_URL}/signalering`}>
-          <StyledRow>
-            <Signaling />
-          </StyledRow>
-        </Route>
-      )}
+      <Route path={`${DASHBOARD_URL}/signalering`}>
+        <StyledRow>
+          <Signaling />
+        </StyledRow>
+      </Route>
     </>
   )
 }
