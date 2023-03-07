@@ -3,6 +3,8 @@
 import { Fragment } from 'react'
 import type { FunctionComponent } from 'react'
 
+import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+
 import type {
   Answer,
   MappedLegacyItem,
@@ -24,6 +26,11 @@ const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
 
       if ((item as ContainerMapInput)?.type) {
         const containerAnswer = item as ContainerMapInput
+
+        if (containerAnswer.type === NEARBY_TYPE) {
+          return <></>
+        }
+
         return (
           <div key={containerAnswer.id}>
             {[containerAnswer.description, containerAnswer.id]
@@ -72,7 +79,6 @@ const ExtraProperties: FunctionComponent<ExtraPropertiesProps> = ({
       }))
 
   return (
-    // TypeScript does not support arrays as a return type in function components - return a fragment as a workaround.
     <Fragment>
       {itemList.map((item) => (
         <Fragment key={item.id}>
