@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -136,7 +136,7 @@ const Attachments: FC<AttachmentsProps> = ({
     <Wrapper className={className} data-testid="attachments-definition">
       {hasAttachments && (
         <Title forwardedAs="h2" styleAs="h4">
-          Foto
+          Bestanden
         </Title>
       )}
       {attachments.map((attachment) => {
@@ -231,11 +231,11 @@ const Attachments: FC<AttachmentsProps> = ({
         <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
           {files.length > 0 && !uploadError ? (
             <Button variant="application" disabled={true} type="button">
-              Foto toevoegen
+              Bestand toevoegen
             </Button>
           ) : (
             <Button forwardedAs="span" variant="application" type="button">
-              Foto toevoegen
+              Bestand toevoegen
             </Button>
           )}
         </FileInput>
