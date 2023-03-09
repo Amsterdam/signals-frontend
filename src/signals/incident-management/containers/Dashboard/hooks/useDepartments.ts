@@ -35,7 +35,10 @@ export const useDepartments = (): {
           (code, value) => code + value,
           ''
         )
-        if (!cachedDepartments[departmentCodes]) {
+        if (
+          !cachedDepartments[departmentCodes] &&
+          CONFIGURATION.featureFlags.showDashboard
+        ) {
           cachedDepartments[departmentCodes] = departmentCodes
 
           const urls = departmentsFromStore.list.map(

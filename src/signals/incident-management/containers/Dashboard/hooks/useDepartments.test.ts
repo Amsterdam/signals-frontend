@@ -13,6 +13,8 @@ import { useDepartments } from './useDepartments'
 
 const departments = departmentsFixture.results
 
+jest.mock('shared/services/configuration/configuration')
+
 jest.mock('hooks/useFetchAll')
 
 const fetchResponseMock = [
@@ -55,6 +57,26 @@ describe('useDepartments', () => {
         departments,
       },
     })
+  })
+
+  it('should not fetch departments when useDashboard is false', () => {
+    jest.mock('shared/services/configuration/configuration', () => ({
+      featureFlags: {
+        showDashboard: false,
+      },
+    }))
+
+    const mockGet = jest.fn()
+
+    jest.mocked(useFetchAll as any).mockImplementation(() => ({
+      data: fetchResponseMock,
+      isLoading: false,
+      get: mockGet,
+    }))
+
+    renderHook(useDepartments)
+
+    expect(mockGet).not.toBeCalled()
   })
 
   it('should return departments and sort categories', () => {

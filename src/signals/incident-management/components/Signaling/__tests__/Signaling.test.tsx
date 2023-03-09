@@ -4,15 +4,15 @@ import { render, screen, waitFor } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import signalsOpenReport from '../../../../../../../../internals/mocks/fixtures/report_signals-open.json'
-import signalsReopenRequestedReport from '../../../../../../../../internals/mocks/fixtures/report_signals-reopen-requested.json'
-import * as API from '../../../../../../../../internals/testing/api'
+import signalsOpenReport from '../../../../../../internals/mocks/fixtures/report_signals-open.json'
+import signalsReopenRequestedReport from '../../../../../../internals/mocks/fixtures/report_signals-reopen-requested.json'
+import * as API from '../../../../../../internals/testing/api'
 import {
   fetchMock,
   server,
   rest,
   mockRequestHandler,
-} from '../../../../../../../../internals/testing/msw-server'
+} from '../../../../../../internals/testing/msw-server'
 import Signaling from '../index'
 
 fetchMock.disableMocks()

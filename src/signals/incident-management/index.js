@@ -50,6 +50,8 @@ const DashboardContainer = lazy(() =>
   import('./containers/Dashboard/Dashboard')
 )
 
+const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
+
 const IncidentManagement = () => {
   const location = useLocationReferrer()
   const districts = useSelector(makeSelectDistricts)
@@ -108,7 +110,11 @@ const IncidentManagement = () => {
             <Route exact path={routes.area} component={AreaContainer} />
           )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-          <Route path={routes.dashboard} component={DashboardContainer} />
+          {configuration.featureFlags.showDashboard ? (
+            <Route path={routes.dashboard} component={DashboardContainer} />
+          ) : (
+            <Route path={routes.signaling} component={SignalingContainer} />
+          )}
           <Route component={IncidentOverviewPage} />
         </Switch>
       </Suspense>
