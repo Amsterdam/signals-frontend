@@ -2,6 +2,8 @@
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
+import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+
 import ExtraProperties from '.'
 import type { Item } from './types'
 
@@ -144,6 +146,11 @@ describe('<ExtraProperties />', () => {
             type: 'Onbekend',
             description: undefined,
           } as unknown as Item,
+          {
+            id: '5678.1234.23-03-2023',
+            type: NEARBY_TYPE,
+            description: '23 maart 2023',
+          } as unknown as Item,
         ],
         category_url:
           '/signals/v1/public/terms/categories/afval/sub_categories/container-voor-papier-is-stuk',
@@ -173,6 +180,10 @@ describe('<ExtraProperties />', () => {
     )
     expect(screen.getByTestId('extra-properties-value')).not.toHaveTextContent(
       /undefined/
+    )
+    // Container input with type "nearby" should not show container details in backoffice since they do not exist.
+    expect(screen.getByTestId('extra-properties-value')).not.toHaveTextContent(
+      /23 maart 2023 - 5678.1234.23-03-2023/
     )
   })
 
