@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import { DocumentText } from '@amsterdam/asc-assets'
 import {
   themeSpacing,
   Heading,
@@ -58,6 +59,12 @@ export const StyledBoxContent = styled.div`
 `
 
 export const StyledImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+export const StyledDocument = styled(DocumentText)`
   width: 100%;
   height: 100%;
   object-fit: cover;
