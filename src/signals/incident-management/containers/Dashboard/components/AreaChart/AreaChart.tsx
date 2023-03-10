@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import vegaEmbed from 'vega-embed'
 import type { EmbedOptions } from 'vega-embed'
 
@@ -17,7 +16,6 @@ import { ComparisonRate } from './ComparisonRate'
 import { AreaChartWrapper as Wrapper } from './styled'
 import type { ComparisonRateType } from './types'
 import { formatData, getMaxDomain, getToday, getPercentage } from './utils'
-import { INCIDENTS_URL } from '../../../../routes'
 import { constants, getAreaChartSpec } from '../../charts'
 import type { AreaChartValue } from '../../charts'
 import { ModuleTitle } from '../ModuleTitle'
@@ -83,14 +81,10 @@ export const AreaChart = () => {
   }
 
   return (
-    <Link
-      to={{ pathname: INCIDENTS_URL, state: { useDashboardFilters: true } }}
-    >
-      <Wrapper>
-        <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
-        <div id="area-chart" data-testid="area-chart" />
-        {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
-      </Wrapper>
-    </Link>
+    <Wrapper>
+      <ModuleTitle title="Afgehandelde meldingen afgelopen 7 dagen" />
+      <div id="area-chart" data-testid="area-chart" />
+      {comparisonRate && <ComparisonRate comparisonRate={comparisonRate} />}
+    </Wrapper>
   )
 }
