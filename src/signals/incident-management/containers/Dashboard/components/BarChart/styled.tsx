@@ -6,3 +6,11 @@ import styled from 'styled-components'
 export const Wrapper = styled.span`
   position: relative;
 `
+
+export const Link = styled.span`
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
+`

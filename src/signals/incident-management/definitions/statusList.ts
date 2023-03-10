@@ -5,6 +5,7 @@ import { StatusCode } from './types'
 
 export const GEMELD = {
   key: StatusCode.Gemeld,
+  slug: 'm',
   value: 'Gemeld',
   color: 'red',
   email_sent_when_set: false,
@@ -13,6 +14,7 @@ export const GEMELD = {
 
 export const AFWACHTING = {
   key: StatusCode.Afwachting,
+  slug: 'i',
   value: 'In afwachting van behandeling',
   color: 'purple',
   email_sent_when_set: false,
@@ -21,6 +23,7 @@ export const AFWACHTING = {
 
 export const BEHANDELING = {
   key: StatusCode.Behandeling,
+  slug: 'b',
   value: 'In behandeling',
   color: 'blue',
   email_sent_when_set: false,
@@ -29,6 +32,7 @@ export const BEHANDELING = {
 
 export const AFGEHANDELD = {
   key: StatusCode.Afgehandeld,
+  slug: 'done+external',
   value: 'Afgehandeld',
   color: 'lightgreen',
   email_sent_when_set: true,
@@ -37,6 +41,7 @@ export const AFGEHANDELD = {
 
 export const GESPLITST = {
   key: StatusCode.Gesplitst,
+  slug: 's',
   value: 'Gesplitst',
   color: 'lightgreen',
   email_sent_when_set: false,
@@ -45,6 +50,7 @@ export const GESPLITST = {
 
 export const INGEPLAND = {
   key: StatusCode.Ingepland,
+  slug: 'ingepland',
   value: 'Ingepland',
   color: 'grey',
   email_sent_when_set: false,
@@ -61,6 +67,7 @@ export const GEANNULEERD = {
 
 export const REACTIE_GEVRAAGD = {
   key: StatusCode.ReactieGevraagd,
+  slug: 'reaction+requested',
   value: 'Reactie gevraagd',
   email_sent_when_set: true,
   shows_remaining_sla_days: false,
@@ -68,6 +75,7 @@ export const REACTIE_GEVRAAGD = {
 
 export const REACTIE_ONTVANGEN = {
   key: StatusCode.ReactieOntvangen,
+  slug: 'reaction+requested',
   value: 'Reactie ontvangen',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,
@@ -75,6 +83,7 @@ export const REACTIE_ONTVANGEN = {
 
 export const VERZOEK_TOT_HEROPENEN = {
   key: StatusCode.VerzoekTotHeropenen,
+  slug: 'reopen+requested',
   value: 'Verzoek tot heropenen',
   color: 'orange',
   email_sent_when_set: false,
@@ -83,6 +92,7 @@ export const VERZOEK_TOT_HEROPENEN = {
 
 export const HEROPEND = {
   key: StatusCode.Heropend,
+  slug: 'reopened',
   value: 'Heropend',
   color: 'orange',
   email_sent_when_set: true,
@@ -112,6 +122,7 @@ export const VERZENDEN_MISLUKT = {
 
 export const VERZOEK_TOT_AFHANDELING = {
   key: StatusCode.VerzoekTotAfhandeling,
+  slug: 'closure+requested',
   value: 'Extern: verzoek tot afhandeling',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
@@ -126,6 +137,7 @@ export const DOORGEZET_NAAR_EXTERN = {
 
 export const AFGEHANDELD_EXTERN = {
   key: StatusCode.AfgehandeldExtern,
+  slug: 'done+external',
   value: 'Extern: afgehandeld',
   email_sent_when_set: false,
   shows_remaining_sla_days: true,
@@ -152,6 +164,22 @@ const statusList: Status[] = [
 ]
 
 export default statusList
+
+type StatusDashboard = Status & { slug: string }
+
+export const statusListDashboard: StatusDashboard[] = [
+  HEROPEND,
+  AFGEHANDELD_EXTERN,
+  INGEPLAND,
+  VERZOEK_TOT_HEROPENEN,
+  REACTIE_ONTVANGEN,
+  BEHANDELING,
+  GESPLITST,
+  REACTIE_GEVRAAGD,
+  GEMELD,
+  AFWACHTING,
+  VERZOEK_TOT_AFHANDELING,
+]
 
 export const changeStatusOptionList = [
   GEMELD,

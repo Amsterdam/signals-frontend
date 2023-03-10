@@ -25,7 +25,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
   )
 
   return useMemo(() => {
-    const value: string | undefined =
+    const value: string | string[] | undefined =
       selectedDepartment?.value || (departments && departments[0]?.code)
     const categories = departments
       ?.find((department) => department.code === value)

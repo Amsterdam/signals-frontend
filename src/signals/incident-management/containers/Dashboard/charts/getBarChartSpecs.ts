@@ -29,14 +29,17 @@ export const getBarChartSpecs = (
   spec: {
     layer: [
       {
+        mark: { type: 'bar', width: 4, xOffset: -198, height: 25, yOffset: 9 },
+      },
+      {
         mark: {
           type: 'bar',
           xOffset: 4,
         },
         encoding: {
           x: {
-            aggregate: 'sum',
             field: 'nrOfIncidents',
+            type: 'quantitative',
             title: null,
             scale: {
               domain: [0, maxDomain],
@@ -52,7 +55,7 @@ export const getBarChartSpecs = (
         encoding: {
           x: {
             field: 'nrOfIncidents',
-            aggregate: 'sum',
+            type: 'quantitative',
           },
           y: {
             value: 22,
@@ -88,6 +91,7 @@ export const getBarChartSpecs = (
         color: '#004699',
         opacity: 0.5,
         size: 27,
+        cursor: 'pointer',
       },
       rule: {
         color: '#004699',

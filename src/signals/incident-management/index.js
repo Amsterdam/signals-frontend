@@ -58,7 +58,7 @@ const IncidentManagement = () => {
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
   const departmentsWithResponsibleCategories = useDepartments()
-  const [dashboardFilter, setDashboardFilter] = useState({})
+  const [dashboardFilter, setDashboardFilter] = useState(null)
 
   const contextValue = useMemo(
     () => ({

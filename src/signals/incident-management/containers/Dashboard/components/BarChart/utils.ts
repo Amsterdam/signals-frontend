@@ -1,24 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
+import { statusListDashboard } from 'signals/incident-management/definitions/statusList'
 
 import type { RawData } from './types'
-import { constants } from '../../charts'
 import type { BarChartValue } from '../../charts'
 
 export const getQueryList = (queryString: string) => {
   const endpoint = configuration.INCIDENT_PRIVATE_ENDPOINT
-  return constants.statusList.map((status) => {
+  return statusListDashboard.map((status) => {
     const params = queryString
-      ? `${queryString}&status=${status.query}`
-      : `status=${status.query}`
+      ? `${queryString}&status=${status.slug}`
+      : `status=${status.slug}`
     return `${endpoint}stats/total?${params}`
   })
 }
 
 export const formatData = (rawData: RawData[]): BarChartValue[] =>
   rawData.map((value, i) => ({
-    status: constants.statusList[i].label,
+    status: statusListDashboard[i].value,
+    slug: statusListDashboard[i].slug,
+    tag: statusListDashboard[i].key,
     nrOfIncidents: value.total,
   }))
 

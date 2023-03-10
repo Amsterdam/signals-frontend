@@ -27,6 +27,7 @@ export enum StatusCode {
 
 export interface Status extends Definition {
   key: StatusCode
+  slug?: string
   color?: string
   email_sent_when_set: boolean
   shows_remaining_sla_days: boolean

@@ -3,23 +3,29 @@
 import type { Dispatch } from 'react'
 import { createContext } from 'react'
 
-import type { Option } from './containers/Dashboard/components/Filter/types'
+import type { DashboardFilter } from './containers/Dashboard/components/Filter/types'
 import type { Definition } from './definitions/types'
 import type { DepartmentDetails } from '../../types/api/incident'
 
-const initialContext = {
-  districts: undefined,
-  setDashboardFilter: () => {},
-}
+type SetStateAction<S> = (prevState: S) => S
 
-const IncidentManagementContext = createContext<{
-  setDashboardFilter: Dispatch<{ [key: string]: Option } | null>
-  dashboardFilter?: { [key: string]: Option }
+export interface IncidentManagementContextType {
+  setDashboardFilter: Dispatch<SetStateAction<DashboardFilter> | null>
+  dashboardFilter: DashboardFilter | null
   districts?: Definition[]
   departmentsWithResponsibleCategories?: {
     departments: DepartmentDetails[]
     isLoading: boolean
   }
-}>(initialContext)
+}
+
+const initialContext = {
+  districts: undefined,
+  setDashboardFilter: (state: any) => state,
+  dashboardFilter: null,
+}
+
+const IncidentManagementContext =
+  createContext<IncidentManagementContextType>(initialContext)
 
 export default IncidentManagementContext

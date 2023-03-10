@@ -8,6 +8,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { generateParams } from 'shared/services/api/api'
 import IncidentManagementContext from 'signals/incident-management/context'
+import type { IncidentManagementContextType } from 'signals/incident-management/context'
 import {
   DASHBOARD_URL,
   INCIDENTS_URL,
@@ -17,7 +18,7 @@ import history from 'utils/history'
 import { filterNames } from './constants'
 import SelectList from './SelectList'
 import { FilterBar } from './styled'
-import type { Option } from './types'
+import type { DashboardFilter } from './types'
 
 type Props = {
   setQueryString: (queryString: string) => void
@@ -25,13 +26,12 @@ type Props = {
 
 export const Filter = ({ setQueryString }: Props) => {
   const [filterActiveName, setFilterActiveName] = useState('')
-  const { dashboardFilter, setDashboardFilter } = useContext(
-    IncidentManagementContext
-  )
+  const { dashboardFilter, setDashboardFilter } =
+    useContext<IncidentManagementContextType>(IncidentManagementContext)
 
   const location = useLocationReferrer() as { referrer: string }
 
-  const methods = useForm<{ [key: string]: Option }>({
+  const methods = useForm<DashboardFilter>({
     defaultValues: Object.fromEntries(
       filterNames.map((name) => [
         name,
@@ -96,20 +96,20 @@ export const Filter = ({ setQueryString }: Props) => {
    * except when entering the dashboard.
    */
   useEffect(() => {
-    const unlisten = history.listen(
-      (location: { pathname: string; state?: any }) => {
-        if (
-          location.pathname === INCIDENTS_URL &&
-          location.state?.useDashboardFilters
-        ) {
-          setDashboardFilter(getValues())
-        } else if (location.pathname !== DASHBOARD_URL) {
-          setDashboardFilter({})
-        }
+    history.listen((location: { pathname: string; state?: any }) => {
+      if (
+        location.pathname === INCIDENTS_URL &&
+        location.state?.useDashboardFilters
+      ) {
+        setDashboardFilter((prevFilter) => ({
+          ...prevFilter,
+          ...getValues(),
+        }))
+      } else if (location.pathname !== DASHBOARD_URL) {
+        setDashboardFilter(null)
       }
-    )
-    return () => unlisten()
-  }, [getValues, setDashboardFilter])
+    })
+  }, [dashboardFilter, getValues, setDashboardFilter])
 
   useEffect(() => {
     refFilterContainer.current?.scrollIntoView({

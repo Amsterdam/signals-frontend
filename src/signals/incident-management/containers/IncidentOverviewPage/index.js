@@ -128,22 +128,21 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const validDashboardFilterOptions = useMemo(
     () =>
-      !isEmpty(dashboardFilter) &&
+      dashboardFilter &&
       Object.fromEntries(
         Object.entries(dashboardFilter)
-          .filter(([k, v]) => v.value && k !== 'department')
+          .filter(([k, v]) => (v.value || k === 'status') && k !== 'department')
           .map(([k, v]) =>
-            k === 'punctuality' ? [k, v.value] : [k, [v.value]]
+            k === 'punctuality' || k === 'status'
+              ? [k, v.value]
+              : [k, [v.value]]
           )
       ),
     [dashboardFilter]
   )
 
   useEffect(() => {
-    if (
-      !isEmpty(validDashboardFilterOptions) &&
-      location.state?.useDashboardFilters
-    ) {
+    if (location.state?.useDashboardFilters) {
       applyFilterAction({ options: validDashboardFilterOptions })
     }
   }, [location, applyFilterAction, validDashboardFilterOptions])

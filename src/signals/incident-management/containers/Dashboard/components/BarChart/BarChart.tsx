@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useState, useMemo } from 'react'
+import { useContext, useEffect, useState, useMemo } from 'react'
 
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import vegaEmbed from 'vega-embed'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { useFetchAll } from 'hooks'
+import { statusListDashboard as statusList } from 'signals/incident-management/definitions/statusList'
 
-import { Wrapper } from './styled'
+import { Link, Wrapper } from './styled'
 import type { RawData } from './types'
 import {
   getMaxDomain,
@@ -18,8 +20,12 @@ import {
   getTotalNrOfIncidents,
   formatData,
 } from './utils'
+import IncidentManagementContext from '../../../../context'
+import type { IncidentManagementContextType } from '../../../../context'
+import { INCIDENTS_URL } from '../../../../routes'
 import { getBarChartSpecs } from '../../charts'
 import type { BarChartValue } from '../../charts'
+import type { VegaLiteBarChartItem } from '../BarChart/types'
 import { ModuleTitle } from '../ModuleTitle'
 
 interface Props {
@@ -30,6 +36,10 @@ export const BarChart = ({ queryString }: Props) => {
   const [data, setData] = useState<BarChartValue[]>()
   const [total, setTotal] = useState<number>()
   const queryList = useMemo(() => getQueryList(queryString), [queryString])
+  const { setDashboardFilter } = useContext<IncidentManagementContextType>(
+    IncidentManagementContext
+  )
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const {
@@ -38,6 +48,25 @@ export const BarChart = ({ queryString }: Props) => {
     isLoading,
     get: getBarChart,
   } = useFetchAll<RawData>()
+
+  const goTo = () => {
+    history.push({
+      pathname: INCIDENTS_URL,
+      state: { useDashboardFilters: true },
+    })
+  }
+
+  const handleOnClick = () => {
+    setDashboardFilter((prevFilter) => ({
+      ...prevFilter,
+      status: {
+        display: 'Status',
+        value: statusList.map((status) => status.slug),
+      },
+    }))
+
+    goTo()
+  }
 
   useEffect(() => {
     getBarChart(queryList)
@@ -73,14 +102,36 @@ export const BarChart = ({ queryString }: Props) => {
     const barChartSpecs = getBarChartSpecs(data, maxDomain)
 
     vegaEmbed('#bar-chart', barChartSpecs, { actions: false })
+      .then((result) => {
+        result.view.addEventListener('click', (_event, item) => {
+          const barChartItem = item as VegaLiteBarChartItem
+          setDashboardFilter((prevFilter) => ({
+            ...prevFilter,
+            status: {
+              value: [barChartItem?.datum.slug],
+              display: barChartItem?.datum.status,
+            },
+          }))
+
+          goTo()
+        })
+      })
+      .catch(console.warn)
   }
 
   return (
     <Wrapper>
-      <ModuleTitle
-        title="Openstaande meldingen tot en met vandaag"
-        amount={total?.toString()}
-      />
+      <Link
+        onClick={handleOnClick}
+        onKeyDown={handleOnClick}
+        role="button"
+        tabIndex={0}
+      >
+        <ModuleTitle
+          title="Openstaande meldingen tot en met vandaag"
+          amount={total?.toString()}
+        />
+      </Link>
       <div data-testid="bar-chart" id="bar-chart" />
     </Wrapper>
   )

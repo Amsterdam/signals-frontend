@@ -25,9 +25,36 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('../../hooks/useDepartments')
 
+const mockDashboardFilter = {
+  status: {
+    display: '',
+    value: '',
+  },
+  department: {
+    display: '',
+    value: '',
+  },
+  category_slug: {
+    display: '',
+    value: '',
+  },
+  priority: {
+    display: 'Hoge urgentie',
+    value: 'high',
+  },
+  punctuality: {
+    display: '',
+    value: '',
+  },
+  stadsdeel: {
+    display: '',
+    value: '',
+  },
+}
+
 const mockSetDashboardFilter = jest.fn()
 const renderWithContext = (
-  dashboardFilter = {},
+  dashboardFilter = null,
   isLoading = false,
   departmentsCustom?: any
 ) => (
@@ -248,7 +275,7 @@ describe('FilterComponent', () => {
 
   it('should hide department button when there is only one', () => {
     const { rerender } = render(
-      renderWithContext({}, false, [departmentsCategoriesFixture[0]])
+      renderWithContext(null, false, [departmentsCategoriesFixture[0]])
     )
 
     expect(
@@ -377,6 +404,7 @@ describe('FilterComponent', () => {
         value={{
           setDashboardFilter: mockSetDashboardFilter,
           dashboardFilter: {
+            ...mockDashboardFilter,
             priority: { value: 'normal', display: 'Normaal' },
           },
         }}
@@ -402,7 +430,7 @@ describe('FilterComponent', () => {
       state: null,
     }))
 
-    render(renderWithContext({}, false, [departmentsCategoriesFixture[0]]))
+    render(renderWithContext(null, false, [departmentsCategoriesFixture[0]]))
 
     expect(
       screen.queryByRole('combobox', {
@@ -437,7 +465,7 @@ describe('FilterComponent', () => {
   })
 
   it('should show a spinner', () => {
-    render(renderWithContext({}, true))
+    render(renderWithContext(null, true))
 
     expect(
       screen.getByRole('combobox', {

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type { StatusListItem } from './types'
 
 export const timeFormatLocale = {
   dateTime: '%a %e %B %Y %X',
@@ -46,50 +45,3 @@ export const timeFormatLocale = {
     'dec',
   ],
 }
-
-export const statusList: StatusListItem[] = [
-  {
-    query: 'reopened',
-    label: 'Heropend',
-  },
-  {
-    query: 'done+external',
-    label: 'Extern: afgehandeld',
-  },
-  {
-    query: 'ingepland',
-    label: 'Ingepland',
-  },
-  {
-    query: 'reopen+requested',
-    label: 'Verzoek tot heropenen',
-  },
-  {
-    query: 'reaction+received',
-    label: 'Reactie ontvangen',
-  },
-  {
-    query: 'b',
-    label: 'In behandeling',
-  },
-  {
-    query: 's',
-    label: 'Gesplitst',
-  },
-  {
-    query: 'reaction+requested',
-    label: 'Reactie gevraagd',
-  },
-  {
-    query: 'm',
-    label: 'Gemeld',
-  },
-  {
-    query: 'i',
-    label: 'Afwachting van behandeling',
-  },
-  {
-    query: 'closure+requested',
-    label: 'Extern: verzoek tot afhandeling',
-  },
-]
