@@ -179,7 +179,7 @@ export const FilterTagListComponent = (props) => {
           variant="textButton"
           onClick={() => {
             props.onClear()
-            setDashboardFilter(null)
+            setDashboardFilter({})
           }}
         >
           Wis filter

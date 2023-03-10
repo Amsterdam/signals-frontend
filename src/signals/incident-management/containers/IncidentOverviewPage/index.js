@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
-import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -202,20 +201,18 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
-        {location.state?.useDashboardFilters &&
-          !isEmpty(validDashboardFilterOptions) && (
-            <StyledBackLink
-              to={{
-                pathname: DASHBOARD_URL,
-              }}
-            >
-              Terug naar dashboard
-            </StyledBackLink>
-          )}
+        {location.state?.useDashboardFilters && (
+          <StyledBackLink
+            to={{
+              pathname: DASHBOARD_URL,
+            }}
+          >
+            Terug naar dashboard
+          </StyledBackLink>
+        )}
         <TitleRow>
           <PageHeader />
-          {(!location.state?.useDashboardFilters ||
-            isEmpty(validDashboardFilterOptions)) && (
+          {!location.state?.useDashboardFilters && (
             <ButtonWrapper>
               <StyledButton
                 data-testid="my-filters-modal-btn"
