@@ -174,7 +174,6 @@ export const statusListDashboard: StatusDashboard[] = [
   VERZOEK_TOT_HEROPENEN,
   REACTIE_ONTVANGEN,
   BEHANDELING,
-  GESPLITST,
   REACTIE_GEVRAAGD,
   GEMELD,
   AFWACHTING,
