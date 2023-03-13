@@ -79,9 +79,6 @@ export const DashboardFilterOverview = ({
   return (
     <div data-testid="incident-management-dashboard-filter-overview">
       <Row>
-        <TitleRow>
-          <PageHeader />
-        </TitleRow>
         <StyledBackLink
           to={{
             pathname: DASHBOARD_URL,
@@ -89,6 +86,10 @@ export const DashboardFilterOverview = ({
         >
           Terug naar dashboard
         </StyledBackLink>
+
+        <TitleRow>
+          <PageHeader />
+        </TitleRow>
 
         <Column span={12}>
           <PageHeaderItem>
