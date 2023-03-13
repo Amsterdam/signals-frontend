@@ -51,7 +51,7 @@ export const Filter = ({ setQueryString }: Props) => {
     () => filterActiveName && setFilterActiveName('')
   )
 
-  const handleCallback = useCallback(() => {
+  const updateFilters = useCallback(() => {
     const filters = getValues()
     // Department is not an actual filter of the endpoint. It only determines which categories a user sees.
     delete filters.department
@@ -75,7 +75,7 @@ export const Filter = ({ setQueryString }: Props) => {
   useEffect(() => {
     const subscription = watch((_, { name, type }) => {
       if (type === 'change') {
-        handleCallback()
+        updateFilters()
 
         if (name === 'department') {
           resetField('category_slug')
@@ -86,7 +86,7 @@ export const Filter = ({ setQueryString }: Props) => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [getValues, handleCallback, resetField, watch])
+  }, [getValues, updateFilters, resetField, watch])
 
   useEffect(() => {
     refFilterContainer.current?.scrollIntoView({
@@ -94,6 +94,11 @@ export const Filter = ({ setQueryString }: Props) => {
       block: 'end',
     })
   }, [filterActiveName])
+
+  useEffect(() => {
+    updateFilters()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FilterBar ref={refFilterContainer}>
