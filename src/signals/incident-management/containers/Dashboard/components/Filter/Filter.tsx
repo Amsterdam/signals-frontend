@@ -9,11 +9,7 @@ import useLocationReferrer from 'hooks/useLocationReferrer'
 import { generateParams } from 'shared/services/api/api'
 import IncidentManagementContext from 'signals/incident-management/context'
 import type { IncidentManagementContextType } from 'signals/incident-management/context'
-import {
-  DASHBOARD_URL,
-  INCIDENTS_URL,
-} from 'signals/incident-management/routes'
-import history from 'utils/history'
+import { INCIDENTS_URL } from 'signals/incident-management/routes'
 
 import { filterNames } from './constants'
 import SelectList from './SelectList'
@@ -31,6 +27,7 @@ export const Filter = ({ setQueryString }: Props) => {
 
   const location = useLocationReferrer() as { referrer: string }
 
+  // TODO: check whether INCIDENT URL is needed here.
   const methods = useForm<DashboardFilter>({
     defaultValues: Object.fromEntries(
       filterNames.map((name) => [
@@ -59,6 +56,11 @@ export const Filter = ({ setQueryString }: Props) => {
     // Department is not an actual filter of the endpoint. It only determines which categories a user sees.
     delete filters.department
 
+    setDashboardFilter((prevFilter) => ({
+      ...prevFilter,
+      ...filters,
+    }))
+
     const selectedFilters: { [key: string]: string } = Object.fromEntries(
       Object.entries(filters).map(([key, value]) => {
         return [[key], value?.value]
@@ -68,7 +70,7 @@ export const Filter = ({ setQueryString }: Props) => {
     const params = generateParams(selectedFilters)
 
     setQueryString(params)
-  }, [setQueryString, getValues])
+  }, [getValues, setDashboardFilter, setQueryString])
 
   useEffect(() => {
     const subscription = watch((_, { name, type }) => {
@@ -85,31 +87,6 @@ export const Filter = ({ setQueryString }: Props) => {
       subscription.unsubscribe()
     }
   }, [getValues, handleCallback, resetField, watch])
-
-  useEffect(() => {
-    handleCallback()
-  }, [handleCallback])
-
-  /**
-   * This make sure dashboard filters value get cleared
-   * when moving to another page without a backlink state property,
-   * except when entering the dashboard.
-   */
-  useEffect(() => {
-    history.listen((location: { pathname: string; state?: any }) => {
-      if (
-        location.pathname === INCIDENTS_URL &&
-        location.state?.useDashboardFilters
-      ) {
-        setDashboardFilter((prevFilter) => ({
-          ...prevFilter,
-          ...getValues(),
-        }))
-      } else if (location.pathname !== DASHBOARD_URL) {
-        setDashboardFilter(null)
-      }
-    })
-  }, [dashboardFilter, getValues, setDashboardFilter])
 
   useEffect(() => {
     refFilterContainer.current?.scrollIntoView({

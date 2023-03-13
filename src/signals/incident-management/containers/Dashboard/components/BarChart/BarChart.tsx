@@ -36,9 +36,8 @@ export const BarChart = ({ queryString }: Props) => {
   const [data, setData] = useState<BarChartValue[]>()
   const [total, setTotal] = useState<number>()
   const queryList = useMemo(() => getQueryList(queryString), [queryString])
-  const { setDashboardFilter } = useContext<IncidentManagementContextType>(
-    IncidentManagementContext
-  )
+  const { setDashboardFilter, setDashboardFiltersActive } =
+    useContext<IncidentManagementContextType>(IncidentManagementContext)
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -64,6 +63,7 @@ export const BarChart = ({ queryString }: Props) => {
         value: statusList.map((status) => status.slug),
       },
     }))
+    setDashboardFiltersActive(true)
 
     goTo()
   }
@@ -105,6 +105,8 @@ export const BarChart = ({ queryString }: Props) => {
       .then((result) => {
         result.view.addEventListener('click', (_event, item) => {
           const barChartItem = item as VegaLiteBarChartItem
+          setDashboardFiltersActive(true)
+
           setDashboardFilter((prevFilter) => ({
             ...prevFilter,
             status: {

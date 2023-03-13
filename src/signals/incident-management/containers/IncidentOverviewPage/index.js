@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -36,6 +36,7 @@ import {
 } from 'signals/incident-management/selectors'
 import { parseToAPIData } from 'signals/shared/filter/parse'
 
+import { DashboardFilterOverview } from './components/DashboardFilterOverview'
 import List from './components/List'
 import QuickFilter from './components/QuickFilter'
 import Sort from './components/Sort'
@@ -50,10 +51,9 @@ import {
   NoResults,
   StyledButton,
   StyledPagination,
-  StyledBackLink,
 } from './styled'
 import IncidentManagementContext from '../../context'
-import { DASHBOARD_URL, INCIDENTS_URL, MAP_URL } from '../../routes'
+import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
 let lastActiveElement = null
@@ -75,6 +75,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const { count, loadingIncidents, results } = incidents
   const location = useLocation()
   const showsMap = location.pathname === MAP_URL
+  const { dashboardFiltersActive } = useContext(IncidentManagementContext)
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll()
@@ -123,42 +124,6 @@ export const IncidentOverviewPageContainerComponent = ({
     applyFilterAction(parseToAPIData(filter))
   }
 
-  const { dashboardFilter } = useContext(IncidentManagementContext)
-
-  const validDashboardFilterOptions = useMemo(
-    () =>
-      dashboardFilter &&
-      Object.fromEntries(
-        Object.entries(dashboardFilter)
-          .filter(([k, v]) => (v.value || k === 'status') && k !== 'department')
-          .map(([k, v]) =>
-            k === 'punctuality' || k === 'status'
-              ? [k, v.value]
-              : [k, [v.value]]
-          )
-      ),
-    [dashboardFilter]
-  )
-
-  useEffect(() => {
-    if (location.state?.useDashboardFilters) {
-      applyFilterAction({ options: validDashboardFilterOptions })
-    }
-  }, [location, applyFilterAction, validDashboardFilterOptions])
-
-  const history = useHistory()
-
-  useEffect(() => {
-    const unlisten = history.listen((newLocation) => {
-      if (newLocation.pathname.includes(INCIDENTS_URL)) {
-        newLocation.state = location.state
-      } else {
-        newLocation.state = {}
-      }
-    })
-    return () => unlisten()
-  }, [history, location])
-
   useEffect(() => {
     listenFor('keydown', escFunction)
     listenFor('openFilter', openFilterModal)
@@ -195,42 +160,45 @@ export const IncidentOverviewPageContainerComponent = ({
       />
     ) : null
 
+  if (dashboardFiltersActive) {
+    return (
+      <DashboardFilterOverview
+        applyFilterAction={applyFilterAction}
+        activeFilter={activeFilter}
+        clearFiltersAction={clearFiltersAction}
+        pagination={pagination}
+        orderingChangedAction={orderingChangedAction}
+        canRenderList={canRenderList}
+        incidents={incidents}
+      />
+    )
+  }
+
   return (
     <div
       className="incident-overview-page"
       data-testid="incident-management-overview-page"
     >
       <Row>
-        {location.state?.useDashboardFilters && (
-          <StyledBackLink
-            to={{
-              pathname: DASHBOARD_URL,
-            }}
-          >
-            Terug naar dashboard
-          </StyledBackLink>
-        )}
         <TitleRow>
           <PageHeader />
-          {!location.state?.useDashboardFilters && (
-            <ButtonWrapper>
-              <StyledButton
-                data-testid="my-filters-modal-btn"
-                color="primary"
-                onClick={openMyFiltersModal}
-              >
-                Mijn filters
-              </StyledButton>
+          <ButtonWrapper>
+            <StyledButton
+              data-testid="my-filters-modal-btn"
+              color="primary"
+              onClick={openMyFiltersModal}
+            >
+              Mijn filters
+            </StyledButton>
 
-              <StyledButton
-                data-testid="filter-modal-btn"
-                color="primary"
-                onClick={openFilterModal}
-              >
-                Filter
-              </StyledButton>
-            </ButtonWrapper>
-          )}
+            <StyledButton
+              data-testid="filter-modal-btn"
+              color="primary"
+              onClick={openFilterModal}
+            >
+              Filter
+            </StyledButton>
+          </ButtonWrapper>
         </TitleRow>
 
         {modalMyFiltersIsOpen && (

@@ -75,7 +75,7 @@ export const REACTIE_GEVRAAGD = {
 
 export const REACTIE_ONTVANGEN = {
   key: StatusCode.ReactieOntvangen,
-  slug: 'reaction+requested',
+  slug: 'reaction+received',
   value: 'Reactie ontvangen',
   email_sent_when_set: false,
   shows_remaining_sla_days: false,

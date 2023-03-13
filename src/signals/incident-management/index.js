@@ -59,15 +59,23 @@ const IncidentManagement = () => {
   const dispatch = useDispatch()
   const departmentsWithResponsibleCategories = useDepartments()
   const [dashboardFilter, setDashboardFilter] = useState(null)
+  const [dashboardFiltersActive, setDashboardFiltersActive] = useState(false)
 
   const contextValue = useMemo(
     () => ({
       districts,
       dashboardFilter,
       setDashboardFilter,
+      dashboardFiltersActive,
+      setDashboardFiltersActive,
       departmentsWithResponsibleCategories,
     }),
-    [dashboardFilter, departmentsWithResponsibleCategories, districts]
+    [
+      dashboardFilter,
+      dashboardFiltersActive,
+      departmentsWithResponsibleCategories,
+      districts,
+    ]
   )
 
   useEffect(() => {
