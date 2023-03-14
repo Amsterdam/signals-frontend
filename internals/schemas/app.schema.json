@@ -57,8 +57,7 @@
         "links",
         "logo",
         "map",
-        "oidc",
-        "frontPageAlert"
+        "oidc"
       ],
       "title": "Config"
     },
@@ -646,7 +645,7 @@
       "title": "Theme"
     },
     "FrontPageAlert": {
-      "description": "Generic alert shown on first page of civilian interface. Municipalities can set their own text. If there is no text, no alert will be shown.",
+      "description": "Generic alert shown on wizard-step-1 page. Municipalities can set their own text. If there is no text, no alert will be shown.",
       "type": "object",
       "properties": {
         "text": {

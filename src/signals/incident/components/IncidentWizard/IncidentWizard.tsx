@@ -7,7 +7,7 @@ import { ascDefaultTheme, breakpoint, Paragraph } from '@amsterdam/asc-ui/lib'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Route } from 'react-router-dom'
 
-import { FrontPageAlert } from 'components/front-page-alert'
+import { FrontPageAlert } from 'components/FrontPageAlert'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 import type {
@@ -138,8 +138,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                             </Progress>
 
                             <FormWrapper>
-                              {history.location.pathname ===
-                                '/incident/beschrijf' && <FrontPageAlert />}
+                              <FrontPageAlert />
                               {previewFactory && incident && sectionLabels && (
                                 <IncidentPreview
                                   incident={incident}

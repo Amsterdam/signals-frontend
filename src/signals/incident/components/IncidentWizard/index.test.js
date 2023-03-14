@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
@@ -70,6 +70,7 @@ describe('<IncidentWizard />', () => {
     )
 
     expect(queryByTestId('incident-form')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
     expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })

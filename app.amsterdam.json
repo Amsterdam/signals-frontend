@@ -133,6 +133,6 @@
     "connectionString": "InstrumentationKey=c39a786a-82ac-471d-a0c6-feb41eb4967b;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
   },
   "frontPageAlert": {
-    "text": "test [link](https://www.test.nl)"
+    "text": ""
   }
 }
