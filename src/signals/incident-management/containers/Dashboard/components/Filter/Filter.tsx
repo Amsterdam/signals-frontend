@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useClickOutside } from '@amsterdam/asc-ui'
 import { useForm, FormProvider } from 'react-hook-form'
 
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { generateParams } from 'shared/services/api/api'
-import IncidentManagementContext from 'signals/incident-management/context'
-import type { IncidentManagementContextType } from 'signals/incident-management/context'
+import { useIncidentManagement } from 'signals/incident-management/context'
 import { INCIDENTS_URL } from 'signals/incident-management/routes'
 
 import { filterNames } from './constants'
@@ -22,8 +21,7 @@ type Props = {
 
 export const Filter = ({ setQueryString }: Props) => {
   const [filterActiveName, setFilterActiveName] = useState('')
-  const { dashboardFilter, setDashboardFilter } =
-    useContext<IncidentManagementContextType>(IncidentManagementContext)
+  const { dashboardFilter, setDashboardFilter } = useIncidentManagement()
 
   const location = useLocationReferrer() as { referrer: string }
 

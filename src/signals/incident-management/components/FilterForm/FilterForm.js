@@ -64,7 +64,7 @@ import { hasTooManyFiltersSelected } from './utils'
 import CheckboxList from '../../../../components/CheckboxList'
 import AppContext from '../../../../containers/App/context'
 import RefreshIcon from '../../../../images/icon-refresh.svg'
-import IncidentManagementContext from '../../context'
+import { useIncidentManagement } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import CalendarInput from '../CalendarInput'
 
@@ -89,7 +89,7 @@ const FilterForm = ({
   onUpdateFilter,
 }) => {
   const { sources } = useContext(AppContext)
-  const { districts } = useContext(IncidentManagementContext)
+  const { districts } = useIncidentManagement
   const categories = useSelector(makeSelectStructuredCategories)
   const directingDepartments = useSelector(makeSelectDirectingDepartments)
   const routingDepartments = useSelector(makeSelectRoutingDepartments)

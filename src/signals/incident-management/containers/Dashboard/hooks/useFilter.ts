@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useContext, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useSelector } from 'react-redux'
 
 import { makeSelectDepartments } from 'models/departments/selectors'
-import IncidentManagementContext from 'signals/incident-management/context'
-import type { IncidentManagementContextType } from 'signals/incident-management/context'
+import { useIncidentManagement } from 'signals/incident-management/context'
 import type { ApplicationRootState } from 'types'
 import type { Department } from 'types/api/incident'
 
@@ -19,9 +18,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
     ApplicationRootState,
     { list: Department[] }
   >(makeSelectDepartments)
-  const { departments } = useContext<IncidentManagementContextType>(
-    IncidentManagementContext
-  )
+  const { departments } = useIncidentManagement()
 
   const { getDepartmentInformation } = useDepartments()
 

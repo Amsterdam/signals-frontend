@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useContext, useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { useFetchAll } from 'hooks'
 import CONFIGURATION from 'shared/services/configuration/configuration'
-import IncidentManagementContext from 'signals/incident-management/context'
-import type { IncidentManagementContextType } from 'signals/incident-management/context'
+import { useIncidentManagement } from 'signals/incident-management/context'
 import type {
   Category,
   Department,
@@ -19,12 +18,9 @@ const cachedDepartments: { [key: string]: any } = {}
 export const useDepartments = (): {
   departments: DepartmentDetails[] | null
   getDepartmentInformation: (departmentsFromStore: Department[]) => void
-  isLoading: boolean
 } => {
-  const { departments, setDepartments } =
-    useContext<IncidentManagementContextType>(IncidentManagementContext)
-
-  const { data, get, isLoading } = useFetchAll<DepartmentDetails>()
+  const { departments, setDepartments } = useIncidentManagement()
+  const { data, get } = useFetchAll<DepartmentDetails>()
 
   const getDepartmentInformation = useCallback(
     async (departmentsFromStore: Department[]) => {
@@ -51,7 +47,7 @@ export const useDepartments = (): {
   )
 
   useEffect(() => {
-    if (data) {
+    if (data?.length) {
       const filteredDepartments = data
         .map((item) => {
           return {
@@ -69,5 +65,5 @@ export const useDepartments = (): {
     }
   }, [data, setDepartments])
 
-  return { departments, getDepartmentInformation, isLoading }
+  return { departments, getDepartmentInformation }
 }

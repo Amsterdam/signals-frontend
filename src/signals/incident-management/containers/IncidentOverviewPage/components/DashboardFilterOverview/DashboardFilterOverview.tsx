@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useMemo, useContext } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 
@@ -9,7 +9,7 @@ import PageHeader from 'containers/IncidentOverviewTitle'
 import dataLists from 'signals/incident-management/definitions'
 import type { IncidentList } from 'types/api/incident-list'
 
-import IncidentManagementContext from '../../../../context'
+import { useIncidentManagement } from '../../../../context'
 import { DASHBOARD_URL } from '../../../../routes'
 import type { Filter } from '../../../Dashboard/components/Filter/types'
 import FilterTagList from '../../../FilterTagList/FilterTagList'
@@ -53,7 +53,7 @@ export const DashboardFilterOverview = ({
   canRenderList,
   incidents,
 }: Props) => {
-  const { dashboardFilter } = useContext(IncidentManagementContext)
+  const { dashboardFilter } = useIncidentManagement()
 
   const validDashboardFilterOptions = useMemo(
     () =>

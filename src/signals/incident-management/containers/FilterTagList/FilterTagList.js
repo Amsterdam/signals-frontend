@@ -23,7 +23,7 @@ import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 
 import AppContext from '../../../../containers/App/context'
-import IncidentManagementContext from '../../context'
+import { useIncidentManagement } from '../../context'
 
 const StyledTag = styled(Tag)`
   display: inline-block;
@@ -122,7 +122,7 @@ export const FilterTagListComponent = (props) => {
   } = props
   const { sources } = useContext(AppContext)
   const { districts, setDashboardFilter, setDashboardFiltersActive } =
-    useContext(IncidentManagementContext)
+    useIncidentManagement()
 
   const map = {
     ...dataLists,

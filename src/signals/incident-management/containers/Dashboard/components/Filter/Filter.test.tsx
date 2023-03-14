@@ -8,7 +8,7 @@ import departmentsCategoriesFixture from 'utils/__tests__/fixtures/departmentsCa
 
 import { Filter } from './Filter'
 import history from '../../../../../../utils/history'
-import IncidentManagementContext from '../../../../context'
+import { IncidentManagementProvider } from '../../../../provider'
 
 const mockSetQueryString = jest.fn()
 
@@ -58,7 +58,7 @@ const renderWithContext = (
   isLoading = false,
   departmentsCustom?: any
 ) => (
-  <IncidentManagementContext.Provider
+  <IncidentManagementProvider
     value={{
       setDashboardFilter: mockSetDashboardFilter,
       dashboardFilter,
@@ -69,7 +69,7 @@ const renderWithContext = (
     }}
   >
     <Filter setQueryString={mockSetQueryString} />
-  </IncidentManagementContext.Provider>
+  </IncidentManagementProvider>
 )
 
 describe('FilterComponent', () => {
@@ -400,7 +400,7 @@ describe('FilterComponent', () => {
   it('should use defaultValues from incident contexts dashboardFilter', () => {
     const mockSetDashboardFilter = jest.fn()
     render(
-      <IncidentManagementContext.Provider
+      <IncidentManagementProvider
         value={{
           setDashboardFilter: mockSetDashboardFilter,
           dashboardFilter: {
@@ -410,7 +410,7 @@ describe('FilterComponent', () => {
         }}
       >
         <Filter setQueryString={mockSetQueryString} />
-      </IncidentManagementContext.Provider>
+      </IncidentManagementProvider>
     )
 
     expect(

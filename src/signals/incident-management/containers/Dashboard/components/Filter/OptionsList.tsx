@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { Dispatch, SetStateAction } from 'react'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { useFormContext } from 'react-hook-form'
 
 import { Option } from './Option'
 import { OptionUl } from './styled'
 import type { Filter } from './types'
-import IncidentManagementContext from '../../../../context'
 import { StyledLoadingIndicator } from '../../../IncidentDetail/components/Attachments/styles'
+import { useDepartments } from '../../hooks/useDepartments'
 import { useRoveFocus } from '../../hooks/useRoveFocus'
 
 type Props = {
@@ -23,14 +23,10 @@ const OptionsList = ({
   activeFilter,
   optionsOffsetLeft,
 }: Props) => {
+  const { departments } = useDepartments()
   const { currentFocus, setCurrentFocus } = useRoveFocus(
     activeFilter.options.length
   )
-
-  const { departmentsWithResponsibleCategories } = useContext(
-    IncidentManagementContext
-  )
-
   const { getValues } = useFormContext()
 
   useEffect(() => {
@@ -42,7 +38,7 @@ const OptionsList = ({
 
   if (
     ['category_slug', 'department'].includes(activeFilter.name) &&
-    departmentsWithResponsibleCategories?.isLoading
+    !departments?.length
   ) {
     return <StyledLoadingIndicator />
   }

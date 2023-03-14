@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { useEffect, lazy, Suspense, useMemo, useState } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
@@ -20,11 +20,10 @@ import {
   searchIncidents,
   requestIncidents,
 } from './actions'
-import IncidentManagementContext from './context'
+import { IncidentManagementProvider } from './provider'
 import reducer from './reducer'
 import routes from './routes'
 import saga from './saga'
-import { makeSelectDistricts } from './selectors'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
@@ -53,25 +52,8 @@ const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
 
 const IncidentManagement = () => {
   const location = useLocationReferrer()
-  const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
-  const [dashboardFilter, setDashboardFilter] = useState(null)
-  const [dashboardFiltersActive, setDashboardFiltersActive] = useState(false)
-  const [departments, setDepartments] = useState(null)
-
-  const contextValue = useMemo(
-    () => ({
-      districts,
-      dashboardFilter,
-      setDashboardFilter,
-      dashboardFiltersActive,
-      setDashboardFiltersActive,
-      departments,
-      setDepartments,
-    }),
-    [dashboardFilter, dashboardFiltersActive, departments, districts]
-  )
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -96,7 +78,7 @@ const IncidentManagement = () => {
   }
 
   return (
-    <IncidentManagementContext.Provider value={contextValue}>
+    <IncidentManagementProvider>
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route
@@ -121,7 +103,7 @@ const IncidentManagement = () => {
           <Route component={IncidentOverviewPage} />
         </Switch>
       </Suspense>
-    </IncidentManagementContext.Provider>
+    </IncidentManagementProvider>
   )
 }
 

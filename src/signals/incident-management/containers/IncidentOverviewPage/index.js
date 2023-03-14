@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
@@ -52,7 +52,7 @@ import {
   StyledButton,
   StyledPagination,
 } from './styled'
-import IncidentManagementContext from '../../context'
+import { useIncidentManagement } from '../../context'
 import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
@@ -75,7 +75,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const { count, loadingIncidents, results } = incidents
   const location = useLocation()
   const showsMap = location.pathname === MAP_URL
-  const { dashboardFiltersActive } = useContext(IncidentManagementContext)
+  const { dashboardFiltersActive } = useIncidentManagement()
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll()

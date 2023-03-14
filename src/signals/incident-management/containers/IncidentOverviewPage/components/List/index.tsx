@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
-import { useContext } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -42,7 +41,7 @@ import {
   Table,
   StyledIcon,
 } from './styles'
-import IncidentManagementContext from '../../../../context'
+import { useIncidentManagement } from '../../../../context'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList
@@ -97,7 +96,7 @@ const List: FunctionComponent<ListProps> = ({
   stadsdeel,
   status,
 }) => {
-  const { districts } = useContext(IncidentManagementContext)
+  const { districts } = useIncidentManagement()
   const history = useHistory()
 
   const navigateToIncident = (id: number) => {

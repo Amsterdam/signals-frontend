@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useContext, useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -20,8 +20,7 @@ import {
   getTotalNrOfIncidents,
   formatData,
 } from './utils'
-import IncidentManagementContext from '../../../../context'
-import type { IncidentManagementContextType } from '../../../../context'
+import { useIncidentManagement } from '../../../../context'
 import { INCIDENTS_URL } from '../../../../routes'
 import { getBarChartSpecs } from '../../charts'
 import type { BarChartValue } from '../../charts'
@@ -37,7 +36,7 @@ export const BarChart = ({ queryString }: Props) => {
   const [total, setTotal] = useState<number>()
   const queryList = useMemo(() => getQueryList(queryString), [queryString])
   const { setDashboardFilter, setDashboardFiltersActive } =
-    useContext<IncidentManagementContextType>(IncidentManagementContext)
+    useIncidentManagement()
   const history = useHistory()
   const dispatch = useDispatch()
 
