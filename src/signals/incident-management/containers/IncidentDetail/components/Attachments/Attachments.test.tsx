@@ -708,4 +708,41 @@ describe('Attachments', () => {
 
     expect(preview).toHaveBeenCalled()
   })
+
+  it('shows a pdf in a new tab', () => {
+    const preview = jest.fn()
+    const add = jest.fn()
+    const remove = jest.fn()
+    const fileName = 'ae70d54aca324d0480ca01934240c78f.pdf'
+
+    const mockOpen = jest.fn()
+    global.window.open = mockOpen
+
+    const pdfAttachments = [...attachments.results]
+    pdfAttachments[0].location = 'https://ae70d54aca324d0480ca01934240c78f.pdf'
+
+    render(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <Attachments
+            attachments={attachments.results}
+            add={add}
+            remove={remove}
+            isChildIncident={false}
+            isParentIncident={false}
+            isRemoving={false}
+            uploadProgress={0}
+            uploadError={false}
+          />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    const box = screen.getByTitle(fileName)
+    userEvent.click(box)
+
+    expect(preview).not.toHaveBeenCalled()
+
+    expect(mockOpen).toBeCalled()
+  })
 })
