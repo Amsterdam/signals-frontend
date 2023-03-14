@@ -53,8 +53,6 @@ export const Filter = ({ setQueryString }: Props) => {
 
   const updateFilters = useCallback(() => {
     const filters = getValues()
-    // Department is not an actual filter of the endpoint. It only determines which categories a user sees.
-    delete filters.department
 
     setDashboardFilter((prevFilter) => ({
       ...prevFilter,

@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { Dispatch, SetStateAction } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useContext, useCallback, useEffect, useRef } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
+
+import IncidentManagementContext from 'signals/incident-management/context'
+import type { IncidentManagementContextType } from 'signals/incident-management/context'
 
 import { filterNames } from './constants'
 import OptionsList from './OptionsList'
@@ -31,6 +34,8 @@ const SelectList = ({
   setQueryString,
 }: Props) => {
   const { getValues, reset, setValue, watch } = useFormContext()
+  const { setDashboardFilter, setDashboardFiltersActive } =
+    useContext<IncidentManagementContextType>(IncidentManagementContext)
 
   const selectedDepartment = watch('department')
 
@@ -84,6 +89,8 @@ const SelectList = ({
     )
     reset(defaultValues)
     setQueryString('')
+    setDashboardFilter(null)
+    setDashboardFiltersActive(false)
   }
 
   const prevSelectTarget = useRef<HTMLElement>()

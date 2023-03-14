@@ -1,17 +1,33 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 
-import IncidentManagementContext from '../../../context'
+import { useSelector } from 'react-redux'
+
+import { makeSelectDepartments } from 'models/departments/selectors'
+import IncidentManagementContext from 'signals/incident-management/context'
+import type { IncidentManagementContextType } from 'signals/incident-management/context'
+import type { ApplicationRootState } from 'types'
+import type { Department } from 'types/api/incident'
+
+import { useDepartments } from './useDepartments'
 import { punctualityList, stadsdeelList } from '../../../definitions'
 import type { Filter, Option } from '../components/Filter/types'
 
 export const useFilters = (selectedDepartment?: Option): Filter[] => {
-  const { departmentsWithResponsibleCategories } = useContext(
+  const departmentsFromStore = useSelector<
+    ApplicationRootState,
+    { list: Department[] }
+  >(makeSelectDepartments)
+  const { departments } = useContext<IncidentManagementContextType>(
     IncidentManagementContext
   )
 
-  const departments = departmentsWithResponsibleCategories?.departments
+  const { getDepartmentInformation } = useDepartments()
+
+  useEffect(() => {
+    getDepartmentInformation(departmentsFromStore.list)
+  }, [departments, departmentsFromStore, getDepartmentInformation])
 
   const departmentOptions = useMemo(
     () =>
@@ -25,7 +41,7 @@ export const useFilters = (selectedDepartment?: Option): Filter[] => {
   )
 
   return useMemo(() => {
-    const value: string | string[] | undefined =
+    const value: string | string[] | null =
       selectedDepartment?.value || (departments && departments[0]?.code)
     const categories = departments
       ?.find((department) => department.code === value)

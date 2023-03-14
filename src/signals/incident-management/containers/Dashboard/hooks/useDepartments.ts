@@ -1,47 +1,44 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
-
-import { useSelector } from 'react-redux'
+import { useContext, useCallback, useEffect } from 'react'
 
 import { useFetchAll } from 'hooks'
-import { makeSelectDepartments } from 'models/departments/selectors'
 import CONFIGURATION from 'shared/services/configuration/configuration'
-import type { ApplicationRootState } from 'types'
-import type { Department } from 'types/api/incident'
-import type { DepartmentDetails } from 'types/api/incident'
-import type { Category } from 'types/api/incident'
+import IncidentManagementContext from 'signals/incident-management/context'
+import type { IncidentManagementContextType } from 'signals/incident-management/context'
+import type {
+  Category,
+  Department,
+  DepartmentDetails,
+} from 'types/api/incident'
 
 import { sortAlphabetic } from '../../../../../utils/sortAlphabetic'
 
 const cachedDepartments: { [key: string]: any } = {}
+
 export const useDepartments = (): {
-  departments?: DepartmentDetails[]
+  departments: DepartmentDetails[] | null
+  getDepartmentInformation: (departmentsFromStore: Department[]) => void
   isLoading: boolean
 } => {
-  const [departments, setDepartments] = useState<DepartmentDetails[]>()
+  const { departments, setDepartments } =
+    useContext<IncidentManagementContextType>(IncidentManagementContext)
 
-  const departmentsFromStore = useSelector<
-    ApplicationRootState,
-    { list: Department[] }
-  >(makeSelectDepartments)
+  const { data, get, isLoading } = useFetchAll<DepartmentDetails>()
 
-  const { get, data, isLoading } = useFetchAll()
+  const getDepartmentInformation = useCallback(
+    async (departmentsFromStore: Department[]) => {
+      if (departments && departments.length > 0) return
 
-  useEffect(() => {
-    ;(async () => {
       if (departmentsFromStore) {
-        const departmentCodes = departmentsFromStore.list.reduce(
+        const departmentCodes = departmentsFromStore.reduce(
           (code, value) => code + value,
           ''
         )
-        if (
-          !cachedDepartments[departmentCodes] &&
-          CONFIGURATION.featureFlags.showDashboard
-        ) {
+        if (!cachedDepartments[departmentCodes]) {
           cachedDepartments[departmentCodes] = departmentCodes
 
-          const urls = departmentsFromStore.list.map(
+          const urls = departmentsFromStore.map(
             (department) =>
               `${CONFIGURATION.DEPARTMENTS_ENDPOINT}${department.id}`
           )
@@ -49,12 +46,13 @@ export const useDepartments = (): {
           await get(urls)
         }
       }
-    })()
-  }, [get, departmentsFromStore])
+    },
+    [departments, get]
+  )
 
   useEffect(() => {
-    if (Array.isArray(data)) {
-      const responsibleData = data
+    if (data) {
+      const filteredDepartments = data
         .map((item) => {
           return {
             ...item,
@@ -66,9 +64,10 @@ export const useDepartments = (): {
           }
         })
         .filter((item) => item.categories.length > 0)
-      setDepartments(responsibleData)
-    }
-  }, [data])
 
-  return { departments, isLoading }
+      setDepartments(filteredDepartments)
+    }
+  }, [data, setDepartments])
+
+  return { departments, getDepartmentInformation, isLoading }
 }
