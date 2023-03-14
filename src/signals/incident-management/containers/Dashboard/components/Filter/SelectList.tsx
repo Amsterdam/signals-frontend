@@ -6,6 +6,7 @@ import { useContext, useCallback, useEffect, useRef } from 'react'
 import { ChevronDown } from '@amsterdam/asc-assets'
 import { isNumber } from 'lodash'
 import { useFormContext } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 import IncidentManagementContext from 'signals/incident-management/context'
 import type { IncidentManagementContextType } from 'signals/incident-management/context'
@@ -20,6 +21,7 @@ import {
   SelectContainer,
 } from './styled'
 import type { Filter } from './types'
+import { clearFilters } from '../../../../actions'
 import { useFilters } from '../../hooks/useFilter'
 
 type Props = {
@@ -33,6 +35,7 @@ const SelectList = ({
   setFilterActiveName,
   setQueryString,
 }: Props) => {
+  const dispatch = useDispatch()
   const { getValues, reset, setValue, watch } = useFormContext()
   const { setDashboardFilter, setDashboardFiltersActive } =
     useContext<IncidentManagementContextType>(IncidentManagementContext)
@@ -91,6 +94,7 @@ const SelectList = ({
     setQueryString('')
     setDashboardFilter(null)
     setDashboardFiltersActive(false)
+    dispatch(clearFilters())
   }
 
   const prevSelectTarget = useRef<HTMLElement>()
