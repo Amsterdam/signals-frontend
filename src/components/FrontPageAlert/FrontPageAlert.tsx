@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { Alert } from '@amsterdam/asc-ui'
+import { useHistory } from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 
-import Markdown from '../Markdown'
-import { useHistory } from 'react-router-dom'
+import { StyledAlert, StyledMarkdown } from './styled'
 
 export const FrontPageAlert = () => {
   const history = useHistory()
   const alertText = configuration.frontPageAlert.text
 
   if (!(history.location.pathname === '/incident/beschrijf') || !alertText)
-    return <></>
+    return null
 
   return (
-    <Alert level="error" outline style={{ marginTop: 5, marginBottom: 30 }}>
-      <Markdown>{alertText}</Markdown>
-    </Alert>
+    <StyledAlert level="error" outline>
+      <StyledMarkdown>{alertText}</StyledMarkdown>
+    </StyledAlert>
   )
 }
