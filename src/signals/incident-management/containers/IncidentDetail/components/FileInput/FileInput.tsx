@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 import { useCallback } from 'react'
 
@@ -15,7 +15,13 @@ interface FileInputProps {
 }
 
 const FileInput = ({
-  allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
+  allowedFileTypes = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/gif',
+    '.pdf',
+  ],
   files = [],
   multiple = true,
   name,
@@ -40,7 +46,7 @@ const FileInput = ({
         onChange={addFiles}
         name={name}
         multiple={multiple}
-        aria-label="Toevoegen foto"
+        aria-label="Toevoegen bestand"
       />
 
       <label htmlFor="fileUpload">{children}</label>

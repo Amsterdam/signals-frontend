@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { screen, render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -41,7 +41,7 @@ describe('Attachments', () => {
       )
     )
 
-    expect(screen.getByText(/foto$/i)).toBeInTheDocument()
+    expect(screen.getByText(/bestanden$/i)).toBeInTheDocument()
     expect(screen.getByTitle(fileName)).toBeInTheDocument()
     expect(screen.getByText(/melder/i)).toBeInTheDocument()
     expect(screen.getByText(fileName)).toBeInTheDocument()
@@ -97,7 +97,7 @@ describe('Attachments', () => {
     )
 
     expect(screen.queryByText(/melder/i)).not.toBeInTheDocument()
-    expect(screen.getByLabelText(/foto toevoegen/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/bestand toevoegen/i)).toBeInTheDocument()
   })
 
   it('shows the creator', () => {
@@ -157,7 +157,7 @@ describe('Attachments', () => {
         )
       )
 
-      const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+      const fileInputElement = screen.getByLabelText(/bestand toevoegen/i)
       fireEvent.change(fileInputElement, {
         target: { files },
       })
@@ -199,7 +199,7 @@ describe('Attachments', () => {
         )
       )
 
-      const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+      const fileInputElement = screen.getByLabelText(/bestand toevoegen/i)
       fireEvent.change(fileInputElement, {
         target: { files },
       })
@@ -207,7 +207,7 @@ describe('Attachments', () => {
       expect(screen.getByText(/progress/)).toBeInTheDocument()
       expect(screen.getByText('progress-0')).toBeInTheDocument()
       expect(screen.queryByTestId('loadingIndicator')).not.toBeInTheDocument()
-      expect(screen.getByText(/foto toevoegen/i)).toBeDisabled()
+      expect(screen.getByText(/bestand toevoegen/i)).toBeDisabled()
 
       rerender(
         withAppContext(
@@ -290,7 +290,7 @@ describe('Attachments', () => {
         )
       )
 
-      const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+      const fileInputElement = screen.getByLabelText(/bestand toevoegen/i)
       fireEvent.change(fileInputElement, {
         target: { files },
       })
@@ -298,7 +298,7 @@ describe('Attachments', () => {
       expect(screen.getByText(/progress/)).toBeInTheDocument()
       expect(screen.getByText('progress-0')).toBeInTheDocument()
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
-      expect(screen.getByText(/foto toevoegen/i)).toBeDisabled()
+      expect(screen.getByText(/bestand toevoegen/i)).toBeDisabled()
 
       rerender(
         withAppContext(
@@ -369,7 +369,7 @@ describe('Attachments', () => {
         )
       )
 
-      const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+      const fileInputElement = screen.getByLabelText(/bestand toevoegen/i)
       fireEvent.change(fileInputElement, {
         target: { files },
       })
@@ -406,7 +406,7 @@ describe('Attachments', () => {
         )
       )
 
-      const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+      const fileInputElement = screen.getByLabelText(/bestand toevoegen/i)
       fireEvent.change(fileInputElement, {
         target: { files },
       })
@@ -707,5 +707,42 @@ describe('Attachments', () => {
     userEvent.click(box)
 
     expect(preview).toHaveBeenCalled()
+  })
+
+  it('shows a pdf in a new tab', () => {
+    const preview = jest.fn()
+    const add = jest.fn()
+    const remove = jest.fn()
+    const fileName = 'ae70d54aca324d0480ca01934240c78f.pdf'
+
+    const mockOpen = jest.fn()
+    global.window.open = mockOpen
+
+    const pdfAttachments = [...attachments.results]
+    pdfAttachments[0].location = 'https://ae70d54aca324d0480ca01934240c78f.pdf'
+
+    render(
+      withAppContext(
+        <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <Attachments
+            attachments={attachments.results}
+            add={add}
+            remove={remove}
+            isChildIncident={false}
+            isParentIncident={false}
+            isRemoving={false}
+            uploadProgress={0}
+            uploadError={false}
+          />
+        </IncidentDetailContext.Provider>
+      )
+    )
+
+    const box = screen.getByTitle(fileName)
+    userEvent.click(box)
+
+    expect(preview).not.toHaveBeenCalled()
+
+    expect(mockOpen).toBeCalled()
   })
 })

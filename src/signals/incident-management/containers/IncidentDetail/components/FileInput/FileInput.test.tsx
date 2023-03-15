@@ -22,7 +22,7 @@ describe('FileInput', () => {
     expect(screen.getByLabelText(/label/i)).toBeInTheDocument()
   })
 
-  it('hanles file upload', () => {
+  it('handles file upload', () => {
     const change = jest.fn()
     const files = [
       {

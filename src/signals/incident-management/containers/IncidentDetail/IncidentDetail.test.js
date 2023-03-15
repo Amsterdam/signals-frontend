@@ -318,7 +318,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
         type: 'image/jpeg',
       },
     ]
-    const fileInputElement = screen.getByLabelText(/foto toevoegen/i)
+    const fileInputElement = screen.getByLabelText(/Bestand toevoegen/i)
     fireEvent.change(fileInputElement, {
       target: { files },
     })

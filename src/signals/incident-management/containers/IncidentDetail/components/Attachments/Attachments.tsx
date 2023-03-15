@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 
 import type { FC } from 'react'
 import { useEffect } from 'react'
@@ -27,6 +27,7 @@ import {
   StyledButtonWrapper,
   StyledDate,
   StyledDetails,
+  StyledDocument,
   StyledEmployee,
   StyledError,
   StyledGradient,
@@ -42,6 +43,7 @@ import StyledUploadProgress from './UploadProgress'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
 import type { Attachment } from '../../types'
+import { isPdf } from '../../utils/isPdf'
 import FileInput from '../FileInput'
 
 export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
@@ -132,11 +134,22 @@ const Attachments: FC<AttachmentsProps> = ({
     [isChildIncident, isParentIncident, user, userCan]
   )
 
+  const onClickPreview = (attachment: Attachment) => {
+    if (isPdf(attachment.location)) {
+      window.open(attachment.location, '_blank')
+      return
+    }
+
+    return (
+      preview && preview('attachment', { attachmentHref: attachment.location })
+    )
+  }
+
   return (
     <Wrapper className={className} data-testid="attachments-definition">
       {hasAttachments && (
         <Title forwardedAs="h2" styleAs="h4">
-          Foto
+          Bestanden
         </Title>
       )}
       {attachments.map((attachment) => {
@@ -145,13 +158,16 @@ const Attachments: FC<AttachmentsProps> = ({
         return (
           <StyledBox
             key={attachment.location}
-            onClick={() =>
-              preview &&
-              preview('attachment', { attachmentHref: attachment.location })
-            }
+            onClick={() => {
+              onClickPreview(attachment)
+            }}
             title={fileName}
           >
-            <StyledImg src={attachment.location} />
+            {isPdf(attachment.location) ? (
+              <StyledDocument />
+            ) : (
+              <StyledImg src={attachment.location} />
+            )}
             <StyledGradient />
             <StyledBoxContent>
               {!attachment.created_by && (
@@ -231,11 +247,11 @@ const Attachments: FC<AttachmentsProps> = ({
         <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
           {files.length > 0 && !uploadError ? (
             <Button variant="application" disabled={true} type="button">
-              Foto toevoegen
+              Bestand toevoegen
             </Button>
           ) : (
             <Button forwardedAs="span" variant="application" type="button">
-              Foto toevoegen
+              Bestand toevoegen
             </Button>
           )}
         </FileInput>
