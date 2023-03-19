@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 type Control = {
   value: any
 }
@@ -27,6 +26,21 @@ export const falsyOrNumber = (control: Control) => {
   }
   return {
     custom: 'Dit is een verplicht veld',
+  }
+}
+
+export const inPast = (control: Control) => {
+  const newDate = new Date()
+
+  if (
+    !control ||
+    !control.value ||
+    parseInt(control.value) <= newDate.getTime()
+  )
+    return null
+
+  return {
+    custom: `Maak een melding aan met een tijdstip in het verleden`,
   }
 }
 
