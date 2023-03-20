@@ -10,6 +10,7 @@ import MapDetail from '../../../../components/MapDetail'
 export const StyledMapViewer = styled.div`
   position: relative;
   top: ${themeSpacing(5)};
+  width: 100%;
 `
 
 export const StyledCloseButton = styled(CloseButton)`
