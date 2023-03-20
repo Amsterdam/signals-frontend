@@ -3,10 +3,14 @@
 import { Alert, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import Markdown from '../Markdown'
+
 export const StyledAlert = styled(Alert)`
   margin: ${themeSpacing(5, 0, 30, 0)};
 `
 
-export const StyledMarkdown = styled.div`
-  color: ${themeColor('secondary')};
+export const StyledMarkdown = styled(Markdown)`
+  p {
+    color: ${themeColor('secondary')};
+  }
 `
