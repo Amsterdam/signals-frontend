@@ -27,7 +27,7 @@ import {
   StyledButtonWrapper,
   StyledDate,
   StyledDetails,
-  StyledDocument,
+  StyledPdfImg,
   StyledEmployee,
   StyledError,
   StyledGradient,
@@ -38,7 +38,7 @@ import {
   StyledUploadProgressError,
   Title,
   Wrapper,
-} from './styles'
+} from './styled'
 import StyledUploadProgress from './UploadProgress'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
@@ -164,16 +164,21 @@ const Attachments: FC<AttachmentsProps> = ({
             title={fileName}
           >
             {isPdf(attachment.location) ? (
-              <StyledDocument />
+              <StyledPdfImg
+                alt="pdf-icon"
+                src={'/assets/images/icon-pdf.svg'}
+              />
             ) : (
-              <StyledImg src={attachment.location} />
+              <>
+                <StyledImg src={attachment.location} />
+                <StyledGradient />
+              </>
             )}
-            <StyledGradient />
             <StyledBoxContent>
               {!attachment.created_by && (
                 <StyledReporter>Melder</StyledReporter>
               )}
-              <StyledDetails>
+              <StyledDetails isPdf={isPdf(attachment.location)}>
                 {fileName && <StyledName>{fileName}</StyledName>}
                 {attachment.created_by && (
                   <StyledEmployee>{attachment.created_by}</StyledEmployee>
