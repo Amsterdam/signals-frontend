@@ -7,6 +7,7 @@ import { ascDefaultTheme, breakpoint, Paragraph } from '@amsterdam/asc-ui/lib'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Route } from 'react-router-dom'
 
+import { FrontPageAlert } from 'components/FrontPageAlert'
 import LoadingIndicator from 'components/LoadingIndicator'
 import AppContext from 'containers/App/context'
 import type {
@@ -114,57 +115,64 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                         const showProgress = index < steps.length
 
                         return previewFactory || form || formFactory ? (
-                          <StepWrapper showProgress={showProgress}>
-                            <Header>
-                              <StyledH1>
-                                {countAsStep && `${index + 1}. `}
-                                {label || key}
-                              </StyledH1>
-                              {subHeader && <Paragraph>{subHeader}</Paragraph>}
-                            </Header>
+                          <>
+                            <FrontPageAlert />
+                            <StepWrapper showProgress={showProgress}>
+                              <Header>
+                                <StyledH1>
+                                  {countAsStep && `${index + 1}. `}
+                                  {label || key}
+                                </StyledH1>
+                                {subHeader && (
+                                  <Paragraph>{subHeader}</Paragraph>
+                                )}
+                              </Header>
 
-                            <Progress>
-                              <StepByStepNavClickable
-                                steps={steps}
-                                itemType="numeric"
-                                activeItem={index}
-                                wizardRoutes={Object.keys(wizardDefinition)}
-                                breakpoint={breakpoint(
-                                  'max-width',
-                                  'tabletM'
-                                )({ theme: ascDefaultTheme })}
-                              />
-                            </Progress>
-
-                            <FormWrapper>
-                              {previewFactory && incident && sectionLabels && (
-                                <IncidentPreview
-                                  incident={incident}
-                                  preview={previewFactory(incident)}
-                                  sectionLabels={sectionLabels}
+                              <Progress>
+                                <StepByStepNavClickable
+                                  steps={steps}
+                                  itemType="numeric"
+                                  activeItem={index}
+                                  wizardRoutes={Object.keys(wizardDefinition)}
+                                  breakpoint={breakpoint(
+                                    'max-width',
+                                    'tabletM'
+                                  )({ theme: ascDefaultTheme })}
                                 />
-                              )}
+                              </Progress>
 
-                              {(form || formFactory) && (
-                                <IncidentForm
-                                  index={index}
-                                  ref={controlsRef}
-                                  reactHookFormProps={formMethods}
-                                  fieldConfig={
-                                    form || formFactory(incident, sources)
-                                  }
-                                  incidentContainer={incidentContainer}
-                                  getClassification={getClassification}
-                                  removeQuestionData={removeQuestionData}
-                                  updateIncident={updateIncident}
-                                  addToSelection={addToSelection}
-                                  removeFromSelection={removeFromSelection}
-                                  wizard={wizardDefinition}
-                                  createIncident={createIncident}
-                                />
-                              )}
-                            </FormWrapper>
-                          </StepWrapper>
+                              <FormWrapper>
+                                {previewFactory &&
+                                  incident &&
+                                  sectionLabels && (
+                                    <IncidentPreview
+                                      incident={incident}
+                                      preview={previewFactory(incident)}
+                                      sectionLabels={sectionLabels}
+                                    />
+                                  )}
+
+                                {(form || formFactory) && (
+                                  <IncidentForm
+                                    index={index}
+                                    ref={controlsRef}
+                                    reactHookFormProps={formMethods}
+                                    fieldConfig={
+                                      form || formFactory(incident, sources)
+                                    }
+                                    incidentContainer={incidentContainer}
+                                    getClassification={getClassification}
+                                    removeQuestionData={removeQuestionData}
+                                    updateIncident={updateIncident}
+                                    addToSelection={addToSelection}
+                                    removeFromSelection={removeFromSelection}
+                                    wizard={wizardDefinition}
+                                    createIncident={createIncident}
+                                  />
+                                )}
+                              </FormWrapper>
+                            </StepWrapper>
+                          </>
                         ) : null
                       }}
                     />

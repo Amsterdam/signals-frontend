@@ -44,6 +44,9 @@
         },
         "theme": {
           "$ref": "#/definitions/Theme"
+        },
+        "frontPageAlert": {
+          "$ref": "#/definitions/FrontPageAlert"
         }
       },
       "required": [
@@ -429,7 +432,6 @@
             "EPSG:3857",
             "EPSG:4326"
           ]
-
         },
         "center": {
           "type": "array",
@@ -449,10 +451,18 @@
         "maxNumberOfAssets": {
           "type": "object",
           "properties": {
-            "straatverlichting": {"type": "integer"},
-            "klokken": {"type": "integer"},
-            "afvalContainer": {"type": "integer"},
-            "eikenProcessierups": {"type": "integer"}
+            "straatverlichting": {
+              "type": "integer"
+            },
+            "klokken": {
+              "type": "integer"
+            },
+            "afvalContainer": {
+              "type": "integer"
+            },
+            "eikenProcessierups": {
+              "type": "integer"
+            }
           }
         },
         "maxZoom": {
@@ -633,6 +643,16 @@
       "type": "object",
       "additionalProperties": true,
       "title": "Theme"
+    },
+    "FrontPageAlert": {
+      "description": "Generic alert shown on wizard-step-1 page. Municipalities can set their own text. If there is no text, no alert will be shown.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "title": "FrontPageAlert"
     }
   }
 }

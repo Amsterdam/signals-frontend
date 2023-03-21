@@ -136,6 +136,9 @@
         "main": "#ec0000"
       }
     }
+  },
+  "frontPageAlert": {
+    "text":""
   }
 }
 
