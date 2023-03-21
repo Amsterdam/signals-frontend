@@ -95,13 +95,12 @@ export const StyledReporter = styled.div`
 `
 
 export const StyledDetails = styled.div<{ isPdf?: boolean }>`
+  color: ${({ isPdf }) =>
+    isPdf ? themeColor('tint', 'level7') : themeColor('tint', 'level1')};
   grid-area: details;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: ${themeColor('tint', 'level1')};
-  color: ${(isPdf) =>
-    isPdf ? themeColor('tint', 'level7') : themeColor('tint', 'level1')};
   font-size: 0.875rem;
   line-height: ${themeSpacing(5)};
 `
