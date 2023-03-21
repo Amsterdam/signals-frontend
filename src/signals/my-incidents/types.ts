@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import type { Item } from 'shared/types/extraProperties'
 import type Location from 'types/location'
-
 export interface MyIncidentsValue {
   email?: string
   setEmail: (email: string) => void
@@ -41,14 +41,7 @@ interface Links {
 export interface MyIncidentDetail extends MyIncident {
   _links: Links & { 'sia:attachments': Attachment[] }
   location: Location
-  extra_properties?: ExtraProperties[]
-}
-
-interface ExtraProperties {
-  answer: string
-  category_url: string
-  id: string
-  label: string
+  extra_properties?: Item[]
 }
 
 export interface Result<T> {

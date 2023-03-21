@@ -35,5 +35,5 @@ export const StyledLink = styled(Link)`
 `
 
 export const Wrapper = styled.div`
-  margin-bottom: ${themeSpacing(4)};
+  margin-bottom: ${themeSpacing(6)};
 `

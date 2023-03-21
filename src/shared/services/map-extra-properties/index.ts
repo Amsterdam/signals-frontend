@@ -1,0 +1,1 @@
+export { mapExtraPropertiesToJSX } from './mapExtraPropertiesToJSX'
