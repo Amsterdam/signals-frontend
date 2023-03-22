@@ -40,6 +40,7 @@ import {
   Wrapper,
 } from './styled'
 import StyledUploadProgress from './UploadProgress'
+import { getAttachmentFileName } from './utils'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
 import type { Attachment } from '../../types'
@@ -153,7 +154,7 @@ const Attachments: FC<AttachmentsProps> = ({
         </Title>
       )}
       {attachments.map((attachment) => {
-        const fileName = attachment.location?.split('/').pop() || ''
+        const fileName = getAttachmentFileName(attachment.location)
 
         return (
           <StyledBox
@@ -165,7 +166,7 @@ const Attachments: FC<AttachmentsProps> = ({
           >
             {isPdf(attachment.location) ? (
               <StyledPdfImg
-                alt="pdf-icon"
+                alt="Pdf icon"
                 src={'/assets/images/icon-pdf.svg'}
               />
             ) : (
