@@ -2,10 +2,10 @@
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
+import type { Item } from 'shared/types/extraProperties'
 import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 
 import ExtraProperties from '.'
-import type { Item } from './types'
 
 describe('<ExtraProperties />', () => {
   const props = {

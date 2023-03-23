@@ -42,9 +42,13 @@ describe('IncidentsDetail', () => {
 
     expect(screen.getByText('Locatie')).toBeInTheDocument()
 
-    expect(screen.getByText('Gebeurt het vaker?')).toBeInTheDocument()
-
     expect(screen.getByText('Bekijk op kaart')).toBeInTheDocument()
+
+    expect(screen.getByText('Momenten')).toBeInTheDocument()
+
+    expect(
+      screen.getByText('heel erg vaak en het is heel erg stom')
+    ).toBeInTheDocument()
 
     const attachment = incidentsDetail._links['sia:attachments']
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -84,7 +88,5 @@ describe('IncidentsDetail', () => {
     expect(screen.queryByText('Foto')).not.toBeInTheDocument()
 
     expect(container.querySelector('img')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('Gebeurt het vaker?')).not.toBeInTheDocument()
   })
 })

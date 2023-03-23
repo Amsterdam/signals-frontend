@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-import { useMemo } from 'react'
-
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { Paragraph } from '@amsterdam/asc-ui'
 
+import { ExtraProperties } from './ExtraProperties'
 import {
   FormTitle,
   StyledImage,
@@ -26,13 +25,8 @@ export const IncidentsDetail = ({
   setShowMap,
   incidentsDetail,
 }: Props) => {
-  const answersGebeurtHetVaker = useMemo(() => {
-    return incidentsDetail?.extra_properties?.find(
-      (property) => property.id === 'extra_personen_overig_vaker_momenten'
-    )?.answer
-  }, [incidentsDetail?.extra_properties])
-
-  const attachments = incidentsDetail?._links?.['sia:attachments']
+  const { _display, text, location, extra_properties, _links } = incidentsDetail
+  const attachments = _links?.['sia:attachments']
 
   return (
     <div>
@@ -41,28 +35,29 @@ export const IncidentsDetail = ({
       </StyledBacklink>
 
       <header>
-        <StyledHeading>{`Meldingsnummer: ${incidentsDetail._display}`}</StyledHeading>
+        <StyledHeading>{`Meldingsnummer: ${_display}`}</StyledHeading>
       </header>
       <Wrapper>
         <FormTitle>Omschrijving</FormTitle>
-        <Paragraph strong>{incidentsDetail?.text}</Paragraph>
+        <Paragraph strong>{text}</Paragraph>
       </Wrapper>
 
-      <Wrapper>
-        {attachments && (
+      {attachments && (
+        <Wrapper>
           <FormTitle>Foto{attachments.length > 1 && "'s"}</FormTitle>
-        )}
-        {attachments?.map((attachment, index) => (
-          <ImageWrapper key={attachment.href + index}>
-            <StyledImage src={attachment.href} />
-          </ImageWrapper>
-        ))}
-      </Wrapper>
+
+          {attachments.map((attachment, index) => (
+            <ImageWrapper key={attachment.href + index}>
+              <StyledImage src={attachment.href} />
+            </ImageWrapper>
+          ))}
+        </Wrapper>
+      )}
 
       <Wrapper>
         <FormTitle>Locatie</FormTitle>
         <Paragraph strong style={{ marginBottom: 0 }}>
-          {incidentsDetail?.location?.address_text}
+          {location.address_text}
         </Paragraph>
         <StyledLink variant="inline" onClick={() => setShowMap(true)}>
           Bekijk op kaart
@@ -70,12 +65,7 @@ export const IncidentsDetail = ({
       </Wrapper>
 
       <Wrapper>
-        {answersGebeurtHetVaker && (
-          <>
-            <FormTitle>Gebeurt het vaker?</FormTitle>
-            <Paragraph strong>{answersGebeurtHetVaker}</Paragraph>
-          </>
-        )}
+        <ExtraProperties items={extra_properties} />
       </Wrapper>
     </div>
   )

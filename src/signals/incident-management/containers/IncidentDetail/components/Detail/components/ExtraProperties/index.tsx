@@ -3,63 +3,12 @@
 import { Fragment } from 'react'
 import type { FunctionComponent } from 'react'
 
-import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
-
+import { mapExtraPropertiesToJSX } from 'shared/services/map-extra-properties'
 import type {
-  Answer,
   MappedLegacyItem,
   Item,
-  CheckboxInput,
   ExtraPropertiesTypes,
-  LegacyAnswer,
-  ContainerMapInput,
-  MultiCheckboxInput,
-} from './types'
-
-const getValue = (answer: Answer | LegacyAnswer): string | JSX.Element[] => {
-  if (Array.isArray(answer)) {
-    const cleanAnswer = answer.filter((i) => i)
-    return cleanAnswer.map((item) => {
-      if (typeof item === 'string') {
-        return <div key={item}>{item}</div>
-      }
-
-      if ((item as ContainerMapInput)?.type) {
-        const containerAnswer = item as ContainerMapInput
-
-        if (containerAnswer.type === NEARBY_TYPE) {
-          return <></>
-        }
-
-        return (
-          <div key={containerAnswer.id}>
-            {[containerAnswer.description, containerAnswer.id]
-              .filter(Boolean)
-              .join(' - ')}
-          </div>
-        )
-      }
-
-      const multiCheckboxAnswer = item as MultiCheckboxInput
-
-      return <div key={multiCheckboxAnswer.id}>{multiCheckboxAnswer.label}</div>
-    })
-  }
-
-  if (typeof answer !== 'string') {
-    if (answer === null || answer === undefined) {
-      return ''
-    }
-
-    if (typeof (answer as CheckboxInput).value === 'boolean') {
-      return (answer as CheckboxInput).value ? answer.label : 'Nee'
-    }
-
-    return answer.label
-  }
-
-  return answer
-}
+} from 'shared/types/extraProperties'
 
 interface ExtraPropertiesProps {
   items?: ExtraPropertiesTypes
@@ -83,7 +32,9 @@ const ExtraProperties: FunctionComponent<ExtraPropertiesProps> = ({
       {itemList.map((item) => (
         <Fragment key={item.id}>
           <dt data-testid="extra-properties-definition">{item.label}</dt>
-          <dd data-testid="extra-properties-value">{getValue(item.answer)}</dd>
+          <dd data-testid="extra-properties-value">
+            {mapExtraPropertiesToJSX(item.answer)}
+          </dd>
         </Fragment>
       ))}
     </Fragment>
