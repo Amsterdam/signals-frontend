@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import Button from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
 import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
+import { getAttachmentFileName } from 'shared/services/get-attachment-file-name'
 import fileSize from 'signals/incident/services/file-size'
 
 import {
@@ -40,7 +41,6 @@ import {
   Wrapper,
 } from './styled'
 import StyledUploadProgress from './UploadProgress'
-import { getAttachmentFileName } from './utils'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
 import type { Attachment } from '../../types'

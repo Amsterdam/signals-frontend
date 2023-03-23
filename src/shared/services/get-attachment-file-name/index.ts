@@ -1,0 +1,1 @@
+export { getAttachmentFileName } from './getAttachmentFileName'
