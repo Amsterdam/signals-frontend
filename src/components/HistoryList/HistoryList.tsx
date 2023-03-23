@@ -43,6 +43,7 @@ const Time = styled.div`
 const Action = styled.div`
   color: ${themeColor('tint', 'level7')};
   white-space: pre-line;
+  overflow-wrap: anywhere;
 
   @media ${breakpoint('min-width', 'tabletM')} {
     grid-column-start: 3;

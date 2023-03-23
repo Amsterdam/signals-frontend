@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
-import { DocumentText } from '@amsterdam/asc-assets'
 import {
   themeSpacing,
   Heading,
@@ -63,11 +62,12 @@ export const StyledImg = styled.img`
   height: 100%;
   object-fit: cover;
 `
-
-export const StyledDocument = styled(DocumentText)`
+export const StyledPdfImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 15px 0 65px 0;
+  color: black;
+  background-color: ${themeColor('tint', 'level3')};
 `
 
 export const StyledGradient = styled.div`
@@ -94,12 +94,13 @@ export const StyledReporter = styled.div`
   text-transform: uppercase;
 `
 
-export const StyledDetails = styled.div`
+export const StyledDetails = styled.div<{ isPdf?: boolean }>`
+  color: ${({ isPdf }) =>
+    isPdf ? themeColor('tint', 'level7') : themeColor('tint', 'level1')};
   grid-area: details;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: ${themeColor('tint', 'level1')};
   font-size: 0.875rem;
   line-height: ${themeSpacing(5)};
 `

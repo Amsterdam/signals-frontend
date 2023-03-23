@@ -27,7 +27,7 @@ import {
   StyledButtonWrapper,
   StyledDate,
   StyledDetails,
-  StyledDocument,
+  StyledPdfImg,
   StyledEmployee,
   StyledError,
   StyledGradient,
@@ -38,8 +38,9 @@ import {
   StyledUploadProgressError,
   Title,
   Wrapper,
-} from './styles'
+} from './styled'
 import StyledUploadProgress from './UploadProgress'
+import { getAttachmentFileName } from './utils'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
 import type { Attachment } from '../../types'
@@ -153,7 +154,7 @@ const Attachments: FC<AttachmentsProps> = ({
         </Title>
       )}
       {attachments.map((attachment) => {
-        const fileName = attachment.location?.split('/').pop() || ''
+        const fileName = getAttachmentFileName(attachment.location)
 
         return (
           <StyledBox
@@ -164,16 +165,21 @@ const Attachments: FC<AttachmentsProps> = ({
             title={fileName}
           >
             {isPdf(attachment.location) ? (
-              <StyledDocument />
+              <StyledPdfImg
+                alt="Pdf icon"
+                src={'/assets/images/icon-pdf.svg'}
+              />
             ) : (
-              <StyledImg src={attachment.location} />
+              <>
+                <StyledImg src={attachment.location} />
+                <StyledGradient />
+              </>
             )}
-            <StyledGradient />
             <StyledBoxContent>
               {!attachment.created_by && (
                 <StyledReporter>Melder</StyledReporter>
               )}
-              <StyledDetails>
+              <StyledDetails isPdf={isPdf(attachment.location)}>
                 {fileName && <StyledName>{fileName}</StyledName>}
                 {attachment.created_by && (
                   <StyledEmployee>{attachment.created_by}</StyledEmployee>

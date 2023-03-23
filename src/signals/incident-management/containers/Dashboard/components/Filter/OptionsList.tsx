@@ -9,7 +9,7 @@ import { Option } from './Option'
 import { OptionUl } from './styled'
 import type { Filter } from './types'
 import IncidentManagementContext from '../../../../context'
-import { StyledLoadingIndicator } from '../../../IncidentDetail/components/Attachments/styles'
+import { StyledLoadingIndicator } from '../../../IncidentDetail/components/Attachments/styled'
 import { useRoveFocus } from '../../hooks/useRoveFocus'
 
 type Props = {
