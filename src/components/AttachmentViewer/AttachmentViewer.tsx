@@ -11,6 +11,8 @@ import {
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 
+import { getAttachmentFileName } from 'shared/services/get-attachment-file-name'
+
 import {
   CloseButton,
   Date,
@@ -49,7 +51,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
   const next =
     index < attachments.length - 1 ? attachments[index + 1].location : false
   const currentAttachment = attachments[index]
-  const fileName = currentAttachment.location?.split('/').pop() || ''
+  const fileName = getAttachmentFileName(currentAttachment.location)
 
   const handleKeyDown = useCallback(
     (event) => {
