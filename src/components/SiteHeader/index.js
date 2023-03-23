@@ -1,22 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
-import {
-  breakpoint,
-  Header as HeaderComponent,
-  MenuButton,
-  MenuInline,
-  MenuItem,
-  MenuToggle,
-  themeColor,
-  themeSpacing,
-} from '@amsterdam/asc-ui'
+import { MenuInline, MenuItem, MenuToggle } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { useMediaQuery } from 'react-responsive'
+import { useLocation } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
-import styled, { css } from 'styled-components'
 
 import Logo from 'components/Logo'
 import Notification from 'containers/Notification'
@@ -25,160 +16,23 @@ import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
+import {
+  HeaderWrapper,
+  SearchBarMenuItem,
+  StyledHeader,
+  StyledMenuButton,
+  MENU_BREAKPOINT,
+} from './styled'
 import useTallHeader from '../../hooks/useTallHeader'
 
-const MENU_BREAKPOINT = 1320
-
-const StyledHeader = styled(HeaderComponent)`
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
-      & {
-        max-width: 960px;
-
-        & > div {
-          margin-left: ${themeSpacing(-5)};
-        }
-
-        @media screen and ${breakpoint('min-width', 'tabletS')} {
-          & > div > a {
-            &,
-            span {
-              width: 153px;
-            }
-          }
-        }
-      }
-    `}
-  nav {
-    width: 100%;
-
-    ul {
-      width: 100%;
-    }
-  }
-`
-
-const StyledMenuButton = styled(MenuButton)`
-  background: transparent;
-  font-size: 1rem;
-  font-family: inherit;
-  font-weight: 400;
-  color: ${themeColor('tint', 'level6')};
-`
-
-const SearchBarMenuItem = styled(MenuItem)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 0;
-  max-width: 365px;
-  @media screen and (min-width: ${MENU_BREAKPOINT + 1}px) {
-    margin-right: auto;
-    flex-basis: 365px;
-  }
-`
-
-const HeaderWrapper = styled.div`
-  position: relative;
-
-  #header {
-    max-width: 1400px;
-    z-index: 2;
-    contain: layout;
-  }
-
-  [aria-hidden='true'] {
-    display: none;
-  }
-
-  ${({ tall }) =>
-    !tall &&
-    css`
-      #header {
-        left: 0;
-        right: 0;
-        position: fixed;
-      }
-    `}
-
-  ${({ isFrontOffice, tall }) =>
-    isFrontOffice &&
-    tall &&
-    css`
-      #header {
-        position: relative;
-
-        header {
-          height: 160px;
-          z-index: 0;
-        }
-
-        @media screen and (max-width: 539px) {
-          header {
-            height: 50px;
-          }
-
-          nav {
-            display: none;
-          }
-        }
-
-        @media screen and (min-width: 540px) {
-          z-index: 0;
-          box-shadow: none;
-          &:after {
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 44px;
-            margin-top: ${themeSpacing(-11)};
-            background-color: ${themeColor('tint', 'level2')};
-            width: 100%;
-          }
-        }
-
-        nav,
-        ul {
-          margin: 0;
-        }
-
-        & > header {
-          flex-wrap: wrap;
-
-          & > div {
-            padding: 15px 0;
-            @media screen and (max-width: 990px) {
-              margin: 0;
-            }
-
-            a {
-              height: 68px;
-
-              span {
-                background-repeat: no-repeat;
-                background-size: auto 100%;
-              }
-
-              @media screen and (max-width: 539px) {
-                margin-top: -3px;
-                height: 29px;
-              }
-            }
-          }
-        }
-      }
-    `}
-`
-
 const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
+  const location = useLocation()
   const isAuthenticated = getIsAuthenticated()
+  const [activeMenuItem, setActiveMenuItem] = useState('/manage/incidents')
+
+  useEffect(() => {
+    setActiveMenuItem(location.pathname)
+  }, [location.pathname])
 
   return (
     <>
@@ -193,6 +47,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
               onClick={onLinkClick}
               forwardedAs={NavLink}
               to="/manage/incidents"
+              $active={activeMenuItem.includes('/manage/incidents')}
             >
               Overzicht
             </StyledMenuButton>
@@ -206,6 +61,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
           onClick={onLinkClick}
           forwardedAs="a"
           href="/incident/beschrijf"
+          $active={activeMenuItem.includes('/incident/beschrijf')}
         >
           Melden
         </StyledMenuButton>
@@ -217,6 +73,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
             onClick={onLinkClick}
             forwardedAs={NavLink}
             to="/manage/dashboard"
+            $active={activeMenuItem.includes('/manage/dashboard')}
           >
             Dashboard
           </StyledMenuButton>
@@ -228,6 +85,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
               onClick={onLinkClick}
               forwardedAs={NavLink}
               to="/manage/signalering"
+              $active={activeMenuItem.includes('/manage/signalering')}
             >
               Signalering
             </StyledMenuButton>
@@ -241,6 +99,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
             onClick={onLinkClick}
             forwardedAs={NavLink}
             to="/manage/standaard/teksten"
+            $active={activeMenuItem.includes('/manage/standaard/teksten')}
           >
             Standaard teksten
           </StyledMenuButton>
@@ -253,6 +112,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
             onClick={onLinkClick}
             forwardedAs={NavLink}
             to="/instellingen/"
+            $active={activeMenuItem.includes('/instellingen/')}
           >
             Instellingen
           </StyledMenuButton>
