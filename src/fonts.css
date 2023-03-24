@@ -2,53 +2,53 @@
   font-family: 'Amsterdam Sans';
   font-style: normal;
   font-weight: 300;
-  src: url(../fonts/eot/AmsterdamSans-Light.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-Light.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-Light.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-Light.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-Light.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-Light.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-Light.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-Light.woff) format('woff')
 }
 @font-face {
   font-family: 'Amsterdam Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/eot/AmsterdamSans-Regular.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-Regular.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-Regular.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-Regular.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-Regular.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-Regular.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-Regular.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-Regular.woff) format('woff')
 }
 @font-face {
   font-family: 'Amsterdam Sans';
   font-style: italic;
   font-weight: 400;
-  src: url(../fonts/eot/AmsterdamSans-Italic.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-Italic.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-Italic.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-Italic.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-Italic.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-Italic.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-Italic.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-Italic.woff) format('woff')
 }
 @font-face {
   font-family: 'Amsterdam Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(../fonts/eot/AmsterdamSans-Bold.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-Bold.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-Bold.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-Bold.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-Bold.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-Bold.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-Bold.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-Bold.woff) format('woff')
 }
 @font-face {
   font-family: 'Amsterdam Sans';
   font-style: italic;
   font-weight: 700;
-  src: url(../fonts/eot/AmsterdamSans-BoldItalic.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-BoldItalic.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-BoldItalic.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-BoldItalic.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-BoldItalic.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-BoldItalic.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-BoldItalic.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-BoldItalic.woff) format('woff')
 }
 @font-face {
   font-family: 'Amsterdam Sans';
   font-style: normal;
   font-weight: 800;
-  src: url(../fonts/eot/AmsterdamSans-ExtraBold.eot?#iefix);
-  src: url(../fonts/eot/AmsterdamSans-ExtraBold.eot?#iefix) format('eot'),
-    url(../fonts/woff2/AmsterdamSans-ExtraBold.woff2) format('woff2'),
-    url(../fonts/woff/AmsterdamSans-ExtraBold.woff) format('woff')
+  src: url(../assets/fonts/eot/AmsterdamSans-ExtraBold.eot?#iefix);
+  src: url(../assets/fonts/eot/AmsterdamSans-ExtraBold.eot?#iefix) format('eot'),
+    url(../assets/fonts/woff2/AmsterdamSans-ExtraBold.woff2) format('woff2'),
+    url(../assets/fonts/woff/AmsterdamSans-ExtraBold.woff) format('woff')
 }
