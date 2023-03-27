@@ -18,6 +18,7 @@ import history from 'utils/history'
 // Import CSS and Global Styles
 import './global.css'
 import './polyfills'
+import './fonts.css'
 
 import configureStore from './configureStore'
 
