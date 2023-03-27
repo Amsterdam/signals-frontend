@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import 'jest-styled-components'
@@ -9,11 +9,28 @@ import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { history, withAppContext } from 'test/utils'
 
-import SiteHeader from '.'
+import { SiteHeader } from './SiteHeader'
+import type { Props } from './SiteHeader'
 
 jest.mock('react-responsive')
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
+
+const onLogOut = jest.fn()
+
+const showItems = {
+  categories: false,
+  defaultTexts: false,
+  departments: false,
+  settings: false,
+  groups: false,
+  users: false,
+}
+
+const defaultProps: Props = {
+  onLogOut,
+  showItems,
+}
 
 describe('components/SiteHeader', () => {
   beforeEach(() => {
@@ -21,6 +38,8 @@ describe('components/SiteHeader', () => {
   })
 
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.__reset()
   })
 
@@ -32,7 +51,7 @@ describe('components/SiteHeader', () => {
     })
 
     const { container, rerender, queryByText, unmount } = render(
-      withAppContext(<SiteHeader />)
+      withAppContext(<SiteHeader {...defaultProps} />)
     )
 
     // menu items
@@ -51,23 +70,26 @@ describe('components/SiteHeader', () => {
       history.push('/manage')
     })
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(queryByText('Melden')).toBeNull()
 
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2')
   })
+
   it('should render Dashboard when featureflag showDashboard is true', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     configuration.featureFlags.showDashboard = true
-    const { rerender, unmount } = render(withAppContext(<SiteHeader />))
+    const { rerender, unmount } = render(
+      withAppContext(<SiteHeader {...defaultProps} />)
+    )
 
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
     expect(screen.queryByText('Signalering')).not.toBeInTheDocument()
 
     unmount()
     configuration.featureFlags.showDashboard = false
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
     expect(screen.getByText('Signalering')).toBeInTheDocument()
@@ -76,14 +98,22 @@ describe('components/SiteHeader', () => {
   it('should render correctly when authenticated', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
+    const props = {
+      ...defaultProps,
+      showItems: {
+        ...defaultProps.showItems,
+        settings: true,
+        groups: true,
+        users: true,
+      },
+    }
+
     act(() => {
       history.push('/')
     })
 
     const { container, queryByText, unmount } = render(
-      withAppContext(
-        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
-      )
+      withAppContext(<SiteHeader {...props} />)
     )
 
     // menu items
@@ -102,11 +132,7 @@ describe('components/SiteHeader', () => {
       history.push('/manage')
     })
 
-    render(
-      withAppContext(
-        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
-      )
-    )
+    render(withAppContext(<SiteHeader {...defaultProps} />))
   })
 
   it('should render the correct homeLink', () => {
@@ -116,9 +142,7 @@ describe('components/SiteHeader', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { container, rerender, unmount } = render(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />
-      )
+      withAppContext(<SiteHeader {...defaultProps} />)
     )
 
     expect(
@@ -129,24 +153,13 @@ describe('components/SiteHeader', () => {
 
     unmount()
 
-    rerender(
-      withAppContext(
-        <SiteHeader permissions={[]} location={{ pathname: '/' }} />
-      )
-    )
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(container.querySelector('div a[href="/"]')).toBeInTheDocument()
 
     unmount()
 
-    rerender(
-      withAppContext(
-        <SiteHeader
-          permissions={[]}
-          location={{ pathname: '/manage/incidents' }}
-        />
-      )
-    )
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(container.querySelector('div a[href="/"]')).toBeInTheDocument()
   })
@@ -163,7 +176,9 @@ describe('components/SiteHeader', () => {
       history.push('/')
     })
 
-    const { rerender, unmount } = render(withAppContext(<SiteHeader />))
+    const { rerender, unmount } = render(
+      withAppContext(<SiteHeader {...defaultProps} />)
+    )
 
     // don't show auth title in front office when not authenticated
     expect(screen.getByText(title)).toBeInTheDocument()
@@ -177,7 +192,7 @@ describe('components/SiteHeader', () => {
       history.push('/')
     })
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     // do show auth title in front office when authenticated
     expect(screen.queryByText(title)).not.toBeInTheDocument()
@@ -191,7 +206,7 @@ describe('components/SiteHeader', () => {
       history.push('/manage')
     })
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     // don't show auth title in back office when not authenticated
     expect(screen.getByText(title)).toBeInTheDocument()
@@ -201,7 +216,7 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     // do show title in back office when authenticated
     expect(screen.queryByText(title)).not.toBeInTheDocument()
@@ -215,22 +230,22 @@ describe('components/SiteHeader', () => {
       history.push('/')
     })
 
-    const { container, rerender, unmount } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
+    const { rerender, unmount } = render(
+      withAppContext(<SiteHeader {...defaultProps} />)
     )
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
+      screen.getByTestId('site-header').classList.contains('isTall')
     ).toEqual(true)
 
     unmount()
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
+      screen.getByTestId('site-header').classList.contains('isShort')
     ).toEqual(true)
 
     unmount()
@@ -241,34 +256,34 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
+      screen.getByTestId('site-header').classList.contains('isTall')
     ).toEqual(true)
 
     unmount()
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    rerender(withAppContext(<SiteHeader />))
+    rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isShort')
+      screen.getByTestId('site-header').classList.contains('isShort')
     ).toEqual(true)
   })
 
   it('should render a tall header by default', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    const { container } = render(withAppContext(<SiteHeader />))
+    render(withAppContext(<SiteHeader {...defaultProps} />))
 
     act(() => {
       history.push('/mijn-meldingen')
     })
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
+      screen.getByTestId('site-header').classList.contains('isTall')
     ).toEqual(true)
 
     act(() => {
@@ -276,21 +291,22 @@ describe('components/SiteHeader', () => {
     })
 
     expect(
-      container.querySelector('.siteHeader').classList.contains('isTall')
+      screen.getByTestId('site-header').classList.contains('isTall')
     ).toEqual(false)
   })
 
   it('should show buttons based on permissions', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    const { queryByText } = render(
-      withAppContext(
-        <SiteHeader
-          showItems={{ defaultTexts: true }}
-          location={{ pathname: '/incident/beschrijf' }}
-        />
-      )
-    )
+    const props = {
+      ...defaultProps,
+      showItems: {
+        ...defaultProps.showItems,
+        defaultTexts: true,
+      },
+    }
+
+    const { queryByText } = render(withAppContext(<SiteHeader {...props} />))
 
     expect(queryByText('Standaard teksten')).toBeInTheDocument()
   })
@@ -299,7 +315,7 @@ describe('components/SiteHeader', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
     const { container, queryByText } = render(
-      withAppContext(<SiteHeader location={{ pathname: '/' }} />)
+      withAppContext(<SiteHeader {...defaultProps} />)
     )
 
     // Overzicht menu item
@@ -319,10 +335,8 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    const onLogOut = jest.fn()
-
     const { getByText } = render(
-      withAppContext(<SiteHeader onLogOut={onLogOut} />)
+      withAppContext(<SiteHeader {...defaultProps} />)
     )
 
     const logOutButton = getByText('Uitloggen')
@@ -342,13 +356,19 @@ describe('components/SiteHeader', () => {
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
-    render(
-      withAppContext(
-        <SiteHeader showItems={{ settings: true, users: true, groups: true }} />
-      )
-    )
+    const props = {
+      ...defaultProps,
+      showItems: {
+        ...defaultProps.showItems,
+        settings: true,
+        groups: true,
+        users: true,
+      },
+    }
 
-    const toggle = screen.getByRole('button', { 'aria-label': 'Menu' })
+    render(withAppContext(<SiteHeader {...props} />))
+
+    const toggle = screen.getByRole('button')
 
     expect(
       screen.queryByRole('link', { name: 'Instellingen' })
@@ -356,7 +376,7 @@ describe('components/SiteHeader', () => {
 
     userEvent.click(toggle)
 
-    const link = screen.queryByRole('link', { name: 'Instellingen' })
+    const link = screen.getByRole('link', { name: 'Instellingen' })
     expect(link).toBeInTheDocument()
 
     userEvent.click(link)
