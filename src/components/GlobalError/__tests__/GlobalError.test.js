@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 -2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import form from 'react-hook-form'
 
@@ -9,6 +9,9 @@ import GlobalError from '../index'
 
 const defaultErrorMessage =
   'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'
+
+const invalidErrorMessage =
+  'U hebt niet alle vragen (juist) beantwoord. Vul hieronder aan alstublieft.'
 
 jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
@@ -49,6 +52,23 @@ describe('Form component <GlobalError />', () => {
       render(withAppContext(<GlobalError meta={{ name: 'global' }} />))
 
       expect(screen.getByText(defaultErrorMessage)).toBeInTheDocument()
+    })
+
+    it('renders an invalid error message', () => {
+      jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
+        formState: {
+          errors: {
+            dateTime: {
+              type: 'custom',
+            },
+          },
+        },
+      }))
+      render(
+        withAppContext(<GlobalError meta={{ dateTime: { type: 'custom' } }} />)
+      )
+
+      expect(screen.getByText(invalidErrorMessage)).toBeInTheDocument()
     })
   })
 })

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import isObject from 'lodash/isObject'
@@ -100,7 +100,6 @@ function addNestedValidation(key: string, value: AnyObject) {
       label: yup.string().required(),
     })
   }
-  // other custom question validation can be placed here
 }
 
 function addRequiredValidation(validators: Validators, validationField: any) {

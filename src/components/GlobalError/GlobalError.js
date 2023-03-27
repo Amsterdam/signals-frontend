@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+// Copyright (C) 2022 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 import { useFormContext } from 'react-hook-form'
@@ -18,10 +18,13 @@ const ErrorItem = styled.p`
 
 const GlobalError = ({ meta }) => {
   const { formState } = useFormContext()
+  const invalid =
+    formState.errors?.dateTime?.type === 'custom' ? '(juist) ' : ''
+
   return !isEmpty(formState?.errors) ? (
     <ErrorItem role="alert">
       {meta?.label ||
-        'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'}
+        `U hebt niet alle vragen ${invalid}beantwoord. Vul hieronder aan alstublieft.`}
     </ErrorItem>
   ) : null
 }

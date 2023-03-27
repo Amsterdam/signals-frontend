@@ -2,7 +2,11 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 
 import { setupSchema } from './index'
-import { falsyOrNumber, validatePhoneNumber } from '../custom-validators'
+import {
+  falsyOrNumber,
+  inPast,
+  validatePhoneNumber,
+} from '../custom-validators'
 
 describe('Yup resolver takes a bunch of controls and returns it into a schema', () => {
   it('should return a schema', async () => {
@@ -35,6 +39,11 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       falsyOrNumberQuestion: {
         options: {
           validators: [falsyOrNumber],
+        },
+      },
+      inPastQuestion: {
+        options: {
+          validators: [inPast],
         },
       },
       nestedObjectQuestion: {
@@ -85,6 +94,14 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
     ).rejects.toBeTruthy()
     await expect(
       schema.validateAt('falsyOrNumberQuestion', { falsyOrNumberQuestion: 1 })
+    ).resolves.toBeTruthy()
+    await expect(
+      schema.validateAt('inPastQuestion', {
+        inPastQuestion: '1000000000000000000000000000000', //30 zero's to be sure it's in the future
+      })
+    ).rejects.toBeTruthy()
+    await expect(
+      schema.validateAt('inPastQuestion', { inPastQuestion: 100 })
     ).resolves.toBeTruthy()
     await expect(
       schema.validateAt('nestedObjectQuestion', { nestedObjectQuestion: {} })
