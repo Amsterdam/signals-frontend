@@ -46,7 +46,7 @@ export const StyledHeader = styled(HeaderComponent)<{
     `}
 `
 
-export const StyledMenuButton = styled(MenuButton)<{ $active: boolean }>`
+export const StyledMenuButton = styled(MenuButton)<{ $active?: boolean }>`
   background: transparent;
   font-size: 1rem;
   font-family: inherit;

@@ -1,31 +1,26 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
-import { useEffect, useMemo, useState } from 'react'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import { useEffect, useState } from 'react'
 
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
-import { MenuInline, MenuItem, MenuToggle } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
-import { useMediaQuery } from 'react-responsive'
+import { MenuItem } from '@amsterdam/asc-ui'
 import { useLocation } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 
-import Logo from 'components/Logo'
-import Notification from 'containers/Notification'
 import SearchBar from 'containers/SearchBar'
-import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
-import {
-  HeaderWrapper,
-  SearchBarMenuItem,
-  StyledHeader,
-  StyledMenuButton,
-  MENU_BREAKPOINT,
-} from './styled'
-import useTallHeader from '../../hooks/useTallHeader'
+import type { ShowItems } from './SiteHeader'
+import { SearchBarMenuItem, StyledMenuButton } from './styled'
 
-const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
+interface Props {
+  onLinkClick?: () => void
+  onLogOut?: () => void
+  showItems: ShowItems
+}
+
+export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
   const location = useLocation()
   const isAuthenticated = getIsAuthenticated()
   const [activeMenuItem, setActiveMenuItem] = useState('/manage/incidents')
@@ -36,13 +31,13 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
 
   return (
     <>
-      {getIsAuthenticated() && (
+      {isAuthenticated && (
         <>
           <SearchBarMenuItem>
             <SearchBar />
           </SearchBarMenuItem>
 
-          <MenuItem element="span">
+          <MenuItem>
             <StyledMenuButton
               onClick={onLinkClick}
               forwardedAs={NavLink}
@@ -55,7 +50,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </>
       )}
 
-      <MenuItem element="span">
+      <MenuItem>
         {/* Full page load to trigger refresh of incident form data */}
         <StyledMenuButton
           onClick={onLinkClick}
@@ -68,7 +63,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       </MenuItem>
 
       {isAuthenticated && configuration.featureFlags.showDashboard ? (
-        <MenuItem element="span">
+        <MenuItem>
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
@@ -80,7 +75,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
         </MenuItem>
       ) : (
         isAuthenticated && (
-          <MenuItem element="span">
+          <MenuItem>
             <StyledMenuButton
               onClick={onLinkClick}
               forwardedAs={NavLink}
@@ -94,7 +89,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       )}
 
       {showItems.defaultTexts && (
-        <MenuItem element="span">
+        <MenuItem>
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
@@ -107,7 +102,7 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
       )}
 
       {showItems.settings && (
-        <MenuItem element="span">
+        <MenuItem>
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
@@ -134,11 +129,10 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
             </MenuItem>
           )}
           <MenuItem
-            element="button"
             data-testid="logout-button"
             onClick={() => {
               onLinkClick && onLinkClick()
-              onLogOut()
+              onLogOut && onLogOut()
             }}
           >
             <StyledMenuButton
@@ -153,75 +147,3 @@ const MenuItems = ({ onLogOut, showItems, onLinkClick }) => {
     </>
   )
 }
-
-export const SiteHeader = (props) => {
-  const rendersMenuToggle = useMediaQuery({
-    query: `(max-width: ${MENU_BREAKPOINT}px)`,
-  })
-
-  const tallHeaderByDefault = useTallHeader()
-  const isFrontOffice = useIsFrontOffice()
-  const tall = (isFrontOffice && !getIsAuthenticated()) || tallHeaderByDefault
-  const title = tall
-    ? configuration.language.headerTitle
-    : configuration.language.smallHeaderTitle
-  const homeLink = tall ? configuration.links.home : '/'
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  const navigation = useMemo(
-    () =>
-      rendersMenuToggle ? (
-        <MenuToggle align="right" open={menuOpen} onExpand={setMenuOpen}>
-          <MenuItems {...props} onLinkClick={() => setMenuOpen(false)} />
-        </MenuToggle>
-      ) : (
-        <MenuInline>
-          <MenuItems {...props} />
-        </MenuInline>
-      ),
-    [props, menuOpen, rendersMenuToggle]
-  )
-
-  return (
-    <>
-      <HeaderWrapper
-        isFrontOffice={isFrontOffice}
-        tall={tall}
-        className={`siteHeader ${tall ? 'isTall' : 'isShort'}`}
-        data-testid="site-header"
-      >
-        <StyledHeader
-          isFrontOffice={isFrontOffice}
-          title={title}
-          homeLink={homeLink}
-          tall={tall}
-          fullWidth={false}
-          navigation={tall ? null : navigation}
-          logo={Logo}
-          headerLogoTextAs="div"
-        />
-        {!tall && <Notification />}
-      </HeaderWrapper>
-
-      {tall && <Notification />}
-    </>
-  )
-}
-
-SiteHeader.defaultProps = {
-  onLogOut: undefined,
-  showItems: {},
-}
-
-SiteHeader.propTypes = {
-  onLogOut: PropTypes.func,
-  showItems: PropTypes.shape({
-    users: PropTypes.bool,
-    groups: PropTypes.bool,
-    departments: PropTypes.bool,
-  }),
-}
-
-MenuItems.propTypes = SiteHeader.propTypes
-
-export default SiteHeader
