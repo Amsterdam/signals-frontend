@@ -21,7 +21,7 @@ export const validatePhoneNumber = (control?: Control<any>) => {
 }
 
 export const falsyOrNumber = (control: Control<any>) => {
-  if (typeof control.value === 'number') {
+  if (typeof control.value === 'number' || !control.value) {
     return null
   }
   return {
@@ -32,8 +32,7 @@ export const falsyOrNumber = (control: Control<any>) => {
 export const inPast = (control: Control<number>) => {
   const newDate = new Date()
 
-  if (!control || !control.value || control.value <= newDate.getTime())
-    return null
+  if (!control.value || control.value <= newDate.getTime()) return null
   return {
     custom: `Vul een tijdstip uit het verleden in`,
   }

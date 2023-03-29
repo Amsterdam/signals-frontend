@@ -84,12 +84,21 @@ describe('The custom validators service', () => {
     })
 
     it('evaluates null values', () => {
+      const inputNull = {
+        value: null,
+      }
+      const inputUndefined = {
+        value: undefined,
+      }
       const inputNumber = {
         value: 1234567890,
       }
       const invalidInputNumber = {
         value: 'ajksdlfjlk',
       }
+
+      expect(falsyOrNumber(inputNull)).toBeNull()
+      expect(falsyOrNumber(inputUndefined)).toBeNull()
       expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(invalidInputNumber)).not.toBeNull()
     })
