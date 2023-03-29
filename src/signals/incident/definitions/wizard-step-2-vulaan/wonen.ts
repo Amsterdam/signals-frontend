@@ -2,7 +2,10 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 
 import configuration from 'shared/services/configuration/configuration'
-import { falsyOrNumber } from 'signals/incident/services/custom-validators'
+import {
+  falsyOrNumber,
+  inPast,
+} from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -616,7 +619,7 @@ const vakantieverhuur = {
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumber],
+      validators: [falsyOrNumber, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

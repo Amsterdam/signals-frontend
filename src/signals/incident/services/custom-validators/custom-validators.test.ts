@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { validatePhoneNumber, validateObjectLocation, falsyOrNumber } from '.'
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import {
+  falsyOrNumber,
+  inPast,
+  validateObjectLocation,
+  validatePhoneNumber,
+} from '.'
 
 describe('The custom validators service', () => {
   describe('validatePhoneNumber', () => {
@@ -91,10 +96,31 @@ describe('The custom validators service', () => {
       const invalidInputNumber = {
         value: 'ajksdlfjlk',
       }
+
       expect(falsyOrNumber(inputNull)).toBeNull()
-      expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(inputUndefined)).toBeNull()
+      expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(invalidInputNumber)).not.toBeNull()
+    })
+  })
+  describe('inPast', () => {
+    it('returns a function', () => {
+      expect(inPast).toBeInstanceOf(Function)
+    })
+
+    it('evaluates null values', () => {
+      const inputEarlierThanNow = { value: 100 }
+
+      expect(inPast(inputEarlierThanNow)).toBeNull()
+    })
+
+    it('returns a custom error message when invalid', () => {
+      const newDate = new Date()
+      const inputLaterThanNow = { value: newDate.getTime() + 1000 }
+
+      expect(inPast(inputLaterThanNow)).toStrictEqual({
+        custom: `Vul een tijdstip uit het verleden in`,
+      })
     })
   })
 })
