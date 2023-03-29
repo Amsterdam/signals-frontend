@@ -110,7 +110,7 @@ describe('The custom validators service', () => {
       const inputLaterThanNow = { value: newDate.getTime() + 1000 }
 
       expect(inPast(inputLaterThanNow)).toStrictEqual({
-        custom: `Maak een melding aan met een tijdstip in het verleden`,
+        custom: `Vul een tijdstip uit het verleden in`,
       })
     })
   })

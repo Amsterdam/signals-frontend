@@ -35,7 +35,7 @@ export const inPast = (control: Control<number>) => {
   if (!control || !control.value || control.value <= newDate.getTime())
     return null
   return {
-    custom: `Maak een melding aan met een tijdstip in het verleden`,
+    custom: `Vul een tijdstip uit het verleden in`,
   }
 }
 
