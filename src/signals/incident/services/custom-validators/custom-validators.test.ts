@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import {
   falsyOrNumber,
   inPast,
@@ -96,9 +96,10 @@ describe('The custom validators service', () => {
       const invalidInputNumber = {
         value: 'ajksdlfjlk',
       }
+
       expect(falsyOrNumber(inputNull)).toBeNull()
-      expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(inputUndefined)).toBeNull()
+      expect(falsyOrNumber(inputNumber)).toBeNull()
       expect(falsyOrNumber(invalidInputNumber)).not.toBeNull()
     })
   })
@@ -106,21 +107,19 @@ describe('The custom validators service', () => {
     it('returns a function', () => {
       expect(inPast).toBeInstanceOf(Function)
     })
+
     it('evaluates null values', () => {
-      const inputNull = { value: null }
-      const inputUndefined = { value: undefined }
       const inputEarlierThanNow = { value: 100 }
 
-      expect(inPast(inputNull)).toBeNull()
-      expect(inPast(inputUndefined)).toBeNull()
       expect(inPast(inputEarlierThanNow)).toBeNull()
     })
+
     it('returns a custom error message when invalid', () => {
       const newDate = new Date()
       const inputLaterThanNow = { value: newDate.getTime() + 1000 }
 
       expect(inPast(inputLaterThanNow)).toStrictEqual({
-        custom: `Maak een melding aan met een tijdstip in het verleden`,
+        custom: `Vul een tijdstip uit het verleden in`,
       })
     })
   })

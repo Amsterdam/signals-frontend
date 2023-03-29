@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-type Control = {
-  value: any
+type Control<T> = {
+  value: T
 }
 
-export const validatePhoneNumber = (control?: Control) => {
+export const validatePhoneNumber = (control?: Control<any>) => {
   if (
     !control ||
     control.value === '' ||
@@ -20,8 +20,8 @@ export const validatePhoneNumber = (control?: Control) => {
   }
 }
 
-export const falsyOrNumber = (control: Control) => {
-  if (!control || typeof control.value === 'number' || !control.value) {
+export const falsyOrNumber = (control: Control<any>) => {
+  if (typeof control.value === 'number' || !control.value) {
     return null
   }
   return {
@@ -29,23 +29,17 @@ export const falsyOrNumber = (control: Control) => {
   }
 }
 
-export const inPast = (control: Control) => {
+export const inPast = (control: Control<number>) => {
   const newDate = new Date()
 
-  if (
-    !control ||
-    !control.value ||
-    parseInt(control.value) <= newDate.getTime()
-  )
-    return null
-
+  if (!control.value || control.value <= newDate.getTime()) return null
   return {
-    custom: `Maak een melding aan met een tijdstip in het verleden`,
+    custom: `Vul een tijdstip uit het verleden in`,
   }
 }
 
 export const validateObjectLocation = (objectType: string) =>
-  function required(control: Control) {
+  function required(control: Control<any>) {
     if (
       control.value?.location?.coordinates?.lng &&
       control.value?.location?.coordinates?.lat
