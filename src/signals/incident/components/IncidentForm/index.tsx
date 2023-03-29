@@ -50,6 +50,7 @@ const IncidentForm = forwardRef<any, any>(
 
     useEffect(() => {
       return () => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         prevState.current.isMounted = false
       }
     }, [])

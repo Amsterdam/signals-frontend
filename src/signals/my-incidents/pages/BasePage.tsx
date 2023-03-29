@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 
 import { Helmet } from 'react-helmet'
@@ -12,16 +12,18 @@ import {
   StyledHeading,
   StyledRow,
   StyledParagraph as Paragraph,
+  StyledErrorAlert,
 } from './styled'
 
 export interface Props {
-  paragraphs?: string[]
-  buttons?: JSX.Element
   pageInfo: {
     documentTitle: string
     dataTestId: string
     pageTitle?: string
   }
+  errorMessage?: string
+  paragraphs?: string[]
+  buttons?: JSX.Element
 }
 
 export const BasePage: FC<Props> = ({
@@ -29,6 +31,7 @@ export const BasePage: FC<Props> = ({
   children,
   pageInfo,
   paragraphs,
+  errorMessage,
 }) => {
   const { documentTitle, pageTitle } = pageInfo
 
@@ -43,6 +46,7 @@ export const BasePage: FC<Props> = ({
         </Helmet>
 
         <article>
+          {errorMessage && <StyledErrorAlert>{errorMessage}</StyledErrorAlert>}
           {pageTitle && (
             <header>
               <StyledHeading>{pageTitle}</StyledHeading>
