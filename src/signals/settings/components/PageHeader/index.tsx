@@ -23,8 +23,6 @@ const StyledSection = styled.section<{ hasBackLink: boolean }>`
 const StyledHeading = styled(Heading)`
   margin: 0;
   line-height: 44px;
-  flex-basis: 100%;
-  width: 0;
 `
 
 const StyledHeadingWrapper = styled.div`
