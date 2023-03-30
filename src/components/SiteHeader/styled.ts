@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2023 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import {
   breakpoint,
   Header as HeaderComponent,
@@ -56,9 +56,9 @@ export const StyledMenuButton = styled(MenuButton)<{ $active?: boolean }>`
   ${({ $active }) =>
     $active &&
     css`
-      span:last-child {
+      span > span {
         color: ${themeColor('secondary')};
-        border-bottom: 1px solid ${themeColor('secondary')};
+        border-bottom: 2px solid ${themeColor('secondary')};
       }
     `}
 `
