@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
-import { Row, Column, themeSpacing, CompactPager } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { Row, Column } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
-import { createStructuredSelector } from 'reselect'
-import styled from 'styled-components'
 
-import DataView from 'components/DataView'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
@@ -17,6 +13,7 @@ import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
 import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
 
+import { StyledDataView, StyledCompactPager } from './styled'
 import filterData from '../../filterData'
 
 // name mapping from API values to human readable values
@@ -28,24 +25,21 @@ export const colMap = {
   sla: 'Afhandeltermijn',
 }
 
-const StyledDataView = styled(DataView)`
-  th:first-child {
-    width: 50%;
-  }
-`
+const columnHeaders = ['Subcategorie', 'Afhandeltermijn', 'Status']
 
-const StyledCompactPager = styled(CompactPager)`
-  max-width: 200px;
-  margin-top: ${themeSpacing(6)};
-`
+interface Params {
+  pageNum: string
+}
 
-export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
+export const CategoriesOverviewContainer = () => {
   const history = useHistory()
-  const params = useParams()
+  const params = useParams<Params>()
   const [page, setPage] = useState(1)
+  const subCategories = useSelector(makeSelectAllSubCategories)
+  const userCan = useSelector(makeSelectUserCan)
 
-  const pageNum = params.pageNum && Number.parseInt(params.pageNum, 10)
-  const count = subCategories && subCategories.length
+  const pageNum = Number.parseInt(params.pageNum, 10)
+  const count = subCategories?.length || 0
   const sliceStart = (pageNum - 1) * PAGE_SIZE
   const pagedData = (subCategories || [])
     .slice(sliceStart, sliceStart + PAGE_SIZE)
@@ -58,7 +52,6 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
   const data = filterData(pagedData, colMap)
   const isLoading = !subCategories
 
-  // subscribe to param changes
   useEffect(() => {
     if (pageNum && pageNum !== page) {
       setPage(pageNum)
@@ -92,8 +85,6 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
     },
     [history]
   )
-
-  const columnHeaders = ['Subcategorie', 'Afhandeltermijn', 'Status']
 
   return (
     <Fragment>
@@ -129,17 +120,3 @@ export const CategoriesOverviewContainer = ({ subCategories, userCan }) => {
     </Fragment>
   )
 }
-
-CategoriesOverviewContainer.propTypes = {
-  subCategories: PropTypes.arrayOf(PropTypes.shape({})),
-  userCan: PropTypes.func.isRequired,
-}
-
-const mapStateToProps = createStructuredSelector({
-  subCategories: makeSelectAllSubCategories,
-  userCan: makeSelectUserCan,
-})
-
-const withConnect = connect(mapStateToProps)
-
-export default withConnect(CategoriesOverviewContainer)
