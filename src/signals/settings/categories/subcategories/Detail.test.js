@@ -14,7 +14,7 @@ import { withAppContext } from 'test/utils'
 import { subCategories } from 'utils/__tests__/fixtures'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
 
-import CategoryDetailContainer from '.'
+import CategoryDetailContainer from './Detail'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 
 const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])

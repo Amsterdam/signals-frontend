@@ -15,9 +15,9 @@ import configuration from 'shared/services/configuration/configuration'
 import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
 
-import CategoryForm from './components/CategoryForm'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
+import CategoryForm from '../components/CategoryForm'
 
 const FormContainer = styled.div`
   // taking into account the space that the FormFooter component takes up

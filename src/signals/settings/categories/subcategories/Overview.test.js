@@ -8,7 +8,7 @@ import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
-import { CategoriesOverviewContainer as CategoriesOverview } from '..'
+import { CategoriesOverviewContainer as CategoriesOverview } from './Overview'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

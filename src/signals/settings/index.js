@@ -50,9 +50,11 @@ const DepartmentsOverviewContainer = lazy(() =>
 // istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
 // istanbul ignore next
-const CategoriesOverviewContainer = lazy(() => import('./categories/Overview'))
+const SubcategoriesOverview = lazy(() => import('./categories'))
 // istanbul ignore next
-const CategoryDetailContainer = lazy(() => import('./categories/Detail'))
+const CategoryDetailContainer = lazy(() =>
+  import('./categories/subcategories/Detail')
+)
 
 // istanbul ignore next
 const ExportContainer = lazy(() => import('./export'))
@@ -146,7 +148,7 @@ const SettingsModule = () => {
         <ProtectedRoute
           exact
           path={routes.categoriesPaged}
-          component={CategoriesOverviewContainer}
+          component={SubcategoriesOverview}
           roleGroup="categories"
         />
         <ProtectedRoute
