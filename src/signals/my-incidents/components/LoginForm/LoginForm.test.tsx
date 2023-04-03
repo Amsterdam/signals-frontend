@@ -32,6 +32,12 @@ const useFetchResponse = {
 }
 
 describe('LoginForm', () => {
+  beforeEach(() => {
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+    }))
+  })
+
   it('should render correctly', () => {
     render(
       withAppContext(
@@ -47,6 +53,11 @@ describe('LoginForm', () => {
   })
 
   it('should submit email when submitting', async () => {
+    jest.mocked(useFetch).mockImplementation(() => ({
+      ...useFetchResponse,
+      isSuccess: true,
+    }))
+
     render(
       withAppContext(
         <MyIncidentsProvider value={providerMock}>

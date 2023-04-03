@@ -12,10 +12,14 @@ type Props = {
 
 const GlobalError = ({ meta }: Props) => {
   const { formState } = useFormContext()
+
+  const invalid =
+    formState.errors?.dateTime?.type === 'custom' ? '(juist) ' : ''
+
   return !isEmpty(formState?.errors) ? (
     <StyledErrorAlert>
       {meta?.label ||
-        'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'}
+        `U hebt niet alle vragen ${invalid}beantwoord. Vul hieronder aan alstublieft.`}
     </StyledErrorAlert>
   ) : null
 }
