@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, fireEvent, act } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 
 import * as auth from 'shared/services/auth/auth'
 import wizardDefinition from 'signals/incident/definitions/wizard'
-import { withAppContext, history } from 'test/utils'
+import { history, withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
-import { Wizard, Steps, Step } from '../StepWizard'
+import { Step, Steps, Wizard } from '../StepWizard'
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -37,6 +37,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
     handleSubmit.mockReset()
   })
+  it('redirects to wizard step 1 when refresh is hit', () => {})
 
   it('renders a next button for the first step', () => {
     const { getByTestId, queryByTestId } = render(
