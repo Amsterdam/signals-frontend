@@ -80,7 +80,6 @@ interface WizardStepProps extends IncidentNavigationProps {
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
   const history = useHistory()
-
   useEffect(() => {
     if (!wizardStep.formAction) {
       history.push('/incident/beschrijf')
@@ -88,7 +87,6 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   }, [history, wizardStep.formAction])
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
-
    */
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 

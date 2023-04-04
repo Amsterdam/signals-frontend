@@ -33,11 +33,39 @@ jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
 }))
 
+const pushSpy = jest.spyOn(history, 'push')
+
 describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
     handleSubmit.mockReset()
   })
-  it('redirects to wizard step 1 when refresh is hit', () => {})
+  it('redirects to wizard step 1 from step 2 when refresh is hit', () => {
+    const wizardDefinitionWithoutFormAction = { ...wizardDefinition }
+
+    wizardDefinitionWithoutFormAction.vulaan.formAction = undefined
+
+    const propsWithoutFormAction = {
+      meta: {
+        wizard: wizardDefinitionWithoutFormAction,
+        handleSubmit,
+      },
+    }
+
+    render(
+      withAppContext(
+        <Wizard history={history}>
+          <Steps>
+            <Step
+              id={steps[1]}
+              render={() => <IncidentNavigation {...propsWithoutFormAction} />}
+            />
+          </Steps>
+        </Wizard>
+      )
+    )
+
+    expect(pushSpy).toBeCalledWith('/incident/beschrijf')
+  })
 
   it('renders a next button for the first step', () => {
     const { getByTestId, queryByTestId } = render(
