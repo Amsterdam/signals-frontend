@@ -61,4 +61,25 @@ describe('usePostEmail', () => {
       `U hebt te vaak gevraagd om de e-mail opnieuw te versturen. Over 20 minuten kunt u het opnieuw proberen.`
     )
   })
+
+  it('should set error message when other error', () => {
+    const error = { status: 400, message: 'Bad request' } as FetchError
+    const response = {
+      ...useFetchResponse,
+      error,
+    }
+    jest.mocked(useFetch).mockImplementation(() => response)
+
+    const { result } = renderHook(usePostEmail)
+
+    const [postEmail] = result.current
+
+    act(() => postEmail('ambtenaar@keihardwerken.nl'))
+
+    const [, { errorMessage }] = result.current
+
+    expect(errorMessage).toEqual(
+      'Het inloggen is mislukt. Probeer het later opnieuw.'
+    )
+  })
 })

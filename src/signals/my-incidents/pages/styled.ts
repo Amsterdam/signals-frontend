@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import {
   breakpoint,
   Heading,
@@ -10,6 +10,8 @@ import {
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import { StyledErrorAlert as BaseStyledErrorAlert } from '../../../components/ErrorAlert/styled'
 
 export const StyledRow = styled(Row)`
   max-width: 960px;
@@ -71,4 +73,8 @@ export const StyledLink = styled(Link)`
 
 export const Wrapper = styled.div`
   width: 100%;
+`
+
+export const StyledErrorAlert = styled(BaseStyledErrorAlert)`
+  margin-top: 2rem;
 `

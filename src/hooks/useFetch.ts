@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { Reducer } from 'react'
 import { useCallback, useEffect, useReducer, useMemo } from 'react'
 
@@ -8,8 +8,9 @@ import { getAuthHeaders } from 'shared/services/auth/auth'
 
 type Data = Record<string, unknown>
 export type FetchError = (Response | Error) & {
-  message: string
+  message?: string
   detail?: string
+  status?: number
 }
 
 export interface State<T> {
@@ -153,7 +154,6 @@ const useFetch = <T>(): FetchResponse<T> => {
 
       const queryParams = arrayParams.concat(scalarParams).join('&')
       const requestURL = [url, queryParams].filter(Boolean).join('?')
-
       try {
         const fetchResponse = await fetch(requestURL, {
           headers: {
@@ -165,7 +165,6 @@ const useFetch = <T>(): FetchResponse<T> => {
           signal,
           ...requestOptions,
         })
-
         const responseData = (
           requestOptions.responseType === 'blob'
             ? await fetchResponse.blob()
@@ -221,11 +220,16 @@ const useFetch = <T>(): FetchResponse<T> => {
             ...requestOptions,
           })
 
-          const responseData = (
-            requestOptions.responseType === 'blob'
-              ? await modifyResponse.blob()
-              : await modifyResponse.json()
-          ) as Data
+          let responseData: Data
+          try {
+            responseData = (
+              requestOptions.responseType === 'blob'
+                ? await modifyResponse.blob()
+                : await modifyResponse.json()
+            ) as Data
+          } catch (exception: unknown) {
+            responseData = {}
+          }
 
           if (modifyResponse.ok) {
             dispatch({ type: 'SET_MODIFY_DATA', payload: responseData })

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
@@ -24,5 +24,15 @@ describe('BasePage', () => {
     expect(screen.getByText('Page Title')).toBeInTheDocument()
     expect(screen.getByText('I am a paragraph')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+
+  it('should render a error message', () => {
+    render(
+      withAppContext(
+        <BasePage {...defaultProps} errorMessage="sending email failed" />
+      )
+    )
+
+    expect(screen.getByText('sending email failed')).toBeInTheDocument()
   })
 })
