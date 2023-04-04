@@ -156,7 +156,11 @@ const useFetch = <T>(): FetchResponse<T> => {
 
       try {
         const fetchResponse = await fetch(requestURL, {
-          headers: { ...requestHeaders(), ...optionalHeaders },
+          headers: {
+            ...requestHeaders(),
+            ...optionalHeaders,
+          },
+          credentials: 'include',
           method: 'GET',
           signal,
           ...requestOptions,
