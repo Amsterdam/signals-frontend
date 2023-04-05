@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import type { BaseSyntheticEvent } from 'react'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import NextButton from 'components/NextButton'
@@ -78,9 +79,15 @@ interface WizardStepProps extends IncidentNavigationProps {
 
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
+  const history = useHistory()
+  useEffect(() => {
+    // wizardStep.formAction is undefined when a user hits the refresh and when wizard-step-1 is rendered for the first time
+    if (!wizardStep.formAction) {
+      history.push('/incident/beschrijf')
+    }
+  }, [history, wizardStep.formAction])
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
-
    */
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 
