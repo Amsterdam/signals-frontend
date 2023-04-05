@@ -81,6 +81,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
   const history = useHistory()
   useEffect(() => {
+    // wizardStep.formAction is undefined when a user hits the refresh and when wizard-step-1 is rendered for the first time
     if (!wizardStep.formAction) {
       history.push('/incident/beschrijf')
     }
