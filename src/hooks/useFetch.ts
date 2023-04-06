@@ -156,11 +156,7 @@ const useFetch = <T>(): FetchResponse<T> => {
       const requestURL = [url, queryParams].filter(Boolean).join('?')
       try {
         const fetchResponse = await fetch(requestURL, {
-          headers: {
-            ...requestHeaders(),
-            ...optionalHeaders,
-          },
-          credentials: 'include',
+          headers: { ...requestHeaders(), ...optionalHeaders },
           method: 'GET',
           signal,
           ...requestOptions,

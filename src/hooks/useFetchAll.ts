@@ -94,7 +94,6 @@ const useFetchAll = <T>(): FetchResponse<T> => {
       const requests = urls.map(async (url) =>
         fetch(url, {
           headers: requestHeaders(),
-          credentials: 'include',
           method: 'GET',
           signal,
         })
