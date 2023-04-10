@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 import {
   Fragment,
@@ -34,6 +34,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import RadioInput from 'signals/incident-management/components/RadioInput'
 import SelectInput from 'signals/incident-management/components/SelectInput'
+import SelectInputSearch from 'signals/incident-management/components/SelectInputSearch'
 import Status from 'signals/incident-management/components/Status'
 import {
   typesList,
@@ -55,8 +56,6 @@ import Highlight from '../Highlight'
 import StatusForm from '../StatusForm'
 
 const StyledMetaList = styled.dl`
-  contain: content;
-
   dt {
     color: ${themeColor('tint', 'level5')};
     margin-bottom: ${themeSpacing(1)};
@@ -420,7 +419,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
       {subcategoryOptions.length > 0 && (
         <Highlight type="subcategory">
           <ChangeValue
-            component={SelectInput}
+            component={SelectInputSearch}
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
             options={subcategoryOptions}

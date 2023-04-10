@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useEffect, useRef, useCallback } from 'react'
 import type { FC } from 'react'
 
@@ -10,13 +10,13 @@ import styled from 'styled-components'
 import type { PdokResponse } from 'shared/services/map-location'
 
 const StyledList = styled.ul`
-  border: 1px solid ${themeColor('tint', 'level5')};
   border-top: 0;
   padding: 0;
   margin: 0;
 `
 
 const Li = styled.li<{ id: string }>`
+  border: 1px solid ${themeColor('tint', 'level5')};
   line-height: ${themeSpacing(5)};
   padding: ${themeSpacing(2, 5)};
   cursor: pointer;
