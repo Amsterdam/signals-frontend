@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
-import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 
 import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -13,8 +13,8 @@ import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Status } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
@@ -25,12 +25,12 @@ import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import {
   AddNoteWrapper,
-  StyledCheckbox,
   Form,
-  StyledCheckboxLabel,
   StandardTextsButton,
   StyledAlert,
   StyledButton,
+  StyledCheckbox,
+  StyledCheckboxLabel,
   StyledH4,
   StyledLabel,
   StyledParagraph,
@@ -38,7 +38,7 @@ import {
 } from './styled'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
-import type { IncidentChild, EmailTemplate } from '../../types'
+import type { EmailTemplate, IncidentChild } from '../../types'
 import EmailPreview from '../EmailPreview/EmailPreview'
 
 interface StatusFormProps {
@@ -144,8 +144,15 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault()
-
       const textValue = state.text.value || state.text.defaultValue
+
+      const doEmailTemplate =
+        incident &&
+        !(
+          incident.category?.main_slug === 'overig' &&
+          incident.category?.sub_slug === 'overig' &&
+          state.status.key === 'o'
+        )
 
       if (state.text.required && !textValue) {
         dispatch({
@@ -179,7 +186,8 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         incident?.id &&
         state.flags.hasEmail &&
         state.check.checked &&
-        incident?.reporter?.allows_contact
+        incident?.reporter?.allows_contact &&
+        doEmailTemplate
       ) {
         getEmailTemplate(
           `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
@@ -193,6 +201,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       }
     },
     [
+      incident?.category?.main_slug,
+      incident?.category?.sub_slug,
+      incident?.reporter?.allows_contact,
       incident?.id,
       state.flags.hasEmail,
       state.status.key,
@@ -203,7 +214,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       getEmailTemplate,
-      incident?.reporter?.allows_contact,
     ]
   )
 

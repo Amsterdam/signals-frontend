@@ -13,11 +13,11 @@ import fetch from 'jest-fetch-mock'
 import * as actions from 'containers/App/actions'
 import configuration from 'shared/services/configuration/configuration'
 import {
+  AFGEHANDELD,
   changeStatusOptionList,
+  GEANNULEERD,
   GEMELD,
   INGEPLAND,
-  AFGEHANDELD,
-  GEANNULEERD,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
 import { StatusCode } from 'signals/incident-management/definitions/types'
@@ -27,12 +27,12 @@ import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 
 import StatusForm from '.'
 import {
-  MELDING_CHECKBOX_DESCRIPTION,
   DEELMELDING_EXPLANATION,
-  DEELMELDINGEN_STILL_OPEN_HEADING,
   DEELMELDINGEN_STILL_OPEN_CONTENT,
+  DEELMELDINGEN_STILL_OPEN_HEADING,
   DEFAULT_TEXT_LABEL,
   DEFAULT_TEXT_MAX_LENGTH,
+  MELDING_CHECKBOX_DESCRIPTION,
 } from './constants'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
@@ -714,6 +714,41 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.ReactieGevraagd,
     ])
     expect(submitButton).toBeDisabled()
+  })
+
+  it('is not possible to submit the status Afgehandeld when category is Overig-Overig', async () => {
+    const withCategoryOverigOverig = { ...incidentFixture }
+
+    if (withCategoryOverigOverig.category?.main_slug) {
+      withCategoryOverigOverig.category.main_slug = 'overig'
+    }
+
+    if (withCategoryOverigOverig.category?.sub_slug) {
+      withCategoryOverigOverig.category.sub_slug = 'overig'
+    }
+    if (withCategoryOverigOverig.status?.state) {
+      withCategoryOverigOverig.status.state = StatusCode.Afgehandeld
+    }
+
+    render(renderWithContext(withCategoryOverigOverig))
+
+    // Type a message in the text field
+    const textarea = screen.getByRole('textbox')
+    const value = 'Foo bar baz'
+    userEvent.type(textarea, value)
+
+    // submit the form
+    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
+
+    // verify that 'update' has been called
+    expect(update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: PATCH_TYPE_STATUS,
+        patch: {
+          status: expect.objectContaining({ text: value }),
+        },
+      })
+    )
   })
 
   it('opens the email preview modal and calls update after hitting the send button', async () => {

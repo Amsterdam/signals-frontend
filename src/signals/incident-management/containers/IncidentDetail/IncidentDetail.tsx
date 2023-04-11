@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useReducer, useEffect, useCallback, useState } from 'react'
+import { useCallback, useEffect, useReducer, useState } from 'react'
 
-import { themeSpacing, Row, Column } from '@amsterdam/asc-ui'
+import { Column, Row, themeSpacing } from '@amsterdam/asc-ui'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -11,8 +11,8 @@ import AttachmentViewer from 'components/AttachmentViewer'
 import CloseButton from 'components/CloseButton'
 import History from 'components/History'
 import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
-import { useFetch, useEventEmitter, useFetchAll } from 'hooks'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { useEventEmitter, useFetch, useFetchAll } from 'hooks'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
@@ -38,9 +38,9 @@ import {
   PREVIEW,
   RESET,
   SET_ATTACHMENTS,
+  SET_CHILD_INCIDENTS,
   SET_CHILDREN,
   SET_CHILDREN_HISTORY,
-  SET_CHILD_INCIDENTS,
   SET_CONTEXT,
   SET_DEFAULT_TEXTS,
   SET_ERROR,
@@ -153,6 +153,7 @@ const IncidentDetail = () => {
         fetchError?.status === 401 || fetchError.status === 403
           ? 'Geen bevoegdheid'
           : 'Bewerking niet mogelijk'
+
       const message = getErrorMessage(
         error,
         'Deze wijziging is niet toegestaan in deze situatie.'
@@ -291,12 +292,27 @@ const IncidentDetail = () => {
     }
   }, [children, getChildrenHistory, getChildIncidents])
 
+  /*
+  Server accepts incident category of Overig - Overig and status afgehandeld. For Amsterdam this is not allowed, so this
+  is prohibited here.
+   */
   const updateDispatch = useCallback(
     (action) => {
       dispatch({ type: PATCH_START, payload: action.type })
-      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch)
+      const isAllowed =
+        !incident ||
+        !(
+          incident.category?.main_slug === 'overig' &&
+          incident.category?.sub_slug === 'overig' &&
+          action.patch.status.state === 'o'
+        )
+      if (isAllowed) {
+        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch)
+      } else {
+        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}`, action.patch)
+      }
     },
-    [id, patch]
+    [id, patch, incident]
   )
 
   const previewDispatch = useCallback((section, payload) => {

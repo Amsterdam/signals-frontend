@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import * as appSelectors from 'containers/App/selectors'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import useEventEmitter from 'hooks/useEventEmitter'
 import * as categoriesSelectors from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -459,5 +460,61 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       expect(emit).not.toHaveBeenCalled()
       await screen.findByTestId('incident-detail')
     })
+
+    // it('should return an error message when patch is not allowed', async () => {
+    //   jest.mock(
+    //     'components/StatusForm/StatusForm',
+    //     () =>
+    //       ({ defaultTexts, childIncidents, onClose }: StatusFormProps) =>
+    //         (
+    //           <span data-testid="mock-legend-panel">
+    //             <input type="button" name="closeLegend" onClick={onClose} />
+    //           </span>
+    //         )
+    //   )
+    //   const withCategoryOverigOverig = { ...incidentFixture }
+    //   L
+    //   if (withCategoryOverigOverig.category?.main_slug) {
+    //     withCategoryOverigOverig.category.main_slug = 'overig'
+    //   }
+    //
+    //   if (withCategoryOverigOverig.category?.sub_slug) {
+    //     withCategoryOverigOverig.category.sub_slug = 'overig'
+    //   }
+    //   if (withCategoryOverigOverig.status?.state) {
+    //     withCategoryOverigOverig.status.state = 'o'
+    //   }
+    //
+    //   render(withAppContext(<IncidentDetail />))
+    //   mockRequestHandler({
+    //     url: API.INCIDENT,
+    //     method: 'patch',
+    //     status: 405,
+    //     body: 'Bad request',
+    //   })
+    //
+    //   expect(emit).not.toHaveBeenCalled()
+    //   expect(dispatch).not.toHaveBeenCalled()
+    //
+    //   act(() => {
+    //     userEvent.click(screen.getByTestId('add-note-save-note-button'))
+    //   })
+    //
+    //   await screen.findByTestId('incident-detail')
+    //
+    //   await waitFor(() => {
+    //     expect(dispatch).toHaveBeenCalledWith(
+    //       showGlobalNotification(
+    //         expect.objectContaining({
+    //           type: TYPE_LOCAL,
+    //           variant: VARIANT_ERROR,
+    //         })
+    //       )
+    //     )
+    //   })
+    //   expect(emit).not.toHaveBeenCalled()
+    //
+    //   await screen.findByTestId('incident-detail')
+    // })
   })
 })
