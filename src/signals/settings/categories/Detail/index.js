@@ -30,6 +30,7 @@ const getTransformedData = (formData) => {
   const transformedData = { ...formData, new_sla: formData.sla }
 
   delete transformedData.sla
+  delete transformedData.configuration
 
   return transformedData
 }
