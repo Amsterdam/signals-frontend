@@ -144,20 +144,26 @@ const IncidentDetail = () => {
     }
   }, [handleKeyUp, listenFor, unlisten])
 
+  const createErrorNotification = useCallback((error?) => {
+    const fetchError = error as Response
+    const title =
+      fetchError?.status === 401 || fetchError?.status === 403
+        ? 'Geen bevoegdheid'
+        : 'Bewerking niet mogelijk'
+
+    const message = getErrorMessage(
+      error,
+      'Deze wijziging is niet toegestaan in deze situatie.'
+    )
+
+    return { title, message }
+  }, [])
+
   useEffect(() => {
     dispatch({ type: SET_ERROR, payload: error })
 
     if (error) {
-      const fetchError = error as Response
-      const title =
-        fetchError?.status === 401 || fetchError.status === 403
-          ? 'Geen bevoegdheid'
-          : 'Bewerking niet mogelijk'
-
-      const message = getErrorMessage(
-        error,
-        'Deze wijziging is niet toegestaan in deze situatie.'
-      )
+      const { title, message } = createErrorNotification(error)
 
       storeDispatch(
         showGlobalNotification({
@@ -168,7 +174,7 @@ const IncidentDetail = () => {
         })
       )
     }
-  }, [error, storeDispatch])
+  }, [createErrorNotification, error, storeDispatch])
 
   useEffect(() => {
     if (!history) return
@@ -292,10 +298,6 @@ const IncidentDetail = () => {
     }
   }, [children, getChildrenHistory, getChildIncidents])
 
-  /*
-  Server accepts incident category of Overig - Overig and status afgehandeld. For Amsterdam this is not allowed, so this
-  is prohibited here.
-   */
   const updateDispatch = useCallback(
     (action) => {
       dispatch({ type: PATCH_START, payload: action.type })
@@ -306,13 +308,22 @@ const IncidentDetail = () => {
           incident.category?.sub_slug === 'overig' &&
           action.patch.status.state === 'o'
         )
+
       if (isAllowed) {
         patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch)
       } else {
-        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}`, action.patch)
+        const { title, message } = createErrorNotification()
+        storeDispatch(
+          showGlobalNotification({
+            title,
+            message,
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        )
       }
     },
-    [id, patch, incident]
+    [incident, patch, id, createErrorNotification, storeDispatch]
   )
 
   const previewDispatch = useCallback((section, payload) => {

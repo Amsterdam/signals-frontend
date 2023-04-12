@@ -39,8 +39,8 @@ const mockUseUpload = {
 }
 jest.mock('./hooks/useUpload', () => () => mockUseUpload)
 
-const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+const storeDispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => storeDispatch)
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -70,7 +70,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   beforeEach(() => {
-    dispatch.mockReset()
+    storeDispatch.mockReset()
     emit.mockReset()
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }))
   })
@@ -289,7 +289,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
 
     expect(emit).not.toHaveBeenCalled()
-    expect(dispatch).not.toHaveBeenCalled()
+    expect(storeDispatch).not.toHaveBeenCalled()
 
     act(() => {
       userEvent.click(screen.getByTestId('add-note-save-note-button'))
@@ -301,7 +301,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
 
     await waitFor(() => {
-      expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
+      expect(storeDispatch).toHaveBeenCalledWith(patchIncidentSuccess())
     })
 
     await screen.findByTestId('incident-detail')
@@ -355,166 +355,169 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   describe('handling errors', () => {
-    beforeEach(async () => {
-      render(withAppContext(<IncidentDetail />))
+    describe('handling errors with a note', () => {
+      beforeEach(async () => {
+        render(withAppContext(<IncidentDetail />))
 
-      await screen.findByTestId('incident-detail')
+        await screen.findByTestId('incident-detail')
 
-      act(() => {
-        userEvent.click(screen.getByText('Notitie toevoegen'))
+        act(() => {
+          userEvent.click(screen.getByText('Notitie toevoegen'))
+        })
+
+        act(() => {
+          userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
+        })
+
+        await screen.findByTestId('incident-detail')
       })
 
-      act(() => {
-        userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
+      it('should handle generic', async () => {
+        mockRequestHandler({
+          url: API.INCIDENT,
+          method: 'patch',
+          status: 400,
+          body: 'Bad request',
+        })
+
+        expect(emit).not.toHaveBeenCalled()
+        expect(storeDispatch).not.toHaveBeenCalled()
+
+        act(() => {
+          userEvent.click(screen.getByTestId('add-note-save-note-button'))
+        })
+
+        await screen.findByTestId('incident-detail')
+
+        await waitFor(() => {
+          expect(storeDispatch).toHaveBeenCalledWith(
+            showGlobalNotification(
+              expect.objectContaining({
+                type: TYPE_LOCAL,
+                variant: VARIANT_ERROR,
+              })
+            )
+          )
+        })
+        expect(emit).not.toHaveBeenCalled()
+        await screen.findByTestId('incident-detail')
       })
 
-      await screen.findByTestId('incident-detail')
+      it('should handle 401', async () => {
+        mockRequestHandler({
+          url: API.INCIDENT,
+          method: 'patch',
+          status: 401,
+          body: 'Unauthorized',
+        })
+
+        expect(emit).not.toHaveBeenCalled()
+        expect(storeDispatch).not.toHaveBeenCalled()
+
+        act(() => {
+          userEvent.click(screen.getByTestId('add-note-save-note-button'))
+        })
+
+        await screen.findByTestId('incident-detail')
+
+        await waitFor(() => {
+          expect(storeDispatch).toHaveBeenCalledWith(
+            showGlobalNotification(
+              expect.objectContaining({
+                title: 'Geen bevoegdheid',
+              })
+            )
+          )
+        })
+        expect(emit).not.toHaveBeenCalled()
+      })
+
+      it('should handle 403', async () => {
+        mockRequestHandler({
+          url: API.INCIDENT,
+          method: 'patch',
+          status: 403,
+          body: 'Forbidden',
+        })
+
+        expect(emit).not.toHaveBeenCalled()
+        expect(storeDispatch).not.toHaveBeenCalled()
+
+        act(() => {
+          userEvent.click(screen.getByTestId('add-note-save-note-button'))
+        })
+
+        await screen.findByTestId('incident-detail')
+
+        await waitFor(() => {
+          expect(storeDispatch).toHaveBeenCalledWith(
+            showGlobalNotification(
+              expect.objectContaining({
+                title: 'Geen bevoegdheid',
+              })
+            )
+          )
+        })
+        expect(emit).not.toHaveBeenCalled()
+        await screen.findByTestId('incident-detail')
+      })
+    })
+  })
+
+  describe('handling other errors', () => {
+    afterEach(() => {
+      configuration.__reset()
     })
 
-    it('should handle generic', async () => {
+    it('handling errors with category overig overig', async () => {
+      const incident = {
+        ...incidentFixture,
+        status: {
+          ...incidentFixture.status,
+          state: 'o',
+        },
+        category: {
+          ...incidentFixture.category,
+          sub_slug: 'overig',
+          main_slug: 'overig',
+        },
+      }
+
       mockRequestHandler({
         url: API.INCIDENT,
-        method: 'patch',
-        status: 400,
-        body: 'Bad request',
+        body: {
+          ...incident,
+          _links: { ...incident._links, 'sia:children': undefined },
+        },
       })
 
-      expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
+      const { container } = render(withAppContext(<IncidentDetail />))
 
-      act(() => {
-        userEvent.click(screen.getByTestId('add-note-save-note-button'))
-      })
+      const editStatusButton = await screen.findByTestId('edit-status-button')
 
-      await screen.findByTestId('incident-detail')
+      expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
+
+      userEvent.click(editStatusButton)
+
+      userEvent.click(screen.getByTestId('select-status'))
+
+      screen.getByRole('option', { name: 'Afgehandeld' }).click()
+
+      userEvent.type(container.querySelector('textarea'), 'test')
+
+      userEvent.click(screen.getByText('Verstuur'))
 
       await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
-          showGlobalNotification(
-            expect.objectContaining({
-              type: TYPE_LOCAL,
-              variant: VARIANT_ERROR,
-            })
-          )
-        )
+        expect(storeDispatch).toHaveBeenCalledWith({
+          payload: {
+            message: 'Deze wijziging is niet toegestaan in deze situatie.',
+            title: 'Bewerking niet mogelijk',
+            type: 'local',
+            variant: 'error',
+          },
+          type: 'sia/App/SHOW_GLOBAL_NOTIFICATION',
+        })
       })
-      expect(emit).not.toHaveBeenCalled()
-      await screen.findByTestId('incident-detail')
     })
-
-    it('should handle 401', async () => {
-      mockRequestHandler({
-        url: API.INCIDENT,
-        method: 'patch',
-        status: 401,
-        body: 'Unauthorized',
-      })
-
-      expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
-
-      act(() => {
-        userEvent.click(screen.getByTestId('add-note-save-note-button'))
-      })
-
-      await screen.findByTestId('incident-detail')
-
-      await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
-          showGlobalNotification(
-            expect.objectContaining({
-              title: 'Geen bevoegdheid',
-            })
-          )
-        )
-      })
-      expect(emit).not.toHaveBeenCalled()
-    })
-
-    it('should handle 403', async () => {
-      mockRequestHandler({
-        url: API.INCIDENT,
-        method: 'patch',
-        status: 403,
-        body: 'Forbidden',
-      })
-
-      expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
-
-      act(() => {
-        userEvent.click(screen.getByTestId('add-note-save-note-button'))
-      })
-
-      await screen.findByTestId('incident-detail')
-
-      await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
-          showGlobalNotification(
-            expect.objectContaining({
-              title: 'Geen bevoegdheid',
-            })
-          )
-        )
-      })
-      expect(emit).not.toHaveBeenCalled()
-      await screen.findByTestId('incident-detail')
-    })
-
-    // it('should return an error message when patch is not allowed', async () => {
-    //   jest.mock(
-    //     'components/StatusForm/StatusForm',
-    //     () =>
-    //       ({ defaultTexts, childIncidents, onClose }: StatusFormProps) =>
-    //         (
-    //           <span data-testid="mock-legend-panel">
-    //             <input type="button" name="closeLegend" onClick={onClose} />
-    //           </span>
-    //         )
-    //   )
-    //   const withCategoryOverigOverig = { ...incidentFixture }
-    //   L
-    //   if (withCategoryOverigOverig.category?.main_slug) {
-    //     withCategoryOverigOverig.category.main_slug = 'overig'
-    //   }
-    //
-    //   if (withCategoryOverigOverig.category?.sub_slug) {
-    //     withCategoryOverigOverig.category.sub_slug = 'overig'
-    //   }
-    //   if (withCategoryOverigOverig.status?.state) {
-    //     withCategoryOverigOverig.status.state = 'o'
-    //   }
-    //
-    //   render(withAppContext(<IncidentDetail />))
-    //   mockRequestHandler({
-    //     url: API.INCIDENT,
-    //     method: 'patch',
-    //     status: 405,
-    //     body: 'Bad request',
-    //   })
-    //
-    //   expect(emit).not.toHaveBeenCalled()
-    //   expect(dispatch).not.toHaveBeenCalled()
-    //
-    //   act(() => {
-    //     userEvent.click(screen.getByTestId('add-note-save-note-button'))
-    //   })
-    //
-    //   await screen.findByTestId('incident-detail')
-    //
-    //   await waitFor(() => {
-    //     expect(dispatch).toHaveBeenCalledWith(
-    //       showGlobalNotification(
-    //         expect.objectContaining({
-    //           type: TYPE_LOCAL,
-    //           variant: VARIANT_ERROR,
-    //         })
-    //       )
-    //     )
-    //   })
-    //   expect(emit).not.toHaveBeenCalled()
-    //
-    //   await screen.findByTestId('incident-detail')
-    // })
   })
 })
