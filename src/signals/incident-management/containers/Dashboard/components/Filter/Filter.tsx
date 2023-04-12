@@ -29,7 +29,7 @@ export const Filter = ({ setQueryString }: Props) => {
     IncidentManagementContext
   )
 
-  const location = useLocationReferrer() as { referrer: string }
+  const location = useLocationReferrer()
 
   const methods = useForm<{ [key: string]: Option }>({
     defaultValues: Object.fromEntries(
