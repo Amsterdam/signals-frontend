@@ -52,9 +52,7 @@ const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
 // istanbul ignore next
 const SubcategoriesOverview = lazy(() => import('./categories'))
 // istanbul ignore next
-const CategoryDetailContainer = lazy(() =>
-  import('./categories/subcategories/Detail')
-)
+const CategoryDetailContainer = lazy(() => import('./categories/subcategories'))
 
 // istanbul ignore next
 const ExportContainer = lazy(() => import('./export'))

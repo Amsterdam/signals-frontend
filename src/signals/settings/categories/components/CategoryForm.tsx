@@ -1,128 +1,64 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { useCallback, useMemo, useState } from 'react'
-import type {
-  ChangeEvent,
-  FunctionComponent,
-  MouseEvent,
-  ElementType,
-} from 'react'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { FormEventHandler } from 'react'
 
-import { themeSpacing, Row, Column, Select, Label } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import { Row, Column } from '@amsterdam/asc-ui'
+import { Controller, FormProvider } from 'react-hook-form'
+import type { UseFormRegister, UseFormReturn } from 'react-hook-form'
 
 import Checkbox from 'components/Checkbox'
-import FormFooter from 'components/FormFooter'
-import History from 'components/History'
 import Input from 'components/Input'
 import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
-import type { Category as CategoryType } from 'types/category'
 import type { History as HistoryType } from 'types/history'
 
-const Form = styled.form`
-  width: 100%;
-`
+import {
+  FieldGroup,
+  StyledColumn,
+  Form,
+  StyledDefinitionTerm,
+  StyledHeading,
+  StyledLabel,
+  CombinedFields,
+  StyledSelect,
+  StyledHistory,
+  StyledFormFooter,
+} from './styled'
+import type { CategoryFormValues } from '../types'
 
-const StyledColumn = styled(Column)`
-  contain: content;
-  flex-direction: column;
-  justify-content: flex-start;
-`
+interface StatusOption {
+  key: string
+  value: string
+}
 
-const FieldGroup = styled.div`
-  & + & {
-    margin-top: ${themeSpacing(8)};
-  }
-`
-
-const StyledFormFooter = styled(FormFooter)`
-  position: fixed;
-`
-
-const CombinedFields = styled.div`
-  display: flex;
-  margin-top: ${themeSpacing(1)};
-
-  input {
-    flex: 1 0 auto;
-    max-width: 75px;
-  }
-
-  select {
-    flex: 2 1 auto;
-  }
-`
-
-const StyledSelect = styled(Select)`
-  height: 44px;
-`
-
-const StyledLabel = styled(Label)`
-  font-weight: 400;
-`
-
-const StyledHistory = styled(History as ElementType)`
-  h2 {
-    font-size: 1rem;
-  }
-`
-
-const StyledDefinitionTerm = styled.dt`
-  margin-bottom: ${themeSpacing(1)};
-`
-
-const StyledHeading = styled.p`
-  margin-bottom: ${themeSpacing(1)};
-  font-weight: bold;
-  line-height: 22px;
-  font-size: 1rem;
-`
-
-const statusOptions = [
+export const statusOptions: StatusOption[] = [
   { key: 'true', value: 'Actief' },
   { key: 'false', value: 'Niet actief' },
 ]
 
-const DEFAULT_STATUS_OPTION = 'true'
-
-export interface CategoryFormProps {
-  onCancel: () => void
-  onSubmitForm: (event: MouseEvent) => void
-  readOnly: boolean
+interface Props {
+  formMethods: UseFormReturn<CategoryFormValues>
+  formValues: CategoryFormValues
   history: HistoryType[]
-  data?: CategoryType
+  onCancel: () => void
+  onSubmit: FormEventHandler<HTMLFormElement>
+  readOnly: boolean
+  register: UseFormRegister<CategoryFormValues>
+  responsibleDepartments: string[]
 }
 
-const CategoryForm: FunctionComponent<CategoryFormProps> = ({
-  data,
+export const CategoryForm = ({
+  formMethods,
+  formValues,
   history,
   onCancel,
-  onSubmitForm,
+  onSubmit,
   readOnly,
-}) => {
-  const [isPublicAccessible, setIsPublicAccessible] = useState(
-    data?.is_public_accessible ?? false
-  )
-  const responsibleDepartments = useMemo(
-    () =>
-      data
-        ? data.departments
-            .filter((department) => department.is_responsible)
-            .map((department) => department.code)
-        : [],
-    [data]
-  )
-
-  const onCheck = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setIsPublicAccessible(event.target.checked)
-    },
-    [setIsPublicAccessible]
-  )
-
-  return (
-    <Form action="" data-testid="detail-category-form">
+  register,
+  responsibleDepartments,
+}: Props) => (
+  <FormProvider {...formMethods}>
+    <Form onSubmit={onSubmit}>
       <Row>
         <StyledColumn
           span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}
@@ -130,7 +66,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
           <div>
             <FieldGroup>
               <Input
-                defaultValue={data?.name}
+                {...register('name')}
                 disabled={readOnly}
                 hint="Het wijzigen van de naam heeft geen invloed op het type melding"
                 id="name"
@@ -141,17 +77,23 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               />
             </FieldGroup>
 
-            <FieldGroup>
-              <TextArea
-                defaultValue={data?.description ?? undefined}
-                disabled={readOnly}
-                id="description"
-                label={<strong>Omschrijving</strong>}
-                name="description"
-                readOnly={readOnly}
-                rows={6}
-              />
-            </FieldGroup>
+            <Controller
+              name="description"
+              render={({ field: { name, value, onChange } }) => (
+                <FieldGroup>
+                  <TextArea
+                    disabled={readOnly}
+                    id={name}
+                    label={<strong>Omschrijving</strong>}
+                    name={name}
+                    onChange={onChange}
+                    readOnly={readOnly}
+                    rows={6}
+                    value={value}
+                  />
+                </FieldGroup>
+              )}
+            />
 
             {responsibleDepartments.length > 0 ? (
               <FieldGroup as="dl">
@@ -164,36 +106,36 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               </FieldGroup>
             ) : null}
 
-            <FieldGroup>
-              <StyledHeading>Openbaar tonen</StyledHeading>
-              <>
-                <StyledLabel
-                  htmlFor="is_public_accessible"
-                  label="Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier"
-                  data-testid="subcategory-is-public-accessible"
-                  disabled={readOnly}
-                >
-                  <input
-                    type="hidden"
-                    name="is_public_accessible"
-                    value="false"
-                  />
+            <Controller
+              name="is_public_accessible"
+              control={formMethods.control}
+              render={({ field: { name, value, onChange } }) => (
+                <FieldGroup>
+                  <StyledHeading>Openbaar tonen</StyledHeading>
+                  <>
+                    <StyledLabel
+                      htmlFor={name}
+                      label="Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier"
+                      data-testid="subcategory-is-public-accessible"
+                      disabled={readOnly}
+                    >
+                      <Checkbox
+                        checked={value}
+                        name={name}
+                        id={name}
+                        onChange={onChange}
+                        value={value.toString()}
+                      />
+                    </StyledLabel>
+                  </>
+                </FieldGroup>
+              )}
+            />
 
-                  <Checkbox
-                    checked={isPublicAccessible}
-                    name="is_public_accessible"
-                    id="is_public_accessible"
-                    onChange={onCheck}
-                    value={isPublicAccessible.toString()}
-                  />
-                </StyledLabel>
-              </>
-            </FieldGroup>
-
-            {isPublicAccessible && (
+            {formValues.is_public_accessible && (
               <FieldGroup>
                 <Input
-                  defaultValue={data?.public_name ?? ''}
+                  {...register('public_name')}
                   id="public_name"
                   label="Naam openbaar"
                   name="public_name"
@@ -207,7 +149,7 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               <StyledHeading>Afhandeltermijn</StyledHeading>
               <CombinedFields>
                 <Input
-                  defaultValue={data?.sla.n_days ?? undefined}
+                  {...register('n_days')}
                   disabled={readOnly}
                   id="n_days"
                   name="n_days"
@@ -217,11 +159,9 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
                 />
 
                 <StyledSelect
-                  defaultValue={data?.sla.use_calendar_days ? 1 : 0}
+                  {...register('use_calendar_days')}
                   disabled={readOnly}
                   id="use_calendar_days"
-                  // @ts-expect-error: native select element supports 'name' attribute, but asc-ui does not provide correct type
-                  name="use_calendar_days"
                 >
                   <option value="1">Dagen</option>
                   <option value="0">Werkdagen</option>
@@ -229,32 +169,53 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
               </CombinedFields>
             </FieldGroup>
 
-            <FieldGroup>
-              <TextArea
-                defaultValue={data?.handling_message}
-                disabled={readOnly}
-                id="handling_message"
-                label={<strong>Servicebelofte</strong>}
-                name="handling_message"
-                readOnly={readOnly}
-                rows={6}
-              />
-            </FieldGroup>
+            <Controller
+              name="handling_message"
+              render={({ field: { name, value, onChange } }) => (
+                <FieldGroup>
+                  <TextArea
+                    disabled={readOnly}
+                    id={name}
+                    label={<strong>Servicebelofte</strong>}
+                    name={name}
+                    onChange={onChange}
+                    readOnly={readOnly}
+                    rows={6}
+                    value={value}
+                  />
+                </FieldGroup>
+              )}
+            />
 
-            <FieldGroup>
-              <StyledHeading>Status</StyledHeading>
-              <RadioButtonList
-                defaultValue={
-                  data?.is_active === undefined
-                    ? DEFAULT_STATUS_OPTION
-                    : `${data.is_active}`
+            <Controller
+              name="is_active"
+              control={formMethods.control}
+              render={({ field: { name, value, onChange } }) => {
+                const handleOnChange = (
+                  _groupName: string,
+                  option: StatusOption
+                ) => {
+                  const value = statusOptions.find(
+                    (status) => status.value === option.value
+                  )?.key
+                  onChange(value)
                 }
-                groupName="is_active"
-                hasEmptySelectionButton={false}
-                options={statusOptions}
-                disabled={readOnly}
-              />
-            </FieldGroup>
+
+                return (
+                  <FieldGroup>
+                    <StyledHeading>Status</StyledHeading>
+                    <RadioButtonList
+                      defaultValue={value}
+                      disabled={readOnly}
+                      groupName={name}
+                      hasEmptySelectionButton={false}
+                      onChange={handleOnChange}
+                      options={statusOptions}
+                    />
+                  </FieldGroup>
+                )
+              }}
+            />
           </div>
         </StyledColumn>
 
@@ -262,16 +223,23 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
           span={{ small: 1, medium: 2, big: 6, large: 7, xLarge: 6 }}
         >
           <Column span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}>
-            <TextArea
-              defaultValue={data?.note || ''}
-              disabled={readOnly}
-              readOnly={readOnly}
-              id="note"
-              label={<strong>Notitie</strong>}
+            <Controller
               name="note"
-              rows={6}
+              render={({ field: { name, value, onChange } }) => (
+                <TextArea
+                  disabled={readOnly}
+                  id={name}
+                  label={<strong>Notitie</strong>}
+                  name={name}
+                  onChange={onChange}
+                  readOnly={readOnly}
+                  rows={6}
+                  value={value}
+                />
+              )}
             />
           </Column>
+
           {history && <StyledHistory list={history} />}
         </StyledColumn>
 
@@ -280,12 +248,9 @@ const CategoryForm: FunctionComponent<CategoryFormProps> = ({
             cancelBtnLabel="Annuleer"
             onCancel={onCancel}
             submitBtnLabel="Opslaan"
-            onSubmitForm={onSubmitForm}
           />
         )}
       </Row>
     </Form>
-  )
-}
-
-export default CategoryForm
+  </FormProvider>
+)

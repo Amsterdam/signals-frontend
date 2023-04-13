@@ -32,7 +32,7 @@ const StyledHeadingWrapper = styled.div`
 type Props = {
   title: string
   children?: ReactNode
-  BackLink?: string
+  BackLink?: ReactNode
   filter?: {
     name: string
     options: any

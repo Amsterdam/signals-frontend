@@ -15,3 +15,8 @@ export const StyledCompactPager = styled(CompactPager)`
   max-width: 200px;
   margin-top: ${themeSpacing(6)};
 `
+
+export const FormContainer = styled.div`
+  // taking into account the space that the FormFooter component takes up
+  padding-bottom: 66px;
+`
