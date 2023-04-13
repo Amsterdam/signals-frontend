@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022-2023 Gemeente Amsterdam
 import { breakpoint, themeColor, themeSpacing, Link } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -9,6 +9,7 @@ export const Divider = styled.div`
 `
 
 export const Wrapper = styled.div`
+  overflow-wrap: anywhere;
   margin: ${themeSpacing(4, 0)};
 `
 

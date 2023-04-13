@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { Fragment, useMemo, useContext } from 'react'
 
 import {
@@ -28,6 +28,7 @@ const Wrapper = styled.article`
 
 const Title = styled(Heading)`
   margin: ${themeSpacing(4)} 0;
+  overflow-wrap: anywhere;
 `
 
 const DefinitionList = styled.dl`
