@@ -146,13 +146,11 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       event.preventDefault()
       const textValue = state.text.value || state.text.defaultValue
 
-      const doEmailTemplate =
+      const hasSlugsOverigAndStatusAfgehandeld =
         incident &&
-        !(
-          incident.category?.main_slug === 'overig' &&
-          incident.category?.sub_slug === 'overig' &&
-          state.status.key === 'o'
-        )
+        incident.category?.main_slug === 'overig' &&
+        incident.category?.sub_slug === 'overig' &&
+        state.status.key === 'o'
 
       if (state.text.required && !textValue) {
         dispatch({
@@ -187,7 +185,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         state.flags.hasEmail &&
         state.check.checked &&
         incident?.reporter?.allows_contact &&
-        doEmailTemplate
+        !hasSlugsOverigAndStatusAfgehandeld
       ) {
         getEmailTemplate(
           `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
@@ -201,10 +199,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       }
     },
     [
-      incident?.category?.main_slug,
-      incident?.category?.sub_slug,
-      incident?.reporter?.allows_contact,
-      incident?.id,
+      incident,
       state.flags.hasEmail,
       state.status.key,
       state.text.value,
