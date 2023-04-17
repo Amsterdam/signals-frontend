@@ -144,26 +144,19 @@ const IncidentDetail = () => {
     }
   }, [handleKeyUp, listenFor, unlisten])
 
-  const createErrorNotification = useCallback((error?) => {
-    const fetchError = error as Response
-    const title =
-      fetchError?.status === 401 || fetchError?.status === 403
-        ? 'Geen bevoegdheid'
-        : 'Bewerking niet mogelijk'
-
-    const message = getErrorMessage(
-      error,
-      'Deze wijziging is niet toegestaan in deze situatie.'
-    )
-
-    return { title, message }
-  }, [])
-
   useEffect(() => {
     dispatch({ type: SET_ERROR, payload: error })
 
     if (error) {
-      const { title, message } = createErrorNotification(error)
+      const fetchError = error as Response
+      const title =
+        fetchError?.status === 401 || fetchError.status === 403
+          ? 'Geen bevoegdheid'
+          : 'Bewerking niet mogelijk'
+      const message = getErrorMessage(
+        error,
+        'Deze wijziging is niet toegestaan in deze situatie.'
+      )
 
       storeDispatch(
         showGlobalNotification({
@@ -174,7 +167,7 @@ const IncidentDetail = () => {
         })
       )
     }
-  }, [createErrorNotification, error, storeDispatch])
+  }, [error, storeDispatch])
 
   useEffect(() => {
     if (!history) return
@@ -301,29 +294,9 @@ const IncidentDetail = () => {
   const updateDispatch = useCallback(
     (action) => {
       dispatch({ type: PATCH_START, payload: action.type })
-      const isAllowed =
-        !incident ||
-        !(
-          incident.category?.main_slug === 'overig' &&
-          incident.category?.sub_slug === 'overig' &&
-          action.patch.status.state === 'o'
-        )
-
-      if (isAllowed) {
-        patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch)
-      } else {
-        const { title, message } = createErrorNotification()
-        storeDispatch(
-          showGlobalNotification({
-            title,
-            message,
-            variant: VARIANT_ERROR,
-            type: TYPE_LOCAL,
-          })
-        )
-      }
+      patch(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`, action.patch)
     },
-    [incident, patch, id, createErrorNotification, storeDispatch]
+    [id, patch]
   )
 
   const previewDispatch = useCallback((section, payload) => {

@@ -112,9 +112,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     lastActiveElement = document.activeElement as HTMLElement
   }, [setModalEmailPreviewIsOpen])
 
-  const disableSubmit = Boolean(
-    state.warnings.some(({ level }) => level === 'error')
-  )
+  const disableSubmit =
+    Boolean(state.warnings.some(({ level }) => level === 'error')) ||
+    (incident &&
+      incident.category?.main_slug === 'overig' &&
+      incident.category?.sub_slug === 'overig' &&
+      state.status.key === StatusCode.Afgehandeld &&
+      state.originalStatus.key != StatusCode.Afgehandeld)
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -145,12 +149,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     (event) => {
       event.preventDefault()
       const textValue = state.text.value || state.text.defaultValue
-
-      const hasSlugsOverigAndStatusAfgehandeld =
-        incident &&
-        incident.category?.main_slug === 'overig' &&
-        incident.category?.sub_slug === 'overig' &&
-        state.status.key === 'o'
 
       if (state.text.required && !textValue) {
         dispatch({
@@ -184,8 +182,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
         incident?.id &&
         state.flags.hasEmail &&
         state.check.checked &&
-        incident?.reporter?.allows_contact &&
-        !hasSlugsOverigAndStatusAfgehandeld
+        incident?.reporter?.allows_contact
       ) {
         getEmailTemplate(
           `${configuration.INCIDENTS_ENDPOINT}${incident.id}/email/preview`,
@@ -231,6 +228,22 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.status.key === StatusCode.VerzoekTotHeropenen
     ) {
       setEmailIsNotSend(true)
+    }
+
+    if (
+      incident &&
+      incident.category?.main_slug === 'overig' &&
+      incident.category?.sub_slug === 'overig' &&
+      event.target.value === 'o'
+    ) {
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Het is niet mogelijk een melding in categorie Overig - overig af te handelen',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
     }
 
     const selectedStatus = changeStatusOptionList.find(

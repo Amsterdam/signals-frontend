@@ -724,39 +724,24 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         main_slug: 'overig',
         sub_slug: 'overig',
       },
-      status: {
-        ...incidentFixture.status,
-        state: StatusCode.Afgehandeld,
-      },
       reporter: {
         ...incidentFixture.reporter,
         email: 'me@email.com',
         allows_contact: true,
       },
     } as Incident
-    // if (withCategoryOverigOverig.category?.main_slug) {
-    //   withCategoryOverigOverig.category.main_slug = 'overig'
-    // }
-    // if (withCategoryOverigOverig.category?.sub_slug) {
-    //   withCategoryOverigOverig.category.sub_slug = 'overig'
-    // }
-    // if (withCategoryOverigOverig.status?.state) {
-    //   withCategoryOverigOverig.status.state = StatusCode.Afgehandeld
-    // }
+
     render(renderWithContext(withCategoryOverigOverig))
-    // Type a message in the text field
-    const textarea = screen.getByRole('textbox')
-    const value = 'Foo bar baz'
-    userEvent.type(textarea, value)
-    // submit the form
-    userEvent.click(screen.getByRole('button', { name: 'Verstuur' }))
-    // verify that 'update' has been called
-    expect(update).toHaveBeenCalledWith(
+
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
+      StatusCode.Afgehandeld,
+    ])
+
+    expect(screen.getByRole('button', { name: 'Verstuur' })).toBeDisabled()
+    expect(actions.showGlobalNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: PATCH_TYPE_STATUS,
-        patch: {
-          status: expect.objectContaining({ text: value }),
-        },
+        title:
+          'Het is niet mogelijk een melding in categorie Overig - overig af te handelen',
       })
     )
   })
