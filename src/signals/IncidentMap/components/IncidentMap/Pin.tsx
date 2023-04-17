@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { Marker } from '@amsterdam/react-maps'
 import type { LatLngLiteral, Map } from 'leaflet'
 
-import { DEFAULT_ZOOM } from 'components/AreaMap/AreaMap'
+import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 
 import type { DeviceMode } from '../DrawerOverlay/types'
@@ -24,7 +24,7 @@ export const Pin = ({ map, coordinates, mode, closeOverlay }: Props) => {
     if (isMobile(mode)) {
       closeOverlay()
     }
-    map.flyTo(coordinates, DEFAULT_ZOOM)
+    map.flyTo(coordinates, configuration.map.optionsIncidentMap.flyToMaxZoom)
   }, [closeOverlay, coordinates, map, mode])
 
   return (

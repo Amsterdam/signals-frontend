@@ -5,6 +5,7 @@ import { useContext } from 'react'
 import { Button, themeSpacing, Row, Column } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 
 import MapDetail from '../../../../../../components/MapDetail'
@@ -53,7 +54,7 @@ const LocationPreview = () => {
           value={location}
           icon={markerIcon}
           hasZoomControls
-          zoom={14}
+          zoom={configuration.map.optionsMapInput.zoom}
         />
       </StyledColumn>
     </Wrapper>

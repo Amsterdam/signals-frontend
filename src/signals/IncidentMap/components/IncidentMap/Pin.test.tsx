@@ -6,7 +6,7 @@ import type { Map } from 'leaflet'
 
 import type { Props } from './Pin'
 import { Pin } from './Pin'
-import { DEFAULT_ZOOM } from '../../../../components/AreaMap/AreaMap'
+import configuration from 'shared/services/configuration/configuration'
 import { DeviceMode } from '../DrawerOverlay/types'
 
 jest.mock('@amsterdam/react-maps', () => ({
@@ -46,7 +46,7 @@ describe('Pin', () => {
 
     expect(defaultProps.map.flyTo).toHaveBeenCalledWith(
       { lat: coords.lat, lng: coords.lng },
-      DEFAULT_ZOOM
+      configuration.map.optionsIncidentMap.flyToMaxZoom
     )
     expect(defaultProps.closeOverlay).not.toHaveBeenCalled()
   })

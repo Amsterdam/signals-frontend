@@ -137,7 +137,11 @@ const OverviewMap: FC<OverviewMapProps> = ({
 
       if (map) {
         const currentZoom = map.getZoom()
-        map.flyTo(option.data.location, currentZoom < 11 ? 11 : currentZoom)
+        const flyToMinZoom = configuration.map.optionsOverviewMap.flyToMinZoom
+        map.flyTo(
+          option.data.location,
+          currentZoom < flyToMinZoom ? flyToMinZoom : currentZoom
+        )
       }
     },
     [map, dispatch]

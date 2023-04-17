@@ -27,7 +27,6 @@ import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 const mapWidth = 640
 const mapHeight = 180
-const mapZoom = 12
 const iconSize = 40
 
 const Wrapper = styled.div`
@@ -94,7 +93,7 @@ const Summary: FC<SummaryProps> = ({
 
   const options = {
     ...MAP_OPTIONS,
-    zoom: mapZoom,
+    zoom: configuration.map.optionsSummaryMap.zoom,
     attributionControl: false,
     center,
   }

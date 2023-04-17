@@ -6,6 +6,7 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { throttle, isEqual } from 'lodash'
 
+import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { formatAddress } from 'shared/services/format-address'
@@ -17,7 +18,7 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import { Pin } from './Pin'
 import { StyledMap, StyledParagraph, Wrapper } from './styled'
 import usePaginatedIncidents from './usePaginatedIncidents'
-import { getZoom } from './utils'
+import { getFlyToZoom } from './utils'
 import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { AddressSearchMobile } from '../AddressLocation'
@@ -26,11 +27,7 @@ import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import {
-  countIncidentsPerFilter,
-  DEFAULT_ZOOM,
-  getFilteredIncidents,
-} from '../utils'
+import { countIncidentsPerFilter, getFilteredIncidents } from '../utils'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -73,7 +70,7 @@ export const IncidentMap = () => {
           lat: sanitizedCoords.lat - 0.0003,
           lng: sanitizedCoords.lng,
         }
-        const zoom = getZoom(map)
+        const zoom = getFlyToZoom(map)
         map.flyTo(coords, zoom)
       }
 
@@ -152,7 +149,7 @@ export const IncidentMap = () => {
     }
   }, [coordinates])
 
-  const zoomLevel = map?.getZoom() || DEFAULT_ZOOM
+  const zoomLevel = map?.getZoom() || configuration.map.optionsIncidentMap.zoom
 
   return (
     <Wrapper>
@@ -164,7 +161,7 @@ export const IncidentMap = () => {
           ...MAP_OPTIONS,
           dragging: true,
           scrollWheelZoom: true,
-          zoom: 9,
+          zoom: configuration.map.optionsIncidentMap.zoom,
           attributionControl: false,
         }}
       >

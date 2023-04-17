@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import Map from 'components/Map'
 import MapCloseButton from 'components/MapCloseButton'
 import MarkerCluster from 'components/MarkerCluster'
+import configuration from 'shared/services/configuration/configuration'
 import {
   closedIncidentIcon,
   openIncidentIcon,
@@ -26,16 +27,14 @@ import type { Incident } from 'types/api/incident'
 
 import type { Feature } from './types'
 
-export const DEFAULT_ZOOM = 14
-const MAX_ZOOM = 15
 const FOCUS_RADIUS_METERS = 50
 const CURRENT_INCIDENT_MARKER_Z = -100 // Show below incident markers
 
 const AREA_MAP_OPTIONS: MapOptions = {
   ...MAP_OPTIONS,
   scrollWheelZoom: true,
-  zoom: DEFAULT_ZOOM,
-  maxZoom: MAX_ZOOM,
+  zoom: configuration.map.optionsAreaMap.zoom,
+  maxZoom: configuration.map.optionsAreaMap.maxZoom,
 }
 
 const Wrapper = styled.div`
