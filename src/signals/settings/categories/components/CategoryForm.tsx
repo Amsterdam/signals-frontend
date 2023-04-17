@@ -4,7 +4,7 @@ import type { FormEventHandler } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { Controller, FormProvider } from 'react-hook-form'
-import type { UseFormRegister, UseFormReturn } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
 
 import Checkbox from 'components/Checkbox'
 import Input from 'components/Input'
@@ -36,14 +36,13 @@ export const statusOptions: StatusOption[] = [
   { key: 'false', value: 'Niet actief' },
 ]
 
-interface Props {
+export interface Props {
   formMethods: UseFormReturn<CategoryFormValues>
   formValues: CategoryFormValues
   history: HistoryType[]
   onCancel: () => void
   onSubmit: FormEventHandler<HTMLFormElement>
   readOnly: boolean
-  register: UseFormRegister<CategoryFormValues>
   responsibleDepartments: string[]
 }
 
@@ -54,7 +53,6 @@ export const CategoryForm = ({
   onCancel,
   onSubmit,
   readOnly,
-  register,
   responsibleDepartments,
 }: Props) => (
   <FormProvider {...formMethods}>
@@ -66,7 +64,7 @@ export const CategoryForm = ({
           <div>
             <FieldGroup>
               <Input
-                {...register('name')}
+                {...formMethods.register('name')}
                 disabled={readOnly}
                 hint="Het wijzigen van de naam heeft geen invloed op het type melding"
                 id="name"
@@ -95,7 +93,7 @@ export const CategoryForm = ({
               )}
             />
 
-            {responsibleDepartments.length > 0 ? (
+            {responsibleDepartments.length > 0 && (
               <FieldGroup as="dl">
                 <StyledDefinitionTerm>
                   <strong>Verantwoordelijke afdeling</strong>
@@ -104,7 +102,7 @@ export const CategoryForm = ({
                   {responsibleDepartments.join(', ')}
                 </dd>
               </FieldGroup>
-            ) : null}
+            )}
 
             <Controller
               name="is_public_accessible"
@@ -124,7 +122,6 @@ export const CategoryForm = ({
                         name={name}
                         id={name}
                         onChange={onChange}
-                        value={value.toString()}
                       />
                     </StyledLabel>
                   </>
@@ -135,7 +132,7 @@ export const CategoryForm = ({
             {formValues.is_public_accessible && (
               <FieldGroup>
                 <Input
-                  {...register('public_name')}
+                  {...formMethods.register('public_name')}
                   id="public_name"
                   label="Naam openbaar"
                   name="public_name"
@@ -149,7 +146,7 @@ export const CategoryForm = ({
               <StyledHeading>Afhandeltermijn</StyledHeading>
               <CombinedFields>
                 <Input
-                  {...register('n_days')}
+                  {...formMethods.register('n_days')}
                   disabled={readOnly}
                   id="n_days"
                   name="n_days"
@@ -159,7 +156,7 @@ export const CategoryForm = ({
                 />
 
                 <StyledSelect
-                  {...register('use_calendar_days')}
+                  {...formMethods.register('use_calendar_days')}
                   disabled={readOnly}
                   id="use_calendar_days"
                 >

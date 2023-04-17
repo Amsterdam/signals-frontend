@@ -67,9 +67,9 @@ export const CategoryDetail = () => {
         data.is_active === undefined
           ? DEFAULT_STATUS_OPTION
           : `${data.is_active}`,
-      is_public_accessible: data.is_public_accessible || true,
+      is_public_accessible: data.is_public_accessible ?? true,
       name: data.name,
-      public_name: data.public_name || data.name,
+      public_name: data.public_name ?? data.name,
       note: data.note,
       n_days: data.sla.n_days,
       use_calendar_days: data.sla.use_calendar_days ? 1 : 0,
@@ -156,7 +156,6 @@ export const CategoryDetail = () => {
             onCancel={onCancel}
             onSubmit={formMethods.handleSubmit(onSubmit)}
             readOnly={!userCanSubmitForm}
-            register={formMethods.register}
             responsibleDepartments={responsibleDepartments}
           />
         )}
