@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, fireEvent, act, waitFor } from '@testing-library/react'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { screen, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { mocked } from 'jest-mock'
+import { useSelector } from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import * as constants from 'containers/App/constants'
+import { makeSelectUserCan } from 'containers/App/selectors'
+import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
@@ -19,56 +24,66 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   pageNum: '1',
 }))
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const pushSpy = jest.fn()
+const useHistorySpy = { push: pushSpy } as any
+jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
 
-jest.mock('containers/App/constants', () => ({
-  __esModule: true,
-  ...jest.requireActual('containers/App/constants'),
-}))
+jest.mock('react-redux', () => {
+  const actual = jest.requireActual('react-redux')
+  return {
+    ...actual,
+    __esModule: true,
+    useSelector: jest.fn(),
+  }
+})
+
+const mockUseSelector = mocked(useSelector)
 
 const scrollTo = jest.fn()
 global.window.scrollTo = scrollTo
 
+// eslint-disable-next-line
+// @ts-ignore
 constants.PAGE_SIZE = 2
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub)
 const count = subCategories.length
 
+const mockUserCan = jest.fn()
+mockUseSelector.mockImplementation((selector) => {
+  if (selector === makeSelectAllSubCategories) {
+    return subCategories
+  }
+  if (selector === makeSelectUserCan) {
+    return mockUserCan
+  }
+})
+
 describe('signals/settings/categories/containers/Overview', () => {
   beforeEach(() => {
-    push.mockReset()
+    pushSpy.mockReset()
+    mockUserCan.mockReturnValue(true)
+    // eslint-disable-next-line
+    // @ts-ignore
+    constants.PAGE_SIZE = 2
   })
 
   it('should render header', () => {
-    const { getByText, rerender } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={null} userCan={() => {}} />
-      )
-    )
+    render(withAppContext(<CategoriesOverview />))
 
-    expect(getByText('Subcategorieën')).toBeInTheDocument()
-
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    )
-
-    expect(getByText(`Subcategorieën (${count})`)).toBeInTheDocument()
+    expect(screen.getByText(`Subcategorieën (${count})`)).toBeInTheDocument()
   })
 
   it('should render paged data', () => {
     const firstCategory = subCategories[0]
+
+    // eslint-disable-next-line
+    // @ts-ignore
     const lastCategory = subCategories[constants.PAGE_SIZE - 1]
 
     // render the first page
     const { container, rerender } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview />)
     )
 
     expect(
@@ -78,16 +93,12 @@ describe('signals/settings/categories/containers/Overview', () => {
       container.querySelector(`tr[data-item-id="${lastCategory.fk}"]`)
     ).toBeInTheDocument()
 
-    // render the second page
+    // // render the second page
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       pageNum: '2',
     }))
 
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    )
+    rerender(withAppContext(<CategoriesOverview />))
 
     const secondPageFirstCategory = subCategories[constants.PAGE_SIZE + 1]
     const secondPageLastCategory = subCategories[constants.PAGE_SIZE * 2 - 1]
@@ -103,37 +114,27 @@ describe('signals/settings/categories/containers/Overview', () => {
   })
 
   it('should only render specific data columns', () => {
-    const { getByText } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    )
+    render(withAppContext(<CategoriesOverview />))
 
-    expect(getByText('Subcategorie')).toBeInTheDocument()
-    expect(getByText('Afhandeltermijn')).toBeInTheDocument()
-    expect(getByText('Status')).toBeInTheDocument()
+    expect(screen.getByText('Subcategorie')).toBeInTheDocument()
+    expect(screen.getByText('Afhandeltermijn')).toBeInTheDocument()
+    expect(screen.getByText('Status')).toBeInTheDocument()
   })
 
   it('should render pagination controls', () => {
     const { rerender, queryByTestId } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
+      withAppContext(<CategoriesOverview />)
     )
 
     expect(queryByTestId('pagination')).toBeInTheDocument()
 
+    // eslint-disable-next-line
+    // @ts-ignore
     constants.PAGE_SIZE = count + 1
 
-    rerender(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    )
+    rerender(withAppContext(<CategoriesOverview />))
 
     expect(queryByTestId('pagination')).not.toBeInTheDocument()
-
-    constants.PAGE_SIZE = 2
   })
 
   it('should push to the history stack and scroll to top on pagination item click', () => {
@@ -141,38 +142,25 @@ describe('signals/settings/categories/containers/Overview', () => {
       pageNum: '1',
     }))
 
-    const { getByTestId } = render(
-      withAppContext(
-        <CategoriesOverview subCategories={subCategories} userCan={() => {}} />
-      )
-    )
+    render(withAppContext(<CategoriesOverview />))
 
-    const pageButton = getByTestId('nextbutton')
+    const pageButton = screen.getByTestId('nextbutton')
 
     expect(scrollTo).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(pageButton)
-    })
+    userEvent.click(pageButton)
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(`${CATEGORIES_PAGED_URL}/2`)
+    expect(pushSpy).toHaveBeenCalledTimes(1)
+    expect(pushSpy).toHaveBeenCalledWith(`${CATEGORIES_PAGED_URL}/2`)
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
 
   it('should push on list item with an itemId click', async () => {
-    const { container } = render(
-      withAppContext(
-        <CategoriesOverview
-          subCategories={subCategories}
-          userCan={() => true}
-        />
-      )
-    )
+    const { container } = render(withAppContext(<CategoriesOverview />))
     const itemId = 666
 
-    let row
+    let row: any
 
     await waitFor(() => {
       row = container.querySelector('tbody tr:nth-child(2)')
@@ -181,46 +169,34 @@ describe('signals/settings/categories/containers/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId
 
-    expect(push).toHaveBeenCalledTimes(0)
+    expect(pushSpy).toHaveBeenCalledTimes(0)
 
-    act(() => {
-      fireEvent.click(row)
-    })
+    userEvent.click(row)
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(`${CATEGORY_URL}/${itemId}`)
+    expect(pushSpy).toHaveBeenCalledTimes(1)
+    expect(pushSpy).toHaveBeenCalledWith(`${CATEGORY_URL}/${itemId}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
 
-    act(() => {
-      fireEvent.click(row)
-    })
+    userEvent.click(row)
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(pushSpy).toHaveBeenCalledTimes(1)
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = itemId
 
-    act(() => {
-      fireEvent.click(row)
-    })
+    userEvent.click(row)
 
-    expect(push).toHaveBeenCalledTimes(2)
+    expect(pushSpy).toHaveBeenCalledTimes(2)
   })
 
   it('should not push on list item click when permissions are insufficient', async () => {
-    const { container } = render(
-      withAppContext(
-        <CategoriesOverview
-          subCategories={subCategories}
-          userCan={() => false}
-        />
-      )
-    )
+    mockUserCan.mockReturnValue(false)
+    const { container } = render(withAppContext(<CategoriesOverview />))
     const itemId = 666
 
-    let row
+    let row: any
 
     await waitFor(() => {
       row = container.querySelector('tbody tr:nth-child(2)')
@@ -229,12 +205,10 @@ describe('signals/settings/categories/containers/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId
 
-    expect(push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(row)
-    })
+    userEvent.click(row)
 
-    expect(push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
   })
 })
