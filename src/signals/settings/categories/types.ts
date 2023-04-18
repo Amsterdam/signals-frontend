@@ -1,5 +1,5 @@
-import type { Category } from 'types/category'
-
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 export interface CategoryFormValues {
   description: string | null
   handling_message: string
@@ -25,13 +25,3 @@ export interface CategoryFormPatch {
   note: string | null
   public_name: string
 }
-
-export type isEqualParams = Pick<
-  Category,
-  | 'description'
-  | 'handling_message'
-  | 'is_active'
-  | 'name'
-  | 'sla'
-  | 'is_public_accessible'
->

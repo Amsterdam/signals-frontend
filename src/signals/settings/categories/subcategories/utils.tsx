@@ -1,10 +1,6 @@
-import type { Category } from 'types/category'
-
-import type {
-  CategoryFormValues,
-  CategoryFormPatch,
-  isEqualParams,
-} from '../types'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
+import type { CategoryFormValues, CategoryFormPatch } from '../types'
 
 export const getTransformedData = (
   formData: CategoryFormValues
@@ -37,24 +33,3 @@ export const getTransformedData = (
     public_name,
   }
 }
-
-export const isEqual = (
-  {
-    description,
-    handling_message,
-    is_active,
-    name,
-    sla,
-    is_public_accessible,
-  }: isEqualParams,
-  othValue: Category
-) =>
-  [
-    is_public_accessible === othValue.is_public_accessible,
-    description === othValue.description,
-    handling_message === othValue.handling_message,
-    is_active === othValue.is_active,
-    name === othValue.name,
-    sla.n_days === othValue.sla.n_days,
-    sla.use_calendar_days === othValue.sla.use_calendar_days,
-  ].every(Boolean)
