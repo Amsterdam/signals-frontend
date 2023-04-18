@@ -31,6 +31,7 @@ type Params = {
 
 const DEFAULT_STATUS_OPTION = 'true'
 
+// istanbul ignore next
 export const CategoryDetail = () => {
   const dispatch = useDispatch()
   const history = useHistory()

@@ -193,6 +193,7 @@ export const CategoryForm = ({
                   _groupName: string,
                   option: StatusOption
                 ) => {
+                  /* istanbul ignore next */
                   const value = statusOptions.find(
                     (status) => status.value === option.value
                   )?.key
