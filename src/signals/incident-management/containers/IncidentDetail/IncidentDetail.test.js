@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import { render, act, screen, waitFor, fireEvent } from '@testing-library/react'
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import * as appSelectors from 'containers/App/selectors'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import useEventEmitter from 'hooks/useEventEmitter'
 import * as categoriesSelectors from 'models/categories/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -38,8 +39,8 @@ const mockUseUpload = {
 }
 jest.mock('./hooks/useUpload', () => () => mockUseUpload)
 
-const dispatch = jest.fn()
-jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+const storeDispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => storeDispatch)
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -69,13 +70,9 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
   })
 
   beforeEach(() => {
-    dispatch.mockReset()
+    storeDispatch.mockReset()
     emit.mockReset()
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({ id }))
-  })
-
-  afterEach(() => {
-    configuration.__reset()
   })
 
   it('should render correctly', async () => {
@@ -288,7 +285,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
 
     expect(emit).not.toHaveBeenCalled()
-    expect(dispatch).not.toHaveBeenCalled()
+    expect(storeDispatch).not.toHaveBeenCalled()
 
     act(() => {
       userEvent.click(screen.getByTestId('add-note-save-note-button'))
@@ -300,7 +297,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
 
     await waitFor(() => {
-      expect(dispatch).toHaveBeenCalledWith(patchIncidentSuccess())
+      expect(storeDispatch).toHaveBeenCalledWith(patchIncidentSuccess())
     })
 
     await screen.findByTestId('incident-detail')
@@ -379,7 +376,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       })
 
       expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
+      expect(storeDispatch).not.toHaveBeenCalled()
 
       act(() => {
         userEvent.click(screen.getByTestId('add-note-save-note-button'))
@@ -388,7 +385,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
+        expect(storeDispatch).toHaveBeenCalledWith(
           showGlobalNotification(
             expect.objectContaining({
               type: TYPE_LOCAL,
@@ -410,7 +407,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       })
 
       expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
+      expect(storeDispatch).not.toHaveBeenCalled()
 
       act(() => {
         userEvent.click(screen.getByTestId('add-note-save-note-button'))
@@ -419,7 +416,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
+        expect(storeDispatch).toHaveBeenCalledWith(
           showGlobalNotification(
             expect.objectContaining({
               title: 'Geen bevoegdheid',
@@ -439,7 +436,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       })
 
       expect(emit).not.toHaveBeenCalled()
-      expect(dispatch).not.toHaveBeenCalled()
+      expect(storeDispatch).not.toHaveBeenCalled()
 
       act(() => {
         userEvent.click(screen.getByTestId('add-note-save-note-button'))
@@ -448,7 +445,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
       await screen.findByTestId('incident-detail')
 
       await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
+        expect(storeDispatch).toHaveBeenCalledWith(
           showGlobalNotification(
             expect.objectContaining({
               title: 'Geen bevoegdheid',
