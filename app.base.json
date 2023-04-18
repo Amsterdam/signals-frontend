@@ -21,7 +21,8 @@
     "showVulaanControls": false,
     "useProjectenSignalType": false,
     "enableForwardIncidentToExternal": false,
-    "showDashboard": false
+    "showDashboard": false,
+    "showMainCategories": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

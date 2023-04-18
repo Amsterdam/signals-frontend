@@ -19,7 +19,8 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "showDashboard": false
+    "showDashboard": false,
+    "showMainCategories": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

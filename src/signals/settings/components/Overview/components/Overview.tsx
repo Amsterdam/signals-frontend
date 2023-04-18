@@ -11,6 +11,7 @@ import {
 } from '@amsterdam/asc-assets'
 import { CompactThemeProvider, Row } from '@amsterdam/asc-ui'
 
+import configuration from 'shared/services/configuration/configuration'
 import PageHeader from 'signals/settings/components/PageHeader'
 import {
   USERS_URL,
@@ -29,7 +30,6 @@ import {
   Wrapper,
 } from './styled'
 import useFetch from '../../../../../hooks/useFetch'
-import configuration from '../../../../../shared/services/configuration/configuration'
 
 type Keys =
   | 'departments'
@@ -159,18 +159,19 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
               </p>
             </Item>
           )}
-          {showItems.categories && (
-            <Item data-testid="main-categories">
-              <StyledNavLink to={MAIN_CATEGORIES_URL}>
-                <StyledTopTaskLink
-                  forwardedAs="div"
-                  icon={ThumbnailResults}
-                  title="Hoofdcategorieën"
-                />
-              </StyledNavLink>
-              <p>De hoofdgorieën met bijbehorende openbare naam en icoon.</p>
-            </Item>
-          )}
+          {configuration.featureFlags.showMainCategories &&
+            showItems.categories && (
+              <Item data-testid="main-categories">
+                <StyledNavLink to={MAIN_CATEGORIES_URL}>
+                  <StyledTopTaskLink
+                    forwardedAs="div"
+                    icon={ThumbnailResults}
+                    title="Hoofdcategorieën"
+                  />
+                </StyledNavLink>
+                <p>De hoofdgorieën met bijbehorende openbare naam en icoon.</p>
+              </Item>
+            )}
           {showItems.export && (
             <Item data-testid="export">
               <StyledNavLink to={EXPORT_URL}>
