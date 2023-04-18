@@ -11,7 +11,7 @@ import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
-import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import { CATEGORY_URL, SUBCATEGORIES_PAGED_URL } from 'signals/settings/routes'
 
 import { StyledDataView, StyledCompactPager } from './styled'
 import filterData from '../../filterData'
@@ -81,7 +81,7 @@ export const CategoriesOverviewContainer = () => {
   const onPaginationClick = useCallback(
     (pageToNavigateTo) => {
       global.window.scrollTo(0, 0)
-      history.push(`${CATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
+      history.push(`${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
     },
     [history]
   )

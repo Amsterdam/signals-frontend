@@ -20,7 +20,7 @@ import routes, {
   USERS_PAGED_URL,
   USER_URL,
   ROLE_URL,
-  CATEGORIES_PAGED_URL,
+  SUBCATEGORIES_PAGED_URL,
   CATEGORY_URL,
   BASE_URL,
   EXPORT_URL,
@@ -140,12 +140,18 @@ const SettingsModule = () => {
 
         <Redirect
           exact
-          from={routes.categories}
-          to={`${CATEGORIES_PAGED_URL}/1`}
+          from={routes.subcategories}
+          to={`${SUBCATEGORIES_PAGED_URL}/1`}
         />
         <ProtectedRoute
           exact
-          path={routes.categoriesPaged}
+          path={routes.subcategoriesPaged}
+          component={SubcategoriesOverview}
+          roleGroup="subcategories"
+        />
+        <ProtectedRoute
+          exact
+          path={routes.categories}
           component={SubcategoriesOverview}
           roleGroup="categories"
         />

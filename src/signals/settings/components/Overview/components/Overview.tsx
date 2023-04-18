@@ -16,8 +16,9 @@ import {
   USERS_URL,
   ROLES_URL,
   DEPARTMENTS_URL,
-  CATEGORIES_URL,
+  SUBCATEGORIES_URL,
   EXPORT_URL,
+  MAIN_CATEGORIES_URL,
 } from 'signals/settings/routes'
 
 import {
@@ -135,7 +136,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.categories && (
             <Item data-testid="categories">
-              <StyledNavLink to={CATEGORIES_URL}>
+              <StyledNavLink to={SUBCATEGORIES_URL}>
                 <StyledTopTaskLink
                   forwardedAs="div"
                   icon={ThumbnailResults}
@@ -156,6 +157,18 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 deze instellingspagina is het mogelijk om de gegevens per
                 subcategorie aan te passen.
               </p>
+            </Item>
+          )}
+          {showItems.categories && (
+            <Item data-testid="main-categories">
+              <StyledNavLink to={MAIN_CATEGORIES_URL}>
+                <StyledTopTaskLink
+                  forwardedAs="div"
+                  icon={ThumbnailResults}
+                  title="Hoofdcategorieën"
+                />
+              </StyledNavLink>
+              <p>De hoofdgorieën met bijbehorende openbare naam en icoon.</p>
             </Item>
           )}
           {showItems.export && (

@@ -10,8 +10,9 @@ export const ROLE_URL = `${BASE_URL}/rol`
 export const DEPARTMENTS_URL = `${BASE_URL}/afdelingen`
 export const DEPARTMENT_URL = `${BASE_URL}/afdeling`
 export const CATEGORY_URL = `${BASE_URL}/categorie`
-export const CATEGORIES_URL = `${BASE_URL}/categorieen`
-export const CATEGORIES_PAGED_URL = `${CATEGORIES_URL}/page`
+export const MAIN_CATEGORIES_URL = `${BASE_URL}/categorieen`
+export const SUBCATEGORIES_URL = `${BASE_URL}/subcategorieen`
+export const SUBCATEGORIES_PAGED_URL = `${SUBCATEGORIES_URL}/page`
 export const EXPORT_URL = `${BASE_URL}/export`
 
 const routes = {
@@ -26,8 +27,9 @@ const routes = {
   departments: DEPARTMENTS_URL,
   department: `${DEPARTMENT_URL}/:departmentId(\\d+)`,
 
-  categories: CATEGORIES_URL,
-  categoriesPaged: `${CATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
+  categories: MAIN_CATEGORIES_URL,
+  subcategories: SUBCATEGORIES_URL,
+  subcategoriesPaged: `${SUBCATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
   category: `${CATEGORY_URL}/:categoryId(\\d+)`,
 
   export: EXPORT_URL,

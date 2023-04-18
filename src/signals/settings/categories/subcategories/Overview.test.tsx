@@ -9,7 +9,7 @@ import * as reactRouterDom from 'react-router-dom'
 import * as constants from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
-import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import { CATEGORY_URL, SUBCATEGORIES_PAGED_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
@@ -152,7 +152,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     userEvent.click(pageButton)
 
     expect(pushSpy).toHaveBeenCalledTimes(1)
-    expect(pushSpy).toHaveBeenCalledWith(`${CATEGORIES_PAGED_URL}/2`)
+    expect(pushSpy).toHaveBeenCalledWith(`${SUBCATEGORIES_PAGED_URL}/2`)
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
 
