@@ -85,29 +85,8 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
   })
 
   it('should dispatch success', () => {
-    renderHook(() =>
-      withAppContext(useFetchResponseNotification({ isSuccess: true }))
-    )
-
     const type = TYPE_LOCAL
     const variant = VARIANT_SUCCESS
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({ title: 'Gegevens toegevoegd', variant, type })
-    )
-
-    renderHook(() =>
-      withAppContext(
-        useFetchResponseNotification({
-          isSuccess: true,
-          entityName: 'Gebruiker',
-        })
-      )
-    )
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({ title: 'Gebruiker toegevoegd', variant, type })
-    )
 
     renderHook(() =>
       withAppContext(

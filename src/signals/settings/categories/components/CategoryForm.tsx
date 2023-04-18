@@ -56,7 +56,7 @@ export const CategoryForm = ({
   responsibleDepartments,
 }: Props) => (
   <FormProvider {...formMethods}>
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} data-testid="detail-category-form">
       <Row>
         <StyledColumn
           span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}
@@ -72,6 +72,7 @@ export const CategoryForm = ({
                 name="name"
                 readOnly={readOnly}
                 type="text"
+                // value={value}
               />
             </FieldGroup>
 

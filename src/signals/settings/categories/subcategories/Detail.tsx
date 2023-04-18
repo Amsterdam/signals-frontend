@@ -38,11 +38,11 @@ export const CategoryDetail = () => {
   const entityName = 'Subcategorie'
 
   const location = useLocationReferrer()
+
   const redirectURL = location.referrer || routes.categories
   const confirmedCancel = useConfirmedCancel(redirectURL)
 
   const { categoryId } = useParams<Params>()
-  const isExistingCategory = categoryId !== undefined
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch<Category>()
   const { get: historyGet, data: historyData } = useFetch<History[]>()
@@ -85,25 +85,19 @@ export const CategoryDetail = () => {
 
   const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`
 
-  const shouldRenderForm =
-    !isExistingCategory || (isExistingCategory && Boolean(data))
-
   const userCan = useSelector(makeSelectUserCan)
 
-  const userCanSubmitForm =
-    (isExistingCategory && userCan('change_category')) ||
-    (!isExistingCategory && userCan('add_category'))
+  const userCanSubmitForm = userCan('change_category')
 
   useFetchResponseNotification({
     entityName,
     error,
-    isExisting: isExistingCategory,
     isLoading,
     isSuccess,
     redirectURL,
   })
 
-  const title = `${entityName} ${isExistingCategory ? 'wijzigen' : 'toevoegen'}`
+  const title = `${entityName} wijzigen`
 
   useEffect(() => {
     // Prefill form with data from query
@@ -117,11 +111,9 @@ export const CategoryDetail = () => {
   }, [isSuccess, dispatch])
 
   useEffect(() => {
-    if (isExistingCategory) {
-      get(categoryURL)
-      historyGet(`${categoryURL}/history`)
-    }
-  }, [get, historyGet, categoryURL, isExistingCategory])
+    get(categoryURL)
+    historyGet(`${categoryURL}/history`)
+  }, [get, historyGet, categoryURL])
 
   const onCancel = useCallback(() => {
     confirmedCancel(!isDirty)
@@ -138,6 +130,8 @@ export const CategoryDetail = () => {
     patch(categoryURL, { ...transformedData })
   }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
 
+  if (!data || !historyData) return null
+
   return (
     <Fragment>
       <PageHeader
@@ -148,17 +142,15 @@ export const CategoryDetail = () => {
       {isLoading && <LoadingIndicator />}
 
       <FormContainer>
-        {shouldRenderForm && historyData && (
-          <CategoryForm
-            formMethods={formMethods}
-            formValues={formValues}
-            history={historyData}
-            onCancel={onCancel}
-            onSubmit={formMethods.handleSubmit(onSubmit)}
-            readOnly={!userCanSubmitForm}
-            responsibleDepartments={responsibleDepartments}
-          />
-        )}
+        <CategoryForm
+          formMethods={formMethods}
+          formValues={formValues}
+          history={historyData}
+          onCancel={onCancel}
+          onSubmit={formMethods.handleSubmit(onSubmit)}
+          readOnly={!userCanSubmitForm}
+          responsibleDepartments={responsibleDepartments}
+        />
       </FormContainer>
     </Fragment>
   )
