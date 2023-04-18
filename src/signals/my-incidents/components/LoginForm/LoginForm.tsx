@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import { useEffect } from 'react'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
@@ -21,7 +23,11 @@ const schema = yup.object({
     .required('Dit veld is verplicht'),
 })
 
-export const LoginForm = () => {
+interface Props {
+  setErrorMessage: (message: string) => void
+}
+
+export const LoginForm = ({ setErrorMessage }: Props) => {
   const {
     register,
     handleSubmit,
@@ -29,15 +35,26 @@ export const LoginForm = () => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   })
+
   const history = useHistory()
-  const [postEmail] = usePostEmail()
+  const [postEmail, { isSuccess, errorMessage }] = usePostEmail()
   const { setEmail } = useMyIncidentContext()
 
   const onSubmit = async ({ email }: FormData) => {
     await postEmail(email)
     setEmail(email)
-    history.push(routes.confirm)
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      history.push(routes.confirm)
+    }
+  }, [isSuccess, history])
+  useEffect(() => {
+    if (errorMessage) {
+      setErrorMessage(errorMessage)
+    }
+  }, [setErrorMessage, errorMessage])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

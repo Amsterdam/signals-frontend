@@ -100,7 +100,7 @@ export const getErrorMessage = (error, defaultErrorMessage = '') => {
 
   if (!status) {
     return (
-      error.message || defaultErrorMessage || errorMessageDictionary.default
+      error?.message || defaultErrorMessage || errorMessageDictionary.default
     )
   }
 
