@@ -12,6 +12,11 @@ export const Form = styled.form`
   width: 100%;
 `
 
+export const FormContainer = styled.div`
+  // taking into account the space that the FormFooter component takes up
+  padding-bottom: 66px;
+`
+
 export const StyledColumn = styled(Column)`
   contain: content;
   flex-direction: column;

@@ -18,7 +18,6 @@ import routes from 'signals/settings/routes'
 import type { Category } from 'types/category'
 import type { History } from 'types/history'
 
-import { FormContainer } from './styled'
 import { getTransformedData } from './utils'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
@@ -142,17 +141,15 @@ export const CategoryDetail = () => {
 
       {isLoading && <LoadingIndicator />}
 
-      <FormContainer>
-        <CategoryForm
-          formMethods={formMethods}
-          formValues={formValues}
-          history={historyData}
-          onCancel={onCancel}
-          onSubmit={formMethods.handleSubmit(onSubmit)}
-          readOnly={!userCanSubmitForm}
-          responsibleDepartments={responsibleDepartments}
-        />
-      </FormContainer>
+      <CategoryForm
+        formMethods={formMethods}
+        formValues={formValues}
+        history={historyData}
+        onCancel={onCancel}
+        onSubmit={formMethods.handleSubmit(onSubmit)}
+        readOnly={!userCanSubmitForm}
+        responsibleDepartments={responsibleDepartments}
+      />
     </Fragment>
   )
 }
