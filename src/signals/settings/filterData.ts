@@ -27,6 +27,14 @@ const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> => {
               value = value ? 'Actief' : 'Niet actief'
             }
 
+            if (key === 'public_name') {
+              value = value ? value : 'Niet ingesteld'
+            }
+
+            if (key === 'icon') {
+              value = value ? 'Ingesteld' : 'Niet ingesteld'
+            }
+
             obj[colMap[key]] = value
 
             return obj
