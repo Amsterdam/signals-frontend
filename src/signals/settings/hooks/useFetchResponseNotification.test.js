@@ -12,7 +12,7 @@ import {
 } from 'containers/Notification/constants'
 import { withAppContext } from 'test/utils'
 
-import useFetchResponseNotification from '../useFetchResponseNotification'
+import useFetchResponseNotification from './useFetchResponseNotification'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
