@@ -3,17 +3,14 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  column-gap: ${themeSpacing(8)};
+  row-gap: ${themeSpacing(4)};
 `
 
-export const Item = styled.div`
-  flex: 1;
-  padding-right: ${themeSpacing(8)};
-  &:last-of-type {
-    padding-right: 0;
-  }
-`
+export const Item = styled.div``
 
 export const StyledNavLink = styled(NavLink)`
   margin-bottom: ${themeSpacing(4)};

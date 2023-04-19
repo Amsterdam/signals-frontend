@@ -169,7 +169,17 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                     title="Hoofdcategorieën"
                   />
                 </StyledNavLink>
-                <p>De hoofdgorieën met bijbehorende openbare naam en icoon.</p>
+                <p>
+                  Een melding in Signalen wordt automatisch door de machine
+                  learning tool toegekend aan een hoofdcategorie. In deze
+                  instellingspagina is het per hoofdcategorie mogelijk om de
+                  weergave op de publieke kaarten aan te passen. De
+                  zichtbaarheid van de hoofdcategorie op de kaart kan worden
+                  ingesteld. De openbare naam en het icoon kan worden gewijzigd.
+                  Voor de meldingenkaart kan worden aangegeven of de
+                  subcategorieën van de hoofdcategorie zichtbaar moeten zijn in
+                  het filtermenu.
+                </p>
               </Item>
             )}
           {showItems.export && (
