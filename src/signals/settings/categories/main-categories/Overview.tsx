@@ -6,11 +6,12 @@ import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectMainCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
-import { MAIN_CATEGORY_URL } from 'signals/settings/routes'
+import { BASE_URL, MAIN_CATEGORY_URL } from 'signals/settings/routes'
 
 import filterData from '../../filterData'
 import { StyledDataView } from '../subcategories/styled'
@@ -62,6 +63,7 @@ export const CategoriesOverview = () => {
         title={`Hoofdcategorieën ${
           mainCategories ? `(${mainCategories.length})` : ''
         }`}
+        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
       />
 
       <Row>

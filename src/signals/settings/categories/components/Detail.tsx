@@ -43,8 +43,9 @@ export const CategoryDetail = ({
 
   const location = useLocationReferrer()
 
-  // TODO: either sub or main category
-  const redirectURL = location.referrer || routes.subcategories
+  const redirectURL =
+    location.referrer ||
+    (isMainCategory ? routes.mainCategories : routes.subcategories)
   const confirmedCancel = useConfirmedCancel(redirectURL)
 
   const { categoryId } = useParams<{ categoryId: string }>()

@@ -6,12 +6,14 @@ import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 
+import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
 import {
+  BASE_URL,
   SUBCATEGORY_URL,
   SUBCATEGORIES_PAGED_URL,
 } from 'signals/settings/routes'
@@ -37,6 +39,7 @@ interface Params {
 export const OverviewContainer = () => {
   const history = useHistory()
   const params = useParams<Params>()
+
   const [page, setPage] = useState(1)
   const subCategories = useSelector(makeSelectAllSubCategories)
   const userCan = useSelector(makeSelectUserCan)
@@ -91,7 +94,10 @@ export const OverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader title={`Subcategorieën ${count ? `(${count})` : ''}`} />
+      <PageHeader
+        title={`Subcategorieën ${count ? `(${count})` : ''}`}
+        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+      />
 
       <Row>
         {isLoading && <LoadingIndicator />}
