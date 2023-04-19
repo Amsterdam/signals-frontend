@@ -99,8 +99,8 @@ export const makeSelectUserCanAccess = createSelector(
         'change_department',
       ]
       const departmentForm = ['add_department', 'change_department']
-      const categories = ['view_category', 'add_category', 'change_category']
-      const categoryForm = ['add_category', 'change_category']
+      const categories = ['view_category', 'change_category']
+      const categoryForm = ['change_category']
       const csvExport = ['sia_signal_report']
 
       const requiredPerms: Record<string, string[]> = {

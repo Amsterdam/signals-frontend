@@ -21,7 +21,6 @@ import routes, {
   USER_URL,
   ROLE_URL,
   SUBCATEGORIES_PAGED_URL,
-  CATEGORY_URL,
   BASE_URL,
   EXPORT_URL,
 } from './routes'
@@ -49,14 +48,23 @@ const DepartmentsOverviewContainer = lazy(() =>
 )
 // istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
+
 // istanbul ignore next
-const SubcategoriesOverview = lazy(() => import('./categories'))
-// istanbul ignore next
-const MainCategoriesOverview = lazy(() =>
-  import('./categories/main-categories')
+const SubcategoriesOverview = lazy(() =>
+  import('./categories/subcategories/Overview')
 )
 // istanbul ignore next
-const CategoryDetailContainer = lazy(() => import('./categories/subcategories'))
+const MainCategoriesOverview = lazy(() =>
+  import('./categories/main-categories/Overview')
+)
+// istanbul ignore next
+const SubcategoryDetail = lazy(() =>
+  import('./categories/subcategories/Detail')
+)
+// istanbul ignore next
+const MainCategoryDetail = lazy(() =>
+  import('./categories/main-categories/Detail')
+)
 
 // istanbul ignore next
 const ExportContainer = lazy(() => import('./export'))
@@ -147,6 +155,7 @@ const SettingsModule = () => {
           from={routes.subcategories}
           to={`${SUBCATEGORIES_PAGED_URL}/1`}
         />
+
         <ProtectedRoute
           exact
           path={routes.subcategoriesPaged}
@@ -155,21 +164,22 @@ const SettingsModule = () => {
         />
         <ProtectedRoute
           exact
-          path={routes.categories}
+          path={routes.subcategory}
+          component={SubcategoryDetail}
+          roleGroup="subcategoryForm"
+        />
+
+        <ProtectedRoute
+          exact
+          path={routes.mainCategories}
           component={MainCategoriesOverview}
-          roleGroup="categories"
+          roleGroup="mainCategories"
         />
         <ProtectedRoute
           exact
-          path={routes.category}
-          component={CategoryDetailContainer}
-          roleGroup="categoryForm"
-        />
-        <ProtectedRoute
-          exact
-          path={CATEGORY_URL}
-          component={CategoryDetailContainer}
-          role="add_category"
+          path={routes.mainCategory}
+          component={MainCategoryDetail}
+          roleGroup="mainCategoryForm"
         />
 
         {configuration.featureFlags.enableCsvExport && (
