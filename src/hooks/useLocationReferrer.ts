@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useEffect, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
@@ -10,8 +10,8 @@ import { useLocation } from 'react-router-dom'
  * Custom hook that returns the current page location. If the location, from which the navigation action originated,
  * is different than its referrer, the referring URL is appended as a prop to the location object.
  *
- * @returns {Object} location object with a possible referrer prop
  */
+
 const useLocationReferrer = () => {
   const moduleLocation = useLocation()
   const [location, setLocation] = useState(moduleLocation)
@@ -27,7 +27,7 @@ const useLocationReferrer = () => {
     }
   }, [location.pathname, moduleLocation, setLocation])
 
-  return location
+  return location as { referrer?: string }
 }
 
 export default useLocationReferrer

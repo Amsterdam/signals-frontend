@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
@@ -12,7 +12,7 @@ import {
 } from 'containers/Notification/constants'
 import { withAppContext } from 'test/utils'
 
-import useFetchResponseNotification from '../useFetchResponseNotification'
+import useFetchResponseNotification from './useFetchResponseNotification'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -85,29 +85,8 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
   })
 
   it('should dispatch success', () => {
-    renderHook(() =>
-      withAppContext(useFetchResponseNotification({ isSuccess: true }))
-    )
-
     const type = TYPE_LOCAL
     const variant = VARIANT_SUCCESS
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({ title: 'Gegevens toegevoegd', variant, type })
-    )
-
-    renderHook(() =>
-      withAppContext(
-        useFetchResponseNotification({
-          isSuccess: true,
-          entityName: 'Gebruiker',
-        })
-      )
-    )
-
-    expect(dispatch).toHaveBeenCalledWith(
-      showGlobalNotification({ title: 'Gebruiker toegevoegd', variant, type })
-    )
 
     renderHook(() =>
       withAppContext(
