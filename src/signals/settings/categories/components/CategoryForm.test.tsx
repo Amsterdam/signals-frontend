@@ -47,6 +47,9 @@ const defaultProps: Omit<Props, 'formMethods'> = {
   onSubmit: jest.fn(),
   readOnly: false,
   responsibleDepartments: ['VOR', 'STW'],
+  isMainCategory: false,
+  isPublicAccessibleLabel:
+    'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
 }
 
 const Wrapper = () => {

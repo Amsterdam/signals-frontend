@@ -26,7 +26,7 @@ import type { CategoryFormValues } from '../types'
 
 const DEFAULT_STATUS_OPTION = 'true'
 
-interface Props {
+export interface Props {
   entityName: string
   isMainCategory: boolean
   isPublicAccessibleLabel: string

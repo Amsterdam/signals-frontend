@@ -23,8 +23,8 @@ import {
   ROLE_URL,
   DEPARTMENTS_URL,
   DEPARTMENT_URL,
-  CATEGORIES_URL,
-  CATEGORY_URL,
+  SUBCATEGORIES_URL,
+  SUBCATEGORY_URL,
   EXPORT_URL,
 } from '../routes'
 
@@ -177,16 +177,16 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) => section === 'categories')
+      .mockImplementation(() => (section) => section === 'subcategories')
 
     render(withSuspense())
 
-    act(() => history.push(CATEGORIES_URL))
+    act(() => history.push(SUBCATEGORIES_URL))
 
     await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
-      ).toEqual(CATEGORIES_URL)
+      ).toEqual(SUBCATEGORIES_URL)
     )
   })
 
@@ -201,7 +201,7 @@ describe('signals/settings', () => {
 
     render(withSuspense())
 
-    const url = `${CATEGORY_URL}/1`
+    const url = `${SUBCATEGORY_URL}/1`
 
     act(() => history.push(url))
 

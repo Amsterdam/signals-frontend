@@ -9,11 +9,14 @@ import * as reactRouterDom from 'react-router-dom'
 import * as constants from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
-import { CATEGORY_URL, SUBCATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import {
+  SUBCATEGORY_URL,
+  SUBCATEGORIES_PAGED_URL,
+} from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
-import { CategoriesOverviewContainer as CategoriesOverview } from './Overview'
+import { OverviewContainer } from './Overview'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -69,7 +72,7 @@ describe('signals/settings/categories/containers/Overview', () => {
   })
 
   it('should render header', () => {
-    render(withAppContext(<CategoriesOverview />))
+    render(withAppContext(<OverviewContainer />))
 
     expect(screen.getByText(`Subcategorieën (${count})`)).toBeInTheDocument()
   })
@@ -83,7 +86,7 @@ describe('signals/settings/categories/containers/Overview', () => {
 
     // render the first page
     const { container, rerender } = render(
-      withAppContext(<CategoriesOverview />)
+      withAppContext(<OverviewContainer />)
     )
 
     expect(
@@ -98,7 +101,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       pageNum: '2',
     }))
 
-    rerender(withAppContext(<CategoriesOverview />))
+    rerender(withAppContext(<OverviewContainer />))
 
     const secondPageFirstCategory = subCategories[constants.PAGE_SIZE + 1]
     const secondPageLastCategory = subCategories[constants.PAGE_SIZE * 2 - 1]
@@ -114,7 +117,7 @@ describe('signals/settings/categories/containers/Overview', () => {
   })
 
   it('should only render specific data columns', () => {
-    render(withAppContext(<CategoriesOverview />))
+    render(withAppContext(<OverviewContainer />))
 
     expect(screen.getByText('Subcategorie')).toBeInTheDocument()
     expect(screen.getByText('Afhandeltermijn')).toBeInTheDocument()
@@ -123,7 +126,7 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should render pagination controls', () => {
     const { rerender, queryByTestId } = render(
-      withAppContext(<CategoriesOverview />)
+      withAppContext(<OverviewContainer />)
     )
 
     expect(queryByTestId('pagination')).toBeInTheDocument()
@@ -132,7 +135,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     // @ts-ignore
     constants.PAGE_SIZE = count + 1
 
-    rerender(withAppContext(<CategoriesOverview />))
+    rerender(withAppContext(<OverviewContainer />))
 
     expect(queryByTestId('pagination')).not.toBeInTheDocument()
   })
@@ -142,7 +145,7 @@ describe('signals/settings/categories/containers/Overview', () => {
       pageNum: '1',
     }))
 
-    render(withAppContext(<CategoriesOverview />))
+    render(withAppContext(<OverviewContainer />))
 
     const pageButton = screen.getByTestId('nextbutton')
 
@@ -157,7 +160,7 @@ describe('signals/settings/categories/containers/Overview', () => {
   })
 
   it('should push on list item with an itemId click', async () => {
-    const { container } = render(withAppContext(<CategoriesOverview />))
+    const { container } = render(withAppContext(<OverviewContainer />))
     const itemId = 666
 
     let row: any
@@ -174,7 +177,7 @@ describe('signals/settings/categories/containers/Overview', () => {
     userEvent.click(row)
 
     expect(pushSpy).toHaveBeenCalledTimes(1)
-    expect(pushSpy).toHaveBeenCalledWith(`${CATEGORY_URL}/${itemId}`)
+    expect(pushSpy).toHaveBeenCalledWith(`${SUBCATEGORY_URL}/${itemId}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
@@ -193,7 +196,7 @@ describe('signals/settings/categories/containers/Overview', () => {
 
   it('should not push on list item click when permissions are insufficient', async () => {
     mockUserCan.mockReturnValue(false)
-    const { container } = render(withAppContext(<CategoriesOverview />))
+    const { container } = render(withAppContext(<OverviewContainer />))
     const itemId = 666
 
     let row: any
