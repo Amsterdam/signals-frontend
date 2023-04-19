@@ -23,7 +23,9 @@ export const colMap = {
   value: 'Hoofdcategorie',
   public_name: 'Openbare Naam',
   // TODO: Add icon
-  icon: 'Icoon',
+  _links: {
+    'sia:icon': 'Icoon',
+  },
 }
 
 const columnHeaders = ['Hoofdcategorie', 'Openbare Naam', 'Icoon']
