@@ -13,7 +13,7 @@ import { makeSelectMainCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
 import { BASE_URL, MAIN_CATEGORY_URL } from 'signals/settings/routes'
 
-import filterData from '../../filterData'
+import filterData from '../../utils/filterData'
 import { StyledDataView } from '../subcategories/styled'
 
 // name mapping from API values to human readable values

@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useEffect, lazy, Suspense } from 'react'
 
+import type { Location } from 'history'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
@@ -33,37 +34,37 @@ const LoginPage = lazy(() => import('components/pages/LoginPage'))
 // istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
 // istanbul ignore next
-const RolesListContainer = lazy(() =>
-  import('./roles/containers/RolesListContainer')
+const RolesListContainer = lazy(
+  () => import('./roles/containers/RolesListContainer')
 )
 // istanbul ignore next
-const RoleFormContainer = lazy(() =>
-  import('./roles/containers/RoleFormContainer')
+const RoleFormContainer = lazy(
+  () => import('./roles/containers/RoleFormContainer')
 )
 // istanbul ignore next
 const UsersDetailContainer = lazy(() => import('./users/Detail'))
 // istanbul ignore next
-const DepartmentsOverviewContainer = lazy(() =>
-  import('./departments/Overview')
+const DepartmentsOverviewContainer = lazy(
+  () => import('./departments/Overview')
 )
 // istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
 
 // istanbul ignore next
-const SubcategoriesOverview = lazy(() =>
-  import('./categories/subcategories/Overview')
+const SubcategoriesOverview = lazy(
+  () => import('./categories/subcategories/Overview')
 )
 // istanbul ignore next
-const MainCategoriesOverview = lazy(() =>
-  import('./categories/main-categories/Overview')
+const MainCategoriesOverview = lazy(
+  () => import('./categories/main-categories/Overview')
 )
 // istanbul ignore next
-const SubcategoryDetail = lazy(() =>
-  import('./categories/subcategories/Detail')
+const SubcategoryDetail = lazy(
+  () => import('./categories/subcategories/Detail')
 )
 // istanbul ignore next
-const MainCategoryDetail = lazy(() =>
-  import('./categories/main-categories/Detail')
+const MainCategoryDetail = lazy(
+  () => import('./categories/main-categories/Detail')
 )
 
 // istanbul ignore next
@@ -74,7 +75,7 @@ const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
 const SettingsModule = () => {
   const storeDispatch = useDispatch()
-  const location = useLocationReferrer()
+  const location = useLocationReferrer() as Location
   const userCanAccess = useSelector(makeSelectUserCanAccess)
 
   useEffect(() => {

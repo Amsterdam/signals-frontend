@@ -19,7 +19,7 @@ import {
 } from 'signals/settings/routes'
 
 import { StyledDataView, StyledCompactPager } from './styled'
-import filterData from '../../filterData'
+import filterData from '../../utils/filterData'
 
 // name mapping from API values to human readable values
 export const colMap = {
