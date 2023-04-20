@@ -239,7 +239,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       storeDispatch(
         showGlobalNotification({
           title:
-            'Het is niet mogelijk een melding in categorie Overig - overig af te handelen',
+            'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.',
           variant: VARIANT_ERROR,
           type: TYPE_LOCAL,
         })
