@@ -741,7 +741,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(actions.showGlobalNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         title:
-          'Het is niet mogelijk een melding in categorie Overig - overig af te handelen',
+          'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.',
       })
     )
   })
