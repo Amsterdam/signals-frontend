@@ -21,7 +21,7 @@ import type { History } from 'types/history'
 import { CategoryForm } from './CategoryForm'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
-import { getTransformedData } from '../subcategories/utils'
+import { getPatchPayload } from '../subcategories/utils'
 import type { CategoryFormValues } from '../types'
 
 const DEFAULT_STATUS_OPTION = 'true'
@@ -132,8 +132,8 @@ export const CategoryDetail = ({
 
     const formData = formMethods.getValues()
 
-    const transformedData = getTransformedData(formData)
-    patch(categoryURL, { ...transformedData })
+    const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
+    patch(categoryURL, { ...payload })
   }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
 
   if (!data || !historyData) return null
