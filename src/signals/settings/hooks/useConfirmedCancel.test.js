@@ -3,7 +3,7 @@
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
 
-import useConfirmedCancel, { confirmationMessage } from '../useConfirmedCancel'
+import useConfirmedCancel, { confirmationMessage } from './useConfirmedCancel'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

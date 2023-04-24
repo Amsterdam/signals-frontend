@@ -58,12 +58,22 @@ export const summaryProps: SummaryProps = {
   coordinates: { lat: 0, lng: 0 },
 }
 
+let mockLocation = {
+  pathname: '/incident/vulaan',
+  referrer: '/',
+  search: '',
+  state: {},
+  hash: '',
+}
+
 export const withContext = (
   Component: JSX.Element,
   context = assetSelectContextValue
 ) =>
   withAppContext(
-    <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
+    <reactRouterDom.MemoryRouter initialEntries={[mockLocation]}>
+      <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
+    </reactRouterDom.MemoryRouter>
   )
 
 const dispatch = jest.fn()
@@ -189,27 +199,16 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
   })
 
   it("renders the mapEditButton at 'incident/vulaan'", () => {
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
-      pathname: '/incident/vulaan',
-      referrer: '/',
-      search: '',
-      state: {},
-      hash: '',
-    }))
-
     render(withContext(<Summary {...summaryProps} />))
 
     expect(screen.getByTestId('map-edit-button')).toBeInTheDocument()
   })
 
   it("does not render the mapEditButton at 'incident/summary'", () => {
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({
+    mockLocation = {
+      ...mockLocation,
       pathname: '/incident/summary',
-      referrer: '/',
-      search: '',
-      state: {},
-      hash: '',
-    }))
+    }
 
     render(withContext(<Summary {...summaryProps} />))
 

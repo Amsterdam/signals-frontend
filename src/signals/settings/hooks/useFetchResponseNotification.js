@@ -11,6 +11,8 @@ import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
+// eslint-disable-next-line no-unused-vars
+import { State } from 'hooks/useFetch'
 
 /**
  * Custom hook useConfirmedCancel
@@ -19,17 +21,15 @@ import {
  *
  * @param {Object} options
  * @param {String} options.entityName - Name by which the stored/patched data should be labeled (eg. 'Afdeling')
- * @param {Error} options.error - Exception object
- * @param {Boolean} options.isExisting - Flag indicating if notification should mention newly stored data
+ * @param {State['error']} options.error - Exception object
  * @param {Boolean} options.isLoading - Flag indicating if data is still loading
- * @param {Boolean} options.isSuccess - Flag indicating if data has been stored/patched successfully
+ * @param {State['error']} options.isSuccess - Flag indicating if data has been stored/patched successfully
  * @param {String} options.redirectURL - URL to which the push should be directed when isSuccess is truthy
  * @returns {void}
  */
 const useFetchResponseNotification = ({
   entityName,
   error,
-  isExisting,
   isLoading,
   isSuccess,
   redirectURL,
@@ -61,13 +61,11 @@ const useFetchResponseNotification = ({
 
     if (isSuccess) {
       const entityLabel = entityName || 'Gegevens'
-      message = isExisting
-        ? `${entityLabel} bijgewerkt`
-        : `${entityLabel} toegevoegd`
+      message = `${entityLabel} bijgewerkt`
     }
 
     showNotification(variant, message)
-  }, [entityName, error, isExisting, isLoading, isSuccess, showNotification])
+  }, [entityName, error, isLoading, isSuccess, showNotification])
 
   useEffect(() => {
     if (isLoading) return

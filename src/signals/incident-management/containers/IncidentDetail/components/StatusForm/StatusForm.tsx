@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
-import { useCallback, useReducer, useContext, useState, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 
 import { Alert, Heading, Label, Select } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -13,8 +13,8 @@ import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Status } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 
@@ -25,12 +25,12 @@ import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import {
   AddNoteWrapper,
-  StyledCheckbox,
   Form,
-  StyledCheckboxLabel,
   StandardTextsButton,
   StyledAlert,
   StyledButton,
+  StyledCheckbox,
+  StyledCheckboxLabel,
   StyledH4,
   StyledLabel,
   StyledParagraph,
@@ -38,7 +38,7 @@ import {
 } from './styled'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
-import type { IncidentChild, EmailTemplate } from '../../types'
+import type { EmailTemplate, IncidentChild } from '../../types'
 import EmailPreview from '../EmailPreview/EmailPreview'
 
 interface StatusFormProps {
@@ -112,9 +112,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     lastActiveElement = document.activeElement as HTMLElement
   }, [setModalEmailPreviewIsOpen])
 
-  const disableSubmit = Boolean(
-    state.warnings.some(({ level }) => level === 'error')
-  )
+  const disableSubmit =
+    Boolean(state.warnings.some(({ level }) => level === 'error')) ||
+    (incident &&
+      incident.category?.main_slug === 'overig' &&
+      incident.category?.sub_slug === 'overig' &&
+      state.status.key === StatusCode.Afgehandeld &&
+      state.originalStatus.key != StatusCode.Afgehandeld)
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -144,7 +148,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault()
-
       const textValue = state.text.value || state.text.defaultValue
 
       if (state.text.required && !textValue) {
@@ -193,7 +196,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       }
     },
     [
-      incident?.id,
+      incident,
       state.flags.hasEmail,
       state.status.key,
       state.text.value,
@@ -203,7 +206,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.check.checked,
       onUpdate,
       getEmailTemplate,
-      incident?.reporter?.allows_contact,
     ]
   )
 
@@ -226,6 +228,22 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       state.status.key === StatusCode.VerzoekTotHeropenen
     ) {
       setEmailIsNotSend(true)
+    }
+
+    if (
+      incident &&
+      incident.category?.main_slug === 'overig' &&
+      incident.category?.sub_slug === 'overig' &&
+      event.target.value === 'o'
+    ) {
+      storeDispatch(
+        showGlobalNotification({
+          title:
+            'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
     }
 
     const selectedStatus = changeStatusOptionList.find(
