@@ -21,9 +21,9 @@ jest.mock('react-router-dom', () => {
   }
 })
 
-const pushSpy = jest.fn()
-const useHistorySpy = { push: pushSpy } as any
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
+const navigateSpy = jest.fn()
+
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 let mockMainCategories = [categories['wegen-verkeer-straatmeubilair']]
 
@@ -93,12 +93,12 @@ describe('OverviewContainer', () => {
       row = container.querySelector('tbody tr:nth-child(1)')
     })
 
-    expect(pushSpy).toHaveBeenCalledTimes(0)
+    expect(navigateSpy).toHaveBeenCalledTimes(0)
 
     userEvent.click(row)
 
-    expect(pushSpy).toHaveBeenCalledTimes(1)
-    expect(pushSpy).toHaveBeenCalledWith(`${MAIN_CATEGORY_URL}/80`)
+    expect(navigateSpy).toHaveBeenCalledTimes(1)
+    expect(navigateSpy).toHaveBeenCalledWith(`${MAIN_CATEGORY_URL}/80`)
   })
 
   it('should not push on list item click when permissions are insufficient', async () => {
@@ -111,10 +111,10 @@ describe('OverviewContainer', () => {
       row = container.querySelector('tbody tr:nth-child(1)')
     })
 
-    expect(pushSpy).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
 
     userEvent.click(row)
 
-    expect(pushSpy).toHaveBeenCalledTimes(0)
+    expect(navigateSpy).toHaveBeenCalledTimes(0)
   })
 })

@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 
 import { StyledAlert, StyledMarkdown } from './styled'
 
 export const FrontPageAlert = () => {
-  const history = useHistory()
+  const location = useLocation()
   const alertText = configuration.frontPageAlert.text
 
-  if (!(history.location.pathname === '/incident/beschrijf') || !alertText)
-    return null
+  if (!(location.pathname === '/incident/beschrijf') || !alertText) return null
 
   return (
     <StyledAlert level="error" outline>

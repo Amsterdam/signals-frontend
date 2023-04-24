@@ -88,6 +88,7 @@ const IncidentDetail = () => {
   const [isChild, setIsChild] = useState(false)
   const [showAttachmentViewer, setShowAttachmentViewer] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
+
   const {
     error,
     get: getIncident,
@@ -101,6 +102,7 @@ const IncidentDetail = () => {
     data: attachments,
     isLoading: isAttachmentsLoading,
   } = useFetch<Result<Attachment>>()
+
   const {
     del: deleteAttachment,
     isLoading: isDeleteAttachmentLoading,
@@ -371,7 +373,6 @@ const IncidentDetail = () => {
   }, [setShowAttachmentViewer])
 
   if (!state.incident || !subcategories) return null
-
   return (
     <IncidentDetailContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values

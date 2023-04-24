@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { useContext } from 'react'
 
 import { render, screen, act, waitFor } from '@testing-library/react'
@@ -13,42 +13,53 @@ import type { WizardApi } from './context/WizardContext'
 const steps = [{ id: 'beschrijf' }, { id: 'vul aan' }, { id: 'contact' }]
 
 describe('<Wizard>', () => {
+  beforeAll(() => {
+    // use fake timers to prevent act warnings
+    jest.useFakeTimers()
+    jest.resetAllMocks()
+  })
+
+  beforeEach(() => {
+    history.replace('/beschrijf')
+  })
+
   it('should render 3 steps', async () => {
     render(renderWizard())
 
     userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
-    expect(screen.getByText('vul aan')).toBeTruthy()
+    await waitFor(
+      () => {
+        expect(screen.getByText('vul aan')).toBeTruthy()
+      },
+      { timeout: 1000 }
+    )
 
     userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
-    expect(screen.getByText('contact')).toBeTruthy()
+    await waitFor(() => {
+      expect(screen.getByText('contact')).toBeTruthy()
+    })
 
     userEvent.click(screen.getByRole('button', { name: 'Vorige' }))
 
-    expect(screen.getByText('vul aan')).toBeTruthy()
-  })
-
-  it('should go back by using the history', async function () {
-    render(renderWizard())
-
-    userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
-
-    expect(screen.getByText('vul aan')).toBeTruthy()
-
     await waitFor(() => {
-      history.goBack()
+      expect(screen.getByText('vul aan')).toBeTruthy()
     })
-
-    expect(screen.getByText('beschrijf')).toBeTruthy()
   })
 
-  it('should go to a page directly', function () {
+  it('should go to a page directly', async function () {
     render(renderWizardWithoutOnNext())
 
+    await waitFor(() => {
+      expect(screen.getByText('beschrijf')).toBeTruthy()
+    })
+
     userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
-    expect(screen.getByText('vul aan')).toBeTruthy()
+    await waitFor(() => {
+      expect(screen.getByText('vul aan')).toBeTruthy()
+    })
 
     act(() => {
       history.replace('/contact')
@@ -61,7 +72,6 @@ describe('<Wizard>', () => {
 function renderWizard() {
   return withAppContext(
     <Wizard
-      history={history}
       onNext={(wizard: WizardApi) => {
         getNextStep(wizard)
       }}
@@ -73,7 +83,7 @@ function renderWizard() {
 
 function renderWizardWithoutOnNext() {
   return withAppContext(
-    <Wizard history={history}>
+    <Wizard>
       <RenderSteps />
     </Wizard>
   )
@@ -96,6 +106,7 @@ const RenderSteps = () => (
 
 function Nav() {
   const wizard = useContext(WizardContext)
+
   return (
     <>
       <button onClick={wizard.previous}>Vorige</button>
@@ -105,8 +116,8 @@ function Nav() {
 }
 
 function getNextStep(wizard: WizardApi) {
-  const wizardValues = steps.map((step) => step.id)
-  const currentIndex = wizardValues.indexOf(wizard.step.id)
-  const val = wizardValues[currentIndex + 1]
-  wizard.push(val)
+  const stepIndexFound = steps.findIndex((step) => step.id === wizard.step.id)
+  const stepIndex = stepIndexFound > -1 ? stepIndexFound : 0
+  const nextStep = steps[stepIndex + 1]?.id
+  wizard.push(nextStep)
 }

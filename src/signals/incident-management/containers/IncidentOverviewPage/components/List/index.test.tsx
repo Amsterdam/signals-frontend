@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
@@ -27,13 +27,8 @@ jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
 }))
-const pushSpy = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(
-  () =>
-    ({
-      push: pushSpy,
-    } as any)
-)
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -298,7 +293,7 @@ describe('List', () => {
     row.focus()
     userEvent.type(row, '{enter}')
 
-    expect(pushSpy).toHaveBeenCalledWith(
+    expect(navigateSpy).toHaveBeenCalledWith(
       `${INCIDENT_URL}/${props.incidents[0].id}`
     )
   })

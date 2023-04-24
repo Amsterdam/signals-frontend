@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment, useCallback } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import ListComponent from 'components/List'
@@ -35,7 +35,7 @@ const colMap = {
 const DepartmentOverview = () => {
   const departments = useSelector(makeSelectDepartments)
   const userCan = useSelector(makeSelectUserCan)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onItemClick = useCallback(
     (event) => {
@@ -51,10 +51,10 @@ const DepartmentOverview = () => {
       } = event
 
       if (itemId) {
-        history.push(`${DEPARTMENT_URL}/${itemId}`)
+        navigate(`${DEPARTMENT_URL}/${itemId}`)
       }
     },
-    [history, userCan]
+    [navigate, userCan]
   )
 
   const data = filterData(departments.list, colMap)

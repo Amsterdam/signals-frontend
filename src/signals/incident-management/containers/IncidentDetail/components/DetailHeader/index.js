@@ -93,7 +93,7 @@ const DetailHeader = () => {
 
   const referrer = location.referrer?.startsWith(MAP_URL)
     ? MAP_URL
-    : INCIDENTS_URL
+    : '../' + INCIDENTS_URL
   const parentId = incident?._links?.['sia:parent']?.href?.split('/').pop()
 
   const hasChildren = incident?._links?.['sia:children']?.length > 0
@@ -135,7 +135,7 @@ const DetailHeader = () => {
               type="button"
               variant="application"
               forwardedAs={Link}
-              to={`${INCIDENT_URL}/${incident.id}/split`}
+              to={`split`}
               data-testid="detail-header-button-split"
             >
               Delen

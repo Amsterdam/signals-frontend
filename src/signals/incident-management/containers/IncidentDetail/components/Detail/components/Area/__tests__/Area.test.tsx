@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
@@ -28,7 +28,7 @@ describe('<Area />', () => {
 
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
-      '/manage/incident/321/omgeving'
+      '/incident/321/omgeving'
     )
   })
 })

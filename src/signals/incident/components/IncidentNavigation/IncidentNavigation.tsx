@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { BaseSyntheticEvent } from 'react'
 import { useContext, useEffect } from 'react'
 
 import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import NextButton from 'components/NextButton'
@@ -79,13 +79,18 @@ interface WizardStepProps extends IncidentNavigationProps {
 
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
-  const history = useHistory()
+  const navigate = useNavigate()
+
   useEffect(() => {
     // wizardStep.formAction is undefined when a user hits the refresh and when wizard-step-1 is rendered for the first time
     if (!wizardStep.formAction) {
-      history.push('/incident/beschrijf')
+      navigate('/incident/beschrijf')
     }
-  }, [history, wizardStep.formAction])
+    /*
+      Including navigate in the deps array will cause navigate to be called on every render
+     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wizardStep.formAction])
   /**
    * We should refactor reducers to use typescript, then use following types here instead of any.
    */

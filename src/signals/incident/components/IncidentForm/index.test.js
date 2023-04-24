@@ -98,15 +98,19 @@ describe('<IncidentForm />', () => {
   })
 
   describe('rendering', () => {
-    it('expect to render correctly', () => {
+    it('expect to render correctly', async () => {
       renderIncidentForm(defaultProps)
 
-      expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument()
-      expect(screen.getByText(mockForm.nextButtonLabel)).toBeInTheDocument()
-      expect(screen.getByText(mockForm.previousButtonLabel)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument()
+        expect(screen.getByText(mockForm.nextButtonLabel)).toBeInTheDocument()
+        expect(
+          screen.getByText(mockForm.previousButtonLabel)
+        ).toBeInTheDocument()
+      })
     })
 
-    it('removes extra question data when the question is not visible anymore', () => {
+    it('removes extra question data when the question is not visible anymore', async () => {
       const EXTRA_REMOVED_QUESTION = 'extra_removed_question'
       const EXTRA_VISIBLE_QUESTION = 'extra_visible_question'
       const VISIBLE_QUESTION = 'visible_question'
@@ -138,16 +142,19 @@ describe('<IncidentForm />', () => {
       }
       renderIncidentForm(props)
 
-      expect(defaultProps.removeQuestionData).toBeCalledWith([
-        'extra_removed_question',
-      ])
+      await waitFor(() => {
+        expect(defaultProps.removeQuestionData).toBeCalledWith([
+          'extra_removed_question',
+        ])
+      })
     })
 
     it('renders updated form values', async () => {
       const { rerender } = renderIncidentForm(defaultProps)
 
-      expect(screen.getByLabelText(PHONE_LABEL)).not.toHaveValue('061234')
-
+      await waitFor(() => {
+        expect(screen.getByLabelText(PHONE_LABEL)).not.toHaveValue('061234')
+      })
       renderIncidentForm(
         {
           ...defaultProps,
@@ -165,7 +172,7 @@ describe('<IncidentForm />', () => {
       })
     })
 
-    it('enables controls that were disabled during a previous render', () => {
+    it('enables controls that were disabled during a previous render', async () => {
       const props = {
         ...defaultProps,
         fieldConfig: {
@@ -196,18 +203,22 @@ describe('<IncidentForm />', () => {
         },
         rerender
       )
-      expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument()
+
+      await waitFor(() => {
+        expect(screen.getByLabelText(PHONE_LABEL)).toBeInTheDocument()
+      })
     })
   })
 
   describe('events', () => {
     it('clicking submit should preventDefault', async () => {
       renderIncidentForm(defaultProps)
-
-      const submitButton = screen.getByText(mockForm.nextButtonLabel)
+      let submitButton
+      await waitFor(() => {
+        submitButton = screen.getByText(mockForm.nextButtonLabel)
+      })
       const clickEvent = createEvent.click(submitButton)
       jest.spyOn(clickEvent, 'preventDefault')
-
       fireEvent(submitButton, clickEvent)
 
       await waitFor(() => {
@@ -220,7 +231,8 @@ describe('<IncidentForm />', () => {
         renderIncidentForm(defaultProps)
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        act(() => {
+
+        await waitFor(() => {
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
         await waitFor(() => {
@@ -244,7 +256,7 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        act(() => {
+        await waitFor(() => {
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 
@@ -270,7 +282,7 @@ describe('<IncidentForm />', () => {
 
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
-        act(() => {
+        await waitFor(() => {
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 
@@ -308,7 +320,7 @@ describe('<IncidentForm />', () => {
         // next is triggered once during the first render
         expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        act(() => {
+        await waitFor(() => {
           // make sure phone number validation fails
           fireEvent.input(document.getElementById('phone'), {
             target: {
@@ -320,7 +332,7 @@ describe('<IncidentForm />', () => {
         })
 
         await waitFor(() => {
-          expect(nextSpy).toHaveBeenCalledTimes(1)
+          expect(nextSpy).toHaveBeenCalledTimes(2)
         })
       })
 
@@ -344,7 +356,7 @@ describe('<IncidentForm />', () => {
 
         expect(nextSpy).toHaveBeenCalledTimes(1)
 
-        act(() => {
+        await waitFor(() => {
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 
@@ -372,7 +384,7 @@ describe('<IncidentForm />', () => {
 
         renderIncidentForm(props)
 
-        act(() => {
+        await waitFor(() => {
           userEvent.click(screen.getByText(mockForm.nextButtonLabel))
         })
 

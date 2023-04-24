@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -66,7 +66,7 @@ export const AppContainer = () => {
   const dispatch = useDispatch()
   const loading = useSelector(makeSelectLoading())
   const sources = useSelector(makeSelectSources)
-  const history = useHistory()
+
   const location = useLocationReferrer() as { referrer: string }
   const isFrontOffice = useIsFrontOffice()
   const tallHeaderByDefault = useTallHeader()
@@ -84,14 +84,10 @@ export const AppContainer = () => {
   }, [dispatch, location])
 
   useEffect(() => {
-    const unlisten = history.listen(() => {
+    if (location.referrer) {
       global.window.scrollTo(0, 0)
-    })
-
-    return () => {
-      unlisten()
     }
-  }, [history])
+  }, [location])
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -120,49 +116,65 @@ export const AppContainer = () => {
             }}
           >
             <Suspense fallback={<LoadingIndicator />}>
-              <Switch>
-                <Redirect exact from="/" to="/incident/beschrijf" />
-                <Redirect exact from="/login" to="/manage" />
-                <Redirect exact from="/manage" to="/manage/incidents" />
-                <Route path="/manage" component={IncidentManagementModule} />
-                <Route path="/instellingen" component={SettingsModule} />
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Navigate to="incident/beschrijf" replace />}
+                />
+                <Route
+                  path="login"
+                  element={<Navigate to="manage" replace />}
+                />
+                <Route
+                  path="manage"
+                  element={<Navigate to="/manage/incidents" replace />}
+                />
+                <Route
+                  path="/manage/*"
+                  element={<IncidentManagementModule />}
+                />
+                <Route path="/instellingen/*" element={<SettingsModule />} />
                 {configuration.featureFlags.enablePublicIncidentsMap && (
                   <Route
                     path="/meldingenkaart"
-                    component={IncidentMapContainer}
+                    element={<IncidentMapContainer />}
                   />
                 )}
                 {configuration.featureFlags.enableMyIncidents && (
-                  <Route path="/mijn-meldingen" component={MyIncidents} />
+                  <Route path="/mijn-meldingen/*" element={<MyIncidents />} />
                 )}
                 <Route
                   path="/incident/reactie/:uuid"
-                  component={IncidentReplyContainer}
+                  element={<IncidentReplyContainer />}
                 />
                 {configuration.featureFlags.enableForwardIncidentToExternal && (
                   <Route
                     path="/incident/extern/:id"
-                    component={ExternalReplyContainer}
+                    element={<ExternalReplyContainer />}
                   />
                 )}
-                <Route path="/incident" component={IncidentContainer} />
+                <Route path="/incident/*" element={<IncidentContainer />} />
                 {configuration.featureFlags.enablePublicSignalMap && (
-                  <Route path="/kaart" component={IncidentOverviewContainer} />
+                  <Route
+                    path="/kaart"
+                    element={<IncidentOverviewContainer />}
+                  />
                 )}
                 <Route
                   path="/kto/:satisfactionIndication/:uuid"
-                  component={KtoContainer}
+                  element={<KtoContainer />}
                 />
                 <Route
-                  exact
                   path="/categorie/:category/:subcategory"
-                  component={IncidentContainer}
+                  element={<IncidentContainer />}
                 />
-                <Route exact path="/toegankelijkheidsverklaring">
-                  <Toegankelijkheidsverklaring />
-                </Route>
-                <Route component={NotFoundPage} />
-              </Switch>
+                <Route
+                  path="/toegankelijkheidsverklaring"
+                  element={<Toegankelijkheidsverklaring />}
+                />
+                <Route path={'*'} element={<SettingsModule />} />
+                <Route path={'*'} element={<NotFoundPage />} />
+              </Routes>
             </Suspense>
           </ContentContainer>
           <Footer />

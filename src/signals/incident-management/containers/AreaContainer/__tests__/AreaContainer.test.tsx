@@ -24,9 +24,8 @@ jest.mock('react-router-dom', () => ({
 jest.spyOn(actions, 'showGlobalNotification')
 
 const ID = '123'
-const pushSpy = jest.fn()
-const useHistorySpy = { push: pushSpy } as any
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: ID,
 }))
@@ -103,7 +102,7 @@ describe('<AreaContainer />', () => {
 
     userEvent.click(closeButton)
 
-    expect(pushSpy).toHaveBeenCalledWith(`${INCIDENT_URL}/${ID}`)
+    expect(navigateSpy).toHaveBeenCalledWith(`${INCIDENT_URL}/${ID}`)
   })
 
   it('should show the incident bar when a marker has been selected', async () => {

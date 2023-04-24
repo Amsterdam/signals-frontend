@@ -27,9 +27,8 @@ jest.mock('react-router-dom', () => ({
 
 global.window.confirm = jest.fn()
 
-const pushSpy = jest.fn()
-const useHistorySpy = { push: pushSpy } as any
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 const categoryJSON = subCategories?.find((sub) => sub?._links['sia:parent'])
 
