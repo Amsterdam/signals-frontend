@@ -75,6 +75,9 @@ describe('signals/settings/categories/containers/Overview', () => {
     render(withAppContext(<OverviewContainer />))
 
     expect(screen.getByText(`Subcategorieën (${count})`)).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Terug naar instellingen' })
+    ).toBeInTheDocument()
   })
 
   it('should render paged data', () => {

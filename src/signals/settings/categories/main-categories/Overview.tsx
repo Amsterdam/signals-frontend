@@ -22,15 +22,12 @@ export const colMap = {
   id: 'id',
   value: 'Hoofdcategorie',
   public_name: 'Openbare Naam',
-  // TODO: Add icon
-  _links: {
-    'sia:icon': 'Icoon',
-  },
+  _links: 'Icoon',
 }
 
 const columnHeaders = ['Hoofdcategorie', 'Openbare Naam', 'Icoon']
 
-export const CategoriesOverview = () => {
+export const OverviewContainer = () => {
   const history = useHistory()
   const mainCategories = useSelector(makeSelectMainCategories)
   const userCan = useSelector(makeSelectUserCan)
@@ -87,4 +84,4 @@ export const CategoriesOverview = () => {
   )
 }
 
-export default CategoriesOverview
+export default OverviewContainer
