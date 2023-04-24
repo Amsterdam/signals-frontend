@@ -4,7 +4,7 @@ import { Fragment, useCallback } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -28,7 +28,7 @@ export const colMap = {
 const columnHeaders = ['Hoofdcategorie', 'Openbare Naam', 'Icoon']
 
 export const OverviewContainer = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const mainCategories = useSelector(makeSelectMainCategories)
   const userCan = useSelector(makeSelectUserCan)
 
@@ -50,10 +50,10 @@ export const OverviewContainer = () => {
       } = e
 
       if (itemId) {
-        history.push(`${MAIN_CATEGORY_URL}/${itemId}`)
+        navigate(`${MAIN_CATEGORY_URL}/${itemId}`)
       }
     },
-    [history, userCan]
+    [navigate, userCan]
   )
 
   return (

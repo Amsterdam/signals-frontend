@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { Play } from '@amsterdam/asc-assets'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import parseISO from 'date-fns/parseISO'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
 import configuration from 'shared/services/configuration/configuration'
@@ -98,10 +98,10 @@ const List: FunctionComponent<ListProps> = ({
   status,
 }) => {
   const { districts } = useContext(IncidentManagementContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const navigateToIncident = (id: number) => {
-    history.push(`${INCIDENT_URL}/${id}`)
+    navigate(`${INCIDENT_URL}/${id}`)
   }
 
   return (

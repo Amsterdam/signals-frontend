@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, lazy, Suspense } from 'react'
 
 import type { Location } from 'history'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import ProtectedRoute from 'components/ProtectedRoute'
@@ -77,6 +77,7 @@ const SettingsModule = () => {
   const storeDispatch = useDispatch()
   const location = useLocationReferrer() as Location
   const userCanAccess = useSelector(makeSelectUserCanAccess)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!getIsAuthenticated()) {
@@ -87,97 +88,88 @@ const SettingsModule = () => {
     storeDispatch(fetchPermissionsAction())
   }, [storeDispatch])
 
-  if (!getIsAuthenticated()) {
-    return <Route component={LoginPage} />
-  }
+  useEffect(() => {
+    if (userCanAccess('settings') === false) {
+      navigate('/manage/incidents')
+    }
 
-  if (userCanAccess('settings') === false) {
-    return <Redirect to="/manage/incidents" />
+    if (location.pathname === routes.users) {
+      navigate(`${USERS_PAGED_URL}/1`)
+    }
+
+    if (location.pathname === routes.subcategories) {
+      navigate(`${SUBCATEGORIES_PAGED_URL}/1`)
+    }
+  }, [location, navigate, userCanAccess])
+
+  if (!getIsAuthenticated()) {
+    return <Route element={LoginPage} />
   }
 
   return (
     <Suspense fallback={<LoadingIndicator />}>
-      <Switch location={location}>
-        <Route exact path={routes.overview} component={OverviewContainer} />
+      <Routes location={location}>
+        <Route path={routes.overview} element={OverviewContainer} />
         <ProtectedRoute
-          exact
           path={routes.roles}
           component={RolesListContainer}
           roleGroup="groups"
         />
         <ProtectedRoute
-          exact
           path={routes.role}
           component={RoleFormContainer}
           roleGroup="groupForm"
         />
         <ProtectedRoute
-          exact
           path={ROLE_URL}
           component={RoleFormContainer}
           role="add_group"
         />
 
-        <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
         <ProtectedRoute
-          exact
           path={routes.usersPaged}
           component={UsersOverviewContainer}
           roleGroup="userForm"
         />
         <ProtectedRoute
-          exact
           path={routes.user}
           component={UsersDetailContainer}
           roleGroup="userForm"
         />
         <ProtectedRoute
-          exact
           path={USER_URL}
           component={UsersDetailContainer}
           role="add_user"
         />
 
         <ProtectedRoute
-          exact
           path={routes.departments}
           component={DepartmentsOverviewContainer}
           roleGroup="departments"
         />
         <ProtectedRoute
-          exact
           path={routes.department}
           component={DepartmentsDetailContainer}
           roleGroup="departmentForm"
         />
 
-        <Redirect
-          exact
-          from={routes.subcategories}
-          to={`${SUBCATEGORIES_PAGED_URL}/1`}
-        />
-
         <ProtectedRoute
-          exact
           path={routes.subcategoriesPaged}
           component={SubcategoriesOverview}
           roleGroup="subcategories"
         />
         <ProtectedRoute
-          exact
           path={routes.subcategory}
           component={SubcategoryDetail}
           roleGroup="subcategoryForm"
         />
 
         <ProtectedRoute
-          exact
           path={routes.mainCategories}
           component={MainCategoriesOverview}
           roleGroup="mainCategories"
         />
         <ProtectedRoute
-          exact
           path={routes.mainCategory}
           component={MainCategoryDetail}
           roleGroup="mainCategoryForm"
@@ -185,15 +177,14 @@ const SettingsModule = () => {
 
         {configuration.featureFlags.enableCsvExport && (
           <ProtectedRoute
-            exact
             path={EXPORT_URL}
             component={ExportContainer}
             role="sia_signal_report"
           />
         )}
 
-        <Route path={BASE_URL} component={NotFoundPage} />
-      </Switch>
+        <Route path={BASE_URL} element={NotFoundPage} />
+      </Routes>
     </Suspense>
   )
 }

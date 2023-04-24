@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import type { ReactNode } from 'react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { createMemoryHistory } from 'history'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import WizardContext from '../context/WizardContext'
 import type { WizardApi } from '../context/WizardContext'
 
 type Props = {
-  history: any
   basename?: any
   exactMatch?: any
   onNext?: (wizard: WizardApi) => void
@@ -22,15 +21,13 @@ const Wizard = (props: Props) => {
 
   const [steps, setSteps] = useState<WizardApi['steps']>([{ id: '' }])
 
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const [stepsCompletedCount, setStepsCompletedCount] =
     useState<WizardApi['stepsCompletedCount']>(0)
 
   const didMount = useRef(false)
-
-  const history = useMemo(
-    () => props.history || createMemoryHistory(),
-    [props.history]
-  )
 
   const ids = useMemo(() => steps.map((s) => s.id), [steps])
 
@@ -63,40 +60,26 @@ const Wizard = (props: Props) => {
       didMount.current = true
       return
     }
-    const stepFromPath = pathToStep(history.location.pathname)
+    const stepFromPath = pathToStep(location.pathname)
     if (stepFromPath.id && steps.some((step) => step.id)) {
       setStep(stepFromPath)
     }
-  }, [
-    history.location.pathname,
-    pathToStep,
-    history.replace,
-    history,
-    steps,
-    basename,
-    ids,
-  ])
+  }, [location.pathname, pathToStep, steps, basename, ids])
 
   const set = useCallback(
     (step: any) => {
       if (!step) return
-      history.push(`${basename}${step}`)
+      navigate(`${basename}${step}`)
     },
-    [history, basename]
+    [navigate, basename]
   )
 
-  const push = useCallback(
-    (step = nextStep) => {
-      set(step)
-    },
-    [nextStep, set]
-  )
-
+  // remove?
   const replace = useCallback(
     (step = nextStep) => {
-      history.replace(`${basename}${step}`)
+      navigate(`${basename}${step}`, { replace: true })
     },
-    [history, nextStep, basename]
+    [navigate, nextStep, basename]
   )
 
   const pushPrevious = useCallback(
@@ -114,36 +97,34 @@ const Wizard = (props: Props) => {
     if (props.onNext) {
       props.onNext(wizard)
     } else {
-      push()
+      // todo whats this and what did push() do?
+      // navigate()
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-  }, [props, push, wizard])
+  }, [props, navigate, wizard])
 
   const wizard: WizardApi = useMemo(
     () => ({
-      go: history.go,
+      navigate,
       step: stepState,
       set,
-      history,
       init,
       next,
       previous,
-      push,
       replace,
       steps,
       stepsCompletedCount,
       setStepsCompletedCount,
     }),
     [
-      history,
+      navigate,
+      stepState,
+      set,
       init,
       next,
       previous,
-      push,
       replace,
-      set,
-      stepState,
       steps,
       stepsCompletedCount,
     ]
@@ -151,18 +132,14 @@ const Wizard = (props: Props) => {
 
   const initialOnNext = useRef(false)
 
-  // listen for history changes and set step using pathToStep
   useEffect(() => {
-    const unlisten = history.listen(({ pathname }: any) => {
-      setStep(pathToStep(pathname))
-    })
+    setStep(pathToStep(location.pathname))
 
     if (props.onNext && !initialOnNext.current) {
       props.onNext(wizard)
       initialOnNext.current = true
     }
-    return () => unlisten()
-  }, [history, pathToStep, props, props.onNext, wizard])
+  }, [pathToStep, location, props.onNext, wizard, props])
 
   return (
     <WizardContext.Provider value={wizard}>

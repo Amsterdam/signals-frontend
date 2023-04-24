@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { useContext } from 'react'
 
 import { render, screen, act } from '@testing-library/react'
@@ -61,7 +61,6 @@ describe('<Wizard>', () => {
 function renderWizard() {
   return withAppContext(
     <Wizard
-      history={history}
       onNext={(wizard: WizardApi) => {
         getNextStep(wizard)
       }}
@@ -73,7 +72,7 @@ function renderWizard() {
 
 function renderWizardWithoutOnNext() {
   return withAppContext(
-    <Wizard history={history}>
+    <Wizard>
       <RenderSteps />
     </Wizard>
   )
@@ -108,5 +107,5 @@ function getNextStep(wizard: WizardApi) {
   const wizardValues = steps.map((step) => step.id)
   const currentIndex = wizardValues.indexOf(wizard.step.id)
   const val = wizardValues[currentIndex + 1]
-  wizard.push(val)
+  wizard.navigate(val)
 }

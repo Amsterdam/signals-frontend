@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-function onNext(wizardDefinition, { step, steps, push }, incident) {
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+function onNext(wizardDefinition, { step, steps, navigate }, incident) {
   const wizardStep = step.id && step.id.split('/').reverse()[0]
   const nextStep =
     wizardStep &&
@@ -9,9 +9,9 @@ function onNext(wizardDefinition, { step, steps, push }, incident) {
     wizardDefinition[wizardStep].getNextStep(wizardDefinition, incident)
 
   if (nextStep) {
-    push(nextStep)
+    navigate(nextStep)
   } else if (steps.length > 0) {
-    push()
+    navigate()
   }
 }
 

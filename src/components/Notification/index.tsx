@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useEffect, useState, useCallback, useRef } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
 import { Column, Row } from '@amsterdam/asc-ui'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import {
   ONCLOSE_TIMEOUT,
@@ -51,30 +51,24 @@ const Notification: FunctionComponent<NotificationProps> = ({
   const [shouldHide, setShouldHide] = useState(false)
   const isFrontOffice = useIsFrontOffice()
   const tall = isFrontOffice && !getIsAuthenticated()
-  const history = useHistory()
+  const location = useLocation()
 
   // persisting timeout IDs across renders
   const onCloseTimeoutRef = useRef<number>()
   const slideUpTimeoutRef = useRef<number>()
 
   /**
-   * Subscribe to history changes
    * Will reset the notification whenever a navigation action occurs and only when the type of the
    * notifcation is TYPE_LOCAL
    */
+
   useEffect(() => {
     if (type !== TYPE_LOCAL || typeof onClose !== 'function') {
       return undefined
     }
 
-    const unlisten = history.listen(() => {
-      onClose()
-    })
-
-    return () => {
-      unlisten()
-    }
-  }, [history, type, title, onClose])
+    onClose()
+  }, [onClose, type, location])
 
   useEffect(() => {
     if (

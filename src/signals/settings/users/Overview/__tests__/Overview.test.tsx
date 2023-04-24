@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import {
   render,
   within,
@@ -52,7 +52,7 @@ const listen = jest.fn(() => unregister)
 
 global.window.scrollTo = scrollTo
 
-const historySpy = jest.spyOn(reactRouter, 'useHistory')
+const navigateSpy = jest.spyOn(reactRouter, 'useNavigation')
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
@@ -64,7 +64,7 @@ describe('signals/settings/users/containers/Overview', () => {
       .spyOn(reactRouter, 'useParams')
       .mockImplementation(() => ({ pageNum: '1' }))
 
-    historySpy.mockImplementation(() => ({ push, listen } as any))
+    navigateSpy.mockImplementation(() => ({ push, listen } as any))
 
     jest
       .spyOn(rolesSelectors, 'inputSelectRolesSelector')
@@ -663,7 +663,7 @@ describe('signals/settings/users/containers/Overview', () => {
   })
 
   it('sets the correct values when location pops', async () => {
-    historySpy.mockRestore()
+    navigateSpy.mockRestore()
 
     render(withAppContext(<UsersOverview />))
 

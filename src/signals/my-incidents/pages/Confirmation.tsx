@@ -2,7 +2,7 @@
 // Copyright (C) 2022 Gemeente Amsterdam
 import { useState, useCallback, useMemo, useEffect } from 'react'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Button from 'components/Button'
 
@@ -13,7 +13,7 @@ import { usePostEmail } from '../hooks'
 
 export const Confirmation = () => {
   const { email } = useMyIncidentContext()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [postEmail, { errorMessage }] = usePostEmail()
 
   const initialPageInfo = {
@@ -50,8 +50,8 @@ export const Confirmation = () => {
   }, [email, postEmail])
 
   const onCancel = useCallback(() => {
-    history.push(routes.requestAccess)
-  }, [history])
+    navigate(routes.requestAccess)
+  }, [navigate])
 
   const buttons = useMemo(
     () => (
@@ -69,9 +69,9 @@ export const Confirmation = () => {
 
   useEffect(() => {
     if (!email) {
-      history.push(routes.requestAccess)
+      navigate(routes.requestAccess)
     }
-  }, [email, history])
+  }, [email, navigate])
 
   useEffect(() => {
     if (errorMessage) {

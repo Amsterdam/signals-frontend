@@ -10,11 +10,11 @@ import form from 'react-hook-form'
 import { StepByStepNavClickable } from './StepByStepNavClickable'
 import WizardContext from '../StepWizard/context/WizardContext'
 
-const mockPush = jest.fn()
+const navigateSpy = jest.fn()
 const mockSetStepsCompletedCount = jest.fn()
 
 const defaultContextProps = {
-  push: mockPush,
+  navigate: navigateSpy,
   stepsCompletedCount: 1,
   setStepsCompletedCount: mockSetStepsCompletedCount,
   next: jest.fn(),
@@ -98,7 +98,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       userEvent.click(screen.getByText('step1'))
     })
     expect(mockTrigger).toBeCalled()
-    expect(mockPush).toBeCalledWith('incident/step1')
+    expect(navigateSpy).toBeCalledWith('incident/step1')
     expect(mockSetStepsCompletedCount).not.toHaveBeenCalled()
   })
 
@@ -127,7 +127,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       userEvent.click(screen.getByText('step2'))
     })
     expect(mockTrigger).toBeCalled()
-    expect(mockPush).toBeCalledWith('incident/step2')
+    expect(navigateSpy).toBeCalledWith('incident/step2')
     expect(mockSetStepsCompletedCount).not.toHaveBeenCalled()
   })
 
@@ -156,7 +156,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       userEvent.click(screen.getByText('step1'))
     })
     expect(mockTrigger).toBeCalled()
-    expect(mockPush).toBeCalledWith('incident/step1')
+    expect(navigateSpy).toBeCalledWith('incident/step1')
     expect(mockSetStepsCompletedCount).toBeCalledWith(1)
   })
 
@@ -185,7 +185,7 @@ describe('StepByStepNavClickable when form is valid', () => {
       userEvent.click(screen.getByText('step2'))
     })
     expect(mockTrigger).toBeCalled()
-    expect(mockPush).not.toBeCalled()
+    expect(navigateSpy).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledWith(0)
   })
 
@@ -211,7 +211,7 @@ describe('StepByStepNavClickable when form is valid', () => {
     )
 
     expect(mockTrigger).not.toBeCalled()
-    expect(mockPush).not.toBeCalled()
+    expect(navigateSpy).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
   })
 
@@ -241,7 +241,7 @@ describe('StepByStepNavClickable when form is valid', () => {
     )
 
     expect(mockTrigger).not.toBeCalled()
-    expect(mockPush).not.toBeCalled()
+    expect(navigateSpy).not.toBeCalled()
     expect(mockSetStepsCompletedCount).toBeCalledTimes(1)
   })
 })

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 - 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { createContext } from 'react'
 
 type Step = { id: string }
 
 export interface WizardApi {
-  push: (step: string) => void
+  navigate: (step: string) => void
   next: () => void
   previous: () => void
   step: Step
@@ -26,7 +26,7 @@ const WizardContext = createContext<WizardApi>({
   setStepsCompletedCount: () => {},
   previous: () => {},
   next: () => {},
-  push: () => {},
+  navigate: () => {},
 })
 
 export default WizardContext

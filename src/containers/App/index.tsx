@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -66,7 +66,8 @@ export const AppContainer = () => {
   const dispatch = useDispatch()
   const loading = useSelector(makeSelectLoading())
   const sources = useSelector(makeSelectSources)
-  const history = useHistory()
+  const navigate = useNavigate()
+
   const location = useLocationReferrer() as { referrer: string }
   const isFrontOffice = useIsFrontOffice()
   const tallHeaderByDefault = useTallHeader()
@@ -83,15 +84,10 @@ export const AppContainer = () => {
     }
   }, [dispatch, location])
 
+  const locationFromUseLocation = useLocation()
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      global.window.scrollTo(0, 0)
-    })
-
-    return () => {
-      unlisten()
-    }
-  }, [history])
+    global.window.scrollTo(0, 0)
+  }, [locationFromUseLocation])
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -104,6 +100,16 @@ export const AppContainer = () => {
   }, [dispatch])
 
   const defaultHeader = useDefaultHeader()
+
+  useEffect(() => {
+    if (locationFromUseLocation.pathname === '/') {
+      navigate('/incident/beschrijf', { replace: true })
+    } else if (locationFromUseLocation.pathname === '/login') {
+      navigate('/manage', { replace: true })
+    } else if (locationFromUseLocation.pathname === '/manage') {
+      navigate('/manage/incidents', { replace: true })
+    }
+  }, [location, locationFromUseLocation.pathname, navigate])
 
   return (
     <ThemeProvider>
@@ -120,49 +126,52 @@ export const AppContainer = () => {
             }}
           >
             <Suspense fallback={<LoadingIndicator />}>
-              <Switch>
-                <Redirect exact from="/" to="/incident/beschrijf" />
-                <Redirect exact from="/login" to="/manage" />
-                <Redirect exact from="/manage" to="/manage/incidents" />
-                <Route path="/manage" component={IncidentManagementModule} />
-                <Route path="/instellingen" component={SettingsModule} />
+              <Routes>
+                <Route path="/manage">
+                  <IncidentManagementModule />
+                </Route>
+                <Route path="/instellingen/*">
+                  <SettingsModule />
+                </Route>
                 {configuration.featureFlags.enablePublicIncidentsMap && (
-                  <Route
-                    path="/meldingenkaart"
-                    component={IncidentMapContainer}
-                  />
+                  <Route path="/meldingenkaart">
+                    <IncidentMapContainer />
+                  </Route>
                 )}
                 {configuration.featureFlags.enableMyIncidents && (
-                  <Route path="/mijn-meldingen" component={MyIncidents} />
+                  <Route path="/mijn-meldingen/*">
+                    <MyIncidents />
+                  </Route>
                 )}
-                <Route
-                  path="/incident/reactie/:uuid"
-                  component={IncidentReplyContainer}
-                />
+                <Route path="/incident/reactie/:uuid">
+                  <IncidentReplyContainer />
+                </Route>
                 {configuration.featureFlags.enableForwardIncidentToExternal && (
-                  <Route
-                    path="/incident/extern/:id"
-                    component={ExternalReplyContainer}
-                  />
+                  <Route path="/incident/extern/:id">
+                    <ExternalReplyContainer />
+                  </Route>
                 )}
-                <Route path="/incident" component={IncidentContainer} />
+                <Route path="/incident">
+                  <IncidentContainer />
+                </Route>
                 {configuration.featureFlags.enablePublicSignalMap && (
-                  <Route path="/kaart" component={IncidentOverviewContainer} />
+                  <Route path="/kaart">
+                    <IncidentOverviewContainer />
+                  </Route>
                 )}
-                <Route
-                  path="/kto/:satisfactionIndication/:uuid"
-                  component={KtoContainer}
-                />
-                <Route
-                  exact
-                  path="/categorie/:category/:subcategory"
-                  component={IncidentContainer}
-                />
-                <Route exact path="/toegankelijkheidsverklaring">
+                <Route path="/kto/:satisfactionIndication/:uuid">
+                  <KtoContainer />
+                </Route>
+                <Route path="/categorie/:category/:subcategory">
+                  <IncidentContainer />
+                </Route>
+                <Route path="/toegankelijkheidsverklaring">
                   <Toegankelijkheidsverklaring />
                 </Route>
-                <Route component={NotFoundPage} />
-              </Switch>
+                <Route>
+                  <NotFoundPage />
+                </Route>
+              </Routes>
             </Suspense>
           </ContentContainer>
           <Footer />

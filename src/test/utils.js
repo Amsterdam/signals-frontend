@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 // eslint-disable-next-line no-restricted-imports
 import React from 'react'
 
 import { ThemeProvider } from '@amsterdam/asc-ui'
-import { ConnectedRouter } from 'connected-react-router/immutable'
 import { createMemoryHistory } from 'history'
 import isObject from 'lodash/isObject'
 import MatchMediaMock from 'match-media-mock'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Provider } from 'react-redux'
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
 
 import MapContext from 'containers/MapContext'
 import loadModels from 'models'
@@ -39,20 +39,6 @@ export const testActionCreator = (action, actionType, payload) => {
   expect(action(payload)).toEqual(expected)
 }
 
-export const getContext = (state) => {
-  const store = {
-    dispatch: jest.fn(),
-    getState: () => state,
-    replaceReducer: jest.fn(),
-    runSaga: jest.fn(),
-    subscribe: jest.fn(),
-    injectedReducers: {},
-    injectedSagas: {},
-  }
-
-  return { store }
-}
-
 export const store = configureStore({}, history)
 
 loadModels(store)
@@ -60,7 +46,7 @@ loadModels(store)
 export const withAppContext = (Component) => (
   <ThemeProvider>
     <Provider store={store}>
-      <ConnectedRouter history={history}>{Component}</ConnectedRouter>
+      <Router history={history}>{Component}</Router>
     </Provider>
   </ThemeProvider>
 )

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { act, fireEvent, render } from '@testing-library/react'
+import * as reactRouterDom from 'react-router-dom'
 
 import * as auth from 'shared/services/auth/auth'
 import wizardDefinition from 'signals/incident/definitions/wizard'
-import { history, withAppContext } from 'test/utils'
+import { withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
 import { Step, Steps, Wizard } from '../StepWizard'
@@ -33,7 +34,8 @@ jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
 }))
 
-const pushSpy = jest.spyOn(history, 'push')
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
@@ -53,7 +55,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
 
     render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}
@@ -64,13 +66,13 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(pushSpy).toBeCalledWith('/incident/beschrijf')
+    expect(navigateSpy).toBeCalledWith('/incident/beschrijf')
   })
 
   it('renders a next button for the first step', () => {
     const { getByTestId, queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[0]}
@@ -88,7 +90,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   it('renders previous and next buttons for intermediate steps', () => {
     const { getByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}
@@ -108,7 +110,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
 
     const { getByTestId, queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={lastStep}
@@ -126,7 +128,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   it('does not render', () => {
     const { queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id="incident/bedankt"
@@ -143,7 +145,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
   it('should call onSubmit', () => {
     const { getByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}

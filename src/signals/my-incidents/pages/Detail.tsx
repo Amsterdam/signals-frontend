@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import { Helmet } from 'react-helmet'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { ContentWrapper, StyledRow } from './styled'
 import useFetch from '../../../hooks/useFetch'
@@ -20,7 +20,7 @@ export const Detail = () => {
   const { get, data, error } = useFetch<MyIncidentDetail>()
   const fetchResponseHistory = useFetch<HistoryInstance[]>()
   const [showMap, setShowMap] = useState(false)
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocationReferrer() as Location
   const locationPathArray = location.pathname.split('/')
   const token = locationPathArray[locationPathArray.length - 2]
@@ -51,9 +51,9 @@ export const Detail = () => {
 
   useEffect(() => {
     if (error) {
-      history.push(routes.expired)
+      navigate(routes.expired)
     }
-  }, [error, history])
+  }, [error, navigate])
 
   if (!data) return null
 

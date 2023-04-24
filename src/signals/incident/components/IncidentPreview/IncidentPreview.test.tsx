@@ -226,6 +226,7 @@ describe('<IncidentPreview />', () => {
         search: '',
         state: {},
         hash: '',
+        key: '',
       }))
       render(
         // Disabling linter; ts compiler is complaining about untyped components. When all components have been ported to TS, the comments can be removed

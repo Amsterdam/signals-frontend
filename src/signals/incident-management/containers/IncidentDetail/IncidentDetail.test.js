@@ -171,6 +171,28 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incident-detail')
   })
 
+  // should give an error when incident categorie subslug and main slug are overig and status is afgehandeld
+  it('should give an error when incident categorie subslug and main slug are overig and status is afgehandeld', async () => {
+    incidentFixture.category.sub_slug = 'overig'
+    incidentFixture.category.main_slug = 'overig'
+    incidentFixture.status.state = 'afgehandeld'
+
+    mockRequestHandler({
+      url: API.INCIDENT,
+      body: {
+        ...incidentFixture,
+        text: 'Een andere melding',
+      },
+    })
+
+    render(withAppContext(<IncidentDetail />))
+    await screen.findByTestId('preview-location-button')
+
+    screen.debug(undefined, Infinity)
+
+    // rerender(withAppContext(<IncidentDetail />))
+  })
+
   it('should handle Esc key', async () => {
     const { container } = render(withAppContext(<IncidentDetail />))
     userEvent.click(await screen.findByTestId('preview-location-button'))

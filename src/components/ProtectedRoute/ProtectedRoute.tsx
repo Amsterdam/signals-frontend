@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import type { FunctionComponent } from 'react'
 
 import { useSelector } from 'react-redux'
-import type { RouteComponentProps, RouteProps } from 'react-router-dom'
+import type { RouteProps } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 
 import NotFoundPage from 'components/pages/NotFoundPage'
@@ -16,10 +16,10 @@ import {
 export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina'
 export const NO_PAGE_FOUND_MESSAGE = 'We hebben de pagina niet gevonden'
 
-interface ProtectedRouteProps extends RouteProps {
+type ProtectedRouteProps = RouteProps & {
   role?: string
   roleGroup?: string
-  component: (props: RouteComponentProps<any>) => JSX.Element | null
+  component: (props: any) => JSX.Element | null
 }
 
 const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
@@ -40,9 +40,9 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
   return (
     <Route
       {...rest}
-      render={(props) =>
+      element={
         hasAccess ? (
-          <Component {...props} />
+          <Component {...rest} />
         ) : (
           <NotFoundPage message={NO_PAGE_ACCESS_MESSAGE} />
         )

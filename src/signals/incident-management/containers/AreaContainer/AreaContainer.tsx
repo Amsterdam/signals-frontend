@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 import { useCallback, useState, useEffect } from 'react'
 
 import subWeeks from 'date-fns/subWeeks'
 import { useDispatch } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AreaMap from 'components/AreaMap'
@@ -31,7 +31,7 @@ const Sidebar = styled.div`
 `
 
 export const AreaContainer: FunctionComponent = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const [selection, setSelection] = useState<Feature | null>(null)
   const dispatch = useDispatch()
@@ -85,8 +85,8 @@ export const AreaContainer: FunctionComponent = () => {
   }, [getIncidentContextGeography, id])
 
   const handleClose = useCallback(
-    () => history.push(`${INCIDENT_URL}/${id}`),
-    [history, id]
+    () => navigate(`${INCIDENT_URL}/${id}`),
+    [navigate, id]
   )
 
   const startDate = subWeeks(new Date(), 12).toISOString()
