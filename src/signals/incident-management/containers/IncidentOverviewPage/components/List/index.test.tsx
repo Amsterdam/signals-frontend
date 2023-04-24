@@ -39,9 +39,7 @@ jest.mock('shared/services/configuration/configuration')
 
 const withContext = (Component: JSX.Element) =>
   withAppContext(
-    <IncidentManagementContext.Provider
-      value={{ districts, setDashboardFilter: jest.fn() }}
-    >
+    <IncidentManagementContext.Provider value={{ districts }}>
       {Component}
     </IncidentManagementContext.Provider>
   )

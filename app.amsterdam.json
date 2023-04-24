@@ -18,8 +18,7 @@
     "reporterMailHandledNegativeContactEnabled": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false,
-    "showDashboard": false
+    "useProjectenSignalType": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

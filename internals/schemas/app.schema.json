@@ -141,10 +141,6 @@
         "enableForwardIncidentToExternal": {
           "description": "Enables forwarding the handling of an incident to an external organization.",
           "type": "boolean"
-        },
-        "showDashboard": {
-          "description": "Shows the realtimedashboard",
-          "type": "boolean"
         }
       },
       "required": [
@@ -160,8 +156,7 @@
         "mapFilter24Hours",
         "showThorButton",
         "showVulaanControls",
-        "useProjectenSignalType",
-        "showDashboard"
+        "useProjectenSignalType"
       ],
       "title": "FeatureFlags"
     },

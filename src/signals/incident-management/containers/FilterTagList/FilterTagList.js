@@ -121,9 +121,7 @@ export const FilterTagListComponent = (props) => {
     routingDepartments,
   } = props
   const { sources } = useContext(AppContext)
-  const { districts, setDashboardFilter } = useContext(
-    IncidentManagementContext
-  )
+  const { districts } = useContext(IncidentManagementContext)
 
   const map = {
     ...dataLists,
@@ -175,13 +173,7 @@ export const FilterTagListComponent = (props) => {
           : renderTag(tag, mainCategories, map[tagKey])
       )}
       {showClearButton && (
-        <Button
-          variant="textButton"
-          onClick={() => {
-            props.onClear()
-            setDashboardFilter(null)
-          }}
-        >
+        <Button variant="textButton" onClick={props.onClear()}>
           Wis filter
         </Button>
       )}

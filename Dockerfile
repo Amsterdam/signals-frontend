@@ -10,11 +10,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
   git \
   netcat \
-  libcairo2-dev \
-  libpango1.0-dev \
-  libjpeg-dev \
-  libgif-dev \
-  librsvg2-dev   && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 # Change git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
@@ -31,8 +27,6 @@ COPY .eslintrc.js \
   app.base.json \
   app.amsterdam.json \
   /app/
-
-RUN npm install canvas@2.11.0 --build-from-source
 
 RUN npm install
 

@@ -3,7 +3,6 @@
 import { Column, Row } from '@amsterdam/asc-ui'
 
 import { StyledH1 } from './styled'
-import { Signaling } from '../Dashboard/components'
 
 export const SignalingContainer = () => {
   return (
@@ -11,7 +10,6 @@ export const SignalingContainer = () => {
       <Column span={12}>
         <StyledH1>Signalering</StyledH1>
       </Column>
-      <Signaling />
     </Row>
   )
 }
