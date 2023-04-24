@@ -52,15 +52,15 @@ const defaultProps: Omit<Props, 'formMethods'> = {
     'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
 }
 
-const Wrapper = () => {
+const Wrapper = (props: Partial<Props>) => {
   const methods = useForm<CategoryFormValues>()
   return withAppContext(
-    <CategoryForm {...defaultProps} formMethods={methods} />
+    <CategoryForm {...defaultProps} formMethods={methods} {...props} />
   )
 }
 
 describe('CategoryForm', () => {
-  it('should render correct fields', () => {
+  it('should render correct fields when subcategory', () => {
     render(<Wrapper />)
 
     expect(screen.getByRole('textbox', { name: 'Naam' })).toBeInTheDocument()
@@ -76,5 +76,55 @@ describe('CategoryForm', () => {
     expect(screen.getByText('Status')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Annuleer' })).toBeInTheDocument()
+  })
+
+  it('should render correct fields when main category', () => {
+    render(<Wrapper isMainCategory={true} />)
+
+    expect(screen.getByText('Afwatering brug')).toBeInTheDocument()
+    expect(screen.getByText('Verantwoordelijke afdeling')).toBeInTheDocument()
+    expect(screen.getByText('Openbaar tonen')).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
+    expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
+
+    expect(screen.queryByText('Afhandeltermijn')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('textbox', { name: 'Naam' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('textbox', { name: 'Omschrijving' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('textbox', { name: 'Servicebelofte' })
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('Status')).not.toBeInTheDocument()
+  })
+
+  it('should not render resposible departments when not there', () => {
+    render(<Wrapper responsibleDepartments={[]} />)
+
+    expect(
+      screen.queryByText('Verantwoordelijke afdeling')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not be able to change public name when is_public_accessible', () => {
+    const mockFormValuesNotAccessible = {
+      ...mockFormValues,
+      is_public_accessible: false,
+    }
+
+    render(<Wrapper formValues={mockFormValuesNotAccessible} />)
+
+    expect(screen.queryByText('Naam openbaar')).not.toBeInTheDocument()
+  })
+
+  it('should hide buttons when readOnly', () => {
+    render(<Wrapper readOnly={true} />)
+
+    expect(
+      screen.queryByRole('button', { name: 'Annuleer' })
+    ).not.toBeInTheDocument()
   })
 })
