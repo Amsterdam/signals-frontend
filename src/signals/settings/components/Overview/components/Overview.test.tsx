@@ -1,11 +1,13 @@
 import { render, screen } from '@testing-library/react'
 
+import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 
-import useFetch from '../../../../../../hooks/useFetch'
-import { useFetchResponse } from '../../../../../IncidentMap/components/__test__'
-import Overview from '../Overview'
+import Overview from './Overview'
+import useFetch from '../../../../../hooks/useFetch'
+import { useFetchResponse } from '../../../../IncidentMap/components/__test__'
 
+jest.mock('shared/services/configuration/configuration')
 jest.mock('hooks/useFetch')
 
 describe('Overview component', () => {
@@ -15,6 +17,12 @@ describe('Overview component', () => {
     jest.resetModules()
     process.env = { ...env }
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
+  })
+
+  afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    configuration.__reset()
   })
 
   afterEach(() => {
@@ -79,6 +87,7 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('main-categories')).not.toBeInTheDocument()
     expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
@@ -102,6 +111,7 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('main-categories')).not.toBeInTheDocument()
     expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
@@ -125,10 +135,12 @@ describe('Overview component', () => {
     expect(screen.getByTestId('groups')).toBeInTheDocument()
     expect(screen.getByTestId('departments')).toBeInTheDocument()
     expect(screen.queryByTestId('categories')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('main-categories')).not.toBeInTheDocument()
     expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
 
+    configuration.featureFlags.showMainCategories = true
     rerender(
       withAppContext(
         <Overview
@@ -148,6 +160,7 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('groups')).not.toBeInTheDocument()
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.getByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('main-categories')).toBeInTheDocument()
     expect(screen.queryByTestId('export')).not.toBeInTheDocument()
 
     unmount()
@@ -171,6 +184,7 @@ describe('Overview component', () => {
     expect(screen.getByTestId('groups')).toBeInTheDocument()
     expect(screen.getByTestId('departments')).toBeInTheDocument()
     expect(screen.getByTestId('categories')).toBeInTheDocument()
+    expect(screen.getByTestId('main-categories')).toBeInTheDocument()
     expect(screen.getByTestId('export')).toBeInTheDocument()
   })
 
