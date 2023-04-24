@@ -26,6 +26,7 @@ const StyledModal = styled(ASCModal)`
   max-height: 100vh;
   height: 100vh;
   max-width: 1430px;
+  overflow-y: hidden;
 `
 
 const ModalInner = styled.div`
