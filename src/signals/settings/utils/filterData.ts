@@ -28,7 +28,7 @@ const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> => {
             }
 
             if (key === 'public_name') {
-              value = value ? value : 'Niet ingesteld'
+              value = value || 'Niet ingesteld'
             }
 
             if (key === '_links') {

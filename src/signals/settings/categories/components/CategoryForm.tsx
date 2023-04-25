@@ -68,8 +68,8 @@ export const CategoryForm = ({
             span={{ small: 1, medium: 2, big: 4, large: 5, xLarge: 5 }}
           >
             <div>
-              {!isMainCategory ? (
-                <FieldGroup>
+              <FieldGroup>
+                {!isMainCategory ? (
                   <Input
                     {...formMethods.register('name')}
                     disabled={readOnly}
@@ -80,15 +80,15 @@ export const CategoryForm = ({
                     readOnly={readOnly}
                     type="text"
                   />
-                </FieldGroup>
-              ) : (
-                <FieldGroup>
-                  <StyledDefinitionTerm>
-                    <strong>Naam</strong>
-                  </StyledDefinitionTerm>
-                  <dd data-testid="name">{formValues.name}</dd>
-                </FieldGroup>
-              )}
+                ) : (
+                  <>
+                    <StyledDefinitionTerm>
+                      <strong>Naam</strong>
+                    </StyledDefinitionTerm>
+                    <dd data-testid="name">{formValues.name}</dd>
+                  </>
+                )}
+              </FieldGroup>
 
               {!isMainCategory && (
                 <Controller

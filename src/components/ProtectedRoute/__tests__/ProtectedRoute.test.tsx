@@ -8,7 +8,7 @@ import { withAppContext, history } from 'test/utils'
 
 import ProtectedRoute, {
   NO_PAGE_ACCESS_MESSAGE,
-  NO_PAGE_FOUND,
+  NO_PAGE_FOUND_MESSAGE,
 } from '../ProtectedRoute'
 
 describe('ProtectedRoute component', () => {
@@ -34,7 +34,7 @@ describe('ProtectedRoute component', () => {
 
     expect(history.location.pathname).toEqual('/test')
     expect(screen.queryByTestId('test-component')).not.toBeInTheDocument()
-    expect(screen.getByText(NO_PAGE_FOUND)).toBeInTheDocument()
+    expect(screen.getByText(NO_PAGE_FOUND_MESSAGE)).toBeInTheDocument()
   })
 
   it("should NOT render the component when doesn't have access", () => {

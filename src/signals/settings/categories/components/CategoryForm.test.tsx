@@ -121,7 +121,7 @@ describe('CategoryForm', () => {
   })
 
   it('should hide buttons when readOnly', () => {
-    render(<Wrapper readOnly={true} />)
+    render(<Wrapper readOnly />)
 
     expect(
       screen.queryByRole('button', { name: 'Annuleer' })

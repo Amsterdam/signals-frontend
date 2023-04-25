@@ -147,7 +147,7 @@
           "type": "boolean"
         },
         "showMainCategories": {
-          "description": "Shows main categories in settings.",
+          "description": "Shows main categories in settings",
           "type": "boolean"
         }
       },

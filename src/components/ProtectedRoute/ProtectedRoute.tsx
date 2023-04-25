@@ -14,7 +14,7 @@ import {
 } from 'containers/App/selectors'
 
 export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina'
-export const NO_PAGE_FOUND = 'We hebben de pagina niet gevonden'
+export const NO_PAGE_FOUND_MESSAGE = 'We hebben de pagina niet gevonden'
 
 interface ProtectedRouteProps extends RouteProps {
   role?: string
@@ -35,7 +35,7 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
     [role, roleGroup, userCan, userCanAccess]
   )
 
-  if (!Component) return <NotFoundPage message={NO_PAGE_FOUND} />
+  if (!Component) return <NotFoundPage message={NO_PAGE_FOUND_MESSAGE} />
 
   return (
     <Route
