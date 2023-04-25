@@ -27,7 +27,6 @@
     "lint:find-rules": "eslint-find-rules -dun .eslintrc.json",
     "lint": "npm run lint:js",
     "preanalyze": "npm run analyze:clean",
-    "prebuild": "npm run build:clean && npm run proj4compile",
     "pretest": "npm run test:clean",
     "prestart:prod": "npm run build",
     "start": "cross-env NODE_ENV=development npx webpack s --allowed-hosts localhost bs-local.com --config ./internals/webpack/webpack.dev.babel --port=3001 --hot --compress --history-api-fallback --watch-files=./src/* --watch-files=./src/**/*",
@@ -37,8 +36,7 @@
     "test:concurrent": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "validate-config": "node ./internals/scripts/validate-config.js",
-    "validate-base-config": "node ./internals/scripts/validate-base-config.js",
-    "proj4compile": "cd node_modules/proj4 && npm i && ./node_modules/.bin/grunt build:sterea"
+    "validate-base-config": "node ./internals/scripts/validate-base-config.js"
   },
   "dependencies": {
     "@amsterdam/arm-core": "^1.0.0",
@@ -62,7 +60,6 @@
     "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.5.0",
     "lodash": "^4.17.21",
-    "proj4": "^2.8.0",
     "react": "^17.0.2",
     "react-datepicker": "^3.8.0",
     "react-dom": "^17.0.2",
