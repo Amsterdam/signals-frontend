@@ -1,48 +1,37 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import * as reactRouterDom from 'react-router-dom'
 
 import { withContext } from 'components/Summary/Summary.test'
-import useFetch from 'hooks/useFetch'
-import { useFetchResponse } from 'signals/IncidentMap/components/__test__/utils'
 import { subCategories } from 'utils/__tests__/fixtures'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
 
 import { CategoryDetail } from './Detail'
 import type { Props } from './Detail'
+import * as API from '../../../../../internals/testing/api'
+import {
+  fetchMock,
+  mockRequestHandler,
+} from '../../../../../internals/testing/msw-server'
 
-jest.mock('hooks/useFetch')
+fetchMock.disableMocks()
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: () => ({ categoryId: '145' }),
 }))
 
-const mockConfirmedCancel = jest.fn()
-jest.mock('../../hooks/useConfirmedCancel', () => ({
-  __esModule: true,
-  default: jest.fn(() => mockConfirmedCancel),
-}))
+global.window.confirm = jest.fn()
 
 const pushSpy = jest.fn()
 const useHistorySpy = { push: pushSpy } as any
 jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
 
 const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])
-
-const mockCategoryResponse = {
-  ...useFetchResponse,
-  data: categoryJSON,
-}
-
-const mockHistoryResponse = {
-  ...useFetchResponse,
-  data: historyJSON,
-}
 
 const mockLocation = {
   hash: '',
@@ -61,31 +50,32 @@ const defaultProps: Props = {
     'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
 }
 
-const mockFetch = (categoryResponse: any, historyRespnse: any) => {
-  jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
-  jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
-  jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
-  jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
-  jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
-  jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
-  jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
-  jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
-  jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
-  jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
-}
 const dispatch = jest.fn()
 describe('Detail', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(jest.fn(() => true))
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+
+    mockRequestHandler({
+      status: 200,
+      method: 'get',
+      url: API.CATEGORIES_PRIVATE_ENDPOINT,
+      body: categoryJSON,
+    })
+
+    mockRequestHandler({
+      status: 200,
+      method: 'get',
+      url: API.CATEGORIES_PRIVATE_ENDPOINT_HISTORY,
+      body: historyJSON,
+    })
   })
 
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should render the form values', () => {
-    mockFetch(mockCategoryResponse, mockHistoryResponse)
+  it('should render the form values', async () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
@@ -94,25 +84,33 @@ describe('Detail', () => {
       )
     )
 
-    expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
-      'Afwatering brug'
-    )
-    expect(screen.getByRole('textbox', { name: 'Omschrijving' })).toHaveValue(
-      'Dit is het verhaal van de brug die moest afwateren.'
-    )
-    expect(screen.getByText('VOR, STW')).toBeInTheDocument()
-    expect(screen.getByRole('spinbutton')).toHaveValue(5)
-    expect(screen.getByRole('combobox')).toHaveValue('0')
-    expect(screen.getByRole('textbox', { name: 'Servicebelofte' })).toHaveValue(
-      'Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.'
-    )
-    expect(screen.getByRole('radio', { name: 'Actief' })).toBeChecked()
-    expect(screen.getByRole('radio', { name: 'Niet actief' })).not.toBeChecked()
-    expect(screen.getByRole('textbox', { name: 'Notitie' })).toHaveValue('')
+    await waitFor(() => {
+      expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
+        'Afwatering brug'
+      )
+      expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
+        'Afwatering brug'
+      )
+      expect(screen.getByRole('textbox', { name: 'Omschrijving' })).toHaveValue(
+        'Dit is het verhaal van de brug die moest afwateren.'
+      )
+      expect(screen.getByText('VOR, STW')).toBeInTheDocument()
+      expect(screen.getByRole('spinbutton')).toHaveValue(5)
+      expect(screen.getByRole('combobox')).toHaveValue('0')
+      expect(
+        screen.getByRole('textbox', { name: 'Servicebelofte' })
+      ).toHaveValue(
+        'Wij beoordelen uw melding. Urgente meldingen pakken we zo snel mogelijk op. Overige meldingen handelen we binnen een week af. We houden u op de hoogte via e-mail.'
+      )
+      expect(screen.getByRole('radio', { name: 'Actief' })).toBeChecked()
+      expect(
+        screen.getByRole('radio', { name: 'Niet actief' })
+      ).not.toBeChecked()
+      expect(screen.getByRole('textbox', { name: 'Notitie' })).toHaveValue('')
+    })
   })
 
   it('should render a backlink', async () => {
-    mockFetch(mockCategoryResponse, mockHistoryResponse)
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
@@ -126,8 +124,7 @@ describe('Detail', () => {
     expect(backLink.getAttribute('href')).toEqual('/instellingen/categorieen')
   })
 
-  it('should render the correct page title for an existing category', () => {
-    mockFetch(mockCategoryResponse, mockHistoryResponse)
+  it('should render the correct page title for an existing category', async () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
@@ -136,106 +133,12 @@ describe('Detail', () => {
       )
     )
 
-    const title = screen.getByText('Categorie wijzigen')
-    expect(title).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('Categorie wijzigen')).toBeInTheDocument()
+    })
   })
 
-  // TODO: fix test, only works alone
-
-  // it('should call confirm cancel', async () => {
-  //   mockFetch(mockCategoryResponse, mockHistoryResponse)
-
-  //   render(
-  //     withContext(
-  //       <MemoryRouter initialEntries={[mockLocation]}>
-  //         <CategoryDetail {...defaultProps} />
-  //       </MemoryRouter>
-  //     )
-  //   )
-
-  //   await screen.findByTestId('detail-category-form')
-
-  //   const nameField = screen.getByRole('textbox', { name: 'Naam' })
-
-  //   const cancelButton = screen.getByTestId('cancel-btn')
-
-  //   // no changes to data in form fields
-  //   userEvent.click(cancelButton)
-
-  //   expect(mockConfirmedCancel).toHaveBeenCalledTimes(1)
-  //   expect(mockConfirmedCancel).toHaveBeenCalledWith(true)
-
-  //   // changes made, but data remains the same
-  //   userEvent.clear(nameField)
-  //   userEvent.type(nameField, categoryJSON?.name as string)
-
-  //   userEvent.click(cancelButton)
-
-  //   // expect(mockConfirmedCancel).toHaveBeenCalledTimes(2)
-  //   expect(mockConfirmedCancel).toHaveBeenLastCalledWith(true)
-
-  //   // changes made, data differs from initial API data
-  //   userEvent.type(nameField, 'Some other value')
-
-  //   userEvent.click(cancelButton)
-
-  //   // expect(mockConfirmedCancel).toHaveBeenCalledTimes(3)
-  //   expect(mockConfirmedCancel).toHaveBeenLastCalledWith(false)
-  // })
-
-  it('should call patch on submit', async () => {
-    mockFetch(mockCategoryResponse, mockHistoryResponse)
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
-
-    const nameInput = screen.getByRole('textbox', { name: 'Naam' })
-    const submitButton = screen.getByTestId('submit-btn')
-
-    userEvent.type(nameInput, '-test')
-
-    expect(nameInput).toHaveValue('Afwatering brug-test')
-
-    userEvent.click(submitButton)
-
-    // TODO: assert patch query
-  })
-
-  it('should redirect on patch success', () => {
-    const mockCategoryResponseSuccess = {
-      ...mockCategoryResponse,
-      isSuccess: true,
-    }
-
-    mockFetch(mockCategoryResponseSuccess, mockHistoryResponse)
-
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
-
-    const nameInput = screen.getByRole('textbox', { name: 'Naam' })
-    const submitButton = screen.getByTestId('submit-btn')
-
-    userEvent.type(nameInput, '-test')
-
-    expect(nameInput).toHaveValue('Afwatering brug-test')
-
-    userEvent.click(submitButton)
-
-    // TODO: assert patch query
-  })
-
-  it('should requests history for existing category', async () => {
-    mockFetch(mockCategoryResponse, mockHistoryResponse)
-
+  it('should call confirm cancel', async () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
@@ -246,6 +149,87 @@ describe('Detail', () => {
 
     await screen.findByTestId('detail-category-form')
 
-    // TODO: assert history get query
+    const nameField = screen.getByRole('textbox', { name: 'Naam' })
+    const cancelButton = screen.getByTestId('cancel-btn')
+
+    // no changes to data in form fields
+    userEvent.click(cancelButton)
+
+    expect(global.window.confirm).toHaveBeenCalledTimes(0)
+
+    // changes made, data differs from initial API data
+    userEvent.type(nameField, 'Some other value')
+
+    userEvent.click(cancelButton)
+    expect(global.window.confirm).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call patch on submit', async () => {
+    mockRequestHandler({
+      status: 400,
+      method: 'patch',
+      url: API.CATEGORIES_PRIVATE_ENDPOINT,
+      body: { name: 'Afwatering brug-test' },
+    })
+
+    const { rerender } = render(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail />
+        </MemoryRouter>
+      )
+    )
+
+    await waitFor(() => {
+      const nameInput = screen.getByRole('textbox', { name: 'Naam' })
+      const submitButton = screen.getByTestId('submit-btn')
+      userEvent.type(nameInput, '-test')
+
+      expect(nameInput).toHaveValue('Afwatering brug-test')
+
+      userEvent.click(submitButton)
+    })
+
+    rerender(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail {...defaultProps} />
+        </MemoryRouter>
+      )
+    )
+
+    expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
+      'Afwatering brug-test'
+    )
+  })
+
+  it('should requests history for existing category', async () => {
+    render(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail {...defaultProps} />
+        </MemoryRouter>
+      )
+    )
+
+    expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
+      'Afwatering brug-test'
+    )
+  })
+
+  it('should requests history for existing category', async () => {
+    render(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail {...defaultProps} />
+        </MemoryRouter>
+      )
+    )
+
+    await screen.findByTestId('detail-category-form')
+
+    expect(
+      screen.getByText('Service level agreement wijziging: 4 werkdagen')
+    ).toBeInTheDocument()
   })
 })
