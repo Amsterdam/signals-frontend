@@ -23,6 +23,7 @@ describe('Overview component', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     configuration.__reset()
+    configuration.featureFlags.enableCsvExport = true
   })
 
   afterEach(() => {
@@ -141,6 +142,7 @@ describe('Overview component', () => {
     unmount()
 
     configuration.featureFlags.showMainCategories = true
+
     rerender(
       withAppContext(
         <Overview
@@ -150,7 +152,7 @@ describe('Overview component', () => {
             groups: false,
             users: true,
             categories: true,
-            export: false,
+            export: true,
           }}
         />
       )
@@ -161,9 +163,11 @@ describe('Overview component', () => {
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
     expect(screen.getByTestId('categories')).toBeInTheDocument()
     expect(screen.getByTestId('main-categories')).toBeInTheDocument()
-    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('export')).toBeInTheDocument()
 
     unmount()
+
+    configuration.featureFlags.enableCsvExport = false
 
     rerender(
       withAppContext(
@@ -185,7 +189,7 @@ describe('Overview component', () => {
     expect(screen.getByTestId('departments')).toBeInTheDocument()
     expect(screen.getByTestId('categories')).toBeInTheDocument()
     expect(screen.getByTestId('main-categories')).toBeInTheDocument()
-    expect(screen.getByTestId('export')).toBeInTheDocument()
+    expect(screen.queryByTestId('export')).not.toBeInTheDocument()
   })
 
   it('should show a version numbers of the fe and be running', () => {

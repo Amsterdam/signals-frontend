@@ -182,7 +182,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
                 </p>
               </Item>
             )}
-          {showItems.export && (
+          {configuration.featureFlags.enableCsvExport && showItems.export && (
             <Item data-testid="export">
               <StyledNavLink to={EXPORT_URL}>
                 <StyledTopTaskLink
