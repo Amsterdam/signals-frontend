@@ -45,6 +45,8 @@ export interface Props {
   onSubmit: FormEventHandler<HTMLFormElement>
   readOnly: boolean
   responsibleDepartments: string[]
+  isMainCategory: boolean
+  isPublicAccessibleLabel: string
 }
 
 export const CategoryForm = ({
@@ -55,6 +57,8 @@ export const CategoryForm = ({
   onSubmit,
   readOnly,
   responsibleDepartments,
+  isMainCategory,
+  isPublicAccessibleLabel,
 }: Props) => (
   <FormProvider {...formMethods}>
     <FormContainer>
@@ -65,36 +69,46 @@ export const CategoryForm = ({
           >
             <div>
               <FieldGroup>
-                <Input
-                  {...formMethods.register('name')}
-                  disabled={readOnly}
-                  hint="Het wijzigen van de naam heeft geen invloed op het type melding"
-                  id="name"
-                  label="Naam"
-                  name="name"
-                  readOnly={readOnly}
-                  type="text"
-                  // value={value}
-                />
+                {!isMainCategory ? (
+                  <Input
+                    {...formMethods.register('name')}
+                    disabled={readOnly}
+                    hint="Het wijzigen van de naam heeft geen invloed op het type melding"
+                    id="name"
+                    label="Naam"
+                    name="name"
+                    readOnly={readOnly}
+                    type="text"
+                  />
+                ) : (
+                  <>
+                    <StyledDefinitionTerm>
+                      <strong>Naam</strong>
+                    </StyledDefinitionTerm>
+                    <dd data-testid="name">{formValues.name}</dd>
+                  </>
+                )}
               </FieldGroup>
 
-              <Controller
-                name="description"
-                render={({ field: { name, value, onChange } }) => (
-                  <FieldGroup>
-                    <TextArea
-                      disabled={readOnly}
-                      id={name}
-                      label={<strong>Omschrijving</strong>}
-                      name={name}
-                      onChange={onChange}
-                      readOnly={readOnly}
-                      rows={6}
-                      value={value}
-                    />
-                  </FieldGroup>
-                )}
-              />
+              {!isMainCategory && (
+                <Controller
+                  name="description"
+                  render={({ field: { name, value, onChange } }) => (
+                    <FieldGroup>
+                      <TextArea
+                        disabled={readOnly}
+                        id={name}
+                        label={<strong>Omschrijving</strong>}
+                        name={name}
+                        onChange={onChange}
+                        readOnly={readOnly}
+                        rows={6}
+                        value={value}
+                      />
+                    </FieldGroup>
+                  )}
+                />
+              )}
 
               {responsibleDepartments.length > 0 && (
                 <FieldGroup as="dl">
@@ -116,8 +130,8 @@ export const CategoryForm = ({
                     <>
                       <StyledLabel
                         htmlFor={name}
-                        label="Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier"
-                        data-testid="subcategory-is-public-accessible"
+                        label={isPublicAccessibleLabel}
+                        data-testid="category-is-public-accessible"
                         disabled={readOnly}
                       >
                         <Checkbox
@@ -145,78 +159,82 @@ export const CategoryForm = ({
                 </FieldGroup>
               )}
 
-              <FieldGroup>
-                <StyledHeading>Afhandeltermijn</StyledHeading>
-                <CombinedFields>
-                  <Input
-                    {...formMethods.register('n_days')}
-                    disabled={readOnly}
-                    id="n_days"
-                    name="n_days"
-                    readOnly={readOnly}
-                    type="number"
-                    size={50}
+              {!isMainCategory && (
+                <>
+                  <FieldGroup>
+                    <StyledHeading>Afhandeltermijn</StyledHeading>
+                    <CombinedFields>
+                      <Input
+                        {...formMethods.register('n_days')}
+                        disabled={readOnly}
+                        id="n_days"
+                        name="n_days"
+                        readOnly={readOnly}
+                        type="number"
+                        size={50}
+                      />
+
+                      <StyledSelect
+                        {...formMethods.register('use_calendar_days')}
+                        disabled={readOnly}
+                        id="use_calendar_days"
+                      >
+                        <option value="1">Dagen</option>
+                        <option value="0">Werkdagen</option>
+                      </StyledSelect>
+                    </CombinedFields>
+                  </FieldGroup>
+
+                  <Controller
+                    name="handling_message"
+                    render={({ field: { name, value, onChange } }) => (
+                      <FieldGroup>
+                        <TextArea
+                          disabled={readOnly}
+                          id={name}
+                          label={<strong>Servicebelofte</strong>}
+                          name={name}
+                          onChange={onChange}
+                          readOnly={readOnly}
+                          rows={6}
+                          value={value}
+                        />
+                      </FieldGroup>
+                    )}
                   />
 
-                  <StyledSelect
-                    {...formMethods.register('use_calendar_days')}
-                    disabled={readOnly}
-                    id="use_calendar_days"
-                  >
-                    <option value="1">Dagen</option>
-                    <option value="0">Werkdagen</option>
-                  </StyledSelect>
-                </CombinedFields>
-              </FieldGroup>
+                  <Controller
+                    name="is_active"
+                    control={formMethods.control}
+                    render={({ field: { name, value, onChange } }) => {
+                      const handleOnChange = (
+                        _groupName: string,
+                        option: StatusOption
+                      ) => {
+                        /* istanbul ignore next */
+                        const value = statusOptions.find(
+                          (status) => status.value === option.value
+                        )?.key
+                        onChange(value)
+                      }
 
-              <Controller
-                name="handling_message"
-                render={({ field: { name, value, onChange } }) => (
-                  <FieldGroup>
-                    <TextArea
-                      disabled={readOnly}
-                      id={name}
-                      label={<strong>Servicebelofte</strong>}
-                      name={name}
-                      onChange={onChange}
-                      readOnly={readOnly}
-                      rows={6}
-                      value={value}
-                    />
-                  </FieldGroup>
-                )}
-              />
-
-              <Controller
-                name="is_active"
-                control={formMethods.control}
-                render={({ field: { name, value, onChange } }) => {
-                  const handleOnChange = (
-                    _groupName: string,
-                    option: StatusOption
-                  ) => {
-                    /* istanbul ignore next */
-                    const value = statusOptions.find(
-                      (status) => status.value === option.value
-                    )?.key
-                    onChange(value)
-                  }
-
-                  return (
-                    <FieldGroup>
-                      <StyledHeading>Status</StyledHeading>
-                      <RadioButtonList
-                        defaultValue={value}
-                        disabled={readOnly}
-                        groupName={name}
-                        hasEmptySelectionButton={false}
-                        onChange={handleOnChange}
-                        options={statusOptions}
-                      />
-                    </FieldGroup>
-                  )
-                }}
-              />
+                      return (
+                        <FieldGroup>
+                          <StyledHeading>Status</StyledHeading>
+                          <RadioButtonList
+                            defaultValue={value}
+                            disabled={readOnly}
+                            groupName={name}
+                            hasEmptySelectionButton={false}
+                            onChange={handleOnChange}
+                            options={statusOptions}
+                          />
+                        </FieldGroup>
+                      )
+                    }}
+                  />
+                </>
+              )}
             </div>
           </StyledColumn>
 

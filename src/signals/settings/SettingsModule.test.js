@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Suspense } from 'react'
 
 import { render, waitFor, act } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
-import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
+import * as appSelectors from 'containers/App/selectors'
 import {
   fetchRoles as fetchRolesAction,
   fetchPermissions as fetchPermissionsAction,
@@ -15,7 +15,6 @@ import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext, history } from 'test/utils'
 
-import SettingsModule from '..'
 import {
   USER_URL,
   USERS_URL,
@@ -23,10 +22,11 @@ import {
   ROLE_URL,
   DEPARTMENTS_URL,
   DEPARTMENT_URL,
-  CATEGORIES_URL,
-  CATEGORY_URL,
+  SUBCATEGORIES_URL,
+  SUBCATEGORY_URL,
   EXPORT_URL,
-} from '../routes'
+} from './routes'
+import SettingsModule from './SettingsModule'
 
 jest.mock('shared/services/configuration/configuration')
 
@@ -177,16 +177,16 @@ describe('signals/settings', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
     jest
       .spyOn(appSelectors, 'makeSelectUserCanAccess')
-      .mockImplementation(() => (section) => section === 'categories')
+      .mockImplementation(() => (section) => section === 'subcategories')
 
     render(withSuspense())
 
-    act(() => history.push(CATEGORIES_URL))
+    act(() => history.push(SUBCATEGORIES_URL))
 
     await waitFor(() =>
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
-      ).toEqual(CATEGORIES_URL)
+      ).toEqual(SUBCATEGORIES_URL)
     )
   })
 
@@ -201,7 +201,7 @@ describe('signals/settings', () => {
 
     render(withSuspense())
 
-    const url = `${CATEGORY_URL}/1`
+    const url = `${SUBCATEGORY_URL}/1`
 
     act(() => history.push(url))
 

@@ -145,6 +145,10 @@
         "showDashboard": {
           "description": "Shows the realtimedashboard",
           "type": "boolean"
+        },
+        "showMainCategories": {
+          "description": "Shows main categories in settings",
+          "type": "boolean"
         }
       },
       "required": [

@@ -8,7 +8,7 @@ import type { FetchError } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import type UsersData from 'types/api/users'
 
-import filterData from '../../../filterData'
+import filterData from '../../../utils/filterData'
 
 export type Filters = {
   profile_department_code?: string

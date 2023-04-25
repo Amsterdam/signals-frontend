@@ -6,15 +6,20 @@ import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 
+import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
-import { CATEGORY_URL, CATEGORIES_PAGED_URL } from 'signals/settings/routes'
+import {
+  BASE_URL,
+  SUBCATEGORY_URL,
+  SUBCATEGORIES_PAGED_URL,
+} from 'signals/settings/routes'
 
 import { StyledDataView, StyledCompactPager } from './styled'
-import filterData from '../../filterData'
+import filterData from '../../utils/filterData'
 
 // name mapping from API values to human readable values
 export const colMap = {
@@ -31,9 +36,10 @@ interface Params {
   pageNum: string
 }
 
-export const CategoriesOverviewContainer = () => {
+export const OverviewContainer = () => {
   const history = useHistory()
   const params = useParams<Params>()
+
   const [page, setPage] = useState(1)
   const subCategories = useSelector(makeSelectAllSubCategories)
   const userCan = useSelector(makeSelectUserCan)
@@ -72,7 +78,7 @@ export const CategoriesOverviewContainer = () => {
       } = e
 
       if (itemId) {
-        history.push(`${CATEGORY_URL}/${itemId}`)
+        history.push(`${SUBCATEGORY_URL}/${itemId}`)
       }
     },
     [history, userCan]
@@ -81,14 +87,17 @@ export const CategoriesOverviewContainer = () => {
   const onPaginationClick = useCallback(
     (pageToNavigateTo) => {
       global.window.scrollTo(0, 0)
-      history.push(`${CATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
+      history.push(`${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
     },
     [history]
   )
 
   return (
     <Fragment>
-      <PageHeader title={`Subcategorieën ${count ? `(${count})` : ''}`} />
+      <PageHeader
+        title={`Subcategorieën ${count ? `(${count})` : ''}`}
+        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+      />
 
       <Row>
         {isLoading && <LoadingIndicator />}
@@ -120,3 +129,5 @@ export const CategoriesOverviewContainer = () => {
     </Fragment>
   )
 }
+
+export default OverviewContainer
