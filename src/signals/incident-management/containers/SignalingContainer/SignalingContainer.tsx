@@ -3,7 +3,7 @@
 import { Column, Row } from '@amsterdam/asc-ui'
 
 import { StyledH1 } from './styled'
-import Signaling from '../../components/Signaling'
+import { Signaling } from '../Dashboard/components'
 
 export const SignalingContainer = () => {
   return (

@@ -1,0 +1,1 @@
+export { ModuleTitle } from './ModuleTitle'

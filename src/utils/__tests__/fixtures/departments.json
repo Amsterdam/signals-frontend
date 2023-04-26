@@ -21,6 +21,8 @@
       "_display": "ASC (Actie Service Centrum)",
       "id": 1550750400,
       "name": "Actie Service Centrum",
+      "display": "Actie Service Centrum",
+      "value": "ASC",
       "code": "ASC",
       "is_intern": true,
       "category_names": [
@@ -70,6 +72,8 @@
       "_display": "AEG (Afval en Grondstoffen)",
       "id": 1550750410,
       "name": "Afval en Grondstoffen",
+      "display": "Afval en Grondstoffen",
+      "value": "AEG",
       "code": "AEG",
       "is_intern": true,
       "category_names": [
@@ -95,6 +99,8 @@
       "_display": "CCA (CCA)",
       "id": 1550750420,
       "name": "CCA",
+      "display": "CCA",
+      "value": "CCA",
       "code": "CCA",
       "is_intern": true,
       "category_names": []
@@ -108,6 +114,8 @@
       "_display": "FB (FB)",
       "id": 1550750430,
       "name": "FB",
+      "display": "FB",
+      "value": "FB",
       "code": "FB",
       "is_intern": true,
       "category_names": []
@@ -121,6 +129,8 @@
       "_display": "GGD (GGD)",
       "id": 1550750440,
       "name": "GGD",
+      "display": "GGD",
+      "value": "GGD",
       "code": "GGD",
       "is_intern": false,
       "category_names": [
@@ -142,6 +152,8 @@
       "_display": "OMG (Omgevingsdienst)",
       "id": 1550750450,
       "name": "Omgevingsdienst",
+      "display": "Omgevingsdienst",
+      "value": "OMG",
       "code": "OMG",
       "is_intern": true,
       "category_names": []
@@ -155,7 +167,9 @@
       "_display": "OOV (Openbare Orde & Veiligheid)",
       "id": 1550750460,
       "name": "Openbare Orde & Veiligheid",
-       "code": "OOV",
+      "display": "Openbare Orde & Veiligheid",
+      "value": "OOV",
+      "code": "OOV",
       "is_intern": true,
       "category_names": ["Ondermijning", "Vermoeden"]
     },
@@ -183,6 +197,8 @@
       "_display": "POA (Port of Amsterdam)",
       "id": 1550750480,
       "name": "Port of Amsterdam",
+      "display": "Port of Amsterdam",
+      "value": "POA",
       "code": "POA",
       "is_intern": false,
       "category_names": []
@@ -196,6 +212,8 @@
       "_display": "STL (Stadsloket)",
       "id": 1550750490,
       "name": "Stadsloket",
+      "display": "Stadsloket",
+      "value": "STL",
       "code": "STL",
       "is_intern": true,
       "category_names": []
@@ -209,6 +227,8 @@
       "_display": "STW (Stadswerken)",
       "id": 1550750500,
       "name": "Stadswerken",
+      "display": "Stadswerken",
+      "value": "STW",
       "code": "STW",
       "is_intern": true,
       "category_names": [
@@ -260,6 +280,8 @@
       "_display": "THO (THOR)",
       "id": 1550750510,
       "name": "THOR",
+      "display": "THOR",
+      "value": "THO",
       "code": "THO",
       "is_intern": true,
       "category_names": [
@@ -297,6 +319,8 @@
       "_display": "VOR (V&OR)",
       "id": 1550750520,
       "name": "V&OR",
+      "display": "V&OR",
+      "value": "VOR",
       "code": "VOR",
       "is_intern": true,
       "category_names": [
@@ -322,6 +346,8 @@
       "_display": "VIS (V&OR - VIS)",
       "id": 1550750530,
       "name": "V&OR - VIS",
+      "display": "V&OR - VIS",
+      "value": "VIS",
       "code": "VIS",
       "is_intern": true,
       "category_names": ["Verdeelkasten / bekabeling"]
@@ -335,6 +361,8 @@
       "_display": "OVL (V&OR OVL)",
       "id": 1550750540,
       "name": "V&OR OVL",
+      "display": "V&OR OVL",
+      "value": "OVL",
       "code": "OVL",
       "is_intern": true,
       "category_names": ["Lichthinder", "Verlichting netstoring"]
@@ -348,6 +376,8 @@
       "_display": "VRI (V&OR VRI)",
       "id": 1550750550,
       "name": "V&OR VRI",
+      "display": "V&OR VRI",
+      "value": "VRI",
       "code": "VRI",
       "is_intern": true,
       "category_names": []
@@ -361,6 +391,8 @@
       "_display": "VTH (VTH)",
       "id": 1550750560,
       "name": "VTH",
+      "display": "VTH",
+      "value": "VTH",
       "code": "VTH",
       "is_intern": true,
       "category_names": [
@@ -383,6 +415,8 @@
       "_display": "WAT (Waternet)",
       "id": 1550750570,
       "name": "Waternet",
+      "display": "Waternet",
+      "value": "WAT",
       "code": "WAT",
       "is_intern": false,
       "category_names": [

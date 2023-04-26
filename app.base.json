@@ -21,6 +21,7 @@
     "showVulaanControls": false,
     "useProjectenSignalType": false,
     "enableForwardIncidentToExternal": false,
+    "showDashboard": false,
     "showMainCategories": false
   },
   "head": {
