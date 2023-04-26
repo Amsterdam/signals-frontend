@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { render, within, fireEvent } from '@testing-library/react'
+// SPDX-License-Identifier MPL-2.0
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { screen, render, within, fireEvent } from '@testing-library/react'
 
 import data from 'utils/__tests__/fixtures/filteredUserData.json'
 
@@ -628,5 +628,38 @@ describe('DataView with data', () => {
     allRows.forEach((row, rowIDX) =>
       expect(row.dataset.itemId).toBe(String(data[rowIDX][headers[0]]))
     )
+  })
+
+  it('should render icon if available', () => {
+    const onItemClickHandler = jest.fn()
+
+    const dataWithIcon = [
+      {
+        'Openbare Naam': 'hoofdcategorie - openbare naame',
+        fk: '177',
+        Hoofdcategorie: 'hoofdcategorie test',
+        Icoon:
+          'https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-25T15%3A16%3A27Z&sp=r&sv=2021-08-06&sr=b&sig=GtCGkYzJhlkzlRrVAShohBuCQ0mq%2BojItkjJvPRWFBY%3D',
+        id: 'https://acc.api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/0-hoofdcategorie-test',
+      },
+      {
+        'Openbare Naam': 'Afval',
+        fk: '156',
+        Hoofdcategorie: 'Afval',
+        Icoon: 'Niet ingesteld',
+        id: 'https://acc.api.meldingen.amsterdam.nl/signals/v1/public/terms/categories/afval',
+      },
+    ]
+
+    render(
+      dataViewWithProps({
+        data: dataWithIcon,
+        onItemClick: onItemClickHandler,
+        primaryKeyColumn: headers[1],
+      })
+    )
+
+    expect(screen.getByRole('img', { name: 'Icoon' })).toBeInTheDocument()
+    expect(screen.getByText('Niet ingesteld')).toBeInTheDocument()
   })
 })
