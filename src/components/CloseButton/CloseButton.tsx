@@ -4,12 +4,12 @@ import { Close as CloseIcon } from '@amsterdam/asc-assets'
 
 import { StyledButton } from './styled'
 
-interface CloseButtonProps {
+interface Props {
   className?: string
   close?: () => void
 }
 
-const CloseButton = ({ className = '', close }: CloseButtonProps) => (
+const CloseButton = ({ className = '', close }: Props) => (
   <StyledButton
     className={className}
     data-testid="close-button"
