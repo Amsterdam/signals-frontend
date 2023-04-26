@@ -70,7 +70,7 @@ describe('OverviewContainer', () => {
         name: 'Wegen, verkeer, straatmeubilair - publiek',
       })
     ).toBeInTheDocument()
-    expect(screen.getByRole('cell', { name: 'Ingesteld' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Icoon' })).toBeInTheDocument()
   })
 
   it('should render loading when categories are not there', () => {
