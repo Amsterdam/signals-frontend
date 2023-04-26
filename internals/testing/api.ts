@@ -25,3 +25,6 @@ export const INCIDENT_HISTORY = `${INCIDENT}/history`
 export const INCIDENT_CONTEXT = `${INCIDENT}/context`
 export const INCIDENT_CONTEXT_GEOGRAPHY = `${INCIDENT}/context/near/geography`
 export const INCIDENT_CONTEXT_REPORTER = `${INCIDENT}/context/reporter`
+
+export const CATEGORIES_PRIVATE_ENDPOINT = `${API_BASE_URL}/private/categories/:categoryId`
+export const CATEGORIES_PRIVATE_ENDPOINT_HISTORY = `${API_BASE_URL}/private/categories/:categoryId/history`
