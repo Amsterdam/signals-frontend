@@ -33,3 +33,13 @@ export const StyledTD = styled.td`
   padding: ${themeSpacing(2)};
   cursor: pointer;
 `
+
+export const StyledImageTD = styled.td`
+  cursor: pointer;
+  padding: 0;
+`
+
+export const StyledImg = styled.img`
+  display: flex;
+  margin-left: 8px;
+`

@@ -71,6 +71,7 @@
   },
   "afval": {
     "_display": "Afval",
+    "public_name": null,
     "fk": 79,
     "sla": {
       "n_days": null,
@@ -194,7 +195,9 @@
       "sia:status-message-templates": {
         "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/wegen-verkeer-straatmeubilair/status-message-templates"
       },
-      "sia:icon": "https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-24T11%3A56%3A30Z&sp=r&sv=2021-08-06&sr=b&sig=cAl/7CfiwBu1yE/whi6bxc8BMlIxP9CHtnyO9YoapdA%3D"
+      "sia:icon": {
+        "href": "https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-24T11%3A56%3A30Z&sp=r&sv=2021-08-06&sr=b&sig=cAl/7CfiwBu1yE/whi6bxc8BMlIxP9CHtnyO9YoapdA%3D"
+      }
     },
     "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair",
     "is_active": true,
