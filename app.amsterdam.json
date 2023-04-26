@@ -18,7 +18,7 @@
     "reporterMailHandledNegativeContactEnabled": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false
+    "useProjectenSignalType": false,
     "showMainCategories": true
   },
   "head": {
