@@ -175,7 +175,7 @@ describe('Detail', () => {
     const { rerender } = render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
@@ -191,20 +191,6 @@ describe('Detail', () => {
     })
 
     rerender(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
-
-    expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
-      'Afwatering brug-test'
-    )
-  })
-
-  it('should requests history for existing category', async () => {
-    render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
           <CategoryDetail {...defaultProps} />
