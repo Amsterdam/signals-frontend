@@ -142,10 +142,6 @@
           "description": "Enables forwarding the handling of an incident to an external organization.",
           "type": "boolean"
         },
-        "showDashboard": {
-          "description": "Shows the realtimedashboard",
-          "type": "boolean"
-        },
         "showMainCategories": {
           "description": "Shows main categories in settings",
           "type": "boolean"
@@ -164,8 +160,7 @@
         "mapFilter24Hours",
         "showThorButton",
         "showVulaanControls",
-        "useProjectenSignalType",
-        "showDashboard"
+        "useProjectenSignalType"
       ],
       "title": "FeatureFlags"
     },

@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { fireEvent, render, act, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
-import * as reactRouterDom from 'react-router-dom'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
 import * as constants from 'signals/incident-management/constants'
-import { withAppContext, history } from 'test/utils'
+import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
 
 import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.'
@@ -57,13 +56,6 @@ const generateIncidents = (number = 100) =>
     id: index + 1,
   }))
 
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  ...jest.requireActual('react-router-dom'),
-}))
-
-const mockApplyFilterAction = jest.fn()
-
 describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   let props
 
@@ -82,92 +74,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
       clearFiltersAction: jest.fn(),
-      applyFilterAction: mockApplyFilterAction,
     }
-  })
-
-  it('should render a backlink to dashboard, hide filters and call mockApplyFilterAction', async () => {
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-      state: {
-        useDashboardFilters: true,
-      },
-    }))
-
-    render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {
-        stadsdeel: { value: 'O' },
-      })
-    )
-
-    expect(screen.getByText('Terug naar dashboard')).toBeTruthy()
-
-    expect(mockApplyFilterAction).toBeCalledWith({
-      options: { stadsdeel: ['O'] },
-    })
-
-    expect(screen.queryByText('Mijn filters')).not.toBeInTheDocument()
-  })
-
-  it('should not render a backlink to dashboard, show mijn filters and dont call mockApplyFilterAction', () => {
-    mockApplyFilterAction.mockReset()
-
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-      state: null,
-    }))
-
-    render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {})
-    )
-
-    expect(screen.queryByText('Terug naar dashboard')).toBe(null)
-
-    expect(mockApplyFilterAction).not.toBeCalledWith({
-      options: { stadsdeel: ['O'] },
-    })
-
-    expect(screen.getByText('Mijn filters')).toBeInTheDocument()
-  })
-
-  it('should not render a backlink to dashboard when there are no valid dashboard filters', () => {
-    mockApplyFilterAction.mockReset()
-
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-      state: {
-        useDashboardFilters: true,
-      },
-    }))
-
-    render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {})
-    )
-    expect(screen.queryByText('Terug naar dashboard')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('Mijn filters')).toBeInTheDocument()
-  })
-
-  it('should keep useDashboardFilters route state when navigating to manage/incidents/kaart', async () => {
-    jest.spyOn(reactRouterDom, 'useLocation').mockImplementationOnce(() => ({
-      state: {
-        useDashboardFilters: true,
-      },
-      location: 'manage/incidents',
-    }))
-
-    render(
-      withAppContext(<IncidentOverviewPageContainerComponent {...props} />, {
-        stadsdeel: { value: 'O' },
-      })
-    )
-
-    history.push('/manage/incidents', { useDashboardFilters: true })
-
-    act(() => history.push('/manage/incidents/kaart'))
-
-    expect(history.entries.at(-1).state).toEqual({ useDashboardFilters: true })
-
-    act(() => history.push('/manage/standaard/teksten'))
-
-    expect(history.entries.at(-1).state).toEqual({})
   })
 
   it('should render modal buttons', () => {

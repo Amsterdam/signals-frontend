@@ -77,24 +77,6 @@ describe('components/SiteHeader', () => {
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2')
   })
 
-  it('should render Dashboard when featureflag showDashboard is true', () => {
-    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
-    configuration.featureFlags.showDashboard = true
-    const { rerender, unmount } = render(
-      withAppContext(<SiteHeader {...defaultProps} />)
-    )
-
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
-    expect(screen.queryByText('Signalering')).not.toBeInTheDocument()
-
-    unmount()
-    configuration.featureFlags.showDashboard = false
-    rerender(withAppContext(<SiteHeader {...defaultProps} />))
-
-    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
-    expect(screen.getByText('Signalering')).toBeInTheDocument()
-  })
-
   it('should render correctly when authenticated', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
 
