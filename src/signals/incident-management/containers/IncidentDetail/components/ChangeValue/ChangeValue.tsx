@@ -197,7 +197,15 @@ const ChangeValue: FunctionComponent<ChangeValueProps> = ({
             // @ts-ignore
             <FormComponent
               name={name}
-              onChange={onChange}
+              onChange={(
+                event: React.FormEvent,
+                options: { triggerFormChange: boolean }
+              ) => {
+                onChange(event)
+                if (options?.triggerFormChange) {
+                  handleChange(event)
+                }
+              }}
               groups={groups}
               value={value}
               values={options}

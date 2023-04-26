@@ -3,11 +3,11 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import SelectInput from 'signals/incident-management/components/SelectInput'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import ChangeValue from '.'
+import SelectInputSearch from '../../../../components/SelectInputSearch'
 import IncidentDetailContext from '../../context'
 
 const expectInitialState = async () => {
@@ -36,11 +36,32 @@ const otherKeyValue = 'otherKeyValue'
 const otherDescription = 'otherDescription'
 
 const props = {
-  component: SelectInput,
+  component: SelectInputSearch,
   options: [
-    { key: rawKey, value: rawKeyValue, description, icon: 'PriorityHigh' },
-    { key: derivedKey, value: derivedKeyValue },
-    { key: otherKey, value: otherKeyValue, description: otherDescription },
+    {
+      key: rawKey,
+      value: rawKeyValue,
+      description,
+      icon: 'PriorityHigh',
+      group: 'group1',
+    },
+    { key: derivedKey, value: derivedKeyValue, group: 'group2' },
+    {
+      key: otherKey,
+      value: otherKeyValue,
+      description: otherDescription,
+      group: 'group2',
+    },
+  ],
+  groups: [
+    {
+      value: 'group1',
+      name: 'group1',
+    },
+    {
+      value: 'group2',
+      name: 'group2',
+    },
   ],
   display: 'De letter',
   path: 'value.path',
@@ -163,6 +184,8 @@ describe('ChangeValue', () => {
 
     userEvent.click(screen.getByTestId(editTestId))
 
+    userEvent.click(screen.getByRole('combobox'))
+
     expect(
       screen.getByRole('option', { name: rawKeyValue })
     ).toBeInTheDocument()
@@ -182,7 +205,12 @@ describe('ChangeValue', () => {
     expect(update).not.toHaveBeenCalled()
 
     const submitButton = screen.getByTestId(submitTestId)
-    fireEvent.change(document.querySelector('select'), {
+
+    userEvent.click(screen.getByRole('combobox'))
+
+    userEvent.click(screen.getByText('otherKeyValue'))
+
+    fireEvent.change(screen.getByRole('combobox'), {
       target: { value: otherKey },
     })
     userEvent.click(submitButton)
@@ -256,15 +284,15 @@ describe('ChangeValue', () => {
     expect(screen.getByTestId('info-text')).toBeInTheDocument()
     expect(screen.getByTestId('info-text').textContent).toEqual(description)
 
-    fireEvent.change(document.querySelector('select'), {
-      target: { value: derivedKey },
-    })
+    userEvent.click(screen.getByRole('combobox'))
+
+    userEvent.click(screen.getByText(derivedKeyValue))
 
     expect(screen.queryByTestId('info-text')).not.toBeInTheDocument()
 
-    fireEvent.change(document.querySelector('select'), {
-      target: { value: otherKey },
-    })
+    userEvent.click(screen.getByRole('combobox'))
+
+    userEvent.click(screen.getByText(otherKeyValue))
 
     expect(screen.getByTestId('info-text')).toBeInTheDocument()
     expect(screen.getByTestId('info-text').textContent).toEqual(

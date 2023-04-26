@@ -20,13 +20,13 @@ export type Group = {
   value: string
 }
 
-type SelectProps = {
+export type SelectProps = {
   emptyOption?: SubCategoryOption
   groups?: Array<Group>
   id: string
   label?: ReactNode
   name: string
-  onChange?: (e: React.FormEvent<HTMLSelectElement>) => void
+  onChange: (e: React.FormEvent<HTMLSelectElement>) => void
   optionKey?: keyof SubCategoryOption
   optionName?: keyof SubCategoryOption
   options: Array<Partial<SubCategoryOption>>
@@ -34,7 +34,7 @@ type SelectProps = {
   value?: string
 }
 
-type SelectOptionsProps = Pick<
+export type SelectOptionsProps = Pick<
   SelectProps,
   'name' | 'options' | 'optionKey' | 'optionName' | 'optionValue'
 >
