@@ -4,7 +4,6 @@ import {
   makeSelectUserCan,
   makeSelectUserCanAccess,
 } from 'containers/App/selectors'
-import configuration from 'shared/services/configuration/configuration'
 
 import Overview from './components/Overview'
 
@@ -20,9 +19,7 @@ export default function OverviewContainer() {
         groups: userCanAccess('groups'),
         users: userCanAccess('userForm'),
         categories: userCanAccess('categories'),
-        export:
-          configuration.featureFlags.enableCsvExport &&
-          userCan('sia_signal_report'),
+        export: userCan('sia_signal_report'),
       }}
     />
   )

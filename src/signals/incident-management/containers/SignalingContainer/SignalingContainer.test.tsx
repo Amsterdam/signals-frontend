@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import { SignalingContainer } from './SignalingContainer'
 import { withAppContext } from '../../../../test/utils'
@@ -8,6 +8,8 @@ describe('<SignalingContainer />', () => {
     render(withAppContext(<SignalingContainer />))
 
     // Loading
-    expect(screen.getByText('Signalering')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByText('Signalering')).toBeInTheDocument()
+    })
   })
 })

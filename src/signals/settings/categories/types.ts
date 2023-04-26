@@ -12,7 +12,7 @@ export interface CategoryFormValues {
   use_calendar_days: number
 }
 
-export interface CategoryFormPatch {
+export interface CategoryFormPayload {
   description: string | null
   handling_message: string
   is_active: string
@@ -25,3 +25,7 @@ export interface CategoryFormPatch {
   note: string | null
   public_name: string
 }
+
+export type DirtyFields = Partial<{
+  [key in keyof CategoryFormValues]: boolean
+}>

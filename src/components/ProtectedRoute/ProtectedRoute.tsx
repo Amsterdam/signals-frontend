@@ -14,11 +14,12 @@ import {
 } from 'containers/App/selectors'
 
 export const NO_PAGE_ACCESS_MESSAGE = 'U heeft geen toegang tot deze pagina'
+export const NO_PAGE_FOUND_MESSAGE = 'We hebben de pagina niet gevonden'
 
 interface ProtectedRouteProps extends RouteProps {
   role?: string
   roleGroup?: string
-  component: (props: RouteComponentProps<any>) => JSX.Element
+  component: (props: RouteComponentProps<any>) => JSX.Element | null
 }
 
 const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
@@ -33,6 +34,8 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
     () => (role && userCan(role)) || (roleGroup && userCanAccess(roleGroup)),
     [role, roleGroup, userCan, userCanAccess]
   )
+
+  if (!Component) return <NotFoundPage message={NO_PAGE_FOUND_MESSAGE} />
 
   return (
     <Route

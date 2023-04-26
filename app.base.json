@@ -20,7 +20,8 @@
     "showThorButton": false,
     "showVulaanControls": false,
     "useProjectenSignalType": false,
-    "enableForwardIncidentToExternal": false
+    "enableForwardIncidentToExternal": false,
+    "showMainCategories": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

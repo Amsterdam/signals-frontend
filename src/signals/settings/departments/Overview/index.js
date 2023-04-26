@@ -14,7 +14,7 @@ import { makeSelectDepartments } from 'models/departments/selectors'
 import PageHeader from 'signals/settings/components/PageHeader'
 import { DEPARTMENT_URL } from 'signals/settings/routes'
 
-import filterData from '../../filterData'
+import filterData from '../../utils/filterData'
 
 const StyledList = styled(ListComponent)`
   th {

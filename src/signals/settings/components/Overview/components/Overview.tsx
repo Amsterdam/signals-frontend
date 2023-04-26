@@ -11,13 +11,15 @@ import {
 } from '@amsterdam/asc-assets'
 import { CompactThemeProvider, Row } from '@amsterdam/asc-ui'
 
+import configuration from 'shared/services/configuration/configuration'
 import PageHeader from 'signals/settings/components/PageHeader'
 import {
   USERS_URL,
   ROLES_URL,
   DEPARTMENTS_URL,
-  CATEGORIES_URL,
+  SUBCATEGORIES_URL,
   EXPORT_URL,
+  MAIN_CATEGORIES_URL,
 } from 'signals/settings/routes'
 
 import {
@@ -28,7 +30,6 @@ import {
   Wrapper,
 } from './styled'
 import useFetch from '../../../../../hooks/useFetch'
-import configuration from '../../../../../shared/services/configuration/configuration'
 
 type Keys =
   | 'departments'
@@ -135,7 +136,7 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
           )}
           {showItems.categories && (
             <Item data-testid="categories">
-              <StyledNavLink to={CATEGORIES_URL}>
+              <StyledNavLink to={SUBCATEGORIES_URL}>
                 <StyledTopTaskLink
                   forwardedAs="div"
                   icon={ThumbnailResults}
@@ -158,7 +159,30 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
               </p>
             </Item>
           )}
-          {showItems.export && (
+          {configuration.featureFlags.showMainCategories &&
+            showItems.categories && (
+              <Item data-testid="main-categories">
+                <StyledNavLink to={MAIN_CATEGORIES_URL}>
+                  <StyledTopTaskLink
+                    forwardedAs="div"
+                    icon={ThumbnailResults}
+                    title="Hoofdcategorieën"
+                  />
+                </StyledNavLink>
+                <p>
+                  Een melding in Signalen wordt automatisch door de machine
+                  learning tool toegekend aan een hoofdcategorie. In deze
+                  instellingspagina is het per hoofdcategorie mogelijk om de
+                  weergave op de publieke kaarten aan te passen. De
+                  zichtbaarheid van de hoofdcategorie op de kaart kan worden
+                  ingesteld. De openbare naam en het icoon kan worden gewijzigd.
+                  Voor de meldingenkaart kan worden aangegeven of de
+                  subcategorieën van de hoofdcategorie zichtbaar moeten zijn in
+                  het filtermenu.
+                </p>
+              </Item>
+            )}
+          {configuration.featureFlags.enableCsvExport && showItems.export && (
             <Item data-testid="export">
               <StyledNavLink to={EXPORT_URL}>
                 <StyledTopTaskLink

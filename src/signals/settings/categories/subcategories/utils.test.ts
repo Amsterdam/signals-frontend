@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { getTransformedData } from './utils'
+import { getPatchPayload } from './utils'
+import type {
+  CategoryFormValues,
+  CategoryFormPayload,
+  DirtyFields,
+} from '../types'
 
-const mockFormData = {
+const mockFormData: CategoryFormValues = {
   description: 'Afval van een bedrijf en andere gebouwen en dingen',
   handling_message:
     'We laten u binnen 5 dagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
@@ -15,32 +20,27 @@ const mockFormData = {
   use_calendar_days: 1,
 }
 
-const mockTransformedData = {
+const mockDirtyFields: DirtyFields = {
+  name: true,
+  note: true,
+  n_days: true,
+}
+
+const mockMappedData: Partial<CategoryFormPayload> = {
   name: 'Bedrijfsafval',
-  is_active: 'true',
-  description: 'Afval van een bedrijf en andere gebouwen en dingen',
-  handling_message:
-    'We laten u binnen 5 dagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
   new_sla: {
     n_days: 5,
-    use_calendar_days: true,
+    use_calendar_days: false,
   },
   note: 'Test notitie',
-  is_public_accessible: false,
-  public_name: 'Bedrijfsafval',
 }
 
 describe('utils', () => {
-  describe('getTransformedData', () => {
+  describe('getPatchPayload', () => {
     it('should map to correct model', () => {
-      const result = getTransformedData(mockFormData)
+      const result = getPatchPayload(mockFormData, mockDirtyFields)
 
-      expect(result).toEqual(mockTransformedData)
+      expect(result).toEqual(mockMappedData)
     })
-  })
-
-  describe('isEqual', () => {
-    it('should return true when equal', () => {})
-    it('should return false when not equal', () => {})
   })
 })

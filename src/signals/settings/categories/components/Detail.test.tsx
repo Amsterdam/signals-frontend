@@ -13,6 +13,7 @@ import { subCategories } from 'utils/__tests__/fixtures'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
 
 import { CategoryDetail } from './Detail'
+import type { Props } from './Detail'
 
 jest.mock('hooks/useFetch')
 
@@ -53,6 +54,13 @@ const mockLocation = {
   referrer: '/instellingen/categorieen',
 }
 
+const defaultProps: Props = {
+  entityName: 'Categorie',
+  isMainCategory: false,
+  isPublicAccessibleLabel:
+    'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
+}
+
 const mockFetch = (categoryResponse: any, historyRespnse: any) => {
   jest.mocked(useFetch).mockImplementationOnce(() => categoryResponse)
   jest.mocked(useFetch).mockImplementationOnce(() => historyRespnse)
@@ -81,7 +89,7 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
@@ -108,7 +116,7 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
@@ -123,12 +131,12 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
 
-    const title = screen.getByText('Subcategorie wijzigen')
+    const title = screen.getByText('Categorie wijzigen')
     expect(title).toBeInTheDocument()
   })
 
@@ -140,7 +148,7 @@ describe('Detail', () => {
   //   render(
   //     withContext(
   //       <MemoryRouter initialEntries={[mockLocation]}>
-  //         <CategoryDetail />
+  //         <CategoryDetail {...defaultProps} />
   //       </MemoryRouter>
   //     )
   //   )
@@ -180,7 +188,7 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
@@ -208,7 +216,7 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )
@@ -231,7 +239,7 @@ describe('Detail', () => {
     render(
       withContext(
         <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail />
+          <CategoryDetail {...defaultProps} />
         </MemoryRouter>
       )
     )

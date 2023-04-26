@@ -141,6 +141,10 @@
         "enableForwardIncidentToExternal": {
           "description": "Enables forwarding the handling of an incident to an external organization.",
           "type": "boolean"
+        },
+        "showMainCategories": {
+          "description": "Shows main categories in settings",
+          "type": "boolean"
         }
       },
       "required": [

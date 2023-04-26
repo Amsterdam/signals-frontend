@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { useEffect, lazy, Suspense } from 'react'
 
+import type { Location } from 'history'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
@@ -20,8 +21,7 @@ import routes, {
   USERS_PAGED_URL,
   USER_URL,
   ROLE_URL,
-  CATEGORIES_PAGED_URL,
-  CATEGORY_URL,
+  SUBCATEGORIES_PAGED_URL,
   BASE_URL,
   EXPORT_URL,
 } from './routes'
@@ -34,25 +34,38 @@ const LoginPage = lazy(() => import('components/pages/LoginPage'))
 // istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
 // istanbul ignore next
-const RolesListContainer = lazy(() =>
-  import('./roles/containers/RolesListContainer')
+const RolesListContainer = lazy(
+  () => import('./roles/containers/RolesListContainer')
 )
 // istanbul ignore next
-const RoleFormContainer = lazy(() =>
-  import('./roles/containers/RoleFormContainer')
+const RoleFormContainer = lazy(
+  () => import('./roles/containers/RoleFormContainer')
 )
 // istanbul ignore next
 const UsersDetailContainer = lazy(() => import('./users/Detail'))
 // istanbul ignore next
-const DepartmentsOverviewContainer = lazy(() =>
-  import('./departments/Overview')
+const DepartmentsOverviewContainer = lazy(
+  () => import('./departments/Overview')
 )
 // istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
+
 // istanbul ignore next
-const SubcategoriesOverview = lazy(() => import('./categories'))
+const SubcategoriesOverview = lazy(
+  () => import('./categories/subcategories/Overview')
+)
 // istanbul ignore next
-const CategoryDetailContainer = lazy(() => import('./categories/subcategories'))
+const MainCategoriesOverview = lazy(
+  () => import('./categories/main-categories/Overview')
+)
+// istanbul ignore next
+const SubcategoryDetail = lazy(
+  () => import('./categories/subcategories/Detail')
+)
+// istanbul ignore next
+const MainCategoryDetail = lazy(
+  () => import('./categories/main-categories/Detail')
+)
 
 // istanbul ignore next
 const ExportContainer = lazy(() => import('./export'))
@@ -62,7 +75,7 @@ const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
 const SettingsModule = () => {
   const storeDispatch = useDispatch()
-  const location = useLocationReferrer()
+  const location = useLocationReferrer() as Location
   const userCanAccess = useSelector(makeSelectUserCanAccess)
 
   useEffect(() => {
@@ -140,26 +153,34 @@ const SettingsModule = () => {
 
         <Redirect
           exact
-          from={routes.categories}
-          to={`${CATEGORIES_PAGED_URL}/1`}
+          from={routes.subcategories}
+          to={`${SUBCATEGORIES_PAGED_URL}/1`}
         />
+
         <ProtectedRoute
           exact
-          path={routes.categoriesPaged}
+          path={routes.subcategoriesPaged}
           component={SubcategoriesOverview}
-          roleGroup="categories"
+          roleGroup="subcategories"
         />
         <ProtectedRoute
           exact
-          path={routes.category}
-          component={CategoryDetailContainer}
-          roleGroup="categoryForm"
+          path={routes.subcategory}
+          component={SubcategoryDetail}
+          roleGroup="subcategoryForm"
+        />
+
+        <ProtectedRoute
+          exact
+          path={routes.mainCategories}
+          component={MainCategoriesOverview}
+          roleGroup="mainCategories"
         />
         <ProtectedRoute
           exact
-          path={CATEGORY_URL}
-          component={CategoryDetailContainer}
-          role="add_category"
+          path={routes.mainCategory}
+          component={MainCategoryDetail}
+          roleGroup="mainCategoryForm"
         />
 
         {configuration.featureFlags.enableCsvExport && (

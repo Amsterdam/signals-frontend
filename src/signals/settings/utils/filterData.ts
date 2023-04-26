@@ -27,6 +27,15 @@ const filterData = (data: Data, colMap: ColMap): Array<typeof colMap> => {
               value = value ? 'Actief' : 'Niet actief'
             }
 
+            if (key === 'public_name') {
+              value = value || 'Niet ingesteld'
+            }
+
+            if (key === '_links') {
+              // TODO: Make images possible in StyledDataView
+              value = value['sia:icon'] ? 'Ingesteld' : 'Niet ingesteld'
+            }
+
             obj[colMap[key]] = value
 
             return obj
