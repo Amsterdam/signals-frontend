@@ -16,8 +16,8 @@ import sources from 'utils/__tests__/fixtures/sources.json'
 import userOptions from 'utils/__tests__/fixtures/userOptions.json'
 
 import FilterTagList, {
-  allLabelAppend,
   FilterTagListComponent,
+  allLabelAppend,
   mapKeys,
 } from './FilterTagList'
 import AppContext from '../../../../containers/App/context'
@@ -27,10 +27,14 @@ Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('shared/services/configuration/configuration')
 
+const setDashboardFilter = jest.fn()
+
 const withContext = (Component) =>
   withAppContext(
     <AppContext.Provider value={{ sources }}>
-      <IncidentManagementContext.Provider value={{ districts }}>
+      <IncidentManagementContext.Provider
+        value={{ districts, setDashboardFilter }}
+      >
         {Component}
       </IncidentManagementContext.Provider>
     </AppContext.Provider>

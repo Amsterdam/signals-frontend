@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { useEffect, useState, useCallback, useMemo } from 'react'
+// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+import { useEffect, useState, useCallback, useMemo, useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
+import isEmpty from 'lodash/isEmpty'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -50,8 +51,10 @@ import {
   NoResults,
   StyledButton,
   StyledPagination,
+  StyledBackLink,
 } from './styled'
-import { MAP_URL } from '../../routes'
+import IncidentManagementContext from '../../context'
+import { DASHBOARD_URL, INCIDENTS_URL, MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
 let lastActiveElement = null
@@ -121,6 +124,43 @@ export const IncidentOverviewPageContainerComponent = ({
     applyFilterAction(parseToAPIData(filter))
   }
 
+  const { dashboardFilter } = useContext(IncidentManagementContext)
+
+  const validDashboardFilterOptions = useMemo(
+    () =>
+      !isEmpty(dashboardFilter) &&
+      Object.fromEntries(
+        Object.entries(dashboardFilter)
+          .filter(([k, v]) => v.value && k !== 'department')
+          .map(([k, v]) =>
+            k === 'punctuality' ? [k, v.value] : [k, [v.value]]
+          )
+      ),
+    [dashboardFilter]
+  )
+
+  useEffect(() => {
+    if (
+      !isEmpty(validDashboardFilterOptions) &&
+      location.state?.useDashboardFilters
+    ) {
+      applyFilterAction({ options: validDashboardFilterOptions })
+    }
+  }, [location, applyFilterAction, validDashboardFilterOptions])
+
+  const history = useHistory()
+
+  useEffect(() => {
+    const unlisten = history.listen((newLocation) => {
+      if (newLocation.pathname.includes(INCIDENTS_URL)) {
+        newLocation.state = location.state
+      } else {
+        newLocation.state = {}
+      }
+    })
+    return () => unlisten()
+  }, [history, location])
+
   useEffect(() => {
     listenFor('keydown', escFunction)
     listenFor('openFilter', openFilterModal)
@@ -163,25 +203,38 @@ export const IncidentOverviewPageContainerComponent = ({
       data-testid="incident-management-overview-page"
     >
       <Row>
+        {location.state?.useDashboardFilters &&
+          !isEmpty(validDashboardFilterOptions) && (
+            <StyledBackLink
+              to={{
+                pathname: DASHBOARD_URL,
+              }}
+            >
+              Terug naar dashboard
+            </StyledBackLink>
+          )}
         <TitleRow>
           <PageHeader />
-          <ButtonWrapper>
-            <StyledButton
-              data-testid="my-filters-modal-btn"
-              color="primary"
-              onClick={openMyFiltersModal}
-            >
-              Mijn filters
-            </StyledButton>
+          {(!location.state?.useDashboardFilters ||
+            isEmpty(validDashboardFilterOptions)) && (
+            <ButtonWrapper>
+              <StyledButton
+                data-testid="my-filters-modal-btn"
+                color="primary"
+                onClick={openMyFiltersModal}
+              >
+                Mijn filters
+              </StyledButton>
 
-            <StyledButton
-              data-testid="filter-modal-btn"
-              color="primary"
-              onClick={openFilterModal}
-            >
-              Filter
-            </StyledButton>
-          </ButtonWrapper>
+              <StyledButton
+                data-testid="filter-modal-btn"
+                color="primary"
+                onClick={openFilterModal}
+              >
+                Filter
+              </StyledButton>
+            </ButtonWrapper>
+          )}
         </TitleRow>
 
         {modalMyFiltersIsOpen && (

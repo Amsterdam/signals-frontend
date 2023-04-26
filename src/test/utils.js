@@ -8,7 +8,8 @@ import { ConnectedRouter } from 'connected-react-router/immutable'
 import { createMemoryHistory } from 'history'
 import isObject from 'lodash/isObject'
 import MatchMediaMock from 'match-media-mock'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { Provider } from 'react-redux'
 
 import MapContext from 'containers/MapContext'
@@ -17,6 +18,7 @@ import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import configureStore from '../configureStore'
 import constructYupResolver from '../signals/incident/services/yup-resolver'
+import IncidentManagementContext from '../signals/incident-management/context'
 
 export const history = createMemoryHistory()
 
@@ -57,10 +59,18 @@ export const store = configureStore({}, history)
 
 loadModels(store)
 
-export const withAppContext = (Component) => (
+export const withAppContext = (Component, dashboardFilter = null) => (
   <ThemeProvider>
     <Provider store={store}>
-      <ConnectedRouter history={history}>{Component}</ConnectedRouter>
+      <ConnectedRouter history={history}>
+        <IncidentManagementContext.Provider
+          value={{
+            dashboardFilter,
+          }}
+        >
+          {Component}
+        </IncidentManagementContext.Provider>
+      </ConnectedRouter>
     </Provider>
   </ThemeProvider>
 )

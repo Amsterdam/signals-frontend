@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 const path = require('path')
 
 module.exports = {
@@ -38,6 +38,7 @@ module.exports = {
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
+  setupFiles: ['jest-canvas-mock'],
   testTimeout: 10000,
   testEnvironment: 'jsdom',
   transform: {

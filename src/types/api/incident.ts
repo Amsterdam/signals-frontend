@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 -2023 Gemeente Amsterdam
+// Copyright (C) 2021 Gemeente Amsterdam
 import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Address } from 'types/address'
 import type { Geometrie } from 'types/incident'
@@ -12,6 +12,40 @@ export interface Department {
   is_intern: boolean
   can_direct: true
   category_names: string[]
+}
+
+export interface DepartmentDetails {
+  _display: string
+  id: number
+  name: string
+  code: string
+  is_intern: boolean
+  can_direct: true
+  categories: Category[]
+}
+
+export interface Category {
+  id: number
+  is_responsible: boolean
+  can_view: boolean
+  category: {
+    _links: {
+      self: {
+        href: string
+      }
+    }
+    _display: string
+    departments: {
+      code: string
+      name: string
+      is_intern: boolean
+    }[]
+    handling_message: string
+    handling: string
+    is_active: boolean
+    name: string
+    slug: string
+  }
 }
 
 export enum Priority {

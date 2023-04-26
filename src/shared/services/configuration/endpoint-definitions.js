@@ -45,6 +45,9 @@ export default {
   // Private. Used to `POST` incident data for authorized users. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/post_signals_v1_private_signals_
   // for reference.
+  INCIDENTS_PAST_WEEK: '/signals/v1/private/signals/stats/past_week',
+  // Private. Used to get the amount of incidents finished this week and last week.
+  // No Swagger documentation available.
   INCIDENT_PRIVATE_ENDPOINT: '/signals/v1/private/signals/',
   // Public. Used to `POST` incident data for unauthorized users. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/post_signals_v1_public_signals
