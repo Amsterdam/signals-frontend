@@ -173,7 +173,7 @@ export const FilterTagListComponent = (props) => {
           : renderTag(tag, mainCategories, map[tagKey])
       )}
       {showClearButton && (
-        <Button variant="textButton" onClick={props.onClear()}>
+        <Button variant="textButton" onClick={props.onClear}>
           Wis filter
         </Button>
       )}
