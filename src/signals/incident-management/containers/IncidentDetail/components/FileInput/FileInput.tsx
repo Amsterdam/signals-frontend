@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 
 import { FileInputUploadButton } from './styles'
 
@@ -36,9 +36,21 @@ const FileInput = ({
     [files, onChange]
   )
 
+  const inputRef = useRef<HTMLInputElement>(null)
+  /* istanbul ignore next */
+  const onKeyDownHandler = useCallback((event) => {
+    if (['Enter', 'Space'].includes(event.code)) {
+      inputRef.current?.click()
+    }
+  }, [])
+
   return (
-    <FileInputUploadButton data-testid="file-input-upload-button">
+    <FileInputUploadButton
+      onKeyDown={onKeyDownHandler}
+      data-testid="file-input-upload-button"
+    >
       <input
+        ref={inputRef}
         type="file"
         id="fileUpload"
         data-testid="file-input-upload"
