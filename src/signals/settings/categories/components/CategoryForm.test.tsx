@@ -21,6 +21,7 @@ const mockFormValues = {
   note: 'Test notes',
   n_days: 3,
   use_calendar_days: 1,
+  show_children_in_filter: true,
 }
 
 const defaultProps: Omit<Props, 'formMethods'> = {
@@ -87,6 +88,11 @@ describe('CategoryForm', () => {
     expect(screen.getByText('Openbaar tonen')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden'
+      )
+    ).toBeInTheDocument()
 
     expect(screen.queryByText('Afhandeltermijn')).not.toBeInTheDocument()
     expect(
