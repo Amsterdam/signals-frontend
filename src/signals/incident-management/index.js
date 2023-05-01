@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { useEffect, lazy, Suspense, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo } from 'react'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { compose } from 'redux'
 
@@ -17,10 +17,9 @@ import injectSaga from 'utils/injectSaga'
 import {
   getDistricts,
   getFilters,
-  searchIncidents,
   requestIncidents,
+  searchIncidents,
 } from './actions'
-import { useDepartments } from './containers/Dashboard/hooks/useDepartments'
 import IncidentManagementContext from './context'
 import reducer from './reducer'
 import routes from './routes'
@@ -45,11 +44,6 @@ const IncidentSplitContainer = lazy(() =>
 // istanbul ignore next
 const ReporterContainer = lazy(() => import('./containers/ReporterContainer'))
 const AreaContainer = lazy(() => import('./containers/AreaContainer'))
-
-const DashboardContainer = lazy(() =>
-  import('./containers/Dashboard/Dashboard')
-)
-
 const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
 
 const IncidentManagement = () => {
@@ -57,17 +51,11 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
-  const departmentsWithResponsibleCategories = useDepartments()
-  const [dashboardFilter, setDashboardFilter] = useState({})
-
   const contextValue = useMemo(
     () => ({
       districts,
-      dashboardFilter,
-      setDashboardFilter,
-      departmentsWithResponsibleCategories,
     }),
-    [dashboardFilter, departmentsWithResponsibleCategories, districts]
+    [districts]
   )
 
   useEffect(() => {
@@ -110,11 +98,7 @@ const IncidentManagement = () => {
             <Route exact path={routes.area} component={AreaContainer} />
           )}
           <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
-          {configuration.featureFlags.showDashboard ? (
-            <Route path={routes.dashboard} component={DashboardContainer} />
-          ) : (
-            <Route path={routes.signaling} component={SignalingContainer} />
-          )}
+          <Route path={routes.signaling} component={SignalingContainer} />
           <Route component={IncidentOverviewPage} />
         </Switch>
       </Suspense>

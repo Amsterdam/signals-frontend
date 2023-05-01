@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { Logout as LogoutIcon } from '@amsterdam/asc-assets'
 import { MenuItem } from '@amsterdam/asc-ui'
-import { useLocation } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import SearchBar from 'containers/SearchBar'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
@@ -62,30 +61,17 @@ export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
         </StyledMenuButton>
       </MenuItem>
 
-      {isAuthenticated && configuration.featureFlags.showDashboard ? (
+      {isAuthenticated && (
         <MenuItem>
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
-            to="/manage/dashboard"
-            $active={activeMenuItem.includes('/manage/dashboard')}
+            to="/manage/signalering"
+            $active={activeMenuItem.includes('/manage/signalering')}
           >
-            Dashboard
+            Signalering
           </StyledMenuButton>
         </MenuItem>
-      ) : (
-        isAuthenticated && (
-          <MenuItem>
-            <StyledMenuButton
-              onClick={onLinkClick}
-              forwardedAs={NavLink}
-              to="/manage/signalering"
-              $active={activeMenuItem.includes('/manage/signalering')}
-            >
-              Signalering
-            </StyledMenuButton>
-          </MenuItem>
-        )
       )}
 
       {showItems.defaultTexts && (
