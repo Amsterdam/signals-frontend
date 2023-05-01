@@ -97,17 +97,19 @@ export const SelectSearch = ({
   )
 
   const openOptions = useCallback(
-    (event) => {
+    (event, selectOnOpen = true) => {
       setInputValue(getOptionValueName(value))
       setIsOpen(true)
       setIsInputActive(true)
       /*
         The following lines are needed to make the input value selectable.
        */
-      /* istanbul ignore next */
-      setTimeout(() => {
-        event.target.select()
-      }, 0)
+      if (selectOnOpen) {
+        /* istanbul ignore next */
+        setTimeout(() => {
+          event.target.select()
+        }, 0)
+      }
     },
     [getOptionValueName, value]
   )
@@ -121,6 +123,12 @@ export const SelectSearch = ({
       if ((event.code === 'ArrowDown' || event.code === 'Space') && !isOpen) {
         event.preventDefault()
         openOptions(event)
+      }
+
+      if (event.key.match(/^[a-z0-9]$/i) && !isOpen) {
+        event.preventDefault()
+        openOptions(event, false)
+        setInputValue(event.key)
       }
 
       if (event.code === 'ArrowDown' && isOpen) {
