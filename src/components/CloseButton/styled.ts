@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { Close as CloseIcon } from '@amsterdam/asc-assets'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { themeSpacing } from '@amsterdam/asc-ui'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Button from 'components/Button'
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   position: absolute;
   top: 40px;
   z-index: 1;
@@ -30,28 +28,3 @@ const StyledButton = styled(Button)`
     right: ${({ theme }) => theme.layouts.xLarge.margin}px;
   }
 `
-
-const CloseButton = ({ className, close }) => {
-  return (
-    <StyledButton
-      className={className}
-      data-testid="close-button"
-      icon={<CloseIcon />}
-      iconSize={16}
-      onClick={close}
-      size={32}
-      variant="application"
-    />
-  )
-}
-
-CloseButton.defaultProps = {
-  className: '',
-}
-
-CloseButton.propTypes = {
-  className: PropTypes.string,
-  close: PropTypes.func,
-}
-
-export default CloseButton
