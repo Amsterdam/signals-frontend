@@ -121,30 +121,57 @@ export const CategoryForm = ({
                 </FieldGroup>
               )}
 
-              <Controller
-                name="is_public_accessible"
-                control={formMethods.control}
-                render={({ field: { name, value, onChange } }) => (
-                  <FieldGroup>
-                    <StyledHeading>Openbaar tonen</StyledHeading>
-                    <>
-                      <StyledLabel
-                        htmlFor={name}
-                        label={isPublicAccessibleLabel}
-                        data-testid="category-is-public-accessible"
-                        disabled={readOnly}
-                      >
-                        <Checkbox
-                          checked={value}
-                          name={name}
-                          id={name}
-                          onChange={onChange}
-                        />
-                      </StyledLabel>
-                    </>
-                  </FieldGroup>
+              <FieldGroup>
+                <StyledHeading>Openbaar tonen</StyledHeading>
+                <Controller
+                  name="is_public_accessible"
+                  control={formMethods.control}
+                  render={({ field: { name, value, onChange } }) => (
+                    <FieldGroup>
+                      <>
+                        <StyledLabel
+                          htmlFor={name}
+                          label={isPublicAccessibleLabel}
+                          data-testid="category-is-public-accessible"
+                          disabled={readOnly}
+                        >
+                          <Checkbox
+                            checked={value}
+                            name={name}
+                            id={name}
+                            onChange={onChange}
+                          />
+                        </StyledLabel>
+                      </>
+                    </FieldGroup>
+                  )}
+                />
+                {isMainCategory && (
+                  <Controller
+                    name="show_children_in_filter"
+                    control={formMethods.control}
+                    render={({ field: { name, value, onChange } }) => {
+                      return (
+                        <>
+                          <StyledLabel
+                            htmlFor={name}
+                            label="Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden"
+                            data-testid="show_children_in_filter"
+                            disabled={readOnly}
+                          >
+                            <Checkbox
+                              checked={value}
+                              name={name}
+                              id={name}
+                              onChange={onChange}
+                            />
+                          </StyledLabel>
+                        </>
+                      )
+                    }}
+                  />
                 )}
-              />
+              </FieldGroup>
 
               {formValues.is_public_accessible && (
                 <FieldGroup>

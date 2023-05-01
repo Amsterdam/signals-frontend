@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2022 - 2023 Gemeente Amsterdam */
 import { Fragment, useState } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
@@ -20,7 +20,7 @@ export interface Props {
 
 export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(false)
-  const { name, filterActive, icon, subCategories } = filter
+  const { name, filterActive, icon, subCategories, _display } = filter
 
   if (!subCategories) return null
   return (
@@ -31,7 +31,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
             onToggleCategory(filter, !filterActive)
           }}
           selected={filterActive}
-          text={name}
+          text={_display || name}
           icon={icon}
         />
 

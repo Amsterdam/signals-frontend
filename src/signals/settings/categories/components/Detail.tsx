@@ -79,8 +79,12 @@ export const CategoryDetail = ({
       note: data.note,
       n_days: data.sla.n_days,
       use_calendar_days: data.sla.use_calendar_days ? 1 : 0,
+      ...(isMainCategory && {
+        show_children_in_filter:
+          data?.configuration?.show_children_in_filter || false,
+      }),
     }
-  }, [data])
+  }, [data, isMainCategory])
 
   const formMethods = useForm<CategoryFormValues>({
     reValidateMode: 'onSubmit',

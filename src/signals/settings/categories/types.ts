@@ -10,6 +10,7 @@ export interface CategoryFormValues {
   note: string | null
   public_name: string
   use_calendar_days: number
+  show_children_in_filter?: boolean
 }
 
 export interface CategoryFormPayload {
@@ -24,6 +25,9 @@ export interface CategoryFormPayload {
   }
   note: string | null
   public_name: string
+  configuration: {
+    show_children_in_filter: boolean
+  }
 }
 
 export type DirtyFields = Partial<{
