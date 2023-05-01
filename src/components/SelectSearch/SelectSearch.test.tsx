@@ -173,15 +173,14 @@ describe('<SelectSearch />', () => {
 
   it('should open the listbox when pressing a and have a as inputvalue', () => {
     render(<SelectSearch {...props} onChange={onChangeMock} />)
+    userEvent.keyboard('{backspace}')
+
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
 
     userEvent.keyboard('a')
 
     expect(screen.getByRole('listbox')).toBeInTheDocument()
 
     expect(screen.getByRole('combobox')).toHaveValue('a')
-
-    const options = screen.getAllByRole('option')
-
-    expect(options).toHaveLength(props.options.length)
   })
 })

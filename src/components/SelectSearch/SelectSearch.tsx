@@ -125,7 +125,7 @@ export const SelectSearch = ({
         openOptions(event)
       }
 
-      if (event.code.match(/^[a-z0-9]+$/i) && !isOpen) {
+      if (event.key.match(/^[a-z0-9]$/i) && !isOpen) {
         event.preventDefault()
         openOptions(event, false)
         setInputValue(event.key)
