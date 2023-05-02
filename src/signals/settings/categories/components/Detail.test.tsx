@@ -88,9 +88,6 @@ describe('Detail', () => {
       expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
         'Afwatering brug'
       )
-      expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
-        'Afwatering brug'
-      )
       expect(screen.getByRole('textbox', { name: 'Omschrijving' })).toHaveValue(
         'Dit is het verhaal van de brug die moest afwateren.'
       )
@@ -107,6 +104,24 @@ describe('Detail', () => {
         screen.getByRole('radio', { name: 'Niet actief' })
       ).not.toBeChecked()
       expect(screen.getByRole('textbox', { name: 'Notitie' })).toHaveValue('')
+    })
+  })
+
+  it('should render specific main category fields', async () => {
+    render(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail {...defaultProps} isMainCategory={true} />
+        </MemoryRouter>
+      )
+    )
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden'
+        )
+      ).toBeInTheDocument()
     })
   })
 
