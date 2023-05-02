@@ -256,7 +256,12 @@ const Attachments: FC<AttachmentsProps> = ({
               Bestand toevoegen
             </Button>
           ) : (
-            <Button forwardedAs="span" variant="application" type="button">
+            <Button
+              forwardedAs={'span'}
+              tabIndex={0}
+              variant="application"
+              type="button"
+            >
               Bestand toevoegen
             </Button>
           )}
