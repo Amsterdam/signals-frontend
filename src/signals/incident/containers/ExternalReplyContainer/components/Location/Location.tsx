@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import MapDetail from 'components/MapDetail'
 import Paragraph from 'components/Paragraph'
+import configuration from 'shared/services/configuration/configuration'
 import { smallMarkerIcon } from 'shared/services/configuration/map-markers'
 import type { Address as AddressType } from 'types/address'
 
@@ -20,7 +21,7 @@ export const MapThumbnail = styled(MapDetail).attrs({
   canFocusMarker: false,
   hasZoomControls: false,
   icon: smallMarkerIcon,
-  zoom: 9,
+  zoom: configuration.map.optionsExternalReplyLocation.zoom,
 })`
   width: 80px;
   height: 80px;

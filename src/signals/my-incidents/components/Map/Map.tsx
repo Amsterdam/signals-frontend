@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
+import configuration from 'shared/services/configuration/configuration'
 import type Location from 'types/location'
 
 import { StyledCloseButton, StyledMapDetail, StyledMapViewer } from './styled'
@@ -16,7 +17,7 @@ export const Map = ({ location, close }: Props) => (
       value={location}
       icon={markerIcon}
       hasZoomControls
-      zoom={14}
+      zoom={configuration.map.optionsMyIncidentsMap.zoom}
     />
     <StyledCloseButton close={close} />
   </StyledMapViewer>
