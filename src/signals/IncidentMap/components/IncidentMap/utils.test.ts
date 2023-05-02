@@ -3,6 +3,7 @@
 import type { Map } from 'leaflet'
 
 import configuration from 'shared/services/configuration/configuration'
+
 import { getFlyToZoom } from './utils'
 
 describe('utils', () => {
