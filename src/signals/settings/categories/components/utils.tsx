@@ -20,13 +20,13 @@ export const getPatchPayload = (
 
   const payloadResult = {
     ...payloadObject,
-    ...((payloadObject['n_days'] || payloadObject['use_calendar_days']) && {
+    ...(('n_days' in payloadObject || 'use_calendar_days' in payloadObject) && {
       new_sla: {
         n_days: payloadObject.n_days ?? formData.n_days,
         use_calendar_days: Boolean(Number(payloadObject.use_calendar_days)),
       },
     }),
-    ...(payloadObject['show_children_in_filter'] && {
+    ...('show_children_in_filter' in payloadObject && {
       configuration: {
         show_children_in_filter: payloadObject.show_children_in_filter,
       },

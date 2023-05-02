@@ -19,9 +19,9 @@ import type { Category } from 'types/category'
 import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
+import { getPatchPayload } from './utils'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
-import { getPatchPayload } from '../subcategories/utils'
 import type { CategoryFormValues } from '../types'
 
 const DEFAULT_STATUS_OPTION = 'true'
