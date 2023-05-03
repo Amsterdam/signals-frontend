@@ -1,5 +1,5 @@
 {
-  "apiBaseUrl": "https://acc.api.meldingen.amsterdam.nl",disableClosingCategoryOverigOverig
+  "apiBaseUrl": "https://acc.api.meldingen.amsterdam.nl",
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
     "assignSignalToDepartment": false,
@@ -20,7 +20,7 @@
     "showVulaanControls": true,
     "useProjectenSignalType": false,
     "showMainCategories": true,
-    "": true
+    "disableClosingCategoryOverigOverig": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
