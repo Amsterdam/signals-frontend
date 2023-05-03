@@ -18,18 +18,24 @@ export const getPatchPayload = (
 
   const payloadObject = Object.assign({}, ...payload)
 
-  if (payloadObject['n_days'] || payloadObject['use_calendar_days']) {
-    const updatedPayload = {
-      ...payloadObject,
+  const payloadResult = {
+    ...payloadObject,
+    ...(('n_days' in payloadObject || 'use_calendar_days' in payloadObject) && {
       new_sla: {
         n_days: payloadObject.n_days ?? formData.n_days,
         use_calendar_days: Boolean(Number(payloadObject.use_calendar_days)),
       },
-    }
+    }),
+    ...('show_children_in_filter' in payloadObject && {
+      configuration: {
+        show_children_in_filter: payloadObject.show_children_in_filter,
+      },
+    }),
+  }
 
-    delete updatedPayload['n_days']
-    delete updatedPayload['use_calendar_days']
+  delete payloadResult['n_days']
+  delete payloadResult['use_calendar_days']
+  delete payloadResult['show_children_in_filter']
 
-    return updatedPayload
-  } else return payloadObject
+  return payloadResult
 }

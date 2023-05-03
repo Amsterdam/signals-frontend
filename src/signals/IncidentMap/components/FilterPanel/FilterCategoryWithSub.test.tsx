@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2022 - 2023 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -24,7 +24,7 @@ const mockFilter = {
     },
     {
       name: 'mockSubCategoryname2',
-      _display: 'mockSubCategory_display2',
+      _display: '',
       filterActive: true,
       slug: 'mockSubCategoryslug2',
       icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
@@ -60,6 +60,7 @@ describe('FilterCategoryWithSub', () => {
     const { container } = renderFilterCategoryWithSub({
       filter: mockNoSubCategoryFilter,
     })
+
     expect(container).toBeEmptyDOMElement()
   })
 
@@ -70,6 +71,7 @@ describe('FilterCategoryWithSub', () => {
     })
 
     userEvent.click(chevron)
+    expect(screen.getByText('mockSubCategoryname2')).toBeInTheDocument()
 
     const updatedChevron = screen.queryByRole('button', {
       name: 'Toon meer filter opties',
@@ -93,7 +95,7 @@ describe('FilterCategoryWithSub', () => {
     userEvent.click(chevron)
 
     const checkBox = screen.getByRole('checkbox', {
-      name: /mockSubCategoryname1/,
+      name: /mockSubCategory_display1/,
     })
 
     expect(checkBox).toBeInTheDocument()
@@ -117,5 +119,15 @@ describe('FilterCategoryWithSub', () => {
       filter: mockNoSubCategoryFilter,
     })
     expect(container).toBeEmptyDOMElement()
+  })
+
+  it('should render _display name when existing, else name', () => {
+    renderFilterCategoryWithSub()
+
+    expect(screen.getByText('mockSubCategory_display1')).toBeInTheDocument()
+    expect(
+      screen.queryByText('mockSubCategory_display2')
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('mockSubCategoryname2')).toBeInTheDocument()
   })
 })

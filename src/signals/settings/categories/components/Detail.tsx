@@ -19,9 +19,9 @@ import type { Category } from 'types/category'
 import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
+import { getPatchPayload } from './utils'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
-import { getPatchPayload } from '../subcategories/utils'
 import type { CategoryFormValues } from '../types'
 
 const DEFAULT_STATUS_OPTION = 'true'
@@ -79,8 +79,12 @@ export const CategoryDetail = ({
       note: data.note,
       n_days: data.sla.n_days,
       use_calendar_days: data.sla.use_calendar_days ? 1 : 0,
+      ...(isMainCategory && {
+        show_children_in_filter:
+          data?.configuration?.show_children_in_filter || false,
+      }),
     }
-  }, [data])
+  }, [data, isMainCategory])
 
   const formMethods = useForm<CategoryFormValues>({
     reValidateMode: 'onSubmit',

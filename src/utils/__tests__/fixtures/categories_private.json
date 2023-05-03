@@ -145,7 +145,10 @@
           "can_view": true
         }
       ],
-      "note": ""
+      "note": "",
+      "configuration": {
+        "show_children_in_filter": true
+      }
     },
     {
       "_links": {

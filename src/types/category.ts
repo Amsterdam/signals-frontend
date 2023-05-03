@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 export interface CategoryDepartment {
   id: number
   code: string
@@ -39,6 +39,9 @@ export interface Category {
   public_name?: string | null
   _display?: string
   sub_categories?: SubCategory[]
+  configuration?: {
+    show_children_in_filter?: boolean
+  }
 }
 
 export interface SubCategory {

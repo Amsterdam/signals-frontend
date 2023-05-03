@@ -42,5 +42,26 @@ describe('utils', () => {
 
       expect(result).toEqual(mockMappedData)
     })
+
+    it('should map show_children_in_filter when input changed on main category', () => {
+      const mockFormDataMainCategory = {
+        ...mockFormData,
+        show_children_in_filter: false,
+      }
+      const mockDirtyFieldsMainCategory = {
+        show_children_in_filter: true,
+      }
+
+      const result = getPatchPayload(
+        mockFormDataMainCategory,
+        mockDirtyFieldsMainCategory
+      )
+
+      expect(result).toEqual({
+        configuration: {
+          show_children_in_filter: false,
+        },
+      })
+    })
   })
 })
