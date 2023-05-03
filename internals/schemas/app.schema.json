@@ -145,6 +145,10 @@
         "showMainCategories": {
           "description": "Shows main categories in settings",
           "type": "boolean"
+        },
+        "disableClosingCategoryOverigOverig": {
+          "description": "Disallows processing of an issue that has category Overig-overig and status Afgehandeld",
+          "type": "boolean"
         }
       },
       "required": [

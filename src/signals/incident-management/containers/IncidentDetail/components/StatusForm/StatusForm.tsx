@@ -118,6 +118,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       incident.category?.main_slug === 'overig' &&
       incident.category?.sub_slug === 'overig' &&
       state.status.key === StatusCode.Afgehandeld &&
+      configuration.featureFlags.disableClosingCategoryOverigOverig &&
       state.originalStatus.key != StatusCode.Afgehandeld)
 
   const onUpdate = useCallback(() => {
@@ -231,6 +232,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     }
 
     if (
+      configuration.featureFlags.disableClosingCategoryOverigOverig &&
       incident &&
       incident.category?.main_slug === 'overig' &&
       incident.category?.sub_slug === 'overig' &&
