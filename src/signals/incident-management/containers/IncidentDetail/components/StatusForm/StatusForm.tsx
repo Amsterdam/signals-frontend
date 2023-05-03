@@ -118,7 +118,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       incident.category?.main_slug === 'overig' &&
       incident.category?.sub_slug === 'overig' &&
       state.status.key === StatusCode.Afgehandeld &&
-      state.originalStatus.key != StatusCode.Afgehandeld)
+      state.originalStatus.key != StatusCode.Afgehandeld &&
+      configuration.featureFlags
+        .preventProcessingCategoryOverigOverigAndStatusAfgehandeld)
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -234,7 +236,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       incident &&
       incident.category?.main_slug === 'overig' &&
       incident.category?.sub_slug === 'overig' &&
-      event.target.value === 'o'
+      event.target.value === 'o' &&
+      configuration.featureFlags
+        .preventProcessingCategoryOverigOverigAndStatusAfgehandeld
     ) {
       storeDispatch(
         showGlobalNotification({
