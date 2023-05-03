@@ -70,7 +70,8 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
       {filters
         .filter((filter: Filter) => filter.incidentsCount)
         .map((filter: Filter) => {
-          const { name, filterActive, _display, icon, subCategories } = filter
+          const { name, filterActive, public_name, icon, subCategories } =
+            filter
 
           return subCategories ? (
             <FilterCategoryWithSub
@@ -85,7 +86,7 @@ export const FilterPanel = ({ filters, setFilters, setMapMessage }: Props) => {
                   toggleFilter(filter, !filterActive)
                 }}
                 selected={filterActive}
-                text={_display || name}
+                text={public_name || name}
                 icon={icon}
               />
               <Underlined />

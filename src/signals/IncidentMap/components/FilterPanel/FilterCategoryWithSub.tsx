@@ -20,7 +20,7 @@ export interface Props {
 
 export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(false)
-  const { name, filterActive, icon, subCategories, _display } = filter
+  const { name, filterActive, icon, subCategories, public_name } = filter
 
   if (!subCategories) return null
   return (
@@ -31,7 +31,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
             onToggleCategory(filter, !filterActive)
           }}
           selected={filterActive}
-          text={_display || name}
+          text={public_name || name}
           icon={icon}
         />
 
@@ -49,7 +49,8 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
         {subCategories
           .filter((subCategory) => subCategory.incidentsCount)
           .map((subCategory) => {
-            const { name, filterActive, icon, _display } = subCategory
+            const { name, filterActive, icon, public_name } = subCategory
+
             return (
               <Fragment key={name}>
                 <FilterCategory
@@ -57,7 +58,7 @@ export const FilterCategoryWithSub = ({ onToggleCategory, filter }: Props) => {
                     onToggleCategory(subCategory, !filterActive)
                   }}
                   selected={filterActive}
-                  text={_display || name}
+                  text={public_name || name}
                   icon={icon}
                 />
                 <Underlined />

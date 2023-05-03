@@ -12,11 +12,11 @@ export const getFilterCategoriesWithIcons = (
   categories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((category) => {
-      const { sub_categories, _display, _links, name, slug, configuration } =
+      const { sub_categories, public_name, _links, name, slug, configuration } =
         category
 
       const categoryWithIcon: Filter = {
-        _display,
+        public_name,
         filterActive: true,
         icon: _links['sia:icon']?.href ?? defaultIcon,
         name,
@@ -50,9 +50,9 @@ const getSubCategories = (subCategories: SubCategoryBackend[]): SubCategory[] =>
   subCategories
     .filter(({ is_public_accessible }) => is_public_accessible)
     .map((subCategory) => {
-      const { name, _display, slug, _links } = subCategory
+      const { name, public_name, slug, _links } = subCategory
       return {
-        _display,
+        public_name,
         filterActive: true,
         icon: _links['sia:icon']?.href ?? defaultIcon,
         name,

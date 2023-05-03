@@ -21,7 +21,7 @@ export type Properties = {
 
 export type Filter = {
   name: string
-  _display?: string
+  public_name?: string | null
   filterActive: boolean
   slug: string
   icon?: string
