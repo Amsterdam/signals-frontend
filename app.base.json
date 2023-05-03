@@ -94,8 +94,40 @@
       "minZoom": 7,
       "zoom": 7
     },
+    "optionsAreaMap": {
+      "zoom": 14,
+      "maxZoom": 15
+    },
+    "optionsOverviewMap": {
+      "flyToMinZoom": 11
+    },
+    "optionsSummaryMap": {
+      "zoom": 12
+    },
     "optionsIncidentMap": {
-      "hasSubfiltersEnabled": ["main-category-slug"]
+      "hasSubfiltersEnabled": ["main-category-slug"],
+      "zoom": 9,
+      "flyToMinZoom": 12,
+      "flyToMaxZoom": 14
+    },
+    "optionsMapInput": {
+      "zoom": 14
+    },
+    "optionsIncidentDetailLocation": {
+      "zoom": 9
+    },
+    "optionsAssetSelector": {
+      "assetsZoom": 13,
+      "locationZoom": 14
+    },
+    "optionsMyIncidentsMap": {
+      "zoom": 14
+    },
+    "optionsExternalReplyLocation": {
+      "zoom": 9
+    },
+    "optionsExternalReplyMap": {
+      "zoom": 10
     },
     "tiles": {
       "args": [

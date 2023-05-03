@@ -385,8 +385,35 @@
         "optionsBackOffice": {
           "$ref": "#/definitions/OptionsBackOffice"
         },
+        "optionsAreaMap": {
+          "$ref": "#/definitions/OptionsAreaMap"
+        },
+        "optionsOverviewMap": {
+          "$ref": "#/definitions/OptionsOverviewMap"
+        },
+        "optionsSummaryMap": {
+          "$ref": "#/definitions/OptionsSummaryMap"
+        },
         "optionsIncidentMap": {
           "$ref": "#/definitions/OptionsIncidentMap"
+        },
+        "optionsMapInput": {
+          "$ref": "#/definitions/OptionsMapInput"
+        },
+        "optionsIncidentDetailLocation": {
+          "$ref": "#/definitions/OptionsIncidentDetailLocation"
+        },
+        "optionsAssetSelector": {
+          "$ref": "#/definitions/OptionsAssetSelector"
+        },
+        "optionsMyIncidentsMap": {
+          "$ref": "#/definitions/OptionsMyIncidentsMap"
+        },
+        "optionsExternalReplyLocation": {
+          "$ref": "#/definitions/OptionsExternalReplyLocation"
+        },
+        "optionsExternalReplyMap": {
+          "$ref": "#/definitions/OptionsExternalReplyMap"
         },
         "tiles": {
           "$ref": "#/definitions/Tiles"
@@ -544,6 +571,36 @@
       "required": [],
       "title": "OptionsBackOffice"
     },
+    "OptionsAreaMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        },
+        "maxZoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsOverviewMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "flyToMinZoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsSummaryMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        }
+      }
+    },
     "OptionsIncidentMap": {
       "type": "object",
       "additionalProperties": false,
@@ -556,6 +613,72 @@
             "type": "string"
           },
           "minItems": 0
+        },
+        "zoom": {
+          "type": "integer"
+        },
+        "flyToMaxZoom": {
+          "type": "integer"
+        },
+        "flyToMinZoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsMapInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsIncidentDetailLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsAssetSelector": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assetsZoom": {
+          "type": "integer"
+        },
+        "locationZoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsMyIncidentsMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsExternalReplyLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
+        }
+      }
+    },
+    "OptionsExternalReplyMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zoom": {
+          "type": "integer"
         }
       }
     },

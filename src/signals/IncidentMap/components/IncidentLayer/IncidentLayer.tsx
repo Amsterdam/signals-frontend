@@ -9,6 +9,7 @@ import type { LeafletEvent } from 'leaflet'
 import L from 'leaflet'
 
 import MarkerCluster from 'components/MarkerCluster'
+import configuration from 'shared/services/configuration/configuration'
 import {
   dynamicIcon,
   selectedMarkerIcon,
@@ -17,7 +18,6 @@ import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/u
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
 import type { Incident, Properties } from '../../types'
-import { DEFAULT_ZOOM } from '../utils'
 
 const clusterLayerOptions = {
   zoomToBoundsOnClick: true,
@@ -94,7 +94,7 @@ export const IncidentLayer = ({
         let marker = L.marker(latlng, {
           icon: dynamicIcon(incident.properties?.icon),
           alt: incident.properties.category.name,
-          keyboard: zoomLevel >= DEFAULT_ZOOM,
+          keyboard: zoomLevel >= configuration.map.optionsIncidentMap.zoom,
         })
         // Matching on created_at since incidents do not have an ID
         if (
@@ -104,7 +104,7 @@ export const IncidentLayer = ({
           marker = L.marker(latlng, {
             icon: selectedMarkerIcon,
             alt: incident.properties.category.name,
-            keyboard: zoomLevel >= DEFAULT_ZOOM,
+            keyboard: zoomLevel >= configuration.map.optionsIncidentMap.zoom,
           })
           selectedMarkerRef.current = marker
         }
@@ -151,7 +151,7 @@ export const IncidentLayer = ({
       setInstance={setLayerInstance}
       getIsSelectedCluster={getIsSelectedCluster}
       spiderfySelectedCluster={false}
-      keyboard={zoomLevel >= DEFAULT_ZOOM}
+      keyboard={zoomLevel >= configuration.map.optionsIncidentMap.zoom}
     />
   )
 }

@@ -4,6 +4,7 @@ import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import MapDetail from 'components/MapDetail'
+import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 
 import ExplanationSection from './components/ExplanationSection'
@@ -30,7 +31,7 @@ export const Map = styled(MapDetail).attrs({
   canFocusMarker: false,
   hasZoomControls: true,
   icon: markerIcon,
-  zoom: 10,
+  zoom: configuration.map.optionsExternalReplyMap.zoom,
 })`
   width: 100%;
   height: 500px;

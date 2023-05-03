@@ -20,7 +20,6 @@ import HighLight from '../../../Highlight'
 
 const mapWidth = 80
 const mapHeight = 80
-const mapZoom = 9
 
 const MapTile = styled.div`
   float: left;
@@ -89,7 +88,7 @@ const Location = ({ location }) => {
                 key={`${lat},${lng}`}
                 value={location}
                 icon={smallMarkerIcon}
-                zoom={mapZoom}
+                zoom={configuration.map.optionsIncidentDetailLocation.zoom}
               />
             </MapTile>
           )}

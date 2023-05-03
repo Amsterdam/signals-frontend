@@ -48,11 +48,12 @@ import AssetLayer from './WfsLayer/AssetLayer'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import { selectionIsUndetermined } from '../../constants'
 
-const MAP_CONTAINER_ZOOM_LEVEL: ZoomLevel = {
-  max: 13,
+const MAP_ASSETS_ZOOM_LEVEL: ZoomLevel = {
+  max: configuration.map.optionsAssetSelector.assetsZoom,
 }
 
-export const MAP_LOCATION_ZOOM = 14
+export const MAP_LOCATION_ZOOM =
+  configuration.map.optionsAssetSelector.locationZoom
 
 const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
@@ -71,8 +72,6 @@ const Selector: FC = () => {
 
   const mapOptions: MapOptions = useMemo(
     () => ({
-      minZoom: 7,
-      maxZoom: 16,
       ...MAP_OPTIONS,
       center,
       dragging: true,
@@ -202,7 +201,7 @@ const Selector: FC = () => {
               {hasFeatureTypes && (
                 <ZoomMessage
                   data-testid="zoom-message"
-                  zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}
+                  zoomLevel={MAP_ASSETS_ZOOM_LEVEL}
                 >
                   Zoom in om de {meta?.language?.objectTypePlural || 'objecten'}{' '}
                   te zien
@@ -227,10 +226,10 @@ const Selector: FC = () => {
           }
         />
 
-        <WfsLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL}>
+        <WfsLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL}>
           <>
             <Layer />
-            <NearbyLayer zoomLevel={MAP_CONTAINER_ZOOM_LEVEL} />
+            <NearbyLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL} />
           </>
         </WfsLayer>
 
