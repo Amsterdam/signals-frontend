@@ -19,8 +19,7 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "showMainCategories": true,
-    "preventProcessingCategoryOverigOverigAndStatusAfgehandeld": true
+    "showMainCategories": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

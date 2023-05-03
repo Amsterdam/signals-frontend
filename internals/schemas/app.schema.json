@@ -145,10 +145,6 @@
         "showMainCategories": {
           "description": "Shows main categories in settings",
           "type": "boolean"
-        },
-        "preventProcessingCategoryOverigOverigAndStatusAfgehandeld": {
-          "description": "An issue is not allowed to have category Overig-overig and status Afgehandeld",
-          "type": "boolean"
         }
       },
       "required": [

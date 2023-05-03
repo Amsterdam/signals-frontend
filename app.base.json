@@ -21,8 +21,7 @@
     "showVulaanControls": false,
     "useProjectenSignalType": false,
     "enableForwardIncidentToExternal": false,
-    "showMainCategories": false,
-    "preventProcessingCategoryOverigOverigAndStatusAfgehandeld": false
+    "showMainCategories": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
