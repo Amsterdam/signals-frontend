@@ -61,5 +61,5 @@ const getSubCategories = (subCategories: SubCategoryBackend[]): SubCategory[] =>
       }
     })
 
-export const showSubCategoryFilter = (array: string[], slug: string) =>
-  array.includes(slug)
+export const showSubCategoryFilter = (filterSlugs: string[], slug: string) =>
+  filterSlugs.includes(slug)
