@@ -1,4 +1,3 @@
-import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import { getFilterCategoriesWithIcons } from './utils'
@@ -8,12 +7,6 @@ import { fetchCategoriesResponse } from '../__test__'
 jest.mock('shared/services/configuration/configuration')
 
 describe('getFilterCategoriesWithIcon', () => {
-  beforeEach(() => {
-    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
-      'afval',
-      'wegen-verkeer-straatmeubilair',
-    ]
-  })
   const mockData =
     fetchCategoriesResponse.results as unknown as Categories['results']
 

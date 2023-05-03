@@ -106,7 +106,6 @@
       "zoom": 12
     },
     "optionsIncidentMap": {
-      "hasSubfiltersEnabled": ["main-category-slug"],
       "zoom": 9,
       "flyToMinZoom": 12,
       "flyToMaxZoom": 14

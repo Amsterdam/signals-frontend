@@ -611,13 +611,6 @@
       "description": "Array with slugs of main categories that will show subfilters based on the connected subcategories. Note: main category 'overig', cannot have subcategory filters since it has the same slug as one of his subcategories.",
       "title": "OptionsIncidentMap",
       "properties": {
-        "hasSubfiltersEnabled": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 0
-        },
         "zoom": {
           "type": "integer"
         },
