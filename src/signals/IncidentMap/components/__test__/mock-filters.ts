@@ -7,6 +7,7 @@ export const mockFiltersShort: Filter[] = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
     name: 'Afval',
     slug: 'afval',
+    show_children_in_filter: true,
     subCategories: [
       {
         public_name: 'Container bijplaatsing (Afval)',
@@ -44,6 +45,7 @@ export const mockFiltersLong = [
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
     name: 'Afval',
     slug: 'afval',
+    show_children_in_filter: true,
     subCategories: [
       {
         _display: 'Container bijplaatsing (Afval)',
@@ -164,6 +166,7 @@ export const mockFiltersLong = [
     filterActive: true,
     name: 'Wegen, verkeer, straatmeubilair',
     slug: 'wegen-verkeer-straatmeubilair',
+    show_children_in_filter: true,
     subCategories: [
       {
         _display: 'Autom. Verzinkbare palen (Wegen, verkeer, straatmeubilair)',
