@@ -128,21 +128,19 @@ export const CategoryForm = ({
                   control={formMethods.control}
                   render={({ field: { name, value, onChange } }) => (
                     <FieldGroup>
-                      <>
-                        <StyledLabel
-                          htmlFor={name}
-                          label={isPublicAccessibleLabel}
-                          data-testid="category-is-public-accessible"
-                          disabled={readOnly}
-                        >
-                          <Checkbox
-                            checked={value}
-                            name={name}
-                            id={name}
-                            onChange={onChange}
-                          />
-                        </StyledLabel>
-                      </>
+                      <StyledLabel
+                        htmlFor={name}
+                        label={isPublicAccessibleLabel}
+                        data-testid="category-is-public-accessible"
+                        disabled={readOnly}
+                      >
+                        <Checkbox
+                          checked={value}
+                          name={name}
+                          id={name}
+                          onChange={onChange}
+                        />
+                      </StyledLabel>
                     </FieldGroup>
                   )}
                 />
@@ -150,25 +148,21 @@ export const CategoryForm = ({
                   <Controller
                     name="show_children_in_filter"
                     control={formMethods.control}
-                    render={({ field: { name, value, onChange } }) => {
-                      return (
-                        <>
-                          <StyledLabel
-                            htmlFor={name}
-                            label="Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden"
-                            data-testid="show_children_in_filter"
-                            disabled={readOnly}
-                          >
-                            <Checkbox
-                              checked={value}
-                              name={name}
-                              id={name}
-                              onChange={onChange}
-                            />
-                          </StyledLabel>
-                        </>
-                      )
-                    }}
+                    render={({ field: { name, value, onChange } }) => (
+                      <StyledLabel
+                        htmlFor={name}
+                        label="Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden"
+                        data-testid="show_children_in_filter"
+                        disabled={readOnly}
+                      >
+                        <Checkbox
+                          checked={value}
+                          name={name}
+                          id={name}
+                          onChange={onChange}
+                        />
+                      </StyledLabel>
+                    )}
                   />
                 )}
               </FieldGroup>
