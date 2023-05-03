@@ -27,6 +27,7 @@ export type Filter = {
   icon?: string
   subCategories?: SubCategory[]
   incidentsCount: number
+  show_children_in_filter?: boolean
 }
 
 export type SubCategory = Omit<Filter, 'subCategories'>

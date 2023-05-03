@@ -21,31 +21,37 @@ export const getFilteredIncidents = (
     return acc
   }, [])
 
+  const mainCategoriesWithSub = filters
+    .filter((filter) => filter.show_children_in_filter)
+    .map((filter) => filter.slug)
+
   const activeIncidents = incidents.filter((incident) => {
     const activeSlugs = activeFilters.map((filter) => filter.slug)
     return (
       activeSlugs.includes(incident.properties.category.slug) ||
-      (!showSubCategoryFilter(incident.properties.category.parent.slug) &&
+      (!showSubCategoryFilter(
+        mainCategoriesWithSub,
+        incident.properties.category.parent.slug
+      ) &&
         activeSlugs.includes(incident.properties.category.parent.slug))
     )
   })
 
-  const activeIncidentsWithIcon = addIconsToIncidents(
-    activeIncidents,
-    activeFilters
-  )
-
-  return activeIncidentsWithIcon
+  return activeIncidents
 }
 
-const addIconsToIncidents = (
-  activeIncidents: Incident[],
-  activeFilters: Filter[]
+export const addIconsToIncidents = (
+  filters: Filter[],
+  incidents: Incident[],
+  listedIcons: Icon[]
 ) => {
-  const listedIcons = getListOfIcons(activeFilters)
+  const mainCategoriesWithSub = filters
+    .filter((filter) => filter.show_children_in_filter)
+    .map((filter) => filter.slug)
 
-  return activeIncidents.map((incident) => {
+  return incidents.map((incident) => {
     const hasSubFiltersEnabled = showSubCategoryFilter(
+      mainCategoriesWithSub,
       incident.properties.category.parent.slug
     )
 
@@ -70,7 +76,7 @@ const addIconsToIncidents = (
   })
 }
 
-const getListOfIcons = (filters: Filter[]) => {
+export const getListOfIcons = (filters: Filter[]) => {
   const allFilters = filters.reduce((acc: Filter[], filter: Filter) => {
     acc.push(filter)
     if (filter.subCategories) {

@@ -1,3 +1,7 @@
 export { updateFilterCategory } from './update-filter-category'
-export { getFilteredIncidents } from './get-filtered-incidents'
+export {
+  addIconsToIncidents,
+  getFilteredIncidents,
+  getListOfIcons,
+} from './get-filtered-incidents'
 export { countIncidentsPerFilter } from './count-incidents-per-filter'

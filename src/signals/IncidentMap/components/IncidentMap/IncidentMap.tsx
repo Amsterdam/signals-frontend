@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-import { useCallback, useEffect, useRef, useState } from 'react'
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
@@ -27,7 +27,12 @@ import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
-import { countIncidentsPerFilter, getFilteredIncidents } from '../utils'
+import {
+  countIncidentsPerFilter,
+  getFilteredIncidents,
+  addIconsToIncidents,
+  getListOfIcons,
+} from '../utils'
 
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
@@ -43,8 +48,11 @@ export const IncidentMap = () => {
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
   const selectedMarkerRef = useRef<L.Marker<Properties>>()
 
+  const [incidents, setIncidents] = useState<Incident[]>()
   const [filters, setFilters] = useState<Filter[]>([])
   const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>()
+
+  const listedIcons = useMemo(() => getListOfIcons(filters), [filters])
 
   const mode = useDeviceMode()
 
@@ -99,7 +107,7 @@ export const IncidentMap = () => {
   }, [resetSelectedMarker, map])
 
   /* istanbul ignore next */
-  const { incidents, error, getIncidents } = usePaginatedIncidents()
+  const { incidents: data, error, getIncidents } = usePaginatedIncidents()
 
   /* istanbul ignore next */
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,13 +125,21 @@ export const IncidentMap = () => {
     }
   }, [bbox, throttledGetIncidents])
 
+  useEffect(() => {
+    const incidentsWithIcons = addIconsToIncidents(filters, data, listedIcons)
+
+    setIncidents(incidentsWithIcons)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
   /* istanbul ignore next */
   useEffect(() => {
-    if (incidents.length === 0) return
+    if (!incidents || incidents.length === 0) return
 
     const filteredIncidents = getFilteredIncidents(filters, incidents)
 
     setFilteredIncidents(filteredIncidents)
+
     const filterFromIncidents = countIncidentsPerFilter(filters, incidents)
     if (!isEqual(filterFromIncidents, filters)) {
       setFilters(filterFromIncidents)
