@@ -20,7 +20,7 @@
     "showVulaanControls": true,
     "useProjectenSignalType": false,
     "showMainCategories": true,
-    "": true
+    "disableClosingCategoryOverigOverig": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
