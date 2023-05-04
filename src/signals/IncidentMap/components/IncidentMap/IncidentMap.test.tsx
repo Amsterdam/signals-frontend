@@ -55,11 +55,11 @@ jest.mocked(reverseGeocoderService).mockImplementation(async () => {
 describe('IncidentMap', () => {
   beforeEach(() => {
     get.mockReset()
-    jest.mocked(usePaginatedIncidents).mockImplementation(() => ({
+    jest.mocked(usePaginatedIncidents).mockReturnValue({
       incidents: [],
       getIncidents: mockGetIncidents,
       error: null,
-    }))
+    })
   })
 
   it('should render the incident map correctly', () => {
@@ -84,11 +84,11 @@ describe('IncidentMap', () => {
   })
 
   it('shows a message when the API returns an error', () => {
-    jest.mocked(usePaginatedIncidents).mockImplementation(() => ({
+    jest.mocked(usePaginatedIncidents).mockReturnValue({
       incidents: [],
       getIncidents: jest.fn(),
       error: new Error(),
-    }))
+    })
 
     render(withAppContext(<IncidentMap />))
 
@@ -130,11 +130,11 @@ describe('IncidentMap', () => {
   })
 
   it('should close the error message when close button is clicked', () => {
-    jest.mocked(usePaginatedIncidents).mockImplementationOnce(() => ({
+    jest.mocked(usePaginatedIncidents).mockReturnValue({
       incidents: [],
       getIncidents: jest.fn(),
       error: new Error(),
-    }))
+    })
 
     render(withAppContext(<IncidentMap />))
     expect(

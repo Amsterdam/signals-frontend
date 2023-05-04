@@ -2,14 +2,15 @@ import type { Filter } from '../../types'
 
 export const mockFiltersShort: Filter[] = [
   {
-    _display: 'Afval',
+    public_name: 'Afval',
     filterActive: true,
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
     name: 'Afval',
     slug: 'afval',
+    show_children_in_filter: true,
     subCategories: [
       {
-        _display: 'Container bijplaatsing (Afval)',
+        public_name: 'Container bijplaatsing (Afval)',
         filterActive: true,
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
         name: 'Container bijplaatsing',
@@ -17,7 +18,7 @@ export const mockFiltersShort: Filter[] = [
         incidentsCount: 0,
       },
       {
-        _display: 'Container glas kapot (Afval)',
+        public_name: 'Container glas kapot (Afval)',
         filterActive: false,
         icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/container-glas-kapot/glas.svg?temp_url_sig=7b6c01926248bbb41d4de407f2e6a14f970d3d790ecc0d9ca6102bae2332e7c8&temp_url_expires=1665401494',
         name: 'Container glas kapot',
@@ -28,7 +29,7 @@ export const mockFiltersShort: Filter[] = [
     incidentsCount: 0,
   },
   {
-    _display: 'Openbaar groen en water',
+    public_name: 'Openbaar groen en water',
     filterActive: true,
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/openbaar-groen-en-water/bomen_planten.svg?temp_url_sig=18c662680477047ec1edcb8c18bc67d4cfe6805fd129a5e6c1df5f84708df0b5&temp_url_expires=1665401494',
     name: 'Openbaar groen en water',
@@ -39,11 +40,12 @@ export const mockFiltersShort: Filter[] = [
 
 export const mockFiltersLong = [
   {
-    _display: 'Afval',
+    public_name: 'Afval',
     filterActive: true,
     icon: 'https://ae70d54aca324d0480ca01934240c78f.objectstore.eu/signals/icons/categories/afval/afval.svg?temp_url_sig=6679c552c423eb18ffe55643e5692fb4c348bde4e2bde851f33a7aef8d0474fe&temp_url_expires=1665401494',
     name: 'Afval',
     slug: 'afval',
+    show_children_in_filter: true,
     subCategories: [
       {
         _display: 'Container bijplaatsing (Afval)',
@@ -164,6 +166,7 @@ export const mockFiltersLong = [
     filterActive: true,
     name: 'Wegen, verkeer, straatmeubilair',
     slug: 'wegen-verkeer-straatmeubilair',
+    show_children_in_filter: true,
     subCategories: [
       {
         _display: 'Autom. Verzinkbare palen (Wegen, verkeer, straatmeubilair)',

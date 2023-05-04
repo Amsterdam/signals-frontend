@@ -47,7 +47,7 @@ export interface Category {
 export interface SubCategory {
   name: string
   slug: string
-  _display: string
+  public_name: string
   filterActive: boolean
   is_public_accessible: boolean
   _links: {

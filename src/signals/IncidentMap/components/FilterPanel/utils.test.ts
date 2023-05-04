@@ -1,4 +1,3 @@
-import configuration from 'shared/services/configuration/configuration'
 import type Categories from 'types/api/categories'
 
 import { getFilterCategoriesWithIcons } from './utils'
@@ -8,12 +7,6 @@ import { fetchCategoriesResponse } from '../__test__'
 jest.mock('shared/services/configuration/configuration')
 
 describe('getFilterCategoriesWithIcon', () => {
-  beforeEach(() => {
-    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
-      'afval',
-      'wegen-verkeer-straatmeubilair',
-    ]
-  })
   const mockData =
     fetchCategoriesResponse.results as unknown as Categories['results']
 
@@ -46,22 +39,15 @@ describe('getFilterCategoriesWithIcon', () => {
 })
 
 describe('showSubCategoryFilter', () => {
-  beforeEach(() => {
-    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = [
-      'afval',
-      'wegen-verkeer-straatmeubilair',
-    ]
-  })
-
   it('should return false on default', () => {
-    configuration.map.optionsIncidentMap.hasSubfiltersEnabled = []
-    const result = showSubCategoryFilter('afval')
+    const result = showSubCategoryFilter([], 'afval')
 
     expect(result).toEqual(false)
   })
 
   it('should return true when main category has subFilter enabled', () => {
-    const result = showSubCategoryFilter('afval')
+    const filterSlug = ['afval', 'wegen-verkeer-straatmeubilair']
+    const result = showSubCategoryFilter(filterSlug, 'afval')
 
     expect(result).toEqual(true)
   })
