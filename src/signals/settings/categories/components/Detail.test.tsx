@@ -31,7 +31,7 @@ const pushSpy = jest.fn()
 const useHistorySpy = { push: pushSpy } as any
 jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
 
-const categoryJSON = subCategories.find((sub) => sub?._links['sia:parent'])
+const categoryJSON = subCategories?.find((sub) => sub?._links['sia:parent'])
 
 const mockLocation = {
   hash: '',

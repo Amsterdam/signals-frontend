@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 /**
  * Create the store with dynamic reducers
  */
 
-import { routerMiddleware } from 'connected-react-router/immutable'
-import type { History } from 'history'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
@@ -18,11 +16,12 @@ import type { InjectedStore } from 'types'
 import type { ResponseError } from 'utils/request'
 
 import createReducer from './reducers'
+import {
+  createReduxHistory,
+  routerMiddleware,
+} from './utils/reduxHistoryContext'
 
-export default function configureStore(
-  initialState: Record<string, any>,
-  history: History
-) {
+export default function configureStore(initialState: Record<string, any>) {
   const reduxSagaMonitorOptions = {
     /* istanbul ignore next */
     onError: (error: ResponseError) => {
@@ -47,7 +46,7 @@ export default function configureStore(
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)]
+  const middlewares = [sagaMiddleware, routerMiddleware]
 
   let enhancers = applyMiddleware(...middlewares)
 
@@ -73,9 +72,11 @@ export default function configureStore(
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer(store.injectedReducers))
+      store.replaceReducer(createReducer({ ...store.injectedReducers }))
     })
   }
 
-  return store
+  const reduxHistory = createReduxHistory(store)
+
+  return { store, history: reduxHistory }
 }

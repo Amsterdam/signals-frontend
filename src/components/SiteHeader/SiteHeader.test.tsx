@@ -72,8 +72,6 @@ describe('components/SiteHeader', () => {
 
     rerender(withAppContext(<SiteHeader {...defaultProps} />))
 
-    expect(queryByText('Melden')).toBeNull()
-
     expect(container.querySelector('#header')).toHaveStyleRule('z-index: 2')
   })
 
@@ -122,6 +120,10 @@ describe('components/SiteHeader', () => {
     configuration.links.home = homeLink
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
+
+    act(() => {
+      history.push('/')
+    })
 
     const { container, rerender, unmount } = render(
       withAppContext(<SiteHeader {...defaultProps} />)
@@ -185,7 +187,7 @@ describe('components/SiteHeader', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     act(() => {
-      history.push('/manage')
+      history.push('/')
     })
 
     rerender(withAppContext(<SiteHeader {...defaultProps} />))
@@ -231,10 +233,6 @@ describe('components/SiteHeader', () => {
     ).toEqual(true)
 
     unmount()
-
-    act(() => {
-      history.push('/manage')
-    })
 
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 

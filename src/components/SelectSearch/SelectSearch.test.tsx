@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
@@ -121,7 +121,7 @@ describe('<SelectSearch />', () => {
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
   })
 
-  it('should focus on the input when pressing the escape key', () => {
+  it('should focus on the input when pressing the escape key', async () => {
     render(<SelectSearch {...props} onChange={onChangeMock} />)
 
     userEvent.click(screen.getByRole('combobox'))
@@ -134,7 +134,9 @@ describe('<SelectSearch />', () => {
 
     userEvent.keyboard('{esc}')
 
-    expect(screen.getByRole('combobox')).toHaveFocus()
+    await waitFor(() => {
+      expect(screen.getByRole('combobox')).toHaveFocus()
+    })
   })
 
   it('should close the listbox when pressing tab and input is foccused', async () => {

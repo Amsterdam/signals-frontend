@@ -28,6 +28,7 @@ jest.mock('containers/App/actions')
 
 const mockedUseParams = mocked(reactRouterDom.useParams, true)
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useParams: jest.fn(),
 }))
 

@@ -3,15 +3,12 @@
  */
 
 import { render } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 import { put } from 'redux-saga/effects'
 
 import configureStore from '../../configureStore'
 import injectSaga, { useInjectSaga } from '../injectSaga'
 import { getInjectors } from '../sagaInjectors'
-
-const memoryHistory = createMemoryHistory()
 
 // Fixtures
 const Component = () => null
@@ -66,7 +63,7 @@ describe('useInjectSaga hook', () => {
   })
 
   beforeEach(() => {
-    store = configureStore({}, memoryHistory)
+    ;({ store } = configureStore({}))
     injectors = {
       injectSaga: jest.fn(),
       ejectSaga: jest.fn(),

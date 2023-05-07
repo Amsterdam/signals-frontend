@@ -5,7 +5,6 @@
 import identity from 'lodash/identity'
 
 import configureStore from '../../configureStore'
-import history from '../history'
 import { getInjectors, injectReducerFactory } from '../reducerInjectors'
 
 const initialState = { reduced: 'soon' }
@@ -25,7 +24,7 @@ describe('reducer injectors', () => {
 
   describe('getInjectors', () => {
     beforeEach(() => {
-      store = configureStore({}, history)
+      ;({ store } = configureStore({}))
     })
 
     it('should return injectors', () => {
@@ -45,7 +44,7 @@ describe('reducer injectors', () => {
 
   describe('injectReducer helper', () => {
     beforeEach(() => {
-      store = configureStore({}, history)
+      ;({ store } = configureStore({}))
       injectReducer = injectReducerFactory(store, true)
     })
 

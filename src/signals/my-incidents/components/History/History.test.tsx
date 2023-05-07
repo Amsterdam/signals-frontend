@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
 
 import { History } from './index'
@@ -14,6 +14,7 @@ jest.mock('hooks/useFetch')
 const mockPush = jest.fn()
 
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
     push: mockPush,
   }),

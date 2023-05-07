@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 /**
  * Test injectors
  */
 
-import { createMemoryHistory } from 'history'
 import { put } from 'redux-saga/effects'
 
 import type { InjectedStore } from 'types'
@@ -16,8 +15,6 @@ import {
   injectSagaFactory,
   ejectSagaFactory,
 } from '../sagaInjectors'
-
-const memoryHistory = createMemoryHistory()
 
 function* testSaga() {
   yield put({ type: 'TEST', payload: 'yup' })
@@ -31,7 +28,7 @@ describe('injectors', () => {
 
   describe('getInjectors', () => {
     beforeEach(() => {
-      store = configureStore({}, memoryHistory)
+      ;({ store } = configureStore({}))
     })
 
     it('should return injectors', () => {
@@ -52,7 +49,7 @@ describe('injectors', () => {
 
   describe('ejectSaga helper', () => {
     beforeEach(() => {
-      store = configureStore({}, memoryHistory)
+      ;({ store } = configureStore({}))
       injectSaga = injectSagaFactory(store, true)
       ejectSaga = ejectSagaFactory(store, true)
     })
@@ -127,7 +124,7 @@ describe('injectors', () => {
 
   describe('injectSaga helper', () => {
     beforeEach(() => {
-      store = configureStore({}, memoryHistory)
+      ;({ store } = configureStore({}))
       injectSaga = injectSagaFactory(store, true)
       ejectSaga = ejectSagaFactory(store, true)
     })

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { ascDefaultTheme as theme } from '@amsterdam/asc-ui'
 import { render, act, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -407,7 +407,7 @@ describe('components/Notification', () => {
     })
 
     // Comparing the calls to history.listen. We cannot assert that `listen` has not been called, since the
-    // instantiation of connected-react-router will already have done that
+    // instantiation of redux-first-history will already have done that
     expect(callsToHistoryListen).toEqual(listenSpy.mock.calls)
   })
 

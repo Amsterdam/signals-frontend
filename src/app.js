@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import * as Sentry from '@sentry/browser'
-import { ConnectedRouter } from 'connected-react-router/immutable'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { Router } from 'react-router-dom'
 
 import App from 'containers/App'
 import { authenticateUser } from 'containers/App/actions'
 import loadModels from 'models'
 import { authenticate } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import history from 'utils/history'
 
 // Import root app
 
@@ -45,7 +44,7 @@ if (connectionString) {
 
 // Create redux store with history
 const initialState = {}
-const store = configureStore(initialState, history)
+const { store, history: reduxHistory } = configureStore(initialState)
 const MOUNT_NODE = document.getElementById('app')
 
 loadModels(store)
@@ -67,9 +66,9 @@ const render = () => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <Router history={reduxHistory}>
         <App />
-      </ConnectedRouter>
+      </Router>
     </Provider>,
     MOUNT_NODE
   )
