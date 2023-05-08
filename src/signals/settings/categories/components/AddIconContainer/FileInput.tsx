@@ -1,63 +1,91 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { TrashBin } from '@amsterdam/asc-assets'
-import { Alert } from '@amsterdam/asc-ui'
+
+import fileSize from 'signals/incident/services/file-size'
 
 import {
   DeleteButton,
   FileInputWrapper,
+  StyledAlert,
   StyledButton,
   StyledImg,
   WrapperIconAdd,
 } from './styled'
+import ErrorMessage from '../../../../../components/ErrorMessage'
 import { default as AddIcon } from '../../../../incident-management/containers/IncidentDetail/components/FileInput/index'
 
-export const FileInput = () => {
+const ALLOWED_FILE_TYPE = 'svg'
+const MAX = 20 * 2 ** 20 // 20 MiB
+
+export interface Props {
+  updateErrorUploadIcon: (arg: boolean) => void
+}
+export const FileInput = ({ updateErrorUploadIcon }: Props) => {
   const [file, setFile] = useState<File>()
+  const [error, setError] = useState('')
+  const [$hasError, set$hasError] = useState(false)
 
   const icon = file ? window.URL.createObjectURL(file) : ''
   const IconButtonText = file ? 'Icoon wijzigen' : 'Icoon toevoegen'
+
+  const handleIconClick = useCallback(
+    (file: File[]) => {
+      setError('')
+      setFile(undefined)
+      set$hasError(false)
+      if (file[0].name.slice(file[0].name.length - 3) != ALLOWED_FILE_TYPE) {
+        updateErrorUploadIcon(true)
+        set$hasError(true)
+        setError('Dit is het verkeerde bestandstype. Upload een .svg-bestand.')
+        return
+      }
+      if (file[0].size > MAX) {
+        updateErrorUploadIcon(true)
+        set$hasError(true)
+        setError(
+          `Dit bestand is te groot. De maximale bestandsgrootte is ${fileSize(
+            MAX
+          )}.`
+        )
+        return
+      }
+
+      if (file && !error) setFile(file[0])
+    },
+    [error, updateErrorUploadIcon]
+  )
+
   const removeFile = () => {
-    return 1 + 1
-  }
-  const handleIconClick = (file: File[]) => {
-    setFile(file[0])
+    setError('')
+    setFile(undefined)
   }
 
-  // const removeFile = useCallback(
-  //   (_event, index: number) => {
-  //     setKeyValue(keyValue + 1)
-  //
-  //     window.URL.revokeObjectURL(previews[index])
-  //
-  //     const newFiles = files.filter((_file, fileIndex) => fileIndex !== index)
-  //
-  //     onChange(newFiles)
-  //   },
-  //   [files, onChange, previews, keyValue]
-  // )
   return (
     <>
       <FileInputWrapper>
         {file && (
           <>
             <StyledImg alt={'icon added'} src={icon} />
-            <Alert level="info">
-              Let op! Er wordt geen back-up van het icoon gemaakt. Om te
-              annuleren gebruik de knop onderaan de pagina{' '}
-            </Alert>
+            <StyledAlert>
+              <b>Let op! Er wordt geen back-up van het icoon gemaakt.</b>
+              <p>Om te annuleren gebruik de knop onderaan de pagina.</p>
+            </StyledAlert>
           </>
         )}
+        {error && <ErrorMessage message={error} />}
         <WrapperIconAdd>
           <AddIcon multiple={false} name="addIcon" onChange={handleIconClick}>
             <StyledButton
+              name="Icon"
               variant="application"
               type="button"
               forwardedAs={'span'}
               tabIndex={0}
+              $hasError={$hasError}
             >
               {IconButtonText}
             </StyledButton>

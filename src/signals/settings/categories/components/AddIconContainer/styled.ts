@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { ChevronDown } from '@amsterdam/asc-assets'
-import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Alert, Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 export const WrapperInfo = styled.div`
@@ -12,7 +11,7 @@ export const WrapperInfo = styled.div`
 
 export const StyledInfo = styled.p`
   color: ${themeColor('primary')};
-  margin: ${themeSpacing(0, 1.25, 1.75, 0)};
+  margin: ${themeSpacing(1.5, 1.25, 0, 0)};
 `
 export const InvisibleButton = styled.button<{ toggle: boolean }>`
   text-decoration: none;
@@ -31,38 +30,49 @@ export const InvisibleButton = styled.button<{ toggle: boolean }>`
       `}
   }
 `
-
-export const StyledChevronDown = styled(ChevronDown)`
-  width: ${themeSpacing(3.5)};
-  color: ${themeColor('primary')};
-`
-
 export const StyledImg = styled.img`
   max-height: ${themeSpacing(8)};
-  margin-right: ${themeSpacing(1)};
+  align-self: flex-start;
+  margin-top: ${themeSpacing(1.5)};
 `
 
 export const StyledInstructions = styled.p`
   color: ${themeColor('tint', 'level6')};
-  margin: ${themeSpacing(0, 0, 2.5)};
+  margin: ${themeSpacing(0)};
 `
 
 export const FileInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+export const StyledAlert = styled(Alert)`
+  background-color: ${themeColor('primary')};
+  color: ${themeColor('tint', 'level1')};
+  margin-top: ${themeSpacing(5)};
+`
 export const WrapperIconAdd = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: ${themeSpacing(5)};
 `
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)<{
+  $hasError: boolean
+}>`
   background-color: ${themeColor('tint', 'level1')};
   height: ${themeSpacing(8)};
   color: ${themeColor('tint', 'level7')};
   margin-right: ${themeSpacing(3.25)};
   font-weight: 700;
-  border-color: ${themeColor('tint', 'level6')};
+  ${({ $hasError }) =>
+    $hasError
+      ? css`
+          border-color: ${themeColor('secondary')};
+        `
+      : css`
+          border-color: ${themeColor('tint', 'level6')};
+        `}
 `
 export const DeleteButton = styled(Button).attrs(() => ({
   size: 13,

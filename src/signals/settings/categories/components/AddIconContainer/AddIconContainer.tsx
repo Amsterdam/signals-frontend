@@ -6,7 +6,6 @@ import { Fragment, useState } from 'react'
 import { FileInput } from './FileInput'
 import {
   InvisibleButton,
-  StyledChevronDown,
   StyledImg,
   StyledInfo,
   StyledInstructions,
@@ -14,10 +13,14 @@ import {
 } from './styled'
 import { StyledHeading } from '../styled'
 
-export const AddIconContainer = () => {
+export interface Props {
+  updateErrorUploadIcon: (arg: boolean) => void
+}
+export const AddIconContainer = ({ updateErrorUploadIcon }: Props) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(true)
 
   const icon = '/assets/images/afval/rest.svg'
+  const iconChevronDownBlue = '/assets/images/chevron-down-blue.svg'
   return (
     <Fragment>
       <StyledHeading>Icoon</StyledHeading>
@@ -30,23 +33,24 @@ export const AddIconContainer = () => {
           title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
           aria-expanded={showSubsection}
           toggle={showSubsection}
-          onClick={() => {
+          onClick={(event) => {
+            event.preventDefault()
             setShowSubsection(!showSubsection)
           }}
         >
-          <StyledChevronDown />
+          <StyledImg alt={'icon chevrondown blue'} src={iconChevronDownBlue} />
         </InvisibleButton>
       </WrapperInfo>
       {showSubsection && (
         <>
           <StyledInstructions>
-            Zorg voor een circel van 32px bij 32px en exporteer als SVG.{' '}
+            Zorg voor een circel van 32px bij 32px en exporteer als SVG.
           </StyledInstructions>
           <StyledInstructions>Voorbeeld van een icoon:</StyledInstructions>
           <StyledImg alt={'example of an icon'} src={icon} />
         </>
       )}
-      <FileInput />
+      <FileInput updateErrorUploadIcon={updateErrorUploadIcon} />
     </Fragment>
   )
 }

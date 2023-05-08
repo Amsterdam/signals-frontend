@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
-import { Fragment, useMemo, useCallback, useEffect } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,11 @@ import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
 import { getPatchPayload } from './utils'
+import { showGlobalNotification } from '../../../../containers/App/actions'
+import {
+  TYPE_LOCAL,
+  VARIANT_ERROR,
+} from '../../../../containers/Notification/constants'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 import type { CategoryFormValues } from '../types'
@@ -40,7 +45,11 @@ export const CategoryDetail = ({
 }: Props) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const [errorUploadIcon, setErrorUploadIcon] = useState(false)
 
+  const updateErrorUploadIcon = (IconError: boolean): void => {
+    setErrorUploadIcon(IconError)
+  }
   const location = useLocationReferrer()
 
   const redirectURL =
@@ -130,6 +139,16 @@ export const CategoryDetail = ({
   }, [confirmedCancel, isDirty])
 
   const onSubmit = useCallback(() => {
+    if (errorUploadIcon) {
+      dispatch(
+        showGlobalNotification({
+          title: 'De wijzigingen kunnen niet worden opgeslagen',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+      return false
+    }
     if (!isDirty) {
       history.push(redirectURL)
     }
@@ -138,7 +157,16 @@ export const CategoryDetail = ({
 
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
+  }, [
+    isDirty,
+    formMethods,
+    patch,
+    categoryURL,
+    history,
+    redirectURL,
+    dispatch,
+    errorUploadIcon,
+  ])
 
   if (!data || !historyData) return null
 
@@ -161,6 +189,7 @@ export const CategoryDetail = ({
         readOnly={!userCanSubmitForm}
         responsibleDepartments={responsibleDepartments}
         isPublicAccessibleLabel={isPublicAccessibleLabel}
+        updateErrorUploadIcon={updateErrorUploadIcon}
       />
     </Fragment>
   )

@@ -48,6 +48,7 @@ export interface Props {
   responsibleDepartments: string[]
   isMainCategory: boolean
   isPublicAccessibleLabel: string
+  updateErrorUploadIcon: (arg: boolean) => void
 }
 
 export const CategoryForm = ({
@@ -60,6 +61,7 @@ export const CategoryForm = ({
   responsibleDepartments,
   isMainCategory,
   isPublicAccessibleLabel,
+  updateErrorUploadIcon,
 }: Props) => (
   <FormProvider {...formMethods}>
     <FormContainer>
@@ -168,7 +170,7 @@ export const CategoryForm = ({
                 )}
               </FieldGroup>
 
-              <AddIconContainer />
+              <AddIconContainer updateErrorUploadIcon={updateErrorUploadIcon} />
 
               {formValues.is_public_accessible && (
                 <FieldGroup>
