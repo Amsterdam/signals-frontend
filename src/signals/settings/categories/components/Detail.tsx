@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
-import { Fragment, useMemo, useCallback, useEffect } from 'react'
+import { Fragment, useCallback, useEffect, useMemo } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,7 @@ import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
 import { getPatchPayload } from './utils'
+
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 import type { CategoryFormValues } from '../types'
@@ -40,7 +41,11 @@ export const CategoryDetail = ({
 }: Props) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  //const [errorUploadIcon, setErrorUploadIcon] = useState(false)
 
+  // const updateErrorUploadIcon = (IconError: boolean): void => {
+  //   //setErrorUploadIcon(IconError)
+  // }
   const location = useLocationReferrer()
 
   const redirectURL =
@@ -79,6 +84,7 @@ export const CategoryDetail = ({
       note: data.note,
       n_days: data.sla.n_days,
       use_calendar_days: data.sla.use_calendar_days ? 1 : 0,
+      icon: data._links['sia:icon']?.href,
       ...(isMainCategory && {
         show_children_in_filter:
           data?.configuration?.show_children_in_filter || false,
@@ -130,15 +136,22 @@ export const CategoryDetail = ({
   }, [confirmedCancel, isDirty])
 
   const onSubmit = useCallback(() => {
+    // dispatch(
+    //   showGlobalNotification({
+    //     title: 'De wijzigingen kunnen niet worden opgeslagen.',
+    //     variant: VARIANT_ERROR,
+    //     type: TYPE_LOCAL,
+    //   })
+    // )
+
     if (!isDirty) {
       history.push(redirectURL)
     }
 
     const formData = formMethods.getValues()
-
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
+  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL, dispatch])
 
   if (!data || !historyData) return null
 
@@ -161,6 +174,7 @@ export const CategoryDetail = ({
         readOnly={!userCanSubmitForm}
         responsibleDepartments={responsibleDepartments}
         isPublicAccessibleLabel={isPublicAccessibleLabel}
+        // updateErrorUploadIcon={updateErrorUploadIcon}
       />
     </Fragment>
   )
