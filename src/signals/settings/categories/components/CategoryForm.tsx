@@ -12,6 +12,7 @@ import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import type { History as HistoryType } from 'types/history'
 
+import { AddIconContainer } from './AddIconContainer/AddIconContainer'
 import {
   FieldGroup,
   StyledColumn,
@@ -166,6 +167,8 @@ export const CategoryForm = ({
                   />
                 )}
               </FieldGroup>
+
+              <AddIconContainer />
 
               {formValues.is_public_accessible && (
                 <FieldGroup>
