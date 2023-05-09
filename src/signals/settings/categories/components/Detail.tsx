@@ -88,6 +88,7 @@ export const CategoryDetail = ({
       note: data.note,
       n_days: data.sla.n_days,
       use_calendar_days: data.sla.use_calendar_days ? 1 : 0,
+      addIcon: data._links['sia:icon']?.href,
       ...(isMainCategory && {
         show_children_in_filter:
           data?.configuration?.show_children_in_filter || false,
@@ -142,7 +143,7 @@ export const CategoryDetail = ({
     if (errorUploadIcon) {
       dispatch(
         showGlobalNotification({
-          title: 'De wijzigingen kunnen niet worden opgeslagen',
+          title: 'De wijzigingen kunnen niet worden opgeslagen.',
           variant: VARIANT_ERROR,
           type: TYPE_LOCAL,
         })
@@ -154,7 +155,6 @@ export const CategoryDetail = ({
     }
 
     const formData = formMethods.getValues()
-
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
   }, [

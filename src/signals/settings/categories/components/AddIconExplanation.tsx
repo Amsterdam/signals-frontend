@@ -3,21 +3,16 @@
 
 import { Fragment, useCallback, useState } from 'react'
 
-import { FileInput } from './FileInput'
 import {
   InvisibleButton,
+  StyledHeading,
   StyledImg,
   StyledInfo,
   StyledInstructions,
   WrapperInfo,
 } from './styled'
-import { StyledHeading } from '../styled'
 
-export interface Props {
-  updateErrorUploadIcon: (arg: boolean) => void
-}
-
-export const AddIconContainer = ({ updateErrorUploadIcon }: Props) => {
+export const AddIconExplanation = () => {
   const [showSubsection, setShowSubsection] = useState<boolean>(false)
 
   const handleClick = useCallback(
@@ -57,7 +52,6 @@ export const AddIconContainer = ({ updateErrorUploadIcon }: Props) => {
           <StyledImg alt={'example of an icon'} src={icon} />
         </>
       )}
-      <FileInput updateErrorUploadIcon={updateErrorUploadIcon} />
     </Fragment>
   )
 }

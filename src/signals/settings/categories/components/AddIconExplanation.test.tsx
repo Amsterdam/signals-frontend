@@ -4,33 +4,29 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import type { Props } from './AddIconContainer'
-import { AddIconContainer } from './AddIconContainer'
+import { AddIconExplanation } from './AddIconExplanation'
 
-const defaultProps: Props = {
-  updateErrorUploadIcon: jest.fn(),
-}
 describe('AddIconContainer', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-  it('should render the AddIconContainer', async () => {
-    render(<AddIconContainer {...defaultProps} />)
+  it('should render the AddIconExplanation', async () => {
+    render(<AddIconExplanation />)
     expect(
       screen.getByText('Het icoon wordt getoond op de openbare meldingenkaart')
     ).toBeInTheDocument()
   })
 
-  it('should not show example icon when menu is unfolded', async () => {
-    render(<AddIconContainer {...defaultProps} />)
+  it('should show the example icon when clicked on the chevron down', async () => {
+    render(<AddIconExplanation />)
     const chevronDown = screen.getByTestId('chevron-down-show-explanation')
 
     expect(
-      screen.getByText(
+      screen.queryByText(
         'Zorg voor een circel van 32px bij 32px en exporteer als SVG.'
       )
     ).not.toBeInTheDocument()
-    expect(screen.getByAltText('example of an icon')).not.toBeInTheDocument()
+    expect(screen.queryByAltText('example of an icon')).not.toBeInTheDocument()
 
     userEvent.click(chevronDown)
 
