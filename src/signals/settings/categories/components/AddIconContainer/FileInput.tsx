@@ -5,8 +5,6 @@ import { useCallback, useState } from 'react'
 
 import { TrashBin } from '@amsterdam/asc-assets'
 
-import fileSize from 'signals/incident/services/file-size'
-
 import {
   DeleteButton,
   FileInputWrapper,
@@ -31,7 +29,6 @@ export const FileInput = ({ updateErrorUploadIcon }: Props) => {
 
   const icon = file ? window.URL.createObjectURL(file) : ''
   const IconButtonText = file ? 'Icoon wijzigen' : 'Icoon toevoegen'
-
   const handleIconClick = useCallback(
     (file: File[]) => {
       setError('')
@@ -47,9 +44,7 @@ export const FileInput = ({ updateErrorUploadIcon }: Props) => {
         updateErrorUploadIcon(true)
         set$hasError(true)
         setError(
-          `Dit bestand is te groot. De maximale bestandsgrootte is ${fileSize(
-            MAX
-          )}.`
+          `De afmetingen van het bestand zijn te groot. Maximaal 32px bij 32px.`
         )
         return
       }

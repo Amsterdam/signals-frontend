@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { Fragment, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { FileInput } from './FileInput'
 import {
@@ -16,8 +16,17 @@ import { StyledHeading } from '../styled'
 export interface Props {
   updateErrorUploadIcon: (arg: boolean) => void
 }
+
 export const AddIconContainer = ({ updateErrorUploadIcon }: Props) => {
-  const [showSubsection, setShowSubsection] = useState<boolean>(true)
+  const [showSubsection, setShowSubsection] = useState<boolean>(false)
+
+  const handleClick = useCallback(
+    (event) => {
+      event.preventDefault()
+      setShowSubsection(!showSubsection)
+    },
+    [showSubsection]
+  )
 
   const icon = '/assets/images/afval/rest.svg'
   const iconChevronDownBlue = '/assets/images/chevron-down-blue.svg'
@@ -30,13 +39,11 @@ export const AddIconContainer = ({ updateErrorUploadIcon }: Props) => {
         </StyledInfo>
 
         <InvisibleButton
-          title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
+          title={`Toon upload uitleg`}
+          data-testid="chevron-down-show-explanation"
           aria-expanded={showSubsection}
           toggle={showSubsection}
-          onClick={(event) => {
-            event.preventDefault()
-            setShowSubsection(!showSubsection)
-          }}
+          onClick={handleClick}
         >
           <StyledImg alt={'icon chevrondown blue'} src={iconChevronDownBlue} />
         </InvisibleButton>
