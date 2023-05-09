@@ -111,15 +111,16 @@ export const SelectSearch = ({
     (event) => {
       if (event.code === 'Enter' && isOpen) {
         event.preventDefault()
-        const firstOption = filteredOptions[0]
+        // Select first option as default
+        const { value, name } = filteredOptions[0]
 
-        if (!firstOption) return
+        if (!value || !name) return
 
-        onChange({ target: { value: firstOption.value } } as any, {
+        onChange({ target: { value: value } } as any, {
           triggerFormChange: true,
         })
 
-        setInputValue((currentInput) => firstOption.name ?? currentInput)
+        setInputValue(name)
         setIsOpen(false)
         inputRef?.current?.focus()
       }
