@@ -241,7 +241,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     userEvent.click(attachment)
 
-    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    )
     await screen.findByTestId('incident-detail')
   })
 
@@ -259,7 +263,12 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     userEvent.click(attachment)
 
-    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    })
+
     const closeButton = screen.getByTitle(/sluiten/i)
     expect(closeButton).toBeInTheDocument()
 

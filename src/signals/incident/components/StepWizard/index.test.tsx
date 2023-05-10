@@ -2,7 +2,7 @@
 // Copyright (C) 2022 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { useContext } from 'react'
 
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withAppContext, history } from 'test/utils'
@@ -29,14 +29,14 @@ describe('<Wizard>', () => {
     expect(screen.getByText('vul aan')).toBeTruthy()
   })
 
-  it('should go back by using the history', function () {
+  it('should go back by using the history', async function () {
     render(renderWizard())
 
     userEvent.click(screen.getByRole('button', { name: 'Volgende' }))
 
     expect(screen.getByText('vul aan')).toBeTruthy()
 
-    act(() => {
+    await waitFor(() => {
       history.goBack()
     })
 

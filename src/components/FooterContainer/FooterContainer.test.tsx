@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { screen, render } from '@testing-library/react'
 import { mocked } from 'jest-mock'
 import { Provider } from 'react-redux'
@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
-import { history } from 'test/utils'
 
 import FooterContainer from './'
 import configureStore from '../../configureStore'
@@ -34,7 +33,7 @@ describe('<FooterContainer />', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={configureStore({}, history)}>
+      <Provider store={configureStore({}).store}>
         {withAppContext(<FooterContainer />)}
       </Provider>
     )
@@ -54,7 +53,7 @@ describe('<FooterContainer />', () => {
     configuration.featureFlags.appMode = true
 
     const { container } = render(
-      <Provider store={configureStore({}, history)}>
+      <Provider store={configureStore({}).store}>
         {withAppContext(<FooterContainer />)}
       </Provider>
     )
@@ -66,7 +65,7 @@ describe('<FooterContainer />', () => {
     mockedGetIsAuthenticated.mockImplementation(() => true)
 
     const { container } = render(
-      <Provider store={configureStore({}, history)}>
+      <Provider store={configureStore({}).store}>
         {withAppContext(<FooterContainer />)}
       </Provider>
     )
@@ -79,7 +78,7 @@ describe('<FooterContainer />', () => {
     mockIsIncidentMap = true
 
     const { container } = render(
-      <Provider store={configureStore({}, history)}>
+      <Provider store={configureStore({}).store}>
         {withAppContext(<FooterContainer />)}
       </Provider>
     )

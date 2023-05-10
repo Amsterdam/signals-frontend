@@ -3,14 +3,12 @@
  */
 
 import { render } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
 import { Provider } from 'react-redux'
 
 import configureStore from '../../configureStore'
 import { useInjectReducer } from '../injectReducer'
 import { getInjectors } from '../reducerInjectors'
 
-const memoryHistory = createMemoryHistory()
 jest.mock('../reducerInjectors')
 
 // Fixtures
@@ -60,9 +58,9 @@ describe('useInjectReducer hook', () => {
     const mockedGetInjectors = getInjectors as unknown as jest.Mock<
       typeof getInjectors
     > // compiler doesn't know that it's mocked. So manually cast it.
-    mockedGetInjectors.mockImplementation(() => injectors)
-
-    store = configureStore({}, memoryHistory)
+    mockedGetInjectors.mockImplementation(() => injectors)(
+      ({ store } = configureStore({}))
+    )
     ComponentWithReducer = () => {
       useInjectReducer({ key: 'test', reducer })
       return null

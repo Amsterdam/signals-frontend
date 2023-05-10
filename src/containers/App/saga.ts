@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import type { EventChannel } from '@redux-saga/core'
 import * as Sentry from '@sentry/browser'
-import { push } from 'connected-react-router/immutable'
+import { push } from 'redux-first-history'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 
 import {

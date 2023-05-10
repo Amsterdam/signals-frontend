@@ -314,7 +314,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(screen.getByText('(niet verplicht)')).toBeInTheDocument()
   })
 
-  it('clears the text field when a default text is selected', () => {
+  it('clears the text field when a default text is selected', async () => {
     const texts = defaultTexts[0]
     const withDefaultTextsSelectedState = { ...incidentFixture }
     if (withDefaultTextsSelectedState?.status?.state) {
@@ -347,7 +347,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     )[0]
     userEvent.click(defaultTextsItemButton)
 
-    expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveTextContent(textContent || '')
+    })
 
     // select another status
     userEvent.selectOptions(screen.getByTestId('select-status'), [

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { mocked } from 'jest-mock'
@@ -11,7 +11,7 @@ import configureStore from 'configureStore'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import * as incidentContainerActions from 'signals/incident/containers/IncidentContainer/actions'
-import { history, withAppContext } from 'test/utils'
+import { withAppContext } from 'test/utils'
 
 import KtoForm from '.'
 
@@ -29,6 +29,7 @@ let fileInput, file
 
 const mockedUseParams = mocked(reactRouterDom.useParams)
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useParams: jest.fn(),
 }))
 
@@ -452,7 +453,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     render(
       withAppContext(
-        <Provider store={configureStore({}, history)}>
+        <Provider store={configureStore({}).store}>
           <KtoForm
             onSubmit={onSubmit}
             options={options}
@@ -481,7 +482,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     render(
       withAppContext(
-        <Provider store={configureStore({}, history)}>
+        <Provider store={configureStore({}).store}>
           <KtoForm
             onSubmit={onSubmit}
             options={options}

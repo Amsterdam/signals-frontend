@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 /**
  * Test store addons
  */
@@ -7,13 +7,12 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import configureStore from '../configureStore'
 import type { InjectedStore } from '../types'
-import history from '../utils/history'
 
 describe('configureStore', () => {
   let store: InjectedStore
 
   beforeAll(() => {
-    store = configureStore({}, history)
+    store = configureStore({}).store
   })
 
   describe('injectedReducers', () => {
@@ -41,7 +40,7 @@ jest.mock('redux-devtools-extension', () => ({
 
 describe('configureStore params', () => {
   it('should call composeWithDevTools', () => {
-    configureStore({}, history)
+    configureStore({})
     expect(composeWithDevTools).toHaveBeenCalled()
   })
 })

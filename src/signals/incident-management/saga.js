@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { push } from 'connected-react-router/immutable'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import { push } from 'redux-first-history'
 import {
   all,
   call,

@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { ReactPropTypes } from 'react'
 
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
@@ -507,12 +513,14 @@ describe('DetailPanel', () => {
     expect(screen.getByTestId('legend-panel')).toHaveClass('in')
   })
 
-  it('renders the legend panel with focus on close button', () => {
+  it('renders the legend panel with focus on close button', async () => {
     render(withAssetSelectContext(<DetailPanel {...props} />))
 
     userEvent.click(screen.getByTestId('legend-toggle-button'))
 
-    expect(screen.getByTestId('close-button')).toHaveFocus()
+    await waitFor(() => {
+      expect(screen.getByTestId('close-button')).toHaveFocus()
+    })
   })
 
   it('does not render the address panel', () => {

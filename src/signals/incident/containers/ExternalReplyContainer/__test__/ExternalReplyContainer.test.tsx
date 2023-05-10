@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2023 Vereniging van Nederlandse Gemeenten
 import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { mocked } from 'jest-mock'
@@ -28,6 +28,7 @@ jest.mock('containers/App/actions')
 
 const mockedUseParams = mocked(reactRouterDom.useParams, true)
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useParams: jest.fn(),
 }))
 

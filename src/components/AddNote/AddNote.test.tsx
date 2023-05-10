@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { createRef } from 'react'
 
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
@@ -69,7 +69,7 @@ describe('AddNote', () => {
     expect(screen.queryByTestId('add-note-new-note-button')).toBeInTheDocument()
   })
 
-  it('focuses the textarea', () => {
+  it('focuses the textarea', async () => {
     const { unmount, rerender } = render(withAppContext(<AddNote />))
 
     // no ref, no focus
@@ -87,7 +87,10 @@ describe('AddNote', () => {
     // standalone, setting focus on render
     rerender(withAppContext(<AddNote ref={ref} />))
     userEvent.click(screen.getByTestId('add-note-new-note-button'))
-    expect(screen.getByRole('textbox')).toHaveFocus()
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveFocus()
+    })
   })
 
   it('calls onChange', () => {
