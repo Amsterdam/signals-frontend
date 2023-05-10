@@ -143,6 +143,7 @@ const reducer = (state: State, action: StatusFormActions): State => {
           hasOpenChildren: state.flags.hasOpenChildren,
           toStatus: action.payload.key as StatusCode,
           originalStatus: state.originalStatus.key as StatusCode,
+          categorySlug: action.payload.category_slug,
         }),
       }
     }

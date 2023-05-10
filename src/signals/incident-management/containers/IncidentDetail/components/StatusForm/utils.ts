@@ -78,12 +78,14 @@ export const determineWarnings = ({
   isSplitIncident,
   hasEmail,
   hasOpenChildren,
+  categorySlug,
 }: {
   originalStatus: StatusCode
   toStatus: StatusCode
   isSplitIncident: boolean
   hasEmail: boolean
   hasOpenChildren: boolean
+  categorySlug?: string
 }): Warning[] => {
   const warnings: Warning[] = []
 
@@ -107,7 +109,18 @@ export const determineWarnings = ({
     })
   }
 
-  if (toStatus === StatusCode.Afgehandeld)
+  if (
+    configuration.featureFlags.disableClosingCategoryOverigOverig &&
+    toStatus === StatusCode.Afgehandeld &&
+    categorySlug === 'overig'
+  ) {
+    warnings.push({
+      key: 'has-category-overig',
+      heading: constants.CATEGORY_OVERIG_HEADING,
+      content: constants.CATEGORY_OVERIG_CONTENT,
+      level: 'error',
+    })
+  } else if (toStatus === StatusCode.Afgehandeld)
     warnings.push({
       key: 'end-status-warning',
       content: constants.AFGEHANDELD_CONTENT,
