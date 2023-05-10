@@ -95,7 +95,11 @@ const IncidentDetail = () => {
     isSuccess,
     patch,
   } = useFetch<Incident>()
-  const { get: getHistory, data: history } = useFetch<HistoryEntry[]>()
+  const {
+    get: getHistory,
+    data: history,
+    isLoading: historyIsLoading,
+  } = useFetch<HistoryEntry[]>()
   const {
     get: getAttachments,
     data: attachments,
@@ -110,7 +114,11 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch<Result<IncidentChild>>()
   const { get: getChildrenHistory, data: childrenHistory } =
     useFetchAll<HistoryEntry[]>()
-  const { get: getContext, data: context } = useFetch<Context>()
+  const {
+    get: getContext,
+    data: context,
+    isLoading: contextIsLoading,
+  } = useFetch<Context>()
   const { get: getChildIncidents, data: childIncidents } =
     useFetchAll<Incident>()
   const { upload, uploadSuccess, uploadProgress, uploadError } = useUpload()
@@ -228,9 +236,11 @@ const IncidentDetail = () => {
   }, [getIncident, id])
 
   const retrieveUnderlyingData = useCallback(() => {
-    getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
+    if (!history && !historyIsLoading) {
+      getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
+    }
 
-    if (!state.attachments) {
+    if (!state.attachments && !attachments && !isAttachmentsLoading) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
@@ -245,15 +255,23 @@ const IncidentDetail = () => {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
-    getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
+    if (!context && !contextIsLoading) {
+      getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
+    }
   }, [
-    getHistory,
-    id,
-    state.attachments,
-    incident?._links,
+    attachments,
+    context,
+    contextIsLoading,
     getAttachments,
     getChildren,
     getContext,
+    getHistory,
+    history,
+    historyIsLoading,
+    id,
+    incident?._links,
+    isAttachmentsLoading,
+    state.attachments,
   ])
 
   useEffect(() => {
