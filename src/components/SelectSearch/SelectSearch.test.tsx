@@ -29,6 +29,7 @@ describe('<SelectSearch />', () => {
       ],
       options: [
         { key: 'all', name: 'Alles', value: '*', group: 'vuilnis' },
+        { key: 'rommel', name: 'Rommel', value: 'rommel', group: 'vuilnis' },
         { key: 'active', name: 'Actief', value: true, group: 'vuilnis' },
         {
           key: 'inactive',
@@ -182,5 +183,16 @@ describe('<SelectSearch />', () => {
     expect(screen.getByRole('listbox')).toBeInTheDocument()
 
     expect(screen.getByRole('combobox')).toHaveValue('a')
+  })
+
+  it('should select the first option when enter is pressed', () => {
+    render(<SelectSearch {...props} onChange={onChangeMock} />)
+    const input = screen.getByRole('combobox')
+    userEvent.type(input, 'r')
+
+    userEvent.keyboard('{Enter}')
+
+    const inputNew = screen.getByRole('combobox')
+    expect(inputNew).toHaveValue('Rommel')
   })
 })

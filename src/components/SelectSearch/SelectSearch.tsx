@@ -45,15 +45,13 @@ export const SelectSearch = ({
   const [isOpen, setIsOpen] = useState(false)
 
   const getOptionValueName = useCallback(
-    (val?: string) => {
-      return options?.find((option) => option[optionValue] === val)?.name
+    (val: string) => {
+      return options?.find((option) => option[optionValue] === val)?.name ?? ''
     },
     [options, optionValue]
   )
 
-  const optionValueName = getOptionValueName(value)
-
-  const [inputValue, setInputValue] = useState(optionValueName)
+  const [inputValue, setInputValue] = useState('')
   const [isInputActive, setIsInputActive] = useState(true)
   const [filteredOptions, setFilteredOptions] = useState(options)
   const [filteredGroups, setFilteredGroups] = useState(groups)
@@ -73,7 +71,6 @@ export const SelectSearch = ({
   useClickOutside(selectSearchWrapperRef, () => {
     setIsOpen(false)
     setCurrentFocus(0)
-    setInputValue('')
   })
 
   const onChangeInputHandler = useCallback(
@@ -96,28 +93,36 @@ export const SelectSearch = ({
     [groups, options]
   )
 
-  const openOptions = useCallback(
-    (event, selectOnOpen = true) => {
-      setInputValue(getOptionValueName(value))
-      setIsOpen(true)
-      setIsInputActive(true)
-      /*
+  const openOptions = useCallback((event, selectOnOpen = true) => {
+    setIsOpen(true)
+    setIsInputActive(true)
+    /*
         The following lines are needed to make the input value selectable.
        */
-      if (selectOnOpen) {
-        /* istanbul ignore next */
-        setTimeout(() => {
-          event.target.select()
-        }, 0)
-      }
-    },
-    [getOptionValueName, value]
-  )
+    if (selectOnOpen) {
+      /* istanbul ignore next */
+      setTimeout(() => {
+        event.target.select()
+      }, 0)
+    }
+  }, [])
 
   const onKeydownInputHandler = useCallback(
     (event) => {
       if (event.code === 'Enter' && isOpen) {
         event.preventDefault()
+        // Select first option as default
+        const { value, name } = filteredOptions[0]
+
+        if (!value || !name) return
+
+        onChange({ target: { value: value } } as any, {
+          triggerFormChange: true,
+        })
+
+        setInputValue(name)
+        setIsOpen(false)
+        inputRef?.current?.focus()
       }
 
       if ((event.code === 'ArrowDown' || event.code === 'Space') && !isOpen) {
@@ -141,7 +146,7 @@ export const SelectSearch = ({
         setIsOpen(false)
       }
     },
-    [isOpen, openOptions, setCurrentFocus]
+    [isOpen, onChange, filteredOptions, openOptions, setCurrentFocus]
   )
 
   useEffect(() => {
@@ -163,7 +168,7 @@ export const SelectSearch = ({
             openOptions(event)
           }}
           type="text"
-          value={isOpen ? inputValue : optionValueName}
+          value={inputValue}
           id="combobox"
           role="combobox"
           aria-label="Type om te zoeken"
