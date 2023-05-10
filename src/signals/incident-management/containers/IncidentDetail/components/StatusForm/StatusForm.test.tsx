@@ -740,12 +740,9 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     ])
 
     expect(screen.getByRole('button', { name: 'Verstuur' })).toBeDisabled()
-    expect(actions.showGlobalNotification).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title:
-          'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.',
-      })
-    )
+    expect(
+      screen.getByText('Deze statuswijziging is niet mogelijk')
+    ).toBeInTheDocument()
   })
 
   it('is possible to submit the status Afgehandeld when featureFlag disableClosingCategoryOverigOverig is false', async () => {
@@ -813,6 +810,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       })
     )
   })
+
   it('shows an error notification when no email preview is available', async () => {
     const mockErrorResponse = JSON.stringify({
       detail: 'No email preview available for given status transition',
