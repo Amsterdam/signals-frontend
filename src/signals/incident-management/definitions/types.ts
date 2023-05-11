@@ -30,6 +30,7 @@ export interface Status extends Definition {
   color?: string
   email_sent_when_set: boolean
   shows_remaining_sla_days: boolean
+  category_slug?: string
 }
 
 export interface Priority extends Definition {

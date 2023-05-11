@@ -112,14 +112,9 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     lastActiveElement = document.activeElement as HTMLElement
   }, [setModalEmailPreviewIsOpen])
 
-  const disableSubmit =
-    Boolean(state.warnings.some(({ level }) => level === 'error')) ||
-    (incident &&
-      incident.category?.main_slug === 'overig' &&
-      incident.category?.sub_slug === 'overig' &&
-      state.status.key === StatusCode.Afgehandeld &&
-      configuration.featureFlags.disableClosingCategoryOverigOverig &&
-      state.originalStatus.key != StatusCode.Afgehandeld)
+  const disableSubmit = Boolean(
+    state.warnings.some(({ level }) => level === 'error')
+  )
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -231,27 +226,17 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
       setEmailIsNotSend(true)
     }
 
-    if (
-      configuration.featureFlags.disableClosingCategoryOverigOverig &&
-      incident &&
-      incident.category?.main_slug === 'overig' &&
-      incident.category?.sub_slug === 'overig' &&
-      event.target.value === 'o'
-    ) {
-      storeDispatch(
-        showGlobalNotification({
-          title:
-            'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        })
-      )
-    }
-
     const selectedStatus = changeStatusOptionList.find(
       (status) => event.target.value === status.key
     )
-    selectedStatus && dispatch({ type: 'SET_STATUS', payload: selectedStatus })
+    selectedStatus &&
+      dispatch({
+        type: 'SET_STATUS',
+        payload: {
+          ...selectedStatus,
+          category_slug: incident?.category?.sub_slug,
+        },
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

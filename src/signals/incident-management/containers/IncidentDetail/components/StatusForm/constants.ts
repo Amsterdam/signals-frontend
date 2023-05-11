@@ -4,6 +4,10 @@ export const AFGEHANDELD_CONTENT = `
   Gebruik deze status alleen als de melding ook echt is afgehandeld,
   gebruik anders de status Ingepland. Verwijs nooit naar een andere afdeling; hercategoriseer dan de melding.
 `
+export const CATEGORY_OVERIG_HEADING = 'Deze statuswijziging is niet mogelijk'
+export const CATEGORY_OVERIG_CONTENT =
+  'Het is niet mogelijk een melding in de categorie Overig - Overig af te handelen. Plaats de melding in de best passende categorie.'
+
 export const MELDING_CHECKBOX_DESCRIPTION = 'Stuur dit bericht aan de melder'
 export const DEELMELDING_EXPLANATION =
   'Deze toelichting is voor de collega die de hoofdmelding afhandelt. De melder ontvangt deze toelichting niet.'
