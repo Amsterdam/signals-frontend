@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FormEventHandler } from 'react'
-import { useCallback, useRef, useState } from 'react'
+import { useRef } from 'react'
 
-import { TrashBin } from '@amsterdam/asc-assets'
 import { Column, Row } from '@amsterdam/asc-ui'
 import type { UseFormReturn } from 'react-hook-form'
 import { Controller, FormProvider } from 'react-hook-form'
@@ -14,32 +13,22 @@ import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import type { History as HistoryType } from 'types/history'
 
-import { AddIconExplanation } from './AddIconExplanation'
+import { IconChooser } from './IconChooser'
 import {
   CombinedFields,
-  DeleteButton,
   FieldGroup,
   Form,
   FormContainer,
-  IconUploadWrapper,
-  StyledAlert,
-  StyledButton,
   StyledColumn,
   StyledDefinitionTerm,
   StyledFormFooter,
   StyledHeading,
   StyledHistory,
-  StyledImg,
   StyledLabel,
   StyledSelect,
-  WrapperInputIcon,
-  WrapperSetIcon,
 } from './styled'
-import ErrorMessage from '../../../../components/ErrorMessage'
+import { UploadIconExplanation } from './UploadIconExplanation'
 import type { CategoryFormValues } from '../types'
-
-const ALLOWED_FILE_TYPE = 'svg'
-const MAX = 32 // 32 px is max height and width of icon
 
 interface StatusOption {
   key: string
@@ -76,17 +65,7 @@ export const CategoryForm = ({
   isPublicAccessibleLabel,
   updateErrorUploadIcon,
 }: Props) => {
-  const [error, setError] = useState('')
-  const [$hasError, set$hasError] = useState(false)
-
   const inputRef = useRef<HTMLInputElement>(null)
-  /* istanbul ignore next */
-  const onKeyDownHandler = useCallback((event) => {
-    if (['Enter', 'Space'].includes(event.code)) {
-      inputRef.current?.click()
-    }
-  }, [])
-
   return (
     <FormProvider {...formMethods}>
       <FormContainer>
@@ -203,137 +182,15 @@ export const CategoryForm = ({
                       : 'Icoon toevoegen'
                     return (
                       <FieldGroup>
-                        <AddIconExplanation />
-                        <IconUploadWrapper>
-                          {value && (
-                            <>
-                              <StyledImg
-                                alt={'icon added'}
-                                src={
-                                  value instanceof File
-                                    ? window.URL.createObjectURL(value)
-                                    : value
-                                }
-                              />
-                              <StyledAlert>
-                                <b>
-                                  Let op! Er wordt geen back-up van het icoon
-                                  gemaakt.
-                                </b>
-                                <p>
-                                  Om te annuleren gebruik de knop onderaan de
-                                  pagina.
-                                </p>
-                              </StyledAlert>
-                            </>
-                          )}
-                          {error && <ErrorMessage message={error} />}
-                          <WrapperSetIcon>
-                            <WrapperInputIcon
-                              onKeyDown={onKeyDownHandler}
-                              data-testid="file-input-upload-button"
-                            >
-                              <input
-                                ref={inputRef}
-                                type="file"
-                                id="iconUpload"
-                                multiple={false}
-                                name={name}
-                                value={value?.fileName}
-                                onChange={(event) => {
-                                  if (
-                                    event.target.files &&
-                                    event.target.files[0]
-                                  ) {
-                                    setError('')
-                                    set$hasError(false)
-                                    onChange(undefined)
-                                    const file = event.target.files[0]
-                                    if (
-                                      file.name.slice(file.name.length - 3) !=
-                                      ALLOWED_FILE_TYPE
-                                    ) {
-                                      updateErrorUploadIcon(true)
-                                      set$hasError(true)
-                                      setError(
-                                        'Dit is het verkeerde bestandstype. Upload een .svg-bestand.'
-                                      )
-                                      return
-                                    }
-
-                                    const parser = new DOMParser()
-
-                                    file.text().then((icon) => {
-                                      const svgDoc = parser.parseFromString(
-                                        icon,
-                                        'image/svg+xml'
-                                      )
-                                      const heightExists = svgDoc
-                                        .querySelector('svg')
-                                        ?.getAttribute('height')
-                                      const widthExists = svgDoc
-                                        .querySelector('svg')
-                                        ?.getAttribute('width')
-
-                                      if (!heightExists) {
-                                        setError(
-                                          'Dit icoon heeft geen height. Gebruik alleen iconen met een height.'
-                                        )
-                                        return
-                                      }
-
-                                      if (!widthExists) {
-                                        setError(
-                                          'Dit icoon heeft geen width. Gebruik alleen iconen met een width.'
-                                        )
-                                        return
-                                      }
-                                      const height = parseInt(heightExists)
-                                      const width = parseInt(widthExists)
-
-                                      if (height > MAX || width > MAX) {
-                                        updateErrorUploadIcon(true)
-                                        set$hasError(true)
-                                        setError(
-                                          `De afmetingen van het bestand zijn te groot. De height is ${height} en de width is ${width}. Maximaal 32px bij 32px.`
-                                        )
-                                        return
-                                      }
-
-                                      onChange(file)
-                                    })
-                                  }
-                                }}
-                              />
-                              <label htmlFor="iconUpload">
-                                <StyledButton
-                                  name="Icon"
-                                  variant="application"
-                                  type="button"
-                                  forwardedAs={'span'}
-                                  tabIndex={0}
-                                  $hasError={$hasError}
-                                >
-                                  {IconButtonText}
-                                </StyledButton>
-                              </label>
-                            </WrapperInputIcon>
-
-                            {value && (
-                              <DeleteButton
-                                variant="blank"
-                                icon={<TrashBin />}
-                                data-testid="delete-icon-button"
-                                aria-label={`Verwijder icoon`}
-                                type="button"
-                                onClick={() => {
-                                  setError('')
-                                  return onChange(undefined)
-                                }}
-                              />
-                            )}
-                          </WrapperSetIcon>
-                        </IconUploadWrapper>
+                        <UploadIconExplanation />
+                        <IconChooser
+                          iconButtonText={IconButtonText}
+                          updateErrorUploadIcon={updateErrorUploadIcon}
+                          name={name}
+                          value={value}
+                          onChange={onChange}
+                          inputRef={inputRef}
+                        />
                       </FieldGroup>
                     )
                   }}

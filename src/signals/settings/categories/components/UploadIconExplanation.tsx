@@ -12,7 +12,7 @@ import {
   WrapperInfo,
 } from './styled'
 
-export const AddIconExplanation = () => {
+export const UploadIconExplanation = () => {
   const [showSubsection, setShowSubsection] = useState<boolean>(false)
 
   const handleClick = useCallback(
@@ -30,11 +30,11 @@ export const AddIconExplanation = () => {
       <StyledHeading>Icoon</StyledHeading>
       <WrapperInfo>
         <StyledInfo>
-          Het icoon wordt getoond op de openbare meldingenkaart
+          Het icoon wordt getoond op de openbare meldingenkaart.
         </StyledInfo>
 
         <InvisibleButton
-          title={`Toon upload uitleg`}
+          title="Toon upload uitleg"
           data-testid="chevron-down-show-explanation"
           aria-expanded={showSubsection}
           toggle={showSubsection}

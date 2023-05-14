@@ -148,7 +148,7 @@ export const CategoryDetail = ({
           type: TYPE_LOCAL,
         })
       )
-      return false
+      return
     }
     if (!isDirty) {
       history.push(redirectURL)

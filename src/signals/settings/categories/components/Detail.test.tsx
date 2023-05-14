@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act } from '@testing-library/react-hooks'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
@@ -236,43 +237,56 @@ describe('Detail', () => {
     ).toBeInTheDocument()
   })
 
-  // it('should show error message on errorUploadIcon', async () => {
-  //   const mockWrongFile = {
-  //     name: 'testFile.png',
-  //     lastModified: 1683532584202,
-  //     size: 271,
-  //     type: 'image/svg+xml',
-  //     webkitRelativePath: '',
-  //   }
-  //
-  //   mockRequestHandler({
-  //     status: 400,
-  //     method: 'patch',
-  //     url: API.CATEGORIES_PRIVATE_ENDPOINT,
-  //     body: { name: 'Afwatering brug-test' },
-  //   })
-  //
-  //   render(
-  //     withContext(
-  //       <MemoryRouter initialEntries={[mockLocation]}>
-  //         <CategoryDetail {...defaultProps} />
-  //       </MemoryRouter>
-  //     )
-  //   )
-  //
-  //   const fileInputElement = await screen.findByText(/Icoon toevoegen/i)
-  //   fireEvent.change(fileInputElement, {
-  //     target: { mockWrongFile },
-  //   })
-  //
-  //   const submitButton = await screen.findByTestId('submit-btn')
-  //   userEvent.click(submitButton)
-  //
-  //   expect(actions.showGlobalNotification).toHaveBeenCalledWith(
-  //     expect.objectContaining({
-  //       title: 'De wijzigingen kunnen niet worden opgeslagen.',
-  //     })
-  //   )
-  // })
+  it('should show GlobalNotification when submitted w on errorUploadIcon', async () => {
+    const mockWrongFile = {
+      name: 'testFile.png',
+      lastModified: 1683532584202,
+      size: 271,
+      type: 'image/svg+xml',
+      webkitRelativePath: '',
+    }
+
+    mockRequestHandler({
+      status: 400,
+      method: 'patch',
+      url: API.CATEGORIES_PRIVATE_ENDPOINT,
+      body: { name: 'Afwatering brug-test' },
+    })
+
+    render(
+      withContext(
+        <MemoryRouter initialEntries={[mockLocation]}>
+          <CategoryDetail {...defaultProps} />
+        </MemoryRouter>
+      )
+    )
+
+    expect(screen.getByText('Icoon')).toBeInTheDocument()
+
+    const fileInputElement = await screen.findByText(/Icoon toevoegen/i)
+
+    act(() => {
+      fireEvent.change(fileInputElement, {
+        target: { mockWrongFile },
+      })
+    })
+
+    //
+    // screen.debug()
+    // const fileInputElement = await screen.findByText(/Icoon toevoegen/i)
+    // act(() => {
+    //   fireEvent.change(fileInputElement, {
+    //     target: { mockWrongFile },
+    //   })
+    // })
+    //
+    // const submitButton = await screen.findByTestId('submit-btn')
+    // userEvent.click(submitButton)
+    //
+    // expect(actions.showGlobalNotification).toHaveBeenCalledWith(
+    //   expect.objectContaining({
+    //     title: 'De wijzigingen kunnen niet worden opgeslagen.',
+    //   })
+    // )
+  })
 })
-//

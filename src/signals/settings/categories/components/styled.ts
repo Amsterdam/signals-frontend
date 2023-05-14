@@ -87,13 +87,24 @@ export const StyledAlert = styled(Alert)`
   background-color: ${themeColor('primary')};
   color: ${themeColor('tint', 'level1')};
   margin-top: ${themeSpacing(5)};
+  padding: ${themeSpacing(1, 1, 4, 1)};
+`
+
+export const StyledParagraphStrong = styled.p`
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: ${themeSpacing(4, 4, 0)};
+`
+export const StyledParagraph = styled.p`
+  margin: ${themeSpacing(0, 4, 4, 4)};
 `
 export const StyledButton = styled(Button)<{
   $hasError: boolean
 }>`
   background-color: ${themeColor('tint', 'level1')};
-  height: ${themeSpacing(8)};
+  height: ${themeSpacing(10)};
   color: ${themeColor('tint', 'level7')};
+  margin-top: ${themeSpacing(6)};
   margin-right: ${themeSpacing(3.25)};
   font-weight: 700;
   ${({ $hasError }) =>
@@ -110,10 +121,10 @@ export const DeleteButton = styled(Button).attrs(() => ({
   size: 13,
   iconSize: 13,
 }))`
-  width: ${themeSpacing(8)};
-  height: ${themeSpacing(8)};
+  width: ${themeSpacing(10)};
+  height: ${themeSpacing(10)};
   background-color: rgba(0, 0, 0, 0.5);
-
+  margin-top: ${themeSpacing(6)};
   svg > path {
     fill: ${themeColor('tint', 'level1')};
   }
@@ -145,7 +156,7 @@ export const WrapperSetIcon = styled.div`
 export const StyledImg = styled.img`
   max-height: ${themeSpacing(8)};
   align-self: flex-start;
-  margin-top: ${themeSpacing(1.5)};
+  margin-top: ${themeSpacing(2.5)};
 `
 
 export const WrapperInfo = styled.div`

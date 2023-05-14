@@ -4,21 +4,21 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { AddIconExplanation } from './AddIconExplanation'
+import { UploadIconExplanation } from './UploadIconExplanation'
 
 describe('AddIconContainer', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
-  it('should render the AddIconExplanation', async () => {
-    render(<AddIconExplanation />)
+  it('should render the UploadIconExplanation', async () => {
+    render(<UploadIconExplanation />)
     expect(
       screen.getByText('Het icoon wordt getoond op de openbare meldingenkaart')
     ).toBeInTheDocument()
   })
 
   it('should show the example icon when clicked on the chevron down', async () => {
-    render(<AddIconExplanation />)
+    render(<UploadIconExplanation />)
     const chevronDown = screen.getByTestId('chevron-down-show-explanation')
 
     expect(
@@ -36,8 +36,7 @@ describe('AddIconContainer', () => {
           'Zorg voor een circel van 32px bij 32px en exporteer als SVG.'
         )
       ).toBeInTheDocument()
-    })
-    await waitFor(() => {
+
       expect(screen.getByAltText('example of an icon')).toBeInTheDocument()
     })
   })
