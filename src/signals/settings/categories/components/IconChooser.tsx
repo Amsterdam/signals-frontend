@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 
 import type { RefObject } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 import { TrashBin } from '@amsterdam/asc-assets'
 
@@ -17,15 +17,12 @@ import {
   WrapperInputIcon,
   WrapperSetIcon,
 } from './styled'
-import ErrorMessage from '../../../../components/ErrorMessage'
 
-const MAX = 32 // 32 px is max height and width of icon
 export interface Props {
   name: string
   value: File | string
   onChange: (...event: any[]) => void
   iconButtonText: string
-  updateErrorUploadIcon: (arg: boolean) => void
   inputRef: RefObject<HTMLInputElement>
 }
 
@@ -34,11 +31,12 @@ export const IconChooser = ({
   value = '',
   onChange,
   iconButtonText,
-  updateErrorUploadIcon,
   inputRef,
 }: Props) => {
-  const [error, setError] = useState('')
-  const [$hasError, set$hasError] = useState(false)
+  // const [error, setError] = useState('')
+  // const [$hasError, set$hasError] = useState(false)
+
+  // const { formState } = useFormContext()
 
   /* istanbul ignore next */
   const onKeyDownHandler = useCallback(
@@ -74,7 +72,8 @@ export const IconChooser = ({
           </StyledAlert>
         </>
       )}
-      {error && <ErrorMessage message={error} />}
+      {/*todo load this when there's an error state, a bit like incidentform */}
+      {/*{error && <ErrorMessage message={error} />}*/}
       <WrapperSetIcon>
         <WrapperInputIcon
           onKeyDown={onKeyDownHandler}
@@ -89,51 +88,8 @@ export const IconChooser = ({
             name={name}
             onChange={(event) => {
               if (event.target.files && event.target.files[0]) {
-                setError('')
-                set$hasError(false)
-                onChange(undefined)
                 const file = event.target.files[0]
-                const parser = new DOMParser()
-
-                file.text().then((icon) => {
-                  const svgDoc = parser.parseFromString(icon, 'image/svg+xml')
-                  const heightExists = svgDoc
-                    .querySelector('svg')
-                    ?.getAttribute('height')
-                  const widthExists = svgDoc
-                    .querySelector('svg')
-                    ?.getAttribute('width')
-
-                  if (!heightExists) {
-                    updateErrorUploadIcon(true)
-                    setError(
-                      'Dit icoon heeft geen height. Gebruik alleen iconen met een height.'
-                    )
-                    return
-                  }
-
-                  if (!widthExists) {
-                    updateErrorUploadIcon(true)
-                    setError(
-                      'Dit icoon heeft geen width. Gebruik alleen iconen met een width.'
-                    )
-                    return
-                  }
-                  const height = parseInt(heightExists)
-                  const width = parseInt(widthExists)
-
-                  if (height > MAX || width > MAX) {
-                    updateErrorUploadIcon(true)
-                    updateErrorUploadIcon(true)
-                    set$hasError(true)
-                    setError(
-                      `De afmetingen van het bestand zijn te groot. De height is ${height} en de width is ${width}. Maximaal 32px bij 32px.`
-                    )
-                    return
-                  }
-
-                  onChange(file)
-                })
+                onChange(file)
               }
             }}
           />
@@ -144,7 +100,7 @@ export const IconChooser = ({
               type="button"
               forwardedAs={'span'}
               tabIndex={0}
-              $hasError={$hasError}
+              $hasError={false} // $hasErrors value is based on error state from react hook form
             >
               {iconButtonText}
             </StyledButton>
@@ -159,7 +115,6 @@ export const IconChooser = ({
             aria-label={`Verwijder icoon`}
             type="button"
             onClick={() => {
-              setError('')
               return onChange(undefined)
             }}
           />

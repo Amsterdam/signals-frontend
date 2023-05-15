@@ -63,7 +63,6 @@ export const CategoryForm = ({
   responsibleDepartments,
   isMainCategory,
   isPublicAccessibleLabel,
-  updateErrorUploadIcon,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
   return (
@@ -175,7 +174,7 @@ export const CategoryForm = ({
                 </FieldGroup>
 
                 <Controller
-                  name="addIcon"
+                  name="icon"
                   render={({ field: { name, value, onChange } }) => {
                     const IconButtonText = value
                       ? 'Icoon wijzigen'
@@ -185,7 +184,6 @@ export const CategoryForm = ({
                         <UploadIconExplanation />
                         <IconChooser
                           iconButtonText={IconButtonText}
-                          updateErrorUploadIcon={updateErrorUploadIcon}
                           name={name}
                           value={value}
                           onChange={onChange}
