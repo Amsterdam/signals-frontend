@@ -13,7 +13,7 @@ import {
 } from './styled'
 
 export const UploadIconExplanation = () => {
-  const [showSubsection, setShowSubsection] = useState<boolean>(false)
+  const [showSubsection, setShowSubsection] = useState(false)
 
   const handleClick = useCallback(
     (event) => {

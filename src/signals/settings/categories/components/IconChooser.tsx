@@ -19,7 +19,6 @@ import {
 } from './styled'
 import ErrorMessage from '../../../../components/ErrorMessage'
 
-const ALLOWED_FILE_TYPE = 'svg'
 const MAX = 32 // 32 px is max height and width of icon
 export interface Props {
   name: string
@@ -85,6 +84,7 @@ export const IconChooser = ({
             ref={inputRef}
             type="file"
             id="iconUpload"
+            accept=".svg"
             multiple={false}
             name={name}
             onChange={(event) => {
@@ -93,17 +93,6 @@ export const IconChooser = ({
                 set$hasError(false)
                 onChange(undefined)
                 const file = event.target.files[0]
-                if (
-                  file.name.slice(file.name.length - 3) != ALLOWED_FILE_TYPE
-                ) {
-                  updateErrorUploadIcon(true)
-                  set$hasError(true)
-                  setError(
-                    'Dit is het verkeerde bestandstype. Upload een .svg-bestand.'
-                  )
-                  return
-                }
-
                 const parser = new DOMParser()
 
                 file.text().then((icon) => {

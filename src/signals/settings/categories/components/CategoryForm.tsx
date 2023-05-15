@@ -50,7 +50,7 @@ export interface Props {
   responsibleDepartments: string[]
   isMainCategory: boolean
   isPublicAccessibleLabel: string
-  updateErrorUploadIcon: (arg: boolean) => void
+  // updateErrorUploadIcon: (arg: boolean) => void
 }
 
 export const CategoryForm = ({

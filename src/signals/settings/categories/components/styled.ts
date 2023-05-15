@@ -102,11 +102,11 @@ export const StyledButton = styled(Button)<{
   $hasError: boolean
 }>`
   background-color: ${themeColor('tint', 'level1')};
-  height: ${themeSpacing(10)};
+  height: ${themeSpacing(8)};
   color: ${themeColor('tint', 'level7')};
-  margin-top: ${themeSpacing(6)};
   margin-right: ${themeSpacing(3.25)};
   font-weight: 700;
+  padding: ${themeSpacing(1, 4)};
   ${({ $hasError }) =>
     $hasError
       ? css`
@@ -119,19 +119,13 @@ export const StyledButton = styled(Button)<{
 
 export const DeleteButton = styled(Button).attrs(() => ({
   size: 13,
-  iconSize: 13,
+  iconSize: 16,
 }))`
-  width: ${themeSpacing(10)};
-  height: ${themeSpacing(10)};
-  background-color: rgba(0, 0, 0, 0.5);
-  margin-top: ${themeSpacing(6)};
-  svg > path {
-    fill: ${themeColor('tint', 'level1')};
-  }
-
-  &:hover {
-    background-color: black;
-  }
+  width: ${themeSpacing(8)};
+  height: ${themeSpacing(8)};
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${themeColor('tint', 'level6')};
 `
 
 export const WrapperInputIcon = styled.div`
