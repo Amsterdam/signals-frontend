@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { lazy, Suspense } from 'react'
 
 import ReactDOM from 'react-dom'
@@ -13,8 +13,6 @@ import { Header } from '../components/Header'
 const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 
 export const IncidentMapContainer = () => {
-  // TODO: check with Oscar if this is the way to go. Same implementation as location map.
-
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
   const map = (

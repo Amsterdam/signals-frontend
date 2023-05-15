@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -69,6 +69,11 @@ describe('<DefaultTextsForm />', () => {
       screen.getByTestId(`default-text-form-item-button-${props.index}-down`)
     )
     expect(props.changeOrdering).toHaveBeenCalledTimes(2)
+
+    // click checkbox with id is_active-1 and check if it is checked and if setValue is called
+    userEvent.click(screen.getByTestId(`is_active-1`))
+    expect(screen.getByTestId(`is_active-1`)).toBeChecked()
+    expect(props.setValue).toHaveBeenCalledTimes(1)
   })
 
   describe('<checkbox disabled', () => {

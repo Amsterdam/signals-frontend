@@ -37,6 +37,7 @@ const mockAddress = {
   woonplaats: 'Amsterdam',
   openbare_ruimte: 'West',
 }
+
 const geocodedResponse = {
   id: 'foo',
   value: 'bar',
