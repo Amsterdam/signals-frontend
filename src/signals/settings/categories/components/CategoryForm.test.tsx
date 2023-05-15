@@ -104,6 +104,7 @@ describe('CategoryForm', () => {
         name: 'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden',
       })
     ).toBeInTheDocument()
+    expect(screen.getByText('Naam openbaar')).toBeInTheDocument()
 
     expect(
       screen.queryByRole('checkbox', {

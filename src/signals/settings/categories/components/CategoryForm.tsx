@@ -168,7 +168,7 @@ export const CategoryForm = ({
                 )}
               </FieldGroup>
 
-              {formValues.is_public_accessible && !isMainCategory && (
+              {formValues.is_public_accessible && (
                 <FieldGroup>
                   <Input
                     {...formMethods.register('public_name')}
