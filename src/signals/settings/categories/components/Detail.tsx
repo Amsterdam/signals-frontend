@@ -2,9 +2,11 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useMemo } from 'react'
 
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
+import * as yup from 'yup'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -20,7 +22,6 @@ import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
 import { getPatchPayload } from './utils'
-
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
 import type { CategoryFormValues } from '../types'
@@ -33,6 +34,26 @@ export interface Props {
   isPublicAccessibleLabel: string
 }
 
+const schema = yup.object().shape({
+  // create a validation for icon where the event svg file should be at least 32 by 32 pixels
+  icon: yup
+    .mixed()
+    .test('fileSize', 'Icon should be at max 32 by 32 pixels', (value) => {
+      const parser = new DOMParser()
+      value.text().then((icon: any) => {
+        const svgDoc = parser.parseFromString(icon, 'image/svg+xml')
+        const height = parseInt(
+          svgDoc.querySelector('svg')?.getAttribute('heigth') || '0'
+        )
+        const width = parseInt(
+          svgDoc.querySelector('svg')?.getAttribute('width') || '0'
+        )
+        return !(height < 32 || width < 32)
+      })
+      return false
+    }),
+})
+
 // istanbul ignore next
 export const CategoryDetail = ({
   entityName,
@@ -41,11 +62,6 @@ export const CategoryDetail = ({
 }: Props) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  //const [errorUploadIcon, setErrorUploadIcon] = useState(false)
-
-  // const updateErrorUploadIcon = (IconError: boolean): void => {
-  //   //setErrorUploadIcon(IconError)
-  // }
   const location = useLocationReferrer()
 
   const redirectURL =
@@ -94,8 +110,10 @@ export const CategoryDetail = ({
 
   const formMethods = useForm<CategoryFormValues>({
     reValidateMode: 'onSubmit',
+    resolver: yupResolver(schema),
     defaultValues: { ...defaultValues },
   })
+
   const isDirty = formMethods.formState.isDirty
   const formValues = formMethods.getValues()
 
@@ -135,8 +153,9 @@ export const CategoryDetail = ({
     confirmedCancel(!isDirty)
   }, [confirmedCancel, isDirty])
 
-  const onSubmit = useCallback(() => {
-    // dispatch(
+  const onSubmit = useCallback(async () => {
+    // todo verplaatsen, afhankelijk maken van form state
+    // dispatch
     //   showGlobalNotification({
     //     title: 'De wijzigingen kunnen niet worden opgeslagen.',
     //     variant: VARIANT_ERROR,
@@ -174,7 +193,6 @@ export const CategoryDetail = ({
         readOnly={!userCanSubmitForm}
         responsibleDepartments={responsibleDepartments}
         isPublicAccessibleLabel={isPublicAccessibleLabel}
-        // updateErrorUploadIcon={updateErrorUploadIcon}
       />
     </Fragment>
   )
