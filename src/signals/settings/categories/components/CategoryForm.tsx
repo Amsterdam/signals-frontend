@@ -89,7 +89,6 @@ export const CategoryForm = ({
                   </>
                 )}
               </FieldGroup>
-
               {!isMainCategory && (
                 <Controller
                   name="description"
@@ -109,7 +108,6 @@ export const CategoryForm = ({
                   )}
                 />
               )}
-
               {responsibleDepartments.length > 0 && (
                 <FieldGroup as="dl">
                   <StyledDefinitionTerm>
@@ -123,27 +121,30 @@ export const CategoryForm = ({
 
               <FieldGroup>
                 <StyledHeading>Openbaar tonen</StyledHeading>
-                <Controller
-                  name="is_public_accessible"
-                  control={formMethods.control}
-                  render={({ field: { name, value, onChange } }) => (
-                    <FieldGroup>
-                      <StyledLabel
-                        htmlFor={name}
-                        label={isPublicAccessibleLabel}
-                        data-testid="category-is-public-accessible"
-                        disabled={readOnly}
-                      >
-                        <Checkbox
-                          checked={value}
-                          name={name}
-                          id={name}
-                          onChange={onChange}
-                        />
-                      </StyledLabel>
-                    </FieldGroup>
-                  )}
-                />
+                {!isMainCategory && (
+                  <Controller
+                    name="is_public_accessible"
+                    control={formMethods.control}
+                    render={({ field: { name, value, onChange } }) => (
+                      <FieldGroup>
+                        <StyledLabel
+                          htmlFor={name}
+                          label={isPublicAccessibleLabel}
+                          data-testid="category-is-public-accessible"
+                          disabled={readOnly}
+                        >
+                          <Checkbox
+                            checked={value}
+                            name={name}
+                            id={name}
+                            onChange={onChange}
+                          />
+                        </StyledLabel>
+                      </FieldGroup>
+                    )}
+                  />
+                )}
+
                 {isMainCategory && (
                   <Controller
                     name="show_children_in_filter"
@@ -179,7 +180,6 @@ export const CategoryForm = ({
                   />
                 </FieldGroup>
               )}
-
               {!isMainCategory && (
                 <>
                   <FieldGroup>
@@ -228,11 +228,11 @@ export const CategoryForm = ({
                     name="is_active"
                     control={formMethods.control}
                     render={({ field: { name, value, onChange } }) => {
+                      /* istanbul ignore next */
                       const handleOnChange = (
                         _groupName: string,
                         option: StatusOption
                       ) => {
-                        /* istanbul ignore next */
                         const value = statusOptions.find(
                           (status) => status.value === option.value
                         )?.key

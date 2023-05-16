@@ -78,6 +78,17 @@ describe('CategoryForm', () => {
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Annuleer' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('checkbox', {
+        name: 'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
+      })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByRole('checkbox', {
+        name: 'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden',
+      })
+    ).not.toBeInTheDocument()
   })
 
   it('should render correct fields when main category', () => {
@@ -89,11 +100,17 @@ describe('CategoryForm', () => {
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
     expect(
-      screen.getByText(
-        'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden'
-      )
+      screen.getByRole('checkbox', {
+        name: 'Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden',
+      })
     ).toBeInTheDocument()
+    expect(screen.getByText('Naam openbaar')).toBeInTheDocument()
 
+    expect(
+      screen.queryByRole('checkbox', {
+        name: 'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
+      })
+    ).not.toBeInTheDocument()
     expect(screen.queryByText('Afhandeltermijn')).not.toBeInTheDocument()
     expect(
       screen.queryByRole('textbox', { name: 'Naam' })
