@@ -228,11 +228,11 @@ export const CategoryForm = ({
                     name="is_active"
                     control={formMethods.control}
                     render={({ field: { name, value, onChange } }) => {
+                      /* istanbul ignore next */
                       const handleOnChange = (
                         _groupName: string,
                         option: StatusOption
                       ) => {
-                        /* istanbul ignore next */
                         const value = statusOptions.find(
                           (status) => status.value === option.value
                         )?.key
