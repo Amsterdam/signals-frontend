@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 
 import { Column, Row, themeSpacing } from '@amsterdam/asc-ui'
 import { useDispatch, useSelector } from 'react-redux'
@@ -235,12 +235,18 @@ const IncidentDetail = () => {
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
   }, [getIncident, id])
 
+  const prevIncidentId = useRef<string>(id)
   const retrieveUnderlyingData = useCallback(() => {
-    if (!history && !historyIsLoading) {
+    const incidentIdChanged = prevIncidentId.current !== id
+    if ((!history && !historyIsLoading) || incidentIdChanged) {
       getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
+      prevIncidentId.current = id
     }
 
-    if (!state.attachments && !attachments && !isAttachmentsLoading) {
+    if (
+      (!state.attachments && !attachments && !isAttachmentsLoading) ||
+      incidentIdChanged
+    ) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
@@ -255,7 +261,7 @@ const IncidentDetail = () => {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
-    if (!context && !contextIsLoading) {
+    if ((!context && !contextIsLoading) || incidentIdChanged) {
       getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
     }
   }, [
