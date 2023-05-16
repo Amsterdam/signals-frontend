@@ -5,7 +5,7 @@ import form from 'react-hook-form'
 
 import { withAppContext } from 'test/utils'
 
-import GlobalError from '../index'
+import GlobalError from './index'
 
 const defaultErrorMessage =
   'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'
@@ -70,5 +70,32 @@ describe('Form component <GlobalError />', () => {
 
       expect(screen.getByText(invalidErrorMessage)).toBeInTheDocument()
     })
+  })
+
+  // test custom error message
+  describe('render a custom error message', () => {
+    jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
+      formState: {
+        errors: {
+          extra_dieren_waar_dode_dieren: {
+            message: {
+              globalMessage:
+                'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.',
+            },
+          },
+        },
+      },
+    }))
+    render(
+      withAppContext(
+        <GlobalError meta={{ extra_dieren_waar_dode_dieren: { meta: {} } }} />
+      )
+    )
+
+    expect(
+      screen.getByText(
+        'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.'
+      )
+    ).toBeInTheDocument()
   })
 })

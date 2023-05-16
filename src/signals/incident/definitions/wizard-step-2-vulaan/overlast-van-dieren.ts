@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-
+import { isBlockingAnswer } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -55,6 +55,10 @@ const overlastVanDieren = {
       value:
         'De gemeente bestrijdt geen wespen in of bij de woning. U kunt zelf maatregelen nemen als u dat wilt. Bekijk [onze tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).',
       type: 'alert',
+      isBlocking: true,
+    },
+    options: {
+      validators: [isBlockingAnswer],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -89,8 +93,12 @@ const overlastVanDieren = {
       value:
         'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet meer verder in te vullen.',
       type: 'alert',
+      isBlocking: true,
     },
     render: QuestionFieldType.PlainText,
+    options: {
+      validators: [isBlockingAnswer],
+    },
   },
   extra_dieren_waar_dode_dieren_water: {
     meta: {
@@ -100,6 +108,10 @@ const overlastVanDieren = {
       value:
         'Dode of zieke dieren in het water kunt u melden bij Waternet, telefoon: [0900 9394](tel:09009394). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'alert',
+      isBlocking: true,
+    },
+    options: {
+      validators: [isBlockingAnswer],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -111,6 +123,10 @@ const overlastVanDieren = {
       value:
         'Dode of zieke dieren en vogels in de openbare ruimte kunt u melden bij de Dierenambulance: [020 626 2121](tel:0206262121) (24 uur per dag, 7 dagen per week bereikbaar). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'alert',
+      isBlocking: true,
+    },
+    options: {
+      validators: [isBlockingAnswer],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -230,6 +246,10 @@ const overlastVanDieren = {
       value:
         'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'alert',
+      isBlocking: true,
+    },
+    options: {
+      validators: [isBlockingAnswer],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -296,6 +316,10 @@ const overlastVanDieren = {
       value:
         'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'alert',
+      isBlocking: true,
+    },
+    options: {
+      validators: [isBlockingAnswer],
     },
     render: QuestionFieldType.PlainText,
   },

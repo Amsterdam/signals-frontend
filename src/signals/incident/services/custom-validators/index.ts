@@ -1,6 +1,7 @@
 export {
   falsyOrNumber,
+  inPast,
+  isBlockingAnswer,
   validateObjectLocation,
   validatePhoneNumber,
-  inPast,
 } from './custom-validators'
