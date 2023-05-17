@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
 
@@ -24,7 +24,6 @@ import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
   const { selection, meta, setItem, removeItem } = useContext(SelectContext)
-
   const getMarker = useCallback(
     (feat: any, featureStatusTypes: FeatureStatusType[]) => {
       const feature = feat as Feature
@@ -32,7 +31,8 @@ export const CaterpillarLayer: FC = () => {
       // Caterpillar layer renders only a single feature type (oak tree)
       const featureType = meta.featureTypes[0]
 
-      const featureId = feature.properties[featureType.idField] as string
+      const featureId = feature.id
+
       const isSelected = Boolean(
         selection?.find((item) => item.id === featureId)
       )
@@ -94,7 +94,7 @@ export const CaterpillarLayer: FC = () => {
 
       return (
         <Marker
-          key={`${featureId}-${isSelected}`}
+          key={`${feature.id}-${isSelected}`}
           options={{
             icon,
             alt: altText,
@@ -115,10 +115,15 @@ export const CaterpillarLayer: FC = () => {
   const statusFeatures = features.filter(
     (feature) => getFeatureStatusType(feature, featureStatusTypes) !== undefined
   )
+  features
+    .filter((feature: any) => feature.geometry.coordinates.length > 0)
+    .map((feat) => getMarker(feat, featureStatusTypes))
 
   return (
     <>
-      {features.map((feat) => getMarker(feat, featureStatusTypes))}
+      {features
+        .filter((feature: any) => feature.geometry.coordinates.length > 0)
+        .map((feat) => getMarker(feat, featureStatusTypes))}
       {statusFeatures.length > 0 && featureStatusTypes && (
         <StatusLayer
           statusFeatures={statusFeatures as Feature[]}
