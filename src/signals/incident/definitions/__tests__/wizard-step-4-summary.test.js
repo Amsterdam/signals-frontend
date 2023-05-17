@@ -4,12 +4,12 @@ import configuration from 'shared/services/configuration/configuration'
 
 import PreviewComponents from '../../components/IncidentPreview/components'
 import step4, {
-  renderPreview,
-  summary,
   Label,
-  ObjectLabel,
-  SCSVLabel,
   Null,
+  ObjectLabel,
+  renderPreview,
+  SCSVLabel,
+  summary,
 } from '../wizard-step-4-summary'
 
 const { previewFactory } = step4
@@ -147,13 +147,26 @@ describe('Wizard summary', () => {
             canBeNull: true,
             label: 'Wanneer was het?',
             optional: true,
-            render: expect.any(Function),
+            render: PreviewComponents.DateTime,
           },
           extra_afval: {
-            label: 'Waar komt het afval vandaan, denkt u?',
+            label: 'Welk afval is verkeerd neergezet?',
             optional: true,
-            render: expect.any(Function),
+            render: Label,
             canBeNull: false,
+          },
+          extra_afval_eigenaar: {
+            label:
+              'Weet u wie de eigenaar is van het verkeerd geplaatste afval? Bijvoorbeeld omdat u dat ziet aan een adressticker of iets anders?',
+            optional: true,
+            render: ObjectLabel,
+            canBeNull: false,
+          },
+          extra_afval_eigenaar_ja: {
+            canBeNull: false,
+            label: undefined,
+            optional: true,
+            render: Null,
           },
           ...expectedLocation,
         },
