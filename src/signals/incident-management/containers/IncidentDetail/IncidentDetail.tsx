@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 
 import { Column, Row, themeSpacing } from '@amsterdam/asc-ui'
@@ -95,11 +95,7 @@ const IncidentDetail = () => {
     isSuccess,
     patch,
   } = useFetch<Incident>()
-  const {
-    get: getHistory,
-    data: history,
-    isLoading: historyIsLoading,
-  } = useFetch<HistoryEntry[]>()
+  const { get: getHistory, data: history } = useFetch<HistoryEntry[]>()
   const {
     get: getAttachments,
     data: attachments,
@@ -114,11 +110,7 @@ const IncidentDetail = () => {
   const { get: getChildren, data: children } = useFetch<Result<IncidentChild>>()
   const { get: getChildrenHistory, data: childrenHistory } =
     useFetchAll<HistoryEntry[]>()
-  const {
-    get: getContext,
-    data: context,
-    isLoading: contextIsLoading,
-  } = useFetch<Context>()
+  const { get: getContext, data: context } = useFetch<Context>()
   const { get: getChildIncidents, data: childIncidents } =
     useFetchAll<Incident>()
   const { upload, uploadSuccess, uploadProgress, uploadError } = useUpload()
@@ -235,18 +227,10 @@ const IncidentDetail = () => {
     getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}`)
   }, [getIncident, id])
 
-  const prevIncidentId = useRef<string>(id)
   const retrieveUnderlyingData = useCallback(() => {
-    const incidentIdChanged = prevIncidentId.current !== id
-    if ((!history && !historyIsLoading) || incidentIdChanged) {
-      getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
-      prevIncidentId.current = id
-    }
+    getHistory(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/history`)
 
-    if (
-      (!state.attachments && !attachments && !isAttachmentsLoading) ||
-      incidentIdChanged
-    ) {
+    if (!state.attachments) {
       getAttachments(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments`
       )
@@ -261,23 +245,15 @@ const IncidentDetail = () => {
       getChildren(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/children/`)
     }
 
-    if ((!context && !contextIsLoading) || incidentIdChanged) {
-      getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
-    }
+    getContext(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/context`)
   }, [
-    attachments,
-    context,
-    contextIsLoading,
+    getHistory,
+    id,
+    state.attachments,
+    incident?._links,
     getAttachments,
     getChildren,
     getContext,
-    getHistory,
-    history,
-    historyIsLoading,
-    id,
-    incident?._links,
-    isAttachmentsLoading,
-    state.attachments,
   ])
 
   useEffect(() => {
@@ -288,11 +264,17 @@ const IncidentDetail = () => {
     storeDispatch(patchIncidentSuccess())
   }, [isSuccess, state.patching, emit, storeDispatch])
 
+  const prevIncident = useRef<Incident>()
   useEffect(() => {
     if (!incident) return
     dispatch({ type: SET_INCIDENT, payload: incident })
 
-    retrieveUnderlyingData()
+    const prevIncidentString = JSON.stringify(prevIncident.current)
+    const incidentString = JSON.stringify(incident)
+    if (!prevIncidentString || prevIncidentString !== incidentString) {
+      retrieveUnderlyingData()
+    }
+    prevIncident.current = incident
   }, [incident, retrieveUnderlyingData])
 
   useEffect(() => {
