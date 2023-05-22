@@ -13,6 +13,12 @@ type Props = {
 const GlobalError = ({ meta }: Props) => {
   const { formState } = useFormContext()
 
+  const message: any = Object.values(formState.errors || {})[0]?.message
+
+  if (meta && message?.globalMessage) {
+    meta.label = message?.globalMessage
+  }
+
   const invalid =
     formState.errors?.dateTime?.type === 'custom' ? '(juist) ' : ''
 
@@ -23,4 +29,5 @@ const GlobalError = ({ meta }: Props) => {
     </StyledErrorAlert>
   ) : null
 }
+
 export default GlobalError

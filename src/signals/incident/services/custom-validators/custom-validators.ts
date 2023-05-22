@@ -50,3 +50,12 @@ export const validateObjectLocation = (objectType: string) =>
       custom: `Kies een locatie of een ${objectType} op de kaart of vul een adres in`,
     }
   }
+
+export const isBlockingAnswer = () => {
+  return {
+    custom: {
+      globalMessage:
+        'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.',
+    },
+  }
+}

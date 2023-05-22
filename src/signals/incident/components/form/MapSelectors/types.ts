@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { MouseEvent, KeyboardEvent } from 'react'
 
 import type { Point, Feature as GeoJSONFeature } from 'geojson'
@@ -70,6 +70,12 @@ export interface DataLayerProps {
   desktopView?: boolean
 }
 
+interface Validator {
+  meta: Record<string, string>
+  options: Record<string, string>
+  render: React.Component
+}
+
 export interface Meta extends Record<string, unknown> {
   name?: string
   endpoint: string
@@ -83,6 +89,7 @@ export interface Meta extends Record<string, unknown> {
   label?: string
   shortLabel?: string
   pathMerge?: string
+  validators?: Record<string, Validator>
 }
 
 export type FeatureProps = Record<string, string | number | undefined | null>
