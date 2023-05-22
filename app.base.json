@@ -22,7 +22,8 @@
     "useProjectenSignalType": false,
     "enableForwardIncidentToExternal": false,
     "showMainCategories": false,
-    "disableClosingCategoryOverigOverig": false
+    "disableClosingCategoryOverigOverig": false,
+    "useGisib": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

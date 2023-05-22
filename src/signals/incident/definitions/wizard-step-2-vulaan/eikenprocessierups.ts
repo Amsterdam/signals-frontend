@@ -34,8 +34,9 @@ export const controls = {
       },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
-      endpoint:
-        'https://gisib.acc.meldingen.amsterdam.nl/public/gisib/geography/?object_kind_name=Boom&bbox={east},{south},{west},{north}',
+      endpoint: configuration.featureFlags.useGisib
+        ? 'https://gisib.acc.meldingen.amsterdam.nl/public/gisib/geography/?object_kind_name=Boom&bbox={east},{south},{west},{north}'
+        : 'https://services9.arcgis.com/YBT9ZoJBxXxS3cs6/arcgis/rest/services/EPR_2021_SIA_Amsterdam/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson&geometryType=esriGeometryEnvelope&geometry={{east},{south},{west},{north}}',
       maxNumberOfAssets:
         configuration.map.options?.maxNumberOfAssets.eikenProcessierups,
       featureTypes: [

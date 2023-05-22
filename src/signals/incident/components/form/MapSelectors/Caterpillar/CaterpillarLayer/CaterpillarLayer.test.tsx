@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 import type { FeatureCollection } from 'geojson'
 import { mocked } from 'jest-mock'
 
+import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
@@ -22,6 +23,7 @@ import CaterpillarLayer from '.'
 import withAssetSelectContext, {
   contextValue,
 } from '../../Asset/__tests__/withAssetSelectContext'
+jest.mock('shared/services/configuration/configuration')
 
 const typedMeta = controls.extra_eikenprocessierups.meta as unknown as Meta
 const assetSelectProviderValue: AssetSelectValue = {
@@ -71,6 +73,7 @@ describe('CaterpillarLayer', () => {
   afterEach(() => {
     setItem.mockReset()
     removeItem.mockReset()
+    ;(configuration as any).__reset()
   })
 
   it('should render the caterpillar layer in the map', () => {
@@ -136,6 +139,7 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle deselecting a tree', () => {
+    configuration.featureFlags.useGisib = true
     const featureId = 308778
     const selected = selection.find(({ id }) => id === featureId)
 

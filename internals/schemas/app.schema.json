@@ -149,6 +149,10 @@
         "disableClosingCategoryOverigOverig": {
           "description": "Disallows processing of an issue that has category Overig-overig and status Afgehandeld",
           "type": "boolean"
+        },
+        "useGisib": {
+          "description": "When true, will use GISIB for the map",
+          "type": "boolean"
         }
       },
       "required": [
