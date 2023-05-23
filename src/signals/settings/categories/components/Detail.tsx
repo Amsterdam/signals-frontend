@@ -38,20 +38,45 @@ const schema = yup.object().shape({
   // create a validation for icon where the event svg file should be at least 32 by 32 pixels
   icon: yup
     .mixed()
-    .test('fileSize', 'Icon should be at max 32 by 32 pixels', (value) => {
-      const parser = new DOMParser()
-      value.text().then((icon: any) => {
-        const svgDoc = parser.parseFromString(icon, 'image/svg+xml')
-        const height = parseInt(
-          svgDoc.querySelector('svg')?.getAttribute('heigth') || '0'
-        )
-        const width = parseInt(
-          svgDoc.querySelector('svg')?.getAttribute('width') || '0'
-        )
-        return !(height < 32 || width < 32)
-      })
-      return false
-    }),
+    .test(
+      'fileSize',
+      'Icon should be at max 32 by 32 pixels',
+      async (value) => {
+        const parser = new DOMParser()
+        const reader = new FileReader()
+
+        // create a Promsise to return the result of the reader
+
+        const res = await new Promise((resolve) => {
+          reader.onload = function (e) {
+            const result = e?.target?.result
+
+            const svg = parser.parseFromString(
+              result,
+              'image/svg+xml'
+            ).documentElement
+
+            if (svg?.height?.animVal.value > 2) {
+              return resolve(true)
+            }
+            return resolve(false)
+          }
+          reader.readAsText(value)
+        })
+
+        // const svg = parser.parseFromString(value, 'image/svg+xml').documentElement
+
+        //
+        // const height = parseInt(svg.getAttribute('height') || '0')
+        // const width = parseInt(svg.getAttribute('width') || '0')
+        //
+        // const width1 = svg.getAttribute('width')
+        // const height1 = svg.getAttribute('height')
+        // const viewBox1 = svg.getAttribute('viewBox')
+        // console.log(width1, height1, viewBox1)
+        return res
+      }
+    ),
 })
 
 // istanbul ignore next
