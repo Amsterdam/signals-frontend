@@ -59,7 +59,7 @@ export const controls = {
   extra_afval_handhaving_owner_confirmation: {
     meta: {
       ifOneOf: {
-        extra_afval_handhaving_owner: 'Ja',
+        extra_afval_handhaving_owner: 'ja',
       },
       value:
         'Wij willen graag telefonisch contact met u hierover. Als u dat goed vindt, vul dan uw telefoonnummer in op de volgende pagina.',
