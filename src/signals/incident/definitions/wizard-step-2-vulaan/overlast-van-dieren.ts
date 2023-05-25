@@ -53,7 +53,7 @@ const overlastVanDieren = {
         extra_dieren_waar_wespen: 'woning',
       },
       value:
-        'De gemeente bestrijdt geen wespen in of bij de woning. U kunt zelf maatregelen nemen als u dat wilt. Bekijk [onze tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).',
+        'De gemeente bestrijdt geen wespen in of bij de woning. U kunt zelf maatregelen nemen als u dat wilt. Bekijk [onze tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).  U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
@@ -90,7 +90,7 @@ const overlastVanDieren = {
         extra_dieren_waar_dode_dieren: 'woning_tuin',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet meer verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     render: QuestionFieldType.PlainText,
@@ -104,7 +104,7 @@ const overlastVanDieren = {
         extra_dieren_waar_dode_dieren: 'water',
       },
       value:
-        'Dode of zieke dieren in het water kunt u melden bij Waternet, telefoon: [0900 9394](tel:09009394). U hoeft dit formulier niet meer verder in te vullen.',
+        'Dode of zieke dieren in het water kunt u melden bij Waternet, telefoon: [0900 9394](tel:09009394). U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
@@ -118,7 +118,7 @@ const overlastVanDieren = {
         extra_dieren_waar_dode_dieren: 'openbaar_anders',
       },
       value:
-        'Dode of zieke dieren en vogels in de openbare ruimte kunt u melden bij de Dierenambulance: [020 626 2121](tel:0206262121) (24 uur per dag, 7 dagen per week bereikbaar). U hoeft dit formulier niet meer verder in te vullen.',
+        'Dode of zieke dieren en vogels in de openbare ruimte kunt u melden bij de Dierenambulance: [020 626 2121](tel:0206262121) (24 uur per dag, 7 dagen per week bereikbaar). U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
@@ -240,7 +240,7 @@ const overlastVanDieren = {
         extra_dieren_waar_meeuwen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). U hoeft dit formulier niet meer verder in te vullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
@@ -309,7 +309,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'ander_gebouw',
       },
       value:
-        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). U hoeft dit formulier niet meer verder in te vullen.',
+        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
