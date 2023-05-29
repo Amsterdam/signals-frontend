@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { UploadIconExplanation } from './UploadIconExplanation'
 
-describe('AddIconContainer', () => {
+describe('UploadIconExplanation', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })

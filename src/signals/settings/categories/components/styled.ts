@@ -3,13 +3,13 @@
 import type { ElementType } from 'react'
 
 import {
-  Alert,
   themeSpacing,
   Column,
   Select,
   Label,
   themeColor,
   Button,
+  Alert,
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
@@ -83,13 +83,6 @@ export const IconUploadWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-export const StyledAlert = styled(Alert)`
-  background-color: ${themeColor('primary')};
-  color: ${themeColor('tint', 'level1')};
-  margin-top: ${themeSpacing(5)};
-  padding: ${themeSpacing(1, 1, 4, 1)};
-`
-
 export const StyledParagraphStrong = styled.p`
   font-weight: 700;
   font-size: 1.125rem;
@@ -183,4 +176,27 @@ export const InvisibleButton = styled.button<{ toggle: boolean }>`
 export const StyledInstructions = styled.p`
   color: ${themeColor('tint', 'level6')};
   margin: ${themeSpacing(0)};
+`
+export const StyledAlert = styled(Alert)`
+  color: ${themeColor('secondary')};
+  background-color: ${themeColor('tint', 'level1')};
+  font-weight: 700;
+  line-height: ${themeSpacing(6)};
+  margin-top: ${themeSpacing(4)};
+  padding: ${themeSpacing(0)};
+`
+
+export const StyledInfoAlert = styled(Alert)`
+  background-color: ${themeColor('primary')};
+  color: ${themeColor('tint', 'level1')};
+  margin-top: ${themeSpacing(5)};
+  padding: ${themeSpacing(1, 1, 4, 1)};
+`
+
+export const StyledGlobalAlert = styled(Alert)`
+  color: ${themeColor('tint', 'level1')};
+  background-color: ${themeColor('secondary')};
+  font-weight: 700;
+  line-height: ${themeSpacing(6)};
+  font-size: 1.125rem;
 `

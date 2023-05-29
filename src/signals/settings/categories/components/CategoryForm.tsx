@@ -19,6 +19,7 @@ import {
   FieldGroup,
   Form,
   FormContainer,
+  StyledAlert,
   StyledColumn,
   StyledDefinitionTerm,
   StyledFormFooter,
@@ -50,7 +51,6 @@ export interface Props {
   responsibleDepartments: string[]
   isMainCategory: boolean
   isPublicAccessibleLabel: string
-  // updateErrorUploadIcon: (arg: boolean) => void
 }
 
 export const CategoryForm = ({
@@ -65,6 +65,7 @@ export const CategoryForm = ({
   isPublicAccessibleLabel,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <FormProvider {...formMethods}>
       <FormContainer>
@@ -175,7 +176,10 @@ export const CategoryForm = ({
 
                 <Controller
                   name="icon"
-                  render={({ field: { name, value, onChange } }) => {
+                  render={({
+                    field: { name, value, onChange },
+                    fieldState,
+                  }) => {
                     const IconButtonText = value
                       ? 'Icoon wijzigen'
                       : 'Icoon toevoegen'
@@ -188,7 +192,11 @@ export const CategoryForm = ({
                           value={value}
                           onChange={onChange}
                           inputRef={inputRef}
+                          $hasError={!!fieldState.error?.message}
                         />
+                        {fieldState.error?.message && (
+                          <StyledAlert>{fieldState.error?.message}</StyledAlert>
+                        )}
                       </FieldGroup>
                     )
                   }}

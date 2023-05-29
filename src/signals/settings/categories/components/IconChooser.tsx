@@ -9,7 +9,7 @@ import { TrashBin } from '@amsterdam/asc-assets'
 import {
   DeleteButton,
   IconUploadWrapper,
-  StyledAlert,
+  StyledInfoAlert,
   StyledButton,
   StyledImg,
   StyledParagraph,
@@ -24,6 +24,7 @@ export interface Props {
   onChange: (...event: any[]) => void
   iconButtonText: string
   inputRef: RefObject<HTMLInputElement>
+  $hasError?: boolean
 }
 
 export const IconChooser = ({
@@ -32,12 +33,8 @@ export const IconChooser = ({
   onChange,
   iconButtonText,
   inputRef,
+  $hasError = false,
 }: Props) => {
-  // const [error, setError] = useState('')
-  // const [$hasError, set$hasError] = useState(false)
-
-  // const { formState } = useFormContext()
-
   /* istanbul ignore next */
   const onKeyDownHandler = useCallback(
     (event) => {
@@ -58,7 +55,7 @@ export const IconChooser = ({
               value instanceof File ? window.URL.createObjectURL(value) : value
             }
           />
-          <StyledAlert>
+          <StyledInfoAlert>
             {iconButtonText === 'Icoon wijzigen' && (
               <>
                 <StyledParagraphStrong>
@@ -69,11 +66,9 @@ export const IconChooser = ({
                 </StyledParagraph>
               </>
             )}
-          </StyledAlert>
+          </StyledInfoAlert>
         </>
       )}
-      {/*todo load this when there's an error state, a bit like incidentform */}
-      {/*{error && <ErrorMessage message={error} />}*/}
       <WrapperSetIcon>
         <WrapperInputIcon
           onKeyDown={onKeyDownHandler}
@@ -100,7 +95,7 @@ export const IconChooser = ({
               type="button"
               forwardedAs={'span'}
               tabIndex={0}
-              $hasError={false} // $hasErrors value is based on error state from react hook form
+              $hasError={$hasError}
             >
               {iconButtonText}
             </StyledButton>

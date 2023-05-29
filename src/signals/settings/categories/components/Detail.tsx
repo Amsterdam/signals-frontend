@@ -21,6 +21,7 @@ import type { Category } from 'types/category'
 import type { History } from 'types/history'
 
 import { CategoryForm } from './CategoryForm'
+import { StyledGlobalAlert } from './styled'
 import { getPatchPayload } from './utils'
 import useConfirmedCancel from '../../hooks/useConfirmedCancel'
 import useFetchResponseNotification from '../../hooks/useFetchResponseNotification'
@@ -40,41 +41,30 @@ const schema = yup.object().shape({
     .mixed()
     .test(
       'fileSize',
-      'Icon should be at max 32 by 32 pixels',
+      'De afmetingen van het bestand zijn te groot. Maximaal 32px bij 32px.',
       async (value) => {
         const parser = new DOMParser()
         const reader = new FileReader()
 
-        // create a Promsise to return the result of the reader
-
-        const res = await new Promise((resolve) => {
+        // create a Promise to return the result of the reader
+        return await new Promise<boolean>((resolve) => {
           reader.onload = function (e) {
             const result = e?.target?.result
 
-            const svg = parser.parseFromString(
-              result,
-              'image/svg+xml'
-            ).documentElement
+            if (!result) return resolve(true)
 
-            if (svg?.height?.animVal.value > 2) {
-              return resolve(true)
-            }
-            return resolve(false)
+            const svg = parser.parseFromString(
+              result as string,
+              'image/svg+xml'
+            ).documentElement as HTMLElement & SVGSVGElement
+
+            const height = svg?.height?.animVal.value
+            const width = svg?.width?.animVal.value
+
+            return resolve(height <= 32 && width <= 32)
           }
           reader.readAsText(value)
         })
-
-        // const svg = parser.parseFromString(value, 'image/svg+xml').documentElement
-
-        //
-        // const height = parseInt(svg.getAttribute('height') || '0')
-        // const width = parseInt(svg.getAttribute('width') || '0')
-        //
-        // const width1 = svg.getAttribute('width')
-        // const height1 = svg.getAttribute('height')
-        // const viewBox1 = svg.getAttribute('viewBox')
-        // console.log(width1, height1, viewBox1)
-        return res
       }
     ),
 })
@@ -134,6 +124,7 @@ export const CategoryDetail = ({
   }, [data, isMainCategory])
 
   const formMethods = useForm<CategoryFormValues>({
+    mode: 'onChange',
     reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
     defaultValues: { ...defaultValues },
@@ -179,15 +170,6 @@ export const CategoryDetail = ({
   }, [confirmedCancel, isDirty])
 
   const onSubmit = useCallback(async () => {
-    // todo verplaatsen, afhankelijk maken van form state
-    // dispatch
-    //   showGlobalNotification({
-    //     title: 'De wijzigingen kunnen niet worden opgeslagen.',
-    //     variant: VARIANT_ERROR,
-    //     type: TYPE_LOCAL,
-    //   })
-    // )
-
     if (!isDirty) {
       history.push(redirectURL)
     }
@@ -195,19 +177,23 @@ export const CategoryDetail = ({
     const formData = formMethods.getValues()
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL, dispatch])
+  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
 
   if (!data || !historyData) return null
 
   return (
     <Fragment>
+      {Object.keys(formMethods.formState.errors).length > 0 && (
+        <StyledGlobalAlert>
+          De wijzigingen kunnen niet worden opgeslagen.
+        </StyledGlobalAlert>
+      )}
       <PageHeader
         title={title}
         BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
       />
 
       {isLoading && <LoadingIndicator />}
-
       <CategoryForm
         isMainCategory={isMainCategory}
         formMethods={formMethods}
