@@ -22,6 +22,7 @@ describe('Form component <TextareaInput />', () => {
     parent: {
       meta: {
         name: 'test-input',
+        subtitle: 'this is the subtitle',
         updateIncident: jest.fn(),
       },
     },
