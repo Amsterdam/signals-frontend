@@ -133,33 +133,4 @@ describe('CategoryForm', () => {
       screen.queryByRole('button', { name: 'Annuleer' })
     ).not.toBeInTheDocument()
   })
-  // describe('form validation', () => {
-  //   jest.mock('react-hook-form', () => ({
-  //     ...jest.requireActual('react-hook-form'),
-  //     useFormContext: () => ({
-  //       fieldState: {
-  //         errors: {
-  //           icon: 'De afmetingen van het bestand zijn te groot. Maximaal 32px bij 32px.',
-  //         },
-  //       },
-  //     }),
-  //   }))
-  //   it('invalidates the icon upload', () => {
-  //     render(withAppContext(<Wrapper />))
-  //
-  //     expect(
-  //       screen.getByText(
-  //         'De afmetingen van het bestand zijn te groot. Maximaal 32px bij 32px.'
-  //       )
-  //     ).toBeInTheDocument()
-  //   })
-
-  // it('does not render error message', () => {
-  //   jest.spyOn(form, 'useFormContext').mockImplementationOnce(() => ({
-  //     fieldState: {
-  //       errors: '',
-  //     },
-  //   }))
-  // })
-  // })
 })

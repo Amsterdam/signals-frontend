@@ -12,7 +12,7 @@ describe('UploadIconExplanation', () => {
   it('should render the UploadIconExplanation', async () => {
     render(<UploadIconExplanation />)
     expect(
-      screen.getByText('Het icoon wordt getoond op de openbare meldingenkaart')
+      screen.getByText('Het icoon wordt getoond op de openbare meldingenkaart.')
     ).toBeInTheDocument()
   })
 

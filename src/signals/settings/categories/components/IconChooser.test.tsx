@@ -30,6 +30,7 @@ describe('IconChooser', () => {
     const mockedProps: Props = {
       ...defaultProps,
       value: '../assets/images/afval/bread.svg',
+      iconButtonText: 'Icoon wijzigen',
     }
 
     render(withAppContext(<IconChooser {...mockedProps} />))
