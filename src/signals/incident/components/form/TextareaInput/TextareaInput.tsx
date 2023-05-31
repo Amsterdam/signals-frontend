@@ -25,7 +25,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
 }) => {
   if (!meta) return null
 
-  const { label, subtitle, name, isVisible, maxLength, ...metaData } = meta
+  const { label, subtitle, name, isVisible, maxLength } = meta
 
   if (!isVisible || !name) return null
 
@@ -40,6 +40,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
   const props = {
     isStandalone: false,
     name,
+    subtitle,
     maxContentLength: maxLength || undefined,
     label: (
       <>
@@ -52,7 +53,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
 
   return (
     <FormField
-      meta={metaData}
+      meta={meta}
       options={validatorsOrOpts}
       hasError={hasError}
       getError={getError}

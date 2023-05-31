@@ -7,7 +7,6 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import Button from 'components/Button'
-import Label from 'components/Label'
 import TextArea from 'components/TextArea'
 
 export interface AddNoteProps {
@@ -121,12 +120,8 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
         </section>
       )
     }
-
     return (
       <section className={className} data-testid="add-note">
-        <Label htmlFor="addNoteText" className="addNoteText">
-          {label}
-        </Label>
         <TextArea
           data-testid="add-note-text"
           errorMessage={error}
