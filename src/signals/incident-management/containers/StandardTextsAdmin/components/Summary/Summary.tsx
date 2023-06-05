@@ -13,17 +13,18 @@ import statusList from '../../../../definitions/statusList'
 import type { Status as StatusType } from '../../../../definitions/types'
 import type { StandardText } from '../../types'
 
-interface Props {
+export interface Props {
   standardText: StandardText
+  onClick: (id: number) => void
 }
 
-export const Summary = ({ standardText }: Props) => {
-  const { state, title, text } = standardText
+export const Summary = ({ standardText, onClick }: Props) => {
+  const { state, title, text, id } = standardText
 
   const status = statusList.find(({ key }) => key === state) as StatusType
 
   return (
-    <Wrapper>
+    <Wrapper onClick={() => onClick(id)} data-testid="summary-standard-text">
       <ColumnStatus>
         <StyledIcon size={12}>
           <ChevronRight />

@@ -13,11 +13,11 @@ const routes = {
   map: MAP_URL,
   defaultTexts: STANDARD_TEXT_URL_V1,
   standardTexts: STANDARD_TEXT_URL_V2,
+  standardTextsDetail: `${STANDARD_TEXT_URL_V2}/:id`,
   signaling: SIGNALING_URL,
   incident: `${INCIDENT_URL}/:id`,
   split: `${INCIDENT_URL}/:id/split`,
   reporter: `${INCIDENT_URL}/:id/melder`,
   area: `${INCIDENT_URL}/:id/omgeving`,
 }
-
 export default routes

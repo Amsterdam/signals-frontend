@@ -95,6 +95,8 @@ export default {
   // for reference.
   STANDARD_TEXTS_SEARCH_ENDPOINT: '/signals/v1/private/status-messages/search',
   // Private. Used by the incident management module to retrieve and search standard texts.
+  STANDARD_TEXTS_DETAILS_ENDPOINT: '/signals/v1/private/status-messages/',
+  // Private. Used by the incident management module to retrieve the details of a standard text.
   TERMS_ENDPOINT: '/signals/v1/private/terms/categories/',
   // Private. Used by the settings module to `GET`, `PATCH` and `POST` users.
   // See
