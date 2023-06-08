@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { useEffect, useState } from 'react'
 
 import { Helmet } from 'react-helmet'
@@ -51,7 +51,7 @@ export const Detail = () => {
 
   useEffect(() => {
     if (error) {
-      navigate(routes.expired)
+      navigate(`../${routes.expired}`)
     }
   }, [error, navigate])
 

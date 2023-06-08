@@ -22,7 +22,6 @@ import routes, {
   USER_URL,
   ROLE_URL,
   SUBCATEGORIES_PAGED_URL,
-  BASE_URL,
   EXPORT_URL,
 } from './routes'
 
@@ -228,7 +227,7 @@ const SettingsModule = () => {
             }
           />
         )}
-        <Route path={BASE_URL} element={NotFoundPage} />
+        <Route path={'*'} element={<NotFoundPage />} />
       </Routes>
     </Suspense>
   )

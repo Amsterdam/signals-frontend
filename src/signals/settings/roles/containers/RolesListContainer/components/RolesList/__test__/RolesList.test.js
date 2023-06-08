@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -12,7 +12,6 @@ import RolesList from '..'
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({}),
 }))
 
 describe('signals/settings/roles/containers/RolesListContainer/components/RolesList', () => {
@@ -54,10 +53,10 @@ describe('signals/settings/roles/containers/RolesListContainer/components/RolesL
   })
 
   it('should click to role detail page', () => {
-    const push = jest.fn()
+    const navigateMock = jest.fn()
     jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementationOnce(() => ({ push }))
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementationOnce(() => navigateMock)
 
     const { container } = render(withAppContext(<RolesList {...props} />))
     const event = { currentTarget: { getAttribute: () => 2 } }
@@ -67,27 +66,27 @@ describe('signals/settings/roles/containers/RolesListContainer/components/RolesL
       event
     )
 
-    expect(push).toHaveBeenCalledWith(`${ROLE_URL}/2`)
+    expect(navigateMock).toHaveBeenCalledWith(`${ROLE_URL}/2`)
   })
 
   it('should have disabled links', () => {
-    const push = jest.fn()
+    const navigateMock = jest.fn()
     jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementationOnce(() => ({ push }))
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementationOnce(() => navigateMock)
 
     const { container } = render(
       withAppContext(<RolesList {...props} linksEnabled={false} />)
     )
     const event = { currentTarget: { getAttribute: () => 2 } }
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     fireEvent.click(
       container.querySelector('tr:nth-child(1) td:nth-child(1)'),
       event
     )
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 })

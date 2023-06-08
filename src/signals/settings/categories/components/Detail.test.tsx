@@ -3,7 +3,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
-import { MemoryRouter } from 'react-router-dom'
 import * as reactRouterDom from 'react-router-dom'
 
 import { withContext } from 'components/Summary/Summary.test'
@@ -31,16 +30,6 @@ const navigateSpy = jest.fn()
 jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 const categoryJSON = subCategories?.find((sub) => sub?._links['sia:parent'])
-
-const mockLocation = {
-  hash: '',
-  key: '',
-  pathname: '/instellingen/categorie/145',
-  search: '',
-  state: null,
-  href: '/instellingen/categorieen',
-  referrer: '/instellingen/categorieen',
-}
 
 const defaultProps: Props = {
   entityName: 'Categorie',
@@ -75,13 +64,7 @@ describe('Detail', () => {
   })
 
   it('should render the form values', async () => {
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    render(withContext(<CategoryDetail {...defaultProps} />))
 
     await waitFor(() => {
       expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
@@ -108,11 +91,7 @@ describe('Detail', () => {
 
   it('should render specific main category fields', async () => {
     render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} isMainCategory={true} />
-        </MemoryRouter>
-      )
+      withContext(<CategoryDetail {...defaultProps} isMainCategory={true} />)
     )
 
     await waitFor(() => {
@@ -125,27 +104,15 @@ describe('Detail', () => {
   })
 
   it('should render a backlink', async () => {
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    render(withContext(<CategoryDetail {...defaultProps} />))
 
     const backLink = await screen.findByTestId('backlink')
 
-    expect(backLink.getAttribute('href')).toEqual('/instellingen/categorieen')
+    expect(backLink.getAttribute('href')).toEqual('/subcategorieen')
   })
 
   it('should render the correct page title for an existing category', async () => {
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    render(withContext(<CategoryDetail {...defaultProps} />))
 
     await waitFor(() => {
       expect(screen.getByText('Categorie wijzigen')).toBeInTheDocument()
@@ -153,13 +120,7 @@ describe('Detail', () => {
   })
 
   it('should call confirm cancel', async () => {
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    render(withContext(<CategoryDetail {...defaultProps} />))
 
     await screen.findByTestId('detail-category-form')
 
@@ -187,11 +148,7 @@ describe('Detail', () => {
     })
 
     const { rerender } = render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
+      withContext(<CategoryDetail {...defaultProps} />)
     )
 
     await waitFor(() => {
@@ -204,13 +161,7 @@ describe('Detail', () => {
       userEvent.click(submitButton)
     })
 
-    rerender(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    rerender(withContext(<CategoryDetail {...defaultProps} />))
 
     expect(screen.getByRole('textbox', { name: 'Naam' })).toHaveValue(
       'Afwatering brug-test'
@@ -218,13 +169,7 @@ describe('Detail', () => {
   })
 
   it('should requests history for existing category', async () => {
-    render(
-      withContext(
-        <MemoryRouter initialEntries={[mockLocation]}>
-          <CategoryDetail {...defaultProps} />
-        </MemoryRouter>
-      )
-    )
+    render(withContext(<CategoryDetail {...defaultProps} />))
 
     await screen.findByTestId('detail-category-form')
 

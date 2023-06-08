@@ -25,17 +25,15 @@ jest.mock('react-redux', () => ({
   dispatch: jest.fn(),
 }))
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
 describe('signals/settings/hooks/useFetchResponseNotification', () => {
   afterEach(() => {
-    push.mockReset()
+    navigateSpy.mockReset()
     dispatch.mockReset()
   })
 
@@ -65,7 +63,7 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
     )
 
     expect(dispatch).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
   })
 
   it('should dispatch error', () => {
@@ -81,7 +79,7 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
       showGlobalNotification({ title, variant, type })
     )
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
   })
 
   it('should dispatch success', () => {
@@ -112,7 +110,7 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
       showGlobalNotification({ title: 'Gebruiker bijgewerkt', variant, type })
     )
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
   })
 
   it('should redirect', () => {
@@ -124,6 +122,6 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
       )
     )
 
-    expect(push).toHaveBeenCalledWith(redirectURL)
+    expect(navigateSpy).toHaveBeenCalledWith(redirectURL)
   })
 })

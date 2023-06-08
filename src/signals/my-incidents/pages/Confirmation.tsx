@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { useState, useCallback, useMemo, useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
@@ -50,7 +50,7 @@ export const Confirmation = () => {
   }, [email, postEmail])
 
   const onCancel = useCallback(() => {
-    navigate(routes.requestAccess)
+    navigate(`../${routes.requestAccess}`)
   }, [navigate])
 
   const buttons = useMemo(
@@ -69,7 +69,7 @@ export const Confirmation = () => {
 
   useEffect(() => {
     if (!email) {
-      navigate(routes.requestAccess)
+      navigate(`../${routes.requestAccess}`)
     }
   }, [email, navigate])
 

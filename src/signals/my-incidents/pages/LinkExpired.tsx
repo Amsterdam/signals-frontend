@@ -13,7 +13,7 @@ export const LinkExpired = () => {
   const navigate = useNavigate()
 
   const onClick = useCallback(() => {
-    navigate(routes.requestAccess)
+    navigate(`../${routes.requestAccess}`)
   }, [navigate])
 
   const buttons = useMemo(

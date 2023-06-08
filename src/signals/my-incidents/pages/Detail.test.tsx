@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -79,6 +79,6 @@ describe('Detail', () => {
       )
     )
 
-    expect(history.location.pathname).toEqual('/mijn-meldingen/verlopen')
+    expect(history.location.pathname).toEqual('/verlopen')
   })
 })

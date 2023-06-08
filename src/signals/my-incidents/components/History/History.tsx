@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { Fragment, useEffect } from 'react'
 
 import format from 'date-fns/format'
@@ -32,7 +32,7 @@ export const History = ({
 
   useEffect(() => {
     if (error) {
-      navigate(routes.expired)
+      navigate(`../${routes.expired}`)
     }
   }, [error, navigate])
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, screen, act } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
@@ -56,13 +56,13 @@ describe('<App />', () => {
   it('should scroll to top on history change', () => {
     render(withAppContext(<App />))
 
-    expect(spyScrollTo).not.toHaveBeenCalled()
+    expect(spyScrollTo).toHaveBeenCalledWith(0, 0)
 
     act(() => {
       history.push('/somewhere/else')
     })
 
-    expect(spyScrollTo).toHaveBeenCalledWith(0, 0)
+    expect(spyScrollTo).toHaveBeenCalledTimes(2)
   })
 
   it('should reset incident on page unload', () => {

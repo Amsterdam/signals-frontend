@@ -47,7 +47,7 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(routes.confirm)
+      navigate(`../${routes.confirm}`)
     }
   }, [isSuccess, navigate])
 

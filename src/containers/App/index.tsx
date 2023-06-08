@@ -55,8 +55,6 @@ const IncidentManagementModule = lazy(
 // istanbul ignore next
 const SettingsModule = lazy(() => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
-// istanbul ignore next
 const IncidentMapContainer = lazy(() => import('signals/IncidentMap'))
 
 // istanbul ignore next
@@ -67,7 +65,7 @@ export const AppContainer = () => {
   const loading = useSelector(makeSelectLoading())
   const sources = useSelector(makeSelectSources)
 
-  const location = useLocationReferrer() as { referrer: string }
+  const location = useLocationReferrer()
   const isFrontOffice = useIsFrontOffice()
   const tallHeaderByDefault = useTallHeader()
   const headerIsTall =
@@ -84,8 +82,8 @@ export const AppContainer = () => {
   }, [dispatch, location])
 
   useEffect(() => {
-    if (location.referrer) {
-      global.window.scrollTo(0, 0)
+    if (location.referrer && location.referrer !== location.pathname) {
+      window.scrollTo(0, 0)
     }
   }, [location])
 
@@ -123,7 +121,7 @@ export const AppContainer = () => {
                 />
                 <Route
                   path="login"
-                  element={<Navigate to="manage" replace />}
+                  element={<Navigate to="/manage" replace />}
                 />
                 <Route
                   path="manage"
@@ -173,7 +171,6 @@ export const AppContainer = () => {
                   element={<Toegankelijkheidsverklaring />}
                 />
                 <Route path={'*'} element={<SettingsModule />} />
-                <Route path={'*'} element={<NotFoundPage />} />
               </Routes>
             </Suspense>
           </ContentContainer>

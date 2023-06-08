@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, fireEvent, act } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -13,7 +13,6 @@ import RoleForm from '..'
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({}),
 }))
 
 describe('/signals/settings/roles/components/RoleForm', () => {
@@ -233,21 +232,21 @@ describe('/signals/settings/roles/components/RoleForm', () => {
   })
 
   it('should handle cancel flow', () => {
-    const push = jest.fn()
+    const navigateMock = jest.fn()
     jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementation(() => ({ push }))
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => navigateMock)
 
     const { getByTestId } = render(withAppContext(<RoleForm {...props} />))
 
     expect(props.onPatchRole).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(props.onPatchRole).not.toHaveBeenCalled()
-    expect(push).toHaveBeenCalledWith(ROLES_URL)
+    expect(navigateMock).toHaveBeenCalledWith(ROLES_URL)
   })
 })
