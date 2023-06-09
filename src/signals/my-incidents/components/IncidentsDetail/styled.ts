@@ -37,3 +37,8 @@ export const StyledLink = styled(Link)`
 export const Wrapper = styled.div`
   margin-bottom: ${themeSpacing(6)};
 `
+
+export const ContentWrapper = styled.div`
+  overflow-wrap: anywhere;
+  max-width: ${themeSpacing(160)};
+`

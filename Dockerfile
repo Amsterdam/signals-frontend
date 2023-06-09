@@ -9,7 +9,6 @@ WORKDIR /app
 # Install dependencies and remove apt cache
 RUN apt-get update && apt-get install -y \
   git \
-  netcat \
   && rm -rf /var/lib/apt/lists/*
 
 # Change git URL because network is blocking git protocol...
