@@ -1,36 +1,66 @@
-import { Column } from '@amsterdam/asc-ui'
+import { useEffect, useState } from 'react'
 
-import { StyledColumn, StyledRow } from './styled'
-import { StatusCode } from '../../../../definitions/types'
+import { Column, Row } from '@amsterdam/asc-ui'
+import { useDispatch } from 'react-redux'
+
+import LoadingIndicator from 'components/LoadingIndicator'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { useFetch } from 'hooks'
+import { getErrorMessage } from 'shared/services/api/api'
+import configuration from 'shared/services/configuration/configuration'
+
+import { StyledColumn } from './styled'
 import { Summary } from '../Summary'
 import type { StandardText } from '../Summary/Summary'
 
-const DummyTexts: StandardText[] = [
-  {
-    id: 1,
-    title: 'Test title 1',
-    text: 'Bedankt voor je mederwerking, dit gaan we doen!',
-    active: true,
-    state: StatusCode.Afgehandeld,
-    categories: [4, 176],
-    updated_at: '2023-04-18T12:59:38.586196+02:00',
-    created_at: '2023-04-18T12:58:56.852662+02:00',
-  },
-  {
-    id: 2,
-    title: 'Test title 2',
-    text: 'Jammer dat je het niet met ons eens bent',
-    active: true,
-    state: StatusCode.Afgehandeld,
-    categories: [4, 176],
-    updated_at: '2023-04-18T12:59:38.586196+02:00',
-    created_at: '2023-04-18T12:58:56.852662+02:00',
-  },
-]
+interface Data {
+  count: number
+  results: StandardText[]
+  _links: {
+    next: {
+      href: string | null
+    }
+    previous: {
+      href: string | null
+    }
+    self: {
+      href: string
+    }
+  }
+}
 
 export const OverviewPage = () => {
+  const dispatch = useDispatch()
+  const [standardTexts, setStandardTexts] = useState<StandardText[]>()
+
+  const { get, data, isLoading, error } = useFetch<Data>()
+
+  useEffect(() => {
+    if (!standardTexts) {
+      get(configuration.STANDARD_TEXTS_SEARCH_ENDPOINT)
+    }
+  }, [get, standardTexts])
+
+  useEffect(() => {
+    data && setStandardTexts(data.results)
+  }, [data])
+
+  useEffect(() => {
+    if (error) {
+      dispatch(
+        showGlobalNotification({
+          title: getErrorMessage(error),
+          message: 'De standaardteksten konden niet worden opgehaald',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    }
+  }, [dispatch, error])
+
   return (
-    <StyledRow>
+    <Row>
       <Column span={12}>
         <h1>Standaard teksten overzicht</h1>
       </Column>
@@ -38,12 +68,17 @@ export const OverviewPage = () => {
       <Column span={4}>
         <div>[FILTER]</div>
       </Column>
-      <StyledColumn span={6}>
+
+      <StyledColumn span={8}>
         <div>[SEARCH BAR]</div>
-        {DummyTexts.map((text) => {
-          return <Summary standardText={text} key={text.id} />
-        })}
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          standardTexts?.map((text) => {
+            return <Summary standardText={text} key={text.id} />
+          })
+        )}
       </StyledColumn>
-    </StyledRow>
+    </Row>
   )
 }

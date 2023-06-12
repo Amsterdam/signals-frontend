@@ -16,14 +16,12 @@ import type {
 } from '../../../../definitions/types'
 
 export type StandardText = {
-  id: number
-  title: string
-  text: string
   active: boolean
+  id: number
+  meta: Record<any, any>
   state: StatusCode
-  categories: [4, 176]
-  updated_at: '2023-04-18T12:59:38.586196+02:00'
-  created_at: '2023-04-18T12:58:56.852662+02:00'
+  text: string
+  title: string
 }
 
 interface Props {
@@ -43,6 +41,7 @@ export const Summary = ({ standardText }: Props) => {
         </StyledIcon>
         <Status>{status.value}</Status>
       </ColumnStatus>
+
       <ColumnDescription>
         <Title>{title}</Title>
         <Text>{text}</Text>

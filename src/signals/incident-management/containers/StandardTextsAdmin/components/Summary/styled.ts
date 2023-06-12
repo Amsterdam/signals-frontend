@@ -30,6 +30,10 @@ export const Title = styled.div`
 export const Text = styled.div`
   font-weight: 400;
   line-height: 16px;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export const Wrapper = styled.div`
