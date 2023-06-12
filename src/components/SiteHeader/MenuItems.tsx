@@ -79,10 +79,23 @@ export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
           <StyledMenuButton
             onClick={onLinkClick}
             forwardedAs={NavLink}
-            to="/manage/standaard/teksten"
-            $active={activeMenuItem.includes('/manage/standaard/teksten')}
+            to="/manage/v1/standaardteksten"
+            $active={activeMenuItem.includes('/manage/v1/standaardteksten')}
           >
-            Standaard teksten
+            Standaard teksten (oud)
+          </StyledMenuButton>
+        </MenuItem>
+      )}
+
+      {showItems.defaultTexts && (
+        <MenuItem>
+          <StyledMenuButton
+            onClick={onLinkClick}
+            forwardedAs={NavLink}
+            to="/manage/v2/standaardteksten"
+            $active={activeMenuItem.includes('/manage/v2/standaardteksten')}
+          >
+            Standaard teksten (nieuw)
           </StyledMenuButton>
         </MenuItem>
       )}
