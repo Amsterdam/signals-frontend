@@ -38,7 +38,7 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'))
 // istanbul ignore next
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'))
 // istanbul ignore next
-const StandardTextsAdmin = lazy(() => import('./containers/DefaultTexts'))
+const StandardTextsAdmin = lazy(() => import('./containers/StandardTextsAdmin'))
 // istanbul ignore next
 const IncidentSplitContainer = lazy(() =>
   import('./containers/IncidentSplitContainer')
