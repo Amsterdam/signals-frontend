@@ -94,7 +94,7 @@ export const RoleForm = ({
 
   const handleCancel = useCallback(() => {
     navigate(ROLES_URL)
-  }, [history])
+  }, [navigate])
 
   return (
     <div data-testid="roles-form">

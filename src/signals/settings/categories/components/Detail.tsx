@@ -138,7 +138,7 @@ export const CategoryDetail = ({
 
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
+  }, [isDirty, formMethods, patch, categoryURL, navigate, redirectURL])
 
   if (!data || !historyData) return null
 

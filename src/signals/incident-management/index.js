@@ -3,7 +3,7 @@
 import { lazy, Suspense, useEffect, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { compose } from 'redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'

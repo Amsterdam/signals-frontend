@@ -13,11 +13,7 @@ import {
   isStatusEnd,
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
-import {
-  MAP_URL,
-  INCIDENT_URL,
-  INCIDENTS_URL,
-} from 'signals/incident-management/routes'
+import { MAP_URL, INCIDENTS_URL } from 'signals/incident-management/routes'
 
 import DownloadButton from './components/DownloadButton'
 import { PATCH_TYPE_THOR } from '../../constants'
