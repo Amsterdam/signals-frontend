@@ -10,31 +10,20 @@ import { useFetch } from 'hooks'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
-import { StyledColumn } from './styled'
+import { StyledColumn, StyledPagination } from './styled'
+import { useStandardTextAdminContext } from '../../context'
+import type { StandardText, StandardTextsData } from '../../types'
 import { Summary } from '../Summary'
-import type { StandardText } from '../Summary/Summary'
 
-interface Data {
-  count: number
-  results: StandardText[]
-  _links: {
-    next: {
-      href: string | null
-    }
-    previous: {
-      href: string | null
-    }
-    self: {
-      href: string
-    }
-  }
-}
+const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
   const dispatch = useDispatch()
   const [standardTexts, setStandardTexts] = useState<StandardText[]>()
 
-  const { get, data, isLoading, error } = useFetch<Data>()
+  const { page, setPage } = useStandardTextAdminContext()
+
+  const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
   useEffect(() => {
     if (!standardTexts) {
@@ -78,6 +67,18 @@ export const OverviewPage = () => {
             return <Summary standardText={text} key={text.id} />
           })
         )}
+
+        <StyledPagination
+          data-testid="pagination"
+          collectionSize={data?.count || 0}
+          pageSize={PAGE_SIZE}
+          page={page}
+          onPageChange={(page) => {
+            global.window.scrollTo(0, 0)
+            get(`${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?page=${page}`)
+            setPage(page)
+          }}
+        />
       </StyledColumn>
     </Row>
   )

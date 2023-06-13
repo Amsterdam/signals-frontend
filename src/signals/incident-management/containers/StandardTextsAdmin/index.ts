@@ -1,3 +1,3 @@
-import { OverviewPage as StandardTextsAdmin } from './components'
+import { StandardTextsAdmin } from './StandardTextsAdmin'
 
 export default StandardTextsAdmin

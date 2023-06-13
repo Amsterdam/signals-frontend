@@ -10,19 +10,8 @@ import {
   Wrapper,
 } from './styled'
 import statusList from '../../../../definitions/statusList'
-import type {
-  StatusCode,
-  Status as StatusType,
-} from '../../../../definitions/types'
-
-export type StandardText = {
-  active: boolean
-  id: number
-  meta: Record<any, any>
-  state: StatusCode
-  text: string
-  title: string
-}
+import type { Status as StatusType } from '../../../../definitions/types'
+import type { StandardText } from '../../types'
 
 interface Props {
   standardText: StandardText

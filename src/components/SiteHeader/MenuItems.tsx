@@ -74,31 +74,33 @@ export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
         </MenuItem>
       )}
 
-      {showItems.defaultTexts && (
-        <MenuItem>
-          <StyledMenuButton
-            onClick={onLinkClick}
-            forwardedAs={NavLink}
-            to="/manage/v1/standaardteksten"
-            $active={activeMenuItem.includes('/manage/v1/standaardteksten')}
-          >
-            Standaard teksten (oud)
-          </StyledMenuButton>
-        </MenuItem>
-      )}
+      {configuration.featureFlags.showStandardTextAdminV1 &&
+        showItems.defaultTexts && (
+          <MenuItem>
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/v1/standaardteksten"
+              $active={activeMenuItem.includes('/manage/v1/standaardteksten')}
+            >
+              Standaard teksten (v1)
+            </StyledMenuButton>
+          </MenuItem>
+        )}
 
-      {showItems.defaultTexts && (
-        <MenuItem>
-          <StyledMenuButton
-            onClick={onLinkClick}
-            forwardedAs={NavLink}
-            to="/manage/v2/standaardteksten"
-            $active={activeMenuItem.includes('/manage/v2/standaardteksten')}
-          >
-            Standaard teksten (nieuw)
-          </StyledMenuButton>
-        </MenuItem>
-      )}
+      {configuration.featureFlags.showStandardTextAdminV2 &&
+        showItems.defaultTexts && (
+          <MenuItem>
+            <StyledMenuButton
+              onClick={onLinkClick}
+              forwardedAs={NavLink}
+              to="/manage/v2/standaardteksten"
+              $active={activeMenuItem.includes('/manage/v2/standaardteksten')}
+            >
+              Standaard teksten (v2)
+            </StyledMenuButton>
+          </MenuItem>
+        )}
 
       {showItems.settings && (
         <MenuItem>
