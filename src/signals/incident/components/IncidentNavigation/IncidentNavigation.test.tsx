@@ -49,35 +49,35 @@ describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
     handleSubmit.mockReset()
   })
-  // it('redirects to wizard step 1 from step 2 when refresh is hit', async () => {
-  //   const wizardDefinitionWithoutFormAction = { ...wizardDefinition }
-  //
-  //   wizardDefinitionWithoutFormAction.vulaan.formAction = undefined
-  //
-  //   const propsWithoutFormAction = {
-  //     meta: {
-  //       wizard: wizardDefinitionWithoutFormAction,
-  //       handleSubmit,
-  //     },
-  //   }
-  //
-  //   render(
-  //     withAppContext(
-  //       <Wizard>
-  //         <Steps>
-  //           <Step
-  //             id={steps[1]}
-  //             render={() => <IncidentNavigation {...propsWithoutFormAction} />}
-  //           />
-  //         </Steps>
-  //       </Wizard>
-  //     )
-  //   )
-  //
-  //   await waitFor(() => {
-  //     expect(navigateSpy).toBeCalledWith('/incident/beschrijf')
-  //   })
-  // })
+  it('redirects to wizard step 1 from step 2 when refresh is hit', async () => {
+    const wizardDefinitionWithoutFormAction = { ...wizardDefinition }
+
+    wizardDefinitionWithoutFormAction.vulaan.formAction = undefined
+
+    const propsWithoutFormAction = {
+      meta: {
+        wizard: wizardDefinitionWithoutFormAction,
+        handleSubmit,
+      },
+    }
+
+    render(
+      withAppContext(
+        <Wizard>
+          <Steps>
+            <Step
+              id={steps[1]}
+              render={() => <IncidentNavigation {...propsWithoutFormAction} />}
+            />
+          </Steps>
+        </Wizard>
+      )
+    )
+
+    await waitFor(() => {
+      expect(navigateSpy).toBeCalledWith('/incident/beschrijf')
+    })
+  })
 
   it('renders a next button for the first step', async () => {
     const { getByTestId, queryByTestId } = render(

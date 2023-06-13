@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
+// Copyright (C) 2021-2023 Gemeente Amsterdam
 import { Fragment } from 'react'
 
 import { Link as AscLink } from '@amsterdam/asc-ui'
@@ -20,7 +20,11 @@ const Reporter: React.FC<ReporterProps> = ({
   <Fragment>
     <dt data-testid="detail-reporter-definition">Meldingen van deze melder</dt>
     <dd data-testid="detail-reporter-value">
-      <AscLink as={Link} variant="inline" to={`${INCIDENT_URL}/${id}/melder`}>
+      <AscLink
+        as={Link}
+        variant="inline"
+        to={`../${INCIDENT_URL}/${id}/melder`}
+      >
         {signal_count} {signal_count === 1 ? 'melding' : 'meldingen'}
       </AscLink>
       <div>

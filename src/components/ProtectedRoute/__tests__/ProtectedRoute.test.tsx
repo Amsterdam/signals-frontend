@@ -19,7 +19,7 @@ describe('ProtectedRoute component', () => {
 
   it('should render not found message when component does not exist', () => {
     const MockComponentUndefined = undefined as unknown as (
-      props: any // todo fix type
+      props: any
     ) => JSX.Element
     render(
       withAppContext(

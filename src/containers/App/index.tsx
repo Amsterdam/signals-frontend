@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
+import { Fragment, useEffect, lazy, Suspense, useMemo, useRef } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -66,6 +66,7 @@ export const AppContainer = () => {
   const sources = useSelector(makeSelectSources)
 
   const location = useLocationReferrer()
+  const locationFromUseLocation = useLocation()
   const isFrontOffice = useIsFrontOffice()
   const tallHeaderByDefault = useTallHeader()
   const headerIsTall =
@@ -81,11 +82,13 @@ export const AppContainer = () => {
     }
   }, [dispatch, location])
 
+  const isFirstRenderRef = useRef(true)
   useEffect(() => {
-    if (location.referrer && location.referrer !== location.pathname) {
+    if (!isFirstRenderRef.current) {
       window.scrollTo(0, 0)
     }
-  }, [location])
+    isFirstRenderRef.current = false
+  }, [locationFromUseLocation])
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)

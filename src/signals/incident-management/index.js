@@ -8,7 +8,6 @@ import { compose } from 'redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
-// import useLocationReferrer from 'hooks/useLocationReferrer'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import injectReducer from 'utils/injectReducer'
