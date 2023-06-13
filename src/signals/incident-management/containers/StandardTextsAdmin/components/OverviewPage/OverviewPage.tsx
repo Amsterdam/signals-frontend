@@ -10,7 +10,7 @@ import { useFetch } from 'hooks'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
-import { StyledColumn, StyledPagination } from './styled'
+import { StyledColumn, StyledPagination, StyledButton } from './styled'
 import { useStandardTextAdminContext } from '../../context'
 import type { StandardText, StandardTextsData } from '../../types'
 import { Summary } from '../Summary'
@@ -54,9 +54,10 @@ export const OverviewPage = () => {
         <h1>Standaard teksten overzicht</h1>
       </Column>
 
-      <Column span={4}>
+      <StyledColumn span={4}>
         <div>[FILTER]</div>
-      </Column>
+        <StyledButton variant="secondary">Tekst toevoegen</StyledButton>
+      </StyledColumn>
 
       <StyledColumn span={8}>
         <div>[SEARCH BAR]</div>
