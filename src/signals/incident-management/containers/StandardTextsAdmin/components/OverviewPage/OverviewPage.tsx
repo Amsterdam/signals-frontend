@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { Column, Row } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -14,28 +14,22 @@ import configuration from 'shared/services/configuration/configuration'
 
 import { StyledColumn, StyledPagination, StyledButton } from './styled'
 import { useStandardTextAdminContext } from '../../context'
-import type { StandardText, StandardTextsData } from '../../types'
+import type { StandardTextsData } from '../../types'
 import { Summary } from '../Summary'
 
 const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
   const dispatch = useDispatch()
-  const [standardTexts, setStandardTexts] = useState<StandardText[]>()
-
   const { page, setPage } = useStandardTextAdminContext()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
   useEffect(() => {
-    if (!standardTexts) {
+    if (!data?.results) {
       get(configuration.STANDARD_TEXTS_SEARCH_ENDPOINT)
     }
-  }, [get, standardTexts])
-
-  useEffect(() => {
-    data && setStandardTexts(data.results)
-  }, [data])
+  }, [data?.results, get])
 
   useEffect(() => {
     if (error) {
@@ -53,7 +47,7 @@ export const OverviewPage = () => {
   return (
     <Row>
       <Column span={12}>
-        <h1>Standaard teksten overzicht</h1>
+        <h1>Standaardteksten overzicht</h1>
       </Column>
 
       <StyledColumn span={4}>
@@ -66,7 +60,7 @@ export const OverviewPage = () => {
         {isLoading ? (
           <LoadingIndicator />
         ) : (
-          standardTexts?.map((text) => {
+          data?.results?.map((text) => {
             return <Summary standardText={text} key={text.id} />
           })
         )}

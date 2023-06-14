@@ -11,9 +11,7 @@ describe('StandardTextsAdmin', () => {
     render(withAppContext(<StandardTextsAdmin />))
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Standaard teksten overzicht')
-      ).toBeInTheDocument()
+      expect(screen.getByText('Standaardteksten overzicht')).toBeInTheDocument()
     })
   })
 })

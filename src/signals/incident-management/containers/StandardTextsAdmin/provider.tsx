@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 /* istanbul ignore file */
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { StandardTextsAdminContext } from './context'
 import type { StandardTextsAdminValue } from './types'
@@ -16,7 +16,7 @@ interface Props {
   value: StandardTextsAdminValue
 }
 
-export const StandardTextsAdminProvider: FC<Props> = ({ value, children }) => {
+export const StandardTextsAdminProvider = ({ value, children }: Props) => {
   return (
     <StandardTextsAdminContext.Provider value={{ ...value }}>
       {children}

@@ -11,7 +11,7 @@ export const StyledColumn = styled(Column)`
 `
 export const StyledPagination = styled(CompactPager)`
   background-color: ${themeColor('tint', 'level1')};
-  margin-top: 24px;
+  margin-top: 1.5rem;
   max-width: 200px;
 `
 
