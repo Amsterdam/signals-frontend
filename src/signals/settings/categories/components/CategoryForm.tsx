@@ -175,7 +175,7 @@ export const CategoryForm = ({
                 </FieldGroup>
 
                 <Controller
-                  name="icon"
+                  name="addIcon"
                   render={({
                     field: { name, value, onChange },
                     fieldState,
