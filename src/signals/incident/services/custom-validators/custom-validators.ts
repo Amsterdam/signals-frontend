@@ -55,7 +55,7 @@ export const isBlockingAnswer = () => {
   return {
     custom: {
       globalMessage:
-        'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.',
+        'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen. ',
     },
   }
 }

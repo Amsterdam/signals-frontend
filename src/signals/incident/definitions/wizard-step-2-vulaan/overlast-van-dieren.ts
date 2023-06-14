@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { isBlockingAnswer } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -57,7 +56,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -95,7 +94,7 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.PlainText,
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
   },
   extra_dieren_waar_dode_dieren_water: {
@@ -108,7 +107,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -122,7 +121,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -244,7 +243,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -313,7 +312,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: [isBlockingAnswer],
+      validators: ['isBlockingAnswer'],
     },
     render: QuestionFieldType.PlainText,
   },

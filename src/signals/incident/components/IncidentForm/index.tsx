@@ -16,6 +16,7 @@ import { Controller } from 'react-hook-form'
 
 import { Form, Fieldset, ProgressContainer } from './styled'
 import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
+import { validateIsBlocking } from './utils/validate-is-blocking'
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
 import { WizardContext } from '../StepWizard'
@@ -229,6 +230,12 @@ const IncidentForm = forwardRef<any, any>(
         removeFromSelection,
       },
     }
+
+    useEffect(() => {
+      reactHookFormProps.watch((_: any, { name }: { name: string }) =>
+        validateIsBlocking(controls, name, reactHookFormProps.trigger)
+      )
+    }, [controls, reactHookFormProps])
 
     /**
       Set the yupresolver for the current step of the incident wizard

@@ -6,9 +6,9 @@ import {
   fireEvent,
   createEvent,
   waitFor,
-  act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
@@ -473,6 +473,47 @@ describe('<IncidentForm />', () => {
       })
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should trigger isBlocking validation', async () => {
+      const props = {
+        ...defaultProps,
+        fieldConfig: {
+          controls: {
+            error: {
+              meta: {},
+              render: FormComponents.GlobalError,
+            },
+            $field_0: {
+              isStatic: false,
+              render: IncidentNavigation,
+            },
+            phone: {
+              meta: {
+                label: 'Blocking answer test',
+                isVisible: true,
+                type: 'alert',
+              },
+              render: FormComponents.PlainText,
+              options: {
+                validators: ['isBlockingAnswer'],
+              },
+            },
+          },
+        },
+      }
+
+      renderIncidentForm(props)
+
+      userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.'
+          )
+        ).toBeInTheDocument()
+      })
     })
   })
 })
