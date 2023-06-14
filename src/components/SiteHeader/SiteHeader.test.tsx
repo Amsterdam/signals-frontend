@@ -277,7 +277,7 @@ describe('components/SiteHeader', () => {
 
   it('should show buttons based on permissions', () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
-
+    configuration.featureFlags.showStandardTextAdminV1 = true
     const props = {
       ...defaultProps,
       showItems: {
@@ -286,9 +286,29 @@ describe('components/SiteHeader', () => {
       },
     }
 
-    const { queryByText } = render(withAppContext(<SiteHeader {...props} />))
+    const { getByText } = render(withAppContext(<SiteHeader {...props} />))
 
-    expect(queryByText('Standaard teksten')).toBeInTheDocument()
+    expect(getByText('Standaard teksten (v1)')).toBeInTheDocument()
+  })
+
+  it('should show Standard Teksten based on feature flag', () => {
+    jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
+    configuration.featureFlags.showStandardTextAdminV1 = false
+    configuration.featureFlags.showStandardTextAdminV2 = true
+    const props = {
+      ...defaultProps,
+      showItems: {
+        ...defaultProps.showItems,
+        defaultTexts: true,
+      },
+    }
+
+    const { getByText, queryByText } = render(
+      withAppContext(<SiteHeader {...props} />)
+    )
+
+    expect(queryByText('Standaard teksten (v1)')).not.toBeInTheDocument()
+    expect(getByText('Standaard teksten (v2)')).toBeInTheDocument()
   })
 
   it('should render correctly when logged in', () => {

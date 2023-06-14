@@ -87,7 +87,7 @@ const IncidentManagement = () => {
       <Suspense fallback={<LoadingIndicator />}>
         <Switch location={location}>
           <Route
-            exacts
+            exact
             path={routes.incidents}
             component={IncidentOverviewPage}
           />

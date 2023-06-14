@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 import { useEffect, useState } from 'react'
 
 import { Column, Row } from '@amsterdam/asc-ui'

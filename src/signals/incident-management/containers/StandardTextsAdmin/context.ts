@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+/* istanbul ignore file */
 import { createContext, useContext } from 'react'
 
 import type { StandardTextsAdminValue } from './types'
