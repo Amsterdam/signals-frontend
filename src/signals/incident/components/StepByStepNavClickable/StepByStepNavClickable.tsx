@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { HTMLAttributes } from 'react'
 import { useCallback, useContext, useEffect, useRef } from 'react'
 
@@ -23,7 +23,7 @@ export function StepByStepNavClickable({
   wizardRoutes,
   ...props
 }: Props) {
-  const { push, stepsCompletedCount, setStepsCompletedCount } =
+  const { navigate, stepsCompletedCount, setStepsCompletedCount } =
     useContext(WizardContext)
   const { trigger, watch, formState } = useFormContext()
 
@@ -47,7 +47,7 @@ export function StepByStepNavClickable({
         if (!isValid) {
           setStepsCompletedCount(newIndex + 1)
         }
-        push(`incident/${wizardRoutes[newIndex]}`)
+        navigate(`incident/${wizardRoutes[newIndex]}`)
       }
 
       /**
@@ -57,7 +57,7 @@ export function StepByStepNavClickable({
        */
       if (newIndex > activeItem && newIndex <= stepsCompletedCount) {
         if (isValid) {
-          push(`incident/${wizardRoutes[newIndex]}`)
+          navigate(`incident/${wizardRoutes[newIndex]}`)
         } else {
           setStepsCompletedCount(activeItem)
         }
@@ -65,7 +65,7 @@ export function StepByStepNavClickable({
     },
     [
       activeItem,
-      push,
+      navigate,
       setStepsCompletedCount,
       stepsCompletedCount,
       trigger,

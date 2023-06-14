@@ -3,12 +3,11 @@
 import { lazy, Suspense, useEffect, useMemo } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { compose } from 'redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
-import useLocationReferrer from 'hooks/useLocationReferrer'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import injectReducer from 'utils/injectReducer'
@@ -49,7 +48,7 @@ const AreaContainer = lazy(() => import('./containers/AreaContainer'))
 const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
 
 const IncidentManagement = () => {
-  const location = useLocationReferrer()
+  // const location = useLocationReferrer()
   const districts = useSelector(makeSelectDistricts)
   const searchQuery = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
@@ -61,7 +60,7 @@ const IncidentManagement = () => {
   )
 
   useEffect(() => {
-    // prevent continuing (and performing unncessary API calls)
+    // prevent continuing (and performing unnecessary API calls)
     // when the current session has not been authenticated
     if (!getIsAuthenticated()) return
 
@@ -79,35 +78,42 @@ const IncidentManagement = () => {
   }, [dispatch, searchQuery])
 
   if (!getIsAuthenticated()) {
-    return <Route component={LoginPage} />
+    return (
+      <Routes>
+        <Route path={'*'} element={<LoginPage />} />
+      </Routes>
+    )
   }
 
   return (
     <IncidentManagementContext.Provider value={contextValue}>
       <Suspense fallback={<LoadingIndicator />}>
-        <Switch location={location}>
+        <Routes>
           <Route
-            exact
-            path={routes.incidents}
-            component={IncidentOverviewPage}
+            path={`${routes.incidents}/*`}
+            element={<IncidentOverviewPage />}
           />
-          <Route exact path={routes.incident} component={IncidentDetail} />
-          <Route exact path={routes.split} component={IncidentSplitContainer} />
+          <Route path={routes.incident} element={<IncidentDetail />} />
+          <Route path={routes.split} element={<IncidentSplitContainer />} />
           {configuration.featureFlags.enableReporter && (
-            <Route exact path={routes.reporter} component={ReporterContainer} />
+            <Route path={routes.reporter} element={<ReporterContainer />} />
           )}
           {configuration.featureFlags.enableNearIncidents && (
-            <Route exact path={routes.area} component={AreaContainer} />
+            <Route path={routes.area} element={<AreaContainer />} />
           )}
+
           {configuration.featureFlags.showStandardTextAdminV1 && (
-            <Route path={routes.defaultTexts} component={DefaultTextsAdmin} />
+            <Route path={routes.defaultTexts} element={<DefaultTextsAdmin />} />
           )}
           {configuration.featureFlags.showStandardTextAdminV2 && (
-            <Route path={routes.standardTexts} component={StandardTextsAdmin} />
+            <Route
+              path={routes.standardTexts}
+              element={<StandardTextsAdmin />}
+            />
           )}
-          <Route path={routes.signaling} component={SignalingContainer} />
-          <Route component={IncidentOverviewPage} />
-        </Switch>
+          <Route path={routes.signaling} element={<SignalingContainer />} />
+          <Route path={'/*'} element={<IncidentOverviewPage />} />
+        </Routes>
       </Suspense>
     </IncidentManagementContext.Provider>
   )

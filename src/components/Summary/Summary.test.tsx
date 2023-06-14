@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
-import * as reactRouterDom from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
@@ -12,6 +11,7 @@ import { AssetSelectProvider } from 'signals/incident/components/form/MapSelecto
 import type { SummaryProps } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
+import { history } from 'test/utils'
 import { withAppContext } from 'test/utils'
 import type { Address } from 'types/address'
 
@@ -58,22 +58,12 @@ export const summaryProps: SummaryProps = {
   coordinates: { lat: 0, lng: 0 },
 }
 
-let mockLocation = {
-  pathname: '/incident/vulaan',
-  referrer: '/',
-  search: '',
-  state: {},
-  hash: '',
-}
-
 export const withContext = (
   Component: JSX.Element,
   context = assetSelectContextValue
 ) =>
   withAppContext(
-    <reactRouterDom.MemoryRouter initialEntries={[mockLocation]}>
-      <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
-    </reactRouterDom.MemoryRouter>
+    <AssetSelectProvider value={context}>{Component}</AssetSelectProvider>
   )
 
 const dispatch = jest.fn()
@@ -204,14 +194,13 @@ describe('signals/incident/components/form/AssetSelect/Summary', () => {
     expect(screen.getByTestId('map-edit-button')).toBeInTheDocument()
   })
 
-  it("does not render the mapEditButton at 'incident/summary'", () => {
-    mockLocation = {
-      ...mockLocation,
-      pathname: '/incident/summary',
-    }
+  it("does not render the mapEditButton at 'incident/summary'", async () => {
+    history.push('/incident/summary')
 
     render(withContext(<Summary {...summaryProps} />))
 
-    expect(screen.queryByTestId('map-edit-button')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByTestId('map-edit-button')).not.toBeInTheDocument()
+    })
   })
 })

@@ -10,6 +10,7 @@ import {
   StyledBacklink,
   StyledLink,
   Wrapper,
+  ContentWrapper,
 } from './styled'
 import { StyledHeading } from '../../pages/styled'
 import type { MyIncidentDetail } from '../../types'
@@ -29,7 +30,7 @@ export const IncidentsDetail = ({
   const attachments = _links?.['sia:attachments']
 
   return (
-    <div>
+    <ContentWrapper>
       <StyledBacklink to={`/mijn-meldingen/${token}`}>
         Mijn meldingen
       </StyledBacklink>
@@ -67,6 +68,6 @@ export const IncidentsDetail = ({
       <Wrapper>
         <ExtraProperties items={extra_properties} />
       </Wrapper>
-    </div>
+    </ContentWrapper>
   )
 }

@@ -4,7 +4,7 @@ import { Fragment, useMemo, useCallback, useEffect } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -39,7 +39,7 @@ export const CategoryDetail = ({
   isPublicAccessibleLabel,
 }: Props) => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const location = useLocationReferrer()
 
@@ -131,14 +131,14 @@ export const CategoryDetail = ({
 
   const onSubmit = useCallback(() => {
     if (!isDirty) {
-      history.push(redirectURL)
+      navigate(redirectURL)
     }
 
     const formData = formMethods.getValues()
 
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
     patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, history, redirectURL])
+  }, [isDirty, formMethods, patch, categoryURL, navigate, redirectURL])
 
   if (!data || !historyData) return null
 

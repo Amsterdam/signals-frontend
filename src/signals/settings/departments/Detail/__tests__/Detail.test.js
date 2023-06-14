@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { act, render, fireEvent } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -19,10 +19,8 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('hooks/useFetch')
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const navigateMock = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 
 const location = {}
 jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render as reactRender, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
@@ -33,10 +33,8 @@ jest.mock('react-router-dom', () => ({
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const navigateMock = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 
 jest.mock('containers/App/selectors', () => ({
   __esModule: true,
@@ -129,7 +127,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
 
   beforeEach(() => {
     dispatch.mockReset()
-    push.mockReset()
+    navigateMock.mockReset()
     fetch.resetMocks()
 
     jest
@@ -381,7 +379,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     )
 
     expect(dispatch).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
@@ -398,7 +396,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
   })
 
   it('should display a global notification on POST fail', async () => {
@@ -413,7 +411,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     )
 
     expect(dispatch).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
@@ -430,7 +428,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
   })
 
   it('should display a global notification on PATCH fail', async () => {
@@ -446,7 +444,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
     )
 
     expect(dispatch).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     const submitButton = await screen.findByRole('button', { name: 'Submit' })
     userEvent.click(submitButton)
@@ -463,6 +461,6 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(push).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
   })
 })

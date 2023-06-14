@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { fireEvent, render, screen } from '@testing-library/react'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import {
@@ -11,11 +11,11 @@ import {
 import IncidentSplitForm from '..'
 import parentIncidentFixture from '../../../__tests__/parentIncidentFixture.json'
 
-const mockHistoryPush = jest.fn()
+const mockNavigate = jest.fn()
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({ push: mockHistoryPush }),
+  useNavigate: () => mockNavigate,
 }))
 
 const directingDepartments = [
@@ -90,13 +90,14 @@ describe('IncidentSplitForm', () => {
   })
 
   it('should handle cancel', async () => {
-    const { findByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       withAppContext(<IncidentSplitForm {...props} />)
     )
     fireEvent.click(getByTestId('incident-split-form-cancel-button'))
 
-    await findByTestId('incident-split-form')
-    expect(mockHistoryPush).toHaveBeenCalledWith('/manage/incident/6010')
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/manage/incident/6010')
+    })
   })
 
   it('should disable buttons when saving', () => {

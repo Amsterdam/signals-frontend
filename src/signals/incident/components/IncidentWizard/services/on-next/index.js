@@ -7,7 +7,6 @@ function onNext(wizardDefinition, { step, steps, push }, incident) {
     wizardDefinition[wizardStep] &&
     wizardDefinition[wizardStep].getNextStep &&
     wizardDefinition[wizardStep].getNextStep(wizardDefinition, incident)
-
   if (nextStep) {
     push(nextStep)
   } else if (steps.length > 0) {

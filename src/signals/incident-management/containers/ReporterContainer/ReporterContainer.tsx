@@ -17,6 +17,7 @@ import { useFetchReporter, PAGE_SIZE } from './useFetchReporter'
 const Wrapper = styled.article`
   margin: ${themeSpacing(11)};
   margin-top: 0;
+  overflow-wrap: anywhere;
 `
 
 const StyledHeader = styled(Header)`
@@ -51,11 +52,11 @@ const ReporterContainer: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>()
 
   const { incident, incidents, selectIncident, currentPage, setCurrentPage } =
-    useFetchReporter(id)
+    useFetchReporter(id as string)
 
   const header = incident.data?.reporter?.email && incidents.data?.count && (
     <StyledHeader
-      id={id}
+      id={id as string}
       email={incident.data.reporter.email}
       count={incidents.data.count}
     />

@@ -81,7 +81,7 @@ describe('LoginForm', () => {
     })
 
     expect(providerMock.setEmail).toHaveBeenCalledWith('test@email.com')
-    expect(history.location.pathname).toEqual('/mijn-meldingen/bevestig')
+    expect(history.location.pathname).toEqual('/bevestig')
   })
 
   it('should display a form error when email is invalid', async () => {

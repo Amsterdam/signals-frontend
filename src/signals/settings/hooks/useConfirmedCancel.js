@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { useHistory } from 'react-router-dom'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { useNavigate } from 'react-router-dom'
 
 export const confirmationMessage =
   'Niet opgeslagen gegevens gaan verloren. Doorgaan?'
@@ -14,7 +14,7 @@ export const confirmationMessage =
  * @returns {Function}
  */
 const useConfirmedCancel = (redirectURL) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   /**
    * redirect function
@@ -23,7 +23,7 @@ const useConfirmedCancel = (redirectURL) => {
    */
   return (isPristine) => {
     if (isPristine || (!isPristine && global.confirm(confirmationMessage))) {
-      history.push(redirectURL)
+      navigate(redirectURL)
     }
   }
 }

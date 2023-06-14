@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
@@ -85,7 +85,7 @@ const DetailPanel: FunctionComponent<DetailPanelProps> = ({
         <AscLink
           as={Link}
           variant="inline"
-          to={`${INCIDENT_URL}/${incident.id}`}
+          to={`../${INCIDENT_URL}/${incident.id}`}
         >
           Melding {incident.id}
         </AscLink>

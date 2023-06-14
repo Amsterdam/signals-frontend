@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { Fragment, useEffect, lazy, Suspense, useMemo } from 'react'
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+import { Fragment, useEffect, lazy, Suspense, useMemo, useRef } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
@@ -55,8 +55,6 @@ const IncidentManagementModule = lazy(
 // istanbul ignore next
 const SettingsModule = lazy(() => import('signals/settings'))
 // istanbul ignore next
-const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
-// istanbul ignore next
 const IncidentMapContainer = lazy(() => import('signals/IncidentMap'))
 
 // istanbul ignore next
@@ -66,8 +64,9 @@ export const AppContainer = () => {
   const dispatch = useDispatch()
   const loading = useSelector(makeSelectLoading())
   const sources = useSelector(makeSelectSources)
-  const history = useHistory()
-  const location = useLocationReferrer() as { referrer: string }
+
+  const location = useLocationReferrer()
+  const locationFromUseLocation = useLocation()
   const isFrontOffice = useIsFrontOffice()
   const tallHeaderByDefault = useTallHeader()
   const headerIsTall =
@@ -83,15 +82,13 @@ export const AppContainer = () => {
     }
   }, [dispatch, location])
 
+  const isFirstRenderRef = useRef(true)
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      global.window.scrollTo(0, 0)
-    })
-
-    return () => {
-      unlisten()
+    if (!isFirstRenderRef.current) {
+      window.scrollTo(0, 0)
     }
-  }, [history])
+    isFirstRenderRef.current = false
+  }, [locationFromUseLocation])
 
   useEffect(() => {
     // prevent continuing (and performing unncessary API calls)
@@ -120,49 +117,64 @@ export const AppContainer = () => {
             }}
           >
             <Suspense fallback={<LoadingIndicator />}>
-              <Switch>
-                <Redirect exact from="/" to="/incident/beschrijf" />
-                <Redirect exact from="/login" to="/manage" />
-                <Redirect exact from="/manage" to="/manage/incidents" />
-                <Route path="/manage" component={IncidentManagementModule} />
-                <Route path="/instellingen" component={SettingsModule} />
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Navigate to="incident/beschrijf" replace />}
+                />
+                <Route
+                  path="login"
+                  element={<Navigate to="/manage" replace />}
+                />
+                <Route
+                  path="manage"
+                  element={<Navigate to="/manage/incidents" replace />}
+                />
+                <Route
+                  path="/manage/*"
+                  element={<IncidentManagementModule />}
+                />
+                <Route path="/instellingen/*" element={<SettingsModule />} />
                 {configuration.featureFlags.enablePublicIncidentsMap && (
                   <Route
                     path="/meldingenkaart"
-                    component={IncidentMapContainer}
+                    element={<IncidentMapContainer />}
                   />
                 )}
                 {configuration.featureFlags.enableMyIncidents && (
-                  <Route path="/mijn-meldingen" component={MyIncidents} />
+                  <Route path="/mijn-meldingen/*" element={<MyIncidents />} />
                 )}
                 <Route
                   path="/incident/reactie/:uuid"
-                  component={IncidentReplyContainer}
+                  element={<IncidentReplyContainer />}
                 />
                 {configuration.featureFlags.enableForwardIncidentToExternal && (
                   <Route
                     path="/incident/extern/:id"
-                    component={ExternalReplyContainer}
+                    element={<ExternalReplyContainer />}
                   />
                 )}
-                <Route path="/incident" component={IncidentContainer} />
+                <Route path="/incident/*" element={<IncidentContainer />} />
                 {configuration.featureFlags.enablePublicSignalMap && (
-                  <Route path="/kaart" component={IncidentOverviewContainer} />
+                  <Route
+                    path="/kaart"
+                    element={<IncidentOverviewContainer />}
+                  />
                 )}
                 <Route
                   path="/kto/:satisfactionIndication/:uuid"
-                  component={KtoContainer}
+                  element={<KtoContainer />}
                 />
                 <Route
-                  exact
                   path="/categorie/:category/:subcategory"
-                  component={IncidentContainer}
+                  element={<IncidentContainer />}
                 />
-                <Route exact path="/toegankelijkheidsverklaring">
-                  <Toegankelijkheidsverklaring />
-                </Route>
-                <Route component={NotFoundPage} />
-              </Switch>
+                <Route
+                  path="/toegankelijkheidsverklaring"
+                  element={<Toegankelijkheidsverklaring />}
+                />
+                <Route path={'*'} element={<SettingsModule />} />
+              </Routes>
             </Suspense>
           </ContentContainer>
           <Footer />

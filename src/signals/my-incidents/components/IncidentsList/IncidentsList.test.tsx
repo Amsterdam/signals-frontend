@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { screen, render } from '@testing-library/react'
 
 import { history, withAppContext } from 'test/utils'
@@ -76,7 +76,7 @@ describe('IncidentsList', () => {
       )
     )
 
-    expect(history.location.pathname).toEqual('/mijn-meldingen/verlopen')
+    expect(history.location.pathname).toEqual('/verlopen')
   })
 
   it('should return null when incidentList is not available', () => {

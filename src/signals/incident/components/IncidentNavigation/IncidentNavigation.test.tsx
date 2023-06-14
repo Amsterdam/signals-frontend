@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { act, fireEvent, render } from '@testing-library/react'
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import * as reactRouterDom from 'react-router-dom'
 
 import * as auth from 'shared/services/auth/auth'
 import wizardDefinition from 'signals/incident/definitions/wizard'
-import { history, withAppContext } from 'test/utils'
+import { withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
 import { Step, Steps, Wizard } from '../StepWizard'
@@ -33,13 +34,22 @@ jest.mock('react-hook-form', () => ({
   ...jest.requireActual('react-hook-form'),
 }))
 
-const pushSpy = jest.spyOn(history, 'push')
+const navigateSpy = jest.fn()
+
+jest.mock('react-router-dom', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router-dom'),
+  }
+})
+
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 describe('signals/incident/components/IncidentNavigation', () => {
   beforeEach(() => {
     handleSubmit.mockReset()
   })
-  it('redirects to wizard step 1 from step 2 when refresh is hit', () => {
+  it('redirects to wizard step 1 from step 2 when refresh is hit', async () => {
     const wizardDefinitionWithoutFormAction = { ...wizardDefinition }
 
     wizardDefinitionWithoutFormAction.vulaan.formAction = undefined
@@ -53,7 +63,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
 
     render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}
@@ -64,16 +74,19 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(pushSpy).toBeCalledWith('/incident/beschrijf')
+    await waitFor(() => {
+      expect(navigateSpy).toBeCalledWith('/incident/beschrijf')
+    })
   })
 
-  it('renders a next button for the first step', () => {
+  it('renders a next button for the first step', async () => {
     const { getByTestId, queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[0]}
+              key={steps[0]}
               render={() => <IncidentNavigation {...props} />}
             />
           </Steps>
@@ -81,14 +94,16 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(getByTestId('next-button')).toBeInTheDocument()
-    expect(queryByTestId('previous-button')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(getByTestId('next-button')).toBeInTheDocument()
+      expect(queryByTestId('previous-button')).not.toBeInTheDocument()
+    })
   })
 
-  it('renders previous and next buttons for intermediate steps', () => {
+  it('renders previous and next buttons for intermediate steps', async () => {
     const { getByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}
@@ -99,16 +114,18 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(getByTestId('next-button')).toBeInTheDocument()
-    expect(getByTestId('previous-button')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(getByTestId('next-button')).toBeInTheDocument()
+      expect(getByTestId('previous-button')).toBeInTheDocument()
+    })
   })
 
-  it('renders a previous button for the last step', () => {
+  it('renders a previous button for the last step', async () => {
     const lastStep = [...steps].reverse()[0]
 
     const { getByTestId, queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={lastStep}
@@ -119,14 +136,16 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(queryByTestId('next-button')).not.toBeInTheDocument()
-    expect(getByTestId('previous-button')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('next-button')).not.toBeInTheDocument()
+      expect(getByTestId('previous-button')).toBeInTheDocument()
+    })
   })
 
-  it('does not render', () => {
+  it('does not render', async () => {
     const { queryByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id="incident/bedankt"
@@ -137,13 +156,15 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('incident-navigation')).not.toBeInTheDocument()
+    })
   })
 
-  it('should call onSubmit', () => {
+  it('should call onSubmit', async () => {
     const { getByTestId } = render(
       withAppContext(
-        <Wizard history={history}>
+        <Wizard>
           <Steps>
             <Step
               id={steps[1]}
@@ -154,16 +175,18 @@ describe('signals/incident/components/IncidentNavigation', () => {
       )
     )
 
-    expect(handleSubmit).not.toHaveBeenCalled()
+    await waitFor(() => {
+      expect(handleSubmit).not.toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('next-button'))
-    })
+      act(() => {
+        fireEvent.click(getByTestId('next-button'))
+      })
 
-    expect(handleSubmit).toHaveBeenCalled()
+      expect(handleSubmit).toHaveBeenCalled()
 
-    act(() => {
-      fireEvent.click(getByTestId('previous-button'))
+      act(() => {
+        fireEvent.click(getByTestId('previous-button'))
+      })
     })
   })
 })

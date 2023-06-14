@@ -72,7 +72,7 @@ export default function configureStore(initialState: Record<string, any>) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer({ ...store.injectedReducers }))
+      store.replaceReducer(createReducer(store.injectedReducers))
     })
   }
 

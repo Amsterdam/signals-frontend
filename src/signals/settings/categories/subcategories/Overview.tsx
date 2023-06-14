@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -34,17 +34,18 @@ const columnHeaders = ['Subcategorie', 'Afhandeltermijn', 'Status']
 
 interface Params {
   pageNum: string
+  [key: string]: string | undefined
 }
 
 export const OverviewContainer = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const params = useParams<Params>()
 
   const [page, setPage] = useState(1)
   const subCategories = useSelector(makeSelectAllSubCategories)
   const userCan = useSelector(makeSelectUserCan)
 
-  const pageNum = Number.parseInt(params.pageNum, 10)
+  const pageNum = Number.parseInt(params.pageNum || '1', 10)
   const count = subCategories?.length || 0
   const sliceStart = (pageNum - 1) * PAGE_SIZE
   const pagedData = (subCategories || [])
@@ -78,18 +79,18 @@ export const OverviewContainer = () => {
       } = e
 
       if (itemId) {
-        history.push(`${SUBCATEGORY_URL}/${itemId}`)
+        navigate(`${SUBCATEGORY_URL}/${itemId}`)
       }
     },
-    [history, userCan]
+    [navigate, userCan]
   )
 
   const onPaginationClick = useCallback(
     (pageToNavigateTo) => {
       global.window.scrollTo(0, 0)
-      history.push(`${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
+      navigate(`${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
     },
-    [history]
+    [navigate]
   )
 
   return (

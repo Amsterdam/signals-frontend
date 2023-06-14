@@ -64,7 +64,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     Reducer<State, StatusFormActions>,
     { incident: Incident; childIncidents: IncidentChild[] }
   >(reducer, { incident: incidentAsIncident, childIncidents }, init)
-
   const {
     post: getEmailTemplate,
     data: emailTemplate,

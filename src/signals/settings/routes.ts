@@ -1,39 +1,40 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
-export const BASE_URL = '/instellingen'
+
+export const BASE_URL = `/instellingen`
 export const OVERVIEW_URL = `${BASE_URL}`
-export const USERS_URL = `${BASE_URL}/gebruikers`
+export const USERS_URL = `/gebruikers`
 export const USERS_PAGED_URL = `${USERS_URL}/page`
-export const USER_URL = `${BASE_URL}/gebruiker`
-export const ROLES_URL = `${BASE_URL}/rollen`
-export const ROLE_URL = `${BASE_URL}/rol`
-export const DEPARTMENTS_URL = `${BASE_URL}/afdelingen`
-export const DEPARTMENT_URL = `${BASE_URL}/afdeling`
-export const MAIN_CATEGORY_URL = `${BASE_URL}/hoofdcategorie`
-export const MAIN_CATEGORIES_URL = `${BASE_URL}/hoofdcategorieen`
-export const SUBCATEGORY_URL = `${BASE_URL}/subcategorie`
-export const SUBCATEGORIES_URL = `${BASE_URL}/subcategorieen`
+export const USER_URL = `/gebruiker`
+export const ROLES_URL = `/rollen`
+export const ROLE_URL = `/rol`
+export const DEPARTMENTS_URL = `/afdelingen`
+export const DEPARTMENT_URL = `/afdeling`
+export const MAIN_CATEGORY_URL = `/hoofdcategorie`
+export const MAIN_CATEGORIES_URL = `/hoofdcategorieen`
+export const SUBCATEGORY_URL = `/subcategorie`
+export const SUBCATEGORIES_URL = `/subcategorieen`
 export const SUBCATEGORIES_PAGED_URL = `${SUBCATEGORIES_URL}/page`
-export const EXPORT_URL = `${BASE_URL}/export`
+export const EXPORT_URL = `/export`
 
 const routes = {
   overview: OVERVIEW_URL,
   users: USERS_URL,
-  usersPaged: `${USERS_PAGED_URL}/:pageNum(\\d+)`,
-  user: `${USER_URL}/:userId(\\d+)`,
+  usersPaged: `${USERS_PAGED_URL}/:pageNum`,
+  user: `${USER_URL}/:userId`,
 
   roles: ROLES_URL,
-  role: `${ROLE_URL}/:roleId(\\d+)`,
+  role: `${ROLE_URL}/:roleId`,
 
   departments: DEPARTMENTS_URL,
-  department: `${DEPARTMENT_URL}/:departmentId(\\d+)`,
+  department: `${DEPARTMENT_URL}/:departmentId`,
 
   mainCategories: MAIN_CATEGORIES_URL,
-  mainCategory: `${MAIN_CATEGORY_URL}/:categoryId(\\d+)`,
+  mainCategory: `${MAIN_CATEGORY_URL}/:categoryId`,
 
   subcategories: SUBCATEGORIES_URL,
-  subcategory: `${SUBCATEGORY_URL}/:categoryId(\\d+)`,
-  subcategoriesPaged: `${SUBCATEGORIES_PAGED_URL}/:pageNum(\\d+)`,
+  subcategory: `${SUBCATEGORY_URL}/:categoryId`,
+  subcategoriesPaged: `${SUBCATEGORIES_PAGED_URL}/:pageNum`,
 
   export: EXPORT_URL,
 }

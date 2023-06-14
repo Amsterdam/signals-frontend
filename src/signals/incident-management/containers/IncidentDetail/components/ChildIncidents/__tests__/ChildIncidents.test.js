@@ -84,14 +84,12 @@ describe('IncidentDetail/components/ChildIncidents', () => {
     const parent = { updated_at: childIncidentsFixture.results[0].updated_at }
 
     render(
-      withAppContext(
-        renderWithContext(
-          <ChildIncidents
-            childrenList={childrenList}
-            parent={parent}
-            history={[history]}
-          />
-        )
+      renderWithContext(
+        <ChildIncidents
+          childrenList={childrenList}
+          parent={parent}
+          history={[history]}
+        />
       )
     )
 

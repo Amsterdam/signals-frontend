@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useEffect } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import {
@@ -35,7 +35,7 @@ const useFetchResponseNotification = ({
   redirectURL,
 }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
   const showNotification = useCallback(
     (variant, title) =>
       dispatch(
@@ -71,9 +71,9 @@ const useFetchResponseNotification = ({
     if (isLoading) return
 
     if (isSuccess && redirectURL) {
-      history.push(redirectURL)
+      navigate(redirectURL)
     }
-  }, [history, isSuccess, redirectURL, isLoading])
+  }, [navigate, isSuccess, redirectURL, isLoading])
 }
 
 export default useFetchResponseNotification

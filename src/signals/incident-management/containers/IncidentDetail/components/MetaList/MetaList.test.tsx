@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { fireEvent, render, screen } from '@testing-library/react'
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { fetchCategoriesSuccess } from 'models/categories/actions'
@@ -272,7 +272,7 @@ describe('MetaList', () => {
       // expect(screen.queryByTestId('meta-list-parent-link')).toHaveAttribute('href', /^\/manage\/incident\/parent-link$/);
       expect(screen.queryByTestId('meta-list-parent-link')).toHaveAttribute(
         'href',
-        `${INCIDENT_URL}/parent-link`
+        `/${INCIDENT_URL}/parent-link`
       )
 
       expect(
@@ -331,7 +331,7 @@ describe('MetaList', () => {
     ).toHaveTextContent(/^21 dagen$/)
   })
 
-  it('should render process time copy based on the deadline and current time', () => {
+  it('should render process time copy based on the deadline and current time', async () => {
     const now = new Date()
     const before = new Date(now.getTime() - 100)
     const after = new Date(now.getTime() + 100)
@@ -366,16 +366,18 @@ describe('MetaList', () => {
         },
       })
     )
-    expect(
-      screen.queryByTestId('meta-list-process-time-definition')
-    ).toHaveTextContent(/^Doorlooptijd$/)
-    expect(
-      screen.queryByTestId('meta-list-process-time-value')
-    ).toHaveTextContent(/^Binnen de afhandeltermijn$/)
-    expect(
-      screen.queryByTestId('meta-list-process-time-value')?.className
-    ).toBe('')
 
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('meta-list-process-time-definition')
+      ).toHaveTextContent(/^Doorlooptijd$/)
+      expect(
+        screen.queryByTestId('meta-list-process-time-value')
+      ).toHaveTextContent(/^Binnen de afhandeltermijn$/)
+      expect(
+        screen.queryByTestId('meta-list-process-time-value')?.className
+      ).toBe('')
+    })
     rerender(
       renderWithContext({
         ...plainIncident,

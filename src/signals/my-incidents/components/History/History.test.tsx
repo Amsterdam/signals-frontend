@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2023 Gemeente Amsterdam */
 import { render, screen } from '@testing-library/react'
+import * as reactRouterDom from 'react-router-dom'
 
 import { History } from './index'
 import useFetch from '../../../../hooks/useFetch'
@@ -11,13 +12,9 @@ import { incidentsDetail } from '../../__test__/incidents-detail'
 
 jest.mock('hooks/useFetch')
 
-const mockPush = jest.fn()
-
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: mockPush,
-  }),
+  useNavigate: jest.fn(),
 }))
 
 describe('History', () => {
@@ -67,6 +64,11 @@ describe('History', () => {
   })
 
   it('should push to expired page', function () {
+    const navigateMock = jest.fn()
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementationOnce(() => navigateMock)
+
     render(
       withAppContext(
         <History
@@ -76,6 +78,6 @@ describe('History', () => {
       )
     )
 
-    expect(mockPush).toBeCalled()
+    expect(navigateMock).toBeCalled()
   })
 })

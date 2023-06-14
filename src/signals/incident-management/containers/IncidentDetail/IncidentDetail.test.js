@@ -200,15 +200,23 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     const editStatusButton = await screen.findByTestId('edit-status-button')
 
-    expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
+    })
 
-    userEvent.click(editStatusButton)
+    await waitFor(() => {
+      userEvent.click(editStatusButton)
+    })
 
-    expect(screen.queryByTestId('status-form')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByTestId('status-form')).toBeInTheDocument()
+    })
 
     userEvent.click(screen.getByTestId('status-form-cancel-button'))
 
-    expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByTestId('status-form')).not.toBeInTheDocument()
+    })
   })
 
   it('renders forward to external form', async () => {
@@ -357,6 +365,24 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     userEvent.click(deleteButton)
     await screen.findByTestId('incident-detail')
     expect(deleteCalled).toBe(true)
+  })
+
+  // should give an error when incident categorie subslug and main slug are overig and status is afgehandeld
+  it('should give an error when incident categorie subslug and main slug are overig and status is afgehandeld', async () => {
+    incidentFixture.category.sub_slug = 'overig'
+    incidentFixture.category.main_slug = 'overig'
+    incidentFixture.status.state = 'afgehandeld'
+
+    mockRequestHandler({
+      url: API.INCIDENT,
+      body: {
+        ...incidentFixture,
+        text: 'Een andere melding',
+      },
+    })
+
+    render(withAppContext(<IncidentDetail />))
+    await screen.findByTestId('preview-location-button')
   })
 
   describe('handling errors', () => {

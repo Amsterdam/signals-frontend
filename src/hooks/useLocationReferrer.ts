@@ -27,7 +27,7 @@ const useLocationReferrer = () => {
     }
   }, [location.pathname, moduleLocation, setLocation])
 
-  return location as { referrer?: string }
+  return location as { referrer?: string; pathname: string }
 }
 
 export default useLocationReferrer

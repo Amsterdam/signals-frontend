@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useCallback } from 'react'
 
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import ListComponent from 'components/List'
@@ -18,7 +18,7 @@ const StyledListComponent = styled(ListComponent)`
 `
 
 export const RolesList = ({ linksEnabled, list }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onItemClick = useCallback(
     (e) => {
@@ -30,10 +30,10 @@ export const RolesList = ({ linksEnabled, list }) => {
       const roleId = e.currentTarget.getAttribute('data-item-id')
       /* istanbul ignore else */
       if (roleId > -1) {
-        history.push(`${ROLE_URL}/${roleId}`)
+        navigate(`${ROLE_URL}/${roleId}`)
       }
     },
-    [history, linksEnabled]
+    [navigate, linksEnabled]
   )
 
   return (

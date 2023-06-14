@@ -27,9 +27,8 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   pageNum: '1',
 }))
 
-const pushSpy = jest.fn()
-const useHistorySpy = { push: pushSpy } as any
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => useHistorySpy)
+const navigateSpy = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 jest.mock('react-redux', () => {
   const actual = jest.requireActual('react-redux')
@@ -64,7 +63,7 @@ mockUseSelector.mockImplementation((selector) => {
 
 describe('signals/settings/categories/containers/Overview', () => {
   beforeEach(() => {
-    pushSpy.mockReset()
+    navigateSpy.mockReset()
     mockUserCan.mockReturnValue(true)
     // eslint-disable-next-line
     // @ts-ignore
@@ -153,12 +152,12 @@ describe('signals/settings/categories/containers/Overview', () => {
     const pageButton = screen.getByTestId('nextbutton')
 
     expect(scrollTo).not.toHaveBeenCalled()
-    expect(pushSpy).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
 
     userEvent.click(pageButton)
 
-    expect(pushSpy).toHaveBeenCalledTimes(1)
-    expect(pushSpy).toHaveBeenCalledWith(`${SUBCATEGORIES_PAGED_URL}/2`)
+    expect(navigateSpy).toHaveBeenCalledTimes(1)
+    expect(navigateSpy).toHaveBeenCalledWith(`${SUBCATEGORIES_PAGED_URL}/2`)
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
 
@@ -175,26 +174,26 @@ describe('signals/settings/categories/containers/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId
 
-    expect(pushSpy).toHaveBeenCalledTimes(0)
+    expect(navigateSpy).toHaveBeenCalledTimes(0)
 
     userEvent.click(row)
 
-    expect(pushSpy).toHaveBeenCalledTimes(1)
-    expect(pushSpy).toHaveBeenCalledWith(`${SUBCATEGORY_URL}/${itemId}`)
+    expect(navigateSpy).toHaveBeenCalledTimes(1)
+    expect(navigateSpy).toHaveBeenCalledWith(`${SUBCATEGORY_URL}/${itemId}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
 
     userEvent.click(row)
 
-    expect(pushSpy).toHaveBeenCalledTimes(1)
+    expect(navigateSpy).toHaveBeenCalledTimes(1)
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = itemId
 
     userEvent.click(row)
 
-    expect(pushSpy).toHaveBeenCalledTimes(2)
+    expect(navigateSpy).toHaveBeenCalledTimes(2)
   })
 
   it('should not push on list item click when permissions are insufficient', async () => {
@@ -211,10 +210,10 @@ describe('signals/settings/categories/containers/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = itemId
 
-    expect(pushSpy).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
 
     userEvent.click(row)
 
-    expect(pushSpy).not.toHaveBeenCalled()
+    expect(navigateSpy).not.toHaveBeenCalled()
   })
 })
