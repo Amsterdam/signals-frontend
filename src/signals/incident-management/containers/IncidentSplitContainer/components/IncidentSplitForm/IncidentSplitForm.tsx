@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, Fragment } from 'react'
 import type { FC } from 'react'
 
 import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 import { Controller, useForm, FormProvider } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AddNote, { getAddNoteError } from 'components/AddNote'
@@ -70,11 +70,11 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   const maxNoteLength = 1000
   const formMethods = useForm({ reValidateMode: 'onSubmit' })
   const { handleSubmit, control } = formMethods
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onCancel = useCallback(() => {
-    history.push(`/manage/incident/${parentIncident.id}`)
-  }, [history, parentIncident.id])
+    navigate(`/manage/incident/${parentIncident.id}`)
+  }, [navigate, parentIncident.id])
 
   return (
     <FormProvider {...formMethods}>

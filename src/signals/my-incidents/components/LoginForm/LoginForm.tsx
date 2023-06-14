@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import Button from 'components/Button'
@@ -36,7 +36,7 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
     resolver: yupResolver(schema),
   })
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const [postEmail, { isSuccess, errorMessage }] = usePostEmail()
   const { setEmail } = useMyIncidentContext()
 
@@ -47,9 +47,10 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      history.push(routes.confirm)
+      navigate(`../${routes.confirm}`)
     }
-  }, [isSuccess, history])
+  }, [isSuccess, navigate])
+
   useEffect(() => {
     if (errorMessage) {
       setErrorMessage(errorMessage)

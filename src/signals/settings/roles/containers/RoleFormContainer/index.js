@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment, useEffect } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useParams, useHistory, useLocation } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 
@@ -37,12 +37,11 @@ export const RoleFormContainer = ({
   userCan,
 }) => {
   const { roleId } = useParams()
+  const navigate = useNavigate()
   const location = useLocation()
-  const history = useHistory()
   const role = list.find((item) => item.id === roleId * 1)
   const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`
   const redirectURL = location.referrer || routes.roles
-
   useEffect(() => {
     let message
 
@@ -60,9 +59,9 @@ export const RoleFormContainer = ({
       type: TYPE_LOCAL,
     })
 
-    history.push(redirectURL)
+    navigate(redirectURL)
   }, [
-    history,
+    navigate,
     onResetResponse,
     redirectURL,
     responseError,

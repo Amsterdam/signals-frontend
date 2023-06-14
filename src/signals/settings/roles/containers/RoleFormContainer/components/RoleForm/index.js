@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, useCallback, useRef, useState } from 'react'
 
 import { Label, themeSpacing } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Checkbox from 'components/Checkbox'
@@ -59,7 +59,7 @@ export const RoleForm = ({
     }
   }, [event, isValid, handleSubmit, errors, readOnly])
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleSubmit = useCallback(
     (submitEvent) => {
@@ -93,8 +93,8 @@ export const RoleForm = ({
   )
 
   const handleCancel = useCallback(() => {
-    history.push(ROLES_URL)
-  }, [history])
+    navigate(ROLES_URL)
+  }, [navigate])
 
   return (
     <div data-testid="roles-form">

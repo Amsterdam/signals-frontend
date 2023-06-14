@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { Suspense, useState } from 'react'
 
-import type { Location } from 'history'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
-import useLocationReferrer from 'hooks/useLocationReferrer'
 
 import { MyIncidentsProvider } from '../../context/provider'
 import { routes } from '../../definitions'
@@ -21,7 +19,6 @@ import type { MyIncident } from '../../types'
 
 // istanbul ignore next
 export const Routing = () => {
-  const location = useLocationReferrer() as Location
   const [email, setEmail] = useState<string>()
   const [incidentsList, setIncidentsList] = useState<MyIncident[]>()
 
@@ -35,18 +32,14 @@ export const Routing = () => {
           setIncidentsList,
         }}
       >
-        <Switch location={location}>
-          <Redirect exact from={routes.baseUrl} to={routes.requestAccess} />
-          <Route exact path={routes.requestAccess} component={RequestAccess} />
-          <Route exact path={routes.confirm} component={Confirmation} />
-          <Route exact path={routes.expired} component={LinkExpired} />
-          <Route exact path={`${routes.baseUrl}/:token`} component={Overview} />
-          <Route
-            exact
-            path={routes.baseUrl + '/:token/:uuid'}
-            component={Detail}
-          />
-        </Switch>
+        <Routes>
+          <Route index element={<Navigate to={routes.requestAccess} />} />
+          <Route path={routes.requestAccess} element={<RequestAccess />} />
+          <Route path={routes.confirm} element={<Confirmation />} />
+          <Route path={routes.expired} element={<LinkExpired />} />
+          <Route path={`:token`} element={<Overview />} />
+          <Route path={':token/:uuid'} element={<Detail />} />
+        </Routes>
       </MyIncidentsProvider>
     </Suspense>
   )

@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -72,7 +72,7 @@ export const IncidentOverviewPageContainerComponent = ({
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false)
   const { count, loadingIncidents, results } = incidents
   const location = useLocation()
-  const showsMap = location.pathname === MAP_URL
+  const showsMap = location.pathname.split('/').pop() === MAP_URL
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll()
@@ -235,18 +235,23 @@ export const IncidentOverviewPageContainerComponent = ({
         </NavWrapper>
       </Row>
 
-      {showsMap && (
-        <Row>
-          <MapWrapper>
-            <MapContext>
-              <OverviewMap
-                data-testid="24-hour-map"
-                refresh={activeFilter.refresh}
-              />
-            </MapContext>
-          </MapWrapper>
-        </Row>
-      )}
+      <Routes>
+        <Route
+          path={MAP_URL}
+          element={
+            <Row>
+              <MapWrapper>
+                <MapContext>
+                  <OverviewMap
+                    data-testid="24-hour-map"
+                    refresh={activeFilter.refresh}
+                  />
+                </MapContext>
+              </MapWrapper>
+            </Row>
+          }
+        />
+      </Routes>
 
       {!showsMap && (
         <Row>

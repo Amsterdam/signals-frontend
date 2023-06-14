@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, lazy, Suspense } from 'react'
 
 import type { Location } from 'history'
 import { useDispatch, useSelector } from 'react-redux'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import ProtectedRoute from 'components/ProtectedRoute'
@@ -22,7 +22,6 @@ import routes, {
   USER_URL,
   ROLE_URL,
   SUBCATEGORIES_PAGED_URL,
-  BASE_URL,
   EXPORT_URL,
 } from './routes'
 
@@ -77,6 +76,7 @@ const SettingsModule = () => {
   const storeDispatch = useDispatch()
   const location = useLocationReferrer() as Location
   const userCanAccess = useSelector(makeSelectUserCanAccess)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!getIsAuthenticated()) {
@@ -87,113 +87,148 @@ const SettingsModule = () => {
     storeDispatch(fetchPermissionsAction())
   }, [storeDispatch])
 
+  useEffect(() => {
+    if (userCanAccess('settings') === false) {
+      navigate('/manage/incidents')
+    }
+    if (location.pathname === routes.users) {
+      navigate(`${USERS_PAGED_URL}/1`)
+    }
+
+    if (location.pathname === routes.subcategories) {
+      navigate(`${SUBCATEGORIES_PAGED_URL}/1`)
+    }
+  }, [location, navigate, userCanAccess])
+
   if (!getIsAuthenticated()) {
-    return <Route component={LoginPage} />
+    return (
+      <Routes>
+        <Route path="*" element={<LoginPage />} />
+      </Routes>
+    )
   }
-
-  if (userCanAccess('settings') === false) {
-    return <Redirect to="/manage/incidents" />
-  }
-
   return (
     <Suspense fallback={<LoadingIndicator />}>
-      <Switch location={location}>
-        <Route exact path={routes.overview} component={OverviewContainer} />
-        <ProtectedRoute
-          exact
+      <Routes>
+        <Route path={'/'} element={<OverviewContainer />} />
+        <Route
           path={routes.roles}
-          component={RolesListContainer}
-          roleGroup="groups"
+          element={
+            <ProtectedRoute component={RolesListContainer} roleGroup="groups" />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.role}
-          component={RoleFormContainer}
-          roleGroup="groupForm"
+          element={
+            <ProtectedRoute
+              component={RoleFormContainer}
+              roleGroup="groupForm"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={ROLE_URL}
-          component={RoleFormContainer}
-          role="add_group"
+          element={
+            <ProtectedRoute component={RoleFormContainer} role="add_group" />
+          }
         />
-
-        <Redirect exact from={routes.users} to={`${USERS_PAGED_URL}/1`} />
-        <ProtectedRoute
-          exact
+        <Route
+          path={routes.users}
+          element={<Navigate to={`${USERS_PAGED_URL}/1`} replace={true} />}
+        />
+        <Route
           path={routes.usersPaged}
-          component={UsersOverviewContainer}
-          roleGroup="userForm"
+          element={
+            <ProtectedRoute
+              component={UsersOverviewContainer}
+              roleGroup="userForm"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.user}
-          component={UsersDetailContainer}
-          roleGroup="userForm"
+          element={
+            <ProtectedRoute
+              component={UsersDetailContainer}
+              roleGroup="userForm"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={USER_URL}
-          component={UsersDetailContainer}
-          role="add_user"
+          element={
+            <ProtectedRoute component={UsersDetailContainer} role="add_user" />
+          }
         />
-
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.departments}
-          component={DepartmentsOverviewContainer}
-          roleGroup="departments"
+          element={
+            <ProtectedRoute
+              component={DepartmentsOverviewContainer}
+              roleGroup="departments"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+
+        <Route
           path={routes.department}
-          component={DepartmentsDetailContainer}
-          roleGroup="departmentForm"
+          element={
+            <ProtectedRoute
+              component={DepartmentsDetailContainer}
+              roleGroup="departmentForm"
+            />
+          }
         />
-
-        <Redirect
-          exact
-          from={routes.subcategories}
-          to={`${SUBCATEGORIES_PAGED_URL}/1`}
-        />
-
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.subcategoriesPaged}
-          component={SubcategoriesOverview}
-          roleGroup="subcategories"
+          element={
+            <ProtectedRoute
+              component={SubcategoriesOverview}
+              roleGroup="subcategories"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.subcategory}
-          component={SubcategoryDetail}
-          roleGroup="subcategoryForm"
+          element={
+            <ProtectedRoute
+              component={SubcategoryDetail}
+              roleGroup="subcategoryForm"
+            />
+          }
         />
-
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.mainCategories}
-          component={MainCategoriesOverview}
-          roleGroup="mainCategories"
+          element={
+            <ProtectedRoute
+              component={MainCategoriesOverview}
+              roleGroup="mainCategories"
+            />
+          }
         />
-        <ProtectedRoute
-          exact
+        <Route
           path={routes.mainCategory}
-          component={MainCategoryDetail}
-          roleGroup="mainCategoryForm"
+          element={
+            <ProtectedRoute
+              component={MainCategoryDetail}
+              roleGroup="mainCategoryForm"
+            />
+          }
         />
 
         {configuration.featureFlags.enableCsvExport && (
-          <ProtectedRoute
-            exact
+          <Route
             path={EXPORT_URL}
-            component={ExportContainer}
-            role="sia_signal_report"
+            element={
+              <ProtectedRoute
+                component={ExportContainer}
+                role="sia_signal_report"
+              />
+            }
           />
         )}
-
-        <Route path={BASE_URL} component={NotFoundPage} />
-      </Switch>
+        <Route path={'*'} element={<NotFoundPage />} />
+      </Routes>
     </Suspense>
   )
 }

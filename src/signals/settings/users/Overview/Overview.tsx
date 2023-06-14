@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 
@@ -12,7 +12,7 @@ import {
   CompactPager,
 } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
-import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
+import { useParams, useLocation, Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import DataView from 'components/DataView'
@@ -74,7 +74,7 @@ const selectUserActive = [
 ]
 
 const UsersOverviewContainer = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const { pageNum } = useParams<Params>()
   const page = pageNum ? Number.parseInt(pageNum, 10) : 1
@@ -98,17 +98,8 @@ const UsersOverviewContainer = () => {
     : undefined
 
   useEffect(() => {
-    // make sure that the change in URL is reflected in the component's state
-    const unregister = history.listen((locationState) => {
-      setFilters(new URLSearchParams(locationState.search))
-    })
-
-    return () => {
-      unregister()
-    }
-    // Disabling linter; no dependencies for onmount hook
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    setFilters(new URLSearchParams(location.search))
+  }, [location])
 
   useEffect(() => {
     get({ page, filters })
@@ -117,9 +108,9 @@ const UsersOverviewContainer = () => {
   const setUsernameFilter = useCallback(
     (value: string) => {
       filters.set('username', value)
-      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
+      navigate(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [filters, history]
+    [filters, navigate]
   )
 
   const createOnChangeFilter = useCallback(
@@ -139,11 +130,10 @@ const UsersOverviewContainer = () => {
     (event: FormEvent<HTMLSelectElement>) => {
       event.preventDefault()
       const { name, value } = event.currentTarget
-
       filters.set(name, value)
-      history.push(`${USERS_PAGED_URL}/1?${filters.toString()}`)
+      navigate(`${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
-    [filters, history]
+    [filters, navigate]
   )
 
   const onItemClick = useCallback(
@@ -160,24 +150,21 @@ const UsersOverviewContainer = () => {
       } = event
 
       if (itemId) {
-        history.push(`${USER_URL}/${itemId}`)
+        navigate(`${USER_URL}/${itemId}`)
       }
     },
-    [history, userCan]
+    [navigate, userCan]
   )
 
   const onPaginationClick = useCallback(
     (pageToNavigateTo: number) => {
       global.window.scrollTo(0, 0)
-      history.push(
-        `${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`
-      )
+      navigate(`${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`)
     },
-    [filters, history]
+    [filters, navigate]
   )
 
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
-
   return (
     <Fragment>
       <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>

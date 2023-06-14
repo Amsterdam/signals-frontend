@@ -119,7 +119,9 @@ const IncidentReplyContainer = () => {
           })
         }
 
-        await postAnswer(sessionUuid, answer.uuid, answer.value)
+        if (sessionUuid) {
+          await postAnswer(sessionUuid, answer.uuid, answer.value)
+        }
         await submitQuestionnaire(
           `${configuration.QA_SESSIONS_ENDPOINT}${session.uuid}/submit`
         )

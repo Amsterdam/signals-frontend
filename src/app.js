@@ -4,7 +4,7 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import * as Sentry from '@sentry/browser'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
 
 import App from 'containers/App'
 import { authenticateUser } from 'containers/App/actions'

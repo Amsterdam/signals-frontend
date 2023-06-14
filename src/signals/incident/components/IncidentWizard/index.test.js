@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
@@ -52,7 +52,7 @@ describe('<IncidentWizard />', () => {
     configuration.__reset()
   })
 
-  it('expect to render form correctly', () => {
+  it('expect to render form correctly', async () => {
     const propsWithForm = {
       ...props,
       wizardDefinition: {
@@ -69,10 +69,12 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithForm} />)
     )
 
-    expect(queryByTestId('incident-form')).toBeInTheDocument()
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
-    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('incident-form')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+      expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    })
   })
 
   it('should not render without any form or preview', () => {
@@ -92,7 +94,7 @@ describe('<IncidentWizard />', () => {
     expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
   })
 
-  it('expect to render form factory correctly', () => {
+  it('expect to render form factory correctly', async () => {
     const propsWithFormFactory = {
       ...props,
       wizardDefinition: {
@@ -108,12 +110,14 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithFormFactory} />)
     )
 
-    expect(queryByTestId('incident-form')).toBeInTheDocument()
-    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
-    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('incident-form')).toBeInTheDocument()
+      expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+      expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    })
   })
 
-  it('expect to render preview factory correctly', () => {
+  it('expect to render preview factory correctly', async () => {
     const propsWithPreviewFactory = {
       ...props,
       wizardDefinition: {
@@ -142,9 +146,11 @@ describe('<IncidentWizard />', () => {
       )
     )
 
-    expect(queryByTestId('incident-form')).not.toBeInTheDocument()
-    expect(queryByTestId('incident-preview')).toBeInTheDocument()
-    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('incident-form')).not.toBeInTheDocument()
+      expect(queryByTestId('incident-preview')).toBeInTheDocument()
+      expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    })
   })
 
   it('expect to render loading correctly', () => {
@@ -174,7 +180,7 @@ describe('<IncidentWizard />', () => {
     expect(queryByTestId('loading-indicator')).toBeInTheDocument()
   })
 
-  it('should work without sources (not authorized)', () => {
+  it('should work without sources (not authorized)', async () => {
     const propsWithForm = {
       ...props,
       wizardDefinition: {
@@ -189,12 +195,14 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithForm} />)
     )
 
-    expect(queryByTestId('incident-form')).toBeInTheDocument()
-    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
-    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(queryByTestId('incident-form')).toBeInTheDocument()
+      expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+      expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+    })
   })
 
-  it('should pass the sources to the formFactory', () => {
+  it('should pass the sources to the formFactory', async () => {
     const formFactory = jest.fn().mockImplementation(() => ({ controls: {} }))
     const incident = {}
     const propsWithFormFactory = {
@@ -213,9 +221,11 @@ describe('<IncidentWizard />', () => {
       withContext(<IncidentWizard {...propsWithFormFactory} />, sources)
     )
 
-    expect(queryByTestId('incident-form')).toBeInTheDocument()
-    expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
-    expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
-    expect(formFactory).toHaveBeenCalledWith(incident, sources)
+    await waitFor(() => {
+      expect(queryByTestId('incident-form')).toBeInTheDocument()
+      expect(queryByTestId('incident-preview')).not.toBeInTheDocument()
+      expect(queryByTestId('loading-indicator')).not.toBeInTheDocument()
+      expect(formFactory).toHaveBeenCalledWith(incident, sources)
+    })
   })
 })

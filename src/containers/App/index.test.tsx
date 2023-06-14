@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, screen, act } from '@testing-library/react'
-import type { UnregisterCallback, History } from 'history'
 import * as reactRedux from 'react-redux'
 
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
@@ -30,10 +29,7 @@ jest.mock('shared/services/auth/auth', () => ({
 jest.useFakeTimers()
 
 describe('<App />', () => {
-  let listenSpy: jest.SpyInstance<
-    UnregisterCallback,
-    [listener: History.LocationListener<unknown>]
-  >
+  let listenSpy: jest.SpyInstance
   let spyScrollTo: jest.Mock
   let props: JSX.IntrinsicAttributes & { resetIncidentAction: jest.Mock }
 
@@ -60,13 +56,13 @@ describe('<App />', () => {
   it('should scroll to top on history change', () => {
     render(withAppContext(<App />))
 
-    expect(spyScrollTo).not.toHaveBeenCalled()
+    expect(spyScrollTo).toHaveBeenCalledWith(0, 0)
 
     act(() => {
       history.push('/somewhere/else')
     })
 
-    expect(spyScrollTo).toHaveBeenCalledWith(0, 0)
+    expect(spyScrollTo).toHaveBeenCalledTimes(2)
   })
 
   it('should reset incident on page unload', () => {

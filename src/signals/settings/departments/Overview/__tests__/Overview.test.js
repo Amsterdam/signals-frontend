@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, fireEvent, waitFor, act } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -16,10 +16,8 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }))
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const navigateMock = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -30,7 +28,7 @@ jest.spyOn(appSelectors, 'makeSelectUserCan').mockImplementation(() => () => {})
 
 describe('signals/settings/departments/Overview', () => {
   beforeEach(() => {
-    push.mockReset()
+    navigateMock.mockReset()
 
     jest
       .spyOn(modelSelectors, 'makeSelectDepartments')
@@ -87,7 +85,7 @@ describe('signals/settings/departments/Overview', () => {
     expect(container.querySelector('table')).not.toBeInTheDocument()
   })
 
-  it('should push on list item click', async () => {
+  it('should navigate on list item click', async () => {
     jest
       .spyOn(appSelectors, 'makeSelectUserCan')
       .mockImplementation(() => () => true)
@@ -104,14 +102,14 @@ describe('signals/settings/departments/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = id
 
-    expect(push).toHaveBeenCalledTimes(0)
+    expect(navigateMock).toHaveBeenCalledTimes(0)
 
     act(() => {
       fireEvent.click(row)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(`${DEPARTMENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledWith(`${DEPARTMENT_URL}/${id}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
@@ -120,7 +118,7 @@ describe('signals/settings/departments/Overview', () => {
       fireEvent.click(row)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledTimes(1)
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = id
@@ -129,10 +127,10 @@ describe('signals/settings/departments/Overview', () => {
       fireEvent.click(row)
     })
 
-    expect(push).toHaveBeenCalledTimes(2)
+    expect(navigateMock).toHaveBeenCalledTimes(2)
   })
 
-  it('should not push on list item click when permissions are insufficient', async () => {
+  it('should not navigate on list item click when permissions are insufficient', async () => {
     jest
       .spyOn(appSelectors, 'makeSelectUserCan')
       .mockImplementation(() => () => false)
@@ -148,11 +146,11 @@ describe('signals/settings/departments/Overview', () => {
     // Explicitly set an 'itemId' so that we can easily test against its value.
     row.dataset.itemId = id
 
-    expect(push).toHaveBeenCalledTimes(0)
+    expect(navigateMock).toHaveBeenCalledTimes(0)
 
     act(() => {
       fireEvent.click(row)
     })
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 })

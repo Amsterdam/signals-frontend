@@ -9,7 +9,7 @@ import isObject from 'lodash/isObject'
 import MatchMediaMock from 'match-media-mock'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Provider } from 'react-redux'
-import { Router } from 'react-router-dom'
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
 
 import MapContext from 'containers/MapContext'
 import loadModels from 'models'

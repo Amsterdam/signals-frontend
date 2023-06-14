@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021-2022 Gemeente Amsterdam
 import { render, act, screen } from '@testing-library/react'
-import type { RouteComponentProps } from 'react-router-dom'
 
 import * as appSelectors from 'containers/App/selectors' // { makeSelectUserCanAccess, makeSelectUserCan }
 import { withAppContext, history } from 'test/utils'
@@ -20,11 +19,11 @@ describe('ProtectedRoute component', () => {
 
   it('should render not found message when component does not exist', () => {
     const MockComponentUndefined = undefined as unknown as (
-      props: RouteComponentProps<any>
+      props: any
     ) => JSX.Element
     render(
       withAppContext(
-        <ProtectedRoute exact path="/test" component={MockComponentUndefined} />
+        <ProtectedRoute path="/test" component={MockComponentUndefined} />
       )
     )
 
@@ -39,9 +38,7 @@ describe('ProtectedRoute component', () => {
 
   it("should NOT render the component when doesn't have access", () => {
     render(
-      withAppContext(
-        <ProtectedRoute exact path="/test" component={TestComponent} />
-      )
+      withAppContext(<ProtectedRoute path="/test" component={TestComponent} />)
     )
 
     act(() => {
@@ -59,12 +56,7 @@ describe('ProtectedRoute component', () => {
       .mockImplementation(() => () => true)
     render(
       withAppContext(
-        <ProtectedRoute
-          exact
-          path="/test"
-          component={TestComponent}
-          role="role"
-        />
+        <ProtectedRoute path="/test" component={TestComponent} role="role" />
       )
     )
 
@@ -84,7 +76,6 @@ describe('ProtectedRoute component', () => {
     render(
       withAppContext(
         <ProtectedRoute
-          exact
           path="/test"
           component={TestComponent}
           roleGroup="roleGroup"

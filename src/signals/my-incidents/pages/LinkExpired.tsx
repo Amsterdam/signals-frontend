@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useMemo } from 'react'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Button from 'components/Button'
 
@@ -10,11 +10,11 @@ import { BasePage } from './BasePage'
 import { routes } from '../definitions'
 
 export const LinkExpired = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onClick = useCallback(() => {
-    history.push(routes.requestAccess)
-  }, [history])
+    navigate(`../${routes.requestAccess}`)
+  }, [navigate])
 
   const buttons = useMemo(
     () => (

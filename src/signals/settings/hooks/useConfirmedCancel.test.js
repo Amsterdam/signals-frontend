@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -10,10 +10,8 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
 }))
 
-const push = jest.fn()
-jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-  push,
-}))
+const navigateMock = jest.fn()
+jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 
 const redirectURL = 'https://redirect-me-here'
 
@@ -24,11 +22,11 @@ describe('signals/settings/hooks/useConfirmedCancel', () => {
     const pristine = true
     const { result } = renderHook(() => useConfirmedCancel(redirectURL))
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     result.current(pristine)
 
-    expect(push).toHaveBeenCalledWith(redirectURL)
+    expect(navigateMock).toHaveBeenCalledWith(redirectURL)
 
     expect(global.window.confirm).not.toHaveBeenCalled()
   })
@@ -42,15 +40,15 @@ describe('signals/settings/hooks/useConfirmedCancel', () => {
 
     expect(global.window.confirm).not.toHaveBeenCalled()
 
-    expect(push).toHaveBeenCalled()
+    expect(navigateMock).toHaveBeenCalled()
 
-    push.mockReset()
+    navigateMock.mockReset()
 
     result.current(false)
 
     expect(global.window.confirm).toHaveBeenCalledWith(confirmationMessage)
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     global.window.confirm.mockReset()
     global.window.confirm.mockReturnValue(true)
@@ -59,6 +57,6 @@ describe('signals/settings/hooks/useConfirmedCancel', () => {
 
     expect(global.window.confirm).toHaveBeenCalledWith(confirmationMessage)
 
-    expect(push).toHaveBeenCalledWith(redirectURL)
+    expect(navigateMock).toHaveBeenCalledWith(redirectURL)
   })
 })

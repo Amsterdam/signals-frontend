@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 import { Fragment, useEffect } from 'react'
 
 import format from 'date-fns/format'
 import nl from 'date-fns/locale/nl'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import {
   StatusBlock,
@@ -28,13 +28,13 @@ export const History = ({
   incident,
   fetchResponse: { error, data },
 }: Props) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (error) {
-      history.push(routes.expired)
+      navigate(`../${routes.expired}`)
     }
-  }, [error, history])
+  }, [error, navigate])
 
   return (
     <Wrapper>

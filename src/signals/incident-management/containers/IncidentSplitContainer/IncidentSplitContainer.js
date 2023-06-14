@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useEffect, useCallback, useMemo, useState } from 'react'
 
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -40,7 +40,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
   } = useFetch()
   const { error: errorUpdate, patch, isSuccess: isSuccessUpdate } = useFetch()
   const { id } = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [parentIncident, setParentIncident] = useState()
   const [directingDepartment, setDirectingDepartment] = useState([])
@@ -119,7 +119,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         )
       }
 
-      history.push(`${INCIDENT_URL}/${id}`)
+      navigate(`${INCIDENT_URL}/${id}`)
     },
     // Disabling linter; the `history` dependency is generating infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2023 Vereniging van Nederlandse Gemeenten
 import { useState } from 'react'
 
 import { Column } from '@amsterdam/asc-ui'
@@ -44,7 +44,7 @@ const ExternalReplyContainer = () => {
     submitQuestionnaireSuccessMessage,
     submit,
     attachments,
-  } = useExternalReplyQuestionnaire(id)
+  } = useExternalReplyQuestionnaire(id as string)
 
   if (questionnaireErrorMessage) {
     return (

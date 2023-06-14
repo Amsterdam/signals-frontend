@@ -29,7 +29,7 @@ jest.mock('containers/App/selectors', () => ({
   ...jest.requireActual('containers/App/selectors'),
 }))
 
-const push = jest.fn()
+const navigateMock = jest.fn()
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -58,8 +58,8 @@ const userId = userFixture.id
 describe('signals/settings/users/containers/Detail', () => {
   beforeEach(() => {
     jest
-      .spyOn(reactRouterDom, 'useHistory')
-      .mockImplementation(() => ({ push }))
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => navigateMock)
     jest
       .spyOn(appSelectors, 'makeSelectUserCan')
       .mockImplementation(() => () => true)
@@ -74,7 +74,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
   afterEach(() => {
     fetch.resetMocks()
-    push.mockReset()
+    navigateMock.mockReset()
   })
 
   it('should render a backlink', async () => {
@@ -438,7 +438,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     await findByTestId('user-detail-form-container')
 
-    expect(push).toHaveBeenCalledTimes(0)
+    expect(navigateMock).toHaveBeenCalledTimes(0)
 
     act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
@@ -446,20 +446,24 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(global.window.confirm).not.toHaveBeenCalled()
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users))
+    expect(navigateMock).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users)
+    )
 
     rerender(withAppContext(<UserDetail />))
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledTimes(1)
 
     act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
     expect(global.window.confirm).not.toHaveBeenCalled()
-    expect(push).toHaveBeenCalledTimes(2)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users))
+    expect(navigateMock).toHaveBeenCalledTimes(2)
+    expect(navigateMock).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users)
+    )
   })
 
   it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', async () => {
@@ -471,7 +475,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     await findByTestId('user-detail-form-container')
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     act(() => {
       fireEvent.change(
@@ -485,7 +489,7 @@ describe('signals/settings/users/containers/Detail', () => {
     })
 
     expect(global.window.confirm).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledTimes(0)
+    expect(navigateMock).toHaveBeenCalledTimes(0)
 
     global.window.confirm.mockReturnValue(true)
 
@@ -494,11 +498,13 @@ describe('signals/settings/users/containers/Detail', () => {
     })
 
     expect(global.window.confirm).toHaveBeenCalledTimes(2)
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(routes.users))
+    expect(navigateMock).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledWith(
+      expect.stringContaining(routes.users)
+    )
   })
 
-  it('should push to correct URL when cancel button is clicked and form data is pristine', async () => {
+  it('should navigateMock to correct URL when cancel button is clicked and form data is pristine', async () => {
     const referrer = '/some-page-we-came-from'
     jest
       .spyOn(reactRouterDom, 'useLocation')
@@ -512,15 +518,15 @@ describe('signals/settings/users/containers/Detail', () => {
 
     await findByTestId('user-detail-form-container')
 
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
     // user is only asked for confirmation when form data isn't pristine
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(referrer))
+    expect(navigateMock).toHaveBeenCalledTimes(1)
+    expect(navigateMock).toHaveBeenCalledWith(expect.stringContaining(referrer))
 
     jest
       .spyOn(reactRouterDom, 'useLocation')
@@ -536,7 +542,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     // user is only asked for confirmation when form data isn't pristine
     expect(global.window.confirm).not.toHaveBeenCalled()
-    expect(push).toHaveBeenCalledTimes(2)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining(referrer))
+    expect(navigateMock).toHaveBeenCalledTimes(2)
+    expect(navigateMock).toHaveBeenCalledWith(expect.stringContaining(referrer))
   })
 })

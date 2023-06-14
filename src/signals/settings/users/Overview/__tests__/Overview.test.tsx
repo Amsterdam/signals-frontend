@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import {
   render,
   within,
@@ -47,12 +47,12 @@ jest.mock('models/roles/selectors', () => ({
 
 const scrollTo = jest.fn()
 const push = jest.fn()
-const unregister = jest.fn()
-const listen = jest.fn(() => unregister)
 
 global.window.scrollTo = scrollTo
 
-const historySpy = jest.spyOn(reactRouter, 'useHistory')
+const useNavigateSpy = jest.spyOn(reactRouter, 'useNavigate')
+const mockNavigate = jest.fn()
+useNavigateSpy.mockImplementation(() => mockNavigate)
 
 describe('signals/settings/users/containers/Overview', () => {
   beforeEach(() => {
@@ -63,8 +63,6 @@ describe('signals/settings/users/containers/Overview', () => {
     jest
       .spyOn(reactRouter, 'useParams')
       .mockImplementation(() => ({ pageNum: '1' }))
-
-    historySpy.mockImplementation(() => ({ push, listen } as any))
 
     jest
       .spyOn(rolesSelectors, 'inputSelectRolesSelector')
@@ -77,26 +75,11 @@ describe('signals/settings/users/containers/Overview', () => {
 
   afterEach(() => {
     scrollTo.mockReset()
-    push.mockReset()
+    mockNavigate.mockReset()
   })
 
   afterAll(() => {
     jest.restoreAllMocks()
-  })
-
-  it('registers history listener on mount', () => {
-    expect(listen).not.toHaveBeenCalled()
-
-    const { unmount } = render(withAppContext(<UsersOverview />))
-
-    expect(listen).toHaveBeenCalledTimes(1)
-
-    // unregister on unmount
-    expect(unregister).not.toHaveBeenCalled()
-
-    unmount()
-
-    expect(unregister).toHaveBeenCalled()
   })
 
   it('should render "add user" button', async () => {
@@ -323,21 +306,21 @@ describe('signals/settings/users/containers/Overview', () => {
 
     userEvent.click(username)
 
-    expect(push).toHaveBeenLastCalledWith(`${USER_URL}/${itemId}`)
+    expect(mockNavigate).toHaveBeenLastCalledWith(`${USER_URL}/${itemId}`)
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId
 
     userEvent.click(username)
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
 
     // Set 'itemId' again and fire click event once more.
     row.dataset.itemId = `${itemId}`
 
     userEvent.click(username)
 
-    expect(push).toHaveBeenCalledTimes(2)
+    expect(mockNavigate).toHaveBeenCalledTimes(2)
   })
 
   it('should not push on list item click when permissions are insufficient', async () => {
@@ -396,14 +379,14 @@ describe('signals/settings/users/containers/Overview', () => {
       jest.advanceTimersByTime(50)
     })
 
-    expect(push).not.toHaveBeenCalled()
+    expect(mockNavigate).not.toHaveBeenCalled()
 
     act(() => {
       jest.advanceTimersByTime(200)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining(`username=${filterValue}`)
     )
 
@@ -431,8 +414,8 @@ describe('signals/settings/users/containers/Overview', () => {
       jest.advanceTimersByTime(300)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining(`username=${filterValue}`)
     )
 
@@ -443,8 +426,10 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await screen.findByTestId('filterUsersByUsername')
 
-    expect(push).toHaveBeenCalledTimes(2)
-    expect(push).toHaveBeenCalledWith(expect.stringContaining('username='))
+    expect(mockNavigate).toHaveBeenCalledTimes(2)
+    expect(mockNavigate).toHaveBeenCalledWith(
+      expect.stringContaining('username=')
+    )
 
     jest.useRealTimers()
   })
@@ -454,7 +439,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     render(withAppContext(<UsersOverview />))
 
-    expect(push).not.toHaveBeenCalled()
+    expect(mockNavigate).not.toHaveBeenCalled()
 
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loading-indicator')
@@ -474,7 +459,7 @@ describe('signals/settings/users/containers/Overview', () => {
       jest.advanceTimersByTime(250)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
 
     userEvent.type(
       filterByUserNameInput,
@@ -489,7 +474,7 @@ describe('signals/settings/users/containers/Overview', () => {
       jest.advanceTimersByTime(250)
     })
 
-    expect(push).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
 
     await screen.findByTestId('filterUsersByUsername')
 
@@ -511,7 +496,9 @@ describe('signals/settings/users/containers/Overview', () => {
       .mockImplementationOnce(() => [{ key: 'all', name: 'Alles', value: '*' }])
       .mockImplementation(() => inputSelectRolesSelectorFixture)
 
-    memoryHistory.push(`${USERS_PAGED_URL}/1`)
+    act(() => {
+      memoryHistory.push(`${USERS_PAGED_URL}/1`)
+    })
 
     const { rerender } = render(withAppContext(<UsersOverview />))
 
@@ -529,7 +516,9 @@ describe('signals/settings/users/containers/Overview', () => {
       ).value
     ).toBe('*')
 
-    memoryHistory.push(`${USERS_PAGED_URL}/1?role=Does not exist`)
+    act(() => {
+      memoryHistory.push(`${USERS_PAGED_URL}/1?role=Does not exist`)
+    })
 
     rerender(withAppContext(<UsersOverview />))
 
@@ -607,12 +596,12 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const filterValue = 'Regievoerder'
 
-    expect(push).not.toHaveBeenCalled()
+    expect(mockNavigate).not.toHaveBeenCalled()
 
     userEvent.selectOptions(filterByRoleSelect, filterValue)
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining(`role=${filterValue}`)
     )
 
@@ -648,7 +637,7 @@ describe('signals/settings/users/containers/Overview', () => {
 
     const filterValue = 'true'
 
-    expect(push).not.toHaveBeenCalled()
+    expect(mockNavigate).not.toHaveBeenCalled()
 
     userEvent.selectOptions(filterByUserActiveSelect, filterValue)
 
@@ -656,16 +645,15 @@ describe('signals/settings/users/containers/Overview', () => {
 
     expect(filterByUserActiveSelect.value).toBe(filterValue)
 
-    expect(push).toHaveBeenCalledTimes(1)
-    expect(push).toHaveBeenCalledWith(
+    expect(mockNavigate).toHaveBeenCalledTimes(1)
+    expect(mockNavigate).toHaveBeenCalledWith(
       expect.stringContaining(`is_active=${filterValue}`)
     )
   })
 
   it('sets the correct values when location pops', async () => {
-    historySpy.mockRestore()
-
-    render(withAppContext(<UsersOverview />))
+    mockNavigate.mockRestore()
+    const { rerender } = render(withAppContext(<UsersOverview />))
 
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loading-indicator')
@@ -680,6 +668,8 @@ describe('signals/settings/users/containers/Overview', () => {
     userEvent.selectOptions(filterByDepartmentSelect, 'CCA')
 
     await screen.findByTestId('role')
+
+    rerender(withAppContext(<UsersOverview />))
 
     expect(
       (
@@ -702,6 +692,8 @@ describe('signals/settings/users/containers/Overview', () => {
 
     await screen.findByTestId('role')
 
+    rerender(withAppContext(<UsersOverview />))
+
     expect(
       (
         filterByRoleSelect.querySelector(
@@ -719,7 +711,7 @@ describe('signals/settings/users/containers/Overview', () => {
     ).toBe('GGD')
 
     act(() => {
-      memoryHistory.goBack()
+      memoryHistory.back()
       // forcing URL update; necessary because of lack of history pop support
       memoryHistory.push(
         `${USERS_PAGED_URL}/1?role=Regievoerder&profile_department_code=CCA`

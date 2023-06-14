@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -18,16 +18,16 @@ jest.mock('react-router-dom', () => ({
   }),
 }))
 
-const push = jest.fn()
+const navigateMock = jest.fn()
 const roleId = '2'
 
 describe('signals/settings/roles/containers/RoleFormContainer', () => {
   beforeEach(() => {
     jest.resetAllMocks()
 
-    jest.spyOn(reactRouterDom, 'useHistory').mockImplementation(() => ({
-      push,
-    }))
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => navigateMock)
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       roleId,
@@ -120,7 +120,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled()
     expect(props.onResetResponse).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     props.roles.responseSuccess = true
     render(withAppContext(<RoleFormContainer {...propsWithSuccess} />))
@@ -131,7 +131,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     })
     expect(props.onResetResponse).toHaveBeenCalled()
-    expect(push).toHaveBeenCalledWith(routes.roles)
+    expect(navigateMock).toHaveBeenCalledWith(routes.roles)
   })
 
   it('should show success notication and navigate to role list page with existing role', () => {
@@ -147,7 +147,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled()
     expect(props.onResetResponse).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     props.roles.responseSuccess = true
     render(withAppContext(<RoleFormContainer {...propsWithSuccess} />))
@@ -158,7 +158,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     })
     expect(props.onResetResponse).toHaveBeenCalled()
-    expect(push).toHaveBeenCalledWith(routes.roles)
+    expect(navigateMock).toHaveBeenCalledWith(routes.roles)
   })
 
   it('should show error notication and not navigate to role list page', () => {
@@ -173,11 +173,11 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
 
     expect(props.showGlobalNotification).not.toHaveBeenCalled()
     expect(props.onResetResponse).not.toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
 
     render(withAppContext(<RoleFormContainer {...propsWithError} />))
 
     expect(props.onResetResponse).toHaveBeenCalled()
-    expect(push).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 })

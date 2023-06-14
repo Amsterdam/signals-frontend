@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { Suspense } from 'react'
 
 import { render, screen } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
+import { act } from 'react-dom/test-utils'
 
 import * as appSelectors from 'containers/App/selectors'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
-import { withAppContext } from 'test/utils'
+import { withAppContext, history } from 'test/utils'
 
 import IncidentManagementModule from '..'
 import * as actions from '../actions'
-
-const history = createMemoryHistory()
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')
@@ -85,8 +83,11 @@ describe('signals/incident-management', () => {
     })
 
     it('should not redirect when authenticated', async () => {
+      history.push('/incidents')
+
       getIsAuthenticated.mockImplementation(() => true)
       render(withSuspense())
+
       const incidentManagementOverviewPage = await screen.findByTestId(
         'incident-management-overview-page'
       )
@@ -107,6 +108,9 @@ describe('signals/incident-management', () => {
         })
 
         it('should not fetch when authenticated', async () => {
+          act(() => {
+            history.push('/incidents')
+          })
           getIsAuthenticated.mockImplementation(() => true)
           render(withSuspense())
           await screen.findByTestId('incident-management-overview-page')
@@ -205,7 +209,7 @@ describe('signals/incident-management', () => {
 
     describe('incident list', () => {
       it('should show warning when not authenticated', async () => {
-        history.push('/manage/incidents')
+        history.push('/incidents')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('login-page')
@@ -214,7 +218,7 @@ describe('signals/incident-management', () => {
       })
 
       it('should not show warning when authenticated', async () => {
-        history.push('/manage/incidents')
+        history.push('/incidents')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
         await screen.findByTestId('incident-management-overview-page')
@@ -225,7 +229,7 @@ describe('signals/incident-management', () => {
 
     describe('incident detail', () => {
       it('should show warning when not authenticated', async () => {
-        history.push('/manage/incident/1101')
+        history.push('/incident/1101')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('login-page')
@@ -234,18 +238,22 @@ describe('signals/incident-management', () => {
       })
 
       it('should not show warning when authenticated', async () => {
-        history.push('/manage/incident/1101')
+        history.push('/incident/1101')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incident-management-overview-page')
+        await screen.findByTestId('loading-indicator')
 
         expect(screen.queryByText(loginText)).toBeNull()
       })
     })
 
     describe('incident split', () => {
+      beforeEach(() => {
+        fetchMock.mockRestore()
+      })
+
       it('should show warning when not authenticated', async () => {
-        history.push('/manage/incident/1101/split')
+        history.push('/incident/1102/split')
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
         await screen.findByTestId('login-page')
@@ -254,35 +262,41 @@ describe('signals/incident-management', () => {
       })
 
       it('should not show warning when authenticated', async () => {
-        history.push('/manage/incident/1101/split')
+        history.push('/incident/1102/split')
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
-        await screen.findByTestId('incident-management-overview-page')
+        await screen.findByTestId('loading-indicator')
 
         expect(screen.queryByText(loginText)).toBeNull()
       })
     })
 
     describe('incident reporter', () => {
-      it('should show warning when not authenticated', async () => {
+      beforeEach(() => {
+        fetchMock.mockRestore()
         configuration.featureFlags.enableReporter = true
-        history.push('/manage/incident/1101/melder')
+      })
+
+      it('should show warning when not authenticated', async () => {
+        act(() => {
+          history.push('/incident/1101/melder')
+        })
         getIsAuthenticated.mockImplementation(() => false)
         render(withSuspense())
 
-        expect(await screen.findByTestId('login-page')).toBeInTheDocument()
+        await screen.findByTestId('login-page')
         expect(screen.queryByText(loginText)).not.toBeNull()
       })
 
       it('should not show warning when authenticated', async () => {
-        configuration.featureFlags.enableReporter = true
-        history.push('/manage/incident/1101/melder')
+        act(() => {
+          history.push('/incident/1101/melder')
+        })
         getIsAuthenticated.mockImplementation(() => true)
         render(withSuspense())
 
-        expect(
-          await screen.findByTestId('incident-management-overview-page')
-        ).toBeInTheDocument()
+        await screen.findByTestId('loading-indicator')
+
         expect(screen.queryByText(loginText)).not.toBeInTheDocument()
       })
     })
@@ -292,7 +306,9 @@ describe('signals/incident-management', () => {
       render(withSuspense())
       await screen.findByTestId('incident-management-overview-page')
 
-      history.push('/manage/this-url-definitely-does-not-exist')
+      act(() => {
+        history.push('/this-url-definitely-does-not-exist')
+      })
 
       expect(
         await screen.findByTestId('incident-management-overview-page')
