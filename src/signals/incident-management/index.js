@@ -37,6 +37,8 @@ const IncidentDetail = lazy(() => import('./containers/IncidentDetail'))
 // istanbul ignore next
 const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'))
 // istanbul ignore next
+const StandardTextsAdmin = lazy(() => import('./containers/StandardTextsAdmin'))
+// istanbul ignore next
 const IncidentSplitContainer = lazy(() =>
   import('./containers/IncidentSplitContainer')
 )
@@ -99,7 +101,16 @@ const IncidentManagement = () => {
           {configuration.featureFlags.enableNearIncidents && (
             <Route path={routes.area} element={<AreaContainer />} />
           )}
-          <Route path={routes.defaultTexts} element={<DefaultTextsAdmin />} />
+
+          {configuration.featureFlags.showStandardTextAdminV1 && (
+            <Route path={routes.defaultTexts} element={<DefaultTextsAdmin />} />
+          )}
+          {configuration.featureFlags.showStandardTextAdminV2 && (
+            <Route
+              path={routes.standardTexts}
+              element={<StandardTextsAdmin />}
+            />
+          )}
           <Route path={routes.signaling} element={<SignalingContainer />} />
           <Route path={'/*'} element={<IncidentOverviewPage />} />
         </Routes>

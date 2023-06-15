@@ -80,11 +80,11 @@ RUN adduser -D -u 1001 appuser
 
 # Make sure appuser can change files that change in runtime
 RUN touch /run/nginx.pid && \
-    chown -R appuser \
-    /run/nginx.pid \
-    /var/cache/nginx \
-    /usr/share/nginx/html/index.html \
-    /usr/share/nginx/html/manifest.json
+  chown -R appuser \
+  /run/nginx.pid \
+  /var/cache/nginx \
+  /usr/share/nginx/html/index.html \
+  /usr/share/nginx/html/manifest.json
 
 USER appuser
 

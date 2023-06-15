@@ -4,9 +4,10 @@
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
+    "disableClosingCategoryOverigOverig": true,
     "enableAmsterdamSpecificOverigCategories": true,
-    "enableMultipleKtoAnswers": true,
     "enableCsvExport": false,
+    "enableMultipleKtoAnswers": true,
     "enableMyIncidents": true,
     "enableNearIncidents": true,
     "enablePublicIncidentsMap": true,
@@ -16,12 +17,12 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "reporterMailHandledNegativeContactEnabled": true,
+    "showMainCategories": true,
+    "showStandardTextAdminV2": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false,
-    "showMainCategories": true,
-    "disableClosingCategoryOverigOverig": true,
-    "useGisib": false
+    "useGisib": false,
+    "useProjectenSignalType": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

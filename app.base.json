@@ -22,6 +22,8 @@
     "useProjectenSignalType": false,
     "enableForwardIncidentToExternal": false,
     "showMainCategories": false,
+    "showStandardTextAdminV1": true,
+    "showStandardTextAdminV2": false,
     "disableClosingCategoryOverigOverig": false,
     "useGisib": false
   },

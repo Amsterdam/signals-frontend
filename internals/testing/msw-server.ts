@@ -25,6 +25,8 @@ import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json
 import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
+import standardTextsPage2 from '../mocks/fixtures/standard-texts-page-two.json'
+import standardTexts from '../mocks/fixtures/standard-texts.json'
 import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
 import usersFixture from '../mocks/fixtures/users.json'
 
@@ -147,6 +149,17 @@ const handlers = [
   rest.get(API.REPORTS, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(reportsFixture))
   ),
+
+  rest.get(API.STANDARD_TEXTS_SEARCH_ENDPOINT, (req, res, ctx) => {
+    const pageNumber = req.url.searchParams.get('page')
+
+    switch (pageNumber) {
+      case '2':
+        return res(ctx.status(200), ctx.json(standardTextsPage2))
+      default:
+        return res(ctx.status(200), ctx.json(standardTexts))
+    }
+  }),
 
   rest.get(API.QA_SESSIONS, (req, res, ctx) => {
     switch (req.params.uuid) {

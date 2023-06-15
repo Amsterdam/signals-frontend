@@ -93,6 +93,8 @@ export default {
   // default response texts for incident handling. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories
   // for reference.
+  STANDARD_TEXTS_SEARCH_ENDPOINT: '/signals/v1/private/status-messages/search',
+  // Private. Used by the incident management module to retrieve and search standard texts.
   TERMS_ENDPOINT: '/signals/v1/private/terms/categories/',
   // Private. Used by the settings module to `GET`, `PATCH` and `POST` users.
   // See

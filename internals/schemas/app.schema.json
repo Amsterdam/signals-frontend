@@ -109,7 +109,7 @@
         "enableMultipleKtoAnswers": {
           "description": "Feature switch to enable multiple kto questions.",
           "type": "boolean"
-        },
+        },  
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -152,6 +152,14 @@
         },
         "useGisib": {
           "description": "When true, will use GISIB for the map",
+          "type": "boolean"
+        },
+        "showStandardTextAdminV1": {
+          "description": "Shows the old way of managing standard text for email responses.",
+          "type": "boolean"
+        },
+        "showStandardTextAdminV2": {
+          "description": "Shows the new way of managing standard text for email responses. One text can be assigned to multiple statuses.",
           "type": "boolean"
         }
       },
