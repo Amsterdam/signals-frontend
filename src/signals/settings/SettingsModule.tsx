@@ -184,7 +184,7 @@ const SettingsModule = () => {
           element={
             <ProtectedRoute
               component={SubcategoriesOverview}
-              roleGroup="subcategories"
+              roleGroup="categories"
             />
           }
         />
@@ -193,7 +193,7 @@ const SettingsModule = () => {
           element={
             <ProtectedRoute
               component={SubcategoryDetail}
-              roleGroup="subcategoryForm"
+              roleGroup="categoryForm"
             />
           }
         />
@@ -202,7 +202,7 @@ const SettingsModule = () => {
           element={
             <ProtectedRoute
               component={MainCategoriesOverview}
-              roleGroup="mainCategories"
+              roleGroup="categories"
             />
           }
         />
@@ -211,7 +211,7 @@ const SettingsModule = () => {
           element={
             <ProtectedRoute
               component={MainCategoryDetail}
-              roleGroup="mainCategoryForm"
+              roleGroup="categoryForm"
             />
           }
         />
