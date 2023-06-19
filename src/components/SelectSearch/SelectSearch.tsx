@@ -55,7 +55,6 @@ export const SelectSearch = ({
   const [isInputActive, setIsInputActive] = useState(true)
   const [filteredOptions, setFilteredOptions] = useState(options)
   const [filteredGroups, setFilteredGroups] = useState(groups)
-
   const { currentFocus, setCurrentFocus } = useRoveFocus(filteredOptions.length)
 
   const optionsOrderedByGroup = useMemo(() => {

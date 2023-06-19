@@ -2,7 +2,8 @@
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Suspense } from 'react'
 
-import { render, waitFor, act } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -91,6 +92,10 @@ describe('signals/settings', () => {
   })
 
   it('should render login page', () => {
+    /**
+     * This test sometimes throws an error: Warning: an update to Overview was not wrapped in act(...).
+     * Can't figure out why, but it doesn't seem to be a problem.
+     */
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { queryByTestId, getByTestId, rerender } = render(withSuspense())

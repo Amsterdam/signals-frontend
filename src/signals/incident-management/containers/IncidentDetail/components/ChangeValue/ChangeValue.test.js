@@ -2,6 +2,7 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -213,7 +214,10 @@ describe('ChangeValue', () => {
     fireEvent.change(screen.getByRole('combobox'), {
       target: { value: otherKey },
     })
-    userEvent.click(submitButton)
+
+    act(() => {
+      userEvent.click(submitButton)
+    })
 
     expect(update).toHaveBeenCalledWith({
       type: props.type,
@@ -229,7 +233,9 @@ describe('ChangeValue', () => {
     render(renderWithContext({ ...props, patch: { extraProp: true } }))
     const editButton = screen.getByTestId(editTestId)
     userEvent.click(editButton)
+
     const submitButton = screen.getByTestId(submitTestId)
+
     userEvent.click(submitButton)
 
     expect(update).toHaveBeenCalledWith({
@@ -256,6 +262,7 @@ describe('ChangeValue', () => {
 
   it('should hide form on ESC', () => {
     render(renderWithContext())
+
     userEvent.click(screen.getByTestId(editTestId))
 
     expect(screen.getByTestId('change-value-form')).toBeInTheDocument()

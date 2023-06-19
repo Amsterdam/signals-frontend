@@ -559,7 +559,9 @@ describe('signals/settings/users/containers/Overview', () => {
       ).value
     ).toBe('*')
 
-    memoryHistory.push(`${USERS_PAGED_URL}/1?profile_department_code=666`)
+    act(() => {
+      memoryHistory.push(`${USERS_PAGED_URL}/1?profile_department_code=666`)
+    })
 
     rerender(withAppContext(<UsersOverview />))
 
