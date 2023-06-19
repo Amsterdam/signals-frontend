@@ -83,7 +83,8 @@ export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
               to="/manage/v1/standaardteksten"
               $active={activeMenuItem.includes('/manage/v1/standaardteksten')}
             >
-              Standaard teksten (v1)
+              Standaard teksten
+              {configuration.featureFlags.showStandardTextAdminV2 && ' (v1)'}
             </StyledMenuButton>
           </MenuItem>
         )}
@@ -97,7 +98,8 @@ export const MenuItems = ({ onLogOut, showItems, onLinkClick }: Props) => {
               to="/manage/v2/standaardteksten"
               $active={activeMenuItem.includes('/manage/v2/standaardteksten')}
             >
-              Standaard teksten (v2)
+              Standaard teksten
+              {configuration.featureFlags.showStandardTextAdminV1 && ' (v2)'}
             </StyledMenuButton>
           </MenuItem>
         )}
