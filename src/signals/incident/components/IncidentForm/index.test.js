@@ -505,7 +505,9 @@ describe('<IncidentForm />', () => {
 
       renderIncidentForm(props)
 
-      userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+      await waitFor(() => {
+        userEvent.click(screen.getByText(mockForm.nextButtonLabel))
+      })
 
       await waitFor(() => {
         expect(
