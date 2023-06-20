@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import { Helmet } from 'react-helmet'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { ContentWrapper, StyledRow } from './styled'
 import useFetch from '../../../hooks/useFetch'
@@ -25,9 +25,6 @@ export const Detail = () => {
   const locationPathArray = location.pathname.split('/')
   const token = locationPathArray[locationPathArray.length - 2]
   const uuid = locationPathArray[locationPathArray.length - 1]
-
-  const params = useParams()
-  console.log(params)
 
   useEffect(() => {
     get(

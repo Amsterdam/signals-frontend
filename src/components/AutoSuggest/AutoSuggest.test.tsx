@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment } from 'react'
 
-import { render, fireEvent, act, screen } from '@testing-library/react'
+import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
 
@@ -174,30 +174,36 @@ describe('src/components/AutoSuggest', () => {
 
       userEvent.type(input, '{ArrowUp}')
 
-      expect(document.activeElement).toEqual(input)
+      await waitFor(() => {
+        expect(document.activeElement).toEqual(input)
+      })
 
       userEvent.type(input, 'Diemen')
 
       const suggestList = await screen.findByTestId('suggest-list')
       const listItems = [...suggestList.querySelectorAll('li')].reverse()
 
-      formatResponse(JSONResponse as unknown as RevGeo)
-        .reverse()
-        .forEach((item, index) => {
-          userEvent.type(input, '{ArrowUp}')
+      await waitFor(() => {
+        formatResponse(JSONResponse as unknown as RevGeo)
+          .reverse()
+          .forEach((item, index) => {
+            userEvent.type(input, '{ArrowUp}')
 
-          const activeElement = listItems[index]
+            const activeElement = listItems[index]
 
-          expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
-          expect(document.activeElement).toEqual(activeElement)
-        })
+            expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
+            expect(document.activeElement).toEqual(activeElement)
+          })
+      })
     })
 
     it('ArrowDown key', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
+      await waitFor(() => {
+        expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
+      })
 
       userEvent.type(input, '{ArrowDown}')
 
@@ -207,18 +213,20 @@ describe('src/components/AutoSuggest', () => {
 
       const suggestList = await screen.findByTestId('suggest-list')
 
-      formatResponse(JSONResponse as unknown as RevGeo).forEach(
-        (item, index) => {
-          userEvent.type(input, '{ArrowDown}')
+      await waitFor(() => {
+        formatResponse(JSONResponse as unknown as RevGeo).forEach(
+          (item, index) => {
+            userEvent.type(input, '{ArrowDown}')
 
-          const activeElement = suggestList.querySelector(
-            `li:nth-of-type(${index + 1}`
-          )
+            const activeElement = suggestList.querySelector(
+              `li:nth-of-type(${index + 1}`
+            )
 
-          expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
-          expect(document.activeElement).toEqual(activeElement)
-        }
-      )
+            expect(input.getAttribute('aria-activedescendant')).toEqual(item.id)
+            expect(document.activeElement).toEqual(activeElement)
+          }
+        )
+      })
     })
 
     it('ArrowUp and ArrowDown cycle', async () => {
@@ -227,7 +235,9 @@ describe('src/components/AutoSuggest', () => {
 
       expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
 
-      userEvent.type(input, 'Weesp')
+      await waitFor(() => {
+        userEvent.type(input, 'Weesp')
+      })
 
       act(() => {
         jest.advanceTimersByTime(INPUT_DELAY)
@@ -235,7 +245,9 @@ describe('src/components/AutoSuggest', () => {
 
       const suggestList = await screen.findByTestId('suggest-list')
 
-      userEvent.type(input, '{Down}')
+      await waitFor(() => {
+        userEvent.type(input, '{Down}')
+      })
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -243,7 +255,9 @@ describe('src/components/AutoSuggest', () => {
         firstElement?.id
       )
 
-      userEvent.type(input, '{Up}')
+      await waitFor(() => {
+        userEvent.type(input, '{Up}')
+      })
 
       const lastElement = suggestList.querySelector('li:last-of-type')
       expect(document.activeElement).toEqual(lastElement)
@@ -251,8 +265,9 @@ describe('src/components/AutoSuggest', () => {
         lastElement?.id
       )
 
-      userEvent.type(input, '{ArrowDown}')
-
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}')
+      })
       expect(input.getAttribute('aria-activedescendant')).toEqual(
         firstElement?.id
       )
@@ -264,28 +279,38 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      userEvent.type(input, 'Boom')
+      await waitFor(() => {
+        userEvent.type(input, 'Boom')
+      })
 
       const suggestList = await screen.findByTestId('suggest-list')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-      userEvent.type(input, '{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}')
+      })
 
       expect(document.activeElement).toEqual(firstElement)
       expect(onClear).not.toHaveBeenCalled()
 
-      userEvent.type(input, '{Escape}')
+      await waitFor(() => {
+        userEvent.type(input, '{Escape}')
+      })
 
       expect(onClear).toHaveBeenCalled()
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
       expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
 
-      userEvent.type(input, 'sloot')
+      await waitFor(() => {
+        userEvent.type(input, 'sloot')
+      })
 
       await screen.findByTestId('suggest-list')
 
-      userEvent.type(input, '{Escape}')
+      await waitFor(() => {
+        userEvent.type(input, '{Escape}')
+      })
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
@@ -296,28 +321,39 @@ describe('src/components/AutoSuggest', () => {
       const { findByTestId, queryByTestId } = render(
         withAppContext(<AutoSuggest {...props} />)
       )
+
       const input = screen.getByRole('textbox') as HTMLInputElement
 
-      userEvent.type(input, 'Boom')
+      await waitFor(() => {
+        userEvent.type(input, 'Boom')
+      })
 
       const suggestList = await findByTestId('suggest-list')
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
 
-      userEvent.type(input, '{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}')
+      })
 
       expect(document.activeElement).toEqual(firstElement)
 
-      userEvent.type(input, '{Escape}')
+      await waitFor(() => {
+        userEvent.type(input, '{Escape}')
+      })
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
       expect(queryByTestId('suggest-list')).not.toBeInTheDocument()
 
-      userEvent.type(input, 'sloot')
+      await waitFor(() => {
+        userEvent.type(input, 'sloot')
+      })
 
       await findByTestId('suggest-list')
 
-      userEvent.type(input, '{Esc}')
+      await waitFor(() => {
+        userEvent.type(input, '{Esc}')
+      })
 
       expect(input.value).toEqual('')
       expect(document.activeElement).toEqual(input)
@@ -328,15 +364,21 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      userEvent.type(input, 'Niezel')
+      await waitFor(() => {
+        userEvent.type(input, 'Niezel')
+      })
 
       const suggestList = await screen.findByTestId('suggest-list')
 
-      userEvent.type(input, '{ArrowDown}{ArrowDown}{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}{ArrowDown}{ArrowDown}')
+      })
 
       expect(document.activeElement).not.toEqual(input)
 
-      userEvent.type(input, '{Home}')
+      await waitFor(() => {
+        userEvent.type(input, '{Home}')
+      })
 
       const activeElement = document.activeElement as HTMLInputElement
 
@@ -344,7 +386,9 @@ describe('src/components/AutoSuggest', () => {
       expect(activeElement.selectionStart).toEqual(0)
       expect(screen.getByTestId('suggest-list')).toBeInTheDocument()
 
-      userEvent.type(input, '{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}')
+      })
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -355,15 +399,21 @@ describe('src/components/AutoSuggest', () => {
       const input = screen.getByRole('textbox')
       const value = 'Midden'
 
-      userEvent.type(input, `${value}`)
+      await waitFor(() => {
+        userEvent.type(input, `${value}`)
+      })
 
       const suggestList = await screen.findByTestId('suggest-list')
 
-      userEvent.type(input, '{ArrowDown}{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}{ArrowDown}')
+      })
 
       expect(document.activeElement).not.toEqual(input)
 
-      userEvent.type(input, '{End}')
+      await waitFor(() => {
+        userEvent.type(input, '{End}')
+      })
 
       const activeElement = document.activeElement as HTMLInputElement
 
@@ -371,7 +421,9 @@ describe('src/components/AutoSuggest', () => {
       expect(activeElement.selectionStart).toEqual(value.length)
       expect(screen.getByTestId('suggest-list')).toBeInTheDocument()
 
-      userEvent.type(input, '{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}')
+      })
 
       const firstElement = suggestList.querySelector('li:nth-of-type(1)')
       expect(document.activeElement).toEqual(firstElement)
@@ -392,7 +444,9 @@ describe('src/components/AutoSuggest', () => {
       ) as HTMLUListElement
       const nameField = container.querySelector('input[name=foo]')
 
-      userEvent.type(input, 'Niezel')
+      await waitFor(() => {
+        userEvent.type(input, 'Niezel')
+      })
 
       const suggestList = await screen.findByTestId('suggest-list')
 
@@ -423,7 +477,9 @@ describe('src/components/AutoSuggest', () => {
         'input[aria-autocomplete=list]'
       ) as HTMLUListElement
 
-      userEvent.type(input, '{Enter}')
+      await waitFor(() => {
+        userEvent.type(input, '{Enter}')
+      })
 
       await screen.findByRole('combobox')
       expect(document.activeElement).toEqual(input)
@@ -436,15 +492,21 @@ describe('src/components/AutoSuggest', () => {
       render(withAppContext(<AutoSuggest {...props} />))
       const input = screen.getByRole('textbox')
 
-      userEvent.type(input, 'Meeuwenlaan')
+      await waitFor(() => {
+        userEvent.type(input, 'Meeuwenlaan')
+      })
 
       await screen.findByTestId('suggest-list')
 
-      userEvent.type(input, '{ArrowDown}{ArrowDown}')
+      await waitFor(() => {
+        userEvent.type(input, '{ArrowDown}{ArrowDown}')
+      })
 
       expect(document.activeElement).not.toEqual(input)
 
-      userEvent.type(input, '{Space}')
+      await waitFor(() => {
+        userEvent.type(input, '{Space}')
+      })
 
       await screen.findByTestId('suggest-list')
 
@@ -456,11 +518,15 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox') as HTMLInputElement
 
-    userEvent.type(input, 'Rembrandt')
+    await waitFor(() => {
+      userEvent.type(input, 'Rembrandt')
+    })
 
     const suggestList = await screen.findByTestId('suggest-list')
 
-    userEvent.type(input, '{ArrowDown}')
+    await waitFor(() => {
+      userEvent.type(input, '{ArrowDown}')
+    })
 
     expect(document.activeElement).not.toEqual(input)
 
@@ -485,7 +551,9 @@ describe('src/components/AutoSuggest', () => {
 
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, 'Rembrandt')
+    await waitFor(() => {
+      userEvent.type(input, 'Rembrandt')
+    })
 
     act(() => {
       jest.advanceTimersByTime(INPUT_DELAY)
@@ -495,7 +563,9 @@ describe('src/components/AutoSuggest', () => {
 
     expect(screen.getByTestId('clear-input')).toBeInTheDocument()
 
-    userEvent.click(screen.getByTestId('clear-input'))
+    await waitFor(() => {
+      userEvent.click(screen.getByTestId('clear-input'))
+    })
 
     expect(screen.queryByTestId('clear-input')).not.toBeInTheDocument()
     expect(input).toBeEmptyDOMElement()
@@ -506,7 +576,9 @@ describe('src/components/AutoSuggest', () => {
     render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
     const input = screen.getByRole('textbox')
 
-    userEvent.type(input, 'Rembrandt')
+    await waitFor(() => {
+      userEvent.type(input, 'Rembrandt')
+    })
 
     await screen.findByTestId('auto-suggest')
 
@@ -516,7 +588,9 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).not.toHaveBeenCalled()
 
-    userEvent.clear(input)
+    await waitFor(() => {
+      userEvent.clear(input)
+    })
 
     await screen.findByTestId('auto-suggest')
 

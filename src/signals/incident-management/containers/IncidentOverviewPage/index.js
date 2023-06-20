@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -235,23 +235,18 @@ export const IncidentOverviewPageContainerComponent = ({
         </NavWrapper>
       </Row>
 
-      <Routes>
-        <Route
-          path={MAP_URL}
-          element={
-            <Row>
-              <MapWrapper>
-                <MapContext>
-                  <OverviewMap
-                    data-testid="24-hour-map"
-                    refresh={activeFilter.refresh}
-                  />
-                </MapContext>
-              </MapWrapper>
-            </Row>
-          }
-        />
-      </Routes>
+      {showsMap && (
+        <Row>
+          <MapWrapper>
+            <MapContext>
+              <OverviewMap
+                data-testid="24-hour-map"
+                refresh={activeFilter.refresh}
+              />
+            </MapContext>
+          </MapWrapper>
+        </Row>
+      )}
 
       {!showsMap && (
         <Row>

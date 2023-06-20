@@ -91,11 +91,7 @@ describe('signals/settings', () => {
     expect(dispatch).not.toHaveBeenCalled()
   })
 
-  it('should render login page', () => {
-    /**
-     * This test sometimes throws an error: Warning: an update to Overview was not wrapped in act(...).
-     * Can't figure out why, but it doesn't seem to be a problem.
-     */
+  it('should render login page', async () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { queryByTestId, getByTestId, rerender } = render(withSuspense())
@@ -106,7 +102,9 @@ describe('signals/settings', () => {
 
     rerender(withSuspense())
 
-    expect(queryByTestId('login-page')).toBeNull()
+    await waitFor(() => {
+      expect(queryByTestId('login-page')).toBeNull()
+    })
   })
 
   it('should redirect to manage overview page', async () => {
