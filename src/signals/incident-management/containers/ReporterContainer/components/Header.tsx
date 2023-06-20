@@ -26,7 +26,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   className,
 }) => (
   <div className={className}>
-    <BackLink to={`${INCIDENT_URL}/${id}`}>Terug naar melding</BackLink>
+    <BackLink to={`../${INCIDENT_URL}/${id}`}>Terug naar melding</BackLink>
     <StyledHeading forwardedAs="h1">
       Meldingen van {email} ({count})
     </StyledHeading>
