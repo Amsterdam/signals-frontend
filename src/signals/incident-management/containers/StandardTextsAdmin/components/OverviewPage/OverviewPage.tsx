@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Row } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -15,20 +15,29 @@ import configuration from 'shared/services/configuration/configuration'
 import { Button, Column, P, Pagination, Span, Text, SearchBar } from './styled'
 import { useStandardTextAdminContext } from '../../context'
 import type { StandardTextsData } from '../../types'
+import { Filter } from '../Filter'
 import { Summary } from '../Summary'
 
 const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
+  const [statusFilter, setStatusFilter] = useState()
+  const [activeFilter, setActiveFilter] = useState()
+  const [searchQuery, setSearchQuery] = useState()
   const dispatch = useDispatch()
   const { page, setPage } = useStandardTextAdminContext()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
   const fetchData = useCallback(
-    (value?: string) => {
-      const params = value ? `?q=${value}` : ''
-      get(`${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}${params}`)
+    (searchInput?: string, status?: any, active?: any) => {
+      const searchParam = searchInput ? `q=${searchInput}` : ''
+      const statusParam = status?.key ? `state=${status.key}` : ''
+      const activeParam = active?.key ? `active=${active.key}` : ''
+
+      get(
+        `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?${searchParam}&${statusParam}&${activeParam}`
+      )
     },
     [get]
   )
@@ -39,10 +48,26 @@ export const OverviewPage = () => {
       event.persist()
       const { value } = event.target.querySelector('input')
 
-      fetchData(value)
+      fetchData(value, statusFilter, activeFilter)
     },
-    [fetchData]
+    [activeFilter, fetchData, statusFilter]
   )
+
+  const handleOnChange = (e: any) => {
+    setSearchQuery(e.target.value)
+  }
+
+  useEffect(() => {
+    fetchData(searchQuery, statusFilter)
+    // Only fetch when status filter is changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchData, statusFilter])
+
+  useEffect(() => {
+    fetchData(searchQuery, statusFilter, activeFilter)
+    // Only fetch when active filter is changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchData, activeFilter])
 
   useEffect(() => {
     if (!data?.results) {
@@ -70,14 +95,22 @@ export const OverviewPage = () => {
       </Column>
 
       <Column span={4}>
-        <div>[FILTER]</div>
+        <Filter
+          setStatusFilter={setStatusFilter}
+          setActiveFilter={setActiveFilter}
+        />
         <Button variant="secondary">Tekst toevoegen</Button>
       </Column>
 
       <Column span={6}>
         <Text>Zoek op standaardtekst</Text>
         <form onSubmit={onSearchSubmit}>
-          <SearchBar placeholder="Zoekterm" onClear={fetchData} />
+          <SearchBar
+            value={''}
+            placeholder="Zoekterm"
+            onClear={() => fetchData('', statusFilter, activeFilter)}
+            onChange={handleOnChange}
+          />
         </form>
         {data?.count === 0 && (
           <Span>
