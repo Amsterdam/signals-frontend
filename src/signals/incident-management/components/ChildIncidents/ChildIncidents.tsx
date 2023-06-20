@@ -185,7 +185,7 @@ const ChildIncidents: FC<ChildIncidentsProps> = ({
             changed={incident.changed}
           >
             {incident.href ? (
-              <Link to={incident.href}>{valueEntries}</Link>
+              <Link to={'../' + incident.href}>{valueEntries}</Link>
             ) : (
               <div>{valueEntries}</div>
             )}

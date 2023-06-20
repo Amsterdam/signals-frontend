@@ -462,7 +462,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
               variant="inline"
               as={Link}
               data-testid="meta-list-parent-link"
-              to={`${INCIDENT_URL}/${parentId}`}
+              to={`../${INCIDENT_URL}/${parentId}`}
             >
               {parentId}
             </AscLink>
