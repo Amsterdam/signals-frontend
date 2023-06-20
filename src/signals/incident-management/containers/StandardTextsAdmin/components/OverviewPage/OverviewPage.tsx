@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
-import { Column, Row } from '@amsterdam/asc-ui'
+import { Row } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -12,7 +12,7 @@ import { useFetch } from 'hooks'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
-import { StyledColumn, StyledPagination, StyledButton } from './styled'
+import { Button, Column, P, Pagination, Span, Text, SearchBar } from './styled'
 import { useStandardTextAdminContext } from '../../context'
 import type { StandardTextsData } from '../../types'
 import { Summary } from '../Summary'
@@ -25,11 +25,30 @@ export const OverviewPage = () => {
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
+  const fetchData = useCallback(
+    (value?: string) => {
+      const params = value ? `?q=${value}` : ''
+      get(`${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}${params}`)
+    },
+    [get]
+  )
+
+  const onSearchSubmit = useCallback(
+    (event) => {
+      event.preventDefault()
+      event.persist()
+      const { value } = event.target.querySelector('input')
+
+      fetchData(value)
+    },
+    [fetchData]
+  )
+
   useEffect(() => {
     if (!data?.results) {
-      get(configuration.STANDARD_TEXTS_SEARCH_ENDPOINT)
+      fetchData()
     }
-  }, [data?.results, get])
+  }, [data?.results, fetchData])
 
   useEffect(() => {
     if (error) {
@@ -50,33 +69,46 @@ export const OverviewPage = () => {
         <h1>Standaardteksten overzicht</h1>
       </Column>
 
-      <StyledColumn span={4}>
+      <Column span={4}>
         <div>[FILTER]</div>
-        <StyledButton variant="secondary">Tekst toevoegen</StyledButton>
-      </StyledColumn>
+        <Button variant="secondary">Tekst toevoegen</Button>
+      </Column>
 
-      <StyledColumn span={8}>
-        <div>[SEARCH BAR]</div>
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          data?.results?.map((text) => {
-            return <Summary standardText={text} key={text.id} />
-          })
+      <Column span={6}>
+        <Text>Zoek op standaardtekst</Text>
+        <form onSubmit={onSearchSubmit}>
+          <SearchBar placeholder="Zoekterm" onClear={fetchData} />
+        </form>
+        {data?.count === 0 && (
+          <Span>
+            <Text>Geen resultaten gevonden</Text>
+            <P>Probeer een andere zoekcombinatie</P>
+          </Span>
         )}
 
-        <StyledPagination
-          data-testid="pagination"
-          collectionSize={data?.count || 0}
-          pageSize={PAGE_SIZE}
-          page={page}
-          onPageChange={(page) => {
-            global.window.scrollTo(0, 0)
-            get(`${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?page=${page}`)
-            setPage(page)
-          }}
-        />
-      </StyledColumn>
+        {isLoading && <LoadingIndicator />}
+
+        {data?.results.map((text) => {
+          return <Summary standardText={text} key={text.id} />
+        })}
+
+        {!isLoading && data && data.count > PAGE_SIZE && (
+          <Pagination
+            data-testid="pagination"
+            collectionSize={data.count}
+            pageSize={PAGE_SIZE}
+            page={page}
+            onPageChange={(page) => {
+              global.window.scrollTo(0, 0)
+              get(
+                `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?page=${page}`
+              )
+              setPage(page)
+            }}
+          />
+        )}
+      </Column>
+      <Column span={2}> </Column>
     </Row>
   )
 }
