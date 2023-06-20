@@ -44,8 +44,6 @@ describe('OverviewPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('[FILTER]')).toBeInTheDocument()
-      expect(screen.getByText('[SEARCH BAR]')).toBeInTheDocument()
-
       expect(screen.getByText('Titel #1')).toBeInTheDocument()
       expect(screen.getByText('Titel #5')).toBeInTheDocument()
       expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
@@ -88,18 +86,78 @@ describe('OverviewPage', () => {
   it('should show next page when next button is clicked', async () => {
     renderComponent()
 
-    const nextButton = screen.getByRole('button', { name: 'Volgende pagina' })
-
     await waitFor(() => {
       expect(screen.getByText('Titel #1')).toBeInTheDocument()
       expect(screen.getByText(/van 2/)).toBeInTheDocument()
     })
+
+    const nextButton = screen.getByRole('button', { name: 'Volgende pagina' })
 
     userEvent.click(nextButton)
 
     await waitFor(() => {
       expect(screen.queryByText('Titel #1')).not.toBeInTheDocument()
       expect(screen.getByText('Titel #15')).toBeInTheDocument()
+    })
+  })
+
+  describe('search', () => {
+    it('should search with input value', async () => {
+      renderComponent()
+
+      const input = screen.getByRole('textbox', { name: '' })
+      const searchButton = screen.getByRole('button', { name: 'Zoekterm' })
+
+      userEvent.type(input, '15')
+      userEvent.click(searchButton)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #1')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
+      })
+    })
+
+    it('should show no result when no results are returned', async () => {
+      renderComponent()
+
+      const input = screen.getByRole('textbox', { name: '' })
+      const searchButton = screen.getByRole('button', { name: 'Zoekterm' })
+
+      userEvent.type(input, 'qwerty')
+      userEvent.click(searchButton)
+
+      await waitFor(() => {
+        expect(screen.getByText('Geen resultaten gevonden')).toBeInTheDocument()
+        expect(
+          screen.getByText('Probeer een andere zoekcombinatie')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('should clear search input and refetch data when clear button is pressed', async () => {
+      renderComponent()
+
+      const input = screen.getByRole('textbox', { name: '' })
+      const searchButton = screen.getByRole('button', { name: 'Zoekterm' })
+
+      userEvent.type(input, 'qwerty')
+      userEvent.click(searchButton)
+
+      await waitFor(() => {
+        expect(screen.getByText('Geen resultaten gevonden')).toBeInTheDocument()
+        expect(
+          screen.getByText('Probeer een andere zoekcombinatie')
+        ).toBeInTheDocument()
+      })
+
+      const clearButton = screen.getByRole('button', { name: 'Close' })
+
+      userEvent.click(clearButton)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #1')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
+      })
     })
   })
 })
