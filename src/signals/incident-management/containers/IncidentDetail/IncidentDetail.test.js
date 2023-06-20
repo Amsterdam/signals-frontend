@@ -173,11 +173,17 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
   it('should handle Esc key', async () => {
     const { container } = render(withAppContext(<IncidentDetail />))
+
     userEvent.click(await screen.findByTestId('preview-location-button'))
+
     userEvent.click(screen.getByText('Locatie wijzigen'))
 
     expect(screen.getByText('Opslaan')).toBeInTheDocument()
-    userEvent.type(container, '{esc}')
+
+    act(() => {
+      userEvent.type(container, '{esc}')
+    })
+
     expect(screen.queryByText('Opslaan')).not.toBeInTheDocument()
 
     await screen.findByTestId('incident-detail')

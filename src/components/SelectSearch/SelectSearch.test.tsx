@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
@@ -98,9 +98,10 @@ describe('<SelectSearch />', () => {
 
     screen.getByRole('combobox').focus()
 
-    userEvent.keyboard('{arrowdown}')
-
-    userEvent.keyboard('{arrowdown}')
+    act(() => {
+      userEvent.keyboard('{arrowdown}')
+      userEvent.keyboard('{arrowdown}')
+    })
 
     userEvent.keyboard('{Enter}')
 
@@ -113,11 +114,15 @@ describe('<SelectSearch />', () => {
   it('should close the combobox when clicking outside', () => {
     render(<SelectSearch {...props} onChange={onChangeMock} />)
 
-    userEvent.click(screen.getByRole('combobox'))
+    act(() => {
+      userEvent.click(screen.getByRole('combobox'))
+    })
 
     expect(screen.getByRole('listbox')).toBeInTheDocument()
 
-    userEvent.click(document.body)
+    act(() => {
+      userEvent.click(document.body)
+    })
 
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
   })

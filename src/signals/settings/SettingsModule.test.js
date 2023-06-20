@@ -2,7 +2,8 @@
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Suspense } from 'react'
 
-import { render, waitFor, act } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -90,7 +91,7 @@ describe('signals/settings', () => {
     expect(dispatch).not.toHaveBeenCalled()
   })
 
-  it('should render login page', () => {
+  it('should render login page', async () => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
 
     const { queryByTestId, getByTestId, rerender } = render(withSuspense())
@@ -101,7 +102,9 @@ describe('signals/settings', () => {
 
     rerender(withSuspense())
 
-    expect(queryByTestId('login-page')).toBeNull()
+    await waitFor(() => {
+      expect(queryByTestId('login-page')).toBeNull()
+    })
   })
 
   it('should redirect to manage overview page', async () => {

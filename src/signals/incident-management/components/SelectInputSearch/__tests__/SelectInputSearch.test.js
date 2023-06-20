@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 
 import { withAppContext } from 'test/utils'
 
@@ -33,8 +34,8 @@ describe('<SelectInputSearch />', () => {
         },
       ],
       groups: [
-        { key: 'a', value: 'a' },
-        { key: 'b', value: 'b' },
+        { key: 'a', value: 'a', name: 'a' },
+        { key: 'b', value: 'b', name: 'b' },
       ],
       multiple: false,
       size: 4,
@@ -53,9 +54,9 @@ describe('<SelectInputSearch />', () => {
     const input = screen.getByRole('combobox')
     input.focus()
 
-    userEvent.keyboard('{arrowdown}')
-
-    // get options by role option
+    act(() => {
+      userEvent.keyboard('{arrowdown}')
+    })
     const options = screen.getAllByRole('option')
 
     expect(options).toHaveLength(props.values.length)
@@ -68,7 +69,9 @@ describe('<SelectInputSearch />', () => {
     props = { ...props, useSlug }
     render(withAppContext(<SelectInputSearch {...props} />))
 
-    userEvent.keyboard('{arrowdown}')
+    act(() => {
+      userEvent.keyboard('{arrowdown}')
+    })
 
     const options = screen.getAllByRole('option')
     options.forEach((option, index) => {
@@ -84,7 +87,10 @@ describe('<SelectInputSearch />', () => {
 
       const input = screen.getByRole('combobox')
       input.focus()
-      userEvent.keyboard('{arrowdown}')
+
+      act(() => {
+        userEvent.keyboard('{arrowdown}')
+      })
 
       const options = screen.getAllByRole('option')
       expect(options).toHaveLength(props.values.length)
