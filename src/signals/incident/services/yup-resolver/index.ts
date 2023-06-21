@@ -6,7 +6,7 @@ import isObject from 'lodash/isObject'
 import * as yup from 'yup'
 import type { AnyObject } from 'yup/es/types'
 
-import { isBlockingAnswer } from '../custom-validators'
+import { isBlocking } from '../custom-validators'
 
 type Controls = { [s: string]: unknown } | ArrayLike<unknown>
 
@@ -129,11 +129,11 @@ function addValidators(validators: Validators, field: AnyObject) {
         validationField = validationField.email()
       }
 
-      if (validator === 'isBlockingAnswer') {
+      if (validator === 'isBlocking') {
         validationField = validationField.test(
           'custom',
-          () => isBlockingAnswer()?.custom,
-          () => !isBlockingAnswer()?.custom
+          () => isBlocking()?.custom,
+          () => !isBlocking()?.custom
         )
       }
       if (

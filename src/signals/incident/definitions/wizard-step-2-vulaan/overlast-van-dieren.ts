@@ -56,7 +56,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -94,7 +94,7 @@ const overlastVanDieren = {
     },
     render: QuestionFieldType.PlainText,
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
   },
   extra_dieren_waar_dode_dieren_water: {
@@ -107,7 +107,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -121,7 +121,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -243,7 +243,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },
@@ -312,7 +312,7 @@ const overlastVanDieren = {
       type: 'alert',
     },
     options: {
-      validators: ['isBlockingAnswer'],
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },

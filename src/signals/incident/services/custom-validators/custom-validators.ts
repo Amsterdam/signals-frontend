@@ -51,7 +51,7 @@ export const validateObjectLocation = (objectType: string) =>
     }
   }
 
-export const isBlockingAnswer = () => {
+export const isBlocking = () => {
   return {
     custom: {
       globalMessage:

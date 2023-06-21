@@ -496,7 +496,7 @@ describe('<IncidentForm />', () => {
               },
               render: FormComponents.PlainText,
               options: {
-                validators: ['isBlockingAnswer'],
+                validators: ['isBlocking'],
               },
             },
           },

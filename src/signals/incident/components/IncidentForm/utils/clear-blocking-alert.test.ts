@@ -4,30 +4,47 @@
 import { clearBlockingAlert } from './clear-blocking-alert'
 
 describe('clearBlockingAlert', () => {
-  it('should trigger validation when isBlockingAnswer validator is present', () => {
-    const controls1 = {
-      name: {
+  it('should trigger validation when isBlocking validator is present', () => {
+    const controls1a = {
+      prefix1_q1: {
         meta: {
-          name: 'name',
+          name: 'prefix1_q1',
         },
         options: {
-          validators: ['isBlockingAnswer'],
+          validators: ['isBlocking'],
+        },
+      },
+    }
+
+    const controls1b = {
+      prefix1: {
+        meta: {
+          name: 'prefix1',
         },
       },
     }
 
     const controls2 = {
-      name: {
+      prefix2: {
         meta: {
-          name: 'name',
+          name: 'prefix2',
         },
       },
     }
 
     const clearErrors = jest.fn()
-    ;[controls1, controls2].forEach((controls: any) => {
+    ;[
+      controls1a,
+      controls1b,
+      controls2,
+      controls1a,
+      controls1a,
+      controls1b,
+    ].forEach((controls: any) => {
       clearBlockingAlert(controls, clearErrors)
     })
-    expect(clearErrors).toHaveBeenCalledWith('name')
+    expect(clearErrors).toHaveBeenCalledWith('prefix1_q1')
+    expect(clearErrors).not.toHaveBeenCalledWith('prefix1_q2')
+    expect(clearErrors).toHaveBeenCalledTimes(2)
   })
 })
