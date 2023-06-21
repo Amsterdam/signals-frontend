@@ -1,5 +1,8 @@
-// import RadioButtonList from 'components/RadioButtonList'
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
+
+import { Form } from './styled'
 import { RadioGroup } from '../../../../components/FilterForm/components/RadioGroup'
 interface Props {
   setStatusFilter: (filter: any) => void
@@ -31,42 +34,21 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
     setActiveFilter(option)
   }
 
-  //   const { control, getValues, watch, setValue } = useForm({
-  //     defaultValues: {
-  //       state: 'o',
-  //       //   category_url: firstSubcategory[0]?.key,
-  //       //   sub_slug: null,
-  //       //   main_slug: null,
-  //     },
-  //   })
-
   return (
-    <form data-testid="select-form-form" className="select-form__form">
-      {/* <Controller
-        name="state"
-        control={control}
-        render={({ field: { name, value, onChange } }) => ( */}
-
+    <Form>
       <RadioGroup
         label="Filter op status"
-        // display="Status"
         name="status-filter"
         options={options}
         onChange={onStatusChange}
-        // value={value}
       />
 
       <RadioGroup
         label="Filter op actief/non-actief"
-        // display="Status"
         name="is-actief-filter"
         options={activeOption}
         onChange={onActiveChange}
-        // value={value}
       />
-
-      {/* )}
-      /> */}
-    </form>
+    </Form>
   )
 }

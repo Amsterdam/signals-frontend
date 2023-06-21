@@ -18,62 +18,44 @@ import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
 import { Summary } from '../Summary'
 
+interface Option {
+  key: string
+  value: string
+}
+
 const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
-  const [statusFilter, setStatusFilter] = useState()
-  const [activeFilter, setActiveFilter] = useState()
-  const [searchQuery, setSearchQuery] = useState()
+  const [statusFilter, setStatusFilter] = useState<Option>()
+  const [activeFilter, setActiveFilter] = useState<Option>()
+  const [searchQuery, setSearchQuery] = useState<string>()
+
   const dispatch = useDispatch()
   const { page, setPage } = useStandardTextAdminContext()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
-  const fetchData = useCallback(
-    (searchInput?: string, status?: any, active?: any) => {
-      const searchParam = searchInput ? `q=${searchInput}` : ''
-      const statusParam = status?.key ? `state=${status.key}` : ''
-      const activeParam = active?.key ? `active=${active.key}` : ''
+  const fetchData = useCallback(() => {
+    const searchParam = searchQuery ? `&q=${searchQuery}` : ''
+    const statusParam = statusFilter?.key ? `&state=${statusFilter.key}` : ''
+    const activeParam = activeFilter?.key ? `&active=${activeFilter.key}` : ''
 
-      get(
-        `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?${searchParam}&${statusParam}&${activeParam}`
-      )
-    },
-    [get]
-  )
+    get(
+      `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?${searchParam}${statusParam}${activeParam}`
+    )
+  }, [activeFilter, get, searchQuery, statusFilter])
 
-  const onSearchSubmit = useCallback(
-    (event) => {
-      event.preventDefault()
-      event.persist()
-      const { value } = event.target.querySelector('input')
+  const onSearchSubmit = useCallback((event) => {
+    event.preventDefault()
+    event.persist()
+    const { value } = event.target.querySelector('input')
 
-      fetchData(value, statusFilter, activeFilter)
-    },
-    [activeFilter, fetchData, statusFilter]
-  )
-
-  const handleOnChange = (e: any) => {
-    setSearchQuery(e.target.value)
-  }
+    setSearchQuery(value)
+  }, [])
 
   useEffect(() => {
-    fetchData(searchQuery, statusFilter)
-    // Only fetch when status filter is changed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchData, statusFilter])
-
-  useEffect(() => {
-    fetchData(searchQuery, statusFilter, activeFilter)
-    // Only fetch when active filter is changed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchData, activeFilter])
-
-  useEffect(() => {
-    if (!data?.results) {
-      fetchData()
-    }
-  }, [data?.results, fetchData])
+    fetchData()
+  }, [statusFilter, activeFilter, searchQuery, fetchData])
 
   useEffect(() => {
     if (error) {
@@ -108,8 +90,8 @@ export const OverviewPage = () => {
           <SearchBar
             value={''}
             placeholder="Zoekterm"
-            onClear={() => fetchData('', statusFilter, activeFilter)}
-            onChange={handleOnChange}
+            onClear={() => setSearchQuery('')}
+            // onChange={fet}
           />
         </form>
         {data?.count === 0 && (
