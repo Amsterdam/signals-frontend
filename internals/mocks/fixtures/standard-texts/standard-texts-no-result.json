@@ -1,0 +1,40 @@
+{
+    "count": 0,
+    "results": [],
+    "facets": {
+      "state": [
+        {
+          "count": 0,
+          "active": false,
+          "term": "i"
+        },
+        {
+          "count": 0,
+          "active": false,
+          "term": "m"
+        },
+        {
+          "count": 0,
+          "active": false,
+          "term": "o"
+        },
+        {
+          "count": 0,
+          "active": false,
+          "term": "reaction received"
+        }
+      ],
+      "active": [
+        {
+          "count": 0,
+          "active": false,
+          "term": false
+        },
+        {
+          "count": 0,
+          "active": false,
+          "term": true
+        }
+      ]
+    }
+  }
