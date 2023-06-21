@@ -32,7 +32,7 @@ describe('clearBlockingAlert', () => {
       },
     }
 
-    const clearErrors = jest.fn()
+    const trigger = jest.fn()
     ;[
       controls1a,
       controls1b,
@@ -40,11 +40,12 @@ describe('clearBlockingAlert', () => {
       controls1a,
       controls1a,
       controls1b,
+      controls1a,
     ].forEach((controls: any) => {
-      clearBlockingAlert(controls, clearErrors)
+      clearBlockingAlert(controls, trigger, { prefix1_q1: 'error' })
     })
-    expect(clearErrors).toHaveBeenCalledWith('prefix1_q1')
-    expect(clearErrors).not.toHaveBeenCalledWith('prefix1_q2')
-    expect(clearErrors).toHaveBeenCalledTimes(2)
+
+    expect(trigger).toHaveBeenCalled()
+    expect(trigger).toHaveBeenCalledTimes(3)
   })
 })

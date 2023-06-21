@@ -231,7 +231,11 @@ const IncidentForm = forwardRef<any, any>(
       },
     }
     useEffect(() => {
-      clearBlockingAlert(controls, reactHookFormProps.clearErrors)
+      clearBlockingAlert(
+        controls,
+        reactHookFormProps.trigger,
+        reactHookFormProps.formState.errors
+      )
     }, [controls, reactHookFormProps])
 
     /**
