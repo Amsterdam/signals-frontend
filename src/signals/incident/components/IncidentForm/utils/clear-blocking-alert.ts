@@ -2,28 +2,33 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 
 let prevControls: string
-let wasIsBlocking: boolean
+let isBlockingValidatorInForm: boolean
 /**
  * Clear blocking alert when the related control is not present anymore
  */
 export async function clearBlockingAlert(
   controls: { [key: string]: unknown },
-  trigger: any,
-  errors: any
+  trigger: (key: string) => Promise<boolean>,
+  errors: { [key: string]: unknown }
 ) {
   const currentControls = JSON.stringify(controls)
   const blockingControl: any = Object.values(controls).find((control: any) =>
     control?.options?.validators?.includes('isBlocking')
   )
 
-  if (!blockingControl && prevControls !== currentControls && wasIsBlocking) {
+  if (
+    !blockingControl &&
+    prevControls !== currentControls &&
+    isBlockingValidatorInForm
+  ) {
     for (const key of Object.keys(errors)) {
       await trigger(key)
+      isBlockingValidatorInForm = false
     }
   }
 
   if (blockingControl) {
-    wasIsBlocking = true
+    isBlockingValidatorInForm = true
   }
 
   prevControls = currentControls
