@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 
 let prevControls: string
-let isBlockingValidatorInForm: boolean
+let formHasBlockingValidators: boolean
 /**
  * Clear blocking alert when the related control is not present anymore
  */
@@ -19,16 +19,16 @@ export async function clearBlockingAlert(
   if (
     !blockingControl &&
     prevControls !== currentControls &&
-    isBlockingValidatorInForm
+    formHasBlockingValidators
   ) {
     for (const key of Object.keys(errors)) {
       await trigger(key)
-      isBlockingValidatorInForm = false
+      formHasBlockingValidators = false
     }
   }
 
   if (blockingControl) {
-    isBlockingValidatorInForm = true
+    formHasBlockingValidators = true
   }
 
   prevControls = currentControls
