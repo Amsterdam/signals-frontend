@@ -13,6 +13,10 @@ export function scrollToInvalidElement(
     return Object.keys(errors || {}).includes(control?.meta?.name)
   })
 
+  if (!invalidControl) {
+    return
+  }
+
   const { name, values } = invalidControl.meta
   const valueSelector =
     !Array.isArray(values) && isObject(values)

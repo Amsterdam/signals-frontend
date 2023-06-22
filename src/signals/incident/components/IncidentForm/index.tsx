@@ -15,6 +15,7 @@ import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
 import { Form, Fieldset, ProgressContainer } from './styled'
+import { clearBlockingAlert } from './utils/clear-blocking-alert'
 import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 import formatConditionalForm from '../../services/format-conditional-form'
 import constructYupResolver from '../../services/yup-resolver'
@@ -74,7 +75,7 @@ const IncidentForm = forwardRef<any, any>(
       incidentContainer.incident
     )
 
-    const controls: any = Object.fromEntries(
+    const controls = Object.fromEntries(
       Object.entries(fieldConfigModified.controls).filter(
         ([key, value]: any) => value.meta?.isVisible || key === '$field_0'
       )
@@ -229,6 +230,13 @@ const IncidentForm = forwardRef<any, any>(
         removeFromSelection,
       },
     }
+    useEffect(() => {
+      clearBlockingAlert(
+        controls,
+        reactHookFormProps.trigger,
+        reactHookFormProps.formState.errors
+      )
+    }, [controls, reactHookFormProps])
 
     /**
       Set the yupresolver for the current step of the incident wizard
@@ -236,6 +244,7 @@ const IncidentForm = forwardRef<any, any>(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     controlsRef.current = constructYupResolver(controls)
+
     return (
       <div data-testid="incident-form" ref={formRef}>
         <ProgressContainer />
