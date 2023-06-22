@@ -411,7 +411,7 @@ describe('<IncidentForm />', () => {
           })
         })
 
-        expect(triggerSpy).toHaveBeenCalledTimes(6)
+        expect(triggerSpy).toHaveBeenCalledTimes(5)
       })
     })
   })
