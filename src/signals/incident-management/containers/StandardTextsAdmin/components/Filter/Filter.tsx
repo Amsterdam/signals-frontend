@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+import Label from 'components/Label'
+import RadioButtonList from 'components/RadioButtonList'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import { Form } from './styled'
-import { RadioGroup } from '../../../../components/FilterForm/components/RadioGroup'
 interface Props {
   setStatusFilter: (filter: any) => void
   setActiveFilter: (active: any) => void
@@ -36,16 +37,18 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
 
   return (
     <Form>
-      <RadioGroup
-        label="Filter op status"
-        name="status-filter"
+      <Label as="span">Filter op status</Label>
+      <RadioButtonList
+        emptySelectionLabel="Alle statussen"
+        groupName="filter-status"
         options={options}
         onChange={onStatusChange}
       />
 
-      <RadioGroup
-        label="Filter op actief/non-actief"
-        name="is-actief-filter"
+      <Label as="span">Filter op actief/non-actief</Label>
+      <RadioButtonList
+        emptySelectionLabel="Alle"
+        groupName="Filter-on-active"
         options={activeOption}
         onChange={onActiveChange}
       />
