@@ -43,7 +43,10 @@ describe('OverviewPage', () => {
     renderComponent()
 
     await waitFor(() => {
-      expect(screen.getByText('[FILTER]')).toBeInTheDocument()
+      expect(screen.getByText('Filter op status')).toBeInTheDocument()
+      expect(
+        screen.getByText('Filter op actief/non-actief')
+      ).toBeInTheDocument()
       expect(screen.getByText('Titel #1')).toBeInTheDocument()
       expect(screen.getByText('Titel #5')).toBeInTheDocument()
       expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
