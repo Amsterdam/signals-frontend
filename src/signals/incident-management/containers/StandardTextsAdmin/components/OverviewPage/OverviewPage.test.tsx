@@ -163,4 +163,9 @@ describe('OverviewPage', () => {
       })
     })
   })
+
+  describe('filter', () => {
+    it('should fetch new data when status filter changes', () => {})
+    it('should fetch new data when active filter changes', () => {})
+  })
 })

@@ -2,12 +2,13 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
+import type { RadioButtonOption } from 'components/RadioButtonList'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import { Form } from './styled'
-interface Props {
-  setStatusFilter: (filter: any) => void
-  setActiveFilter: (active: any) => void
+export interface Props {
+  setActiveFilter: (active: RadioButtonOption) => void
+  setStatusFilter: (filter: RadioButtonOption) => void
 }
 
 const activeOption = [
@@ -27,11 +28,11 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
     value: option.value,
   }))
 
-  const onStatusChange = (_groupName: any, option: any) => {
+  const onStatusChange = (_groupName: string, option: RadioButtonOption) => {
     setStatusFilter(option)
   }
 
-  const onActiveChange = (_groupName: any, option: any) => {
+  const onActiveChange = (_groupName: string, option: RadioButtonOption) => {
     setActiveFilter(option)
   }
 
