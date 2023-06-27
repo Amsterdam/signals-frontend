@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
-import { Row } from '@amsterdam/asc-ui'
+import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -12,7 +12,16 @@ import { useFetch } from 'hooks'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
-import { Button, Column, P, Pagination, Span, Text, SearchBar } from './styled'
+import {
+  Button,
+  Label,
+  P,
+  Pagination,
+  Span,
+  Text,
+  SearchBar,
+  Grid,
+} from './styled'
 import { useStandardTextAdminContext } from '../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
@@ -35,19 +44,23 @@ export const OverviewPage = () => {
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
-  const fetchData = useCallback(() => {
-    const searchParam = searchQuery ? `&q=${searchQuery}` : ''
-    const statusParam = statusFilter?.key ? `&state=${statusFilter.key}` : ''
-    const activeParam = activeFilter?.key ? `&active=${activeFilter.key}` : ''
+  const fetchData = useCallback(
+    (page?: number) => {
+      const searchParam = searchQuery ? `&q=${searchQuery}` : ''
+      const statusParam = statusFilter?.key ? `&state=${statusFilter.key}` : ''
+      const activeParam = activeFilter?.key ? `&active=${activeFilter.key}` : ''
+      const pageNumber = page ? `&page=${page}` : ''
 
-    get(
-      `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?${searchParam}${statusParam}${activeParam}`
-    )
-  }, [activeFilter, get, searchQuery, statusFilter])
+      get(
+        `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?${searchParam}${statusParam}${activeParam}${pageNumber}`
+      )
+      setPage(1)
+    },
+    [activeFilter, get, searchQuery, statusFilter, setPage]
+  )
 
   const onSearchSubmit = useCallback((event) => {
     event.preventDefault()
-    event.persist()
     const { value } = event.target.querySelector('input')
 
     setSearchQuery(value)
@@ -76,54 +89,52 @@ export const OverviewPage = () => {
         <h1>Standaardteksten overzicht</h1>
       </Column>
 
-      <Column span={4}>
-        <Filter
-          setStatusFilter={setStatusFilter}
-          setActiveFilter={setActiveFilter}
-        />
-        <Button variant="secondary">Tekst toevoegen</Button>
-      </Column>
-
-      <Column span={6}>
-        <Text>Zoek op standaardtekst</Text>
-        <form onSubmit={onSearchSubmit}>
-          <SearchBar
-            value={''}
-            placeholder="Zoekterm"
-            onClear={() => setSearchQuery('')}
-            // onChange={fet}
+      <Grid>
+        <div>
+          <Filter
+            setStatusFilter={setStatusFilter}
+            setActiveFilter={setActiveFilter}
           />
-        </form>
-        {data?.count === 0 && (
-          <Span>
-            <Text>Geen resultaten gevonden</Text>
-            <P>Probeer een andere zoekcombinatie</P>
-          </Span>
-        )}
+          <Button variant="secondary">Tekst toevoegen</Button>
+        </div>
 
-        {isLoading && <LoadingIndicator />}
+        <div>
+          <Label>Zoek op standaardtekst</Label>
+          <form onSubmit={onSearchSubmit}>
+            <SearchBar
+              value={''}
+              placeholder="Zoekterm"
+              onClear={() => setSearchQuery('')}
+            />
+          </form>
+          {data?.count === 0 && (
+            <Span>
+              <Text>Geen resultaten gevonden</Text>
+              <P>Probeer een andere zoekcombinatie</P>
+            </Span>
+          )}
 
-        {data?.results.map((text) => {
-          return <Summary standardText={text} key={text.id} />
-        })}
+          {isLoading && <LoadingIndicator />}
 
-        {!isLoading && data && data.count > PAGE_SIZE && (
-          <Pagination
-            data-testid="pagination"
-            collectionSize={data.count}
-            pageSize={PAGE_SIZE}
-            page={page}
-            onPageChange={(page) => {
-              global.window.scrollTo(0, 0)
-              get(
-                `${configuration.STANDARD_TEXTS_SEARCH_ENDPOINT}?page=${page}`
-              )
-              setPage(page)
-            }}
-          />
-        )}
-      </Column>
-      <Column span={2}> </Column>
+          {data?.results.map((text) => {
+            return <Summary standardText={text} key={text.id} />
+          })}
+
+          {!isLoading && data && data.count > PAGE_SIZE && (
+            <Pagination
+              data-testid="pagination"
+              collectionSize={data.count}
+              pageSize={PAGE_SIZE}
+              page={page}
+              onPageChange={(page) => {
+                global.window.scrollTo(0, 0)
+                fetchData(page)
+                setPage(page)
+              }}
+            />
+          )}
+        </div>
+      </Grid>
     </Row>
   )
 }
