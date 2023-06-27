@@ -6,12 +6,13 @@ import type { RadioButtonOption } from 'components/RadioButtonList'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import { Form } from './styled'
-export interface Props {
-  setActiveFilter: (active: RadioButtonOption) => void
-  setStatusFilter: (filter: RadioButtonOption) => void
-}
 
-const activeOption = [
+const statusOptions = changeStatusOptionList.map((option) => ({
+  key: option.key,
+  value: option.value,
+}))
+
+const activeOptions = [
   {
     key: 'true',
     value: 'Actief',
@@ -22,12 +23,12 @@ const activeOption = [
   },
 ]
 
-export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
-  const options = changeStatusOptionList.map((option) => ({
-    key: option.key,
-    value: option.value,
-  }))
+export interface Props {
+  setActiveFilter: (active: RadioButtonOption) => void
+  setStatusFilter: (filter: RadioButtonOption) => void
+}
 
+export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
   const onStatusChange = (_groupName: string, option: RadioButtonOption) => {
     setStatusFilter(option)
   }
@@ -42,7 +43,7 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
       <RadioButtonList
         emptySelectionLabel="Alle statussen"
         groupName="filter-status"
-        options={options}
+        options={statusOptions}
         onChange={onStatusChange}
       />
 
@@ -50,7 +51,7 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
       <RadioButtonList
         emptySelectionLabel="Alle"
         groupName="Filter-on-active"
-        options={activeOption}
+        options={activeOptions}
         onChange={onActiveChange}
       />
     </Form>
