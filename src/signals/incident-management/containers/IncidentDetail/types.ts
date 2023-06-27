@@ -1,10 +1,10 @@
 import type { AnyAction } from 'redux'
 
 import type { FetchError } from 'hooks/useFetch'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
 import type ContextType from 'types/context'
+import type { StatusCode } from 'types/status-code'
 
 export interface Context {
   incident?: Incident

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
-import { StatusCode } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'types/status-code'
 
 import { emailSentWhenStatusChangedTo } from './utils'
 

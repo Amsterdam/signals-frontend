@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type {
-  CategoryFormValues,
-  CategoryFormPayload,
-  DirtyFields,
-} from '../types'
+import type { FieldNamesMarkedBoolean } from 'react-hook-form'
+
+import type { StandardText } from 'types/api/standard-texts'
+
+import type { CategoryFormPayload, CategoryFormValues } from '../types'
+import { Direction } from '../types'
 
 export const getPatchPayload = (
   formData: CategoryFormValues,
-  dirtyFields: DirtyFields
+  dirtyFields: Partial<Readonly<FieldNamesMarkedBoolean<CategoryFormValues>>>
 ): CategoryFormPayload => {
   const payload = Object.keys(dirtyFields).map((key) => {
     return {
@@ -38,4 +39,29 @@ export const getPatchPayload = (
   delete payloadResult['show_children_in_filter']
 
   return payloadResult
+}
+
+export const orderStandardTexts = (
+  direction: Direction,
+  index: number,
+  orderedStandardTexts: StandardText[]
+): StandardText[] | undefined => {
+  const orderedStandardTextsCopy = [...orderedStandardTexts]
+  if (direction === Direction.Up) {
+    if (index === 0) {
+      return
+    }
+    const temp = orderedStandardTextsCopy[index - 1]
+    orderedStandardTextsCopy[index - 1] = orderedStandardTextsCopy[index]
+    orderedStandardTextsCopy[index] = temp
+  }
+  if (direction === Direction.Down) {
+    if (index === orderedStandardTextsCopy.length - 1) {
+      return
+    }
+    const temp = orderedStandardTextsCopy[index + 1]
+    orderedStandardTextsCopy[index + 1] = orderedStandardTextsCopy[index]
+    orderedStandardTextsCopy[index] = temp
+  }
+  return orderedStandardTextsCopy
 }

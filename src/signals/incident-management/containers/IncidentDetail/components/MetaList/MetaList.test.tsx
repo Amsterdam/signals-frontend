@@ -8,9 +8,9 @@ import * as categoriesSelectors from 'models/categories/selectors'
 import * as departmentsSelectors from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { store, withAppContext } from 'test/utils'
+import { StatusCode } from 'types/status-code'
 import {
   departments,
   directingDepartments,

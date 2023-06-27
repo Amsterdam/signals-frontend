@@ -7,7 +7,7 @@ import {
   changeStatusOptionList,
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
-import { StatusCode } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'types/status-code'
 
 import * as constants from './constants'
 

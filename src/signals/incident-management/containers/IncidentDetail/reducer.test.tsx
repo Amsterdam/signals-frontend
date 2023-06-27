@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { DefaultTexts } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
+import { StatusCode } from 'types/status-code'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import {
@@ -23,7 +24,6 @@ import {
 } from './constants'
 import reducer, { initialState, closedState } from './reducer'
 import type { Attachment, HistoryEntry, IncidentChild, Result } from './types'
-import { StatusCode } from '../../definitions/types'
 
 describe('signals/incident-management/containers/IncidentDetail/reducer', () => {
   const state = {

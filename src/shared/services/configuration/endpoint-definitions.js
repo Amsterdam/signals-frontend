@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 export default {
   // Retrieves geographical areas. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_areas_geography_
@@ -89,12 +89,17 @@ export default {
   // sources from which an incident originated. No Swagger documentation
   // available.
   SOURCES_ENDPOINT: '/signals/v1/private/sources/',
+  // Private. Used by the incident management module to POST status messages for a category.
+  STANDARD_TEXTS_CATEGORY_ENDPOINT:
+    '/signals/v1/private/status-messages/category/',
+  // Private. Used by the incident management module to retrieve and query standard texts.
+  STANDARD_TEXTS_ENDPOINT: '/signals/v1/private/status-messages/',
+  // Private. Used by the incident management module to retrieve and search standard texts.
+  STANDARD_TEXTS_SEARCH_ENDPOINT: '/signals/v1/private/status-messages/search',
   // Private. Used by the incident management module to `GET` and `POST`
   // default response texts for incident handling. See
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_public_terms_categories
   // for reference.
-  STANDARD_TEXTS_SEARCH_ENDPOINT: '/signals/v1/private/status-messages/search',
-  // Private. Used by the incident management module to retrieve and search standard texts.
   TERMS_ENDPOINT: '/signals/v1/private/terms/categories/',
   // Private. Used by the settings module to `GET`, `PATCH` and `POST` users.
   // See

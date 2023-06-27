@@ -1,13 +1,4 @@
-import type { StatusCode } from '../../definitions/types'
-
-export type StandardText = {
-  active: boolean
-  id: number
-  meta: Record<any, any>
-  state: StatusCode
-  text: string
-  title: string
-}
+import type { StandardText } from 'types/api/standard-texts'
 
 export interface StandardTextsAdminValue {
   page: number

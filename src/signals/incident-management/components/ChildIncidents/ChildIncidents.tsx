@@ -11,8 +11,8 @@ import ChildIncidentDescription from 'components/ChildIncidentDescription'
 import ChildIncidentHistory from 'components/ChildIncidentHistory'
 import Status from 'signals/incident-management/components/Status'
 import statusList from 'signals/incident-management/definitions/statusList'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { History } from 'types/history'
+import type { StatusCode } from 'types/status-code'
 
 export const STATUS_NONE =
   'signals/incident-managementcomponents/ChildIncidents/STATUS_NONE'
