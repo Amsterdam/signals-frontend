@@ -120,7 +120,7 @@ export const CategoryForm = ({
               )}
 
               <FieldGroup>
-                <StyledHeading>Meldingenkaart filter</StyledHeading>
+                <StyledHeading>Meldingenkaartfilter</StyledHeading>
                 {!isMainCategory && (
                   <Controller
                     name="is_public_accessible"
