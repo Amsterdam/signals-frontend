@@ -831,7 +831,7 @@ const verhuurderschap = {
     },
     render: QuestionFieldType.CheckboxInput,
   },
-  extra_wonen_vakantieverhuur_discriminatie_anders: {
+  extra_wonen_verhuurderschap_discriminatie_anders: {
     meta: {
       ifOneOf: {
         extra_wonen_verhuurderschap_discriminatie: 'anders',
