@@ -120,17 +120,44 @@ export const CategoryForm = ({
               )}
 
               <FieldGroup>
-                <StyledHeading>Meldingenkaartfilter</StyledHeading>
                 {!isMainCategory && (
-                  <Controller
-                    name="is_public_accessible"
-                    control={formMethods.control}
-                    render={({ field: { name, value, onChange } }) => (
-                      <FieldGroup>
+                  <>
+                    <StyledHeading>Openbaar tonen</StyledHeading>
+                    <Controller
+                      name="is_public_accessible"
+                      control={formMethods.control}
+                      render={({ field: { name, value, onChange } }) => (
+                        <FieldGroup>
+                          <StyledLabel
+                            htmlFor={name}
+                            label={isPublicAccessibleLabel}
+                            data-testid="category-is-public-accessible"
+                            disabled={readOnly}
+                          >
+                            <Checkbox
+                              checked={value}
+                              name={name}
+                              id={name}
+                              onChange={onChange}
+                            />
+                          </StyledLabel>
+                        </FieldGroup>
+                      )}
+                    />
+                  </>
+                )}
+
+                {isMainCategory && (
+                  <>
+                    <StyledHeading>Meldingenkaartfilter</StyledHeading>
+                    <Controller
+                      name="show_children_in_filter"
+                      control={formMethods.control}
+                      render={({ field: { name, value, onChange } }) => (
                         <StyledLabel
                           htmlFor={name}
-                          label={isPublicAccessibleLabel}
-                          data-testid="category-is-public-accessible"
+                          label="Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden"
+                          data-testid="show_children_in_filter"
                           disabled={readOnly}
                         >
                           <Checkbox
@@ -140,31 +167,9 @@ export const CategoryForm = ({
                             onChange={onChange}
                           />
                         </StyledLabel>
-                      </FieldGroup>
-                    )}
-                  />
-                )}
-
-                {isMainCategory && (
-                  <Controller
-                    name="show_children_in_filter"
-                    control={formMethods.control}
-                    render={({ field: { name, value, onChange } }) => (
-                      <StyledLabel
-                        htmlFor={name}
-                        label="Toon alle subcategorieën in het filter op de meldingenkaart die openbaar getoond mogen worden"
-                        data-testid="show_children_in_filter"
-                        disabled={readOnly}
-                      >
-                        <Checkbox
-                          checked={value}
-                          name={name}
-                          id={name}
-                          onChange={onChange}
-                        />
-                      </StyledLabel>
-                    )}
-                  />
+                      )}
+                    />
+                  </>
                 )}
               </FieldGroup>
 
