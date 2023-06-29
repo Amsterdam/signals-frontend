@@ -119,7 +119,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
         )
       }
 
-      navigate(`${INCIDENT_URL}/${id}`)
+      navigate(`../${INCIDENT_URL}/${id}`)
     },
     // Disabling linter; the `history` dependency is generating infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
