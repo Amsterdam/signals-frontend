@@ -396,7 +396,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`../${INCIDENT_URL}/${id}`)
   })
 
   it('should display a global notification on POST fail', async () => {
@@ -428,7 +428,7 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`../${INCIDENT_URL}/${id}`)
   })
 
   it('should display a global notification on PATCH fail', async () => {
@@ -461,6 +461,6 @@ describe('signals/incident-management/containers/IncidentSplitContainer', () => 
       )
     })
 
-    expect(navigateMock).toHaveBeenCalledWith(`${INCIDENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(`../${INCIDENT_URL}/${id}`)
   })
 })
