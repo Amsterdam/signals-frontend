@@ -17,7 +17,10 @@ import Input from 'components/Input'
 import Label from 'components/Label'
 import LoadingIndicator from 'components/LoadingIndicator'
 import RadioButtonList from 'components/RadioButtonList'
+import { showGlobalNotification } from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import useFetch from 'hooks/useFetch'
+import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -32,12 +35,6 @@ import {
 } from './styled'
 import type { StandardTextForm, StandardTextDetailData } from './types'
 import { createPatch } from './utils'
-import { showGlobalNotification } from '../../../../../../containers/App/actions'
-import {
-  TYPE_LOCAL,
-  VARIANT_ERROR,
-} from '../../../../../../containers/Notification/constants'
-import { getErrorMessage } from '../../../../../../shared/services/api/api'
 import { Column } from '../OverviewPage/styled'
 import { PageHeader } from '../PageHeader'
 import { SelectedSubcategories } from '../SelectedSubcategories'

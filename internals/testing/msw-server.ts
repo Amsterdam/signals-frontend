@@ -25,6 +25,7 @@ import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json
 import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
+import standardTextDetailData from '../mocks/fixtures/standard-texts/standard-text-detail-data.json'
 import standardTextsNoResult from '../mocks/fixtures/standard-texts/standard-texts-no-result.json'
 import standardTextsPage2 from '../mocks/fixtures/standard-texts/standard-texts-page-two.json'
 import standardTexts from '../mocks/fixtures/standard-texts/standard-texts.json'
@@ -228,13 +229,17 @@ const handlers = [
     res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
   ),
 
+  rest.get(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(standardTextDetailData))
+  ),
+
   // PATCH
   rest.patch(API.INCIDENT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
   rest.patch(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(null))
+    res(ctx.status(200), ctx.json(standardTextDetailData))
   ),
 
   // POST
@@ -260,7 +265,7 @@ const handlers = [
 
   //DELETE
   rest.delete(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(null))
+    res(ctx.status(204), ctx.json(null))
   ),
 
   // FALLBACK

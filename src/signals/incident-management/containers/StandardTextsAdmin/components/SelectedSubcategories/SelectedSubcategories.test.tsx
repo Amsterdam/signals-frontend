@@ -4,10 +4,11 @@
 import { render, screen } from '@testing-library/react'
 import * as reactRedux from 'react-redux'
 
-import { mockSubcategory } from './mock-subcategories'
+import { withAppContext } from 'test/utils'
+
 import type { Props } from './SelectedSubcategories'
 import { SelectedSubcategories } from './SelectedSubcategories'
-import { withAppContext } from '../../../../../../test/utils'
+import { mockSubcategory } from '../../_test_/mock-subcategories'
 
 const defaultProps: Props = {
   name: 'selectedSubcategories',
@@ -19,6 +20,7 @@ describe('SelectedSubcategories', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
   })
+
   it('should render the SelectedSubcategories', () => {
     render(withAppContext(<SelectedSubcategories {...defaultProps} />))
 

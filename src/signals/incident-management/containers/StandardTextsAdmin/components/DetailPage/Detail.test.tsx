@@ -14,11 +14,8 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
-import {
-  TYPE_LOCAL,
-  VARIANT_ERROR,
-} from '../../../../../../containers/Notification/constants'
-import { mockSubcategory } from '../SelectedSubcategories/mock-subcategories'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { mockSubcategory } from '../../_test_/mock-subcategories'
 
 fetchMock.disableMocks()
 const mockNavigate = jest.fn()
@@ -31,32 +28,16 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-const mockData: StandardTextDetailData = {
-  id: 4,
-  active: true,
-  categories: [79, 4],
-  created_at: '24-06-2023',
-  state: 'o',
-  text: 'Mooie omschrijving',
-  title: 'Mooie titel',
-  updated_at: '25-06-2023',
-}
-
 describe('Detail', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
-
-    mockRequestHandler({
-      status: 200,
-      method: 'get',
-      url: `${API.STANDARD_TEXTS_DETAILS_ENDPOINT}`,
-      body: mockData,
-    })
   })
+
   afterEach(() => {
     jest.clearAllMocks()
   })
+
   it('should render the Detail page', async () => {
     render(withAppContext(<Detail />))
 
@@ -80,6 +61,7 @@ describe('Detail', () => {
       ).toBeInTheDocument()
     })
   })
+
   it('renders a loader when loading', async () => {
     render(withAppContext(<Detail />))
     const loader = await screen.findByTestId('loading-indicator')
@@ -90,6 +72,7 @@ describe('Detail', () => {
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     })
   })
+
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
     render(withAppContext(<Detail />))
 
@@ -115,6 +98,7 @@ describe('Detail', () => {
       expect(mockNavigate).toBeCalledWith('..')
     })
   })
+
   it('navigates to previous page when Annuleren is pressed', async () => {
     render(withAppContext(<Detail />))
 
@@ -146,6 +130,7 @@ describe('Detail', () => {
         )
       })
     })
+
     it('displays error notifications if there is no category, title and/or description present', async () => {
       const mockErrorData: StandardTextDetailData = {
         id: 5,

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import Button from 'components/Button'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 
-import { StyledErrorMessage } from '../../../../../my-incidents/components/LoginForm/styled'
+import { StyledErrorMessage } from './styled'
 
 export interface Props {
   name: string
