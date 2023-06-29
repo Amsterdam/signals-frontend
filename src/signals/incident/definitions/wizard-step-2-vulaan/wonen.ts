@@ -1303,6 +1303,19 @@ const verhuurderschap = {
     },
     render: QuestionFieldType.RadioInput,
   },
+
+  extra_wonen_verhuurderschap_info: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'goed-verhuurderschap',
+      },
+      value:
+        'Vaak hebben we nog een vraag over uw antwoorden. Dan willen we graag contact met u op kunnen nemen. Bijvoorbeeld om documenten aan te leveren. Wilt u op de volgende pagina uw telefoonnummer en e-mailadres invullen? Dan kunnen we u bereiken.',
+      type: 'info',
+    },
+
+    render: QuestionFieldType.PlainText,
+  },
 }
 
 const overig = {
