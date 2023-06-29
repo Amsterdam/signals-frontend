@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 
 import configuration from 'shared/services/configuration/configuration'
 import {
@@ -784,7 +784,7 @@ const verhuurderschap = {
       ifOneOf: {
         subcategory: 'goed-verhuurderschap',
       },
-      label: 'Over welk onderwerp gaat uw melding?',
+      label: 'Uw melding gaat over:',
       shortLabel: 'Onderwerp melding',
       pathMerge: 'extra_properties',
       values: {
@@ -792,15 +792,29 @@ const verhuurderschap = {
         intimidatie: 'Intimidatie',
         huurcontract: 'Huurcontract',
         bemiddelingskosten: 'Bemiddelingskosten',
-        arbeidsmigrant: 'Arbeidsmigrant',
         servicekosten: 'Servicekosten',
-        overige: 'Overige (iets anders namelijk)',
+        overige: 'Iets anders',
       },
     },
     options: {
       validators: ['required'],
     },
-    render: QuestionFieldType.RadioInput,
+    render: QuestionFieldType.CheckboxInput,
+  },
+
+  extra_wonen_verhuurderschap_onderwerp_overige: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'overige',
+      },
+      label: 'Namelijk:',
+      shortLabel: 'Toelichting overig',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextInput,
   },
 
   // Discriminatie
@@ -810,7 +824,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'discriminatie',
       },
       label:
-        'Bent u gediscrimineerd tijdens het verhuurproces? We bedoelen in dit geval of u een woning niet heeft gekregen omdat u tot een specifieke groep behoort. Op welk grond bent u gediscrimineerd? Kies uit:',
+        'Op welke grond bent u tijdens het verhuurproces gediscrimineerd?  We bedoelen in dit geval of u een woning niet heeft gekregen omdat u tot een specifieke groep behoort.',
       shortLabel: 'Discriminatie groep',
       pathMerge: 'extra_properties',
       values: {
@@ -823,7 +837,7 @@ const verhuurderschap = {
         burgelijke_staat: 'Burgerlijke staat',
         handicap: 'Handicap',
         chonische_ziekte: 'Chronische ziekte',
-        anders: 'Een andere reden, namelijk ',
+        anders: 'Een andere reden',
       },
     },
     options: {
@@ -836,10 +850,9 @@ const verhuurderschap = {
       ifOneOf: {
         extra_wonen_verhuurderschap_discriminatie: 'anders',
       },
-      label: 'Een andere reden, namelijk:',
+      label: 'Namelijk:',
       shortLabel: 'Andere reden',
       pathMerge: 'extra_properties',
-      type: 'url',
     },
     options: {
       validators: ['required'],
@@ -851,32 +864,54 @@ const verhuurderschap = {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'discriminatie',
       },
-      label: 'Aanvullende informatie:',
+      label:
+        'Heeft u bewijsstukken waaruit blijkt dat u gediscrimineerd wordt? Bijvoorbeeld een afwijzing van de woning of de selectiecriteria voor het verkrijgen van de woning?',
       shortLabel: 'Bewijs discriminatie',
       pathMerge: 'extra_properties',
       values: {
-        bewijs:
-          'Kunt u de discriminatie tijdens het verhuurproces aantonen door bijvoorbeeld een afwijzing van de woning of de selectiecriteria voor het verkrijgen van de woning? (Zo ja, voeg deze stukken toe aan de bijlage)',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
-    render: QuestionFieldType.CheckboxInput,
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 
   // Intimidatie
-  extra_wonen_verhuurderschap_intimidatie: {
+  extra_wonen_verhuurderschap_intimidatie_toelichting: {
     meta: {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'intimidatie',
       },
-      label:
-        'Bent u bijvoorbeeld tijdens het verhuurproces door lichamelijk of psychisch geweld of bedreiging met geweld gedwongen om iets te doen of juist iets niet te doen?',
+      label: 'Kunt u toelichten wat er gebeurd is?',
       shortLabel: 'Intimidatie',
       pathMerge: 'extra_properties',
     },
     options: {
       validators: ['required'],
     },
-    render: QuestionFieldType.TextInput,
+    render: QuestionFieldType.TextareaInput,
+  },
+
+  extra_wonen_verhuurderschap_intimidatie_bewijs: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'intimidatie',
+      },
+      label: 'Heeft u bewijsstukken waaruit blijkt dat u geïntimideerd wordt?',
+      shortLabel: 'Bewijsstukken intimidatie',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 
   // Huurcontract
@@ -885,17 +920,93 @@ const verhuurderschap = {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
       },
-      label: 'Vink aan wat van toepassing is:',
+      label:
+        'Heeft u een huurcontract of zijn uw rechten en plichten op een andere manier vastgelegd?',
       shortLabel: 'Huurcontract',
       pathMerge: 'extra_properties',
       values: {
-        bezit_huurcontract: 'Bent u in het bezit van een huurcontract?',
-        rechten_plichten:
-          'Zijn uw rechten en plichten schriftelijk vastgesteld? (Zo ja, voeg deze stukken toe aan de bijlage)',
-        borg: 'Is de hoogte van de borg op schrift vastgesteld en is de termijn van vordering van de borg bij beëindiging van de huurovereenkomst op schrift vastgesteld? (Zo ja, voeg deze stukken toe aan de bijlage)',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
-    render: QuestionFieldType.CheckboxInput,
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_huurcontract_borg_hoogte: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
+      },
+      label: 'Is de hoogte van de borg schriftelijk vastgelegd?',
+      shortLabel: 'Hoogte borg',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_huurcontract_borg_termijn: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
+      },
+      label:
+        'Is de termijn van vordering van de borg bij beëindiging van de huurovereenkomst schriftelijk vastgelegd?',
+      shortLabel: 'Termijn borg',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_huurcontract_toelichting: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
+      },
+      label: 'Wat is er aan de hand met uw huurcontract of uw borg?',
+      shortLabel: 'Toelichting',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextareaInput,
+  },
+
+  extra_wonen_verhuurderschap_huurcontract_bewijs: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
+      },
+      label:
+        'Heeft u bewijsstukken waaruit blijkt dat uw huurcontract niet klopt?',
+      shortLabel: 'Bewijs incorrect huurcontract',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 
   // Dubbele bemiddelingskosten
@@ -904,55 +1015,129 @@ const verhuurderschap = {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'bemiddelingskosten',
       },
-      label: 'Vink aan wat van toepassing is:',
+      label:
+        'Heeft u naast de huur en de borg nog meer moeten betalen aan de bemiddelaar of makelaar?',
       shortLabel: 'Bemiddelingskosten',
       pathMerge: 'extra_properties',
       values: {
-        extra_kosten:
-          'Heeft u naast de huur en de borg nog meer moeten betalen aan de bemiddelaar of makelaar? (Zo ja, voeg deze stukken toe aan de bijlage)',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
-    render: QuestionFieldType.CheckboxInput,
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 
-  // Arbeidsmigrant
-  extra_wonen_verhuurderschap_arbeidsmigrant: {
+  extra_wonen_verhuurderschap_bemiddelingskosten_ja: {
     meta: {
       ifOneOf: {
-        extra_wonen_verhuurderschap_onderwerp: 'arbeidsmigrant',
+        extra_wonen_verhuurderschap_bemiddelingskosten: 'ja',
       },
-      label: 'Vink aan wat van toepassing is:',
-      shortLabel: 'Arbeidsmigrant',
+      label: 'Namelijk:',
+      shortLabel: 'Toelichting bemiddelingskosten',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextareaInput,
+  },
+
+  extra_wonen_verhuurderschap_bemiddelingskosten_bewijs: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'bemiddelingskosten',
+      },
+      label:
+        'Heeft u bewijsstukken waaruit blijkt u extra heeft betaald aan een bemiddelaar?',
+      shortLabel: 'Bewijs bemiddelingskosten',
       pathMerge: 'extra_properties',
       values: {
-        contractvorm:
-          'Heeft u een  huurcontract en een arbeidscontract? (Zo ja, voeg deze stukken toe aan de bijlage)',
-        taal_contract:
-          'Is het huurcontract opgesteld in een taal die u begrijpt?',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
-    render: QuestionFieldType.CheckboxInput,
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 
   // Servicekosten
-  extra_wonen_verhuurderschap_servicekosten: {
+  extra_wonen_verhuurderschap_servicekosten_kostenspecificatie: {
     meta: {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
       },
       label:
-        'Vink aan wat van toepassing is en voeg stukken toe in de bijlage:',
-      shortLabel: 'Servicekosten',
+        'Heeft u bij het ingaan  van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
+      shortLabel: 'Servicekosten kostenspecificatie',
       pathMerge: 'extra_properties',
       values: {
-        kostenspecificatie:
-          'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
-        jaarlijkse_afrekening:
-          'Heeft u van de verhuurder een jaarlijkse afrekening servicekosten ontvangen?',
-        servicekosten: 'Denkt u dat de servicekosten te hoog zijn?',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
-    render: QuestionFieldType.CheckboxInput,
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_servicekosten_jaarlijkse_afrekening: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
+      },
+      label:
+        'Heeft u van de verhuurder een jaarlijkse afrekening servicekosten ontvangen?',
+      shortLabel: 'Servicekosten jaarlijkse afrekening',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_servicekosten_toelichting: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
+      },
+      label: 'Denkt u dat de servicekosten te hoog zijn? ',
+      shortLabel: 'Servicekosten toelichting',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_servicekosten_toelichting_ja: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_servicekosten_toelichting: 'ja',
+      },
+      label: 'Want:',
+      shortLabel: 'Toelichting servicekosten',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextareaInput,
   },
 
   // Overige
@@ -969,6 +1154,101 @@ const verhuurderschap = {
       validators: ['required'],
     },
     render: QuestionFieldType.TextInput,
+  },
+
+  // Afsluitende vragen en opmerkingen
+  extra_wonen_verhuurderschap_afsluitende_vragen: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'goed-verhuurderschap',
+      },
+      label:
+        'Wat is de naam en het e-mailadres van  uw eigenaar, verhuurder of bemiddelaar?',
+      shortLabel: 'Afsluitende vragen',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextInput,
+  },
+
+  // Arbeidsmigrant
+  extra_wonen_verhuurderschap_arbeidsmigrant: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'goed-verhuurderschap',
+      },
+      label:
+        'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
+      shortLabel: 'Arbeidsmigrant',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_arbeidsmigrant_huurcontract: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_arbeidsmigrant: 'ja',
+      },
+      label: 'Heeft u een huurcontract?',
+      shortLabel: 'Arbeidsmigrant huurcontract',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_arbeidsmigrant_huurcontract_taal: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_arbeidsmigrant: 'ja',
+      },
+      label: 'Is het huurcontract opgesteld in een taal die u begrijpt?',
+      shortLabel: 'Arbeidsmigrant huurcontract taal',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_arbeidsmigrant_arbeidscontract: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_arbeidsmigrant: 'ja',
+      },
+      label: 'Heeft u een arbeidscontract?',
+      shortLabel: 'Arbeidsmigrant arbeidscontract',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
   },
 }
 
