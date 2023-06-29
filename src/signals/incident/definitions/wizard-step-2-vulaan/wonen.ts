@@ -783,6 +783,7 @@ const verhuurderschap = {
     meta: {
       ifOneOf: {
         subcategory: 'goed-verhuurderschap',
+        wonen_overig: 'verhuurderschap',
       },
       label: 'Uw melding gaat over:',
       shortLabel: 'Onderwerp',
@@ -856,6 +857,7 @@ const verhuurderschap = {
     },
     render: QuestionFieldType.CheckboxInput,
   },
+
   extra_wonen_verhuurderschap_discriminatie_anders: {
     meta: {
       ifOneOf: {
@@ -870,6 +872,7 @@ const verhuurderschap = {
     },
     render: QuestionFieldType.TextInput,
   },
+
   extra_wonen_verhuurderschap_discriminatie_bewijs: {
     meta: {
       ifOneOf: {
@@ -1321,6 +1324,7 @@ const overig = {
           'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
         woningkwaliteit:
           'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
+        verhuurderschap: 'Problemen met verhuuders',
       },
       resetsStateOnChange: true,
     },
