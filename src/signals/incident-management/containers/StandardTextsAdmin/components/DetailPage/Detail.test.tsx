@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { withAppContext } from 'test/utils'
 
 import { Detail } from './Detail'
@@ -14,7 +15,6 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { mockSubcategory } from '../../_test_/mock-subcategories'
 
 fetchMock.disableMocks()
