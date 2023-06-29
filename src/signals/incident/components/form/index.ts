@@ -24,6 +24,7 @@ import SelectInput from './SelectInput'
 import TextareaInput from './TextareaInput'
 import TextInput from './TextInput'
 import WithHeading from './WithHeading'
+import { QuestionHeader } from './Header'
 
 export default {
   AppNavigation,
@@ -49,4 +50,5 @@ export default {
   TextareaInput,
   TextInput,
   WithHeading,
+  QuestionHeader,
 }

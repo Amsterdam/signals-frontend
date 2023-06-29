@@ -824,15 +824,11 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'discriminatie',
       },
       label: 'Discriminatie',
-      shortLabel: 'short label',
-      pathMerge: 'extra_properties',
-      values: {
-        '1': 'Discriminatie',
-      },
     },
 
-    render: QuestionFieldType.Header,
+    render: QuestionFieldType.QuestionHeader,
   },
+
   extra_wonen_verhuurderschap_discriminatie: {
     meta: {
       ifOneOf: {
@@ -895,6 +891,17 @@ const verhuurderschap = {
   },
 
   // Intimidatie
+  extra_wonen_verhuurderschap_intimidatie_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'intimidatie',
+      },
+      label: 'Intimidatie',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
   extra_wonen_verhuurderschap_intimidatie_toelichting: {
     meta: {
       ifOneOf: {
@@ -930,6 +937,17 @@ const verhuurderschap = {
   },
 
   // Huurcontract
+  extra_wonen_verhuurderschap_huurcontract_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
+      },
+      label: 'Huurcontract',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
   extra_wonen_verhuurderschap_huurcontract: {
     meta: {
       ifOneOf: {
@@ -1025,6 +1043,17 @@ const verhuurderschap = {
   },
 
   // Dubbele bemiddelingskosten
+  extra_wonen_verhuurderschap_bemiddelingskosten_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'bemiddelingskosten',
+      },
+      label: 'Dubbele bemiddelingskosten',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
   extra_wonen_verhuurderschap_bemiddelingskosten: {
     meta: {
       ifOneOf: {
@@ -1081,6 +1110,17 @@ const verhuurderschap = {
   },
 
   // Servicekosten
+  extra_wonen_verhuurderschap_servicekosten_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
+      },
+      label: 'Servicekosten',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
   extra_wonen_verhuurderschap_servicekosten_kostenspecificatie: {
     meta: {
       ifOneOf: {
@@ -1156,6 +1196,17 @@ const verhuurderschap = {
   },
 
   // Afsluitende vragen en opmerkingen
+  extra_wonen_verhuurderschap_afsluitende_vragen_title: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'goed-verhuurderschap',
+      },
+      label: 'Afsluitende vragen en opmerkingen',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
   extra_wonen_verhuurderschap_afsluitende_vragen: {
     meta: {
       ifOneOf: {
