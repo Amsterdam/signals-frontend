@@ -785,7 +785,7 @@ const verhuurderschap = {
         subcategory: 'goed-verhuurderschap',
       },
       label: 'Uw melding gaat over:',
-      shortLabel: 'Onderwerp melding',
+      shortLabel: 'Onderwerp',
       pathMerge: 'extra_properties',
       values: {
         discriminatie: 'Discriminatie',
@@ -818,6 +818,21 @@ const verhuurderschap = {
   },
 
   // Discriminatie
+  extra_wonen_verhuurderschap_discriminatie_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'discriminatie',
+      },
+      label: 'Discriminatie',
+      shortLabel: 'short label',
+      pathMerge: 'extra_properties',
+      values: {
+        '1': 'Discriminatie',
+      },
+    },
+
+    render: QuestionFieldType.Header,
+  },
   extra_wonen_verhuurderschap_discriminatie: {
     meta: {
       ifOneOf: {
@@ -825,7 +840,7 @@ const verhuurderschap = {
       },
       label:
         'Op welke grond bent u tijdens het verhuurproces gediscrimineerd?  We bedoelen in dit geval of u een woning niet heeft gekregen omdat u tot een specifieke groep behoort.',
-      shortLabel: 'Discriminatie groep',
+      shortLabel: 'Discriminatie vorm',
       pathMerge: 'extra_properties',
       values: {
         ras: 'Ras',
@@ -851,7 +866,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_discriminatie: 'anders',
       },
       label: 'Namelijk:',
-      shortLabel: 'Andere reden',
+      shortLabel: 'Andere vorm',
       pathMerge: 'extra_properties',
     },
     options: {
@@ -886,7 +901,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'intimidatie',
       },
       label: 'Kunt u toelichten wat er gebeurd is?',
-      shortLabel: 'Intimidatie',
+      shortLabel: 'Intimidatie toelichting',
       pathMerge: 'extra_properties',
     },
     options: {
@@ -901,7 +916,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'intimidatie',
       },
       label: 'Heeft u bewijsstukken waaruit blijkt dat u geïntimideerd wordt?',
-      shortLabel: 'Bewijsstukken intimidatie',
+      shortLabel: 'Bewijs intimidatie',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -941,7 +956,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
       },
       label: 'Is de hoogte van de borg schriftelijk vastgelegd?',
-      shortLabel: 'Hoogte borg',
+      shortLabel: 'Borg vastelling',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -961,7 +976,7 @@ const verhuurderschap = {
       },
       label:
         'Is de termijn van vordering van de borg bij beëindiging van de huurovereenkomst schriftelijk vastgelegd?',
-      shortLabel: 'Termijn borg',
+      shortLabel: 'Borgtermijn vastelling',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -980,7 +995,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'huurcontract',
       },
       label: 'Wat is er aan de hand met uw huurcontract of uw borg?',
-      shortLabel: 'Toelichting',
+      shortLabel: 'Toelichting huurcontract',
       pathMerge: 'extra_properties',
     },
     options: {
@@ -1017,7 +1032,7 @@ const verhuurderschap = {
       },
       label:
         'Heeft u naast de huur en de borg nog meer moeten betalen aan de bemiddelaar of makelaar?',
-      shortLabel: 'Bemiddelingskosten',
+      shortLabel: 'Extra bemiddelingskosten',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -1073,7 +1088,7 @@ const verhuurderschap = {
       },
       label:
         'Heeft u bij het ingaan  van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
-      shortLabel: 'Servicekosten kostenspecificatie',
+      shortLabel: 'Servicekostenspecificatie',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -1106,13 +1121,13 @@ const verhuurderschap = {
     render: QuestionFieldType.RadioInput,
   },
 
-  extra_wonen_verhuurderschap_servicekosten_toelichting: {
+  extra_wonen_verhuurderschap_servicekosten_hoogte: {
     meta: {
       ifOneOf: {
         extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
       },
       label: 'Denkt u dat de servicekosten te hoog zijn? ',
-      shortLabel: 'Servicekosten toelichting',
+      shortLabel: 'Servicekosten te hoog',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -1140,22 +1155,6 @@ const verhuurderschap = {
     render: QuestionFieldType.TextareaInput,
   },
 
-  // Overige
-  extra_wonen_verhuurderschap_overige: {
-    meta: {
-      ifOneOf: {
-        extra_wonen_verhuurderschap_onderwerp: 'overige',
-      },
-      label: 'Licht uw onderwerp toe:',
-      shortLabel: 'Overige onderwerpen',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.TextInput,
-  },
-
   // Afsluitende vragen en opmerkingen
   extra_wonen_verhuurderschap_afsluitende_vragen: {
     meta: {
@@ -1163,7 +1162,7 @@ const verhuurderschap = {
         subcategory: 'goed-verhuurderschap',
       },
       label:
-        'Wat is de naam en het e-mailadres van  uw eigenaar, verhuurder of bemiddelaar?',
+        'Wat is de naam en het e-mailadres van uw eigenaar, verhuurder of bemiddelaar?',
       shortLabel: 'Afsluitende vragen',
       pathMerge: 'extra_properties',
     },
@@ -1181,7 +1180,7 @@ const verhuurderschap = {
       },
       label:
         'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
-      shortLabel: 'Arbeidsmigrant',
+      shortLabel: 'Arbeidsmigrant kostenspecificatie',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
