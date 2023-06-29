@@ -1303,6 +1303,33 @@ const verhuurderschap = {
     render: QuestionFieldType.TextInput,
   },
 
+  extra_wonen_verhuurderschap_consent: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
+      },
+      label:
+        'Ik verklaar dat ik akkoord ga met het delen van gegevens met stichting !WOON',
+      shortLabel: 'Consent stichting !WOON',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
   // Arbeidsmigrant
   extra_wonen_verhuurderschap_arbeidsmigrant: {
     meta: {
