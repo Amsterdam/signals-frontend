@@ -11,6 +11,20 @@ import { QuestionFieldType } from 'types/question'
 import locatie from './locatie'
 
 const woningdelen = {
+  woningdelen_dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'woningdelen-spookburgers',
+        wonen_overig: ['woningdelen', 'crimineleBewoning'],
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber, inPast],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
   extra_wonen_woningdelen_vermoeden: {
     meta: {
       ifOneOf: {
@@ -176,6 +190,20 @@ const woningdelen = {
 }
 
 const onderhuur = {
+  onderhuur_dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'onderhuur-en-adreskwaliteit',
+        wonen_overig: 'onderhuur',
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber, inPast],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
   extra_wonen_onderhuur_aantal_personen: {
     meta: {
       ifOneOf: {
@@ -327,6 +355,20 @@ const onderhuur = {
 }
 
 const leegstand = {
+  leegstand_dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'leegstand',
+        wonen_overig: 'leegstand',
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber, inPast],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
   extra_wonen_leegstand_naam_eigenaar: {
     meta: {
       ifOneOf: {
@@ -430,6 +472,20 @@ const leegstand = {
 }
 
 const woningkwaliteit = {
+  woningkwaliteit_dateTime: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'woningkwaliteit',
+        wonen_overig: 'woningkwaliteit',
+      },
+      label: 'Wanneer was het?',
+    },
+    options: {
+      validators: [falsyOrNumber, inPast],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
   extra_wonen_woonkwaliteit_direct_gevaar: {
     meta: {
       ifOneOf: {
@@ -608,15 +664,13 @@ const woningkwaliteit = {
 }
 
 const vakantieverhuur = {
-  dateTime: {
+  vakantieverhuur_dateTime: {
     meta: {
       ifOneOf: {
         subcategory: 'vakantieverhuur',
         wonen_overig: 'vakantieverhuur',
       },
       label: 'Wanneer was het?',
-      ignoreVisibility: true,
-      canBeNull: true,
     },
     options: {
       validators: [falsyOrNumber, inPast],
@@ -1386,11 +1440,11 @@ const overig = {
 }
 
 export const controls = {
-  ...woningdelen,
-  ...onderhuur,
   ...leegstand,
+  ...onderhuur,
   ...vakantieverhuur,
   ...verhuurderschap,
+  ...woningdelen,
   ...woningkwaliteit,
 }
 
