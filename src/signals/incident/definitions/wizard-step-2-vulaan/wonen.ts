@@ -1152,7 +1152,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'bemiddelingskosten',
       },
       label:
-        'Heeft u bewijsstukken waaruit blijkt u extra heeft betaald aan een bemiddelaar?',
+        'Heeft u bewijsstukken waaruit blijkt dat u extra heeft betaald aan een bemiddelaar?',
       shortLabel: 'Bewijs bemiddelingskosten',
       pathMerge: 'extra_properties',
       values: {
@@ -1184,7 +1184,7 @@ const verhuurderschap = {
         extra_wonen_verhuurderschap_onderwerp: 'servicekosten',
       },
       label:
-        'Heeft u bij het ingaan  van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
+        'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
       shortLabel: 'Servicekostenspecificatie',
       pathMerge: 'extra_properties',
       values: {
@@ -1271,57 +1271,6 @@ const verhuurderschap = {
     render: QuestionFieldType.QuestionHeader,
   },
 
-  extra_wonen_verhuurderschap_afsluitende_vragen: {
-    meta: {
-      ifOneOf: {
-        extra_wonen_verhuurderschap_onderwerp: [
-          'discriminatie',
-          'intimidatie',
-          'huurcontract',
-          'bemiddelingskosten',
-          'servicekosten',
-          'overige',
-        ],
-      },
-      label:
-        'Wat is de naam en het e-mailadres van uw eigenaar, verhuurder of bemiddelaar?',
-      shortLabel: 'Afsluitende vragen',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.TextInput,
-  },
-
-  extra_wonen_verhuurderschap_consent: {
-    meta: {
-      ifOneOf: {
-        extra_wonen_verhuurderschap_onderwerp: [
-          'discriminatie',
-          'intimidatie',
-          'huurcontract',
-          'bemiddelingskosten',
-          'servicekosten',
-          'overige',
-        ],
-      },
-      label:
-        'Ik verklaar dat ik akkoord ga met het delen van gegevens met stichting !WOON',
-      shortLabel: 'Consent stichting !WOON',
-      pathMerge: 'extra_properties',
-      values: {
-        ja: 'Ja',
-        nee: 'Nee',
-      },
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-
-  // Arbeidsmigrant
   extra_wonen_verhuurderschap_arbeidsmigrant: {
     meta: {
       ifOneOf: {
@@ -1334,9 +1283,8 @@ const verhuurderschap = {
           'overige',
         ],
       },
-      label:
-        'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
-      shortLabel: 'Arbeidsmigrant kostenspecificatie',
+      label: 'Bent u een arbeidsmigrant?',
+      shortLabel: 'Arbeidsmigrant',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -1394,6 +1342,56 @@ const verhuurderschap = {
       },
       label: 'Heeft u een arbeidscontract?',
       shortLabel: 'Arbeidsmigrant arbeidscontract',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_afsluitende_vragen: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
+      },
+      label:
+        'Wat is de naam en het e-mailadres van uw verhuurder of bemiddelaar?',
+      shortLabel: 'Afsluitende vragen',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextInput,
+  },
+
+  extra_wonen_verhuurderschap_consent: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
+      },
+      label:
+        'Ik verklaar dat ik akkoord ga met het delen van gegevens met stichting !WOON',
+      shortLabel: 'Consent stichting !WOON',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
