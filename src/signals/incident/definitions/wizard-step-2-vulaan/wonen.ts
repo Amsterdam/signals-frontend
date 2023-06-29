@@ -1202,8 +1202,24 @@ const verhuurderschap = {
   extra_wonen_verhuurderschap_afsluitende_vragen_title: {
     meta: {
       ifOneOf: {
-        subcategory: 'goed-verhuurderschap',
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
       },
+      // discriminatie: 'Discriminatie',
+      // intimidatie: 'Intimidatie',
+      // huurcontract: 'Huurcontract',
+      // bemiddelingskosten: 'Bemiddelingskosten',
+      // servicekosten: 'Servicekosten',
+      // overige: 'Iets anders',
+      // // ifOneOf: {
+      // //   subcategory: 'goed-verhuurderschap',
+      // // },
       label: 'Afsluitende vragen en opmerkingen',
     },
 
@@ -1213,7 +1229,14 @@ const verhuurderschap = {
   extra_wonen_verhuurderschap_afsluitende_vragen: {
     meta: {
       ifOneOf: {
-        subcategory: 'goed-verhuurderschap',
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
       },
       label:
         'Wat is de naam en het e-mailadres van uw eigenaar, verhuurder of bemiddelaar?',
@@ -1230,7 +1253,14 @@ const verhuurderschap = {
   extra_wonen_verhuurderschap_arbeidsmigrant: {
     meta: {
       ifOneOf: {
-        subcategory: 'goed-verhuurderschap',
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
       },
       label:
         'Heeft u bij het ingaan van de huurovereenkomst een kostenspecificatie van de verhuurder ontvangen?',
@@ -1307,7 +1337,14 @@ const verhuurderschap = {
   extra_wonen_verhuurderschap_info: {
     meta: {
       ifOneOf: {
-        subcategory: 'goed-verhuurderschap',
+        extra_wonen_verhuurderschap_onderwerp: [
+          'discriminatie',
+          'intimidatie',
+          'huurcontract',
+          'bemiddelingskosten',
+          'servicekosten',
+          'overige',
+        ],
       },
       value:
         'Vaak hebben we nog een vraag over uw antwoorden. Dan willen we graag contact met u op kunnen nemen. Bijvoorbeeld om documenten aan te leveren. Wilt u op de volgende pagina uw telefoonnummer en e-mailadres invullen? Dan kunnen we u bereiken.',
