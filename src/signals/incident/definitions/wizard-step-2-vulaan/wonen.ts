@@ -1265,15 +1265,6 @@ const verhuurderschap = {
           'overige',
         ],
       },
-      // discriminatie: 'Discriminatie',
-      // intimidatie: 'Intimidatie',
-      // huurcontract: 'Huurcontract',
-      // bemiddelingskosten: 'Bemiddelingskosten',
-      // servicekosten: 'Servicekosten',
-      // overige: 'Iets anders',
-      // // ifOneOf: {
-      // //   subcategory: 'goed-verhuurderschap',
-      // // },
       label: 'Afsluitende vragen en opmerkingen',
     },
 
