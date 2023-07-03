@@ -4,9 +4,9 @@ import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
 
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
+import type { StatusCode } from 'types/status-code'
 import childIncidentsFixture from 'utils/__tests__/fixtures/childIncidents.json'
 
 import ChildIncidents, {

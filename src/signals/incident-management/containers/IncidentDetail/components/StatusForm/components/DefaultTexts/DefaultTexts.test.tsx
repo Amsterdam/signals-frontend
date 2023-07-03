@@ -2,9 +2,9 @@
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
 import { screen, render, fireEvent } from '@testing-library/react'
 
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
+import { StatusCode } from 'types/status-code'
 
 import DefaultTexts from '.'
 import type { DefaulTextsProps } from './DefaultTexts'

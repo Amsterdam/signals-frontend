@@ -11,11 +11,11 @@ import {
   statusList,
   stadsdeelList,
 } from 'signals/incident-management/definitions'
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
 import 'jest-styled-components'
 import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
+import { StatusCode } from 'types/status-code'
 import districts from 'utils/__tests__/fixtures/districts.json'
 import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'

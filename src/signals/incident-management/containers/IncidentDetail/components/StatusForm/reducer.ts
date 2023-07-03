@@ -6,8 +6,8 @@ import statusList, {
   isStatusClosed,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
+import type { StatusCode } from 'types/status-code'
 
 import type { StatusFormActions } from './actions'
 import {

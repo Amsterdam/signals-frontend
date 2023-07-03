@@ -6,9 +6,9 @@ import * as reactRouterDom from 'react-router-dom'
 
 import type { Feature } from 'components/AreaMap/types'
 import * as actions from 'containers/App/actions'
-import { StatusCode as mockStatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
+import { StatusCode as mockStatusCode } from 'types/status-code'
 
 import AreaContainer from '..'
 import * as API from '../../../../../../internals/testing/api'

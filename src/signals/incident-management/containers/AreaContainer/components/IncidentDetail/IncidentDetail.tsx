@@ -10,8 +10,8 @@ import styled from 'styled-components'
 import BackLink from 'components/BackLink'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { isStatusEnd } from 'signals/incident-management/definitions/statusList'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import type { Incident } from 'types/api/incident'
+import type { StatusCode } from 'types/status-code'
 
 interface IncidentDetailProps {
   incident: Incident

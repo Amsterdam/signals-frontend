@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 
+import { StatusCode } from 'types/status-code'
+
 import { Summary } from './Summary'
-import { StatusCode } from '../../../../definitions/types'
 
 const standardText = {
   id: 10,

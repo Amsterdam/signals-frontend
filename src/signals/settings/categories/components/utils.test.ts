@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { getPatchPayload } from './utils'
-import type {
-  CategoryFormValues,
-  CategoryFormPayload,
-  DirtyFields,
-} from '../types'
+import type { StandardText } from 'types/api/standard-texts'
+import { StatusCode } from 'types/status-code'
+
+import { getPatchPayload, orderStandardTexts } from './utils'
+import type { CategoryFormValues, CategoryFormPayload } from '../types'
+import { Direction } from '../types'
 
 const mockFormData: CategoryFormValues = {
   description: 'Afval van een bedrijf en andere gebouwen en dingen',
@@ -20,7 +20,7 @@ const mockFormData: CategoryFormValues = {
   use_calendar_days: 1,
 }
 
-const mockDirtyFields: DirtyFields = {
+const mockDirtyFields = {
   name: true,
   note: true,
   n_days: true,
@@ -62,6 +62,56 @@ describe('utils', () => {
           show_children_in_filter: false,
         },
       })
+    })
+  })
+
+  describe('orderStandardTexts', () => {
+    it('should order standard texts', () => {
+      const standardTexts: StandardText[] = [
+        {
+          active: true,
+          id: 1,
+          meta: {},
+          state: StatusCode.AfgehandeldExtern,
+          text: 'A',
+          title: 'A',
+        },
+        {
+          active: true,
+          id: 2,
+          meta: {},
+          state: StatusCode.AfgehandeldExtern,
+          text: 'B',
+          title: 'B',
+        },
+        {
+          active: true,
+          id: 3,
+          meta: {},
+          state: StatusCode.AfgehandeldExtern,
+          text: 'C',
+          title: 'C',
+        },
+      ]
+      const result = orderStandardTexts(Direction.Up, 1, standardTexts)
+      expect(result).toEqual([
+        standardTexts[1],
+        standardTexts[0],
+        standardTexts[2],
+      ])
+
+      const result2 = orderStandardTexts(Direction.Down, 1, standardTexts)
+      expect(result2).toEqual([
+        standardTexts[0],
+        standardTexts[2],
+        standardTexts[1],
+      ])
+
+      const result3 = orderStandardTexts(Direction.Up, 0, standardTexts)
+      expect(result3).toEqual(undefined)
+
+      const result4 = orderStandardTexts(Direction.Down, 2, standardTexts)
+      expect(result4).toEqual(undefined)
     })
   })
 })

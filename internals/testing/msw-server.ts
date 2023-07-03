@@ -192,6 +192,10 @@ const handlers = [
     }
   }),
 
+  rest.get(API.STANDARD_TEXTS_ENDPOINT, (_, res, ctx) => {
+    return res(ctx.status(200), ctx.json(standardTexts))
+  }),
+
   rest.get(API.QA_SESSIONS, (req, res, ctx) => {
     switch (req.params.uuid) {
       case 'locked':

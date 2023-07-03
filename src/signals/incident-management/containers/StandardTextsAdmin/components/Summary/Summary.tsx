@@ -1,5 +1,7 @@
 import { ChevronRight } from '@amsterdam/asc-assets'
 
+import type { StandardText } from 'types/api/standard-texts'
+
 import { StyledIcon } from './styled'
 import {
   ColumnDescription,
@@ -11,7 +13,6 @@ import {
 } from './styled'
 import statusList from '../../../../definitions/statusList'
 import type { Status as StatusType } from '../../../../definitions/types'
-import type { StandardText } from '../../types'
 
 interface Props {
   standardText: StandardText
