@@ -7,6 +7,8 @@ import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
 import { useParams } from 'react-router-dom'
 
 import Select from 'components/Select'
+import { useFetch } from 'hooks'
+import configuration from 'shared/services/configuration/configuration'
 import type { StandardText } from 'types/api/standard-texts'
 
 import {
@@ -16,9 +18,9 @@ import {
   TextWrapper,
   Wrapper,
 } from './styled'
-import { useFetch } from '../../../../../hooks'
-import configuration from '../../../../../shared/services/configuration/configuration'
-import statusList from '../../../../incident-management/definitions/statusList'
+import statusList, {
+  changeStatusOptionList,
+} from '../../../../incident-management/definitions/statusList'
 import { Direction } from '../../types'
 import { orderStandardTexts } from '../utils'
 
@@ -60,24 +62,22 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
   )
   useEffect(() => {
     if (data?.results) {
-      const state = statusList.find(
+      const state = changeStatusOptionList.find(
         (status) => status.value === selectedStatus
       )?.key
 
-      const orderedStandardTexts = data.results.filter((result) => {
-        return result.state === state
-      })
+      const orderedStandardTexts = data.results.filter(
+        (result) => result.state === state
+      )
       setOrderedStandardTexts(orderedStandardTexts)
     }
   }, [data, selectedStatus])
 
-  const options = statusList.map((status) => {
-    return {
-      name: status.value,
-      value: status.value,
-      key: status.key,
-    }
-  })
+  const options = changeStatusOptionList.map((status) => ({
+    name: status.value,
+    value: status.value,
+    key: status.key,
+  }))
 
   return (
     <div>
