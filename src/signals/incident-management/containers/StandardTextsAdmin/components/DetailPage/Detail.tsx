@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Row } from '@amsterdam/asc-ui'
+import { Column, Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -35,7 +35,6 @@ import {
 } from './styled'
 import type { StandardTextForm, StandardTextDetailData } from './types'
 import { createPatch } from './utils'
-import { Column } from '../OverviewPage/styled'
 import { PageHeader } from '../PageHeader'
 import { SelectedSubcategories } from '../SelectedSubcategories'
 
@@ -98,6 +97,8 @@ export const Detail = () => {
         `${configuration.STANDARD_TEXTS_DETAILS_ENDPOINT}${id}`,
         createPatch(getValues(), formState.dirtyFields)
       )
+
+    !hasDirtyFields && navigate(redirectURL)
   }, [formState.dirtyFields, getValues, id, patch])
 
   const handleOnCancel = () => {
@@ -195,6 +196,7 @@ export const Detail = () => {
                         <Label as="span">Status</Label>
                         <RadioButtonList
                           groupName="Status"
+                          hasEmptySelectionButton={false}
                           defaultValue={value}
                           options={options}
                           onChange={handleOnchange}

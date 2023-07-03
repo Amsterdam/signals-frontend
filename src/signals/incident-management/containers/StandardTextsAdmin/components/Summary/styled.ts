@@ -39,4 +39,5 @@ export const Text = styled.div`
 
 export const Wrapper = styled.div`
   margin-bottom: 24px;
+  cursor: pointer;
 `

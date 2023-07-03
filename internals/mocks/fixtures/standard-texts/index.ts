@@ -1,4 +1,5 @@
 import standardTexts from './default.json'
+import detail from './detail.json'
 import multicaseFilter from './filter-multi-case.json'
 import activeFilter from './filter-on-active.json'
 import statusFilter from './filter-on-status.json'
@@ -7,6 +8,7 @@ import page2 from './page-two.json'
 
 export {
   activeFilter,
+  detail,
   multicaseFilter,
   noResult,
   page2,
