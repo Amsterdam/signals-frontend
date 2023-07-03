@@ -18,9 +18,7 @@ import {
   TextWrapper,
   Wrapper,
 } from './styled'
-import statusList, {
-  changeStatusOptionList,
-} from '../../../../incident-management/definitions/statusList'
+import { changeStatusOptionList } from '../../../../incident-management/definitions/statusList'
 import { Direction } from '../../types'
 import { orderStandardTexts } from '../utils'
 
@@ -33,7 +31,7 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
   const params = useParams<{ categoryId: string }>()
   const { get, data } = useFetch<{ results: StandardText[] }>()
   const [selectedStatus, setSelectedStatus] = useState<string>(
-    statusList[0].value
+    changeStatusOptionList[0].value
   )
   const [orderedStandardTexts, setOrderedStandardTexts] = useState<
     StandardText[]
