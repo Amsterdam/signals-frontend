@@ -6,6 +6,8 @@ import isObject from 'lodash/isObject'
 import * as yup from 'yup'
 import type { AnyObject } from 'yup/es/types'
 
+import { isBlocking } from '../custom-validators'
+
 type Controls = { [s: string]: unknown } | ArrayLike<unknown>
 
 type Validators = Array<
@@ -127,6 +129,13 @@ function addValidators(validators: Validators, field: AnyObject) {
         validationField = validationField.email()
       }
 
+      if (validator === 'isBlocking') {
+        validationField = validationField.test(
+          'custom',
+          () => isBlocking()?.custom,
+          () => !isBlocking()?.custom
+        )
+      }
       if (
         Array.isArray(validator) &&
         validator[0] === 'maxLength' &&

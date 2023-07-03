@@ -9,6 +9,7 @@ export enum QuestionFieldType {
   FileInput = 'FileInputRenderer',
   HandlingMessage = 'HandlingMessage',
   Header = 'Header',
+  QuestionHeader = 'QuestionHeader',
   HiddenInput = 'HiddenInput',
   LocationSelect = 'AssetSelectRenderer',
   MapInput = 'MapInput',

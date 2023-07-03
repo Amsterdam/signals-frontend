@@ -12,11 +12,10 @@ type Props = {
 
 const GlobalError = ({ meta }: Props) => {
   const { formState } = useFormContext()
-
+  let label = meta?.label
   const message: any = Object.values(formState.errors || {})[0]?.message
-
   if (meta && message?.globalMessage) {
-    meta.label = message?.globalMessage
+    label = message?.globalMessage
   }
 
   const invalid =
@@ -24,7 +23,7 @@ const GlobalError = ({ meta }: Props) => {
 
   return !isEmpty(formState?.errors) ? (
     <StyledErrorAlert>
-      {meta?.label ||
+      {label ||
         `U hebt niet alle vragen ${invalid}beantwoord. Vul hieronder aan alstublieft.`}
     </StyledErrorAlert>
   ) : null

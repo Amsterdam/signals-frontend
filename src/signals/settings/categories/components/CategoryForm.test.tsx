@@ -96,7 +96,7 @@ describe('CategoryForm', () => {
 
     expect(screen.getByText('Afwatering brug')).toBeInTheDocument()
     expect(screen.getByText('Verantwoordelijke afdeling')).toBeInTheDocument()
-    expect(screen.getByText('Openbaar tonen')).toBeInTheDocument()
+    expect(screen.getByText('Meldingenkaartfilter')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Notitie' })).toBeInTheDocument()
     expect(screen.getByText('Geschiedenis')).toBeInTheDocument()
     expect(

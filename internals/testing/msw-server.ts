@@ -25,10 +25,14 @@ import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json
 import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
-import standardTextDetailData from '../mocks/fixtures/standard-texts/standard-text-detail-data.json'
-import standardTextsNoResult from '../mocks/fixtures/standard-texts/standard-texts-no-result.json'
-import standardTextsPage2 from '../mocks/fixtures/standard-texts/standard-texts-page-two.json'
-import standardTexts from '../mocks/fixtures/standard-texts/standard-texts.json'
+import {
+  activeFilter,
+  multicaseFilter,
+  noResult,
+  page2,
+  standardTexts,
+  statusFilter,
+} from '../mocks/fixtures/standard-texts'
 import statusMessageTemplatesFixture from '../mocks/fixtures/status-message-templates.json'
 import usersFixture from '../mocks/fixtures/users.json'
 
@@ -155,17 +159,34 @@ const handlers = [
   rest.get(API.STANDARD_TEXTS_SEARCH_ENDPOINT, (req, res, ctx) => {
     const queryString = req.url.searchParams.get('q')
     const pageNumber = req.url.searchParams.get('page')
+    const status = req.url.searchParams.get('state')
+    const isActive = req.url.searchParams.get('active')
+
+    switch (status && isActive) {
+      case 'm' && 'true':
+        return res(ctx.status(200), ctx.json(multicaseFilter))
+    }
+
+    switch (status) {
+      case 'm':
+        return res(ctx.status(200), ctx.json(statusFilter))
+    }
+
+    switch (isActive) {
+      case 'true':
+        return res(ctx.status(200), ctx.json(activeFilter))
+    }
 
     switch (queryString) {
       case '15':
-        return res(ctx.status(200), ctx.json(standardTextsPage2))
+        return res(ctx.status(200), ctx.json(page2))
       case 'qwerty':
-        return res(ctx.status(200), ctx.json(standardTextsNoResult))
+        return res(ctx.status(200), ctx.json(noResult))
     }
 
     switch (pageNumber) {
       case '2':
-        return res(ctx.status(200), ctx.json(standardTextsPage2))
+        return res(ctx.status(200), ctx.json(page2))
       default:
         return res(ctx.status(200), ctx.json(standardTexts))
     }
@@ -230,7 +251,7 @@ const handlers = [
   ),
 
   rest.get(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(standardTextDetailData))
+    res(ctx.status(200), ctx.json(standardTexts))
   ),
 
   // PATCH
@@ -239,7 +260,7 @@ const handlers = [
   ),
 
   rest.patch(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(standardTextDetailData))
+    res(ctx.status(200), ctx.json(standardTexts))
   ),
 
   // POST

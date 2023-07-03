@@ -80,7 +80,7 @@ describe('Form component <GlobalError />', () => {
           extra_dieren_waar_dode_dieren: {
             message: {
               globalMessage:
-                'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.',
+                'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.',
             },
           },
         },
@@ -94,7 +94,7 @@ describe('Form component <GlobalError />', () => {
 
     expect(
       screen.getByText(
-        'U kunt het formulier niet verder invullen. Een andere instantie dan de Gemeente is verantwoordelijk voor uw melding.'
+        'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.'
       )
     ).toBeInTheDocument()
   })
