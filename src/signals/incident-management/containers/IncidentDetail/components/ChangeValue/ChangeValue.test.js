@@ -4,11 +4,11 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
 
+import { SelectSearch } from 'components/SelectSearch'
 import { withAppContext } from 'test/utils'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import ChangeValue from '.'
-import SelectInputSearch from '../../../../components/SelectInputSearch'
 import IncidentDetailContext from '../../context'
 
 const expectInitialState = async () => {
@@ -37,7 +37,7 @@ const otherKeyValue = 'otherKeyValue'
 const otherDescription = 'otherDescription'
 
 const props = {
-  component: SelectInputSearch,
+  component: SelectSearch,
   options: [
     {
       key: rawKey,

@@ -26,22 +26,29 @@ import type { SelectProps } from '../Select/Select'
 
 export const SelectSearch = ({
   id,
-  label,
   onChange,
-  value,
-  options,
+  name,
   optionKey = 'key',
   optionValue = 'value',
   optionName = 'name',
   groups,
-  emptyOption,
-  ...rest
+  values,
 }: SelectProps & {
+  values: SelectProps['options']
   onChange: (
     e: React.FormEvent<HTMLSelectElement>,
     options?: { triggerFormChange: boolean }
   ) => void
 }) => {
+  const options: SelectProps['options'] = values.map(
+    ({ key, value, group }) => ({
+      key: key || '',
+      name: value,
+      value: key || '',
+      group,
+    })
+  )
+
   const [isOpen, setIsOpen] = useState(false)
 
   const getOptionValueName = useCallback(
@@ -177,13 +184,7 @@ export const SelectSearch = ({
         </AbsoluteContentWrapper>
       </StyledInputWrapper>
       {isOpen && (
-        <OptionUl
-          ref={optionUlRef}
-          role="listbox"
-          data-testid={rest.name}
-          id={id}
-          {...rest}
-        >
+        <OptionUl ref={optionUlRef} role="listbox" data-testid={name} id={id}>
           {filteredGroups?.length === 0 && (
             <OptionLiGroup key="empty" role="group" aria-label="empty">
               {'Geen opties beschikbaar'}
@@ -209,7 +210,7 @@ export const SelectSearch = ({
                       option={option}
                       setCurrentFocus={setCurrentFocus}
                       focus={currentFocus}
-                      name={rest.name}
+                      name={name}
                       setInputActive={setIsInputActive}
                       allOptions={optionsOrderedByGroup}
                       onChange={(value) => {
