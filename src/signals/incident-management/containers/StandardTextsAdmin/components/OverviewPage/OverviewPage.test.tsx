@@ -43,7 +43,10 @@ describe('OverviewPage', () => {
     renderComponent()
 
     await waitFor(() => {
-      expect(screen.getByText('[FILTER]')).toBeInTheDocument()
+      expect(screen.getByText('Filter op status')).toBeInTheDocument()
+      expect(
+        screen.getByText('Filter op actief/non-actief')
+      ).toBeInTheDocument()
       expect(screen.getByText('Titel #1')).toBeInTheDocument()
       expect(screen.getByText('Titel #5')).toBeInTheDocument()
       expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
@@ -157,6 +160,56 @@ describe('OverviewPage', () => {
       await waitFor(() => {
         expect(screen.getByText('Titel #1')).toBeInTheDocument()
         expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('filter', () => {
+    it('should fetch new data when status filter changes', async () => {
+      renderComponent()
+
+      const statusGemeldOption = screen.getByRole('radio', { name: 'Gemeld' })
+
+      userEvent.click(statusGemeldOption)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #1')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #5')).not.toBeInTheDocument()
+      })
+    })
+
+    it('should fetch new data when active filter changes', async () => {
+      renderComponent()
+
+      const statusIsActiveOption = screen.getByRole('radio', { name: 'Actief' })
+
+      userEvent.click(statusIsActiveOption)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #1')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #3')).not.toBeInTheDocument()
+      })
+    })
+
+    it('should combine the filter as they change', async () => {
+      renderComponent()
+
+      const statusGemeldOption = screen.getByRole('radio', { name: 'Gemeld' })
+
+      userEvent.click(statusGemeldOption)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #12')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #5')).not.toBeInTheDocument()
+      })
+
+      const statusIsActiveOption = screen.getByRole('radio', { name: 'Actief' })
+
+      userEvent.click(statusIsActiveOption)
+
+      await waitFor(() => {
+        expect(screen.getByText('Titel #1')).toBeInTheDocument()
+        expect(screen.queryByText('Titel #12')).not.toBeInTheDocument()
       })
     })
   })

@@ -36,7 +36,7 @@ interface Option {
   value: string
 }
 
-interface RadioButtonOption extends Option {
+export interface RadioButtonOption extends Option {
   name?: string
   topic?: string
 }
