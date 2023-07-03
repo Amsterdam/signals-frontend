@@ -69,7 +69,7 @@ describe('StandardTextsField', () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       userEvent.selectOptions(selectElement, lastOption.value)
-      expect(selectElement).toHaveValue('Doorgezet naar extern')
+      expect(selectElement).toHaveValue('Geannuleerd')
       expect(
         screen.getByText('In afwachting van behandeling')
       ).toBeInTheDocument()
