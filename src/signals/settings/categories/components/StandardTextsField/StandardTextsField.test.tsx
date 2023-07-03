@@ -40,17 +40,17 @@ describe('StandardTextsField', () => {
     })
 
     await waitFor(() => {
-      expect(onchangeMock).toHaveBeenCalledTimes(1)
+      expect(onchangeMock).toHaveBeenCalledTimes(0)
     })
     userEvent.click(screen.getAllByTestId('down-button')[0])
 
     await waitFor(() => {
-      expect(onchangeMock).toHaveBeenCalledTimes(2)
+      expect(onchangeMock).toHaveBeenCalledTimes(1)
     })
     userEvent.click(screen.getAllByTestId('up-button')[1])
 
     await waitFor(() => {
-      expect(onchangeMock).toHaveBeenCalledTimes(3)
+      expect(onchangeMock).toHaveBeenCalledTimes(2)
     })
   })
 

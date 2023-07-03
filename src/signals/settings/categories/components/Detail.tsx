@@ -142,7 +142,9 @@ export const CategoryDetail = ({
 
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
 
-    patch(categoryURL, { ...payload })
+    if (Object.keys(payload).length === 0) {
+      patch(categoryURL, { ...payload })
+    }
 
     const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
       (defaultText: StandardText, index): StatusMessagesCategory => ({

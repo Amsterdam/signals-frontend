@@ -37,6 +37,7 @@ export const getPatchPayload = (
   delete payloadResult['n_days']
   delete payloadResult['use_calendar_days']
   delete payloadResult['show_children_in_filter']
+  delete payloadResult['standard_texts']
 
   return payloadResult
 }

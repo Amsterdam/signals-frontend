@@ -43,12 +43,6 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
     )
   }, [get, params.categoryId])
 
-  useEffect(() => {
-    if (orderedStandardTexts.length > 0) {
-      onChange(orderedStandardTexts)
-    }
-  }, [onChange, orderedStandardTexts])
-
   const updatePosition = useCallback(
     (index: number, direction: Direction) => {
       const orderedTexts = orderStandardTexts(
@@ -59,9 +53,10 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
 
       if (orderedTexts) {
         setOrderedStandardTexts([...orderedTexts])
+        onChange(orderedTexts)
       }
     },
-    [orderedStandardTexts]
+    [onChange, orderedStandardTexts]
   )
   useEffect(() => {
     if (data?.results) {
@@ -109,6 +104,7 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
             </TextWrapper>
             <ButtonWrapper>
               <StyledButton
+                type="button"
                 data-testid="up-button"
                 size={44}
                 variant="blank"
@@ -118,6 +114,7 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
                 onClick={() => updatePosition(index, Direction.Up)}
               />
               <StyledButton
+                type="button"
                 data-testid="down-button"
                 size={44}
                 variant="blank"
