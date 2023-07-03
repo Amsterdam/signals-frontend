@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+import type { StandardText } from '../../../types/api/standard-texts'
+
 export interface CategoryFormValues {
   description: string | null
   handling_message: string
@@ -11,7 +13,7 @@ export interface CategoryFormValues {
   public_name: string
   use_calendar_days: number
   show_children_in_filter?: boolean
-  standard_texts?: any[]
+  standard_texts?: StandardText[]
 }
 
 export interface CategoryFormPayload {
