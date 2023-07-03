@@ -4,6 +4,7 @@ import {
   themeColor,
   themeSpacing,
   SearchBar as AscSearchBar,
+  Label as AscLabel,
 } from '@amsterdam/asc-ui'
 import { breakpoint, CompactPager } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -14,10 +15,11 @@ export const Button = styled(ButtonComponent)`
   width: fit-content;
 `
 
-export const Label = styled.div`
-  font-size: 1rem;
+export const Label = styled(AscLabel)`
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: baseline;
   font-weight: 700;
-  margin-bottom: ${themeSpacing(3)};
 `
 
 export const P = styled.p`
@@ -42,6 +44,7 @@ export const Text = styled.span`
 
 export const SearchBar = styled(AscSearchBar)`
   margin-bottom: ${themeSpacing(8)};
+  width: 100%;
 `
 
 export const Grid = styled.div`

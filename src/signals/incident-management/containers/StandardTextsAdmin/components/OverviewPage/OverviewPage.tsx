@@ -99,13 +99,15 @@ export const OverviewPage = () => {
         </div>
 
         <div>
-          <Label>Zoek op standaardtekst</Label>
           <form onSubmit={onSearchSubmit}>
-            <SearchBar
-              value={''}
-              placeholder="Zoekterm"
-              onClear={() => setSearchQuery('')}
-            />
+            <Label htmlFor="Searchbar" label="Zoek op standaardtekst">
+              <SearchBar
+                id="Searchbar"
+                value={''}
+                placeholder="Zoekterm"
+                onClear={() => setSearchQuery('')}
+              />
+            </Label>
           </form>
           {data?.count === 0 && (
             <Span>
@@ -116,9 +118,9 @@ export const OverviewPage = () => {
 
           {isLoading && <LoadingIndicator />}
 
-          {data?.results.map((text) => {
-            return <Summary standardText={text} key={text.id} />
-          })}
+          {data?.results.map((text) => (
+            <Summary standardText={text} key={text.id} />
+          ))}
 
           {!isLoading && data && data.count > PAGE_SIZE && (
             <Pagination

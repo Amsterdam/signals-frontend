@@ -50,7 +50,7 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
       <Label as="span">Filter op actief/non-actief</Label>
       <RadioButtonList
         emptySelectionLabel="Alle"
-        groupName="Filter-on-active"
+        groupName="filter-on-active"
         options={activeOptions}
         onChange={onActiveChange}
       />
