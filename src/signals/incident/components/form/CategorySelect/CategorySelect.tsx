@@ -10,19 +10,18 @@ import { SelectSearch } from 'components/SelectSearch'
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
 import type { SubCategoryOption } from 'models/categories/selectors'
 
+import type { Meta, ParentMeta } from './types'
+
 const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `
 
-type Meta = {
-  name: string
-  updateIncident: (data: any) => void
-}
-
-interface Props {
+export interface Props {
   handler: () => { value: string }
   meta: Meta
-  parent: Record<any, any>
+  parent: {
+    meta: ParentMeta
+  }
 }
 
 const CategorySelect = ({ handler, meta, parent }: Props) => {

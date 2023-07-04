@@ -174,6 +174,12 @@ export const SelectSearch = ({
     !filteredOptions?.length && setFilteredOptions(values)
   }, [filteredOptions, values])
 
+  useEffect(() => {
+    if (isInputActive) {
+      inputRef.current?.focus()
+    }
+  }, [isInputActive])
+
   return (
     <SelectSearchWrapper ref={selectSearchWrapperRef}>
       <StyledInputWrapper>

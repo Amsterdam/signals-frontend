@@ -38,7 +38,7 @@ describe('<SelectSearch />', () => {
           group: 'politie',
         },
       ],
-      // value: '*',
+      value: '*',
       label: 'Foo',
     }
 
@@ -89,7 +89,7 @@ describe('<SelectSearch />', () => {
 
     const options = screen.getAllByRole('option')
 
-    // expect(options).toHaveLength(1)
+    expect(options).toHaveLength(1)
     expect(options[0].textContent).toEqual('Niet actief')
   })
 
