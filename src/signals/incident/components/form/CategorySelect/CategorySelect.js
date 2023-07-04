@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useState, useEffect } from 'react'
 
 import PropTypes from 'prop-types'
@@ -7,51 +7,44 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import InfoText from 'components/InfoText'
-import Select from 'components/Select'
+import { SelectSearch } from 'components/SelectSearch'
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
 
 const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `
 
-const emptyOption = {
-  key: '',
-  name: 'Selecteer subcategorie',
-  slug: '',
-  group: '',
-}
-
 const CategorySelect = ({ handler, meta, parent }) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(
     makeSelectSubcategoriesGroupedByCategories
   )
 
-  const { value } = handler()
-  const [info, setInfo] = useState()
+  const [assignedSubcategory, setAssignedSubcategory] = useState()
 
-  const getSubcategory = useCallback(
+  const { value } = handler()
+
+  const getSubcategoryBySlug = useCallback(
     (slug) => subcategoryOptions?.find((s) => s.slug === slug) || {},
     [subcategoryOptions]
   )
 
+  const getSubcategoryValue = useCallback(
+    (key) => {
+      return subcategoryOptions?.find((v) => v.key === key)
+    },
+    [subcategoryOptions]
+  )
+
   useEffect(() => {
-    const { description } = getSubcategory(value)
-    setInfo(description)
-  }, [value, getSubcategory])
+    const subcategory = getSubcategoryBySlug(value)
+    setAssignedSubcategory(subcategory)
+  }, [value, getSubcategoryBySlug])
 
   const handleChange = useCallback(
     (event) => {
-      const item = getSubcategory(event.target.value)
+      const item = getSubcategoryValue(event.target.value)
 
-      const {
-        id,
-        slug,
-        category_slug: category,
-        name,
-        description,
-        handling_message,
-      } = item
-      setInfo(description)
+      const { id, slug, category_slug: category, name, handling_message } = item
       parent.meta.updateIncident({
         category,
         subcategory: slug,
@@ -63,26 +56,29 @@ const CategorySelect = ({ handler, meta, parent }) => {
         handling_message,
       })
     },
-    [parent, getSubcategory]
+    [getSubcategoryValue, parent.meta]
   )
 
   return (
     <div>
-      {subcategoryOptions && (
-        <Select
+      {subcategoryOptions && subcategoryGroups && (
+        <SelectSearch
+          assignedCategory={assignedSubcategory?.name}
           id={meta.name}
-          aria-describedby={info && `info-${meta.name}`}
           name={meta.name}
-          value={value}
-          onChange={handleChange}
-          options={subcategoryOptions}
-          optionKey="slug"
-          optionValue="slug"
+          values={subcategoryOptions}
           groups={subcategoryGroups}
-          emptyOption={emptyOption}
+          onChange={handleChange}
+          autoFocus={false}
+          optionValue="key"
         />
       )}
-      {info && <StyledInfoText text={`${info}`} id={`info-${meta.name}`} />}
+      {assignedSubcategory?.info && (
+        <StyledInfoText
+          text={`${assignedSubcategory.info}`}
+          id={`info-${meta.name}`}
+        />
+      )}
     </div>
   )
 }

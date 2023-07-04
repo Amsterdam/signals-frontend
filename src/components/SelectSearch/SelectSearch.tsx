@@ -24,6 +24,17 @@ import {
 import { useRoveFocus } from '../../hooks/useRoveFocus'
 import type { SelectProps } from '../Select/Select'
 
+interface Props extends SelectProps {
+  autoFocus?: boolean
+  values: SelectProps['options']
+  placeholder?: string
+  assignedCategory: string
+  onChange: (
+    e: React.FormEvent<HTMLSelectElement>,
+    options?: { triggerFormChange: boolean }
+  ) => void
+}
+
 export const SelectSearch = ({
   id,
   onChange,
@@ -33,13 +44,9 @@ export const SelectSearch = ({
   optionName = 'name',
   groups,
   values,
-}: SelectProps & {
-  values: SelectProps['options']
-  onChange: (
-    e: React.FormEvent<HTMLSelectElement>,
-    options?: { triggerFormChange: boolean }
-  ) => void
-}) => {
+  assignedCategory = '',
+  autoFocus = true,
+}: Props) => {
   const options: SelectProps['options'] = values.map(
     ({ key, value, group }) => ({
       key: key || '',
@@ -59,7 +66,7 @@ export const SelectSearch = ({
   )
 
   const [inputValue, setInputValue] = useState('')
-  const [isInputActive, setIsInputActive] = useState(true)
+  const [isInputActive, setIsInputActive] = useState(false)
   const [filteredOptions, setFilteredOptions] = useState(options)
   const [filteredGroups, setFilteredGroups] = useState(groups)
   const { currentFocus, setCurrentFocus } = useRoveFocus(filteredOptions.length)
@@ -156,10 +163,16 @@ export const SelectSearch = ({
   )
 
   useEffect(() => {
-    if (isInputActive) {
-      inputRef.current?.focus()
-    }
-  }, [isInputActive])
+    assignedCategory && setInputValue(assignedCategory)
+  }, [assignedCategory])
+
+  useEffect(() => {
+    !filteredGroups?.length && setFilteredGroups(groups)
+  }, [filteredGroups, groups])
+
+  useEffect(() => {
+    !filteredOptions?.length && setFilteredOptions(values)
+  }, [filteredOptions, values])
 
   return (
     <SelectSearchWrapper ref={selectSearchWrapperRef}>
@@ -167,7 +180,7 @@ export const SelectSearch = ({
         <StyledInput
           ref={inputRef}
           autoComplete="off"
-          autoFocus={true}
+          autoFocus={autoFocus}
           onChange={onChangeInputHandler}
           onKeyDown={onKeydownInputHandler}
           onClick={(event) => {
@@ -177,7 +190,8 @@ export const SelectSearch = ({
           value={inputValue}
           id="combobox"
           role="combobox"
-          aria-label="Type om te zoeken"
+          aria-label="Typ om te zoeken"
+          placeholder="Typ om te zoeken"
         />
         <AbsoluteContentWrapper>
           {!isOpen && <SelectIcon />}
