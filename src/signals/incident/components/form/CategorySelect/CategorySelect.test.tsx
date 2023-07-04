@@ -118,4 +118,21 @@ describe('CategorySelect', () => {
 
     expect(screen.getByTestId('info-text')).toBeInTheDocument()
   })
+
+  it('should not update the incident when no category is found', async () => {
+    render(withAppContext(<CategorySelect {...defaultProps} />))
+
+    const inputElement = screen.getByRole('combobox', {
+      name: 'Typ om te zoeken',
+    })
+
+    userEvent.click(inputElement)
+    userEvent.type(inputElement, 'kaefbjhqbf')
+    userEvent.type(inputElement, '{ArrowDown}')
+    userEvent.type(inputElement, '{enter}')
+
+    expect(defaultProps.parent.meta.updateIncident).not.toHaveBeenCalled()
+
+    expect(defaultProps.parent.meta.updateIncident).toHaveBeenCalledTimes(0)
+  })
 })
