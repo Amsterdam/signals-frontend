@@ -10,6 +10,7 @@ import DescriptionInputRenderer from './DescriptionInputRenderer'
 import EmphasisCheckboxInput from './EmphasisCheckboxInput'
 import FileInputRenderer from './FileInputRenderer'
 import HandlingMessage from './HandlingMessage/HandlingMessage'
+import { QuestionHeader } from './Header'
 import HiddenInput from './HiddenInput'
 import LinkButton from './LinkButton'
 import MapInput from './MapInput'
@@ -24,7 +25,6 @@ import SelectInput from './SelectInput'
 import TextareaInput from './TextareaInput'
 import TextInput from './TextInput'
 import WithHeading from './WithHeading'
-import { QuestionHeader } from './Header'
 
 export default {
   AppNavigation,

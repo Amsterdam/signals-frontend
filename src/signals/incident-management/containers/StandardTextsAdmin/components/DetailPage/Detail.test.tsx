@@ -77,13 +77,19 @@ describe('Detail', () => {
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-      expect(mockNavigate).not.toBeCalled()
-
       userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
     })
     await waitFor(() => {
+      expect(mockNavigate).toBeCalledWith('..')
+    })
+  })
+
+  it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
+    render(withAppContext(<Detail />))
+
+    await waitFor(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
       expect(mockNavigate).toBeCalledWith('..')
     })
   })
@@ -112,7 +118,7 @@ describe('Detail', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
         method: 'get',
-        url: `${API.STANDARD_TEXTS_DETAILS_ENDPOINT}`,
+        url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
         status: 500,
         body: 'Something went wrong',
       })
@@ -146,7 +152,7 @@ describe('Detail', () => {
       mockRequestHandler({
         status: 200,
         method: 'get',
-        url: `${API.STANDARD_TEXTS_DETAILS_ENDPOINT}`,
+        url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
         body: mockErrorData,
       })
       render(withAppContext(<Detail />))

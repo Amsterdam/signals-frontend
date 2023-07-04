@@ -12,9 +12,9 @@ import { StyledErrorMessage } from './styled'
 
 export interface Props {
   name: string
-  error?: FieldError
   onChange: (strings: string[]) => void
   value: string[]
+  error?: FieldError
 }
 
 export const SelectedSubcategories = ({ error, value }: Props) => {
@@ -25,11 +25,9 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
 
     return value
       ?.map((id) => {
-        return subcategories?.find((sub) => {
-          return sub.fk == id
-        })
+        const sub = subcategories?.find((sub) => sub.fk == id)
+        return sub?.public_name ?? sub?.name
       })
-      .map((cat) => cat?.public_name ?? cat?.name)
       .filter(Boolean)
       .join(', ')
   }, [subcategories, value])

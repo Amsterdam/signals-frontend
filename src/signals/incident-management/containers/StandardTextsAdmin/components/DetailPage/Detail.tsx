@@ -33,7 +33,7 @@ import {
   StyledLabel,
   StyledTextArea,
 } from './styled'
-import type { StandardTextForm, StandardTextDetailData } from './types'
+import type { StandardTextDetailData, StandardTextForm } from './types'
 import { createPatch } from './utils'
 import { PageHeader } from '../PageHeader'
 import { SelectedSubcategories } from '../SelectedSubcategories'
@@ -92,13 +92,12 @@ export const Detail = () => {
   const onSubmit = useCallback(() => {
     const hasDirtyFields = Object.keys(formState.dirtyFields).length > 0
 
-    hasDirtyFields &&
-      patch(
-        `${configuration.STANDARD_TEXTS_ENDPOINT}${id}`,
-        createPatch(getValues(), formState.dirtyFields)
-      )
-
     !hasDirtyFields && navigate(redirectURL)
+
+    patch(
+      `${configuration.STANDARD_TEXTS_ENDPOINT}${id}`,
+      createPatch(getValues(), formState.dirtyFields)
+    )
   }, [formState.dirtyFields, getValues, id, navigate, patch])
 
   const handleOnCancel = () => {

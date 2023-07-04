@@ -12,7 +12,7 @@ type Props = {
   backLink?: ReactNode
   filter?: {
     name: string
-    options: Option
+    options: Option[]
   }
   className?: string
   subHeading?: string

@@ -255,20 +255,18 @@ const handlers = [
     res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
   ),
 
-  rest.get(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
+  rest.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(detail))
   ),
 
-  // PATCH
   rest.patch(API.INCIDENT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
-  rest.patch(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
+  rest.patch(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(detail))
   ),
 
-  // POST
   rest.post(API.QA_ANSWER, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(qaAnswerFixture))
   ),
@@ -289,8 +287,7 @@ const handlers = [
     res(ctx.status(200))
   ),
 
-  //DELETE
-  rest.delete(API.STANDARD_TEXTS_DETAILS_ENDPOINT, (_req, res, ctx) =>
+  rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(204), ctx.json(null))
   ),
 
