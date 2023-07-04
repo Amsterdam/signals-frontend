@@ -2,29 +2,41 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useState, useEffect } from 'react'
 
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import InfoText from 'components/InfoText'
 import { SelectSearch } from 'components/SelectSearch'
 import { makeSelectSubcategoriesGroupedByCategories } from 'models/categories/selectors'
+import type { SubCategoryOption } from 'models/categories/selectors'
 
 const StyledInfoText = styled(InfoText)`
   margin-bottom: 0;
 `
 
-const CategorySelect = ({ handler, meta, parent }) => {
+type Meta = {
+  name: string
+  updateIncident: (data: any) => void
+}
+
+interface Props {
+  handler: () => { value: string }
+  meta: Meta
+  parent: Record<any, any>
+}
+
+const CategorySelect = ({ handler, meta, parent }: Props) => {
   const [subcategoryGroups, subcategoryOptions] = useSelector(
     makeSelectSubcategoriesGroupedByCategories
   )
 
-  const [assignedSubcategory, setAssignedSubcategory] = useState()
+  const [assignedSubcategory, setAssignedSubcategory] =
+    useState<SubCategoryOption>()
 
   const { value } = handler()
 
   const getSubcategoryBySlug = useCallback(
-    (slug) => subcategoryOptions?.find((s) => s.slug === slug) || {},
+    (slug) => subcategoryOptions?.find((s) => s.slug === slug),
     [subcategoryOptions]
   )
 
@@ -37,12 +49,14 @@ const CategorySelect = ({ handler, meta, parent }) => {
 
   useEffect(() => {
     const subcategory = getSubcategoryBySlug(value)
-    setAssignedSubcategory(subcategory)
+    subcategory && setAssignedSubcategory(subcategory)
   }, [value, getSubcategoryBySlug])
 
   const handleChange = useCallback(
     (event) => {
       const item = getSubcategoryValue(event.target.value)
+
+      if (!item) return
 
       const { id, slug, category_slug: category, name, handling_message } = item
       parent.meta.updateIncident({
@@ -63,30 +77,25 @@ const CategorySelect = ({ handler, meta, parent }) => {
     <div>
       {subcategoryOptions && subcategoryGroups && (
         <SelectSearch
-          assignedCategory={assignedSubcategory?.name}
+          assignedCategory={assignedSubcategory?.name || ''}
+          autoFocus={false}
+          groups={subcategoryGroups}
           id={meta.name}
           name={meta.name}
-          values={subcategoryOptions}
-          groups={subcategoryGroups}
           onChange={handleChange}
-          autoFocus={false}
+          options={subcategoryOptions}
           optionValue="key"
+          values={subcategoryOptions}
         />
       )}
-      {assignedSubcategory?.info && (
+      {assignedSubcategory?.description && (
         <StyledInfoText
-          text={`${assignedSubcategory.info}`}
+          text={`${assignedSubcategory.description}`}
           id={`info-${meta.name}`}
         />
       )}
     </div>
   )
-}
-
-CategorySelect.propTypes = {
-  handler: PropTypes.func,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
 }
 
 export default CategorySelect
