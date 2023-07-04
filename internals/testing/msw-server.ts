@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import fetchMock from 'jest-fetch-mock'
-import { rest } from 'msw'
 import type { MockedRequest, ResponseResolver } from 'msw'
+import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -27,6 +27,7 @@ import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
 import {
   activeFilter,
+  detail,
   multicaseFilter,
   noResult,
   page2,
@@ -254,12 +255,18 @@ const handlers = [
     res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
   ),
 
-  // PATCH
+  rest.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(detail))
+  ),
+
   rest.patch(API.INCIDENT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(incidentFixture))
   ),
 
-  // POST
+  rest.patch(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(detail))
+  ),
+
   rest.post(API.QA_ANSWER, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(qaAnswerFixture))
   ),
@@ -278,6 +285,10 @@ const handlers = [
 
   rest.post(API.PUBLIC_INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
     res(ctx.status(200))
+  ),
+
+  rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(204), ctx.json(null))
   ),
 
   // FALLBACK

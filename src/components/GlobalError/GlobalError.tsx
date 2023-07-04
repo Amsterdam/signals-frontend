@@ -7,7 +7,7 @@ import { StyledErrorAlert } from './styled'
 import type { Meta } from '../../signals/incident/components/form/MapSelectors/types'
 
 type Props = {
-  meta?: Meta
+  meta?: Partial<Meta>
 }
 
 const GlobalError = ({ meta }: Props) => {

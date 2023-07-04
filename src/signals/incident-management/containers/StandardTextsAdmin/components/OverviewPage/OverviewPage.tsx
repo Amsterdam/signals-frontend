@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -41,6 +42,7 @@ export const OverviewPage = () => {
 
   const dispatch = useDispatch()
   const { page, setPage } = useStandardTextAdminContext()
+  const navigate = useNavigate()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
 
@@ -65,6 +67,10 @@ export const OverviewPage = () => {
 
     setSearchQuery(value)
   }, [])
+
+  const handleOnClick = (id: number) => {
+    navigate(`${id}`)
+  }
 
   useEffect(() => {
     fetchData()
@@ -119,7 +125,11 @@ export const OverviewPage = () => {
           {isLoading && <LoadingIndicator />}
 
           {data?.results.map((text) => (
-            <Summary standardText={text} key={text.id} />
+            <Summary
+              standardText={text}
+              key={text.id}
+              onClick={handleOnClick}
+            />
           ))}
 
           {!isLoading && data && data.count > PAGE_SIZE && (

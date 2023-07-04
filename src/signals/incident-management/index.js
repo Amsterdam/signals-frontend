@@ -39,6 +39,11 @@ const DefaultTextsAdmin = lazy(() => import('./containers/DefaultTextsAdmin'))
 // istanbul ignore next
 const StandardTextsAdmin = lazy(() => import('./containers/StandardTextsAdmin'))
 // istanbul ignore next
+
+const StandardTextsDetail = lazy(() =>
+  import('./containers/StandardTextsAdmin/components/DetailPage')
+)
+// istanbul ignore next
 const IncidentSplitContainer = lazy(() =>
   import('./containers/IncidentSplitContainer')
 )
@@ -106,10 +111,10 @@ const IncidentManagement = () => {
             <Route path={routes.defaultTexts} element={<DefaultTextsAdmin />} />
           )}
           {configuration.featureFlags.showStandardTextAdminV2 && (
-            <Route
-              path={routes.standardTexts}
-              element={<StandardTextsAdmin />}
-            />
+            <Route path={routes.standardTexts}>
+              <Route index element={<StandardTextsAdmin />} />
+              <Route path={`:id`} element={<StandardTextsDetail />} />
+            </Route>
           )}
           <Route path={routes.signaling} element={<SignalingContainer />} />
           <Route path={'/*'} element={<IncidentOverviewPage />} />
