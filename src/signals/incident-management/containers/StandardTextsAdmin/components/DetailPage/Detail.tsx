@@ -94,26 +94,26 @@ export const Detail = () => {
 
     hasDirtyFields &&
       patch(
-        `${configuration.STANDARD_TEXTS_DETAILS_ENDPOINT}${id}`,
+        `${configuration.STANDARD_TEXTS_ENDPOINT}${id}`,
         createPatch(getValues(), formState.dirtyFields)
       )
 
     !hasDirtyFields && navigate(redirectURL)
-  }, [formState.dirtyFields, getValues, id, patch])
+  }, [formState.dirtyFields, getValues, id, navigate, patch])
 
   const handleOnCancel = () => {
     navigate(redirectURL)
   }
 
   const handleOnDelete = () => {
-    del(`${configuration.STANDARD_TEXTS_DETAILS_ENDPOINT}${id}`)
+    del(`${configuration.STANDARD_TEXTS_ENDPOINT}${id}`)
   }
 
   useEffect(() => {
     id &&
       !data &&
       !isLoading &&
-      get(`${configuration.STANDARD_TEXTS_DETAILS_ENDPOINT}${id}`)
+      get(`${configuration.STANDARD_TEXTS_ENDPOINT}${id}`)
   }, [data, get, id, isLoading])
 
   useEffect(() => {
