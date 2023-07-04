@@ -20,9 +20,9 @@ import {
   INGEPLAND,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
 import type { Incident } from 'types/api/incident'
+import { StatusCode } from 'types/status-code'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 
 import StatusForm from '.'

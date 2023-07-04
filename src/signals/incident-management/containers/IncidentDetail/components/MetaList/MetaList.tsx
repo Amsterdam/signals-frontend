@@ -43,10 +43,10 @@ import {
 import statusList, {
   isStatusEnd,
 } from 'signals/incident-management/definitions/statusList'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Department } from 'types/api/incident'
+import type { StatusCode } from 'types/status-code'
 
 import IncidentDetailContext from '../../context'
 import type { Result, User } from '../../types'

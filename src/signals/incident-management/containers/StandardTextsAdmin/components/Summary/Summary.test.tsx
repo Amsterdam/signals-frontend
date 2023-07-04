@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import type { Props } from './Summary'
+
 import { Summary } from './Summary'
-import { StatusCode } from '../../../../definitions/types'
 
 const defaultProps: Props = {
   standardText: {

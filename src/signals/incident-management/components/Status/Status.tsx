@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 
 import styled from 'styled-components'
 
-import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { StatusCode } from 'types/status-code'
 import type { Theme } from 'types/theme'
 
 import { isStatusEnd } from '../../definitions/statusList'

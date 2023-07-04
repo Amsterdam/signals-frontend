@@ -3,9 +3,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { StatusCode } from 'signals/incident-management/definitions/types'
 import { withAppContext } from 'test/utils'
 import type { Geography } from 'types/api/geography'
+import { StatusCode } from 'types/status-code'
 
 import AreaMap from '..'
 import type { AreaMapProps } from '../AreaMap'

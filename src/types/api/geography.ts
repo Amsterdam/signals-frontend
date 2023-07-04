@@ -2,7 +2,7 @@
 // Copyright (C) 2021 Gemeente Amsterdam
 import type { Point, FeatureCollection } from 'geojson'
 
-import type { StatusCode } from 'signals/incident-management/definitions/types'
+import type { StatusCode } from '../status-code'
 
 export type Property = {
   id: number

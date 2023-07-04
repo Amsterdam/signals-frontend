@@ -15,8 +15,8 @@ import styled from 'styled-components'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { statusList } from 'signals/incident-management/definitions'
-import type { StatusCode } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
+import type { StatusCode } from 'types/status-code'
 
 import type { IncidentSummary } from '../types'
 

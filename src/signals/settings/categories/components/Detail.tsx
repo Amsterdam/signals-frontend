@@ -15,6 +15,8 @@ import { fetchCategories } from 'models/categories/actions'
 import configuration from 'shared/services/configuration/configuration'
 import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
+import type { StandardText } from 'types/api/standard-texts'
+import type { StatusMessagesCategory } from 'types/api/status-messages'
 import type { Category } from 'types/category'
 import type { History } from 'types/history'
 
@@ -52,6 +54,8 @@ export const CategoryDetail = ({
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch<Category>()
   const { get: historyGet, data: historyData } = useFetch<History[]>()
+  const { post: postStandardTextsCategory } =
+    useFetch<StatusMessagesCategory[]>()
 
   const responsibleDepartments = useMemo(
     () =>
@@ -137,8 +141,34 @@ export const CategoryDetail = ({
     const formData = formMethods.getValues()
 
     const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
-    patch(categoryURL, { ...payload })
-  }, [isDirty, formMethods, patch, categoryURL, navigate, redirectURL])
+
+    if (Object.keys(payload).length === 0) {
+      patch(categoryURL, { ...payload })
+    }
+
+    const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
+      (defaultText: StandardText, index): StatusMessagesCategory => ({
+        position: index,
+        status_message: defaultText.id,
+      })
+    )
+
+    if (payloadDefaultTexts) {
+      postStandardTextsCategory(
+        configuration.STANDARD_TEXTS_CATEGORY_ENDPOINT + categoryId,
+        payloadDefaultTexts
+      )
+    }
+  }, [
+    isDirty,
+    formMethods,
+    patch,
+    categoryURL,
+    postStandardTextsCategory,
+    categoryId,
+    navigate,
+    redirectURL,
+  ])
 
   if (!data || !historyData) return null
 

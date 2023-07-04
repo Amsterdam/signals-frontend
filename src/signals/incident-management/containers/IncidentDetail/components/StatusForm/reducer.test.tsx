@@ -5,7 +5,7 @@ import statusList, {
   GEMELD,
 } from 'signals/incident-management/definitions/statusList'
 import type { Status } from 'signals/incident-management/definitions/types'
-import { StatusCode } from 'signals/incident-management/definitions/types'
+import { StatusCode } from 'types/status-code'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import * as constants from './constants'

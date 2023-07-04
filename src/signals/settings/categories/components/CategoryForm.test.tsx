@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
 
 import { withAppContext } from 'test/utils'
 
 import type { Props } from './CategoryForm'
 import { CategoryForm } from './CategoryForm'
+import configuration from '../../../../shared/services/configuration/configuration'
 import type { CategoryFormValues } from '../types'
+
+jest.mock('shared/services/configuration/configuration')
 
 const mockFormValues = {
   description:
@@ -61,6 +64,12 @@ const Wrapper = (props: Partial<Props>) => {
 }
 
 describe('CategoryForm', () => {
+  beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    configuration.__reset()
+  })
+
   it('should render correct fields when subcategory', () => {
     render(<Wrapper />)
 
@@ -149,5 +158,17 @@ describe('CategoryForm', () => {
     expect(
       screen.queryByRole('button', { name: 'Annuleer' })
     ).not.toBeInTheDocument()
+  })
+
+  it('should render standard_texts when configuration.featureFlags.showStandardTextAdminV2 = true', async () => {
+    configuration.featureFlags.showStandardTextAdminV2 = true
+
+    render(<Wrapper />)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Standaardteksten per status')
+      ).toBeInTheDocument()
+    })
   })
 })

@@ -12,6 +12,7 @@ import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import type { History as HistoryType } from 'types/history'
 
+import StandardTextsField from './StandardTextsField'
 import {
   FieldGroup,
   StyledColumn,
@@ -25,6 +26,7 @@ import {
   StyledFormFooter,
   FormContainer,
 } from './styled'
+import configuration from '../../../../shared/services/configuration/configuration'
 import type { CategoryFormValues } from '../types'
 
 interface StatusOption {
@@ -259,6 +261,20 @@ export const CategoryForm = ({
                       )
                     }}
                   />
+                  {configuration.featureFlags.showStandardTextAdminV2 && (
+                    <Controller
+                      name="standard_texts"
+                      control={formMethods.control}
+                      render={({ field: { onChange, name } }) => (
+                        <FieldGroup>
+                          <StyledHeading>
+                            Standaardteksten per status
+                          </StyledHeading>
+                          <StandardTextsField onChange={onChange} name={name} />
+                        </FieldGroup>
+                      )}
+                    />
+                  )}
                 </>
               )}
             </div>
