@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Column, Row } from '@amsterdam/asc-ui'
+import { Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -29,6 +29,7 @@ import {
   Grid,
   LeftSection,
   RightSection,
+  StyledColumn,
   StyledFormFooter,
   StyledLabel,
   StyledTextArea,
@@ -149,7 +150,7 @@ export const Detail = () => {
   return (
     <Row>
       <FormProvider {...formMethods}>
-        <Column span={12}>
+        <StyledColumn span={12}>
           <GlobalError
             meta={{ label: 'De standaardtekst kan niet worden opgeslagen' }}
           />
@@ -159,7 +160,7 @@ export const Detail = () => {
               <BackLink to={redirectURL}>Terug naar overzicht</BackLink>
             }
           />
-        </Column>
+        </StyledColumn>
 
         {(isLoading || waitForTimeout) && <LoadingIndicator />}
 
