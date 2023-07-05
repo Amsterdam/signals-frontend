@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 
-import { Label, themeSpacing, themeColor } from '@amsterdam/asc-ui'
+import { Label, themeSpacing, themeColor, Column } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import FormFooter from 'components/FormFooter'
@@ -14,6 +14,7 @@ export const StyledFormFooter = styled(FormFooter)`
 
 export const StyledLabel = styled(Label)`
   font-weight: 400;
+  margin-top: -${themeSpacing(2.25)}; //first child has margin-top of 9px but distance to above element needs to be 24px
 `
 
 export const StyledTextArea = styled(TextArea)<{ showError: boolean }>`
@@ -49,4 +50,7 @@ export const RightSection = styled.div`
   > * {
     margin-bottom: ${themeSpacing(6)};
   }
+`
+export const StyledColumn = styled(Column)`
+  flex-direction: column;
 `
