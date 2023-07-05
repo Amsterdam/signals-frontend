@@ -54,8 +54,10 @@ export const CategoryDetail = ({
 
   const { isLoading, isSuccess, error, data, get, patch } = useFetch<Category>()
   const { get: historyGet, data: historyData } = useFetch<History[]>()
-  const { post: postStandardTextsCategory } =
-    useFetch<StatusMessagesCategory[]>()
+  const {
+    post: postStandardTextsCategory,
+    isSuccess: isSuccessPostStandardTextsCategory,
+  } = useFetch<StatusMessagesCategory[]>()
 
   const responsibleDepartments = useMemo(
     () =>
@@ -107,7 +109,7 @@ export const CategoryDetail = ({
     entityName,
     error,
     isLoading,
-    isSuccess,
+    isSuccess: isSuccess || isSuccessPostStandardTextsCategory,
     redirectURL,
   })
 
@@ -138,14 +140,6 @@ export const CategoryDetail = ({
       navigate(redirectURL)
     }
 
-    const formData = formMethods.getValues()
-
-    const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
-
-    if (Object.keys(payload).length === 0) {
-      patch(categoryURL, { ...payload })
-    }
-
     const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
       (defaultText: StandardText, index): StatusMessagesCategory => ({
         position: index,
@@ -158,6 +152,13 @@ export const CategoryDetail = ({
         configuration.STANDARD_TEXTS_CATEGORY_ENDPOINT + categoryId,
         payloadDefaultTexts
       )
+    }
+
+    const formData = formMethods.getValues()
+
+    const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
+    if (Object.keys(payload).length > 0) {
+      patch(categoryURL, { ...payload })
     }
   }, [
     isDirty,
