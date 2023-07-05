@@ -138,14 +138,6 @@ export const CategoryDetail = ({
       navigate(redirectURL)
     }
 
-    const formData = formMethods.getValues()
-
-    const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
-
-    if (Object.keys(payload).length === 0) {
-      patch(categoryURL, { ...payload })
-    }
-
     const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
       (defaultText: StandardText, index): StatusMessagesCategory => ({
         position: index,
@@ -158,6 +150,13 @@ export const CategoryDetail = ({
         configuration.STANDARD_TEXTS_CATEGORY_ENDPOINT + categoryId,
         payloadDefaultTexts
       )
+    }
+
+    const formData = formMethods.getValues()
+
+    const payload = getPatchPayload(formData, formMethods.formState.dirtyFields)
+    if (Object.keys(payload).length > 0) {
+      patch(categoryURL, { ...payload })
     }
   }, [
     isDirty,
