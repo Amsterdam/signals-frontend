@@ -2,27 +2,28 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState } from 'react'
 
-import { Row, Column } from '@amsterdam/asc-ui'
+import { Column, Row } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
+import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { useFetch } from 'hooks'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 
 import {
   Button,
+  Grid,
   Label,
   P,
   Pagination,
+  SearchBar,
   Span,
   Text,
-  SearchBar,
-  Grid,
 } from './styled'
+import routes from '../../../../routes'
 import { useStandardTextAdminContext } from '../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
@@ -68,7 +69,7 @@ export const OverviewPage = () => {
     setSearchQuery(value)
   }, [])
 
-  const handleOnClick = (id: number) => {
+  const handleOnClick = (id: number | string) => {
     navigate(`${id}`)
   }
 
@@ -101,7 +102,12 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <Button variant="secondary">Tekst toevoegen</Button>
+          <Button
+            variant="secondary"
+            onClick={() => handleOnClick(routes.standardTextsDetailNew)}
+          >
+            Tekst toevoegen
+          </Button>
         </div>
 
         <div>
