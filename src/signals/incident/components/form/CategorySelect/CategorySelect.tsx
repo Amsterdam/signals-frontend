@@ -39,7 +39,7 @@ const CategorySelect = ({ handler, meta, parent }: Props) => {
     [subcategoryOptions]
   )
 
-  const getSubcategoryValue = useCallback(
+  const getSubcategoryByValue = useCallback(
     (key) => {
       return subcategoryOptions?.find((v) => v.key === key)
     },
@@ -53,7 +53,7 @@ const CategorySelect = ({ handler, meta, parent }: Props) => {
 
   const handleChange = useCallback(
     (event) => {
-      const item = getSubcategoryValue(event.target.value)
+      const item = getSubcategoryByValue(event.target.value)
 
       if (!item) return
 
@@ -69,7 +69,7 @@ const CategorySelect = ({ handler, meta, parent }: Props) => {
         handling_message,
       })
     },
-    [getSubcategoryValue, parent.meta]
+    [getSubcategoryByValue, parent.meta]
   )
 
   return (
