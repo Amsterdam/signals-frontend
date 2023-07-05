@@ -19,7 +19,7 @@ import {
   requestIncidents,
   searchIncidents,
 } from './actions'
-import IncidentManagementContext from './context'
+import { IncidentManagementContext } from './context'
 import reducer from './reducer'
 import routes from './routes'
 import saga from './saga'

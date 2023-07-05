@@ -6,6 +6,8 @@ import { Filter } from './Filter'
 import type { Props } from './Filter'
 
 const mockDefaultProps: Props = {
+  currentActiveFilter: null,
+  currentStatusFilter: null,
   setActiveFilter: jest.fn(),
   setStatusFilter: jest.fn(),
 }

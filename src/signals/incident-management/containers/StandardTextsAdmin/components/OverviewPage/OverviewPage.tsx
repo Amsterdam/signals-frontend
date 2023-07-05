@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useEffect, useContext } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -23,7 +23,7 @@ import {
   SearchBar,
   Grid,
 } from './styled'
-import IncidentManagementContext from '../../../../context'
+import { useIncidentManagementContext } from '../../../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
 import { Summary } from '../Summary'
@@ -32,7 +32,7 @@ const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
   const dispatch = useDispatch()
-  const { standardTexts } = useContext(IncidentManagementContext)
+  const { standardTexts } = useIncidentManagementContext()
 
   const {
     page,
@@ -44,6 +44,7 @@ export const OverviewPage = () => {
     searchQuery,
     setSearchQuery,
   } = standardTexts
+
   const navigate = useNavigate()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()

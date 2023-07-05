@@ -1,6 +1,6 @@
 import type { StandardText } from 'types/api/standard-texts'
 
-interface Option {
+export interface Option {
   key: string
   value: string
 }

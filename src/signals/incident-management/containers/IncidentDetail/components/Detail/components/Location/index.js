@@ -13,7 +13,7 @@ import { locationType } from 'shared/types'
 import { stadsdeelList } from 'signals/incident-management/definitions'
 
 import MapDetail from '../../../../../../../../components/MapDetail'
-import IncidentManagementContext from '../../../../../../context'
+import { useIncidentManagementContext } from '../../../../../../context'
 import IncidentDetailContext from '../../../../context'
 import EditButton from '../../../EditButton'
 import HighLight from '../../../Highlight'
@@ -56,7 +56,7 @@ const StyledMap = styled(MapDetail)`
 `
 
 const Location = ({ location }) => {
-  const { districts } = useContext(IncidentManagementContext)
+  const { districts } = useIncidentManagementContext()
   const { preview, edit } = useContext(IncidentDetailContext)
   const { lat, lng } = featureToCoordinates(location.geometrie)
 

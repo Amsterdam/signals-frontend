@@ -6,6 +6,7 @@ import type { RadioButtonOption } from 'components/RadioButtonList'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import { Form } from './styled'
+import type { Option, StandardTextsAdminValue } from '../../types'
 
 const statusOptions = changeStatusOptionList.map((option) => ({
   key: option.key,
@@ -24,10 +25,10 @@ const activeOptions = [
 ]
 
 export interface Props {
-  setActiveFilter: (active: RadioButtonOption) => void
-  setStatusFilter: (filter: RadioButtonOption) => void
-  currentStatusFilter: any
-  currentActiveFilter: any
+  setActiveFilter: (active: Option) => void
+  setStatusFilter: (filter: Option) => void
+  currentStatusFilter: StandardTextsAdminValue['statusFilter']
+  currentActiveFilter: StandardTextsAdminValue['activeFilter']
 }
 
 export const Filter = ({
