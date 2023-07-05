@@ -24,24 +24,37 @@ import {
 import { useRoveFocus } from '../../hooks/useRoveFocus'
 import type { SelectProps } from '../Select/Select'
 
-export const SelectSearch = ({
-  id,
-  label,
-  onChange,
-  value,
-  options,
-  optionKey = 'key',
-  optionValue = 'value',
-  optionName = 'name',
-  groups,
-  emptyOption,
-  ...rest
-}: SelectProps & {
+interface Props extends SelectProps {
+  assignedCategory: string
+  autoFocus?: boolean
   onChange: (
     e: React.FormEvent<HTMLSelectElement>,
     options?: { triggerFormChange: boolean }
   ) => void
-}) => {
+  values: SelectProps['options']
+}
+
+export const SelectSearch = ({
+  assignedCategory = '',
+  autoFocus = true,
+  groups,
+  id,
+  name,
+  onChange,
+  optionKey = 'key',
+  optionName = 'name',
+  optionValue = 'value',
+  values,
+}: Props) => {
+  const options: SelectProps['options'] = values.map(
+    ({ key, value, group }) => ({
+      key: key || '',
+      name: value,
+      value: key || '',
+      group,
+    })
+  )
+
   const [isOpen, setIsOpen] = useState(false)
 
   const getOptionValueName = useCallback(
@@ -52,7 +65,7 @@ export const SelectSearch = ({
   )
 
   const [inputValue, setInputValue] = useState('')
-  const [isInputActive, setIsInputActive] = useState(true)
+  const [isInputActive, setIsInputActive] = useState(false)
   const [filteredOptions, setFilteredOptions] = useState(options)
   const [filteredGroups, setFilteredGroups] = useState(groups)
   const { currentFocus, setCurrentFocus } = useRoveFocus(filteredOptions.length)
@@ -149,6 +162,18 @@ export const SelectSearch = ({
   )
 
   useEffect(() => {
+    assignedCategory && setInputValue(assignedCategory)
+  }, [assignedCategory])
+
+  useEffect(() => {
+    !filteredGroups?.length && setFilteredGroups(groups)
+  }, [filteredGroups, groups])
+
+  useEffect(() => {
+    !filteredOptions?.length && setFilteredOptions(values)
+  }, [filteredOptions, values])
+
+  useEffect(() => {
     if (isInputActive) {
       inputRef.current?.focus()
     }
@@ -160,7 +185,7 @@ export const SelectSearch = ({
         <StyledInput
           ref={inputRef}
           autoComplete="off"
-          autoFocus={true}
+          autoFocus={autoFocus}
           onChange={onChangeInputHandler}
           onKeyDown={onKeydownInputHandler}
           onClick={(event) => {
@@ -170,20 +195,14 @@ export const SelectSearch = ({
           value={inputValue}
           id="combobox"
           role="combobox"
-          aria-label="Type om te zoeken"
+          placeholder="Zoek op subcategorie"
         />
         <AbsoluteContentWrapper>
           {!isOpen && <SelectIcon />}
         </AbsoluteContentWrapper>
       </StyledInputWrapper>
       {isOpen && (
-        <OptionUl
-          ref={optionUlRef}
-          role="listbox"
-          data-testid={rest.name}
-          id={id}
-          {...rest}
-        >
+        <OptionUl ref={optionUlRef} role="listbox" data-testid={name} id={id}>
           {filteredGroups?.length === 0 && (
             <OptionLiGroup key="empty" role="group" aria-label="empty">
               {'Geen opties beschikbaar'}
@@ -209,7 +228,7 @@ export const SelectSearch = ({
                       option={option}
                       setCurrentFocus={setCurrentFocus}
                       focus={currentFocus}
-                      name={rest.name}
+                      name={name}
                       setInputActive={setIsInputActive}
                       allOptions={optionsOrderedByGroup}
                       onChange={(value) => {
