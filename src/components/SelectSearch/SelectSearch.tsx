@@ -25,27 +25,26 @@ import { useRoveFocus } from '../../hooks/useRoveFocus'
 import type { SelectProps } from '../Select/Select'
 
 interface Props extends SelectProps {
-  autoFocus?: boolean
-  values: SelectProps['options']
-  placeholder?: string
   assignedCategory: string
+  autoFocus?: boolean
   onChange: (
     e: React.FormEvent<HTMLSelectElement>,
     options?: { triggerFormChange: boolean }
   ) => void
+  values: SelectProps['options']
 }
 
 export const SelectSearch = ({
-  id,
-  onChange,
-  name,
-  optionKey = 'key',
-  optionValue = 'value',
-  optionName = 'name',
-  groups,
-  values,
   assignedCategory = '',
   autoFocus = true,
+  groups,
+  id,
+  name,
+  onChange,
+  optionKey = 'key',
+  optionName = 'name',
+  optionValue = 'value',
+  values,
 }: Props) => {
   const options: SelectProps['options'] = values.map(
     ({ key, value, group }) => ({
@@ -196,8 +195,7 @@ export const SelectSearch = ({
           value={inputValue}
           id="combobox"
           role="combobox"
-          aria-label="Typ om te zoeken"
-          placeholder="Typ om te zoeken"
+          placeholder="Zoek op subcategorie"
         />
         <AbsoluteContentWrapper>
           {!isOpen && <SelectIcon />}
