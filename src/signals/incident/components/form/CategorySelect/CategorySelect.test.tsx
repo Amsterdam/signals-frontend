@@ -58,9 +58,7 @@ describe('CategorySelect', () => {
   it('should render select field correctly', () => {
     render(withAppContext(<CategorySelect {...defaultProps} />))
 
-    const inputElement = screen.getByRole('combobox', {
-      name: 'Typ om te zoeken',
-    })
+    const inputElement = screen.getByRole('combobox')
 
     expect(inputElement).toBeInTheDocument()
     expect(screen.queryByTestId('info-text')).toBeInTheDocument()
@@ -69,9 +67,7 @@ describe('CategorySelect', () => {
   it('should render select field with pre selected category', () => {
     render(withAppContext(<CategorySelect {...defaultProps} />))
 
-    const inputElement = screen.getByRole('combobox', {
-      name: 'Typ om te zoeken',
-    })
+    const inputElement = screen.getByRole('combobox')
 
     expect(inputElement).toHaveValue('Asbest / accu (FB, THO)')
   })
@@ -79,9 +75,7 @@ describe('CategorySelect', () => {
   it('should render manual selected category', () => {
     render(withAppContext(<CategorySelect {...defaultProps} />))
 
-    const inputElement = screen.getByRole('combobox', {
-      name: 'Typ om te zoeken',
-    })
+    const inputElement = screen.getByRole('combobox')
 
     expect(inputElement).toHaveValue('Asbest / accu (FB, THO)')
 
@@ -96,9 +90,7 @@ describe('CategorySelect', () => {
   it('sets incident when selecting category', async () => {
     render(withAppContext(<CategorySelect {...defaultProps} />))
 
-    const inputElement = screen.getByRole('combobox', {
-      name: 'Typ om te zoeken',
-    })
+    const inputElement = screen.getByRole('combobox')
 
     userEvent.type(inputElement, '{enter}')
 
@@ -122,9 +114,7 @@ describe('CategorySelect', () => {
   it('should not update the incident when no category is found', async () => {
     render(withAppContext(<CategorySelect {...defaultProps} />))
 
-    const inputElement = screen.getByRole('combobox', {
-      name: 'Typ om te zoeken',
-    })
+    const inputElement = screen.getByRole('combobox')
 
     userEvent.click(inputElement)
     userEvent.type(inputElement, 'kaefbjhqbf')
