@@ -26,9 +26,16 @@ const activeOptions = [
 export interface Props {
   setActiveFilter: (active: RadioButtonOption) => void
   setStatusFilter: (filter: RadioButtonOption) => void
+  currentStatusFilter: any
+  currentActiveFilter: any
 }
 
-export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
+export const Filter = ({
+  setStatusFilter,
+  setActiveFilter,
+  currentStatusFilter,
+  currentActiveFilter,
+}: Props) => {
   const onStatusChange = (_groupName: string, option: RadioButtonOption) => {
     setStatusFilter(option)
   }
@@ -45,6 +52,7 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
         groupName="filter-status"
         options={statusOptions}
         onChange={onStatusChange}
+        defaultValue={currentStatusFilter?.key}
       />
 
       <Label as="span">Filter op actief/non-actief</Label>
@@ -53,6 +61,7 @@ export const Filter = ({ setStatusFilter, setActiveFilter }: Props) => {
         groupName="filter-on-active"
         options={activeOptions}
         onChange={onActiveChange}
+        defaultValue={currentActiveFilter?.key}
       />
     </Form>
   )

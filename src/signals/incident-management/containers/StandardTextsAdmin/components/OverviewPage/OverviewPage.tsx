@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useContext } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
@@ -23,25 +23,27 @@ import {
   SearchBar,
   Grid,
 } from './styled'
-import { useStandardTextAdminContext } from '../../context'
+import IncidentManagementContext from '../../../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
 import { Summary } from '../Summary'
 
-interface Option {
-  key: string
-  value: string
-}
-
 const PAGE_SIZE = 15
 
 export const OverviewPage = () => {
-  const [statusFilter, setStatusFilter] = useState<Option>()
-  const [activeFilter, setActiveFilter] = useState<Option>()
-  const [searchQuery, setSearchQuery] = useState<string>()
-
   const dispatch = useDispatch()
-  const { page, setPage } = useStandardTextAdminContext()
+  const { standardTexts } = useContext(IncidentManagementContext)
+
+  const {
+    page,
+    setPage,
+    statusFilter,
+    setStatusFilter,
+    activeFilter,
+    setActiveFilter,
+    searchQuery,
+    setSearchQuery,
+  } = standardTexts
   const navigate = useNavigate()
 
   const { get, data, isLoading, error } = useFetch<StandardTextsData>()
@@ -61,12 +63,15 @@ export const OverviewPage = () => {
     [activeFilter, get, searchQuery, statusFilter, setPage]
   )
 
-  const onSearchSubmit = useCallback((event) => {
-    event.preventDefault()
-    const { value } = event.target.querySelector('input')
+  const onSearchSubmit = useCallback(
+    (event) => {
+      event.preventDefault()
+      const { value } = event.target.querySelector('input')
 
-    setSearchQuery(value)
-  }, [])
+      setSearchQuery(value)
+    },
+    [setSearchQuery]
+  )
 
   const handleOnClick = (id: number) => {
     navigate(`${id}`)
@@ -98,6 +103,8 @@ export const OverviewPage = () => {
       <Grid>
         <div>
           <Filter
+            currentStatusFilter={statusFilter}
+            currentActiveFilter={activeFilter}
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
@@ -109,7 +116,7 @@ export const OverviewPage = () => {
             <Label htmlFor="Searchbar" label="Zoek op standaardtekst">
               <SearchBar
                 id="Searchbar"
-                value={''}
+                value={searchQuery}
                 placeholder="Zoekterm"
                 onClear={() => setSearchQuery('')}
               />
