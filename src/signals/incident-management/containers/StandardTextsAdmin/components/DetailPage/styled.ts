@@ -14,7 +14,6 @@ export const StyledFormFooter = styled(FormFooter)`
 
 export const StyledLabel = styled(Label)`
   font-weight: 400;
-  margin-top: -${themeSpacing(2.25)}; //first child has margin-top of 9px but distance to above element needs to be 24px
 `
 
 export const StyledTextArea = styled(TextArea)<{ showError: boolean }>`
@@ -53,4 +52,5 @@ export const RightSection = styled.div`
 `
 export const StyledColumn = styled(Column)`
   flex-direction: column;
+  margin-top: ${themeSpacing(1)};
 `
