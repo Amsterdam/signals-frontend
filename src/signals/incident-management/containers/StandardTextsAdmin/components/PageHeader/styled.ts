@@ -6,7 +6,6 @@ import styled, { css } from 'styled-components'
 export const StyledSection = styled.section<{ hasBackLink: boolean }>`
   contain: content;
   padding-top: ${themeSpacing(6)};
-  padding-bottom: ${themeSpacing(3)};
   margin-bottom: ${themeSpacing(5)};
 
   ${({ hasBackLink }) =>
