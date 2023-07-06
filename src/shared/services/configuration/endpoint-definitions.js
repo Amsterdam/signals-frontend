@@ -94,7 +94,8 @@ export default {
     '/signals/v1/private/status-messages/category/',
   // Private. Used by the incident management module to retrieve and query standard texts.
   STANDARD_TEXTS_ENDPOINT: '/signals/v1/private/status-messages/',
-  // Private. Used by the incident management module to retrieve and search standard texts, to patch updated data or to delete a standard text..
+  // Private. Used by the incident management module to retrieve and search standard texts, to patch updated data, post
+  // a new standard text or to delete a standard text.
   STANDARD_TEXTS_SEARCH_ENDPOINT: '/signals/v1/private/status-messages/search',
   // Private. No swagger documentation available.
   TERMS_ENDPOINT: '/signals/v1/private/terms/categories/',
