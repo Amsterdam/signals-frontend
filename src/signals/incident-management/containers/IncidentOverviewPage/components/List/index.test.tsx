@@ -21,7 +21,7 @@ import incidents from 'utils/__tests__/fixtures/incidents.json'
 import users from 'utils/__tests__/fixtures/users.json'
 
 import List, { getDaysOpen } from '.'
-import IncidentManagementContext from '../../../../context'
+import { IncidentManagementContext } from '../../../../context'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -32,9 +32,23 @@ jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 jest.mock('shared/services/configuration/configuration')
 
+const mockProviderValue = {
+  districts,
+  standardTexts: {
+    page: 1,
+    setPage: jest.fn(),
+    statusFilter: null,
+    setStatusFilter: jest.fn(),
+    activeFilter: null,
+    setActiveFilter: jest.fn(),
+    searchQuery: '',
+    setSearchQuery: jest.fn(),
+  },
+}
+
 const withContext = (Component: JSX.Element) =>
   withAppContext(
-    <IncidentManagementContext.Provider value={{ districts }}>
+    <IncidentManagementContext.Provider value={mockProviderValue}>
       {Component}
     </IncidentManagementContext.Provider>
   )

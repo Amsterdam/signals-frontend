@@ -23,7 +23,7 @@ import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 
 import AppContext from '../../../../containers/App/context'
-import IncidentManagementContext from '../../context'
+import { useIncidentManagementContext } from '../../context'
 
 const StyledTag = styled(Tag)`
   display: inline-block;
@@ -121,7 +121,7 @@ export const FilterTagListComponent = (props) => {
     routingDepartments,
   } = props
   const { sources } = useContext(AppContext)
-  const { districts } = useContext(IncidentManagementContext)
+  const { districts } = useIncidentManagementContext()
 
   const map = {
     ...dataLists,

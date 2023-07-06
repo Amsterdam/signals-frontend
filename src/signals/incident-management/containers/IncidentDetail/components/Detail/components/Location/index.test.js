@@ -7,7 +7,7 @@ import { withAppContext } from 'test/utils'
 import districts from 'utils/__tests__/fixtures/districts.json'
 
 import Location from '.'
-import IncidentManagementContext from '../../../../../../context'
+import { IncidentManagementContext } from '../../../../../../context'
 import IncidentDetailContext from '../../../../context'
 
 jest.mock('shared/services/configuration/configuration')

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import { lazy, Suspense, useEffect, useMemo } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
@@ -19,7 +19,7 @@ import {
   requestIncidents,
   searchIncidents,
 } from './actions'
-import IncidentManagementContext from './context'
+import { IncidentManagementContext } from './context'
 import reducer from './reducer'
 import routes from './routes'
 import saga from './saga'
@@ -53,15 +53,29 @@ const AreaContainer = lazy(() => import('./containers/AreaContainer'))
 const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
 
 const IncidentManagement = () => {
-  // const location = useLocationReferrer()
   const districts = useSelector(makeSelectDistricts)
-  const searchQuery = useSelector(makeSelectSearchQuery)
+  const searchQueryIncidents = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
+  const [page, setPage] = useState(1)
+  const [statusFilter, setStatusFilter] = useState()
+  const [activeFilter, setActiveFilter] = useState()
+  const [searchQuery, setSearchQuery] = useState('')
+
   const contextValue = useMemo(
     () => ({
       districts,
+      standardTexts: {
+        page,
+        setPage,
+        statusFilter,
+        setStatusFilter,
+        activeFilter,
+        setActiveFilter,
+        searchQuery,
+        setSearchQuery,
+      },
     }),
-    [districts]
+    [activeFilter, districts, page, searchQuery, statusFilter]
   )
 
   useEffect(() => {
@@ -69,8 +83,8 @@ const IncidentManagement = () => {
     // when the current session has not been authenticated
     if (!getIsAuthenticated()) return
 
-    if (searchQuery) {
-      dispatch(searchIncidents(searchQuery))
+    if (searchQueryIncidents) {
+      dispatch(searchIncidents(searchQueryIncidents))
     } else {
       dispatch(requestIncidents())
     }
@@ -80,7 +94,7 @@ const IncidentManagement = () => {
     }
 
     dispatch(getFilters())
-  }, [dispatch, searchQuery])
+  }, [dispatch, searchQueryIncidents])
 
   if (!getIsAuthenticated()) {
     return (
