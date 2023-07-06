@@ -94,7 +94,6 @@ const CategoryLists = ({ onCancel, onSubmit }) => {
     },
     [categories, dispatch]
   )
-
   return (
     <Row data-testid="category-lists">
       <Form>

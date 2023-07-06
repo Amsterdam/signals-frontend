@@ -11,12 +11,12 @@ import { createStructuredSelector } from 'reselect'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { showGlobalNotification as showGlobalNotificationAction } from 'containers/App/actions'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchRole, saveRole, resetResponse } from 'models/roles/actions'
 import { rolesModelSelector } from 'models/roles/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
 
 import RoleForm from './components/RoleForm'
@@ -73,6 +73,7 @@ export const RoleFormContainer = ({
   return (
     <Fragment>
       <PageHeader
+        dataTestId={'settings-page-header'}
         title={title}
         BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
       />

@@ -1,40 +1,67 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+import type { ReactNode } from 'react'
 
-import { Heading, Paragraph, themeSpacing } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import { Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
+
+const StyledSection = styled.section<{ hasBackLink: boolean }>`
+  contain: content;
+  padding-top: ${themeSpacing(6)};
+  padding-bottom: ${themeSpacing(3)};
+  margin-bottom: ${themeSpacing(5)};
+
+  ${({ hasBackLink }) =>
+    hasBackLink &&
+    css`
+      h1 {
+        margin-top: ${themeSpacing(3)};
+      }
+    `}
+`
 
 const StyledHeading = styled(Heading)`
   margin: 0;
+  line-height: 44px;
 `
 
-const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
+const StyledHeadingWrapper = styled.div`
+  flex-basis: 100%;
 `
 
-const SubTitle = styled(Paragraph)`
-  margin: ${themeSpacing(3)} 0;
-`
-
-interface PageHeaderProps {
-  className?: string
-  subTitle?: string
+type Props = {
   title: string
+  children?: ReactNode
+  BackLink?: ReactNode
+  filter?: {
+    name: string
+    options: any
+  }
+  className?: string
+  subHeading?: string
+  dataTestId?: string
 }
 
-const PageHeader: FunctionComponent<PageHeaderProps> = ({
+const PageHeader = ({
+  BackLink,
   className,
-  subTitle,
+  children,
   title,
-}) => (
-  <Section className={className}>
-    <StyledHeading>{title}</StyledHeading>
-    {subTitle && <SubTitle>{subTitle}</SubTitle>}
-  </Section>
+  dataTestId = 'settings-page-header',
+}: Props) => (
+  <StyledSection
+    data-testid={dataTestId}
+    className={className}
+    hasBackLink={Boolean(BackLink)}
+  >
+    <Row>
+      <StyledHeadingWrapper>
+        {BackLink}
+        <StyledHeading>{title}</StyledHeading>
+      </StyledHeadingWrapper>
+      {children}
+    </Row>
+  </StyledSection>
 )
 
 export default PageHeader

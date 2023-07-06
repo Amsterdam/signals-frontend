@@ -43,6 +43,13 @@ export const Form = styled.form`
   width: 100%;
 `
 
+export const GlobalErrorWrapper = styled.div`
+  width: 100%;
+  > p {
+    width: 100%;
+  }
+`
+
 export const LeftSection = styled.div``
 
 export const RightSection = styled.div`

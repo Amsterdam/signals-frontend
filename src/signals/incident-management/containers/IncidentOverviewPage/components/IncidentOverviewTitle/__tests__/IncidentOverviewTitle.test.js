@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import IncidentOverviewTitleContainer, { IncidentOverviewTitle } from '..'
+import IncidentOverviewTitleContainer, { IncidentOverviewTitle } from '../index'
 
 describe('containers/IncidentOverviewTitle', () => {
   const filter = { name: '' }

@@ -5,4 +5,5 @@ import type { Category } from '../category'
 export default interface SubCategory extends Category {
   parentKey: string
   value: string
+  fk?: number | string
 }

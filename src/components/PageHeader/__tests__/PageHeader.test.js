@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import PageHeader from '..'
+import PageHeader from '../index'
 
 describe('settings/components/PageHeader', () => {
   it('renders correctly', () => {

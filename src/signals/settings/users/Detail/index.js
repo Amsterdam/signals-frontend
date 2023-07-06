@@ -9,10 +9,10 @@ import styled from 'styled-components'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
-import PageHeader from 'signals/settings/components/PageHeader'
 import useConfirmedCancel from 'signals/settings/hooks/useConfirmedCancel'
 import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification'
 import routes from 'signals/settings/routes'
@@ -82,6 +82,7 @@ const UserDetail = () => {
   return (
     <Fragment>
       <PageHeader
+        dataTestId={'settings-page-header'}
         title={title}
         BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
       />

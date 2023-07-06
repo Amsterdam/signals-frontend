@@ -10,9 +10,9 @@ import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { rolesModelSelector } from 'models/roles/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import { ROLE_URL } from 'signals/settings/routes'
 
 import RolesList from './components/RolesList'

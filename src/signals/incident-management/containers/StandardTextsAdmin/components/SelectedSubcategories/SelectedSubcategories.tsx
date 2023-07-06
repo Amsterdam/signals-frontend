@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 
 import type { FieldError } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import Button from 'components/Button'
 import { makeSelectSubCategories } from 'models/categories/selectors'
@@ -12,9 +13,9 @@ import { StyledErrorMessage } from './styled'
 
 export interface Props {
   name: string
-  onChange: (strings: string[]) => void
   value: string[]
   error?: FieldError
+  onChange?: (strings: string[]) => void
 }
 
 export const SelectedSubcategories = ({ error, value }: Props) => {
@@ -25,7 +26,7 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
 
     return value
       ?.map((id) => {
-        const sub = subcategories?.find((sub) => sub.fk == id)
+        const sub = subcategories.find((sub) => sub.fk == id)
         return sub?.public_name ?? sub?.name
       })
       .filter(Boolean)
@@ -37,9 +38,11 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
       {error?.message && (
         <StyledErrorMessage id="textareaErrorMessage" message={error.message} />
       )}
-      <Button variant="secondary" type="button">
-        Selecteer subcategorie(ën)
-      </Button>
+      <Link to="./subcategories">
+        <Button variant="secondary" type="button">
+          Selecteer subcategorie(ën)
+        </Button>
+      </Link>
 
       <p>{checkedSubcategories}</p>
     </span>

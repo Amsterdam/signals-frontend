@@ -8,7 +8,6 @@ import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
-import PageHeader from 'components/PageHeader'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import * as types from 'shared/types'
 import {
@@ -16,7 +15,8 @@ import {
   makeSelectIncidentsCount,
 } from 'signals/incident-management/selectors'
 
-import Refresh from '../../images/icon-refresh.svg'
+import Refresh from '../../../../../../images/icon-refresh.svg'
+import PageHeader from '../PageHeader'
 
 const RefreshIcon = styled(Refresh).attrs({
   height: 30,

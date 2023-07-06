@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import PageHeader from '..'
+import PageHeader from '../index'
 
 describe('components/PageHeader', () => {
   it('renders required elements', () => {

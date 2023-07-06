@@ -11,8 +11,8 @@ import {
 } from '@amsterdam/asc-assets'
 import { CompactThemeProvider, Row } from '@amsterdam/asc-ui'
 
+import PageHeader from 'components/PageHeader'
 import configuration from 'shared/services/configuration/configuration'
-import PageHeader from 'signals/settings/components/PageHeader'
 import {
   USERS_URL,
   ROLES_URL,

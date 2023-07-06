@@ -12,7 +12,6 @@ import { mockSubcategory } from '../../_test_/mock-subcategories'
 
 const defaultProps: Props = {
   name: 'selectedSubcategories',
-  onChange: jest.fn(),
   value: ['4', '79'],
 }
 
@@ -34,7 +33,6 @@ describe('SelectedSubcategories', () => {
     const errorProps: Props = {
       name: 'selectedSubcategories',
       error: { type: 'something', message: 'Vul de subcategorie(ën) in.' },
-      onChange: jest.fn(),
       value: ['4', '79'],
     }
 
