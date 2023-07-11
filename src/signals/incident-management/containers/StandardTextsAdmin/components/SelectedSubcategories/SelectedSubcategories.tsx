@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import Button from 'components/Button'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 
-import { StyledErrorMessage } from './styled'
+import { StyledErrorMessage, StyledP } from './styled'
 
 export interface Props {
   name: string
@@ -44,7 +44,7 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
         </Button>
       </Link>
 
-      <p>{checkedSubcategories}</p>
+      <StyledP>{checkedSubcategories}</StyledP>
     </span>
   )
 }

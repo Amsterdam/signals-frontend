@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { Fragment, useMemo, useCallback, useEffect } from 'react'
 
+import { Row } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -175,11 +176,13 @@ export const CategoryDetail = ({
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
+        />
+      </Row>
 
       {isLoading && <LoadingIndicator />}
 

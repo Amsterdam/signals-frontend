@@ -107,6 +107,45 @@ describe('SubCategories', () => {
       expect(navigateMock).toBeCalledWith('../')
     })
 
+    it('click the "Alles selecteren", save the selections, and then navigate back', async () => {
+      render(
+        withAppContext(<Subcategories onChange={onChangeMock} value={[]} />)
+      )
+
+      userEvent.click(screen.getAllByText('Alles selecteren')[0])
+
+      act(() => {
+        jest.runAllTimers()
+      })
+
+      userEvent.click(screen.getByTestId('submit-btn'))
+
+      expect(onChangeMock).toBeCalledWith([131])
+      expect(navigateMock).toBeCalledWith('../')
+    })
+
+    it('should select all and deselect all checkboxes', async () => {
+      render(
+        withAppContext(<Subcategories onChange={onChangeMock} value={[]} />)
+      )
+
+      userEvent.click(screen.getAllByText('Alles selecteren')[0])
+
+      act(() => {
+        jest.runAllTimers()
+      })
+
+      expect(screen.queryAllByRole('checkbox')[0]).toBeChecked()
+
+      userEvent.click(screen.getAllByText('Niets selecteren')[0])
+
+      act(() => {
+        jest.runAllTimers()
+      })
+
+      expect(screen.queryAllByRole('checkbox')[0]).not.toBeChecked()
+    })
+
     it('should go back when clicking backlink', () => {
       render(
         withAppContext(<Subcategories onChange={onChangeMock} value={[]} />)

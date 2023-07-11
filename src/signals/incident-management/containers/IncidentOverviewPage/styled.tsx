@@ -18,6 +18,11 @@ export const TitleRow = styled.div`
   width: 100%;
   margin-top: ${themeSpacing(6)};
   margin-bottom: ${themeSpacing(3)};
+  & > section {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0;
+  }
 `
 
 export const StyledButton = styled(Button)`

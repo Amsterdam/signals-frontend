@@ -8,6 +8,7 @@ import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
+import PageHeader from 'components/PageHeader'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import * as types from 'shared/types'
 import {
@@ -15,8 +16,8 @@ import {
   makeSelectIncidentsCount,
 } from 'signals/incident-management/selectors'
 
+import { SubTitle } from './styled'
 import Refresh from '../../../../../../images/icon-refresh.svg'
-import PageHeader from '../PageHeader'
 
 const RefreshIcon = styled(Refresh).attrs({
   height: 30,
@@ -50,8 +51,11 @@ export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
     () => query && `Zoekresultaten voor "${query}"`,
     [query]
   )
-
-  return <PageHeader title={headerTitle} subTitle={subTitle} />
+  return (
+    <PageHeader title={headerTitle}>
+      {subTitle && <SubTitle>{subTitle}</SubTitle>}
+    </PageHeader>
+  )
 }
 
 IncidentOverviewTitle.defaultProps = {

@@ -14,3 +14,8 @@ export const CategoryColumns = styled.div`
     column-gap: 100px;
   }
 `
+
+export const StyledUnderline = styled.p`
+  margin: ${themeSpacing(6)} 0 0;
+  font-weight: 700;
+`

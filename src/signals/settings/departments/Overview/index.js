@@ -61,13 +61,14 @@ const DepartmentOverview = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={`Afdelingen${
-          departments.count ? ` (${departments.count})` : ''
-        }`}
-      />
-
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={`Afdelingen${
+            departments.count ? ` (${departments.count})` : ''
+          }`}
+        />
+      </Row>
       <Row>
         {departments.loading && <LoadingIndicator />}
 

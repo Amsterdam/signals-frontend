@@ -8,3 +8,8 @@ import ErrorMessage from 'components/ErrorMessage'
 export const StyledErrorMessage = styled(ErrorMessage)`
   margin-bottom: ${themeSpacing(2)};
 `
+
+export const StyledP = styled.p`
+  max-height: 12rem;
+  overflow-y: auto;
+`

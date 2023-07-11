@@ -2,6 +2,7 @@
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect } from 'react'
 
+import { Row } from '@amsterdam/asc-ui'
 import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 import { useParams, useLocation } from 'react-router-dom'
@@ -81,11 +82,13 @@ const UserDetail = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
+        />
+      </Row>
 
       {isLoading && <LoadingIndicator />}
 

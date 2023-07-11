@@ -56,14 +56,16 @@ const Overview: FunctionComponent<Props> = ({ showItems }) => {
 
   return (
     <CompactThemeProvider>
-      <PageHeader title="Instellingen">
-        <StyledVersionNumbers>
-          {`
+      <Row>
+        <PageHeader title="Instellingen">
+          <StyledVersionNumbers>
+            {`
             Versienummer frontend: ${process.env.FRONTEND_TAG}
             Versienummer backend: ${data?.version}
           `}
-        </StyledVersionNumbers>
-      </PageHeader>
+          </StyledVersionNumbers>
+        </PageHeader>
+      </Row>
       <Row>
         <Wrapper>
           {showItems.users && (

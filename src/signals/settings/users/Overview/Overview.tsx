@@ -167,13 +167,15 @@ const UsersOverviewContainer = () => {
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
   return (
     <Fragment>
-      <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
-        {userCan('add_user') && (
-          <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
-            Gebruiker toevoegen
-          </HeaderButton>
-        )}
-      </PageHeader>
+      <Row>
+        <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
+          {userCan('add_user') && (
+            <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
+              Gebruiker toevoegen
+            </HeaderButton>
+          )}
+        </PageHeader>
+      </Row>
 
       <Row data-testid="usersOverview">
         {isLoading && <LoadingIndicator />}

@@ -72,11 +72,13 @@ export const RoleFormContainer = ({
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
+        />
+      </Row>
       <Row>
         <Column span={12}>
           {loading || loadingPermissions ? (

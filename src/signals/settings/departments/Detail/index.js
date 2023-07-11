@@ -68,13 +68,15 @@ export const DepartmentDetailContainer = ({
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={title}
-        BackLink={
-          <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
-        }
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={
+            <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
+          }
+        />
+      </Row>
 
       {isLoading && <LoadingIndicator />}
 

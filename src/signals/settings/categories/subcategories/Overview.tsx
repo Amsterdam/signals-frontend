@@ -95,11 +95,13 @@ export const OverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        dataTestId={'settings-page-header'}
-        title={`Subcategorieën ${count ? `(${count})` : ''}`}
-        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={`Subcategorieën ${count ? `(${count})` : ''}`}
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        />
+      </Row>
 
       <Row>
         {isLoading && <LoadingIndicator />}

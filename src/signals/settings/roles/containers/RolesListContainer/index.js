@@ -28,13 +28,15 @@ export const RolesListContainer = ({
   userCan,
 }) => (
   <Fragment>
-    <PageHeader title="Rollen">
-      {userCan('add_group') && (
-        <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
-          Rol toevoegen
-        </HeaderButton>
-      )}
-    </PageHeader>
+    <Row>
+      <PageHeader title="Rollen">
+        {userCan('add_group') && (
+          <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
+            Rol toevoegen
+          </HeaderButton>
+        )}
+      </PageHeader>
+    </Row>
     <Row>
       <Column span={12}>
         {loading || loadingPermissions ? (

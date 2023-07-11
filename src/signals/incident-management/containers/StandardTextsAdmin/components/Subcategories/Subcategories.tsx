@@ -13,15 +13,16 @@ import Label from 'components/Label'
 import { makeSelectStructuredCategories } from 'models/categories/selectors'
 import type SubCategory from 'types/api/sub-category'
 
-import { CategoryColumns } from './styled'
+import { CategoryColumns, StyledUnderline } from './styled'
 import PageHeader from '../../../../../../components/PageHeader'
 
 type Props = {
   onChange: (categoryIds: number[]) => void
   value: number[] | undefined
+  defaultText?: string
 }
 
-export const Subcategories = ({ onChange, value }: Props) => {
+export const Subcategories = ({ onChange, value, defaultText }: Props) => {
   const subCategories = useSelector(makeSelectStructuredCategories)
   const [newValue, setNewValue] = useState<number[]>(value ?? [])
   const navigate = useNavigate()
@@ -30,7 +31,6 @@ export const Subcategories = ({ onChange, value }: Props) => {
     if (!(subCategories && newValue)) {
       return
     }
-
     return Object.fromEntries(
       Object.entries(subCategories).map(([slug, { sub }]) => {
         const defaultValue = sub.filter((subItem) => {
@@ -57,6 +57,26 @@ export const Subcategories = ({ onChange, value }: Props) => {
     [setNewValue, categoriesInForm]
   )
 
+  const onToggleHandler = useCallback(
+    (groupName, toggleVal) => {
+      const newCategoriesInForm: { [k: string]: SubCategory[] } =
+        categoriesInForm as { [k: string]: SubCategory[] }
+
+      if (toggleVal && subCategories) {
+        newCategoriesInForm[groupName] = subCategories[groupName].sub
+      } else {
+        newCategoriesInForm[groupName] = []
+      }
+
+      const newCategoryIdsInForm = Object.values(newCategoriesInForm)
+        .flat()
+        .map(({ fk }) => Number(fk))
+
+      setNewValue(newCategoryIdsInForm)
+    },
+    [categoriesInForm, subCategories]
+  )
+
   const onCancel = useCallback(() => {
     navigate('../')
   }, [navigate])
@@ -73,19 +93,20 @@ export const Subcategories = ({ onChange, value }: Props) => {
 
   return (
     <>
-      <PageHeader
-        dataTestId={'defaulttextadmin-page-header'}
-        title={'Standaardtekst toewijzen aan categorie(ën)'}
-        BackLink={<BackLink to={'../'}>Terug naar standaardtekst</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'defaulttextadmin-page-header'}
+          title={'Standaardtekst toewijzen aan categorie(ën)'}
+          BackLink={<BackLink to={'../'}>Terug naar standaardtekst</BackLink>}
+        >
+          <StyledUnderline>{defaultText}</StyledUnderline>
+        </PageHeader>
+      </Row>
       <Row>
         <Column span={12}>
           <CategoryColumns>
             {Object.entries(subCategories).map(([slug, { name, sub, key }]) => {
               const defaultValue = categoriesInForm && categoriesInForm[slug]
-
-              const hasToggle =
-                categoriesInForm && categoriesInForm[slug].length !== sub.length
 
               return (
                 <CheckboxList
@@ -93,11 +114,14 @@ export const Subcategories = ({ onChange, value }: Props) => {
                   defaultValue={defaultValue}
                   groupId={key}
                   groupValue={slug}
-                  hasToggle={hasToggle}
+                  hasToggle
                   key={slug}
                   name={`${slug}_category_slug`}
-                  onChange={(groupName, options) =>
+                  onChange={(groupName, options) => {
                     onChangeHandler(groupName, options)
+                  }}
+                  onToggle={(groupName, toggleVal) =>
+                    onToggleHandler(groupName, toggleVal)
                   }
                   options={sub}
                   title={<Label as="span">{name}</Label>}
