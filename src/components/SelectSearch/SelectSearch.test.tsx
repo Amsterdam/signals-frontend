@@ -27,14 +27,14 @@ describe('<SelectSearch />', () => {
           name: 'politie',
         },
       ],
-      options: [
-        { key: 'all', name: 'Alles', value: '*', group: 'vuilnis' },
-        { key: 'rommel', name: 'Rommel', value: 'rommel', group: 'vuilnis' },
-        { key: 'active', name: 'Actief', value: true, group: 'vuilnis' },
+      values: [
+        { key: 'All', name: 'Alles', value: 'Alles', group: 'vuilnis' },
+        { key: 'rommel', name: 'Rommel', value: 'Rommel', group: 'vuilnis' },
+        { key: 'active', name: 'Actief', value: 'Actief', group: 'vuilnis' },
         {
           key: 'inactive',
           name: 'Niet actief',
-          value: false,
+          value: 'Niet actief',
           group: 'politie',
         },
       ],
@@ -55,7 +55,7 @@ describe('<SelectSearch />', () => {
     userEvent.click(screen.getByRole('combobox'))
 
     const options = screen.getAllByRole('option')
-    expect(options).toHaveLength(props.options.length)
+    expect(options).toHaveLength(props.values.length)
     expect(options[0].textContent).toEqual('Alles')
   })
 
@@ -106,7 +106,7 @@ describe('<SelectSearch />', () => {
     userEvent.keyboard('{Enter}')
 
     expect(onChangeMock).toHaveBeenCalledWith(
-      { target: { value: '*' } },
+      { target: { value: 'All' } },
       { triggerFormChange: true }
     )
   })
@@ -172,7 +172,7 @@ describe('<SelectSearch />', () => {
 
     const options = screen.getAllByRole('option')
 
-    expect(options).toHaveLength(props.options.length)
+    expect(options).toHaveLength(props.values.length)
 
     userEvent.tab()
 

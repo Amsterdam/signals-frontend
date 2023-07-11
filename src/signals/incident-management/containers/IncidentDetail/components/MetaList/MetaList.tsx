@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
+import { SelectSearch } from 'components/SelectSearch'
 import { useFetch } from 'hooks'
 import {
   makeSelectHandlingTimesBySlug,
@@ -34,7 +35,6 @@ import configuration from 'shared/services/configuration/configuration'
 import { string2date, string2time } from 'shared/services/string-parser'
 import RadioInput from 'signals/incident-management/components/RadioInput'
 import SelectInput from 'signals/incident-management/components/SelectInput'
-import SelectInputSearch from 'signals/incident-management/components/SelectInputSearch'
 import Status from 'signals/incident-management/components/Status'
 import {
   typesList,
@@ -419,7 +419,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
       {subcategoryOptions.length > 0 && (
         <Highlight type="subcategory">
           <ChangeValue
-            component={SelectInputSearch}
+            component={SelectSearch}
             disabled={subcatHighlightDisabled}
             display="Subcategorie (verantwoordelijke afdeling)"
             options={subcategoryOptions}

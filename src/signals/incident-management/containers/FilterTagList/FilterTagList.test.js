@@ -21,7 +21,7 @@ import FilterTagList, {
   mapKeys,
 } from './FilterTagList'
 import AppContext from '../../../../containers/App/context'
-import IncidentManagementContext from '../../context'
+import { IncidentManagementContext } from '../../context'
 
 Enzyme.configure({ adapter: new Adapter() })
 

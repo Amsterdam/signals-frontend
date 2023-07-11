@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { mocked } from 'jest-mock'
 import * as reactRedux from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
@@ -14,29 +15,50 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../internals/testing/msw-server'
-import { StandardTextsAdminProvider } from '../../provider'
+import { IncidentManagementContext } from '../../../../context'
+import { useIncidentManagementContext } from '../../../../context'
 
 fetchMock.disableMocks()
 
 const dispatch = jest.fn()
 
 const mockProviderValue = {
-  page: 1,
-  setPage: () => {},
+  districts: undefined,
+  standardTexts: {
+    page: 1,
+    setPage: jest.fn(),
+    statusFilter: null,
+    setStatusFilter: jest.fn(),
+    activeFilter: null,
+    setActiveFilter: jest.fn(),
+    searchQuery: '',
+    setSearchQuery: jest.fn(),
+  },
 }
+
+jest.mock('../../../../context', () => {
+  const actual = jest.requireActual('../../../../context')
+  return {
+    ...actual,
+    useIncidentManagementContext: jest.fn(),
+  }
+})
+
+const mockUseIncidentManagementContext = mocked(useIncidentManagementContext)
 
 const renderComponent = () =>
   render(
     withAppContext(
-      <StandardTextsAdminProvider value={mockProviderValue}>
+      <IncidentManagementContext.Provider value={mockProviderValue}>
         <OverviewPage />
-      </StandardTextsAdminProvider>
+      </IncidentManagementContext.Provider>
     )
   )
 
 describe('OverviewPage', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    mockUseIncidentManagementContext.mockImplementation(() => mockProviderValue)
   })
 
   it('renders the component with standard texts', async () => {
@@ -107,13 +129,10 @@ describe('OverviewPage', () => {
   describe('search', () => {
     it('should search with input value', async () => {
       renderComponent()
-
       const input = screen.getByRole('textbox', { name: '' })
       const searchButton = screen.getByRole('button', { name: 'Zoekterm' })
-
       userEvent.type(input, '15')
       userEvent.click(searchButton)
-
       await waitFor(() => {
         expect(screen.getByText('Titel #1')).toBeInTheDocument()
         expect(screen.queryByText('Titel #15')).not.toBeInTheDocument()
@@ -128,6 +147,18 @@ describe('OverviewPage', () => {
 
       userEvent.type(input, 'qwerty')
       userEvent.click(searchButton)
+
+      expect(
+        mockProviderValue.standardTexts.setSearchQuery
+      ).toHaveBeenCalledWith('qwerty')
+
+      mockUseIncidentManagementContext.mockImplementationOnce(() => ({
+        ...mockProviderValue,
+        standardTexts: {
+          ...mockProviderValue.standardTexts,
+          searchQuery: 'qwerty',
+        },
+      }))
 
       await waitFor(() => {
         expect(screen.getByText('Geen resultaten gevonden')).toBeInTheDocument()
@@ -146,15 +177,15 @@ describe('OverviewPage', () => {
       userEvent.type(input, 'qwerty')
       userEvent.click(searchButton)
 
-      await waitFor(() => {
-        expect(screen.getByText('Geen resultaten gevonden')).toBeInTheDocument()
-        expect(
-          screen.getByText('Probeer een andere zoekcombinatie')
-        ).toBeInTheDocument()
-      })
+      mockUseIncidentManagementContext.mockImplementationOnce(() => ({
+        ...mockProviderValue,
+        standardTexts: {
+          ...mockProviderValue.standardTexts,
+          searchQuery: 'qwerty',
+        },
+      }))
 
       const clearButton = screen.getByRole('button', { name: 'Close' })
-
       userEvent.click(clearButton)
 
       await waitFor(() => {
@@ -172,6 +203,14 @@ describe('OverviewPage', () => {
 
       userEvent.click(statusGemeldOption)
 
+      mockUseIncidentManagementContext.mockImplementationOnce(() => ({
+        ...mockProviderValue,
+        standardTexts: {
+          ...mockProviderValue.standardTexts,
+          statusFilter: { key: 'm', value: 'Gemeld' },
+        },
+      }))
+
       await waitFor(() => {
         expect(screen.getByText('Titel #1')).toBeInTheDocument()
         expect(screen.queryByText('Titel #5')).not.toBeInTheDocument()
@@ -184,6 +223,14 @@ describe('OverviewPage', () => {
       const statusIsActiveOption = screen.getByRole('radio', { name: 'Actief' })
 
       userEvent.click(statusIsActiveOption)
+
+      mockUseIncidentManagementContext.mockImplementationOnce(() => ({
+        ...mockProviderValue,
+        standardTexts: {
+          ...mockProviderValue.standardTexts,
+          activeFilter: { key: 'true', value: 'Actief' },
+        },
+      }))
 
       await waitFor(() => {
         expect(screen.getByText('Titel #1')).toBeInTheDocument()
@@ -198,14 +245,18 @@ describe('OverviewPage', () => {
 
       userEvent.click(statusGemeldOption)
 
-      await waitFor(() => {
-        expect(screen.getByText('Titel #12')).toBeInTheDocument()
-        expect(screen.queryByText('Titel #5')).not.toBeInTheDocument()
-      })
-
       const statusIsActiveOption = screen.getByRole('radio', { name: 'Actief' })
 
       userEvent.click(statusIsActiveOption)
+
+      mockUseIncidentManagementContext.mockImplementationOnce(() => ({
+        ...mockProviderValue,
+        standardTexts: {
+          ...mockProviderValue.standardTexts,
+          activeFilter: { key: 'true', value: 'Actief' },
+          statusFilter: { key: 'm', value: 'Gemeld' },
+        },
+      }))
 
       await waitFor(() => {
         expect(screen.getByText('Titel #1')).toBeInTheDocument()

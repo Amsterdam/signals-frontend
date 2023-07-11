@@ -23,7 +23,7 @@ import sources from 'utils/__tests__/fixtures/sources.json'
 
 import FilterForm from '..'
 import AppContext from '../../../../../containers/App/context'
-import IncidentManagementContext from '../../../context'
+import { IncidentManagementContext } from '../../../context'
 import {
   SAVE_SUBMIT_BUTTON_LABEL,
   DEFAULT_SUBMIT_BUTTON_LABEL,
