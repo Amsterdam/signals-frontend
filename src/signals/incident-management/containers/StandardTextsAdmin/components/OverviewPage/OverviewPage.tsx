@@ -15,14 +15,14 @@ import configuration from 'shared/services/configuration/configuration'
 
 import {
   Button,
+  Grid,
   Label,
   P,
   Pagination,
   Span,
   Text,
-  SearchBar,
-  Grid,
 } from './styled'
+import routes from '../../../../routes'
 import { useIncidentManagementContext } from '../../../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
@@ -74,7 +74,7 @@ export const OverviewPage = () => {
     [setSearchQuery]
   )
 
-  const handleOnClick = (id: number) => {
+  const handleOnClick = (id: number | string) => {
     navigate(`${id}`)
   }
 
@@ -109,7 +109,12 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <Button variant="secondary">Tekst toevoegen</Button>
+          <Button
+            variant="secondary"
+            onClick={() => handleOnClick(routes.standardTextsDetailNew)}
+          >
+            Tekst toevoegen
+          </Button>
         </div>
 
         <div>
