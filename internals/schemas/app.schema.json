@@ -109,7 +109,7 @@
         "enableMultipleKtoAnswers": {
           "description": "Feature switch to enable multiple kto questions.",
           "type": "boolean"
-        },  
+        },
         "fetchDistrictsFromBackend": {
           "description": "Feature switch to use the areas endpoint to fetch districts, instead of using the hardcoded stadsdelen",
           "type": "boolean"
@@ -450,6 +450,11 @@
             },
             "verlichting": {
               "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri-template"
+            },
+            "eikenprocessierups": {
+              "description": "GeoJSON URL for the retrieval of oak caterpillar data. Used by the incident form for showing oak caterpillar locations on a map\n\nNo Swagger documentation available",
               "type": "string",
               "format": "uri-template"
             }
