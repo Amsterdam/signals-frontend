@@ -35,7 +35,7 @@ import {
   StyledTextArea,
 } from './styled'
 import type { StandardTextDetailData, StandardTextForm } from './types'
-import { createPatch } from './utils'
+import { createPatch, createPost } from './utils'
 import { PageHeader } from '../PageHeader'
 import { SelectedSubcategories } from '../SelectedSubcategories'
 
@@ -58,22 +58,33 @@ export const Detail = () => {
   const [waitForTimeout, setWaitForTimeout] = useState(false)
   const dispatch = useDispatch()
   const { id } = useParams()
+  const isNewPage = location.pathname.split('/').pop() === 'new'
+  const hasID = useParams().id
 
-  const { get, data, isLoading, patch, del, isSuccess, error } =
+  const { get, data, isLoading, patch, post, del, isSuccess, error } =
     useFetch<StandardTextDetailData>()
 
-  const title = 'Standaardtekst wijzigen'
+  const title = id ? 'Standaardtekst wijzigen' : 'Standaardtekst toevoegen'
   const redirectURL = '..'
 
   const defaultValues: StandardTextForm | null = useMemo(() => {
-    if (!data) return null
-
-    return {
-      categories: data.categories,
-      state: data.state,
-      title: data.title,
-      text: data.text,
-      active: Boolean(data.active),
+    if (data) {
+      return {
+        categories: (data.categories =
+          Object.keys(data.categories).length === 0 ? [4] : data.categories), // fake data, when Selecteer subcategorieënpage has been made, this needs to deleted
+        state: data.state,
+        title: data.title,
+        text: data.text,
+        active: data.active,
+      }
+    } else {
+      return {
+        categories: [4], // fake data, when Selecteer subcategorieënpage has been made, this needs to be an empty array
+        state: 'm',
+        title: '',
+        text: '',
+        active: false,
+      }
     }
   }, [data])
 
@@ -83,7 +94,7 @@ export const Detail = () => {
   }))
 
   const formMethods = useForm<StandardTextForm>({
-    reValidateMode: 'onChange',
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
     defaultValues: { ...defaultValues },
   })
@@ -95,11 +106,15 @@ export const Detail = () => {
 
     !hasDirtyFields && navigate(redirectURL)
 
-    patch(
-      `${configuration.STANDARD_TEXTS_ENDPOINT}${id}`,
-      createPatch(getValues(), formState.dirtyFields)
-    )
-  }, [formState.dirtyFields, getValues, id, navigate, patch])
+    if (!isNewPage && hasID) {
+      patch(
+        `${configuration.STANDARD_TEXTS_ENDPOINT}${id}`,
+        createPatch(getValues(), formState.dirtyFields)
+      )
+    } else {
+      post(`${configuration.STANDARD_TEXTS_ENDPOINT}`, createPost(getValues()))
+    }
+  }, [formState.dirtyFields, getValues, id, navigate, patch, post])
 
   const handleOnCancel = () => {
     navigate(redirectURL)
@@ -110,10 +125,9 @@ export const Detail = () => {
   }
 
   useEffect(() => {
-    id &&
-      !data &&
-      !isLoading &&
+    if (id && parseInt(id) && !data && !isLoading) {
       get(`${configuration.STANDARD_TEXTS_ENDPOINT}${id}`)
+    }
   }, [data, get, id, isLoading])
 
   useEffect(() => {
@@ -146,7 +160,6 @@ export const Detail = () => {
       )
     }
   }, [dispatch, error])
-
   return (
     <Row>
       <FormProvider {...formMethods}>
@@ -164,99 +177,98 @@ export const Detail = () => {
 
         {(isLoading || waitForTimeout) && <LoadingIndicator />}
 
-        {data && (
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Grid>
-              <LeftSection>
-                <Controller
-                  name="categories"
-                  render={({
-                    field: { name, onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <SelectedSubcategories
-                      name={name}
-                      error={error}
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
-                <Controller
-                  name="state"
-                  render={({ field: { value, onChange } }) => {
-                    const handleOnchange = (
-                      _groupName: string,
-                      option: Option
-                    ) => {
-                      onChange(option.key)
-                    }
-                    return (
-                      <>
-                        <Label as="span">Status</Label>
-                        <RadioButtonList
-                          groupName="Status"
-                          hasEmptySelectionButton={false}
-                          defaultValue={value}
-                          options={options}
-                          onChange={handleOnchange}
-                        />
-                      </>
-                    )
-                  }}
-                />
-              </LeftSection>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Grid>
+            <LeftSection>
+              <Controller
+                name="categories"
+                render={({
+                  field: { name, onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <SelectedSubcategories
+                    name={name}
+                    error={error}
+                    onChange={onChange}
+                    value={value}
+                  />
+                )}
+              />
+              <Controller
+                name="state"
+                render={({ field: { value, onChange } }) => {
+                  const handleOnchange = (
+                    _groupName: string,
+                    option: Option
+                  ) => {
+                    onChange(option.key)
+                  }
+                  return (
+                    <>
+                      <Label as="span">Status</Label>
+                      <RadioButtonList
+                        groupName="Status"
+                        hasEmptySelectionButton={false}
+                        defaultValue={value}
+                        options={options}
+                        onChange={handleOnchange}
+                      />
+                    </>
+                  )
+                }}
+              />
+            </LeftSection>
 
-              <RightSection>
-                <Controller
-                  name="title"
-                  render={({
-                    field: { name, value = '', onChange },
-                    fieldState: { error },
-                  }) => (
-                    <Input
-                      id={name}
-                      name={name}
-                      value={value}
-                      onChange={onChange}
-                      placeholder={'Titel'}
-                      error={error?.message}
-                    />
-                  )}
-                />
-                <Controller
-                  name="text"
-                  render={({
-                    field: { name, value, onChange },
-                    fieldState: { error },
-                  }) => (
-                    <StyledTextArea
-                      showError={Boolean(error)}
-                      id={name}
-                      name={name}
-                      value={value}
-                      onChange={onChange}
-                      placeholder="Tekst"
-                      errorMessage={error?.message}
-                    />
-                  )}
-                />
-                <Controller
-                  name="active"
-                  render={({ field: { name, value, onChange } }) => (
-                    <div>
-                      <StyledLabel htmlFor={name} label="Actief">
-                        <Checkbox
-                          name={name}
-                          checked={value}
-                          id={name}
-                          onChange={onChange}
-                        />
-                      </StyledLabel>
-                    </div>
-                  )}
-                />
-
+            <RightSection>
+              <Controller
+                name="title"
+                render={({
+                  field: { name, value = '', onChange },
+                  fieldState: { error },
+                }) => (
+                  <Input
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={'Titel'}
+                    error={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="text"
+                render={({
+                  field: { name, value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <StyledTextArea
+                    showError={Boolean(error)}
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Tekst"
+                    errorMessage={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="active"
+                render={({ field: { name, value, onChange } }) => (
+                  <div>
+                    <StyledLabel htmlFor={name} label="Actief">
+                      <Checkbox
+                        name={name}
+                        checked={value}
+                        id={name}
+                        onChange={onChange}
+                      />
+                    </StyledLabel>
+                  </div>
+                )}
+              />
+              {id && parseInt(id) && (
                 <Button
                   variant="secondary"
                   onClick={handleOnDelete}
@@ -264,16 +276,16 @@ export const Detail = () => {
                 >
                   Verwijderen
                 </Button>
-              </RightSection>
-            </Grid>
+              )}
+            </RightSection>
+          </Grid>
 
-            <StyledFormFooter
-              cancelBtnLabel="Annuleer"
-              onCancel={handleOnCancel}
-              submitBtnLabel="Opslaan"
-            />
-          </Form>
-        )}
+          <StyledFormFooter
+            cancelBtnLabel="Annuleer"
+            onCancel={handleOnCancel}
+            submitBtnLabel="Opslaan"
+          />
+        </Form>
       </FormProvider>
     </Row>
   )

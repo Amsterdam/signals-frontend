@@ -14,6 +14,7 @@ const routes = {
   defaultTexts: STANDARD_TEXT_URL_V1,
   standardTexts: STANDARD_TEXT_URL_V2,
   standardTextsDetail: `${STANDARD_TEXT_URL_V2}/:id`,
+  standardTextsDetailNew: `new`,
   signaling: SIGNALING_URL,
   incident: `${INCIDENT_URL}/:id`,
   split: `${INCIDENT_URL}/:id/split`,

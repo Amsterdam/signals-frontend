@@ -128,6 +128,10 @@ const IncidentManagement = () => {
             <Route path={routes.standardTexts}>
               <Route index element={<StandardTextsAdmin />} />
               <Route path={`:id`} element={<StandardTextsDetail />} />
+              <Route
+                path={routes.standardTextsDetailNew}
+                element={<StandardTextsDetail />}
+              />
             </Route>
           )}
           <Route path={routes.signaling} element={<SignalingContainer />} />

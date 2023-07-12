@@ -24,6 +24,7 @@ import {
   Grid,
 } from './styled'
 import { useIncidentManagementContext } from '../../../../context'
+import routes from '../../../../routes'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
 import { Summary } from '../Summary'
@@ -74,10 +75,6 @@ export const OverviewPage = () => {
     [setSearchQuery]
   )
 
-  const handleOnClick = (id: number) => {
-    navigate(`${id}`)
-  }
-
   useEffect(() => {
     fetchData()
   }, [statusFilter, activeFilter, searchQuery, fetchData])
@@ -109,7 +106,12 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <Button variant="secondary">Tekst toevoegen</Button>
+          <Button
+            variant="secondary"
+            onClick={() => navigate(`${routes.standardTextsDetailNew}`)}
+          >
+            Tekst toevoegen
+          </Button>
         </div>
 
         <div>
@@ -136,7 +138,7 @@ export const OverviewPage = () => {
             <Summary
               standardText={text}
               key={text.id}
-              onClick={handleOnClick}
+              onClick={(id) => navigate(`${id}`)}
             />
           ))}
 

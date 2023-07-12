@@ -2,6 +2,13 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { StandardTextDetailData, StandardTextForm } from './types'
 
+export const createPost = (data: StandardTextForm): StandardTextDetailData => {
+  const payload = Object.entries(data).map(([key, value]) => {
+    return { [key]: value }
+  })
+  return Object.assign({}, ...payload)
+}
+
 export const createPatch = (
   data: StandardTextForm,
   dirtyFields: Partial<
@@ -19,6 +26,5 @@ export const createPatch = (
       [key]: data[key as keyof StandardTextForm],
     }
   })
-
   return Object.assign({}, ...payload)
 }
