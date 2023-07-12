@@ -19,6 +19,7 @@ import {
   Label,
   P,
   Pagination,
+  SearchBar,
   Span,
   Text,
 } from './styled'
