@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import fetch from 'jest-fetch-mock'
 
@@ -15,6 +15,12 @@ const mockResponse = JSON.stringify(JSONResponse)
 const onSelect = jest.fn()
 const municipalityQs = 'fq=gemeentenaam:'
 const fieldListQs = 'fl='
+const headers = {
+  headers: {
+    'Access-Control-Request-Method': 'GET',
+    Origin: 'http://localhost',
+  },
+}
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
   render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />))
@@ -73,7 +79,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}(amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -81,7 +87,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch('Dam', { municipality: 'utrecht amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}(utrecht amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -91,7 +97,7 @@ describe('components/PDOKAutoSuggest', () => {
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}("den bosch" -amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -101,7 +107,7 @@ describe('components/PDOKAutoSuggest', () => {
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.not.stringContaining(municipalityQs),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
   })
@@ -111,7 +117,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${fieldListQs}${pdokResponseFieldList}`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -121,7 +127,7 @@ describe('components/PDOKAutoSuggest', () => {
         expect.stringContaining(
           `${fieldListQs}${pdokResponseFieldList},name,type`
         ),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
   })
