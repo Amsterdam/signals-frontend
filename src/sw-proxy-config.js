@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import configuration from 'shared/services/configuration/configuration'
+
 /* eslint-disable no-unused-vars */
 const me = {
   _links: {
@@ -183,7 +185,7 @@ const me = {
 const proxyConfig = [
   {
     request: {
-      url: 'https://geodata.nationaalgeoregister.nl/locatieserver/revgeo',
+      url: configuration.map.pdok.reverse,
       method: 'GET',
     },
     response: {
