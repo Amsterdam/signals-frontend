@@ -206,13 +206,13 @@ describe('signals/settings', () => {
 
     const url = `${SUBCATEGORY_URL}/1`
 
-    act(() => history.push(url))
+    await act(async () => history.push(url))
 
-    await waitFor(() =>
+    await waitFor(() => {
       expect(
         reactRouterDom.useLocation.mock.results.pop().value.pathname
       ).toEqual(url)
-    )
+    })
   })
 
   it('should allow routing to users page', async () => {
