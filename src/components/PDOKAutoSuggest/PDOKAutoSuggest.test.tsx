@@ -2,13 +2,19 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import fetch from 'jest-fetch-mock'
+import * as reactRedux from 'react-redux'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { pdokResponseFieldList } from 'shared/services/map-location'
 import { withAppContext } from 'test/utils'
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
 
 import PDOKAutoSuggest from '.'
+
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
 const mockResponse = JSON.stringify(JSONResponse)
 
@@ -71,6 +77,23 @@ describe('components/PDOKAutoSuggest', () => {
     it('should be called on change', async () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show error message when error is returned', async () => {
+      const error = new Error()
+      fetch.mockRejectOnce(error)
+
+      await renderAndSearch()
+
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification({
+          title: 'De opgevraagde gegevens konden niet gevonden worden',
+          message: 'De adressen konden niet worden opgehaald.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
     })
   })
 

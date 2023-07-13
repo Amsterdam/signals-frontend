@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
+import { useDispatch } from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
@@ -80,7 +81,7 @@ const AutoSuggest = ({
     [data, formatResponse]
   )
   const activeId = options?.[activeIndex]?.id || ''
-
+  const dispatch = useDispatch()
   const handleInputKeyDown = useCallback((event) => {
     switch (event.key) {
       case 'Enter':
@@ -205,12 +206,14 @@ const AutoSuggest = ({
             setData(responseData)
           }
         } catch (error) {
-          showGlobalNotification({
-            title: getErrorMessage(error),
-            message: 'De adressen konden niet worden opgehaald.',
-            variant: VARIANT_ERROR,
-            type: TYPE_LOCAL,
-          })
+          dispatch(
+            showGlobalNotification({
+              title: getErrorMessage(error),
+              message: 'De adressen konden niet worden opgehaald.',
+              variant: VARIANT_ERROR,
+              type: TYPE_LOCAL,
+            })
+          )
         }
       } else {
         setShowList(false)
@@ -220,7 +223,7 @@ const AutoSuggest = ({
         }
       }
     },
-    [onClear, url]
+    [dispatch, onClear, url]
   )
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)
