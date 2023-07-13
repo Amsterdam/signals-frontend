@@ -21,7 +21,7 @@
     "showStandardTextAdminV2": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useGisib": false,
+    "useGisib": true,
     "useProjectenSignalType": false
   },
   "head": {
