@@ -3,15 +3,23 @@
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
+import { useDispatch } from 'react-redux'
 
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import useDebounce from 'hooks/useDebounce'
-import useFetch from 'hooks/useFetch'
+import { getErrorMessage } from 'shared/services/api/api'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { RevGeo } from 'types/pdok/revgeo'
 
 import { Wrapper, Input, List, ClearInput } from './styled'
 
 export const INPUT_DELAY = 350
+
+const requestHeaders = {
+  Origin: window.location.origin,
+  'Access-Control-Request-Method': 'GET',
+}
 
 export interface AutoSuggestProps {
   autoFocus?: boolean
@@ -62,7 +70,7 @@ const AutoSuggest = ({
   ...rest
 }: AutoSuggestProps) => {
   const [defaultValue, setDefaultValue] = useState(value)
-  const { get, data } = useFetch<RevGeo>()
+  const [data, setData] = useState<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -73,7 +81,7 @@ const AutoSuggest = ({
     [data, formatResponse]
   )
   const activeId = options?.[activeIndex]?.id || ''
-
+  const dispatch = useDispatch()
   const handleInputKeyDown = useCallback((event) => {
     switch (event.key) {
       case 'Enter':
@@ -182,9 +190,31 @@ const AutoSuggest = ({
   }, [])
 
   const serviceRequest = useCallback(
-    (inputValue) => {
+    async (inputValue) => {
       if (inputValue.length >= 3) {
-        get(`${url}${encodeURIComponent(inputValue)}`)
+        try {
+          const response = await fetch(
+            `${url}${encodeURIComponent(inputValue)}`,
+            {
+              headers: requestHeaders,
+            }
+          )
+
+          const responseData = await response.json()
+
+          if (response.ok) {
+            setData(responseData)
+          }
+        } catch (error) {
+          dispatch(
+            showGlobalNotification({
+              title: getErrorMessage(error),
+              message: 'De adressen konden niet worden opgehaald.',
+              variant: VARIANT_ERROR,
+              type: TYPE_LOCAL,
+            })
+          )
+        }
       } else {
         setShowList(false)
 
@@ -193,7 +223,7 @@ const AutoSuggest = ({
         }
       }
     },
-    [get, onClear, url]
+    [dispatch, onClear, url]
   )
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)

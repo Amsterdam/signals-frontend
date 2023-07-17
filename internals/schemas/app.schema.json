@@ -459,6 +459,22 @@
               "format": "uri-template"
             }
           }
+        },
+        "pdok": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "suggest": {
+              "description": "PDOK url to search for suggestions for addresses",
+              "type": "string",
+              "format": "uri-template"
+            },
+            "reverse": {
+              "description": "PDOK url to reverse coordinates to a readable address",
+              "type": "string",
+              "format": "uri-template"
+            }
+          }
         }
       },
       "required": [

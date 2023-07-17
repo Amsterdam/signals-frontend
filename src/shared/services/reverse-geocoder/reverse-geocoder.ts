@@ -2,6 +2,7 @@
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import type { LatLngLiteral } from 'leaflet'
 
+import configuration from 'shared/services/configuration/configuration'
 import { wgs84ToRd } from 'shared/services/crs-converter/crs-converter'
 import {
   pdokResponseFieldList,
@@ -11,7 +12,7 @@ import type { PdokResponse } from 'shared/services/map-location'
 import type { RevGeo } from 'types/pdok/revgeo'
 
 const flParams = pdokResponseFieldList.join(',')
-export const serviceURL = `https://geodata.nationaalgeoregister.nl/locatieserver/revgeo/?type=adres&rows=1&fl=${flParams}`
+export const serviceURL = `${configuration.map.pdok.reverse}?type=adres&rows=1&fl=${flParams}`
 
 export const formatRequest = (
   baseUrl: URL | string,

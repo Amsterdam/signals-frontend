@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 
 import type { AutoSuggestProps } from 'components/AutoSuggest'
@@ -17,8 +17,6 @@ const serviceParams = [
   ['fq', 'type:adres'],
   ['q', ''],
 ]
-const serviceUrl =
-  'https://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest/?'
 
 const numOptionsDeterminer = (data?: RevGeo) =>
   data?.response?.docs?.length || 0
@@ -51,7 +49,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   ]
   const params = [...fq, ...fl, ...serviceParams]
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&')
-  const url = `${serviceUrl}${queryParams}`
+  const url = `${configuration.map.pdok.suggest}?${queryParams}`
 
   return (
     <AutoSuggest

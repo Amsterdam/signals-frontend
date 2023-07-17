@@ -1,20 +1,32 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 import fetch from 'jest-fetch-mock'
+import * as reactRedux from 'react-redux'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { pdokResponseFieldList } from 'shared/services/map-location'
 import { withAppContext } from 'test/utils'
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
 
 import PDOKAutoSuggest from '.'
 
+const dispatch = jest.fn()
+jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+
 const mockResponse = JSON.stringify(JSONResponse)
 
 const onSelect = jest.fn()
 const municipalityQs = 'fq=gemeentenaam:'
 const fieldListQs = 'fl='
+const headers = {
+  headers: {
+    'Access-Control-Request-Method': 'GET',
+    Origin: 'http://localhost',
+  },
+}
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
   render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />))
@@ -66,6 +78,23 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledTimes(1)
     })
+
+    it('should show error message when error is returned', async () => {
+      const error = new Error()
+      fetch.mockRejectOnce(error)
+
+      await renderAndSearch()
+
+      expect(fetch).toHaveBeenCalledTimes(1)
+      expect(dispatch).toHaveBeenCalledWith(
+        showGlobalNotification({
+          title: 'De opgevraagde gegevens konden niet gevonden worden',
+          message: 'De adressen konden niet worden opgehaald.',
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    })
   })
 
   describe('municipality', () => {
@@ -73,7 +102,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch('Dam', { municipality: 'amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}(amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -81,7 +110,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch('Dam', { municipality: 'utrecht amsterdam' })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}(utrecht amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -91,7 +120,7 @@ describe('components/PDOKAutoSuggest', () => {
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${municipalityQs}("den bosch" -amsterdam)`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -101,7 +130,7 @@ describe('components/PDOKAutoSuggest', () => {
       })
       expect(fetch).toHaveBeenCalledWith(
         expect.not.stringContaining(municipalityQs),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
   })
@@ -111,7 +140,7 @@ describe('components/PDOKAutoSuggest', () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining(`${fieldListQs}${pdokResponseFieldList}`),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
 
@@ -121,7 +150,7 @@ describe('components/PDOKAutoSuggest', () => {
         expect.stringContaining(
           `${fieldListQs}${pdokResponseFieldList},name,type`
         ),
-        expect.objectContaining({ method: 'GET' })
+        expect.objectContaining(headers)
       )
     })
   })
