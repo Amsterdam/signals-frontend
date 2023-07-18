@@ -57,4 +57,16 @@ describe('DefaultTextsContainer', () => {
 
     expect(screen.queryByText('[DefaultTexts]')).not.toBeInTheDocument()
   })
+
+  it('should not render anything when there are no texts', () => {
+    render(
+      <DefaultTextsContainer
+        {...defaultProps}
+        modalDefaultTextIsOpen={true}
+        defaultTexts={[]}
+      />
+    )
+
+    expect(screen.getByText('Standaardtekst (0)')).toBeInTheDocument()
+  })
 })

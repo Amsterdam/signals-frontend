@@ -25,8 +25,6 @@ const StandardTextsContainer = ({
   closeStandardTextModal,
   standardTexts,
 }: Props) => {
-  if (!standardTexts) return null
-
   const activeTexts = standardTexts.results.filter((text) => text.active)
 
   const textByStatus = activeTexts.filter((text) => text.state === status)
