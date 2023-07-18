@@ -42,10 +42,10 @@ import IncidentDetailContext from '../../context'
 import type { EmailTemplate, IncidentChild } from '../../types'
 import EmailPreview from '../EmailPreview/EmailPreview'
 
-interface StandardTextResponse {
+export interface StandardTextResponse {
   results: StandardTextType[]
 }
-interface StatusFormProps {
+export interface StatusFormProps {
   defaultTexts: DefaultTextsType | StandardTextResponse
   childIncidents: IncidentChild[]
   onClose: () => void
@@ -385,16 +385,17 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               />
             )}
 
-            {configuration.featureFlags.showStandardTextAdminV2 && (
-              <StandardTextsContainer
-                closeStandardTextModal={closeStandardTextModal}
-                modalStandardTextIsOpen={modalStandardTextIsOpen}
-                openStandardTextModal={openStandardTextModal}
-                standardTexts={defaultTexts as StandardTextResponse}
-                status={state.status.key}
-                useStandardText={useDefaultText}
-              />
-            )}
+            {!configuration.featureFlags.showStandardTextAdminV1 &&
+              configuration.featureFlags.showStandardTextAdminV2 && (
+                <StandardTextsContainer
+                  closeStandardTextModal={closeStandardTextModal}
+                  modalStandardTextIsOpen={modalStandardTextIsOpen}
+                  openStandardTextModal={openStandardTextModal}
+                  standardTexts={defaultTexts as StandardTextResponse}
+                  status={state.status.key}
+                  useStandardText={useDefaultText}
+                />
+              )}
 
             <AddNote
               data-testid="text"

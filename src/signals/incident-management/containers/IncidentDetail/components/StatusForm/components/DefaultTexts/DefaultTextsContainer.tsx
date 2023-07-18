@@ -50,7 +50,7 @@ const DefaultTextsContainer = ({
   return (
     <>
       <StandardTextsButton
-        data-testid="standard-text-button"
+        data-testid="standard-text-button-v1"
         variant="primaryInverted"
         onClick={openDefaultTextModal}
         templatesAvailable={defaultTextTemplatesLength(activeDefaultTexts) > 0}

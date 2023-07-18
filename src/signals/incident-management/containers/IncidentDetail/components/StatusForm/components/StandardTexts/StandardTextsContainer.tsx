@@ -32,7 +32,7 @@ const StandardTextsContainer = ({
   return (
     <>
       <StandardTextsButton
-        data-testid="standard-text-button"
+        data-testid="standard-text-button-v2"
         variant="primaryInverted"
         onClick={openStandardTextModal}
         templatesAvailable={!!textByStatus.length}

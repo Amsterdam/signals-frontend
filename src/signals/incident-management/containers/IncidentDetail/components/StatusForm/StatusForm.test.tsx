@@ -34,6 +34,7 @@ import {
   DEFAULT_TEXT_MAX_LENGTH,
   MELDING_CHECKBOX_DESCRIPTION,
 } from './constants'
+import type { StandardTextResponse } from './StatusForm'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
 import type { IncidentChild } from '../../types'
@@ -41,33 +42,7 @@ import type { IncidentChild } from '../../types'
 jest.mock('shared/services/configuration/configuration')
 
 const incidentFixture = incidentJSON as unknown as Incident
-const defaultTexts = [
-  {
-    state: StatusCode.Ingepland,
-    templates: [
-      { title: 'Ingepland', text: 'Over 1 dag', is_active: true },
-      { title: 'Ingepland', text: 'Over 2 dagen', is_active: true },
-      { title: '', text: '', is_active: true },
-    ],
-  },
-  {
-    state: StatusCode.Afgehandeld,
-    templates: [
-      {
-        title: 'Niet opgelost',
-        text: 'Geen probleem gevonden',
-        is_active: false,
-      },
-      {
-        title: 'Niet opgelost',
-        text: 'Niet voor regio Amsterdam',
-        is_active: true,
-      },
-      { title: 'Opgelost', text: 'Lamp vervangen', is_active: true },
-      { title: 'Opgelost', text: 'Lantaarnpaal vervangen', is_active: true },
-    ],
-  },
-]
+let defaultTexts: any
 
 const update = jest.fn()
 jest.spyOn(actions, 'showGlobalNotification')
@@ -123,6 +98,39 @@ const getChildIncidents = (statuses: Status[]) => {
 }
 
 describe('signals/incident-management/containers/IncidentDetail/components/StatusForm', () => {
+  beforeEach(() => {
+    defaultTexts = [
+      {
+        state: StatusCode.Ingepland,
+        templates: [
+          { title: 'Ingepland', text: 'Over 1 dag', is_active: true },
+          { title: 'Ingepland', text: 'Over 2 dagen', is_active: true },
+          { title: '', text: '', is_active: true },
+        ],
+      },
+      {
+        state: StatusCode.Afgehandeld,
+        templates: [
+          {
+            title: 'Niet opgelost',
+            text: 'Geen probleem gevonden',
+            is_active: false,
+          },
+          {
+            title: 'Niet opgelost',
+            text: 'Niet voor regio Amsterdam',
+            is_active: true,
+          },
+          { title: 'Opgelost', text: 'Lamp vervangen', is_active: true },
+          {
+            title: 'Opgelost',
+            text: 'Lantaarnpaal vervangen',
+            is_active: true,
+          },
+        ],
+      },
+    ]
+  })
   afterEach(() => {
     fetch.resetMocks()
     update.mockReset()
@@ -140,7 +148,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('renders correctly', () => {
     render(renderWithContext())
-    expect(screen.queryByTestId('standard-text-button')).toBeInTheDocument()
+    expect(screen.queryByTestId('standard-text-button-v1')).toBeInTheDocument()
     expect(screen.getByText('Standaardtekst (0)')).toBeInTheDocument()
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Opslaan' })).toBeInTheDocument()
@@ -316,6 +324,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
 
   it('clears the text field when a default text is selected', async () => {
     const texts = defaultTexts[0]
+
     const withDefaultTextsSelectedState = { ...incidentFixture }
     if (withDefaultTextsSelectedState?.status?.state) {
       withDefaultTextsSelectedState.status.state = texts.state
@@ -324,13 +333,13 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     render(renderWithContext(withDefaultTextsSelectedState))
 
     // verify that there are default texts button is visible
-    expect(screen.getByTestId('standard-text-button')).toBeInTheDocument()
+    expect(screen.getByTestId('standard-text-button-v1')).toBeInTheDocument()
 
     // verify that the text field is empty
     expect(screen.getByRole('textbox')).toHaveTextContent('')
 
     // click the standard text button
-    const link = screen.getByTestId('standard-text-button')
+    const link = screen.getByTestId('standard-text-button-v1')
 
     userEvent.click(link)
 
@@ -840,6 +849,65 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
             'Er is geen email template beschikbaar voor de gegeven statustransitie',
         })
       )
+    })
+  })
+
+  describe('StandardTexts', () => {
+    it('should render v1 when enabled', () => {
+      configuration.featureFlags.showStandardTextAdminV1 = true
+      configuration.featureFlags.showStandardTextAdminV2 = false
+      render(renderWithContext())
+
+      expect(screen.getByTestId('standard-text-button-v1')).toBeInTheDocument()
+      expect(
+        screen.queryByTestId('standard-text-button-v2')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should render v2 when enabled', () => {
+      configuration.featureFlags.showStandardTextAdminV1 = false
+      configuration.featureFlags.showStandardTextAdminV2 = true
+
+      defaultTexts = {
+        results: [
+          {
+            id: 43,
+            title: 'wit',
+            text: 'bruin en wit',
+            active: true,
+            state: StatusCode.Behandeling,
+            categories: [176],
+            meta: {},
+          },
+          {
+            id: 45,
+            title: 'Behandeling en tot ziens',
+            text: 'We hebben je melding in behandeling. Tot ziens.',
+            active: true,
+            state: StatusCode.Behandeling,
+            categories: [176],
+            meta: {},
+          },
+        ],
+      } as unknown as StandardTextResponse
+
+      render(renderWithContext())
+
+      expect(
+        screen.queryByTestId('standard-text-button-v1')
+      ).not.toBeInTheDocument()
+      expect(screen.getByTestId('standard-text-button-v2')).toBeInTheDocument()
+    })
+
+    it('should render v1 when both are enabled', () => {
+      configuration.featureFlags.showStandardTextAdminV1 = true
+      configuration.featureFlags.showStandardTextAdminV2 = true
+      render(renderWithContext())
+
+      expect(screen.getByTestId('standard-text-button-v1')).toBeInTheDocument()
+      expect(
+        screen.queryByTestId('standard-text-button-v2')
+      ).not.toBeInTheDocument()
     })
   })
 })
