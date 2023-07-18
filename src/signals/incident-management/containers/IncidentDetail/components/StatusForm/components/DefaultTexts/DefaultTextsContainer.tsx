@@ -2,27 +2,27 @@ import { useCallback } from 'react'
 import type { SyntheticEvent } from 'react'
 
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
+import type { StatusCode } from 'types/status-code'
 
 import DefaultTexts from './DefaultTexts'
-import type { State } from '../../reducer'
 import { StandardTextsButton } from '../../styled'
 
-interface Props {
-  closeStandardTextModal: () => void
+export interface Props {
+  closeDefaultTextModal: () => void
   defaultTexts: DefaultTextsType
-  modalStandardTextIsOpen: boolean
-  openStandardTextModal: (event: SyntheticEvent) => void
-  state: State
+  modalDefaultTextIsOpen: boolean
+  openDefaultTextModal: (event: SyntheticEvent) => void
+  status: StatusCode
   useDefaultText: (event: SyntheticEvent, text: string) => void
 }
 
 const DefaultTextsContainer = ({
-  openStandardTextModal,
-  state,
-  modalStandardTextIsOpen,
-  useDefaultText,
-  closeStandardTextModal,
+  closeDefaultTextModal,
   defaultTexts,
+  modalDefaultTextIsOpen,
+  openDefaultTextModal,
+  status,
+  useDefaultText,
 }: Props) => {
   const activeDefaultTexts = defaultTexts?.map((defaultText) => {
     const templates = defaultText.templates.filter(
@@ -40,11 +40,11 @@ const DefaultTextsContainer = ({
         return 0
       }
       const statusDefaultTexts = defaultTexts.filter(
-        (text) => text.state === state.status.key
+        (text) => text.state === status
       )
       return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
     },
-    [state.status.key]
+    [status]
   )
 
   return (
@@ -52,7 +52,7 @@ const DefaultTextsContainer = ({
       <StandardTextsButton
         data-testid="standard-text-button"
         variant="primaryInverted"
-        onClick={openStandardTextModal}
+        onClick={openDefaultTextModal}
         templatesAvailable={defaultTextTemplatesLength(activeDefaultTexts) > 0}
       >
         <div>{`Standaardtekst (${defaultTextTemplatesLength(
@@ -60,12 +60,12 @@ const DefaultTextsContainer = ({
         )})`}</div>
       </StandardTextsButton>
 
-      {modalStandardTextIsOpen && (
+      {modalDefaultTextIsOpen && (
         <DefaultTexts
           defaultTexts={activeDefaultTexts}
           onHandleUseDefaultText={useDefaultText}
-          status={state.status.key}
-          onClose={closeStandardTextModal}
+          status={status}
+          onClose={closeDefaultTextModal}
         />
       )}
     </>
