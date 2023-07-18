@@ -159,9 +159,14 @@ describe('Detail', () => {
       const textArea = screen.getByPlaceholderText('Tekst')
       expect(textArea).toHaveValue('')
 
+      userEvent.type(titleInput, 'Mooie titel')
+      userEvent.type(textArea, 'Mooie tekst')
+
       expect(
         screen.queryByRole('button', { name: 'Verwijderen' })
       ).not.toBeInTheDocument()
+
+      // todo add subcats just for testing or spy on validation for this test
     })
   })
 

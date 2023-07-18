@@ -70,7 +70,7 @@ export const Detail = () => {
   const defaultValues: StandardTextForm | null = useMemo(() => {
     if (data) {
       return {
-        categories: data.categories, // fake data, when Selecteer subcategorieënpage has been made, this needs to deleted
+        categories: data.categories,
         state: data.state,
         title: data.title,
         text: data.text,
