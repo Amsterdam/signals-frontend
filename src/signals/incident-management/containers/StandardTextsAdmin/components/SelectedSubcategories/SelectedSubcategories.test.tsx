@@ -40,4 +40,12 @@ describe('SelectedSubcategories', () => {
 
     expect(screen.getByText('Vul de subcategorie(ën) in.')).toBeInTheDocument()
   })
+
+  it('should not render the SelectedSubcategories', () => {
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue([])
+
+    render(withAppContext(<SelectedSubcategories {...defaultProps} />))
+
+    expect(screen.queryByText('Afval, Overlast')).not.toBeInTheDocument()
+  })
 })
