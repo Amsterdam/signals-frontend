@@ -376,23 +376,23 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
             {configuration.featureFlags.showStandardTextAdminV1 && (
               <DefaultTextsContainer
-                openDefaultTextModal={openStandardTextModal}
-                status={state.status.key}
-                modalDefaultTextIsOpen={modalStandardTextIsOpen}
-                useDefaultText={useDefaultText}
                 closeDefaultTextModal={closeStandardTextModal}
                 defaultTexts={defaultTexts as DefaultTextsType}
+                modalDefaultTextIsOpen={modalStandardTextIsOpen}
+                openDefaultTextModal={openStandardTextModal}
+                status={state.status.key}
+                useDefaultText={useDefaultText}
               />
             )}
 
             {configuration.featureFlags.showStandardTextAdminV2 && (
               <StandardTextsContainer
-                openStandardTextModal={openStandardTextModal}
-                state={state}
-                modalStandardTextIsOpen={modalStandardTextIsOpen}
-                useStandardText={useDefaultText}
                 closeStandardTextModal={closeStandardTextModal}
+                modalStandardTextIsOpen={modalStandardTextIsOpen}
+                openStandardTextModal={openStandardTextModal}
                 standardTexts={defaultTexts as StandardTextResponse}
+                status={state.status.key}
+                useStandardText={useDefaultText}
               />
             )}
 

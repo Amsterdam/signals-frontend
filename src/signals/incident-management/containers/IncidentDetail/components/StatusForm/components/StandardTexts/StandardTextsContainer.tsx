@@ -1,16 +1,16 @@
 import type { SyntheticEvent } from 'react'
 
 import type { StandardText as StandardTextType } from 'types/api/standard-texts'
+import type { StatusCode } from 'types/status-code'
 
 import { StandardTexts } from './StandardTexts'
-import type { State } from '../../reducer'
 import { StandardTextsButton } from '../../styled'
 
 export interface Props {
   closeStandardTextModal: () => void
   modalStandardTextIsOpen: boolean
   openStandardTextModal: (event: SyntheticEvent) => void
-  state: State
+  status: StatusCode
   standardTexts: {
     results: StandardTextType[]
   }
@@ -19,7 +19,7 @@ export interface Props {
 
 const StandardTextsContainer = ({
   openStandardTextModal,
-  state,
+  status,
   modalStandardTextIsOpen,
   useStandardText,
   closeStandardTextModal,
@@ -29,9 +29,7 @@ const StandardTextsContainer = ({
 
   const activeTexts = standardTexts.results.filter((text) => text.active)
 
-  const textByStatus = activeTexts.filter(
-    (text) => text.state === state.status.key
-  )
+  const textByStatus = activeTexts.filter((text) => text.state === status)
 
   return (
     <>
@@ -48,7 +46,7 @@ const StandardTextsContainer = ({
         <StandardTexts
           standardTexts={textByStatus}
           onHandleUseStandardText={useStandardText}
-          status={state.status.key}
+          status={status}
           onClose={closeStandardTextModal}
         />
       )}
