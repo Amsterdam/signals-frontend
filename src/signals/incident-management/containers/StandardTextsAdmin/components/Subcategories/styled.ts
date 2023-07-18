@@ -6,7 +6,7 @@ export const CategoryColumns = styled.div`
   column-count: 1;
   column-gap: 60px;
   margin-bottom: ${themeSpacing(
-    24.5
+    24
   )}; // add 2 rem on top of the height of the form footer
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {

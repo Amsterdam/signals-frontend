@@ -18,13 +18,13 @@ import PageHeader from '../../../../../../components/PageHeader'
 
 type Props = {
   onChange: (categoryIds: number[]) => void
-  value: number[] | undefined
   defaultText?: string
+  value?: number[]
 }
 
-export const Subcategories = ({ onChange, value, defaultText }: Props) => {
+export const Subcategories = ({ onChange, value = [], defaultText }: Props) => {
   const subCategories = useSelector(makeSelectStructuredCategories)
-  const [newValue, setNewValue] = useState<number[]>(value ?? [])
+  const [newValue, setNewValue] = useState<number[]>(value)
   const navigate = useNavigate()
 
   const categoriesInForm = useMemo(() => {

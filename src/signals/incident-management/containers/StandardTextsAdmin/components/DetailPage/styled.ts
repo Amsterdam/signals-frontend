@@ -37,7 +37,7 @@ export const Grid = styled.div`
   grid-template-columns: 2fr 3fr 1fr;
   grid-column-gap: ${themeSpacing(6)};
   justify-content: space-between;
-  padding-bottom: ${themeSpacing(16.5)};
+  padding-bottom: ${themeSpacing(16)};
 `
 
 export const Form = styled.form`
