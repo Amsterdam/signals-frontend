@@ -10,6 +10,10 @@ export const StyledErrorMessage = styled(ErrorMessage)`
 `
 
 export const StyledP = styled.p`
-  max-height: 12rem;
-  overflow-y: auto;
+  line-height: 1.5rem;
+  max-height: 6rem;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
 `
