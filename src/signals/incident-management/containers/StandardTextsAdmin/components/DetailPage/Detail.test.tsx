@@ -118,18 +118,6 @@ describe('Detail', () => {
     })
   })
 
-  it('should render the subcategories', async () => {
-    render(withAppContext(<Detail />))
-
-    await waitFor(() => {
-      userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
-    })
-
-    expect(screen.getByText('Subcategories')).toBeInTheDocument()
-
-    userEvent.click
-  })
-
   it('should change the state', async () => {
     render(withAppContext(<Detail />))
 
@@ -149,7 +137,6 @@ describe('Detail', () => {
       ).toBeChecked()
     })
   })
-
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
@@ -191,6 +178,7 @@ describe('Detail', () => {
         url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
         body: mockErrorData,
       })
+
       render(withAppContext(<Detail />))
 
       await waitFor(() => {
@@ -205,6 +193,18 @@ describe('Detail', () => {
         expect(screen.getByText('Vul een titel in')).toBeInTheDocument()
         expect(screen.getByText('Vul een omschrijving in')).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('Subcategories', () => {
+    it('should render the subcategories', async () => {
+      render(withAppContext(<Detail />))
+
+      await waitFor(() => {
+        userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
+      })
+
+      expect(screen.getByText('Subcategories')).toBeInTheDocument()
     })
   })
 })
