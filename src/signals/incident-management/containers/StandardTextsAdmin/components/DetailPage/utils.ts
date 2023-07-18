@@ -22,3 +22,10 @@ export const createPatch = (
 
   return Object.assign({}, ...payload)
 }
+
+export const createPost = (data: StandardTextForm): StandardTextDetailData => {
+  const payload = Object.entries(data).map(([key, value]) => {
+    return { [key]: value }
+  })
+  return Object.assign({}, ...payload)
+}

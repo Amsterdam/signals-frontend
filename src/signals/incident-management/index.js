@@ -127,7 +127,13 @@ const IncidentManagement = () => {
           {configuration.featureFlags.showStandardTextAdminV2 && (
             <Route path={routes.standardTexts}>
               <Route index element={<StandardTextsAdmin />} />
-              <Route path={`:id/*`} element={<StandardTextsDetail />} />
+              {[':id/*', 'new/*'].map((path) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={<StandardTextsDetail />}
+                />
+              ))}
             </Route>
           )}
           <Route path={routes.signaling} element={<SignalingContainer />} />

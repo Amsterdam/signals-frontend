@@ -267,6 +267,10 @@ const handlers = [
     res(ctx.status(200), ctx.json(detail))
   ),
 
+  rest.post(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(detail))
+  ),
+
   rest.post(API.QA_ANSWER, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(qaAnswerFixture))
   ),

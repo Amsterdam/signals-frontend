@@ -2,7 +2,9 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
@@ -22,28 +24,41 @@ const mockNavigate = jest.fn()
 const dispatch = jest.fn()
 
 const id = 4
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({ id }),
-  useNavigate: () => mockNavigate,
-}))
+// jest.mock('react-router-dom', () => ({
+//   ...jest.requireActual('react-router-dom'),
+//   useParams: () => ({ id }),
+//   useNavigate: () => mockNavigate,
+// }))
 
 jest.mock('../Subcategories', () => () => {
   return <div>Subcategories</div>
 })
 
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
+
 describe('Detail', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
+    jest
+      .spyOn(reactRouterDom, 'useParams')
+      .mockImplementation(() => ({ id: `${id}` }))
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('should render the Detail page', async () => {
     render(withAppContext(<Detail />))
+
+    act(() => {})
 
     await waitFor(() => {
       expect(screen.getByText('Standaardtekst wijzigen')).toBeInTheDocument()
@@ -78,15 +93,27 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
+    jest.useFakeTimers()
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
+    userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
+
+    await act(async () => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
     })
-    await waitFor(() => {
-      expect(mockNavigate).toBeCalledWith('../')
+
+    act(() => {
+      jest.runAllTimers()
     })
+
+    await waitFor(
+      () => {
+        expect(mockNavigate).toBeCalledWith('../')
+      },
+      { timeout: 1000 }
+    )
+
+    jest.useRealTimers()
   })
 
   it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
@@ -121,15 +148,13 @@ describe('Detail', () => {
   it('should change the state', async () => {
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      expect(
-        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
-      ).not.toBeChecked()
-    })
+    expect(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    ).not.toBeChecked()
 
-    await waitFor(() => {
-      userEvent.click(screen.getByText('In afwachting van behandeling'))
-    })
+    userEvent.click(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    )
 
     await waitFor(() => {
       expect(
