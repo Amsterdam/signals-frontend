@@ -14,6 +14,7 @@ const defaultProps: Props = {
     active: true,
     state: StatusCode.Afgehandeld,
     meta: {},
+    categories: [1],
   },
   onClick: jest.fn(),
 }

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type { FC, SyntheticEvent } from 'react'
+import type { SyntheticEvent } from 'react'
 
 import type { StandardText as StandardTextType } from 'types/api/standard-texts'
 import type { StatusCode } from 'types/status-code'
@@ -13,7 +13,7 @@ import {
   Wrapper,
 } from '../DefaultTexts/styled'
 
-type DefaulTextsProps = {
+export type Props = {
   standardTexts: StandardTextType[]
   status: StatusCode
   onClose: () => void
@@ -23,12 +23,12 @@ type DefaulTextsProps = {
   ) => void
 }
 
-export const StandardTexts: FC<DefaulTextsProps> = ({
+export const StandardTexts = ({
   standardTexts,
   status,
   onClose,
   onHandleUseStandardText,
-}) => (
+}: Props) => (
   <ModalDialog title="Standaardtekst" onClose={onClose}>
     <Wrapper data-scroll-lock-scrollable>
       {standardTexts.length === 0 && (

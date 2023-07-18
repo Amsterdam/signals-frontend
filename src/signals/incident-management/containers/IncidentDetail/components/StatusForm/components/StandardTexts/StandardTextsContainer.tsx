@@ -6,7 +6,7 @@ import { StandardTexts } from './StandardTexts'
 import type { State } from '../../reducer'
 import { StandardTextsButton } from '../../styled'
 
-interface Props {
+export interface Props {
   closeStandardTextModal: () => void
   modalStandardTextIsOpen: boolean
   openStandardTextModal: (event: SyntheticEvent) => void
