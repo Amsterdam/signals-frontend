@@ -148,6 +148,7 @@ export const Detail = () => {
       )
     }
   }, [dispatch, error])
+
   return (
     <FormProvider {...formMethods}>
       <Routes>
