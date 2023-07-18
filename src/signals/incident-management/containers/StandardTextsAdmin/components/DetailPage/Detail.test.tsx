@@ -24,11 +24,6 @@ const mockNavigate = jest.fn()
 const dispatch = jest.fn()
 
 const id = 4
-// jest.mock('react-router-dom', () => ({
-//   ...jest.requireActual('react-router-dom'),
-//   useParams: () => ({ id }),
-//   useNavigate: () => mockNavigate,
-// }))
 
 jest.mock('../Subcategories', () => () => {
   return <div>Subcategories</div>
@@ -83,9 +78,11 @@ describe('Detail', () => {
 
   it('renders a loader when loading', async () => {
     render(withAppContext(<Detail />))
-    const loader = await screen.findByTestId('loading-indicator')
 
-    expect(loader).toBeInTheDocument()
+    await waitFor(async () => {
+      const loader = await screen.findByTestId('loading-indicator')
+      expect(loader).toBeInTheDocument()
+    })
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
@@ -93,27 +90,14 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
-    jest.useFakeTimers()
     render(withAppContext(<Detail />))
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
-
-    await act(async () => {
+    await waitFor(async () => {
+      userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+      expect(mockNavigate).toBeCalledWith('../')
     })
-
-    act(() => {
-      jest.runAllTimers()
-    })
-
-    await waitFor(
-      () => {
-        expect(mockNavigate).toBeCalledWith('../')
-      },
-      { timeout: 1000 }
-    )
-
-    jest.useRealTimers()
   })
 
   it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
@@ -162,6 +146,25 @@ describe('Detail', () => {
       ).toBeChecked()
     })
   })
+
+  it('should render a create page', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({}))
+
+    render(withAppContext(<Detail />))
+
+    await waitFor(() => {
+      const titleInput = screen.getByPlaceholderText('Titel')
+      expect(titleInput).toHaveValue('')
+
+      const textArea = screen.getByPlaceholderText('Tekst')
+      expect(textArea).toHaveValue('')
+
+      expect(
+        screen.queryByRole('button', { name: 'Verwijderen' })
+      ).not.toBeInTheDocument()
+    })
+  })
+
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
@@ -217,6 +220,29 @@ describe('Detail', () => {
         ).toBeInTheDocument()
         expect(screen.getByText('Vul een titel in')).toBeInTheDocument()
         expect(screen.getByText('Vul een omschrijving in')).toBeInTheDocument()
+      })
+    })
+
+    it('should add a new standard text and navigate back but invalidate', async () => {
+      jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({}))
+
+      render(withAppContext(<Detail />))
+
+      await waitFor(() => {
+        const titleInput = screen.getByPlaceholderText('Titel')
+        expect(titleInput).toBeInTheDocument()
+
+        const textArea = screen.getByPlaceholderText('Tekst')
+        expect(textArea).toBeInTheDocument()
+
+        userEvent.type(titleInput, 'Nieuwe standaardtekst titel')
+
+        userEvent.type(textArea, 'Nieuwe standaardtekst')
+      })
+
+      await waitFor(() => {
+        userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+        expect(mockNavigate).toBeCalledWith('../')
       })
     })
   })

@@ -60,7 +60,6 @@ export const Detail = () => {
   const [waitForTimeout, setWaitForTimeout] = useState(false)
   const dispatch = useDispatch()
   const params = useParams()
-  const isNewPage = location.pathname.split('/').pop() === 'new'
   const { get, data, isLoading, patch, del, post, isSuccess, error } =
     useFetch<StandardTextDetailData>()
 
@@ -68,7 +67,6 @@ export const Detail = () => {
     ? 'Standaardtekst wijzigen'
     : 'Standaardtekst toevoegen'
   const redirectURL = '../'
-
   const defaultValues: StandardTextForm | null = useMemo(() => {
     if (data) {
       return {
@@ -106,8 +104,7 @@ export const Detail = () => {
     const hasDirtyFields = Object.keys(formState.dirtyFields).length > 0
 
     !hasDirtyFields && navigate(redirectURL)
-
-    if (!isNewPage && params.id) {
+    if (params.id) {
       patch(
         `${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`,
         createPatch(getValues(), formState.dirtyFields)
@@ -115,15 +112,7 @@ export const Detail = () => {
     } else {
       post(`${configuration.STANDARD_TEXTS_ENDPOINT}`, createPost(getValues()))
     }
-  }, [
-    formState.dirtyFields,
-    navigate,
-    isNewPage,
-    params.id,
-    patch,
-    getValues,
-    post,
-  ])
+  }, [formState.dirtyFields, navigate, params.id, patch, getValues, post])
 
   const handleOnCancel = () => {
     navigate(redirectURL)
@@ -215,7 +204,7 @@ export const Detail = () => {
                   }
                 />
               </Row>
-              {(isLoading || waitForTimeout) && <LoadingIndicator />}
+              {isLoading && <LoadingIndicator />}
               <Row>
                 <Column span={12}>
                   <Form onSubmit={handleSubmit(onSubmit)}>

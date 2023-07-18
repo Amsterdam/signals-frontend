@@ -166,7 +166,6 @@ const useFetch = <T>(): FetchResponse<T> => {
             ? await fetchResponse.blob()
             : await fetchResponse.json()
         ) as Data
-
         if (fetchResponse.ok) {
           dispatch({ type: 'SET_GET_DATA', payload: responseData })
         } else {
@@ -313,6 +312,7 @@ const useFetch = <T>(): FetchResponse<T> => {
    * @property {Function} patch - Function that expects a URL and a data object as parameters
    * @property {Function} post - Function that expects a URL and a data object as parameters
    */
+
   return {
     del,
     get,
