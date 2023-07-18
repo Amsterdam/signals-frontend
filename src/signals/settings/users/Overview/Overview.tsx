@@ -17,13 +17,13 @@ import styled from 'styled-components'
 
 import DataView from 'components/DataView'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import Select from 'components/Select'
 import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import useDebounce from 'hooks/useDebounce'
 import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
 
 import useFetchUsers from './hooks/useFetchUsers'
@@ -167,13 +167,15 @@ const UsersOverviewContainer = () => {
   const columnHeaders = ['Gebruikersnaam', 'Rol', 'Afdeling', 'Status']
   return (
     <Fragment>
-      <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
-        {userCan('add_user') && (
-          <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
-            Gebruiker toevoegen
-          </HeaderButton>
-        )}
-      </PageHeader>
+      <Row>
+        <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
+          {userCan('add_user') && (
+            <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
+              Gebruiker toevoegen
+            </HeaderButton>
+          )}
+        </PageHeader>
+      </Row>
 
       <Row data-testid="usersOverview">
         {isLoading && <LoadingIndicator />}

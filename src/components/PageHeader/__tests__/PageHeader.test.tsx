@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { render, screen } from '@testing-library/react'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import PageHeader from '..'
+import PageHeader from '../index'
 
-describe('components/PageHeader', () => {
-  it('renders required elements', () => {
-    const title = 'Foo'
-    const subTitle = 'Bar'
-    render(withAppContext(<PageHeader title={title} subTitle={subTitle} />))
+describe('settings/components/PageHeader', () => {
+  it('renders correctly', () => {
+    const { getByText } = render(
+      withAppContext(<PageHeader title="Foo bar baz" />)
+    )
 
-    expect(screen.getByRole('heading', { name: title })).toBeInTheDocument()
-    expect(screen.getByText(subTitle)).toBeInTheDocument()
+    expect(getByText('Foo bar baz')).toBeTruthy()
   })
 })

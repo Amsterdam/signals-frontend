@@ -16,7 +16,8 @@ import {
   makeSelectIncidentsCount,
 } from 'signals/incident-management/selectors'
 
-import Refresh from '../../images/icon-refresh.svg'
+import { SubTitle } from './styled'
+import Refresh from '../../../../../../images/icon-refresh.svg'
 
 const RefreshIcon = styled(Refresh).attrs({
   height: 30,
@@ -50,8 +51,11 @@ export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
     () => query && `Zoekresultaten voor "${query}"`,
     [query]
   )
-
-  return <PageHeader title={headerTitle} subTitle={subTitle} />
+  return (
+    <PageHeader title={headerTitle}>
+      {subTitle && <SubTitle>{subTitle}</SubTitle>}
+    </PageHeader>
+  )
 }
 
 IncidentOverviewTitle.defaultProps = {

@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import useFetch from 'hooks/useFetch'
 import {
   makeSelectStructuredCategories,
@@ -19,7 +20,6 @@ import {
 } from 'models/categories/selectors'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 import * as types from 'shared/types'
-import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
 
 import CategoryLists from './components/CategoryLists'
@@ -68,12 +68,15 @@ export const DepartmentDetailContainer = ({
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={
-          <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
-        }
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={
+            <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
+          }
+        />
+      </Row>
 
       {isLoading && <LoadingIndicator />}
 

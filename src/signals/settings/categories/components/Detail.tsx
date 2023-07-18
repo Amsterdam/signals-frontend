@@ -2,18 +2,19 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { Fragment, useMemo, useCallback, useEffect } from 'react'
 
+import { Row } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import useFetch from 'hooks/useFetch'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { fetchCategories } from 'models/categories/actions'
 import configuration from 'shared/services/configuration/configuration'
-import PageHeader from 'signals/settings/components/PageHeader'
 import routes from 'signals/settings/routes'
 import type { StandardText } from 'types/api/standard-texts'
 import type { StatusMessagesCategory } from 'types/api/status-messages'
@@ -175,10 +176,13 @@ export const CategoryDetail = ({
 
   return (
     <Fragment>
-      <PageHeader
-        title={title}
-        BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={title}
+          BackLink={<BackLink to={redirectURL}>Terug naar overzicht</BackLink>}
+        />
+      </Row>
 
       {isLoading && <LoadingIndicator />}
 

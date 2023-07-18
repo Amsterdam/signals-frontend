@@ -28,6 +28,10 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
+jest.mock('../Subcategories', () => () => {
+  return <div>Subcategories</div>
+})
+
 describe('Detail', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
@@ -81,7 +85,7 @@ describe('Detail', () => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
     })
     await waitFor(() => {
-      expect(mockNavigate).toBeCalledWith('..')
+      expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
@@ -90,7 +94,7 @@ describe('Detail', () => {
 
     await waitFor(() => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-      expect(mockNavigate).toBeCalledWith('..')
+      expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
@@ -101,7 +105,7 @@ describe('Detail', () => {
       userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
     })
     await waitFor(() => {
-      expect(mockNavigate).toBeCalledWith('..')
+      expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
@@ -110,10 +114,29 @@ describe('Detail', () => {
 
     await waitFor(() => {
       userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
-      expect(mockNavigate).toBeCalledWith('..')
+      expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
+  it('should change the state', async () => {
+    render(withAppContext(<Detail />))
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+      ).not.toBeChecked()
+    })
+
+    await waitFor(() => {
+      userEvent.click(screen.getByText('In afwachting van behandeling'))
+    })
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+      ).toBeChecked()
+    })
+  })
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
@@ -155,6 +178,7 @@ describe('Detail', () => {
         url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
         body: mockErrorData,
       })
+
       render(withAppContext(<Detail />))
 
       await waitFor(() => {
@@ -169,6 +193,18 @@ describe('Detail', () => {
         expect(screen.getByText('Vul een titel in')).toBeInTheDocument()
         expect(screen.getByText('Vul een omschrijving in')).toBeInTheDocument()
       })
+    })
+  })
+
+  describe('Subcategories', () => {
+    it('should render the subcategories', async () => {
+      render(withAppContext(<Detail />))
+
+      await waitFor(() => {
+        userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
+      })
+
+      expect(screen.getByText('Subcategories')).toBeInTheDocument()
     })
   })
 })

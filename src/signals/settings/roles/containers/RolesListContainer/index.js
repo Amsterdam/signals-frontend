@@ -10,9 +10,9 @@ import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { rolesModelSelector } from 'models/roles/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import { ROLE_URL } from 'signals/settings/routes'
 
 import RolesList from './components/RolesList'
@@ -28,13 +28,15 @@ export const RolesListContainer = ({
   userCan,
 }) => (
   <Fragment>
-    <PageHeader title="Rollen">
-      {userCan('add_group') && (
-        <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
-          Rol toevoegen
-        </HeaderButton>
-      )}
-    </PageHeader>
+    <Row>
+      <PageHeader title="Rollen">
+        {userCan('add_group') && (
+          <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
+            Rol toevoegen
+          </HeaderButton>
+        )}
+      </PageHeader>
+    </Row>
     <Row>
       <Column span={12}>
         {loading || loadingPermissions ? (

@@ -9,9 +9,9 @@ import styled from 'styled-components'
 
 import ListComponent from 'components/List'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectDepartments } from 'models/departments/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import { DEPARTMENT_URL } from 'signals/settings/routes'
 
 import filterData from '../../utils/filterData'
@@ -61,12 +61,14 @@ const DepartmentOverview = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Afdelingen${
-          departments.count ? ` (${departments.count})` : ''
-        }`}
-      />
-
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={`Afdelingen${
+            departments.count ? ` (${departments.count})` : ''
+          }`}
+        />
+      </Row>
       <Row>
         {departments.loading && <LoadingIndicator />}
 

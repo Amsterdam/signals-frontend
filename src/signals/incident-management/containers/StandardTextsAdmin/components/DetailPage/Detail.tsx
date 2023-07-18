@@ -2,11 +2,12 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { Row } from '@amsterdam/asc-ui'
+import { Column, Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
+import isEmpty from 'lodash/isEmpty'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import * as yup from 'yup'
 
 import BackLink from 'components/BackLink'
@@ -16,6 +17,7 @@ import GlobalError from 'components/GlobalError'
 import Input from 'components/Input'
 import Label from 'components/Label'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import RadioButtonList from 'components/RadioButtonList'
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
@@ -26,18 +28,18 @@ import { changeStatusOptionList } from 'signals/incident-management/definitions/
 
 import {
   Form,
+  GlobalErrorWrapper,
   Grid,
   LeftSection,
   RightSection,
-  StyledColumn,
   StyledFormFooter,
   StyledLabel,
   StyledTextArea,
 } from './styled'
 import type { StandardTextDetailData, StandardTextForm } from './types'
 import { createPatch } from './utils'
-import { PageHeader } from '../PageHeader'
 import { SelectedSubcategories } from '../SelectedSubcategories'
+import Subcategories from '../Subcategories'
 
 interface Option {
   key: string
@@ -63,7 +65,7 @@ export const Detail = () => {
     useFetch<StandardTextDetailData>()
 
   const title = 'Standaardtekst wijzigen'
-  const redirectURL = '..'
+  const redirectURL = '../'
 
   const defaultValues: StandardTextForm | null = useMemo(() => {
     if (!data) return null
@@ -146,135 +148,169 @@ export const Detail = () => {
       )
     }
   }, [dispatch, error])
-
   return (
-    <Row>
-      <FormProvider {...formMethods}>
-        <StyledColumn span={12}>
-          <GlobalError
-            meta={{ label: 'De standaardtekst kan niet worden opgeslagen' }}
-          />
-          <PageHeader
-            title={title}
-            backLink={
-              <BackLink to={redirectURL}>Terug naar overzicht</BackLink>
-            }
-          />
-        </StyledColumn>
-
-        {(isLoading || waitForTimeout) && <LoadingIndicator />}
-
-        {data && (
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Grid>
-              <LeftSection>
-                <Controller
-                  name="categories"
-                  render={({
-                    field: { name, onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <SelectedSubcategories
-                      name={name}
-                      error={error}
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
+    <FormProvider {...formMethods}>
+      <Routes>
+        <Route
+          path="subcategories"
+          element={
+            <Controller
+              name="categories"
+              render={({ field: { onChange, value } }) => (
+                <Subcategories
+                  defaultText={data?.title}
+                  onChange={onChange}
+                  value={value}
                 />
-                <Controller
-                  name="state"
-                  render={({ field: { value, onChange } }) => {
-                    const handleOnchange = (
-                      _groupName: string,
-                      option: Option
-                    ) => {
-                      onChange(option.key)
-                    }
-                    return (
-                      <>
-                        <Label as="span">Status</Label>
-                        <RadioButtonList
-                          groupName="Status"
-                          hasEmptySelectionButton={false}
-                          defaultValue={value}
-                          options={options}
-                          onChange={handleOnchange}
-                        />
-                      </>
-                    )
-                  }}
-                />
-              </LeftSection>
-
-              <RightSection>
-                <Controller
-                  name="title"
-                  render={({
-                    field: { name, value = '', onChange },
-                    fieldState: { error },
-                  }) => (
-                    <Input
-                      id={name}
-                      name={name}
-                      value={value}
-                      onChange={onChange}
-                      placeholder={'Titel'}
-                      error={error?.message}
-                    />
-                  )}
-                />
-                <Controller
-                  name="text"
-                  render={({
-                    field: { name, value, onChange },
-                    fieldState: { error },
-                  }) => (
-                    <StyledTextArea
-                      showError={Boolean(error)}
-                      id={name}
-                      name={name}
-                      value={value}
-                      onChange={onChange}
-                      placeholder="Tekst"
-                      errorMessage={error?.message}
-                    />
-                  )}
-                />
-                <Controller
-                  name="active"
-                  render={({ field: { name, value, onChange } }) => (
-                    <div>
-                      <StyledLabel htmlFor={name} label="Actief">
-                        <Checkbox
-                          name={name}
-                          checked={value}
-                          id={name}
-                          onChange={onChange}
-                        />
-                      </StyledLabel>
-                    </div>
-                  )}
-                />
-
-                <Button
-                  variant="secondary"
-                  onClick={handleOnDelete}
-                  type="button"
-                >
-                  Verwijderen
-                </Button>
-              </RightSection>
-            </Grid>
-
-            <StyledFormFooter
-              cancelBtnLabel="Annuleer"
-              onCancel={handleOnCancel}
-              submitBtnLabel="Opslaan"
+              )}
             />
-          </Form>
-        )}
-      </FormProvider>
-    </Row>
+          }
+        />
+        <Route
+          path={'/'}
+          element={
+            <>
+              <Row>
+                <Column span={12}>
+                  {!isEmpty(formState?.errors) && (
+                    <GlobalErrorWrapper>
+                      <GlobalError
+                        meta={{
+                          label: 'De standaardtekst kan niet worden opgeslagen',
+                        }}
+                      />
+                    </GlobalErrorWrapper>
+                  )}
+                </Column>
+              </Row>
+              <Row>
+                <PageHeader
+                  dataTestId={'defaulttextadmin-page-header'}
+                  title={title}
+                  BackLink={
+                    <BackLink to={'../../'}>Terug naar overzicht</BackLink>
+                  }
+                />
+              </Row>
+              {(isLoading || waitForTimeout) && <LoadingIndicator />}
+              {data && (
+                <Row>
+                  <Column span={12}>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                      <Grid>
+                        <LeftSection>
+                          <Controller
+                            name="categories"
+                            render={({
+                              field: { name, onChange, value },
+                              fieldState: { error },
+                            }) => (
+                              <SelectedSubcategories
+                                name={name}
+                                error={error}
+                                onChange={onChange}
+                                value={value}
+                              />
+                            )}
+                          />
+                          <Controller
+                            name="state"
+                            render={({ field: { value, onChange } }) => {
+                              const handleOnchange = (
+                                _groupName: string,
+                                option: Option
+                              ) => {
+                                onChange(option.key)
+                              }
+                              return (
+                                <>
+                                  <Label as="span">Status</Label>
+                                  <RadioButtonList
+                                    groupName="Status"
+                                    hasEmptySelectionButton={false}
+                                    defaultValue={value}
+                                    options={options}
+                                    onChange={handleOnchange}
+                                  />
+                                </>
+                              )
+                            }}
+                          />
+                        </LeftSection>
+
+                        <RightSection>
+                          <Controller
+                            name="title"
+                            render={({
+                              field: { name, value = '', onChange },
+                              fieldState: { error },
+                            }) => (
+                              <Input
+                                id={name}
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                                placeholder={'Titel'}
+                                error={error?.message}
+                              />
+                            )}
+                          />
+                          <Controller
+                            name="text"
+                            render={({
+                              field: { name, value, onChange },
+                              fieldState: { error },
+                            }) => (
+                              <StyledTextArea
+                                showError={Boolean(error)}
+                                id={name}
+                                name={name}
+                                value={value}
+                                onChange={onChange}
+                                placeholder="Tekst"
+                                errorMessage={error?.message}
+                              />
+                            )}
+                          />
+                          <Controller
+                            name="active"
+                            render={({ field: { name, value, onChange } }) => (
+                              <div>
+                                <StyledLabel htmlFor={name} label="Actief">
+                                  <Checkbox
+                                    name={name}
+                                    checked={value}
+                                    id={name}
+                                    onChange={onChange}
+                                  />
+                                </StyledLabel>
+                              </div>
+                            )}
+                          />
+
+                          <Button
+                            variant="secondary"
+                            onClick={handleOnDelete}
+                            type="button"
+                          >
+                            Verwijderen
+                          </Button>
+                        </RightSection>
+                      </Grid>
+
+                      <StyledFormFooter
+                        cancelBtnLabel="Annuleer"
+                        onCancel={handleOnCancel}
+                        submitBtnLabel="Opslaan"
+                      />
+                    </Form>
+                  </Column>
+                </Row>
+              )}
+            </>
+          }
+        />
+      </Routes>
+    </FormProvider>
   )
 }

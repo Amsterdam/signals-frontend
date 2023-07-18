@@ -8,10 +8,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { PAGE_SIZE } from 'containers/App/constants'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectAllSubCategories } from 'models/categories/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import {
   BASE_URL,
   SUBCATEGORY_URL,
@@ -95,10 +95,13 @@ export const OverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Subcategorieën ${count ? `(${count})` : ''}`}
-        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
-      />
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={`Subcategorieën ${count ? `(${count})` : ''}`}
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        />
+      </Row>
 
       <Row>
         {isLoading && <LoadingIndicator />}

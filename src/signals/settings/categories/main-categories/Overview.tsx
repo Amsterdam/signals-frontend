@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom'
 
 import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
+import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectMainCategories } from 'models/categories/selectors'
-import PageHeader from 'signals/settings/components/PageHeader'
 import { BASE_URL, MAIN_CATEGORY_URL } from 'signals/settings/routes'
 
 import filterData from '../../utils/filterData'
@@ -58,13 +58,15 @@ export const OverviewContainer = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={`Hoofdcategorieën ${
-          mainCategories ? `(${mainCategories.length})` : ''
-        }`}
-        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
-      />
-
+      <Row>
+        <PageHeader
+          dataTestId={'settings-page-header'}
+          title={`Hoofdcategorieën ${
+            mainCategories ? `(${mainCategories.length})` : ''
+          }`}
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        />
+      </Row>
       <Row>
         {isLoading && <LoadingIndicator />}
 
