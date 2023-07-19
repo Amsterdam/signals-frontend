@@ -34,10 +34,17 @@ describe('Summary', () => {
     expect(screen.getByText('Afgehandeld')).toBeInTheDocument()
   })
 
-  it('calls onClick with standardText.id ', () => {
+  it('calls onClick with standardText.id when clicking ', () => {
     render(<Summary {...defaultProps} />)
 
     userEvent.click(screen.getByTestId('summary-standard-text'))
+    expect(defaultProps.onClick).toHaveBeenCalledWith(10)
+  })
+
+  it('calls onClick with standardText.id when hitting enter', () => {
+    render(<Summary {...defaultProps} />)
+
+    userEvent.type(screen.getByTestId('summary-standard-text'), ' ')
     expect(defaultProps.onClick).toHaveBeenCalledWith(10)
   })
 })

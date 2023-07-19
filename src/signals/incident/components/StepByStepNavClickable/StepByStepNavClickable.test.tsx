@@ -154,7 +154,7 @@ describe('StepByStepNavClickable when form is valid', () => {
     )
 
     await waitFor(() => {
-      userEvent.click(screen.getByText('step1'))
+      userEvent.type(screen.getByText('step1'), ' ')
     })
     expect(mockTrigger).toBeCalled()
     expect(navigateSpy).toBeCalledWith('incident/step1')

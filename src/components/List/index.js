@@ -58,6 +58,8 @@ const List = ({
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
             onClick={onItemClick}
             onKeyDown={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               if (['Enter', ' '].includes(e.key)) {
                 onItemClick(e)
               }

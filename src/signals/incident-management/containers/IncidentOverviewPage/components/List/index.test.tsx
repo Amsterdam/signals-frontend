@@ -308,7 +308,7 @@ describe('List', () => {
     userEvent.type(row, '{enter}')
 
     expect(navigateSpy).toHaveBeenCalledWith(
-      `${INCIDENT_URL}/${props.incidents[0].id}`
+      `../${INCIDENT_URL}/${props.incidents[0].id}`
     )
   })
 })
