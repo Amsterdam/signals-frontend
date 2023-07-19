@@ -34,7 +34,7 @@ import {
   DEFAULT_TEXT_MAX_LENGTH,
   MELDING_CHECKBOX_DESCRIPTION,
 } from './constants'
-import type { StandardTextResponse } from './StatusForm'
+import type { StandardTextsResponse } from './StatusForm'
 import { PATCH_TYPE_STATUS } from '../../constants'
 import IncidentDetailContext from '../../context'
 import type { IncidentChild } from '../../types'
@@ -889,7 +889,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
             meta: {},
           },
         ],
-      } as unknown as StandardTextResponse
+      } as unknown as StandardTextsResponse
 
       render(renderWithContext())
 

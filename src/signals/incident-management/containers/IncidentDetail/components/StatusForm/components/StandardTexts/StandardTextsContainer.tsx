@@ -27,7 +27,7 @@ const StandardTextsContainer = ({
 }: Props) => {
   const activeTexts = standardTexts.results.filter((text) => text.active)
 
-  const textByStatus = activeTexts.filter((text) => text.state === status)
+  const textsByStatus = activeTexts.filter((text) => text.state === status)
 
   return (
     <>
@@ -35,14 +35,14 @@ const StandardTextsContainer = ({
         data-testid="standard-text-button-v2"
         variant="primaryInverted"
         onClick={openStandardTextModal}
-        templatesAvailable={!!textByStatus.length}
+        templatesAvailable={!!textsByStatus.length}
       >
-        <div>{`Standaardtekst (${textByStatus.length})`}</div>
+        <div>{`Standaardtekst (${textsByStatus.length})`}</div>
       </StandardTextsButton>
 
       {modalStandardTextIsOpen && (
         <StandardTexts
-          standardTexts={textByStatus}
+          standardTexts={textsByStatus}
           onHandleUseStandardText={useStandardText}
           status={status}
           onClose={closeStandardTextModal}
