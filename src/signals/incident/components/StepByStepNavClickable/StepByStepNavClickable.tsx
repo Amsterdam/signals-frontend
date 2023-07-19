@@ -122,6 +122,12 @@ export function StepByStepNavClickable({
               breakpoint={breakpoint}
               key={label}
               onClick={() => onListClickHandler(index)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ')
+                  onListClickHandler(index)
+              }}
+              tabIndex={0}
+              role="button"
               {...props}
             >
               <StyledLabel itemType={props.itemType} breakpoint={breakpoint}>

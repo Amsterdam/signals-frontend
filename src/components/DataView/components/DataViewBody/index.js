@@ -25,11 +25,18 @@ const DataViewBody = ({
 
   return (
     <tbody data-testid="data-view-body">
-      {data.map((row) => (
+      {data.map((row, index) => (
         <StyledTR
-          key={JSON.stringify(row)}
+          key={JSON.stringify(row) + index}
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
           onClick={onItemClick}
+          onKeyDown={(e) => {
+            if (['Enter', ' '].includes(e.key)) {
+              onItemClick(e)
+            }
+          }}
+          tabIndex={0}
+          role={'button'}
           data-testid="data-view-body-row"
         >
           {visibleColumns.map((column, idx) => {

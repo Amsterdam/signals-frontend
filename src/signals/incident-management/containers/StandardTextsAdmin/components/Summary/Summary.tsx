@@ -25,7 +25,15 @@ export const Summary = ({ standardText, onClick }: Props) => {
   const status = statusList.find(({ key }) => key === state) as StatusType
 
   return (
-    <Wrapper onClick={() => onClick(id)} data-testid="summary-standard-text">
+    <Wrapper
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onClick(id)
+      }}
+      onClick={() => onClick(id)}
+      tabIndex={0}
+      role={'button'}
+      data-testid="summary-standard-text"
+    >
       <ColumnStatus>
         <StyledIcon size={12}>
           <ChevronRight />
