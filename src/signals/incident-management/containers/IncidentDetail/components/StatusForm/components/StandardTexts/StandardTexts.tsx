@@ -38,8 +38,7 @@ export const StandardTexts = ({
         </StyledDefaultText>
       )}
 
-      {standardTexts.map((item, index: number) => (
-        // eslint-disable-next-line react/no-array-index-key
+      {standardTexts.map((item, index) => (
         <StyledDefaultText key={`${index}${status}${JSON.stringify(item)}`}>
           <StyledTitle data-testid="default-texts-item-title">
             {item.title}
