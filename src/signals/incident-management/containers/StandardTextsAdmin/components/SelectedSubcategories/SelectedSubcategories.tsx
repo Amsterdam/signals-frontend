@@ -27,7 +27,7 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
     return value
       ?.map((id) => {
         const sub = subcategories.find((sub) => sub.fk == id)
-        return sub?.public_name ?? sub?.name
+        return sub?.name
       })
       .filter(Boolean)
       .join(', ')
