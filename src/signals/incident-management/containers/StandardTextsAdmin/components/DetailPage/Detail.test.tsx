@@ -93,12 +93,13 @@ describe('Detail', () => {
     jest
       .spyOn(reactRouterDom, 'useNavigate')
       .mockImplementation(() => mockNavigate)
+
     render(withAppContext(<Detail />))
 
-    await waitFor(async () => {
-      userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
-      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
 
+    await waitFor(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
       expect(mockNavigate).toBeCalledWith('../')
     })
   })
@@ -115,33 +116,29 @@ describe('Detail', () => {
     })
   })
 
-  it('deletes the standard text when the button Verwijderen is pressed', async () => {
+  it('deletes the standard text when the button Verwijderen is pressed', () => {
     jest
       .spyOn(reactRouterDom, 'useNavigate')
       .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
-    })
-    await waitFor(() => {
-      expect(mockNavigate).toBeCalledWith('../')
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
+
+    expect(mockNavigate).toBeCalledWith('../')
   })
 
-  it('navigates to previous page when Annuleren is pressed', async () => {
+  it('navigates to previous page when Annuleren is pressed', () => {
     jest
       .spyOn(reactRouterDom, 'useNavigate')
       .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
-      expect(mockNavigate).toBeCalledWith('../')
-    })
+    userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
+
+    expect(mockNavigate).toBeCalledWith('../')
   })
 
-  it('should change the state', async () => {
+  it('should change the state', () => {
     render(withAppContext(<Detail />))
 
     expect(
@@ -152,11 +149,9 @@ describe('Detail', () => {
       screen.getByRole('radio', { name: 'In afwachting van behandeling' })
     )
 
-    await waitFor(() => {
-      expect(
-        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
-      ).toBeChecked()
-    })
+    expect(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    ).toBeChecked()
   })
 
   it('should render a create page', async () => {
@@ -197,9 +192,7 @@ describe('Detail', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-    await waitFor(() => {
-      expect(screen.getByText('Standaardtekst toevoegen')).toBeInTheDocument()
-    })
+    expect(screen.getByText('Standaardtekst toevoegen')).toBeInTheDocument()
 
     userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
@@ -252,9 +245,9 @@ describe('Detail', () => {
 
       render(withAppContext(<Detail />))
 
-      await waitFor(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
+      await waitFor(() => {
         expect(
           screen.getByText('De standaardtekst kan niet worden opgeslagen')
         ).toBeInTheDocument()
@@ -274,17 +267,15 @@ describe('Detail', () => {
 
       render(withAppContext(<Detail />))
 
-      await waitFor(() => {
-        const titleInput = screen.getByPlaceholderText('Titel')
-        expect(titleInput).toBeInTheDocument()
+      const titleInput = screen.getByPlaceholderText('Titel')
+      expect(titleInput).toBeInTheDocument()
 
-        const textArea = screen.getByPlaceholderText('Tekst')
-        expect(textArea).toBeInTheDocument()
+      const textArea = screen.getByPlaceholderText('Tekst')
+      expect(textArea).toBeInTheDocument()
 
-        userEvent.type(titleInput, 'Nieuwe standaardtekst titel')
+      userEvent.type(titleInput, 'Nieuwe standaardtekst titel')
 
-        userEvent.type(textArea, 'Nieuwe standaardtekst')
-      })
+      userEvent.type(textArea, 'Nieuwe standaardtekst')
 
       await waitFor(() => {
         userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
@@ -297,9 +288,7 @@ describe('Detail', () => {
     it('should render the subcategories', async () => {
       render(withAppContext(<Detail />))
 
-      await waitFor(() => {
-        userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
-      })
+      userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
 
       expect(
         screen.getByText('Standaardtekst toewijzen aan categorie(ën)')
