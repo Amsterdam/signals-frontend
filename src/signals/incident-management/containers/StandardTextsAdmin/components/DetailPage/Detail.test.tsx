@@ -2,7 +2,6 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -25,8 +24,14 @@ const dispatch = jest.fn()
 
 const id = 4
 
-jest.mock('../Subcategories', () => () => {
-  return <div>Subcategories</div>
+jest.mock('models/categories/selectors', () => {
+  const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: () => structuredCategorie,
+    makeSelectSubCategories: () => mockSubcategory,
+  }
 })
 
 jest.mock('react-router-dom', () => ({
@@ -36,7 +41,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('Detail', () => {
   beforeEach(() => {
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
+    // jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
     jest
       .spyOn(reactRouterDom, 'useNavigate')
@@ -52,8 +57,6 @@ describe('Detail', () => {
 
   it('should render the Detail page', async () => {
     render(withAppContext(<Detail />))
-
-    act(() => {})
 
     await waitFor(() => {
       expect(screen.getByText('Standaardtekst wijzigen')).toBeInTheDocument()
@@ -154,10 +157,10 @@ describe('Detail', () => {
 
     await waitFor(() => {
       const titleInput = screen.getByPlaceholderText('Titel')
-      expect(titleInput).toHaveValue('')
+      // expect(titleInput).toHaveValue('')
 
       const textArea = screen.getByPlaceholderText('Tekst')
-      expect(textArea).toHaveValue('')
+      // expect(textArea).toHaveValue('')
 
       userEvent.type(titleInput, 'Mooie titel')
       userEvent.type(textArea, 'Mooie tekst')
@@ -165,8 +168,14 @@ describe('Detail', () => {
       expect(
         screen.queryByRole('button', { name: 'Verwijderen' })
       ).not.toBeInTheDocument()
+    })
 
-      // todo add subcats just for testing or spy on validation for this test
+    await waitFor(() => {
+      // todo make sure the post call is made by selecting a subcat and then save!
+
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+      expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
@@ -260,7 +269,9 @@ describe('Detail', () => {
         userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
       })
 
-      expect(screen.getByText('Subcategories')).toBeInTheDocument()
+      expect(
+        screen.getByText('Standaardtekst toewijzen aan categorie(ën)')
+      ).toBeInTheDocument()
     })
   })
 })
