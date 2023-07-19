@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
+/* istanbul ignore file */
 /**
  * Create the store with dynamic reducers
  */
@@ -23,13 +24,12 @@ import {
 
 export default function configureStore(initialState: Record<string, any>) {
   const reduxSagaMonitorOptions = {
-    /* istanbul ignore next */
     onError: (error: ResponseError) => {
       const message = error.response?.jsonBody?.message ?? error.message
       const notificationTitle = getErrorMessage(error)
 
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      /* istanbul ignore next */
+
       store.dispatch(
         showGlobalNotification({
           title: notificationTitle,
@@ -51,7 +51,6 @@ export default function configureStore(initialState: Record<string, any>) {
   let enhancers = applyMiddleware(...middlewares)
 
   // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
-  /* istanbul ignore next */
   if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
     enhancers = composeWithDevTools(enhancers)
   }
@@ -69,7 +68,6 @@ export default function configureStore(initialState: Record<string, any>) {
   store.injectedSagas = {} // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       store.replaceReducer(createReducer(store.injectedReducers))
