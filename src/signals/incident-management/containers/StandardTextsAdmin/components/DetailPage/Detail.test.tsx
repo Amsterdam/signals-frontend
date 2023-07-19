@@ -41,11 +41,8 @@ jest.mock('react-router-dom', () => ({
 
 describe('Detail', () => {
   beforeEach(() => {
-    // jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
-    jest
-      .spyOn(reactRouterDom, 'useNavigate')
-      .mockImplementation(() => mockNavigate)
+
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ id: `${id}` }))
@@ -93,6 +90,9 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
     await waitFor(async () => {
@@ -104,6 +104,9 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -113,6 +116,9 @@ describe('Detail', () => {
   })
 
   it('deletes the standard text when the button Verwijderen is pressed', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -124,6 +130,9 @@ describe('Detail', () => {
   })
 
   it('navigates to previous page when Annuleren is pressed', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -155,27 +164,47 @@ describe('Detail', () => {
 
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      const titleInput = screen.getByPlaceholderText('Titel')
-      // expect(titleInput).toHaveValue('')
+    const titleInput = screen.getByPlaceholderText('Titel')
+    const textArea = screen.getByPlaceholderText('Tekst')
 
-      const textArea = screen.getByPlaceholderText('Tekst')
-      // expect(textArea).toHaveValue('')
+    expect(titleInput).toHaveValue('')
+    expect(textArea).toHaveValue('')
+    expect(
+      screen.queryByRole('button', { name: 'Verwijderen' })
+    ).not.toBeInTheDocument()
 
-      userEvent.type(titleInput, 'Mooie titel')
-      userEvent.type(textArea, 'Mooie tekst')
+    userEvent.type(titleInput, 'Mooie titel')
+    userEvent.type(textArea, 'Mooie tekst')
 
-      expect(
-        screen.queryByRole('button', { name: 'Verwijderen' })
-      ).not.toBeInTheDocument()
+    expect(titleInput).toHaveValue('Mooie titel')
+    expect(textArea).toHaveValue('Mooie tekst')
+
+    const selectCategoryButton = screen.getByText('Selecteer subcategorie(ën)')
+
+    userEvent.click(selectCategoryButton)
+
+    expect(
+      screen.getByText('Standaardtekst toewijzen aan categorie(ën)')
+    ).toBeInTheDocument()
+
+    const categoryCheckbox = screen.getByRole('checkbox', {
+      name: 'Boom - boomstob',
     })
 
+    userEvent.click(categoryCheckbox)
+
+    expect(categoryCheckbox).toBeChecked()
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
     await waitFor(() => {
-      // todo make sure the post call is made by selecting a subcat and then save!
+      expect(screen.getByText('Standaardtekst toevoegen')).toBeInTheDocument()
+    })
 
-      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
-      expect(mockNavigate).toBeCalledWith('../')
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 
@@ -203,7 +232,7 @@ describe('Detail', () => {
     })
 
     it('displays error notifications if there is no category, title and/or description present', async () => {
-      const mockErrorData: StandardTextDetailData = {
+      const mockData: StandardTextDetailData = {
         id: 5,
         active: true,
         categories: [],
@@ -218,7 +247,7 @@ describe('Detail', () => {
         status: 200,
         method: 'get',
         url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
-        body: mockErrorData,
+        body: mockData,
       })
 
       render(withAppContext(<Detail />))
@@ -238,6 +267,9 @@ describe('Detail', () => {
     })
 
     it('should add a new standard text and navigate back but invalidate', async () => {
+      jest
+        .spyOn(reactRouterDom, 'useNavigate')
+        .mockImplementation(() => mockNavigate)
       jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({}))
 
       render(withAppContext(<Detail />))

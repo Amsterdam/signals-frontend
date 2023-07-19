@@ -56,8 +56,9 @@ const schema = yup.object({
 })
 
 export const Detail = () => {
-  const navigate = useNavigate()
   const [waitForTimeout, setWaitForTimeout] = useState(false)
+
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
   const { get, data, isLoading, patch, del, post, isSuccess, error } =
@@ -67,23 +68,14 @@ export const Detail = () => {
     ? 'Standaardtekst wijzigen'
     : 'Standaardtekst toevoegen'
   const redirectURL = '../'
+
   const defaultValues: StandardTextForm | null = useMemo(() => {
-    if (data) {
-      return {
-        categories: data.categories,
-        state: data.state,
-        title: data.title,
-        text: data.text,
-        active: data.active,
-      }
-    } else {
-      return {
-        categories: [],
-        state: 'm',
-        title: '',
-        text: '',
-        active: false,
-      }
+    return {
+      categories: data?.categories ?? [],
+      state: data?.state ?? 'm',
+      title: data?.title ?? '',
+      text: data?.text ?? '',
+      active: data?.active ?? true,
     }
   }, [data])
 
@@ -204,7 +196,7 @@ export const Detail = () => {
                   }
                 />
               </Row>
-              {isLoading && <LoadingIndicator />}
+              {(isLoading || waitForTimeout) && <LoadingIndicator />}
               <Row>
                 <Column span={12}>
                   <Form onSubmit={handleSubmit(onSubmit)}>

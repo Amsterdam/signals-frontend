@@ -28,6 +28,7 @@ import reportsFixture from '../mocks/fixtures/reports.json'
 import {
   activeFilter,
   detail,
+  detailPost,
   multicaseFilter,
   noResult,
   page2,
@@ -259,6 +260,8 @@ const handlers = [
     res(ctx.status(200), ctx.json(detail))
   ),
 
+  // PATCH
+
   rest.patch(API.INCIDENT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(incidentFixture))
   ),
@@ -267,8 +270,14 @@ const handlers = [
     res(ctx.status(200), ctx.json(detail))
   ),
 
+  // POST
+
   rest.post(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(detail))
+  ),
+
+  rest.post(API.STANDARD_TEXTS_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(201), ctx.json(detailPost))
   ),
 
   rest.post(API.QA_ANSWER, (_req, res, ctx) =>
