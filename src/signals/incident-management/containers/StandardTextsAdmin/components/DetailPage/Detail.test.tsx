@@ -61,7 +61,9 @@ describe('Detail', () => {
       expect(screen.getByText('Mooie omschrijving')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Mooie titel')).toBeInTheDocument()
       expect(screen.getByRole('checkbox', { name: 'Actief' })).toBeChecked()
-      expect(screen.getByText('Overlast, Afval')).toBeInTheDocument()
+      expect(
+        screen.getByText('Parkeeroverlast, Overige overlast door personen')
+      ).toBeInTheDocument()
       expect(screen.queryByText('Afgehandeld')).not.toBeNull()
       expect(screen.queryByDisplayValue('o')).not.toBeNull()
       expect(
