@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { screen, render, fireEvent } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import { StatusCode } from 'types/status-code'
 
-import DefaultTexts from '.'
+import DefaultTexts from './DefaultTexts'
 import type { DefaulTextsProps } from './DefaultTexts'
 
 describe('<DefaultTexts />', () => {

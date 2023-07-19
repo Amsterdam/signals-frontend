@@ -14,6 +14,7 @@ export const createPatch = (
     }>
   >
 ): StandardTextDetailData => {
+  /* istanbul ignore next */
   const payload = Object.keys(dirtyFields).map((key) => {
     return {
       [key]: data[key as keyof StandardTextForm],

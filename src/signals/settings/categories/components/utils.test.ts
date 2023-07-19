@@ -75,6 +75,7 @@ describe('utils', () => {
           state: StatusCode.AfgehandeldExtern,
           text: 'A',
           title: 'A',
+          categories: [1],
         },
         {
           active: true,
@@ -83,6 +84,7 @@ describe('utils', () => {
           state: StatusCode.AfgehandeldExtern,
           text: 'B',
           title: 'B',
+          categories: [1],
         },
         {
           active: true,
@@ -91,6 +93,7 @@ describe('utils', () => {
           state: StatusCode.AfgehandeldExtern,
           text: 'C',
           title: 'C',
+          categories: [1],
         },
       ]
       const result = orderStandardTexts(Direction.Up, 1, standardTexts)
