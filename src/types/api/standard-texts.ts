@@ -4,6 +4,7 @@ import type { StatusCode } from '../status-code'
 
 export interface StandardText {
   active: boolean
+  categories: number[]
   id: number
   meta: Record<any, any>
   state: StatusCode

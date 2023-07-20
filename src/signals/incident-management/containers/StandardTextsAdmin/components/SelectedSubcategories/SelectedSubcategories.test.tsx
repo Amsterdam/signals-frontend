@@ -26,7 +26,9 @@ describe('SelectedSubcategories', () => {
     expect(
       screen.getByRole('button', { name: 'Selecteer subcategorie(ën)' })
     ).toBeInTheDocument()
-    expect(screen.getByText('Afval, Overlast')).toBeInTheDocument()
+    expect(
+      screen.getByText('Overige overlast door personen, Parkeeroverlast')
+    ).toBeInTheDocument()
   })
 
   it('should show the error message when there is an error', () => {
@@ -46,6 +48,8 @@ describe('SelectedSubcategories', () => {
 
     render(withAppContext(<SelectedSubcategories {...defaultProps} />))
 
-    expect(screen.queryByText('Afval, Overlast')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Overige overlast door personen, Parkeeroverlast')
+    ).not.toBeInTheDocument()
   })
 })

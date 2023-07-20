@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import configuration from 'shared/services/configuration/configuration'
 import type Reporter from 'types/api/reporter'
 

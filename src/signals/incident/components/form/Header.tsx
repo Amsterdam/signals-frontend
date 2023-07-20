@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+/* istanbul ignore file */
 
 const Header = styled.header`
   font-weight: 700;

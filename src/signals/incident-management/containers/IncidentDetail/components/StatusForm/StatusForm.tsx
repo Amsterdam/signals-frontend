@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FunctionComponent, Reducer, SyntheticEvent } from 'react'
 import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 
@@ -16,17 +16,18 @@ import { changeStatusOptionList } from 'signals/incident-management/definitions/
 import type { Status } from 'signals/incident-management/definitions/types'
 import type { DefaultTexts as DefaultTextsType } from 'types/api/default-text'
 import type { Incident } from 'types/api/incident'
+import type { StandardText as StandardTextType } from 'types/api/standard-texts'
 import { StatusCode } from 'types/status-code'
 
 import type { StatusFormActions } from './actions'
-import DefaultTexts from './components/DefaultTexts'
+import DefaultTextsContainer from './components/DefaultTexts'
+import StandardTextsContainer from './components/StandardTexts'
 import * as constants from './constants'
 import type { State } from './reducer'
 import reducer, { init } from './reducer'
 import {
   AddNoteWrapper,
   Form,
-  StandardTextsButton,
   StyledAlert,
   StyledButton,
   StyledCheckbox,
@@ -41,8 +42,11 @@ import IncidentDetailContext from '../../context'
 import type { EmailTemplate, IncidentChild } from '../../types'
 import EmailPreview from '../EmailPreview/EmailPreview'
 
-interface StatusFormProps {
-  defaultTexts: DefaultTextsType
+export interface StandardTextsResponse {
+  results: StandardTextType[]
+}
+export interface StatusFormProps {
+  defaultTexts: DefaultTextsType | StandardTextsResponse
   childIncidents: IncidentChild[]
   onClose: () => void
 }
@@ -70,16 +74,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     error: emailTemplateError,
     isLoading,
   } = useFetch<EmailTemplate>()
-
-  const activeDefaultTexts = defaultTexts?.map((defaultText) => {
-    const templates = defaultText.templates.filter(
-      (template) => template.is_active
-    )
-    return {
-      ...defaultText,
-      templates,
-    }
-  })
 
   const openStandardTextModal = useCallback(
     (event: SyntheticEvent) => {
@@ -239,19 +233,6 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const defaultTextTemplatesLength = useCallback(
-    (defaultTexts: DefaultTextsType) => {
-      if (!defaultTexts || defaultTexts.length === 0) {
-        return 0
-      }
-      const statusDefaultTexts = defaultTexts.filter(
-        (text) => text.state === state.status.key
-      )
-      return statusDefaultTexts[0] ? statusDefaultTexts[0].templates?.length : 0
-    },
-    [state.status.key]
-  )
-
   const useDefaultText = useCallback(
     (event: SyntheticEvent, text: string) => {
       setDefaultText(event, text)
@@ -393,26 +374,28 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
               )}
             </div>
 
-            <StandardTextsButton
-              data-testid="standard-text-button"
-              variant="primaryInverted"
-              onClick={openStandardTextModal}
-              templatesAvailable={
-                defaultTextTemplatesLength(activeDefaultTexts) > 0
-              }
-            >
-              <div>{`Standaardtekst (${defaultTextTemplatesLength(
-                activeDefaultTexts
-              )})`}</div>
-            </StandardTextsButton>
-            {modalStandardTextIsOpen && (
-              <DefaultTexts
-                defaultTexts={activeDefaultTexts}
-                onHandleUseDefaultText={useDefaultText}
+            {configuration.featureFlags.showStandardTextAdminV1 && (
+              <DefaultTextsContainer
+                closeDefaultTextModal={closeStandardTextModal}
+                defaultTexts={defaultTexts as DefaultTextsType}
+                modalDefaultTextIsOpen={modalStandardTextIsOpen}
+                openDefaultTextModal={openStandardTextModal}
                 status={state.status.key}
-                onClose={closeStandardTextModal}
+                useDefaultText={useDefaultText}
               />
             )}
+
+            {!configuration.featureFlags.showStandardTextAdminV1 &&
+              configuration.featureFlags.showStandardTextAdminV2 && (
+                <StandardTextsContainer
+                  closeStandardTextModal={closeStandardTextModal}
+                  modalStandardTextIsOpen={modalStandardTextIsOpen}
+                  openStandardTextModal={openStandardTextModal}
+                  standardTexts={defaultTexts as StandardTextsResponse}
+                  status={state.status.key}
+                  useStandardText={useDefaultText}
+                />
+              )}
 
             <AddNote
               data-testid="text"

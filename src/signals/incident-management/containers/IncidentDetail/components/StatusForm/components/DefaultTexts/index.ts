@@ -1,1 +1,1 @@
-export { default } from './DefaultTexts'
+export { default } from './DefaultTextsContainer'

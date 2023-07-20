@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -109,7 +109,9 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <Button variant="secondary">Tekst toevoegen</Button>
+          <Link to="../new">
+            <Button variant="secondary">Tekst toevoegen</Button>
+          </Link>
         </div>
 
         <div>

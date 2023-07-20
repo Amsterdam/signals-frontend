@@ -184,13 +184,28 @@ const IncidentDetail = () => {
   }, [attachments])
 
   useEffect(() => {
-    if (!incident?.category) return
+    if (!incident?.category || !subcategories) return
 
-    const { main_slug, sub_slug } = incident.category
-    getDefaultTexts(
-      `${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`
-    )
-  }, [incident?.category, getDefaultTexts])
+    if (configuration.featureFlags.showStandardTextAdminV1) {
+      const { main_slug, sub_slug } = incident.category
+      getDefaultTexts(
+        `${configuration.TERMS_ENDPOINT}${main_slug}/sub_categories/${sub_slug}/status-message-templates`
+      )
+    }
+
+    if (
+      !configuration.featureFlags.showStandardTextAdminV1 &&
+      configuration.featureFlags.showStandardTextAdminV2
+    ) {
+      const category = subcategories?.find(
+        (cat) => cat.slug === incident.category?.sub_slug
+      )
+
+      getDefaultTexts(
+        `${configuration.STANDARD_TEXTS_ENDPOINT}?category_id=${category?.fk}`
+      )
+    }
+  }, [incident?.category, getDefaultTexts, subcategories])
 
   useEffect(() => {
     if (!defaultTexts) return

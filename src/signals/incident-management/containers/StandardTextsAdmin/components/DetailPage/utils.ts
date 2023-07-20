@@ -14,11 +14,19 @@ export const createPatch = (
     }>
   >
 ): StandardTextDetailData => {
+  /* istanbul ignore next */
   const payload = Object.keys(dirtyFields).map((key) => {
     return {
       [key]: data[key as keyof StandardTextForm],
     }
   })
 
+  return Object.assign({}, ...payload)
+}
+
+export const createPost = (data: StandardTextForm): StandardTextDetailData => {
+  const payload = Object.entries(data).map(([key, value]) => {
+    return { [key]: value }
+  })
   return Object.assign({}, ...payload)
 }

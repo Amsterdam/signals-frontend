@@ -3,6 +3,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
+import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
@@ -22,24 +23,33 @@ const mockNavigate = jest.fn()
 const dispatch = jest.fn()
 
 const id = 4
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({ id }),
-  useNavigate: () => mockNavigate,
-}))
 
-jest.mock('../Subcategories', () => () => {
-  return <div>Subcategories</div>
+jest.mock('models/categories/selectors', () => {
+  const structuredCategorie = require('utils/__tests__/fixtures/categories_structured.json')
+  return {
+    __esModule: true,
+    ...jest.requireActual('models/categories/selectors'),
+    makeSelectStructuredCategories: () => structuredCategorie,
+    makeSelectSubCategories: () => mockSubcategory,
+  }
 })
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+}))
 
 describe('Detail', () => {
   beforeEach(() => {
-    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(mockSubcategory)
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+
+    jest
+      .spyOn(reactRouterDom, 'useParams')
+      .mockImplementation(() => ({ id: `${id}` }))
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('should render the Detail page', async () => {
@@ -51,7 +61,9 @@ describe('Detail', () => {
       expect(screen.getByText('Mooie omschrijving')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Mooie titel')).toBeInTheDocument()
       expect(screen.getByRole('checkbox', { name: 'Actief' })).toBeChecked()
-      expect(screen.getByText('Overlast, Afval')).toBeInTheDocument()
+      expect(
+        screen.getByText('Parkeeroverlast, Overige overlast door personen')
+      ).toBeInTheDocument()
       expect(screen.queryByText('Afgehandeld')).not.toBeNull()
       expect(screen.queryByDisplayValue('o')).not.toBeNull()
       expect(
@@ -68,9 +80,11 @@ describe('Detail', () => {
 
   it('renders a loader when loading', async () => {
     render(withAppContext(<Detail />))
-    const loader = await screen.findByTestId('loading-indicator')
 
-    expect(loader).toBeInTheDocument()
+    await waitFor(async () => {
+      const loader = await screen.findByTestId('loading-indicator')
+      expect(loader).toBeInTheDocument()
+    })
 
     await waitFor(() => {
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
@@ -78,18 +92,24 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
+
     render(withAppContext(<Detail />))
 
+    userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
+
     await waitFor(() => {
-      userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-    })
-    await waitFor(() => {
       expect(mockNavigate).toBeCalledWith('../')
     })
   })
 
   it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -98,45 +118,91 @@ describe('Detail', () => {
     })
   })
 
-  it('deletes the standard text when the button Verwijderen is pressed', async () => {
+  it('deletes the standard text when the button Verwijderen is pressed', () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
     render(withAppContext(<Detail />))
 
-    await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
+    userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
+
+    expect(mockNavigate).toBeCalledWith('../')
+  })
+
+  it('navigates to previous page when Annuleren is pressed', () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
+    render(withAppContext(<Detail />))
+
+    userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
+
+    expect(mockNavigate).toBeCalledWith('../')
+  })
+
+  it('should change the state', () => {
+    render(withAppContext(<Detail />))
+
+    expect(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    ).not.toBeChecked()
+
+    userEvent.click(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    )
+
+    expect(
+      screen.getByRole('radio', { name: 'In afwachting van behandeling' })
+    ).toBeChecked()
+  })
+
+  it('should render a create page', async () => {
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({}))
+
+    render(withAppContext(<Detail />))
+
+    const titleInput = screen.getByPlaceholderText('Titel')
+    const textArea = screen.getByPlaceholderText('Tekst')
+
+    expect(titleInput).toHaveValue('')
+    expect(textArea).toHaveValue('')
+    expect(
+      screen.queryByRole('button', { name: 'Verwijderen' })
+    ).not.toBeInTheDocument()
+
+    userEvent.type(titleInput, 'Mooie titel')
+    userEvent.type(textArea, 'Mooie tekst')
+
+    expect(titleInput).toHaveValue('Mooie titel')
+    expect(textArea).toHaveValue('Mooie tekst')
+
+    const selectCategoryButton = screen.getByText('Selecteer subcategorie(ën)')
+
+    userEvent.click(selectCategoryButton)
+
+    expect(
+      screen.getByText('Standaardtekst toewijzen aan categorie(ën)')
+    ).toBeInTheDocument()
+
+    const categoryCheckbox = screen.getByRole('checkbox', {
+      name: 'Boom - boomstob',
     })
+
+    userEvent.click(categoryCheckbox)
+
+    expect(categoryCheckbox).toBeChecked()
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    expect(screen.getByText('Standaardtekst toevoegen')).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
     await waitFor(() => {
-      expect(mockNavigate).toBeCalledWith('../')
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 
-  it('navigates to previous page when Annuleren is pressed', async () => {
-    render(withAppContext(<Detail />))
-
-    await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
-      expect(mockNavigate).toBeCalledWith('../')
-    })
-  })
-
-  it('should change the state', async () => {
-    render(withAppContext(<Detail />))
-
-    await waitFor(() => {
-      expect(
-        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
-      ).not.toBeChecked()
-    })
-
-    await waitFor(() => {
-      userEvent.click(screen.getByText('In afwachting van behandeling'))
-    })
-
-    await waitFor(() => {
-      expect(
-        screen.getByRole('radio', { name: 'In afwachting van behandeling' })
-      ).toBeChecked()
-    })
-  })
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
@@ -161,7 +227,7 @@ describe('Detail', () => {
     })
 
     it('displays error notifications if there is no category, title and/or description present', async () => {
-      const mockErrorData: StandardTextDetailData = {
+      const mockData: StandardTextDetailData = {
         id: 5,
         active: true,
         categories: [],
@@ -176,14 +242,14 @@ describe('Detail', () => {
         status: 200,
         method: 'get',
         url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
-        body: mockErrorData,
+        body: mockData,
       })
 
       render(withAppContext(<Detail />))
 
-      await waitFor(() => {
-        userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
 
+      await waitFor(() => {
         expect(
           screen.getByText('De standaardtekst kan niet worden opgeslagen')
         ).toBeInTheDocument()
@@ -194,17 +260,41 @@ describe('Detail', () => {
         expect(screen.getByText('Vul een omschrijving in')).toBeInTheDocument()
       })
     })
+
+    it('should add a new standard text and navigate back but invalidate', async () => {
+      jest
+        .spyOn(reactRouterDom, 'useNavigate')
+        .mockImplementation(() => mockNavigate)
+      jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({}))
+
+      render(withAppContext(<Detail />))
+
+      const titleInput = screen.getByPlaceholderText('Titel')
+      expect(titleInput).toBeInTheDocument()
+
+      const textArea = screen.getByPlaceholderText('Tekst')
+      expect(textArea).toBeInTheDocument()
+
+      userEvent.type(titleInput, 'Nieuwe standaardtekst titel')
+
+      userEvent.type(textArea, 'Nieuwe standaardtekst')
+
+      await waitFor(() => {
+        userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+        expect(mockNavigate).toBeCalledWith('../')
+      })
+    })
   })
 
   describe('Subcategories', () => {
     it('should render the subcategories', async () => {
       render(withAppContext(<Detail />))
 
-      await waitFor(() => {
-        userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
-      })
+      userEvent.click(screen.getByText('Selecteer subcategorie(ën)'))
 
-      expect(screen.getByText('Subcategories')).toBeInTheDocument()
+      expect(
+        screen.getByText('Standaardtekst toewijzen aan categorie(ën)')
+      ).toBeInTheDocument()
     })
   })
 })

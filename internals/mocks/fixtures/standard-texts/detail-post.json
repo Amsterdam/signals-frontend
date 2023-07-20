@@ -1,0 +1,10 @@
+{
+    "id": 94,
+    "title": "Mooie titel",
+    "text": "Mooie tekst",
+    "active": false,
+    "state": "m",
+    "categories": [1],
+    "updated_at": "2023-07-19T11:34:06.320699+02:00",
+    "created_at": "2023-07-19T11:34:06.320681+02:00"
+}
