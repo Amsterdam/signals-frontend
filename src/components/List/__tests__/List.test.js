@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { render, fireEvent } from '@testing-library/react'
 
 import { withAppContext, userObjects } from 'test/utils'
@@ -66,7 +66,11 @@ describe('components/List', () => {
 
     expect(onItemClick).toHaveBeenCalledTimes(1)
 
-    fireEvent.click(container.querySelector('tbody > tr:nth-child(4)'))
+    fireEvent.keyDown(container.querySelector('tbody > tr:nth-child(10)'), {
+      key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
+    })
 
     expect(onItemClick).toHaveBeenCalledTimes(2)
   })

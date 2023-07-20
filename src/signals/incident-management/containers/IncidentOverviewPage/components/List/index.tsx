@@ -100,7 +100,7 @@ const List: FunctionComponent<ListProps> = ({
   const navigate = useNavigate()
 
   const navigateToIncident = (id: number) => {
-    navigate(`${INCIDENT_URL}/${id}`)
+    navigate(`../${INCIDENT_URL}/${id}`)
   }
 
   return (
@@ -140,7 +140,11 @@ const List: FunctionComponent<ListProps> = ({
               <Tr
                 key={incident.id}
                 tabIndex={0}
-                onKeyPress={() => navigateToIncident(incident.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    navigateToIncident(incident.id)
+                  }
+                }}
               >
                 <Td detailLink={detailLink} data-testid="incident-parent">
                   {incident.has_children && <ParentIncidentIcon />}

@@ -628,6 +628,23 @@ describe('DataView with data', () => {
     allRows.forEach((row, rowIDX) =>
       expect(row.dataset.itemId).toBe(String(data[rowIDX][headers[0]]))
     )
+
+    onItemClickHandler.mockClear()
+
+    rerender(
+      dataViewWithProps({
+        data,
+        onItemClick: onItemClickHandler,
+        primaryKeyColumn: headers[0],
+      })
+    )
+
+    fireEvent.keyDown(allRows[0], { key: 'Enter', code: 13, keyCode: 13 })
+
+    expect(onItemClickHandler).toHaveBeenCalledTimes(1)
+    allRows.forEach((row, rowIDX) =>
+      expect(row.dataset.itemId).toBe(String(data[rowIDX][headers[0]]))
+    )
   })
 
   it('should render icon if available', () => {

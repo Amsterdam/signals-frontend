@@ -57,6 +57,15 @@ const List = ({
             key={JSON.stringify(items[rowIndex])}
             data-item-id={primaryKeyColumn && items[rowIndex][primaryKeyColumn]}
             onClick={onItemClick}
+            onKeyDown={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              if (['Enter', ' '].includes(e.key)) {
+                onItemClick(e)
+              }
+            }}
+            tabIndex="0"
+            role={'button'}
           >
             {colHeaders.filter(filterVisibleColumns).map((col) => (
               // eslint-disable-next-line react/no-array-index-key

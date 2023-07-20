@@ -109,7 +109,7 @@ DepartmentDetailContainer.propTypes = {
   findByMain: PropTypes.func,
   subCategories: PropTypes.arrayOf(PropTypes.shape({})),
 }
-
+/* istanbul ignore next */
 const mapStateToProps = () =>
   createStructuredSelector({
     categories: makeSelectStructuredCategories,

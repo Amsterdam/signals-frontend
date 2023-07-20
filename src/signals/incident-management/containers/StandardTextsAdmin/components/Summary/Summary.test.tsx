@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { StatusCode } from 'types/status-code'
@@ -35,10 +35,22 @@ describe('Summary', () => {
     expect(screen.getByText('Afgehandeld')).toBeInTheDocument()
   })
 
-  it('calls onClick with standardText.id ', () => {
+  it('calls onClick with standardText.id when clicking ', () => {
     render(<Summary {...defaultProps} />)
 
     userEvent.click(screen.getByTestId('summary-standard-text'))
+    expect(defaultProps.onClick).toHaveBeenCalledWith(10)
+  })
+
+  it('calls onClick with standardText.id when hitting enter', () => {
+    render(<Summary {...defaultProps} />)
+
+    fireEvent.keyDown(screen.getByTestId('summary-standard-text'), {
+      key: 'Enter',
+      code: 13,
+      keyCode: 13,
+    })
+
     expect(defaultProps.onClick).toHaveBeenCalledWith(10)
   })
 })

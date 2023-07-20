@@ -121,7 +121,16 @@ export function StepByStepNavClickable({
               aria-current={!stepsCompletedCount && isActive ? 'step' : 'false'}
               breakpoint={breakpoint}
               key={label}
-              onClick={() => onListClickHandler(index)}
+              onClick={() => {
+                onListClickHandler(index)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  onListClickHandler(index)
+                }
+              }}
+              tabIndex={0}
+              role="button"
               {...props}
             >
               <StyledLabel itemType={props.itemType} breakpoint={breakpoint}>
