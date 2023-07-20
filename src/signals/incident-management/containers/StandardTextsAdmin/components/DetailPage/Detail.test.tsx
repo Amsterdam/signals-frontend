@@ -90,17 +90,24 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
-    jest
-      .spyOn(reactRouterDom, 'useNavigate')
-      .mockImplementation(() => mockNavigate)
-
     render(withAppContext(<Detail />))
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Actief' }))
-
     await waitFor(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-      expect(mockNavigate).toBeCalledWith('../')
+      expect(screen.getByDisplayValue('Mooie titel')).toBeInTheDocument()
+    })
+
+    const checkbox = screen.getByRole('checkbox', { name: 'Actief' })
+
+    expect(checkbox).toBeChecked()
+
+    userEvent.click(checkbox)
+
+    expect(checkbox).not.toBeChecked()
+
+    userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+    await waitFor(async () => {
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 
@@ -113,6 +120,7 @@ describe('Detail', () => {
     await waitFor(() => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
       expect(mockNavigate).toBeCalledWith('../')
+      expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     })
   })
 

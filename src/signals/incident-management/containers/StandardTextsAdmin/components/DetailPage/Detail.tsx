@@ -95,15 +95,15 @@ export const Detail = () => {
   const onSubmit = useCallback(() => {
     const hasDirtyFields = Object.keys(formState.dirtyFields).length > 0
 
-    !hasDirtyFields && navigate(redirectURL)
-    if (params.id) {
+    if (params.id && hasDirtyFields) {
       patch(
         `${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`,
         createPatch(getValues(), formState.dirtyFields)
       )
-    } else {
+    } else if (hasDirtyFields) {
       post(`${configuration.STANDARD_TEXTS_ENDPOINT}`, createPost(getValues()))
     }
+    navigate(redirectURL)
   }, [formState.dirtyFields, navigate, params.id, patch, getValues, post])
 
   const handleOnCancel = () => {
@@ -115,11 +115,9 @@ export const Detail = () => {
   }
 
   useEffect(() => {
-    params.id &&
-      parseInt(params.id) &&
-      !data &&
-      !isLoading &&
+    if (params.id && !data && !isLoading) {
       get(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
+    }
   }, [data, get, params, isLoading])
 
   useEffect(() => {
