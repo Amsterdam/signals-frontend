@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -26,6 +26,7 @@ import {
 import { useIncidentManagementContext } from '../../../../context'
 import type { StandardTextsData } from '../../types'
 import { Filter } from '../Filter'
+import { StyledLink } from '../styled'
 import { Summary } from '../Summary'
 
 const PAGE_SIZE = 15
@@ -109,9 +110,9 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <Link to="../new">
+          <StyledLink to="../new">
             <Button variant="secondary">Tekst toevoegen</Button>
-          </Link>
+          </StyledLink>
         </div>
 
         <div>
