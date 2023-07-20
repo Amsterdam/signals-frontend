@@ -1,7 +1,6 @@
 // SPDX-License-Identifier MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { screen, render, within, fireEvent } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import data from 'utils/__tests__/fixtures/filteredUserData.json'
 
@@ -640,9 +639,9 @@ describe('DataView with data', () => {
       })
     )
 
-    userEvent.type(allRows[0], ' ')
+    fireEvent.keyDown(allRows[0], { key: 'Enter', code: 13, keyCode: 13 })
 
-    expect(onItemClickHandler).toHaveBeenCalledTimes(2)
+    expect(onItemClickHandler).toHaveBeenCalledTimes(1)
     allRows.forEach((row, rowIDX) =>
       expect(row.dataset.itemId).toBe(String(data[rowIDX][headers[0]]))
     )

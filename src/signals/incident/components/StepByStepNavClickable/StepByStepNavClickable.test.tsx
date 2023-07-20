@@ -3,7 +3,7 @@
 // eslint-disable-next-line no-restricted-imports
 import React from 'react'
 
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import form from 'react-hook-form'
 
@@ -154,8 +154,13 @@ describe('StepByStepNavClickable when form is valid', () => {
     )
 
     await waitFor(() => {
-      userEvent.type(screen.getByText('step1'), ' ')
+      fireEvent.keyDown(screen.getByText('step1'), {
+        key: 'Enter',
+        code: 13,
+        keyCode: 13,
+      })
     })
+
     expect(mockTrigger).toBeCalled()
     expect(navigateSpy).toBeCalledWith('incident/step1')
     expect(mockSetStepsCompletedCount).toBeCalledWith(1)

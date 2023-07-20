@@ -68,6 +68,8 @@ describe('components/List', () => {
 
     fireEvent.keyDown(container.querySelector('tbody > tr:nth-child(10)'), {
       key: 'Enter',
+      code: 'Enter',
+      keyCode: 13,
     })
 
     expect(onItemClick).toHaveBeenCalledTimes(2)

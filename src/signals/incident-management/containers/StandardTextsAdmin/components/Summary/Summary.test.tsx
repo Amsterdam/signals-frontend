@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { StatusCode } from 'types/status-code'
@@ -44,7 +44,12 @@ describe('Summary', () => {
   it('calls onClick with standardText.id when hitting enter', () => {
     render(<Summary {...defaultProps} />)
 
-    userEvent.type(screen.getByTestId('summary-standard-text'), ' ')
+    fireEvent.keyDown(screen.getByTestId('summary-standard-text'), {
+      key: 'Enter',
+      code: 13,
+      keyCode: 13,
+    })
+
     expect(defaultProps.onClick).toHaveBeenCalledWith(10)
   })
 })
