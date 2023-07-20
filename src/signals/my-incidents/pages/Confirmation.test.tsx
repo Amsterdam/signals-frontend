@@ -65,6 +65,14 @@ describe('BasePage', () => {
         `Wij hebben opnieuw een e-mail verstuurd naar test@test.nl. Bevestig uw e-mailadres met de link in de e-mail. Het kan zijn dat de e-mail in uw spamfolder staat.`
       )
     ).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Annuleren' }))
+
+    expect(
+      screen.getByText(
+        'Hebt u geen bevestigingsmail ontvangen? Controleer uw e-mailadres en verstuur opnieuw.'
+      )
+    ).toBeInTheDocument()
   })
 
   it('should show error message when too many requests are done', () => {
