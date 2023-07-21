@@ -4,12 +4,12 @@ import { useMemo } from 'react'
 
 import type { FieldError } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import Button from 'components/Button'
 import { makeSelectSubCategories } from 'models/categories/selectors'
 
 import { StyledErrorMessage, StyledP } from './styled'
+import { StyledLink } from '../styled'
 
 export interface Props {
   name: string
@@ -38,11 +38,11 @@ export const SelectedSubcategories = ({ error, value }: Props) => {
       {error?.message && (
         <StyledErrorMessage id="textareaErrorMessage" message={error.message} />
       )}
-      <Link to="./subcategories">
+      <StyledLink to="./subcategories">
         <Button variant="secondary" type="button">
           Selecteer subcategorie(ën)
         </Button>
-      </Link>
+      </StyledLink>
 
       <StyledP>{checkedSubcategories}</StyledP>
     </span>
