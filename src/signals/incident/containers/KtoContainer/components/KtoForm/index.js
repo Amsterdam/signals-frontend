@@ -68,10 +68,10 @@ const KtoForm = ({
   dataFeedbackForms,
   setContactAllowed,
   contactAllowed,
+  isSatisfied,
 }) => {
   const formRef = useRef(null)
   const { satisfactionIndication } = useParams()
-  const isSatisfied = satisfactionIndication === 'ja'
   const dispatchRedux = useDispatch()
 
   const { incident } = useSelector(makeSelectIncidentContainer)
