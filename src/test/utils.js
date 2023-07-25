@@ -15,6 +15,7 @@ import MapContext from 'containers/MapContext'
 import loadModels from 'models'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 
+import { ConfirmationProvider } from '../components/Confirmation'
 import configureStore from '../configureStore'
 import constructYupResolver from '../signals/incident/services/yup-resolver'
 
@@ -46,7 +47,9 @@ loadModels(store)
 export const withAppContext = (Component) => (
   <ThemeProvider>
     <Provider store={store}>
-      <Router history={history}>{Component}</Router>
+      <ConfirmationProvider>
+        <Router history={history}>{Component}</Router>
+      </ConfirmationProvider>
     </Provider>
   </ThemeProvider>
 )

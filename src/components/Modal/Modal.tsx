@@ -10,6 +10,7 @@ import {
   Modal as ASCModal,
   Heading,
   themeColor,
+  themeSpacing,
 } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
@@ -24,6 +25,7 @@ export const ModalWrapper = styled.div`
 
 const StyledModal = styled(ASCModal)`
   max-height: 100vh;
+  min-height: 200px;
   height: 100vh;
   max-width: 1430px;
   overflow-y: hidden;
@@ -32,8 +34,7 @@ const StyledModal = styled(ASCModal)`
 const ModalInner = styled.div`
   height: calc(100vh - (60px + 40px));
   max-width: 1800px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: ${themeSpacing(4)}
   overflow: hidden;
   overflow-y: auto;
 
@@ -55,16 +56,23 @@ const ModalInner = styled.div`
 const HeaderRow = styled(Row)`
   position: relative;
   flex-wrap: nowrap;
+  padding: ${themeSpacing(4)};
 `
 
 const Header = styled.header`
   background: ${themeColor('bright', 'main')};
-  padding: 10px 0;
+  padding: ${themeSpacing(4)}
   border-bottom: 2px solid #e6e6e6;
 `
+
+const StyledRow = styled(Row)`
+  padding: ${themeSpacing(4)};
+`
+
 const StyledColumn = styled(Column)`
   flex-direction: column;
 `
+
 interface ModalProps {
   children: ReactNode
   title: string
@@ -94,9 +102,9 @@ const Modal = ({ children, title, onClose, ...rest }: ModalProps) => (
       </Header>
 
       <ModalInner data-scroll-lock-scrollable>
-        <Row>
+        <StyledRow>
           <StyledColumn span={12}>{children}</StyledColumn>
-        </Row>
+        </StyledRow>
       </ModalInner>
     </StyledModal>
   </ModalWrapper>

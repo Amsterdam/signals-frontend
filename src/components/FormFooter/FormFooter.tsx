@@ -3,7 +3,7 @@
 import type { FunctionComponent, MouseEventHandler } from 'react'
 import { useContext } from 'react'
 
-import { Column, Row, themeColor } from '@amsterdam/asc-ui'
+import { Column, Row, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import Button from 'components/Button'
@@ -36,7 +36,7 @@ export const ButtonContainer = styled(Column)`
 export const SubmitButton = styled(Button).attrs({
   color: 'secondary',
 })`
-  margin-right: 15px;
+  margin-right: ${themeSpacing(4)};
 `
 
 export const ResetButton = styled(Button)`

@@ -13,6 +13,7 @@ import * as yup from 'yup'
 import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
+import { useConfirm } from 'components/Confirmation/useConfirm'
 import GlobalError from 'components/GlobalError'
 import Input from 'components/Input'
 import Label from 'components/Label'
@@ -56,6 +57,8 @@ const schema = yup.object({
 })
 
 export const Detail = () => {
+  const { isConfirmed } = useConfirm()
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
@@ -108,8 +111,12 @@ export const Detail = () => {
     navigate(redirectURL)
   }
 
-  const handleOnDelete = () => {
-    del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
+  const handleOnDelete = async () => {
+    const confirmed = await isConfirmed(
+      'Let op, je verwijdert de standaardtekst',
+      'Er is geen back-up beschikbaar'
+    )
+    if (confirmed) del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
   }
 
   useEffect(() => {

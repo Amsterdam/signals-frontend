@@ -2,11 +2,11 @@
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import type { FC, SyntheticEvent } from 'react'
 
+import ModalDialog from 'components/ModelDialog'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'types/status-code'
 
 import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
-import ModalDialog from '../../../ModalDialog'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>
@@ -29,7 +29,11 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
     defaultTexts.find((text) => text.state === status)
 
   return (
-    <ModalDialog title="Standaardtekst" onClose={onClose}>
+    <ModalDialog
+      title="Standaardtekst"
+      onClose={onClose}
+      isConfirmation={false}
+    >
       <Wrapper data-scroll-lock-scrollable>
         {(!allText || allText.templates.length === 0) && (
           <StyledDefaultText key={`empty_${status}`} empty>
