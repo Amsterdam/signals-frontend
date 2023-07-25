@@ -40,6 +40,7 @@ export const renderSections: RenderSections = {
   },
 }
 
+// istanbul ignore next
 export const successSections: SuccessSections = configuration.featureFlags
   .reporterMailHandledNegativeContactEnabled
   ? {

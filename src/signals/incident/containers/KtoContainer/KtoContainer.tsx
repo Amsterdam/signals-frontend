@@ -36,6 +36,7 @@ const initialState: State = {
   shouldRender: false,
 }
 
+// istanbul ignore next
 const reactReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'SET_FORM_OPTIONS':

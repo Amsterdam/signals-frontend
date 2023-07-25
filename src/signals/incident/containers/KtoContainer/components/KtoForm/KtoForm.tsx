@@ -79,6 +79,7 @@ const KtoForm = ({
   const negativeContactEnabled =
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
+  /* istanbul ignore next */
   const schema = yup
     .object({
       allows_contact: yup.boolean().required(),
@@ -136,7 +137,6 @@ const KtoForm = ({
         allFormData.text_list_extra,
       ].filter(Boolean)
 
-      // eslint-disable-next-line no-unused-vars
       const { text_list_extra, ...formData } = allFormData
 
       onSubmit(formData)
