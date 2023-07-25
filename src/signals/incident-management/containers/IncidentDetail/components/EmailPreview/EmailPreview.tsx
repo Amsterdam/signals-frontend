@@ -1,26 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { themeSpacing } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
-
-import FormFooter from 'components/FormFooter'
-import { FORM_FOOTER_HEIGHT } from 'components/FormFooter/FormFooter'
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import LoadingIndicator from 'components/LoadingIndicator'
+import ModalDialog from 'components/ModelDialog/ModalDialog'
 
-import ModalDialog from '../ModalDialog/ModalDialog'
-
-const StyledFormFooter = styled(FormFooter)`
-  .formFooterRow {
-    padding-left: ${themeSpacing(4)};
-  }
-`
-
-const StyledIframe = styled.iframe`
-  border: none;
-  padding: 0 0 ${FORM_FOOTER_HEIGHT}px ${themeSpacing(2)};
-  width: 100%;
-  height: 100%;
-`
+import { StyledFormFooter, StyledIframe, styling } from './styled'
 
 interface EmailPreviewProps {
   onClose: () => void
@@ -30,20 +13,8 @@ interface EmailPreviewProps {
   emailBody?: string
 }
 
-const styling = `
-<style>
-  *{
-    font-family: Amsterdam Sans, sans-serif;
-    line-height: 22px;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    word-break: break-word;
-    hyphens: auto;
-  }
-</style>`
-const fontSrc =
+export const fontSrc =
   '<link rel="stylesheet" href="https://static.amsterdam.nl/fonts/fonts.css"/>'
-
 const EmailPreview = ({
   emailBody,
   onUpdate,
@@ -61,6 +32,7 @@ const EmailPreview = ({
       data-testid="email-preview-modal"
       title={title}
       onClose={onClose}
+      isConfirmation={false}
     >
       {isLoading && <LoadingIndicator />}
       {emailBody && (

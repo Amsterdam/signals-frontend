@@ -288,7 +288,6 @@ export const Detail = () => {
                             </div>
                           )}
                         />
-
                         {params.id && (
                           <Button
                             variant="secondary"
