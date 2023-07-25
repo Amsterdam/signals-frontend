@@ -1,14 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, useRef } from 'react'
+import type {
+  BaseSyntheticEvent,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 
-import { Heading, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
-import PropTypes from 'prop-types'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import * as yup from 'yup'
 
 import Button from 'components/Button'
@@ -16,61 +20,56 @@ import Checkbox from 'components/Checkbox'
 import CheckboxList from 'components/CheckboxList'
 import FormField from 'components/FormField'
 import GlobalError from 'components/GlobalError'
-import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
-import TextArea from 'components/TextArea'
 import configuration from 'shared/services/configuration/configuration'
 import { filesUpload } from 'shared/services/files-upload/files-upload'
 import FileInput from 'signals/incident/components/form/FileInput'
 import { updateIncident } from 'signals/incident/containers/IncidentContainer/actions'
 
+import {
+  Form,
+  GridArea,
+  FieldSet,
+  StyledLabel,
+  CheckboxWrapper,
+  Optional,
+  HelpText,
+  StyledTextArea,
+} from './styled'
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
+import type { FeedbackFormData, OptionMapped } from '../../types'
 
-const Form = styled.form`
-  display: grid;
-  grid-row-gap: 32px;
-  margin-top: ${themeSpacing(8)};
-`
+interface Props {
+  contactAllowed: boolean
+  dataFeedbackForms: FeedbackFormData
+  isSatisfied: boolean
+  onSubmit: (formData: Omit<FormData, 'text_list_extra'>) => void
+  options: OptionMapped[]
+  setContactAllowed: Dispatch<SetStateAction<boolean>>
+}
 
-const GridArea = styled.div``
+interface FormData {
+  allows_contact: boolean
+  is_satisfied: boolean
+  text_list: string[]
+  text_list_extra: string
+  text_extra: string
+}
 
-const FieldSet = styled.fieldset`
-  border: 0;
-  padding: 0;
-`
-
-const StyledLabel = styled(Label)`
-  margin-bottom: 0;
-`
-
-const CheckboxWrapper = styled(Label)`
-  display: block;
-`
-
-const Optional = styled.span`
-  font-weight: 400;
-`
-
-const HelpText = styled.p`
-  color: ${themeColor('tint', 'level5')};
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: ${themeSpacing(6)};
-`
-
-const StyledTextArea = styled(TextArea)`
-  margin-top: ${themeSpacing(3)};
-`
+interface FileInputPayload {
+  images: File[]
+  images_previews: string[]
+}
 
 const KtoForm = ({
-  options,
-  onSubmit,
-  dataFeedbackForms,
-  setContactAllowed,
   contactAllowed,
+  dataFeedbackForms,
   isSatisfied,
-}) => {
-  const formRef = useRef(null)
+  onSubmit,
+  options,
+  setContactAllowed,
+}: Props) => {
+  const formRef = useRef<HTMLFormElement>(null)
   const { satisfactionIndication } = useParams()
   const dispatchRedux = useDispatch()
 
@@ -79,6 +78,7 @@ const KtoForm = ({
 
   const negativeContactEnabled =
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
+
   const schema = yup
     .object({
       allows_contact: yup.boolean().required(),
@@ -98,7 +98,7 @@ const KtoForm = ({
     })
     .required()
 
-  const formMethods = useForm({
+  const formMethods = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       allows_contact: contactAllowed,
@@ -117,7 +117,7 @@ const KtoForm = ({
     formState: { errors },
   } = formMethods
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: BaseSyntheticEvent) {
     e.preventDefault()
     // Trigger form validation
     const isValid = await trigger()
@@ -129,7 +129,8 @@ const KtoForm = ({
           files: incident.images,
         })
       }
-      let allFormData = getValues()
+      const allFormData = getValues()
+
       allFormData.text_list = [
         ...allFormData.text_list,
         allFormData.text_list_extra,
@@ -137,9 +138,10 @@ const KtoForm = ({
 
       // eslint-disable-next-line no-unused-vars
       const { text_list_extra, ...formData } = allFormData
+
       onSubmit(formData)
     } else {
-      const invalidElement = formRef.current.querySelector(
+      const invalidElement = formRef.current?.querySelector(
         '[class^=ErrorMessage]'
       )
       invalidElement?.scrollIntoView({ behavior: 'smooth' })
@@ -174,11 +176,11 @@ const KtoForm = ({
               options={{ validators: ['min'] }}
             >
               {configuration.featureFlags.enableMultipleKtoAnswers ? (
-                <CheckboxList
+                <CheckboxList<OptionMapped>
                   aria-describedby="subtitle-kto"
                   options={options}
                   name={'input'}
-                  onChange={(key, options) => {
+                  onChange={(_groupName, options: OptionMapped[]) => {
                     setValue(
                       'text_list',
                       options.map((option) => option.value)
@@ -194,12 +196,12 @@ const KtoForm = ({
                   }}
                 />
               ) : (
-                <RadioButtonList
+                <RadioButtonList<OptionMapped>
                   aria-describedby="subtitle-kto"
                   error={false}
                   groupName="kto"
                   hasEmptySelectionButton={false}
-                  onChange={(key, option) => {
+                  onChange={(_groupName, option: OptionMapped) => {
                     setValue('text_list', [option.value])
                     trigger('text_list')
                   }}
@@ -230,7 +232,7 @@ const KtoForm = ({
                     setValue('text_list_extra', event.target.value)
                     trigger('text_list_extra')
                   }}
-                  rows="2"
+                  rows={2}
                 />
               </FormField>
             )}
@@ -249,7 +251,7 @@ const KtoForm = ({
                 handler={() => ({ value: incident.images })}
                 parent={{
                   meta: {
-                    updateIncident: (payload) =>
+                    updateIncident: (payload: FileInputPayload) =>
                       dispatchRedux(updateIncident(payload)),
                   },
                 }}
@@ -318,8 +320,9 @@ const KtoForm = ({
                   id="allows-contact"
                   aria-describedby="subtitle-allows-contact"
                   name="allows-contact"
-                  onChange={(event) => {
-                    let { checked } = event.target
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    let checked = event.target.checked
+
                     if (negativeContactEnabled) {
                       checked = !checked
                     }
@@ -344,16 +347,6 @@ const KtoForm = ({
       </FieldSet>
     </FormProvider>
   )
-}
-
-KtoForm.propTypes = {
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  onSubmit: PropTypes.func.isRequired,
 }
 
 export default KtoForm

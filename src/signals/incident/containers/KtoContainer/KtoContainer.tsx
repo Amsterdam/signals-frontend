@@ -13,7 +13,7 @@ import type { FetchError } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 
-import KtoForm from './components/KtoForm'
+import KtoForm from './components/KtoForm/KtoForm'
 import {
   renderSections,
   successSections,
@@ -21,11 +21,17 @@ import {
 } from './constants'
 import type { SuccessSections, RenderSections } from './constants'
 import { StyledHeading, StyledParagraph } from './styled'
-import type { Action, AnswerResponse, FeedbackFormData, State } from './types'
+import type {
+  Action,
+  AnswerResponse,
+  FeedbackFormData,
+  State,
+  OptionMapped,
+} from './types'
 import injectReducer from '../../../../utils/injectReducer'
 
 const initialState: State = {
-  formOptions: undefined,
+  formOptions: [],
   renderSection: undefined,
   shouldRender: false,
 }
@@ -53,12 +59,13 @@ export const KtoContainer = () => {
     initialState
   )
 
-  const { satisfactionIndication = 'ja', uuid } = useParams()
+  const { satisfactionIndication, uuid } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
   const [contactAllowed, setContactAllowed] = useState(
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
       satisfactionIndication === 'nee'
   )
+
   const {
     get: getCheck,
     isLoading: isLoadingCheck,
@@ -116,18 +123,22 @@ export const KtoContainer = () => {
   useEffect(() => {
     if (!options || isLoadingOptions) return
 
-    const opts = options.results
+    const opts: OptionMapped[] = options.results
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
       .map((option, index) => ({
+        is_satisfied: option.is_satisfied,
         key: `key-${index}`,
-        value: option.text,
+        open_answer: option.open_answer,
         topic: option.topic,
+        value: option.text,
       }))
 
     opts.push({
       key: 'anders',
       value: 'Over iets anders.',
       topic: 'Over iets anders.',
+      open_answer: true,
+      is_satisfied: false,
     })
 
     dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
@@ -192,7 +203,7 @@ export const KtoContainer = () => {
         </Column>
       </Row>
 
-      {state.formOptions && !isSuccess && (
+      {state.formOptions && !isSuccess && dataFeedbackForms && (
         <Row>
           <Column
             span={{
@@ -204,12 +215,12 @@ export const KtoContainer = () => {
             }}
           >
             <KtoForm
-              isSatisfied={isSatisfied}
-              dataFeedbackForms={dataFeedbackForms}
-              options={state.formOptions}
-              onSubmit={onSubmit}
-              setContactAllowed={setContactAllowed}
               contactAllowed={contactAllowed}
+              dataFeedbackForms={dataFeedbackForms}
+              isSatisfied={isSatisfied}
+              onSubmit={onSubmit}
+              options={state.formOptions}
+              setContactAllowed={setContactAllowed}
             />
           </Column>
         </Row>

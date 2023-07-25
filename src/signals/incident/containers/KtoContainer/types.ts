@@ -1,19 +1,27 @@
 export interface State {
-  formOptions: any
+  formOptions: OptionMapped[]
   renderSection: any
   shouldRender: boolean
 }
 
 export interface Action {
   payload: any
-  type: any
+  type: string
 }
 
-interface Option {
+export interface Option {
   is_satisfied: boolean
   open_answer: boolean
   text: string
   topic: string
+}
+
+export interface OptionMapped {
+  is_satisfied: boolean
+  key: string
+  open_answer: boolean
+  topic: string
+  value: string
 }
 
 export interface AnswerResponse {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { Label } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
@@ -67,11 +67,11 @@ type Option = {
   topic?: string
 }
 
-export type CheckboxListProps = {
+export type CheckboxListProps<T = Option> = {
   boxWrapperKeyPrefix?: string
   className?: string
   /** List of keys for elements that need to be checked by default */
-  defaultValue?: Array<Option>
+  defaultValue?: Array<T>
   /**
    * Unique group identifier. Is used to match against the values of the `prop` attribute in the `options` prop.
    * If a match is found, the entire group is checked. Do note that, despite the name, this prop is not used as
@@ -89,7 +89,7 @@ export type CheckboxListProps = {
   /**
    * Callback function that is triggered when an individual checkbox is checked
    */
-  onChange?: (groupName: string, options: Array<Option>) => void
+  onChange?: (groupName: string, options: Array<T>) => void
   /** Adds onSubmit capabilities */
   onSubmit?: (event: KeyboardEvent) => void
   /**
@@ -100,7 +100,7 @@ export type CheckboxListProps = {
    * Values to be rendered as checkbox elements
    * Note that either one of `id` or `key` values should be present in an options entry
    */
-  options: Array<Option>
+  options: Array<T>
   /** Group label contents */
   title?: ReactNode | null
   /** Text label for the group toggle in its untoggled state */
@@ -109,7 +109,7 @@ export type CheckboxListProps = {
   toggleNothingLabel?: string
 }
 
-const CheckboxList: FC<CheckboxListProps> = ({
+const CheckboxList = <T extends Option>({
   boxWrapperKeyPrefix,
   className,
   defaultValue,
@@ -125,7 +125,7 @@ const CheckboxList: FC<CheckboxListProps> = ({
   title,
   toggleAllLabel,
   toggleNothingLabel,
-}) => {
+}: CheckboxListProps<T>) => {
   /**
    * Tracking of boxes that have been checked
    */

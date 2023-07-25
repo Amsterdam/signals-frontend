@@ -14,18 +14,53 @@ import * as incidentContainerActions from 'signals/incident/containers/IncidentC
 import { withAppContext } from 'test/utils'
 
 import KtoForm from '.'
+import type { OptionMapped } from '../../types'
 
-const onSubmit = jest.fn()
+const mockOnSubmit = jest.fn()
+const mockSetContactAllowed = jest.fn()
 
-const options = [
-  { key: 'a', value: 'Foo' },
-  { key: 'b', value: 'Bar' },
-  { key: 'c', value: 'Baz' },
-  { key: 'anders', value: 'Here be dragons' },
+const options: OptionMapped[] = [
+  {
+    key: 'a',
+    value: 'Foo',
+    is_satisfied: true,
+    open_answer: false,
+    topic: 'Foos',
+  },
+  {
+    key: 'b',
+    value: 'Bar',
+    is_satisfied: true,
+    open_answer: false,
+    topic: 'Foos',
+  },
+  {
+    key: 'c',
+    value: 'Baz',
+    is_satisfied: true,
+    open_answer: false,
+    topic: 'Foos',
+  },
+  {
+    key: 'anders',
+    value: 'Here be dragons',
+    is_satisfied: true,
+    open_answer: false,
+    topic: 'Foos',
+  },
 ]
 
+const defaultProps = {
+  dataFeedbackForms: { signal_id: '123' },
+  isSatisfied: false,
+  onSubmit: mockOnSubmit,
+  options: options,
+  setContactAllowed: mockSetContactAllowed,
+  contactAllowed: false,
+}
+
 const value = 'Bar baz foo'
-let fileInput, file
+let fileInput, file: File | File[]
 
 const mockedUseParams = mocked(reactRouterDom.useParams)
 jest.mock('react-router-dom', () => ({
@@ -40,7 +75,7 @@ jest.spyOn(incidentContainerActions, 'updateIncident')
 
 describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
   beforeEach(() => {
-    onSubmit.mockReset()
+    mockOnSubmit.mockReset()
     jest.useFakeTimers()
 
     jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
@@ -50,10 +85,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     configuration.featureFlags.enableMultipleKtoAnswers = true
   })
 
-  afterEach(() => {
-    configuration.__reset()
-  })
-
   it('renders correctly', () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
     mockedUseParams.mockImplementation(() => ({
@@ -61,14 +92,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     }))
 
     const { container, getByTestId, rerender } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} />)
     )
 
     expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(
@@ -88,46 +112,19 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'ja',
     }))
 
-    rerender(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
-    )
+    rerender(withAppContext(<KtoForm {...defaultProps} />))
 
     expect(screen.queryByTestId('allowsContact')).toBeFalsy()
 
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
 
-    rerender(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
-    )
+    rerender(withAppContext(<KtoForm {...defaultProps} />))
 
     expect(screen.queryByTestId('allowsContact')).not.toBeInTheDocument()
 
     mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
 
-    rerender(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
-    )
+    rerender(withAppContext(<KtoForm {...defaultProps} />))
 
     expect(screen.queryByTestId('allowsContact')).not.toBeInTheDocument()
   })
@@ -136,14 +133,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     mockedUseParams.mockImplementation(() => ({ satisfactionIndication: 'ja' }))
 
     const { getByText, unmount, rerender } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} isSatisfied={true} />)
     )
 
     expect(getByText('Waarom bent u tevreden?')).toBeInTheDocument()
@@ -154,53 +144,30 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
-    rerender(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied={false}
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
-    )
+    rerender(withAppContext(<KtoForm {...defaultProps} />))
 
     expect(screen.queryByText('Waarom bent u ontevreden?')).toBeInTheDocument()
   })
 
   it('requires one of the options to be selected', async () => {
     const { queryByText, getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} />)
     )
 
     expect(queryByText('Dit is een verplicht veld')).not.toBeInTheDocument()
-    expect(onSubmit).not.toHaveBeenCalled()
+    expect(mockOnSubmit).not.toHaveBeenCalled()
 
     userEvent.click(getByTestId('kto-submit'))
 
     expect(
       await screen.findByText('Dit is een verplicht veld')
     ).toBeInTheDocument()
-    expect(onSubmit).not.toHaveBeenCalled()
+    expect(mockOnSubmit).not.toHaveBeenCalled()
   })
 
   it('requires text area to contain content when last option is selected', async () => {
     const { queryByTestId, getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} />)
     )
 
     const lastOption = getByTestId(
@@ -220,19 +187,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(
       await screen.findByText('Dit is een verplicht veld')
     ).toBeInTheDocument()
-    expect(onSubmit).not.toHaveBeenCalled()
+    expect(mockOnSubmit).not.toHaveBeenCalled()
   })
 
   it('should clear error message', async () => {
     const { queryByTestId, getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} />)
     )
 
     const lastOption = getByTestId(
@@ -272,14 +232,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     }))
 
     const { getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          onSubmit={onSubmit}
-          options={options}
-          contactAllowed={true}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} contactAllowed={true} />)
     )
 
     const firstOption = getByTestId(`checkbox-input_${[...options][0].key}`)
@@ -292,12 +245,12 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       screen.queryByText('Dit is een verplicht veld')
     ).not.toBeInTheDocument()
 
-    expect(onSubmit).not.toHaveBeenCalled()
+    expect(mockOnSubmit).not.toHaveBeenCalled()
 
     userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
-      expect(onSubmit).toHaveBeenCalledWith(
+      expect(mockOnSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
           is_satisfied: false,
           text_list: [options[0].value],
@@ -308,15 +261,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
   it('should handle submit for last option', async () => {
     const { getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          isSatisfied
-          onSubmit={onSubmit}
-          options={options}
-          contactAllowed={true}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} contactAllowed={true} />)
     )
 
     const lastOption = getByTestId(
@@ -333,7 +278,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
-      expect(onSubmit).toHaveBeenCalledWith(
+      expect(mockOnSubmit).toHaveBeenCalledWith(
         expect.objectContaining({
           text_list: [options.slice(-1)[0].value, value],
         })
@@ -347,30 +292,21 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
-    const setContactAllowed = jest.fn()
-
     const { getByTestId } = render(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          onSubmit={onSubmit}
-          options={options}
-          setContactAllowed={setContactAllowed}
-        />
-      )
+      withAppContext(<KtoForm {...defaultProps} />)
     )
 
     fillForm()
 
     userEvent.click(getByTestId('kto-allows-contact'))
 
-    expect(setContactAllowed).toHaveBeenCalled()
+    expect(mockSetContactAllowed).toHaveBeenCalled()
 
     userEvent.click(getByTestId('kto-submit'))
 
     // Be default allowscontact equals true but after clicking
     await waitFor(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
+      expect(mockOnSubmit).toHaveBeenCalledWith({
         allows_contact: false,
         is_satisfied: false,
         text_extra: value,
@@ -384,17 +320,10 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
     }))
-    const setContactAllowed = jest.fn()
 
     const { getByTestId, rerender } = render(
       withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          onSubmit={onSubmit}
-          options={options}
-          setContactAllowed={setContactAllowed}
-          contactAllowed={true}
-        />
+        <KtoForm {...defaultProps} isSatisfied={false} contactAllowed={true} />
       )
     )
 
@@ -404,7 +333,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
 
     // By default allow_contact equals false is in the old flow
     await waitFor(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
+      expect(mockOnSubmit).toHaveBeenCalledWith({
         allows_contact: true,
         is_satisfied: false,
         text_extra: value,
@@ -418,16 +347,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
       satisfactionIndication: 'nee',
     }))
 
-    rerender(
-      withAppContext(
-        <KtoForm
-          dataFeedbackForms={{ signal_id: 123 }}
-          onSubmit={onSubmit}
-          options={options}
-          setContactAllowed={setContactAllowed}
-        />
-      )
-    )
+    rerender(withAppContext(<KtoForm {...defaultProps} />))
 
     fillForm()
 
@@ -435,9 +355,9 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     userEvent.click(getByTestId('kto-submit'))
 
     await waitFor(() => {
-      expect(setContactAllowed).toHaveBeenCalled()
+      expect(mockSetContactAllowed).toHaveBeenCalled()
       // By default allow_contact equals false is in the old flow
-      expect(onSubmit).toHaveBeenCalledWith({
+      expect(mockOnSubmit).toHaveBeenCalledWith({
         allows_contact: true,
         is_satisfied: false,
         text_extra: value,
@@ -454,11 +374,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     render(
       withAppContext(
         <Provider store={configureStore({}).store}>
-          <KtoForm
-            onSubmit={onSubmit}
-            options={options}
-            dataFeedbackForms={{ signal_id: 123 }}
-          />
+          <KtoForm {...defaultProps} />
         </Provider>
       )
     )
@@ -483,12 +399,7 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     render(
       withAppContext(
         <Provider store={configureStore({}).store}>
-          <KtoForm
-            onSubmit={onSubmit}
-            options={options}
-            dataFeedbackForms={{ signal_id: 123 }}
-            contactAllowed={true}
-          />
+          <KtoForm {...defaultProps} />
         </Provider>
       )
     )

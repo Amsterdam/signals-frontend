@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment } from 'react'
 
 import { RadioGroup, Label } from '@amsterdam/asc-ui'
@@ -41,7 +40,7 @@ export interface RadioButtonOption extends Option {
   topic?: string
 }
 
-export interface RadioButtonListProps {
+export interface RadioButtonListProps<T = RadioButtonOption> {
   /** List of keys for elements that need to be checked by default */
   defaultValue?: string
   /** When true, will disable all elements in the list */
@@ -57,7 +56,7 @@ export interface RadioButtonListProps {
   /** When false, will only render the passed in options instead of having an extra radio button with an empty value */
   hasEmptySelectionButton?: boolean
   id?: string
-  onChange?: (groupName: string, option: RadioButtonOption) => void
+  onChange?: (groupName: string, option: T) => void
   options: Option[]
   /** Group label contents */
   title?: string
@@ -67,7 +66,7 @@ export interface RadioButtonListProps {
 /**
  * Component that renders a group of radio buttons
  */
-const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
+const RadioButtonList = <T extends RadioButtonOption>({
   className,
   emptySelectionLabel = 'Alles',
   hasEmptySelectionButton = true,
@@ -80,7 +79,7 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
   title,
   id,
   ...rest
-}) => {
+}: RadioButtonListProps<T>) => {
   const radioOptions: RadioButtonOption[] = [...options]
 
   if (hasEmptySelectionButton && emptySelectionLabel) {
@@ -104,6 +103,8 @@ const RadioButtonList: FunctionComponent<RadioButtonListProps> = ({
           id={option.key || (option.name as string)}
           onChange={() => {
             if (onChange) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               onChange(groupName, option)
             }
           }}

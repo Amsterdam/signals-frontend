@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 
 import statuses from 'signals/incident-management/definitions/statusList'
 import { withAppContext } from 'test/utils'
+import { StatusCode } from 'types/status-code'
 import categories from 'utils/__tests__/fixtures/categories.json'
 
 import CheckboxList from './index'
@@ -165,7 +166,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
   })
 
   it('should check all boxes when group is checked', () => {
-    const groupId = 'qux'
+    const groupId = StatusCode.Afgehandeld
     const toggleAllLabel = 'Zork'
     const toggleNothingLabel = 'Dungeon'
     const { rerender } = render(
@@ -175,6 +176,8 @@ describe('signals/incident-management/components/CheckboxList', () => {
             {
               key: groupId,
               value: 'barfoofoo',
+              email_sent_when_set: true,
+              shows_remaining_sla_days: true,
             },
           ]}
           groupId={groupId}
