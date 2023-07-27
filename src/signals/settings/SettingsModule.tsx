@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
+/* istanbul ignore file */
 import { useEffect, lazy, Suspense } from 'react'
 
 import type { Location } from 'history'
@@ -26,50 +27,36 @@ import routes, {
 } from './routes'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
-// istanbul ignore next
 const OverviewContainer = lazy(() => import('./components/Overview'))
-// istanbul ignore next
 const LoginPage = lazy(() => import('components/pages/LoginPage'))
-// istanbul ignore next
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
-// istanbul ignore next
 const RolesListContainer = lazy(
   () => import('./roles/containers/RolesListContainer')
 )
-// istanbul ignore next
 const RoleFormContainer = lazy(
   () => import('./roles/containers/RoleFormContainer')
 )
-// istanbul ignore next
 const UsersDetailContainer = lazy(() => import('./users/Detail'))
-// istanbul ignore next
 const DepartmentsOverviewContainer = lazy(
   () => import('./departments/Overview')
 )
-// istanbul ignore next
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
 
-// istanbul ignore next
 const SubcategoriesOverview = lazy(
   () => import('./categories/subcategories/Overview')
 )
-// istanbul ignore next
 const MainCategoriesOverview = lazy(
   () => import('./categories/main-categories/Overview')
 )
-// istanbul ignore next
 const SubcategoryDetail = lazy(
   () => import('./categories/subcategories/Detail')
 )
-// istanbul ignore next
 const MainCategoryDetail = lazy(
   () => import('./categories/main-categories/Detail')
 )
 
-// istanbul ignore next
 const ExportContainer = lazy(() => import('./export'))
 
-// istanbul ignore next
 const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
 const SettingsModule = () => {
