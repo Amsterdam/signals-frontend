@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 import type { FC } from 'react'
 
@@ -47,6 +47,7 @@ const IncidentSplitSelectInput: FC<IncidentSplitSelectInputProps> = ({
   return (
     <StyledSelect>
       <Select
+        emptyOption={selected}
         data-testid={id}
         groups={groups}
         id={name}
