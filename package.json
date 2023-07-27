@@ -33,7 +33,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
     "test:logHeapUsage": "cross-env NODE_ENV=test node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage",
     "test:clean": "rimraf ./coverage",
-    "test:concurrent": "cross-env NODE_ENV=test ts-jest --coverage",
+    "test:concurrent": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
     "validate-config": "node ./internals/scripts/validate-config.js",
     "validate-base-config": "node ./internals/scripts/validate-base-config.js"
