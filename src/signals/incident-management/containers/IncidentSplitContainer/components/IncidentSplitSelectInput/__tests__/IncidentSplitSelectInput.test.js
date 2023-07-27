@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -26,7 +26,7 @@ describe('IncidentSplitSelectInput', () => {
   it('should render a select input element', () => {
     render(withAppContext(<IncidentSplitSelectInput {...props} />))
 
-    expect(screen.getAllByRole('option')).toHaveLength(priorityList.length)
+    expect(screen.getAllByRole('option')).toHaveLength(priorityList.length + 1)
   })
 
   it('should select options and display info text when available', async () => {
@@ -59,5 +59,13 @@ describe('IncidentSplitSelectInput', () => {
     userEvent.selectOptions(screen.getByTestId('subcategory'), key)
 
     expect(props.onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('should select the initial value when nothing is selected manually', () => {
+    render(withAppContext(<IncidentSplitSelectInput {...props} />))
+
+    expect(screen.getByTestId('selectedValue')).toHaveTextContent(
+      subcategoriesFixture[0].name
+    )
   })
 })
