@@ -15,9 +15,9 @@ export const hasTooManyFiltersSelected = (
     ...storedParams,
     ...selectedFilters,
   }
-  const requestUrl = `${CONFIGURATION.INCIDENTS_ENDPOINT}${
-    params ? `?${generateParams(params)}` : ''
-  }`
+  const requestUrl = `${CONFIGURATION.INCIDENTS_ENDPOINT}?${generateParams(
+    params
+  )}`
 
   return requestUrl.length > MAX_FILTER_LENGTH
 }

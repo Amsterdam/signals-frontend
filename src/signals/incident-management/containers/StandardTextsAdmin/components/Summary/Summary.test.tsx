@@ -53,4 +53,16 @@ describe('Summary', () => {
 
     expect(defaultProps.onClick).toHaveBeenCalledWith(10)
   })
+
+  it('calls onClick with standardText.id when hitting space', () => {
+    render(<Summary {...defaultProps} />)
+
+    fireEvent.keyDown(screen.getByTestId('summary-standard-text'), {
+      key: 'Space',
+      code: 32,
+      keyCode: 32,
+    })
+
+    expect(defaultProps.onClick).toHaveBeenCalledWith(10)
+  })
 })
