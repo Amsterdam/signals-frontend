@@ -54,6 +54,7 @@ const withSuspense = () =>
 // eslint-disable-next-line jest/no-disabled-tests
 describe.skip('signals/settings', () => {
   // Skipping test because it is flaky. Should be revisited.
+
   beforeEach(() => {
     dispatch.mockReset()
 

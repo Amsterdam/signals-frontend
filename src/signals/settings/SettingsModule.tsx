@@ -27,6 +27,7 @@ import routes, {
 } from './routes'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+
 const OverviewContainer = lazy(() => import('./components/Overview'))
 const LoginPage = lazy(() => import('components/pages/LoginPage'))
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))

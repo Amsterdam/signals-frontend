@@ -26,6 +26,7 @@ export const Summary = ({ standardText, onClick }: Props) => {
 
   return (
     <Wrapper
+      // istanbul ignore next
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') onClick(id)
       }}

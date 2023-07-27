@@ -1,101 +1,72 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment, useEffect, useCallback, useReducer, useState } from 'react'
+import type { Reducer } from 'react'
 
-import {
-  Row,
-  Column,
-  Heading,
-  Paragraph,
-  themeSpacing,
-} from '@amsterdam/asc-ui'
+import { Row, Column } from '@amsterdam/asc-ui'
 import { useParams } from 'react-router-dom'
 import { compose } from 'redux'
-import styled from 'styled-components'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import useFetch from 'hooks/useFetch'
+import type { FetchError } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 
-import KtoForm from './components/KtoForm'
+import KtoForm from './components/KtoForm/KtoForm'
+import {
+  renderSections,
+  successSections,
+  contactAllowedText,
+} from './constants'
+import type { SuccessSections, RenderSections } from './constants'
+import { StyledHeading, StyledParagraph } from './styled'
+import type {
+  Action,
+  AnswerResponse,
+  FeedbackFormData,
+  State,
+  OptionMapped,
+} from './types'
 import injectReducer from '../../../../utils/injectReducer'
 
-const StyledHeading = styled(Heading)`
-  margin-top: ${themeSpacing(6)};
-`
-
-const StyledParagraph = styled(Paragraph)`
-  margin-top: ${themeSpacing(5)};
-  white-space: pre-line;
-`
-
-const initialState = {
-  formOptions: undefined,
+const initialState: State = {
+  formOptions: [],
   renderSection: undefined,
   shouldRender: false,
 }
 
-export const renderSections = {
-  TOO_LATE: {
-    title: 'Helaas, u kunt niet meer reageren op deze melding',
-    body: 'Na ons antwoord hebt u 2 weken de tijd om een reactie te geven.',
-  },
-  FILLED_OUT: {
-    title: 'U hebt al een reactie gegeven op deze melding',
-    body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
-  },
-  NOT_FOUND: {
-    title: 'Het feedback formulier voor deze melding kon niet gevonden worden',
-  },
-}
-
-export const successSections = configuration.featureFlags
-  .reporterMailHandledNegativeContactEnabled
-  ? {
-      ja: {
-        title: 'Bedankt voor uw reactie',
-        body: 'Door uw reactie weten we wat we goed doen en wat we kunnen verbeteren.',
-      },
-      nee: {
-        title: 'Bedankt voor uw reactie',
-        body: `Door uw reactie weten we wat we kunnen verbeteren.`,
-      },
-    }
-  : {
-      ja: {
-        title: 'Bedankt voor uw feedback!',
-        body: 'We zijn voortdurend bezig onze dienstverlening te verbeteren.',
-      },
-      nee: {
-        title: 'Bedankt voor uw feedback!',
-        body: `We zijn voortdurend bezig onze dienstverlening te verbeteren.`,
-      },
-    }
-
-export const contactAllowedText =
-  '\n U ontvangt direct een e-mail met een overzicht van uw reactie. Binnen 3 werkdagen leest u wat wij ermee gaan doen.'
-
-// eslint-disable-next-line consistent-return
-const reactReducer = (state, action) => {
-  // eslint-disable-next-line default-case
+// istanbul ignore next
+const reactReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'SET_FORM_OPTIONS':
       return { ...state, formOptions: action.payload, shouldRender: true }
 
     case 'SET_RENDER_SECTION':
       return { ...state, renderSection: action.payload, shouldRender: true }
+
+    default:
+      return { ...state }
   }
 }
 
+const isFetchError = (error?: boolean | FetchError): error is FetchError => {
+  return (error as FetchError).detail !== undefined
+}
+
 export const KtoContainer = () => {
-  const [state, dispatch] = useReducer(reactReducer, initialState)
+  const [state, dispatch] = useReducer<Reducer<State, Action>>(
+    reactReducer,
+    initialState
+  )
+
   const { satisfactionIndication, uuid } = useParams()
   const isSatisfied = satisfactionIndication === 'ja'
   const [contactAllowed, setContactAllowed] = useState(
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
       satisfactionIndication === 'nee'
   )
+
   const {
     get: getCheck,
     isLoading: isLoadingCheck,
@@ -103,13 +74,34 @@ export const KtoContainer = () => {
     put,
     isSuccess,
     data: dataFeedbackForms,
-  } = useFetch()
+  } = useFetch<FeedbackFormData>()
 
   const {
     get: getOptions,
     isLoading: isLoadingOptions,
     data: options,
-  } = useFetch()
+  } = useFetch<AnswerResponse>()
+
+  const parseResponse = useCallback(async () => {
+    let payload = ''
+
+    if (isFetchError(errorCheck) && errorCheck?.detail === 'filled out') {
+      payload = 'FILLED_OUT'
+    } else if (isFetchError(errorCheck) && errorCheck?.detail === 'too late') {
+      payload = 'TOO_LATE'
+    } else {
+      payload = 'NOT_FOUND'
+    }
+
+    dispatch({ type: 'SET_RENDER_SECTION', payload })
+  }, [errorCheck])
+
+  const onSubmit = useCallback(
+    (formData) => {
+      put(`${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`, formData)
+    },
+    [uuid, put]
+  )
 
   // first, retrieve the status of the feedback
   useEffect(() => {
@@ -132,49 +124,33 @@ export const KtoContainer = () => {
   useEffect(() => {
     if (!options || isLoadingOptions) return
 
-    const opts = options.results
+    const opts: OptionMapped[] = options.results
       .filter(({ is_satisfied }) => is_satisfied === isSatisfied)
       .map((option, index) => ({
+        is_satisfied: option.is_satisfied,
         key: `key-${index}`,
-        value: option.text,
+        open_answer: option.open_answer,
         topic: option.topic,
+        value: option.text,
       }))
 
     opts.push({
       key: 'anders',
       value: 'Over iets anders.',
       topic: 'Over iets anders.',
+      open_answer: true,
+      is_satisfied: false,
     })
 
     dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
   }, [options, satisfactionIndication, isLoadingOptions, isSatisfied])
-
-  const parseResponse = useCallback(async () => {
-    let payload = ''
-
-    if (errorCheck?.detail === 'filled out') {
-      payload = 'FILLED_OUT'
-    } else if (errorCheck?.detail === 'too late') {
-      payload = 'TOO_LATE'
-    } else {
-      payload = 'NOT_FOUND'
-    }
-
-    dispatch({ type: 'SET_RENDER_SECTION', payload })
-  }, [errorCheck])
-
-  const onSubmit = useCallback(
-    (formData) => {
-      put(`${configuration.FEEDBACK_FORMS_ENDPOINT}${uuid}`, formData)
-    },
-    [uuid, put]
-  )
 
   if (isLoadingCheck || isLoadingOptions) {
     return <LoadingIndicator />
   }
 
   if (!state.shouldRender) return null
+
   return (
     <Fragment>
       <Row data-testid="kto-form-container">
@@ -182,10 +158,18 @@ export const KtoContainer = () => {
           {isSuccess && (
             <header>
               <StyledHeading>
-                {successSections[satisfactionIndication].title}
+                {
+                  successSections[
+                    satisfactionIndication as keyof SuccessSections
+                  ].title
+                }
               </StyledHeading>
               <StyledParagraph data-testid="succes-section-body">
-                {successSections[satisfactionIndication].body}
+                {
+                  successSections[
+                    satisfactionIndication as keyof SuccessSections
+                  ].body
+                }
                 {configuration.featureFlags
                   .reporterMailHandledNegativeContactEnabled &&
                   contactAllowed &&
@@ -198,10 +182,16 @@ export const KtoContainer = () => {
             (state.renderSection ? (
               <header>
                 <StyledHeading>
-                  {renderSections[state.renderSection].title}
+                  {
+                    renderSections[state.renderSection as keyof RenderSections]
+                      .title
+                  }
                 </StyledHeading>
                 <StyledParagraph>
-                  {renderSections[state.renderSection].body}
+                  {
+                    renderSections[state.renderSection as keyof RenderSections]
+                      .body
+                  }
                 </StyledParagraph>
               </header>
             ) : (
@@ -214,7 +204,7 @@ export const KtoContainer = () => {
         </Column>
       </Row>
 
-      {state.formOptions && !isSuccess && (
+      {state.formOptions && !isSuccess && dataFeedbackForms && (
         <Row>
           <Column
             span={{
@@ -226,12 +216,12 @@ export const KtoContainer = () => {
             }}
           >
             <KtoForm
-              isSatisfied={isSatisfied}
-              dataFeedbackForms={dataFeedbackForms}
-              options={state.formOptions}
-              onSubmit={onSubmit}
-              setContactAllowed={setContactAllowed}
               contactAllowed={contactAllowed}
+              dataFeedbackForms={dataFeedbackForms}
+              isSatisfied={isSatisfied}
+              onSubmit={onSubmit}
+              options={state.formOptions}
+              setContactAllowed={setContactAllowed}
             />
           </Column>
         </Row>

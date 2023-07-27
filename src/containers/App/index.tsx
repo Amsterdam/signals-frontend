@@ -46,7 +46,7 @@ const ContentContainer = styled.div<{
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
 const KtoContainer = lazy(
-  () => import('signals/incident/containers/KtoContainer')
+  () => import('signals/incident/containers/KtoContainer/KtoContainer')
 )
 // istanbul ignore next
 const IncidentManagementModule = lazy(

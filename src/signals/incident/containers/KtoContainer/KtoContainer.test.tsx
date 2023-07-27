@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { waitFor } from '@babel/core/lib/gensync-utils/async'
 import { render, act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import fetchMock from 'jest-fetch-mock'
 import * as reactRouterDom from 'react-router-dom'
-import { useParams } from 'react-router-dom'
 
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 import ktoFixture from 'utils/__tests__/fixtures/kto.json'
-// eslint-disable-next-line no-restricted-imports
 
-import KTOContainer, { renderSections, successSections } from '.'
+import { renderSections, successSections } from './constants'
+import KTOContainer from './KtoContainer'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -31,7 +33,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   afterEach(() => {
-    fetch.resetMocks()
+    fetchMock.resetMocks()
   })
 
   it('should render a loading indicator', async () => {
@@ -49,7 +51,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should render "already filled out header"', async () => {
-    fetch.mockResponses([
+    fetchMock.mockResponses([
       JSON.stringify({ detail: 'filled out' }),
       { status: 410 },
     ])
@@ -62,7 +64,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should render "too late"', async () => {
-    fetch.mockResponses([
+    fetchMock.mockResponses([
       JSON.stringify({ detail: 'too late' }),
       { status: 410 },
     ])
@@ -75,7 +77,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should render "not found"', async () => {
-    fetch.mockResponses([
+    fetchMock.mockResponses([
       JSON.stringify({ detail: 'not found' }),
       { status: 410 },
     ])
@@ -88,7 +90,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should render a correct header', async () => {
-    fetch.mockResponses(
+    fetchMock.mockResponses(
       [JSON.stringify({}), { status: 200 }],
       [JSON.stringify(ktoFixture), { status: 200 }]
     )
@@ -116,7 +118,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should PUT form data via checkbox fields', async () => {
-    fetch.mockResponses(
+    fetchMock.mockResponses(
       [JSON.stringify({}), { status: 200 }], // 'GET'
       [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
       [JSON.stringify({}), { status: 200 }] // 'PUT'
@@ -126,15 +128,18 @@ describe('signals/incident/containers/KtoContainer', () => {
     configuration.featureFlags.enableMultipleKtoAnswers = true
 
     const successHeaderText = 'Bedankt voor uw feedback!'
-    const { container, findByTestId, queryByText, getByText, rerender } =
-      render(withAppContext(<KTOContainer />))
+    const { findByTestId, queryByText, getByText, rerender } = render(
+      withAppContext(<KTOContainer />)
+    )
 
     await findByTestId('kto-form-container')
 
     // assuming the form renders a list of checkbox buttons and that only a checked button in that list is required
-
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Ik vond het gemakkelijk om een melding te doen',
+    })
     act(() => {
-      fireEvent.click(container.querySelector('input[type="checkbox"]'))
+      fireEvent.click(checkbox)
     })
 
     const ktoSubmit = await findByTestId('kto-submit')
@@ -163,7 +168,7 @@ describe('signals/incident/containers/KtoContainer', () => {
 
     expect(getByText(successSections['ja'].body)).toBeInTheDocument()
 
-    useParams.mockImplementation(() => ({
+    jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
       satisfactionIndication: 'nee',
       uuid,
     }))
@@ -183,11 +188,6 @@ describe('signals/incident/containers/KtoContainer', () => {
       successSections['nee'].body
     )
 
-    useParams.mockImplementation(() => ({
-      satisfactionIndication: 'ja',
-      uuid,
-    }))
-
     rerender(withAppContext(<KTOContainer />))
 
     expect(screen.getByTestId('succes-section-body')).toContainHTML(
@@ -196,7 +196,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('should PUT form data via radio input fields', async () => {
-    fetch.mockResponses(
+    fetchMock.mockResponses(
       [JSON.stringify({}), { status: 200 }], // 'GET'
       [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
       [JSON.stringify({}), { status: 200 }] // 'PUT'
@@ -205,14 +205,17 @@ describe('signals/incident/containers/KtoContainer', () => {
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = false
     configuration.featureFlags.enableMultipleKtoAnswers = false
 
-    const { container, findByTestId } = render(withAppContext(<KTOContainer />))
+    const { findByTestId } = render(withAppContext(<KTOContainer />))
 
     await findByTestId('kto-form-container')
 
     // assuming the form renders a list of radio buttons and that only a checked button in that list is required
+    const radioButton = screen.getByRole('radio', {
+      name: 'Ik vond het gemakkelijk om een melding te doen',
+    })
 
     act(() => {
-      fireEvent.click(container.querySelector('input[type="radio"]'))
+      fireEvent.click(radioButton)
     })
 
     await findByTestId('kto-submit')
@@ -221,7 +224,7 @@ describe('signals/incident/containers/KtoContainer', () => {
   })
 
   it('shows the contact question when contact has been allowed', async () => {
-    fetch.mockResponses(
+    fetchMock.mockResponses(
       [JSON.stringify({}), { status: 200 }], // 'GET'
       [JSON.stringify(ktoFixture), { status: 200 }], // 'GET'
       [JSON.stringify({}), { status: 200 }] // 'PUT'
