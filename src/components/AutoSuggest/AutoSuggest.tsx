@@ -229,7 +229,7 @@ const AutoSuggest = ({
         }
       }
     },
-    [dispatch, onClear, url]
+    [dispatch, includeAuthHeaders, onClear, url]
   )
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)
