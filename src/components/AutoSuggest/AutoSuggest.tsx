@@ -9,6 +9,7 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import useDebounce from 'hooks/useDebounce'
 import { getErrorMessage } from 'shared/services/api/api'
+import { getAuthHeaders } from 'shared/services/auth/auth'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { RevGeo } from 'types/pdok/revgeo'
 
@@ -27,6 +28,7 @@ export interface AutoSuggestProps {
   disabled?: boolean
   formatResponse: (data?: RevGeo) => Array<PdokResponse>
   id?: string
+  includeAuthHeaders?: boolean
   numOptionsDeterminer: (data?: RevGeo) => number
   onClear?: () => void
   onData?: (optionsList: any) => void
@@ -58,6 +60,7 @@ const AutoSuggest = ({
   disabled = false,
   formatResponse,
   id = '',
+  includeAuthHeaders = false,
   numOptionsDeterminer,
   onClear,
   onData,
@@ -196,7 +199,10 @@ const AutoSuggest = ({
           const response = await fetch(
             `${url}${encodeURIComponent(inputValue)}`,
             {
-              headers: requestHeaders,
+              headers: {
+                ...requestHeaders,
+                ...(includeAuthHeaders ? getAuthHeaders() : {}),
+              },
             }
           )
 
