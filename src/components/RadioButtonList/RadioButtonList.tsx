@@ -114,7 +114,7 @@ const RadioButtonList = <T extends RadioButtonOption>({
     formValidation: RadioButtonListProps['formValidation']
   ) => {
     let component = (
-      <>
+      <Fragment key={option.key || option.name}>
         <StyledLabel
           key={option.key || option.name}
           htmlFor={option.key || option.name}
@@ -168,7 +168,7 @@ const RadioButtonList = <T extends RadioButtonOption>({
               />
             </FormField>
           )}
-      </>
+      </Fragment>
     )
 
     if (radioOptions.some((option) => option.topic)) {
