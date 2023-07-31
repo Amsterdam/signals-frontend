@@ -45,7 +45,7 @@ const options: OptionMapped[] = [
     key: 'anders',
     value: 'Here be dragons',
     is_satisfied: true,
-    open_answer: false,
+    open_answer: true,
     topic: 'Foos',
   },
 ]
@@ -325,6 +325,74 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
         url: 'http://localhost:8000/signals/v1/public/signals/123/attachments/',
       })
     })
+  })
+
+  it('should show an textArea when an option is selected and has an open_answer prop', async () => {
+    render(withAppContext(<KtoForm {...defaultProps} />))
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Here be dragons',
+    })
+    userEvent.click(checkbox)
+
+    await waitFor(() => {
+      expect(checkbox).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(2)
+
+    const saveButton = screen.getByRole('button', { name: 'Verstuur' })
+
+    userEvent.click(saveButton)
+
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
+
+    const textarea = screen.getByRole('textbox', { name: '' })
+
+    userEvent.type(textarea, 'Hello world')
+
+    await waitFor(() => {
+      userEvent.click(saveButton)
+    })
+
+    expect(mockOnSubmit).toHaveBeenCalled()
+  })
+
+  it('should show an textArea when an option is selected and has an open_answer prop with radioButtons', async () => {
+    configuration.featureFlags.enableMultipleKtoAnswers = false
+    render(withAppContext(<KtoForm {...defaultProps} />))
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
+
+    const radioButton = screen.getByRole('radio', {
+      name: 'Here be dragons',
+    })
+    userEvent.click(radioButton)
+
+    await waitFor(() => {
+      expect(radioButton).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(2)
+
+    const saveButton = screen.getByRole('button', { name: 'Verstuur' })
+
+    userEvent.click(saveButton)
+
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
+
+    const textarea = screen.getByRole('textbox', { name: '' })
+
+    userEvent.type(textarea, 'Hello world')
+
+    await waitFor(() => {
+      userEvent.click(saveButton)
+    })
+
+    expect(mockOnSubmit).toHaveBeenCalled()
   })
 })
 

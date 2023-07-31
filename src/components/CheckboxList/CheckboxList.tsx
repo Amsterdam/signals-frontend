@@ -72,7 +72,7 @@ type Option = {
   key?: string
   slug?: string
   value: string
-  topic?: string
+  topic?: string | null
   open_answer?: boolean
 }
 
@@ -350,9 +350,6 @@ const CheckboxList = <T extends Option>({
             (option) => option.id === id
           ) || { disabled: false }
 
-          if (!uid) {
-            return null
-          }
           return (
             <Fragment key={optionId}>
               {options.findIndex((option) => option.topic === topic) ===

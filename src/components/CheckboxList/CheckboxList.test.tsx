@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { act, render, screen } from '@testing-library/react'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { act, render, screen, waitFor } from '@testing-library/react'
 import 'jest-styled-components'
 import userEvent from '@testing-library/user-event'
 
@@ -639,5 +639,71 @@ describe('signals/incident-management/components/CheckboxList', () => {
     // on every checkbox selection
     expect(onToggleMock).not.toHaveBeenCalled()
     expect(onChangeMock).toHaveBeenCalledTimes(statuses.length)
+  })
+
+  it('should render a textArea when the checkbox has an open_answer', async () => {
+    const ktoQuestions = [
+      {
+        is_satisfied: true,
+        key: 'key-2',
+        open_answer: false,
+        topic: null,
+        value: 'Het probleem is helemaal opgelost.',
+      },
+      {
+        is_satisfied: true,
+        key: 'key-3',
+        open_answer: true,
+        topic: null,
+        value: 'Het probleem is snel opgelost.',
+      },
+      {
+        is_satisfied: true,
+        key: 'key-4',
+        open_answer: true,
+        topic: null,
+        value: 'Het probleem is niet opgelost maar ik heb daar begrip voor.',
+      },
+    ]
+
+    const formValidation = {
+      errors: {},
+      trigger: jest.fn(),
+      setValue: jest.fn(),
+      register: jest.fn(),
+    }
+
+    render(
+      withAppContext(
+        <CheckboxList<any>
+          name="ktoQuestions"
+          options={ktoQuestions}
+          formValidation={formValidation}
+        />
+      )
+    )
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Het probleem is snel opgelost.',
+    })
+    userEvent.click(checkbox)
+
+    await waitFor(() => {
+      expect(checkbox).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
+
+    const checkboxTwo = screen.getByRole('checkbox', {
+      name: 'Het probleem is niet opgelost maar ik heb daar begrip voor.',
+    })
+
+    userEvent.click(checkboxTwo)
+
+    await waitFor(() => {
+      expect(checkboxTwo).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(2)
   })
 })

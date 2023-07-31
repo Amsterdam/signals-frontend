@@ -20,7 +20,7 @@ export interface OptionMapped {
   is_satisfied: boolean
   key: string
   open_answer: boolean
-  topic: string
+  topic: string | null
   value: string
 }
 
