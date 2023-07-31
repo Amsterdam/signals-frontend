@@ -32,3 +32,16 @@ export interface AnswerResponse {
 export interface FeedbackFormData {
   signal_id: string
 }
+
+export interface FormData {
+  allows_contact: boolean
+  is_satisfied: boolean
+  text_list: string[]
+  text_extra: string
+  [k: string]: string | string[] | boolean
+}
+
+export interface FileInputPayload {
+  images: File[]
+  images_previews: string[]
+}
