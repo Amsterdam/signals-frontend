@@ -132,6 +132,7 @@ describe('utils', () => {
   })
 
   describe('getMergedOpenAnswers', () => {
+    /** Open answers should be mapped directly after the selected checkbox in the answer array */
     it('should merges open answers correctly', () => {
       const formData = {
         allows_contact: false,
