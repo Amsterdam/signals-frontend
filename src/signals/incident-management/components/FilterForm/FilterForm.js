@@ -644,6 +644,7 @@ const FilterForm = ({
                       : state.options.assigned_user_email
                   }
                   id="filter_assigned_user_email"
+                  includeAuthHeaders={true}
                   name="assigned_user_email"
                   onSelect={onAssignedSelect}
                   onClear={onAssignedClear}
