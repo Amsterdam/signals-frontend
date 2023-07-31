@@ -5,13 +5,20 @@ import { Fragment } from 'react'
 import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import fetch from 'jest-fetch-mock'
+import { mocked } from 'jest-mock'
 
+import { getAuthHeaders } from 'shared/services/auth/auth'
 import { withAppContext } from 'test/utils'
 import type { RevGeo } from 'types/pdok/revgeo'
 
 import AutoSuggest, { INPUT_DELAY } from '.'
 import type { AutoSuggestProps } from '.'
 import JSONResponse from './mockResponse.json'
+
+jest.mock('shared/services/auth/auth')
+const mockGetAuthHeaders = mocked(getAuthHeaders)
+const authHeader = { Authorization: 'Bearer: secret-token' }
+mockGetAuthHeaders.mockImplementation(() => authHeader)
 
 const mockResponse = JSON.stringify(JSONResponse)
 
@@ -126,8 +133,38 @@ describe('src/components/AutoSuggest', () => {
 
     await screen.findByTestId('auto-suggest')
 
+    const expectedFetchOptions = {
+      headers: {
+        'Access-Control-Request-Method': 'GET',
+        Origin: expect.any(String),
+      },
+    }
+
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expect.anything())
+    expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expectedFetchOptions)
+  })
+
+  it('should request external service with auth when configured', async () => {
+    render(withAppContext(<AutoSuggest {...props} includeAuthHeaders={true} />))
+    const input = screen.getByRole('textbox')
+    userEvent.type(input, 'Ams')
+
+    act(() => {
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
+
+    await screen.findByTestId('auto-suggest')
+
+    const expectedFetchOptions = {
+      headers: {
+        'Access-Control-Request-Method': 'GET',
+        Authorization: 'Bearer: secret-token',
+        Origin: expect.any(String),
+      },
+    }
+
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(`${url}Ams`, expectedFetchOptions)
   })
 
   it('should show a value without sending a request to the external service', async () => {

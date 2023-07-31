@@ -75,7 +75,6 @@ const KtoForm = ({
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
   /* istanbul ignore next */
-
   const fixedQuestions = yup
     .object({
       allows_contact: yup.boolean().required(),
@@ -135,6 +134,7 @@ const KtoForm = ({
       const allFormData = getValues()
 
       const formData = getMergedOpenAnswers(allFormData)
+
       onSubmit(formData)
     } else {
       const invalidElement = formRef.current?.querySelector(
