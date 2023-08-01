@@ -113,8 +113,6 @@ describe('signals/incident/containers/KtoContainer', () => {
     await findByTestId('kto-form-container')
 
     expect(getByText(/nee, ik ben niet/i)).toBeInTheDocument()
-
-    expect(screen.getAllByText('Over iets anders.').length).toEqual(2)
   })
 
   it('should PUT form data via checkbox fields', async () => {

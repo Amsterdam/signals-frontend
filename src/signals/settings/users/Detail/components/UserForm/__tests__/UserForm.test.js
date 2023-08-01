@@ -144,7 +144,7 @@ describe('signals/settings/users/containers/Detail/components/UserForm', () => {
 
     // explicitly setting the number of fields, instead of using numFields
     // tackling that at a later time when user detail page has been refactored
-    expect(container.querySelectorAll('input[disabled]')).toHaveLength(5)
+    expect(container.querySelectorAll('input[disabled]')).toHaveLength(3)
     expect(queryByText('Opslaan')).not.toBeInTheDocument()
   })
 

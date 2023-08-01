@@ -45,7 +45,7 @@ const options: OptionMapped[] = [
     key: 'anders',
     value: 'Here be dragons',
     is_satisfied: true,
-    open_answer: false,
+    open_answer: true,
     topic: 'Foos',
   },
 ]
@@ -165,67 +165,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
     expect(mockOnSubmit).not.toHaveBeenCalled()
   })
 
-  it('requires text area to contain content when last option is selected', async () => {
-    const { queryByTestId, getByTestId } = render(
-      withAppContext(<KtoForm {...defaultProps} />)
-    )
-
-    const lastOption = getByTestId(
-      `checkbox-input_${[...options].reverse()[0].key}`
-    )
-    expect(queryByTestId('ktoText')).not.toBeInTheDocument()
-
-    userEvent.click(lastOption)
-
-    expect(await screen.findByTestId('kto-text')).toBeInTheDocument()
-    expect(
-      screen.queryByText('Dit is een verplicht veld')
-    ).not.toBeInTheDocument()
-
-    userEvent.click(getByTestId('kto-submit'))
-
-    expect(
-      await screen.findByText('Dit is een verplicht veld')
-    ).toBeInTheDocument()
-    expect(mockOnSubmit).not.toHaveBeenCalled()
-  })
-
-  it('should clear error message', async () => {
-    const { queryByTestId, getByTestId } = render(
-      withAppContext(<KtoForm {...defaultProps} />)
-    )
-
-    const lastOption = getByTestId(
-      `checkbox-input_${[...options].reverse()[0].key}`
-    )
-    expect(queryByTestId('kto-text')).not.toBeInTheDocument()
-
-    userEvent.click(lastOption)
-
-    expect(await screen.findByTestId('kto-text')).toBeInTheDocument()
-    expect(
-      screen.queryByText('Dit is een verplicht veld')
-    ).not.toBeInTheDocument()
-
-    userEvent.click(getByTestId('kto-submit'))
-
-    expect(
-      await screen.findByText(
-        'U hebt niet alle vragen beantwoord. Vul hieronder aan alstublieft.'
-      )
-    ).toBeInTheDocument()
-
-    const value = 'Qux Baz'
-
-    const ktoText = await screen.findByTestId('kto-text')
-
-    userEvent.type(ktoText, value)
-
-    expect(
-      await screen.findByText('Dit is een verplicht veld')
-    ).not.toBeInTheDocument()
-  })
-
   it('should handle submit for all but last option', async () => {
     mockedUseParams.mockImplementation(() => ({
       satisfactionIndication: 'nee',
@@ -254,33 +193,6 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
         expect.objectContaining({
           is_satisfied: false,
           text_list: [options[0].value],
-        })
-      )
-    })
-  })
-
-  it('should handle submit for last option', async () => {
-    const { getByTestId } = render(
-      withAppContext(<KtoForm {...defaultProps} contactAllowed={true} />)
-    )
-
-    const lastOption = getByTestId(
-      `checkbox-input_${[...options].reverse()[0].key}`
-    )
-
-    userEvent.click(lastOption)
-
-    const value = 'Qux Baz'
-    const ktoText = await screen.findByTestId('kto-text')
-
-    userEvent.type(ktoText, value)
-
-    userEvent.click(getByTestId('kto-submit'))
-
-    await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text_list: [options.slice(-1)[0].value, value],
         })
       )
     })
@@ -413,6 +325,74 @@ describe('signals/incident/containers/KtoContainer/components/KtoForm', () => {
         url: 'http://localhost:8000/signals/v1/public/signals/123/attachments/',
       })
     })
+  })
+
+  it('should show an textArea when an option is selected and has an open_answer prop', async () => {
+    render(withAppContext(<KtoForm {...defaultProps} />))
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Here be dragons',
+    })
+    userEvent.click(checkbox)
+
+    await waitFor(() => {
+      expect(checkbox).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(2)
+
+    const saveButton = screen.getByRole('button', { name: 'Verstuur' })
+
+    userEvent.click(saveButton)
+
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
+
+    const textarea = screen.getByRole('textbox', { name: '' })
+
+    userEvent.type(textarea, 'Hello world')
+
+    await waitFor(() => {
+      userEvent.click(saveButton)
+    })
+
+    expect(mockOnSubmit).toHaveBeenCalled()
+  })
+
+  it('should show an textArea when an option is selected and has an open_answer prop with radioButtons', async () => {
+    configuration.featureFlags.enableMultipleKtoAnswers = false
+    render(withAppContext(<KtoForm {...defaultProps} />))
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
+
+    const radioButton = screen.getByRole('radio', {
+      name: 'Here be dragons',
+    })
+    userEvent.click(radioButton)
+
+    await waitFor(() => {
+      expect(radioButton).toBeChecked()
+    })
+
+    expect(screen.getAllByRole('textbox')).toHaveLength(2)
+
+    const saveButton = screen.getByRole('button', { name: 'Verstuur' })
+
+    userEvent.click(saveButton)
+
+    expect(
+      await screen.findByText('Dit is een verplicht veld')
+    ).toBeInTheDocument()
+
+    const textarea = screen.getByRole('textbox', { name: '' })
+
+    userEvent.type(textarea, 'Hello world')
+
+    await waitFor(() => {
+      userEvent.click(saveButton)
+    })
+
+    expect(mockOnSubmit).toHaveBeenCalled()
   })
 })
 

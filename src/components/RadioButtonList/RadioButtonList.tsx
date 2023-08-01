@@ -3,9 +3,17 @@
 import { Fragment } from 'react'
 
 import { RadioGroup, Label } from '@amsterdam/asc-ui'
+import type {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+} from 'react-hook-form'
 import styled from 'styled-components'
 
+import FormField from 'components/FormField'
 import RadioButton from 'components/RadioButton'
+import TextArea from 'components/TextArea'
 
 import TopicLabel from '../TopicLabel'
 
@@ -37,7 +45,8 @@ interface Option {
 
 export interface RadioButtonOption extends Option {
   name?: string
-  topic?: string
+  topic?: string | null
+  open_answer?: boolean
 }
 
 export interface RadioButtonListProps<T = RadioButtonOption> {
@@ -61,6 +70,14 @@ export interface RadioButtonListProps<T = RadioButtonOption> {
   /** Group label contents */
   title?: string
   className?: string
+  /** Used to validate open answers with React Hook Forms */
+  formValidation?: {
+    selectedRadioButton: string
+    errors: FieldErrors
+    trigger: UseFormTrigger<any>
+    setValue: UseFormSetValue<any>
+    register: UseFormRegister<any>
+  }
 }
 
 /**
@@ -78,6 +95,7 @@ const RadioButtonList = <T extends RadioButtonOption>({
   options,
   title,
   id,
+  formValidation,
   ...rest
 }: RadioButtonListProps<T>) => {
   const radioOptions: RadioButtonOption[] = [...options]
@@ -90,27 +108,67 @@ const RadioButtonList = <T extends RadioButtonOption>({
     })
   }
 
-  const renderRadioButton = (option: RadioButtonOption, index: number) => {
+  const renderRadioButton = (
+    option: RadioButtonOption,
+    index: number,
+    formValidation: RadioButtonListProps['formValidation']
+  ) => {
     let component = (
-      <StyledLabel
-        key={option.key || option.name}
-        htmlFor={option.key || option.name}
-        label={option.value}
-      >
-        <RadioButton
-          data-testid={`${groupName}-${option.key || option.name}`}
-          checked={option.key === defaultValue}
-          id={option.key || (option.name as string)}
-          onChange={() => {
-            if (onChange) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              onChange(groupName, option)
-            }
-          }}
-          value={option.key}
-        />
-      </StyledLabel>
+      <Fragment key={option.key || option.name}>
+        <StyledLabel
+          key={option.key || option.name}
+          htmlFor={option.key || option.name}
+          label={option.value}
+        >
+          <RadioButton
+            data-testid={`${groupName}-${option.key || option.name}`}
+            checked={option.key === defaultValue}
+            id={option.key || (option.name as string)}
+            onChange={() => {
+              if (onChange) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                onChange(groupName, option)
+              }
+            }}
+            value={option.key}
+          />
+        </StyledLabel>
+
+        {option.open_answer &&
+          formValidation &&
+          formValidation.selectedRadioButton === option.value && (
+            <FormField
+              meta={{
+                label: ``,
+                name: option.name,
+                subtitle: '',
+              }}
+              hasError={(errorType) =>
+                formValidation.errors[`open_answer-${option.value}`]?.type ===
+                errorType
+              }
+              getError={(errorType) =>
+                formValidation.errors[`open_answer-${option.value}`]?.type ===
+                errorType
+              }
+            >
+              <TextArea
+                {...formValidation.register(`open_answer-${option.value}`)}
+                maxRows={5}
+                name={option.name}
+                onChange={(event) => {
+                  formValidation.setValue(
+                    `open_answer-${option.value}`,
+                    event.target.value
+                  )
+                  formValidation.trigger(`open_answer-${option.value}`)
+                }}
+                rows={2}
+              />
+            </FormField>
+          )}
+      </Fragment>
     )
 
     if (radioOptions.some((option) => option.topic)) {
@@ -139,7 +197,9 @@ const RadioButtonList = <T extends RadioButtonOption>({
         id={id}
         {...rest}
       >
-        {radioOptions.map((option, index) => renderRadioButton(option, index))}
+        {radioOptions.map((option, index) =>
+          renderRadioButton(option, index, formValidation)
+        )}
       </StyledRadioGroup>
     </FilterGroup>
   )
