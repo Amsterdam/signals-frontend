@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
+/* Copyright (C) 2023 Gemeente Amsterdam */
 
 import type { MutableRefObject } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -17,6 +17,7 @@ import {
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
+import onButtonPress from '../../../../utils/on-button-press'
 import type { Incident, Properties } from '../../types'
 
 const clusterLayerOptions = {
@@ -83,10 +84,10 @@ export const IncidentLayer = ({
         layer.on(
           'keypress',
           (e: LeafletEvent & { originalEvent: KeyboardEvent }) => {
-            if (['Enter', 'Space'].includes(e.originalEvent.code)) {
+            onButtonPress(e.originalEvent, () => {
               focussedMarkerRef.current = e.target.getElement()
               handleIncidentSelect(feature)
-            }
+            })
           }
         )
       },

@@ -2,6 +2,8 @@
 /* Copyright (C) 2023 Gemeente Amsterdam */
 import { Checkbox } from '@amsterdam/asc-ui'
 
+import onButtonPress from 'utils/on-button-press'
+
 import { StyledImg, CategoryItemText, CategoryItem } from './styled'
 
 export interface Props {
@@ -24,10 +26,10 @@ export const FilterCategory = ({
       checked={selected}
       onChange={onToggleCategory}
       onKeyDown={(event) => {
-        if (['Enter', 'Space'].includes(event.code)) {
+        onButtonPress(event, () => {
           event.preventDefault()
           onToggleCategory()
-        }
+        })
       }}
     />
 
