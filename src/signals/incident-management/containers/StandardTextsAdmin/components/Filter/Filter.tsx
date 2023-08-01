@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import Label from 'components/Label'
 import RadioButtonList from 'components/RadioButtonList'
-import type { RadioButtonOption } from 'components/RadioButtonList'
+import type { RadioButtonOption } from 'components/RadioButtonList/types'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
 import { Form } from './styled'
