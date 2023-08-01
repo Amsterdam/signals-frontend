@@ -6,16 +6,16 @@ const mergeAnswers = (
   object: Record<string, string>,
   array: string[]
 ): string[] => {
-  const resultArray = [...array]
-
-  Object.entries(object).forEach(([key, value]) => {
-    const index = resultArray.indexOf(key)
-    if (index !== -1) {
-      resultArray.splice(index + 1, 0, value)
-    }
-  })
-
-  return resultArray
+  return Object.entries(object).reduce(
+    (resultArray, [key, value]) => {
+      const index = resultArray.indexOf(key)
+      if (index !== -1) {
+        resultArray.splice(index + 1, 0, value)
+      }
+      return resultArray
+    },
+    [...array]
+  )
 }
 
 export const getMergedOpenAnswers = (object: FormData): FormData => {
