@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import GlobalError from 'components/GlobalError'
 
 import AppNavigation from './AppNavigationComponent/AppNavigation'
@@ -10,7 +10,6 @@ import DescriptionInputRenderer from './DescriptionInputRenderer'
 import EmphasisCheckboxInput from './EmphasisCheckboxInput'
 import FileInputRenderer from './FileInputRenderer'
 import HandlingMessage from './HandlingMessage/HandlingMessage'
-import { QuestionHeader } from './Header'
 import HiddenInput from './HiddenInput'
 import LinkButton from './LinkButton'
 import MapInput from './MapInput'
@@ -20,6 +19,7 @@ import ClockSelectRenderer from './MapSelectors/Clock/ClockSelectRenderer'
 import StreetlightSelectRenderer from './MapSelectors/Streetlight/StreetlightSelectRenderer'
 import MultiTextInput from './MultiTextInput'
 import PlainText from './PlainText'
+import QuestionHeader from './QuestionHeader'
 import RadioInputGroup from './RadioInputGroup'
 import SelectInput from './SelectInput'
 import TextareaInput from './TextareaInput'
