@@ -10,6 +10,7 @@ import {
   StyledImg,
   StyledImageTD,
 } from 'components/DataView/styled'
+import onButtonPress from 'utils/on-button-press'
 
 const DataViewBody = ({
   data,
@@ -31,9 +32,7 @@ const DataViewBody = ({
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
           onClick={onItemClick}
           onKeyDown={(e) => {
-            if (['Enter', ' '].includes(e.key)) {
-              onItemClick(e)
-            }
+            onButtonPress(e, () => onItemClick(e))
           }}
           tabIndex={0}
           role={'button'}

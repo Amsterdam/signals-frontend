@@ -3,6 +3,8 @@
 import type { ReactNode } from 'react'
 import { useCallback, useRef } from 'react'
 
+import onButtonPress from 'utils/on-button-press'
+
 import { FileInputUploadButton } from './styles'
 
 interface FileInputProps {
@@ -39,9 +41,7 @@ const FileInput = ({
   const inputRef = useRef<HTMLInputElement>(null)
   /* istanbul ignore next */
   const onKeyDownHandler = useCallback((event) => {
-    if (['Enter', 'Space'].includes(event.code)) {
-      inputRef.current?.click()
-    }
+    onButtonPress(event, () => inputRef.current?.click())
   }, [])
 
   return (

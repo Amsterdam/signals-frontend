@@ -2,6 +2,8 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
+import onButtonPress from 'utils/on-button-press'
+
 import { OptionLi } from './styled'
 import type { SelectOptionsProps, SelectProps } from '../Select/Select'
 
@@ -48,9 +50,9 @@ export const SelectOption = ({
   const onKeyDownHandler = useCallback(
     (event) => {
       event.preventDefault()
-      if (['Enter', 'Space'].includes(event.code)) {
+      onButtonPress(event, () =>
         onChange(option[optionValue]?.toString() as string)
-      }
+      )
     },
     [onChange, option, optionValue]
   )

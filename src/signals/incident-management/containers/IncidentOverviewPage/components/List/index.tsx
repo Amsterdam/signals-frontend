@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
@@ -23,6 +23,7 @@ import type {
 } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
+import onButtonPress from 'utils/on-button-press'
 
 import {
   ContentSpan,
@@ -141,9 +142,7 @@ const List: FunctionComponent<ListProps> = ({
                 key={incident.id}
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    navigateToIncident(incident.id)
-                  }
+                  onButtonPress(e, () => navigateToIncident(incident.id))
                 }}
               >
                 <Td detailLink={detailLink} data-testid="incident-parent">

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback } from 'react'
 import type { FC, KeyboardEvent } from 'react'
 
@@ -24,6 +24,8 @@ import type {
   Item,
 } from 'signals/incident/components/form/MapSelectors/types'
 import { showMap } from 'signals/incident/containers/IncidentContainer/actions'
+
+import onButtonPress from '../../utils/on-button-press'
 
 const mapWidth = 640
 const mapHeight = 180
@@ -111,9 +113,7 @@ const Summary: FC<SummaryProps> = ({
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
-      if (event?.key === 'Enter') {
-        dispatch(showMap())
-      }
+      onButtonPress(event, () => dispatch(showMap()))
     },
     [dispatch]
   )

@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { useCallback, useMemo } from 'react'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import onButtonPress from 'utils/on-button-press'
 
 const Table = styled.table`
   contain: strict;
@@ -60,9 +62,7 @@ const List = ({
             onKeyDown={(e) => {
               e.preventDefault()
               e.stopPropagation()
-              if (['Enter', ' '].includes(e.key)) {
-                onItemClick(e)
-              }
+              onButtonPress(e, () => onItemClick(e))
             }}
             tabIndex="0"
             role={'button'}
