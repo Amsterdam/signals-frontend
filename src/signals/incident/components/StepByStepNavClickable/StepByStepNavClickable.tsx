@@ -10,6 +10,8 @@ import StepByStepNavStyle, {
 } from '@amsterdam/asc-ui/lib/components/StepByStepNav/StepByStepNavStyle'
 import { useFormContext } from 'react-hook-form'
 
+import onButtonPress from 'utils/on-button-press'
+
 import { StyledLabel, StyledListItem } from './styled'
 import { WizardContext } from '../StepWizard'
 
@@ -125,9 +127,9 @@ export function StepByStepNavClickable({
                 onListClickHandler(index)
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                onButtonPress(e, () => {
                   onListClickHandler(index)
-                }
+                })
               }}
               tabIndex={0}
               role="button"

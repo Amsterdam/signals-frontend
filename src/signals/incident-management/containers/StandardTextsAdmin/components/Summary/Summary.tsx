@@ -1,6 +1,7 @@
 import { ChevronRight } from '@amsterdam/asc-assets'
 
 import type { StandardText } from 'types/api/standard-texts'
+import onButtonPress from 'utils/on-button-press'
 
 import { StyledIcon } from './styled'
 import {
@@ -28,7 +29,7 @@ export const Summary = ({ standardText, onClick }: Props) => {
     <Wrapper
       // istanbul ignore next
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onClick(id)
+        onButtonPress(e, () => onClick(id))
       }}
       onClick={() => onClick(id)}
       tabIndex={0}
