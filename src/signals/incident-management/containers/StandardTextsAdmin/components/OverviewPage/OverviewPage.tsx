@@ -22,6 +22,7 @@ import {
   Text,
   SearchBar,
   Grid,
+  ListWrapper,
 } from './styled'
 import { useIncidentManagementContext } from '../../../../context'
 import type { StandardTextsData } from '../../types'
@@ -115,7 +116,7 @@ export const OverviewPage = () => {
           </StyledLink>
         </div>
 
-        <div>
+        <ListWrapper>
           <form onSubmit={onSearchSubmit}>
             <Label htmlFor="Searchbar" label="Zoek op standaardtekst">
               <SearchBar
@@ -156,7 +157,7 @@ export const OverviewPage = () => {
               }}
             />
           )}
-        </div>
+        </ListWrapper>
       </Grid>
     </Row>
   )
