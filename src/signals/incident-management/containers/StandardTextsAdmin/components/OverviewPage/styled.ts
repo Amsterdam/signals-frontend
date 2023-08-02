@@ -59,3 +59,7 @@ export const Grid = styled.div`
     grid-row-gap: ${themeSpacing(6)};
   }
 `
+
+export const ListWrapper = styled.div`
+  overflow: hidden;
+`
