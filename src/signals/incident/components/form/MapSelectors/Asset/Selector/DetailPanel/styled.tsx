@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Gemeente Amsterdam
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 
@@ -79,15 +79,6 @@ export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   margin: ${themeSpacing(4, 0)};
   width: 100%;
 `
-const slideUp = keyframes`
-  from {
-    transform: translate3d(0, 100%, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-`
 
 export const AddressPanel = styled.article`
   background-color: white;
@@ -97,12 +88,6 @@ export const AddressPanel = styled.article`
   z-index: 2;
   left: 0;
   top: 0;
-  animation: ${slideUp} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    translate3d(0, 100%, 0);
-
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    transform: translate3d(0, 0, 0);
-  }
 
   header {
     border-bottom: 5px solid rgba(0, 0, 0, 0.1);
