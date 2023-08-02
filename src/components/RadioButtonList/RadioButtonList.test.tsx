@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import priorityList from 'signals/incident-management/definitions/priorityList'
 import { withAppContext } from 'test/utils'
 
-import RadioButtonList from '..'
+import RadioButtonList from '.'
 
 describe('signals/incident-management/components/RadioButtonList', () => {
   it('should render a title', () => {

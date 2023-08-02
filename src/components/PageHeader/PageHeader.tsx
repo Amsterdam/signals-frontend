@@ -2,7 +2,7 @@
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
-import type { RadioButtonOption } from 'components/RadioButtonList'
+import type { RadioButtonOption } from 'components/RadioButtonList/types'
 
 import { StyledSection, StyledHeadingWrapper, StyledHeading } from './styled'
 
