@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { SyntheticEvent } from 'react'
 
-import ModalDialog from 'components/ModelDialog'
+import ModalDialog from 'components/ModalDialog'
 import type { StandardText as StandardTextType } from 'types/api/standard-texts'
 import type { StatusCode } from 'types/status-code'
 
@@ -29,7 +29,7 @@ export const StandardTexts = ({
   onClose,
   onHandleUseStandardText,
 }: Props) => (
-  <ModalDialog title="Standaardtekst" onClose={onClose} isConfirmation={false}>
+  <ModalDialog title="Standaardtekst" onClose={onClose} isConfirmation>
     <Wrapper data-scroll-lock-scrollable>
       {standardTexts.length === 0 && (
         <StyledDefaultText key={`empty_${status}`} empty>

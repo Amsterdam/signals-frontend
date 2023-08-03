@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
 import * as reactRouterDom from 'react-router-dom'
 
-import * as useConfirm from 'components/Confirmation/useConfirm'
 import * as appSelectors from 'containers/App/selectors'
+import * as useConfirm from 'hooks/useConfirm'
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -32,7 +32,6 @@ jest.mock('containers/App/selectors', () => ({
 
 const navigateMock = jest.fn()
 const isConfirmedMock = jest.fn()
-const origUseConfirm = useConfirm.useConfirm
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -45,9 +44,7 @@ jest.mock('models/roles/selectors', () => ({
 }))
 
 jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
-  const orig = origUseConfirm()
   return {
-    ...orig,
     isConfirmed: isConfirmedMock,
   }
 })
@@ -486,14 +483,14 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(navigateMock).not.toHaveBeenCalled()
 
-    await act(() => {
+    await act(async () => {
       fireEvent.change(
         getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: 'Foo Bar Baz' } }
       )
     })
 
-    await act(() => {
+    await act(async () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
@@ -502,7 +499,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     isConfirmedMock.mockReturnValue(true)
 
-    await act(() => {
+    await act(async () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
@@ -527,7 +524,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(navigateMock).not.toHaveBeenCalled()
 
-    await act(() => {
+    await act(async () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
@@ -543,7 +540,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     await findByTestId('user-detail-form-container')
 
-    await act(() => {
+    await act(async () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 

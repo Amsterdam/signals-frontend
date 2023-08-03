@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useNavigate } from 'react-router-dom'
 
-import { useConfirm } from 'components/Confirmation/useConfirm'
+import { useConfirm } from 'hooks/useConfirm'
 
 export const confirmationMessage =
   'Niet opgeslagen gegevens gaan verloren. Doorgaan?'

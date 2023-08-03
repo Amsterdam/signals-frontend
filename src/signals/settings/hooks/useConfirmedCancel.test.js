@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
 
 import { ConfirmationProvider } from 'components/Confirmation/ConfirmationProvider'
-import * as useConfirm from 'components/Confirmation/useConfirm'
+import * as useConfirm from 'hooks/useConfirm'
 
 import useConfirmedCancel, {
   confirmationMessage,
@@ -18,12 +18,9 @@ jest.mock('react-router-dom', () => ({
 
 const navigateMock = jest.fn()
 const isConfirmedMock = jest.fn()
-const origUseConfirm = useConfirm.useConfirm
 
 jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
-  const orig = origUseConfirm()
   return {
-    ...orig,
     isConfirmed: isConfirmedMock,
   }
 })
@@ -33,7 +30,7 @@ jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 const redirectURL = 'https://redirect-me-here'
 
 describe('signals/settings/hooks/useConfirmedCancel', () => {
-  it('should navigate when isPristine is true of is IsCOnfirmed is true', async () => {
+  it('should navigate when isPristine is true, or isPristine is false and IsCOnfirmed is true', async () => {
     const renderhookOptions = {
       wrapper: ({ children }) => (
         <ConfirmationProvider>{children}</ConfirmationProvider>

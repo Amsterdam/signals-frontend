@@ -13,7 +13,7 @@ import * as yup from 'yup'
 import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
-import { useConfirm } from 'components/Confirmation/useConfirm'
+import { useConfirm } from 'hooks/useConfirm'
 import GlobalError from 'components/GlobalError'
 import Input from 'components/Input'
 import Label from 'components/Label'
@@ -114,7 +114,10 @@ export const Detail = () => {
   const handleOnDelete = async () => {
     const confirmed = await isConfirmed(
       'Let op, je verwijdert de standaardtekst',
-      'Er is geen back-up beschikbaar'
+      'Er is geen back-up beschikbaar\n' +
+        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar' +
+        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar' +
+        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar'
     )
     if (confirmed) del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
   }

@@ -9,4 +9,5 @@ export const StyledSection = styled.div`
   flex-direction: column;
   flex-grow: 1;
   margin: ${themeSpacing(4)};
+  overflow-y: auto;
 `

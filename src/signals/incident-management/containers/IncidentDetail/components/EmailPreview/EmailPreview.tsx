@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import LoadingIndicator from 'components/LoadingIndicator'
-import ModalDialog from 'components/ModelDialog/ModalDialog'
+import ModalDialog from 'components/ModalDialog/ModalDialog'
 
 import { StyledFormFooter, StyledIframe, styling } from './styled'
 
@@ -13,6 +13,7 @@ interface EmailPreviewProps {
   emailBody?: string
 }
 
+// noinspection JSUnresolvedLibraryURL
 export const fontSrc =
   '<link rel="stylesheet" href="https://static.amsterdam.nl/fonts/fonts.css"/>'
 const EmailPreview = ({

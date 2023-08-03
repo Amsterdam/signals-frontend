@@ -2,23 +2,11 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 
 import type { ReactNode } from 'react'
-import { createContext, useState } from 'react'
+import { useState } from 'react'
 
-import ModalDialog from '../ModelDialog'
-
-type Confirm = {
-  prompt: string
-  title: string
-  isOpen: boolean
-  proceed: () => void
-  cancel: () => void
-}
-
-export type State = {
-  confirm: Confirm
-  setConfirm: (arg0: Confirm) => void
-}
-export const ConfirmationContext = createContext<State>({} as State)
+import type { Confirm } from './context'
+import { ConfirmationContext } from './context'
+import ModalDialog from '../ModalDialog'
 
 export type Props = {
   children: ReactNode
@@ -39,7 +27,7 @@ export const ConfirmationProvider = ({ children }: Props) => {
         open={confirm.isOpen}
         onClose={confirm.cancel}
         title={confirm.title}
-        isConfirmation={true}
+        isConfirmation
         onConfirm={confirm.proceed}
       >
         {confirm.prompt}

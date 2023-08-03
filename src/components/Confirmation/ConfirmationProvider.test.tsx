@@ -5,11 +5,30 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { ConfirmationProvider } from './ConfirmationProvider'
-import { useConfirm } from './useConfirm'
+import { useConfirm } from '../../hooks/useConfirm'
 import { withAppContext } from '../../test/utils'
 import Button from '../Button'
 
+const answer = jest.fn()
+const TestButton = () => {
+  const { isConfirmed } = useConfirm()
+
+  return (
+    <Button
+      data-testid="confirmation-test-button"
+      onClick={async () => {
+        const bool = await isConfirmed('title', 'prompt')
+        answer(bool)
+      }}
+    />
+  )
+}
+
 describe('ConfirmationProvider', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('should render children', () => {
     const { queryByTestId } = render(
       <ConfirmationProvider>
@@ -20,21 +39,7 @@ describe('ConfirmationProvider', () => {
     expect(queryByTestId('confirmation-provider-children')).not.toBeNull()
   })
 
-  it('should render a modaldialog and click on Bevestig', async () => {
-    const answer = jest.fn()
-    const TestButton = () => {
-      const { isConfirmed } = useConfirm()
-
-      return (
-        <Button
-          data-testid="confirmation-test-button"
-          onClick={async () => {
-            const bool = await isConfirmed('title', 'prompt')
-            answer(bool)
-          }}
-        />
-      )
-    }
+  it('should render a modaldialog and click on bevestig', async () => {
     render(
       withAppContext(
         <ConfirmationProvider>
@@ -58,21 +63,8 @@ describe('ConfirmationProvider', () => {
     expect(screen.queryByText('prompt')).not.toBeInTheDocument()
     expect(answer).toHaveBeenCalledWith(true)
   })
-  it('should render a modaldialog and click on Annuleer', async () => {
-    const answer = jest.fn()
-    const TestButton = () => {
-      const { isConfirmed } = useConfirm()
 
-      return (
-        <Button
-          data-testid="confirmation-test-button"
-          onClick={async () => {
-            const bool = await isConfirmed('title', 'prompt')
-            answer(bool)
-          }}
-        />
-      )
-    }
+  it('should render a modal dialog and click on annuleer', async () => {
     render(
       withAppContext(
         <ConfirmationProvider>

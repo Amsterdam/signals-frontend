@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2022-2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -17,7 +17,7 @@ const renderModal = () => {
   render(
     withAppContext(
       <ModalDialog
-        open={open}
+        open
         onClose={mockClose}
         title={title}
         onConfirm={mockConfirm}
@@ -78,7 +78,7 @@ describe('ModalDialog', () => {
 
     expect(mockClose).toHaveBeenCalled()
   })
-  it('renders correctly when just a dialog', () => {
+  it('shows no footer when not isConfirmation is false', () => {
     const isConfirmation = false
     render(
       withAppContext(

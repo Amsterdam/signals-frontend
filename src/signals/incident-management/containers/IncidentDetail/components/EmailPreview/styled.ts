@@ -5,7 +5,6 @@ import { themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import FormFooter from 'components/FormFooter'
-
 import { FORM_FOOTER_HEIGHT } from 'components/FormFooter/FormFooter'
 
 export const styling = `
@@ -13,9 +12,7 @@ export const styling = `
   *{
     font-family: Amsterdam Sans, sans-serif;
     line-height: 22px;
-    overflow-wrap: break-word;
     word-break: break-all;
-    word-break: break-word;
     hyphens: auto;
     margin-left:0;
   }
