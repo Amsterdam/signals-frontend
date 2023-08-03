@@ -60,7 +60,7 @@ export const isFetchError = (
 }
 
 export const stripLastCharacterIfNotLetter = (inputString: string) => {
-  const regex = /[^a-zA-Z]$/
+  const regex = /[^a-zA-Z0-9]$/
 
   return inputString.replace(regex, '')
 }
