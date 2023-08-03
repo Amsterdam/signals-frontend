@@ -392,6 +392,8 @@ const CheckboxList = <T extends Option>({
                   >
                     <TextArea
                       {...formValidation.register(`open_answer-${label}`)}
+                      maxLength={1000}
+                      maxContentLength={1000}
                       maxRows={5}
                       name={value}
                       onChange={(event) => {
