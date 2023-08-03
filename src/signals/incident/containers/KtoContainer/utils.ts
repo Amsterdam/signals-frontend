@@ -23,7 +23,7 @@ export const getMergedOpenAnswers = (object: FormData): FormData => {
   const objectWithoutOpenAnswers = {} as FormData
 
   Object.entries(object).forEach(([key, value]) => {
-    if (key.startsWith('open_answer-')) {
+    if (key.startsWith('open_answer-') && value) {
       const newKey = key.replace('open_answer-', '')
       openAnswerPairs[newKey] = value
     } else {
@@ -57,4 +57,10 @@ export const isFetchError = (
   error?: boolean | FetchError
 ): error is FetchError => {
   return (error as FetchError).detail !== undefined
+}
+
+export const stripLastCharacterIfNotLetter = (inputString: string) => {
+  const regex = /[^a-zA-Z]$/
+
+  return inputString.replace(regex, '')
 }

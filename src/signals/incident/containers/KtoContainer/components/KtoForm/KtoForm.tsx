@@ -93,7 +93,7 @@ const KtoForm = ({
       .object(
         mapValues(obj, (_value: string, key: string) => {
           if (key.startsWith('open_answer')) {
-            return yup.string().required()
+            return yup.string().trim().max(1000).required()
           }
         })
       )

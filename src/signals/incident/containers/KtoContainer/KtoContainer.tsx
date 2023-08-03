@@ -27,7 +27,11 @@ import type {
   State,
   OptionMapped,
 } from './types'
-import { sortByTopic, isFetchError } from './utils'
+import {
+  isFetchError,
+  sortByTopic,
+  stripLastCharacterIfNotLetter,
+} from './utils'
 import injectReducer from '../../../../utils/injectReducer'
 
 const initialState: State = {
@@ -127,7 +131,7 @@ export const KtoContainer = () => {
         key: `key-${index}`,
         open_answer: option.open_answer,
         topic: option.topic,
-        value: option.text,
+        value: stripLastCharacterIfNotLetter(option.text),
       }))
 
     const sortedOptions = sortByTopic(opts)
